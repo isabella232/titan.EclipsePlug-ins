@@ -133,7 +133,10 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public Definition getAssignmentByIndex(final int i) {
 		return definitions.get(i);
 	}
-
+	
+	public CompilationTimeStamp getLastCompilationTimeStamp(){
+		return lastCompilationTimeStamp;
+	}
 	protected void removeGroups() {
 		//Do nothing
 	}

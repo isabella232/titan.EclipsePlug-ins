@@ -327,7 +327,7 @@ public class ProjectSourceSemanticAnalyzer {
 			final List<Module> allModules = new ArrayList<Module>();
 			final List<String> semanticallyChecked = new ArrayList<String>();
 			
-			//remove module name dupication markers. It shall be done before starting the next for-loop!
+			//remove module name duplication markers. It shall be done before starting the next for-loop!
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 				final ProjectSourceSemanticAnalyzer semanticAnalyzer = 
 						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();

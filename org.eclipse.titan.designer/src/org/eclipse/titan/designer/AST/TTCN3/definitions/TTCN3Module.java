@@ -234,6 +234,10 @@ public final class TTCN3Module extends Module {
 	public Assignments getAssignments() {
 		return definitions;
 	}
+	
+	public Definitions getDefinitions(){
+		return definitions;
+	}
 
 	@Override
 	public Def_Type getAnytype() {

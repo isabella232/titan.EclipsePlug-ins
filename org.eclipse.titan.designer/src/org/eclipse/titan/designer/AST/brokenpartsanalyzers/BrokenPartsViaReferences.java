@@ -263,41 +263,53 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 					final List<AssignmentHandler> brokens = new ArrayList<AssignmentHandler>();
 					final List<AssignmentHandler> notBrokens = new ArrayList<AssignmentHandler>();
 
-					for (int s = 0; s < startAssignments.size(); ++s) {
-						final AssignmentHandler startAssignment = startAssignments.get(s);
-						if (startAssignment.getIsContagious()) {
-							for (int d = 0; d < dependentAssignments.size(); ++d) {
-								final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
-								dependentAssignment.check(startAssignment); //only infection and contagion are checked
-								if (dependentAssignment.getIsInfected()) {
-									if (!startModulesCopy.contains(dependentModule)) {
-										startModulesCopy.add(dependentModule);
-									}
-									if( !brokens.contains(dependentAssignment) ) {
-										brokens.add(dependentAssignment);
+					//TODO: If lastCompilationTimestamp of definitions of startModule is null then 
+					// all imported module shall be fully analyzed
+					if (startModule instanceof TTCN3Module &&  ((TTCN3Module) startModule).getDefinitions().getLastCompilationTimeStamp() == null) {
+						//In this case, the importing modules shall be rechecked
+						//overwrites the dependentAssignments with the full list of assignments
+						dependentAssignments = getAssignmentsFrom(dependentModule);
+						moduleAndBrokenAssignments.put(dependentModule, dependentAssignments);
+					} else {
+						for (int s = 0; s < startAssignments.size(); ++s) {
+							final AssignmentHandler startAssignment = startAssignments.get(s);
+							if (startAssignment.getIsContagious()) {
+								for (int d = 0; d < dependentAssignments.size(); ++d) {
+									final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
+									dependentAssignment.check(startAssignment); //only infection and contagion are checked
+									if (dependentAssignment.getIsInfected()) {
+										if (!startModulesCopy.contains(dependentModule)) {
+											startModulesCopy.add(dependentModule);
+										}
+										if( !brokens.contains(dependentAssignment) ) {
+											brokens.add(dependentAssignment);
+										}
 									}
 								}
 							}
 						}
-					}
-					
-					for (int d = 0; d < dependentAssignments.size(); ++d) {
-						final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
-						if (!dependentAssignment.getIsInfected()) {
-							notBrokens.add(dependentAssignment);
+
+
+
+						for (int d = 0; d < dependentAssignments.size(); ++d) {
+							final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
+							if (!dependentAssignment.getIsInfected()) {
+								notBrokens.add(dependentAssignment);
+							}
 						}
-					}
 
-					// Have to post check of local definition of modules.
-					// A definition can reference an other definition too.
-					checkLocalAssignments(brokens, notBrokens);
+						// Have to post check of local definition of modules.
+						// A definition can reference an other definition too.
+						checkLocalAssignments(brokens, notBrokens);
 
-					// If dependent module not added startModules,
-					// it means it has not got broken definition,
-					// so we have to delete it from moduleAndBrokenDefs.
-					if (!startModulesCopy.contains(dependentModule)) {
-						moduleAndBrokenAssignments.remove(dependentModule);
-					}
+						// If dependent module not added startModules,
+						// it means it has not got broken definition,
+						// so we have to delete it from moduleAndBrokenDefs.
+						if (!startModulesCopy.contains(dependentModule)) {
+							moduleAndBrokenAssignments.remove(dependentModule);
+						}
+
+					}//else
 
 				}
 			}
