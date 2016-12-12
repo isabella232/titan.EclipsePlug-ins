@@ -615,9 +615,17 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 			// remove all markers from the files that need to be
 			// parsed
+			boolean useIncrementalParsing = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+					PreferenceConstants.USEINCREMENTALPARSING, false, null); 
+			
 			for (IFile file : ttcn3FilesToCheck) {
-				//MarkerHandler.markAllOnTheFlyMarkersForRemoval(file);//TODO:is it not too much????
-				MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
+				//if not incremental parsing applied then all the markers should be marked for removal
+				//later this markings can be removed if they can be skipped
+				if(useIncrementalParsing) {
+					MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
+				} else {
+					MarkerHandler.markAllOnTheFlyMarkersForRemoval(file);//TODO:is it not too much????
+				}
 				if (!fileMap.containsKey(file)) {
 					ParserMarkerSupport.removeAllCompilerMarkers(file);
 					ParserMarkerSupport.removeAllOnTheFlyMarkers(file);
@@ -626,8 +634,11 @@ public final class ProjectSourceSyntacticAnalyzer {
 			allCheckedFiles.addAll(ttcn3FilesToCheck);
 
 			for (IFile file : asn1FilesToCheck) {
-				//MarkerHandler.markAllOnTheFlyMarkersForRemoval(file);//TODO:is it not too much????
-				MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
+				if(useIncrementalParsing) {
+					MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
+				} else {
+					MarkerHandler.markAllOnTheFlyMarkersForRemoval(file);//TODO:is it not too much????
+				}
 				if (!fileMap.containsKey(file)) {
 					ParserMarkerSupport.removeAllCompilerMarkers(file);
 					ParserMarkerSupport.removeAllOnTheFlyMarkers(file);
