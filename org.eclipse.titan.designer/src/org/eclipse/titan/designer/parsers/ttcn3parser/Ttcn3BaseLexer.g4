@@ -151,134 +151,132 @@ import org.eclipse.titan.designer.AST.Location;
 /*------------------------------------------- Keywords -------------------------------------------*/
 
 tokens {
-  ACTION,                 ACTIVATE,       ADDRESS,
-  ALIVE,                   ALL,                 ALT,
-  ALTSTEP,               AND,                 AND4B,
-  ANY,                       ANYTYPE,         APPLY,
+  ACTION,                     ACTIVATE,                   ADDRESS,
+  ALIVE,                      ALL,                        ALT,
+  ALTSTEP,                    AND,                        AND4B,
+  ANY,                        ANYTYPE,                    ANY2UNISTR,
+  APPLY,
   
-  BITSTRING,           BOOLEAN,         BREAK,
+  BITSTRING,                  BOOLEAN,                    BREAK,
 
-  CALL,                     CASE,               CATCH,
-  CHARKEYWORD,              CHARSTRING,   CHECK,
-  CLEAR,                   COMPLEMENTKEYWORD,  COMPONENT,
-  CONNECT,               CONST,             CONTINUE,
-  CONTROL,               CREATE,
+  CALL,                       CASE,                       CATCH,
+  CHARKEYWORD,                CHARSTRING,                 CHECK,
+  CHECKSTATE,                 CLEAR,                      COMPLEMENTKEYWORD,
+  COMPONENT,                  CONNECT,                    CONST,
+  CONTINUE,                   CONTROL,                    CREATE,
 
-  DEACTIVATE,         DECMATCH,           DECVALUE,
-  DECVALUE_UNICHAR,   DEFAULT,            DEREFERS,
-  DISCONNECT,         DISPLAY,            DO,
+  DEACTIVATE,                 DEFAULT,                    DECMATCH,
+  DECVALUE,                   DECVALUE_UNICHAR,           DEREFERS,
+  DISCONNECT,                 DISPLAY,                    DO,
   DONE,
 
-  ELSE,               ENCODE,             ENCVALUE,
-  ENCVALUE_UNICHAR,   ENUMERATED,         ERROR,
-  EXCEPT,             EXCEPTION,          EXECUTE,
-  EXTENDS,            EXTENSION,          EXTERNAL,
+  ELSE,                       ENCODE,                     ENCVALUE,
+  ENCVALUE_UNICHAR,           ENUMERATED,                 ERROR,
+  EXCEPT,                     EXCEPTION,                  EXECUTE,
+  EXTENDS,                    EXTENSION,                  EXTERNAL,
 
-  FAIL,                     FALSE,             FLOAT,
-  FOR,                       FRIEND,           FROM,
+  FAIL,                       FALSE,                      FLOAT,
+  FOR,                        FRIEND,                     FROM,
   FUNCTION,
 
-  GETCALL,               GETREPLY,       GETVERDICT,
-  GOTO,                     GROUP,
+  GETCALL,                    GETREPLY,                   GETVERDICT,
+  GOTO,                       GROUP,
 
-  HALT,                     HEXSTRING,
+  HALT,                       HEXSTRING,                  HOSTID,
 
-  IF,                         IFPRESENT,     IMPORT,
-  IN,                         INCONC,           INFINITY,
-  INOUT,                   INTEGER,         INTERLEAVE,
+  IF,                         IFPRESENT,                  IMPORT,
+  IN,                         INCONC,                     INFINITY,
+  INOUT,                      INTEGER,                    INTERLEAVE,
+  ISTEMPLATEKIND,
 
-  KILL,                     KILLED,
+  KILL,                       KILLED,
 
-  LABEL,                   LANGUAGE,       LENGTH,
+  LABEL,                      LANGUAGE,                   LENGTH,
   LOG,
 
-  MAP,                       MATCH,             MESSAGE,
-  MIXED,                   MOD,                 MODIFIES,
-  MODULE,                 MODULEPAR,     MTC,
+  MAP,                        MATCH,                      MESSAGE,
+  MIXED,                      MOD,                        MODIFIES,
+  MODULE,                     MODULEPAR,                  MTC,
 
-  NOBLOCK,               NONE,
-  NOT,                       NOT4B,             NOWAIT,
-  NOT_A_NUMBER,     NULL1,              NULL2,
+  NOBLOCK,                    NONE,
+  NOT,                        NOT4B,                      NOWAIT,
+  NOT_A_NUMBER,               NULL1,                      NULL2,
 
-  OBJECTIDENTIFIERKEYWORD, OCTETSTRING, OF,
-  OMIT,                     ON,                   OPTIONAL,
-  OR,                         OR4B,               OUT,
+  OBJECTIDENTIFIERKEYWORD,    OCTETSTRING,                OF,
+  OMIT,                       ON,                         OPTIONAL,
+  OR,                         OR4B,                       OUT,
   OVERRIDEKEYWORD,
 
-  PARAM,                   PASS,               PATTERNKEYWORD,
-  PERMUTATION,       PORT,               PUBLIC,
-  PRESENT,				PRIVATE,         PROCEDURE,
+  PARAM,                      PASS,                       PATTERNKEYWORD,
+  PERMUTATION,                PORT,                       PUBLIC,
+  PRESENT,                    PRIVATE,                    PROCEDURE,
 
-  RAISE,                   READ,               RECEIVE,
-  RECORD,                 RECURSIVE,     REFERS,
-  REM,                       REPEAT,           REPLY,
-  RETURN,                 RUNNING,         RUNS,
+  RAISE,                      READ,                       RECEIVE,
+  RECORD,                     RECURSIVE,                  REFERS,
+  REM,                        REPEAT,                     REPLY,
+  RETURN,                     RUNNING,                    RUNS,
 
-  SELECT,                 SELF,               SEND,
-  SENDER,                 SET,                 SETVERDICT,
-  SIGNATURE,           START,
-  STOP,                     SUBSET,           SUPERSET,
-  SYSTEM,
+  SELECT,                     SELF,                       SEND,
+  SENDER,                     SET,                        SETVERDICT,
+  SIGNATURE,                  START,                      STOP,
+  SUBSET,                     SUPERSET,                   SYSTEM,
 
-  TEMPLATE,             TESTCASE,       TIMEOUT,
-  TIMER,                   TO,                   TRIGGER,
-  TRUE,                     TYPE,
+  TEMPLATE,                   TESTCASE,                   TIMEOUT,
+  TIMER,                      TO,                         TRIGGER,
+  TRUE,                       TYPE,
 
-  UNION,                   UNIVERSAL,     UNMAP,
+  UNION,                      UNIVERSAL,                  UNMAP,
 
-  VALUE,                   VALUEOF,         VAR,
-  VARIANT,               VERDICTTYPE,
+  VALUE,                      VALUEOF,                    VAR,
+  VARIANT,                    VERDICTTYPE,
 
-  WHILE,                   WITH,
+  WHILE,                      WITH,
 
-  XOR,                       XOR4B,
+  XOR,                        XOR4B,
 
 
   /*------------------------------ Predefined function identifiers --------------------------------*/
-  
-  BIT2HEX,	BIT2INT,		BIT2OCT,	BIT2STR,
-  
-  CHAR2INT,	CHAR2OCT,
-  
-  DECOMP,
-  
-  ENUM2INT,
- 
-  FLOAT2INT,	FLOAT2STR,
-  
-  HEX2BIT,	HEX2INT,	HEX2OCT,	HEX2STR,
-  
-  INT2BIT,	INT2CHAR,	INT2ENUM,	INT2FLOAT,	INT2HEX,
-  INT2OCT,	INT2STR,	INT2UNICHAR,
-  
-  ISVALUE,	ISCHOSEN,	ISPRESENT,  ISBOUND,
-  
-  LENGTHOF,  LOG2STR,
-  
-  OCT2BIT,	OCT2CHAR,	OCT2HEX,
-  OCT2INT,	OCT2STR,
-  
-  REGEXP,	REPLACE,	RND,
-  
-  SIZEOF,
-  
-  STR2BIT,	STR2FLOAT,	STR2HEX,
-  STR2INT,	STR2OCT,
-  
-  SUBSTR,
-  
-  TESTCASENAME,
-  
-  UNICHAR2INT,	UNICHAR2CHAR,
-  
-  TTCN2STRING, STRING2TTCN,
-  
-  GET_STRINGENCODING, OCT2UNICHAR, REMOVE_BOM,
-  UNICHAR2OCT, ENCODE_BASE64, DECODE_BASE64,
-  
+
+  BIT2HEX,                    BIT2INT,                    BIT2OCT,
+  BIT2STR,
+
+  CHAR2INT,                   CHAR2OCT,
+
+  DECODE_BASE64,              DECOMP,
+
+  ENCODE_BASE64,              ENUM2INT,
+
+  FLOAT2INT,                  FLOAT2STR,
+
+  GET_STRINGENCODING,
+
+  HEX2BIT,                    HEX2INT,                    HEX2OCT,
+  HEX2STR,
+
+  INT2BIT,                    INT2CHAR,                   INT2ENUM,
+  INT2FLOAT,                  INT2HEX,                    INT2OCT,
+  INT2STR,                    INT2UNICHAR,                ISBOUND,
+  ISCHOSEN,                   ISPRESENT,                  ISVALUE,
+
+  LENGTHOF,                   LOG2STR,
+
+  OCT2BIT,                    OCT2CHAR,                   OCT2HEX,
+  OCT2INT,                    OCT2STR,                    OCT2UNICHAR,
+
+  REGEXP,                     REMOVE_BOM,                 RND,
+  REPLACE,
+
+  SIZEOF,                     STR2BIT,                    STR2FLOAT,
+  STR2HEX,                    STR2INT,                    STR2OCT,
+  STRING2TTCN,                SUBSTR,
+
+  TESTCASENAME,               TTCN2STRING,
+
+  UNICHAR2CHAR,               UNICHAR2INT,                UNICHAR2OCT,
+
   /* general macro, used for code completion, see TTCN3KeywordLessLexer */
   MACRO
-  
+
 }
 
 WS:				[ \t\r\n\f]+	-> channel(HIDDEN);
