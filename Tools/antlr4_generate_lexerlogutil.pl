@@ -117,7 +117,7 @@ sub load
             "        case -1:\n".
             "            return \"EOF\";\n".
             "        default:\n".
-            "            return \"\";\n".
+            "            return \"\" + aIndex;\n".
             "        }\n".
             "    }\n".
             "}\n".
