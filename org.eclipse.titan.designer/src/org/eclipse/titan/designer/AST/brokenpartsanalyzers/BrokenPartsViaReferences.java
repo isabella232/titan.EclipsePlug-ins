@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignments;
@@ -25,6 +27,8 @@ import org.eclipse.titan.designer.AST.ASN1.Undefined_Assignment;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.MessageConsoleStream;
 
@@ -80,11 +84,15 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 		computeAnalyzeOnlyDefinitionsFlag(allModules, startModules);
 
 		if (analyzeOnlyAssignments) {
-			final Map<Module, List<AssignmentHandler>> result = collectBrokenParts(startModules, invertedImports);
+			IPreferencesService preferenceService = Platform.getPreferencesService();
+			boolean useIncrementalParsing = preferenceService.getBoolean(
+					ProductConstants.PRODUCT_ID_DESIGNER,
+					PreferenceConstants.USEINCREMENTALPARSING, false, null); 
+			final Map<Module, List<AssignmentHandler>> result = collectBrokenParts(startModules, invertedImports,useIncrementalParsing);
 			if (writeDebugInfo && !isTooSlow()) {
 				writeDebugInfo(result);
 			}
-			collectRealBrokenParts(result);
+			collectRealBrokenParts(result,useIncrementalParsing);
 		}
 
 		if(writeDebugInfo && isTooSlow()) {
@@ -229,7 +237,10 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 		return result;
 	}
 
-	protected Map<Module, List<AssignmentHandler>> collectBrokenParts(final List<Module> startModules, final Map<Module, List<Module>> invertedImports) {
+	protected Map<Module, List<AssignmentHandler>> collectBrokenParts(
+			final List<Module> startModules, 
+			final Map<Module, List<Module>> invertedImports,
+			boolean useIncrementalParsing) {
 
 		final List<Module> startModulesCopy = new ArrayList<Module>(startModules);
 
@@ -238,6 +249,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 		processStartModules(startModulesCopy, moduleAndBrokenAssignments);
 
 		for (int i = 0; i < startModulesCopy.size() && !isTooSlow(); ++i) {
+
 			final Module startModule = startModulesCopy.get(i);
 			List<AssignmentHandler> startAssignments;
 			if (moduleAndBrokenAssignments.containsKey(startModule)) {
@@ -247,8 +259,25 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 				moduleAndBrokenAssignments.put(startModule, startAssignments);
 			}
 
-			if (!startAssignments.isEmpty()) {
-				final List<Module> whereStartModuleUsed = invertedImports.get(startModule);
+			if (startAssignments.isEmpty()) {
+				continue;
+			}
+			
+			final List<Module> whereStartModuleUsed = invertedImports.get(startModule);
+			
+			// Incremental parsing: If lastCompilationTimestamp of definitions of startModule is null (=name changed)
+			// then all imported module shall be fully analyzed
+			// If not incremental parsing is used, also all importing modules shall be fully reanalyze			
+			if (!useIncrementalParsing || 
+					(startModule instanceof TTCN3Module &&  
+							((TTCN3Module) startModule).getDefinitions().getLastCompilationTimeStamp() == null)) {
+				for (int j = 0; j < whereStartModuleUsed.size(); ++j) {
+					final Module dependentModule = whereStartModuleUsed.get(j);
+					//overwrites the dependentAssignments with the full list of assignments
+					List<AssignmentHandler> dependentAssignments = getAssignmentsFrom(dependentModule);
+					moduleAndBrokenAssignments.put(dependentModule, dependentAssignments);
+				}
+			} else {
 				for (int j = 0; j < whereStartModuleUsed.size(); ++j) {
 					final Module dependentModule = whereStartModuleUsed.get(j);
 					List<AssignmentHandler> dependentAssignments;
@@ -258,79 +287,68 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 						dependentAssignments = getAssignmentsFrom(dependentModule);
 						moduleAndBrokenAssignments.put(dependentModule, dependentAssignments);
 					}
-
 					// We have to separate broken and not broken definition, because of postcheck.
 					final List<AssignmentHandler> brokens = new ArrayList<AssignmentHandler>();
 					final List<AssignmentHandler> notBrokens = new ArrayList<AssignmentHandler>();
-
-					//TODO: If lastCompilationTimestamp of definitions of startModule is null then 
-					// all imported module shall be fully analyzed
-					if (startModule instanceof TTCN3Module &&  ((TTCN3Module) startModule).getDefinitions().getLastCompilationTimeStamp() == null) {
-						//In this case, the importing modules shall be rechecked
-						//overwrites the dependentAssignments with the full list of assignments
-						dependentAssignments = getAssignmentsFrom(dependentModule);
-						moduleAndBrokenAssignments.put(dependentModule, dependentAssignments);
-					} else {
-						for (int s = 0; s < startAssignments.size(); ++s) {
-							final AssignmentHandler startAssignment = startAssignments.get(s);
-							if (startAssignment.getIsContagious()) {
-								for (int d = 0; d < dependentAssignments.size(); ++d) {
-									final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
-									dependentAssignment.check(startAssignment); //only infection and contagion are checked
-									if (dependentAssignment.getIsInfected()) {
-										if (!startModulesCopy.contains(dependentModule)) {
-											startModulesCopy.add(dependentModule);
-										}
-										if( !brokens.contains(dependentAssignment) ) {
-											brokens.add(dependentAssignment);
-										}
+					for (int s = 0; s < startAssignments.size(); ++s) {
+						final AssignmentHandler startAssignment = startAssignments.get(s);
+						if (startAssignment.getIsContagious()) {
+							for (int d = 0; d < dependentAssignments.size(); ++d) {
+								final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
+								dependentAssignment.check(startAssignment); //only infection and contagion are checked
+								if (dependentAssignment.getIsInfected()) {
+									if (!startModulesCopy.contains(dependentModule)) {
+										startModulesCopy.add(dependentModule);
+									}
+									if( !brokens.contains(dependentAssignment) ) {
+										brokens.add(dependentAssignment);
 									}
 								}
 							}
 						}
+					}
 
-
-
-						for (int d = 0; d < dependentAssignments.size(); ++d) {
-							final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
-							if (!dependentAssignment.getIsInfected()) {
-								notBrokens.add(dependentAssignment);
-							}
+					for (int d = 0; d < dependentAssignments.size(); ++d) {
+						final AssignmentHandler dependentAssignment = dependentAssignments.get(d);
+						if (!dependentAssignment.getIsInfected()) {
+							notBrokens.add(dependentAssignment);
 						}
+					}
 
-						// Have to post check of local definition of modules.
-						// A definition can reference an other definition too.
-						checkLocalAssignments(brokens, notBrokens);
+					// Have to post check of local definition of modules.
+					// A definition can reference an other definition too.
+					checkLocalAssignments(brokens, notBrokens);
 
-						// If dependent module not added startModules,
-						// it means it has not got broken definition,
-						// so we have to delete it from moduleAndBrokenDefs.
-						if (!startModulesCopy.contains(dependentModule)) {
-							moduleAndBrokenAssignments.remove(dependentModule);
-						}
+					// If dependent module not added to startModules,
+					// it means it has not got broken definition,
+					// so we have to delete it from moduleAndBrokenDefs.
+					if (!startModulesCopy.contains(dependentModule)) {
+						moduleAndBrokenAssignments.remove(dependentModule);
+					}
 
-					}//else
 
 				}
 			}
 
-		}
+		}//for
 
 		return moduleAndBrokenAssignments;
 	}
 
-	protected void collectRealBrokenParts(final Map<Module, List<AssignmentHandler>> moduleAndAssignments ) {
+	protected void collectRealBrokenParts(
+			final Map<Module, List<AssignmentHandler>> moduleAndAssignments,
+			boolean useIncrementalParsing) {
 		for (Map.Entry<Module, List<AssignmentHandler>> entry : moduleAndAssignments.entrySet()) {
 
 			List<Assignment> assignments = new ArrayList<Assignment>();
 			for (AssignmentHandler assignmentHandler : entry.getValue()) {
-				if (assignmentHandler.getIsInfected()) {
+				if (!useIncrementalParsing || assignmentHandler.getIsInfected()) {
 					assignments.add(assignmentHandler.getAssignment());
 				}
 				assignmentHandler.assignment.notCheckRoot();
 			}
 			final Module module = entry.getKey();
-			if (!assignments.isEmpty() || !module.getSkippedFromSemanticChecking()) {;
+			if (!assignments.isEmpty() || !module.getSkippedFromSemanticChecking()) {
 				moduleAndBrokenAssignments.put(module, assignments);
 				modulesToCheck.add(module);
 			}
