@@ -15,7 +15,13 @@ import Ttcn3BaseLexer;
  * author Arpad Lovassy
  */
 
-//Overriding tokens inherited from TTCN3BaseLexer.g4
+// Overriding tokens inherited from TTCN3BaseLexer.g4
+// NOTE: Ttcn3 lexers must contain the same amount of tokens to make sure, that they are synchronized properly.
+//       Token index of the same token must be the same in all of the Ttcn3 lexers, otherwise code completion
+//       will not work properly, because Ttcn3ReferenceParser uses Ttcn3KeywordlessLexer (based on Ttcn3BaseLexer).
+//       So if a new token is added to Ttcn3Lexer, the same token must be added also to Ttcn3BaseLexer as unused token
+//       (see "tokens" section in Ttcn3BaseLexer.g4).
+
 /*------------------------------------------- Keywords -------------------------------------------*/
 
   ACTION: 'action';                 ACTIVATE: 'activate';             ADDRESS: 'address';
