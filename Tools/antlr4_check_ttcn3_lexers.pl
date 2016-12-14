@@ -12,19 +12,20 @@
 ###############################################################################
 
 ###############################################################################
-# Generates ...LexerLogUtil.java implements ILexerLogUtil
-# for all ...Lexer.java under the current directory
-# to determine token name from token index.
-# This is used for logging purpose,
-# see ParserLogger.java and TokenNameResolver.java
+# Checks if the token type names and token type indexes correspond to each other
+# in the generated Ttcn3 lexers.
+# Ttcn3 lexers must contain the same amount of tokens to make sure, that they are synchronized properly.
+# Token index of the same token must be the same in all of the Ttcn3 lexers, otherwise code completion
+# will not work properly, because Ttcn3ReferenceParser uses Ttcn3KeywordlessLexer (based on Ttcn3BaseLexer).
+# So if a new token is added to Ttcn3Lexer, the same token must be added also to Ttcn3BaseLexer as unused token
+# (see "tokens" section in Ttcn3BaseLexer.g4).
 #
 # Prerequisites: ANTLR lexer .g4 files must be compiled,
 #   because generated java files must exist.
 #
-# Example usage (to create ...LexerLogUtil.java for all the ...Lexer.java
-# in titan.EclipsePlug-ins project):
+# Example usage:
 #   cd <titan.EclipsePlug-ins project root>
-#   Tools/antlr4_generate_lexerlogutil.pl
+#   Tools/antlr4_check_ttcn3_lexers.pl
 ###############################################################################
 
 # to read the whole file at once, not just line-by-line
@@ -41,7 +42,7 @@ sub parseLexer {
     open(IN, $filename);
     my $whole_file = <IN>;
     close(IN);
-    # associative array of lexer tokens, where key is token name, value is token index
+    # hash (associative array) of lexer tokens, where key is token name, value is token index
     my %t;
     if ( $whole_file =~ /public static final int\r?\n\s*(.*?);/gs ) {
         my $const_defs = $1; #comma separated constant definition: WS=1, LINE_COMMENT=2, ..., MACRO12=451
@@ -104,7 +105,7 @@ sub load {
 # processing all the files from ..
 load("..");
 
-# comparing the result hashes, compared hashes are modified: common element are removed
+# comparing the result hashes, compared hashes are modified: common elements are removed
 
 my $error = 0;
 foreach my $ttcn3_key ( keys %ttcn3Tokens ) {
