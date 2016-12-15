@@ -664,7 +664,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					if (specifications == null) {
 						specifications = new ArrayList<AttributeSpecification>();
 					}
-					specifications.add(attribute.getAttributeSpecification());
+					final AttributeSpecification specification = attribute.getAttributeSpecification();
+					if ( specification.getSpecification() != null ) {
+						// there is nothing to parse if specification string is null,
+						// anyway it would cause NPE in ExtensionAttributeAnalyzer.parse()
+						specifications.add( specification );
+					}
 				}
 			}
 		}

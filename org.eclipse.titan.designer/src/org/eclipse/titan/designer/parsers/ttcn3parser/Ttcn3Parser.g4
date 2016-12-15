@@ -7759,6 +7759,11 @@ pr_FreeText returns[String string]:
 	s = pr_CString
 {
 	$string = $s.string;
+	if ( $string == null ) {
+		// During typing it can happen, that there is no matching and rule is finished with error,
+		// in this case let's use empty string rather than null to avoid NPE
+		$string = "";
+	}
 };
 
 pr_NoCaseModifier:
