@@ -572,6 +572,12 @@ public class TpdImporter {
 				try {
 					if (relativeURINode != null) {
 						String relativeLocation = relativeURINode.getTextContent();
+						//if relativeLocation == "virtual:/virtual" then
+						//create a workaround according to the rawURI branch
+						if( "virtual:/virtual".equals(relativeLocation) ) {
+							folder.createLink(URI.create(relativeLocation), IResource.ALLOW_MISSING_LOCAL, null);
+							continue;
+						}
 						URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
 						if (absoluteURI == null) {
 							// The URI cannot be resolved - for example it
@@ -602,6 +608,7 @@ public class TpdImporter {
 												+ " the location information is missing or corrupted");
 					}
 				} catch (CoreException e) {
+					ErrorReporter.logError("Error while importing folders into project: " + e );
 					//be silent, it can happen normally
 				}
 			} else {
@@ -656,6 +663,8 @@ public class TpdImporter {
 						//perhaps the next few lines should be implemented as in the function loadFoldersData()
 						URI absoluteURI = TITANPathUtilities.resolvePathURI(relativeLocation, URIUtil.toPath(projectFileFolderURI).toOSString());
 						if (absoluteURI == null) {
+							ErrorReporter.logError("Error while importing files into project `" + project.getName() + "'. File `"
+									+ absoluteURI + "' does not exist!");
 							continue;
 						}
 						File file = new File(absoluteURI);
