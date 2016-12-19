@@ -195,6 +195,10 @@ public final class CTs_EE_CTs extends ASTNode {
 			for (int i = 0; i < extensionAndException.getNofComps(); i++) {
 				checkComponentField(extensionAndException.getCompByIndex(i), typeName, componentName);
 			}
+			ExceptionSpecification es = extensionAndException.getExceptionSpecification();
+			if (es != null ){
+				es.getType().check(timestamp);
+			}
 		}
 
 		for (int i = 0; i < componentTypeList2.getNofComps(); i++) {
@@ -209,7 +213,7 @@ public final class CTs_EE_CTs extends ASTNode {
 			componentField.check(timestamp);
 		}
 	}
-
+	//This function checks only name uniqueness and fill in  structures "componentsMap" and "components"
 	protected void checkComponentField(final CompField componentField, final String typeName, final String componentName) {
 		final Identifier identifier = componentField.getIdentifier();
 		final String name = identifier.getName();

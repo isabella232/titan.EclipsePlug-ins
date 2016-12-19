@@ -41,6 +41,10 @@ public final class ExtensionAndException extends ASTNode {
 		this.extensionAdditions.setFullNameParent(this);
 	}
 
+	public ExceptionSpecification getExceptionSpecification(){
+		return exceptionSpecification;
+	}
+	
 	public void setExceptionSpecification(final ExceptionSpecification exceptionSpecification) {
 		this.exceptionSpecification = exceptionSpecification;
 

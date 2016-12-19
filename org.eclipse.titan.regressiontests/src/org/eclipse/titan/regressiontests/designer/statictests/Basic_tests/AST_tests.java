@@ -373,10 +373,10 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
+	
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1515);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1516);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1874,6 +1874,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `encdecres1' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `vl_i' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("The second operand of the `decvalue' operation is unable to hold a decoded value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `t_encdecvar3' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("A static value was expected instead of operation `rnd()'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -1894,7 +1895,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
+	
 	private ArrayList<MarkerToCheck> negativeTesting_ttcn_initializer() {
 		//negativeTesting.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(73);
@@ -3869,10 +3870,10 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
+	
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(983);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(985);
 		int lineNum = 41;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `compTimer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
@@ -3961,7 +3962,12 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `i' in module `statement_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 89; i++) {
+		for (i = 0; i < 76; i++) {
+			markersToCheck.add(new MarkerToCheck("The operand of the `setverdict' operation should be a verdict value", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `c_integer' in module `statement_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
+		for (i = 0; i < 13; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `setverdict' operation should be a verdict value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `t' in module `statement_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
@@ -3970,11 +3976,10 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The operand of the `setverdict' operation should be a verdict value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep' in module `statement_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("The operand of the `setverdict' operation should be a verdict value", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `f_functiontypeValueTest' in module `statement_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The operand of the `setverdict' operation should be a verdict value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The operand of the `setverdict' operation should be a verdict value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `f_functiontypeValueTest' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `setverdict' operation should be a verdict value", lineNum++, IMarker.SEVERITY_ERROR));
@@ -4903,7 +4908,6 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
 	private ArrayList<MarkerToCheck> subtype_tests_ttcn_initializer() {
 		//subtype_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(754);

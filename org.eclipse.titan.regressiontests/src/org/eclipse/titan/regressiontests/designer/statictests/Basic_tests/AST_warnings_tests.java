@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.titan.regressiontests.designer.Designer_plugin_tests;
 import org.eclipse.titan.regressiontests.library.MarkerToCheck;
+import org.junit.Test;
 
 public class AST_warnings_tests {
 
@@ -42,6 +43,11 @@ public class AST_warnings_tests {
 	@org.junit.Test
 	public void expression_tests_ttcn() throws Exception {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(expression_tests_ttcn_initializer(), "src/Basic_tests/expression_tests.ttcn");
+	}
+	
+	@Test
+	public void template_formalparlist_tests_ttcn() throws Exception {
+		Designer_plugin_tests.checkSemanticMarkersOnFile(template_formalparlist_tests_ttcn_initializer(), "src/Basic_tests/template_formalparlist_tests.ttcn");
 	}
 
 	@org.junit.Test
@@ -1080,6 +1086,16 @@ public class AST_warnings_tests {
 		return markersToCheck;
 	}
 
+	private ArrayList<MarkerToCheck> template_formalparlist_tests_ttcn_initializer() {
+		//template_formalparlist_tests.ttcn
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(2);
+		int lineNum = 89;
+		markersToCheck.add(new MarkerToCheck("The altstep `@template_formalparlist_tests.Alt1' with name Alt1 breaks the naming convention  `as_.*'",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("The altstep `@template_formalparlist_tests.Alt2' with name Alt2 breaks the naming convention  `as_.*'",  ++lineNum, IMarker.SEVERITY_WARNING));
+
+		return markersToCheck;
+	}
+	
 	private ArrayList<MarkerToCheck> namingConvention_ttcn_initializer() {
 		//namingConvention.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(19);

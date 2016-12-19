@@ -133,11 +133,10 @@ public final class Setverdict_Statement extends Statement {
 
 		if (verdictValue != null) {
 			verdictValue.setLoweridToReference(timestamp);
+			final IValue last = verdictValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);//to force its checking
 			final Type_type temp = verdictValue.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-
 			switch (temp) {
 			case TYPE_VERDICT:
-				final IValue last = verdictValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 				if (Value_type.VERDICT_VALUE.equals(last.getValuetype())
 						&& Verdict_type.ERROR.equals(((Verdict_Value) last).getValue())) {
 					getLocation().reportSemanticError(ERRORCANNOTBESET);

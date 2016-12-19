@@ -127,7 +127,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 //		if (Float.compare(brokenModulesRatio, (float) BROKEN_MODULE_LIMIT) < 0) {
 //			analyzeOnlyAssignments = true;
 //		}
-		analyzeOnlyAssignments = true;
+		analyzeOnlyAssignments = false;
 	}
 	
 	/**
@@ -402,7 +402,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 					startModule.check(timestamp);
 				}
 
-				final List<AssignmentHandler> startAssignments = getAssignmentsFrom(startModule);//puts additional markers!
+				final List<AssignmentHandler> startAssignments = getAssignmentsFrom(startModule); //puts additional markers!
 				for (AssignmentHandler assignmentHandler : startAssignments) {
 					assignmentHandler.initStartParts();
 					assignmentHandler.assignment.notCheckRoot();
