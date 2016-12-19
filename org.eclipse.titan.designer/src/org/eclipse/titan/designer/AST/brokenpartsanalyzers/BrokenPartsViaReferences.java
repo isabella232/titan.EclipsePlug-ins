@@ -124,9 +124,9 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	 */
 	public void computeAnalyzeOnlyDefinitionsFlag(final List<Module> allModules, final List<Module> startModules) {
 		float brokenModulesRatio = (float) ((startModules.size() * 100.0) / allModules.size());
-//		if (Float.compare(brokenModulesRatio, (float) BROKEN_MODULE_LIMIT) < 0) {
-//			analyzeOnlyAssignments = true;
-//		}
+		if (Float.compare(brokenModulesRatio, (float) BROKEN_MODULE_LIMIT) < 0) {
+			analyzeOnlyAssignments = true;
+		}
 		analyzeOnlyAssignments = false;
 	}
 	
