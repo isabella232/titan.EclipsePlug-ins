@@ -331,7 +331,6 @@ public final class Port_Utility {
 		if (portReference == null) {
 			return componentType;
 		}
-
 		if (componentType == null) {
 			// the component type can not be determined
 			final List<ISubReference> subreferences = portReference.getSubreferences();
@@ -382,6 +381,7 @@ public final class Port_Utility {
 		final ComponentTypeBody componentBody = ((Component_Type) componentType).getComponentBody();
 		portReference.setBaseScope(componentBody);
 		portReference.setComponent((Component_Type) componentType);
+		portReference.getRefdAssignment(timestamp, false);//for compatibility
 		final Identifier portIdentifier = portReference.getId();
 
 		if (!componentBody.hasLocalAssignmentWithId(portIdentifier)) {

@@ -44,6 +44,7 @@ public class PortReference extends Reference {
 			return referredAssignment;
 		}
 		
+		super.getRefdAssignment(timestamp, checkParameterList);//just for error compatibility with...
 		Identifier portIdentifier = getId();
 		ComponentTypeBody componentBody = componentType.getComponentBody();
 		if (!componentBody.hasLocalAssignmentWithId(portIdentifier)) {
