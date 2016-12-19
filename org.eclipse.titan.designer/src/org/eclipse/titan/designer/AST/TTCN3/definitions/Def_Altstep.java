@@ -191,7 +191,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	@Override
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
+	}
 		
 	@Override
 	public void check(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
@@ -221,7 +221,6 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		if (formalParList.hasNotusedDefaultValue()) {
 			formalParList.getLocation().reportSemanticError(DASHALLOWEDONLYFORTEMPLATES);
-			return;
 		}
 
 		boolean canSkip = false;
