@@ -101,20 +101,9 @@ public final class DecodeExpression extends Expression_Value {
 			final IReferenceChain referenceChain) {
 		return true;
 	}
-
-	/**
-	 * Checks the parameters of the expression and if they are valid in
-	 * their position in the expression or not.
-	 * 
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 * */
-	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
-		if (reference1 == null || reference2 == null) {
-			return;
-		}
+	
+	
+	private void checkFirstExpressionOperand(final CompilationTimeStamp timestamp){
 		Assignment temporalAssignment = reference1.getRefdAssignment(timestamp, true);
 
 		if (temporalAssignment == null) {
@@ -176,15 +165,16 @@ public final class DecodeExpression extends Expression_Value {
 			}
 			return;
 		}
-
-		temporalAssignment = reference2.getRefdAssignment(timestamp, true);
+	}
+	
+	private void checkSecondExpressionOperand(final CompilationTimeStamp timestamp){
+		Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
 
 		if (temporalAssignment == null) {
 			setIsErroneous(true);
 			return;
 		}
-
-		temporalType = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference2, 1,
+		IType temporalType = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference2, 1,
 				Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 		if (temporalType == null) {
 			setIsErroneous(true);
@@ -211,6 +201,23 @@ public final class DecodeExpression extends Expression_Value {
 		default:
 			break;
 		}
+	}
+
+	/**
+	 * Checks the parameters of the expression and if they are valid in
+	 * their position in the expression or not.
+	 * 
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param referenceChain
+	 *                a reference chain to detect cyclic references.
+	 * */
+	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
+		if (reference1 == null || reference2 == null) {
+			return;
+		}
+		checkFirstExpressionOperand(timestamp);
+		checkSecondExpressionOperand(timestamp);
 	}
 
 	@Override
