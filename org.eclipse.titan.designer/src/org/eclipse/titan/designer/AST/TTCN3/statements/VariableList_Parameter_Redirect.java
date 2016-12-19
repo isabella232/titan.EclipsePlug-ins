@@ -74,14 +74,17 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
-
+		this.checkErroneous(timestamp);
+		if(signature == null) {
+			return;
+		}
 		final SignatureFormalParameterList parameterList = signature.getParameterList();
 		if (parameterList.getNofParameters() == 0) {
 			getLocation().reportSemanticError(MessageFormat.format(SIGNATUREWITHOUTPARAMETERS, signature.getTypename()));
 			checkErroneous(timestamp);
 			return;
 		}
-
+		
 		final int nofVariableEntries = entries.getNofEntries();
 		final int nofParameters = isOut ? parameterList.getNofOutParameters() : parameterList.getNofInParameters();
 		if (nofVariableEntries != nofParameters) {

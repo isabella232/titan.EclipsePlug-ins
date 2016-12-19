@@ -211,6 +211,7 @@ public final class Getreply_Statement extends Statement {
 			}
 
 			if (redirectParameter != null) {
+				redirectParameter.check(timestamp, null, true);//true?
 				redirectParameter.getLocation().reportSemanticError(PARAMETERREDIRECTWITHOUTSIGNATURE);
 			}
 		} else {
