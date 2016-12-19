@@ -69,6 +69,9 @@ public final class TypeFactory {
 			return new SequenceOf_Type(null);
 		case TYPE_DEFAULT:
 			return new Default_Type();
+		case TYPE_FUNCTION:
+			//TODO:return new Function_Type(formalParList, runsOnRef, runsOnSelf, returnType, returnsTemplate, templateRestriction)
+			return null;
 		default:
 			return null;
 		}

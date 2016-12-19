@@ -91,6 +91,10 @@ public final class RefersExpression extends Expression_Value {
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (referredAssignment == null) {
+			evaluateValue(timestamp, expectedValue, null);
+		}
+		
+		if(referredAssignment == null) {
 			return Type_type.TYPE_UNDEFINED;
 		}
 
