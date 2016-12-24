@@ -153,6 +153,95 @@ public final class TITANFlagsOptionsData {
 		return builder.toString();
 	}
 
+	public static String getTITANFlagComments(final IProject project, final boolean useRuntime2) {
+		final StringBuilder builder = new StringBuilder(30);
+		String temp;
+		if (useRuntime2) {
+			builder.append("function test runtime");
+		} else {
+			builder.append("load test runtime");
+		}
+		try {
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_BER_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable BER" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_RAW_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable RAW" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_TEXT_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable TEXT" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_XER_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable XER" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable JSON" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY));
+			builder.append("true".equals(temp) ? " + enable basic XER in ASN.1" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DEFAULT_AS_OMIT_PROPERTY));
+			builder.append("true".equals(temp) ? " + treat default fields as omit" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.FORCE_OLD_FUNC_OUT_PAR_PROPERTY));
+			builder.append("true".equals(temp) ? " + enforce legacy behaviour for \"out\" parameters" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.GCC_MESSAGE_FORMAT_PROPERTY));
+			builder.append("true".equals(temp) ? " + emulate GCC error/warning message format" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY));
+			builder.append("true".equals(temp) ? " + line numbers only in messages" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.INCLUDE_SOURCEINFO_PROPERTY));
+			builder.append("true".equals(temp) ? " + include source info" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ADD_SOURCELINEINFO_PROPERTY));
+			builder.append("true".equals(temp) ? " + add source line info for logging" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.SUPPRESS_WARNINGS_PROPERTY));
+			builder.append("true".equals(temp) ? " + suppress warnings" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.QUIETLY_PROPERTY));
+			builder.append("true".equals(temp) ? " + suppress all messages" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable subtype checking" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
+			builder.append("true".equals(temp) ? " + allow omit in template value lists" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
+			builder.append("true".equals(temp) ? " + warnings for unrecognized encodings" : "");
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.CODE_SPLITTING_PROPERTY));
+			if (temp != null && !"".equals(temp) && !GeneralConstants.NONE.equals(temp)) {
+				builder.append(" + split code according to ").append(temp);
+			}
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace("While getting Titan flags of `" + project.getName() + "'", e);
+		}
+
+		return builder.toString();
+	}
+
 	/**
 	 * Remove the TITAN provided attributes from a project.
 	 * 

@@ -882,8 +882,12 @@ public final class InternalMakefileGenerator {
 		contents.append("ARFLAGS = \n\n");
 
 		contents.append("# Flags for the TTCN-3 and ASN.1 compiler:\n");
+		contents.append("# ").append(TITANFlagsOptionsData.getTITANFlagComments(project, useRuntime2)).append("\n");
 		contents.append("COMPILER_FLAGS = ").append(TITANFlagsOptionsData.getTITANFlags(project, useRuntime2)).append("\n\n");
-		contents.append("# Execution mode: (either ttcn3 or ttcn3-parallel)\n");
+		contents.append("# Execution mode: ");
+		contents.append(useRuntime2 ? "load" : "function").append(" test runtime in ");
+		contents.append(singleMode ? "single" : "parallel").append(" mode");
+		contents.append(dynamicLinking ? " with dynamic linking" : "").append("\n");
 		contents.append("TTCN3_LIB = ttcn3");
 		if (useRuntime2) {
 			contents.append("-rt2");
