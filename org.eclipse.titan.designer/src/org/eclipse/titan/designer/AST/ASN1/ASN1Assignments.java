@@ -72,7 +72,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (Assignment assignment : assignments) {
 			if (assignment == child) {
@@ -113,7 +113,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 			return true;
 		}
 
-		Assignments temp = SpecialASN1Module.getSpecialModule().getAssignments();
+		final Assignments temp = SpecialASN1Module.getSpecialModule().getAssignments();
 		if (!this.equals(temp)) {
 			return temp.hasAssignmentWithId(timestamp, identifier);
 		}
@@ -127,11 +127,11 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 			checkUniqueness(timestamp);
 		}
 
-		String name = identifier.getName();
+		final String name = identifier.getName();
 		if (assignmentMap.containsKey(name)) {
-			Assignment temp = assignmentMap.get(name);
+			final Assignment temp = assignmentMap.get(name);
 			if (temp instanceof Undefined_Assignment) {
-				ASN1Assignment real = ((Undefined_Assignment) temp).getRealAssignment(timestamp);
+				final ASN1Assignment real = ((Undefined_Assignment) temp).getRealAssignment(timestamp);
 				if (null != real) {
 					return real;
 				}
@@ -140,7 +140,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 			return temp;
 		}
 
-		Assignments temp = SpecialASN1Module.getSpecialModule().getAssignments();
+		final Assignments temp = SpecialASN1Module.getSpecialModule().getAssignments();
 		if (!this.equals(temp)) {
 			return temp.getLocalAssignmentByID(timestamp, identifier);
 		}
@@ -204,9 +204,9 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		dynamic_assignments.add(assignment);
 		assignment.setMyScope(this);
 
-		Identifier identifier = assignment.getIdentifier();
-		String assignmentName = identifier.getName();
-		Assignments specialAssignments = SpecialASN1Module.getSpecialModule().getAssignments();
+		final Identifier identifier = assignment.getIdentifier();
+		final String assignmentName = identifier.getName();
+		final Assignments specialAssignments = SpecialASN1Module.getSpecialModule().getAssignments();
 		if (specialAssignments.hasAssignmentWithId(timestamp, identifier)) {
 			final Location tempLocation = assignment.getIdentifier().getLocation();
 			tempLocation.reportSemanticError(MessageFormat.format(RESERVEDIDENTIFIER, identifier.getDisplayName()));
@@ -241,10 +241,10 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		dynamic_assignments.clear();
 		assignmentMap.clear();
 
-		Assignments specialAssignments = SpecialASN1Module.getSpecialModule().getAssignments();
+		final Assignments specialAssignments = SpecialASN1Module.getSpecialModule().getAssignments();
 		for (ASN1Assignment assignment : assignments) {
-			Identifier identifier = assignment.getIdentifier();
-			String assignmentName = identifier.getName();
+			final Identifier identifier = assignment.getIdentifier();
+			final String assignmentName = identifier.getName();
 			if (specialAssignments.hasAssignmentWithId(timestamp, identifier)) {
 				final Location selfLocation = assignment.getIdentifier().getLocation();
 				selfLocation.reportSemanticError(MessageFormat.format(RESERVEDIDENTIFIER, identifier.getDisplayName()));

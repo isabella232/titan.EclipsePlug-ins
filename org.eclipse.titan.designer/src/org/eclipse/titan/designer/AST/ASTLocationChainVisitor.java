@@ -31,7 +31,7 @@ public class ASTLocationChainVisitor extends ASTVisitor {
 	@Override
 	public int visit(IVisitableNode node) {
 		if (node instanceof ILocateableNode) {
-			Location loc = ((ILocateableNode)node).getLocation();
+			final Location loc = ((ILocateableNode)node).getLocation();
 			if (loc != null && loc.containsOffset(offset)) {
 				chain.add(node);
 			} else {
@@ -43,7 +43,7 @@ public class ASTLocationChainVisitor extends ASTVisitor {
 	}
 
 	public void printChain() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("Node chain for offset ").append(offset).append(" : ");
 		boolean first = true;
 		for (IVisitableNode node : chain) {

@@ -18,26 +18,26 @@ public class ASTLocationConsistencyVisitor extends ASTVisitor {
 	IDocument document;
 	boolean isTtcn;
 	
-	public ASTLocationConsistencyVisitor(IDocument document, boolean isTtcn) {
+	public ASTLocationConsistencyVisitor(final IDocument document, final boolean isTtcn) {
 		this.document = document;
 		this.isTtcn = isTtcn;
 	}
 	
 	@Override
-	public int visit(IVisitableNode node) {
+	public int visit(final IVisitableNode node) {
 		if (node instanceof Identifier) {
-			Identifier id = (Identifier)node;
-			Location loc = id.getLocation();
-			int offset = loc.getOffset();
-			int length = loc.getEndOffset()-loc.getOffset();
-			String name = isTtcn ? id.getTtcnName() : id.getAsnName();
+			final Identifier id = (Identifier)node;
+			final Location loc = id.getLocation();
+			final int offset = loc.getOffset();
+			final int length = loc.getEndOffset()-loc.getOffset();
+			final String name = isTtcn ? id.getTtcnName() : id.getAsnName();
 			if (isTtcn && "anytype".equals(name)) {
 				// anytype hack in ttcn-3 
 				return V_CONTINUE;
 			}
 
 			try {
-				String strAtLoc = document.get(offset, length);
+				final String strAtLoc = document.get(offset, length);
 				if (!strAtLoc.equals(name)) {		
 					TITANDebugConsole.println("AST<->document inconsistency: id=["+name+"] at offset,length="+
 							offset+","+length+" doc.content=["+strAtLoc+"]");

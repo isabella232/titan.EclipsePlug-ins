@@ -184,7 +184,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 						TITANConsole.println(hostnames.get(i) + " finished with return value: " + exitval,stream);
 
 						if (stderr.ready()) {
-							StringBuilder builder2 = new StringBuilder();
+							final StringBuilder builder2 = new StringBuilder();
 							line = stdout.readLine();
 							while (line != null) {
 								builder2.append(line);

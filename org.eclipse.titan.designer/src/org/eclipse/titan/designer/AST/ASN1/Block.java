@@ -167,7 +167,7 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 
 	@Override
 	public String getText() {
-		StringBuilder text = new StringBuilder();
+		final StringBuilder text = new StringBuilder();
 		for (Token t : tokenList) {
 			text.append(t.getText());
 		}

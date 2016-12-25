@@ -87,11 +87,11 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			return;
 		}
 
-		IStructuredSelection structSelection = (IStructuredSelection) selection;
+		final IStructuredSelection structSelection = (IStructuredSelection) selection;
 
 		for (Object selected : structSelection.toList()) {
 			if (selected instanceof IProject && TITANBuilder.isBuilderEnabled((IProject) selected)) {
-				IProject tempProject = (IProject) selected;
+				final IProject tempProject = (IProject) selected;
 				try {
 					generateInfoForProject(tempProject);
 				} catch (CoreException e) {
@@ -102,11 +102,11 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 	}
 
 	private void generateInfoForProject(final IProject project) throws CoreException {
-		boolean win32 = Platform.OS_WIN32.equals(Platform.getOS());
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean win32 = Platform.OS_WIN32.equals(Platform.getOS());
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		final DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		factory.setNamespaceAware(true);
 		DocumentBuilder builder;
 		try {
@@ -116,10 +116,10 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			return;
 		}
 
-		DOMImplementation impl = builder.getDOMImplementation();
+		final DOMImplementation impl = builder.getDOMImplementation();
 		final Document document = impl.createDocument(null, "TITAN_External_Builder_Information", null);
 
-		Element root = document.getDocumentElement();
+		final Element root = document.getDocumentElement();
 		root.setAttribute("version", "1.0");
 
 		String temp;
@@ -165,35 +165,35 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 		node.appendChild(document.createTextNode(temp));
 		makefileSettings.appendChild(node);
 
-		Element projectsElement = document.createElement("ReferencedProjects");
+		final Element projectsElement = document.createElement("ReferencedProjects");
 		root.appendChild(projectsElement);
-		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
+		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
 		for (IProject tempProject : referencedProjects) {
-			Element element = document.createElement("ReferencedProject");
+			final Element element = document.createElement("ReferencedProject");
 			element.setAttribute("name", tempProject.getName());
 			element.setAttribute("location", tempProject.getLocationURI().toString());
 			if (win32 && tempProject.getLocation() != null) {
-				String converted = PathConverter.convert(tempProject.getLocation().toOSString(), reportDebugInformation,
+				final String converted = PathConverter.convert(tempProject.getLocation().toOSString(), reportDebugInformation,
 						TITANDebugConsole.getConsole());
-				Path path = new Path(converted);
+				final Path path = new Path(converted);
 				element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
 			}
 			projectsElement.appendChild(element);
 		}
 
-		Element filesElement = document.createElement("Files");
+		final Element filesElement = document.createElement("Files");
 		root.appendChild(filesElement);
-		TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
-		Map<String, IFile> files = visitor.getFiles();
+		final TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
+		final Map<String, IFile> files = visitor.getFiles();
 		for (IFile file : files.values()) {
-			Element element = document.createElement("File");
+			final Element element = document.createElement("File");
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
-				String fileLocation = file.getLocation().toOSString();
-				String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
+				final String fileLocation = file.getLocation().toOSString();
+				final String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
 						TITANDebugConsole.getConsole());
 				if (converted != fileLocation) {
-					Path path = new Path(converted);
+					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
 				}
 			}
@@ -202,16 +202,17 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 					.toString());
 			filesElement.appendChild(element);
 		}
-		Map<String, IFile> contralStorageFiles = visitor.getCentralStorageFiles();
+
+		final Map<String, IFile> contralStorageFiles = visitor.getCentralStorageFiles();
 		for (IFile file : contralStorageFiles.values()) {
-			Element element = document.createElement("File");
-			String fileLocation = file.getLocationURI().toString();
+			final Element element = document.createElement("File");
+			final String fileLocation = file.getLocationURI().toString();
 			element.setAttribute("path", fileLocation);
 			if (win32 && file.getLocation() != null) {
-				String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
+				final String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
 						TITANDebugConsole.getConsole());
 				if (!converted.equals(fileLocation)) {
-					Path path = new Path(converted);
+					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
 				}
 			}
@@ -220,16 +221,17 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			element.setAttribute("centralStorage", "true");
 			filesElement.appendChild(element);
 		}
-		Map<String, IFile> filesOfReferencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getFilesofReferencedProjects();
+
+		final Map<String, IFile> filesOfReferencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getFilesofReferencedProjects();
 		for (IFile file : filesOfReferencedProjects.values()) {
-			Element element = document.createElement("File");
+			final Element element = document.createElement("File");
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
-				String fileLocation = file.getLocation().toOSString();
-				String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
+				final String fileLocation = file.getLocation().toOSString();
+				final String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
 						TITANDebugConsole.getConsole());
 				if (converted != fileLocation) {
-					Path path = new Path(converted);
+					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
 				}
 			}
@@ -259,26 +261,26 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 		// DOMImplementation
 		// object implements the load and save features of the DOM 3.0
 		// specification.
-		DOMImplementation domImpl = registry.getDOMImplementation(LOAD_SAVE_VERSION);
-		DOMImplementationLS domImplLS = (DOMImplementationLS) domImpl;
+		final DOMImplementation domImpl = registry.getDOMImplementation(LOAD_SAVE_VERSION);
+		final DOMImplementationLS domImplLS = (DOMImplementationLS) domImpl;
 		// If the mode is MODE_SYNCHRONOUS, the parse and parseURI
 		// methods of
 		// the LSParser
 		// object return the org.w3c.dom.Document object. If the mode is
 		// MODE_ASYNCHRONOUS,
 		// the parse and parseURI methods return null.
-		LSParser parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, XML_SCHEMA);
-		DOMConfiguration config = parser.getDomConfig();
-		DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
+		final LSParser parser = domImplLS.createLSParser(DOMImplementationLS.MODE_SYNCHRONOUS, XML_SCHEMA);
+		final DOMConfiguration config = parser.getDomConfig();
+		final DOMErrorHandlerImpl errorHandler = new DOMErrorHandlerImpl();
 		config.setParameter("error-handler", errorHandler);
 		config.setParameter("validate", Boolean.TRUE);
 		config.setParameter("schema-type", XML_SCHEMA);
 		config.setParameter("validate-if-schema", Boolean.TRUE);
-		LSSerializer dom3Writer = domImplLS.createLSSerializer();
-		LSOutput output = domImplLS.createLSOutput();
+		final LSSerializer dom3Writer = domImplLS.createLSSerializer();
+		final LSOutput output = domImplLS.createLSOutput();
 
 		final IFile propertiesFile = project.getFile('/' + "external_build_information.xml");
-		File file = propertiesFile.getLocation().toFile();
+		final File file = propertiesFile.getLocation().toFile();
 		StringWriter sw = null;
 		try {
 			propertiesFile.refreshLocal(IResource.DEPTH_ZERO, null);
@@ -286,16 +288,16 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			output.setCharacterStream(sw);
 			output.setEncoding("UTF-8");
 			dom3Writer.write(document, output);
-			String temporaloutput = sw.getBuffer().toString();
+			final String temporaloutput = sw.getBuffer().toString();
 
 			// temporalStorage will hold the contents of the
 			// existing .TITAN_properties file
 			String temporalStorage = null;
 
 			if (propertiesFile.isAccessible() && file.exists() && file.canRead()) {
-				InputStream is = propertiesFile.getContents(true);
-				BufferedReader br = new BufferedReader(new InputStreamReader(is));
-				StringBuilder sb = new StringBuilder();
+				final InputStream is = propertiesFile.getContents(true);
+				final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+				final StringBuilder sb = new StringBuilder();
 				boolean firstLine = true;
 				String line = br.readLine();
 				while (line != null) {
@@ -360,11 +362,11 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			return null;
 		}
 
-		IStructuredSelection structSelection = (IStructuredSelection) selection;
+		final IStructuredSelection structSelection = (IStructuredSelection) selection;
 
 		for (Object selected : structSelection.toList()) {
 			if (selected instanceof IProject && TITANBuilder.isBuilderEnabled((IProject) selected)) {
-				IProject tempProject = (IProject) selected;
+				final IProject tempProject = (IProject) selected;
 				try {
 					generateInfoForProject(tempProject);
 				} catch (CoreException e) {

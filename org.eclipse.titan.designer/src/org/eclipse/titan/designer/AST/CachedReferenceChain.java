@@ -68,7 +68,7 @@ public final class CachedReferenceChain implements IReferenceChain {
 
 	@Override
 	public boolean add(final IReferenceChainElement chainLink) {
-		int index = chainLinks.indexOf(chainLink);
+		final int index = chainLinks.indexOf(chainLink);
 		chainLinks.add(chainLink);
 		if (index >= 0) {
 			safeCopy.add(new ArrayList<IReferenceChainElement>(chainLinks));
@@ -87,11 +87,11 @@ public final class CachedReferenceChain implements IReferenceChain {
 			return;
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		Location location;
 
 		for (int i = errorStates.empty() ? 0 : errorStates.peek(); i < safeCopy.size(); ++i) {
-			List<IReferenceChainElement> current = safeCopy.get(i);
+			final List<IReferenceChainElement> current = safeCopy.get(i);
 			// for every element of the circle
 			for (int j = 0; j < current.size()-1; j++) {
 				builder.setLength(0);
@@ -136,7 +136,7 @@ public final class CachedReferenceChain implements IReferenceChain {
 			return;
 		}
 
-		int markedLimit = markedStates.get(markedStates.size() - 1).intValue();
+		final int markedLimit = markedStates.get(markedStates.size() - 1).intValue();
 		for (int i = chainLinks.size() - 1; i >= markedLimit; i--) {
 			chainLinks.remove(i);
 		}
@@ -159,7 +159,7 @@ public final class CachedReferenceChain implements IReferenceChain {
 			return;
 		}
 
-		int markedLimit = errorStates.get(errorStates.size() - 1).intValue();
+		final int markedLimit = errorStates.get(errorStates.size() - 1).intValue();
 		for (int i = safeCopy.size() - 1; i >= markedLimit; --i) {
 			safeCopy.remove(i);
 		}

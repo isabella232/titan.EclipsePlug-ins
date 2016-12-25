@@ -73,7 +73,7 @@ public final class ModuleImportationChain {
 		}
 
 		if (index >= 0) {
-			StringBuilder builder = new StringBuilder();
+			final StringBuilder builder = new StringBuilder();
 			Location location;
 
 			//for every element of the circle

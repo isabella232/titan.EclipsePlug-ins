@@ -121,7 +121,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 			return new StringBuilder();
 		}
 
-		INamedNode tempParent = nameParent.get();
+		final INamedNode tempParent = nameParent.get();
 		// //to avoid infinite loop
 		if (tempParent == null || tempParent == this) {
 			return new StringBuilder();
@@ -279,13 +279,13 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 			return;
 		}
 
-		RunsOnScope runsOnScope = getScopeRunsOn();
+		final RunsOnScope runsOnScope = getScopeRunsOn();
 		if (runsOnScope == null) {
 			errorLocation.getLocation().reportSemanticError(
 					MessageFormat.format(RUNSONREQUIRED, operation, assignment.getDescription(),
 							referencedComponent.getTypename()));
 		} else {
-			Component_Type localType = runsOnScope.getComponentType();
+			final Component_Type localType = runsOnScope.getComponentType();
 			if (!referencedComponent.isCompatible(timestamp, localType, null, null, null)) {
 				errorLocation.getLocation().reportSemanticError(
 						MessageFormat.format(RUNSONMISSMATCH, localType.getTypename(), operation,
@@ -335,13 +335,13 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 			return;
 		}
 
-		RunsOnScope runsOnScope = getScopeRunsOn();
+		final RunsOnScope runsOnScope = getScopeRunsOn();
 		if (runsOnScope == null) {
 			errorLocation.getLocation().reportSemanticError(
 					MessageFormat.format(RUNSONREQUIRED2, operation, typename, type.getTypename(),
 							referencedComponent.getTypename()));
 		} else {
-			Component_Type localType = runsOnScope.getComponentType();
+			final Component_Type localType = runsOnScope.getComponentType();
 			if (!referencedComponent.isCompatible(timestamp, localType, null, null, null)) {
 				errorLocation.getLocation().reportSemanticError(
 						MessageFormat.format(RUNSONMISSMATCH2, localType.getTypename(), operation, typename,
@@ -366,7 +366,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		}
 
 		Location location;
-		int size = subScopeLocations.size();
+		final int size = subScopeLocations.size();
 		for (int i = 0; i < size; i++) {
 			location = subScopeLocations.get(i);
 			if (location.getOffset() < offset && offset < location.getEndOffset()) {
@@ -439,7 +439,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		}
 
 		if (parentScope != null) {
-			int index = parentScope.subScopes.indexOf(this);
+			final int index = parentScope.subScopes.indexOf(this);
 			parentScope.subScopes.remove(index);
 			parentScope.subScopeLocations.remove(index);
 		}
@@ -569,7 +569,8 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		if (subScopeLocations == null) {
 			return "";
 		}
-		StringBuilder sb = new StringBuilder();
+
+		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < subScopeLocations.size(); i++) {
 			if (i != 0) {
 				sb.append(", ");
@@ -581,7 +582,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	}
 
 	public String getInfo() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		Scope s = this;
 		boolean first = true;
 		while (s != null) {
@@ -599,7 +600,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	}
 
 	public String getParentInfo() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		Scope s = this;
 		boolean first = true;
 		while (s != null) {

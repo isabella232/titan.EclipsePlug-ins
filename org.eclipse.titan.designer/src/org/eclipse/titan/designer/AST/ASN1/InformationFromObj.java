@@ -145,7 +145,7 @@ public final class InformationFromObj extends Reference {
 			currentState = SettingDetectionState.ObjectSet;
 			objectSet = ((ObjectSet) temporalSetting).getRefdLast(timestamp, null);
 			objectClass = objectSet.getMyGovernor().getRefdLast(timestamp, null);
-			ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
+			final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
 					objectSet.getLocation(), objectClass, timestamp);
 			objectCollector.visitObjectSet(objectSet, false);
 			fromObjectSet = newObjectSetDefinitionInstance(objectCollector.giveObjects());
@@ -188,12 +188,12 @@ public final class InformationFromObj extends Reference {
 			case ObjectClass:
 				switch (currentFieldSpecification.getFieldSpecificationType()) {
 				case FS_O: {
-					Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
+					final Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
 				}
 					break;
 				case FS_OS: {
-					ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
+					final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
 				}
 					break;
@@ -209,12 +209,12 @@ public final class InformationFromObj extends Reference {
 			case ObjectSet:
 				switch (currentFieldSpecification.getFieldSpecificationType()) {
 				case FS_O: {
-					Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
+					final Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
-					ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
+					final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
 							location, objectClass, timestamp);
 
-					ASN1Objects temporalObjects = fromObjectSet.getObjs();
+					final ASN1Objects temporalObjects = fromObjectSet.getObjs();
 					temporalObjects.trimToSize();
 					for (int j = 0; j < temporalObjects.getNofObjects(); j++) {
 						object = temporalObjects.getObjectByIndex(j).getRefdLast(timestamp, null);
@@ -233,11 +233,11 @@ public final class InformationFromObj extends Reference {
 				}
 					break;
 				case FS_OS: {
-					ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
+					final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
-					ObjectSetElementVisitor_objectCollector objectCollector2 = new ObjectSetElementVisitor_objectCollector(
+					final ObjectSetElementVisitor_objectCollector objectCollector2 = new ObjectSetElementVisitor_objectCollector(
 							location, objectClass, timestamp);
-					ASN1Objects temporalObjects = fromObjectSet.getObjs();
+					final ASN1Objects temporalObjects = fromObjectSet.getObjs();
 
 					for (int j = 0; j < temporalObjects.getNofObjects(); j++) {
 						object = temporalObjects.getObjectByIndex(j).getRefdLast(timestamp, null);
@@ -268,7 +268,7 @@ public final class InformationFromObj extends Reference {
 			case Object:
 				switch (currentFieldSpecification.getFieldSpecificationType()) {
 				case FS_O: {
-					Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
+					final Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
 					temporalSetting = object.getSettingByNameDefault(currentFieldName);
 					object = ((Object_Definition) temporalSetting).getRefdLast(timestamp, null);
@@ -276,11 +276,11 @@ public final class InformationFromObj extends Reference {
 					break;
 				case FS_OS: {
 					currentState = SettingDetectionState.ObjectSet;
-					ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
+					final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
-					ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
+					final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(
 							fromObjectSet, timestamp);
-					ASN1Objects temporalObjects = fromObjectSet.getObjs();
+					final ASN1Objects temporalObjects = fromObjectSet.getObjs();
 
 					for (int j = 0; j < temporalObjects.getNofObjects(); j++) {
 						object = temporalObjects.getObjectByIndex(j).getRefdLast(timestamp, null);
@@ -322,14 +322,14 @@ public final class InformationFromObj extends Reference {
 		case ObjectClass:
 			switch (currentFieldSpecification.getFieldSpecificationType()) {
 			case FS_T: {
-				Open_Type type = new Open_Type(objectClass, currentFieldName);
+				final Open_Type type = new Open_Type(objectClass, currentFieldName);
 				type.setLocation(location);
 				temporalSetting = type;
 			}
 				break;
 			case FS_V_FT: {
-				FixedTypeValue_FieldSpecification temporalFielspecification = (FixedTypeValue_FieldSpecification) currentFieldSpecification;
-				ObjectClassField_Type type = new ObjectClassField_Type(temporalFielspecification.getType(), objectClass,
+				final FixedTypeValue_FieldSpecification temporalFielspecification = (FixedTypeValue_FieldSpecification) currentFieldSpecification;
+				final ObjectClassField_Type type = new ObjectClassField_Type(temporalFielspecification.getType(), objectClass,
 						currentFieldName);
 				type.setLocation(location);
 				temporalSetting = type;
@@ -354,11 +354,11 @@ public final class InformationFromObj extends Reference {
 		case ObjectSet:
 			switch (currentFieldSpecification.getFieldSpecificationType()) {
 			case FS_O: {
-				Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
+				final Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
 				objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
-				ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(location,
+				final ObjectSetElementVisitor_objectCollector objectCollector = new ObjectSetElementVisitor_objectCollector(location,
 						objectClass, timestamp);
-				ASN1Objects temporalObjects = fromObjectSet.getObjs();
+				final ASN1Objects temporalObjects = fromObjectSet.getObjs();
 				for (int j = 0; j < temporalObjects.getNofObjects(); j++) {
 					object = temporalObjects.getObjectByIndex(j).getRefdLast(timestamp, null);
 					if (!object.hasFieldSettingWithNameDefault(currentFieldName)) {
@@ -378,11 +378,11 @@ public final class InformationFromObj extends Reference {
 			}
 				break;
 			case FS_OS: {
-				ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
+				final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 				objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
-				ObjectSetElementVisitor_objectCollector objectCollector2 = new ObjectSetElementVisitor_objectCollector(location,
+				final ObjectSetElementVisitor_objectCollector objectCollector2 = new ObjectSetElementVisitor_objectCollector(location,
 						objectClass, timestamp);
-				ASN1Objects temporalObjects = fromObjectSet.getObjs();
+				final ASN1Objects temporalObjects = fromObjectSet.getObjs();
 
 				for (int j = 0; j < temporalObjects.getNofObjects(); j++) {
 					object = temporalObjects.getObjectByIndex(j).getRefdLast(timestamp, null);

@@ -145,7 +145,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (int i = 0; i < subReferences.size(); i++) {
 			if (child == subReferences.get(i)) {
@@ -291,7 +291,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 *         checks.
 	 * */
 	public List<ISubReference> getSubreferences(final int from, final int till) {
-		List<ISubReference> result = new ArrayList<ISubReference>();
+		final List<ISubReference> result = new ArrayList<ISubReference>();
 
 		for (int i = Math.max(0, from), size = Math.min(subReferences.size() - 1, till); i <= size; i++) {
 			result.add(subReferences.get(i));
@@ -322,7 +322,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			return null;
 		}
 
-		ISubReference result = subReferences.remove(subReferences.size() - 1);
+		final ISubReference result = subReferences.remove(subReferences.size() - 1);
 
 		if (subReferences.isEmpty() && modid != null) {
 			subReferences.add(new FieldSubReference(modid));
@@ -414,7 +414,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 *         of an error
 	 * */
 	public ISetting getRefdSetting(final CompilationTimeStamp timestamp) {
-		Assignment assignment = getRefdAssignment(timestamp, true);
+		final Assignment assignment = getRefdAssignment(timestamp, true);
 		if (assignment != null) {
 			return assignment.getSetting(timestamp);
 		}
@@ -472,7 +472,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		referredAssignment.setUsed();
 
 		if (referredAssignment instanceof Definition) {
-			String referingModuleName = getMyScope().getModuleScope().getName();
+			final String referingModuleName = getMyScope().getModuleScope().getName();
 			if (!((Definition) referredAssignment).referingHere.contains(referingModuleName)) {
 				((Definition) referredAssignment).referingHere.add(referingModuleName);
 			}
@@ -492,7 +492,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 					getLocation().reportSemanticError(message);
 				}
 			} else if (!subReferences.isEmpty()) {
-				ISubReference firstSubReference = subReferences.get(0);
+				final ISubReference firstSubReference = subReferences.get(0);
 				if (firstSubReference instanceof ParameterisedSubReference) {
 					formalParameterList.check(timestamp, referredAssignment.getAssignmentType());
 					isErroneous = ((ParameterisedSubReference) firstSubReference).checkParameters(timestamp,
@@ -546,7 +546,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		final IType type = assignmentType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 		if (type instanceof IReferenceableElement) {
-			IReferenceableElement iTypeWithComponents = (IReferenceableElement) type;
+			final IReferenceableElement iTypeWithComponents = (IReferenceableElement) type;
 			return iTypeWithComponents.resolveReference(this, 1, subReference);
 		}
 
@@ -567,7 +567,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 *         problems.
 	 * */
 	public final Component_Type chkComponentypeReference(final CompilationTimeStamp timestamp) {
-		Assignment assignment = getRefdAssignment(timestamp, true);
+		final Assignment assignment = getRefdAssignment(timestamp, true);
 		if (assignment != null) {
 			if (Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
 				IType type = assignment.getType(timestamp);
@@ -605,7 +605,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 *         problems.
 	 * */
 	public IType checkVariableReference(final CompilationTimeStamp timestamp) {
-		Assignment assignment = getRefdAssignment(timestamp, true);
+		final Assignment assignment = getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return null;
 		}
@@ -632,7 +632,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			return null;
 		}
 
-		IType result = type.getFieldType(timestamp, this, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null, false);
+		final IType result = type.getFieldType(timestamp, this, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null, false);
 		if (result != null && subReferences != null && refersToStringElement()) {
 			getLocation().reportSemanticError(MessageFormat.format(STRINGELEMENTUNUSABLE, result.getTypename()));
 		}
@@ -649,7 +649,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * @return true if the altstep reference is correct, false otherwise.
 	 * */
 	public final boolean checkActivateArgument(final CompilationTimeStamp timestamp) {
-		Assignment assignment = getRefdAssignment(timestamp, true);
+		final Assignment assignment = getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return false;
 		}
@@ -665,8 +665,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		if (!subReferences.isEmpty()) {
 			if (Subreference_type.parameterisedSubReference.equals(subReferences.get(0).getReferenceType())) {
-				ActualParameterList actualParameters = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
-				FormalParameterList formalParameterList = ((Def_Altstep) assignment).getFormalParameterList();
+				final ActualParameterList actualParameters = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
+				final FormalParameterList formalParameterList = ((Def_Altstep) assignment).getFormalParameterList();
 
 				if (formalParameterList != null) {
 					return formalParameterList.checkActivateArgument(timestamp, actualParameters, assignment.getDescription());
@@ -688,7 +688,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * */
 	public final boolean hasUnfoldableIndexSubReference(final CompilationTimeStamp timestamp) {
 		for (int i = 0, size = subReferences.size(); i < size; i++) {
-			ISubReference subReference = subReferences.get(i);
+			final ISubReference subReference = subReferences.get(i);
 			if (Subreference_type.arraySubReference.equals(subReference.getReferenceType())) {
 				IValue value = ((ArraySubReference) subReference).getValue();
 				if (value != null) {
@@ -722,7 +722,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			return Setting_type.S_ERROR.equals(settingType);
 		}
 
-		Assignment assignment = getRefdAssignment(timestamp, true);
+		final Assignment assignment = getRefdAssignment(timestamp, true);
 
 		if (assignment == null) {
 			return false;
@@ -733,7 +733,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			return false;
 		}
 
-		ASN1Assignment asnAssignment = (ASN1Assignment) assignment;
+		final ASN1Assignment asnAssignment = (ASN1Assignment) assignment;
 
 		switch (settingType) {
 		case S_OC:
@@ -762,7 +762,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	public String getDisplayName() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		if (modid != null) {
 			builder.append(modid.getDisplayName());
 		}
@@ -818,12 +818,13 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			foundIdentifiers.add(new Hit(getId(), this));
 		} else {
 			// we are searching for a field of a type
-			IType t = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+			final IType t = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
 			if (t == null) {
 				return;
 			}
-			List<IType> typeArray = new ArrayList<IType>();
-			boolean success = t.getFieldTypesAsArray(this, 1, typeArray);
+
+			final List<IType> typeArray = new ArrayList<IType>();
+			final boolean success = t.getFieldTypesAsArray(this, 1, typeArray);
 			if (!success) {
 				// TODO: maybe a partially erroneous reference could be searched too
 				return;

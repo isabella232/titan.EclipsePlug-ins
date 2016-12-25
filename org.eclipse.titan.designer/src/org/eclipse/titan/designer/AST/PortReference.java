@@ -45,8 +45,8 @@ public class PortReference extends Reference {
 		}
 		
 		super.getRefdAssignment(timestamp, checkParameterList);//just for error compatibility with...
-		Identifier portIdentifier = getId();
-		ComponentTypeBody componentBody = componentType.getComponentBody();
+		final Identifier portIdentifier = getId();
+		final ComponentTypeBody componentBody = componentType.getComponentBody();
 		if (!componentBody.hasLocalAssignmentWithId(portIdentifier)) {
 			getLocation().reportSemanticError(
 					MessageFormat.format(NOPORTWITHNAME, componentType.getTypename(), portIdentifier.getDisplayName()));
@@ -63,7 +63,7 @@ public class PortReference extends Reference {
 			referredAssignment.setUsed();
 
 			if (referredAssignment instanceof Definition) {
-				String referingModuleName = getMyScope().getModuleScope().getName();
+				final String referingModuleName = getMyScope().getModuleScope().getName();
 				if (!((Definition) referredAssignment).referingHere.contains(referingModuleName)) {
 					((Definition) referredAssignment).referingHere.add(referingModuleName);
 				}

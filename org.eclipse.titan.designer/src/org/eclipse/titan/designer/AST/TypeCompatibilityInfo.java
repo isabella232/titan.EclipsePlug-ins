@@ -178,9 +178,9 @@ public final class TypeCompatibilityInfo {
 	 * */
 	@Override
 	public String toString() {
-		StringBuilder returnValue = new StringBuilder("Type mismatch: ");
-		String op1DisplayString = op1RefStr.toString();
-		String op2DisplayString = op2RefStr.toString();
+		final StringBuilder returnValue = new StringBuilder("Type mismatch: ");
+		final String op1DisplayString = op1RefStr.toString();
+		final String op2DisplayString = op2RefStr.toString();
 		String op1TypeName = null;
 		String op2TypeName = null;
 		if (op1Type != null) {

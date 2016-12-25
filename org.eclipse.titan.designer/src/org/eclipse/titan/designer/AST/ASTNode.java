@@ -41,8 +41,8 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 	public T3Doc getT3Doc(final Location location) {
 
 		if (this instanceof Def_ModulePar) {
-			String st1 = this.getFullName().toString();
-			String st = st1.substring(st1.lastIndexOf('.') + 1);
+			final String st1 = this.getFullName().toString();
+			final String st = st1.substring(st1.lastIndexOf('.') + 1);
 
 			return new T3Doc(this.getCommentLocation(), st);
 		}
@@ -52,12 +52,12 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 		}
 
 		if (this instanceof ILocateableNode) {
-			ILocateableNode iloc = (ILocateableNode) this;
+			final ILocateableNode iloc = (ILocateableNode) this;
 
 			//ToDo check scopes that do not matter
-			Scope scope = this.getMyScope();
+			final Scope scope = this.getMyScope();
 
-			Assignment assignment = scope.getModuleScope().getEnclosingAssignment(iloc.getLocation().getOffset());
+			final Assignment assignment = scope.getModuleScope().getEnclosingAssignment(iloc.getLocation().getOffset());
 
 			if (assignment == null || assignment == this || assignment.getMyScope() instanceof Definitions) {
 				return null;
@@ -67,12 +67,12 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 			if (parentT3doc != null) {
 				// if it is a type assignment/definition then detect if we are in a field
 				if (assignment.getAssignmentType() == Assignment_type.A_TYPE) {
-					IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
+					final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 					if (type == null) {
 						return null;
 					}
 					// Reference finder - wonderful
-					ReferenceFinder rf = new ReferenceFinder(assignment);
+					final ReferenceFinder rf = new ReferenceFinder(assignment);
 					rf.scope = this.getMyScope().getModuleScope().getSmallestEnclosingScope(iloc.getLocation().getOffset());
 					rf.type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 					type.getEnclosingField(location.getOffset(), rf);
@@ -81,7 +81,7 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 					if (rf.fieldId != null) {
 						st = rf.fieldId.getDisplayName();
 					} else {
-						String st1 = this.getFullName().toString();
+						final String st1 = this.getFullName().toString();
 						st = st1.substring(st1.lastIndexOf('.') + 1);
 					}
 
@@ -93,8 +93,8 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 						}
 					}
 				} else if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE) {
-					String st1 = this.getFullName().toString();
-					String st = st1.substring(st1.lastIndexOf('.') + 1);
+					final String st1 = this.getFullName().toString();
+					final String st = st1.substring(st1.lastIndexOf('.') + 1);
 
 					String desc = null;
 					if (parentT3doc.getMembers() != null) {
@@ -115,8 +115,8 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 					||
 					assignment.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL) {
 					
-					String st1 = this.getFullName().toString();
-					String st = st1.substring(st1.lastIndexOf('.') + 1);
+					final String st1 = this.getFullName().toString();
+					final String st = st1.substring(st1.lastIndexOf('.') + 1);
 
 					if (parentT3doc.getParams() != null) {
 						final String desc = parentT3doc.getParams().get(st);

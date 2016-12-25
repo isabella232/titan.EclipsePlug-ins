@@ -23,7 +23,7 @@ class ScopeTreeNode {
 	}
 
 	public void add(Scope s, Assignment a) {
-		List<Scope> scopePath = new ArrayList<Scope>();
+		final List<Scope> scopePath = new ArrayList<Scope>();
 		while (s != null) {
 			scopePath.add(s);
 			s = s.getParentScope();
@@ -47,7 +47,7 @@ class ScopeTreeNode {
 			}
 		}
 		if (lastParent != null) {
-			ScopeTreeNode newChild = new ScopeTreeNode(lastParent);
+			final ScopeTreeNode newChild = new ScopeTreeNode(lastParent);
 			children.add(newChild);
 			newChild.addPath(scopePath, a);
 		}
@@ -84,17 +84,17 @@ public class ScopeHierarchyVisitor extends ASTVisitor {
 	@Override
 	public int visit(IVisitableNode node) {
 		if (node instanceof Scope) {
-			Scope scope = (Scope) node;
+			final Scope scope = (Scope) node;
 			scopeTree.add(scope, null);
 		} else if (node instanceof Assignment) {
-			Assignment ass = (Assignment) node;
+			final Assignment ass = (Assignment) node;
 			scopeTree.add(ass.getMyScope(), ass);
 		}
 		return V_CONTINUE;
 	}
 
 	public String getScopeTreeAsHTMLPage() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("<HTML><HEAD><TITLE>Scope Tree</TITLE></HEAD><BODY><ul>");
 		scopeTree.printTreeAsHTML(sb);
 		sb.append("</ul></BODY></HTML>");

@@ -216,8 +216,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	public IType getTypeRefdLast(final CompilationTimeStamp timestamp) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IType result = getTypeRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IType result = getTypeRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		return result;
@@ -241,8 +241,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final boolean interruptIfOptional) {
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IType temp = getFieldType(timestamp, reference, actualSubReference, expectedIndex, chain, interruptIfOptional);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IType temp = getFieldType(timestamp, reference, actualSubReference, expectedIndex, chain, interruptIfOptional);
 		chain.release();
 
 		return temp;
@@ -255,7 +255,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
@@ -265,7 +265,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
@@ -278,20 +278,20 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return false;
 		}
 
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 		for (int i = 0; i < realAttributes.size(); i++) {
 			if (SingleWithAttribute.Attribute_Type.Variant_Attribute.equals(realAttributes.get(i).getAttributeType())) {
 				return true;
 			}
 		}
 
-		MultipleWithAttributes localAttributes = withAttributesPath.getAttributes();
+		final MultipleWithAttributes localAttributes = withAttributesPath.getAttributes();
 		if (localAttributes == null) {
 			return false;
 		}
 
 		for (int i = 0; i < localAttributes.getNofElements(); i++) {
-			SingleWithAttribute tempSingle = localAttributes.getAttribute(i);
+			final SingleWithAttribute tempSingle = localAttributes.getAttribute(i);
 			if (Attribute_Type.Variant_Attribute.equals(tempSingle.getAttributeType())) {
 				return true;
 			}
@@ -308,9 +308,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return;
 		}
 
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 		for (int i = 0, size = realAttributes.size(); i < size; i++) {
-			SingleWithAttribute singleAttribute = realAttributes.get(i);
+			final SingleWithAttribute singleAttribute = realAttributes.get(i);
 			if (Attribute_Type.Extension_Attribute.equals(singleAttribute.getAttributeType())
 					&& "done".equals(singleAttribute.getAttributeSpecification().getSpecification())) {
 				hasDone = true;
@@ -454,14 +454,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		switch (value.getValuetype()) {
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				checkThisReferencedValue(timestamp, last, valueCheckingOptions.expected_value, chain, valueCheckingOptions.sub_check,
 						valueCheckingOptions.str_elem);
 				chain.release();
 			}
 			return;
 		case REFERENCED_VALUE: {
-			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			checkThisReferencedValue(timestamp, value, valueCheckingOptions.expected_value, chain, valueCheckingOptions.sub_check,
 					valueCheckingOptions.str_elem);
 			chain.release();
@@ -469,7 +469,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 		case EXPRESSION_VALUE:
 			if (value.isUnfoldable(timestamp, null)) {
-				Type_type temporalType = value.getExpressionReturntype(timestamp, valueCheckingOptions.expected_value);
+				final Type_type temporalType = value.getExpressionReturntype(timestamp, valueCheckingOptions.expected_value);
 				if (!Type_type.TYPE_UNDEFINED.equals(temporalType)
 						&& !isCompatible(timestamp, this.getTypetype(), temporalType, false, value.isAsn())) {
 					value.getLocation().reportSemanticError(MessageFormat.format(INCOMPATIBLEVALUE, getTypename()));
@@ -480,7 +480,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			break;
 		case MACRO_VALUE:
 			if (value.isUnfoldable(timestamp, null)) {
-				Type_type temporalType = value.getExpressionReturntype(timestamp, valueCheckingOptions.expected_value);
+				final Type_type temporalType = value.getExpressionReturntype(timestamp, valueCheckingOptions.expected_value);
 				if (!Type_type.TYPE_UNDEFINED.equals(temporalType)
 						&& !isCompatible(timestamp, this.getTypetype(), temporalType, false, value.isAsn())) {
 					value.getLocation().reportSemanticError(MessageFormat.format(INCOMPATIBLEVALUE, getTypename()));
@@ -521,7 +521,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final Assignment myAssignment = getDefiningAssignment();
 		if (myAssignment != null && myAssignment instanceof Definition) {
-			String referingModuleName = value.getMyScope().getModuleScope().getName();
+			final String referingModuleName = value.getMyScope().getModuleScope().getName();
 			if (!((Definition)myAssignment).referingHere.contains(referingModuleName)) {
 				((Definition)myAssignment).referingHere.add(referingModuleName);
 			}
@@ -541,7 +541,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				break;
 			case A_OBJECT:
 			case A_OS:
-				ISetting setting = reference.getRefdSetting(timestamp);
+				final ISetting setting = reference.getRefdSetting(timestamp);
 				if (setting == null || setting.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
 					return;
@@ -708,7 +708,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final TypeCompatibilityInfo info = new TypeCompatibilityInfo(this, governor, true);
 		info.setStr1Elem(strElem);
 		info.setStr2Elem(reference.refersToStringElement());
-		CompatibilityLevel compatibilityLevel = getCompatibility(timestamp, governor, info, null, null);
+		final CompatibilityLevel compatibilityLevel = getCompatibility(timestamp, governor, info, null, null);
 		if (compatibilityLevel != CompatibilityLevel.COMPATIBLE) {
 			// Port or signature values do not exist at all. These
 			// errors are already
@@ -772,7 +772,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// checking for circular references
-		IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 		if (isConst && !last.getIsErroneous(timestamp)) {
 			if (subCheck && (subType != null)) {
 				subType.checkThisValue(timestamp, value);
@@ -794,8 +794,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		switch( t.getTemplatetype() ){
 		case SUPERSET_MATCH:
 		case SUBSET_MATCH:
-			IType it1 = getTypeRefdLast(timestamp);
-			Type_type tt = it1.getTypetype();
+			final IType it1 = getTypeRefdLast(timestamp);
+			final Type_type tt = it1.getTypetype();
 			if(Type_type.TYPE_SEQUENCE_OF.equals(tt) || Type_type.TYPE_SET_OF.equals(tt) ) {
 				return t;
 			} else {
@@ -828,7 +828,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		switch (value.getValuetype()) {
 		case REFERENCED_VALUE:
-			Assignment assignment = ((Referenced_Value) value).getReference().getRefdAssignment(timestamp, false, referenceChain); //FIXME: referenceChain or null?
+			final Assignment assignment = ((Referenced_Value) value).getReference().getRefdAssignment(timestamp, false, referenceChain); //FIXME: referenceChain or null?
 			if (assignment == null) {
 				template.setIsErroneous(true);
 			} else {
@@ -841,7 +841,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						template.setIsErroneous(true);
 					}
 
-					IType type = ((Def_Var_Template) assignment).getType(timestamp);
+					final IType type = ((Def_Var_Template) assignment).getType(timestamp);
 					switch (type.getTypetype()) {
 					case TYPE_BITSTRING:
 					case TYPE_BITSTRING_A:
@@ -863,10 +863,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					case TYPE_UTCTIME:
 					case TYPE_GENERALIZEDTIME:
 					case TYPE_OBJECTDESCRIPTOR: {
-						List<ISubReference> subReferences = ((Referenced_Value) value).getReference().getSubreferences();
-						int nofSubreferences = subReferences.size();
+						final List<ISubReference> subReferences = ((Referenced_Value) value).getReference().getSubreferences();
+						final int nofSubreferences = subReferences.size();
 						if (nofSubreferences > 1) {
-							ISubReference subreference = subReferences.get(nofSubreferences - 1);
+							final ISubReference subreference = subReferences.get(nofSubreferences - 1);
 							if (subreference instanceof ArraySubReference) {
 								template.getLocation().reportSemanticError(
 										MessageFormat.format("Reference to {0} can not be indexed",
@@ -909,10 +909,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					case TYPE_UTCTIME:
 					case TYPE_GENERALIZEDTIME:
 					case TYPE_OBJECTDESCRIPTOR: {
-						List<ISubReference> subReferences = ((Referenced_Value) value).getReference().getSubreferences();
-						int nofSubreferences = subReferences.size();
+						final List<ISubReference> subReferences = ((Referenced_Value) value).getReference().getSubreferences();
+						final int nofSubreferences = subReferences.size();
 						if (nofSubreferences > 1) {
-							ISubReference subreference = subReferences.get(nofSubreferences - 1);
+							final ISubReference subreference = subReferences.get(nofSubreferences - 1);
 							if (subreference instanceof ArraySubReference) {
 								template.getLocation().reportSemanticError(
 										MessageFormat.format("Reference to {0} can not be indexed",
@@ -947,7 +947,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 			break;
 		case EXPRESSION_VALUE: {
-			Expression_Value expression = (Expression_Value) value;
+			final Expression_Value expression = (Expression_Value) value;
 			if (Operation_type.APPLY_OPERATION.equals(expression.getOperationType())) {
 				IType type = expression.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 				if (type == null) {
@@ -984,7 +984,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	protected void registerUsage(final ITTCN3Template template) {
 		final Assignment assignment = getDefiningAssignment();
 		if (assignment != null && assignment instanceof Definition) {
-			String referingModuleName = template.getMyScope().getModuleScope().getName();
+			final String referingModuleName = template.getMyScope().getModuleScope().getName();
 			if (!((Definition)assignment).referingHere.contains(referingModuleName)) {
 				((Definition)assignment).referingHere.add(referingModuleName);
 			}
@@ -1048,7 +1048,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return CompatibilityLevel.COMPATIBLE;
 		}
 
-		SubType otherSubType = type.getSubtype();
+		final SubType otherSubType = type.getSubtype();
 		if ((info != null) && (subType != null) && (otherSubType != null)) {
 			if (info.getStr1Elem()) {
 				if (info.getStr2Elem()) {
@@ -1088,7 +1088,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -1367,8 +1367,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return null;
 		}
 
-		Module module = getMyScope().getModuleScope();
-		Assignment assignment = module.getEnclosingAssignment(getLocation().getOffset());
+		final Module module = getMyScope().getModuleScope();
+		final Assignment assignment = module.getEnclosingAssignment(getLocation().getOffset());
 
 		return assignment;
 	}

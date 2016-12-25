@@ -109,11 +109,10 @@ public final class MarkerHandler {
 	}
 
 	public static void markAllMarkersForRemoval(final String markerTypeID, final ILocateableNode locatable) {
-		Location loc = locatable.getLocation();
+		final Location loc = locatable.getLocation();
 		if(loc != null) {
 			markMarkersForRemoval(markerTypeID, loc.getFile(), loc.getOffset(), loc.getEndOffset());
 		}
-
 	}
 	
 	public static void markAllSemanticMarkersForRemoval(final Location loc) {
@@ -127,7 +126,8 @@ public final class MarkerHandler {
 		if(locatable == null) {
 			return;
 		}
-		Location loc = locatable.getLocation();
+
+		final Location loc = locatable.getLocation();
 		if(loc != null && loc!= NULL_Location.INSTANCE) {
 			markMarkersForRemoval(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, loc.getFile(), loc.getOffset(), loc.getEndOffset());
 			markMarkersForRemoval(GeneralConstants.ONTHEFLY_MIXED_MARKER, loc.getFile(), loc.getOffset(), loc.getEndOffset());
@@ -147,13 +147,13 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
-			List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
@@ -199,13 +199,13 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
-			List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
@@ -247,17 +247,17 @@ public final class MarkerHandler {
 			return;
 		}
 
-		List<Long> markersTobeDeleted = new ArrayList<Long>();
+		final List<Long> markersTobeDeleted = new ArrayList<Long>();
 		List<InternalMarker> fileSpecificMarkers = null;
 
 		synchronized (MARKERS) {
-			Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(markerTypeID);
+			final Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(markerTypeID);
 
 			if (!typeSpecificRemovable.containsKey(file)) {
 				return;
 			}
 
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 			fileSpecificMarkers = typeSpecificMarkers.get(file);
 
 			markersTobeDeleted.addAll(typeSpecificRemovable.get(file));
@@ -267,7 +267,7 @@ public final class MarkerHandler {
 
 			for (long markerID : markersTobeDeleted) {
 				try {
-					IMarker externalMarker = file.findMarker(markerID);
+					final IMarker externalMarker = file.findMarker(markerID);
 					if (externalMarker != null) {
 						externalMarker.delete();
 					}
@@ -303,12 +303,12 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, Set<Long>> specificRemovable = MarkerHandler.MARKERS_TO_BE_REMOVED.get(markerTypeID);
+			final Map<IResource, Set<Long>> specificRemovable = MarkerHandler.MARKERS_TO_BE_REMOVED.get(markerTypeID);
 			if (!specificRemovable.containsKey(file)) {
 				return false;
 			}
 
-			Set<Long> markerIds = specificRemovable.get(file);
+			final Set<Long> markerIds = specificRemovable.get(file);
 
 			if (markerIds.contains(markerID)) {
 				return true;
@@ -331,13 +331,13 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(markerTypeID);
+			final Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(markerTypeID);
 
 			if (!typeSpecificRemovable.containsKey(file)) {
 				return;
 			}
 
-			Set<Long> markerIds = typeSpecificRemovable.get(file);
+			final Set<Long> markerIds = typeSpecificRemovable.get(file);
 			markerIds.remove(markerId);
 
 			if (markerIds.isEmpty()) {
@@ -380,7 +380,7 @@ public final class MarkerHandler {
 				typeSpecificMarkers.put(file, fileSpecificMarkers);
 			}
 
-			InternalMarker temp = new InternalMarker();
+			final InternalMarker temp = new InternalMarker();
 			temp.row = lineNumber;
 			temp.offset = offset;
 			temp.endoffset = endoffset;
@@ -411,18 +411,18 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return null;
 			}
 
-			List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
 			for (InternalMarker internalMarker : fileSpecificMarkers) {
 				if (internalMarker.row == lineNumber && internalMarker.offset == offset && internalMarker.endoffset == endoffset) {
 					try {
-						IMarker externalMarker = file.findMarker(internalMarker.markerID);
+						final IMarker externalMarker = file.findMarker(internalMarker.markerID);
 						if (externalMarker != null && severity == externalMarker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)
 								&& externalMarker.getAttribute(IMarker.MESSAGE, "").equals(text)) {
 							return externalMarker;
@@ -471,13 +471,13 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
-			List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
@@ -533,13 +533,13 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
-			List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
@@ -558,7 +558,7 @@ public final class MarkerHandler {
 					}
 
 					try {
-						IMarker externalMarker = file.findMarker(marker.markerID);
+						final IMarker externalMarker = file.findMarker(marker.markerID);
 						if (externalMarker == null) {
 							iterator.remove();
 						}
@@ -607,16 +607,16 @@ public final class MarkerHandler {
 			return;
 		}
 
-		List<Long> markersTobeDeleted = new ArrayList<Long>();
+		final List<Long> markersTobeDeleted = new ArrayList<Long>();
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 
 			if (!typeSpecificMarkers.containsKey(file)) {
 				return;
 			}
 
-			List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return;
@@ -640,7 +640,7 @@ public final class MarkerHandler {
 					}
 
 					try {
-						IMarker externalMarker = file.findMarker(marker.markerID);
+						final IMarker externalMarker = file.findMarker(marker.markerID);
 						if (externalMarker == null) {
 							iterator.remove();
 						}
@@ -653,7 +653,7 @@ public final class MarkerHandler {
 
 		for (long markerID : markersTobeDeleted) {
 			try {
-				IMarker externalMarker = file.findMarker(markerID);
+				final IMarker externalMarker = file.findMarker(markerID);
 				if (externalMarker != null) {
 					externalMarker.delete();
 				}
@@ -703,11 +703,11 @@ public final class MarkerHandler {
 	 * @param effectsChildren true if the children of the resource should be processed.
 	 * */
 	public static void markAllMarkersForRemoval(final IResource resource, final boolean effectsChildren) {
-		List<IResource> resources = new ArrayList<IResource>();
+		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 
 		if (effectsChildren && !(resource instanceof IFile)) {
-			FileFinder finder = new FileFinder();
+			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
 				for (IFile file : finder.getFiles()) {
@@ -737,11 +737,11 @@ public final class MarkerHandler {
 	 * @param markerTypeID the type of markers to be marked for removal.
 	 * */
 	public static void markAllMarkersForRemoval(final IResource resource, final String markerTypeID) {
-		List<IResource> resources = new ArrayList<IResource>();
+		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 
 		if (!(resource instanceof IFile)) {
-			FileFinder finder = new FileFinder();
+			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
 				for (IFile file : finder.getFiles()) {
@@ -765,11 +765,11 @@ public final class MarkerHandler {
 	 * @param resource the resource whose markers can be removed.
 	 * */
 	public static void markAllOnTheFlyMarkersForRemoval(final IResource resource) {
-		List<IResource> resources = new ArrayList<IResource>();
+		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 
 		if (!(resource instanceof IFile)) {
-			FileFinder finder = new FileFinder();
+			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
 				for (IFile file : finder.getFiles()) {
@@ -856,11 +856,11 @@ public final class MarkerHandler {
 				return;
 			}
 
-			Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
+			final Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER);
 			if (typeSpecificRemovable != null && typeSpecificRemovable.containsKey(file)) {
-				Set<Long> markerIds = typeSpecificRemovable.get(file);
+				final Set<Long> markerIds = typeSpecificRemovable.get(file);
 
-				List<InternalMarker> fileSpecificMarkers = MARKERS.get(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER).get(file);
+				final List<InternalMarker> fileSpecificMarkers = MARKERS.get(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER).get(file);
 				if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 					markerIds.clear();
 					return;
@@ -882,11 +882,11 @@ public final class MarkerHandler {
 	 * @param resource the resource whose markers can be removed.
 	 * */
 	public static void removeAllMarkedMarkers(final IResource resource) {
-		List<IResource> resources = new ArrayList<IResource>();
+		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 
 		if (!(resource instanceof IFile)) {
-			FileFinder finder = new FileFinder();
+			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
 				for (IFile file : finder.getFiles()) {
@@ -912,11 +912,11 @@ public final class MarkerHandler {
 	 * @param resource the resource whose markers can be removed.
 	 * */
 	public static void removeAllOnTheFlySyntacticMarkedMarkers(final IResource resource) {
-		List<IResource> resources = new ArrayList<IResource>();
+		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 
 		if (!(resource instanceof IFile)) {
-			FileFinder finder = new FileFinder();
+			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
 				for (IFile file : finder.getFiles()) {
@@ -942,11 +942,11 @@ public final class MarkerHandler {
 	 * @param resource the resource whose markers can be removed.
 	 * */
 	public static void removeAllOnTheFlyMarkedMarkers(final IResource resource) {
-		List<IResource> resources = new ArrayList<IResource>();
+		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 
 		if (!(resource instanceof IFile)) {
-			FileFinder finder = new FileFinder();
+			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
 				for (IFile file : finder.getFiles()) {
@@ -972,11 +972,11 @@ public final class MarkerHandler {
 			return; 
 		}
 		
-		List<IResource> resources = new ArrayList<IResource>();
+		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 
 		if (!(resource instanceof IFile)) {
-			FileFinder finder = new FileFinder();
+			final FileFinder finder = new FileFinder();
 			try {
 				resource.accept(finder);
 				for (IFile file : finder.getFiles()) {
@@ -1016,20 +1016,20 @@ public final class MarkerHandler {
 			if (editor instanceof AbstractDecoratedTextEditor) {
 				textEditor = (AbstractDecoratedTextEditor) editor;
 				if (textEditor.getEditorInput() instanceof FileEditorInput) {
-					FileEditorInput input = (FileEditorInput) textEditor.getEditorInput();
+					final FileEditorInput input = (FileEditorInput) textEditor.getEditorInput();
 					fileInput = input.getFile();
 				}
 			}
 
 			for (IMarker marker : markers) {
 				if (fileInput != null && textEditor != null && fileInput.equals(marker.getResource())) {
-					IEditorInput editorInput = textEditor.getEditorInput();
-					IDocumentProvider provider = textEditor.getDocumentProvider();
+					final IEditorInput editorInput = textEditor.getEditorInput();
+					final IDocumentProvider provider = textEditor.getDocumentProvider();
 					if (editorInput != null && provider != null) {
-						IAnnotationModel model = provider.getAnnotationModel(editorInput);
-						Iterator<?> e = model.getAnnotationIterator();
+						final IAnnotationModel model = provider.getAnnotationModel(editorInput);
+						final Iterator<?> e = model.getAnnotationIterator();
 						while (e.hasNext()) {
-							Annotation annotation = (Annotation) e.next();
+							final Annotation annotation = (Annotation) e.next();
 							if (annotation instanceof MarkerAnnotation && marker.equals(((MarkerAnnotation) annotation).getMarker())) {
 								annotation.markDeleted(true);
 							}
@@ -1058,23 +1058,23 @@ public final class MarkerHandler {
 	 * */
 	public static void handleResourceChanges(final IResourceChangeEvent event) {
 		for (String qualifier : allMarkerTypes) {
-			IMarkerDelta[] markerDeltas = event.findMarkerDeltas(qualifier, false);
+			final IMarkerDelta[] markerDeltas = event.findMarkerDeltas(qualifier, false);
 			if (markerDeltas == null) {
 				continue;
 			}
 
 			for (int i = 0; i < markerDeltas.length; i++) {
-				IMarkerDelta markerDelta = markerDeltas[i];
+				final IMarkerDelta markerDelta = markerDeltas[i];
 				if (markerDelta == null) {
 					continue;
 				}
 
-				IResource resource = markerDelta.getResource();
+				final IResource resource = markerDelta.getResource();
 				if (resource == null) {
 					continue;
 				}
 
-				IMarker marker = markerDelta.getMarker();
+				final IMarker marker = markerDelta.getMarker();
 				if (marker == null) {
 					continue;
 				}
@@ -1136,7 +1136,7 @@ public final class MarkerHandler {
 			}
 
 			if (!found) {
-				InternalMarker temp = new InternalMarker();
+				final InternalMarker temp = new InternalMarker();
 				temp.row = lineNumber;
 				temp.offset = offset;
 				temp.endoffset = endoffset;
@@ -1160,12 +1160,12 @@ public final class MarkerHandler {
 		final long markerId = marker.getId();
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(type);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(type);
 			if (typeSpecificMarkers == null) {
 				return;
 			}
 
-			List<InternalMarker> resourceSpecificMarkers = typeSpecificMarkers.get(resource);
+			final List<InternalMarker> resourceSpecificMarkers = typeSpecificMarkers.get(resource);
 			if (resourceSpecificMarkers == null) {
 				return;
 			}
@@ -1211,9 +1211,9 @@ public final class MarkerHandler {
 		}
 
 		synchronized (MARKERS) {
-			Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
 
-			List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
 			if (fileSpecificMarkers == null || fileSpecificMarkers.isEmpty()) {
 				return false;
 			}

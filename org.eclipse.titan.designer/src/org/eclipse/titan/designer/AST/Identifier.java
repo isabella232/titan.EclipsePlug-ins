@@ -522,10 +522,10 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		for (int i = 0; i < KEYWORDS.length; i++) {
 			tempKeyword = KEYWORDS[i];
 
-			String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
-			String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
+			final String asnName = tempKeyword[1] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[1];
+			final String ttcnName = tempKeyword[2] == null ? Identifier_Internal_Data.INVALID_STRING : tempKeyword[2];
 
-			Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
+			final Identifier_Internal_Data idData = new Identifier_Internal_Data(tempKeyword[0], asnName, ttcnName);
 			// add to the map the name
 			if (!ID_MAP_NAME.containsKey(idData.getName())) {
 				ID_MAP_NAME.put(idData.getName(), idData);
@@ -560,7 +560,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 			if (ID_MAP_ASN.containsKey(name)) {
 				idData = ID_MAP_ASN.get(name);
 			} else if (name.length() > 0 && name.charAt(0) == '&') {
-				String asnName = name.substring(1);
+				final String asnName = name.substring(1);
 
 				String realName;
 				if (ID_MAP_ASN.containsKey(asnName)) {
@@ -574,7 +574,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 					ID_MAP_ASN.put(name, idData);
 				}
 			} else {
-				String realName = Identifier_Internal_Data.asnToName(name);
+				final String realName = Identifier_Internal_Data.asnToName(name);
 
 				if (!dontregister && ID_MAP_NAME.containsKey(realName)) {
 					idData = ID_MAP_NAME.get(realName);
@@ -596,7 +596,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 			if (ID_MAP_TTCN.containsKey(name)) {
 				idData = ID_MAP_TTCN.get(name);
 			} else {
-				String realName = Identifier_Internal_Data.ttcnToName(name);
+				final String realName = Identifier_Internal_Data.ttcnToName(name);
 				if (!dontregister && ID_MAP_NAME.containsKey(realName)) {
 					idData = ID_MAP_NAME.get(realName);
 					if (idData.getTtcnName().equals(name)) {
@@ -628,7 +628,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 	}
 
 	public final Identifier newInstance() {
-		Identifier temp = new Identifier();
+		final Identifier temp = new Identifier();
 
 		temp.type = type;
 		temp.idData = idData;
@@ -750,7 +750,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		}
 
 		if (obj instanceof Identifier) {
-			Identifier_Internal_Data otherData = ((Identifier) obj).idData;
+			final Identifier_Internal_Data otherData = ((Identifier) obj).idData;
 			if (idData == otherData) {
 				return true;
 			}

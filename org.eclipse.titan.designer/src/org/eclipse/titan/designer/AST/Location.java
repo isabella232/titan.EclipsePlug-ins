@@ -315,7 +315,7 @@ public class Location {
 			return false;
 		}
 
-		IMarker marker = MarkerHandler.hasMarker(markerTypeID, file, line, offset, endOffset, severity, reason);
+		final IMarker marker = MarkerHandler.hasMarker(markerTypeID, file, line, offset, endOffset, severity, reason);
 		if (marker == null) {
 			return false;
 		}
@@ -351,7 +351,7 @@ public class Location {
 	protected void reportProblem(final String reason, final int severity, final int priority, final String markerID) {
 		final Map<String, Object> markerProperties = new HashMap<String, Object>();
 
-		Integer lineNumber = Integer.valueOf(line);
+		final Integer lineNumber = Integer.valueOf(line);
 
 		if (line != -1) {
 			markerProperties.put(IMarker.LINE_NUMBER, lineNumber);
@@ -368,14 +368,14 @@ public class Location {
 		markerProperties.put(IMarker.TRANSIENT, Boolean.TRUE);
 		try {
 			if (file != null && file.isAccessible()) {
-				IMarker marker = MarkerHandler.hasMarker(markerID, file, line, offset, endOffset, severity, reason);
+				final IMarker marker = MarkerHandler.hasMarker(markerID, file, line, offset, endOffset, severity, reason);
 				if (marker != null) {
 					MarkerHandler.markUsed(markerID, file, marker.getId());
 				} else {
-					MarkerCreator markerCreator = new MarkerCreator(markerID, markerProperties);
+					final MarkerCreator markerCreator = new MarkerCreator(markerID, markerProperties);
 					file.getWorkspace().run(markerCreator, null, IWorkspace.AVOID_UPDATE, null);
-					IMarker createdMarker = markerCreator.getMarker();
-					long markerId = createdMarker.getId();
+					final IMarker createdMarker = markerCreator.getMarker();
+					final long markerId = createdMarker.getId();
 					MarkerHandler.addMarker(markerID, file, line, offset, endOffset, markerId);
 				}
 			}

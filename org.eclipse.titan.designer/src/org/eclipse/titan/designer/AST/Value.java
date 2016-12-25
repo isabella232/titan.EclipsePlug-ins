@@ -133,8 +133,8 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	  * */
 	@Override
 	public final boolean isUnfoldable(final CompilationTimeStamp timestamp) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		boolean result = isUnfoldable(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final boolean result = isUnfoldable(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
 		referenceChain.release();
 
 		return result;
@@ -202,8 +202,8 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * */
 	@Override
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
-		IReferenceChain tempReferencChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue temp = getValueRefdLast(timestamp, tempReferencChain);
+		final IReferenceChain tempReferencChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue temp = getValueRefdLast(timestamp, tempReferencChain);
 		tempReferencChain.release();
 
 		if (!temp.getIsErroneous(timestamp) && this != temp && referenceChain.add(this)) {

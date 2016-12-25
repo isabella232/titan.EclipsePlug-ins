@@ -76,7 +76,7 @@ public final class ReferenceChain implements IReferenceChain {
 	 *  @return the created reference chain instance.
 	 * */
 	public static ReferenceChain getInstance(final String message, final boolean isError) {
-		ReferenceChain result = CHAIN_CACHE.poll();
+		final ReferenceChain result = CHAIN_CACHE.poll();
 		if (result != null) {
 			result.message = message;
 			result.isError = isError;
@@ -98,7 +98,7 @@ public final class ReferenceChain implements IReferenceChain {
 
 	@Override
 	public boolean add(final IReferenceChainElement chainLink) {
-		int index = chainLinks.indexOf(chainLink);
+		final int index = chainLinks.indexOf(chainLink);
 		if (index >= 0) {
 			reportError(index);
 			return false;
@@ -111,7 +111,7 @@ public final class ReferenceChain implements IReferenceChain {
 	private void reportError(int firstIndex) {
 		//for every element of the circle
 		for (int i = firstIndex; i < chainLinks.size(); i++) {
-			Joiner joiner = new Joiner(" -> ");
+			final Joiner joiner = new Joiner(" -> ");
 
 			//add the elements till the end of the chain
 			for (int i2 = i; i2 < chainLinks.size(); i2++) {
@@ -126,7 +126,7 @@ public final class ReferenceChain implements IReferenceChain {
 			//add the element in question to the end, where it should appear again to provide the "circular" feeling
 			joiner.join(chainLinks.get(i).chainedDescription());
 
-			Location location = chainLinks.get(i).getChainLocation();
+			final Location location = chainLinks.get(i).getChainLocation();
 			if (location != null) {
 				if (isError) {
 					location.reportSingularSemanticError(MessageFormat.format(message, joiner.toString()));
@@ -148,7 +148,7 @@ public final class ReferenceChain implements IReferenceChain {
 			return;
 		}
 
-		int markedLimit = markedStates.pollLast().intValue();
+		final int markedLimit = markedStates.pollLast().intValue();
 		for (int i = chainLinks.size() - 1; i >= markedLimit; i--) {
 			chainLinks.remove(i);
 		}
@@ -159,7 +159,7 @@ public final class ReferenceChain implements IReferenceChain {
 	 * @return the created chain
 	 */
 	public CachedReferenceChain toCachedReferenceChain() {
-		CachedReferenceChain result = new CachedReferenceChain(message, isError);
+		final CachedReferenceChain result = new CachedReferenceChain(message, isError);
 
 		int idx1 = 0;
 		for (int idx2 : markedStates) {

@@ -112,7 +112,7 @@ public final class ReferenceFinder {
 		final IdentifierFinderVisitor visitor = new IdentifierFinderVisitor(offset);
 		module.accept(visitor);
 
-		Declaration declaration = visitor.getReferencedDeclaration();
+		final Declaration declaration = visitor.getReferencedDeclaration();
 
 		if (declaration == null) {
 			return false;
@@ -224,7 +224,7 @@ public final class ReferenceFinder {
 			final IProgressMonitor pMonitor, final boolean reportDebugInformation) {
 		final IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
 
-		List<IProject> relatedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReferencingProjects();
+		final List<IProject> relatedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReferencingProjects();
 		relatedProjects.addAll(ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects());
 		relatedProjects.add(project);
 		
@@ -234,7 +234,7 @@ public final class ReferenceFinder {
 		}
 
 		monitor.beginTask("Searching references.", size);
-		Map<Module, List<Hit>> foundIdsMap = new HashMap<Module, List<Hit>>();
+		final Map<Module, List<Hit>> foundIdsMap = new HashMap<Module, List<Hit>>();
 		// in this scope
 		//TODO this is efficient but only for local variables ... and if are not followed up by other searches
 		List<Hit> foundIds = new ArrayList<Hit>();
@@ -247,7 +247,7 @@ public final class ReferenceFinder {
 		//FIXME but if component variable ... we might have to search all related modules in all related projects.
 		if (scope instanceof Module) {
 			for(IProject project2 : relatedProjects) {
-				ProjectSourceParser projectSourceParser2 = GlobalParser.getProjectSourceParser(project2);
+				final ProjectSourceParser projectSourceParser2 = GlobalParser.getProjectSourceParser(project2);
 				
 				for (Module module2 : projectSourceParser2.getModules()) {
 					if (monitor.isCanceled()) {
@@ -279,7 +279,8 @@ public final class ReferenceFinder {
 		if (fieldId == null) {
 			return assignment.getDescription();
 		}
-		StringBuilder sb = new StringBuilder();
+
+		final StringBuilder sb = new StringBuilder();
 		sb.append("Field `").append(fieldId.getDisplayName()).append("' of ").append(type.getTypename());
 		return sb.toString();
 	}
@@ -295,7 +296,7 @@ public final class ReferenceFinder {
 	}
 
 	public List<Hit> findReferencesInModule(final Module module) {
-		List<Hit> foundIds = new ArrayList<Hit>();
+		final List<Hit> foundIds = new ArrayList<Hit>();
 
 		module.findReferences(this, foundIds);
 

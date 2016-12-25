@@ -54,7 +54,7 @@ public final class Identifier_Internal_Data {
 	}
 
 	public static String asnToName(final String from) {
-		StringBuilder builder = new StringBuilder(from);
+		final StringBuilder builder = new StringBuilder(from);
 		/* "@aaa" -> "_root_aaa" */
 		if (builder.length() > 0 && '@' == builder.charAt(0)) {
 			builder.replace(0, 1, "_root_");
@@ -92,7 +92,7 @@ public final class Identifier_Internal_Data {
 			index = builder.indexOf("&", index);
 		}
 
-		String result = builder.toString();
+		final String result = builder.toString();
 		if (result.equals(from)) {
 			return from;
 		}
@@ -101,7 +101,7 @@ public final class Identifier_Internal_Data {
 	}
 
 	public static String nameToAsn(final String from) {
-		StringBuilder builder = new StringBuilder(from);
+		final StringBuilder builder = new StringBuilder(from);
 		int index = 0;
 		/* remove leading '_'s */
 		while (index < builder.length() && '_' == builder.charAt(index)) {
@@ -133,7 +133,7 @@ public final class Identifier_Internal_Data {
 			index = builder.indexOf("_", index);
 		}
 
-		String result = builder.toString();
+		final String result = builder.toString();
 		if (result.equals(from)) {
 			return from;
 		}
@@ -142,7 +142,7 @@ public final class Identifier_Internal_Data {
 	}
 
 	public static String ttcnToName(final String from) {
-		StringBuilder builder = new StringBuilder(from);
+		final StringBuilder builder = new StringBuilder(from);
 		/* "_" -> "__" */
 		int index = builder.indexOf("_", 0);
 		while (index != -1) {
@@ -151,7 +151,7 @@ public final class Identifier_Internal_Data {
 			index = builder.indexOf("_", index);
 		}
 
-		String result = builder.toString();
+		final String result = builder.toString();
 		if (result.equals(from)) {
 			return from;
 		}
@@ -160,7 +160,7 @@ public final class Identifier_Internal_Data {
 	}
 
 	public static String nameToTtcn(final String from) {
-		StringBuilder builder = new StringBuilder(from);
+		final StringBuilder builder = new StringBuilder(from);
 		int index = 0;
 		/* remove leading '_'s */
 		while (index < builder.length() && '_' == builder.charAt(index)) {
@@ -184,7 +184,7 @@ public final class Identifier_Internal_Data {
 			index = builder.indexOf("__", index);
 		}
 
-		String result = builder.toString();
+		final String result = builder.toString();
 		if (result.equals(from)) {
 			return from;
 		}
@@ -198,7 +198,7 @@ public final class Identifier_Internal_Data {
 
 	public String getAsnName() {
 		if (asnName == null) {
-			String temp = nameToAsn(name);
+			final String temp = nameToAsn(name);
 			if (name.equals(temp)) {
 				asnName = name;
 			} else {
@@ -210,7 +210,7 @@ public final class Identifier_Internal_Data {
 
 	public String getTtcnName() {
 		if (ttcnName == null) {
-			String temp = nameToTtcn(name);
+			final String temp = nameToTtcn(name);
 			if (name.equals(temp)) {
 				ttcnName = name;
 			} else {

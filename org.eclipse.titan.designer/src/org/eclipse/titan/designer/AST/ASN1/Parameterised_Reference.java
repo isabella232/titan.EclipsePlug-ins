@@ -155,7 +155,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 
 		// This is a little trick, but otherwise we would not have the
 		// true compilation timestamp
-		CompilationTimeStamp compilationTimeStamp = module.getLastImportationCheckTimeStamp();
+		final CompilationTimeStamp compilationTimeStamp = module.getLastImportationCheckTimeStamp();
 		if( compilationTimeStamp == null ) {
 			//compilationTimeStamp = CompilationTimeStamp.getNewCompilationCounter(); //this forces re-check
 			return null;
@@ -237,7 +237,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 			final List<Token> unprocessParameters = mBlock.getTokenList();
 
 			for (int i = 0; i < unprocessParameters.size(); i++) {
-				Token tempToken = unprocessParameters.get(i);
+				final Token tempToken = unprocessParameters.get(i);
 				if (tempToken.getType() == Asn1Lexer.COMMA) {
 					temporalBuffer.add(new TokenWithIndexAndSubTokens(Token.EOF));
 					actualParameters.add(temporalBuffer);
@@ -267,9 +267,9 @@ public final class Parameterised_Reference extends Defined_Reference {
 				ASN1Assignment temporalAssignment = null;
 
 				if (i < nofActualParameters) {
-					List<Token> temporalTokenBuffer = new ArrayList<Token>();
+					final List<Token> temporalTokenBuffer = new ArrayList<Token>();
 					temporalTokenBuffer.add(formalParameters.get(i).formalParameterToken);
-					Token temporalToken = formalParameters.get(i).governorToken;
+					final Token temporalToken = formalParameters.get(i).governorToken;
 					if (null != temporalToken) {
 						temporalTokenBuffer.add(temporalToken);
 					}
@@ -285,7 +285,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 
 					if (null != parser) {
 						temporalAssignment = parser.pr_special_Assignment().assignment;
-						List<SyntacticErrorStorage> errors = parser.getErrorStorage();
+						final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 						if (null != errors && !errors.isEmpty()) {
 							isErroneous = true;
 							temporalAssignment = null;

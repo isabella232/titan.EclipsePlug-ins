@@ -150,7 +150,7 @@ public final class Ass_pard implements IIdentifierContainer, IVisitableNode {
 
 		final Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(mParameterList);
 		mParameters = parser.pr_special_FormalParameterList().parameters;
-		List<SyntacticErrorStorage> errors = parser.getErrorStorage();
+		final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 		if (null != errors && !errors.isEmpty()) {
 			mParameters = null;
 
