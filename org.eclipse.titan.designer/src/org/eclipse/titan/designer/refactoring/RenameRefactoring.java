@@ -315,9 +315,12 @@ public class RenameRefactoring extends Refactoring {
 	 * @throws CoreException
 	 */
 	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
-		if(ResourceExclusionHelper.isDirectlyExcluded((IFolder) resource)) {
+		if(resource instanceof IFolder && ResourceExclusionHelper.isDirectlyExcluded((IFolder) resource)) {
+			return false;
+		} else if(resource instanceof IFile && ResourceExclusionHelper.isDirectlyExcluded((IFile) resource)) {
 			return false;
 		}
+
 		if (resource instanceof IProject || resource instanceof IFolder) {
 			IResource[] children = resource instanceof IFolder ? ((IFolder) resource).members() : ((IProject) resource).members();
 			for (IResource res : children) {
@@ -329,6 +332,7 @@ public class RenameRefactoring extends Refactoring {
 			IFile file = (IFile) resource;
 			return "ttcnpp".equals(file.getFileExtension());
 		}
+
 		return false;
 	}
 
