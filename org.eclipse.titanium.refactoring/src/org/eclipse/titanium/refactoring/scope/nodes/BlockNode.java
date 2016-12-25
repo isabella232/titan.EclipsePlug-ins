@@ -139,7 +139,7 @@ public class BlockNode extends Node {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append("BN(").append(astNode.toString()).append("), loc: ");
 		if (astNode instanceof ILocateableNode) {
 			final Location loc = ((ILocateableNode)astNode).getLocation();
