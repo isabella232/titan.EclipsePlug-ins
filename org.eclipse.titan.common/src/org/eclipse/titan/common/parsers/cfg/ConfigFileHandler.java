@@ -200,7 +200,7 @@ public final class ConfigFileHandler {
 	 * @param disallowedNodes the list of nodes that should be left out of the process.
 	 */
 	public StringBuilder toStringResolved(final List<Integer> disallowedNodes){
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		// Creates the String representation of the parsed tree starting from the provided root node.
 		CfgParseTreePrinter.printResolved( originalASTs, sb, disallowedNodes,
 										   ResolveMode.IN_ROW, definesMap, environmentalVariables );

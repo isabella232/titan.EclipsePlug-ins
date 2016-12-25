@@ -156,8 +156,8 @@ public final class CfgAnalyzer {
 		} else if (null != file) {
 			try {
 				reader = new BufferedReader(new InputStreamReader(file.getContents(), StandardCharsets.UTF8));
-				IFileStore store = EFS.getStore( file.getLocationURI() );
-				IFileInfo fileInfo = store.fetchInfo();
+				final IFileStore store = EFS.getStore( file.getLocationURI() );
+				final IFileInfo fileInfo = store.fetchInfo();
 				fileLength = (int) fileInfo.getLength();
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace("Could not get the contents of `" + fileName + "'", e);
@@ -169,7 +169,7 @@ public final class CfgAnalyzer {
 		}
 
 		final CharStream charStream = new UnbufferedCharStream(reader);
-		CfgLexer lexer = new CfgLexer(charStream);
+		final CfgLexer lexer = new CfgLexer(charStream);
 		lexer.setTokenFactory(new CommonTokenFactory(true));
 		lexer.initRootInterval( fileLength );
 		lexerListener = new TitanListener();

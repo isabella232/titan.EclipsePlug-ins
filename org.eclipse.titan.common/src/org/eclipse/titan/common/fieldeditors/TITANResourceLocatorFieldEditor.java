@@ -253,7 +253,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		if (type == IResource.FILE) {
 			final FileDialog dialog = new FileDialog(getTextControl().getShell());
 			dialog.setText("Select the target file.");
-			IPath path = URIUtil.toPath(resolvedPath);
+			final IPath path = URIUtil.toPath(resolvedPath);
 			dialog.setFilterPath(path.removeLastSegments(1).toOSString());
 			selection = dialog.open();
 		} else {
@@ -320,12 +320,12 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		}
 
 		final IPathVariableManager pathVariableManager = ResourcesPlugin.getWorkspace().getPathVariableManager();
-		URI uri = URIUtil.toURI(result);
-		URI resolvedURI = pathVariableManager.resolveURI(uri);
+		final URI uri = URIUtil.toURI(result);
+		final URI resolvedURI = pathVariableManager.resolveURI(uri);
 
 		if (rootPath != null && !resolvedURI.isAbsolute()) {
-			URI root = URIUtil.toURI(rootPath);
-			URI absoluteURI = root.resolve(resolvedURI);
+			final URI root = URIUtil.toURI(rootPath);
+			final URI absoluteURI = root.resolve(resolvedURI);
 
 			if (absoluteURI != null && !absoluteURI.isAbsolute()) {
 				setErrorMessage("Could not be resolved to an absolute path");

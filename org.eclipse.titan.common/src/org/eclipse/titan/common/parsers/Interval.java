@@ -216,7 +216,7 @@ public class Interval {
 
 		//if the enclosing bracket "}" is missing, then the endOffset of the last subInterval is -1
 		//handle as +infinity
-		int lastEndOffset = subIntervals.get(subIntervals.size() - 1).getEndOffset();
+		final int lastEndOffset = subIntervals.get(subIntervals.size() - 1).getEndOffset();
 
 		if (!subIntervals.isEmpty() && subIntervals.get(0).getStartOffset() <= startOffset
 				&& (endOffset <= lastEndOffset || lastEndOffset == -1)) {

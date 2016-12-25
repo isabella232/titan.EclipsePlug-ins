@@ -165,7 +165,7 @@ public class CfgParseTreePrinter {
 											 final List<Token> aTokens,
 											 final boolean aPrintHiddenBefore ) {
 		final StringBuilder sb = new StringBuilder();
-		CfgParseTreePrinter printer = new CfgParseTreePrinter( sb );
+		final CfgParseTreePrinter printer = new CfgParseTreePrinter( sb );
 		printer.print( aParseTreeRoot, aTokens, aPrintHiddenBefore, ResolveMode.NO_RESOLVING, null );
 		// there are no hidden tokens after the last token
 
@@ -200,7 +200,7 @@ public class CfgParseTreePrinter {
 			{
 				// list of files to resolve, files, which are already resolved are removed from this list
 				final List<Path> filesToResolve = new ArrayList<Path>( aCfgParseResults.keySet() );
-				CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
+				final CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
 							aCfgParseResults, aDefinitions, aEnvVariables, filesToResolve );
 				for ( Entry<Path, CfgParseResult> entry : aCfgParseResults.entrySet() ) {
 					printer.printResolved( entry.getKey(), entry.getValue().getParseTreeRoot(),
@@ -213,8 +213,8 @@ public class CfgParseTreePrinter {
 				// list of files to resolve, files, which are already resolved are removed from this list
 				final List<Path> filesToResolve = new ArrayList<Path>( aCfgParseResults.keySet() );
 				// run only the 1st, others will be nested in place
-				Entry<Path, CfgParseResult> entry = aCfgParseResults.entrySet().iterator().next();
-				CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
+				final Entry<Path, CfgParseResult> entry = aCfgParseResults.entrySet().iterator().next();
+				final CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
 						aCfgParseResults, aDefinitions, aEnvVariables, filesToResolve );
 				printer.printResolved( entry.getKey(), entry.getValue().getParseTreeRoot(),
 						entry.getValue().getTokens(), aResolveMode );
@@ -296,7 +296,7 @@ public class CfgParseTreePrinter {
 		}
 
 		for ( int i = 0; i < aParseTree.getChildCount(); i++ ) {
-			ParseTree child = aParseTree.getChild( i );
+			final ParseTree child = aParseTree.getChild( i );
 			if ( child == aParseTree ) {
 				ErrorReporter.INTERNAL_ERROR("ConfigTreeNodeUtilities.print(): child == aParseTree");
 			} else {
@@ -367,7 +367,7 @@ public class CfgParseTreePrinter {
 	 * @param aTokens token list from the lexer (all, hidden and not hidden also)
 	 */
 	private void printHiddenTokensBefore( final ParserRuleContext aRule, final List<Token> aTokens ) {
-		Token startToken = aRule.start;
+		final Token startToken = aRule.start;
 		if ( startToken == null ) {
 			return;
 		}

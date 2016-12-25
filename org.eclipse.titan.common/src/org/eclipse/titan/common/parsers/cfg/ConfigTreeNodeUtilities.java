@@ -261,7 +261,7 @@ public final class ConfigTreeNodeUtilities {
 			} else {
 				rule.children = new ArrayList<ParseTree>();
 			}
-			ParseTree newNode = new AddedParseTree( aText );
+			final ParseTree newNode = new AddedParseTree( aText );
 			addChild(rule, newNode);
 		} else if ( aParseTree instanceof AddedParseTree ) {
 			final AddedParseTree node = (AddedParseTree)aParseTree;

@@ -28,7 +28,7 @@ import org.eclipse.titan.common.parsers.cfg.CfgInterval;
  * Logger utility to print parse tree and interval tree.
  * @author Arpad Lovassy
  */
-public class ParserLogger {
+public final class ParserLogger {
 
 	private static IPrinter sPrinter = new ConsolePrinter();
 
@@ -128,8 +128,8 @@ public class ParserLogger {
 		try {
 			log( aRoot, aParser, aTokens, aTokenNameResolver, 0, false );
 		} catch( Exception e ) {
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter( sw );
+			final StringWriter sw = new StringWriter();
+			final PrintWriter pw = new PrintWriter( sw );
 			e.printStackTrace( pw );
 			println( sw.toString() ); // stack trace as a string
 		}
@@ -229,7 +229,7 @@ public class ParserLogger {
 		}
 		sb.append("]");
 		if ( e instanceof NoViableAltException ) {
-			NoViableAltException nvae = (NoViableAltException)e;
+			final NoViableAltException nvae = (NoViableAltException)e;
 			sb.append( ", start token: " + getTokenInfo( nvae.getStartToken(), aTokenNameResolver ) );
 		}
 
@@ -245,7 +245,7 @@ public class ParserLogger {
 	 */
 	private static String getRuleInfo( final ParserRuleContext aRule, final Parser aParser, final TokenNameResolver aTokenNameResolver ) {
 		// only rule name
-		String info = aParser.getRuleInvocationStack( aRule ).get( 0 );
+		final String info = aParser.getRuleInvocationStack( aRule ).get( 0 );
 		return info;
 	}
 
@@ -404,7 +404,7 @@ public class ParserLogger {
 	 */
 	private static void logInterval( final Interval aRootInterval, final int aLevel ) {
 		// root interval info
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		sb.append( "" + aRootInterval.getDepth() );
 		sb.append( ", " + aRootInterval.getStartOffset() );
 		sb.append( ", " + aRootInterval.getStartLine() );

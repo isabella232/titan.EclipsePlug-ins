@@ -47,7 +47,7 @@ public final class TITANPathUtilities {
 	 */
 	public static String resolvePathURIForMakefile(final String pathToBeResolved, final String basePath,
 			final boolean reportDebugInformation, final MessageConsole outputConsole) {
-		URI uri = resolvePathURI(pathToBeResolved, basePath);
+		final URI uri = resolvePathURI(pathToBeResolved, basePath);
 		if (uri != null) {
 			return PathConverter.convert(URIUtil.toPath(uri).toOSString(), reportDebugInformation,
 					outputConsole);
@@ -153,7 +153,7 @@ public final class TITANPathUtilities {
 			return null;
 		}
 
-		URI uri = URIUtil.toURI(tmp2);
+		final URI uri = URIUtil.toURI(tmp2);
 		URI resolvedURI = pathVariableManager.resolveURI(uri);
 
 		if (basePath != null && !"".equals(basePath) && !resolvedURI.isAbsolute()) {
