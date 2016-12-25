@@ -84,15 +84,15 @@ public final class GenerateTestPortSkeleton extends ExternalTitanAction {
 
 		reportOnTheFlyOutdating();
 
-		TITANJob titanJob = new TITANJob(JOB_TITLE, files, workingDir, project);
+		final TITANJob titanJob = new TITANJob(JOB_TITLE, files, workingDir, project);
 		titanJob.setPriority(Job.DECORATE);
 		titanJob.setUser(true);
 		titanJob.setRule(project);
 
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(
 				ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		List<String> command = new ArrayList<String>();
+		final List<String> command = new ArrayList<String>();
 		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
 		command.add('-' + GENERATE_TESTPORT_FLAG + getTITANActionFlags());
 		for (String filePath : files.keySet()) {
@@ -101,7 +101,7 @@ public final class GenerateTestPortSkeleton extends ExternalTitanAction {
 		titanJob.addCommand(command, JOB_TITLE);
 		titanJob.removeCompilerMarkers();
 
-		String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+		final String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER, PreferenceConstantValues.ONTHEFLYOPTIONREMOVE, null);
 		if (PreferenceConstantValues.ONTHEFLYOPTIONREMOVE.equals(markersAfterCompiler)) {
 			titanJob.removeOnTheFlyMarkers();

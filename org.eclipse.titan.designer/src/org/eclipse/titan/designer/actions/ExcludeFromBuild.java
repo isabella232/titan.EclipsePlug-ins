@@ -121,7 +121,7 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 			return;
 		}
 
-		WorkspaceJob op = new ExcluderWorkspaceJob(structSelection);
+		final WorkspaceJob op = new ExcluderWorkspaceJob(structSelection);
 		op.setPriority(Job.LONG);
 		op.setSystem(false);
 		op.setUser(true);
@@ -156,7 +156,7 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 						file.setPersistentProperty(ResourceExclusionHelper.EXCLUDED_FILE_QUALIFIER,
 								TRUE_STRING.equals(mode) ? FALSE_STRING : TRUE_STRING);
 
-						WorkspaceJob op = new WorkspaceJob("Changing the excludedness of file: " + file.getName()) {
+						final WorkspaceJob op = new WorkspaceJob("Changing the excludedness of file: " + file.getName()) {
 							@Override
 							public IStatus runInWorkspace(final IProgressMonitor monitor) {
 								if (!TRUE_STRING.equals(mode)) {
@@ -193,7 +193,7 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 						folder.setPersistentProperty(ResourceExclusionHelper.EXCLUDED_FOLDER_QUALIFIER,
 								TRUE_STRING.equals(mode) ? FALSE_STRING : TRUE_STRING);
 						if (!TRUE_STRING.equals(mode)) {
-							WorkspaceJob op = new WorkspaceJob("Changing the excludedness of folder: " + folder.getName()) {
+							final WorkspaceJob op = new WorkspaceJob("Changing the excludedness of folder: " + folder.getName()) {
 								@Override
 								public IStatus runInWorkspace(final IProgressMonitor monitor) {
 									MarkerHandler.markAllMarkersForRemoval(folder);
@@ -222,7 +222,7 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 				}
 			}
 
-			WorkspaceJob op = new WorkspaceJob("Waiting for exclusion threads to finish.") {
+			final WorkspaceJob op = new WorkspaceJob("Waiting for exclusion threads to finish.") {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
 					while (!exclusionJobs.isEmpty()) {

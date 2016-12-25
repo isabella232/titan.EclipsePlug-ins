@@ -76,16 +76,16 @@ public final class CheckVersion extends ExternalTitanAction {
 
 		processSelection();
 
-		TITANJob titanJob = new TITANJob(JOB_TITLE, new HashMap<String, IFile>(), new File(DOT), project);
+		final TITANJob titanJob = new TITANJob(JOB_TITLE, new HashMap<String, IFile>(), new File(DOT), project);
 		titanJob.setPriority(Job.DECORATE);
 		titanJob.setUser(true);
 		titanJob.setRule(project);
 
-		boolean reportDebugInformation =
+		final boolean reportDebugInformation =
 				Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 
-		List<String> command = new ArrayList<String>();
+		final List<String> command = new ArrayList<String>();
 		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
 		command.add('-' + VERSION_CHECK_FLAG);
 		titanJob.addCommand(command, JOB_TITLE);

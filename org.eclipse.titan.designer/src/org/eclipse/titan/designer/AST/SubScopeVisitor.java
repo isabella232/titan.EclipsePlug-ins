@@ -23,7 +23,7 @@ public class SubScopeVisitor extends ASTVisitor {
 	@Override
 	public int visit(IVisitableNode node) {
 		if (node instanceof Scope) {
-			Scope scope = (Scope)node;
+			final Scope scope = (Scope)node;
 			if (scope.isChildOf(root)) {
 				// this is a sub-scope of the root
 				subScopes.add(scope);

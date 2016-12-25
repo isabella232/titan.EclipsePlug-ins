@@ -124,7 +124,7 @@ public final class NamingConventionHelper {
 
 		while (resource != null) {
 			if (resource instanceof IFolder) {
-				IFolder folder = (IFolder) resource;
+				final IFolder folder = (IFolder) resource;
 
 				try {
 					if ("true".equals(folder.getPersistentProperty(FOLDER_SPECIFIC_CONVENTIONS_ENABLED))) {
@@ -137,7 +137,7 @@ public final class NamingConventionHelper {
 					return null;
 				}
 			} else if (resource instanceof IProject) {
-				IProject project = (IProject) resource;
+				final IProject project = (IProject) resource;
 
 				try {
 					if ("true".equals(project.getPersistentProperty(PROJECT_SPECIFIC_CONVENTIONS_ENABLED))) {
@@ -192,7 +192,7 @@ public final class NamingConventionHelper {
 					return;
 				}
 			} else if (resource instanceof IProject) {
-				IProject project = (IProject) resource;
+				final IProject project = (IProject) resource;
 
 				try {
 					if ("true".equals(project.getPersistentProperty(PROJECT_SPECIFIC_CONVENTIONS_ENABLED))) {

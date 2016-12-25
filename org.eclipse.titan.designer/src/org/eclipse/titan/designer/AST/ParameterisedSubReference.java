@@ -81,7 +81,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 
 	public boolean checkParameters(final CompilationTimeStamp timestamp, final FormalParameterList formalParameterList) {
 		actualParameters = new ActualParameterList();
-		boolean isErroneous = formalParameterList.checkActualParameterList(timestamp, parsedParameters, actualParameters);
+		final boolean isErroneous = formalParameterList.checkActualParameterList(timestamp, parsedParameters, actualParameters);
 		actualParameters.setFullNameParent(this);
 		actualParameters.setMyScope(myScope);
 

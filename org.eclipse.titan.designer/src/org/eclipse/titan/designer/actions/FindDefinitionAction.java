@@ -57,7 +57,7 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 		@Override
 		public String getText(final Object element) {
 			if (element instanceof IOutlineElement) {
-				String text = ((IOutlineElement) element).getOutlineText();
+				final String text = ((IOutlineElement) element).getOutlineText();
 				if (text == null || text.isEmpty()) {
 					return ((IOutlineElement) element).getIdentifier().getDisplayName();
 				}
@@ -69,7 +69,7 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 		@Override
 		public Image getImage(final Object element) {
 			if (element instanceof IOutlineElement) {
-				String icon = ((IOutlineElement) element).getOutlineIcon();
+				final String icon = ((IOutlineElement) element).getOutlineIcon();
 				return ImageCache.getImage(icon);
 			}
 			return null;
@@ -101,7 +101,7 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 	}
 
 	private void doFindDefinition() {
-		DefinitionListSelectionDialog dialog = new DefinitionListSelectionDialog(
+		final DefinitionListSelectionDialog dialog = new DefinitionListSelectionDialog(
 				Display.getDefault().getActiveShell(),
 				new DefinitionLabelProvider(),
 				getCurrentProject());
@@ -114,14 +114,14 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 			selection = ((TTCN3Editor) targetEditor).getSelectionProvider().getSelection();
 		}
 		if (selection instanceof TextSelection && !selection.isEmpty()) {
-			IPreferencesService prefs = Platform.getPreferencesService();
-			boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+			final IPreferencesService prefs = Platform.getPreferencesService();
+			final boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 					true, null);
 			
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
 			}
-			TextSelection tSelection = (TextSelection) selection;
+			final TextSelection tSelection = (TextSelection) selection;
 			dialog.setFilter(tSelection.getText());
 		}
 		
@@ -131,7 +131,7 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 		if (dialog.open() == Window.CANCEL || dialog.getFirstResult() == null) {
 			return;
 		}
-		Object result = dialog.getFirstResult();
+		final Object result = dialog.getFirstResult();
 		if (!(result instanceof ILocateableNode)) {
 			return;
 		}
@@ -139,26 +139,26 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 	}
 
 	private IProject getCurrentProject() {
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		IWorkbenchPart activePart = activePage.getActivePart();
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPart activePart = activePage.getActivePart();
 		if (activePart instanceof IEditorPart) {
-			IEditorPart editorPart = (IEditorPart) activePart;
-			IResource resource = (IResource )editorPart.getEditorInput().getAdapter(IResource.class);
+			final IEditorPart editorPart = (IEditorPart) activePart;
+			final IResource resource = (IResource )editorPart.getEditorInput().getAdapter(IResource.class);
 			return resource.getProject();
 		}
 		return null;
 	}
 
 	private void showInEditor(final ILocateableNode node) {
-		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		Location location = node.getLocation();
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(location.getFile().getName());
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final Location location = node.getLocation();
+		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(location.getFile().getName());
 		if (desc == null) {
 			TITANDebugConsole.println("Cannot find the editor");
 			return;
 		}
 		try {
-			IEditorPart editorPart = activePage.openEditor(new FileEditorInput((IFile) location.getFile()), desc.getId());
+			final IEditorPart editorPart = activePage.openEditor(new FileEditorInput((IFile) location.getFile()), desc.getId());
 			if (editorPart != null && (editorPart instanceof AbstractTextEditor)) {
 				((AbstractTextEditor) editorPart).selectAndReveal(location.getOffset(), location.getEndOffset()
 						- location.getOffset());

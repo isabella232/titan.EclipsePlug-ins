@@ -89,15 +89,15 @@ public final class CheckSemantic extends ExternalTitanAction {
 
 		reportOnTheFlyOutdating();
 
-		TITANJob titanJob = new TITANJob(JOB_TITLE, files, workingDir, project);
+		final TITANJob titanJob = new TITANJob(JOB_TITLE, files, workingDir, project);
 		titanJob.setPriority(Job.DECORATE);
 		titanJob.setUser(true);
 		titanJob.setRule(project);
 
-		boolean reportDebugInformation =
+		final boolean reportDebugInformation =
 				Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		List<String> command = new ArrayList<String>();
+		final List<String> command = new ArrayList<String>();
 		command.add(PathConverter.convert(getCompilerPath().toOSString(), reportDebugInformation, TITANDebugConsole.getConsole()));
 
 		// If a single project is selected used than use it's attributes used to generate the Makefile, otherwise use the general preferences.
@@ -115,7 +115,8 @@ public final class CheckSemantic extends ExternalTitanAction {
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace("Error while reading persistent property", e);
 			}
-			String flags = TITANFlagsOptionsData.getTITANFlags(singleSelectedProject, useRuntime2);
+
+			final String flags = TITANFlagsOptionsData.getTITANFlags(singleSelectedProject, useRuntime2);
 			command.add('-' + SEMANTIC_CHECK_FLAG + " " + flags);
 		}
 		for (String filePath : files.keySet()) {
@@ -124,7 +125,7 @@ public final class CheckSemantic extends ExternalTitanAction {
 		titanJob.addCommand(command, JOB_TITLE);
 		titanJob.removeCompilerMarkers();
 
-		String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+		final String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER, PreferenceConstantValues.ONTHEFLYOPTIONREMOVE, null);
 
 		if (PreferenceConstantValues.ONTHEFLYOPTIONREMOVE.equals(markersAfterCompiler)) {

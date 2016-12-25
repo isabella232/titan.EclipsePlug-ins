@@ -60,12 +60,12 @@ public final class MakeArchive extends ExternalTitanAction {
 		}
 			
 		final File binDir = new File( singleSelectedProject.getLocation().toFile(), BIN_SUBPATH );
-		TITANJob titanJob = new TITANJob( JOB_TITLE, new HashMap<String, IFile>(), binDir, project );
+		final TITANJob titanJob = new TITANJob( JOB_TITLE, new HashMap<String, IFile>(), binDir, project );
 		titanJob.setPriority( Job.DECORATE );
 		titanJob.setUser( true );
 		titanJob.setRule( project );
 
-		List<String> command = new ArrayList<String>();
+		final List<String> command = new ArrayList<String>();
 		command.add( COMMAND );
 		titanJob.addCommand( command, JOB_TITLE );
 

@@ -92,7 +92,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 					}
 				}
 
-				IFile file = (IFile) resource;
+				final IFile file = (IFile) resource;
 				files.put(file.getLocation().toOSString(), file);
 
 				return true;
@@ -135,8 +135,8 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 	}
 
 	protected final Path getCompilerPath() {
-		IPreferencesService prefs = Platform.getPreferencesService();
-		String pathOfTITAN = prefs.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "", null);
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final String pathOfTITAN = prefs.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "", null);
 		return new Path(pathOfTITAN + COMPILER_SUBPATH);
 
 	}
@@ -186,9 +186,9 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 	 * @return the flags
 	 * */
 	protected final String getTITANActionFlags() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITANACTIONS_DEFAULT_AS_OMIT, false, null)) {
 			builder.append('d');
 		}
@@ -215,8 +215,8 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 
 		workingDir = new File(project.getLocation().toOSString());
 
-		IPreferencesService prefs = Platform.getPreferencesService();
-		boolean processExludedOnes = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean processExludedOnes = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.TITANACTIONS_PROCESSEXCLUDEDRESOURCES, true, null);
 
 		try {
@@ -249,15 +249,15 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 		 * This is needed because AbstractHandler does not deal with
 		 * selection, and selectionChanged is not called.
 		 */
-		IWorkbenchPage iwPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage iwPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		selection = iwPage.getSelection();
 
 		if (selection instanceof IStructuredSelection) {
-			IStructuredSelection structSelection = (IStructuredSelection) selection;
+			final IStructuredSelection structSelection = (IStructuredSelection) selection;
 
 			files = new HashMap<String, IFile>();
 
-			List<?> selectionList = structSelection.toList();
+			final List<?> selectionList = structSelection.toList();
 			if (selectionList.size() == 1) {
 				if (selectionList.get(0) instanceof IProject) {
 					singleSelectedProject = (IProject) selectionList.get(0);

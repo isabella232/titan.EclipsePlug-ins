@@ -119,19 +119,19 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 		 */
 		@Override
 		protected IStatus run(final IProgressMonitor monitor) {
-			IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
+			final IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 
 			internalMonitor.beginTask(getName(), commands.size());
 
-			ProcessBuilder pb = new ProcessBuilder();
-			Map<String, String> env = pb.environment();
+			final ProcessBuilder pb = new ProcessBuilder();
+			final Map<String, String> env = pb.environment();
 			env.put(TTCN3_LICENSE_FILE, LicenseValidator.getResolvedLicenseFilePath(false));
 			env.put(TTCN3_DIR, CompilerVersionInformationCollector.getResolvedInstallationPath(false));
 			pb.redirectErrorStream(true);
 			Process proc = null;
 			BufferedReader stdout;
 			
-			MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream(); 
+			final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream(); 
        
 			String actualCommand;
 			for (int i = 0; i < commands.size(); i++) {
@@ -139,12 +139,12 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 				setName(descriptions.get(i));
 				internalMonitor.subTask("on " + hostnames.get(i));
 
-				List<String> finalCommand = new ArrayList<String>();
+				final List<String> finalCommand = new ArrayList<String>();
 				finalCommand.add(ExternalTitanAction.SHELL);
 				finalCommand.add("-c");
 				finalCommand.add(actualCommand);
 
-				StringBuilder builder = new StringBuilder();
+				final StringBuilder builder = new StringBuilder();
 				for (String c : finalCommand) {
 					builder.append(c + ' ');
 				}
@@ -163,7 +163,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 				}
 
 				stdout = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-				BufferedReader stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+				final BufferedReader stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
 				try {
 					String line = stdout.readLine();
@@ -176,7 +176,8 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 						TITANConsole.println(hostnames.get(i) + ": " + line,stream);
 						line = stdout.readLine();
 					}
-					int exitval = proc.waitFor();
+
+					final int exitval = proc.waitFor();
 					if (exitval == 0) {
 						TITANConsole.println("The process on " + hostnames.get(i) + " finished without indicating an error.",stream);
 					} else {
@@ -272,19 +273,19 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 		 * This is needed because AbstractHandler does not deal with
 		 * selection, and selectionChanged is not called.
 		 */
-		IWorkbenchPage iwPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+		final IWorkbenchPage iwPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		selection = iwPage.getSelection();
 
 		if (selection instanceof IStructuredSelection) {
-			IStructuredSelection structSelection = (IStructuredSelection) selection;
+			final IStructuredSelection structSelection = (IStructuredSelection) selection;
 			List<String> hostNames;
 			List<String> commands;
 			List<String> descriptions;
 
 			for (Object selected : structSelection.toList()) {
 				if (selected instanceof IProject && TITANBuilder.isBuilderEnabled((IProject) selected)) {
-					IProject tempProject = (IProject) selected;
-					BuildLocation[] locations = ProjectRemoteBuildPropertyData.getBuildLocations(tempProject);
+					final IProject tempProject = (IProject) selected;
+					final BuildLocation[] locations = ProjectRemoteBuildPropertyData.getBuildLocations(tempProject);
 
 					String parallelExecutionRequested = "false";
 					try {
@@ -311,7 +312,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 
 					if ("true".equals(parallelExecutionRequested)) {
 						for (int i = 0; i < commands.size(); i++) {
-							RemoteBuilderJob job = new RemoteBuilderJob("Build remotely", tempProject, hostNames.get(i), commands.get(i),
+							final RemoteBuilderJob job = new RemoteBuilderJob("Build remotely", tempProject, hostNames.get(i), commands.get(i),
 									descriptions.get(i));
 							job.setPriority(Job.LONG);
 							job.setUser(true);
@@ -319,7 +320,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 							job.schedule();
 						}
 					} else {
-						RemoteBuilderJob job = new RemoteBuilderJob("Build remotely", tempProject, hostNames, commands, descriptions);
+						final RemoteBuilderJob job = new RemoteBuilderJob("Build remotely", tempProject, hostNames, commands, descriptions);
 						job.setPriority(Job.LONG);
 						job.setUser(true);
 						job.setRule(tempProject);

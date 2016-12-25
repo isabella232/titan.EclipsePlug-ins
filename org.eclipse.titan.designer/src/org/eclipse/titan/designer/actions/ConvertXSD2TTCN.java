@@ -97,7 +97,7 @@ public final class ConvertXSD2TTCN extends ExternalTitanAction {
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
 			public void run() {
-				DirectoryDialog dialog = new DirectoryDialog(new Shell(Display.getDefault()), SWT.SAVE|SWT.PRIMARY_MODAL|SWT.FOCUSED|SWT.ON_TOP);
+				final DirectoryDialog dialog = new DirectoryDialog(new Shell(Display.getDefault()), SWT.SAVE|SWT.PRIMARY_MODAL|SWT.FOCUSED|SWT.ON_TOP);
 				dialog.setFilterPath(project.getLocation().toOSString());
 				String outFolder = dialog.open();
 				if (outFolder != null) {
@@ -113,17 +113,17 @@ public final class ConvertXSD2TTCN extends ExternalTitanAction {
 			return;
 		}
 
-		TITANJob titanJob = new TITANJob(JOB_TITLE, files, outputFolder, project);
+		final TITANJob titanJob = new TITANJob(JOB_TITLE, files, outputFolder, project);
 		titanJob.setPriority(Job.DECORATE);
 		titanJob.setUser(true);
 		titanJob.setRule(project);
 
-		boolean reportDebugInformation =
+		final boolean reportDebugInformation =
 				Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		List<String> command = new ArrayList<String>();
-		IPreferencesService prefs = Platform.getPreferencesService();
-		String pathOfTITAN = prefs.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "", null);
+		final List<String> command = new ArrayList<String>();
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final String pathOfTITAN = prefs.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "", null);
 		command.add(PathConverter.convert(
 				new Path(pathOfTITAN + File.separatorChar + "bin" + File.separatorChar + "xsd2ttcn").toOSString(),
 				reportDebugInformation, TITANDebugConsole.getConsole()));
@@ -133,7 +133,7 @@ public final class ConvertXSD2TTCN extends ExternalTitanAction {
 		titanJob.addCommand(command, JOB_TITLE);
 		titanJob.removeCompilerMarkers();
 
-		String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+		final String markersAfterCompiler = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER, PreferenceConstantValues.ONTHEFLYOPTIONREMOVE, null);
 		if (PreferenceConstantValues.ONTHEFLYOPTIONREMOVE.equals(markersAfterCompiler)) {
 			titanJob.removeOnTheFlyMarkers();

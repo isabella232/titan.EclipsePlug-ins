@@ -91,7 +91,7 @@ public final class NatureConverter extends AbstractHandler implements IObjectAct
 	 * @param selection the objects selected to be converted
 	 * */
 	private void doConvertNature(final ISelection selection) {
-		List<IProject> selectedProjects = SelectionUtils.getProjectsFromSelection(selection);
+		final List<IProject> selectedProjects = SelectionUtils.getProjectsFromSelection(selection);
 
 		for (final IProject tempProject : selectedProjects) {
 			try {
@@ -124,7 +124,7 @@ public final class NatureConverter extends AbstractHandler implements IObjectAct
 			tempProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), "bin");
 
-			ProjectFileHandler pfHandler = new ProjectFileHandler(tempProject);
+			final ProjectFileHandler pfHandler = new ProjectFileHandler(tempProject);
 			final WorkspaceJob job = pfHandler.saveProjectSettingsJob();
 
 			try {
@@ -143,7 +143,7 @@ public final class NatureConverter extends AbstractHandler implements IObjectAct
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(null, tempProject, GeneralConstants.PROJECT_PROPERTY_PAGE, null, null);
+					final PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(null, tempProject, GeneralConstants.PROJECT_PROPERTY_PAGE, null, null);
 					if (dialog != null) {
 						dialog.open();
 					}
