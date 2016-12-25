@@ -164,7 +164,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (runsOnRef == child) {
 			return builder.append(FULLNAMEPART1);
@@ -217,7 +217,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	@Override
 	public String getProposalDescription() {
-		StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		nameBuilder.append('(');
 		formalParList.getAsProposalDesriptionPart(nameBuilder);
 		nameBuilder.append(')');
@@ -286,12 +286,12 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);
 			if (runsOnType != null) {
-				Scope formalParlistPreviosScope = formalParList.getParentScope();
+				final Scope formalParlistPreviosScope = formalParList.getParentScope();
 				if (formalParlistPreviosScope instanceof RunsOnScope
 						&& ((RunsOnScope) formalParlistPreviosScope).getParentScope() == myScope) {
 					((RunsOnScope) formalParlistPreviosScope).setComponentType(runsOnType);
 				} else {
-					Scope tempScope = new RunsOnScope(runsOnType, myScope);
+					final Scope tempScope = new RunsOnScope(runsOnType, myScope);
 					formalParList.setMyScope(tempScope);
 				}
 			}
@@ -299,7 +299,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		boolean canSkip = false;
 		if (myScope != null) {
-			Module module = myScope.getModuleScope();
+			final Module module = myScope.getModuleScope();
 			if (module != null) {
 				if (module.getSkippedFromSemanticChecking()) {
 					canSkip = true;
@@ -315,7 +315,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		if (returnType != null) {
 			returnType.check(timestamp);
-			IType returnedType = returnType.getTypeRefdLast(timestamp);
+			final IType returnedType = returnType.getTypeRefdLast(timestamp);
 			if (Type_type.TYPE_PORT.equals(returnedType.getTypetype()) && returnType.getLocation() != null) {
 				returnType.getLocation().reportSemanticError(PORTRETURNNOTALLOWED);
 			}
@@ -405,8 +405,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		formalParList.checkStartability(timestamp, "Function", this, errorLocation);
 
 		if (returnType != null && returnType.isComponentInternal(timestamp)) {
-			Set<IType> typeSet = new HashSet<IType>();
-			String errorMessage = "the return type or embedded in the return type of function `" + getFullName()
+			final Set<IType> typeSet = new HashSet<IType>();
+			final String errorMessage = "the return type or embedded in the return type of function `" + getFullName()
 					+ "' if it is started on a parallel test component";
 			returnType.checkComponentInternal(timestamp, typeSet, errorMessage);
 		}
@@ -421,14 +421,14 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	 *                the timestamp of the actual build cycle.
 	 * */
 	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
 		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
 		for (int i = 0, size = realAttributes.size(); i < size; i++) {
 			attribute = realAttributes.get(i);
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
-				Qualifiers qualifiers = attribute.getQualifiers();
+				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
 					if (specifications == null) {
 						specifications = new ArrayList<AttributeSpecification>();
@@ -442,22 +442,22 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			return;
 		}
 
-		List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
 		for (int i = 0, size = specifications.size(); i < size; i++) {
-			AttributeSpecification specification = specifications.get(i);
-			ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+			final AttributeSpecification specification = specifications.get(i);
+			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
-			List<ExtensionAttribute> temp = analyzer.getAttributes();
+			final List<ExtensionAttribute> temp = analyzer.getAttributes();
 			if (temp != null) {
 				attributes.addAll(temp);
 			}
 		}
 
 		for (int i = 0, size = attributes.size(); i < size; i++) {
-			ExtensionAttribute extensionAttribute = attributes.get(i);
+			final ExtensionAttribute extensionAttribute = attributes.get(i);
 
 			if (ExtensionAttribute_type.PROTOTYPE.equals(extensionAttribute.getAttributeType())) {
-				PrototypeAttribute realAttribute = (PrototypeAttribute) extensionAttribute;
+				final PrototypeAttribute realAttribute = (PrototypeAttribute) extensionAttribute;
 				if (EncodingPrototype_type.NONE.equals(prototype)) {
 					prototype = realAttribute.getPrototypeType();
 				} else {
@@ -481,8 +481,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		// checking formal parameter list
 		if (EncodingPrototype_type.CONVERT.equals(prototype)) {
 			if (formalParList.getNofParameters() == 1) {
-				FormalParameter parameter = formalParList.getParameterByIndex(0);
-				Assignment_type assignmentType = parameter.getRealAssignmentType();
+				final FormalParameter parameter = formalParList.getParameterByIndex(0);
+				final Assignment_type assignmentType = parameter.getRealAssignmentType();
 				if (Assignment_type.A_PAR_VAL_IN.equals(assignmentType) || Assignment_type.A_PAR_VAL.equals(assignmentType)) {
 					inputType = parameter.getType(timestamp);
 				} else {
@@ -500,11 +500,11 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 										formalParList.getNofParameters(), prototype.getName()));
 			}
 		} else if (formalParList.getNofParameters() == 2) {
-			FormalParameter firstParameter = formalParList.getParameterByIndex(0);
+			final FormalParameter firstParameter = formalParList.getParameterByIndex(0);
 			if (EncodingPrototype_type.SLIDING.equals(prototype)) {
 				if (Assignment_type.A_PAR_VAL_INOUT.equals(firstParameter.getRealAssignmentType())) {
-					Type firstParameterType = firstParameter.getType(timestamp);
-					IType last = firstParameterType.getTypeRefdLast(timestamp);
+					final Type firstParameterType = firstParameter.getType(timestamp);
+					final IType last = firstParameterType.getTypeRefdLast(timestamp);
 					if (last.getIsErroneous(timestamp)) {
 						inputType = firstParameterType;
 					} else {
@@ -530,7 +530,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 											prototype.getName(), firstParameter.getAssignmentName()));
 				}
 			} else {
-				Assignment_type assignmentType = firstParameter.getRealAssignmentType();
+				final Assignment_type assignmentType = firstParameter.getRealAssignmentType();
 				if (Assignment_type.A_PAR_VAL_IN.equals(assignmentType) || Assignment_type.A_PAR_VAL.equals(assignmentType)) {
 					inputType = firstParameter.getType(timestamp);
 				} else {
@@ -542,7 +542,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				}
 			}
 
-			FormalParameter secondParameter = formalParList.getParameterByIndex(1);
+			final FormalParameter secondParameter = formalParList.getParameterByIndex(1);
 			if (Assignment_type.A_PAR_VAL_OUT.equals(secondParameter.getRealAssignmentType())) {
 				outputType = secondParameter.getType(timestamp);
 			} else {
@@ -581,7 +581,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				if (EncodingPrototype_type.CONVERT.equals(prototype)) {
 					outputType = returnType;
 				} else {
-					IType last = returnType.getTypeRefdLast(timestamp);
+					final IType last = returnType.getTypeRefdLast(timestamp);
 
 					if (!last.getIsErroneous(timestamp) && !Type_type.TYPE_INTEGER.equals(last.getTypetypeTtcn3())) {
 						returnType.getLocation()
@@ -605,7 +605,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	@Override
 	public void postCheck() {
 		if (myScope != null) {
-			Module module = myScope.getModuleScope();
+			final Module module = myScope.getModuleScope();
 			if (module != null) {
 				if (module.getSkippedFromSemanticChecking()) {
 					return;
@@ -621,13 +621,13 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
 
 		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
-			StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
+			final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 			patternBuilder.append('(');
 			formalParList.getAsProposalPart(patternBuilder);
 			patternBuilder.append(')');
@@ -645,7 +645,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -665,7 +665,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
-		StringBuilder text = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
 		if (formalParList == null) {
 			return text.toString();
 		}
@@ -675,11 +675,11 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			if (i != 0) {
 				text.append(", ");
 			}
-			FormalParameter parameter = formalParList.getParameterByIndex(i);
+			final FormalParameter parameter = formalParList.getParameterByIndex(i);
 			if (Assignment_type.A_PAR_TIMER.equals(parameter.getRealAssignmentType())) {
 				text.append("timer");
 			} else {
-				IType type = parameter.getType(lastTimeChecked);
+				final IType type = parameter.getType(lastTimeChecked);
 				if (type == null) {
 					text.append("Unknown type");
 				} else {
@@ -703,11 +703,11 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parseAndSetNameChanged();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 				// damage handled
 				if (result == 0 && identifier != null) {

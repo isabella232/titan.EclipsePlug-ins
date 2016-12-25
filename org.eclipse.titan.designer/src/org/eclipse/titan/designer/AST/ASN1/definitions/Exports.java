@@ -113,9 +113,9 @@ public final class Exports extends ASTNode implements ILocateableNode {
 		symbols.checkUniqueness(timestamp);
 
 		for (int i = 0; i < symbols.size(); i++) {
-			List<ISubReference> list = new ArrayList<ISubReference>();
+			final List<ISubReference> list = new ArrayList<ISubReference>();
 			list.add(new FieldSubReference(symbols.getNthElement(i)));
-			Defined_Reference reference = new Defined_Reference(null, list);
+			final Defined_Reference reference = new Defined_Reference(null, list);
 
 			/* check whether exists or not */
 			module.getAssBySRef(timestamp, reference);

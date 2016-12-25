@@ -24,7 +24,7 @@ public final class AssignmentHandlerAFTGeneral extends AssignmentHandler {
 	@Override
 	public int visit(final IVisitableNode node) {
 		if (node instanceof StatementBlock) {
-			ReferenceCollector referenceCollector = new ReferenceCollector();
+			final ReferenceCollector referenceCollector = new ReferenceCollector();
 			node.accept(referenceCollector);
 			addNonContagiousReferences(referenceCollector.getReferencesAsString());
 			return V_SKIP;

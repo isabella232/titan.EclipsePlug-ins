@@ -79,7 +79,7 @@ public final class ImportModule extends ModuleImportation {
 			return;
 		}
 
-		Module temp = referredModule;
+		final Module temp = referredModule;
 		referredModule = null;
 
 		symbols.checkUniqueness(timestamp);
@@ -115,10 +115,10 @@ public final class ImportModule extends ModuleImportation {
 			referredModule.checkImports(timestamp, referenceChain, moduleStack);
 
 			for (int i = 0; i < symbols.size(); i++) {
-				Identifier id = symbols.getNthElement(i);
-				List<ISubReference> list = new ArrayList<ISubReference>();
+				final Identifier id = symbols.getNthElement(i);
+				final List<ISubReference> list = new ArrayList<ISubReference>();
 				list.add(new FieldSubReference(id));
-				Defined_Reference reference = new Defined_Reference(null, list);
+				final Defined_Reference reference = new Defined_Reference(null, list);
 				reference.setLocation(identifier.getLocation());
 
 				if (null != referredModule.getAssBySRef(timestamp, reference)) {
@@ -190,7 +190,7 @@ public final class ImportModule extends ModuleImportation {
 	 * */
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final Identifier targetModuleId) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 
 		if (propCollector.getReference().getModuleIdentifier() == null && subrefs.size() == 1) {
 			propCollector.addProposal(identifier, ImageCache.getImage(getOutlineIcon()), KIND);
@@ -198,9 +198,9 @@ public final class ImportModule extends ModuleImportation {
 
 		final Module savedReferredModule = referredModule;
 		if (savedReferredModule != null) {
-			Assignments assignments = savedReferredModule.getAssignments();
+			final Assignments assignments = savedReferredModule.getAssignments();
 			for (int i = 0, size = assignments.getNofAssignments(); i < size; i++) {
-				Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
+				final Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
 				if (savedReferredModule.isVisible(CompilationTimeStamp.getBaseTimestamp(), targetModuleId, temporalAssignment)) {
 					temporalAssignment.addProposal(propCollector, 0);
 				}
@@ -222,15 +222,16 @@ public final class ImportModule extends ModuleImportation {
 	public void addDeclaration(final DeclarationCollector declarationCollector, final Identifier targetModuleId) {
 		final Module savedReferredModule = referredModule;
 		if (savedReferredModule != null) {
-			Assignments assignments = savedReferredModule.getAssignments();
+			final Assignments assignments = savedReferredModule.getAssignments();
 			for (int i = 0; i < assignments.getNofAssignments(); i++) {
-				Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
+				final Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
 				if (savedReferredModule.isVisible(CompilationTimeStamp.getBaseTimestamp(), targetModuleId, temporalAssignment)) {
 					temporalAssignment.addDeclaration(declarationCollector, 0);
 				}
 			}
-			Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
-			List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+
+			final Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
+			final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 			if (moduleId == null && subrefs.size() == 1 && identifier.getName().equals(subrefs.get(0).getId().getName())) {
 				declarationCollector.addDeclaration(savedReferredModule.getIdentifier().getDisplayName(), savedReferredModule
 						.getIdentifier().getLocation(), (Scope) null);

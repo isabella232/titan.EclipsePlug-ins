@@ -198,7 +198,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		if (attributes != null) {
 			withAttributesPath.setWithAttributes(attributes);
 			for (int i = 0; i < attributes.getNofElements(); i++) {
-				Qualifiers qs = attributes.getAttribute(i).getQualifiers();
+				final Qualifiers qs = attributes.getAttribute(i).getQualifiers();
 				if (qs == null) {
 					continue;
 				}
@@ -276,12 +276,12 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 			return false;
 		}
 
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 		SingleWithAttribute tempAttribute;
 		for (int i = realAttributes.size() - 1; i >= 0; i--) {
 			tempAttribute = realAttributes.get(i);
 			if (tempAttribute != null && Attribute_Type.Optional_Attribute.equals(tempAttribute.getAttributeType())) {
-				String tempSpecification = tempAttribute.getAttributeSpecification().getSpecification();
+				final String tempSpecification = tempAttribute.getAttributeSpecification().getSpecification();
 				if ("implicit omit".equals(tempSpecification)) {
 					return true;
 				} else if ("explicit omit".equals(tempSpecification)) {
@@ -325,18 +325,18 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	protected void checkErroneousAttributes(final CompilationTimeStamp timestamp) {
 		erroneousAttributes = null;
 		if (withAttributesPath != null) {
-			MultipleWithAttributes attribs = withAttributesPath.getAttributes();
+			final MultipleWithAttributes attribs = withAttributesPath.getAttributes();
 			if (attribs == null) {
 				return;
 			}
 			for (int i = 0; i < attribs.getNofElements(); i++) {
-				SingleWithAttribute actualAttribute = attribs.getAttribute(i);
+				final SingleWithAttribute actualAttribute = attribs.getAttribute(i);
 				if (actualAttribute.getAttributeType() == Attribute_Type.Erroneous_Attribute) {
-					int nofQualifiers = (actualAttribute.getQualifiers() == null) ? 0 : actualAttribute.getQualifiers()
+					final int nofQualifiers = (actualAttribute.getQualifiers() == null) ? 0 : actualAttribute.getQualifiers()
 							.getNofQualifiers();
-					List<IType> referencedTypeArray = new ArrayList<IType>(nofQualifiers);
-					List<ArrayList<Integer>> subrefsArrayArray = new ArrayList<ArrayList<Integer>>(nofQualifiers);
-					List<ArrayList<IType>> typeArrayArray = new ArrayList<ArrayList<IType>>(nofQualifiers);
+					final List<IType> referencedTypeArray = new ArrayList<IType>(nofQualifiers);
+					final List<ArrayList<Integer>> subrefsArrayArray = new ArrayList<ArrayList<Integer>>(nofQualifiers);
+					final List<ArrayList<IType>> typeArrayArray = new ArrayList<ArrayList<IType>>(nofQualifiers);
 					if (nofQualifiers == 0) {
 						actualAttribute.getLocation().reportSemanticError(
 								"At least one qualifier must be specified for the `erroneous' attribute");
@@ -344,10 +344,10 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 						// check if qualifiers point to
 						// existing fields
 						for (int qi = 0; qi < nofQualifiers; qi++) {
-							Qualifier actualQualifier = actualAttribute.getQualifiers().getQualifierByIndex(qi);
-							IType definitionType = getType(timestamp);
+							final Qualifier actualQualifier = actualAttribute.getQualifiers().getQualifierByIndex(qi);
+							final IType definitionType = getType(timestamp);
 							// construct a reference
-							Reference reference = new Reference(null);
+							final Reference reference = new Reference(null);
 							reference.addSubReference(new FieldSubReference(identifier));
 							for (int ri = 0; ri < actualQualifier.getNofSubReferences(); ri++) {
 								reference.addSubReference(actualQualifier.getSubReferenceByIndex(ri));
@@ -361,7 +361,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 							if (fieldType != null) {
 								subrefsArray = new ArrayList<Integer>();
 								typeArray = new ArrayList<IType>();
-								boolean validIndexes = definitionType.getSubrefsAsArray(timestamp, reference, 1,
+								final boolean validIndexes = definitionType.getSubrefsAsArray(timestamp, reference, 1,
 										subrefsArray, typeArray);
 								if (!validIndexes) {
 									fieldType = null;
@@ -383,7 +383,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 						}
 					}
 					// parse the attr. spec.
-					ErroneousAttributeSpecification errAttributeSpecification = parseErrAttrSpecString(actualAttribute
+					final ErroneousAttributeSpecification errAttributeSpecification = parseErrAttrSpecString(actualAttribute
 							.getAttributeSpecification());
 					if (errAttributeSpecification != null) {
 						if (erroneousAttributes == null) {
@@ -396,7 +396,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 						for (int qi = 0; qi < nofQualifiers; qi++) {
 							if (referencedTypeArray.get(qi) != null
 									&& errAttributeSpecification.getIndicator() != Indicator_Type.Invalid_Indicator) {
-								Qualifier actualQualifier = actualAttribute.getQualifiers().getQualifierByIndex(qi);
+								final Qualifier actualQualifier = actualAttribute.getQualifiers().getQualifierByIndex(qi);
 								erroneousAttributes.addFieldErr(actualQualifier, errAttributeSpecification,
 										subrefsArrayArray.get(qi), typeArrayArray.get(qi));
 							}
@@ -435,7 +435,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * */
 	protected final void postCheckPrivateness() {
 		if (isUsed && referingHere.size() == 1 && !VisibilityModifier.Private.equals(visibilityModifier) && !isLocal()) {
-			String moduleName = getMyScope().getModuleScope().getName();
+			final String moduleName = getMyScope().getModuleScope().getName();
 			if (referingHere.get(0).equals(moduleName)) {
 				identifier.getLocation().reportConfigurableSemanticProblem(nonPrivatePrivateSeverity,
 						MessageFormat.format(SHOULD_BE_PRIVATE, identifier.getDisplayName()));
@@ -486,7 +486,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * */
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		String proposalKind = getProposalKind();
+		final String proposalKind = getProposalKind();
 		propCollector.addProposal(identifier, " - " + proposalKind, ImageCache.getImage(getOutlineIcon()), proposalKind);
 	}
 
@@ -513,7 +513,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
-		List<Integer> result = new ArrayList<Integer>();
+		final List<Integer> result = new ArrayList<Integer>();
 
 		if (isLocal()) {
 			return result;
@@ -529,14 +529,14 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	@Override
 	public List<Integer> getPossiblePrefixTokens() {
 		if (isLocal()) {
-			List<Integer> result = new ArrayList<Integer>(2);
+			final List<Integer> result = new ArrayList<Integer>(2);
 			result.add(Ttcn3Lexer.CONST);
 			result.add(Ttcn3Lexer.VAR);
 			return result;
 		}
 
 		if (visibilityModifier == null) {
-			List<Integer> result = new ArrayList<Integer>(3);
+			final List<Integer> result = new ArrayList<Integer>(3);
 			result.add(Ttcn3Lexer.PUBLIC);
 			result.add(Ttcn3Lexer.FRIEND);
 			result.add(Ttcn3Lexer.PRIVATE);
@@ -589,7 +589,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	
 	private static ErroneousAttributeSpecification parseErrAttrSpecString(final AttributeSpecification aAttrSpec) {
 		ErroneousAttributeSpecification returnValue = null;
-		Location location = aAttrSpec.getLocation();
+		final Location location = aAttrSpec.getLocation();
 		String code = aAttrSpec.getSpecification();
 		if (code == null) {
 			return null;
@@ -597,15 +597,15 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		// code must be transformed, according to
 		// compiler2/ttcn3/charstring_la.l
 		code = Ttcn3CharstringLexer.parseCharstringValue(code, location); // TODO
-		Reader reader = new StringReader(code);
-		CharStream charStream = new UnbufferedCharStream(reader);
-		Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
+		final Reader reader = new StringReader(code);
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		// needs to be shifted by one because of the \" of the string
 		lexer.setCharPositionInLine( 0 );
 
 		// lexer and parser listener
-		TitanListener parserListener = new TitanListener();
+		final TitanListener parserListener = new TitanListener();
 		// remove ConsoleErrorListener
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(parserListener);
@@ -617,9 +617,9 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
 		
-		Ttcn3Reparser parser = new Ttcn3Reparser( tokenStream );
+		final Ttcn3Reparser parser = new Ttcn3Reparser( tokenStream );
 		ParserUtilities.setBuildParseTree( parser );
-		IFile file = (IFile) location.getFile();
+		final IFile file = (IFile) location.getFile();
 		parser.setActualFile(file);
 		parser.setOffset( location.getOffset() + 1 );
 		parser.setLine( location.getLine() );
@@ -634,14 +634,14 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		final Pr_ErroneousAttributeSpecContext root = parser.pr_ErroneousAttributeSpec(); 
 		ParserUtilities.logParseTree( root, parser );
 		returnValue = root.errAttrSpec;
-		List<SyntacticErrorStorage> errors = parser.getErrors();
-		List<TITANMarker> warnings = parser.getWarnings();
-		List<TITANMarker> unsupportedConstructs = parser.getUnsupportedConstructs();
+		final List<SyntacticErrorStorage> errors = parser.getErrors();
+		final List<TITANMarker> warnings = parser.getWarnings();
+		final List<TITANMarker> unsupportedConstructs = parser.getUnsupportedConstructs();
 
 		// add markers
 		if (errors != null) {
 			for (int i = 0; i < errors.size(); i++) {
-				Location temp = new Location(location);
+				final Location temp = new Location(location);
 				temp.setOffset(temp.getOffset() + 1);
 				ParserMarkerSupport.createOnTheFlySyntacticMarker(file, errors.get(i), IMarker.SEVERITY_ERROR, temp);
 			}
@@ -649,7 +649,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		if (warnings != null) {
 			for (TITANMarker marker : warnings) {
 				if (file.isAccessible()) {
-					Location loc = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
+					final Location loc = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					loc.reportExternalProblem(marker.getMessage(), marker.getSeverity(),
 							GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				}
@@ -658,7 +658,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		if (unsupportedConstructs != null) {
 			for (TITANMarker marker : unsupportedConstructs) {
 				if (file.isAccessible()) {
-					Location loc = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
+					final Location loc = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					loc.reportExternalProblem(marker.getMessage(), marker.getSeverity(),
 							GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				}

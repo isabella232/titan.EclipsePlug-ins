@@ -173,13 +173,13 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 		}
 
 		for (ImportModule importModule : importedModules_v) {
-			Identifier identifier = importModule.getIdentifier();
+			final Identifier identifier = importModule.getIdentifier();
 
 			if (null == identifier || null == identifier.getLocation()) {
 				continue;
 			}
 
-			Module referredModule = parser.getModuleByName(identifier.getName());
+			final Module referredModule = parser.getModuleByName(identifier.getName());
 
 			if (null == referredModule) {
 				identifier.getLocation().reportSemanticError(
@@ -204,7 +204,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 				importedModules_map.put(name, importModule);
 			}
 
-			Symbols symbols = importModule.getSymbols();
+			final Symbols symbols = importModule.getSymbols();
 			if (null == symbols) {
 				continue;
 			}
@@ -360,10 +360,10 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 *                collecting the declarations.
 	 * */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
-		Reference reference = declarationCollector.getReference();
-		Identifier identifier = reference.getId();
+		final Reference reference = declarationCollector.getReference();
+		final Identifier identifier = reference.getId();
 		if (singularImportedSymbols_map.containsKey(identifier.getName())) {
-			Module tempModule = singularImportedSymbols_map.get(identifier.getName());
+			final Module tempModule = singularImportedSymbols_map.get(identifier.getName());
 			tempModule.getAssignmentsScope().addDeclaration(declarationCollector);
 		}
 		if (!declarationCollector.getCollected().isEmpty()) {

@@ -111,7 +111,7 @@ public final class RunsOnScope extends TTCN3Scope {
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
 			if (componentDefinitions != null
 					&& componentDefinitions.hasLocalAssignmentWithId(declarationCollector.getReference().getId())) {
-				Definition def = componentDefinitions.getLocalAssignmentById(declarationCollector.getReference().getId());
+				final Definition def = componentDefinitions.getLocalAssignmentById(declarationCollector.getReference().getId());
 				declarationCollector.addDeclaration(def);
 			}
 		}

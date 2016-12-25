@@ -45,7 +45,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (parameters == null) {
 			return builder;

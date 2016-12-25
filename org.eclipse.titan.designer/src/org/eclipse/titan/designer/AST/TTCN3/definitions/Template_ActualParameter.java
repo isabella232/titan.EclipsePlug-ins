@@ -46,11 +46,11 @@ public final class Template_ActualParameter extends ActualParameter {
 			return;
 		}
 
-		Reference derivedReference = template.getDerivedReference();
+		final Reference derivedReference = template.getDerivedReference();
 		if (derivedReference != null) {
-			ISubReference subReference = derivedReference.getSubreferences().get(0);
+			final ISubReference subReference = derivedReference.getSubreferences().get(0);
 			if (subReference instanceof ParameterisedSubReference) {
-				ActualParameterList parameterList = ((ParameterisedSubReference) subReference).getActualParameters();
+				final ActualParameterList parameterList = ((ParameterisedSubReference) subReference).getActualParameters();
 				if (parameterList != null) {
 					parameterList.checkRecursions(timestamp, referenceChain);
 				}

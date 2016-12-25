@@ -81,13 +81,13 @@ public final class OriginalModuleSelection extends SelectionMethodBase implement
 
 		boolean foundSkippable = false;
 		// proven to need checking
-		List<Module> failed = new ArrayList<Module>();
-		List<Module> modulesToCheckCopy = new ArrayList<Module>();
+		final List<Module> failed = new ArrayList<Module>();
+		final List<Module> modulesToCheckCopy = new ArrayList<Module>();
 		modulesToCheckCopy.addAll(modulesToCheck);
-		MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
+		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 
 		for (Iterator<Module> iterator = modulesToCheckCopy.iterator(); iterator.hasNext();) {
-			Module module = iterator.next();
+			final Module module = iterator.next();
 			if (module == null) {
 				continue;
 			}
@@ -106,12 +106,12 @@ public final class OriginalModuleSelection extends SelectionMethodBase implement
 			/**
 			 * The modules that are reachable from the starting one.
 			 */
-			List<Module> reachableModules = new ArrayList<Module>();
+			final List<Module> reachableModules = new ArrayList<Module>();
 			reachableModules.add(module);
 
 			boolean valid = true;
 			for (int i = 0; i < reachableModules.size() && valid; i++) {
-				Module module2 = reachableModules.get(i);
+				final Module module2 = reachableModules.get(i);
 				if (module2 == null) {
 					valid = false;
 					TITANDebugConsole.println("  ** Module " + module.getName() + " can not be skipped as it reaches a module that could not be parsed.", stream);
@@ -133,7 +133,8 @@ public final class OriginalModuleSelection extends SelectionMethodBase implement
 						}
 						continue;
 					}
-					List<Module> importedModules = module2.getImportedModules();
+
+					final List<Module> importedModules = module2.getImportedModules();
 					if (!importedModules.isEmpty()) {
 						boolean allElements = true;
 						Module module3;
@@ -205,10 +206,10 @@ public final class OriginalModuleSelection extends SelectionMethodBase implement
 		// the modules that can be reached directly must
 		// be checked as the used state of the
 		// definitions might have changed
-		List<Module> modulesToCheck2 = new ArrayList<Module>();
+		final List<Module> modulesToCheck2 = new ArrayList<Module>();
 		for (Module module2 : modulesToCheck) {
 			if (module2.getLastCompilationTimeStamp() != null && semanticallyChecked.contains(module2.getName())) {
-				List<Module> importedModules = module2.getImportedModules();
+				final List<Module> importedModules = module2.getImportedModules();
 				if (importedModules != null && !importedModules.isEmpty()) {
 					for (Module module3 : importedModules) {
 						if (module3 != null && !modulesToCheck.contains(module3) && !modulesToCheck2.contains(module3)) {

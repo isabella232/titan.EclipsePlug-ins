@@ -48,9 +48,9 @@ public final class BrokenPartsChecker {
 				generalChecker();
 				break;
 			case BROKENREFERENCESINVERTED:
-				BrokenPartsViaReferences brokenParts = (BrokenPartsViaReferences)selectionMethod;
+				final BrokenPartsViaReferences brokenParts = (BrokenPartsViaReferences)selectionMethod;
 				if (brokenParts.getAnalyzeOnlyDefinitions()) {
-					Map<Module, List<Assignment>> moduleAndBrokenDefinitions = brokenParts.getModuleAndBrokenDefs();
+					final Map<Module, List<Assignment>> moduleAndBrokenDefinitions = brokenParts.getModuleAndBrokenDefs();
 					definitionsChecker(moduleAndBrokenDefinitions);
 				} else {
 					generalChecker();
@@ -102,7 +102,7 @@ public final class BrokenPartsChecker {
 		progress.setWorkRemaining(moduleAndBrokenDefs.size());
 
 		for (Map.Entry<Module, List<Assignment>> entry : moduleAndBrokenDefs.entrySet()) {
-			Module module = entry.getKey();
+			final Module module = entry.getKey();
 
 			progress.subTask("Semantically checking broken parts in module: " + module.getName());
 

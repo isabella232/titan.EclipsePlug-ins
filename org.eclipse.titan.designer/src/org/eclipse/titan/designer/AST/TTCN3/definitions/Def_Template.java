@@ -161,7 +161,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (type == child) {
 			return builder.append(FULLNAMEPART1);
@@ -186,7 +186,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	public String getDescription() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(getAssignmentName()).append(" `");
 
 		if (isLocal()) {
@@ -219,7 +219,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
-		StringBuilder text = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
 		if (formalParList == null) {
 			return text.toString();
 		}
@@ -229,11 +229,12 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if (i != 0) {
 				text.append(", ");
 			}
-			FormalParameter parameter = formalParList.getParameterByIndex(i);
+
+			final FormalParameter parameter = formalParList.getParameterByIndex(i);
 			if (Assignment_type.A_PAR_TIMER.equals(parameter.getRealAssignmentType())) {
 				text.append("timer");
 			} else {
-				IType parameterType = parameter.getType(lastTimeChecked);
+				final IType parameterType = parameter.getType(lastTimeChecked);
 				if (parameterType == null) {
 					text.append("Unknown type");
 				} else {
@@ -349,7 +350,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			return;
 		}
 
-		IType lastType = type.getTypeRefdLast(timestamp);
+		final IType lastType = type.getTypeRefdLast(timestamp);
 		switch (lastType.getTypetype()) {
 		case TYPE_PORT:
 			location.reportSemanticError(MessageFormat.format(PORTNOTALLOWED, lastType.getFullName()));
@@ -376,7 +377,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			}
 		}
 
-		ITTCN3Template tempBody = type.checkThisTemplateRef(timestamp, realBody);
+		final ITTCN3Template tempBody = type.checkThisTemplateRef(timestamp, realBody);
 
 		checkDefault(timestamp);
 
@@ -386,7 +387,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		checkErroneousAttributes(timestamp);
 
-		IReferenceChain tempReferenceChain = ReferenceChain.getInstance(CIRCULAREMBEDDEDRECURSION, true);
+		final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(CIRCULAREMBEDDEDRECURSION, true);
 		tempReferenceChain.add(this);
 		tempBody.checkRecursions(timestamp, tempReferenceChain);
 		tempReferenceChain.release();
@@ -394,9 +395,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
 			TemplateRestriction.check(timestamp, this, tempBody, null);
 			if (formalParList != null && templateRestriction != TemplateRestriction.Restriction_type.TR_PRESENT) {
-				int nofFps = formalParList.getNofParameters();
+				final int nofFps = formalParList.getNofParameters();
 				for (int i = 0; i < nofFps; i++) {
-					FormalParameter fp = formalParList.getParameterByIndex(i);
+					final FormalParameter fp = formalParList.getParameterByIndex(i);
 					// if formal par is not template then
 					// skip restriction checking,
 					// templates can have only `in'
@@ -404,7 +405,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					if (fp.getAssignmentType() != Assignment.Assignment_type.A_PAR_TEMP_IN) {
 						continue;
 					}
-					TemplateRestriction.Restriction_type fpTemplateRestriction = fp.getTemplateRestriction();
+					final TemplateRestriction.Restriction_type fpTemplateRestriction = fp.getTemplateRestriction();
 					switch (templateRestriction) {
 					case TR_VALUE:
 					case TR_OMIT:
@@ -441,7 +442,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			return;
 		}
 
-		Assignment assignment = derivedReference.getRefdAssignment(timestamp, false, null);
+		final Assignment assignment = derivedReference.getRefdAssignment(timestamp, false, null);
 		if (assignment == null) {
 			return;
 		}
@@ -455,9 +456,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		baseTemplate = (Def_Template) assignment;
 		baseTemplate.check(timestamp);
 
-		FormalParameterList baseParameters = baseTemplate.getFormalParameterList(timestamp);
-		int nofBaseFps = (baseParameters == null) ? 0 : baseParameters.getNofParameters();
-		int nofLocalFps = (formalParList == null) ? 0 : formalParList.getNofParameters();
+		final FormalParameterList baseParameters = baseTemplate.getFormalParameterList(timestamp);
+		final int nofBaseFps = (baseParameters == null) ? 0 : baseParameters.getNofParameters();
+		final int nofLocalFps = (formalParList == null) ? 0 : formalParList.getNofParameters();
 		int minFps;
 		if (nofLocalFps < nofBaseFps) {
 			minFps = nofLocalFps;
@@ -466,8 +467,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 
 		for (int i = 0; i < minFps; i++) {
-			FormalParameter baseFp = baseParameters.getParameterByIndex(i);
-			FormalParameter localFp = formalParList.getParameterByIndex(i);
+			final FormalParameter baseFp = baseParameters.getParameterByIndex(i);
+			final FormalParameter localFp = formalParList.getParameterByIndex(i);
 			if (localFp.hasNotusedDefaultValue()) {
 				if (baseFp.hasDefaultValue()) {
 					localFp.setDefaultValue(baseFp.getDefaultParameter());
@@ -478,7 +479,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 
 		for (int i = nofBaseFps; i < nofLocalFps; i++) {
-			FormalParameter localFp = formalParList.getParameterByIndex(i);
+			final FormalParameter localFp = formalParList.getParameterByIndex(i);
 			if (localFp.hasNotusedDefaultValue()) {
 				localFp.getLocation().reportSemanticError(NOBASETEMPLATEPARFORDASH);
 			}
@@ -497,16 +498,16 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			return;
 		}
 
-		IType baseType = baseTemplate.getType(timestamp);
+		final IType baseType = baseTemplate.getType(timestamp);
 		if (!type.isCompatible(timestamp, baseType, null, null, null)) {
 			type.getLocation().reportSemanticError(
 					MessageFormat.format(IMCOMPATIBLEBASETYPE, baseTemplate.getFullName(), baseType.getFullName(),
 							type.getFullName()));
 		}
 
-		FormalParameterList baseParameters = baseTemplate.getFormalParameterList(timestamp);
-		int nofBaseFps = (baseParameters == null) ? 0 : baseParameters.getNofParameters();
-		int nofLocalFps = (formalParList == null) ? 0 : formalParList.getNofParameters();
+		final FormalParameterList baseParameters = baseTemplate.getFormalParameterList(timestamp);
+		final int nofBaseFps = (baseParameters == null) ? 0 : baseParameters.getNofParameters();
+		final int nofLocalFps = (formalParList == null) ? 0 : formalParList.getNofParameters();
 		int minFps;
 		if (nofLocalFps < nofBaseFps) {
 			location.reportSemanticError(MessageFormat.format(FEWERFORMALPARAMETERS, baseTemplate.getFullName(), nofBaseFps, nofLocalFps));
@@ -516,8 +517,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 
 		for (int i = 0; i < minFps; i++) {
-			FormalParameter baseFormalpar = baseParameters.getParameterByIndex(i);
-			FormalParameter localFormalpar = formalParList.getParameterByIndex(i);
+			final FormalParameter baseFormalpar = baseParameters.getParameterByIndex(i);
+			final FormalParameter localFormalpar = formalParList.getParameterByIndex(i);
 
 			if (baseFormalpar.getAssignmentType() != localFormalpar.getAssignmentType()) {
 				localFormalpar.getLocation().reportSemanticError(
@@ -525,8 +526,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 								baseFormalpar.getAssignmentName(), localFormalpar.getAssignmentName()));
 			}
 
-			Type baseFpType = baseFormalpar.getType(timestamp);
-			Type localFpType = localFormalpar.getType(timestamp);
+			final Type baseFpType = baseFormalpar.getType(timestamp);
+			final Type localFpType = localFormalpar.getType(timestamp);
 			if (!baseFpType.isCompatible(timestamp, localFpType, null, null, null)) {
 				if (!localFpType.getIsErroneous(timestamp) && !baseFpType.getIsErroneous(timestamp)) {
 					localFpType.getLocation().reportSemanticError(
@@ -535,8 +536,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				}
 			}
 
-			Identifier baseFormalparId = baseFormalpar.getIdentifier();
-			Identifier localFormalparId = localFormalpar.getIdentifier();
+			final Identifier baseFormalparId = baseFormalpar.getIdentifier();
+			final Identifier localFormalparId = localFormalpar.getIdentifier();
 			if (!baseFormalparId.equals(localFormalparId)) {
 				localFormalpar.getLocation().reportSemanticError(
 						MessageFormat.format(DIFFERENTPARAMETERNAMES, baseTemplate.getFullName(),
@@ -559,7 +560,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 
 		if (baseTemplate != null) {
-			IReferenceChain tempReferenceChain = ReferenceChain.getInstance(CIRCULARBASETEMPLATES, true);
+			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(CIRCULARBASETEMPLATES, true);
 
 			tempReferenceChain.add(this);
 			Def_Template iterator = baseTemplate;
@@ -591,7 +592,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	public String getProposalKind() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		if (type != null) {
 			type.getProposalDescription(builder);
 		}
@@ -601,7 +602,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	public String getProposalDescription() {
-		StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		if (formalParList != null) {
 			nameBuilder.append('(');
 			formalParList.getAsProposalDesriptionPart(nameBuilder);
@@ -613,14 +614,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i) {
 			return;
 		}
 
 		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
 			if (formalParList != null) {
-				StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
+				final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 				patternBuilder.append('(');
 				formalParList.getAsProposalPart(patternBuilder);
 				patternBuilder.append(')');
@@ -637,7 +638,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
 			if (subrefs.size() > i + 1 && type != null) {
 				type.addDeclaration(declarationCollector, i + 1);
@@ -658,11 +659,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			lastTimeChecked = null;
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parseAndSetNameChanged();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 				// damage handled
 				if (result == 0 && identifier != null) {

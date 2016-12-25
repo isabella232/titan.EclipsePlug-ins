@@ -88,7 +88,7 @@ public final class Def_Port extends Definition {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (portTypeReference == child) {
 			return builder.append(FULLNAMEPART1);
@@ -143,7 +143,7 @@ public final class Def_Port extends Definition {
 			return;
 		}
 
-		Assignment assignment = portTypeReference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = portTypeReference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return;
 		}
@@ -190,7 +190,7 @@ public final class Def_Port extends Definition {
 			return false;
 		}
 
-		Def_Port otherPort = (Def_Port) definition;
+		final Def_Port otherPort = (Def_Port) definition;
 		if (!portType.isIdentical(timestamp, otherPort.portType)) {
 			final String mesage = MessageFormat.format(
 					"Local port `{0}'' has type `{1}'', but the port inherited from component type `{2}'' has type `{3}''",
@@ -231,7 +231,7 @@ public final class Def_Port extends Definition {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i) {
 			return;
 		}
@@ -246,7 +246,7 @@ public final class Def_Port extends Definition {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
 			if (subrefs.size() > i + 1 && portType != null) {
 				portType.addDeclaration(declarationCollector, i + 1);
@@ -262,11 +262,11 @@ public final class Def_Port extends Definition {
 			lastTimeChecked = null;
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parseAndSetNameChanged();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 				if (result == 0 && identifier != null) {
 					enveloped = true;

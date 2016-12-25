@@ -40,12 +40,12 @@ public final class AssignmentHandlerAFTRerences extends ReferencesProcessor {
 
 	private Set<String> computeIsInfected(final Set<String> otherInfectedReferences) {
 
-		Set<String> result = new HashSet<String>();
+		final Set<String> result = new HashSet<String>();
 
-		Set<String> intersectionWithNonContagiousReferences = new HashSet<String>(getNonContagiousReferences());
+		final Set<String> intersectionWithNonContagiousReferences = new HashSet<String>(getNonContagiousReferences());
 		intersectionWithNonContagiousReferences.retainAll(otherInfectedReferences);
 
-		Set<String> intersectionWithContagiousReferences = new HashSet<String>(getContagiousReferences());
+		final Set<String> intersectionWithContagiousReferences = new HashSet<String>(getContagiousReferences());
 		intersectionWithContagiousReferences.retainAll(otherInfectedReferences);
 
 		result.addAll(intersectionWithNonContagiousReferences);
@@ -58,13 +58,14 @@ public final class AssignmentHandlerAFTRerences extends ReferencesProcessor {
 			return;
 		}
 
-		String otherName = other.getAssignment().getIdentifier().getDisplayName();
+		final String otherName = other.getAssignment().getIdentifier().getDisplayName();
 		if (other.getAssignment().getLastTimeChecked() == null && isContagiousReferencesContains(otherName)) {
 			setIsInfected(true);
 			addInfectedReference(otherName);
 			return;
 		}
-		Set<String> infectedReferences = computeIsInfected(other.getInfectedReferences());
+
+		final Set<String> infectedReferences = computeIsInfected(other.getInfectedReferences());
 		if (!infectedReferences.isEmpty() || isContagiousReferencesContains(otherName)) {
 			setIsInfected(true);
 			addReason("It uses " + otherName + "@" + other.getAssignment().getMyScope().getModuleScope().getIdentifier().getDisplayName() + " which is infected.");
@@ -74,15 +75,15 @@ public final class AssignmentHandlerAFTRerences extends ReferencesProcessor {
 	@Override
 	public int visit(final IVisitableNode node) {
 		if (node instanceof ASN1Assignment) {
-			ASN1Assignment assignment = (ASN1Assignment) node;
+			final ASN1Assignment assignment = (ASN1Assignment) node;
 			if(assignment.getAssPard() != null) {
 				return V_SKIP;
 			}
 		}
 		if (node instanceof StatementBlock) {
-			ReferenceCollector referenceCollector = new ReferenceCollector();
+			final ReferenceCollector referenceCollector = new ReferenceCollector();
 			node.accept(referenceCollector);
-			Set<Reference> references = referenceCollector.getReferences();//TODO: broken if reference does not point anywhere
+			final Set<Reference> references = referenceCollector.getReferences();//TODO: broken if reference does not point anywhere
 			addNonContagiousReferences(computeReferences(references));
 			if(containsErroneousReference(references)) {
 				setIsInfected(true);
@@ -91,7 +92,7 @@ public final class AssignmentHandlerAFTRerences extends ReferencesProcessor {
 		}
 
 		if (node instanceof Reference) {
-			Identifier identifier = ((Reference) node).getId();
+			final Identifier identifier = ((Reference) node).getId();
 			if(identifier != null) {
 				addContagiousReference(identifier.getDisplayName());
 			}

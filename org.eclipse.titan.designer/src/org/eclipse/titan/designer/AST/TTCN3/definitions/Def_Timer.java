@@ -93,7 +93,7 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (dimensions == child) {
 			return builder.append(FULLNAMEPART1);
@@ -111,7 +111,7 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	public String getDescription() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(getAssignmentName()).append(" `");
 
 		if (isLocal()) {
@@ -158,24 +158,24 @@ public final class Def_Timer extends Definition {
 		}
 
 		IValue v = defaultDuration;
-		List<ISubReference> subreferences = reference.getSubreferences();
-		int nofDimensions = dimensions.size();
-		int nofReferences = subreferences.size() - 1;
-		int upperLimit = (nofDimensions < nofReferences) ? nofDimensions : nofReferences;
+		final List<ISubReference> subreferences = reference.getSubreferences();
+		final int nofDimensions = dimensions.size();
+		final int nofReferences = subreferences.size() - 1;
+		final int upperLimit = (nofDimensions < nofReferences) ? nofDimensions : nofReferences;
 		for (int i = 0; i < upperLimit; i++) {
 			v = v.getValueRefdLast(timestamp, null);
 			if (Value_type.SEQUENCEOF_VALUE.equals(v.getValuetype())) {
-				ISubReference ref = subreferences.get(i + 1);
+				final ISubReference ref = subreferences.get(i + 1);
 				if (!Subreference_type.arraySubReference.equals(ref.getReferenceType())) {
 					return true;
 				}
 
-				IValue index = ((ArraySubReference) ref).getValue();
+				final IValue index = ((ArraySubReference) ref).getValue();
 				if (!Value_type.INTEGER_VALUE.equals(index.getValuetype())) {
 					return true;
 				}
 
-				long realIndex = ((Integer_Value) index).getValue() - dimensions.get(i).getOffset();
+				final long realIndex = ((Integer_Value) index).getValue() - dimensions.get(i).getOffset();
 				if (realIndex >= 0 && realIndex < ((SequenceOf_Value) v).getNofComponents()) {
 					v = ((SequenceOf_Value) v).getValueByIndex((int) realIndex);
 				}
@@ -213,15 +213,15 @@ public final class Def_Timer extends Definition {
 		if (defaultDuration != null) {
 			if (dimensions == null) {
 				defaultDuration.setLoweridToReference(timestamp);
-				Type_type tempType = defaultDuration.getExpressionReturntype(timestamp,
+				final Type_type tempType = defaultDuration.getExpressionReturntype(timestamp,
 						isLocal() ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : Expected_Value_type.EXPECTED_STATIC_VALUE);
 
 				switch (tempType) {
 				case TYPE_REAL:
-					IValue last = defaultDuration.getValueRefdLast(timestamp, null);
+					final IValue last = defaultDuration.getValueRefdLast(timestamp, null);
 					if (!last.isUnfoldable(timestamp)) {
-						Real_Value real = (Real_Value) last;
-						double value = real.getValue();
+						final Real_Value real = (Real_Value) last;
+						final double value = real.getValue();
 						if (value < 0.0f) {
 							defaultDuration.getLocation().reportSemanticError(
 									MessageFormat.format(NEGATIVDURATIONERROR, value));
@@ -268,7 +268,7 @@ public final class Def_Timer extends Definition {
 			return false;
 		}
 
-		Def_Timer otherTimer = (Def_Timer) definition;
+		final Def_Timer otherTimer = (Def_Timer) definition;
 		if (dimensions != null) {
 			if (otherTimer.dimensions != null) {
 				if (!dimensions.isIdenticial(timestamp, otherTimer.dimensions)) {
@@ -316,7 +316,7 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || !Subreference_type.fieldSubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -333,7 +333,7 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
 			if (subrefs.size() == i + 1 && Subreference_type.fieldSubReference.equals(subrefs.get(i).getReferenceType())) {
 				declarationCollector.addDeclaration(this);
@@ -343,7 +343,7 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
-		List<Integer> result = super.getPossibleExtensionStarterTokens();
+		final List<Integer> result = super.getPossibleExtensionStarterTokens();
 		
 		if (defaultDuration == null) {
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
@@ -357,10 +357,10 @@ public final class Def_Timer extends Definition {
 		if (isDamaged) {
 			lastTimeChecked = null;
 			int result = 1;
-			Location tempIdentifier = identifier.getLocation();
+			final Location tempIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(tempIdentifier) || reparser.isExtending(tempIdentifier)) {
 				reparser.extendDamagedRegion(tempIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
 				result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 				if (result != 0) {

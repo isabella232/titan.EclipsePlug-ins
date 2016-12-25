@@ -162,7 +162,7 @@ public final class SpecialASN1Module {
 			return specialAssignmentsModule;
 		}
 
-		ASN1Assignments parsedAssignments = new ASN1Assignments();
+		final ASN1Assignments parsedAssignments = new ASN1Assignments();
 		ASN1Assignment actualAssignment;
 
 		for (String[] assignment : INTERNAL_ASSIGNMENTS) {
@@ -179,8 +179,8 @@ public final class SpecialASN1Module {
 		specialAssignmentsModule.setLocation(NULL_Location.INSTANCE);
 		specialAssignmentsModule.setScopeName(INTERNAL_MODULE);
 
-		CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
-		ModuleImportationChain referenceChain = new ModuleImportationChain(ModuleImportationChain.CIRCULARREFERENCE, false);
+		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
+		final ModuleImportationChain referenceChain = new ModuleImportationChain(ModuleImportationChain.CIRCULARREFERENCE, false);
 		specialAssignmentsModule.checkImports(timestamp, referenceChain, new ArrayList<Module>());
 
 		specialAssignmentsModule.check(timestamp);
@@ -219,21 +219,21 @@ public final class SpecialASN1Module {
 	 */
 	public static ASN1Assignment parseSpecialInternalAssignment(final String inputCode, final Identifier identifier) {
 		ASN1Assignment assignment = null;
-		StringReader reader = new StringReader(inputCode);
-		CharStream charStream = new UnbufferedCharStream(reader);
-		Asn1Lexer lexer = new Asn1Lexer(charStream);
+		final StringReader reader = new StringReader(inputCode);
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final Asn1Lexer lexer = new Asn1Lexer(charStream);
 		lexer.setTokenFactory(new TokenWithIndexAndSubTokensFactory(true));
 
-		ASN1Listener lexerListener = new ASN1Listener();
+		final ASN1Listener lexerListener = new ASN1Listener();
 		lexer.removeErrorListeners(); // remove ConsoleErrorListener
 		lexer.addErrorListener(lexerListener);
-		ModuleLevelTokenStreamTracker tracker = new ModuleLevelTokenStreamTracker(lexer);
+		final ModuleLevelTokenStreamTracker tracker = new ModuleLevelTokenStreamTracker(lexer);
 		tracker.discard(Asn1Lexer.WS);
 		tracker.discard(Asn1Lexer.MULTILINECOMMENT);
 		tracker.discard(Asn1Lexer.SINGLELINECOMMENT);
-		Asn1Parser parser = new Asn1Parser(tracker);
+		final Asn1Parser parser = new Asn1Parser(tracker);
 		parser.setBuildParseTree(false);		
-		ASN1Listener parserListener = new ASN1Listener(parser);
+		final ASN1Listener parserListener = new ASN1Listener(parser);
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
 		parser.addErrorListener(parserListener);
 		assignment = parser.pr_TITAN_special_Assignment(identifier).assignment;

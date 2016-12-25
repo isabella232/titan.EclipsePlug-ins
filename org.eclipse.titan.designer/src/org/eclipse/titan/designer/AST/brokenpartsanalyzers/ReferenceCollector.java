@@ -30,7 +30,7 @@ public final class ReferenceCollector extends ASTVisitor {
 	}
 
 	public Set<String> getReferencesAsString() {
-		Set<String> result = new HashSet<String>();
+		final Set<String> result = new HashSet<String>();
 		for (Reference reference : references) {
 			result.add(reference.getId().getDisplayName());
 		}

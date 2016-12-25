@@ -84,8 +84,8 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 		computeAnalyzeOnlyDefinitionsFlag(allModules, startModules);
 
 		if (analyzeOnlyAssignments) {
-			IPreferencesService preferenceService = Platform.getPreferencesService();
-			boolean useIncrementalParsing = preferenceService.getBoolean(
+			final IPreferencesService preferenceService = Platform.getPreferencesService();
+			final boolean useIncrementalParsing = preferenceService.getBoolean(
 					ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.USEINCREMENTALPARSING, false, null); 
 			final Map<Module, List<AssignmentHandler>> result = collectBrokenParts(startModules, invertedImports,useIncrementalParsing);
@@ -123,7 +123,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	 * @param startModules - the broken modules
 	 */
 	public void computeAnalyzeOnlyDefinitionsFlag(final List<Module> allModules, final List<Module> startModules) {
-		float brokenModulesRatio = (float) ((startModules.size() * 100.0) / allModules.size());
+		final float brokenModulesRatio = (float) ((startModules.size() * 100.0) / allModules.size());
 		if (Float.compare(brokenModulesRatio, (float) BROKEN_MODULE_LIMIT) < 0) {
 			analyzeOnlyAssignments = true;
 		}
@@ -274,7 +274,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 				for (int j = 0; j < whereStartModuleUsed.size(); ++j) {
 					final Module dependentModule = whereStartModuleUsed.get(j);
 					//overwrites the dependentAssignments with the full list of assignments
-					List<AssignmentHandler> dependentAssignments = getAssignmentsFrom(dependentModule);
+					final List<AssignmentHandler> dependentAssignments = getAssignmentsFrom(dependentModule);
 					moduleAndBrokenAssignments.put(dependentModule, dependentAssignments);
 				}
 			} else {
@@ -340,7 +340,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 			boolean useIncrementalParsing) {
 		for (Map.Entry<Module, List<AssignmentHandler>> entry : moduleAndAssignments.entrySet()) {
 
-			List<Assignment> assignments = new ArrayList<Assignment>();
+			final List<Assignment> assignments = new ArrayList<Assignment>();
 			for (AssignmentHandler assignmentHandler : entry.getValue()) {
 				if (!useIncrementalParsing || assignmentHandler.getIsInfected()) {
 					assignments.add(assignmentHandler.getAssignment());

@@ -168,7 +168,7 @@ public abstract class AssignmentHandler extends ASTVisitor implements IAssignmen
 	}
 
 	public void checkIsInfected(final AssignmentHandler other) {
-		String otherName = other.getAssignment().getIdentifier().getDisplayName();
+		final String otherName = other.getAssignment().getIdentifier().getDisplayName();
 		if (other.getIsInfected() && (doNonContagiousReferencesContains(otherName) || isContagiousReferencesContains(otherName))) {
 			addInfectedReference(otherName);
 			setIsInfected(true);
@@ -177,7 +177,7 @@ public abstract class AssignmentHandler extends ASTVisitor implements IAssignmen
 	}
 
 	public void checkIsContagious(final AssignmentHandler other) {
-		String otherName = other.getAssignment().getIdentifier().getDisplayName();
+		final String otherName = other.getAssignment().getIdentifier().getDisplayName();
 		if (other.getIsInfected() && isContagiousReferencesContains(otherName)) {
 			addInfectedReference(otherName);
 			setIsContagious(true);

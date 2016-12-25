@@ -85,7 +85,7 @@ public final class Def_ModulePar_Template extends Definition {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 		if (type == child) {
 			return builder.append(FULLNAMEPART1);
 		} else if (defaultTemplate == child) {
@@ -160,7 +160,7 @@ public final class Def_ModulePar_Template extends Definition {
 		type.check(timestamp);
 		
 
-		IType lastType = type.getTypeRefdLast(timestamp);
+		final IType lastType = type.getTypeRefdLast(timestamp);
 		switch (lastType.getTypetype()) {
 		case TYPE_PORT:
 			location.reportSemanticError(MessageFormat.format(Def_ModulePar.PORTNOTALLOWED, lastType.getFullName()));
@@ -189,9 +189,10 @@ public final class Def_ModulePar_Template extends Definition {
 				// once universal charstring pattern are
 				// supported.
 			}
-			ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, realTemplate);
+
+			final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, realTemplate);
 			temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false);
-			IReferenceChain tempReferenceChain = ReferenceChain.getInstance(Def_Template.CIRCULAREMBEDDEDRECURSION, true);
+			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(Def_Template.CIRCULAREMBEDDEDRECURSION, true);
 			tempReferenceChain.add(this);
 			temporalTemplate.checkRecursions(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
@@ -206,7 +207,7 @@ public final class Def_ModulePar_Template extends Definition {
 
 	@Override
 	public String getProposalKind() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		if (type != null) {
 			type.getProposalDescription(builder);
 		}
@@ -216,7 +217,7 @@ public final class Def_ModulePar_Template extends Definition {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i) {
 			return;
 		}
@@ -232,7 +233,7 @@ public final class Def_ModulePar_Template extends Definition {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
 			if (subrefs.size() > i + 1 && type != null) {
 				type.addDeclaration(declarationCollector, i + 1);
@@ -244,7 +245,7 @@ public final class Def_ModulePar_Template extends Definition {
 
 	@Override
 	public String getOutlineText() {
-		StringBuilder text = new StringBuilder(getIdentifier().getDisplayName());
+		final StringBuilder text = new StringBuilder(getIdentifier().getDisplayName());
 		text.append(" : ");
 		text.append(type.getTypename());
 		return text.toString();
@@ -252,7 +253,7 @@ public final class Def_ModulePar_Template extends Definition {
 
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
-		List<Integer> result = super.getPossibleExtensionStarterTokens();
+		final List<Integer> result = super.getPossibleExtensionStarterTokens();
 		
 		if (defaultTemplate == null) {
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
@@ -267,11 +268,11 @@ public final class Def_ModulePar_Template extends Definition {
 			lastTimeChecked = null;
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parseAndSetNameChanged();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 				// damage handled
 				if (result == 0 && identifier != null) {

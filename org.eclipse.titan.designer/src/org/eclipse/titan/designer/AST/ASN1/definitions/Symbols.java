@@ -94,7 +94,7 @@ public final class Symbols implements IVisitableNode {
 		symbols_v.trimToSize();
 
 		for (Identifier id : symbols_v) {
-			String name = id.getName();
+			final String name = id.getName();
 			if (symbols_map.containsKey(name)) {
 				final Location location = symbols_map.get(name).getLocation();
 				location.reportSingularSemanticError(MessageFormat.format(DUPLICATESYMBOLFIRST, id.getDisplayName()));

@@ -32,9 +32,9 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 
 	public void collectDataFrom(final ComponentTypeBody componentTypeBody) {
 		for (final Definition tempDefinition : componentTypeBody.getDefinitions()) {
-			ReferenceCollector referenceCollector = new ReferenceCollector();
+			final ReferenceCollector referenceCollector = new ReferenceCollector();
 			tempDefinition.accept(referenceCollector);
-			Set<String> references = computeReferences(referenceCollector.getReferences());
+			final Set<String> references = computeReferences(referenceCollector.getReferences());
 			if (containsErroneousReference(referenceCollector.getReferences())) {
 				setIsInfected(true);
 			}
@@ -47,7 +47,7 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 
 	private void processComponentTypeReferenceList(final ComponentTypeReferenceList componentTypeReferenceList) {
 		if (componentTypeReferenceList != null) {
-			ReferenceCollector referenceCollector = new ReferenceCollector();
+			final ReferenceCollector referenceCollector = new ReferenceCollector();
 			componentTypeReferenceList.accept(referenceCollector);
 			if (containsErroneousReference(referenceCollector.getReferences())) {
 				setIsInfected(true);
@@ -79,7 +79,8 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 		if (!other.getIsInfected()) {
 			return;
 		}
-		String otherName = other.getAssignment().getIdentifier().getDisplayName();
+
+		final String otherName = other.getAssignment().getIdentifier().getDisplayName();
 		if (other.getAssignment().getLastTimeChecked() == null && isContagiousReferencesContains(otherName)) {
 			setIsInfected(true);
 			addInfectedReference(otherName);
@@ -87,7 +88,7 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 			return;
 		}
 		
-		Set<String> infectedFields = computeInfectedFields(otherName);
+		final Set<String> infectedFields = computeInfectedFields(otherName);
 		if (!infectedFields.isEmpty()) {
 			addContagiousReferences(infectedFields);
 			addInfectedReferences(infectedFields);
@@ -97,9 +98,9 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 	}
 //TODO ez lehetne boolean ?
 	private Set<String> computeInfectedFields(final String definitionName) {
-		Set<String> result = new HashSet<String>();
+		final Set<String> result = new HashSet<String>();
 		for (Map.Entry<Definition, Set<String>> entry : componentDefinitions.entrySet()) {
-			Set<String> references = entry.getValue();
+			final Set<String> references = entry.getValue();
 			for (String referene : references) {
 				if (referene.equals(definitionName)) {
 					result.add(definitionName);

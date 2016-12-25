@@ -176,11 +176,11 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (Group group : groups) {
 			if (group == child) {
-				Identifier tempIdentifier = group.getIdentifier();
+				final Identifier tempIdentifier = group.getIdentifier();
 				return builder.append(INamedNode.DOT).append(tempIdentifier.getDisplayName());
 			}
 		}
@@ -264,7 +264,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() == 1 && identifier.getName().equals(subrefs.get(0).getId().getName())) {
 			declarationCollector.addDeclaration(this);
 		}
@@ -317,7 +317,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	/** @return the group definitions and other definitions. */
 	@Override
 	public Object[] getOutlineChildren() {
-		List<Object> outlineElements = new ArrayList<Object>();
+		final List<Object> outlineElements = new ArrayList<Object>();
 		if (!importedModules.isEmpty()) {
 			outlineElements.add(importedModules);
 		}
@@ -329,9 +329,9 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		// Take care of ordering.
 		int from = 0;
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition def = iterator.next();
+			final Definition def = iterator.next();
 			for (int j = from; j < groups.size(); j++) {
-				Group grp = groups.get(j);
+				final Group grp = groups.get(j);
 				if (def.getLocation().getLine() >= grp.getLocation().getLine()) {
 					outlineElements.add(grp);
 					++from;
@@ -374,18 +374,18 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			return;
 		}
 
-		Map<String, Definition> definitionMap = new HashMap<String, Definition>(definitions.size());
-		Map<String, Group> groupMap = new HashMap<String, Group>(groups.size());
+		final Map<String, Definition> definitionMap = new HashMap<String, Definition>(definitions.size());
+		final Map<String, Group> groupMap = new HashMap<String, Group>(groups.size());
 
 		for (Definition def : definitions) {
-			String defName = def.getIdentifier().getName();
+			final String defName = def.getIdentifier().getName();
 			if (!definitionMap.containsKey(defName)) {
 				definitionMap.put(defName, def);
 			}
 		}
 
 		for (Group group : groups) {
-			String groupName = group.getIdentifier().getName();
+			final String groupName = group.getIdentifier().getName();
 			if (groupMap.containsKey(groupName)) {
 				groupMap.get(groupName).getIdentifier().getLocation()
 						.reportSingularSemanticError(MessageFormat.format(DUPLICATEGROUPFIRST, groupName));
@@ -450,7 +450,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
-			List<Integer> result = new ArrayList<Integer>();
+			final List<Integer> result = new ArrayList<Integer>();
 			result.add(Ttcn3Lexer.WITH);
 			return result;
 		}
@@ -461,7 +461,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	@Override
 	public List<Integer> getPossiblePrefixTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
-			List<Integer> result = new ArrayList<Integer>(2);
+			final List<Integer> result = new ArrayList<Integer>(2);
 			result.add(Ttcn3Lexer.PUBLIC);
 			result.add(Ttcn3Lexer.PRIVATE);
 			return result;
@@ -505,15 +505,15 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		return aReparser.parse(new ITTCN3ReparseBase() {
 			@Override
 			public void reparse(final Ttcn3Reparser parser) {
-				List<Definition> allDefinitions = new ArrayList<Definition>();
-				List<Definition> localDefinitions = new ArrayList<Definition>();
-				List<Group> localGroups = new ArrayList<Group>();
-				List<ImportModule> allImports = new ArrayList<ImportModule>();
-				List<ImportModule> localImports = new ArrayList<ImportModule>();
-				List<FriendModule> allFriends = new ArrayList<FriendModule>();
-				List<FriendModule> localFriends = new ArrayList<FriendModule>();
+				final List<Definition> allDefinitions = new ArrayList<Definition>();
+				final List<Definition> localDefinitions = new ArrayList<Definition>();
+				final List<Group> localGroups = new ArrayList<Group>();
+				final List<ImportModule> allImports = new ArrayList<ImportModule>();
+				final List<ImportModule> localImports = new ArrayList<ImportModule>();
+				final List<FriendModule> allFriends = new ArrayList<FriendModule>();
+				final List<FriendModule> localFriends = new ArrayList<FriendModule>();
 
-				TTCN3Module temp = getModule();
+				final TTCN3Module temp = getModule();
 
 				parser.setModule(temp);
 				final Pr_reparse_ModuleDefinitionsListContext root =
@@ -592,12 +592,12 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		int nofDamaged = 0;
 		int leftBoundary = innerLocation.getOffset() + 1;
 		int rightBoundary = innerLocation.getEndOffset() - 1;
-		int damageOffset = reparser.getDamageStart();
+		final int damageOffset = reparser.getDamageStart();
 		IAppendableSyntax lastAppendableBeforeChange = null;
 		IAppendableSyntax lastPrependableBeforeChange = null;
 
 		for (int i = 0, size = groups.size(); i < size && !enveloped; i++) {
-			Group temp = groups.get(i);
+			final Group temp = groups.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
 				enveloped = true;
@@ -618,7 +618,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = 0, size = importedModules.size(); i < size && !enveloped; i++) {
-			ImportModule temp = importedModules.get(i);
+			final ImportModule temp = importedModules.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
 				enveloped = true;
@@ -639,7 +639,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = 0, size = friendModules.size(); i < size && !enveloped; i++) {
-			FriendModule temp = friendModules.get(i);
+			final FriendModule temp = friendModules.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
 				enveloped = true;
@@ -660,7 +660,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			tempLocation = temp.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
 				enveloped = true;
@@ -684,7 +684,8 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 					lastPrependableBeforeChange = temp;
 				}
 			}
-			Location tempCommentLocation = temp.getCommentLocation();
+
+			final Location tempCommentLocation = temp.getCommentLocation();
 			if (tempCommentLocation != null && reparser.isDamaged(tempCommentLocation)) {
 				rightBoundary = tempCommentLocation.getOffset();
 				lastPrependableBeforeChange = temp;
@@ -701,7 +702,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		// should add it to the damaged domain as the extension might be
 		// correct
 		if (lastAppendableBeforeChange != null) {
-			boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
+			final boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
 			if (isBeingExtended) {
 				leftBoundary = lastAppendableBeforeChange.getLocation().getOffset();
 				nofDamaged++;
@@ -711,7 +712,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		if (lastPrependableBeforeChange != null) {
-			List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
+			final List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
 
 			if (temp != null && reparser.endsWithToken(temp)) {
 				rightBoundary = lastPrependableBeforeChange.getLocation().getEndOffset();
@@ -728,7 +729,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 		// update what is left
 		for (int i = 0; i < groups.size(); i++) {
-			Group temp = groups.get(i);
+			final Group temp = groups.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				try {
@@ -749,7 +750,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = 0; i < importedModules.size(); i++) {
-			ImportModule temp = importedModules.get(i);
+			final ImportModule temp = importedModules.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				try {
@@ -770,7 +771,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = 0; i < friendModules.size(); i++) {
-			FriendModule temp = friendModules.get(i);
+			final FriendModule temp = friendModules.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				try {
@@ -791,11 +792,11 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				try {
-					boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
+					final boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
 					temp.updateSyntax(reparser, isDamaged);
 					if (reparser.getNameChanged()) {
 						lastUniquenessCheckTimeStamp = null;
@@ -823,7 +824,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = 0, size = groups.size(); i < size; i++) {
-			Group temp = groups.get(i);
+			final Group temp = groups.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
@@ -831,7 +832,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = 0, size = importedModules.size(); i < size; i++) {
-			ImportModule temp = importedModules.get(i);
+			final ImportModule temp = importedModules.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
@@ -839,7 +840,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = 0, size = friendModules.size(); i < size; i++) {
-			FriendModule temp = friendModules.get(i);
+			final FriendModule temp = friendModules.get(i);
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
@@ -847,7 +848,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
@@ -900,7 +901,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	private void removeStuffInRange(final TTCN3ReparseUpdater reparser, final List<ImportModule> allImportedModules,
 			final List<Definition> allDefinitions, final List<FriendModule> allFriends) {
 		for (int i = groups.size() - 1; i >= 0; i--) {
-			Group temp = groups.get(i);
+			final Group temp = groups.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				groups.remove(i);
@@ -908,7 +909,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = importedModules.size() - 1; i >= 0; i--) {
-			ImportModule temp = importedModules.get(i);
+			final ImportModule temp = importedModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				importedModules.remove(i);
@@ -916,7 +917,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = allImportedModules.size() - 1; i >= 0; i--) {
-			ImportModule temp = allImportedModules.get(i);
+			final ImportModule temp = allImportedModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				allImportedModules.remove(i);
@@ -924,7 +925,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = friendModules.size() - 1; i >= 0; i--) {
-			FriendModule temp = friendModules.get(i);
+			final FriendModule temp = friendModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				friendModules.remove(i);
@@ -932,7 +933,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = allFriends.size() - 1; i >= 0; i--) {
-			FriendModule temp = allFriends.get(i);
+			final FriendModule temp = allFriends.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				allFriends.remove(i);
@@ -940,7 +941,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (int i = definitions.size() - 1; i >= 0; i--) {
-			Definition temp = definitions.get(i);
+			final Definition temp = definitions.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				definitions.remove(i);
@@ -948,7 +949,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		}
 
 		for (Iterator<Definition> iterator = allDefinitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				allDefinitions.remove(temp);

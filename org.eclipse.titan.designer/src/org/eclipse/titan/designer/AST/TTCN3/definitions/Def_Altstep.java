@@ -104,7 +104,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (formalParList == child) {
 			return builder.append(FULLNAMEPART1);
@@ -141,7 +141,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	@Override
 	public String getProposalDescription() {
-		StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		nameBuilder.append('(');
 		formalParList.getAsProposalDesriptionPart(nameBuilder);
 		nameBuilder.append(')');
@@ -173,8 +173,8 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		bridgeScope.addSubScope(formalParList.getLocation(), formalParList);
 		if (altGuards != null) {
 			for (int i = 0; i < altGuards.getNofAltguards(); i++) {
-				AltGuard ag = altGuards.getAltguardByIndex(i);
-				StatementBlock sb = ag.getStatementBlock();
+				final AltGuard ag = altGuards.getAltguardByIndex(i);
+				final StatementBlock sb = ag.getStatementBlock();
 				if (sb != null) {
 					bridgeScope.addSubScope(sb.getLocation(), sb);
 				}
@@ -208,12 +208,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);
 			if (runsOnType != null) {
-				Scope formalParlistPreviosScope = formalParList.getParentScope();
+				final Scope formalParlistPreviosScope = formalParList.getParentScope();
 				if (formalParlistPreviosScope instanceof RunsOnScope
 						&& ((RunsOnScope) formalParlistPreviosScope).getParentScope() == myScope) {
 					((RunsOnScope) formalParlistPreviosScope).setComponentType(runsOnType);
 				} else {
-					Scope tempScope = new RunsOnScope(runsOnType, myScope);
+					final Scope tempScope = new RunsOnScope(runsOnType, myScope);
 					formalParList.setMyScope(tempScope);
 				}
 			}
@@ -225,7 +225,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		boolean canSkip = false;
 		if (myScope != null) {
-			Module module = myScope.getModuleScope();
+			final Module module = myScope.getModuleScope();
 			if (module != null) {
 				if (module.getSkippedFromSemanticChecking()) {
 					canSkip = true;
@@ -277,7 +277,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	@Override
 	public void postCheck() {
 		if (myScope != null) {
-			Module module = myScope.getModuleScope();
+			final Module module = myScope.getModuleScope();
 			if (module != null) {
 				if (module.getSkippedFromSemanticChecking()) {
 					return;
@@ -293,7 +293,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -306,7 +306,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		} else if (identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
 			// prefix
 			if (subrefs.size() == i + 1) {
-				StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
+				final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 				patternBuilder.append('(');
 				formalParList.getAsProposalPart(patternBuilder);
 				patternBuilder.append(')');
@@ -320,7 +320,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -336,7 +336,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
-		StringBuilder text = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
 		if (formalParList == null) {
 			return text.toString();
 		}
@@ -346,11 +346,11 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			if (i != 0) {
 				text.append(", ");
 			}
-			FormalParameter parameter = formalParList.getParameterByIndex(i);
+			final FormalParameter parameter = formalParList.getParameterByIndex(i);
 			if (Assignment_type.A_PAR_TIMER.equals(parameter.getRealAssignmentType())) {
 				text.append("timer");
 			} else {
-				IType type = parameter.getType(lastTimeChecked);
+				final IType type = parameter.getType(lastTimeChecked);
 				if (type == null) {
 					text.append("Unknown type");
 				} else {
@@ -368,11 +368,11 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			lastTimeChecked = null;
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parseAndSetNameChanged();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 				// damage handled
 				if (result == 0 && identifier != null) {

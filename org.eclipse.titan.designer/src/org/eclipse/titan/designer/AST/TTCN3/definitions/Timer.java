@@ -57,7 +57,7 @@ public final class Timer {
 	 *                we wish to find completions.
 	 * */
 	public static void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() != i + 1 || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -72,12 +72,12 @@ public final class Timer {
 	}
 
 	public static void addAnyorAllProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (i != 0 || subrefs.isEmpty() || Subreference_type.arraySubReference.equals(subrefs.get(0).getReferenceType())) {
 			return;
 		}
 
-		String fakeModuleName = propCollector.getReference().getModuleIdentifier().getName();
+		final String fakeModuleName = propCollector.getReference().getModuleIdentifier().getName();
 
 		if ("any timer".equals(fakeModuleName)) {
 			propCollector.addProposal(RUNNING_OPERATION, RUNNING_OPERATION, ImageCache.getImage("timer.gif"));

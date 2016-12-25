@@ -119,7 +119,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (formalParList == child) {
 			return builder.append(FULLNAMEPART1);
@@ -211,7 +211,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 		if (returnType != null) {
 			returnType.check(timestamp);
-			IType returnedType = returnType.getTypeRefdLast(timestamp);
+			final IType returnedType = returnType.getTypeRefdLast(timestamp);
 			if (returnedType != null && Type_type.TYPE_PORT.equals(returnedType.getTypetype()) && returnType.getLocation() != null) {
 				returnType.getLocation().reportSemanticError(PORTRETURNNOTALLOWED);
 			}
@@ -243,14 +243,14 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	 *                the timestamp of the actual build cycle.
 	 * */
 	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
 		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
 		for (int i = 0, size = realAttributes.size(); i < size; i++) {
 			attribute = realAttributes.get(i);
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
-				Qualifiers qualifiers = attribute.getQualifiers();
+				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
 					if (specifications == null) {
 						specifications = new ArrayList<AttributeSpecification>();
@@ -264,13 +264,13 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			return;
 		}
 
-		List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
 		AttributeSpecification specification;
 		for (int i = 0, size = specifications.size(); i < size; i++) {
 			specification = specifications.get(i);
-			ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
-			List<ExtensionAttribute> temp = analyzer.getAttributes();
+			final List<ExtensionAttribute> temp = analyzer.getAttributes();
 			if (temp != null) {
 				attributes.addAll(temp);
 			}
@@ -357,7 +357,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		// checking formal parameter list
 		if (EncodingPrototype_type.CONVERT.equals(prototype)) {
 			if (formalParList.getNofParameters() == 1) {
-				FormalParameter parameter = formalParList.getParameterByIndex(0);
+				final FormalParameter parameter = formalParList.getParameterByIndex(0);
 				switch (parameter.getRealAssignmentType()) {
 				case A_PAR_VAL:
 				case A_PAR_VAL_IN:
@@ -378,11 +378,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				formalParList.getLocation().reportSemanticError(message);
 			}
 		} else if (formalParList.getNofParameters() == 2) {
-			FormalParameter firstParameter = formalParList.getParameterByIndex(0);
+			final FormalParameter firstParameter = formalParList.getParameterByIndex(0);
 			if (EncodingPrototype_type.SLIDING.equals(prototype)) {
 				if (Assignment_type.A_PAR_VAL_INOUT.equals(firstParameter.getRealAssignmentType())) {
-					Type firstParameterType = firstParameter.getType(timestamp);
-					IType last = firstParameterType.getTypeRefdLast(timestamp);
+					final Type firstParameterType = firstParameter.getType(timestamp);
+					final IType last = firstParameterType.getTypeRefdLast(timestamp);
 					if (last.getIsErroneous(timestamp)) {
 						inputType = firstParameterType;
 					} else {
@@ -422,7 +422,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				}
 			}
 
-			FormalParameter secondParameter = formalParList.getParameterByIndex(1);
+			final FormalParameter secondParameter = formalParList.getParameterByIndex(1);
 			if (Assignment_type.A_PAR_VAL_OUT.equals(secondParameter.getRealAssignmentType())) {
 				outputType = secondParameter.getType(timestamp);
 			} else {
@@ -461,7 +461,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				if (EncodingPrototype_type.CONVERT.equals(prototype)) {
 					outputType = returnType;
 				} else {
-					IType last = returnType.getTypeRefdLast(timestamp);
+					final IType last = returnType.getTypeRefdLast(timestamp);
 
 					if (!last.getIsErroneous(timestamp) && !Type_type.TYPE_INTEGER.equals(last.getTypetypeTtcn3())) {
 						returnType.getLocation()
@@ -537,7 +537,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 	@Override
 	public String getProposalDescription() {
-		StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		nameBuilder.append('(');
 		formalParList.getAsProposalDesriptionPart(nameBuilder);
 		nameBuilder.append(')');
@@ -546,13 +546,13 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
 
 		if (subrefs.size() == i + 1 && identifier.getName().toLowerCase().startsWith(subrefs.get(i).getId().getName().toLowerCase())) {
-			StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
+			final StringBuilder patternBuilder = new StringBuilder(identifier.getDisplayName());
 			patternBuilder.append('(');
 			formalParList.getAsProposalPart(patternBuilder);
 			patternBuilder.append(')');
@@ -570,7 +570,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -590,7 +590,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
 
-		StringBuilder text = new StringBuilder(identifier.getDisplayName());
+		final StringBuilder text = new StringBuilder(identifier.getDisplayName());
 		if (formalParList == null) {
 			return text.toString();
 		}
@@ -600,11 +600,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			if (i != 0) {
 				text.append(", ");
 			}
-			FormalParameter parameter = formalParList.getParameterByIndex(i);
+			final FormalParameter parameter = formalParList.getParameterByIndex(i);
 			if (Assignment_type.A_PAR_TIMER.equals(parameter.getRealAssignmentType())) {
 				text.append("timer");
 			} else {
-				IType type = parameter.getType(lastTimeChecked);
+				final IType type = parameter.getType(lastTimeChecked);
 				if (type == null) {
 					text.append("Unknown type");
 				} else {
@@ -627,11 +627,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			lastTimeChecked = null;
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parseAndSetNameChanged();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 				// damage handled
 				if (result == 0 && identifier != null) {

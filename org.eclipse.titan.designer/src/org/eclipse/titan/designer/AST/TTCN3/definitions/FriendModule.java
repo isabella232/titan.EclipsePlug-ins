@@ -158,13 +158,13 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 			return;
 		}
 
-		ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
 		if (parser == null || identifier == null) {
 			lastCheckTimeStamp = timestamp;
 			return;
 		}
 
-		Module referredModule = parser.getModuleByName(identifier.getName());
+		final Module referredModule = parser.getModuleByName(identifier.getName());
 
 		if (referredModule == null) {
 			identifier.getLocation().reportConfigurableSemanticProblem(
@@ -182,7 +182,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
-			List<Integer> result = new ArrayList<Integer>();
+			final List<Integer> result = new ArrayList<Integer>();
 			result.add(Ttcn3Lexer.WITH);
 			return result;
 		}
@@ -210,10 +210,10 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 			boolean enveloped = false;
 			int result = 1;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
 				result = r.parse();
 				identifier = r.getIdentifier();
 

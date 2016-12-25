@@ -227,7 +227,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
-			List<Integer> result = new ArrayList<Integer>();
+			final List<Integer> result = new ArrayList<Integer>();
 			result.add(Ttcn3Lexer.WITH);
 			return result;
 		}
@@ -271,7 +271,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 					reparser.updateLocation(withAttributesPath.getLocation());
 				} else if (reparser.envelopsDamage(withAttributesPath.getLocation())) {
 					reparser.extendDamagedRegion(withAttributesPath.getLocation());
-					int result = reparse( reparser );
+					final int result = reparse( reparser );
 					if (result == 0) {
 						enveloped = true;
 					} else {
