@@ -293,10 +293,6 @@ public final class Template_List extends CompositeTemplate {
 			if (!asValue.accept(v)) {
 				return false;
 			}
-		} else if (templates != null) {
-			if (!templates.accept(v)) {
-				return false;
-			}
 		}
 		return true;
 	}
