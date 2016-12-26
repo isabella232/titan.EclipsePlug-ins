@@ -40,7 +40,7 @@ public class MagicNumber extends BaseModuleCodeSmellSpotter {
 					final BigInteger bigNumber = value.getValueValue();
 					if (bigNumber.compareTo(BigInteger.valueOf(-5)) < 0 || bigNumber.compareTo(BigInteger.valueOf(5)) > 0) {
 						final String msg = MessageFormat.format(MAGIC_NUMBER, ((Integer_Value) node).createStringRepresentation());
-						problems.report(((Integer_Value) node).getLocation(), msg);
+						problems.report(value.getLocation(), msg);
 					}
 				} else if (node instanceof Def_Const) {
 					// should not reach there
