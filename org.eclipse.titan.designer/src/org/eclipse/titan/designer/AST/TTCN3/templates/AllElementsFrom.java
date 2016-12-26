@@ -94,8 +94,8 @@ public class AllElementsFrom extends TemplateBody {
 		}
 
 		// isReference branch:
-		Reference reference = ((SpecificValue_Template) template).getReference();
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Reference reference = ((SpecificValue_Template) template).getReference();
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			template.getLocation().reportSemanticError("Assignment not found");
 			template.setIsErroneous(true);
@@ -106,17 +106,17 @@ public class AllElementsFrom extends TemplateBody {
 		// The type of the template list and the member type of the template in
 		// the all from clause shall be
 		// compatible.
-		IType assType = assignment.getType(timestamp);
+		final IType assType = assignment.getType(timestamp);
 
 		if (assType != null) {
 
-			IType atype = assType.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+			final IType atype = assType.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 			if (atype == null) {
 				template.setIsErroneous(true);
 				return;
 			}
 
-			IType referredType = atype.getTypeRefdLast(timestamp);
+			final IType referredType = atype.getTypeRefdLast(timestamp);
 			IType it = null; // type of the fields of the sequence/set
 			if (referredType != null) {
 				switch (referredType.getTypetype()) {
@@ -235,18 +235,19 @@ public class AllElementsFrom extends TemplateBody {
 		if (value == null) {
 			return result;
 		}
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue lastValue = value.getValueRefdLast(timestamp, chain);
+
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue lastValue = value.getValueRefdLast(timestamp, chain);
 		chain.release();
 		if (lastValue.getIsErroneous(timestamp)) {
 			return result;
 		}
 		if (Value_type.SEQUENCEOF_VALUE.equals(lastValue.getValuetype())) {
-			SequenceOf_Value lvalue = (SequenceOf_Value) lastValue;
+			final SequenceOf_Value lvalue = (SequenceOf_Value) lastValue;
 			result = lvalue.getNofComponents();
 			return result;
 		} else if (Value_type.SETOF_VALUE.equals(lastValue.getValuetype())) {
-			SetOf_Value svalue = (SetOf_Value) lastValue;
+			final SetOf_Value svalue = (SetOf_Value) lastValue;
 			result = svalue.getNofComponents();
 			return result;
 		} else {
@@ -280,8 +281,8 @@ public class AllElementsFrom extends TemplateBody {
 		}
 
 		// isReference branch:
-		Reference reference = ((SpecificValue_Template) template).getReference();
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Reference reference = ((SpecificValue_Template) template).getReference();
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			template.getLocation().reportSemanticError("Assignment not found");
 			template.setIsErroneous(true);
@@ -298,10 +299,10 @@ public class AllElementsFrom extends TemplateBody {
 			body = ((Def_Var_Template) assignment).getInitialValue();
 			break;
 		case A_CONST:
-			IValue value = ((Def_Const) assignment).getValue();
+			final IValue value = ((Def_Const) assignment).getValue();
 			return getNofValues(value, timestamp);
 		case A_MODULEPAR:
-			IValue mvalue = ((Def_ModulePar) assignment).getDefaultValue();
+			final IValue mvalue = ((Def_ModulePar) assignment).getDefaultValue();
 			return getNofValues(mvalue, timestamp);
 		case A_MODULEPAR_TEMPLATE:
 			body = ((Def_ModulePar_Template) assignment).getDefaultTemplate();

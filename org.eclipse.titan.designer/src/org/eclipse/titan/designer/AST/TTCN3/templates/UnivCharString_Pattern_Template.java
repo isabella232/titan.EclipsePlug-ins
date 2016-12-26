@@ -52,7 +52,7 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder("pattern \"");
+		final StringBuilder builder = new StringBuilder("pattern \"");
 		builder.append(patternstring.getFullString());
 		builder.append('"');
 

@@ -87,14 +87,14 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		Definition definition;
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			definition = iterator.next();
 
 			if (definition == child) {
-				Identifier identifier = definition.getIdentifier();
+				final Identifier identifier = definition.getIdentifier();
 
 				return builder.append(INamedNode.DOT).append(identifier.getDisplayName());
 			}
@@ -115,14 +115,14 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 
 	@Override
 	public Object[] getOutlineChildren() {
-		List<IOutlineElement> outlineDefinitions = new ArrayList<IOutlineElement>();
+		final List<IOutlineElement> outlineDefinitions = new ArrayList<IOutlineElement>();
 		// Take care of ordering.
 		outlineDefinitions.addAll(definitions);
 		Collections.sort(outlineDefinitions, new Comparator<IOutlineElement>() {
 			@Override
 			public int compare(final IOutlineElement o1, final IOutlineElement o2) {
-				Location l1 = o1.getIdentifier().getLocation();
-				Location l2 = o2.getIdentifier().getLocation();
+				final Location l1 = o1.getIdentifier().getLocation();
+				final Location l2 = o2.getIdentifier().getLocation();
 				if (l1.getOffset() < l2.getOffset()) {
 					return -1;
 				} else if (l1.getOffset() > l2.getOffset()) {
@@ -207,7 +207,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		Definition definition;
 		for (int i = 0, size = definitions.size(); i < size; i++) {
 			definition = definitions.get(i);
-			Identifier identifier = definition.getIdentifier();
+			final Identifier identifier = definition.getIdentifier();
 			definitionName = identifier.getName();
 			if (definitionMap.containsKey(definitionName)) {
 				final Location otherLocation = definitionMap.get(definitionName).getIdentifier().getLocation();
@@ -221,10 +221,10 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 						definition.getLocation().reportSemanticError(
 								MessageFormat.format(StatementBlock.HIDINGSCOPEELEMENT, identifier.getDisplayName()));
 
-						List<ISubReference> subReferences = new ArrayList<ISubReference>();
+						final List<ISubReference> subReferences = new ArrayList<ISubReference>();
 						subReferences.add(new FieldSubReference(identifier));
-						Reference reference = new Reference(null, subReferences);
-						Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
+						final Reference reference = new Reference(null, subReferences);
+						final Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
 						if (assignment != null && assignment.getLocation() != null) {
 							assignment.getLocation().reportSingularSemanticError(
 									MessageFormat.format(StatementBlock.HIDDENSCOPEELEMENT,
@@ -274,10 +274,10 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 						definition.getLocation().reportSemanticError(
 								MessageFormat.format(StatementBlock.HIDINGSCOPEELEMENT, identifier.getDisplayName()));
 
-						List<ISubReference> subReferences = new ArrayList<ISubReference>();
+						final List<ISubReference> subReferences = new ArrayList<ISubReference>();
 						subReferences.add(new FieldSubReference(identifier));
-						Reference reference = new Reference(null, subReferences);
-						Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
+						final Reference reference = new Reference(null, subReferences);
+						final Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
 						if (assignment != null && assignment.getLocation() != null) {
 							assignment.getLocation().reportSingularSemanticError(
 									MessageFormat.format(StatementBlock.HIDDENSCOPEELEMENT,
@@ -313,7 +313,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
 
-		Identifier identifier = reference.getId();
+			final Identifier identifier = reference.getId();
 		if (identifier == null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
@@ -322,7 +322,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 			checkUniqueness(timestamp);
 		}
 
-		Definition result = definitionMap.get(identifier.getName());
+		final Definition result = definitionMap.get(identifier.getName());
 		if (result != null) {
 			return result;
 		}
@@ -407,9 +407,9 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		if (!isDamaged) {
 			// handle the simple case quickly
 			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-				Definition temp = iterator.next();
-				Location temporalLocation = temp.getLocation();
-				Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
+				final Definition temp = iterator.next();
+				final Location temporalLocation = temp.getLocation();
+				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 				if (reparser.isAffected(temporalLocation)) {
 					if(!temporalLocation.equals(cumulativeLocation)) {
 						reparser.updateLocation(cumulativeLocation);
@@ -434,9 +434,9 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		IAppendableSyntax lastPrependableBeforeChange = null;
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
-			Definition temp = iterator.next();
-			Location tempLocation = temp.getLocation();
-			Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
+			final Definition temp = iterator.next();
+			final Location tempLocation = temp.getLocation();
+			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 			if (tempLocation.equals(cumulativeLocation) && reparser.envelopsDamage(cumulativeLocation)) {
 				enveloped = true;
 				leftBoundary = cumulativeLocation.getOffset();
@@ -469,7 +469,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 			// extended we should add it to the damaged domain as
 			// the extension might be correct
 			if (lastAppendableBeforeChange != null) {
-				boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
+				final boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
 				if (isBeingExtended) {
 					leftBoundary = lastAppendableBeforeChange.getLocation().getOffset();
 					nofDamaged++;
@@ -479,7 +479,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 			}
 
 			if (lastPrependableBeforeChange != null) {
-				List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
+				final List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
 
 				if (temp != null && reparser.endsWithToken(temp)) {
 					rightBoundary = lastPrependableBeforeChange.getLocation().getEndOffset();
@@ -499,9 +499,9 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 
 		// update what is left
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
-			Location temporalLocation = temp.getLocation();
-			Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
+			final Definition temp = iterator.next();
+			final Location temporalLocation = temp.getLocation();
+			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 			if (reparser.isAffected(cumulativeLocation)) {
 				try {
 					temp.updateSyntax(reparser, enveloped && reparser.envelopsDamage(temporalLocation));
@@ -529,9 +529,9 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
-			Location temporalLocation = temp.getLocation();
-			Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
+			final Definition temp = iterator.next();
+			final Location temporalLocation = temp.getLocation();
+			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 			if (reparser.isAffected(temporalLocation)) {
 				if(!temporalLocation.equals(cumulativeLocation)) {
 					reparser.updateLocation(cumulativeLocation);
@@ -560,7 +560,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * */
 	private void removeStuffInRange(final TTCN3ReparseUpdater reparser) {
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
 				definitions.remove(temp);

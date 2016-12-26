@@ -176,7 +176,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp) || this == temp) {
 			return true;
@@ -188,7 +188,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		switch (temp.getTypetype()) {
 		case TYPE_ASN1_SET: {
-			ASN1_Set_Type tempType = (ASN1_Set_Type) temp;
+			final ASN1_Set_Type tempType = (ASN1_Set_Type) temp;
 			if (this == tempType) {
 				return true;
 			}
@@ -207,13 +207,13 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain.add(tempType);
 			}
 			for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
-				CompField cf = getComponentByIndex(i);
-				CompField tempTypeCompField = tempType.getComponentByIndex(i);
-				IType compFieldType = cf.getType().getTypeRefdLast(timestamp);
-				IType tempTypeCompFieldType = tempTypeCompField.getType().getTypeRefdLast(timestamp);
+				final CompField cf = getComponentByIndex(i);
+				final CompField tempTypeCompField = tempType.getComponentByIndex(i);
+				final IType compFieldType = cf.getType().getTypeRefdLast(timestamp);
+				final IType tempTypeCompFieldType = tempTypeCompField.getType().getTypeRefdLast(timestamp);
 				if (cf.isOptional() != tempTypeCompField.isOptional()) {
-					String compFieldName = cf.getIdentifier().getDisplayName();
-					String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
+					final String compFieldName = cf.getIdentifier().getDisplayName();
+					final String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
 					info.appendOp1Ref("." + compFieldName);
 					info.appendOp2Ref("." + tempTypeCompFieldName);
 					info.setOp1Type(compFieldType);
@@ -225,11 +225,11 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain.markState();
 				lChain.add(compFieldType);
 				rChain.add(tempTypeCompFieldType);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(compFieldType, tempTypeCompFieldType, false);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(compFieldType, tempTypeCompFieldType, false);
 				if (!compFieldType.equals(tempTypeCompFieldType) && !(lChain.hasRecursion() && rChain.hasRecursion())
 						&& !compFieldType.isCompatible(timestamp, tempTypeCompFieldType, infoTemp, lChain, rChain)) {
-					String compFieldName = cf.getIdentifier().getDisplayName();
-					String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
+					final String compFieldName = cf.getIdentifier().getDisplayName();
+					final String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
 					info.appendOp1Ref("." + compFieldName + infoTemp.getOp1RefStr());
 					info.appendOp2Ref("." + tempTypeCompFieldName + infoTemp.getOp2RefStr());
 					info.setOp1Type(infoTemp.getOp1Type());
@@ -246,7 +246,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			return true;
 		}
 		case TYPE_TTCN3_SET: {
-			TTCN3_Set_Type tempType = (TTCN3_Set_Type) temp;
+			final TTCN3_Set_Type tempType = (TTCN3_Set_Type) temp;
 			if (getNofComponents(timestamp) != tempType.getNofComponents()) {
 				info.setErrorStr(NOFFIELDSDONTMATCH);
 				return false;
@@ -262,13 +262,13 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain.add(tempType);
 			}
 			for (int i = 0, size = getNofComponents(timestamp); i < size; i++) {
-				CompField compField = getComponentByIndex(i);
-				CompField tempTypeCompField = tempType.getComponentByIndex(i);
-				IType compFieldType = compField.getType().getTypeRefdLast(timestamp);
-				IType tempTypeCompFieldType = tempTypeCompField.getType().getTypeRefdLast(timestamp);
+				final CompField compField = getComponentByIndex(i);
+				final CompField tempTypeCompField = tempType.getComponentByIndex(i);
+				final IType compFieldType = compField.getType().getTypeRefdLast(timestamp);
+				final IType tempTypeCompFieldType = tempTypeCompField.getType().getTypeRefdLast(timestamp);
 				if (compField.isOptional() != tempTypeCompField.isOptional()) {
-					String compFieldName = compField.getIdentifier().getDisplayName();
-					String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
+					final String compFieldName = compField.getIdentifier().getDisplayName();
+					final String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
 					info.appendOp1Ref("." + compFieldName);
 					info.appendOp2Ref("." + tempTypeCompFieldName);
 					info.setOp1Type(compFieldType);
@@ -280,11 +280,11 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain.markState();
 				lChain.add(compFieldType);
 				rChain.add(tempTypeCompFieldType);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(compFieldType, tempTypeCompFieldType, false);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(compFieldType, tempTypeCompFieldType, false);
 				if (!compFieldType.equals(tempTypeCompFieldType) && !(lChain.hasRecursion() && rChain.hasRecursion())
 						&& !compFieldType.isCompatible(timestamp, tempTypeCompFieldType, infoTemp, lChain, rChain)) {
-					String compFieldName = compField.getIdentifier().getDisplayName();
-					String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
+					final String compFieldName = compField.getIdentifier().getDisplayName();
+					final String tempTypeCompFieldName = tempTypeCompField.getIdentifier().getDisplayName();
 					info.appendOp1Ref("." + compFieldName + infoTemp.getOp1RefStr());
 					info.appendOp2Ref("." + tempTypeCompFieldName + infoTemp.getOp2RefStr());
 					info.setOp1Type(infoTemp.getOp1Type());
@@ -301,13 +301,13 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			return true;
 		}
 		case TYPE_SET_OF: {
-			SetOf_Type tempType = (SetOf_Type) temp;
+			final SetOf_Type tempType = (SetOf_Type) temp;
 			if (!tempType.isSubtypeCompatible(timestamp, this)) {
 				info.setErrorStr("Incompatible set of/SET OF subtypes");
 				return false;
 			}
 
-			int nofComps = getNofComponents(timestamp);
+			final int nofComps = getNofComponents(timestamp);
 			if (nofComps == 0) {
 				return false;
 			}
@@ -322,14 +322,14 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < nofComps; i++) {
-				CompField compField = getComponentByIndex(i);
-				IType compFieldType = compField.getType().getTypeRefdLast(timestamp);
-				IType temporalTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
+				final CompField compField = getComponentByIndex(i);
+				final IType compFieldType = compField.getType().getTypeRefdLast(timestamp);
+				final IType temporalTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
 				lChain.markState();
 				rChain.markState();
 				lChain.add(compFieldType);
 				rChain.add(temporalTypeOfType);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(compFieldType, temporalTypeOfType, false);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(compFieldType, temporalTypeOfType, false);
 				if (!compFieldType.equals(temporalTypeOfType) && !(lChain.hasRecursion() && rChain.hasRecursion())
 						&& !compFieldType.isCompatible(timestamp, temporalTypeOfType, infoTemp, lChain, rChain)) {
 					info.appendOp1Ref("." + compField.getIdentifier().getDisplayName() + infoTemp.getOp1RefStr());
@@ -405,7 +405,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		lastTimeChecked = timestamp;
 		if (components != null && myScope != null) {
-			Module module = myScope.getModuleScope();
+			final Module module = myScope.getModuleScope();
 			if (module != null) {
 				if (module.getSkippedFromSemanticChecking()) {
 					lastTimeChecked = timestamp;
@@ -479,7 +479,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 						getFullName()));
 				value.setIsErroneous(true);
 			} else {
-				SequenceOf_Value temporalValue = (SequenceOf_Value) last;
+				final SequenceOf_Value temporalValue = (SequenceOf_Value) last;
 				if (temporalValue.getNofComponents() == 0) {
 					if (getNofComponents(timestamp) == 0) {
 						last = last.setValuetype(timestamp, Value_type.SET_VALUE);
@@ -543,15 +543,15 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	 * */
 	private void checkThisValueSet(final CompilationTimeStamp timestamp, final Set_Value value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
-		Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
+		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
 
 		value.removeGeneratedValues();
 
-		boolean isAsn = value.isAsn();
-		int nofValueComponents = value.getNofComponents();
+		final boolean isAsn = value.isAsn();
+		final int nofValueComponents = value.getNofComponents();
 		for (int i = 0; i < nofValueComponents; i++) {
-			NamedValue namedValue = value.getSequenceValueByIndex(i);
-			Identifier valueId = namedValue.getName();
+			final NamedValue namedValue = value.getSequenceValueByIndex(i);
+			final Identifier valueId = namedValue.getName();
 			if (!hasComponentWithName(valueId)) {
 				namedValue.getLocation().reportSemanticError(
 						MessageFormat.format(isAsn ? NONEXISTENTFIELDASN1 : NONEXISTENTFIELDTTCN3, namedValue.getName()
@@ -568,13 +568,13 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 					componentMap.put(valueId.getName(), namedValue);
 				}
 
-				CompField componentField = getComponentByName(valueId);
-				Type type = componentField.getType();
-				IValue componentValue = namedValue.getValue();
+				final CompField componentField = getComponentByName(valueId);
+				final Type type = componentField.getType();
+				final IValue componentValue = namedValue.getValue();
 
 				if (componentValue != null) {
 					componentValue.setMyGovernor(type);
-					IValue temporalValue = type.checkThisValueRef(timestamp, componentValue);
+					final IValue temporalValue = type.checkThisValueRef(timestamp, componentValue);
 					boolean isOptional = componentField.isOptional();
 					if (!isOptional && componentField.hasDefault() && defaultAsOptional) {
 						isOptional = true;
@@ -586,11 +586,11 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 
 		if (!incompleteAllowed || strictConstantCheckingSeverity) {
-			int nofTypeComponents = getNofComponents(timestamp);
+			final int nofTypeComponents = getNofComponents(timestamp);
 			CompField field;
 			for (int i = 0; i < nofTypeComponents; i++) {
 				field = getComponentByIndex(i);
-				Identifier id = field.getIdentifier();
+				final Identifier id = field.getIdentifier();
 				if (!componentMap.containsKey(id.getName())) {
 					if (field.isOptional() && implicitOmit) {
 						value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_TTCN, id.getDisplayName()),
@@ -621,7 +621,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			} else if (getNofComponents(timestamp) > 0) {
 				template.getLocation().reportSemanticError(MessageFormat.format(NONEMPTYSETTEMPLATEEXPECTED, getFullName()));
 			} else {
-				ITTCN3Template transformed = template.setTemplatetype(timestamp, Template_type.NAMED_TEMPLATE_LIST);
+				final ITTCN3Template transformed = template.setTemplatetype(timestamp, Template_type.NAMED_TEMPLATE_LIST);
 				checkThisNamedTemplateList(timestamp, (Named_Template_List) transformed, isModified, implicitOmit);
 			}
 			break;
@@ -656,14 +656,14 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			final boolean isModified, final boolean implicitOmit) {
 		templateList.removeGeneratedValues();
 
-		Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
-		int nofTypeComponents = getNofComponents(timestamp);
-		int nofTemplateComponents = templateList.getNofTemplates();
+		final Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
+		final int nofTypeComponents = getNofComponents(timestamp);
+		final int nofTemplateComponents = templateList.getNofTemplates();
 
 		for (int i = 0; i < nofTemplateComponents; i++) {
-			NamedTemplate namedTemplate = templateList.getTemplateByIndex(i);
-			Identifier identifier = namedTemplate.getName();
-			String templateName = identifier.getName();
+			final NamedTemplate namedTemplate = templateList.getTemplateByIndex(i);
+			final Identifier identifier = namedTemplate.getName();
+			final String templateName = identifier.getName();
 
 			if (hasComponentWithName(identifier)) {
 				if (componentMap.containsKey(templateName)) {
@@ -675,8 +675,8 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 					componentMap.put(templateName, namedTemplate);
 				}
 
-				CompField componentField = getComponentByName(identifier);
-				Type type = componentField.getType();
+				final CompField componentField = getComponentByName(identifier);
+				final Type type = componentField.getType();
 				if (type != null && !type.getIsErroneous(timestamp)) {
 					ITTCN3Template componentTemplate = namedTemplate.getTemplate();
 					componentTemplate.setMyGovernor(type);
@@ -697,7 +697,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		if (!isModified && strictConstantCheckingSeverity) {
 			// check missing fields
 			for (int i = 0; i < nofTypeComponents; i++) {
-				Identifier identifier = getComponentIdentifierByIndex(i);
+				final Identifier identifier = getComponentIdentifierByIndex(i);
 				if (!componentMap.containsKey(identifier.getName())) {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
 						templateList.addNamedValue(new NamedTemplate(new Identifier(Identifier_type.ID_TTCN, identifier
@@ -762,7 +762,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		if (referenceChain != null) {
 			components.trCompsof(timestamp, referenceChain, false);
 		} else {
-			IReferenceChain temporalReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IReferenceChain temporalReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 
 			components.trCompsof(timestamp, temporalReferenceChain, false);
 
@@ -777,19 +777,19 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return null;
 		case fieldSubReference:
-			Identifier id = subreference.getId();
-			CompField compField = components.getCompByName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = components.getCompByName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
 						MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE, ((FieldSubReference) subreference)
@@ -801,7 +801,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				return null;
 			}
 
-			Expected_Value_type internalExpectation = (expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
+			final Expected_Value_type internalExpectation = (expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
 					: expectedIndex;
 
 			return compField.getType().getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain,
@@ -821,18 +821,19 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return false;
 		case fieldSubReference: {
-			Identifier id = subreference.getId();
-			CompField compField = components.getCompByName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = components.getCompByName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
 						MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE, ((FieldSubReference) subreference)
@@ -840,8 +841,8 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				return false;
 			}
 
-			int fieldIndex = components.components.indexOf(compField);
-			IType fieldType = compField.getType();
+			final int fieldIndex = components.components.indexOf(compField);
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}

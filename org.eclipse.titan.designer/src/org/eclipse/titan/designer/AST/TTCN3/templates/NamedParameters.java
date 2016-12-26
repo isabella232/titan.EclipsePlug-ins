@@ -51,7 +51,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (int i = 0, size = namedParams.size(); i < size; i++) {
 			if (namedParams.get(i) == child) {
@@ -63,7 +63,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	}
 
 	public String createStringRepresentation() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (NamedParameter n : namedParams) {
 			sb.append(n.createStringRepresentation() + ", ");
 		}
@@ -127,7 +127,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 		}
 
 		for (int i = 0, size = namedParams.size(); i < size; i++) {
-			NamedParameter parameter = namedParams.get(i);
+			final NamedParameter parameter = namedParams.get(i);
 
 			parameter.updateSyntax(reparser, false);
 			reparser.updateLocation(parameter.getLocation());

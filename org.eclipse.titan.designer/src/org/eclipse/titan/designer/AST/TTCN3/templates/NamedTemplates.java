@@ -58,7 +58,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		NamedTemplate temp;
 		for (int i = 0, size = named_templates.size(); i < size; i++) {

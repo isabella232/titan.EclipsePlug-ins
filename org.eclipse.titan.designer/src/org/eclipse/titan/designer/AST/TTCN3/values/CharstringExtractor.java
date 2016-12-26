@@ -65,7 +65,7 @@ public class CharstringExtractor {
 	private String extractString(final String aTccnCharstring) {
 		final int slength = aTccnCharstring.length();
 		int pointer = 0;
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		while (pointer < slength) {
 			// Special characters:
 			// Special characters by the TTCNv3 standard:

@@ -939,7 +939,7 @@ public final class T3Doc {
 					List<String> al = T3Doc.getCommentStrings(ass.getCommentLocation(), str);
 					if (!al.isEmpty()) {
 
-						StringBuilder sb = new StringBuilder();
+						final StringBuilder sb = new StringBuilder();
 						for (String string : al) {
 							sb.append(string);
 						}

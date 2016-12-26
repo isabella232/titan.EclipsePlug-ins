@@ -40,7 +40,7 @@ public final class Any_Value_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder("?");
+		final StringBuilder builder = new StringBuilder("?");
 		if (lengthRestriction != null) {
 			builder.append(lengthRestriction.createStringRepresentation());
 		}
@@ -63,7 +63,7 @@ public final class Any_Value_Template extends TTCN3Template {
 	@Override
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
-		IType last = type.getTypeRefdLast(timestamp);
+		final IType last = type.getTypeRefdLast(timestamp);
 		if (Type_type.TYPE_SIGNATURE.equals(last.getTypetype())) {
 			location.reportSemanticError(MessageFormat.format(SIGNATUREERROR, last.getFullName()));
 			setIsErroneous(true);

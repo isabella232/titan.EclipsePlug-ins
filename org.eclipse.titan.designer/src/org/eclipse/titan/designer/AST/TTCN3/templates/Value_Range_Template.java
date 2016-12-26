@@ -59,7 +59,7 @@ public final class Value_Range_Template extends TTCN3Template {
 			return "<erroneous template>";
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(valueRange.createStringRepresentation());
 
 		if (lengthRestriction != null) {

@@ -108,7 +108,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -160,8 +160,8 @@ public final class ASN1_BitString_Type extends ASN1Type {
 
 		final Map<String, Identifier> nameMap = new HashMap<String, Identifier>();
 		for (int i = 0, size = namedValues.getSize(); i < size; i++) {
-			NamedValue namedValue = namedValues.getNamedValueByIndex(i);
-			Identifier identifier = namedValue.getName();
+			final NamedValue namedValue = namedValues.getNamedValueByIndex(i);
+			final Identifier identifier = namedValue.getName();
 			if (nameMap.containsKey(identifier.getName())) {
 				final Location tempLocation = nameMap.get(identifier.getName()).getLocation();
 				tempLocation.reportSingularSemanticError(MessageFormat.format(Assignments.DUPLICATEDEFINITIONFIRST,
@@ -176,11 +176,11 @@ public final class ASN1_BitString_Type extends ASN1Type {
 		final Map<Integer, NamedValue> valueMap = new HashMap<Integer, NamedValue>();
 
 		for (int i = 0, size = namedValues.getSize(); i < size; i++) {
-			NamedValue namedValue = namedValues.getNamedValueByIndex(i);
-			IValue value = namedValue.getValue();
+			final NamedValue namedValue = namedValues.getNamedValueByIndex(i);
+			final IValue value = namedValue.getValue();
 
-			IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue last = value.getValueRefdLast(timestamp, referenceChain);
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 			referenceChain.release();
 
 			if (last.getIsErroneous(timestamp)) {
@@ -302,7 +302,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 					}
 
 					IValue tempValue = namedValues.getNamedValueByName(id).getValue();
-					ReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+					final ReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 					tempValue = tempValue.getValueRefdLast(timestamp, referenceChain);
 					referenceChain.release();
 					if (!tempValue.getIsErroneous(timestamp) && Value_type.INTEGER_VALUE.equals(tempValue.getValuetype())) {

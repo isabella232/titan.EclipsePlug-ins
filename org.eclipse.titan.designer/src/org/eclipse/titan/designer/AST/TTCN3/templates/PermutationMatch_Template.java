@@ -44,7 +44,7 @@ public final class PermutationMatch_Template extends CompositeTemplate {
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
-				ITTCN3Template template = templates.getTemplateByIndex(i);
+				final ITTCN3Template template = templates.getTemplateByIndex(i);
 				if (template != null) {
 					referenceChain.markState();
 					template.checkRecursions(timestamp, referenceChain);

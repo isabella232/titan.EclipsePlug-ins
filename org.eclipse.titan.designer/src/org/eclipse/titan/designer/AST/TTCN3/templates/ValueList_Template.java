@@ -47,7 +47,7 @@ public final class ValueList_Template extends CompositeTemplate {
 		}
 
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			IType type = templates.getTemplateByIndex(i).getExpressionGovernor(timestamp, expectedValue);
+			final IType type = templates.getTemplateByIndex(i).getExpressionGovernor(timestamp, expectedValue);
 			if (type != null) {
 				return type;
 			}
@@ -63,7 +63,7 @@ public final class ValueList_Template extends CompositeTemplate {
 		}
 
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			Type_type type = templates.getTemplateByIndex(i).getExpressionReturntype(timestamp, expectedValue);
+			final Type_type type = templates.getTemplateByIndex(i).getExpressionReturntype(timestamp, expectedValue);
 			if (!Type_type.TYPE_UNDEFINED.equals(type)) {
 				return type;
 			}
@@ -78,12 +78,12 @@ public final class ValueList_Template extends CompositeTemplate {
 		if(type == null){
 			return;
 		}		
-		boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
+		final boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
 		
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			ITemplateListItem component = templates.getTemplateByIndex(i);
+			final ITemplateListItem component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
-			ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
+			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
 			temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit);
 		}
 
@@ -108,7 +108,7 @@ public final class ValueList_Template extends CompositeTemplate {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
 		boolean needsRuntimeCheck = false;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			ITTCN3Template component = templates.getTemplateByIndex(i);
+			final ITTCN3Template component = templates.getTemplateByIndex(i);
 			if (component.checkPresentRestriction(timestamp, definitionName, usageLocation)) {
 				needsRuntimeCheck = true;
 			}

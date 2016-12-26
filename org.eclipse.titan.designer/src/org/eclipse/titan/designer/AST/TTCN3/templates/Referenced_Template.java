@@ -66,14 +66,14 @@ public final class Referenced_Template extends TTCN3Template {
 
 	public Referenced_Template(final CompilationTimeStamp timestamp, final SpecificValue_Template original) {
 		copyGeneralProperties(original);
-		IValue value = original.getSpecificValue();
+		final IValue value = original.getSpecificValue();
 		switch (value.getValuetype()) {
 		case REFERENCED_VALUE:
 			reference = ((Referenced_Value) value).getReference();
 			break;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
-			Identifier identifier = ((Undefined_LowerIdentifier_Value) value).getIdentifier();
-			FieldSubReference subReference = new FieldSubReference(identifier);
+			final Identifier identifier = ((Undefined_LowerIdentifier_Value) value).getIdentifier();
+			final FieldSubReference subReference = new FieldSubReference(identifier);
 			subReference.setLocation(value.getLocation());
 			reference = new Reference(null);
 			reference.addSubReference(subReference);
@@ -94,12 +94,12 @@ public final class Referenced_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		ITTCN3Template last = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+		final ITTCN3Template last = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 		if (Template_type.TEMPLATE_REFD.equals(last.getTemplatetype())) {
 			return reference.getDisplayName();
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(last.createStringRepresentation());
 
 		if (lengthRestriction != null) {
@@ -150,12 +150,12 @@ public final class Referenced_Template extends TTCN3Template {
 			return myGovernor;
 		}
 
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return null;
 		}
 
-		IType type = assignment.getType(timestamp).getFieldType(timestamp, reference, 1, expectedValue, false);
+		final IType type = assignment.getType(timestamp).getFieldType(timestamp, reference, 1, expectedValue, false);
 		if (type == null) {
 			setIsErroneous(true);
 		}
@@ -169,7 +169,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return Type_type.TYPE_UNDEFINED;
 		}
 
-		IType type = getExpressionGovernor(timestamp, expectedValue);
+		final IType type = getExpressionGovernor(timestamp, expectedValue);
 		if (type == null) {
 			return Type_type.TYPE_UNDEFINED;
 		}
@@ -194,7 +194,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return null;
 		}
 
-		Assignment ass = reference.getRefdAssignment(timestamp, true);
+		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 
 		if (ass == null || !Assignment_type.A_TEMPLATE.equals(ass.getAssignmentType())) { //TODO: more template shall be accepted
 			// the error was already reported
@@ -202,7 +202,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return this;
 		}
 
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 
 		ITTCN3Template template = ((Def_Template) ass).getTemplate(timestamp);
 		template = template.getReferencedSubTemplate(timestamp, reference, referenceChain);
@@ -236,7 +236,7 @@ public final class Referenced_Template extends TTCN3Template {
 		}
 
 		TTCN3Template template = this;
-		Assignment ass = reference.getRefdAssignment(timestamp, true);
+		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 
 		if (ass != null) { 
 			switch(ass.getAssignmentType()) {
@@ -251,7 +251,7 @@ public final class Referenced_Template extends TTCN3Template {
 				tempReferenceChain.markState();
 
 				if (tempReferenceChain.add(this)) {
-					ITTCN3Template refd = getTemplateReferenced(timestamp, tempReferenceChain);
+					final ITTCN3Template refd = getTemplateReferenced(timestamp, tempReferenceChain);
 					if (refd != this) {
 						template = refd.getTemplateReferencedLast(timestamp, referenceChain);
 					}
@@ -297,17 +297,17 @@ public final class Referenced_Template extends TTCN3Template {
 
 		boolean result = false;
 		if (reference != null) {
-			Assignment ass = reference.getRefdAssignment(timestamp, true);
+			final Assignment ass = reference.getRefdAssignment(timestamp, true);
 
 			if (ass != null && ass.getAssignmentType() == Assignment_type.A_TEMPLATE) {
-				Def_Template templateDefinition = (Def_Template) ass;
+				final Def_Template templateDefinition = (Def_Template) ass;
 				if (templateDefinition.hasImplicitOmitAttribute(timestamp)) {
 					result = true;
 				} else {
 					tempReferenceChain.markState();
 
 					if (tempReferenceChain.add(this)) {
-						ITTCN3Template refd = getTemplateReferenced(timestamp, tempReferenceChain);
+						final ITTCN3Template refd = getTemplateReferenced(timestamp, tempReferenceChain);
 						if (refd != this && refd instanceof Referenced_Template) {
 							result = ((Referenced_Template) refd).hasTemplateImpliciteOmit(timestamp, referenceChain);
 						}
@@ -329,7 +329,7 @@ public final class Referenced_Template extends TTCN3Template {
 
 	@Override
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
-		TTCN3Template temp = getTemplateReferencedLast(timestamp);
+		final TTCN3Template temp = getTemplateReferencedLast(timestamp);
 		if (temp != this && !temp.getIsErroneous(timestamp)) {
 			temp.checkSpecificValue(timestamp, allowOmit);
 		}
@@ -338,16 +338,16 @@ public final class Referenced_Template extends TTCN3Template {
 	@Override
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this) && reference != null) {
-			ISubReference subReference = reference.getSubreferences().get(0);
+			final ISubReference subReference = reference.getSubreferences().get(0);
 			if (subReference instanceof ParameterisedSubReference) {
-				ActualParameterList parameterList = ((ParameterisedSubReference) subReference).getActualParameters();
+				final ActualParameterList parameterList = ((ParameterisedSubReference) subReference).getActualParameters();
 				if (parameterList != null) {
 					parameterList.checkRecursions(timestamp, referenceChain);
 				}
 			}
 
-			IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			ITTCN3Template template = getTemplateReferenced(timestamp, tempReferenceChain);
+			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final ITTCN3Template template = getTemplateReferenced(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
 
 			if (template != null && !template.getIsErroneous(timestamp) && !this.equals(template)) {
@@ -363,7 +363,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return;
 		}
 
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return;
 		}
@@ -379,10 +379,10 @@ public final class Referenced_Template extends TTCN3Template {
 			return;
 		}
 
-		TypeCompatibilityInfo info = new TypeCompatibilityInfo(type, governor, true);
+		final TypeCompatibilityInfo info = new TypeCompatibilityInfo(type, governor, true);
 
 		if (!type.isCompatible(timestamp, governor, info, null, null)) {
-			IType last = type.getTypeRefdLast(timestamp); 
+			final IType last = type.getTypeRefdLast(timestamp); 
 
 			switch (last.getTypetype()) {
 			case TYPE_PORT:
@@ -400,17 +400,17 @@ public final class Referenced_Template extends TTCN3Template {
 		}
 
 		// check for circular references
-		ITTCN3Template temp = getTemplateReferencedLast(timestamp);
+		final ITTCN3Template temp = getTemplateReferencedLast(timestamp);
 		if (temp != this) {
-			IReferenceChain referenceChain = ReferenceChain.getInstance(CIRCULARTEMPLATEREFERENCE, true);
-			boolean referencedHasImplicitOmit = hasTemplateImpliciteOmit(timestamp, referenceChain);
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(CIRCULARTEMPLATEREFERENCE, true);
+			final boolean referencedHasImplicitOmit = hasTemplateImpliciteOmit(timestamp, referenceChain);
 			referenceChain.release();
 		}
 	}
 
 	@Override
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
-		TTCN3Template last = getTemplateReferencedLast(timestamp);
+		final TTCN3Template last = getTemplateReferencedLast(timestamp);
 		last.checkTemplateSpecificLengthRestriction(timestamp, typeType);
 	}
 
@@ -425,9 +425,9 @@ public final class Referenced_Template extends TTCN3Template {
 			}
 		} else {
 		//if (reference != null):
-			Assignment ass = reference.getRefdAssignment(timestamp, true);
+			final Assignment ass = reference.getRefdAssignment(timestamp, true);
 			if (Assignment_type.A_TEMPLATE == ass.getAssignmentType()) {
-				ITTCN3Template templateLast = getTemplateReferencedLast(timestamp);
+				final ITTCN3Template templateLast = getTemplateReferencedLast(timestamp);
 				if(! this.equals(templateLast)) {
 					templateLast.checkValueomitRestriction(timestamp, getTemplateTypeName(), omitAllowed, usageLocation);
 				}
@@ -463,10 +463,10 @@ public final class Referenced_Template extends TTCN3Template {
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
 		if (reference != null) {
-			Assignment ass = reference.getRefdAssignment(timestamp, true);
+			final Assignment ass = reference.getRefdAssignment(timestamp, true);
 			switch (ass.getAssignmentType()) {
 			case A_TEMPLATE:
-				ITTCN3Template templateLast = getTemplateReferencedLast(timestamp);
+				final ITTCN3Template templateLast = getTemplateReferencedLast(timestamp);
 				return templateLast.checkPresentRestriction(timestamp, definitionName, usageLocation);
 			case A_VAR_TEMPLATE:
 			case A_EXT_FUNCTION_RTEMP:

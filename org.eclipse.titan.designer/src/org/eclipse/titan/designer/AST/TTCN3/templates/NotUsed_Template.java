@@ -40,7 +40,7 @@ public final class NotUsed_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder("-");
+		final StringBuilder builder = new StringBuilder("-");
 		if (lengthRestriction != null) {
 			builder.append(lengthRestriction.createStringRepresentation());
 		}

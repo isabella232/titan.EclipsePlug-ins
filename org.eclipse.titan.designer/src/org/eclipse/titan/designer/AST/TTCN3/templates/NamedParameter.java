@@ -71,7 +71,7 @@ public final class NamedParameter extends ASTNode implements ILocateableNode, II
 		if (name == null || instance == null) {
 			return "<unknown named parameter>";
 		} else {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			sb.append(name.getName());
 			sb.append(" := ");
 			sb.append(instance.createStringRepresentation());

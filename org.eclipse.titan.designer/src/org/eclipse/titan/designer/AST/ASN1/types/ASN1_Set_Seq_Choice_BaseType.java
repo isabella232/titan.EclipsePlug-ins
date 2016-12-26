@@ -180,7 +180,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		final CompField compField = getComponentByName(fieldID);
 		final IType compFieldType = compField.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (compFieldType instanceof IReferenceableElement) {
-			Declaration decl = ((IReferenceableElement) compFieldType).resolveReference(reference, actualIndex + 1, lastSubreference);
+			final Declaration decl = ((IReferenceableElement) compFieldType).resolveReference(reference, actualIndex + 1, lastSubreference);
 			return decl != null ? decl : Declaration.createInstance(getDefiningAssignment(), compField.getIdentifier());
 		}
 
@@ -203,26 +203,27 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	 * */
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
-				CompField compField = components.getCompByName(subreference.getId());
+				final CompField compField = components.getCompByName(subreference.getId());
 				if (compField == null) {
 					return;
 				}
-				IType type = compField.getType();
+
+				final IType type = compField.getType();
 				if (type != null) {
 					type.addDeclaration(declarationCollector, i + 1);
 				}
 			} else {
 				// final part of the reference
-				List<CompField> compFields = components.getComponentsWithPrefix(subreference.getId().getName());
+				final List<CompField> compFields = components.getComponentsWithPrefix(subreference.getId().getName());
 				for (CompField compField : compFields) {
 					declarationCollector.addDeclaration(compField.getIdentifier().getDisplayName(),
 							compField.getIdentifier().getLocation(), this);
@@ -257,29 +258,30 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	 * */
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i || components == null) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
 
-				CompField compField = components.getCompByName(subreference.getId());
+				final CompField compField = components.getCompByName(subreference.getId());
 				if (compField == null) {
 					return;
 				}
-				IType type = compField.getType();
+
+				final IType type = compField.getType();
 				if (type != null) {
 					type.addProposal(propCollector, i + 1);
 				}
 			} else {
 				// final part of the reference
-				List<CompField> compFields = components.getComponentsWithPrefix(subreference.getId().getName());
+				final List<CompField> compFields = components.getComponentsWithPrefix(subreference.getId().getName());
 				for (CompField compField : compFields) {
-					String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
+					final String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
 					propCollector.addProposal(compField.getIdentifier(), " - " + proposalKind,
 							ImageCache.getImage(getOutlineIcon()), proposalKind);
 				}
@@ -289,21 +291,23 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	@Override
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
 		case fieldSubReference: {
-			Identifier id = subreference.getId();
-			CompField compField = components.getCompByName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = components.getCompByName(id);
 			if (compField == null) {
 				return false;
 			}
-			IType fieldType = compField.getType();
+
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}

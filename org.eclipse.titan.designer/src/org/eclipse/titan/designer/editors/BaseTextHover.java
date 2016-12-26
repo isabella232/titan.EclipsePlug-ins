@@ -72,7 +72,7 @@ public abstract class BaseTextHover implements ITextHover, ITextHoverExtension2 
 				}
 			}
 			if (!messages.isEmpty()) {
-				StringBuilder builder = new StringBuilder();
+				final StringBuilder builder = new StringBuilder();
 				builder.append(messages.get(0));
 				for (int i = 1; i < messages.size() && i <= 3; i++) {
 					builder.append("<br></br>");

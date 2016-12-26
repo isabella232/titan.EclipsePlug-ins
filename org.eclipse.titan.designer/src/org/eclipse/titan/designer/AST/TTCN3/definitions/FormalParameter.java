@@ -143,7 +143,7 @@ public final class FormalParameter extends Definition {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (type == child) {
 			return builder.append(FULLNAMEPART1);
@@ -249,7 +249,7 @@ public final class FormalParameter extends Definition {
 
 	@Override
 	public String getDescription() {
-		StringBuilder builder = new StringBuilder(getAssignmentName());
+		final StringBuilder builder = new StringBuilder(getAssignmentName());
 		return builder.append(" `").append(identifier.getDisplayName()).append('\'').toString();
 	}
 
@@ -307,7 +307,7 @@ public final class FormalParameter extends Definition {
 			return;
 		}
 
-		Definition definition = myParameterList.getMyDefinition();
+		final Definition definition = myParameterList.getMyDefinition();
 		if (definition == null) {
 			return;
 		}
@@ -342,7 +342,7 @@ public final class FormalParameter extends Definition {
 		if (type != null) {
 			type.check(timestamp);
 
-			IType lastType = type.getTypeRefdLast(timestamp);
+			final IType lastType = type.getTypeRefdLast(timestamp);
 			if (lastType == null) {
 				NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_FORMAL_PARAMETER, identifier, this);
 				return;
@@ -469,7 +469,7 @@ public final class FormalParameter extends Definition {
 			break;
 		}
 
-		ActualParameter temp = new Value_ActualParameter(null);
+		final ActualParameter temp = new Value_ActualParameter(null);
 		temp.setIsErroneous();
 		return temp;
 	}
@@ -491,16 +491,16 @@ public final class FormalParameter extends Definition {
 	private ActualParameter checkActualParameterValue(final CompilationTimeStamp timestamp, final TemplateInstance actualParameter,
 			final Expected_Value_type expectedValue) {
 		actualParameter.checkType(timestamp, type);
-		Reference derivedReference = actualParameter.getDerivedReference();
+		final Reference derivedReference = actualParameter.getDerivedReference();
 		if (derivedReference != null) {
 			actualParameter.checkDerivedReference(timestamp, type);
 		}
 
-		ITTCN3Template template = actualParameter.getTemplateBody();
+		final ITTCN3Template template = actualParameter.getTemplateBody();
 		if (template.isValue(timestamp) && type != null) {
-			IValue value = template.getValue();
+			final IValue value = template.getValue();
 			value.setMyGovernor(type);
-			IValue temp = type.checkThisValueRef(timestamp, value);
+			final IValue temp = type.checkThisValueRef(timestamp, value);
 			if(!Value_type.NOTUSED_VALUE.equals(temp.getValuetype())) {
 			  type.checkThisValue(timestamp, temp, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
 			}
@@ -508,16 +508,16 @@ public final class FormalParameter extends Definition {
 		}
 
 		actualParameter.getLocation().reportSemanticError(MessageFormat.format(SPECIFICVALUEXPECTED, getAssignmentName()));
-		ActualParameter temp = new Value_ActualParameter(null);
+		final ActualParameter temp = new Value_ActualParameter(null);
 		temp.setIsErroneous();
 		return temp;
 	}
 
 	private ActualParameter checkActualParameterTemplate(final CompilationTimeStamp timestamp, final TemplateInstance actualParameter) {
 		actualParameter.check(timestamp, type);
-		TemplateInstance instance = new TemplateInstance(actualParameter.getType(), actualParameter.getDerivedReference(),
+		final TemplateInstance instance = new TemplateInstance(actualParameter.getType(), actualParameter.getDerivedReference(),
 				actualParameter.getTemplateBody());
-		ActualParameter returnValue = new Template_ActualParameter(instance);
+		final ActualParameter returnValue = new Template_ActualParameter(instance);
 
 		if (!Restriction_type.TR_NONE.equals(templateRestriction)) {
 			instance.checkRestriction(timestamp, this);
@@ -543,32 +543,32 @@ public final class FormalParameter extends Definition {
 	 * */
 	private ActualParameter checkActualParameterTimer(final CompilationTimeStamp timestamp, final TemplateInstance actualParameter,
 			final Expected_Value_type expectedValue) {
-		IType parameterType = actualParameter.getType();
+		final IType parameterType = actualParameter.getType();
 		if (parameterType != null) {
 			actualParameter.getLocation().reportSemanticError(EXPLICITESPECIFICATIONFORTIMER);
 			actualParameter.checkType(timestamp, null);
 		}
 
-		Reference derivedReference = actualParameter.getDerivedReference();
+		final Reference derivedReference = actualParameter.getDerivedReference();
 		if (derivedReference != null) {
 			derivedReference.getLocation().reportSemanticError(INLINETEMPLATEFORTIMER);
 			actualParameter.checkDerivedReference(timestamp, null);
 		}
 
-		ITTCN3Template template = actualParameter.getTemplateBody();
+		final ITTCN3Template template = actualParameter.getTemplateBody();
 		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) && ((SpecificValue_Template) template).isReference()) {
-			Reference reference = ((SpecificValue_Template) template).getReference();
-			Assignment assignment = reference.getRefdAssignment(timestamp, true, null);
+			final Reference reference = ((SpecificValue_Template) template).getReference();
+			final Assignment assignment = reference.getRefdAssignment(timestamp, true, null);
 
 			if (assignment == null) {
-				ActualParameter temp = new Value_ActualParameter(null);
+				final ActualParameter temp = new Value_ActualParameter(null);
 				temp.setIsErroneous();
 				return temp;
 			}
 
 			switch (assignment.getAssignmentType()) {
 			case A_TIMER:
-				ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
+				final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 				if (dimensions != null) {
 					dimensions.checkIndices(timestamp, reference, "timer", false, expectedValue);
 				} else if (reference.getSubreferences().size() > 1) {
@@ -591,7 +591,7 @@ public final class FormalParameter extends Definition {
 		}
 
 		actualParameter.getLocation().reportSemanticError(TIMEREXPECTED2);
-		ActualParameter temp = new Value_ActualParameter(null);
+		final ActualParameter temp = new Value_ActualParameter(null);
 		temp.setIsErroneous();
 		return temp;
 	}
@@ -613,30 +613,30 @@ public final class FormalParameter extends Definition {
 	 * */
 	private ActualParameter checkActualParameterPort(final CompilationTimeStamp timestamp, final TemplateInstance actualParameter,
 			final Expected_Value_type expectedValue) {
-		Type parameterType = actualParameter.getType();
+		final Type parameterType = actualParameter.getType();
 		if (parameterType != null) {
 			parameterType.getLocation().reportSemanticWarning("Explicit type specification is useless for a port parameter");
 			actualParameter.checkType(timestamp, type);
 		}
 
-		Reference derivedReference = actualParameter.getDerivedReference();
+		final Reference derivedReference = actualParameter.getDerivedReference();
 		if (derivedReference != null) {
 			derivedReference.getLocation().reportSemanticError("An in-line modified temlate cannot be used as port parameter");
 			actualParameter.checkDerivedReference(timestamp, type);
 		}
 
-		ITTCN3Template parameterTemplate = actualParameter.getTemplateBody();
+		final ITTCN3Template parameterTemplate = actualParameter.getTemplateBody();
 		if (!(parameterTemplate instanceof SpecificValue_Template) || !((SpecificValue_Template) parameterTemplate).isReference()) {
 			actualParameter.getLocation().reportSemanticError("Reference to a port or port parameter was expected for a port parameter");
-			ActualParameter temp = new Value_ActualParameter(null);
+			final ActualParameter temp = new Value_ActualParameter(null);
 			temp.setIsErroneous();
 			return temp;
 		}
 
-		Reference reference = ((SpecificValue_Template) parameterTemplate).getReference();
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Reference reference = ((SpecificValue_Template) parameterTemplate).getReference();
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
-			ActualParameter temp = new Value_ActualParameter(null);
+			final ActualParameter temp = new Value_ActualParameter(null);
 			temp.setIsErroneous();
 			return temp;
 		}
@@ -644,7 +644,7 @@ public final class FormalParameter extends Definition {
 		Type referredType;
 		switch (assignment.getAssignmentType()) {
 		case A_PORT:
-			ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
+			final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
 			if (dimensions != null) {
 				dimensions.checkIndices(timestamp, reference, "port", false, expectedValue);
 			} else if (reference.getSubreferences().size() > 1) {
@@ -660,7 +660,7 @@ public final class FormalParameter extends Definition {
 			break;
 		default:
 			reference.getLocation().reportSemanticError(MessageFormat.format(PORTEXPECTED, assignment.getDescription()));
-			ActualParameter temp = new Value_ActualParameter(null);
+			final ActualParameter temp = new Value_ActualParameter(null);
 			temp.setIsErroneous();
 			return temp;
 		}
@@ -693,14 +693,14 @@ public final class FormalParameter extends Definition {
 	 * */
 	private ActualParameter checkActualParameterByReference(final CompilationTimeStamp timestamp, final TemplateInstance parameter,
 			final boolean isTemplate, final Expected_Value_type expectedValue) {
-		Type parameterType = parameter.getType();
+		final Type parameterType = parameter.getType();
 		if (parameterType != null) {
 			parameterType.getLocation().reportSemanticWarning(
 					MessageFormat.format(EXPLICITESPECIFICATIONFORREFERENCE, getAssignmentName()));
 			parameter.checkType(timestamp, type);
 		}
 
-		Reference derivedReference = parameter.getDerivedReference();
+		final Reference derivedReference = parameter.getDerivedReference();
 		if (derivedReference != null) {
 			derivedReference.getLocation().reportSemanticError(MessageFormat.format(INLINETEMPLATEFORREFERENCE, getAssignmentName()));
 			parameter.checkDerivedReference(timestamp, type);
@@ -713,13 +713,13 @@ public final class FormalParameter extends Definition {
 			expectedString = "variable or value parameter";
 		}
 
-		ITTCN3Template template = parameter.getTemplateBody();
+		final ITTCN3Template template = parameter.getTemplateBody();
 		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) && ((SpecificValue_Template) template).isReference()) {
-			Reference reference = ((SpecificValue_Template) template).getReference();
+			final Reference reference = ((SpecificValue_Template) template).getReference();
 			reference.setUsedOnLeftHandSide();
-			Assignment assignment = reference.getRefdAssignment(timestamp, true);
+			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment == null) {
-				ActualParameter temp = new Value_ActualParameter(null);
+				final ActualParameter temp = new Value_ActualParameter(null);
 				temp.setIsErroneous();
 				return temp;
 			}
@@ -759,7 +759,7 @@ public final class FormalParameter extends Definition {
 			}
 
 			if (assignmentTypeIsCorrect) {
-				IType fieldType = assignment.getType(timestamp).getFieldType(timestamp, reference, 1,
+				final IType fieldType = assignment.getType(timestamp).getFieldType(timestamp, reference, 1,
 						Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 				if (fieldType != null) {
 					if (type != null && !type.isIdentical(timestamp, fieldType)) {
@@ -783,20 +783,20 @@ public final class FormalParameter extends Definition {
 								assignment.getDescription()));
 			}
 
-			ActualParameter returnActualParameter = new Referenced_ActualParameter(reference);
+			final ActualParameter returnActualParameter = new Referenced_ActualParameter(reference);
 
 			if (isTemplate && assignmentTypeIsCorrect) {
 				TemplateRestriction.Restriction_type refdRestriction;
 				switch (assignment.getAssignmentType()) {
 				case A_VAR_TEMPLATE: {
-					Def_Var_Template temp = (Def_Var_Template) assignment;
+					final Def_Var_Template temp = (Def_Var_Template) assignment;
 					refdRestriction = temp.getTemplateRestriction();
 					break;
 				}
 				case A_PAR_TEMP_IN:
 				case A_PAR_TEMP_OUT:
 				case A_PAR_TEMP_INOUT: {
-					FormalParameter par = (FormalParameter) assignment;
+					final FormalParameter par = (FormalParameter) assignment;
 					refdRestriction = par.getTemplateRestriction();
 					break;
 				}
@@ -806,8 +806,8 @@ public final class FormalParameter extends Definition {
 
 				TemplateRestriction.getSubRestriction(refdRestriction, timestamp, reference);
 				if (templateRestriction != refdRestriction) {
-					boolean preCallCheck = TemplateRestriction.isLessRestrictive(templateRestriction, refdRestriction);
-					boolean postCallCheck = TemplateRestriction.isLessRestrictive(refdRestriction, templateRestriction);
+					final boolean preCallCheck = TemplateRestriction.isLessRestrictive(templateRestriction, refdRestriction);
+					final boolean postCallCheck = TemplateRestriction.isLessRestrictive(refdRestriction, templateRestriction);
 					if (preCallCheck || postCallCheck) {
 						final String message = MessageFormat
 								.format("Inadequate restriction on the referenced {0} `{1}'' this may cause a dynamic test case error at runtime",
@@ -839,7 +839,7 @@ public final class FormalParameter extends Definition {
 		}
 
 		parameter.getLocation().reportSemanticError(MessageFormat.format(REFERENCEEXPECTED2, expectedString, getAssignmentName()));
-		ActualParameter temp = new Value_ActualParameter(null);
+		final ActualParameter temp = new Value_ActualParameter(null);
 		temp.setIsErroneous();
 		return temp;
 	}
@@ -890,7 +890,7 @@ public final class FormalParameter extends Definition {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i) {
 			return;
 		}
@@ -905,7 +905,7 @@ public final class FormalParameter extends Definition {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
 			if (subrefs.size() > i + 1 && type != null) {
 				type.addDeclaration(declarationCollector, i + 1);
@@ -923,7 +923,7 @@ public final class FormalParameter extends Definition {
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (defaultValue == null) {
-			List<Integer> result = new ArrayList<Integer>();
+			final List<Integer> result = new ArrayList<Integer>();
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
 			return result;
 		}

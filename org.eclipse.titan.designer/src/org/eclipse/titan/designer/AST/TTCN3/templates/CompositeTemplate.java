@@ -76,7 +76,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 		int result = 0;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			ITTCN3Template template = templates.getTemplateByIndex(i);
-			Template_type ttype = template.getTemplatetype();
+			final Template_type ttype = template.getTemplatetype();
 			
 			switch (ttype) {
 			case ANY_OR_OMIT:
@@ -134,7 +134,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	 * */
 	public boolean containsAnyornoneOrPermutation() {
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			ITTCN3Template template = templates.getTemplateByIndex(i);
+			final ITTCN3Template template = templates.getTemplateByIndex(i);
 			switch (template.getTemplatetype()) {
 			case ANY_OR_OMIT:
 			case PERMUTATION_MATCH:
@@ -150,7 +150,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			if (templates.getTemplateByIndex(i) == child) {
@@ -165,13 +165,14 @@ public abstract class CompositeTemplate extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(getNameForStringRep() + "( ");
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			if (i > 0) {
 				builder.append(", ");
 			}
-			ITTCN3Template template = templates.getTemplateByIndex(i);
+
+			final ITTCN3Template template = templates.getTemplateByIndex(i);
 			builder.append(template.createStringRepresentation());
 		}
 		builder.append(" )");
@@ -190,7 +191,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-				ITTCN3Template template = templates.getTemplateByIndex(i);
+				final ITTCN3Template template = templates.getTemplateByIndex(i);
 				if (template != null) {
 					referenceChain.markState();
 					template.checkRecursions(timestamp, referenceChain);
@@ -268,24 +269,24 @@ public abstract class CompositeTemplate extends TTCN3Template {
 				return false;
 			}
 	
-			Location loc = this.getLocation();
+			final Location loc = this.getLocation();
 			if(loc == null || (loc instanceof NULL_Location)) {
 				return true;
 			}
 
-			IResource f = loc.getFile();
+			final IResource f = loc.getFile();
 			if( f == null) {
 				return true;
 			}
 
-			IProject project = f.getProject();
+			final IProject project = f.getProject();
 			if(project == null) {
 				return true;
 			}
 
-			QualifiedName qn = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY);
+			final QualifiedName qn = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY);
 			try {
-				String s= project.getPersistentProperty(qn);
+				final String s= project.getPersistentProperty(qn);
 				return ( "true".equals(s));
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace(e);

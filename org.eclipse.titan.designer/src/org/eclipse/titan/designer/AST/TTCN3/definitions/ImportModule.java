@@ -316,7 +316,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
-			List<Integer> result = new ArrayList<Integer>();
+			final List<Integer> result = new ArrayList<Integer>();
 			result.add(Ttcn3Lexer.WITH);
 			return result;
 		}
@@ -327,7 +327,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	@Override
 	public List<Integer> getPossiblePrefixTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
-			List<Integer> result = new ArrayList<Integer>(2);
+			final List<Integer> result = new ArrayList<Integer>(2);
 			result.add(Ttcn3Lexer.PUBLIC);
 			result.add(Ttcn3Lexer.PRIVATE);
 			return result;
@@ -350,11 +350,11 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 		if (isDamaged) {
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parse();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parse();
 				identifier = r.getIdentifier();
 
 				// damage handled
@@ -371,7 +371,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 					reparser.updateLocation(withAttributesPath.getLocation());
 				} else if (reparser.envelopsDamage(withAttributesPath.getLocation())) {
 					reparser.extendDamagedRegion(withAttributesPath.getLocation());
-					int result = reparse( reparser );
+					final int result = reparse( reparser );
 					if (result != 0) {
 						throw new ReParseException();
 					}
@@ -460,7 +460,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 				Assignment tempResult = null;
 				final List<ImportModule> imports = ttcnmodule.getImports();
 				for (ImportModule importation : imports) {
-					List<ModuleImportation> tempUsedImports = new ArrayList<ModuleImportation>();
+					final List<ModuleImportation> tempUsedImports = new ArrayList<ModuleImportation>();
 					// check if it could be reached if
 					// visibility is out of question
 					referenceChain.markState();
@@ -484,7 +484,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 						boolean visible = true;
 						for (ModuleImportation usedImportation : tempUsedImports) {
 							if (usedImportation instanceof ImportModule) {
-								ImportModule ttcnImport = (ImportModule) usedImportation;
+								final ImportModule ttcnImport = (ImportModule) usedImportation;
 								if (!ttcnImport.getMyModule().isVisible(timestamp, myModuleIdentifier, ttcnImport)) {
 									visible = false;
 								}
@@ -523,7 +523,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	// FIXME ezeket sem teszteltuk
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final Identifier targetModuleId) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 
 		if (propCollector.getReference().getModuleIdentifier() == null && subrefs.size() == 1) {
 			propCollector.addProposal(identifier, ImageCache.getImage(getOutlineIcon()), KIND);
@@ -531,9 +531,9 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 		final Module savedReferredModule = referredModule;
 		if (savedReferredModule != null) {
-			Assignments assignments = savedReferredModule.getAssignments();
+			final Assignments assignments = savedReferredModule.getAssignments();
 			for (int i = 0, size = assignments.getNofAssignments(); i < size; i++) {
-				Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
+				final Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
 				if (savedReferredModule.isVisible(CompilationTimeStamp.getBaseTimestamp(), targetModuleId, temporalAssignment)) {
 					temporalAssignment.addProposal(propCollector, 0);
 				}
@@ -560,9 +560,9 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	public void addDeclaration(final DeclarationCollector declarationCollector, final Identifier targetModuleId) {
 		final Module savedReferredModule = referredModule;
 		if (savedReferredModule != null) {
-			Assignments assignments = savedReferredModule.getAssignments();
+			final Assignments assignments = savedReferredModule.getAssignments();
 			for (int i = 0; i < assignments.getNofAssignments(); i++) {
-				Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
+				final Assignment temporalAssignment = assignments.getAssignmentByIndex(i);
 				if (savedReferredModule.isVisible(CompilationTimeStamp.getBaseTimestamp(), targetModuleId, temporalAssignment)) {
 					temporalAssignment.addDeclaration(declarationCollector, 0);
 				}
@@ -584,8 +584,8 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 				}
 			}
 
-			Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
-			List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+			final Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
+			final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 			if (moduleId == null && subrefs.size() == 1 && identifier.getName().equals(subrefs.get(0).getId().getName())) {
 				declarationCollector.addDeclaration(savedReferredModule.getIdentifier().getDisplayName(), savedReferredModule
 						.getIdentifier().getLocation(), (Assignment) null);

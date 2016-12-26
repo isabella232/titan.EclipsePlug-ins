@@ -50,7 +50,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 		}
 
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			IType type = templates.getTemplateByIndex(i).getExpressionGovernor(timestamp, expectedValue);
+			final IType type = templates.getTemplateByIndex(i).getExpressionGovernor(timestamp, expectedValue);
 			if (type != null) {
 				return type;
 			}
@@ -66,7 +66,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 		}
 
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			Type_type type = templates.getTemplateByIndex(i).getExpressionReturntype(timestamp, expectedValue);
+			final Type_type type = templates.getTemplateByIndex(i).getExpressionReturntype(timestamp, expectedValue);
 			if (!Type_type.TYPE_UNDEFINED.equals(type)) {
 				return type;
 			}
@@ -88,12 +88,12 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			return;
 		}
 		
-		boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
+		final boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
 		
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			ITemplateListItem component = templates.getTemplateByIndex(i);
+			final ITemplateListItem component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
-			ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
+			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
 			temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit);
 
 			if (Template_type.ANY_OR_OMIT.equals(temporalComponent.getTemplatetype())) {
@@ -118,27 +118,28 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
 
-		boolean allowOmitInValueList = allowOmitInValueList(true);
+		final boolean allowOmitInValueList = allowOmitInValueList(true);
 		if(allowOmitInValueList) {
 			boolean hasAnyOrOmit = false;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-				ITemplateListItem component = templates.getTemplateByIndex(i);
+				final ITemplateListItem component = templates.getTemplateByIndex(i);
 				
 				// === if OMIT_VALUE then hasOmitValue=true and break ====
 				// componentType == ITTCN3Template.Template_type.OMIT_VALUE does not work
 				// TODO: put this if-block to a higher level
 				//TODO: avoid NPE (?) 
 				if(component instanceof TemplateBody) {
-					ITTCN3Template template = ((TemplateBody) component).getTemplate();
+					final ITTCN3Template template = ((TemplateBody) component).getTemplate();
 					if(Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())){
-						IValue value = ((SpecificValue_Template) template).getSpecificValue();
+						final IValue value = ((SpecificValue_Template) template).getSpecificValue();
 						if( Value_type.OMIT_VALUE.equals(value.getValuetype())){
 							hasAnyOrOmit = true;
 							break;
 						}
 					}
 				}
-				TTCN3Template.Template_type componentType =  component.getTemplatetype();
+
+				final TTCN3Template.Template_type componentType =  component.getTemplatetype();
 				if (ITTCN3Template.Template_type.ANY_OR_OMIT.equals(componentType)) {
 					hasAnyOrOmit = true;
 					break;

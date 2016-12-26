@@ -64,8 +64,8 @@ public final class Named_Template_List extends TTCN3Template {
 	 * @param other the template to be converted
 	 * */
 	public static Named_Template_List convert(final CompilationTimeStamp timestamp, final Template_List other) {
-		IType lastType = other.getMyGovernor().getTypeRefdLast(timestamp);
-		int nofTemplates = other.getNofTemplates();
+		final IType lastType = other.getMyGovernor().getTypeRefdLast(timestamp);
+		final int nofTemplates = other.getNofTemplates();
 		int nofTypeComponents = 0;
 		switch (lastType.getTypetype()) {
 		case TYPE_TTCN3_SEQUENCE:
@@ -101,9 +101,9 @@ public final class Named_Template_List extends TTCN3Template {
 			allNotUsed = false;
 		}
 
-		NamedTemplates namedTemplates = new NamedTemplates();
+		final NamedTemplates namedTemplates = new NamedTemplates();
 		for (int i = 0; i < upperLimit; i++) {
-			ITemplateListItem template = other.getTemplateByIndex(i);
+			final ITemplateListItem template = other.getTemplateByIndex(i);
 			if (!Template_type.TEMPLATE_NOTUSED.equals(template.getTemplatetype())) {
 				allNotUsed = false;
 				Identifier identifier = null;
@@ -130,7 +130,7 @@ public final class Named_Template_List extends TTCN3Template {
 				}
 
 				if (identifier != null) {
-					NamedTemplate namedTemplate = new NamedTemplate(identifier.newInstance(), template);
+					final NamedTemplate namedTemplate = new NamedTemplate(identifier.newInstance(), template);
 					namedTemplate.setLocation(template.getLocation());
 					namedTemplates.addTemplate(namedTemplate);
 				}
@@ -145,7 +145,7 @@ public final class Named_Template_List extends TTCN3Template {
 			other.setIsErroneous(true);
 		}
 		
-		Named_Template_List target = new Named_Template_List(namedTemplates);
+		final Named_Template_List target = new Named_Template_List(namedTemplates);
 		target.copyGeneralProperties(other);
 
 		return target;
@@ -207,13 +207,14 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("{ ");
 		for (int i = 0, size = namedTemplates.getNofTemplates(); i < size; i++) {
 			if (i > 0) {
 				builder.append(", ");
 			}
-			NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
+
+			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 			builder.append(namedTemplate.getName().getDisplayName());
 			builder.append(" := ");
 			builder.append(namedTemplate.getTemplate().createStringRepresentation());
@@ -283,10 +284,10 @@ public final class Named_Template_List extends TTCN3Template {
 			return asValue;
 		}
 
-		NamedValues values = new NamedValues();
+		final NamedValues values = new NamedValues();
 		for (int i = 0, size = getNofTemplates(); i < size; i++) {
-			NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
-			NamedValue namedValue = new NamedValue(namedTemplate.getName(), namedTemplate.getTemplate().getValue());
+			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
+			final NamedValue namedValue = new NamedValue(namedTemplate.getName(), namedTemplate.getTemplate().getValue());
 			namedValue.setLocation(namedTemplate.getLocation());
 			values.addNamedValue(namedValue);
 		}
@@ -312,7 +313,7 @@ public final class Named_Template_List extends TTCN3Template {
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
-				NamedTemplate template = namedTemplates.getTemplateByIndex(i);
+				final NamedTemplate template = namedTemplates.getTemplateByIndex(i);
 				if (template != null) {
 					referenceChain.markState();
 					template.getTemplate().checkRecursions(timestamp, referenceChain);
@@ -331,7 +332,7 @@ public final class Named_Template_List extends TTCN3Template {
 		}
 
 		for (int i = 0, size = getNofTemplates(); i < size; i++) {
-			ITTCN3Template tmpl = namedTemplates.getTemplateByIndex(i).getTemplate();
+			final ITTCN3Template tmpl = namedTemplates.getTemplateByIndex(i).getTemplate();
 			final String name = namedTemplates.getTemplateByIndex(i).getName().getName();
 			if (!checkedNames.contains(name)) {
 				if (tmpl.checkValueomitRestriction(timestamp, definitionName, true, usageLocation)) {
@@ -360,7 +361,7 @@ public final class Named_Template_List extends TTCN3Template {
 		boolean needsRuntimeCheck = false;
 		int neededCheckedCnt = 0;
 		if (baseTemplate != null && myGovernor != null) {
-			HashSet<String> checkedNames = new HashSet<String>();
+			final HashSet<String> checkedNames = new HashSet<String>();
 			switch (myGovernor.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				neededCheckedCnt = ((TTCN3_Sequence_Type) myGovernor).getNofComponents();
@@ -384,7 +385,7 @@ public final class Named_Template_List extends TTCN3Template {
 			}
 
 			for (int i = 0, size = getNofTemplates(); i < size; i++) {
-				NamedTemplate temp = namedTemplates.getTemplateByIndex(i);
+				final NamedTemplate temp = namedTemplates.getTemplateByIndex(i);
 				if (temp.getTemplate().checkValueomitRestriction(timestamp, definitionName, true, usageLocation)) {
 					needsRuntimeCheck = true;
 				}
@@ -438,9 +439,9 @@ public final class Named_Template_List extends TTCN3Template {
 		if (referenceFinder.assignment.getAssignmentType() == Assignment_type.A_TYPE && referenceFinder.fieldId != null && myGovernor != null) {
 			// check if this is the type and field we are searching
 			// for
-			IType govLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType govLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if (referenceFinder.type == govLast) {
-				NamedTemplate nt = namedTemplates.getNamedTemplateByName(referenceFinder.fieldId);
+				final NamedTemplate nt = namedTemplates.getNamedTemplateByName(referenceFinder.fieldId);
 				if (nt != null) {
 					foundIdentifiers.add(new Hit(nt.getName()));
 				}

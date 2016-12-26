@@ -67,13 +67,14 @@ public final class Template_List extends CompositeTemplate {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("{ ");
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			if (i > 0) {
 				builder.append(", ");
 			}
-			ITTCN3Template template = templates.getTemplateByIndex(i);
+
+			final ITTCN3Template template = templates.getTemplateByIndex(i);
 			builder.append(template.createStringRepresentation());
 		}
 		builder.append(" }");
@@ -119,7 +120,7 @@ public final class Template_List extends CompositeTemplate {
 			return null;
 		}
 
-		IType tempType = myGovernor.getTypeRefdLast(timestamp);
+		final IType tempType = myGovernor.getTypeRefdLast(timestamp);
 		if (tempType.getIsErroneous(timestamp)) {
 			return null;
 		}
@@ -134,7 +135,7 @@ public final class Template_List extends CompositeTemplate {
 				return null;
 			}
 
-			int nofElements = getNofTemplates();
+			final int nofElements = getNofTemplates();
 			if (index > nofElements) {
 				final String message = MessageFormat
 						.format("Index overflow in a template of `sequence of'' type `{0}'': the index is {1}, but the template has only {2} elements",
@@ -153,7 +154,7 @@ public final class Template_List extends CompositeTemplate {
 				return null;
 			}
 
-			int nofElements = getNofTemplates();
+			final int nofElements = getNofTemplates();
 			if (index > nofElements) {
 				final String message = MessageFormat
 						.format("Index overflow in a template of `set of'' type `{0}'': the index is {1}, but the template has only {2} elements",
@@ -164,7 +165,7 @@ public final class Template_List extends CompositeTemplate {
 			break;
 		}
 		case TYPE_ARRAY: {
-			ArrayDimension dimension = ((Array_Type) tempType).getDimension();
+			final ArrayDimension dimension = ((Array_Type) tempType).getDimension();
 			dimension.checkIndex(timestamp, indexValue, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (!dimension.getIsErroneous(timestamp)) {
 				// re-base the index
@@ -188,7 +189,7 @@ public final class Template_List extends CompositeTemplate {
 		}
 		}
 
-		ITTCN3Template returnValue = getTemplateByIndex((int) index);
+		final ITTCN3Template returnValue = getTemplateByIndex((int) index);
 		if (Template_type.TEMPLATE_NOTUSED.equals(returnValue.getTemplatetype())) {
 			if (baseTemplate != null) {
 				return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain).getReferencedArrayTemplate(timestamp,
@@ -222,7 +223,7 @@ public final class Template_List extends CompositeTemplate {
 			return asValue;
 		}
 
-		Values values = new Values(false);
+		final Values values = new Values(false);
 		for (int i = 0, size = getNofTemplates(); i < size; i++) {
 			values.addValue(templates.getTemplateByIndex(i).getValue());
 		}
@@ -245,9 +246,9 @@ public final class Template_List extends CompositeTemplate {
 	@Override
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_SEQUENCE_OF.equals(typeType) || Type_type.TYPE_SET_OF.equals(typeType)) {
-			int nofTemplatesGood = getNofTemplatesNotAnyornone(timestamp); //at least !
+			final int nofTemplatesGood = getNofTemplatesNotAnyornone(timestamp); //at least !
 			
-			boolean hasAnyOrNone = templateContainsAnyornone();
+			final boolean hasAnyOrNone = templateContainsAnyornone();
 
 			lengthRestriction.checkNofElements(timestamp, nofTemplatesGood, hasAnyOrNone, false, hasAnyOrNone, this);
 		}

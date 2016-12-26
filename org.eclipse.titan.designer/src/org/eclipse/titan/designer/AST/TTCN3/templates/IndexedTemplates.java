@@ -73,12 +73,12 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (int i = 0, size = indexed_templates.size(); i < size; i++) {
-			IndexedTemplate template = indexed_templates.get(i);
+			final IndexedTemplate template = indexed_templates.get(i);
 			if (template == child) {
-				IValue index = template.getIndex().getValue();
+				final IValue index = template.getIndex().getValue();
 				return builder.append(INamedNode.SQUAREOPEN).append(index.createStringRepresentation())
 						.append(INamedNode.SQUARECLOSE);
 			}
@@ -103,7 +103,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 		}
 
 		for (int i = 0, size = indexed_templates.size(); i < size; i++) {
-			IndexedTemplate template = indexed_templates.get(i);
+			final IndexedTemplate template = indexed_templates.get(i);
 
 			template.updateSyntax(reparser, false);
 			reparser.updateLocation(template.getLocation());

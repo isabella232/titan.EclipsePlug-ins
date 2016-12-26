@@ -31,7 +31,7 @@ public final class ClosingBracketIndentationAutoEditStrategy extends GeneralTITA
 			return;
 		}
 		try {
-			StringBuilder builder = new StringBuilder(document.get());
+			final StringBuilder builder = new StringBuilder(document.get());
 			if (isWithinMultiLineComment(command.offset) || isWithinString(builder, command.offset)) {
 				return;
 			}

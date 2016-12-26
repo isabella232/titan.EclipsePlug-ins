@@ -90,22 +90,22 @@ public final class Undefined_Block_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IValue result = getValueRefdLast(timestamp, refChain);
+		final IValue result = getValueRefdLast(timestamp, refChain);
 		if (null != result && result != this) {
 			return result.getReferencedSubValue(timestamp, reference, actualSubReference, refChain);
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return null;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(
@@ -172,7 +172,7 @@ public final class Undefined_Block_Value extends Value {
 		case SEQUENCEOF_VALUE: {
 			SequenceOf_Value value = parseBlockSeqofValue();
 			if (null == value) {
-				Values values = new Values(false);
+				final Values values = new Values(false);
 				value = new SequenceOf_Value(values);
 			}
 
@@ -184,7 +184,7 @@ public final class Undefined_Block_Value extends Value {
 		case SETOF_VALUE: {
 			SetOf_Value value = parseBlockSetofValue();
 			if (null == value) {
-				Values values = new Values(false);
+				final Values values = new Values(false);
 				value = new SetOf_Value(values);
 			}
 
@@ -196,7 +196,7 @@ public final class Undefined_Block_Value extends Value {
 		case SEQUENCE_VALUE: {
 			Sequence_Value value = parseBlockSequenceValue();
 			if (null == value) {
-				NamedValues values = new NamedValues();
+				final NamedValues values = new NamedValues();
 				value = new Sequence_Value(values);
 			}
 
@@ -208,7 +208,7 @@ public final class Undefined_Block_Value extends Value {
 		case SET_VALUE: {
 			Set_Value value = parseBlockSetValue();
 			if (null == value) {
-				NamedValues values = new NamedValues();
+				final NamedValues values = new NamedValues();
 				value = new Set_Value(values);
 			}
 

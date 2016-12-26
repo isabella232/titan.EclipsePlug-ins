@@ -147,14 +147,14 @@ public final class SelectUnionCase_Statement extends Statement {
 			}
 
 			// list of union field names. Names of processed field names are removed from the list
-			List<String> fieldNames = new ArrayList<String>();
+			final List<String> fieldNames = new ArrayList<String>();
 			for ( int i = 0; i < unionType.getNofComponents(); i++ ) {
 				final String compName = unionType.getComponentIdentifierByIndex( i ).getName();
 				fieldNames.add( compName );
 			}
 			mSelectUnionCases.check( timestamp, unionType, fieldNames );
 			if ( !fieldNames.isEmpty() ) {
-				StringBuilder sb = new StringBuilder( CASENOTCOVERED );
+				final StringBuilder sb = new StringBuilder( CASENOTCOVERED );
 				for ( int i = 0; i < fieldNames.size(); i++ ) {
 					if ( i > 0 ) {
 						sb.append(", ");

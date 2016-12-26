@@ -50,7 +50,7 @@ public abstract class SubtypeConstraint {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		toString(sb);
 		return sb.toString();
 	}

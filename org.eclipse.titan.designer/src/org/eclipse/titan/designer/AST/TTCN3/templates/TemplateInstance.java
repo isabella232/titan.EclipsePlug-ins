@@ -121,7 +121,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (type == child) {
 			return builder.append(FULLNAMEPART1);
@@ -139,7 +139,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 * @return the string representation of the template instance.
 	 * */
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		if (type != null) {
 			builder.append(type.getTypename()).append(" : ");
 		}
@@ -169,7 +169,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 		}
 
 		if (derivedReference != null) {
-			IType result = checkDerivedReference(timestamp, null);
+			final IType result = checkDerivedReference(timestamp, null);
 			if (result != null) {
 				return result;
 			}
@@ -194,7 +194,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 		
 		if(tempType == null) {
 			if (derivedReference != null) {
-				IType result = checkDerivedReference(timestamp, null);
+				final IType result = checkDerivedReference(timestamp, null);
 				if (result != null) {
 					tempType = result;
 				}
@@ -245,7 +245,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			return governor;
 		}
 
-		Assignment assignment = derivedReference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = derivedReference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return governor;
 		}
@@ -281,7 +281,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			tempGovernor = type;
 		}
 
-		IType baseTemplateType = derivedAssignment.getType(timestamp);
+		final IType baseTemplateType = derivedAssignment.getType(timestamp);
 		if (tempGovernor != null) {
 			if (!tempGovernor.isCompatible(timestamp, baseTemplateType, null, null, null)) {
 				derivedReference.getLocation().reportSemanticError(
@@ -330,7 +330,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 
 		IType localGovernor = checkType(timestamp, governor);
 		localGovernor = checkDerivedReference(timestamp, localGovernor);
-		ITTCN3Template temporalBody = localGovernor.checkThisTemplateRef(timestamp, templateBody);
+		final ITTCN3Template temporalBody = localGovernor.checkThisTemplateRef(timestamp, templateBody);
 		temporalBody.checkThisTemplateGeneric(timestamp, localGovernor, derivedReference != null, true, true, true, false);//TODO: too much automatic true (baat)
 
 		lastTimeChecked = timestamp;
@@ -350,7 +350,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 		boolean needsRuntimeCheck = false;
 
 		if (derivedReference != null) {
-			Assignment ass = derivedReference.getRefdAssignment(timestamp, true);
+			final Assignment ass = derivedReference.getRefdAssignment(timestamp, true);
 			switch (ass.getAssignmentType()) {
 			case A_TEMPLATE:
 			case A_VAR_TEMPLATE:
@@ -365,7 +365,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 				// added as the
 				// base template than check and remove after
 				// checked
-				Referenced_Template temp = new Referenced_Template(derivedReference);
+				final Referenced_Template temp = new Referenced_Template(derivedReference);
 				temp.setLocation(derivedReference.getLocation());
 				templateBody.setBaseTemplate(temp);
 				needsRuntimeCheck = TemplateRestriction.check(timestamp, definition, templateBody, null);

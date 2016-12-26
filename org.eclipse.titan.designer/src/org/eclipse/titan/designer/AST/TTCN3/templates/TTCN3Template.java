@@ -234,7 +234,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return Completeness_type.MAY_INCOMPLETE;
 		}
 
-		ITTCN3Template temp = baseTemplate.getTemplateReferencedLast(timestamp);
+		final ITTCN3Template temp = baseTemplate.getTemplateReferencedLast(timestamp);
 		if (temp.getIsErroneous(timestamp)) {
 			return Completeness_type.MAY_INCOMPLETE;
 		}
@@ -253,7 +253,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 				return Completeness_type.MAY_INCOMPLETE;
 			}
 
-			IType type = myGovernor.getTypeRefdLast(timestamp);
+			final IType type = myGovernor.getTypeRefdLast(timestamp);
 			if (type == null) {
 				return Completeness_type.MAY_INCOMPLETE;
 			}
@@ -296,7 +296,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return Completeness_type.MAY_INCOMPLETE;
 		}
 
-		ITTCN3Template temp = baseTemplate.getTemplateReferencedLast(timestamp);
+		final ITTCN3Template temp = baseTemplate.getTemplateReferencedLast(timestamp);
 		if (temp.getIsErroneous(timestamp)) {
 			return Completeness_type.MAY_INCOMPLETE;
 		}
@@ -331,8 +331,8 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * */
 	@Override
 	public final TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		TTCN3Template result = getTemplateReferencedLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final TTCN3Template result = getTemplateReferencedLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		return result;
@@ -451,13 +451,13 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return null;
 		}
 
-		Named_Template_List namedList = (Named_Template_List) this;
+		final Named_Template_List namedList = (Named_Template_List) this;
 		if (namedList.getNofTemplates() != 1) {
 			// invalid template, the error is already reported
 			return null;
 		}
 
-		NamedTemplate namedTemplate = namedList.getTemplateByIndex(0);
+		final NamedTemplate namedTemplate = namedList.getTemplateByIndex(0);
 		if (namedTemplate.getName().equals(fieldIdentifier)) {
 			return namedTemplate.getTemplate();
 		}
@@ -492,7 +492,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return null;
 		}
 
-		Named_Template_List namedList = (Named_Template_List) this;
+		final Named_Template_List namedList = (Named_Template_List) this;
 		if (namedList.hasNamedTemplate(fieldIdentifier)) {
 			return namedList.getNamedTemplate(fieldIdentifier).getTemplate();
 		} else if (baseTemplate != null) {
@@ -551,7 +551,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			break;
 		}
 
-		IType tempType = myGovernor.getTypeRefdLast(timestamp);
+		final IType tempType = myGovernor.getTypeRefdLast(timestamp);
 		if (tempType.getIsErroneous(timestamp)) {
 			return null;
 		}
@@ -685,7 +685,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return null;
 		}
 
-		IType tempType = myGovernor.getTypeRefdLast(timestamp);
+		final IType tempType = myGovernor.getTypeRefdLast(timestamp);
 		if (tempType.getIsErroneous(timestamp)) {
 			return null;
 		}
@@ -701,7 +701,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			} else if (!Template_type.TEMPLATE_LIST.equals(getTemplatetype())) {
 				return null;
 			} else {
-				int nofElements = ((Template_List) this).getNofTemplates();
+				final int nofElements = ((Template_List) this).getNofTemplates();
 				if (index > nofElements) {
 					final String message = MessageFormat
 							.format("Index overflow in a template of `sequence of'' type `{0}'': the index is {1}, but the template has only {2} elements",
@@ -721,7 +721,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			} else if (!Template_type.TEMPLATE_LIST.equals(getTemplatetype())) {
 				return null;
 			} else {
-				int nofElements = ((Template_List) this).getNofTemplates();
+				final int nofElements = ((Template_List) this).getNofTemplates();
 				if (index > nofElements) {
 					final String message = MessageFormat
 							.format("Index overflow in a template of `set of'' type `{0}'': the index is {1}, but the template has only {2} elements",
@@ -732,7 +732,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			}
 			break;
 		case TYPE_ARRAY: {
-			ArrayDimension dimension = ((Array_Type) tempType).getDimension();
+			final ArrayDimension dimension = ((Array_Type) tempType).getDimension();
 			dimension.checkIndex(timestamp, indexValue, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (Template_type.TEMPLATE_LIST.equals(getTemplatetype()) && !dimension.getIsErroneous(timestamp)) {
 				// re-base the index
@@ -756,12 +756,12 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		}
 		}
 		if(this instanceof Template_List) {
-		ITemplateListItem returnValue = ((Template_List) this).getTemplateByIndex((int) index);
-		if (Template_type.TEMPLATE_NOTUSED.equals(returnValue.getTemplatetype())) {
-			if (baseTemplate != null) {
-				return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain).getReferencedArrayTemplate(timestamp,
-						indexValue, referenceChain);
-			}
+			final ITemplateListItem returnValue = ((Template_List) this).getTemplateByIndex((int) index);
+			if (Template_type.TEMPLATE_NOTUSED.equals(returnValue.getTemplatetype())) {
+				if (baseTemplate != null) {
+					return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain).getReferencedArrayTemplate(timestamp,
+							indexValue, referenceChain);
+				}
 
 			return null;
 		}
@@ -787,7 +787,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	@Override
 	public ITTCN3Template getReferencedSubTemplate(final CompilationTimeStamp timestamp, final Reference reference,
 			final IReferenceChain referenceChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		ITTCN3Template template = this;
 		for (int i = 1; i < subreferences.size(); i++) {
 			if (template == null) {
@@ -807,7 +807,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 				((SpecificValue_Template) template).getValue().getReferencedSubValue(timestamp, reference, i, referenceChain);
 			}
 
-			ISubReference ref = subreferences.get(i);
+			final ISubReference ref = subreferences.get(i);
 			if (Subreference_type.fieldSubReference.equals(ref.getReferenceType())) {
 				template = ((TTCN3Template) template).getReferencedFieldTemplate(timestamp, ref.getId(), reference, referenceChain);
 			} else if (Subreference_type.arraySubReference.equals(ref.getReferenceType())) {
@@ -861,8 +861,8 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 		lengthRestriction.check(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 		if (type instanceof IReferencingType) {
-			IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IType last = ((IReferencingType) type).getTypeRefd(timestamp, refChain);
+			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType last = ((IReferencingType) type).getTypeRefd(timestamp, refChain);
 			refChain.release();
 			if (!last.getIsErroneous(timestamp)) {
 				checkLengthRestriction(timestamp, last);
@@ -874,7 +874,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return;
 		}
 
-		Type_type typeType = type.getTypetypeTtcn3();
+		final Type_type typeType = type.getTypetypeTtcn3();
 		switch (typeType) {
 		case TYPE_PORT:
 			// the error was already reported.

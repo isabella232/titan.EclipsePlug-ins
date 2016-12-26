@@ -193,7 +193,7 @@ public final class RelativeObjectIdentifier_Value extends Value {
 		}
 
 		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
-			ObjectIdentifierComponent component = objectIdComponents.get(i);
+			final ObjectIdentifierComponent component = objectIdComponents.get(i);
 
 			component.updateSyntax(reparser, false);
 			reparser.updateLocation(component.getLocation());

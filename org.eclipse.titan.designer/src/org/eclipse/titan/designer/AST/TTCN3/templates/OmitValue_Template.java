@@ -47,7 +47,7 @@ public final class OmitValue_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder("omit");
+		final StringBuilder builder = new StringBuilder("omit");
 		if (lengthRestriction != null) {
 			builder.append(lengthRestriction.createStringRepresentation());
 		}
@@ -83,7 +83,7 @@ public final class OmitValue_Template extends TTCN3Template {
 		}
 
 		if (!getIsErroneous(timestamp)) {
-			IType last = type.getTypeRefdLast(timestamp);
+			final IType last = type.getTypeRefdLast(timestamp);
 			if (Type_type.TYPE_SIGNATURE.equals(last.getTypetype())) {
 				location.reportSemanticError(MessageFormat.format(SIGNATUREERROR, last.getFullName()));
 				setIsErroneous(true);

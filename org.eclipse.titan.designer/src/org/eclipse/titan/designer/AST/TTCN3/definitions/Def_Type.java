@@ -187,7 +187,7 @@ public final class Def_Type extends Definition {
 			Address_Type.checkAddress(timestamp, type);
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		type.checkRecursions(timestamp, chain);
 		chain.release();
 
@@ -227,14 +227,14 @@ public final class Def_Type extends Definition {
 	 *                the timestamp of the actual build cycle.
 	 * */
 	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp, final WithAttributesPath withAttributesPath) {
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
 		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
 		for (int i = 0, size = realAttributes.size(); i < size; i++) {
 			attribute = realAttributes.get(i);
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
-				Qualifiers qualifiers = attribute.getQualifiers();
+				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
 					if (specifications == null) {
 						specifications = new ArrayList<AttributeSpecification>();
@@ -242,8 +242,8 @@ public final class Def_Type extends Definition {
 					specifications.add(attribute.getAttributeSpecification());
 				} else {
 					for (int j = 0, size2 = qualifiers.getNofQualifiers(); j < size2; j++) {
-						Qualifier tempQualifier = qualifiers.getQualifierByIndex(i);
-						ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
+						final Qualifier tempQualifier = qualifiers.getQualifierByIndex(i);
+						final ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
 						if (tempSubReference.getReferenceType() == Subreference_type.arraySubReference) {
 							tempQualifier.getLocation().reportSemanticError(Qualifier.INVALID_INDEX_QUALIFIER);
 						} else {
@@ -260,20 +260,20 @@ public final class Def_Type extends Definition {
 			return;
 		}
 
-		List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
 		for (int i = 0; i < specifications.size(); i++) {
-			AttributeSpecification specification = specifications.get(i);
-			ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+			final AttributeSpecification specification = specifications.get(i);
+			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
 
-			List<ExtensionAttribute> temp = analyzer.getAttributes();
+			final List<ExtensionAttribute> temp = analyzer.getAttributes();
 			if (temp != null) {
 				attributes.addAll(temp);
 			}
 		}
 
 		for (int i = 0; i < attributes.size(); i++) {
-			ExtensionAttribute extensionAttribute = attributes.get(i);
+			final ExtensionAttribute extensionAttribute = attributes.get(i);
 			switch (extensionAttribute.getAttributeType()) {
 			case ANYTYPE:
 			case VERSION:
@@ -307,7 +307,7 @@ public final class Def_Type extends Definition {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i) {
 			return;
 		}
@@ -326,7 +326,7 @@ public final class Def_Type extends Definition {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() > i && identifier.getName().equals(subrefs.get(i).getId().getName())) {
 			if (subrefs.size() > i + 1 && type != null) {
 				type.addDeclaration(declarationCollector, i + 1);
@@ -352,7 +352,7 @@ public final class Def_Type extends Definition {
 
 	@Override
 	public List<Integer> getPossibleExtensionStarterTokens() {
-		List<Integer> result = new ArrayList<Integer>();
+		final List<Integer> result = new ArrayList<Integer>();
 		// might be extended with a subtype
 		result.add(Ttcn3Lexer.LPAREN);
 		// length restriction
@@ -374,11 +374,11 @@ public final class Def_Type extends Definition {
 			lastTimeChecked = null;
 			boolean enveloped = false;
 
-			Location temporalIdentifier = identifier.getLocation();
+			final Location temporalIdentifier = identifier.getLocation();
 			if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 				reparser.extendDamagedRegion(temporalIdentifier);
-				IIdentifierReparser r = new IdentifierReparser(reparser);
-				int result = r.parseAndSetNameChanged();
+				final IIdentifierReparser r = new IdentifierReparser(reparser);
+				final int result = r.parseAndSetNameChanged();
 				identifier = r.getIdentifier();
 
 				// damage handled

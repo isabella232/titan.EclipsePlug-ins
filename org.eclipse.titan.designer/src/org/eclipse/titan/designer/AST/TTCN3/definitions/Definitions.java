@@ -98,14 +98,14 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		Definition definition;
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			definition = iterator.next();
 
 			if (definition == child) {
-				Identifier identifier = definition.getIdentifier();
+				final Identifier identifier = definition.getIdentifier();
 
 				return builder.append(INamedNode.DOT).append(identifier.getDisplayName());
 			}
@@ -116,7 +116,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			group = groups.get(i);
 
 			if (group == child) {
-				Identifier identifier = group.getIdentifier();
+				final Identifier identifier = group.getIdentifier();
 				return builder.append(INamedNode.DOT).append(identifier.getDisplayName());
 			}
 		}
@@ -143,15 +143,15 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 	@Override
 	public Object[] getOutlineChildren() {
-		List<IOutlineElement> outlineDefinitions = new ArrayList<IOutlineElement>();
+		final List<IOutlineElement> outlineDefinitions = new ArrayList<IOutlineElement>();
 		// Take care of ordering.
 		outlineDefinitions.addAll(definitions);
 		outlineDefinitions.addAll(groups);
 		Collections.sort(outlineDefinitions, new Comparator<IOutlineElement>() {
 			@Override
 			public int compare(final IOutlineElement o1, final IOutlineElement o2) {
-				Location l1 = o1.getIdentifier().getLocation();
-				Location l2 = o2.getIdentifier().getLocation();
+				final Location l1 = o1.getIdentifier().getLocation();
+				final Location l2 = o2.getIdentifier().getLocation();
 				if (l1.getOffset() < l2.getOffset()) {
 					return -1;
 				} else if (l1.getOffset() > l2.getOffset()) {
@@ -314,8 +314,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			return;
 		}
 
-		HashMap<String, Group> groupMap = new HashMap<String, Group>(groups.size());
-		HashMap<String, Definition> defs = new HashMap<String, Definition>(definitions.size());
+		final HashMap<String, Group> groupMap = new HashMap<String, Group>(groups.size());
+		final HashMap<String, Definition> defs = new HashMap<String, Definition>(definitions.size());
 
 		//This defs is necessary because the definitionMaps is not ready yet
 		Definition definition;
@@ -323,7 +323,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			definition = iterator.next();
 
 			if (definition.getParentGroup() == null) {
-				String defName = definition.getIdentifier().getName();
+				final String defName = definition.getIdentifier().getName();
 				if (!defs.containsKey(defName)) {
 					defs.put(defName, definition);
 				} //duplication reported by checkUniqueness
@@ -336,7 +336,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			if(group == null) {
 				continue; //paranoia
 			}
-			String groupName = group.getIdentifier().getName();
+
+			final String groupName = group.getIdentifier().getName();
 			if (defs.containsKey(groupName)) {
 				group.getIdentifier().getLocation().reportSemanticError(MessageFormat.format(Group.GROUPCLASHGROUP, groupName));
 				defs.get(groupName).getIdentifier().getLocation()
@@ -368,7 +369,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		
 		lastCompilationTimeStamp = timestamp;
 		
-		Module module = getModuleScope();
+		final Module module = getModuleScope();
 		if (module != null) {
 			if (module.getSkippedFromSemanticChecking()) {
 				return;
@@ -432,7 +433,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		checkUniqueness(timestamp);
 		checkGroups(timestamp);
 		for (Iterator<Assignment> iterator = assignments.iterator(); iterator.hasNext();) {
-			Assignment assignmentFrom  = iterator.next();
+			final Assignment assignmentFrom  = iterator.next();
 			assignmentFrom.check(timestamp);
 			LoadBalancingUtilities.astNodeChecked();
 		}
@@ -444,7 +445,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 	@Override
 	public void postCheck() {
-		Module module = getModuleScope();
+		final Module module = getModuleScope();
 		if (module != null) {
 			if (module.getSkippedFromSemanticChecking()) {
 				return;
@@ -467,7 +468,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
 
-		Identifier identifier = reference.getId();
+		final Identifier identifier = reference.getId();
 		if (identifier == null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
@@ -476,7 +477,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			createDefinitionMap(timestamp);
 		} //uniqueness shall be reported only after checking all the definitions
 
-		Definition result = definitionMap.get(identifier.getName());
+		final Definition result = definitionMap.get(identifier.getName());
 		if (result != null) {
 			return result;
 		}
@@ -586,7 +587,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		boolean isControlPossible = controlpart == null;
 
 		if (controlpart != null) {
-			Location tempLocation = controlpart.getLocation();
+			final Location tempLocation = controlpart.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
 				enveloped = true;
 			} else if (!reparser.isDamaged(tempLocation)) {
@@ -602,8 +603,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = 0, size = groups.size(); i < size && !enveloped; i++) {
-			Group tempGroup = groups.get(i);
-			Location tempLocation = tempGroup.getLocation();
+			final Group tempGroup = groups.get(i);
+			final Location tempLocation = tempGroup.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
 				enveloped = true;
 				leftBoundary = tempLocation.getOffset();
@@ -626,9 +627,9 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = 0, size = importedModules.size(); i < size && !enveloped; i++) {
-			ImportModule tempImport = importedModules.get(i);
+			final ImportModule tempImport = importedModules.get(i);
 			if (tempImport.getParentGroup() == null) {
-				Location tempLocation = tempImport.getLocation();
+				final Location tempLocation = tempImport.getLocation();
 				if (reparser.envelopsDamage(tempLocation)) {
 					enveloped = true;
 					leftBoundary = tempLocation.getOffset();
@@ -652,9 +653,9 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = 0, size = friendModules.size(); i < size && !enveloped; i++) {
-			FriendModule tempFriend = friendModules.get(i);
+			final FriendModule tempFriend = friendModules.get(i);
 			if (tempFriend.getParentGroup() == null) {
-				Location tempLocation = tempFriend.getLocation();
+				final Location tempLocation = tempFriend.getLocation();
 				if (reparser.envelopsDamage(tempLocation)) {
 					enveloped = true;
 					leftBoundary = tempLocation.getOffset();
@@ -678,10 +679,10 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			if (temp.getParentGroup() == null) {
-				Location tempLocation = temp.getLocation();
-				Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
+				final Location tempLocation = temp.getLocation();
+				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 				if (tempLocation.equals(cumulativeLocation) && reparser.envelopsDamage(cumulativeLocation)) {
 					enveloped = true;
 					leftBoundary = cumulativeLocation.getOffset();
@@ -703,7 +704,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 						lastPrependableBeforeChange = temp;
 					}
 				}
-				Location tempCommentLocation = temp.getCommentLocation();
+
+				final Location tempCommentLocation = temp.getCommentLocation();
 				if (tempCommentLocation != null && reparser.isDamaged(tempCommentLocation)) {
 					nofDamaged++;
 					rightBoundary = tempLocation.getEndOffset() + 1;//check it !!! 
@@ -723,7 +725,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			// extended we should add it to the damaged domain as
 			// the extension might be correct
 			if (lastAppendableBeforeChange != null) {
-				boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
+				final boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
 				if (isBeingExtended) {
 					leftBoundary = lastAppendableBeforeChange.getLocation().getOffset();
 					nofDamaged++;
@@ -733,7 +735,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 
 			if (lastPrependableBeforeChange != null) {
-				List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
+				final List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
 
 				if (temp != null && reparser.endsWithToken(temp)) {
 					rightBoundary = lastPrependableBeforeChange.getLocation().getEndOffset();
@@ -757,8 +759,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 		// update what is left
 		for (int i = 0; i < groups.size(); i++) {
-			Group temp = groups.get(i);
-			Location tempLocation = temp.getLocation();
+			final Group temp = groups.get(i);
+			final Location tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				try {
 					temp.updateSyntax(reparser, importedModules, definitions, friendModules);
@@ -782,12 +784,12 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = 0; i < importedModules.size(); i++) {
-			ImportModule temp = importedModules.get(i);
+			final ImportModule temp = importedModules.get(i);
 			if (temp.getParentGroup() == null) {
-				Location tempLocation = temp.getLocation();
+				final Location tempLocation = temp.getLocation();
 				if (reparser.isAffected(tempLocation)) {
 					try {
-						boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
+						final boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
 						temp.updateSyntax(reparser, enveloped && reparser.envelopsDamage(tempLocation));
 						if(isDamaged) {
 							((TTCN3Module) parentScope).checkRoot();
@@ -813,12 +815,12 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = 0; i < friendModules.size(); i++) {
-			FriendModule temp = friendModules.get(i);
+			final FriendModule temp = friendModules.get(i);
 			if (temp.getParentGroup() == null) {
-				Location tempLocation = temp.getLocation();
+				final Location tempLocation = temp.getLocation();
 				if (reparser.isAffected(tempLocation)) {
 					try {
-						boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
+						final boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
 						temp.updateSyntax(reparser, enveloped && reparser.envelopsDamage(tempLocation));
 						if(isDamaged) {
 							((TTCN3Module) parentScope).checkRoot();
@@ -844,13 +846,13 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			if (temp.getParentGroup() == null) {
-				Location tempLocation = temp.getLocation();
-				Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
+				final Location tempLocation = temp.getLocation();
+				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 				if (reparser.isAffected(cumulativeLocation)) {
 					try {
-						boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
+						final boolean isDamaged = enveloped && reparser.envelopsDamage(tempLocation);
 						temp.updateSyntax(reparser, isDamaged);
 						if (reparser.getNameChanged()) {
 							if (doubleDefinitions != null) {
@@ -893,17 +895,17 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = 0, size = groups.size(); i < size; i++) {
-			Group temp = groups.get(i);
-			Location tempLocation = temp.getLocation();
+			final Group temp = groups.get(i);
+			final Location tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
 				reparser.updateLocation(tempLocation);
 			}
 		}
 
 		for (int i = 0, size = importedModules.size(); i < size; i++) {
-			ImportModule temp = importedModules.get(i);
+			final ImportModule temp = importedModules.get(i);
 			if (temp.getParentGroup() == null) {
-				Location tempLocation = temp.getLocation();
+				final Location tempLocation = temp.getLocation();
 				if (reparser.isAffected(tempLocation)) {
 					reparser.updateLocation(tempLocation);
 				}
@@ -911,9 +913,9 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = 0, size = friendModules.size(); i < size; i++) {
-			FriendModule temp = friendModules.get(i);
+			final FriendModule temp = friendModules.get(i);
 			if (temp.getParentGroup() == null) {
-				Location tempLocation = temp.getLocation();
+				final Location tempLocation = temp.getLocation();
 				if (reparser.isAffected(tempLocation)) {
 					reparser.updateLocation(tempLocation);
 				}
@@ -921,10 +923,10 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			if (temp.getParentGroup() == null) {
-				Location tempLocation = temp.getLocation();
-				Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
+				final Location tempLocation = temp.getLocation();
+				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
 				if (reparser.isAffected(tempLocation)) {
 					if(tempLocation != cumulativeLocation) {
 						reparser.updateLocation(cumulativeLocation);
@@ -957,19 +959,19 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		return aReparser.parse(new ITTCN3ReparseBase() {
 			@Override
 			public void reparse(final Ttcn3Reparser parser) {
-				List<Definition> allDefinitions = new ArrayList<Definition>();
-				List<Definition> localDefinitions = new ArrayList<Definition>();
-				List<Group> localGroups = new ArrayList<Group>();
-				List<ImportModule> allImports = new ArrayList<ImportModule>();
-				List<ImportModule> localImports = new ArrayList<ImportModule>();
-				List<FriendModule> allFriends = new ArrayList<FriendModule>();
-				List<FriendModule> localFriends = new ArrayList<FriendModule>();
+				final List<Definition> allDefinitions = new ArrayList<Definition>();
+				final List<Definition> localDefinitions = new ArrayList<Definition>();
+				final List<Group> localGroups = new ArrayList<Group>();
+				final List<ImportModule> allImports = new ArrayList<ImportModule>();
+				final List<ImportModule> localImports = new ArrayList<ImportModule>();
+				final List<FriendModule> allFriends = new ArrayList<FriendModule>();
+				final List<FriendModule> localFriends = new ArrayList<FriendModule>();
 				List<ControlPart> controlParts = null;
 				if (aTempIsControlPossible) {
 					controlParts = new ArrayList<ControlPart>();
 				}
 
-				TTCN3Module module = (TTCN3Module) parentScope;
+				final TTCN3Module module = (TTCN3Module) parentScope;
 				parser.setModule((TTCN3Module) parentScope);
 				final Pr_reparse_ModuleDefinitionsListContext root =
 						parser.pr_reparse_ModuleDefinitionsList( null, allDefinitions, localDefinitions, localGroups, allImports,
@@ -1017,7 +1019,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	private void removeStuffInRange(final TTCN3ReparseUpdater reparser, final List<ImportModule> importedModules,
 			final List<FriendModule> friendModules) {
 		for (int i = groups.size() - 1; i >= 0; i--) {
-			Group temp = groups.get(i);
+			final Group temp = groups.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				groups.remove(i);
@@ -1025,7 +1027,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = importedModules.size() - 1; i >= 0; i--) {
-			ImportModule temp = importedModules.get(i);
+			final ImportModule temp = importedModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				importedModules.remove(i);
@@ -1033,7 +1035,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (int i = friendModules.size() - 1; i >= 0; i--) {
-			FriendModule temp = friendModules.get(i);
+			final FriendModule temp = friendModules.get(i);
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());
 				friendModules.remove(i);
@@ -1041,7 +1043,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
-			Definition temp = iterator.next();
+			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
 				definitions.remove(temp);

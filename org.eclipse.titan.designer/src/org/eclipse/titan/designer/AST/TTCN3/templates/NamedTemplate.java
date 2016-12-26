@@ -183,7 +183,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 			inamedNode = inamedNode.getNameParent();
 		}
 
-		Named_Template_List namedTemplList = (Named_Template_List) inamedNode;
+		final Named_Template_List namedTemplList = (Named_Template_List) inamedNode;
 		IType type = namedTemplList.getMyGovernor();
 		if (type == null) {
 			return null;
@@ -192,7 +192,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 		type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 		if (type instanceof ITypeWithComponents) {
-			Identifier id = ((ITypeWithComponents) type).getComponentIdentifierByName(getName());
+			final Identifier id = ((ITypeWithComponents) type).getComponentIdentifierByName(getName());
 			return Declaration.createInstance(type.getDefiningAssignment(), id);
 		}
 

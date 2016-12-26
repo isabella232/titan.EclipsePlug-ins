@@ -98,7 +98,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return "<erroneous template>";
 		}
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(specificValue.createStringRepresentation());
 
 		if (lengthRestriction != null) {
@@ -141,7 +141,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 		if (specificValue != null) {
 			specificValue.setMyGovernor(null);
-			IValue temp = specificValue.setLoweridToReference(timestamp);
+			final IValue temp = specificValue.setLoweridToReference(timestamp);
 			return temp.getExpressionGovernor(timestamp, expectedValue);
 		}
 
@@ -168,10 +168,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 		realTemplate = this;
 		isErroneous = false;
 
-		IValue temp = specificValue.setLoweridToReference(timestamp);
+		final IValue temp = specificValue.setLoweridToReference(timestamp);
 
 		if (Value_type.REFERENCED_VALUE.equals(temp.getValuetype())) {
-			Assignment assignment = ((Referenced_Value) temp).getReference().getRefdAssignment(timestamp, false);
+			final Assignment assignment = ((Referenced_Value) temp).getReference().getRefdAssignment(timestamp, false);
 
 			if (assignment != null) {
 				switch (assignment.getAssignmentType()) {
@@ -223,7 +223,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return;
 		}
 
-		Expression_Value expressionValue = (Expression_Value) specificValue;
+		final Expression_Value expressionValue = (Expression_Value) specificValue;
 		if (!Operation_type.APPLY_OPERATION.equals(expressionValue.getOperationType())) {
 			return;
 		}
@@ -237,7 +237,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		type = type.getTypeRefdLast(timestamp);
 
 		if (Type_type.TYPE_FUNCTION.equals(type.getTypetype()) && ((Function_Type) type).returnsTemplate()) {
-			ITTCN3Template template = setTemplatetype(timestamp, Template_type.TEMPLATE_INVOKE);
+			final ITTCN3Template template = setTemplatetype(timestamp, Template_type.TEMPLATE_INVOKE);
 			template.checkSpecificValue(timestamp, allowOmit);
 		}
 	}
@@ -245,7 +245,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		IValue value = getValue();
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		value = value.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
@@ -324,7 +324,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 		if (specificValue != null) {
 			specificValue.setMyGovernor(type);
-			IValue temporalValue = type.checkThisValueRef(timestamp, specificValue);
+			final IValue temporalValue = type.checkThisValueRef(timestamp, specificValue);
 			type.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, isModified,
 					allowOmit, true, implicitOmit, false));
 		}
@@ -349,21 +349,21 @@ public final class SpecificValue_Template extends TTCN3Template {
 		}
 
 		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(specificValue.getValuetype())) {
-			IType governor = ((Function_Reference_Value) specificValue).getExpressionGovernor(timestamp,
+			final IType governor = ((Function_Reference_Value) specificValue).getExpressionGovernor(timestamp,
 					Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (governor == null) {
 				return true;
 			}
 
-			IType last = governor.getTypeRefdLast(timestamp);
+			final IType last = governor.getTypeRefdLast(timestamp);
 			if (Type_type.TYPE_FUNCTION.equals(last.getTypetype()) && ((Function_Type) last).returnsTemplate()) {
 				return false;
 			}
 		} else if (Value_type.REFERENCED_VALUE.equals(specificValue.getValuetype()) 
 				//|| Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(specificValue.getValuetype())
 			) { //TODO: check this hack!  
-			Reference reference = getReference();
-			Assignment assignment = reference.getRefdAssignment(timestamp, true);
+			final Reference reference = getReference();
+			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment == null) {
 				return true;
 			}
@@ -386,12 +386,13 @@ public final class SpecificValue_Template extends TTCN3Template {
 			case A_FUNCTION_RTEMP:
 			case A_VAR_TEMPLATE:
 				boolean result = true;
-				Restriction_type rt = ((Definition) assignment).getTemplateRestriction();
+				final Restriction_type rt = ((Definition) assignment).getTemplateRestriction();
 				if ( TemplateRestriction.Restriction_type.TR_OMIT.equals(rt) || 
 					TemplateRestriction.Restriction_type.TR_PRESENT.equals(rt)) {
 					result = false;
 				}
-				TTCN3Template ttemplate = getTemplateReferencedLast(timestamp);
+
+				final TTCN3Template ttemplate = getTemplateReferencedLast(timestamp);
 				if ((!ttemplate.equals(this)) && (ttemplate.isValue(timestamp))) {
 					return result; //ok
 				} else {

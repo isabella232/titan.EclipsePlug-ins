@@ -59,7 +59,7 @@ public final class UniversalChar {
 
 	@Override
 	public String toString() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		if (isChar() && (cell >= 32) && (cell <= 127)) {
 			// do not print control characters
 			sb.append('\"');

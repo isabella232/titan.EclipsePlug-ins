@@ -195,7 +195,8 @@ public final class CTs_EE_CTs extends ASTNode {
 			for (int i = 0; i < extensionAndException.getNofComps(); i++) {
 				checkComponentField(extensionAndException.getCompByIndex(i), typeName, componentName);
 			}
-			ExceptionSpecification es = extensionAndException.getExceptionSpecification();
+
+			final ExceptionSpecification es = extensionAndException.getExceptionSpecification();
 			if (es != null ){
 				es.getType().check(timestamp);
 			}

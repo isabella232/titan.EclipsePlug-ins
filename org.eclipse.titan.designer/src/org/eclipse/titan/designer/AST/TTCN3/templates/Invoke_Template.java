@@ -58,18 +58,18 @@ public final class Invoke_Template extends TTCN3Template {
 
 	Invoke_Template(final CompilationTimeStamp timestamp, final SpecificValue_Template original) {
 		copyGeneralProperties(original);
-		IValue v = original.getValue();
+		final IValue v = original.getValue();
 
 		if (v == null || !Value_type.EXPRESSION_VALUE.equals(v.getValuetype())) {
 			return;
 		}
 
-		Expression_Value expressionValue = (Expression_Value) v;
+		final Expression_Value expressionValue = (Expression_Value) v;
 		if (!Operation_type.APPLY_OPERATION.equals(expressionValue.getOperationType())) {
 			return;
 		}
 
-		ApplyExpression expression = (ApplyExpression) expressionValue;
+		final ApplyExpression expression = (ApplyExpression) expressionValue;
 		value = expression.getValue();
 		actualParameterList = expression.getParameters();
 	}
@@ -90,7 +90,7 @@ public final class Invoke_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(value.createStringRepresentation());
 		builder.append(".invoke(");
 		if (actualParameterList != null) {
@@ -148,7 +148,7 @@ public final class Invoke_Template extends TTCN3Template {
 		type = type.getTypeRefdLast(timestamp);
 		switch (type.getTypetype()) {
 		case TYPE_FUNCTION:
-			Type result = ((Function_Type) type).getReturnType();
+			final Type result = ((Function_Type) type).getReturnType();
 			if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(expectedValue) && ((Function_Type) type).returnsTemplate()) {
 				location.reportSemanticError(MessageFormat.format(VALUEXPECTED2, type.getTypename(), result.getTypename()));
 			}
@@ -169,7 +169,7 @@ public final class Invoke_Template extends TTCN3Template {
 			return Type_type.TYPE_UNDEFINED;
 		}
 
-		IType type = value.getExpressionGovernor(timestamp, expectedValue);
+		final IType type = value.getExpressionGovernor(timestamp, expectedValue);
 		if (type == null) {
 			return Type_type.TYPE_UNDEFINED;
 		}
@@ -192,7 +192,7 @@ public final class Invoke_Template extends TTCN3Template {
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		checkInvoke(timestamp);
-		IType governor = getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		final IType governor = getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 		if (governor == null) {
 			setIsErroneous(true);
 		} else if (!type.isCompatible(timestamp, governor, null, null, null)) {
@@ -241,8 +241,8 @@ public final class Invoke_Template extends TTCN3Template {
 		}
 
 		myScope.checkRunsOnScope(timestamp, type, this, "call");
-		FormalParameterList formalParameterList = ((Function_Type) type).getFormalParameters();
-		ActualParameterList actualParameters = new ActualParameterList();
+		final FormalParameterList formalParameterList = ((Function_Type) type).getFormalParameters();
+		final ActualParameterList actualParameters = new ActualParameterList();
 		if (!formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameters)) {
 			actualParameters.setFullNameParent(this);
 			actualParameters.setMyScope(getMyScope());

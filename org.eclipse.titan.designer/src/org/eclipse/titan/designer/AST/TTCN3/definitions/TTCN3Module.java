@@ -142,13 +142,13 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append(INamedNode.MODULENAMEPREFIX).append(getIdentifier().getDisplayName());
 
 		if (controlpart == child) {
 			return builder.append(FULLNAMEPART);
 		} else if (anytypeDefinition == child) {
-			Identifier identifier = anytypeDefinition.getIdentifier();
+			final Identifier identifier = anytypeDefinition.getIdentifier();
 
 			return builder.append(INamedNode.DOT).append(identifier.getDisplayName());
 		}
@@ -255,13 +255,13 @@ public final class TTCN3Module extends Module {
 	 *         not defined in this module.
 	 * */
 	public IType getAddressType(final CompilationTimeStamp timestamp) {
-		Identifier addressIdentifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS");
+		final Identifier addressIdentifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS");
 
 		if (!definitions.hasLocalAssignmentWithID(timestamp, addressIdentifier)) {
 			return null;
 		}
 
-		Definition definition = definitions.getLocalAssignmentByID(timestamp, addressIdentifier);
+		final Definition definition = definitions.getLocalAssignmentByID(timestamp, addressIdentifier);
 
 		if (!Assignment_type.A_TYPE.equals(definition.getAssignmentType())) {
 			return null;
@@ -303,7 +303,7 @@ public final class TTCN3Module extends Module {
 			return false;
 		}
 
-		String originalName = identifier.getName();
+		final String originalName = identifier.getName();
 		// The identifier represents the current module
 		if (this.identifier != null && originalName.equals(this.identifier.getName())) {
 			return true;
@@ -344,11 +344,11 @@ public final class TTCN3Module extends Module {
 	 * */
 	private void checkFriendModuleUniqueness() {
 		if (!friendModules.isEmpty()) {
-			Map<String, FriendModule> map = new HashMap<String, FriendModule>(friendModules.size());
+			final Map<String, FriendModule> map = new HashMap<String, FriendModule>(friendModules.size());
 
 			for (FriendModule friendModule : friendModules) {
-				Identifier identifier = friendModule.getIdentifier();
-				String name = identifier.getName();
+				final Identifier identifier = friendModule.getIdentifier();
+				final String name = identifier.getName();
 				if (map.containsKey(name)) {
 					final Location otherLocation = map.get(name).getIdentifier().getLocation();
 					otherLocation.reportSingularSemanticError(MessageFormat.format(
@@ -371,7 +371,7 @@ public final class TTCN3Module extends Module {
 	 * @return the list of modules imported.
 	 * */
 	public List<ImportModule> getImports() {
-		List<ImportModule> result = new ArrayList<ImportModule>(importedModules.size());
+		final List<ImportModule> result = new ArrayList<ImportModule>(importedModules.size());
 		result.addAll(importedModules);
 
 		return result;
@@ -379,7 +379,7 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	public List<Module> getImportedModules() {
-		List<Module> result = new ArrayList<Module>();
+		final List<Module> result = new ArrayList<Module>();
 
 		for (ImportModule impmod : importedModules) {
 			result.add(impmod.getReferredModule());
@@ -517,14 +517,14 @@ public final class TTCN3Module extends Module {
 	 *                the timestamp of the actual build cycle.
 	 * */
 	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
 		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
 		for (int i = 0; i < realAttributes.size(); i++) {
 			attribute = realAttributes.get(i);
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
-				Qualifiers qualifiers = attribute.getQualifiers();
+				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
 					if (specifications == null) {
 						specifications = new ArrayList<AttributeSpecification>();
@@ -538,13 +538,13 @@ public final class TTCN3Module extends Module {
 			return;
 		}
 
-		List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
 		AttributeSpecification specification;
 		for (int i = 0; i < specifications.size(); i++) {
 			specification = specifications.get(i);
-			ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
-			List<ExtensionAttribute> temp = analyzer.getAttributes();
+			final List<ExtensionAttribute> temp = analyzer.getAttributes();
 			if (temp != null) {
 				attributes.addAll(temp);
 			}
@@ -556,15 +556,15 @@ public final class TTCN3Module extends Module {
 
 			switch (extensionAttribute.getAttributeType()) {
 			case ANYTYPE: {
-				AnytypeAttribute anytypeAttribute = (AnytypeAttribute) extensionAttribute;
+				final AnytypeAttribute anytypeAttribute = (AnytypeAttribute) extensionAttribute;
 
 				for (int j = 0; j < anytypeAttribute.getNofTypes(); j++) {
-					Type tempType = anytypeAttribute.getType(j);
+					final Type tempType = anytypeAttribute.getType(j);
 
 					String fieldName;
 					Identifier identifier = null;
 					if (Type_type.TYPE_REFERENCED.equals(tempType.getTypetype())) {
-						Reference reference = ((Referenced_Type) tempType).getReference();
+						final Reference reference = ((Referenced_Type) tempType).getReference();
 						identifier = reference.getId();
 						fieldName = identifier.getTtcnName();
 					} else {
@@ -578,7 +578,7 @@ public final class TTCN3Module extends Module {
 				break;
 			}
 			case VERSION: {
-				ModuleVersionAttribute moduleVersion = (ModuleVersionAttribute) extensionAttribute;
+				final ModuleVersionAttribute moduleVersion = (ModuleVersionAttribute) extensionAttribute;
 				moduleVersion.parse();
 				if (versionNumber != null) {
 					moduleVersion.getLocation().reportSemanticError("Duplicate version attribute");
@@ -588,11 +588,11 @@ public final class TTCN3Module extends Module {
 				break;
 			}
 			case REQUIRES: {
-				VersionRequirementAttribute versionReq = (VersionRequirementAttribute) extensionAttribute;
+				final VersionRequirementAttribute versionReq = (VersionRequirementAttribute) extensionAttribute;
 				versionReq.parse();
 
 				ImportModule theImport = null;
-				String requiredModuleName = versionReq.getRequiredModule().getName();
+				final String requiredModuleName = versionReq.getRequiredModule().getName();
 				for (ImportModule impMod : importedModules) {
 					if (requiredModuleName.equals(impMod.getIdentifier().getName())) {
 						theImport = impMod;
@@ -604,10 +604,10 @@ public final class TTCN3Module extends Module {
 							.getDisplayName());
 					versionReq.getRequiredModule().getLocation().reportSemanticError(message);
 				} else {
-					TTCN3Module theImportedModule = (TTCN3Module) theImport.getReferredModule();
+					final TTCN3Module theImportedModule = (TTCN3Module) theImport.getReferredModule();
 					// make sure the version attribute is parsed (if any)
 					theImportedModule.check(timestamp);
-					ProductIdentity requiredVersion = versionReq.getVersionNumber();
+					final ProductIdentity requiredVersion = versionReq.getVersionNumber();
 					if (requiredVersion != null && theImportedModule.versionNumber != null
 							&& theImportedModule.versionNumber.compareTo(requiredVersion) < 0) {
 						final String message = MessageFormat
@@ -621,11 +621,11 @@ public final class TTCN3Module extends Module {
 				break;
 			}
 			case TITANVERSION: {
-				TitanVersionAttribute titanReq = (TitanVersionAttribute) extensionAttribute;
+				final TitanVersionAttribute titanReq = (TitanVersionAttribute) extensionAttribute;
 				titanReq.parse();
-				ProductIdentity requiredTITANVersion = titanReq.getVersionNumber();
-				String temp = CompilerVersionInformationCollector.getCompilerProductNumber();
-				ProductIdentity compilerVersion = ProductIdentityHelper.getProductIdentity(temp, null);
+				final ProductIdentity requiredTITANVersion = titanReq.getVersionNumber();
+				final String temp = CompilerVersionInformationCollector.getCompilerProductNumber();
+				final ProductIdentity compilerVersion = ProductIdentityHelper.getProductIdentity(temp, null);
 				if (requiredTITANVersion != null && compilerVersion != null && compilerVersion.compareTo(requiredTITANVersion) < 0) {
 					final String message = MessageFormat.format(
 							"Module `{0}'' requires TITAN version {1}, but version {2} is used right now",
@@ -675,12 +675,12 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	public Definition importAssignment(final CompilationTimeStamp timestamp, final Identifier moduleId, final Reference reference) {
-		Definition result = definitions.getLocalAssignmentByID(timestamp, reference.getId());
+		final Definition result = definitions.getLocalAssignmentByID(timestamp, reference.getId());
 		if (result == null) {
 			return null;
 		}
 
-		VisibilityModifier modifier = result.getVisibilityModifier();
+		final VisibilityModifier modifier = result.getVisibilityModifier();
 
 		switch (modifier) {
 		case Public:
@@ -715,7 +715,7 @@ public final class TTCN3Module extends Module {
 	 * @return true if it is visible, false otherwise.
 	 * */
 	public boolean isVisible(final CompilationTimeStamp timestamp, final Identifier moduleId, final ImportModule impmod) {
-		VisibilityModifier modifier = impmod.getVisibilityModifier();
+		final VisibilityModifier modifier = impmod.getVisibilityModifier();
 		switch (modifier) {
 		case Public:
 			return true;
@@ -743,7 +743,7 @@ public final class TTCN3Module extends Module {
 			return false;
 		}
 
-		VisibilityModifier modifier = ((Definition) assignment).getVisibilityModifier();
+		final VisibilityModifier modifier = ((Definition) assignment).getVisibilityModifier();
 		switch (modifier) {
 		case Public:
 			return true;
@@ -790,7 +790,7 @@ public final class TTCN3Module extends Module {
 
 			for (ImportModule impMod : importedModules) {
 				if (impMod.getReferredModule() != null) {
-					ModuleImportationChain referenceChain = new ModuleImportationChain(ModuleImportationChain.CIRCULARREFERENCE,
+					final ModuleImportationChain referenceChain = new ModuleImportationChain(ModuleImportationChain.CIRCULARREFERENCE,
 							false);
 					tempResult = impMod.importAssignment(timestamp, referenceChain, identifier, reference,
 							new ArrayList<ModuleImportation>());
@@ -840,7 +840,7 @@ public final class TTCN3Module extends Module {
 						return temporalAssignment;
 					}
 
-					ModuleImportationChain referenceChain = new ModuleImportationChain(ModuleImportationChain.CIRCULARREFERENCE,
+					final ModuleImportationChain referenceChain = new ModuleImportationChain(ModuleImportationChain.CIRCULARREFERENCE,
 							false);
 					temporalAssignment = impMod.importAssignment(timestamp, referenceChain, identifier, reference,
 							new ArrayList<ModuleImportation>());
@@ -876,13 +876,13 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder("module: ").append(name);
+		final StringBuilder builder = new StringBuilder("module: ").append(name);
 		return builder.toString();
 	}
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector) {
-		Identifier moduleId = propCollector.getReference().getModuleIdentifier();
+		final Identifier moduleId = propCollector.getReference().getModuleIdentifier();
 		if (moduleId == null) {
 			for (ImportModule importedModule : importedModules) {
 				if (importedModule != null) {
@@ -921,9 +921,9 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
-		Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
+		final Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
 		if (moduleId == null) {
-			List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+			final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 			if (subrefs.size() == 1 && this.identifier != null && this.identifier.getName().equals(subrefs.get(0).getId().getName())) {
 				declarationCollector.addDeclaration(name, identifier.getLocation(), this);
 			}
@@ -976,12 +976,13 @@ public final class TTCN3Module extends Module {
 	}
 
 	public void addDeclarationWithoutImportLookup(final DeclarationCollector declarationCollector) {
-		Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
+		final Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
 		if (moduleId == null) {
 			for (int i = 0; i < definitions.getNofAssignments(); i++) {
 				definitions.getAssignmentByIndex(i).addDeclaration(declarationCollector, 0);
 			}
-			List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+
+			final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 			if (subrefs.size() == 1 && this.identifier != null && this.identifier.getName().equals(subrefs.get(0).getId().getName())) {
 				declarationCollector.addDeclaration(name, identifier.getLocation(), this);
 			}
@@ -1067,7 +1068,7 @@ public final class TTCN3Module extends Module {
 			if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
 				// new attribute might have appeared
 				reparser.extendDamagedRegionTillFileEnd();
-				int result = reparseAfterModule( reparser );
+				final int result = reparseAfterModule( reparser );
 
 				if (result != 0) {
 					throw new ReParseException();
@@ -1077,11 +1078,11 @@ public final class TTCN3Module extends Module {
 		}
 
 		// edited the module identifier
-		Location temporalIdentifier = identifier.getLocation();
+		final Location temporalIdentifier = identifier.getLocation();
 		if (reparser.envelopsDamage(temporalIdentifier) || reparser.isExtending(temporalIdentifier)) {
 			reparser.extendDamagedRegion(temporalIdentifier);
-			IIdentifierReparser r = new IdentifierReparser(reparser);
-			int result = r.parse();
+			final IIdentifierReparser r = new IdentifierReparser(reparser);
+			final int result = r.parse();
 			identifier = r.getIdentifier();
 			// damage handled
 			if (result != 0) {
@@ -1134,7 +1135,7 @@ public final class TTCN3Module extends Module {
 			// The modification happened inside the attribute list
 			if (reparser.envelopsDamage(withAttributesPath.getLocation())) {
 				reparser.extendDamagedRegion(withAttributesPath.getLocation());
-				int result = reparseInsideAttributelist( reparser );
+				final int result = reparseInsideAttributelist( reparser );
 
 				if (result != 0) {
 					throw new ReParseException();

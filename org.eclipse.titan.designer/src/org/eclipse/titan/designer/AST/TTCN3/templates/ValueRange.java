@@ -70,7 +70,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (min == child) {
 			return builder.append(FULLNAMEPART1);
@@ -87,7 +87,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	 * @return the string representation of the range.
 	 * */
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append('(');
 		if (min == null) {
 			builder.append("-infinity");
@@ -116,14 +116,14 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	 * */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (min != null) {
-			IType type = min.getExpressionGovernor(timestamp, expectedValue);
+			final IType type = min.getExpressionGovernor(timestamp, expectedValue);
 			if (type != null) {
 				return type;
 			}
 		}
 
 		if (max != null) {
-			IType type = max.getExpressionGovernor(timestamp, expectedValue);
+			final IType type = max.getExpressionGovernor(timestamp, expectedValue);
 			if (type != null) {
 				return type;
 			}
@@ -144,14 +144,14 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	 * */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (min != null) {
-			Type_type type = min.getExpressionReturntype(timestamp, expectedValue);
+			final Type_type type = min.getExpressionReturntype(timestamp, expectedValue);
 			if (!Type_type.TYPE_UNDEFINED.equals(type)) {
 				return type;
 			}
 		}
 
 		if (max != null) {
-			Type_type type = max.getExpressionReturntype(timestamp, expectedValue);
+			final Type_type type = max.getExpressionReturntype(timestamp, expectedValue);
 			if (!Type_type.TYPE_UNDEFINED.equals(type)) {
 				return type;
 			}

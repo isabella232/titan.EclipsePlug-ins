@@ -56,8 +56,8 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 			return null;
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = value.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		return last;
@@ -69,7 +69,7 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 			return "<erroneous length restriction>";
 		}
 
-		StringBuilder builder = new StringBuilder("length(");
+		final StringBuilder builder = new StringBuilder("length(");
 		builder.append(value.createStringRepresentation());
 		builder.append(')');
 
@@ -91,7 +91,7 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 		}
 		lastTimeChecked = timestamp;
 
-		Integer_Type integer = new Integer_Type();
+		final Integer_Type integer = new Integer_Type();
 		if( value == null) { 
 			return; 
 		}
@@ -99,7 +99,7 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 		IValue last = integer.checkThisValueRef(timestamp, value);
 		integer.checkThisValue(timestamp, last, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		last = last.getValueRefdLast(timestamp, chain);
 		chain.release();
 
@@ -109,7 +109,7 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 
 		switch (last.getValuetype()) {
 		case INTEGER_VALUE: {
-			BigInteger temp = ((Integer_Value) last).getValueValue();
+			final BigInteger temp = ((Integer_Value) last).getValueValue();
 			if (temp.compareTo(BigInteger.ZERO) == -1) {
 				value.getLocation().reportSemanticError(
 						MessageFormat.format("The length restriction must be a non-negative integer value instead of {0}",
@@ -130,15 +130,15 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 		}
 
 		boolean errorFlag = false;
-		long arraySize = dimension.getSize();
+		final long arraySize = dimension.getSize();
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = value.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (Value_type.INTEGER_VALUE.equals(last.getValuetype()) && !last.getIsErroneous(timestamp)) {
-			BigInteger length = ((Integer_Value) last).getValueValue();
-			int compareResult = length.compareTo(BigInteger.valueOf(arraySize));
+			final BigInteger length = ((Integer_Value) last).getValueValue();
+			final int compareResult = length.compareTo(BigInteger.valueOf(arraySize));
 			if (compareResult != 0) {
 				final String message = MessageFormat.format(
 						"There number of elements allowed by the length restriction ({0}) contradicts the array size ({1})",
@@ -164,13 +164,13 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 			return;
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = value.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (Value_type.INTEGER_VALUE.equals(last.getValuetype()) && !last.getIsErroneous(timestamp)) {
-			BigInteger length = ((Integer_Value) last).getValueValue();
-			int compareResult = length.compareTo(BigInteger.valueOf(nofElements));
+			final BigInteger length = ((Integer_Value) last).getValueValue();
+			final int compareResult = length.compareTo(BigInteger.valueOf(nofElements));
 			if (compareResult == -1 && !moreAllowed) {
 				final String message = MessageFormat.format(
 						"There are more ({0}{1}) elements than it is allowed by the length restriction ({2})",

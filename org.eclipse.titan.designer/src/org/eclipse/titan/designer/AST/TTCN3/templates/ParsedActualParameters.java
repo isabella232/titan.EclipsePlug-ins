@@ -152,8 +152,8 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 		if (namedPart != null) {
 			if (formalParList != null) {
 				for (int i = 0; i < namedPart.getNofParams(); i++) {
-					Identifier parName = namedPart.getParamByIndex(i).getName();
-					FormalParameter fp = formalParList.getParameterById(parName);
+					final Identifier parName = namedPart.getParamByIndex(i).getName();
+					final FormalParameter fp = formalParList.getParameterById(parName);
 					if (fp == referenceFinder.assignment) {
 						foundIdentifiers.add(new Hit(parName));
 					}
@@ -175,7 +175,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	}
 
 	public String createStringRepresentation() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		if (unnamedPart != null) {
 			sb.append(unnamedPart.createStringRepresentation());
 		}

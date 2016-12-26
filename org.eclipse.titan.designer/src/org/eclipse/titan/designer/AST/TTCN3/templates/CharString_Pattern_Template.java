@@ -51,7 +51,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder("pattern \"");
+		final StringBuilder builder = new StringBuilder("pattern \"");
 		builder.append(patternstring.getFullString());
 		builder.append('"');
 
@@ -107,7 +107,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	@Override
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_CHARSTRING.equals(typeType) || Type_type.TYPE_UCHARSTRING.equals(typeType)) {
-			boolean hasAnyOrNone = patternContainsAnyornoneSymbol();
+			final boolean hasAnyOrNone = patternContainsAnyornoneSymbol();
 			lengthRestriction.checkNofElements(timestamp, getMinLengthOfPattern(), hasAnyOrNone, false, hasAnyOrNone, this);
 		}
 	}

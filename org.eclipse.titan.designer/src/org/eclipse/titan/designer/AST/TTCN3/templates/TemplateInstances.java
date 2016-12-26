@@ -61,7 +61,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (int i = 0, size = instances.size(); i < size; i++) {
 			if (instances.get(i) == child) {
@@ -126,7 +126,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 		}
 
 		for (int i = 0, size = instances.size(); i < size; i++) {
-			TemplateInstance instance = instances.get(i);
+			final TemplateInstance instance = instances.get(i);
 
 			instance.updateSyntax(reparser, false);
 			reparser.updateLocation(instance.getLocation());
@@ -157,7 +157,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	}
 
 	public String createStringRepresentation() {
-		StringBuilder sb = new StringBuilder();
+		final StringBuilder sb = new StringBuilder();
 		for (TemplateInstance ti : instances) {
 			sb.append(ti.createStringRepresentation() + ", ");
 		}

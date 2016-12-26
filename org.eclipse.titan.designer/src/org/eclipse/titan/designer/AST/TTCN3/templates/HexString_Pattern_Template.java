@@ -41,7 +41,7 @@ public final class HexString_Pattern_Template extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder("'");
+		final StringBuilder builder = new StringBuilder("'");
 		builder.append(pattern);
 		builder.append("'H");
 
@@ -88,7 +88,7 @@ public final class HexString_Pattern_Template extends TTCN3Template {
 	@Override
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_HEXSTRING.equals(typeType)) {
-			boolean hasAnyOrNone = containsAnyornoneSymbol();
+			final boolean hasAnyOrNone = containsAnyornoneSymbol();
 			lengthRestriction.checkNofElements(timestamp, getMinLengthOfPattern(), hasAnyOrNone, false, hasAnyOrNone, this);
 		}
 	}

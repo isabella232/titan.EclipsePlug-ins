@@ -66,7 +66,7 @@ public final class ExtensionAdditions extends ASTNode {
 	public CompField getCompByIndex(final int index) {
 		int offset = index;
 		for (int i = 0; i < extensionAdditions.size(); i++) {
-			int subSize = extensionAdditions.get(i).getNofComps();
+			final int subSize = extensionAdditions.get(i).getNofComps();
 
 			if (offset < subSize) {
 				return extensionAdditions.get(i).getCompByIndex(offset);

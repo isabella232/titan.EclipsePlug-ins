@@ -116,7 +116,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
@@ -186,7 +186,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 		lastTimeChecked = timestamp;
 		if (null != myScope) {
-			Module module = myScope.getModuleScope();
+			final Module module = myScope.getModuleScope();
 			if (null != module) {
 				if (module.getSkippedFromSemanticChecking()) {
 					return;
@@ -206,9 +206,9 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		/* check duplications and set missing values */
 		firstUnused = Integer.valueOf(0);
 		nameMap = new HashMap<String, EnumItem>();
-		Map<Integer, EnumItem> valueMap = new HashMap<Integer, EnumItem>();
+		final Map<Integer, EnumItem> valueMap = new HashMap<Integer, EnumItem>();
 		if (null != enumerations.enumItems1) {
-			List<EnumItem> enumItems = enumerations.enumItems1.getItems();
+			final List<EnumItem> enumItems = enumerations.enumItems1.getItems();
 			for (EnumItem item : enumItems) {
 				checkEnumItem(timestamp, item, false, valueMap);
 			}
@@ -219,7 +219,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			}
 			for (EnumItem item : enumItems) {
 				if (null == item.getValue() || !item.isOriginal()) {
-					Integer_Value tempValue = new Integer_Value(firstUnused.longValue());
+					final Integer_Value tempValue = new Integer_Value(firstUnused.longValue());
 					tempValue.setLocation(item.getLocation());
 					item.setValue(tempValue);
 					valueMap.put(firstUnused, item);
@@ -231,7 +231,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		}
 
 		if (null != enumerations.enumItems2) {
-			List<EnumItem> enumItems = enumerations.enumItems2.getItems();
+			final List<EnumItem> enumItems = enumerations.enumItems2.getItems();
 			for (EnumItem item : enumItems) {
 				checkEnumItem(timestamp, item, true, valueMap);
 			}
@@ -260,7 +260,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	 * */
 	private final void checkEnumItem(final CompilationTimeStamp timestamp, final EnumItem item, final boolean afterEllipsis,
 			final Map<Integer, EnumItem> valueMap) {
-		Identifier itemID = item.getId();
+		final Identifier itemID = item.getId();
 		if (nameMap.containsKey(itemID.getName())) {
 			nameMap.get(itemID.getName())
 					.getLocation()
@@ -275,7 +275,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			itemID.getLocation().reportSemanticWarning(MessageFormat.format(ASN1Assignment.UNREACHABLE, itemID.getDisplayName()));
 		}
 
-		Value value = item.getValue();
+		final Value value = item.getValue();
 		if (!item.isOriginal()) {
 			if (afterEllipsis) {
 				while (valueMap.containsKey(firstUnused)) {
@@ -287,7 +287,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				// assigned, there is no need to create it
 				// again.
 				if (null == value || ((Integer_Value) value).getValue() != firstUnused) {
-					Integer_Value tempValue = new Integer_Value(firstUnused.longValue());
+					final Integer_Value tempValue = new Integer_Value(firstUnused.longValue());
 					tempValue.setLocation(item.getLocation());
 					item.setValue(tempValue);
 				}
@@ -295,8 +295,8 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			return;
 		}
 
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (last.getIsErroneous(timestamp)) {
@@ -309,7 +309,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			return;
 		}
 
-		Integer_Value temp = (Integer_Value) last;
+		final Integer_Value temp = (Integer_Value) last;
 		if (!temp.isNative()) {
 			value.getLocation().reportSemanticError(
 					MessageFormat.format(
@@ -318,7 +318,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			return;
 		}
 
-		Integer enumValue = Integer.valueOf(temp.intValue());
+		final Integer enumValue = Integer.valueOf(temp.intValue());
 		if (afterEllipsis) {
 			if (enumValue >= firstUnused) {
 				valueMap.put(enumValue, item);
@@ -351,9 +351,9 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
 			// we are not able to parse lower identifier values as default values
 			// so the parsed reference needs to be converted.
-			Reference reference = ((Referenced_Value)value).getReference();
+			final Reference reference = ((Referenced_Value)value).getReference();
 			if (reference.getModuleIdentifier() == null && reference.getSubreferences().size() == 1) {
-				Identifier identifier = reference.getId();
+				final Identifier identifier = reference.getId();
 				temp = new Enumerated_Value(identifier);
 				temp.setMyGovernor(this);
 				temp.setFullNameParent(this);
@@ -383,7 +383,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -435,12 +435,12 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	@Override
 	public final IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
@@ -496,19 +496,19 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	
 	@Override
 	public final void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i || enumerations == null) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() <= i + 1) {
-				String referenceName = subreference.getId().getName();
+				final String referenceName = subreference.getId().getName();
 				if (enumerations.enumItems1 != null) {
-					List<EnumItem> enumItems = enumerations.enumItems1.getItems();
+					final List<EnumItem> enumItems = enumerations.enumItems1.getItems();
 					for (EnumItem item : enumItems) {
-						Identifier itemID = item.getId();
+						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							propCollector.addProposal(itemID, " - " + "named integer",
 									ImageCache.getImage(getOutlineIcon()), "named integer");
@@ -516,9 +516,9 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 					}
 				}
 				if (enumerations.enumItems2 != null) {
-					List<EnumItem> enumItems = enumerations.enumItems2.getItems();
+					final List<EnumItem> enumItems = enumerations.enumItems2.getItems();
 					for (EnumItem item : enumItems) {
-						Identifier itemID = item.getId();
+						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							propCollector.addProposal(itemID, " - " + "named integer",
 									ImageCache.getImage(getOutlineIcon()), "named integer");
@@ -531,28 +531,28 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 	@Override
 	public final void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() <= i + 1) {
-				String referenceName = subreference.getId().getName();
+				final String referenceName = subreference.getId().getName();
 				if (enumerations.enumItems1 != null) {
-					List<EnumItem> enumItems = enumerations.enumItems1.getItems();
+					final List<EnumItem> enumItems = enumerations.enumItems1.getItems();
 					for (EnumItem item : enumItems) {
-						Identifier itemID = item.getId();
+						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							declarationCollector.addDeclaration(itemID.getDisplayName(), itemID.getLocation(), this);
 						}
 					}
 				}
 				if (enumerations.enumItems2 != null) {
-					List<EnumItem> enumItems = enumerations.enumItems2.getItems();
+					final List<EnumItem> enumItems = enumerations.enumItems2.getItems();
 					for (EnumItem item : enumItems) {
-						Identifier itemID = item.getId();
+						final Identifier itemID = item.getId();
 						if (itemID.getName().startsWith(referenceName)) {
 							declarationCollector.addDeclaration(itemID.getDisplayName(), itemID.getLocation(), this);
 						}

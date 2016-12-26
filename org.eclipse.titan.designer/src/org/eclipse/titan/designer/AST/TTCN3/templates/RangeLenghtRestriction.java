@@ -64,7 +64,7 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 			return "<erroneous length restriction>";
 		}
 
-		StringBuilder builder = new StringBuilder("length(");
+		final StringBuilder builder = new StringBuilder("length(");
 		builder.append(lower.createStringRepresentation());
 		builder.append(" .. ");
 		if (upper != null) {
@@ -82,8 +82,8 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 			return null;
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = lower.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = lower.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		return last;
@@ -94,8 +94,8 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 			return null;
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = upper.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = upper.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		return last;
@@ -114,7 +114,7 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		if (lower == child) {
 			return builder.append(FULLNAMEPART1);
@@ -132,13 +132,13 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 		}
 		lastTimeChecked = timestamp;
 
-		Integer_Type integer = new Integer_Type();
+		final Integer_Type integer = new Integer_Type();
 		lower.setMyGovernor(integer);
 		IValue last = integer.checkThisValueRef(timestamp, lower);
 		integer.checkThisValueLimit(timestamp, last, expectedValue, false, false, true, false);
 
 		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue valueLower = last.getValueRefdLast(timestamp, chain);
+		final IValue valueLower = last.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (last.getIsErroneous(timestamp)) {
@@ -171,7 +171,7 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 		integer.checkThisValueLimit(timestamp, last, expectedValue, false, false, true, false);
 
 		chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue valueUpper = last.getValueRefdLast(timestamp, chain);
+		final IValue valueUpper = last.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (last.getIsErroneous(timestamp)) {
@@ -207,14 +207,14 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 		}
 
 		boolean errorFlag = false;
-		long arraySize = dimension.getSize();
+		final long arraySize = dimension.getSize();
 
 		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue lowerLast = lower.getValueRefdLast(timestamp, chain);
+		final IValue lowerLast = lower.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (Value_type.INTEGER_VALUE.equals(lowerLast.getValuetype()) && !lowerLast.getIsErroneous(timestamp)) {
-			BigInteger length = ((Integer_Value) lowerLast).getValueValue();
+			final BigInteger length = ((Integer_Value) lowerLast).getValueValue();
 			if (length.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 				final String message = MessageFormat
 						.format("An integer value less then `{0}'' was expected as the lower boundary of the length restriction instead of `{1}''",
@@ -232,11 +232,11 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 
 		if (upper != null) {
 			chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue upperLast = upper.getValueRefdLast(timestamp, chain);
+			final IValue upperLast = upper.getValueRefdLast(timestamp, chain);
 			chain.release();
 
 			if (Value_type.INTEGER_VALUE.equals(upperLast.getValuetype()) && !upperLast.getIsErroneous(timestamp)) {
-				BigInteger length = ((Integer_Value) upperLast).getValueValue();
+				final BigInteger length = ((Integer_Value) upperLast).getValueValue();
 				if (length.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 					final String message = MessageFormat.format(
 							"An integer value less then `{0}'' was expected as the upper boundary of the length restriction instead of `{1}''",
@@ -268,12 +268,12 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 		}
 
 		if (!lessAllowed) {
-			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue last = lower.getValueRefdLast(timestamp, chain);
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = lower.getValueRefdLast(timestamp, chain);
 			chain.release();
 
 			if (Value_type.INTEGER_VALUE.equals(last.getValuetype()) && !last.getIsErroneous(timestamp)) {
-				BigInteger length = ((Integer_Value) last).getValueValue();
+				final BigInteger length = ((Integer_Value) last).getValueValue();
 				if (length.compareTo(BigInteger.valueOf(nofElements)) == 1) {
 					final String message = MessageFormat.format(
 							"There are fewer ({0}) elements than it is allowed by the length restriction (at least {1})",
@@ -287,12 +287,12 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 			return;
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = upper.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = upper.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (Value_type.INTEGER_VALUE.equals(last.getValuetype()) && !last.getIsErroneous(timestamp)) {
-			BigInteger length = ((Integer_Value) last).getValueValue();
+			final BigInteger length = ((Integer_Value) last).getValueValue();
 			if (length.compareTo(BigInteger.valueOf(nofElements)) == -1 && !moreAllowed) {
 				final String message = MessageFormat.format(
 						"There are more ({0} {1}) elements than it is allowed by the length restriction ({2})",

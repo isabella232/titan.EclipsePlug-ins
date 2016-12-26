@@ -172,8 +172,8 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 		final Map<String, Identifier> nameMap = new HashMap<String, Identifier>();
 		for (int i = 0, size = namedNumbers.getSize(); i < size; i++) {
-			NamedValue namedValue = namedNumbers.getNamedValueByIndex(i);
-			Identifier identifier = namedValue.getName();
+			final NamedValue namedValue = namedNumbers.getNamedValueByIndex(i);
+			final Identifier identifier = namedValue.getName();
 			if (nameMap.containsKey(identifier.getName())) {
 				final Location tempLocation = nameMap.get(identifier.getName()).getLocation();
 				tempLocation.reportSingularSemanticError(MessageFormat.format(Assignments.DUPLICATEDEFINITIONFIRST,
@@ -188,11 +188,11 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		final Map<Integer, NamedValue> valueMap = new HashMap<Integer, NamedValue>();
 
 		for (int i = 0, size = namedNumbers.getSize(); i < size; i++) {
-			NamedValue namedValue = namedNumbers.getNamedValueByIndex(i);
-			IValue value = namedValue.getValue();
+			final NamedValue namedValue = namedNumbers.getNamedValueByIndex(i);
+			final IValue value = namedValue.getValue();
 
-			IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue last = value.getValueRefdLast(timestamp, referenceChain);
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 			referenceChain.release();
 
 			if (last.getIsErroneous(timestamp)) {
@@ -201,14 +201,14 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 			switch (last.getValuetype()) {
 			case INTEGER_VALUE: {
-				Integer_Value integerValue = (Integer_Value) last;
+				final Integer_Value integerValue = (Integer_Value) last;
 				if (integerValue.isNative()) {
-					Integer intValue = Integer.valueOf(integerValue.intValue());
+					final Integer intValue = Integer.valueOf(integerValue.intValue());
 					if (valueMap.containsKey(intValue)) {
 						value.getLocation().reportSemanticError(
 								MessageFormat.format("Duplicate number {0} for name `{1}''", intValue, namedValue
 										.getName().getDisplayName()));
-						NamedValue temp = valueMap.get(intValue);
+						final NamedValue temp = valueMap.get(intValue);
 						temp.getLocation().reportSemanticError(
 								MessageFormat.format("Number {0} is already assigned to name `{1}''", intValue, temp
 										.getName().getDisplayName()));
@@ -263,7 +263,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (null == last || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -291,7 +291,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 				final Identifier name = ((Named_Integer_Value) last).getIdentifier();
 				final NamedValue namedValue = namedNumbers.getNamedValueByName(name);
 				IValue tempValue = namedValue.getValue();
-				ReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final ReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tempValue = tempValue.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 				if (!tempValue.getIsErroneous(timestamp) && Value_type.INTEGER_VALUE.equals(tempValue.getValuetype())) {
@@ -324,7 +324,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 	public void checkThisValueLimit(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (null == last || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -353,7 +353,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 				final Identifier name = ((Named_Integer_Value) last).getIdentifier();
 				final NamedValue namedValue = namedNumbers.getNamedValueByName(name);
 				IValue tempValue = namedValue.getValue();
-				ReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final ReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tempValue = tempValue.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 				if (!tempValue.getIsErroneous(timestamp) && Value_type.INTEGER_VALUE.equals(tempValue.getValuetype())) {
@@ -391,9 +391,9 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		}
 
 		if (Template_type.VALUE_RANGE.equals(template.getTemplatetype())) {
-			ValueRange range = ((Value_Range_Template) template).getValueRange();
-			IValue lower = checkBoundary(timestamp, range.getMin(), BOUNDARY_TYPE.LOWER);
-			IValue upper = checkBoundary(timestamp, range.getMax(), BOUNDARY_TYPE.UPPER);
+			final ValueRange range = ((Value_Range_Template) template).getValueRange();
+			final IValue lower = checkBoundary(timestamp, range.getMin(), BOUNDARY_TYPE.LOWER);
+			final IValue upper = checkBoundary(timestamp, range.getMax(), BOUNDARY_TYPE.UPPER);
 
 			if (lower != null && Value.Value_type.INTEGER_VALUE.equals(lower.getValuetype()) && upper != null
 					&& Value.Value_type.INTEGER_VALUE.equals(upper.getValuetype())) {
@@ -454,12 +454,12 @@ public final class ASN1_Integer_Type extends ASN1Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));

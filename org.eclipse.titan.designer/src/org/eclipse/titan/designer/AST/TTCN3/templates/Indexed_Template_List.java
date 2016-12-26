@@ -75,13 +75,14 @@ public final class Indexed_Template_List extends TTCN3Template {
 
 	@Override
 	public String createStringRepresentation() {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		builder.append("{ ");
 		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
 			if (i > 0) {
 				builder.append(", ");
 			}
-			IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
+
+			final IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
 			builder.append(" [").append(indexedTemplate.getIndex().getValue().createStringRepresentation());
 			builder.append("] := ");
 			builder.append(indexedTemplate.getTemplate().createStringRepresentation());
@@ -100,12 +101,12 @@ public final class Indexed_Template_List extends TTCN3Template {
 
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
-			IndexedTemplate template = indexedTemplates.getTemplateByIndex(i);
+			final IndexedTemplate template = indexedTemplates.getTemplateByIndex(i);
 			if (template == child) {
-				IValue index = template.getIndex().getValue();
+				final IValue index = template.getIndex().getValue();
 				return builder.append(INamedNode.SQUAREOPEN).append(index.createStringRepresentation())
 						.append(INamedNode.SQUARECLOSE);
 			}
@@ -162,7 +163,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 			return null;
 		}
 
-		IType tempType = myGovernor.getTypeRefdLast(timestamp);
+		final IType tempType = myGovernor.getTypeRefdLast(timestamp);
 		if (tempType.getIsErroneous(timestamp)) {
 			return null;
 		}
@@ -189,7 +190,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 			break;
 		}
 		case TYPE_ARRAY: {
-			ArrayDimension dimension = ((Array_Type) tempType).getDimension();
+			final ArrayDimension dimension = ((Array_Type) tempType).getDimension();
 			dimension.checkIndex(timestamp, indexValue, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (!dimension.getIsErroneous(timestamp)) {
 				// re-base the index
@@ -214,17 +215,17 @@ public final class Indexed_Template_List extends TTCN3Template {
 		}
 
 		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
-			IndexedTemplate template = indexedTemplates.getTemplateByIndex(i);
+			final IndexedTemplate template = indexedTemplates.getTemplateByIndex(i);
 			IValue lastValue = template.getIndex().getValue();
 
-			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			lastValue = lastValue.getValueRefdLast(timestamp, chain);
 			chain.release();
 
 			if (Value_type.INTEGER_VALUE.equals(lastValue.getValuetype())) {
-				long tempIndex = ((Integer_Value) lastValue).getValue();
+				final long tempIndex = ((Integer_Value) lastValue).getValue();
 				if (index == tempIndex) {
-					ITTCN3Template realTemplate = template.getTemplate();
+					final ITTCN3Template realTemplate = template.getTemplate();
 					if (Template_type.TEMPLATE_NOTUSED.equals(realTemplate.getTemplatetype())) {
 						if (baseTemplate != null) {
 							return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain)
@@ -275,10 +276,10 @@ public final class Indexed_Template_List extends TTCN3Template {
 			return asValue;
 		}
 
-		Values values = new Values(true);
+		final Values values = new Values(true);
 		for (int i = 0, size = getNofTemplates(); i < size; i++) {
-			IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
-			IndexedValue indexedValue = new IndexedValue(indexedTemplate.getIndex(), indexedTemplate.getTemplate().getValue());
+			final IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
+			final IndexedValue indexedValue = new IndexedValue(indexedTemplate.getIndex(), indexedTemplate.getTemplate().getValue());
 			indexedValue.setLocation(indexedTemplate.getLocation());
 			values.addIndexedValue(indexedValue);
 		}
@@ -304,7 +305,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
-				IndexedTemplate template = indexedTemplates.getTemplateByIndex(i);
+				final IndexedTemplate template = indexedTemplates.getTemplateByIndex(i);
 				if (template != null) {
 					referenceChain.markState();
 					template.getTemplate().checkRecursions(timestamp, referenceChain);

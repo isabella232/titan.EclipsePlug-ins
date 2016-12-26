@@ -95,7 +95,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 				}
 			} else if ((!ifValues && (count >= allValuesCount / 2)) || (ifValues && (count > allValuesCount / 2))) {
 				for (int actualValue = 0; actualValue < allValuesCount; actualValue++) {
-					StringBuilder sb = new StringBuilder();
+					final StringBuilder sb = new StringBuilder();
 					for (int elemIndex = 0; elemIndex < size; elemIndex++) {
 						int ei = (actualValue >> (elemIndex * type.bitCount())) & ((1 << type.bitCount()) - 1);
 						if (type == Type.BITSTRING) {

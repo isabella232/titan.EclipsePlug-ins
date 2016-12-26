@@ -153,13 +153,13 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	@Override
 	public final StringBuilder getFullName(final INamedNode child) {
-		StringBuilder builder = super.getFullName(child);
+		final StringBuilder builder = super.getFullName(child);
 
 		FormalParameter parameter;
 		for (int i = 0, size = parameters.size(); i < size; i++) {
 			parameter = parameters.get(i);
 			if (parameter == child) {
-				Identifier identifier = parameter.getIdentifier();
+				final Identifier identifier = parameter.getIdentifier();
 				return builder.append(INamedNode.DOT).append((identifier != null) ? identifier.getDisplayName() : FULLNAMEPART);
 			}
 		}
@@ -254,7 +254,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/** reset the properties tracking the use of the formal parameters */
 	public void reset () {
 		for (int i = 0, size = parameters.size(); i < size; i++) {
-			FormalParameter parameter = parameters.get(i);
+			final FormalParameter parameter = parameters.get(i);
 			parameter.reset();
 		}
 	}
@@ -276,9 +276,9 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		}
 
 		for (int i = 0, size = parameters.size(); i < size; i++) {
-			FormalParameter parameter = parameters.get(i);
+			final FormalParameter parameter = parameters.get(i);
 			if (parameter != null) {
-				String parameterName = parameter.getIdentifier().getName();
+				final String parameterName = parameter.getIdentifier().getName();
 
 				if (parameterMap == null) {
 					parameterMap = new HashMap<String, FormalParameter>(parameters.size());
@@ -310,16 +310,16 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 		for (int i = 0, size = parameters.size(); i < size; i++) {
 			FormalParameter parameter = parameters.get(i);
-			Identifier identifier = parameter.getIdentifier();
+			final Identifier identifier = parameter.getIdentifier();
 			if (parentScope != null) {
 				if (parentScope.hasAssignmentWithId(timestamp, identifier)) {
 					parameter.getLocation().reportSemanticError(
 							MessageFormat.format(HIDINGSCOPEELEMENT, identifier.getDisplayName()));
 					parentScope.hasAssignmentWithId(timestamp, identifier);
-					List<ISubReference> subReferences = new ArrayList<ISubReference>();
+					final List<ISubReference> subReferences = new ArrayList<ISubReference>();
 					subReferences.add(new FieldSubReference(identifier));
-					Reference reference = new Reference(null, subReferences);
-					Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
+					final Reference reference = new Reference(null, subReferences);
+					final Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
 					if (assignment != null && assignment.getLocation() != null) {
 						assignment.getLocation().reportSingularSemanticWarning(
 								MessageFormat.format(HIDDENSCOPEELEMENT, identifier.getDisplayName()));
@@ -424,27 +424,28 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	public final void collateLazyAndNonLazyActualParameters(final CompilationTimeStamp timestamp, final ParsedActualParameters parsedParameters,
 			final ActualParameterList actualLazyParameters,final ActualParameterList actualNonLazyParameters) {
 		
-		TemplateInstances unnamed = parsedParameters.getInstances();
-		NamedParameters named = parsedParameters.getNamedParameters();
+		final TemplateInstances unnamed = parsedParameters.getInstances();
+		final NamedParameters named = parsedParameters.getNamedParameters();
 		int nofLocated = unnamed.getNofTis();
 		
-		Map<FormalParameter, Integer> formalParameterMap = new HashMap<FormalParameter, Integer>();
+		final Map<FormalParameter, Integer> formalParameterMap = new HashMap<FormalParameter, Integer>();
 		for (int i = 0, size = parameters.size(); i < size; i++) {
 			formalParameterMap.put(parameters.get(i), Integer.valueOf(i));
 		}
 		
-		TemplateInstances finalUnnamed = new TemplateInstances(unnamed);
+		final TemplateInstances finalUnnamed = new TemplateInstances(unnamed);
 		
 		for (int i = 0, size = named.getNofParams(); i < size; i++) {
-			NamedParameter namedParameter = named.getParamByIndex(i);
-			FormalParameter formalParameter = parameterMap.get(namedParameter.getName().getName());
-			int isAt = formalParameterMap.get(formalParameter);
+			final NamedParameter namedParameter = named.getParamByIndex(i);
+			final FormalParameter formalParameter = parameterMap.get(namedParameter.getName().getName());
+			final int isAt = formalParameterMap.get(formalParameter);
 			for (; nofLocated < isAt; nofLocated++) {
-				NotUsed_Template temp = new NotUsed_Template();
+				final NotUsed_Template temp = new NotUsed_Template();
 				if (!parameters.get(nofLocated).hasDefaultValue()) {
 					temp.setIsErroneous(true);
 				}
-				TemplateInstance instance = new TemplateInstance(null, null, temp);
+
+				final TemplateInstance instance = new TemplateInstance(null, null, temp);
 				instance.setLocation(parsedParameters.getLocation());
 				finalUnnamed.addTemplateInstance(instance);
 			}
@@ -454,16 +455,16 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		
 		finalUnnamed.setLocation(parsedParameters.getLocation());
 		
-		int upperLimit = (finalUnnamed.getNofTis() < parameters.size()) ? finalUnnamed.getNofTis() : parameters.size();
+		final int upperLimit = (finalUnnamed.getNofTis() < parameters.size()) ? finalUnnamed.getNofTis() : parameters.size();
 		
 		for (int i = 0; i < upperLimit; i++) {
-			TemplateInstance instance = finalUnnamed.getInstanceByIndex(i);
-			FormalParameter formalParameter = parameters.get(i);
+			final TemplateInstance instance = finalUnnamed.getInstanceByIndex(i);
+			final FormalParameter formalParameter = parameters.get(i);
 			if (instance.getType() == null && instance.getDerivedReference() == null
 					&& Template_type.TEMPLATE_NOTUSED.equals(instance.getTemplateBody().getTemplatetype())) {
 					
-				ActualParameter defaultValue = formalParameter.getDefaultValue();
-				Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
+				final ActualParameter defaultValue = formalParameter.getDefaultValue();
+				final Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
 				if (defaultValue != null && !defaultValue.getIsErroneous()) {
 					temp.setLocation(defaultValue.getLocation());
 				}
@@ -473,7 +474,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 					actualNonLazyParameters.addParameter(temp);
 				}
 			} else {
-				ActualParameter actualParameter = formalParameter.checkActualParameter(timestamp, instance, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+				final ActualParameter actualParameter = formalParameter.checkActualParameter(timestamp, instance, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 				actualParameter.setLocation(instance.getLocation());
 				if(formalParameter.getIsLazy()) {
 					actualLazyParameters.addParameter(actualParameter);
@@ -484,9 +485,9 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		}
 
 		for (int i = upperLimit; i < parameters.size(); i++) {
-			FormalParameter formalParameter = parameters.get(i);
-			ActualParameter defaultValue = formalParameter.getDefaultValue();
-			Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
+			final FormalParameter formalParameter = parameters.get(i);
+			final ActualParameter defaultValue = formalParameter.getDefaultValue();
+			final Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
 			if (defaultValue != null && !defaultValue.getIsErroneous()) {
 				temp.setLocation(defaultValue.getLocation());
 			}
@@ -521,31 +522,31 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 		boolean isErroneous = false;
 
-		TemplateInstances unnamed = parsedParameters.getInstances();
-		NamedParameters named = parsedParameters.getNamedParameters();
+		final TemplateInstances unnamed = parsedParameters.getInstances();
+		final NamedParameters named = parsedParameters.getNamedParameters();
 		int nofLocated = unnamed.getNofTis();
 
-		Map<FormalParameter, Integer> formalParameterMap = new HashMap<FormalParameter, Integer>();
+		final Map<FormalParameter, Integer> formalParameterMap = new HashMap<FormalParameter, Integer>();
 		for (int i = 0, size = parameters.size(); i < size; i++) {
 			formalParameterMap.put(parameters.get(i), Integer.valueOf(i));
 		}
 
-		TemplateInstances finalUnnamed = new TemplateInstances(unnamed);
+		final TemplateInstances finalUnnamed = new TemplateInstances(unnamed);
 
 		for (int i = 0, size = named.getNofParams(); i < size; i++) {
-			NamedParameter namedParameter = named.getParamByIndex(i);
+			final NamedParameter namedParameter = named.getParamByIndex(i);
 
 			if (parameterMap != null && parameterMap.containsKey(namedParameter.getName().getName())) {
-				FormalParameter formalParameter = parameterMap.get(namedParameter.getName().getName());
-				int isAt = formalParameterMap.get(formalParameter);
+				final FormalParameter formalParameter = parameterMap.get(namedParameter.getName().getName());
+				final int isAt = formalParameterMap.get(formalParameter);
 
 				if (isAt >= nofLocated) {
 					for (; nofLocated < isAt; nofLocated++) {
-						NotUsed_Template temp = new NotUsed_Template();
+						final NotUsed_Template temp = new NotUsed_Template();
 						if (!parameters.get(nofLocated).hasDefaultValue()) {
 							temp.setIsErroneous(true);
 						}
-						TemplateInstance instance = new TemplateInstance(null, null, temp);
+						final TemplateInstance instance = new TemplateInstance(null, null, temp);
 						instance.setLocation(parsedParameters.getLocation());
 						finalUnnamed.addTemplateInstance(instance);
 					}
@@ -646,16 +647,16 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			}
 		}
 
-		int upperLimit = (instances.getNofTis() < parameters.size()) ? instances.getNofTis() : parameters.size();
+		final int upperLimit = (instances.getNofTis() < parameters.size()) ? instances.getNofTis() : parameters.size();
 		for (int i = 0; i < upperLimit; i++) {
-			TemplateInstance instance = instances.getInstanceByIndex(i);
-			FormalParameter formalParameter = parameters.get(i);
+			final TemplateInstance instance = instances.getInstanceByIndex(i);
+			final FormalParameter formalParameter = parameters.get(i);
 
 			if (instance.getType() == null && instance.getDerivedReference() == null
 					&& Template_type.TEMPLATE_NOTUSED.equals(instance.getTemplateBody().getTemplatetype())) {
 				if (formalParameter.hasDefaultValue()) {
-					ActualParameter defaultValue = formalParameter.getDefaultValue();
-					Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
+					final ActualParameter defaultValue = formalParameter.getDefaultValue();
+					final Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
 					actualParameters.addParameter(temp);
 					if (defaultValue == null || defaultValue.getIsErroneous()) {
 						isErroneous = true;
@@ -669,14 +670,14 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				} else {
 					instance.getLocation().reportSemanticError(
 							"Not used symbol (`-'') cannot be used for parameter that does not have a default value");
-					ActualParameter temp = new Value_ActualParameter(null);
+					final ActualParameter temp = new Value_ActualParameter(null);
 					temp.setLocation(instances.getLocation());
 					temp.setIsErroneous();
 					actualParameters.addParameter(temp);
 					isErroneous = true;
 				}
 			} else {
-				ActualParameter actualParameter = formalParameter.checkActualParameter(timestamp, instance,
+				final ActualParameter actualParameter = formalParameter.checkActualParameter(timestamp, instance,
 						Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 				actualParameter.setLocation(instance.getLocation());
 				actualParameters.addParameter(actualParameter);
@@ -687,10 +688,10 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		}
 
 		for (int i = upperLimit; i < parameters.size(); i++) {
-			FormalParameter formalParameter = parameters.get(i);
+			final FormalParameter formalParameter = parameters.get(i);
 			if (formalParameter.hasDefaultValue()) {
-				ActualParameter defaultValue = formalParameter.getDefaultValue();
-				Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
+				final ActualParameter defaultValue = formalParameter.getDefaultValue();
+				final Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
 				actualParameters.addParameter(temp);
 				if (defaultValue == null || defaultValue.getIsErroneous()) {
 					isErroneous = true;
@@ -698,7 +699,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 					temp.setLocation(defaultValue.getLocation());
 				}
 			} else {
-				ActualParameter temp = new Value_ActualParameter(null);
+				final ActualParameter temp = new Value_ActualParameter(null);
 				temp.setLocation(instances.getLocation());
 				temp.setIsErroneous();
 				actualParameters.addParameter(temp);
@@ -734,13 +735,13 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 		boolean returnValue = true;
 		for (int i = 0; i < actualParameters.getNofParameters(); i++) {
-			ActualParameter actualParameter = actualParameters.getParameter(i);
+			final ActualParameter actualParameter = actualParameters.getParameter(i);
 
 			if (!(actualParameter instanceof Referenced_ActualParameter)) {
 				continue;
 			}
 
-			FormalParameter formalParameter = parameters.get(i);
+			final FormalParameter formalParameter = parameters.get(i);
 
 			switch (formalParameter.getAssignmentType()) {
 			case A_PAR_VAL_OUT:
@@ -759,8 +760,8 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				return false;
 			}
 
-			Reference reference = ((Referenced_ActualParameter) actualParameter).getReference();
-			Assignment assignment = reference.getRefdAssignment(timestamp, true);
+			final Reference reference = ((Referenced_ActualParameter) actualParameter).getReference();
+			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment == null) {
 				return false;
 			}
@@ -790,10 +791,10 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				// to formal parameters
 				// except for activate() statements within
 				// testcases
-				FormalParameter referencedFormalParameter = (FormalParameter) assignment;
-				FormalParameterList formalParameterList = referencedFormalParameter.getMyParameterList();
+				final FormalParameter referencedFormalParameter = (FormalParameter) assignment;
+				final FormalParameterList formalParameterList = referencedFormalParameter.getMyParameterList();
 				if (formalParameterList != null) {
-					Definition definition = formalParameterList.getMyDefinition();
+					final Definition definition = formalParameterList.getMyDefinition();
 					if (definition != null && !Assignment_type.A_TESTCASE.equals(definition.getAssignmentType())) {
 						reference.getLocation().reportSemanticError(
 								MessageFormat.format(ILLEGALACTIVATEPARAMETER, i + 1, description,
@@ -833,17 +834,17 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		}
 
 		for (int i = 0; i < parameters.size(); i++) {
-			FormalParameter parameter = parameters.get(i);
+			final FormalParameter parameter = parameters.get(i);
 			switch (parameter.getAssignmentType()) {
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
 			case A_PAR_TEMP_IN:
 			case A_PAR_VAL_INOUT:
 			case A_PAR_TEMP_INOUT: {
-				IType tempType = parameter.getType(timestamp);
+				final IType tempType = parameter.getType(timestamp);
 				if (tempType != null && tempType.isComponentInternal(timestamp)) {
-					Set<IType> typeSet = new HashSet<IType>();
-					String errorString = MessageFormat.format(CANNOTBESTARTED, what, namedNode.getFullName(),
+					final Set<IType> typeSet = new HashSet<IType>();
+					final String errorString = MessageFormat.format(CANNOTBESTARTED, what, namedNode.getFullName(),
 							parameter.getDescription());
 					tempType.checkComponentInternal(timestamp, typeSet, errorString);
 			}
@@ -1044,7 +1045,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		}
 
 		for (int i = 0, size = parameters.size(); i < size; i++) {
-			FormalParameter parameter = parameters.get(i);
+			final FormalParameter parameter = parameters.get(i);
 
 			parameter.updateSyntax(reparser, isDamaged);
 			reparser.updateLocation(parameter.getLocation());

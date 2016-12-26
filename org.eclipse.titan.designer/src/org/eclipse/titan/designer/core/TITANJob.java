@@ -274,7 +274,7 @@ public class TITANJob extends WorkspaceJob {
 
 			setName(descriptions.get(i));
 			List<String> finalCommand = getFinalCommand(commands.get(i));
-			StringBuilder builder = new StringBuilder();
+			final StringBuilder builder = new StringBuilder();
 
 			for (String c : finalCommand) {
 				builder.append(c + SPACE);
@@ -420,7 +420,7 @@ public class TITANJob extends WorkspaceJob {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					StringBuilder builder = new StringBuilder();
+					final StringBuilder builder = new StringBuilder();
 					for (String c : command) {
 						builder.append(c).append(SPACE);
 					}

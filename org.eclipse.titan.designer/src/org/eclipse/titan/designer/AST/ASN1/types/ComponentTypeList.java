@@ -59,7 +59,7 @@ public final class ComponentTypeList extends ASTNode {
 	public CompField getCompByIndex(final int index) {
 		int offset = index;
 		for (int i = 0; i < componentTypes.size(); i++) {
-			int subSize = componentTypes.get(i).getNofComps();
+			final int subSize = componentTypes.get(i).getNofComps();
 			if (offset < subSize) {
 				return componentTypes.get(i).getCompByIndex(offset);
 			}

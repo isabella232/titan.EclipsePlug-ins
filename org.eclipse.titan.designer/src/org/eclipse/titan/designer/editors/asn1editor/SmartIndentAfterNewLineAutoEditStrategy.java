@@ -31,7 +31,7 @@ public final class SmartIndentAfterNewLineAutoEditStrategy extends GeneralTITANA
 			return;
 		}
 		try {
-			StringBuilder builder = new StringBuilder(document.get());
+			final StringBuilder builder = new StringBuilder(document.get());
 			if (isWithinMultiLineComment(command.offset) || isWithinString(builder, command.offset)) {
 				return;
 			}
@@ -69,7 +69,7 @@ public final class SmartIndentAfterNewLineAutoEditStrategy extends GeneralTITANA
 			int p = command.offset == docLength ? command.offset - 1 : command.offset;
 			int line = document.getLineOfOffset(p);
 
-			StringBuilder builder = new StringBuilder(command.text);
+			final StringBuilder builder = new StringBuilder(command.text);
 			String lineDelimeter = document.getLineDelimiter(line);
 			if (lineDelimeter == null) {
 				lineDelimeter = "";
