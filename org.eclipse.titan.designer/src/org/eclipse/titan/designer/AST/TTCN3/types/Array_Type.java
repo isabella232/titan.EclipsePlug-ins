@@ -147,11 +147,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		switch (temp.getTypetype()) {
 		case TYPE_ASN1_SEQUENCE: {
 			ASN1_Sequence_Type tempType = (ASN1_Sequence_Type) temp;
-			long thisNofComps = getDimension().getSize();
 			int tempTypeNofComps = tempType.getNofComponents(timestamp);
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
+
+			long thisNofComps = getDimension().getSize();
 			if (thisNofComps != tempTypeNofComps) {
 				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, thisNofComps, tempTypeNofComps));
 				return false;
@@ -195,11 +196,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 		case TYPE_TTCN3_SEQUENCE: {
 			TTCN3_Sequence_Type tempType = (TTCN3_Sequence_Type) temp;
-			long nofComps = getDimension().getSize();
 			int tempTypeNofComps = tempType.getNofComponents();
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
+
+			long nofComps = getDimension().getSize();
 			if (nofComps != tempTypeNofComps) {
 				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, nofComps, tempTypeNofComps));
 				return false;

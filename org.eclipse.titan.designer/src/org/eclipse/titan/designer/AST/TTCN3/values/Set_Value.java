@@ -285,14 +285,13 @@ public final class Set_Value extends Value {
 			return false;
 		}
 
-		IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
-
 		Set_Value otherSet = (Set_Value) last;
 		if (values.getSize() != otherSet.values.getSize()) {
 			return false;
 		}
 
 		int nofComps = 0;
+		IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
 		switch (leftGovernor.getTypetype()) {
 		case TYPE_TTCN3_SET:
 			nofComps = ((TTCN3_Set_Type) leftGovernor).getNofComponents();

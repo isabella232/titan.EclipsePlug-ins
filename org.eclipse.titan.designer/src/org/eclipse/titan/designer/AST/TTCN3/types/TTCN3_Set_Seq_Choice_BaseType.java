@@ -191,11 +191,12 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				return false;
 			}
 
-			int fieldIndex = compFieldMap.fields.indexOf(compField);
 			IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
+
+			int fieldIndex = compFieldMap.fields.indexOf(compField);
 			subrefsArray.add(fieldIndex);
 			typeArray.add(this);
 			return fieldType.getSubrefsAsArray(timestamp, reference, actualSubReference + 1, subrefsArray, typeArray);
@@ -221,10 +222,11 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier id = subreference.getId();
 			if (compFieldMap == null) {
 				return false;
 			}
+
+			Identifier id = subreference.getId();
 			CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				return false;

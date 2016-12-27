@@ -421,11 +421,12 @@ public final class Anytype_Type extends Type {
 				return false;
 			}
 
-			int fieldIndex = compFieldMap.fields.indexOf(compField);
 			IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
+
+			int fieldIndex = compFieldMap.fields.indexOf(compField);
 			subrefsArray.add(fieldIndex);
 			typeArray.add(this);
 			return fieldType.getSubrefsAsArray(timestamp, reference, actualSubReference + 1, subrefsArray, typeArray);
@@ -450,10 +451,11 @@ public final class Anytype_Type extends Type {
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier id = subreference.getId();
 			if (compFieldMap == null) {
 				return false;
 			}
+
+			Identifier id = subreference.getId();
 			CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				return false;

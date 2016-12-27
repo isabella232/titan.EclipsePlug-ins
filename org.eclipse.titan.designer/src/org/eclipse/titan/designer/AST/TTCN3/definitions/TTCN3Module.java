@@ -768,7 +768,7 @@ public final class TTCN3Module extends Module {
 	
 	@Override
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
-			// if a moduleId is present, that import (or the actual module)
+		// if a moduleId is present, that import (or the actual module)
 		// must be searched
 		final Identifier moduleId = reference.getModuleIdentifier();
 		final Location referenceLocation = reference.getLocation();
@@ -1045,8 +1045,6 @@ public final class TTCN3Module extends Module {
 	 *                ASN.1 files, to efficiently handle module renaming.
 	 * */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final ProjectSourceParser sourceParser) throws ReParseException {
-		boolean enveloped = false;
-
 		// edited outside the module
 		if (reparser.getDamageEnd() < location.getOffset()) {
 			// before the module
@@ -1106,7 +1104,7 @@ public final class TTCN3Module extends Module {
 		}
 
 		// the module has structurally changed
-
+		boolean enveloped = false;
 		if ((definitions != null && reparser.envelopsDamage(definitions.getLocation()))
 				|| (controlpart != null && reparser.envelopsDamage(controlpart.getLocation()))) {
 			if (definitions != null && reparser.isAffected(definitions.getLocation())) {

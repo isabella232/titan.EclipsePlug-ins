@@ -588,12 +588,12 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	}
 	
 	private static ErroneousAttributeSpecification parseErrAttrSpecString(final AttributeSpecification aAttrSpec) {
-		ErroneousAttributeSpecification returnValue = null;
-		final Location location = aAttrSpec.getLocation();
 		String code = aAttrSpec.getSpecification();
 		if (code == null) {
 			return null;
 		}
+
+		final Location location = aAttrSpec.getLocation();
 		// code must be transformed, according to
 		// compiler2/ttcn3/charstring_la.l
 		code = Ttcn3CharstringLexer.parseCharstringValue(code, location); // TODO
@@ -633,7 +633,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 		final Pr_ErroneousAttributeSpecContext root = parser.pr_ErroneousAttributeSpec(); 
 		ParserUtilities.logParseTree( root, parser );
-		returnValue = root.errAttrSpec;
+		ErroneousAttributeSpecification returnValue = root.errAttrSpec;
 		final List<SyntacticErrorStorage> errors = parser.getErrors();
 		final List<TITANMarker> warnings = parser.getWarnings();
 		final List<TITANMarker> unsupportedConstructs = parser.getUnsupportedConstructs();

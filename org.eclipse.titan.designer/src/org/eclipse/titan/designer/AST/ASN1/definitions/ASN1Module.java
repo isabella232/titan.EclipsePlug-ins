@@ -246,7 +246,7 @@ public final class ASN1Module extends Module {
 	
 	@Override
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
-			Identifier moduleId = reference.getModuleIdentifier();
+		Identifier moduleId = reference.getModuleIdentifier();
 		final Identifier id = reference.getId();
 
 		if (null == id) {
@@ -299,16 +299,16 @@ public final class ASN1Module extends Module {
 			module = parser.getModuleByName(moduleId.getName());
 		}
 
-		final List<ISubReference> newSubreferences = new ArrayList<ISubReference>();
-		newSubreferences.add(new FieldSubReference(id));
-		final Defined_Reference finalSeference = new Defined_Reference(null, newSubreferences);
-
 		if (this == module || null == module) {
 			return null;
 		}
 
+		final List<ISubReference> newSubreferences = new ArrayList<ISubReference>();
+		newSubreferences.add(new FieldSubReference(id));
+		final Defined_Reference finalReference = new Defined_Reference(null, newSubreferences);
+
 		// FIXME add semantic check guard on project level.
-		return module.getAssBySRef(timestamp, finalSeference);
+		return module.getAssBySRef(timestamp, finalReference);
 	}
 
 	@Override

@@ -241,17 +241,16 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	public void checkImports(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain, final List<Module> moduleStack) {
 		if (lastImportCheckTimeStamp != null && !lastImportCheckTimeStamp.isLess(timestamp)) {
 			return;
-		}		
-		
-		final Module temp = referredModule;
-		referredModule = null;
+		}
 
 		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
 		if (parser == null || identifier == null) {
 			lastImportCheckTimeStamp = timestamp;
+			referredModule = null;
 			return;
 		}
 
+		final Module temp = referredModule;
 		referredModule = parser.getModuleByName(identifier.getName());
 		if (temp != referredModule) {
 			setUnhandledChange(true);

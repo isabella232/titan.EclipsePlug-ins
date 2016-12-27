@@ -431,14 +431,13 @@ public final class Sequence_Value extends Value {
 			return false;
 		}
 
-		IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
-
 		Sequence_Value otherSequence = (Sequence_Value) last;
 		if (values.getSize() != otherSequence.values.getSize()) {
 			return false;
 		}
 
 		int nofComps = 0;
+		IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
 		switch (leftGovernor.getTypetype()) {
 		case TYPE_TTCN3_SEQUENCE:
 			nofComps = ((TTCN3_Sequence_Type) leftGovernor).getNofComponents();

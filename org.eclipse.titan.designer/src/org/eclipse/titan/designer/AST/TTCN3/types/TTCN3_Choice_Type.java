@@ -338,12 +338,12 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return;
 		}
 
-		Type alternativeType = getComponentByName(name.getName()).getType();
 		IValue alternativeValue = value.getValue();
 		if (alternativeValue == null) {
 			return;
 		}
 
+		Type alternativeType = getComponentByName(name.getName()).getType();
 		alternativeValue.setMyGovernor(alternativeType);
 		alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
 		alternativeType.checkThisValue(timestamp, alternativeValue, new ValueCheckingOptions(expectedValue,

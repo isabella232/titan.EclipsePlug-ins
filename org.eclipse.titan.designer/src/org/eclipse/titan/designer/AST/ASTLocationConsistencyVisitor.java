@@ -27,15 +27,15 @@ public class ASTLocationConsistencyVisitor extends ASTVisitor {
 	public int visit(final IVisitableNode node) {
 		if (node instanceof Identifier) {
 			final Identifier id = (Identifier)node;
-			final Location loc = id.getLocation();
-			final int offset = loc.getOffset();
-			final int length = loc.getEndOffset()-loc.getOffset();
 			final String name = isTtcn ? id.getTtcnName() : id.getAsnName();
 			if (isTtcn && "anytype".equals(name)) {
 				// anytype hack in ttcn-3 
 				return V_CONTINUE;
 			}
 
+			final Location loc = id.getLocation();
+			final int offset = loc.getOffset();
+			final int length = loc.getEndOffset()-loc.getOffset();
 			try {
 				final String strAtLoc = document.get(offset, length);
 				if (!strAtLoc.equals(name)) {		

@@ -106,14 +106,13 @@ public final class Array_Value extends Value {
 			}
 
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-				int index = ((Integer_Value) valueIndex).intValue();
-
 				ArrayDimension dimension = ((Array_Type) type).getDimension();
 				dimension.checkIndex(timestamp, valueIndex, Expected_Value_type.EXPECTED_CONSTANT);
 				if (dimension.getIsErroneous(timestamp)) {
 					return null;
 				}
 
+				int index = ((Integer_Value) valueIndex).intValue();
 				if (isIndexed()) {
 					for (int i = 0; i < values.getNofIndexedValues(); i++) {
 						IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();

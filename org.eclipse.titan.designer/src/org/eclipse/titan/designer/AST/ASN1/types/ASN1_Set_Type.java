@@ -841,11 +841,12 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				return false;
 			}
 
-			final int fieldIndex = components.components.indexOf(compField);
 			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
+
+			final int fieldIndex = components.components.indexOf(compField);
 			subrefsArray.add(fieldIndex);
 			typeArray.add(this);
 			return fieldType.getSubrefsAsArray(timestamp, reference, actualSubReference + 1, subrefsArray, typeArray);

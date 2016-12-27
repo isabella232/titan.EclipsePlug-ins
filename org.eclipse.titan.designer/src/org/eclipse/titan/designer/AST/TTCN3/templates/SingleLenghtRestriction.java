@@ -91,10 +91,11 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 		}
 		lastTimeChecked = timestamp;
 
-		final Integer_Type integer = new Integer_Type();
 		if( value == null) { 
 			return; 
 		}
+
+		final Integer_Type integer = new Integer_Type();
 		value.setMyGovernor(integer);
 		IValue last = integer.checkThisValueRef(timestamp, value);
 		integer.checkThisValue(timestamp, last, new ValueCheckingOptions(expectedValue, false, false, true, false, false));

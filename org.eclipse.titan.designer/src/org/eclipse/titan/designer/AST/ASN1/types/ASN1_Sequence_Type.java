@@ -348,12 +348,12 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			return true;
 		}
 		case TYPE_ARRAY: {
-			final Array_Type temporalType = (Array_Type) temp;
 			final int nofComps = getNofComponents(timestamp);
 			if (nofComps == 0) {
 				return false;
 			}
 
+			final Array_Type temporalType = (Array_Type) temp;
 			final long temporalTypeNofComps = temporalType.getDimension().getSize();
 			if (nofComps != temporalTypeNofComps) {
 				info.setErrorStr(MessageFormat.format(NOFFIELDSDIMENSIONDONTMATCH, nofComps, temporalTypeNofComps));
@@ -878,11 +878,11 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return null;
 		case fieldSubReference:
-			final Identifier id = subreference.getId();
 			if (components == null) {
 				return null;
 			}
 
+			final Identifier id = subreference.getId();
 			final CompField compField = components.getCompByName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
@@ -926,11 +926,11 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return false;
 		case fieldSubReference: {
-			final Identifier id = subreference.getId();
 			if (components == null) {
 				return false;
 			}
 
+			final Identifier id = subreference.getId();
 			final CompField compField = components.getCompByName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
@@ -939,11 +939,12 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 				return false;
 			}
 
-			final int fieldIndex = components.components.indexOf(compField);
 			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
+
+			final int fieldIndex = components.components.indexOf(compField);
 			subrefsArray.add(fieldIndex);
 			typeArray.add(this);
 			return fieldType.getSubrefsAsArray(timestamp, reference, actualSubReference + 1, subrefsArray, typeArray);

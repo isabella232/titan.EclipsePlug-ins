@@ -132,14 +132,12 @@ public final class RangedArrayDimension extends ArrayDimension {
 			return;
 		}
 
-		long lowerLimit = 0;
-		long upperLimit = 0;
-
 		IValue lowerLast = lower.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
 		if (lowerLast == null || lowerLast.getIsErroneous(timestamp)) {
 			return;
 		}
 
+		long lowerLimit = 0;
 		switch (lowerLast.getValuetype()) {
 		case INTEGER_VALUE:
 			if (lowerLast.isUnfoldable(timestamp)) {
@@ -164,6 +162,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 			return;
 		}
 
+		long upperLimit = 0;
 		switch (upperLast.getValuetype()) {
 		case INTEGER_VALUE:
 			if (upperLast.isUnfoldable(timestamp)) {

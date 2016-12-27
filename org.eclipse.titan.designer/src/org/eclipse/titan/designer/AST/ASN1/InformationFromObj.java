@@ -123,14 +123,6 @@ public final class InformationFromObj extends Reference {
 
 	@Override
 	public ISetting getRefdSetting(final CompilationTimeStamp timestamp) {
-		SettingDetectionState currentState;
-
-		ObjectClass_Definition objectClass = null;
-		ObjectSet_definition objectSet = null;
-		Object_Definition object = null;
-		object = new Object_Definition(null);
-		ObjectSet_definition fromObjectSet = newObjectSetDefinitionInstance();
-
 		isErroneous = false;
 		ISetting temporalSetting = reference.getRefdSetting(timestamp);
 
@@ -138,6 +130,14 @@ public final class InformationFromObj extends Reference {
 			isErroneous = true;
 			return new Error_Setting();
 		}
+
+		SettingDetectionState currentState;
+
+		ObjectClass_Definition objectClass = null;
+		ObjectSet_definition objectSet = null;
+		Object_Definition object = null;
+		object = new Object_Definition(null);
+		ObjectSet_definition fromObjectSet = newObjectSetDefinitionInstance();
 
 		/* the first part */
 		switch (temporalSetting.getSettingtype()) {

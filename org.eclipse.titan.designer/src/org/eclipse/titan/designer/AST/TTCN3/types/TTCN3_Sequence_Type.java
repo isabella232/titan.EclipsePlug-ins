@@ -303,11 +303,12 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return true;
 		}
 		case TYPE_ARRAY: {
-			Array_Type tempType = (Array_Type) temp;
 			int nofComps = getNofComponents();
 			if (nofComps == 0) {
 				return false;
 			}
+
+			Array_Type tempType = (Array_Type) temp;
 			long tempTypeNOfComps = tempType.getDimension().getSize();
 			if (nofComps != tempTypeNOfComps) {
 				info.setErrorStr(MessageFormat.format(NOFFIELDSDIMENSIONDONTMATCH, nofComps, tempTypeNOfComps));

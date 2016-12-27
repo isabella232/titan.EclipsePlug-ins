@@ -79,18 +79,17 @@ public final class ImportModule extends ModuleImportation {
 			return;
 		}
 
-		final Module temp = referredModule;
-		referredModule = null;
-
 		symbols.checkUniqueness(timestamp);
 
 		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
 		if (null == parser || null == identifier) {
 			lastImportCheckTimeStamp = timestamp; 
 			//FIXME: is it correct? lastImportCheckTimeStamp will be set in extreme case only - very early running
+			referredModule = null;
 			return;
 		}
 
+		final Module temp = referredModule;
 		referredModule = parser.getModuleByName(identifier.getName());
 		if (temp != referredModule) {
 			setUnhandledChange(true);

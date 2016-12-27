@@ -331,12 +331,12 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			return;
 		}
 
-		final Type alternativeType = getComponentByName(name).getType();
 		IValue alternativeValue = value.getValue();
 		if (alternativeValue == null) {
 			return;
 		}
 
+		final Type alternativeType = getComponentByName(name).getType();
 		alternativeValue.setMyGovernor(alternativeType);
 		alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
 		alternativeType.checkThisValue(timestamp, alternativeValue, new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true,

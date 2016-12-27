@@ -298,12 +298,12 @@ public final class Open_Type extends ASN1Type {
 
 		final CompField field = getComponentByName(name);
 		if (null != field) {
-			final Type alternativeType = field.getType();
 			IValue alternativeValue = value.getValue();
 			if (null == alternativeValue) {
 				return;
 			}
 
+			final Type alternativeType = field.getType();
 			alternativeValue.setMyGovernor(alternativeType);
 			alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
 			alternativeType.checkThisValue(timestamp, alternativeValue, new ValueCheckingOptions(expectedValue, incompleteAllowed,
@@ -387,12 +387,12 @@ public final class Open_Type extends ASN1Type {
 				return this;
 			}
 
-			final Expected_Value_type internalExpectation = (expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
-					: expectedIndex;
-
 			if (interruptIfOptional && compField.isOptional()) {
 				return null;
 			}
+
+			final Expected_Value_type internalExpectation = (expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
+					: expectedIndex;
 			return compField.getType().getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain,
 					interruptIfOptional);
 		case parameterisedSubReference:
