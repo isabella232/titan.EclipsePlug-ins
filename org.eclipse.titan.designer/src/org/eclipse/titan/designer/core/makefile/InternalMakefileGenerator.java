@@ -885,7 +885,7 @@ public final class InternalMakefileGenerator {
 		contents.append("# ").append(TITANFlagsOptionsData.getTITANFlagComments(project, useRuntime2)).append("\n");
 		contents.append("COMPILER_FLAGS = ").append(TITANFlagsOptionsData.getTITANFlags(project, useRuntime2)).append("\n\n");
 		contents.append("# Execution mode: ");
-		contents.append(useRuntime2 ? "load" : "function").append(" test runtime in ");
+		contents.append(useRuntime2 ? "function" : "load").append(" test runtime in ");
 		contents.append(singleMode ? "single" : "parallel").append(" mode");
 		contents.append(dynamicLinking ? " with dynamic linking" : "").append("\n");
 		contents.append("TTCN3_LIB = ttcn3");
