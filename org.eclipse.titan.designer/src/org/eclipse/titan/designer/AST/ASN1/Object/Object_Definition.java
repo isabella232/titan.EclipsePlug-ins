@@ -291,8 +291,8 @@ public final class Object_Definition extends ASN1Object {
 		if (null == mBlock || null == myGovernor) {
 			return;
 		}		
-		ObjectClassSyntax_Parser parser = null;
-		parser = new ObjectClassSyntax_Parser(mBlock, this);
+
+		ObjectClassSyntax_Parser parser = new ObjectClassSyntax_Parser(mBlock, this);
 		final ObjectClassSyntax_root root = myGovernor.getObjectClassSyntax(timestamp);
 		fieldSettings.clear();
 

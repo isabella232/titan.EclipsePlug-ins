@@ -81,8 +81,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 
 		if (null == ocsRoot) {
 			ocsRoot = new ObjectClassSyntax_root();
-			ObjectClassSyntax_Builder builder = null;
-			builder = new ObjectClassSyntax_Builder(withSyntaxBlock, fieldSpecifications);
+			ObjectClassSyntax_Builder builder = new ObjectClassSyntax_Builder(withSyntaxBlock, fieldSpecifications);
 			ocsRoot.accept(builder);
 		}
 	}
