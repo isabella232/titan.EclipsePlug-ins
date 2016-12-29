@@ -58,7 +58,7 @@ public final class Choice_Value extends Value {
 
 	public Choice_Value(final CompilationTimeStamp timestamp, final Sequence_Value value) {
 		copyGeneralProperties(value);
-		int valueSize = value.getNofComponents();
+		final int valueSize = value.getNofComponents();
 		if (valueSize < 1) {
 			this.name = null;
 			this.value = null;
@@ -72,7 +72,7 @@ public final class Choice_Value extends Value {
 			setIsErroneous(true);
 			lastTimeChecked = timestamp;
 		} else {
-			NamedValue namedValue = value.getSeqValueByIndex(0);
+			final NamedValue namedValue = value.getSeqValueByIndex(0);
 			this.name = namedValue.getName();
 			this.value = namedValue.getValue();
 		}
@@ -125,23 +125,23 @@ public final class Choice_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return null;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDVALUESUBREFERENCE, type.getTypename()));
 			return null;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_CHOICE:
 				if (!((TTCN3_Choice_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -228,22 +228,22 @@ public final class Choice_Value extends Value {
 
 	@Override
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_CHOICE:
 				if (!((TTCN3_Choice_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -278,22 +278,22 @@ public final class Choice_Value extends Value {
 
 	@Override
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_CHOICE:
 				if (!((TTCN3_Choice_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -329,15 +329,15 @@ public final class Choice_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (!Value_type.CHOICE_VALUE.equals(last.getValuetype())) {
 			return false;
 		}
 
-		Choice_Value otherChoice = (Choice_Value) last;
+		final Choice_Value otherChoice = (Choice_Value) last;
 		if (!name.equals(otherChoice.name)
 				|| !value.checkEquality(timestamp, otherChoice.value)) {
 			return false;

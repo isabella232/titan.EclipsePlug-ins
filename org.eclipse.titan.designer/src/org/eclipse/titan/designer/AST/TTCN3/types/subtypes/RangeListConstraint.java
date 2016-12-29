@@ -89,8 +89,8 @@ public final class RangeListConstraint extends SubtypeConstraint {
 			return new RangeListConstraint(LimitType.getMinimum(limitType), LimitType.getMaximum(limitType));
 		}
 
-		List<RangeLimit> retVal = new ArrayList<RangeLimit>();
-		LimitType min = LimitType.getMinimum(limitType);
+		final List<RangeLimit> retVal = new ArrayList<RangeLimit>();
+		final LimitType min = LimitType.getMinimum(limitType);
 		RangeLimit rl = rlList.get(0);
 		if (rl.value.compareTo(min) != 0) {
 			if (min.isAdjacent(rl.value)) {
@@ -101,10 +101,10 @@ public final class RangeListConstraint extends SubtypeConstraint {
 			}
 		}
 
-		int last = rlList.size() - 1;
+		final int last = rlList.size() - 1;
 		for (int i = 0; i < last; i++) {
 			rl = rlList.get(i);
-			RangeLimit rl1 = rlList.get(i + 1);
+			final RangeLimit rl1 = rlList.get(i + 1);
 			if (!rl.interval) {
 				if (rl.value.increment().compareTo(rl1.value.decrement()) == 0) {
 					retVal.add(new RangeLimit(rl.value.increment(), false));
@@ -116,7 +116,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 		}
 
 		rl = rlList.get(last);
-		LimitType max = LimitType.getMaximum(limitType);
+		final LimitType max = LimitType.getMaximum(limitType);
 		if (rl.value.compareTo(max) != 0) {
 			if (rl.value.isAdjacent(max)) {
 				retVal.add(new RangeLimit(max, false));
@@ -129,7 +129,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 	}
 
 	public RangeListConstraint setOperation(final SubtypeConstraint other, final boolean isUnion) {
-		RangeListConstraint o = (RangeListConstraint) other;
+		final RangeListConstraint o = (RangeListConstraint) other;
 
 		if (rlList.isEmpty()) {
 			return isUnion ? o : this;
@@ -138,7 +138,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 			return isUnion ? this : o;
 		}
 
-		List<SweepPoint> sweepPoints = new ArrayList<SweepPoint>();
+		final List<SweepPoint> sweepPoints = new ArrayList<SweepPoint>();
 		SweepPoint spi = new SweepPoint(0, 0);
 		while ((spi.aIdx < rlList.size()) || (spi.bIdx < o.rlList.size())) {
 			if (spi.aIdx >= rlList.size()) {
@@ -148,7 +148,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 				sweepPoints.add(new SweepPoint(spi.aIdx, -1));
 				spi.aIdx++;
 			} else {
-				int compRv = rlList.get(spi.aIdx).value.compareTo(o.rlList.get(spi.bIdx).value);
+				final int compRv = rlList.get(spi.aIdx).value.compareTo(o.rlList.get(spi.bIdx).value);
 				if (compRv < 0) {
 					sweepPoints.add(new SweepPoint(spi.aIdx, -1));
 					spi.aIdx++;
@@ -198,8 +198,8 @@ public final class RangeListConstraint extends SubtypeConstraint {
 
 		if (isUnion) {
 			for (int i = 1; i < sweepPoints.size(); i++) {
-				SweepPoint spFirst = sweepPoints.get(i - 1);
-				SweepPoint spSecond = sweepPoints.get(i);
+				final SweepPoint spFirst = sweepPoints.get(i - 1);
+				final SweepPoint spSecond = sweepPoints.get(i);
 				LimitType first, second;
 				if (spFirst.aIdx != -1) {
 					first = rlList.get(spFirst.aIdx).value;
@@ -218,7 +218,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 			}
 		}
 
-		List<RangeLimit> retVal = new ArrayList<RangeLimit>();
+		final List<RangeLimit> retVal = new ArrayList<RangeLimit>();
 		for (int i = 0; i < sweepPoints.size(); i++) {
 			spi = sweepPoints.get(i);
 			if (isUnion) {
@@ -265,11 +265,11 @@ public final class RangeListConstraint extends SubtypeConstraint {
 			return false;
 		}
 		// binary search
-		LimitType l = (LimitType) o;
+		final LimitType l = (LimitType) o;
 		int lowerIdx = 0;
 		int upperIdx = rlList.size() - 1;
 		while (upperIdx > lowerIdx + 1) {
-			int middleIndex = lowerIdx + (upperIdx - lowerIdx) / 2;
+			final int middleIndex = lowerIdx + (upperIdx - lowerIdx) / 2;
 			if (rlList.get(middleIndex).value.compareTo(l) < 0) {
 				lowerIdx = middleIndex;
 			} else {
@@ -278,7 +278,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 		}
 
 		if (lowerIdx == upperIdx) {
-			int compRv = rlList.get(lowerIdx).value.compareTo(l);
+			final int compRv = rlList.get(lowerIdx).value.compareTo(l);
 			if (compRv == 0) {
 				return true;
 			} else if (compRv < 0) {
@@ -312,7 +312,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		RangeListConstraint rlc = (RangeListConstraint) other;
+		final RangeListConstraint rlc = (RangeListConstraint) other;
 		if (rlList.size() != rlc.rlList.size()) {
 			return TernaryBool.TFALSE;
 		}
@@ -366,9 +366,10 @@ public final class RangeListConstraint extends SubtypeConstraint {
 		if (addBrackets) {
 			sb.append('(');
 		}
-		int last = rlList.size() - 1;
+
+		final int last = rlList.size() - 1;
 		for (int i = 0; i <= last; i++) {
-			RangeLimit rl = rlList.get(i);
+			final RangeLimit rl = rlList.get(i);
 			rl.value.toString(sb);
 			if (rl.interval) {
 				sb.append("..");

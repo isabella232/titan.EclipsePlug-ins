@@ -80,7 +80,7 @@ public final class Address_Type extends Type implements IReferencingType {
 
 		parseAttributes(timestamp);
 
-		IType referencedLast = getTypeRefdLast(timestamp);
+		final IType referencedLast = getTypeRefdLast(timestamp);
 
 		if (referencedLast == null || referencedLast.getIsErroneous(timestamp)) {
 			return;
@@ -90,7 +90,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	public static void checkAddress(final CompilationTimeStamp timestamp, final Type type) {
-		IType referencedLast = type.getTypeRefdLast(timestamp);
+		final IType referencedLast = type.getTypeRefdLast(timestamp);
 
 		if (referencedLast == null || referencedLast.getIsErroneous(timestamp)) {
 			return;
@@ -122,8 +122,8 @@ public final class Address_Type extends Type implements IReferencingType {
 	@Override
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
-			IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IType refd = getTypeRefd(timestamp, tempReferenceChain);
+			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType refd = getTypeRefd(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
 
 			if (refd == null || this.equals(refd)) {
@@ -142,7 +142,7 @@ public final class Address_Type extends Type implements IReferencingType {
 			return;
 		}
 
-		IType tempType = getTypeRefd(timestamp, null);
+		final IType tempType = getTypeRefd(timestamp, null);
 		if (tempType != this) {
 			tempType.checkThisValue(timestamp, value, valueCheckingOptions);
 		}
@@ -156,7 +156,7 @@ public final class Address_Type extends Type implements IReferencingType {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
-		IType tempType = getTypeRefd(timestamp, null);
+		final IType tempType = getTypeRefd(timestamp, null);
 		if (tempType != this) {
 			tempType.checkThisTemplate(timestamp, template, isModified, implicitOmit);
 		}
@@ -196,7 +196,7 @@ public final class Address_Type extends Type implements IReferencingType {
 		}
 
 		if (myScope != null) {
-			TTCN3Module module = (TTCN3Module) myScope.getModuleScope();
+			final TTCN3Module module = (TTCN3Module) myScope.getModuleScope();
 			address = module.getAddressType(timestamp);
 			if (address != null) {
 				return address;
@@ -217,9 +217,9 @@ public final class Address_Type extends Type implements IReferencingType {
 		}
 
 		if (address != null && this != address) {
-			Expected_Value_type internalExpectation =
+			final Expected_Value_type internalExpectation =
 					(expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : expectedIndex;
-			IType temp = address.getFieldType(timestamp, reference, actualSubReference, internalExpectation, refChain, false);
+			final IType temp = address.getFieldType(timestamp, reference, actualSubReference, internalExpectation, refChain, false);
 			if (reference.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
 			}
@@ -232,8 +232,8 @@ public final class Address_Type extends Type implements IReferencingType {
 	@Override
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
-			IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IType lastType = getTypeRefd(timestamp, tempReferenceChain);
+			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType lastType = getTypeRefd(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
 
 			if (lastType != null && !lastType.getIsErroneous(timestamp) && !this.equals(lastType)) {

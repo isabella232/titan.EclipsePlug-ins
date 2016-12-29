@@ -48,8 +48,8 @@ public final class ValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public ValueListConstraint except(final SubtypeConstraint other) {
-		ValueListConstraint o = (ValueListConstraint) other;
-		List<IValue> returnValue = new ArrayList<IValue>();
+		final ValueListConstraint o = (ValueListConstraint) other;
+		final List<IValue> returnValue = new ArrayList<IValue>();
 		for (IValue v : values) {
 			if (!o.isElement(v)) {
 				returnValue.add(v);
@@ -60,8 +60,8 @@ public final class ValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public SubtypeConstraint intersection(final SubtypeConstraint other) {
-		ValueListConstraint o = (ValueListConstraint) other;
-		List<IValue> returnValue = new ArrayList<IValue>();
+		final ValueListConstraint o = (ValueListConstraint) other;
+		final List<IValue> returnValue = new ArrayList<IValue>();
 		for (IValue v : values) {
 			if (o.isElement(v)) {
 				returnValue.add(v);
@@ -77,7 +77,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public boolean isElement(final Object o) {
-		Value val = (Value) o;
+		final Value val = (Value) o;
 		for (IValue v : values) {
 			if (v.checkEquality(CompilationTimeStamp.getBaseTimestamp(), val)) {
 				return true;
@@ -93,24 +93,24 @@ public final class ValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		ValueListConstraint o = (ValueListConstraint) other;
+		final ValueListConstraint o = (ValueListConstraint) other;
 		if (values.size() != o.values.size()) {
 			return TernaryBool.TFALSE;
 		}
 
-		boolean[] found = new boolean[values.size()];
+		final boolean[] found = new boolean[values.size()];
 		for (int i = 0; i < found.length; i++) {
 			found[i] = false;
 		}
 		for (int i = 0, size = values.size(); i < size; i++) {
-			IValue tempValueI = values.get(i);
+			final IValue tempValueI = values.get(i);
 			boolean foundI = false;
 			for (int j = 0; j < size; j++) {
 				if (found[j]) {
 					continue;
 				}
 
-				IValue tempValueJ = o.values.get(j);
+				final IValue tempValueJ = o.values.get(j);
 				if (tempValueI.checkEquality(tempValueJ.getLastTimeChecked(), tempValueJ)) {
 					found[j] = true;
 					foundI = true;
@@ -146,8 +146,8 @@ public final class ValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public ValueListConstraint union(final SubtypeConstraint other) {
-		ValueListConstraint o = (ValueListConstraint) other;
-		ArrayList<IValue> returnValue = new ArrayList<IValue>();
+		final ValueListConstraint o = (ValueListConstraint) other;
+		final ArrayList<IValue> returnValue = new ArrayList<IValue>();
 		returnValue.addAll(values);
 		for (IValue v : o.values) {
 			if (!isElement(v)) {
@@ -162,7 +162,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	 * sizeConstraint
 	 */
 	public ValueListConstraint remove(final RangeListConstraint sizeConstraint, final boolean ifElement) {
-		ArrayList<IValue> returnValue = new ArrayList<IValue>();
+		final ArrayList<IValue> returnValue = new ArrayList<IValue>();
 		for (IValue v : values) {
 			switch (v.getValuetype()) {
 			case ARRAY_VALUE:

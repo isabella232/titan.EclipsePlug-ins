@@ -111,7 +111,7 @@ public final class Component_Type extends Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp) || this == temp) {
 			return true;
@@ -124,7 +124,7 @@ public final class Component_Type extends Type {
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -168,7 +168,7 @@ public final class Component_Type extends Type {
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -219,12 +219,12 @@ public final class Component_Type extends Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
@@ -268,7 +268,7 @@ public final class Component_Type extends Type {
 	 * */
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -293,12 +293,12 @@ public final class Component_Type extends Type {
 	}
 
 	public static void addAnyorAllProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (i != 0 || subrefs.isEmpty() || Subreference_type.arraySubReference.equals(subrefs.get(0).getReferenceType())) {
 			return;
 		}
 
-		String fakeModuleName = propCollector.getReference().getModuleIdentifier().getDisplayName();
+		final String fakeModuleName = propCollector.getReference().getModuleIdentifier().getDisplayName();
 
 		if ("any component".equals(fakeModuleName)) {
 			for (String proposal : ANY_COMPONENT_PROPOSALS) {
@@ -313,7 +313,7 @@ public final class Component_Type extends Type {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -376,10 +376,10 @@ public final class Component_Type extends Type {
 			final IValue value, final String operationName) {
 		switch (value.getValuetype()) {
 		case EXPRESSION_VALUE: {
-			Expression_Value expression = (Expression_Value) value;
+			final Expression_Value expression = (Expression_Value) value;
 			if (Operation_type.APPLY_OPERATION.equals(expression.getOperationType())) {
-				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IValue last = value.getValueRefdLast(timestamp, chain);
+				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue last = value.getValueRefdLast(timestamp, chain);
 				chain.release();
 				if (last == null || last.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
@@ -407,8 +407,8 @@ public final class Component_Type extends Type {
 			}
 			break; }
 		case REFERENCED_VALUE: {
-			Reference reference = ((Referenced_Value) value).getReference();
-			Assignment assignment = reference.getRefdAssignment(timestamp, true);
+			final Reference reference = ((Referenced_Value) value).getReference();
+			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment == null) {
 				value.setIsErroneous(true);
 				return;

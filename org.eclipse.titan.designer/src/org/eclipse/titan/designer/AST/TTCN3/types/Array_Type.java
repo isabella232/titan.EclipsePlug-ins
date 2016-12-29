@@ -134,7 +134,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp) || this == temp) {
 			return true;
@@ -146,13 +146,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		switch (temp.getTypetype()) {
 		case TYPE_ASN1_SEQUENCE: {
-			ASN1_Sequence_Type tempType = (ASN1_Sequence_Type) temp;
-			int tempTypeNofComps = tempType.getNofComponents(timestamp);
+			final ASN1_Sequence_Type tempType = (ASN1_Sequence_Type) temp;
+			final int tempTypeNofComps = tempType.getNofComponents(timestamp);
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
 
-			long thisNofComps = getDimension().getSize();
+			final long thisNofComps = getDimension().getSize();
 			if (thisNofComps != tempTypeNofComps) {
 				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, thisNofComps, tempTypeNofComps));
 				return false;
@@ -168,14 +168,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < tempTypeNofComps; i++) {
-				CompField tempTypeCf = tempType.getComponentByIndex(i);
-				IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
-				IType tempElementType = getElementType().getTypeRefdLast(timestamp);
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				final IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
+				final IType tempElementType = getElementType().getTypeRefdLast(timestamp);
 				lChain.markState();
 				rChain.markState();
 				lChain.add(tempElementType);
 				rChain.add(tempTypeCfType);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeCfType, false);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeCfType, false);
 				if (!tempElementType.equals(tempTypeCfType)
 						&& !(lChain.hasRecursion() && rChain.hasRecursion())
 						&& !tempElementType.isCompatible(timestamp, tempTypeCfType, infoTemp, lChain, rChain)) {
@@ -195,13 +195,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return true;
 		}
 		case TYPE_TTCN3_SEQUENCE: {
-			TTCN3_Sequence_Type tempType = (TTCN3_Sequence_Type) temp;
-			int tempTypeNofComps = tempType.getNofComponents();
+			final TTCN3_Sequence_Type tempType = (TTCN3_Sequence_Type) temp;
+			final int tempTypeNofComps = tempType.getNofComponents();
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
 
-			long nofComps = getDimension().getSize();
+			final long nofComps = getDimension().getSize();
 			if (nofComps != tempTypeNofComps) {
 				info.setErrorStr(MessageFormat.format(NOFFIELDSDONTMATCH, nofComps, tempTypeNofComps));
 				return false;
@@ -217,14 +217,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < tempTypeNofComps; i++) {
-				CompField tempTypeCf = tempType.getComponentByIndex(i);
-				IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
-				IType tempElementType = getElementType().getTypeRefdLast(timestamp);
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				final IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
+				final IType tempElementType = getElementType().getTypeRefdLast(timestamp);
 				lChain.markState();
 				rChain.markState();
 				lChain.add(tempElementType);
 				rChain.add(tempTypeCfType);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeCfType, false);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeCfType, false);
 				if (!tempElementType.equals(tempTypeCfType)
 						&& !(lChain.hasRecursion() && rChain.hasRecursion())
 						&& !tempElementType.isCompatible(timestamp, tempTypeCfType, infoTemp, lChain, rChain)) {
@@ -244,14 +244,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return true;
 		}
 		case TYPE_SEQUENCE_OF: {
-			SequenceOf_Type tempType = (SequenceOf_Type) temp;
+			final SequenceOf_Type tempType = (SequenceOf_Type) temp;
 			if (!tempType.isSubtypeCompatible(timestamp, this)) {
 				info.setErrorStr("Incompatible record of/SEQUENCE OF subtypes");
 				return false;
 			}
 
-			IType tempTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
-			IType tempElementType = getElementType().getTypeRefdLast(timestamp);
+			final IType tempTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
+			final IType tempElementType = getElementType().getTypeRefdLast(timestamp);
 			TypeCompatibilityInfo.Chain lChain = leftChain;
 			TypeCompatibilityInfo.Chain rChain = rightChain;
 			if (lChain == null) {
@@ -266,7 +266,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			rChain.markState();
 			lChain.add(tempElementType);
 			rChain.add(tempTypeOfType);
-			TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeOfType, false);
+			final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeOfType, false);
 			if (!tempElementType.equals(tempTypeOfType)
 					&& !(lChain.hasRecursion() && rChain.hasRecursion())
 					&& !tempElementType.isCompatible(timestamp, tempTypeOfType, infoTemp, lChain, rChain)) {
@@ -288,7 +288,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return true;
 		}
 		case TYPE_ARRAY: {
-			Array_Type tempType = (Array_Type) temp;
+			final Array_Type tempType = (Array_Type) temp;
 			if (this == tempType) {
 				return true;
 			}
@@ -296,8 +296,9 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				info.setErrorStr(BADARRAYDIMENSION);
 				return false;
 			}
-			IType tempElementType = getElementType().getTypeRefdLast(timestamp);
-			IType tempTypeElementType = tempType.getElementType().getTypeRefdLast(timestamp);
+
+			final IType tempElementType = getElementType().getTypeRefdLast(timestamp);
+			final IType tempTypeElementType = tempType.getElementType().getTypeRefdLast(timestamp);
 			TypeCompatibilityInfo.Chain lChain = leftChain;
 			TypeCompatibilityInfo.Chain rChain = rightChain;
 			if (lChain == null) {
@@ -312,7 +313,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			rChain.markState();
 			lChain.add(tempElementType);
 			rChain.add(tempTypeElementType);
-			TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeElementType, false);
+			final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(tempElementType, tempTypeElementType, false);
 			if (!tempElementType.equals(tempTypeElementType)
 					&& !(lChain.hasRecursion() && rChain.hasRecursion())
 					&& !tempElementType.isCompatible(timestamp, tempTypeElementType, infoTemp, lChain, rChain)) {
@@ -349,7 +350,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
@@ -359,8 +360,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return false;
 		}
 
-		Array_Type other = (Array_Type) temp;
-		boolean result = elementType != null && other.elementType != null && elementType.isIdentical(timestamp, other.elementType);
+		final Array_Type other = (Array_Type) temp;
+		final boolean result = elementType != null && other.elementType != null && elementType.isIdentical(timestamp, other.elementType);
 		return result && dimension != null && other.dimension != null && dimension.isIdentical(timestamp, other.dimension);
 	}
 
@@ -469,7 +470,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return;
 		}
 
-		int nofValues = lastValue.getNofComponents();
+		final int nofValues = lastValue.getNofComponents();
 
 		if (!dimension.getIsErroneous(timestamp) && dimension.getSize() < nofValues) {
 				originalValue.getLocation().reportSemanticError(MessageFormat.format(TOOMANYEXPECTED, dimension.getSize(), nofValues));
@@ -478,22 +479,22 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		if (lastValue.isIndexed()) {
 			boolean checkHoles = !dimension.getIsErroneous(timestamp) && Expected_Value_type.EXPECTED_CONSTANT.equals(expectedValue);
-			long arraySize = dimension.getSize();
+			final long arraySize = dimension.getSize();
 			BigInteger maxIndex = BigInteger.valueOf(-1);
-			Map<BigInteger, Integer> indexMap = new HashMap<BigInteger, Integer>(lastValue.getNofComponents());
+			final Map<BigInteger, Integer> indexMap = new HashMap<BigInteger, Integer>(lastValue.getNofComponents());
 			for (int i = 0, size = lastValue.getNofComponents(); i < size; i++) {
-				IValue component = lastValue.getValueByIndex(i);
-				Value index = lastValue.getIndexByIndex(i);
+				final IValue component = lastValue.getValueByIndex(i);
+				final Value index = lastValue.getIndexByIndex(i);
 				dimension.checkIndex(timestamp, index, expectedValue);
 
-				IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IValue indexLast = index.getValueRefdLast(timestamp, referenceChain);
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue indexLast = index.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 
 				if (indexLast.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(indexLast.getValuetype())) {
 					checkHoles = false;
 				} else {
-					BigInteger tempIndex = ((Integer_Value) indexLast).getValueValue();
+					final BigInteger tempIndex = ((Integer_Value) indexLast).getValueValue();
 					if (tempIndex.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 						index.getLocation().reportSemanticError(MessageFormat.format(
 								"A integer value less than `{0}'' was expected for indexing type `{1}'' instead of `{2}''",
@@ -516,7 +517,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				}
 
 				component.setMyGovernor(elementType);
-				IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
+				final IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
 				elementType.checkThisValue(timestamp, tempValue2,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
@@ -528,7 +529,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			}
 		} else {
 			if (!dimension.getIsErroneous(timestamp)) {
-				long arraySize = dimension.getSize();
+				final long arraySize = dimension.getSize();
 				if (arraySize > nofValues) {
 					originalValue.getLocation().reportSemanticError(MessageFormat.format(
 							"Too few elements in the array value: {0} was expected instead of {1}", arraySize, nofValues));
@@ -541,14 +542,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			}
 
 			for (int i = 0, size = lastValue.getNofComponents(); i < size; i++) {
-				IValue component = lastValue.getValueByIndex(i);
+				final IValue component = lastValue.getValueByIndex(i);
 				component.setMyGovernor(elementType);
 				if (Value_type.NOTUSED_VALUE.equals(component.getValuetype())) {
 					if (!incompleteAllowed) {
 						component.getLocation().reportSemanticError(AbstractOfType.INCOMPLETEPRESENTERROR);
 					}
 				} else {
-					IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
+					final IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
 					elementType.checkThisValue(timestamp, tempValue2,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
@@ -585,8 +586,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			}
 
 			if (!dimension.getIsErroneous(timestamp)) {
-				long arraySize = dimension.getSize();
-				int templateSize = ((Template_List) template).getNofTemplates();
+				final long arraySize = dimension.getSize();
+				final int templateSize = ((Template_List) template).getNofTemplates();
 				if (arraySize < templateSize) {
 					template.getLocation().reportSemanticError(MessageFormat.format(TOOMANYTEMPLATEELEMENTS, arraySize, templateSize));
 				} else if (arraySize > templateSize) {
@@ -594,7 +595,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				}
 			}
 
-			int nofComponents = ((Template_List) template).getNofTemplates();
+			final int nofComponents = ((Template_List) template).getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = ((Template_List) template).getTemplateByIndex(i);
 				templateComponent.setMyGovernor(elementType);
@@ -613,20 +614,20 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			break;
 		}
 		case INDEXED_TEMPLATE_LIST:	{
-			Map<Long, Integer> indexMap = new HashMap<Long, Integer>();
-			Indexed_Template_List indexedTemplateList = (Indexed_Template_List) template;
+			final Map<Long, Integer> indexMap = new HashMap<Long, Integer>();
+			final Indexed_Template_List indexedTemplateList = (Indexed_Template_List) template;
 			for (int i = 0; i < indexedTemplateList.getNofTemplates(); i++) {
-				IndexedTemplate indexedTemplate = indexedTemplateList.getIndexedTemplateByIndex(i);
-				Value indexValue = indexedTemplate.getIndex().getValue();
+				final IndexedTemplate indexedTemplate = indexedTemplateList.getIndexedTemplateByIndex(i);
+				final Value indexValue = indexedTemplate.getIndex().getValue();
 
 				dimension.checkIndex(timestamp, indexValue, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 				ITTCN3Template templateComponent = indexedTemplate.getTemplate();
 
-				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
+				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
 				chain.release();
 				if (Value_type.INTEGER_VALUE.equals(lastValue.getValuetype())) {
-					long index = ((Integer_Value) lastValue).getValue();
+					final long index = ((Integer_Value) lastValue).getValue();
 					if (index > Integer.MAX_VALUE) {
 						indexValue.getLocation().reportSemanticError(MessageFormat.format(
 								"An integer value less than `{0}'' was expected for indexing type `{1}'' instead of `{2}''",
@@ -674,7 +675,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		builder.append(dimension.createStringRepresentation());
 		IType temp = elementType;
 		while (temp != null && Type_type.TYPE_ARRAY.equals(temp.getTypetype())) {
-			Array_Type tempArray = (Array_Type) temp;
+			final Array_Type tempArray = (Array_Type) temp;
 			builder.append(tempArray.dimension.createStringRepresentation());
 			temp = tempArray.elementType;
 		}
@@ -690,17 +691,17 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex,
 			final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		Expected_Value_type internalExpectation = (expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
+		final Expected_Value_type internalExpectation = (expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
 				: expectedIndex;
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value indexValue = ((ArraySubReference) subreference).getValue();
+			final Value indexValue = ((ArraySubReference) subreference).getValue();
 			if (dimension != null) {
 				dimension.checkIndex(timestamp, indexValue, expectedIndex);
 			}
@@ -737,13 +738,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() < i) {
 			return;
 		} else if (subreferences.size() == i) {
-			ISubReference subreference = subreferences.get(i - 1);
+			final ISubReference subreference = subreferences.get(i - 1);
 			if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-				String candidate = ((FieldSubReference) subreference).getId().getDisplayName();
+				final String candidate = ((FieldSubReference) subreference).getId().getDisplayName();
 				propCollector.addTemplateProposal(candidate,
 						new Template(candidate + "[index]", candidate + " with index", propCollector.getContextIdentifier(),
 								candidate + "[${index}]", false), TTCN3CodeSkeletons.SKELETON_IMAGE);
@@ -751,7 +752,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1 && elementType != null) {
 				elementType.addProposal(propCollector, i + 1);
@@ -761,12 +762,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1 && elementType != null) {
 				elementType.addDeclaration(declarationCollector, i + 1);

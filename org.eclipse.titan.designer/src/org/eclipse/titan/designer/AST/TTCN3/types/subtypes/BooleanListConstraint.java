@@ -45,13 +45,13 @@ public final class BooleanListConstraint extends SubtypeConstraint {
 
 	@Override
 	public BooleanListConstraint intersection(final SubtypeConstraint other) {
-		BooleanListConstraint o = (BooleanListConstraint) other;
+		final BooleanListConstraint o = (BooleanListConstraint) other;
 		return new BooleanListConstraint(constraint & o.constraint);
 	}
 
 	@Override
 	public boolean isElement(final Object o) {
-		Boolean b = (Boolean) o;
+		final Boolean b = (Boolean) o;
 		return b ? ((constraint & ConstraintValue.TRUE.value()) != 0) : ((constraint & ConstraintValue.FALSE.value()) != 0);
 	}
 
@@ -62,7 +62,7 @@ public final class BooleanListConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		BooleanListConstraint o = (BooleanListConstraint) other;
+		final BooleanListConstraint o = (BooleanListConstraint) other;
 		return TernaryBool.fromBool(constraint == o.constraint);
 	}
 
@@ -88,7 +88,7 @@ public final class BooleanListConstraint extends SubtypeConstraint {
 
 	@Override
 	public BooleanListConstraint union(final SubtypeConstraint other) {
-		BooleanListConstraint o = (BooleanListConstraint) other;
+		final BooleanListConstraint o = (BooleanListConstraint) other;
 		return new BooleanListConstraint(constraint | o.constraint);
 	}
 

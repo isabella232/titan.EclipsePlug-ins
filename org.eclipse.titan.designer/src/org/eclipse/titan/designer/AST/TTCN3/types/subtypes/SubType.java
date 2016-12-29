@@ -174,7 +174,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			return true;
 		}
 
-		SubtypeConstraint intersectionSet = subtypeConstraint.intersection(other.subtypeConstraint);
+		final SubtypeConstraint intersectionSet = subtypeConstraint.intersection(other.subtypeConstraint);
 		return intersectionSet.isEmpty() != TernaryBool.TTRUE;
 	}
 
@@ -229,7 +229,8 @@ public final class SubType implements IIncrementallyUpdateable {
 			// it was already successfully added -> ignore
 			return true;
 		}
-		IReferenceChain refch = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+
+		final IReferenceChain refch = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		// current type
 		refch.add(myOwner);
 		// recursive check for all parents of referenced type
@@ -248,17 +249,18 @@ public final class SubType implements IIncrementallyUpdateable {
 	private boolean addTtcnSingle(final CompilationTimeStamp timestamp, final Value value, final int restrictionIndex) {
 		value.setMyScope(myOwner.getMyScope());
 		value.setMyGovernor(myOwner);
-		BridgingNamedNode bridge = new BridgingNamedNode(myOwner, myOwner.getTypename() + ".<single_restriction_" + restrictionIndex + ">");
+
+		final BridgingNamedNode bridge = new BridgingNamedNode(myOwner, myOwner.getTypename() + ".<single_restriction_" + restrictionIndex + ">");
 		value.setFullNameParent(bridge);
 		IValue last = myOwner.checkThisValueRef(timestamp, value);
 
 		// check if this is type reference, if not then fall through
-		IValue refValue = value.setLoweridToReference(timestamp);
+		final IValue refValue = value.setLoweridToReference(timestamp);
 		// Value ref_value = value.set_valuetype(timestamp,
 		// Value_type.REFERENCED_VALUE);
 		if (refValue.getValuetype() == Value.Value_type.REFERENCED_VALUE) {
-			Reference ref = ((Referenced_Value) refValue).getReference();
-			Assignment ass = ref.getRefdAssignment(timestamp, false);
+			final Reference ref = ((Referenced_Value) refValue).getReference();
+			final Assignment ass = ref.getRefdAssignment(timestamp, false);
 			if (ass == null) {
 				// definition was not found, error was reported
 				return false;
@@ -269,7 +271,8 @@ public final class SubType implements IIncrementallyUpdateable {
 				if (t.getIsErroneous(timestamp)) {
 					return false;
 				}
-				List<ISubReference> subrefs = ref.getSubreferences();
+
+				final List<ISubReference> subrefs = ref.getSubreferences();
 				if (subrefs.size() > 1) {
 					// if there were sub-references then get the referenced field's type
 					t = t.getFieldType(timestamp, ref, 1, Expected_Value_type.EXPECTED_CONSTANT, false);
@@ -290,7 +293,7 @@ public final class SubType implements IIncrementallyUpdateable {
 					return false;
 				}
 				// check subtype of referenced type
-				SubType tSt = t.getSubtype();
+				final SubType tSt = t.getSubtype();
 				if ((tSt == null) || (tSt.subtypeConstraint == null)) {
 					value.getLocation().reportSemanticError(
 							MessageFormat.format("Type referenced by `{0}'' does not have a subtype",
@@ -322,7 +325,7 @@ public final class SubType implements IIncrementallyUpdateable {
 
 		myOwner.checkThisValue(timestamp, last, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false,
 				false));
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		last = last.getValueRefdLast(timestamp, chain);
 		chain.release();
 		if (last.getIsErroneous(timestamp) || last.isUnfoldable(timestamp)) {
@@ -478,7 +481,7 @@ public final class SubType implements IIncrementallyUpdateable {
 		case ST_INTEGER: {
 			IntegerLimit minLimit;
 			if (Value_type.REAL_VALUE.equals(vmin.getValuetype())) {
-				Real_Value real = (Real_Value) vmin;
+				final Real_Value real = (Real_Value) vmin;
 				if (real.isNegativeInfinity()) {
 					minLimit = IntegerLimit.MINIMUM;
 				} else {
@@ -489,7 +492,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			}
 			IntegerLimit maxLimit;
 			if (Value_type.REAL_VALUE.equals(vmax.getValuetype())) {
-				Real_Value real = (Real_Value) vmax;
+				final Real_Value real = (Real_Value) vmax;
 				if (real.isPositiveInfinity()) {
 					maxLimit = IntegerLimit.MAXIMUM;
 				} else {
@@ -585,7 +588,7 @@ public final class SubType implements IIncrementallyUpdateable {
 				minString = ((Charstring_Value) vmin).getValue();
 				break;
 			case UNIVERSALCHARSTRING_VALUE: {
-				UniversalCharstring ustr = ((UniversalCharstring_Value) vmin).getValue();
+				final UniversalCharstring ustr = ((UniversalCharstring_Value) vmin).getValue();
 				if ((ustr.length() < 1) || !ustr.get(0).isValidChar()) {
 					min.getLocation().reportSemanticError("lower boundary of charstring subtype range is not a valid char");
 					return false;
@@ -602,7 +605,7 @@ public final class SubType implements IIncrementallyUpdateable {
 				maxString = ((Charstring_Value) vmax).getValue();
 				break;
 			case UNIVERSALCHARSTRING_VALUE: {
-				UniversalCharstring ustr = ((UniversalCharstring_Value) vmax).getValue();
+				final UniversalCharstring ustr = ((UniversalCharstring_Value) vmax).getValue();
 				if ((ustr.length() < 1) || !ustr.get(0).isValidChar()) {
 					max.getLocation().reportSemanticError("upper boundary of charstring subtype range is not a valid char");
 					return false;
@@ -727,7 +730,7 @@ public final class SubType implements IIncrementallyUpdateable {
 	}
 
 	private boolean checkBoundaryValid(final IValue boundary, final String boundaryName) {
-		BigInteger lowerInt = ((Integer_Value) boundary).getValueValue();
+		final BigInteger lowerInt = ((Integer_Value) boundary).getValueValue();
 		if (lowerInt.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 			boundary.getLocation().reportSemanticError(
 					MessageFormat.format("The {0} should be less than `{1}'' instead of `{2}''", boundaryName, Integer.MAX_VALUE,
@@ -767,14 +770,14 @@ public final class SubType implements IIncrementallyUpdateable {
 			return false;
 		}
 		subtypeConstraint = (subtypeConstraint == null) ? sc : subtypeConstraint.intersection(sc);
-		RangeListConstraint lr = new RangeListConstraint(min, max);
+		final RangeListConstraint lr = new RangeListConstraint(min, max);
 		lengthRestriction = ((lengthRestriction == null) ? lr : lengthRestriction.intersection(lr));
 		return true;
 	}
 
 	private boolean addTtcnLength(final CompilationTimeStamp timestamp, final LengthRestriction lengthRestriction, final int restrictionIndex) {
 		lengthRestriction.setMyScope(myOwner.getMyScope());
-		BridgingNamedNode bridge = new BridgingNamedNode(myOwner, myOwner.getFullName() + ".<length_restriction_" + restrictionIndex + ">");
+		final BridgingNamedNode bridge = new BridgingNamedNode(myOwner, myOwner.getFullName() + ".<length_restriction_" + restrictionIndex + ">");
 		lengthRestriction.setFullNameParent(bridge);
 		lengthRestriction.check(timestamp, Expected_Value_type.EXPECTED_CONSTANT);
 
@@ -788,7 +791,8 @@ public final class SubType implements IIncrementallyUpdateable {
 			if (!checkBoundaryValid(lower, "length restriction value")) {
 				return false;
 			}
-			SizeLimit boundaryLimit = new SizeLimit(((Integer_Value) lower).getValueValue());
+
+			final SizeLimit boundaryLimit = new SizeLimit(((Integer_Value) lower).getValueValue());
 			return setTtcnLength(boundaryLimit, boundaryLimit);
 		}
 
@@ -859,7 +863,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			boolean hasSingle = false, hasRange = false;
 			for (int i = 0, size = parsedRestrictions.size(); i < size; i++) {
 				boolean added = false;
-				ParsedSubType parsed = parsedRestrictions.get(i);
+				final ParsedSubType parsed = parsedRestrictions.get(i);
 				switch (parsed.getSubTypetype()) {
 				case SINGLE_PARSEDSUBTYPE:
 					hasSingle = true;
@@ -867,7 +871,7 @@ public final class SubType implements IIncrementallyUpdateable {
 					break;
 				case RANGE_PARSEDSUBTYPE:
 					hasRange = true;
-					Range_ParsedSubType rpst = (Range_ParsedSubType) parsed;
+					final Range_ParsedSubType rpst = (Range_ParsedSubType) parsed;
 					added = addTtcnRange(timestamp, rpst.getMin(), rpst.getMinExclusive(), rpst.getMax(), rpst.getMaxExclusive(),
 							i);
 					break;
@@ -999,7 +1003,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			return;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+		final IValue last = value.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 		if (last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -1017,7 +1021,7 @@ public final class SubType implements IIncrementallyUpdateable {
 				isValid = subtypeConstraint.isElement(((Real_Value) last).getValue());
 				break;
 			} else if (subtypeType == SubType_type.ST_INTEGER) {
-				Real_Value real = (Real_Value) last;
+				final Real_Value real = (Real_Value) last;
 				if (real.isNegativeInfinity()) {
 					isValid = subtypeConstraint.isElement(IntegerLimit.MINIMUM);
 					break;
@@ -1124,7 +1128,8 @@ public final class SubType implements IIncrementallyUpdateable {
 		if (template.getIsErroneous(timestamp)) {
 			return;
 		}
-		TTCN3Template t = template.getTemplateReferencedLast(timestamp);
+
+		final TTCN3Template t = template.getTemplateReferencedLast(timestamp);
 		if (t.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -1143,10 +1148,11 @@ public final class SubType implements IIncrementallyUpdateable {
 				if ((lengthRestriction == null) || (lengthRestriction.isEmpty() == TernaryBool.TTRUE)) {
 					break;
 				}
-				SizeLimit minLimit = (SizeLimit) lengthRestriction.getMinimal();
-				SizeLimit maxLimit = (SizeLimit) lengthRestriction.getMaximal();
-				Template_List list = (Template_List) template;
-				int fixComponents = list.getNofTemplatesNotAnyornone(timestamp);
+
+				final SizeLimit minLimit = (SizeLimit) lengthRestriction.getMinimal();
+				final SizeLimit maxLimit = (SizeLimit) lengthRestriction.getMaximal();
+				final Template_List list = (Template_List) template;
+				final int fixComponents = list.getNofTemplatesNotAnyornone(timestamp);
 				if (!list.templateContainsAnyornone() && (fixComponents < minLimit.getSize().intValue())) {
 					template.getLocation().reportSemanticError(
 							MessageFormat.format("At least {0} elements must be present in the list", minLimit.getSize()
@@ -1172,7 +1178,8 @@ public final class SubType implements IIncrementallyUpdateable {
 				template.getLocation().reportSemanticError(
 						"'superset' template matching mechanism can be used only with 'set of' types");
 			}
-			SupersetMatch_Template temp = (SupersetMatch_Template) template;
+
+			final SupersetMatch_Template temp = (SupersetMatch_Template) template;
 			for (int i = 0, size = temp.getNofTemplates(); i < size; i++) {
 				checkThisTemplateGeneric(timestamp, temp.getTemplateByIndex(i));
 			}
@@ -1183,7 +1190,8 @@ public final class SubType implements IIncrementallyUpdateable {
 				template.getLocation().reportSemanticError(
 						"'subset' template matching mechanism can be used only with 'set of' types");
 			}
-			SubsetMatch_Template temp = (SubsetMatch_Template) template;
+
+			final SubsetMatch_Template temp = (SubsetMatch_Template) template;
 			for (int i = 0, size = temp.getNofTemplates(); i < size; i++) {
 				checkThisTemplateGeneric(timestamp, temp.getTemplateByIndex(i));
 			}
@@ -1218,7 +1226,7 @@ public final class SubType implements IIncrementallyUpdateable {
 	}
 
 	private void checkThisTemplateLengthRestriction(final CompilationTimeStamp timestamp, final TTCN3Template template) {
-		LengthRestriction lengthRestriction = template.getLengthRestriction();
+		final LengthRestriction lengthRestriction = template.getLengthRestriction();
 		if ((lengthRestriction == null) || (subtypeConstraint == null)) {
 			return;
 		}
@@ -1229,35 +1237,39 @@ public final class SubType implements IIncrementallyUpdateable {
 		lengthRestriction.check(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 
 		if (lengthRestriction instanceof SingleLenghtRestriction) {
-			SingleLenghtRestriction realRestriction = (SingleLenghtRestriction) lengthRestriction;
-			IValue lower = realRestriction.getRestriction(timestamp);
+			final SingleLenghtRestriction realRestriction = (SingleLenghtRestriction) lengthRestriction;
+			final IValue lower = realRestriction.getRestriction(timestamp);
 			if (lower.getIsErroneous(timestamp)) {
 				return;
 			}
-			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue last = lower.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, chain);
+
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = lower.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, chain);
 			chain.release();
 			if (!Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
 				return;
 			}
-			BigInteger length = ((Integer_Value) last).getValueValue();
+
+			final BigInteger length = ((Integer_Value) last).getValueValue();
 			tmplMinLen = new SizeLimit(length);
 			tmplMaxLen = tmplMinLen;
 		} else {
-			RangeLenghtRestriction realRestriction = (RangeLenghtRestriction) lengthRestriction;
-			IValue lower = realRestriction.getLowerValue(timestamp);
+			final RangeLenghtRestriction realRestriction = (RangeLenghtRestriction) lengthRestriction;
+			final IValue lower = realRestriction.getLowerValue(timestamp);
 			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue lastLower = lower.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, chain);
+			final IValue lastLower = lower.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, chain);
 			chain.release();
 			if (lastLower.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(lastLower.getValuetype())) {
 				return;
 			}
-			IValue upper = realRestriction.getUpperValue(timestamp);
+
+			final IValue upper = realRestriction.getUpperValue(timestamp);
 			if (upper == null) {
 				return;
 			}
+
 			chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue lastUpper = upper.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, chain);
+			final IValue lastUpper = upper.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, chain);
 			chain.release();
 			if (lastUpper.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(lastUpper.getValuetype())) {
 				return;
@@ -1306,8 +1318,9 @@ public final class SubType implements IIncrementallyUpdateable {
 		if ((lengthRestriction == null) || (lengthRestriction.isEmpty() == TernaryBool.TTRUE)) {
 			return;
 		}
-		SizeLimit minLimit = (SizeLimit) lengthRestriction.getMinimal();
-		SizeLimit maxLimit = (SizeLimit) lengthRestriction.getMaximal();
+
+		final SizeLimit minLimit = (SizeLimit) lengthRestriction.getMinimal();
+		final SizeLimit maxLimit = (SizeLimit) lengthRestriction.getMaximal();
 		if ((pattMinLength < minLimit.getSize().intValue()) && !pattHasAnyornone) {
 			template.getLocation().reportSemanticError(
 					MessageFormat.format("At least {0} string elements must be present in the {1}",
@@ -1339,11 +1352,12 @@ public final class SubType implements IIncrementallyUpdateable {
 			return myOwner.getLocation();
 		}
 		if (parsedRestrictions.size() == 1) {
-			Location loc = parsedRestrictions.get(0).getLocation();
+			final Location loc = parsedRestrictions.get(0).getLocation();
 			return (loc == null) ? myOwner.getLocation() : loc;
 		}
-		Location startLoc = parsedRestrictions.get(0).getLocation();
-		Location endLoc = parsedRestrictions.get(parsedRestrictions.size() - 1).getLocation();
+
+		final Location startLoc = parsedRestrictions.get(0).getLocation();
+		final Location endLoc = parsedRestrictions.get(parsedRestrictions.size() - 1).getLocation();
 		if ((startLoc == null) || (endLoc == null)) {
 			return myOwner.getLocation();
 		}
@@ -1370,7 +1384,7 @@ public final class SubType implements IIncrementallyUpdateable {
 
 		if (parsedRestrictions != null) {
 			for (int i = 0, size = parsedRestrictions.size(); i < size; i++) {
-				ParsedSubType parsed = parsedRestrictions.get(i);
+				final ParsedSubType parsed = parsedRestrictions.get(i);
 				parsed.updateSyntax(reparser, isDamaged);
 			}
 		}

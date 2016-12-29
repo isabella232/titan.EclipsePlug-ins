@@ -61,7 +61,7 @@ public final class Float_Type extends ASN1Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -135,7 +135,7 @@ public final class Float_Type extends ASN1Type {
 
 		if (value.isAsn()) {
 			if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
-				IType lastType = last.getMyGovernor().getTypeRefdLast(timestamp);
+				final IType lastType = last.getMyGovernor().getTypeRefdLast(timestamp);
 				if (!lastType.getIsErroneous(timestamp) && !Type_type.TYPE_REAL.equals(lastType.getTypetype())) {
 					value.getLocation().reportSemanticError(REALVALUEEXPECTED);
 					value.setIsErroneous(true);
@@ -147,8 +147,8 @@ public final class Float_Type extends ASN1Type {
 				break;
 			case UNDEFINED_BLOCK: {
 				last = last.setValuetype(timestamp, Value_type.SEQUENCE_VALUE);
-				Identifier identifier = new Identifier(Identifier_type.ID_ASN, "REAL");
-				Assignment assignment = getMyScope().getAssignmentsScope().getLocalAssignmentByID(timestamp, identifier);
+				final Identifier identifier = new Identifier(Identifier_type.ID_ASN, "REAL");
+				final Assignment assignment = getMyScope().getAssignmentsScope().getLocalAssignmentByID(timestamp, identifier);
 				((Type_Assignment) assignment).getType(timestamp).checkThisValue(
 						timestamp, last, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT,
 								false, false, true, false, valueCheckingOptions.str_elem));
@@ -201,9 +201,9 @@ public final class Float_Type extends ASN1Type {
 		}
 
 		if (Template_type.VALUE_RANGE.equals(template.getTemplatetype())) {
-			ValueRange range = ((Value_Range_Template) template).getValueRange();
-			IValue lower = checkBoundary(timestamp, range.getMin());
-			IValue upper = checkBoundary(timestamp, range.getMax());
+			final ValueRange range = ((Value_Range_Template) template).getValueRange();
+			final IValue lower = checkBoundary(timestamp, range.getMin());
+			final IValue upper = checkBoundary(timestamp, range.getMax());
 
 			if (lower != null && upper != null) {
 				if (((Real_Value) lower).getValue() > ((Real_Value) upper).getValue()) {
@@ -242,12 +242,12 @@ public final class Float_Type extends ASN1Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));

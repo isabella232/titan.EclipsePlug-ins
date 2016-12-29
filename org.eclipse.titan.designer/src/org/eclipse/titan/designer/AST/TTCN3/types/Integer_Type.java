@@ -58,7 +58,7 @@ public final class Integer_Type extends Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -111,7 +111,7 @@ public final class Integer_Type extends Type {
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -170,7 +170,7 @@ public final class Integer_Type extends Type {
 		super.checkThisValue(
 				timestamp, value, new ValueCheckingOptions(expectedValue, incompleteAllowed, omitAllowed, subCheck, implicitOmit, false));
 
-		IValue last = value.getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = value.getValueRefdLast(timestamp, expectedValue, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -193,7 +193,7 @@ public final class Integer_Type extends Type {
 		case INTEGER_VALUE:
 			break;
 		case REAL_VALUE: {
-			Real_Value real = (Real_Value) last;
+			final Real_Value real = (Real_Value) last;
 			if (!real.isNegativeInfinity() && !real.isPositiveInfinity()) {
 				value.getLocation().reportSemanticError(INTEGERVALUEEXPECTED);
 				value.setIsErroneous(true);
@@ -229,9 +229,9 @@ public final class Integer_Type extends Type {
 
 		switch (template.getTemplatetype()) {
 		case VALUE_RANGE:
-			ValueRange range = ((Value_Range_Template) template).getValueRange();
-			IValue lower = checkBoundary(timestamp, range.getMin(),BOUNDARY_TYPE.LOWER);
-			IValue upper = checkBoundary(timestamp, range.getMax(),BOUNDARY_TYPE.UPPER);
+			final ValueRange range = ((Value_Range_Template) template).getValueRange();
+			final IValue lower = checkBoundary(timestamp, range.getMin(),BOUNDARY_TYPE.LOWER);
+			final IValue upper = checkBoundary(timestamp, range.getMax(),BOUNDARY_TYPE.UPPER);
 
 			// Template references are not checked.
 			if (lower != null && Value.Value_type.INTEGER_VALUE.equals(lower.getValuetype()) && upper != null
@@ -243,9 +243,9 @@ public final class Integer_Type extends Type {
 			}
 			break;
 		case VALUE_LIST:
-			ValueList_Template temp = (ValueList_Template) template;
+			final ValueList_Template temp = (ValueList_Template) template;
 			for (int i = 0; i < temp.getNofTemplates(); i++){
-				TTCN3Template tmp = temp.getTemplateByIndex(i).getTemplate();
+				final TTCN3Template tmp = temp.getTemplateByIndex(i).getTemplate();
 				checkThisTemplate(timestamp,tmp,isModified,implicitOmit);
 			}
 			break;
@@ -308,12 +308,12 @@ public final class Integer_Type extends Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));

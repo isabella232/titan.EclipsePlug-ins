@@ -54,13 +54,13 @@ public final class RealRangeListConstraint extends SubtypeConstraint {
 
 	@Override
 	public RealRangeListConstraint intersection(final SubtypeConstraint other) {
-		RealRangeListConstraint o = (RealRangeListConstraint) other;
+		final RealRangeListConstraint o = (RealRangeListConstraint) other;
 		return new RealRangeListConstraint(hasNan && o.hasNan, rlc.intersection(o.rlc));
 	}
 
 	@Override
 	public boolean isElement(final Object o) {
-		Double d = (Double) o;
+		final Double d = (Double) o;
 		if (d.isNaN()) {
 			return hasNan;
 		}
@@ -75,7 +75,7 @@ public final class RealRangeListConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		RealRangeListConstraint o = (RealRangeListConstraint) other;
+		final RealRangeListConstraint o = (RealRangeListConstraint) other;
 		return rlc.isEqual(o.rlc).and(TernaryBool.fromBool(hasNan == o.hasNan));
 	}
 
@@ -99,7 +99,7 @@ public final class RealRangeListConstraint extends SubtypeConstraint {
 
 	@Override
 	public RealRangeListConstraint union(final SubtypeConstraint other) {
-		RealRangeListConstraint o = (RealRangeListConstraint) other;
+		final RealRangeListConstraint o = (RealRangeListConstraint) other;
 		return new RealRangeListConstraint(hasNan || o.hasNan, rlc.union(o.rlc));
 	}
 

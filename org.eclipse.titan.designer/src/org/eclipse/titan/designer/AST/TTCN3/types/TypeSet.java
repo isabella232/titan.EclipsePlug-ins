@@ -74,7 +74,7 @@ public final class TypeSet extends ASTNode {
 			return false;
 		}
 
-		IType tempType = type.getTypeRefdLast(timestamp);
+		final IType tempType = type.getTypeRefdLast(timestamp);
 		if (tempType.getIsErroneous(timestamp)) {
 			return true;
 		}

@@ -112,8 +112,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType t1 = getTypeRefdLast(timestamp);
-		IType t2 = otherType.getTypeRefdLast(timestamp);
+		final IType t1 = getTypeRefdLast(timestamp);
+		final IType t2 = otherType.getTypeRefdLast(timestamp);
 
 		if (t1.getIsErroneous(timestamp) || t2.getIsErroneous(timestamp)) {
 			return true;
@@ -126,8 +126,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType t1 = getTypeRefdLast(timestamp);
-		IType t2 = type.getTypeRefdLast(timestamp);
+		final IType t1 = getTypeRefdLast(timestamp);
+		final IType t2 = type.getTypeRefdLast(timestamp);
 
 		if (t1.getIsErroneous(timestamp) || t2.getIsErroneous(timestamp)) {
 			return true;
@@ -171,9 +171,9 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		if (refdLast != null && this != refdLast && !getIsErroneous(timestamp)) {
-			Expected_Value_type internalExpectation =
+			final Expected_Value_type internalExpectation =
 					expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : expectedIndex;
-			IType temp = refdLast.getFieldType(timestamp, reference, actualSubReference, internalExpectation, refChain, interruptIfOptional);
+			final IType temp = refdLast.getFieldType(timestamp, reference, actualSubReference, internalExpectation, refChain, interruptIfOptional);
 			if (reference.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
 			}
@@ -219,7 +219,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		if (ass != null && Assignment_type.A_TYPE.equals(ass.getAssignmentType())) {
 			if (ass instanceof Def_Type) {
-				Def_Type defType = (Def_Type) ass;
+				final Def_Type defType = (Def_Type) ass;
 				return builder.append(defType.getIdentifier().getDisplayName());
 			} else if (ass instanceof Type_Assignment) {
 				return builder.append(((Type_Assignment) ass).getIdentifier().getDisplayName());
@@ -264,9 +264,10 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		if (constraints != null) {
 			constraints.check(timestamp);
 		}
-		IType typeLast = getTypeRefdLast(timestamp);
-		IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IType typeParent = getTypeRefd(timestamp, tempReferenceChain);
+
+		final IType typeLast = getTypeRefdLast(timestamp);
+		final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IType typeParent = getTypeRefd(timestamp, tempReferenceChain);
 		tempReferenceChain.release();
 		if (!typeLast.getIsErroneous(timestamp) && !typeParent.getIsErroneous(timestamp)) {
 			checkSubtypeRestrictions(timestamp, typeLast.getSubtypeType(), typeParent.getSubtype());
@@ -275,7 +276,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
-		IType last = getTypeRefdLast(timestamp);
+		final IType last = getTypeRefdLast(timestamp);
 
 		if (last != null && !last.getIsErroneous(timestamp) && last != this) {
 			last.checkComponentInternal(timestamp, typeSet, operation);
@@ -285,7 +286,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	public void checkEmbedded(final CompilationTimeStamp timestamp, final Location errorLocation, final boolean defaultAllowed,
 			final String errorMessage) {
-		IType last = getTypeRefdLast(timestamp);
+		final IType last = getTypeRefdLast(timestamp);
 
 		if (last != null && !last.getIsErroneous(timestamp) && last != this) {
 			last.checkEmbedded(timestamp, errorLocation, defaultAllowed, errorMessage);
@@ -295,8 +296,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
-			IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IType refd = getTypeRefd(timestamp, tempReferenceChain);
+			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType refd = getTypeRefd(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
 
 			if (refd == null || this.equals(refd)) {
@@ -315,14 +316,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return;
 		}
 
-		IType tempType = getTypeRefdLast(timestamp);
+		final IType tempType = getTypeRefdLast(timestamp);
 		if (tempType != this) {
 			tempType.checkThisValue(timestamp, value, new ValueCheckingOptions(valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.omit_allowed, false, valueCheckingOptions.implicit_omit,
 					valueCheckingOptions.str_elem));
-			Definition def = value.getDefiningAssignment();
+			final Definition def = value.getDefiningAssignment();
 			if (def != null) {
-				String referingModuleName = getMyScope().getModuleScope().getName();
+				final String referingModuleName = getMyScope().getModuleScope().getName();
 				if (!def.referingHere.contains(referingModuleName)) {
 					def.referingHere.add(referingModuleName);
 				}
@@ -345,7 +346,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		registerUsage(template);
 
-		IType tempType = getTypeRefdLast(timestamp);
+		final IType tempType = getTypeRefdLast(timestamp);
 		if (tempType != this) {
 			tempType.checkThisTemplate(timestamp, template, isModified, implicitOmit);
 		}
@@ -390,7 +391,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				break;
 			}
 			case A_VS: {
-				IType tempType = ass.getType(timestamp);
+				final IType tempType = ass.getType(timestamp);
 				if (tempType == null) {
 					isErroneous = true;
 					lastTimeChecked = timestamp;
@@ -403,7 +404,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			case A_OC:
 			case A_OBJECT:
 			case A_OS:
-				ISetting setting = reference.getRefdSetting(timestamp);
+				final ISetting setting = reference.getRefdSetting(timestamp);
 				if (setting == null || setting.getIsErroneous(timestamp)) {
 					isErroneous = true;
 					lastTimeChecked = timestamp;
@@ -459,8 +460,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
-			IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IType t = getTypeRefd(timestamp, tempReferenceChain);
+			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType t = getTypeRefd(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
 
 			if (t != null && !t.getIsErroneous(timestamp) && !this.equals(t)) {

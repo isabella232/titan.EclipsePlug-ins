@@ -53,7 +53,7 @@ public final class OctetString_Type extends ASN1Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -128,7 +128,7 @@ public final class OctetString_Type extends ASN1Type {
 
 		if (last.isAsn()) {
 			if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
-				IType lastType = last.getMyGovernor().getTypeRefdLast(timestamp);
+				final IType lastType = last.getMyGovernor().getTypeRefdLast(timestamp);
 				if (!lastType.getIsErroneous(timestamp) && !Type_type.TYPE_OCTETSTRING.equals(lastType.getTypetype())) {
 					value.getLocation().reportSemanticError(OCTETSTRINGVALUEEXPECTED1);
 					value.setIsErroneous(true);
@@ -195,12 +195,12 @@ public final class OctetString_Type extends ASN1Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			if (subreferences.size() > actualSubReference + 1) {
@@ -233,12 +233,12 @@ public final class OctetString_Type extends ASN1Type {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() == i + 1) {
 				declarationCollector.addDeclaration("octetstring", location, this);

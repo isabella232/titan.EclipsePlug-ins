@@ -73,13 +73,13 @@ public final class VerdicttypeListConstraint extends SubtypeConstraint {
 
 	@Override
 	public VerdicttypeListConstraint intersection(final SubtypeConstraint other) {
-		VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
+		final VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
 		return new VerdicttypeListConstraint(constraint & o.constraint);
 	}
 
 	@Override
 	public boolean isElement(final Object o) {
-		Verdict_Value.Verdict_type vt = (Verdict_Value.Verdict_type) o;
+		final Verdict_Value.Verdict_type vt = (Verdict_Value.Verdict_type) o;
 		switch (vt) {
 		case ERROR:
 			return (constraint & ConstraintValue.ERROR.value()) != 0;
@@ -103,7 +103,7 @@ public final class VerdicttypeListConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
+		final VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
 		return TernaryBool.fromBool(constraint == o.constraint);
 	}
 
@@ -130,7 +130,7 @@ public final class VerdicttypeListConstraint extends SubtypeConstraint {
 
 	@Override
 	public VerdicttypeListConstraint union(final SubtypeConstraint other) {
-		VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
+		final VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
 		return new VerdicttypeListConstraint(constraint | o.constraint);
 	}
 

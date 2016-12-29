@@ -57,7 +57,8 @@ public final class Array_Value extends Value {
 				if (i > 0) {
 					builder.append(", ");
 				}
-				IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
+
+				final IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
 				builder.append(indexedValue.createStringRepresentation());
 			}
 		} else {
@@ -65,7 +66,8 @@ public final class Array_Value extends Value {
 				if (i > 0) {
 					builder.append(", ");
 				}
-				IValue indexedValue = values.getValueByIndex(i);
+
+				final IValue indexedValue = values.getValueByIndex(i);
 				builder.append(indexedValue.createStringRepresentation());
 			}
 		}
@@ -86,33 +88,33 @@ public final class Array_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp) || !Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
 			return null;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
 			if (valueIndex.isUnfoldable(timestamp)) {
 				return null;
 			}
 
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-				ArrayDimension dimension = ((Array_Type) type).getDimension();
+				final ArrayDimension dimension = ((Array_Type) type).getDimension();
 				dimension.checkIndex(timestamp, valueIndex, Expected_Value_type.EXPECTED_CONSTANT);
 				if (dimension.getIsErroneous(timestamp)) {
 					return null;
 				}
 
-				int index = ((Integer_Value) valueIndex).intValue();
+				final int index = ((Integer_Value) valueIndex).intValue();
 				if (isIndexed()) {
 					for (int i = 0; i < values.getNofIndexedValues(); i++) {
 						IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
@@ -221,15 +223,15 @@ public final class Array_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (!Value_type.ARRAY_VALUE.equals(last.getValuetype())) {
 			return false;
 		}
 
-		Array_Value otherArray = (Array_Value) last;
+		final Array_Value otherArray = (Array_Value) last;
 		if (values.isIndexed()) {
 			if (otherArray.isIndexed()) {
 				if (values.getNofIndexedValues() != otherArray.values.getNofIndexedValues()) {
@@ -237,11 +239,11 @@ public final class Array_Value extends Value {
 				}
 
 				for (int i = 0, size = values.getNofIndexedValues(); i < size; i++) {
-					IndexedValue localTemp = values.getIndexedValueByIndex(i);
-					IValue indexValue = localTemp.getIndex().getValue();
+					final IndexedValue localTemp = values.getIndexedValueByIndex(i);
+					final IValue indexValue = localTemp.getIndex().getValue();
 					if (Value_type.INTEGER_VALUE.equals(indexValue.getValuetype())) {
-						Integer_Value integerValue = (Integer_Value) indexValue;
-						IValue otherValue = otherArray.values.getIndexedValueByRealIndex(integerValue.intValue());
+						final Integer_Value integerValue = (Integer_Value) indexValue;
+						final IValue otherValue = otherArray.values.getIndexedValueByRealIndex(integerValue.intValue());
 						if (otherValue == null || !localTemp.getValue().checkEquality(timestamp, otherValue)) {
 							return false;
 						}
@@ -255,7 +257,7 @@ public final class Array_Value extends Value {
 				}
 
 				for (int i = 0, size = otherArray.values.getNofValues(); i < size; i++) {
-					IValue value = values.getIndexedValueByRealIndex(i);
+					final IValue value = values.getIndexedValueByRealIndex(i);
 					if (value == null || !otherArray.values.getValueByIndex(i).checkEquality(timestamp, value)) {
 						return false;
 					}
@@ -268,7 +270,7 @@ public final class Array_Value extends Value {
 				}
 
 				for (int i = 0, size = values.getNofValues(); i < size; i++) {
-					IValue otherValue = otherArray.values.getIndexedValueByRealIndex(i);
+					final IValue otherValue = otherArray.values.getIndexedValueByRealIndex(i);
 					if (otherValue == null || !values.getValueByIndex(i).checkEquality(timestamp, otherValue)) {
 						return false;
 					}
@@ -316,29 +318,29 @@ public final class Array_Value extends Value {
 
 	@Override
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp) || !Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
 			IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
 			referenceChain.release();
 			if (valueIndex.isUnfoldable(timestamp)) {
 				return false;
 			}
 
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-				int index = ((Integer_Value) valueIndex).intValue();
+				final int index = ((Integer_Value) valueIndex).intValue();
 
 				if (isIndexed()) {
 					for (int i = 0; i < values.getNofIndexedValues(); i++) {
@@ -375,29 +377,29 @@ public final class Array_Value extends Value {
 
 	@Override
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp) || !Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
 			IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
 			referenceChain.release();
 			if (valueIndex.isUnfoldable(timestamp)) {
 				return false;
 			}
 
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-				int index = ((Integer_Value) valueIndex).intValue();
+				final int index = ((Integer_Value) valueIndex).intValue();
 
 				if (isIndexed()) {
 					for (int i = 0; i < values.getNofIndexedValues(); i++) {

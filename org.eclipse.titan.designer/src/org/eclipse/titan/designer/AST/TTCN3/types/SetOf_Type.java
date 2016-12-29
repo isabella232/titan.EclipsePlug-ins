@@ -71,7 +71,7 @@ public final class SetOf_Type extends AbstractOfType {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType lastOtherType = otherType.getTypeRefdLast(timestamp);
+		final IType lastOtherType = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || lastOtherType.getIsErroneous(timestamp) || this == lastOtherType) {
 			return true;
@@ -80,7 +80,7 @@ public final class SetOf_Type extends AbstractOfType {
 		if (info == null || noStructuredTypeCompatibility) {
 			//There is another chance to be compatible:
 			//If records of/sets of are strongly compatible, then the records of/sets of are compatible
-			IType last = getTypeRefdLast(timestamp);
+			final IType last = getTypeRefdLast(timestamp);
 			return last.isStronglyCompatible(timestamp, lastOtherType, info, leftChain, rightChain);
 		}
 
@@ -90,8 +90,9 @@ public final class SetOf_Type extends AbstractOfType {
 				info.setErrorStr("Incompatible set of/SET OF subtypes");
 				return false;
 			}
-			ASN1_Set_Type tempType = (ASN1_Set_Type) lastOtherType;
-			int tempTypeNofComps = tempType.getNofComponents(timestamp);
+
+			final ASN1_Set_Type tempType = (ASN1_Set_Type) lastOtherType;
+			final int tempTypeNofComps = tempType.getNofComponents(timestamp);
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
@@ -106,10 +107,10 @@ public final class SetOf_Type extends AbstractOfType {
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < tempTypeNofComps; i++) {
-				CompField tempTypeCf = tempType.getComponentByIndex(i);
-				IType ofType = getOfType().getTypeRefdLast(timestamp);
-				IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				final IType ofType = getOfType().getTypeRefdLast(timestamp);
+				final IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
 				lChain.markState();
 				rChain.markState();
 				lChain.add(ofType);
@@ -139,8 +140,9 @@ public final class SetOf_Type extends AbstractOfType {
 				info.setErrorStr("Incompatible set of/SET OF subtypes");
 				return false;
 			}
-			TTCN3_Set_Type tempType = (TTCN3_Set_Type) lastOtherType;
-			int tempTypeNofComps = tempType.getNofComponents();
+
+			final TTCN3_Set_Type tempType = (TTCN3_Set_Type) lastOtherType;
+			final int tempTypeNofComps = tempType.getNofComponents();
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
@@ -155,10 +157,10 @@ public final class SetOf_Type extends AbstractOfType {
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < tempTypeNofComps; i++) {
-				CompField tempTypeCf = tempType.getComponentByIndex(i);
-				IType ofType = getOfType().getTypeRefdLast(timestamp);
-				IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				final IType ofType = getOfType().getTypeRefdLast(timestamp);
+				final IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
 				lChain.markState();
 				rChain.markState();
 				lChain.add(ofType);
@@ -188,12 +190,14 @@ public final class SetOf_Type extends AbstractOfType {
 				info.setErrorStr("Incompatible set of/SET OF subtypes");
 				return false;
 			}
-			SetOf_Type tempType = (SetOf_Type) lastOtherType;
+
+			final SetOf_Type tempType = (SetOf_Type) lastOtherType;
 			if (this == tempType) {
 				return true;
 			}
-			IType ofType = getOfType().getTypeRefdLast(timestamp);
-			IType tempTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
+
+			final IType ofType = getOfType().getTypeRefdLast(timestamp);
+			final IType tempTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
 			TypeCompatibilityInfo.Chain lChain = leftChain;
 			TypeCompatibilityInfo.Chain rChain = rightChain;
 			if (lChain == null) {
@@ -208,7 +212,7 @@ public final class SetOf_Type extends AbstractOfType {
 			rChain.markState();
 			lChain.add(ofType);
 			rChain.add(tempTypeOfType);
-			TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeOfType, false);
+			final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeOfType, false);
 			if (!ofType.equals(tempTypeOfType) && !(lChain.hasRecursion() && rChain.hasRecursion())
 					&& !ofType.isCompatible(timestamp, tempTypeOfType, infoTemp, lChain, rChain)) {
 				if (info.getOp1RefStr().length() > 0) {
@@ -251,10 +255,10 @@ public final class SetOf_Type extends AbstractOfType {
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 
-		IType lastOtherType = otherType.getTypeRefdLast(timestamp);
+		final IType lastOtherType = otherType.getTypeRefdLast(timestamp);
 		if (Type_type.TYPE_SET_OF.equals(lastOtherType.getTypetype())) {
-			IType oftOther = ((SetOf_Type) lastOtherType).getOfType();
-			IType oft = getOfType().getTypeRefdLast(timestamp); // type of the
+			final IType oftOther = ((SetOf_Type) lastOtherType).getOfType();
+			final IType oft = getOfType().getTypeRefdLast(timestamp); // type of the
 																// fields
 			if (oft != null && oftOther != null) {
 				// For basic types pre-generated seq/set of is applied in titan:
@@ -387,8 +391,8 @@ public final class SetOf_Type extends AbstractOfType {
 			}
 			break;
 		case SUBSET_MATCH: {
-			SubsetMatch_Template subsetTemplate = (SubsetMatch_Template) template;
-			int nofComponents = subsetTemplate.getNofTemplates();
+			final SubsetMatch_Template subsetTemplate = (SubsetMatch_Template) template;
+			final int nofComponents = subsetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
@@ -401,8 +405,8 @@ public final class SetOf_Type extends AbstractOfType {
 			break;
 		}
 		case SUPERSET_MATCH: {
-			SupersetMatch_Template supersetTemplate = (SupersetMatch_Template) template;
-			int nofComponents = supersetTemplate.getNofTemplates();
+			final SupersetMatch_Template supersetTemplate = (SupersetMatch_Template) template;
+			final int nofComponents = supersetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
@@ -415,7 +419,7 @@ public final class SetOf_Type extends AbstractOfType {
 			break;
 		}
 		case TEMPLATE_LIST: {
-			Completeness_type completeness = template.getCompletenessConditionSeof(timestamp, isModified);
+			final Completeness_type completeness = template.getCompletenessConditionSeof(timestamp, isModified);
 			Template_List base = null;
 			int nofBaseComps = 0;
 			if (Completeness_type.PARTIAL.equals(completeness)) {
@@ -433,8 +437,8 @@ public final class SetOf_Type extends AbstractOfType {
 				nofBaseComps = base.getNofTemplates();
 			}
 
-			Template_List templateList = ((Template_List) template);
-			int nofComponents = templateList.getNofTemplates();
+			final Template_List templateList = ((Template_List) template);
+			final int nofComponents = templateList.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template component = templateList.getTemplateByIndex(i);
 				component.setMyGovernor(getOfType());
@@ -460,7 +464,7 @@ public final class SetOf_Type extends AbstractOfType {
 					}
 					break;
 				default:
-					boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
+					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
 							|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
 					component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit);
 					break;
@@ -469,18 +473,18 @@ public final class SetOf_Type extends AbstractOfType {
 			break;
 		}
 		case INDEXED_TEMPLATE_LIST: {
-			Map<Long, Integer> indexMap = new HashMap<Long, Integer>();
-			Indexed_Template_List indexedTemplateList = (Indexed_Template_List) template;
+			final Map<Long, Integer> indexMap = new HashMap<Long, Integer>();
+			final Indexed_Template_List indexedTemplateList = (Indexed_Template_List) template;
 			for (int i = 0; i < indexedTemplateList.getNofTemplates(); i++) {
-				IndexedTemplate indexedTemplate = indexedTemplateList.getIndexedTemplateByIndex(i);
-				Value indexValue = indexedTemplate.getIndex().getValue();
+				final IndexedTemplate indexedTemplate = indexedTemplateList.getIndexedTemplateByIndex(i);
+				final Value indexValue = indexedTemplate.getIndex().getValue();
 				ITTCN3Template templateComponent = indexedTemplate.getTemplate();
 
-				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
+				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
 				chain.release();
 				if (Value_type.INTEGER_VALUE.equals(lastValue.getValuetype())) {
-					long index = ((Integer_Value) lastValue).getValue();
+					final long index = ((Integer_Value) lastValue).getValue();
 					if (index > Integer.MAX_VALUE) {
 						indexValue.getLocation().reportSemanticError(
 								MessageFormat.format(SequenceOf_Type.TOOBIGINDEXTEMPLATE, Integer.MAX_VALUE,

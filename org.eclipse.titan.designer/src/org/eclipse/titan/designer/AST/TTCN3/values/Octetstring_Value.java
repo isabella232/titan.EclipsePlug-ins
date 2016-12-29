@@ -82,20 +82,20 @@ public final class Octetstring_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
 			if (!valueIndex.isUnfoldable(timestamp)) {
 				if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-					int index = ((Integer_Value) valueIndex).intValue();
+					final int index = ((Integer_Value) valueIndex).intValue();
 					return getStringElement(index, arrayIndex.getLocation());
 				}
 
@@ -152,8 +152,8 @@ public final class Octetstring_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		return Value_type.OCTETSTRING_VALUE.equals(last.getValuetype()) && value.equals(((Octetstring_Value) last).getValue());

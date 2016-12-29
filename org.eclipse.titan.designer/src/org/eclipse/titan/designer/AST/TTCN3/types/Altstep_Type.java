@@ -108,7 +108,7 @@ public final class Altstep_Type extends Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
@@ -121,7 +121,7 @@ public final class Altstep_Type extends Type {
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -198,11 +198,11 @@ public final class Altstep_Type extends Type {
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);
 			if (runsOnType != null) {
-				Scope formalParlistPreviosScope = formalParList.getParentScope();
+				final Scope formalParlistPreviosScope = formalParList.getParentScope();
 				if (formalParlistPreviosScope instanceof RunsOnScope && ((RunsOnScope) formalParlistPreviosScope).getParentScope() == myScope) {
 					((RunsOnScope) formalParlistPreviosScope).setComponentType(runsOnType);
 				} else {
-					Scope tempScope = new RunsOnScope(runsOnType, myScope);
+					final Scope tempScope = new RunsOnScope(runsOnType, myScope);
 					formalParList.setMyScope(tempScope);
 				}
 			}
@@ -228,7 +228,7 @@ public final class Altstep_Type extends Type {
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -271,18 +271,19 @@ public final class Altstep_Type extends Type {
 
 		formalParList.checkCompatibility(timestamp, altstep.getFormalParameterList(), value.getLocation());
 
-		IType temporalRunsOnType = altstep.getRunsOnType(timestamp);
+		final IType temporalRunsOnType = altstep.getRunsOnType(timestamp);
 		if (temporalRunsOnType != null) {
 			if (runsOnSelf) {
 				//check against the runs on component type of the scope of the value
-				Scope valueScope = value.getMyScope();
+				final Scope valueScope = value.getMyScope();
 				if (valueScope == null) {
 					value.setIsErroneous(true);
 					return;
 				}
-				RunsOnScope runsOnScope =  valueScope.getScopeRunsOn();
+
+				final RunsOnScope runsOnScope =  valueScope.getScopeRunsOn();
 				if (runsOnScope != null) {
-					Component_Type componentType = runsOnScope.getComponentType();
+					final Component_Type componentType = runsOnScope.getComponentType();
 					if (!runsOnType.isCompatible(timestamp, componentType, null, null, null)) {
 						value.getLocation().reportSemanticError(MessageFormat.format(
 								"Runs on clause mismatch: type `{0}'' has a `runs on self'' clause and the current scope "
@@ -294,7 +295,7 @@ public final class Altstep_Type extends Type {
 					// if the value's scope is a component body then check the runs on
 					// compatibility using this component type as the scope
 					if (valueScope instanceof ComponentTypeBody) {
-						ComponentTypeBody body = (ComponentTypeBody) valueScope;
+						final ComponentTypeBody body = (ComponentTypeBody) valueScope;
 						if (!runsOnType.isCompatible(timestamp, body.getMyType(), null, null, null)) {
 							value.getLocation().reportSemanticError(MessageFormat.format(
 									"Runs on clause mismatch: type `{0}'' has a `runs on self'' "
@@ -349,12 +350,12 @@ public final class Altstep_Type extends Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
@@ -382,7 +383,7 @@ public final class Altstep_Type extends Type {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() != i + 1 || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}

@@ -65,12 +65,12 @@ public final class Sequence_Value extends Value {
 	 * */
 	public static Sequence_Value convert(final CompilationTimeStamp timestamp, final SequenceOf_Value value) {
 		if (value.getMyGovernor() == null) {
-			Sequence_Value target = new Sequence_Value(null);
+			final Sequence_Value target = new Sequence_Value(null);
 			target.copyGeneralProperties(value);
 			return target;
 		}
 
-		IType t = value.getMyGovernor().getTypeRefdLast(timestamp);
+		final IType t = value.getMyGovernor().getTypeRefdLast(timestamp);
 		int nofComponents = 0;
 		switch (t.getTypetype()) {
 		case TYPE_TTCN3_SEQUENCE:
@@ -83,14 +83,14 @@ public final class Sequence_Value extends Value {
 			nofComponents = ((Signature_Type) t).getNofParameters();
 			break;
 		default:{
-			Sequence_Value target = new Sequence_Value(null);
+			final Sequence_Value target = new Sequence_Value(null);
 			target.copyGeneralProperties(value);
 			return target;
 		}
 		}
 
-		Values oldValues = value.getValues();
-		int nofValues = oldValues.getNofValues();
+		final Values oldValues = value.getValues();
+		final int nofValues = oldValues.getNofValues();
 		if (nofValues > nofComponents) {
 			value.getLocation().reportSemanticError(MessageFormat.format(TOOMANYELEMENTS, t.getTypename(), nofComponents, nofValues));
 			value.setIsErroneous(true);
@@ -106,11 +106,11 @@ public final class Sequence_Value extends Value {
 			allNotUsed = false;
 		}
 
-		NamedValues values = new NamedValues();
+		final NamedValues values = new NamedValues();
 		NamedValue namedValue;
 		Identifier identifier;
 		for (int i = 0; i < upperLimit; i++) {
-			IValue v = oldValues.getValueByIndex(i);
+			final IValue v = oldValues.getValueByIndex(i);
 			if (!Value_type.NOTUSED_VALUE.equals(v.getValuetype())) {
 				allNotUsed = false;
 				switch (t.getTypetype()) {
@@ -124,7 +124,7 @@ public final class Sequence_Value extends Value {
 					identifier = ((Signature_Type) t).getParameterIdentifierByIndex(i);
 					break;
 				default:{
-					Sequence_Value target = new Sequence_Value(null);
+					final Sequence_Value target = new Sequence_Value(null);
 					target.copyGeneralProperties(value);
 					return target;
 				}
@@ -142,7 +142,7 @@ public final class Sequence_Value extends Value {
 			value.getLocation().reportSemanticWarning(MessageFormat.format(ALLARENOTUSED, t.getTypename()));
 		}
 		
-		Sequence_Value target = new Sequence_Value(values);
+		final Sequence_Value target = new Sequence_Value(values);
 		target.copyGeneralProperties(value);
 		
 		return target;
@@ -156,12 +156,13 @@ public final class Sequence_Value extends Value {
 	@Override
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("{");
-		boolean isAsn1 = isAsn();
+		final boolean isAsn1 = isAsn();
 		for (int i = 0; i < values.getSize(); i++) {
 			if (i > 0) {
 				builder.append(", ");
 			}
-			NamedValue namedValue = values.getNamedValueByIndex(i);
+
+			final NamedValue namedValue = values.getNamedValueByIndex(i);
 			builder.append(namedValue.getName().getDisplayName());
 			if (isAsn1) {
 				builder.append(' ');
@@ -183,13 +184,13 @@ public final class Sequence_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
 		if (convertedValue != null && convertedValue != this) {
-			IValue temp = convertedValue.getReferencedSubValue(timestamp, reference, actualSubReference, refChain);
+			final IValue temp = convertedValue.getReferencedSubValue(timestamp, reference, actualSubReference, refChain);
 			if (temp != null && temp.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
 			}
@@ -197,18 +198,18 @@ public final class Sequence_Value extends Value {
 			return temp;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return null;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDVALUESUBREFERENCE, type.getTypename()));
 			return null;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				if (!((TTCN3_Sequence_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -237,12 +238,12 @@ public final class Sequence_Value extends Value {
 				return null;
 			}
 
-			CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
+			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
 				//create an explicit omit value
-				Value result = new Omit_Value();
+				final Value result = new Omit_Value();
 
-				BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
 				result.setFullNameParent(bridge);
 
 				result.setMyScope(getMyScope());
@@ -270,7 +271,7 @@ public final class Sequence_Value extends Value {
 		}
 
 		for (int i = 0; i < values.getSize(); i++) {
-			IValue temp = values.getNamedValueByIndex(i).getValue();
+			final IValue temp = values.getNamedValueByIndex(i).getValue();
 			if (temp == null || temp.isUnfoldable(timestamp, expectedValue, referenceChain)) {
 				return true;
 			}
@@ -419,8 +420,8 @@ public final class Sequence_Value extends Value {
 			return convertedValue.checkEquality(timestamp, other);
 		}
 
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (!Value_type.SEQUENCE_VALUE.equals(last.getValuetype())) {
@@ -431,13 +432,13 @@ public final class Sequence_Value extends Value {
 			return false;
 		}
 
-		Sequence_Value otherSequence = (Sequence_Value) last;
+		final Sequence_Value otherSequence = (Sequence_Value) last;
 		if (values.getSize() != otherSequence.values.getSize()) {
 			return false;
 		}
 
 		int nofComps = 0;
-		IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
+		final IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
 		switch (leftGovernor.getTypetype()) {
 		case TYPE_TTCN3_SEQUENCE:
 			nofComps = ((TTCN3_Sequence_Type) leftGovernor).getNofComponents();
@@ -461,12 +462,12 @@ public final class Sequence_Value extends Value {
 			default:
 				return false;
 			}
-			Identifier fieldName = compField.getIdentifier();
+			final Identifier fieldName = compField.getIdentifier();
 
 			if (hasComponentWithName(fieldName)) {
-				IValue leftValue = getComponentByName(fieldName).getValue();
+				final IValue leftValue = getComponentByName(fieldName).getValue();
 				if (otherSequence.hasComponentWithName(fieldName)) {
-					IValue otherValue = otherSequence.getComponentByName(fieldName).getValue();
+					final IValue otherValue = otherSequence.getComponentByName(fieldName).getValue();
 					if ((Value_type.OMIT_VALUE.equals(leftValue.getValuetype()) && !Value_type.OMIT_VALUE.equals(otherValue.getValuetype()))
 							|| (!Value_type.OMIT_VALUE.equals(leftValue.getValuetype()) && Value_type.OMIT_VALUE.equals(otherValue.getValuetype()))) {
 						return false;
@@ -488,7 +489,7 @@ public final class Sequence_Value extends Value {
 				}
 			} else {
 				if (otherSequence.hasComponentWithName(fieldName)) {
-					IValue otherValue = otherSequence.getComponentByName(fieldName).getValue();
+					final IValue otherValue = otherSequence.getComponentByName(fieldName).getValue();
 					if (compField.hasDefault()) {
 						if (Value_type.OMIT_VALUE.equals(otherValue.getValuetype())) {
 							return false;
@@ -533,7 +534,7 @@ public final class Sequence_Value extends Value {
 
 	@Override
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
@@ -542,17 +543,17 @@ public final class Sequence_Value extends Value {
 			return convertedValue.evaluateIsbound(timestamp, reference, actualSubReference);
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				if (!((TTCN3_Sequence_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -577,12 +578,12 @@ public final class Sequence_Value extends Value {
 				return false;
 			}
 
-			CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
+			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
 				//create an explicit omit value
-				Value result = new Omit_Value();
+				final Value result = new Omit_Value();
 
-				BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
 				result.setFullNameParent(bridge);
 
 				result.setMyScope(getMyScope());
@@ -602,7 +603,7 @@ public final class Sequence_Value extends Value {
 
 	@Override
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
@@ -611,17 +612,17 @@ public final class Sequence_Value extends Value {
 			return convertedValue.evaluateIsbound(timestamp, reference, actualSubReference);
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				if (!((TTCN3_Sequence_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -646,12 +647,12 @@ public final class Sequence_Value extends Value {
 				return false;
 			}
 
-			CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
+			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
 				//create an explicit omit value
-				Value result = new Omit_Value();
+				final Value result = new Omit_Value();
 
-				BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
 				result.setFullNameParent(bridge);
 
 				result.setMyScope(getMyScope());
@@ -677,9 +678,9 @@ public final class Sequence_Value extends Value {
 
 		if (referenceFinder.assignment.getAssignmentType() == Assignment_type.A_TYPE && referenceFinder.fieldId != null && myGovernor != null) {
 			// check if this is the type and field we are searching for
-			IType governorLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType governorLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if (referenceFinder.type == governorLast) {
-				NamedValue nv = values.getNamedValueByName(referenceFinder.fieldId);
+				final NamedValue nv = values.getNamedValueByName(referenceFinder.fieldId);
 				if (nv != null) {
 					foundIdentifiers.add(new Hit(nv.getName()));
 				}

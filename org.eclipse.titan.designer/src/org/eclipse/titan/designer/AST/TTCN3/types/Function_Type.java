@@ -133,7 +133,7 @@ public final class Function_Type extends Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
@@ -146,7 +146,7 @@ public final class Function_Type extends Type {
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -246,11 +246,11 @@ public final class Function_Type extends Type {
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);
 			if (runsOnType != null) {
-				Scope formalParlistPreviosScope = formalParList.getParentScope();
+				final Scope formalParlistPreviosScope = formalParList.getParentScope();
 				if (formalParlistPreviosScope instanceof RunsOnScope && ((RunsOnScope) formalParlistPreviosScope).getParentScope() == myScope) {
 					((RunsOnScope) formalParlistPreviosScope).setComponentType(runsOnType);
 				} else {
-					Scope tempScope = new RunsOnScope(runsOnType, myScope);
+					final Scope tempScope = new RunsOnScope(runsOnType, myScope);
 					formalParList.setMyScope(tempScope);
 				}
 			}
@@ -264,7 +264,7 @@ public final class Function_Type extends Type {
 		isStartable = isStartable && formalParList.getStartability();
 
 		if (returnType != null && location != null) {
-			IType returnedType = returnType.getTypeRefdLast(timestamp);
+			final IType returnedType = returnType.getTypeRefdLast(timestamp);
 			if (Type_type.TYPE_PORT.equals(returnedType.getTypetype())) {
 				location.reportSemanticError("Functions can not return ports");
 			}
@@ -307,8 +307,8 @@ public final class Function_Type extends Type {
 		formalParList.checkStartability(timestamp, "Functions of type", this, errorLocation);
 
 		if (returnType != null && returnType.isComponentInternal(timestamp)) {
-			Set<IType> typeSet = new HashSet<IType>();
-			String operation = "the return type or embedded in the return type of function type `"
+			final Set<IType> typeSet = new HashSet<IType>();
+			final String operation = "the return type or embedded in the return type of function type `"
 					+ getTypename() + "' if it is started on parallel test component";
 			returnType.checkComponentInternal(timestamp, typeSet, operation);
 		}
@@ -320,7 +320,7 @@ public final class Function_Type extends Type {
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -370,15 +370,16 @@ public final class Function_Type extends Type {
 			if (tempRunsOnType != null) {
 				if (runsOnSelf) {
 					//check against the runs on component type of the scope of the value
-					Scope valueScope = value.getMyScope();
+					final Scope valueScope = value.getMyScope();
 					if (valueScope == null) {
 						value.setIsErroneous(true);
 						value.setLastTimeChecked(timestamp);
 						return;
 					}
-					RunsOnScope runsOnScope =  valueScope.getScopeRunsOn();
+
+					final RunsOnScope runsOnScope =  valueScope.getScopeRunsOn();
 					if (runsOnScope != null) {
-						Component_Type componentType = runsOnScope.getComponentType();
+						final Component_Type componentType = runsOnScope.getComponentType();
 						if (!tempRunsOnType.isCompatible(timestamp, componentType, null, null, null)) {
 							value.getLocation().reportSemanticError(MessageFormat.format(
 									"Runs on clause mismatch: type `{0}'' has a `runs on self'' clause and the current scope expects "
@@ -390,7 +391,7 @@ public final class Function_Type extends Type {
 						// if the value's scope is a component body then check the runs on
 						// compatibility using this component type as the scope
 						if (valueScope instanceof ComponentTypeBody) {
-							ComponentTypeBody body = (ComponentTypeBody) valueScope;
+							final ComponentTypeBody body = (ComponentTypeBody) valueScope;
 							if (!tempRunsOnType.isCompatible(timestamp, body.getMyType(), null, null, null)) {
 								value.getLocation().reportSemanticError(MessageFormat.format(
 										"Runs on clause mismatch: type `{0}'' has a `runs on self'' clause and the current component definition "
@@ -430,7 +431,7 @@ public final class Function_Type extends Type {
 			}
 			break;
 		case A_FUNCTION_RTEMP: {
-			Restriction_type restriction = ((Def_Function) assignment).getTemplateRestriction();
+			final Restriction_type restriction = ((Def_Function) assignment).getTemplateRestriction();
 			if (!templateRestriction.equals(restriction)) {
 				value.getLocation().reportSemanticError(MessageFormat.format(
 						"Type `{0}'' expects a function or external function that returns a template with {1} restriction, "
@@ -439,7 +440,7 @@ public final class Function_Type extends Type {
 								assignment.getDescription(), Restriction_type.TR_NONE.equals(restriction) ? "no" : restriction.getDisplayName()));
 			}
 			if (returnType != null) {
-				IType tempReturnType = assignment.getType(timestamp);
+				final IType tempReturnType = assignment.getType(timestamp);
 				if (!returnType.isIdentical(timestamp, tempReturnType)) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Return type mismatch: type `{0}'' expects a function or external function that returns a {1} of type `{2}'', "
@@ -459,7 +460,7 @@ public final class Function_Type extends Type {
 			break;
 		}
 		case A_EXT_FUNCTION_RTEMP: {
-			Restriction_type restriction = ((Def_Extfunction) assignment).getTemplateRestriction();
+			final Restriction_type restriction = ((Def_Extfunction) assignment).getTemplateRestriction();
 			if (!templateRestriction.equals(restriction)) {
 				value.getLocation().reportSemanticError(MessageFormat.format(
 						"Type `{0}'' expects a function or external function that returns a template with {1} restriction, "
@@ -468,7 +469,7 @@ public final class Function_Type extends Type {
 								assignment.getDescription(), Restriction_type.TR_NONE.equals(restriction) ? "no" : restriction.getDisplayName()));
 			}
 			if (returnType != null) {
-				IType tempReturnType = assignment.getType(timestamp);
+				final IType tempReturnType = assignment.getType(timestamp);
 				if (!returnType.isIdentical(timestamp, tempReturnType)) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Return type mismatch: type `{0}'' expects a function or external function that returns a {1} of type `{2}'', "
@@ -490,7 +491,7 @@ public final class Function_Type extends Type {
 		case A_FUNCTION_RVAL:
 		case A_EXT_FUNCTION_RVAL:
 			if (returnType != null) {
-				IType tempReturnType = assignment.getType(timestamp);
+				final IType tempReturnType = assignment.getType(timestamp);
 				if (!returnType.isIdentical(timestamp, tempReturnType)) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Return type mismatch: type `{0}'' expects a function or external function that returns a {1} of type `{2}'',"
@@ -538,12 +539,12 @@ public final class Function_Type extends Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
@@ -571,7 +572,7 @@ public final class Function_Type extends Type {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() != i + 1 || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}

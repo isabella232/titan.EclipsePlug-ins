@@ -78,7 +78,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 
 		for (SignatureFormalParameter parameter : parameters) {
 			if (parameter == child) {
-				Identifier identifier = parameter.getIdentifier();
+				final Identifier identifier = parameter.getIdentifier();
 				return builder.append(INamedNode.DOT).append(identifier != null ? identifier.getDisplayName() : FULLNAMEPART);
 			}
 		}
@@ -221,7 +221,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 
 		for (SignatureFormalParameter parameter : parameters) {
 			if (parameter != null) {
-				String parameterName = parameter.getIdentifier().getName();
+				final String parameterName = parameter.getIdentifier().getName();
 				if (parameterMap.containsKey(parameterName)) {
 					parameterMap.get(parameterName).getIdentifier().getLocation().reportSingularSemanticError(
 							MessageFormat.format(FormalParameterList.DUPLICATEPARAMETERFIRST, parameter.getIdentifier().getDisplayName()));
@@ -251,7 +251,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 
 		checkUniqueness(timestamp);
 
-		boolean isNonblock = signature.isNonblocking();
+		final boolean isNonblock = signature.isNonblocking();
 		for (SignatureFormalParameter parameter : parameters) {
 			if (parameter.getDirection() == SignatureFormalParameter.PARAM_IN) {
 				inParameters.add(parameter);
@@ -268,7 +268,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 				outParameters.add(parameter);
 			}
 
-			Type type = parameter.getType();
+			final Type type = parameter.getType();
 			type.setParentType(signature);
 			type.check(timestamp);
 			type.checkEmbedded(timestamp, type.getLocation(), false, "the type of a signature parameter");
@@ -286,7 +286,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 		}
 
 		for (int i = 0, size = parameters.size(); i < size; i++) {
-			SignatureFormalParameter parameter = parameters.get(i);
+			final SignatureFormalParameter parameter = parameters.get(i);
 
 			parameter.updateSyntax(reparser, isDamaged);
 			reparser.updateLocation(parameter.getLocation());

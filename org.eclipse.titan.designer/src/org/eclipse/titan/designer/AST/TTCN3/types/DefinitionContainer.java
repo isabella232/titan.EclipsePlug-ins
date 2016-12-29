@@ -64,7 +64,7 @@ public class DefinitionContainer implements Iterable<Definition> {
 	public void add(final Definition definition) {
 		definitions.add(definition);
 
-		String definitionName = definition.getIdentifier().getName();
+		final String definitionName = definition.getIdentifier().getName();
 		if (definitionMap.containsKey(definitionName)) {
 			definitionMap.get(definitionName).getIdentifier().getLocation().reportSingularSemanticError(
 					MessageFormat.format(CompFieldMap.DUPLICATEFIELDNAMEFIRST, definition.getIdentifier().getDisplayName()));
@@ -79,7 +79,7 @@ public class DefinitionContainer implements Iterable<Definition> {
 		definitionMap.clear();
 		
 		for(Definition definition: definitions) {
-			String definitionName = definition.getIdentifier().getName();
+			final String definitionName = definition.getIdentifier().getName();
 			if (definitionMap.containsKey(definitionName)) {
 				definitionMap.get(definitionName).getIdentifier().getLocation().reportSingularSemanticError(
 						MessageFormat.format(CompFieldMap.DUPLICATEFIELDNAMEFIRST, definition.getIdentifier().getDisplayName()));

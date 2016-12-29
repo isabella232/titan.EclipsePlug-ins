@@ -165,7 +165,7 @@ public final class EnumItem extends ASTNode implements ILocateableNode, IIncreme
 	 *            the declaration collector) should be checked.
 	 * */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() == i + 1 && identifier.getName().equals(subrefs.get(i).getId().getName())) {
 			declarationCollector.addDeclaration(identifier.getDisplayName(), identifier.getLocation(), this);
 		}
@@ -207,12 +207,13 @@ public final class EnumItem extends ASTNode implements ILocateableNode, IIncreme
 		if (getMyScope() == null) {
 			return null;
 		}
-		Module module = getMyScope().getModuleScope();
-		Assignment assignment = module.getEnclosingAssignment(getLocation().getOffset());
-		IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
+
+		final Module module = getMyScope().getModuleScope();
+		final Assignment assignment = module.getEnclosingAssignment(getLocation().getOffset());
+		final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 		
 		if(type instanceof ITypeWithComponents) {
-			Identifier id = ((ITypeWithComponents) type).getComponentIdentifierByName(getId());
+			final Identifier id = ((ITypeWithComponents) type).getComponentIdentifierByName(getId());
 			return Declaration.createInstance(assignment, id);
 		}
 

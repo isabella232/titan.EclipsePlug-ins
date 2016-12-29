@@ -44,8 +44,8 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	/** return (first - second) set */
 	@Override
 	public StringValueConstraint except(final SubtypeConstraint other) {
-		StringValueConstraint o = (StringValueConstraint) other;
-		Set<String> returnValue = new TreeSet<String>();
+		final StringValueConstraint o = (StringValueConstraint) other;
+		final Set<String> returnValue = new TreeSet<String>();
 		for (String str : values) {
 			if (!o.values.contains(str)) {
 				returnValue.add(str);
@@ -61,8 +61,8 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	}
 
 	public StringValueConstraint setOperation(final SubtypeConstraint other, final boolean isUnion) {
-		StringValueConstraint o = (StringValueConstraint) other;
-		Set<String> returnValue = new TreeSet<String>();
+		final StringValueConstraint o = (StringValueConstraint) other;
+		final Set<String> returnValue = new TreeSet<String>();
 		if (isUnion) {
 			returnValue.addAll(values);
 			returnValue.addAll(o.values);
@@ -80,7 +80,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 
 	@Override
 	public boolean isElement(final Object o) {
-		String str = (String) o;
+		final String str = (String) o;
 		return values.contains(str);
 	}
 
@@ -91,7 +91,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		StringValueConstraint o = (StringValueConstraint) other;
+		final StringValueConstraint o = (StringValueConstraint) other;
 		return TernaryBool.fromBool(values.equals(o.values));
 	}
 
@@ -121,7 +121,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	public StringValueConstraint remove(final RangeListConstraint rangeConstraint, final boolean ifElement) {
 		switch (rangeConstraint.getLimitType()) {
 		case SIZE: {
-			Set<String> returnValue = new TreeSet<String>();
+			final Set<String> returnValue = new TreeSet<String>();
 			for (String str : values) {
 				if (rangeConstraint.isElement(new SizeLimit(str.length())) != ifElement) {
 					returnValue.add(str);
@@ -130,7 +130,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 			return new StringValueConstraint(returnValue);
 		}
 		case CHAR: {
-			Set<String> returnValue = new TreeSet<String>();
+			final Set<String> returnValue = new TreeSet<String>();
 			for (String str : values) {
 				boolean allCharsAreElements = true;
 				for (int charIndex = 0; charIndex < str.length(); charIndex++) {

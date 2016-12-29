@@ -94,7 +94,7 @@ public final class Anytype_Type extends Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp) || this == temp) {
 			return true;
@@ -106,7 +106,7 @@ public final class Anytype_Type extends Type {
 
 		switch (temp.getTypetype()) {
 		case TYPE_ANYTYPE: {
-			Anytype_Type tempType = (Anytype_Type) temp;
+			final Anytype_Type tempType = (Anytype_Type) temp;
 			if (this == tempType) {
 				return true;
 			}
@@ -121,11 +121,11 @@ public final class Anytype_Type extends Type {
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < getNofComponents(); i++) {
-				CompField cf = getComponentByIndex(i);
-				IType cfType = cf.getType().getTypeRefdLast(timestamp);
+				final CompField cf = getComponentByIndex(i);
+				final IType cfType = cf.getType().getTypeRefdLast(timestamp);
 				for (int j = 0; j < tempType.getNofComponents(); j++) {
-					CompField tempComponentField = tempType.getComponentByIndex(j);
-					IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
+					final CompField tempComponentField = tempType.getComponentByIndex(j);
+					final IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
 					if (!cf.getIdentifier().getDisplayName().equals(tempComponentField.getIdentifier().getDisplayName())
 							|| !cfType.getMyScope().getModuleScope().equals(tempTypeCompFieldType.getMyScope().getModuleScope())) {
 						continue;
@@ -300,14 +300,14 @@ public final class Anytype_Type extends Type {
 
 	private void checkThisValueAnytype(final CompilationTimeStamp timestamp, final Anytype_Value value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean strElem) {
-		Identifier name = value.getName();
+		final Identifier name = value.getName();
 		if (!hasComponentWithName(name.getName())) {
 			value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, name.getDisplayName(), getFullName()));
 			setIsErroneous(true);
 			return;
 		}
 
-		Type alternativeType = getComponentByName(name.getName()).getType();
+		final Type alternativeType = getComponentByName(name.getName()).getType();
 		IValue alternativeValue = value.getValue();
 		alternativeValue.setMyGovernor(alternativeType);
 		alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
@@ -328,24 +328,24 @@ public final class Anytype_Type extends Type {
 		}
 
 		if (Template_type.NAMED_TEMPLATE_LIST.equals(template.getTemplatetype())) {
-			Named_Template_List namedTemplateList = (Named_Template_List) template;
-			int nofTemplates = namedTemplateList.getNofTemplates();
+			final Named_Template_List namedTemplateList = (Named_Template_List) template;
+			final int nofTemplates = namedTemplateList.getNofTemplates();
 			if (nofTemplates != 1) {
 				template.getLocation().reportSemanticError(ONEFIELDEXPECTED);
 			}
 
 			for (int i = 0; i < nofTemplates; i++) {
-				NamedTemplate namedTemplate = namedTemplateList.getTemplateByIndex(i);
-				Identifier name = namedTemplate.getName();
+				final NamedTemplate namedTemplate = namedTemplateList.getTemplateByIndex(i);
+				final Identifier name = namedTemplate.getName();
 
-				CompField field = compFieldMap.getCompWithName(name);
+				final CompField field = compFieldMap.getCompWithName(name);
 				if (field != null) {
-					Type fieldType = field.getType();
+					final Type fieldType = field.getType();
 					ITTCN3Template namedTemplateTemplate = namedTemplate.getTemplate();
 
 					namedTemplateTemplate.setMyGovernor(fieldType);
 					namedTemplateTemplate = fieldType.checkThisTemplateRef(timestamp, namedTemplateTemplate);
-					Completeness_type completeness = namedTemplateList.getCompletenessConditionChoice(timestamp, isModified, name);
+					final Completeness_type completeness = namedTemplateList.getCompletenessConditionChoice(timestamp, isModified, name);
 					namedTemplateTemplate.checkThisTemplateGeneric(
 							timestamp, fieldType, Completeness_type.MAY_INCOMPLETE.equals(completeness), false, false, true, implicitOmit);
 				}
@@ -362,31 +362,31 @@ public final class Anytype_Type extends Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return null;
 		case fieldSubReference:
-			Identifier id = subreference.getId();
-			CompField compField = compFieldMap.getCompWithName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
 						MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(), getTypename()));
 				return null;
 			}
 
-			IType fieldType = compField.getType();
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return null;
 			}
 
-			Expected_Value_type internalExpectation =
+			final Expected_Value_type internalExpectation =
 					(expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : expectedIndex;
 
 			return fieldType.getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, false);
@@ -403,30 +403,31 @@ public final class Anytype_Type extends Type {
 	@Override
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return false;
 		case fieldSubReference:
-			Identifier id = subreference.getId();
-			CompField compField = compFieldMap.getCompWithName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
 						MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(), getTypename()));
 				return false;
 			}
 
-			IType fieldType = compField.getType();
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
 
-			int fieldIndex = compFieldMap.fields.indexOf(compField);
+			final int fieldIndex = compFieldMap.fields.indexOf(compField);
 			subrefsArray.add(fieldIndex);
 			typeArray.add(this);
 			return fieldType.getSubrefsAsArray(timestamp, reference, actualSubReference + 1, subrefsArray, typeArray);
@@ -442,11 +443,12 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
@@ -455,12 +457,13 @@ public final class Anytype_Type extends Type {
 				return false;
 			}
 
-			Identifier id = subreference.getId();
-			CompField compField = compFieldMap.getCompWithName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				return false;
 			}
-			IType fieldType = compField.getType();
+
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
@@ -492,28 +495,29 @@ public final class Anytype_Type extends Type {
 	 * */
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
-				CompField compField = compFieldMap.getCompWithName(subreference.getId());
+				final CompField compField = compFieldMap.getCompWithName(subreference.getId());
 				if (compField == null) {
 					return;
 				}
-				IType type = compField.getType();
+
+				final IType type = compField.getType();
 				if (type != null) {
 					type.addProposal(propCollector, i + 1);
 				}
 			} else {
 				// final part of the reference
-				List<CompField> compFields = compFieldMap.getComponentsWithPrefixCaseInsensitive(subreference.getId().getName());
+				final List<CompField> compFields = compFieldMap.getComponentsWithPrefixCaseInsensitive(subreference.getId().getName());
 				for (CompField compField : compFields) {
-					String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
+					final String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
 					propCollector.addProposal(compField.getIdentifier(), " - " + proposalKind, ImageCache.getImage(getOutlineIcon()), proposalKind);
 				}
 			}
@@ -534,26 +538,27 @@ public final class Anytype_Type extends Type {
 	 * */
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
-				CompField compField = compFieldMap.getCompWithName(subreference.getId());
+				final CompField compField = compFieldMap.getCompWithName(subreference.getId());
 				if (compField == null) {
 					return;
 				}
-				IType type = compField.getType();
+
+				final IType type = compField.getType();
 				if (type != null) {
 					type.addDeclaration(declarationCollector, i + 1);
 				}
 			} else {
 				// final part of the reference
-				List<CompField> compFields = compFieldMap.getComponentsWithPrefixCaseInsensitive(subreference.getId().getName());
+				final List<CompField> compFields = compFieldMap.getComponentsWithPrefixCaseInsensitive(subreference.getId().getName());
 				for (CompField compField : compFields) {
 					declarationCollector.addDeclaration(compField.getIdentifier().getDisplayName(), compField.getIdentifier().getLocation(), this);
 				}

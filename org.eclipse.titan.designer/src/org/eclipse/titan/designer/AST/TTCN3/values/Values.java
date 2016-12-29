@@ -98,10 +98,10 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 		}
 
 		for (int i = 0; i < indexedValues.size(); i++) {
-			IndexedValue temp = indexedValues.get(i);
-			IValue value = temp.getIndex().getValue();
+			final IndexedValue temp = indexedValues.get(i);
+			final IValue value = temp.getIndex().getValue();
 			if (Value_type.INTEGER_VALUE.equals(value.getValuetype())) {
-				Integer_Value integerValue = (Integer_Value) value;
+				final Integer_Value integerValue = (Integer_Value) value;
 				if (index == integerValue.intValue()) {
 					return temp.getValue();
 				}
@@ -162,14 +162,14 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 
 		if (isIndexed) {
 			for (int i = 0, size = indexedValues.size(); i < size; i++) {
-				IndexedValue indexedValue = indexedValues.get(i);
+				final IndexedValue indexedValue = indexedValues.get(i);
 
 				indexedValue.updateSyntax(reparser, false);
 				reparser.updateLocation(indexedValue.getLocation());
 			}
 		} else {
 			for (int i = 0, size = values.size(); i < size; i++) {
-				IValue value = values.get(i);
+				final IValue value = values.get(i);
 
 				if (value instanceof IIncrementallyUpdateable) {
 					((IIncrementallyUpdateable) value).updateSyntax(reparser, false);

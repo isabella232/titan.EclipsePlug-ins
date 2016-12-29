@@ -55,41 +55,44 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 
 	@Override
 	public SubtypeConstraint intersection(final SubtypeConstraint other) {
-		StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
+		final StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
 		if (o instanceof StringSetConstraint) {
-			StringSetConstraint ssc = (StringSetConstraint) o;
+			final StringSetConstraint ssc = (StringSetConstraint) o;
 			if (ssc.constraintType == constraintType) {
 				return new StringSetConstraint(stringType, constraintType,
 						constraint.intersection(((StringSetConstraint) o).constraint));
 			}
 		}
-		StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.INTERSECTION, this, o);
+
+		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.INTERSECTION, this, o);
 		return returnValue.evaluate();
 	}
 
 	@Override
 	public SubtypeConstraint union(final SubtypeConstraint other) {
-		StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
+		final StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
 		if (o instanceof StringSetConstraint) {
-			StringSetConstraint ssc = (StringSetConstraint) o;
+			final StringSetConstraint ssc = (StringSetConstraint) o;
 			if (ssc.constraintType == constraintType) {
 				return new StringSetConstraint(stringType, constraintType, constraint.union(((StringSetConstraint) o).constraint));
 			}
 		}
-		StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.UNION, this, o);
+
+		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.UNION, this, o);
 		return returnValue.evaluate();
 	}
 
 	@Override
 	public SubtypeConstraint except(final SubtypeConstraint other) {
-		StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
+		final StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
 		if (o instanceof StringSetConstraint) {
-			StringSetConstraint ssc = (StringSetConstraint) o;
+			final StringSetConstraint ssc = (StringSetConstraint) o;
 			if (ssc.constraintType == constraintType) {
 				return new StringSetConstraint(stringType, constraintType, constraint.except(((StringSetConstraint) o).constraint));
 			}
 		}
-		StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, this, o);
+
+		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, this, o);
 		return returnValue.evaluate();
 	}
 
@@ -102,9 +105,9 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	// length(1..4) is_subset ('a'..'z') shall not report an error
 	@Override
 	public TernaryBool isSubset(final SubtypeConstraint other) {
-		StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
+		final StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
 		if (o instanceof StringSetConstraint) {
-			StringSetConstraint ssc = (StringSetConstraint) o;
+			final StringSetConstraint ssc = (StringSetConstraint) o;
 			if (constraintType == ssc.constraintType) {
 				return constraint.isSubset(ssc.constraint);
 			}
@@ -117,7 +120,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 		switch (constraintType) {
 		case ALPHABET_CONSTRAINT: {
 			if (stringType == StringType.CHARSTRING) {
-				String str = (String) o;
+				final String str = (String) o;
 				for (int i = 0; i < str.length(); i++) {
 					if (!constraint.isElement(new CharLimit(str.charAt(i)))) {
 						return false;
@@ -126,7 +129,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 				return true;
 			}
 
-			UniversalCharstring str = (UniversalCharstring) o;
+			final UniversalCharstring str = (UniversalCharstring) o;
 			for (int i = 0; i < str.length(); i++) {
 				if (!constraint.isElement(new UCharLimit(str.get(i)))) {
 					return false;
@@ -136,11 +139,11 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 		}
 		case SIZE_CONSTRAINT: {
 			if (stringType == StringType.CHARSTRING) {
-				String str = (String) o;
+				final String str = (String) o;
 				return constraint.isElement(new SizeLimit(str.length()));
 			}
 
-			UniversalCharstring str = (UniversalCharstring) o;
+			final UniversalCharstring str = (UniversalCharstring) o;
 			return constraint.isElement(new SizeLimit(str.length()));
 		}
 		case PATTERN_CONSTRAINT:
@@ -199,27 +202,27 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 			return this;
 		}
 
-		StringSetConstraint o = (StringSetConstraint) other;
+		final StringSetConstraint o = (StringSetConstraint) other;
 		switch (o.getType()) {
 		case SIZE_CONSTRAINT:
 		case ALPHABET_CONSTRAINT: {
 			if (stringType == StringType.CHARSTRING) {
-				StringValueConstraint svc = (StringValueConstraint) constraint;
+				final StringValueConstraint svc = (StringValueConstraint) constraint;
 				return new StringSetConstraint(stringType, constraintType, svc.remove((RangeListConstraint) o.getConstraint(),
 						ifElement));
 			}
 
-			UStringValueConstraint usvc = (UStringValueConstraint) constraint;
+			final UStringValueConstraint usvc = (UStringValueConstraint) constraint;
 			return new StringSetConstraint(stringType, constraintType, usvc.remove((RangeListConstraint) o.getConstraint(), ifElement));
 		}
 		case PATTERN_CONSTRAINT: {
 			if (stringType == StringType.CHARSTRING) {
-				StringValueConstraint svc = (StringValueConstraint) constraint;
+				final StringValueConstraint svc = (StringValueConstraint) constraint;
 				return new StringSetConstraint(stringType, constraintType, svc.remove((StringPatternConstraint) o.getConstraint(),
 						ifElement));
 			}
 
-			UStringValueConstraint usvc = (UStringValueConstraint) constraint;
+			final UStringValueConstraint usvc = (UStringValueConstraint) constraint;
 			return new StringSetConstraint(stringType, constraintType, usvc.remove((StringPatternConstraint) o.getConstraint(),
 					ifElement));
 		}

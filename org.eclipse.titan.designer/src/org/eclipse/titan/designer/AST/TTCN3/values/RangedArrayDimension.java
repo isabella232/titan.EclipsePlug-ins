@@ -132,7 +132,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 			return;
 		}
 
-		IValue lowerLast = lower.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
+		final IValue lowerLast = lower.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
 		if (lowerLast == null || lowerLast.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -157,7 +157,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 			lower.setIsErroneous(true);
 		}
 
-		IValue upperLast = upper.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
+		final IValue upperLast = upper.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
 		if (upperLast == null || upperLast.getIsErroneous(timestamp)) {
 			return;
 		}

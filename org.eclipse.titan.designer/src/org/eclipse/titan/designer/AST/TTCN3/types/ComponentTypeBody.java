@@ -377,10 +377,10 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * @return the collected component type bodies.
 	 * */
 	private List<ComponentTypeBody> getExtendsInheritedComponentBodies() {
-		List<ComponentTypeBody> result = new ArrayList<ComponentTypeBody>();
-		LinkedList<ComponentTypeBody> toBeChecked = new LinkedList<ComponentTypeBody>(extendsReferences.getComponentBodies());
+		final List<ComponentTypeBody> result = new ArrayList<ComponentTypeBody>();
+		final LinkedList<ComponentTypeBody> toBeChecked = new LinkedList<ComponentTypeBody>(extendsReferences.getComponentBodies());
 		while(!toBeChecked.isEmpty()) {
-			ComponentTypeBody body = toBeChecked.removeFirst();
+			final ComponentTypeBody body = toBeChecked.removeFirst();
 			if(!result.contains(body)) {
 				result.add(body);
 				for(ComponentTypeBody subBody : body.extendsReferences.getComponentBodies()) {
@@ -401,9 +401,9 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * */
 	private List<ComponentTypeBody> getAttributeExtendsInheritedComponentBodies() {
 		final List<ComponentTypeBody> result = new ArrayList<ComponentTypeBody>();
-		LinkedList<ComponentTypeBody> toBeChecked = new LinkedList<ComponentTypeBody>(attrExtendsReferences.getComponentBodies());
+		final LinkedList<ComponentTypeBody> toBeChecked = new LinkedList<ComponentTypeBody>(attrExtendsReferences.getComponentBodies());
 		while(!toBeChecked.isEmpty()) {
-			ComponentTypeBody body = toBeChecked.removeFirst();
+			final ComponentTypeBody body = toBeChecked.removeFirst();
 			if(!result.contains(body)) {
 				result.add(body);
 				if(body.attrExtendsReferences != null) {
@@ -480,14 +480,14 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			return;
 		}
 
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
 		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
 		for (int i = 0; i < realAttributes.size(); i++) {
 			attribute = realAttributes.get(i);
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
-				Qualifiers qualifiers = attribute.getQualifiers();
+				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
 					if (specifications == null) {
 						specifications = new ArrayList<AttributeSpecification>();
@@ -501,13 +501,13 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			return;
 		}
 
-		List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
 		AttributeSpecification specification;
 		for (int i = 0; i < specifications.size(); i++) {
 			specification = specifications.get(i);
-			ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
-			List<ExtensionAttribute> temp = analyzer.getAttributes();
+			final List<ExtensionAttribute> temp = analyzer.getAttributes();
 			if (temp != null) {
 				attributes.addAll(temp);
 			}
@@ -519,11 +519,11 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		attrExtendsReferences = new ComponentTypeReferenceList();
 		for (int i = 0, size = attributes.size(); i < size; i++) {
-			ExtensionAttribute tempAttribute = attributes.get(i);
+			final ExtensionAttribute tempAttribute = attributes.get(i);
 			if (ExtensionAttribute_type.EXTENDS.equals(tempAttribute.getAttributeType())) {
-				ExtensionsAttribute extensionsAttribute = (ExtensionsAttribute) tempAttribute;
+				final ExtensionsAttribute extensionsAttribute = (ExtensionsAttribute) tempAttribute;
 				for (int j = 0, size2 = extensionsAttribute.getNofTypes(); j < size2; j++) {
-					IType tempType = extensionsAttribute.getType(j);
+					final IType tempType = extensionsAttribute.getType(j);
 					if (Type_type.TYPE_REFERENCED.equals(tempType.getTypetype())) {
 						attrExtendsReferences.addReference(((Referenced_Type) tempType).getReference());
 					}
@@ -541,15 +541,15 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * @param references the component type body references referred by the actual component.
 	 * */
 	private void initCompatibility(final ComponentTypeReferenceList references) {
-		List<ComponentTypeBody> componentBodies = references.getComponentBodies();
+		final List<ComponentTypeBody> componentBodies = references.getComponentBodies();
 		for (int i = 0, size = componentBodies.size(); i < size; i++) {
-			ComponentTypeBody componentBody = componentBodies.get(i);
+			final ComponentTypeBody componentBody = componentBodies.get(i);
 			if (!compatibleBodies.contains(componentBody)) {
 				compatibleBodies.add(componentBody);
 			}
 			// compatible with all components which are compatible with the compatible component
 			for (Iterator<ComponentTypeBody> iterator = componentBody.compatibleBodies.iterator(); iterator.hasNext();) {
-				ComponentTypeBody tempComponentBody = iterator.next();
+				final ComponentTypeBody tempComponentBody = iterator.next();
 				if (!compatibleBodies.contains(tempComponentBody)) {
 					compatibleBodies.add(tempComponentBody);
 				}
@@ -582,7 +582,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		if (attrExtendsReferences != null) {
 			attrExtendsReferences.check(timestamp);
 
-			IReferenceChain referenceChain = ReferenceChain.getInstance(CIRCULAREXTENSIONCHAIN, true);
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(CIRCULAREXTENSIONCHAIN, true);
 			if (referenceChain.add(this)) {
 				attrExtendsReferences.checkRecursion(referenceChain);
 			}
@@ -602,7 +602,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		extendsReferences.check(timestamp);
 
-		IReferenceChain referenceChain = ReferenceChain.getInstance(CIRCULAREXTENSIONCHAIN, true);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(CIRCULAREXTENSIONCHAIN, true);
 		if (referenceChain.add(this)) {
 			extendsReferences.checkRecursion(referenceChain);
 		}
@@ -611,17 +611,17 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		initCompatibility(extendsReferences);
 
 		// collect definitions
-		List<ComponentTypeBody> bodies = getExtendsInheritedComponentBodies();
+		final List<ComponentTypeBody> bodies = getExtendsInheritedComponentBodies();
 		for (ComponentTypeBody body : bodies) {
-			Map<String, Definition> subDefinitionMap = body.getDefinitionMap();
+			final Map<String, Definition> subDefinitionMap = body.getDefinitionMap();
 			for (Definition definition : subDefinitionMap.values()) {
-				String name = definition.getIdentifier().getName();
+				final String name = definition.getIdentifier().getName();
 				if (definitions.hasDefinition(name)) {
-					Definition localDefinition = definitions.getDefinition(name);
+					final Definition localDefinition = definitions.getDefinition(name);
 					localDefinition.getIdentifier().getLocation().reportSemanticError(MessageFormat.format(
 							LOCALINHERTANCECOLLISSION, definition.getIdentifier().getDisplayName(), definition.getMyScope().getFullName()));
 				} else if (extendsGainedDefinitions.containsKey(name)) {
-					Definition previousDefinition = extendsGainedDefinitions.get(name);
+					final Definition previousDefinition = extendsGainedDefinitions.get(name);
 					if (!previousDefinition.equals(definition)) {
 						// it is not the same definition inherited on two paths
 						if (this.equals(previousDefinition.getMyScope())) {
@@ -647,10 +647,10 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 							if (identifier != null && identifier.getLocation() != null) {
 								identifier.getLocation().reportSemanticError(
 										MessageFormat.format(HIDINGSCOPEELEMENT, definition.getIdentifier().getDisplayName()));
-								List<ISubReference> subReferences = new ArrayList<ISubReference>();
+								final List<ISubReference> subReferences = new ArrayList<ISubReference>();
 								subReferences.add(new FieldSubReference(definition.getIdentifier()));
-								Reference reference = new Reference(null, subReferences);
-								Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
+								final Reference reference = new Reference(null, subReferences);
+								final Assignment assignment = parentScope.getAssBySRef(timestamp, reference);
 								if (assignment != null && assignment.getLocation() != null) {
 									assignment.getLocation().reportSingularSemanticError(
 											MessageFormat.format(HIDDENSCOPEELEMENT, definition.getIdentifier().getDisplayName()));
@@ -674,15 +674,15 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * In reality no collection is done, but it is checked that the actual component has all definitions from the extended component.
 	 * */
 	private void collectDefinitionsFromAttributeExtends() {
-		List<ComponentTypeBody> parents = getAttributeExtendsInheritedComponentBodies();
+		final List<ComponentTypeBody> parents = getAttributeExtendsInheritedComponentBodies();
 		for (ComponentTypeBody parent : parents) {
 			for (Definition definition : parent.getDefinitions()) {
-				Identifier id = definition.getIdentifier();
-				String name = id.getName();
+				final Identifier id = definition.getIdentifier();
+				final String name = id.getName();
 
 				// Check if we have inherited 2 different definitions with the same name
 				if (extendsGainedDefinitions.containsKey(name)) {
-					Definition myDefinition = extendsGainedDefinitions.get(name);
+					final Definition myDefinition = extendsGainedDefinitions.get(name);
 					if (definition != myDefinition) {
 						location.reportSemanticError(MessageFormat.format(
 								INHERITANCECOLLISSION,
@@ -717,7 +717,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		}
 
 		for (Definition originalDefinition : definitions) {
-			Definition inheritedDefinition = attributeGainedDefinitions.get(originalDefinition.getIdentifier().getName());
+			final Definition inheritedDefinition = attributeGainedDefinitions.get(originalDefinition.getIdentifier().getName());
 			if (inheritedDefinition != null) {
 				originalDefinition.checkIdentical(timestamp, inheritedDefinition);
 			}

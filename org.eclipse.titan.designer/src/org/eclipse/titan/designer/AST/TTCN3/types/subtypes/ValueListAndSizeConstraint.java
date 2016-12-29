@@ -50,7 +50,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 
 	@Override
 	public ValueListAndSizeConstraint complement() {
-		ValueListAndSizeConstraint returnValue = new ValueListAndSizeConstraint();
+		final ValueListAndSizeConstraint returnValue = new ValueListAndSizeConstraint();
 		returnValue.sizeConstraint = sizeConstraint.complement();
 		returnValue.hasValues = notValues;
 		returnValue.notValues = hasValues;
@@ -58,31 +58,31 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	public ValueListAndSizeConstraint setOperation(final SubtypeConstraint other, final boolean isUnion) {
-		ValueListAndSizeConstraint o = (ValueListAndSizeConstraint) other;
-		ValueListAndSizeConstraint returnValue = new ValueListAndSizeConstraint();
+		final ValueListAndSizeConstraint o = (ValueListAndSizeConstraint) other;
+		final ValueListAndSizeConstraint returnValue = new ValueListAndSizeConstraint();
 		returnValue.sizeConstraint = sizeConstraint.setOperation(o.sizeConstraint, isUnion);
 		if (isUnion) {
 			// V1+V2
 			returnValue.hasValues = hasValues.union(o.hasValues);
 			// ~S1*N2
-			ValueListConstraint vlc1 = o.notValues.remove(sizeConstraint, true);
+			final ValueListConstraint vlc1 = o.notValues.remove(sizeConstraint, true);
 			// N1*~S2
-			ValueListConstraint vlc2 = notValues.remove(o.sizeConstraint, true);
+			final ValueListConstraint vlc2 = notValues.remove(o.sizeConstraint, true);
 			// ((~S1*N2)+(N1*~S2)+(N1*N2))
 			returnValue.notValues = vlc1.union(vlc2).union(notValues.intersection(o.notValues));
 		} else {
 			// intersection
 			// S2*V1-N2
-			ValueListConstraint vlc1 = hasValues.remove(o.sizeConstraint, false).except(o.notValues);
+			final ValueListConstraint vlc1 = hasValues.remove(o.sizeConstraint, false).except(o.notValues);
 			// S1*V2-N1
-			ValueListConstraint vlc2 = o.hasValues.remove(sizeConstraint, false).except(notValues);
+			final ValueListConstraint vlc2 = o.hasValues.remove(sizeConstraint, false).except(notValues);
 			// (S1*V2-N1)+(S2*V1-N2)+(V1*V2)
 			returnValue.hasValues = (ValueListConstraint) hasValues.intersection(o.hasValues).union(vlc1).union(vlc2);
 			// union of not_values
 			returnValue.notValues = notValues.union(o.notValues);
 		}
 		// drop the intersection, holes and points cancel each other
-		ValueListConstraint vlc = (ValueListConstraint) returnValue.hasValues.intersection(returnValue.notValues);
+		final ValueListConstraint vlc = (ValueListConstraint) returnValue.hasValues.intersection(returnValue.notValues);
 		returnValue.hasValues = returnValue.hasValues.except(vlc);
 		returnValue.notValues = returnValue.notValues.except(vlc);
 		// drop ret_val.has_values elements that are elements of the
@@ -101,7 +101,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 
 	@Override
 	public boolean isElement(final Object o) {
-		IValue v = (IValue) o;
+		final IValue v = (IValue) o;
 		SizeLimit sl;
 		switch (v.getValuetype()) {
 		case ARRAY_VALUE:
@@ -140,7 +140,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		ValueListAndSizeConstraint o = (ValueListAndSizeConstraint) other;
+		final ValueListAndSizeConstraint o = (ValueListAndSizeConstraint) other;
 		if ((sizeConstraint.isEqual(o.sizeConstraint) == TernaryBool.TTRUE) && (hasValues.isEqual(o.hasValues) == TernaryBool.TTRUE)
 				&& (notValues.isEqual(o.notValues) == TernaryBool.TTRUE)) {
 			return TernaryBool.TTRUE;
@@ -163,7 +163,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 
 	@Override
 	public void toString(final StringBuilder sb) {
-		boolean hv = (hasValues.isEmpty() != TernaryBool.TTRUE);
+		final boolean hv = (hasValues.isEmpty() != TernaryBool.TTRUE);
 		if (hv) {
 			hasValues.toString(sb);
 		}

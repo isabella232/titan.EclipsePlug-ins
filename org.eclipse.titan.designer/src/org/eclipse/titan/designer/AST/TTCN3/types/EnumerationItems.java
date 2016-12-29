@@ -110,7 +110,7 @@ public final class EnumerationItems extends ASTNode implements IIncrementallyUpd
 		}
 
 		for (int i = 0, size = items.size(); i < size; i++) {
-			EnumItem item = items.get(i);
+			final EnumItem item = items.get(i);
 
 			item.updateSyntax(reparser, false);
 			reparser.updateLocation(item.getLocation());

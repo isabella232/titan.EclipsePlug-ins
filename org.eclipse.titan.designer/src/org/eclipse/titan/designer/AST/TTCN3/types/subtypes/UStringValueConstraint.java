@@ -43,8 +43,8 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	/** return (first - second) set */
 	@Override
 	public UStringValueConstraint except(final SubtypeConstraint other) {
-		UStringValueConstraint o = (UStringValueConstraint) other;
-		Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
+		final UStringValueConstraint o = (UStringValueConstraint) other;
+		final Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
 		for (UniversalCharstring str : values) {
 			if (!o.values.contains(str)) {
 				returnValue.add(str);
@@ -60,8 +60,8 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	}
 
 	public UStringValueConstraint setOperation(final SubtypeConstraint other, final boolean isUnion) {
-		UStringValueConstraint o = (UStringValueConstraint) other;
-		Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
+		final UStringValueConstraint o = (UStringValueConstraint) other;
+		final Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
 		if (isUnion) {
 			returnValue.addAll(values);
 			returnValue.addAll(o.values);
@@ -79,7 +79,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 
 	@Override
 	public boolean isElement(final Object o) {
-		UniversalCharstring str = (UniversalCharstring) o;
+		final UniversalCharstring str = (UniversalCharstring) o;
 		return values.contains(str);
 	}
 
@@ -90,7 +90,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		UStringValueConstraint o = (UStringValueConstraint) other;
+		final UStringValueConstraint o = (UStringValueConstraint) other;
 		return TernaryBool.fromBool(values.equals(o.values));
 	}
 
@@ -116,7 +116,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	public UStringValueConstraint remove(final RangeListConstraint rangeConstraint, final boolean ifElement) {
 		switch (rangeConstraint.getLimitType()) {
 		case SIZE: {
-			Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
+			final Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
 			for (UniversalCharstring str : values) {
 				if (rangeConstraint.isElement(new SizeLimit(str.length())) != ifElement) {
 					returnValue.add(str);
@@ -125,7 +125,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 			return new UStringValueConstraint(returnValue);
 		}
 		case UCHAR: {
-			Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
+			final Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
 			for (UniversalCharstring str : values) {
 				boolean allCharsAreElements = true;
 				for (int charIndex = 0; charIndex < str.length(); charIndex++) {

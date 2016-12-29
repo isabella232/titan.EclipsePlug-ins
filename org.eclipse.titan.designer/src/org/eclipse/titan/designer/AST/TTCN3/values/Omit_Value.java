@@ -56,12 +56,12 @@ public final class Omit_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(INDEXEDACCESS, getFullName()));
@@ -82,8 +82,8 @@ public final class Omit_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		return getValuetype().equals(last.getValuetype());

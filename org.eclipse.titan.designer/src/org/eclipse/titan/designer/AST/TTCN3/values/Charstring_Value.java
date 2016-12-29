@@ -52,7 +52,7 @@ public final class Charstring_Value extends Value {
 	 * @param original the value to be converted
 	 * */
 	public static Charstring_Value convert(final CompilationTimeStamp timestamp, final UniversalCharstring_Value original) {
-		UniversalCharstring oldString = original.getValue();
+		final UniversalCharstring oldString = original.getValue();
 		Charstring_Value target;
 
 		if (oldString == null) {
@@ -62,9 +62,9 @@ public final class Charstring_Value extends Value {
 			return target;
 		}
 
-		boolean warning = false;
+		final boolean warning = false;
 		for (int i = 0; i < oldString.length() && !original.getIsErroneous(timestamp); i++) {
-			UniversalChar uchar = oldString.get(i);
+			final UniversalChar uchar = oldString.get(i);
 			if (uchar.group() != 0 || uchar.plane() != 0 || uchar.row() != 0) {
 				original.getLocation().reportSemanticError(MessageFormat.format(QUADRUPLEPROBLEM, uchar.group(), uchar.plane(), uchar.row(), uchar.cell(), i));
 				original.setIsErroneous(true);
@@ -114,20 +114,20 @@ public final class Charstring_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference: {
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
 			if (!valueIndex.isUnfoldable(timestamp)) {
 				if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-					int index = ((Integer_Value) valueIndex).intValue();
+					final int index = ((Integer_Value) valueIndex).intValue();
 					return getStringElement(index, arrayIndex.getLocation());
 				}
 
@@ -197,8 +197,8 @@ public final class Charstring_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		switch (last.getValuetype()) {

@@ -93,7 +93,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType lastOtherType = otherType.getTypeRefdLast(timestamp);
+		final IType lastOtherType = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || lastOtherType.getIsErroneous(timestamp) || this == lastOtherType) {
 			return true;
@@ -102,7 +102,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		if (info == null || noStructuredTypeCompatibility) {
 			//There is another chance to be compatible:
 			//If records of/sets of are strongly compatible, then the records of/sets of are compatible
-			IType last = getTypeRefdLast(timestamp);
+			final IType last = getTypeRefdLast(timestamp);
 			return last.isStronglyCompatible(timestamp, lastOtherType, info, leftChain, rightChain);
 		}
 
@@ -112,8 +112,9 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				info.setErrorStr("Incompatible record of/SEQUENCE OF subtypes");
 				return false;
 			}
-			ASN1_Sequence_Type tempType = (ASN1_Sequence_Type) lastOtherType;
-			int tempTypeNofComps = tempType.getNofComponents(timestamp);
+
+			final ASN1_Sequence_Type tempType = (ASN1_Sequence_Type) lastOtherType;
+			final int tempTypeNofComps = tempType.getNofComponents(timestamp);
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
@@ -128,10 +129,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < tempTypeNofComps; i++) {
-				CompField tempTypeCf = tempType.getComponentByIndex(i);
-				IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
-				IType ofType = getOfType().getTypeRefdLast(timestamp);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				final IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
+				final IType ofType = getOfType().getTypeRefdLast(timestamp);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
 				lChain.markState();
 				rChain.markState();
 				lChain.add(ofType);
@@ -162,8 +163,9 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				info.setErrorStr("Incompatible record of/SEQUENCE OF subtypes");
 				return false;
 			}
-			TTCN3_Sequence_Type tempType = (TTCN3_Sequence_Type) lastOtherType;
-			int tempTypeNofComps = tempType.getNofComponents();
+
+			final TTCN3_Sequence_Type tempType = (TTCN3_Sequence_Type) lastOtherType;
+			final int tempTypeNofComps = tempType.getNofComponents();
 			if (tempTypeNofComps == 0) {
 				return false;
 			}
@@ -178,10 +180,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				rChain.add(tempType);
 			}
 			for (int i = 0; i < tempTypeNofComps; i++) {
-				CompField tempTypeCf = tempType.getComponentByIndex(i);
-				IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
-				IType ofType = getOfType().getTypeRefdLast(timestamp);
-				TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
+				final CompField tempTypeCf = tempType.getComponentByIndex(i);
+				final IType tempTypeCfType = tempTypeCf.getType().getTypeRefdLast(timestamp);
+				final IType ofType = getOfType().getTypeRefdLast(timestamp);
+				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeCfType, false);
 				lChain.markState();
 				rChain.markState();
 				lChain.add(ofType);
@@ -212,12 +214,14 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				info.setErrorStr("Incompatible record of/SEQUENCE OF subtypes");
 				return false;
 			}
-			SequenceOf_Type tempType = (SequenceOf_Type) lastOtherType;
+
+			final SequenceOf_Type tempType = (SequenceOf_Type) lastOtherType;
 			if (this == tempType) {
 				return true;
 			}
-			IType tempTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
-			IType ofType = getOfType().getTypeRefdLast(timestamp);
+
+			final IType tempTypeOfType = tempType.getOfType().getTypeRefdLast(timestamp);
+			final IType ofType = getOfType().getTypeRefdLast(timestamp);
 			TypeCompatibilityInfo.Chain lChain = leftChain;
 			TypeCompatibilityInfo.Chain rChain = rightChain;
 			if (lChain == null) {
@@ -232,7 +236,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			rChain.markState();
 			lChain.add(ofType);
 			rChain.add(tempTypeOfType);
-			TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeOfType, false);
+			final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeOfType, false);
 			if (!ofType.equals(tempTypeOfType)
 					&& !(lChain.hasRecursion() && rChain.hasRecursion())
 					&& !ofType.isCompatible(timestamp, tempTypeOfType, infoTemp, lChain, rChain)) {
@@ -266,9 +270,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				info.setErrorStr("Incompatible record of/SEQUENCE OF subtypes");
 				return false;
 			}
-			Array_Type tempType = (Array_Type) lastOtherType;
-			IType tempTypeElementType = tempType.getElementType().getTypeRefdLast(timestamp);
-			IType ofType = getOfType().getTypeRefdLast(timestamp);
+
+			final Array_Type tempType = (Array_Type) lastOtherType;
+			final IType tempTypeElementType = tempType.getElementType().getTypeRefdLast(timestamp);
+			final IType ofType = getOfType().getTypeRefdLast(timestamp);
 			TypeCompatibilityInfo.Chain lChain = leftChain;
 			TypeCompatibilityInfo.Chain rChain = rightChain;
 			if (lChain == null) {
@@ -283,7 +288,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			rChain.markState();
 			lChain.add(ofType);
 			rChain.add(tempTypeElementType);
-			TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeElementType, false);
+			final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(ofType, tempTypeElementType, false);
 			if (!ofType.equals(tempTypeElementType)
 					&& !(lChain.hasRecursion() && rChain.hasRecursion())
 					&& !ofType.isCompatible(timestamp, tempTypeElementType, infoTemp, lChain, rChain)) {
@@ -323,10 +328,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 
-		IType lastOtherType = otherType.getTypeRefdLast(timestamp);
+		final IType lastOtherType = otherType.getTypeRefdLast(timestamp);
 		if (Type_type.TYPE_SEQUENCE_OF.equals(lastOtherType.getTypetype())) {
-			IType oftOther = ((SequenceOf_Type) lastOtherType).getOfType();
-			IType oft = getOfType().getTypeRefdLast(timestamp); // type of the
+			final IType oftOther = ((SequenceOf_Type) lastOtherType).getOfType();
+			final IType oft = getOfType().getTypeRefdLast(timestamp); // type of the
 																// fields 
 			if (oft != null && oftOther != null) {
 				// For basic types pre-generated seq/set of is applied in titan:
@@ -466,25 +471,25 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		if (value.isIndexed()) {
 			boolean checkHoles = Expected_Value_type.EXPECTED_CONSTANT.equals(expectedValue);
 			BigInteger maxIndex = BigInteger.valueOf(-1);
-			Map<BigInteger, Integer> indexMap = new HashMap<BigInteger, Integer>(value.getNofComponents());
+			final Map<BigInteger, Integer> indexMap = new HashMap<BigInteger, Integer>(value.getNofComponents());
 			for (int i = 0, size = value.getNofComponents(); i < size; i++) {
-				IValue component = value.getValueByIndex(i);
-				IValue index = value.getIndexByIndex(i);
-				IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IValue indexLast = index.getValueRefdLast(timestamp, referenceChain);
+				final IValue component = value.getValueByIndex(i);
+				final IValue index = value.getIndexByIndex(i);
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue indexLast = index.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 				
-				IType tempType = TypeFactory.createType(Type_type.TYPE_INTEGER);
+				final IType tempType = TypeFactory.createType(Type_type.TYPE_INTEGER);
 				tempType.check(timestamp);
 				indexLast.setMyGovernor(tempType);
-				IValue temporalValue = tempType.checkThisValueRef(timestamp, indexLast);
+				final IValue temporalValue = tempType.checkThisValueRef(timestamp, indexLast);
 				tempType.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 					true, false, true, false, false));
 
 				if (indexLast.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
 					checkHoles = false;
 				} else {
-					BigInteger tempIndex = ((Integer_Value) temporalValue).getValueValue();
+					final BigInteger tempIndex = ((Integer_Value) temporalValue).getValueValue();
 					if (tempIndex.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 						index.getLocation().reportSemanticError(MessageFormat.format(
 								"A integer value less than `{0}'' was expected for indexing type `{1}'' instead of `{2}''",
@@ -507,7 +512,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				}
 
 				component.setMyGovernor(getOfType());
-				IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
+				final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
 				getOfType().checkThisValue(timestamp, tempValue2,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
@@ -518,14 +523,14 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			}
 		} else {
 			for (int i = 0, size = value.getNofComponents(); i < size; i++) {
-				IValue component = value.getValueByIndex(i);
+				final IValue component = value.getValueByIndex(i);
 				component.setMyGovernor(getOfType());
 				if (Value_type.NOTUSED_VALUE.equals(component.getValuetype())) {
 					if (!incompleteAllowed) {
 						component.getLocation().reportSemanticError(INCOMPLETEPRESENTERROR);
 					}
 				} else {
-					IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
+					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
 					getOfType().checkThisValue(timestamp, tempValue2,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
@@ -548,8 +553,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			}
 			break;
 		case PERMUTATION_MATCH: {
-			PermutationMatch_Template permutationTemplate = (PermutationMatch_Template) template;
-			int nofComponents = permutationTemplate.getNofTemplates();
+			final PermutationMatch_Template permutationTemplate = (PermutationMatch_Template) template;
+			final int nofComponents = permutationTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = permutationTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
 				templateComponent.setMyGovernor(getOfType()); 
@@ -559,8 +564,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			break;
 		}
 		case SUPERSET_MATCH: {
-			SupersetMatch_Template supersetTemplate = (SupersetMatch_Template) template;
-			int nofComponents = supersetTemplate.getNofTemplates();
+			final SupersetMatch_Template supersetTemplate = (SupersetMatch_Template) template;
+			final int nofComponents = supersetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
 				templateComponent.setMyGovernor(getOfType()); 
@@ -570,8 +575,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			break;
 		}
 		case SUBSET_MATCH: {
-			SubsetMatch_Template subsetTemplate = (SubsetMatch_Template) template;
-			int nofComponents = subsetTemplate.getNofTemplates();
+			final SubsetMatch_Template subsetTemplate = (SubsetMatch_Template) template;
+			final int nofComponents = subsetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
 				templateComponent.setMyGovernor(getOfType()); 
@@ -581,7 +586,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			break;
 		}
 		case TEMPLATE_LIST: {
-			Completeness_type completeness = template.getCompletenessConditionSeof(timestamp, isModified);
+			final Completeness_type completeness = template.getCompletenessConditionSeof(timestamp, isModified);
 			Template_List base = null;
 			int nofBaseComps = 0;
 			if (Completeness_type.PARTIAL.equals(completeness)) {
@@ -599,8 +604,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				nofBaseComps = base.getNofTemplates();
 			}
 
-			Template_List templateList = (Template_List) template;
-			int nofComponents = templateList.getNofTemplates();
+			final Template_List templateList = (Template_List) template;
+			final int nofComponents = templateList.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template component = templateList.getTemplateByIndex(i);
 				component.setMyGovernor(getOfType());
@@ -629,8 +634,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					}
 					break;
 				default:
-					boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
-					|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
+					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
+						|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
 					component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit);
 					break;
 				}
@@ -638,26 +643,26 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			break;
 		}
 		case INDEXED_TEMPLATE_LIST:	{
-			Map<Long, Integer> indexMap = new HashMap<Long, Integer>();
-			Indexed_Template_List indexedTemplateList = (Indexed_Template_List) template;
+			final Map<Long, Integer> indexMap = new HashMap<Long, Integer>();
+			final Indexed_Template_List indexedTemplateList = (Indexed_Template_List) template;
 			for (int i = 0, size = indexedTemplateList.getNofTemplates(); i < size; i++) {
-				IndexedTemplate indexedTemplate = indexedTemplateList.getIndexedTemplateByIndex(i);
-				Value indexValue = indexedTemplate.getIndex().getValue();
+				final IndexedTemplate indexedTemplate = indexedTemplateList.getIndexedTemplateByIndex(i);
+				final Value indexValue = indexedTemplate.getIndex().getValue();
 				ITTCN3Template templateComponent = indexedTemplate.getTemplate();
 
-				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
+				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
 				chain.release();
 				
-				IType tempType = TypeFactory.createType(Type_type.TYPE_INTEGER);
+				final IType tempType = TypeFactory.createType(Type_type.TYPE_INTEGER);
 				tempType.check(timestamp);
 				lastValue.setMyGovernor(tempType);
-				IValue temporalValue = tempType.checkThisValueRef(timestamp, lastValue);
+				final IValue temporalValue = tempType.checkThisValueRef(timestamp, lastValue);
 				tempType.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 					true, false, true, false, false));
 
 				if (!temporalValue.getIsErroneous(timestamp) && Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
-					long index = ((Integer_Value) lastValue).getValue();
+					final long index = ((Integer_Value) lastValue).getValue();
 					if (index > Integer.MAX_VALUE) {
 						indexValue.getLocation().reportSemanticError(
 								MessageFormat.format(TOOBIGINDEXTEMPLATE, Integer.MAX_VALUE, getTypename(), index));
@@ -690,29 +695,29 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		Expected_Value_type internalExpectation = expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
+		final Expected_Value_type internalExpectation = expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
 				: expectedIndex;
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value indexValue = ((ArraySubReference) subreference).getValue();
+			final Value indexValue = ((ArraySubReference) subreference).getValue();
 			if (indexValue != null) {
 				indexValue.setLoweridToReference(timestamp);
-				Type_type tempType = indexValue.getExpressionReturntype(timestamp, expectedIndex);
+				final Type_type tempType = indexValue.getExpressionReturntype(timestamp, expectedIndex);
 
 				switch (tempType) {
 				case TYPE_INTEGER:
-					IValue last = indexValue.getValueRefdLast(timestamp, expectedIndex, refChain);
+					final IValue last = indexValue.getValueRefdLast(timestamp, expectedIndex, refChain);
 					if (Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
-						Integer_Value lastInteger = (Integer_Value) last;
+						final Integer_Value lastInteger = (Integer_Value) last;
 						if (lastInteger.isNative()) {
-							long temp = lastInteger.getValue();
+							final long temp = lastInteger.getValue();
 							if (temp < 0) {
 								indexValue.getLocation().reportSemanticError(MessageFormat.format(NONNEGATIVINDEXEXPECTED, last));
 								indexValue.setIsErroneous(true);

@@ -48,12 +48,12 @@ public final class Real_Value extends Value {
 		copyGeneralProperties(original);
 		boolean erroneous = false;
 		//mantissa
-		Identifier mantissaID = new Identifier(Identifier_type.ID_ASN, "mantissa");
+		final Identifier mantissaID = new Identifier(Identifier_type.ID_ASN, "mantissa");
 		int mantissa = 0;
 		if (original.hasComponentWithName(mantissaID)) {
 			IValue tmpValue = original.getComponentByName(mantissaID).getValue();
 			if (tmpValue != null) {
-				IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tmpValue = tmpValue.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 
@@ -74,17 +74,17 @@ public final class Real_Value extends Value {
 		}
 
 		//base
-		Identifier baseID = new Identifier(Identifier_type.ID_ASN, "base");
+		final Identifier baseID = new Identifier(Identifier_type.ID_ASN, "base");
 		int base = 0;
 		if (original.hasComponentWithName(baseID)) {
 			IValue tmpValue = original.getComponentByName(baseID).getValue();
 			if (tmpValue != null) {
-				IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tmpValue = tmpValue.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 
 				if (Value_type.INTEGER_VALUE.equals(tmpValue.getValuetype())) {
-					BigInteger temp = ((Integer_Value) tmpValue).getValueValue();
+					final BigInteger temp = ((Integer_Value) tmpValue).getValueValue();
 					if (!erroneous && temp.compareTo(BigInteger.TEN) != 0 && temp.compareTo(BigInteger.valueOf(2)) != 0) {
 						tmpValue.getLocation().reportSemanticError("Base of the REAL must be 2 or 10");
 						erroneous = true;
@@ -100,12 +100,12 @@ public final class Real_Value extends Value {
 		}
 
 		//exponent
-		Identifier exponentID = new Identifier(Identifier_type.ID_ASN, "exponent");
+		final Identifier exponentID = new Identifier(Identifier_type.ID_ASN, "exponent");
 		int exponent = 0;
 		if (original.hasComponentWithName(exponentID)) {
 			IValue tmpValue = original.getComponentByName(exponentID).getValue();
 			if (tmpValue != null) {
-				IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tmpValue = tmpValue.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 
@@ -169,13 +169,13 @@ public final class Real_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDVALUESUBREFERENCE, type.getTypename()));
@@ -201,8 +201,8 @@ public final class Real_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		return Value_type.REAL_VALUE.equals(last.getValuetype()) && Double.compare(value, ((Real_Value) last).getValue()) == 0;

@@ -120,7 +120,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	 * */
 	public void checkIndices(final CompilationTimeStamp timestamp, final Reference reference, final String definitionName,
 			final boolean allowSlicing, final Expected_Value_type expectedValue) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() == 1) {
 			if (!allowSlicing) {
 				reference.getLocation().reportSemanticError(MessageFormat.format(ARRAYINDEXEXPECTED, definitionName));
@@ -128,9 +128,9 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 			}
 		}
 
-		int nofSubrefs = subreferences.size() - 1;
-		int nofDimensions = dimensions.size();
-		int upperLimit = Math.min(nofSubrefs, nofDimensions);
+		final int nofSubrefs = subreferences.size() - 1;
+		final int nofDimensions = dimensions.size();
+		final int upperLimit = Math.min(nofSubrefs, nofDimensions);
 		ISubReference subreference;
 
 		for (int i = 0; i < upperLimit; i++) {

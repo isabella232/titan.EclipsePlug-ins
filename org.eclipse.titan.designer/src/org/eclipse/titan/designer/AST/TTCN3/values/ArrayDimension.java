@@ -113,7 +113,7 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 		}
 
 		index.setLoweridToReference(timestamp);
-		Type_type temporalType = index.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type temporalType = index.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (temporalType) {
 		case TYPE_INTEGER:
@@ -131,11 +131,11 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 			return;
 		}
 
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = index.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = index.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
-		long indexValue = ((Integer_Value) last).getValue();
+		final long indexValue = ((Integer_Value) last).getValue();
 		if (indexValue < getOffset()) {
 			index.getLocation().reportSemanticError(MessageFormat.format(INDEXUNDERFLOW, getOffset(), indexValue));
 			index.setIsErroneous(true);

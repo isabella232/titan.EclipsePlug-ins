@@ -36,13 +36,13 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 
 	@Override
 	public SubtypeConstraint complement() {
-		StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, new FullStringSet(stringType), this);
+		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, new FullStringSet(stringType), this);
 		return returnValue.evaluate();
 	}
 
 	@Override
 	public SubtypeConstraint intersection(final SubtypeConstraint other) {
-		StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.INTERSECTION, this,
+		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.INTERSECTION, this,
 				(StringSubtypeTreeElement) other);
 		return returnValue.evaluate();
 	}
@@ -71,7 +71,7 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 		case UNION:
 			return a.isEmpty().and(b.isEmpty());
 		case EXCEPT: {
-			TernaryBool aEmpty = a.isEmpty();
+			final TernaryBool aEmpty = a.isEmpty();
 			return ((aEmpty != TernaryBool.TFALSE) ? aEmpty : ((b.isEmpty() == TernaryBool.TTRUE) ? TernaryBool.TFALSE
 					: TernaryBool.TUNKNOWN));
 		}
@@ -126,13 +126,13 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 
 	@Override
 	public SubtypeConstraint union(final SubtypeConstraint other) {
-		StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.UNION, this, (StringSubtypeTreeElement) other);
+		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.UNION, this, (StringSubtypeTreeElement) other);
 		return returnValue.evaluate();
 	}
 
 	@Override
 	public SubtypeConstraint except(final SubtypeConstraint other) {
-		StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, this, (StringSubtypeTreeElement) other);
+		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, this, (StringSubtypeTreeElement) other);
 		return returnValue.evaluate();
 	}
 

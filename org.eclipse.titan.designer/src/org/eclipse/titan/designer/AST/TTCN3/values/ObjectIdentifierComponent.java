@@ -210,7 +210,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 * */
 	private oidState_type checkNameForm(final CompilationTimeStamp timestamp, final Value parent, final IReferenceChain refChain,
 			final oidState_type state) {
-		String nameString = name.getName();
+		final String nameString = name.getName();
 		oidState_type actualState = state;
 		int value = -1;
 		switch (state) {
@@ -270,7 +270,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			break;
 		case ITU_REC:
 			if (nameString.length() == 1) {
-				char c = nameString.charAt(0);
+				final char c = nameString.charAt(0);
 				if (c >= 'a' && c <= 'z') {
 					value = c - 'a' + 1;
 					actualState = oidState_type.LATER;
@@ -283,7 +283,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 
 		// now we have detected the name form
 		if (value < 0) {
-			List<ISubReference> newSubreferences = new ArrayList<ISubReference>();
+			final List<ISubReference> newSubreferences = new ArrayList<ISubReference>();
 			newSubreferences.add(new FieldSubReference(name));
 			Reference reference;
 			if (parent.isAsn()) {
@@ -292,9 +292,9 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 				reference = new Reference(null, newSubreferences);
 			}
 
-			IValue newDefinedValue = new Referenced_Value(reference);
+			final IValue newDefinedValue = new Referenced_Value(reference);
 			newDefinedValue.setLocation(this.getLocation());
-			ObjectIdentifierComponent component = new ObjectIdentifierComponent(newDefinedValue);
+			final ObjectIdentifierComponent component = new ObjectIdentifierComponent(newDefinedValue);
 			component.setFullNameParent(this);
 			component.setMyScope(parent.getMyScope());
 			actualState = component.checkDefdValueOID(timestamp, refChain, actualState);
@@ -314,8 +314,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 * @param the new state after this check was done.
 	 * */
 	private oidState_type checkDefdValueOID(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final oidState_type state) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue value = definedValue.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue value = definedValue.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (value.getIsErroneous(timestamp)) {
@@ -324,7 +324,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 
 		switch(value.getValuetype()) {
 		case INTEGER_VALUE:
-			ObjectIdentifierComponent temp = new ObjectIdentifierComponent(null, definedValue);
+			final ObjectIdentifierComponent temp = new ObjectIdentifierComponent(null, definedValue);
 			temp.setFullNameParent(this);
 			temp.setMyScope(myScope);
 			return temp.checkNumberFormOID(timestamp, state);
@@ -366,8 +366,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 * @param the new state after this check was done.
 	 * */
 	private void checkDefdValueROID(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue value = definedValue.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue value = definedValue.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (value.getIsErroneous(timestamp)) {
@@ -376,7 +376,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 
 		switch(value.getValuetype()) {
 		case INTEGER_VALUE:
-			ObjectIdentifierComponent temp = new ObjectIdentifierComponent(null, definedValue);
+			final ObjectIdentifierComponent temp = new ObjectIdentifierComponent(null, definedValue);
 			temp.setFullNameParent(this);
 			temp.setMyScope(myScope);
 			temp.checkNumberFormROID(timestamp);
@@ -403,8 +403,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			return oidState_type.LATER;
 		}
 
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = number.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = number.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (last.getIsErroneous(timestamp)) {
@@ -416,14 +416,14 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			return oidState_type.LATER;
 		}
 
-		BigInteger value = ((Integer_Value) last).getValueValue();
+		final BigInteger value = ((Integer_Value) last).getValueValue();
 		if (value.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 			number.getLocation().reportSemanticError(MessageFormat.format(
 					"An integer value less then `{0}'' was expected in the number form instead of `{1}''", Integer.MAX_VALUE, value));
 			return oidState_type.LATER;
 		}
 
-		int value2 = value.intValue();
+		final int value2 = value.intValue();
 		switch (state) {
 		case START:
 			switch (value2) {
@@ -471,8 +471,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			return;
 		}
 
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = number.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = number.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (last.getIsErroneous(timestamp)) {
@@ -484,7 +484,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			return;
 		}
 
-		BigInteger value = ((Integer_Value) last).getValueValue();
+		final BigInteger value = ((Integer_Value) last).getValueValue();
 		if (value.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 			number.getLocation().reportSemanticError(MessageFormat.format(
 					"An integer value less then `{0}'' was expected in the number form instead of `{1}''", Integer.MAX_VALUE, value));
@@ -506,8 +506,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 		oidState_type actualState = state;
 		actualState = checkNumberFormOID(timestamp, actualState);
 
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = number.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = number.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (last.getIsErroneous(timestamp)) {
@@ -518,13 +518,13 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			return actualState;
 		}
 
-		BigInteger value = ((Integer_Value) last).getValueValue();
+		final BigInteger value = ((Integer_Value) last).getValueValue();
 		if (value.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 			return actualState;
 		}
 
-		String tempName = this.name.getName();
-		int tempInt = value.intValue();
+		final String tempName = this.name.getName();
+		final int tempInt = value.intValue();
 		switch (state) {
 		case START:
 			if (!isValidNameForNumber(tempName, tempInt, NAMES_ROOT)) {
@@ -609,7 +609,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 				}
 
 				builder.append('`');
-				Identifier identifier = new Identifier(Identifier_type.ID_NAME, names[i].name);
+				final Identifier identifier = new Identifier(Identifier_type.ID_NAME, names[i].name);
 				if (asn1) {
 					builder.append(identifier.getAsnName());
 				} else {

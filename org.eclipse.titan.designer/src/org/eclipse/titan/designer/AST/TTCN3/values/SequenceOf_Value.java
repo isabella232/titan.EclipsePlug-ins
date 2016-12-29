@@ -70,7 +70,8 @@ public final class SequenceOf_Value extends Value {
 				if (i > 0) {
 					builder.append(", ");
 				}
-				IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
+
+				final IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
 				builder.append(indexedValue.createStringRepresentation());
 			}
 		} else {
@@ -78,7 +79,8 @@ public final class SequenceOf_Value extends Value {
 				if (i > 0) {
 					builder.append(", ");
 				}
-				IValue indexedValue = values.getValueByIndex(i);
+
+				final IValue indexedValue = values.getValueByIndex(i);
 				builder.append(indexedValue.createStringRepresentation());
 			}
 		}
@@ -95,7 +97,7 @@ public final class SequenceOf_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
@@ -105,7 +107,7 @@ public final class SequenceOf_Value extends Value {
 		}
 
 		if (convertedValue != null && convertedValue != this) {
-			IValue temp = convertedValue.getReferencedSubValue(timestamp, reference, actualSubReference, refChain);
+			final IValue temp = convertedValue.getReferencedSubValue(timestamp, reference, actualSubReference, refChain);
 			if (temp != null && temp.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
 			}
@@ -113,22 +115,22 @@ public final class SequenceOf_Value extends Value {
 			return temp;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return null;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, refChain);
 			if (valueIndex.isUnfoldable(timestamp)) {
 				return null;
 			}
 
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-				BigInteger index = ((Integer_Value) valueIndex).getValueValue();
+				final BigInteger index = ((Integer_Value) valueIndex).getValueValue();
 
 				if (index.compareTo(BigInteger.ZERO) == -1) {
 					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NONNEGATIVEINDEXEXPECTED, index, type.getTypename()));
@@ -183,8 +185,8 @@ public final class SequenceOf_Value extends Value {
 			final IReferenceChain referenceChain) {
 		if (values.isIndexed()) {
 			for (int i = 0, size = values.getNofIndexedValues(); i < size; i++) {
-				IndexedValue temp = values.getIndexedValueByIndex(i);
-				IValue tempValue = temp.getValue();
+				final IndexedValue temp = values.getIndexedValueByIndex(i);
+				final IValue tempValue = temp.getValue();
 				if (tempValue == null || tempValue.isUnfoldable(timestamp, expectedValue, referenceChain)) {
 					return true;
 				}
@@ -297,15 +299,15 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (!Value_type.SEQUENCEOF_VALUE.equals(last.getValuetype())) {
 			return false;
 		}
 
-		SequenceOf_Value otherSequence = (SequenceOf_Value) last;
+		final SequenceOf_Value otherSequence = (SequenceOf_Value) last;
 		if (values.isIndexed()) {
 			if (otherSequence.isIndexed()) {
 				if (values.getNofIndexedValues() != otherSequence.values.getNofIndexedValues()) {
@@ -313,11 +315,11 @@ public final class SequenceOf_Value extends Value {
 				}
 
 				for (int i = 0, size = values.getNofIndexedValues(); i < size; i++) {
-					IndexedValue localTemp = values.getIndexedValueByIndex(i);
-					IValue indexValue = localTemp.getIndex().getValue();
+					final IndexedValue localTemp = values.getIndexedValueByIndex(i);
+					final IValue indexValue = localTemp.getIndex().getValue();
 					if (Value_type.INTEGER_VALUE.equals(indexValue.getValuetype())) {
-						Integer_Value integerValue = (Integer_Value) indexValue;
-						IValue otherValue = otherSequence.values.getIndexedValueByRealIndex(integerValue.intValue());
+						final Integer_Value integerValue = (Integer_Value) indexValue;
+						final IValue otherValue = otherSequence.values.getIndexedValueByRealIndex(integerValue.intValue());
 						if (otherValue == null || !localTemp.getValue().checkEquality(timestamp, otherValue)) {
 							return false;
 						}
@@ -331,7 +333,7 @@ public final class SequenceOf_Value extends Value {
 				}
 
 				for (int i = 0, size = otherSequence.values.getNofValues(); i < size; i++) {
-					IValue value = values.getIndexedValueByRealIndex(i);
+					final IValue value = values.getIndexedValueByRealIndex(i);
 					if (value == null || !otherSequence.values.getValueByIndex(i).checkEquality(timestamp, value)) {
 						return false;
 					}
@@ -344,7 +346,7 @@ public final class SequenceOf_Value extends Value {
 				}
 
 				for (int i = 0, size = values.getNofValues(); i < size; i++) {
-					IValue otherValue = otherSequence.values.getIndexedValueByRealIndex(i);
+					final IValue otherValue = otherSequence.values.getIndexedValueByRealIndex(i);
 					if (otherValue == null || !values.getValueByIndex(i).checkEquality(timestamp, otherValue)) {
 						return false;
 					}
@@ -393,7 +395,7 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
@@ -406,24 +408,24 @@ public final class SequenceOf_Value extends Value {
 			return convertedValue.evaluateIsbound(timestamp, reference, actualSubReference);
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
 			IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
 			referenceChain.release();
 			if (valueIndex.isUnfoldable(timestamp)) {
 				return false;
 			}
 
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-				int index = ((Integer_Value) valueIndex).intValue();
+				final int index = ((Integer_Value) valueIndex).intValue();
 
 				if (index < 0) {
 					return false;
@@ -465,7 +467,7 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
@@ -478,24 +480,24 @@ public final class SequenceOf_Value extends Value {
 			return convertedValue.evaluateIsbound(timestamp, reference, actualSubReference);
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value arrayIndex = ((ArraySubReference) subreference).getValue();
+			final Value arrayIndex = ((ArraySubReference) subreference).getValue();
 			IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
+			final IValue valueIndex = arrayIndex.getValueRefdLast(timestamp, referenceChain);
 			referenceChain.release();
 			if (valueIndex.isUnfoldable(timestamp)) {
 				return false;
 			}
 
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
-				int index = ((Integer_Value) valueIndex).intValue();
+				final int index = ((Integer_Value) valueIndex).intValue();
 
 				if (index < 0) {
 					return false;

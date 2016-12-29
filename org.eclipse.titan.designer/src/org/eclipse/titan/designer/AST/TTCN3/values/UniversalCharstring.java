@@ -105,7 +105,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	public String getStringRepresentation() {
 		final StringBuilder builder = new StringBuilder(value.size());
 		for (int i = 0; i < value.size(); i++) {
-			UniversalChar tempChar = value.get(i);
+			final UniversalChar tempChar = value.get(i);
 			if (tempChar.group() == 0 && tempChar.plane() == 0 && tempChar.row() == 0) {
 				builder.append((char) tempChar.cell());
 			} else {
@@ -122,7 +122,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	public UniversalCharstring substring(final int beginIndex, final int endIndex) {
-		List<UniversalChar> newList = new ArrayList<UniversalChar>(value.subList(beginIndex, endIndex));
+		final List<UniversalChar> newList = new ArrayList<UniversalChar>(value.subList(beginIndex, endIndex));
 		return new UniversalCharstring(newList);
 	}
 

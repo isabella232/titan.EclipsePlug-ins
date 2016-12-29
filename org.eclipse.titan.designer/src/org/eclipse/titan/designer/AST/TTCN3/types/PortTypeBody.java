@@ -426,10 +426,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		providerType = null;
 		PortTypeBody providerBody = null;
-		Assignment assignment = providerReference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = providerReference.getRefdAssignment(timestamp, true);
 		if (assignment != null) {
 			if (Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
-				IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
+				final IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
 				if (Type_type.TYPE_PORT.equals(type.getTypetype())) {
 					providerType = type;
 					providerBody = ((Port_Type) type).getPortBody();
@@ -479,7 +479,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				if (providerBody.inMessages != null) {
 					// check if all source types are present on the `in' list of the provider
 					for (int i = 0, size = inMappings.getNofMappings(); i < size; i++) {
-						Type sourceType = inMappings.getMappingByIndex(i).getSourceType();
+						final Type sourceType = inMappings.getMappingByIndex(i).getSourceType();
 //						if(sourceType == null) {
 //							inMappings.getMappingByIndex(i).getLocation().reportSemanticError(MessageFormat.format(
 //							"Source type of the `in'' mapping is unknown"
@@ -496,7 +496,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 					// check if all types of the `in' list of the provider are handled by the mappings
 					for (int i = 0, size = providerBody.inMessages.getNofTypes(); i < size; i++) {
-						IType messageType = providerBody.inMessages.getTypeByIndex(i);
+						final IType messageType = providerBody.inMessages.getTypeByIndex(i);
 						if (!inMappings.hasMappingForType(timestamp, messageType)) {
 							inMappings.getLocation().reportSemanticError(MessageFormat.format(
 									"Incoming message type `{0}'' of provider port type `{1}'' is not handled by the incoming mappings",
@@ -513,9 +513,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 			// checking target types
 			for (int i = 0, size = inMappings.getNofMappings(); i < size; i++) {
-				TypeMapping mapping = inMappings.getMappingByIndex(i);
+				final TypeMapping mapping = inMappings.getMappingByIndex(i);
 				for (int j = 0, nofTargets = mapping.getNofTargets(); j < nofTargets; j++) {
-					Type targetType = mapping.getTargetByIndex(j).getTargetType();
+					final Type targetType = mapping.getTargetByIndex(j).getTargetType();
 					if (targetType != null && (inMessages == null || !inMessages.hasType(timestamp, targetType))) {
 						targetType.getLocation().reportSemanticError(MessageFormat.format(
 								"Target type `{0}'' of the `in'' mapping is not present on the list of incoming messages in user port type `{1}''",
@@ -534,7 +534,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			if (outMessages != null) {
 				// check if all source types are present on the `in' list of the provider
 				for (int i = 0, size = outMappings.getNofMappings(); i < size; i++) {
-					Type sourceType = outMappings.getMappingByIndex(i).getSourceType();
+					final Type sourceType = outMappings.getMappingByIndex(i).getSourceType();
 					if (sourceType != null && !outMessages.hasType(timestamp, sourceType)) {
 						sourceType.getLocation().reportSemanticError(MessageFormat.format(
 								"Source type `{0}'' of the `out'' mapping is not present on the list of outgoing messages in user port type `{1}''",
@@ -544,7 +544,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 				// check if all types of the `in' list of the provider are handled by the mappings
 				for (int i = 0, size = outMessages.getNofTypes(); i < size; i++) {
-					IType messageType = outMessages.getTypeByIndex(i);
+					final IType messageType = outMessages.getTypeByIndex(i);
 					if (!outMappings.hasMappingForType(timestamp, messageType)) {
 						outMappings.getLocation().reportSemanticError(MessageFormat.format(
 								"Outgoing message type `{0}'' of user port type `{1}'' is not handled by the outgoing mappings",
@@ -559,9 +559,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			// checking target types
 			if (providerBody != null) {
 				for (int i = 0, size = outMappings.getNofMappings(); i < size; i++) {
-					TypeMapping mapping = outMappings.getMappingByIndex(i);
+					final TypeMapping mapping = outMappings.getMappingByIndex(i);
 					for (int j = 0, nofTargets = mapping.getNofTargets(); j < nofTargets; j++) {
-						Type targetType = mapping.getTargetByIndex(j).getTargetType();
+						final Type targetType = mapping.getTargetByIndex(j).getTargetType();
 						if (targetType != null && (providerBody.outMessages == null || !providerBody.outMessages.hasType(timestamp, targetType))) {
 							targetType.getLocation().reportSemanticError(MessageFormat.format(
 									"Target type `{0}'' of the `out'' mapping is not present "
@@ -583,11 +583,11 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (inSignatures != null) {
 			for (int i = 0, size = inSignatures.getNofTypes(); i < size; i++) {
-				IType signatureType = inSignatures.getTypeByIndex(i);
+				final IType signatureType = inSignatures.getTypeByIndex(i);
 				if (providerBody.inSignatures == null || !providerBody.inSignatures.hasType(timestamp, signatureType)) {
-					IType last = signatureType.getTypeRefdLast(timestamp);
+					final IType last = signatureType.getTypeRefdLast(timestamp);
 					if (!last.getIsErroneous(timestamp) && Type_type.TYPE_SIGNATURE.equals(last.getTypetype())) {
-						Signature_Type lastSignature = (Signature_Type) last;
+						final Signature_Type lastSignature = (Signature_Type) last;
 						if (!lastSignature.isNonblocking() || lastSignature.getSignatureExceptions() != null) {
 							signatureType.getLocation().reportSemanticError(MessageFormat.format(
 									"Incoming signature `{0}'' of user port type `{1}'' is not present on the list "
@@ -600,7 +600,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (providerBody.inSignatures != null) {
 			for (int i = 0, size = providerBody.inSignatures.getNofTypes(); i < size; i++) {
-				IType signatureType = providerBody.inSignatures.getTypeByIndex(i);
+				final IType signatureType = providerBody.inSignatures.getTypeByIndex(i);
 				if (inSignatures == null || !inSignatures.hasType(timestamp, signatureType)) {
 					location.reportSemanticError(MessageFormat.format(
 							"Incoming signature `{0}'' of provider port type `{1}'' "
@@ -611,7 +611,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (outSignatures != null) {
 			for (int i = 0, size = outSignatures.getNofTypes(); i < size; i++) {
-				IType signatureType = outSignatures.getTypeByIndex(i);
+				final IType signatureType = outSignatures.getTypeByIndex(i);
 				if (providerBody.outSignatures == null || !providerBody.outSignatures.hasType(timestamp, signatureType)) {
 					signatureType.getLocation().reportSemanticError(MessageFormat.format(
 							"Outgoing signature `{0}'' of user port type `{1}'' is not present "
@@ -622,11 +622,11 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (providerBody.outSignatures != null) {
 			for (int i = 0, size = providerBody.outSignatures.getNofTypes(); i < size; i++) {
-				IType signatureType = providerBody.outSignatures.getTypeByIndex(i);
+				final IType signatureType = providerBody.outSignatures.getTypeByIndex(i);
 				if (outSignatures == null || !outSignatures.hasType(timestamp, signatureType)) {
-					IType last = signatureType.getTypeRefdLast(timestamp);
+					final IType last = signatureType.getTypeRefdLast(timestamp);
 					if (!last.getIsErroneous(timestamp) && Type_type.TYPE_SIGNATURE.equals(last.getTypetype())) {
-						Signature_Type lastSignature = (Signature_Type) last;
+						final Signature_Type lastSignature = (Signature_Type) last;
 						if (!lastSignature.isNonblocking() || lastSignature.getSignatureExceptions() != null) {
 							location.reportSemanticError(MessageFormat.format(
 									"Outgoing signature `{0}'' of provider port type `{1}'' is not present "
@@ -652,18 +652,19 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		lastTimeAttributesChecked = lastTimeChecked;
 
-		List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
 		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
 		for (int i = 0; i < realAttributes.size(); i++) {
 			attribute = realAttributes.get(i);
 			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
-				Qualifiers qualifiers = attribute.getQualifiers();
+				final Qualifiers qualifiers = attribute.getQualifiers();
 				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
 					if (specifications == null) {
 						specifications = new ArrayList<AttributeSpecification>();
 					}
+
 					final AttributeSpecification specification = attribute.getAttributeSpecification();
 					if ( specification.getSpecification() != null ) {
 						// there is nothing to parse if specification string is null,
@@ -678,13 +679,13 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			return;
 		}
 
-		List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
 		AttributeSpecification specification;
 		for (int i = 0; i < specifications.size(); i++) {
 			specification = specifications.get(i);
-			ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
 			analyzer.parse(specification);
-			List<ExtensionAttribute> temp = analyzer.getAttributes();
+			final List<ExtensionAttribute> temp = analyzer.getAttributes();
 			if (temp != null) {
 				attributes.addAll(temp);
 			}
@@ -700,9 +701,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		// check the new attributes
 		for (int i = 0; i < attributes.size(); i++) {
-			ExtensionAttribute extensionAttribute = attributes.get(i);
+			final ExtensionAttribute extensionAttribute = attributes.get(i);
 			if (ExtensionAttribute_type.PORTTYPE.equals(extensionAttribute.getAttributeType())) {
-				PortTypeAttribute portAttribute = (PortTypeAttribute) extensionAttribute;
+				final PortTypeAttribute portAttribute = (PortTypeAttribute) extensionAttribute;
 				switch (portAttribute.getPortTypeType()) {
 				case INTERNAL:
 					switch (testportType) {
@@ -762,7 +763,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					default:
 						break;
 					}
-					UserPortTypeAttribute user = (UserPortTypeAttribute) portAttribute;
+
+					final UserPortTypeAttribute user = (UserPortTypeAttribute) portAttribute;
 					addUserAttribute(user.getReference(), user.getInMappings(), user.getOutMappings());
 					break;
 				default:
@@ -774,7 +776,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (PortType_type.PT_USER.equals(portType)) {
 			checkUserAttribute(timestamp);
 		} else if (TestPortAPI_type.TP_ADDRESS.equals(testportType)) {
-			TTCN3Module module = (TTCN3Module) myType.getMyScope().getModuleScope();
+			final TTCN3Module module = (TTCN3Module) myType.getMyScope().getModuleScope();
 			if (module.getAddressType(timestamp) == null) {
 				location.reportSemanticError(MessageFormat.format("Type `address'' is not defined in module `{0}''", module.getIdentifier().getDisplayName()));
 			}
@@ -802,16 +804,16 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 
 		for (int i = 0, size = list.size(); i < size; i++) {
-			IType type = list.get(i);
+			final IType type = list.get(i);
 			type.check(timestamp);
 
 			if (type.isComponentInternal(timestamp)) {
 				//check if a value or template of this type can leave the component.
-				Set<IType> typeSet = new HashSet<IType>();
+				final Set<IType> typeSet = new HashSet<IType>();
 				type.checkComponentInternal(timestamp, typeSet, "sent or received on a port");
 			}
 
-			IType last = type.getTypeRefdLast(timestamp);
+			final IType last = type.getTypeRefdLast(timestamp);
 			if (last != null && !last.getIsErroneous(timestamp)) {
 				switch (last.getTypetype()) {
 				case TYPE_SIGNATURE:
@@ -893,7 +895,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (outSignatures != null) {
 			for (int i = 0, size = outSignatures.getNofTypes(); i < size; i++) {
-				Signature_Type signature = (Signature_Type) outSignatures.getTypeByIndex(i).getTypeRefdLast(timestamp);
+				final Signature_Type signature = (Signature_Type) outSignatures.getTypeByIndex(i).getTypeRefdLast(timestamp);
 				if (!signature.isNonblocking() || signature.getSignatureExceptions() != null) {
 					return true;
 				}
@@ -1026,7 +1028,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	public void reportMappingErrors(final CompilationTimeStamp timestamp, final PortTypeBody other) {
 		if (outMessages != null) {
 			for (int i = 0, size = outMessages.getNofTypes(); i < size; i++) {
-				IType messageType = outMessages.getTypeByIndex(i);
+				final IType messageType = outMessages.getTypeByIndex(i);
 				if (other.outMessages == null || !other.outMessages.hasType(timestamp, messageType)) {
 					messageType.getLocation().reportSemanticError(MessageFormat.format(
 							"Outgoing message type `{0}'' of test component port type `{1}'' is not present on the outgoing list of system port type `{2}''"
@@ -1037,7 +1039,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (outSignatures != null) {
 			for (int i = 0, size = outSignatures.getNofTypes(); i < size; i++) {
-				IType signatureType = outSignatures.getTypeByIndex(i);
+				final IType signatureType = outSignatures.getTypeByIndex(i);
 				if (other.outSignatures == null || !other.outSignatures.hasType(timestamp, signatureType)) {
 					signatureType.getLocation().reportSemanticError(MessageFormat.format(
 							"Outgoing signature type `{0}'' of test component port type `{1}'' is not present on the outgoing list of system port type `{2}''"
@@ -1048,7 +1050,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (other.inMessages != null) {
 			for (int i = 0, size = other.inMessages.getNofTypes(); i < size; i++) {
-				IType messageType = other.inMessages.getTypeByIndex(i);
+				final IType messageType = other.inMessages.getTypeByIndex(i);
 				if (inMessages == null || !inMessages.hasType(timestamp, messageType)) {
 					messageType.getLocation().reportSemanticError(MessageFormat.format(
 							"Incoming message type `{0}'' of system port type `{1}'' is not present on the incoming list of test component port type `{2}''"
@@ -1059,7 +1061,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (other.inSignatures != null) {
 			for (int i = 0, size = other.inSignatures.getNofTypes(); i < size; i++) {
-				IType signatureType = other.inSignatures.getTypeByIndex(i);
+				final IType signatureType = other.inSignatures.getTypeByIndex(i);
 				if (inSignatures == null || !inSignatures.hasType(timestamp, signatureType)) {
 					signatureType.getLocation().reportSemanticError(MessageFormat.format(
 							"Incoming signature type `{0}'' of system port type `{1}'' is not present on the incoming list of test component port type `{2}''"
@@ -1115,7 +1117,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	public void reportConnectionErrors(final CompilationTimeStamp timestamp, final PortTypeBody other) {
 		if (outMessages != null) {
 			for (int i = 0, size = outMessages.getNofTypes(); i < size; i++) {
-				IType messageType = outMessages.getTypeByIndex(i);
+				final IType messageType = outMessages.getTypeByIndex(i);
 				if (other.inMessages == null || !other.inMessages.hasType(timestamp, messageType)) {
 					messageType.getLocation().reportSemanticError(MessageFormat.format(
 							"Outgoing message type `{0}'' of port type `{1}'' is not present on the incoming list of port type `{2}''"
@@ -1126,7 +1128,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (outSignatures != null) {
 			for (int i = 0, size = outSignatures.getNofTypes(); i < size; i++) {
-				IType signatureType = outSignatures.getTypeByIndex(i);
+				final IType signatureType = outSignatures.getTypeByIndex(i);
 				if (other.inSignatures == null || !other.inSignatures.hasType(timestamp, outSignatures.getTypeByIndex(i))) {
 					signatureType.getLocation().reportSemanticError(MessageFormat.format(
 							"Outgoing signature type `{0}'' of port type `{1}'' is not present on the incoming list of port type `{2}''"
@@ -1161,7 +1163,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * @param i the index of a part of the full reference, for which we wish to find completions.
 	 * */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() != i + 1 || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
 			return;
 		}
@@ -1214,12 +1216,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	}
 
 	public static void addAnyorAllProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (i != 0 || subrefs.isEmpty() || Subreference_type.arraySubReference.equals(subrefs.get(0).getReferenceType())) {
 			return;
 		}
 
-		String fakeModuleName = propCollector.getReference().getModuleIdentifier().getDisplayName();
+		final String fakeModuleName = propCollector.getReference().getModuleIdentifier().getDisplayName();
 
 		if ("any port".equals(fakeModuleName)) {
 			addReceiveProposals(propCollector, i);

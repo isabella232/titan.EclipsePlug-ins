@@ -78,10 +78,10 @@ public class CharstringExtractor {
 			// TITAN specific special characters:
 			// backslash-escaped character sequences:
 			else if (pointer + 1 < slength) {
-				char c1 = aTccnCharstring.charAt(pointer);
+				final char c1 = aTccnCharstring.charAt(pointer);
 				if (c1 == '\\') {
 					pointer++;
-					char c2 = aTccnCharstring.charAt(pointer);
+					final char c2 = aTccnCharstring.charAt(pointer);
 					// backslash-escaped singlequote,
 					// doublequote, question mark or
 					// backslash:

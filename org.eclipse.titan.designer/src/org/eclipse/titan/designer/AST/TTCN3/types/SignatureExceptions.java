@@ -159,14 +159,14 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 		exceptionMap.clear();
 
 		for (int i = 0; i < exceptionTypes.size(); i++) {
-			Type type = exceptionTypes.get(i);
+			final Type type = exceptionTypes.get(i);
 
 			type.setParentType(signature);
 			type.check(timestamp);
 			if (!type.getIsErroneous(timestamp)) {
 				type.checkEmbedded(timestamp, type.getLocation(), false, "on the exception list of a signature");
 
-				String name = type.getTypename();
+				final String name = type.getTypename();
 				if (exceptionMap.containsKey(name)) {
 					type.getLocation().reportSemanticError("Duplicate type in exception list");
 					exceptionMap.get(name).getLocation()

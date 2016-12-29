@@ -64,9 +64,9 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 
 	private void canonicalize(final Set<String> values, final Set<String> otherValues, final boolean ifValues) {
 		// length -> number of values
-		Map<Integer, Integer> valuesLengths = new HashMap<Integer, Integer>();
+		final Map<Integer, Integer> valuesLengths = new HashMap<Integer, Integer>();
 		for (String s : values) {
-			int valueSize = s.length() / type.elemSize();
+			final int valueSize = s.length() / type.elemSize();
 			if (valuesLengths.containsKey(valueSize)) {
 				valuesLengths.put(valueSize, valuesLengths.get(valueSize) + 1);
 			} else {
@@ -75,8 +75,8 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 		}
 		//
 		for (Entry<Integer, Integer> entry : valuesLengths.entrySet()) {
-			int size = entry.getKey();
-			int count = entry.getValue();
+			final int size = entry.getKey();
+			final int count = entry.getValue();
 			 // regarded as infinity in practice
 			int allValuesCount = Integer.MAX_VALUE;
 			if (type.bitCount() * size < 32) {
@@ -97,7 +97,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 				for (int actualValue = 0; actualValue < allValuesCount; actualValue++) {
 					final StringBuilder sb = new StringBuilder();
 					for (int elemIndex = 0; elemIndex < size; elemIndex++) {
-						int ei = (actualValue >> (elemIndex * type.bitCount())) & ((1 << type.bitCount()) - 1);
+						final int ei = (actualValue >> (elemIndex * type.bitCount())) & ((1 << type.bitCount()) - 1);
 						if (type == Type.BITSTRING) {
 							sb.append((char) ('0' + ei));
 						} else if (type == Type.HEXSTRING) {
@@ -109,7 +109,8 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 							sb.append((c < 10) ? (char) ('0' + c) : (char) ('A' + (c - 10)));
 						}
 					}
-					String str = sb.toString();
+
+					final String str = sb.toString();
 					if (!values.contains(str)) {
 						otherValues.add(str);
 					}
@@ -165,7 +166,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public StringSizeAndValueListConstraint complement() {
-		StringSizeAndValueListConstraint returnValue = new StringSizeAndValueListConstraint(type);
+		final StringSizeAndValueListConstraint returnValue = new StringSizeAndValueListConstraint(type);
 		returnValue.sizeConstraint = sizeConstraint.complement();
 		returnValue.notValues = new TreeSet<String>(hasValues);
 		returnValue.hasValues = new TreeSet<String>(notValues);
@@ -174,8 +175,8 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 	}
 
 	private StringSizeAndValueListConstraint setOperation(final SubtypeConstraint other, final boolean isUnion) {
-		StringSizeAndValueListConstraint o = (StringSizeAndValueListConstraint) other;
-		StringSizeAndValueListConstraint returnValue = new StringSizeAndValueListConstraint(type);
+		final StringSizeAndValueListConstraint o = (StringSizeAndValueListConstraint) other;
+		final StringSizeAndValueListConstraint returnValue = new StringSizeAndValueListConstraint(type);
 		returnValue.sizeConstraint = sizeConstraint.setOperation(o.sizeConstraint, isUnion);
 		if (isUnion) {
 			// V1+V2 (union of has_values)
@@ -219,7 +220,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 		// drop ret_val.has_values that are elements of
 		// ret_val.not_values too, drop from ret_val.not_values too
 		for (Iterator<String> i = returnValue.notValues.iterator(); i.hasNext();) {
-			String str = i.next();
+			final String str = i.next();
 			if (returnValue.hasValues.contains(str)) {
 				returnValue.hasValues.remove(str);
 				i.remove();
@@ -228,7 +229,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 		// drop ret_val.has_values elements that are elements of the
 		// ret_val.sizeConstraint set
 		for (Iterator<String> i = returnValue.hasValues.iterator(); i.hasNext();) {
-			String str = i.next();
+			final String str = i.next();
 			if (returnValue.sizeConstraint.isElement(new SizeLimit(str.length() / type.elemSize()))) {
 				i.remove();
 			}
@@ -236,7 +237,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 		// drop ret_val.not_values elements that are not elements of the
 		// ret_val.sizeConstraint set
 		for (Iterator<String> i = returnValue.notValues.iterator(); i.hasNext();) {
-			String str = i.next();
+			final String str = i.next();
 			if (!returnValue.sizeConstraint.isElement(new SizeLimit(str.length() / type.elemSize()))) {
 				i.remove();
 			}
@@ -253,7 +254,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public boolean isElement(final Object o) {
-		String s = (String) o;
+		final String s = (String) o;
 		return (sizeConstraint.isElement(new SizeLimit(s.length() / type.elemSize())) && !notValues.contains(s)) || hasValues.contains(s);
 	}
 
@@ -264,7 +265,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 
 	@Override
 	public TernaryBool isEqual(final SubtypeConstraint other) {
-		StringSizeAndValueListConstraint o = (StringSizeAndValueListConstraint) other;
+		final StringSizeAndValueListConstraint o = (StringSizeAndValueListConstraint) other;
 		return sizeConstraint.isEqual(o.sizeConstraint).and(
 				TernaryBool.fromBool(hasValues.equals(o.hasValues)).and(TernaryBool.fromBool(notValues.equals(o.notValues))));
 	}

@@ -158,7 +158,7 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 			inamedNode = inamedNode.getNameParent();
 		}
 
-		IValue iValue = (IValue) inamedNode;
+		final IValue iValue = (IValue) inamedNode;
 
 		IType type = iValue.getMyGovernor();
 		if (type == null) {

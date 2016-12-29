@@ -113,10 +113,10 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	 * */
 	protected void addFieldsOrdered(final List<CompField> fields) {
 		for (int i = 0, size = fields.size(); i < size; i++) {
-			CompField field = fields.get(i);
+			final CompField field = fields.get(i);
 
 			if (field != null && field.getIdentifier() != null && field.getIdentifier().getName() != null) {
-				int position = Collections.binarySearch(this.fields, field, FIELD_INSERTION_COMPARATOR);
+				final int position = Collections.binarySearch(this.fields, field, FIELD_INSERTION_COMPARATOR);
 
 				if (position < 0) {
 					this.fields.add((position + 1) * -1, field);
@@ -181,13 +181,14 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		componentFieldMap = new HashMap<String, CompField>(fields.size());
 
 		for (int i = 0, size = fields.size(); i < size; i++) {
-			CompField field = fields.get(i);
+			final CompField field = fields.get(i);
 
-			Identifier fieldIdentifier = field.getIdentifier();
+			final Identifier fieldIdentifier = field.getIdentifier();
 			if(fieldIdentifier == null) {
 				continue;
 			}
-			String fieldName = fieldIdentifier.getName();
+
+			final String fieldName = fieldIdentifier.getName();
 			if (componentFieldMap.containsKey(fieldName)) {
 				if (doubleComponents == null) {
 					doubleComponents = new ArrayList<CompField>();
@@ -200,12 +201,12 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 		if (doubleComponents != null) {
 			for (int i = 0, size = doubleComponents.size(); i < size; i++) {
-				CompField field = doubleComponents.get(i);
+				final CompField field = doubleComponents.get(i);
 				//remove duplication from fields - not used anymore
 				//fields.remove(field);
 				//report duplication:
-				Identifier fieldIdentifier = field.getIdentifier();
-				String fieldName = fieldIdentifier.getName();
+				final Identifier fieldIdentifier = field.getIdentifier();
+				final String fieldName = fieldIdentifier.getName();
 				componentFieldMap.get(fieldName).getIdentifier().getLocation().reportSingularSemanticError(
 						MessageFormat.format(DUPLICATEFIELDNAMEFIRST, fieldIdentifier.getDisplayName()));
 				fieldIdentifier.getLocation().reportSemanticError(
@@ -232,9 +233,9 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			return;
 		}
 
-		Type parentType = myType.get();
+		final Type parentType = myType.get();
 		for (int i = 0, size = fields.size(); i < size; i++) {
-			CompField field = fields.get(i);
+			final CompField field = fields.get(i);
 			field.getType().setParentType(parentType);
 			field.check(timestamp);
 		}
@@ -271,7 +272,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		
 		checkUniqueness(CompilationTimeStamp.getBaseTimestamp());
 
-		List<CompField> compFields = new ArrayList<CompField>();
+		final List<CompField> compFields = new ArrayList<CompField>();
 		Identifier id = null;
 		for (int i = 0; i < fields.size(); i++) {
 			id = fields.get(i).getIdentifier();
@@ -297,9 +298,9 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			checkUniqueness(CompilationTimeStamp.getBaseTimestamp());
 		}
 
-		List<CompField> compFields = new ArrayList<CompField>();
+		final List<CompField> compFields = new ArrayList<CompField>();
 		for (int i = 0; i < fields.size(); i++) {
-			String componentName = fields.get(i).getIdentifier().getName();
+			final String componentName = fields.get(i).getIdentifier().getName();
 			if (componentName.toLowerCase().startsWith(prefix.toLowerCase())) {
 				compFields.add(fields.get(i));
 			}
@@ -330,8 +331,8 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			IAppendableSyntax lastPrependableBeforeChange = null;
 
 			for (int i = 0, size = fields.size(); i < size && !enveloped; i++) {
-				CompField field = fields.get(i);
-				Location tempLocation = field.getLocation();
+				final CompField field = fields.get(i);
+				final Location tempLocation = field.getLocation();
 				//move offset to commentLocation
 				if (field.getCommentLocation() != null) {
 					tempLocation.setOffset(field.getCommentLocation().getOffset());
@@ -368,7 +369,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			// should add it to the damaged domain as the extension might be
 			// correct
 			if (lastAppendableBeforeChange != null) {
-				boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
+				final boolean isBeingExtended = reparser.startsWithFollow(lastAppendableBeforeChange.getPossibleExtensionStarterTokens());
 				if (isBeingExtended) {
 					leftBoundary = lastAppendableBeforeChange.getLocation().getOffset();
 					nofDamaged++;
@@ -378,7 +379,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			}
 
 			if (lastPrependableBeforeChange != null) {
-				List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
+				final List<Integer> temp = lastPrependableBeforeChange.getPossiblePrefixTokens();
 
 				if (temp != null && reparser.endsWithToken(temp)) {
 					rightBoundary = lastPrependableBeforeChange.getLocation().getEndOffset();
@@ -393,8 +394,8 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			}
 
 			for (int i = 0; i < fields.size(); i++) {
-				CompField field = fields.get(i);
-				Location tempLocation = field.getLocation();
+				final CompField field = fields.get(i);
+				final Location tempLocation = field.getLocation();
 
 				if (reparser.isAffectedAppended(tempLocation)) {
 					try {
@@ -428,14 +429,14 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		}
 
 		for (int i = 0, size = fields.size(); i < size; i++) {
-			CompField field = fields.get(i);
+			final CompField field = fields.get(i);
 
 			field.updateSyntax(reparser, false);
 			reparser.updateLocation(field.getLocation());
 		}
 		if (doubleComponents != null) {
 			for (int i = 0, size = doubleComponents.size(); i < size; i++) {
-				CompField field = doubleComponents.get(i);
+				final CompField field = doubleComponents.get(i);
 
 				field.updateSyntax(reparser, false);
 				reparser.updateLocation(field.getLocation());

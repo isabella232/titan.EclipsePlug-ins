@@ -66,12 +66,13 @@ public final class Set_Value extends Value {
 	@Override
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("{");
-		boolean isAsn1 = isAsn();
+		final boolean isAsn1 = isAsn();
 		for (int i = 0; i < values.getSize(); i++) {
 			if (i > 0) {
 				builder.append(", ");
 			}
-			NamedValue namedValue = values.getNamedValueByIndex(i);
+
+			final NamedValue namedValue = values.getNamedValueByIndex(i);
 			builder.append(namedValue.getName().getDisplayName());
 			if (isAsn1) {
 				builder.append(' ');
@@ -93,24 +94,24 @@ public final class Set_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return null;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(
 					MessageFormat.format(ArraySubReference.INVALIDVALUESUBREFERENCE, type.getTypename()));
 			return null;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SET:
 				if (!((TTCN3_Set_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -143,12 +144,12 @@ public final class Set_Value extends Value {
 				return null;
 			}
 
-			CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
+			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
 				//create an explicit omit value
-				Value result = new Omit_Value();
+				final Value result = new Omit_Value();
 
-				BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
 				result.setFullNameParent(bridge);
 
 				result.setMyScope(getMyScope());
@@ -261,7 +262,7 @@ public final class Set_Value extends Value {
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			for (int i = 0, size = values.getSize(); i < size; i++) {
-				IValue temp = values.getNamedValueByIndex(i).getValue();
+				final IValue temp = values.getNamedValueByIndex(i).getValue();
 				if (temp != null) {
 					referenceChain.markState();
 					temp.checkRecursions(timestamp, referenceChain);
@@ -273,8 +274,8 @@ public final class Set_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (!Value_type.SET_VALUE.equals(last.getValuetype())) {
@@ -285,13 +286,13 @@ public final class Set_Value extends Value {
 			return false;
 		}
 
-		Set_Value otherSet = (Set_Value) last;
+		final Set_Value otherSet = (Set_Value) last;
 		if (values.getSize() != otherSet.values.getSize()) {
 			return false;
 		}
 
 		int nofComps = 0;
-		IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
+		final IType leftGovernor = myGovernor.getTypeRefdLast(timestamp);
 		switch (leftGovernor.getTypetype()) {
 		case TYPE_TTCN3_SET:
 			nofComps = ((TTCN3_Set_Type) leftGovernor).getNofComponents();
@@ -315,12 +316,12 @@ public final class Set_Value extends Value {
 			default:
 				return false;
 			}
-			Identifier fieldName = compField.getIdentifier();
+			final Identifier fieldName = compField.getIdentifier();
 
 			if (hasComponentWithName(fieldName)) {
-				IValue leftValue = getComponentByName(fieldName).getValue();
+				final IValue leftValue = getComponentByName(fieldName).getValue();
 				if (otherSet.hasComponentWithName(fieldName)) {
-					IValue otherValue = otherSet.getComponentByName(fieldName).getValue();
+					final IValue otherValue = otherSet.getComponentByName(fieldName).getValue();
 					if ((Value_type.OMIT_VALUE.equals(leftValue.getValuetype()) && !Value_type.OMIT_VALUE.equals(otherValue.getValuetype()))
 							|| (!Value_type.OMIT_VALUE.equals(leftValue.getValuetype()) && Value_type.OMIT_VALUE.equals(otherValue.getValuetype()))) {
 						return false;
@@ -342,7 +343,7 @@ public final class Set_Value extends Value {
 				}
 			} else {
 				if (otherSet.hasComponentWithName(fieldName)) {
-					IValue otherValue = otherSet.getComponentByName(fieldName).getValue();
+					final IValue otherValue = otherSet.getComponentByName(fieldName).getValue();
 					if (compField.hasDefault()) {
 						if (Value_type.OMIT_VALUE.equals(otherValue.getValuetype())) {
 							return false;
@@ -387,22 +388,22 @@ public final class Set_Value extends Value {
 
 	@Override
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SET:
 				if (!((TTCN3_Set_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -427,12 +428,12 @@ public final class Set_Value extends Value {
 				return false;
 			}
 
-			CompField compField = ((ASN1_Set_Type) type).getComponentByName(fieldId);
+			final CompField compField = ((ASN1_Set_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
 				//create an explicit omit value
-				Value result = new Omit_Value();
+				final Value result = new Omit_Value();
 
-				BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
 				result.setFullNameParent(bridge);
 
 				result.setMyScope(getMyScope());
@@ -452,22 +453,22 @@ public final class Set_Value extends Value {
 
 	@Override
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return true;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return false;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SET:
 				if (!((TTCN3_Set_Type) type).hasComponentWithName(fieldId.getName())) {
@@ -492,12 +493,12 @@ public final class Set_Value extends Value {
 				return false;
 			}
 
-			CompField compField = ((ASN1_Set_Type) type).getComponentByName(fieldId);
+			final CompField compField = ((ASN1_Set_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
 				//create an explicit omit value
-				Value result = new Omit_Value();
+				final Value result = new Omit_Value();
 
-				BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
 				result.setFullNameParent(bridge);
 
 				result.setMyScope(getMyScope());
@@ -523,9 +524,9 @@ public final class Set_Value extends Value {
 
 		if (referenceFinder.assignment.getAssignmentType() == Assignment_type.A_TYPE && referenceFinder.fieldId != null && myGovernor != null) {
 			// check if this is the type and field we are searching for
-			IType governorLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType governorLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if (referenceFinder.type == governorLast) {
-				NamedValue nv = values.getNamedValueByName(referenceFinder.fieldId);
+				final NamedValue nv = values.getNamedValueByName(referenceFinder.fieldId);
 				if (nv != null) {
 					foundIdentifiers.add(new Hit(nv.getName()));
 				}

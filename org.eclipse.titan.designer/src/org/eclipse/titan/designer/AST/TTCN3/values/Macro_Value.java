@@ -101,8 +101,8 @@ public final class Macro_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		return Value_type.MACRO_VALUE.equals(last.getValuetype()) && value.equals(((Macro_Value) last).value);
@@ -111,7 +111,7 @@ public final class Macro_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
@@ -156,7 +156,7 @@ public final class Macro_Value extends Value {
 		switch (value) {
 		case MODULEID:
 			if (myScope != null && myScope.getModuleScope() != null) {
-				Module module = myScope.getModuleScope();
+				final Module module = myScope.getModuleScope();
 				if (module.getIdentifier() != null) {
 					lastValue = new Charstring_Value(module.getIdentifier().getDisplayName());
 					lastValue.copyGeneralProperties(this);
@@ -165,9 +165,9 @@ public final class Macro_Value extends Value {
 			break;
 		case DEFINITIONID:
 			if (myScope != null) {
-				StatementBlock block = myScope.getStatementBlockScope();
+				final StatementBlock block = myScope.getStatementBlockScope();
 				if (block != null) {
-					Definition definition = block.getMyDefinition();
+					final Definition definition = block.getMyDefinition();
 					if (definition != null) {
 						lastValue = new Charstring_Value(definition.getIdentifier().getDisplayName());
 						lastValue.copyGeneralProperties(this);
@@ -179,9 +179,9 @@ public final class Macro_Value extends Value {
 			break;
 		case TESTCASEID:
 			if (myScope != null) {
-				StatementBlock block = myScope.getStatementBlockScope();
+				final StatementBlock block = myScope.getStatementBlockScope();
 				if (block != null) {
-					Definition definition = block.getMyDefinition();
+					final Definition definition = block.getMyDefinition();
 					if (definition == null) {
 						location.reportSemanticError(TESCASEIDINCONTROLPART);
 						setIsErroneous(true);
@@ -214,13 +214,13 @@ public final class Macro_Value extends Value {
 				setIsErroneous(true);
 			} else {
 				String canonicalPath;
-				IPath absolutePath = location.getFile().getLocation();
+				final IPath absolutePath = location.getFile().getLocation();
 				if (absolutePath == null) {
 					location.reportSemanticError(UNDETERMINABLEPATH);
 					canonicalPath = location.getFile().getName();
 					setIsErroneous(true);
 				} else {
-					File file = absolutePath.toFile();
+					final File file = absolutePath.toFile();
 					try {
 						canonicalPath = file.getCanonicalPath();
 					} catch (IOException e) {

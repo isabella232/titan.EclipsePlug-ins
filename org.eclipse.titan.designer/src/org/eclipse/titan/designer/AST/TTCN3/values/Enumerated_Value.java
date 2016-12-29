@@ -72,13 +72,13 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDVALUESUBREFERENCE, type.getTypename()));
@@ -108,8 +108,8 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		return Value_type.ENUMERATED_VALUE.equals(last.getValuetype()) && value.equals(((Enumerated_Value) last).getValue());
@@ -159,7 +159,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 		type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 		if (type instanceof ITypeWithComponents) {
-			Identifier resultId = ((ITypeWithComponents) type).getComponentIdentifierByName(value);
+			final Identifier resultId = ((ITypeWithComponents) type).getComponentIdentifierByName(value);
 			return Declaration.createInstance(type.getDefiningAssignment(), resultId);
 		}
 

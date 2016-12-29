@@ -107,13 +107,13 @@ public final class ObjectIdentifier_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDVALUESUBREFERENCE, type.getTypename()));
@@ -166,15 +166,15 @@ public final class ObjectIdentifier_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (!Value_type.OBJECTID_VALUE.equals(last.getValuetype())) {
 			return false;
 		}
 
-		ObjectIdentifier_Value otherObjid = (ObjectIdentifier_Value) last;
+		final ObjectIdentifier_Value otherObjid = (ObjectIdentifier_Value) last;
 		if (objectIdComponents.size() != otherObjid.objectIdComponents.size()) {
 			return false;
 		}
@@ -195,7 +195,7 @@ public final class ObjectIdentifier_Value extends Value {
 		}
 
 		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
-			ObjectIdentifierComponent component = objectIdComponents.get(i);
+			final ObjectIdentifierComponent component = objectIdComponents.get(i);
 
 			component.updateSyntax(reparser, false);
 			reparser.updateLocation(component.getLocation());

@@ -69,7 +69,7 @@ public final class Referenced_Value extends Value {
 
 	protected Referenced_Value(final Undefined_LowerIdentifier_Value original) {
 		copyGeneralProperties(original);
-		List<ISubReference> subReferences = new ArrayList<ISubReference>();
+		final List<ISubReference> subReferences = new ArrayList<ISubReference>();
 		subReferences.add(new FieldSubReference(original.getIdentifier()));
 		reference = new Reference(null, subReferences);
 		reference.setMyScope(myScope);
@@ -104,7 +104,7 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IType temporalType = getExpressionGovernor(timestamp, expectedValue);
+		final IType temporalType = getExpressionGovernor(timestamp, expectedValue);
 		if (temporalType == null) {
 			return Type_type.TYPE_UNDEFINED;
 		}
@@ -119,7 +119,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Assignment ass = reference.getRefdAssignment(timestamp, false);
+		final Assignment ass = reference.getRefdAssignment(timestamp, false);
 		if (ass == null) {
 			return true;
 		}
@@ -142,7 +142,7 @@ public final class Referenced_Value extends Value {
 			return true;
 		}
 
-		IValue last = getValueRefdLast(timestamp, expectedValue, referenceChain);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, referenceChain);
 		if (last == this || last == null) {
 			return true;
 		}
@@ -153,7 +153,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
@@ -185,7 +185,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(newType)) {
-			IValue temp = getValueRefdLast(timestamp, null);
+			final IValue temp = getValueRefdLast(timestamp, null);
 
 			if (temp != null && Value_type.CHARSTRING_VALUE.equals(temp.getValuetype())) {
 				return new UniversalCharstring_Value((Charstring_Value) temp);
@@ -218,7 +218,7 @@ public final class Referenced_Value extends Value {
 
 		reference.setIsErroneous(false);
 
-		Assignment ass = reference.getRefdAssignment(timestamp, true);
+		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 		if (ass == null) {
 			isErroneous = true;
 			return referencedValue;
@@ -227,7 +227,7 @@ public final class Referenced_Value extends Value {
 		switch (ass.getAssignmentType()) {
 		case A_OBJECT:
 		case A_OS: {
-			ISetting setting = reference.getRefdSetting(timestamp);
+			final ISetting setting = reference.getRefdSetting(timestamp);
 
 			if (setting == null || setting.getIsErroneous(timestamp)) {
 				isErroneous = true;
@@ -344,7 +344,7 @@ public final class Referenced_Value extends Value {
 		}
 
 		reference.setIsErroneous(false);
-		Assignment ass = reference.getRefdAssignment(timestamp, true);
+		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 		if (ass == null) {
 			setIsErroneous(true);
 			return null;
@@ -411,21 +411,21 @@ public final class Referenced_Value extends Value {
 			return;
 		}
 
-		List<ISubReference> subreferences = new ArrayList<ISubReference>();
+		final List<ISubReference> subreferences = new ArrayList<ISubReference>();
 		subreferences.addAll(reference.getSubreferences());
 		if (subreferences.size() <= 1) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.remove(subreferences.size() - 1);
-		Identifier id = subreference.getId();
+		final ISubReference subreference = subreferences.remove(subreferences.size() - 1);
+		final Identifier id = subreference.getId();
 		if (id == null) {
 			getLocation().reportSemanticError("Only a reference pointing to an optional record or set field can be compared with `omit'");
 			setIsErroneous(true);
 			return;
 		}
 
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			setIsErroneous(true);
 			return;
@@ -437,7 +437,7 @@ public final class Referenced_Value extends Value {
 			return;
 		}
 
-		Reference tempReference = new Reference(null, subreferences);
+		final Reference tempReference = new Reference(null, subreferences);
 		tempReference.setFullNameParent(this);
 		tempReference.setMyScope(myScope);
 		type = type.getFieldType(timestamp, tempReference, 1, expectedValue, false);
@@ -535,8 +535,8 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	public boolean evaluateIsvalue(final boolean fromSequence) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
 		if (last == this) {
@@ -548,8 +548,8 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
 		if (last == this) {
@@ -561,8 +561,8 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
 		if (last == this) {

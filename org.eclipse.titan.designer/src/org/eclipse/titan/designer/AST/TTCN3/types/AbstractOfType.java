@@ -109,7 +109,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
@@ -159,7 +159,7 @@ public abstract class AbstractOfType extends ASN1Type {
 
 			return subType.isCompatible(timestamp, other.getSubtype());
 		case TYPE_ARRAY: {
-			ArrayDimension dimension = ((Array_Type) other).getDimension();
+			final ArrayDimension dimension = ((Array_Type) other).getDimension();
 			if (dimension.getIsErroneous(timestamp)) {
 				return false;
 			}
@@ -171,10 +171,10 @@ public abstract class AbstractOfType extends ASN1Type {
 			return false;
 		}
 
-		List<ParsedSubType> tempRestrictions = new ArrayList<ParsedSubType>(1);
-		Integer_Value length = new Integer_Value(nofComponents);
+		final List<ParsedSubType> tempRestrictions = new ArrayList<ParsedSubType>(1);
+		final Integer_Value length = new Integer_Value(nofComponents);
 		tempRestrictions.add(new Length_ParsedSubType(new SingleLenghtRestriction(length)));
-		SubType tempSubtype = new SubType(getSubtypeType(), this, tempRestrictions, null);
+		final SubType tempSubtype = new SubType(getSubtypeType(), this, tempRestrictions, null);
 		tempSubtype.check(timestamp);
 		return subType.isCompatible(timestamp, tempSubtype);
 	}
@@ -218,16 +218,16 @@ public abstract class AbstractOfType extends ASN1Type {
 			}
 		}*/
 
-		MultipleWithAttributes selfAttributes = withAttributesPath.getAttributes();
+		final MultipleWithAttributes selfAttributes = withAttributesPath.getAttributes();
 		if (selfAttributes == null) {
 			return;
 		}
 
-		MultipleWithAttributes newSelfAttributes = new MultipleWithAttributes();
+		final MultipleWithAttributes newSelfAttributes = new MultipleWithAttributes();
 		for (int i = 0; i < selfAttributes.getNofElements(); i++) {
-			SingleWithAttribute temp = selfAttributes.getAttribute(i);
+			final SingleWithAttribute temp = selfAttributes.getAttribute(i);
 			if (Attribute_Type.Encode_Attribute.equals(temp.getAttributeType())) {
-				SingleWithAttribute newAttribute = new SingleWithAttribute(temp.getAttributeType(), temp.hasOverride(), null,
+				final SingleWithAttribute newAttribute = new SingleWithAttribute(temp.getAttributeType(), temp.hasOverride(), null,
 						temp.getAttributeSpecification());
 				newSelfAttributes.addAttribute(newAttribute);
 			}
@@ -251,28 +251,28 @@ public abstract class AbstractOfType extends ASN1Type {
 
 		// Distribute the attributes with qualifiers to the components
 		for (int j = 0; j < selfAttributes.getNofElements(); j++) {
-			SingleWithAttribute tempSingle = selfAttributes.getAttribute(j);
-			Qualifiers tempQualifiers = tempSingle.getQualifiers();
+			final SingleWithAttribute tempSingle = selfAttributes.getAttribute(j);
+			final Qualifiers tempQualifiers = tempSingle.getQualifiers();
 			if (tempQualifiers == null || tempQualifiers.getNofQualifiers() == 0) {
 				continue;
 			}
 
 			for (int k = 0, kmax = tempQualifiers.getNofQualifiers(); k < kmax; k++) {
-				Qualifier tempQualifier = tempQualifiers.getQualifierByIndex(k);
+				final Qualifier tempQualifier = tempQualifiers.getQualifierByIndex(k);
 				if (tempQualifier.getNofSubReferences() == 0) {
 					continue;
 				}
 
-				ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
+				final ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
 				boolean componentFound = false;
 
 				if (tempSubReference.getReferenceType() == Subreference_type.arraySubReference) {
 					// Found a qualifier whose first
 					// identifier matches the component name
-					Qualifiers calculatedQualifiers = new Qualifiers();
+					final Qualifiers calculatedQualifiers = new Qualifiers();
 					calculatedQualifiers.addQualifier(tempQualifier.getQualifierWithoutFirstSubRef());
 
-					SingleWithAttribute tempSingle2 = new SingleWithAttribute(tempSingle.getAttributeType(),
+					final SingleWithAttribute tempSingle2 = new SingleWithAttribute(tempSingle.getAttributeType(),
 							tempSingle.hasOverride(), calculatedQualifiers, tempSingle.getAttributeSpecification());
 					tempSingle2.setLocation(new Location(tempSingle.getLocation()));
 					MultipleWithAttributes componentAttributes = ofType.getAttributePath().getAttributes();
@@ -307,7 +307,7 @@ public abstract class AbstractOfType extends ASN1Type {
 
 		lastTimeChecked = timestamp;
 		if (myScope != null) {
-			Module module = myScope.getModuleScope();
+			final Module module = myScope.getModuleScope();
 			if (module != null && module.getSkippedFromSemanticChecking()) {
 				lastTimeChecked = timestamp;
 				return;
@@ -376,16 +376,16 @@ public abstract class AbstractOfType extends ASN1Type {
 			BigInteger maxIndex = BigInteger.valueOf(-1);
 			Map<BigInteger, Integer> indexMap = new HashMap<BigInteger, Integer>(value.getNofComponents());
 			for (int i = 0, size = value.getNofComponents(); i < size; i++) {
-				IValue component = value.getValueByIndex(i);
-				Value index = value.getIndexByIndex(i);
-				IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IValue indexLast = index.getValueRefdLast(timestamp, referenceChain);
+				final IValue component = value.getValueByIndex(i);
+				final Value index = value.getIndexByIndex(i);
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue indexLast = index.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
 
 				if (indexLast.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(indexLast.getValuetype())) {
 					checkHoles = false;
 				} else {
-					BigInteger tempIndex = ((Integer_Value) indexLast).getValueValue();
+					final BigInteger tempIndex = ((Integer_Value) indexLast).getValueValue();
 					if (tempIndex.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 						index.getLocation()
 								.reportSemanticError(
@@ -411,7 +411,7 @@ public abstract class AbstractOfType extends ASN1Type {
 				}
 
 				component.setMyGovernor(getOfType());
-				IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
+				final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
 				getOfType().checkThisValue(timestamp, tempValue2,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
@@ -420,12 +420,12 @@ public abstract class AbstractOfType extends ASN1Type {
 			}
 		} else {
 			for (int i = 0, size = value.getNofComponents(); i < size; i++) {
-				IValue component = value.getValueByIndex(i);
+				final IValue component = value.getValueByIndex(i);
 				component.setMyGovernor(getOfType());
 				if (Value_type.NOTUSED_VALUE.equals(component.getValuetype()) && !incompleteAllowed) {
 					component.getLocation().reportSemanticError(INCOMPLETEPRESENTERROR);
 				} else {
-					IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
+					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
 					getOfType().checkThisValue(timestamp, tempValue2,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
@@ -438,22 +438,24 @@ public abstract class AbstractOfType extends ASN1Type {
 	@Override
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		if (subreference.getReferenceType() != Subreference_type.arraySubReference) {
 			ErrorReporter.INTERNAL_ERROR();
 			return false;
 		}
 
-		Value indexValue = ((ArraySubReference) subreference).getValue();
+		final Value indexValue = ((ArraySubReference) subreference).getValue();
 		if (indexValue == null) {
 			ErrorReporter.INTERNAL_ERROR();
 			return false;
 		}
-		IValue last = indexValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
+
+		final IValue last = indexValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
 		if (last == null) {
 			ErrorReporter.INTERNAL_ERROR();
 			return false;
@@ -464,9 +466,10 @@ public abstract class AbstractOfType extends ASN1Type {
 		if (!Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
 			return false;
 		}
-		Integer_Value lastInteger = (Integer_Value) last;
+
+		final Integer_Value lastInteger = (Integer_Value) last;
 		if (lastInteger.isNative()) {
-			int fieldIndex = (int) lastInteger.getValue();
+			final int fieldIndex = (int) lastInteger.getValue();
 			if (fieldIndex < 0) {
 				return false;
 			}
@@ -485,28 +488,28 @@ public abstract class AbstractOfType extends ASN1Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		Expected_Value_type internalExpectation = expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
+		final Expected_Value_type internalExpectation = expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
 				: expectedIndex;
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
-			Value indexValue = ((ArraySubReference) subreference).getValue();
+			final Value indexValue = ((ArraySubReference) subreference).getValue();
 			if (indexValue != null) {
 				indexValue.setLoweridToReference(timestamp);
-				Type_type tempType = indexValue.getExpressionReturntype(timestamp, expectedIndex);
+				final Type_type tempType = indexValue.getExpressionReturntype(timestamp, expectedIndex);
 
 				switch (tempType) {
 				case TYPE_INTEGER:
-					IValue last = indexValue.getValueRefdLast(timestamp, expectedIndex, refChain);
+					final IValue last = indexValue.getValueRefdLast(timestamp, expectedIndex, refChain);
 					if (Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
-						Integer_Value lastInteger = (Integer_Value) last;
+						final Integer_Value lastInteger = (Integer_Value) last;
 						if (lastInteger.isNative()) {
-							long temp = lastInteger.getValue();
+							final long temp = lastInteger.getValue();
 							if (temp < 0) {
 								indexValue.getLocation().reportSemanticError(
 										MessageFormat.format(SequenceOf_Type.NONNEGATIVINDEXEXPECTED, last));
@@ -553,11 +556,12 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		if (subreference.getReferenceType() != Subreference_type.arraySubReference) {
 			return false;
 		}
@@ -570,13 +574,13 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() < i) {
 			return;
 		} else if (subreferences.size() == i) {
-			ISubReference subreference = subreferences.get(i - 1);
+			final ISubReference subreference = subreferences.get(i - 1);
 			if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-				String candidate = ((FieldSubReference) subreference).getId().getDisplayName();
+				final String candidate = ((FieldSubReference) subreference).getId().getDisplayName();
 				propCollector.addTemplateProposal(candidate, new Template(candidate + "[index]", candidate + " with index",
 						propCollector.getContextIdentifier(), candidate + "[${index}]", false),
 						TTCN3CodeSkeletons.SKELETON_IMAGE);
@@ -584,7 +588,7 @@ public abstract class AbstractOfType extends ASN1Type {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.arraySubReference.equals(subreference.getReferenceType()) && subreferences.size() > i + 1 && ofType != null) {
 			ofType.addProposal(propCollector, i + 1);
 		}
@@ -592,12 +596,12 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.arraySubReference.equals(subreference.getReferenceType()) && subreferences.size() > i + 1 && ofType != null) {
 			ofType.addDeclaration(declarationCollector, i + 1);
 		}

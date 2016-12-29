@@ -52,7 +52,7 @@ public final class Anytype_Value extends Value {
 
 	public Anytype_Value(final CompilationTimeStamp timestamp, final Sequence_Value value) {
 		copyGeneralProperties(value);
-		int valueSize = value.getNofComponents();
+		final int valueSize = value.getNofComponents();
 		if (valueSize < 1) {
 			this.name = null;
 			this.value = null;
@@ -66,7 +66,7 @@ public final class Anytype_Value extends Value {
 			setIsErroneous(true);
 			lastTimeChecked = timestamp;
 		} else {
-			NamedValue namedValue = value.getSeqValueByIndex(0);
+			final NamedValue namedValue = value.getSeqValueByIndex(0);
 			this.name = namedValue.getName();
 			this.value = namedValue.getValue();
 		}
@@ -103,8 +103,8 @@ public final class Anytype_Value extends Value {
 			return false;
 		}
 
-		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = value.getValueRefdLast(timestamp, chain);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(timestamp, chain);
 		chain.release();
 
 		if (Value_type.ANYTYPE_VALUE.equals(last.getValuetype())) {
@@ -122,23 +122,23 @@ public final class Anytype_Value extends Value {
 	@Override
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(timestamp);
+		final IType type = myGovernor.getTypeRefdLast(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return null;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDVALUESUBREFERENCE, type.getTypename()));
 			return null;
 		case fieldSubReference:
-			Identifier fieldId = ((FieldSubReference) subreference).getId();
+			final Identifier fieldId = ((FieldSubReference) subreference).getId();
 			switch (type.getTypetype()) {
 			case TYPE_ANY:
 				if (!((Anytype_Type) type).hasComponentWithName(fieldId.getDisplayName())) {
@@ -197,15 +197,15 @@ public final class Anytype_Value extends Value {
 
 	@Override
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
-		IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = other.getValueRefdLast(timestamp, referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
 
 		if (!Value_type.ANYTYPE_VALUE.equals(last.getValuetype())) {
 			return false;
 		}
 
-		Anytype_Value otherAny = (Anytype_Value) last;
+		final Anytype_Value otherAny = (Anytype_Value) last;
 		if (!name.equals(otherAny.name)
 				|| !value.checkEquality(timestamp, otherAny.value)) {
 			return false;

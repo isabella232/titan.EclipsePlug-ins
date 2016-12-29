@@ -176,7 +176,7 @@ public abstract class Expression_Value extends Value {
 	@Override
 	public final IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
 			return this;
 		}
@@ -295,7 +295,7 @@ public abstract class Expression_Value extends Value {
 			location.reportSemanticError(MessageFormat.format(ONLYINRUNSON, operationName));
 			setIsErroneous(true);
 		} else {
-			StatementBlock myStatementBlock = myScope.getStatementBlockScope();
+			final StatementBlock myStatementBlock = myScope.getStatementBlockScope();
 			if (myStatementBlock == null) {
 				location.reportSemanticError(MessageFormat.format(ONLYINSTATEMENTS, operationName));
 				setIsErroneous(true);

@@ -132,7 +132,7 @@ public final class CompField extends ASTNode
 
 	@Override
 	public String getOutlineText() {
-		StringBuilder text = new StringBuilder(name.getDisplayName());
+		final StringBuilder text = new StringBuilder(name.getDisplayName());
 		text.append(" : ");
 		text.append(type.getTypename());
 		return text.toString();
@@ -239,7 +239,7 @@ public final class CompField extends ASTNode
 			return null;
 		}
 
-		List<Integer> result = new ArrayList<Integer>();
+		final List<Integer> result = new ArrayList<Integer>();
 		result.add(Ttcn3Lexer.OPTIONAL);
 
 		result.add(Ttcn3Lexer.LPAREN);
@@ -261,11 +261,11 @@ public final class CompField extends ASTNode
 		if (isDamaged) {
 			boolean enveloped = false;
 			if(name != null) {
-				Location tempIdentifier = name.getLocation();
+				final Location tempIdentifier = name.getLocation();
 				if (reparser.envelopsDamage(tempIdentifier) || reparser.isExtending(tempIdentifier)) {
 					reparser.extendDamagedRegion(tempIdentifier);
-					IIdentifierReparser r = new IdentifierReparser(reparser);
-					int result = r.parse();
+					final IIdentifierReparser r = new IdentifierReparser(reparser);
+					final int result = r.parse();
 					name = r.getIdentifier();
 					// damage handled
 					if (result == 0) {
@@ -352,7 +352,7 @@ public final class CompField extends ASTNode
 			inamedNode = inamedNode.getNameParent();
 		}
 
-		Definition namedTemplList = (Definition) inamedNode;
+		final Definition namedTemplList = (Definition) inamedNode;
 
 		IType tempType = namedTemplList.getType(CompilationTimeStamp.getBaseTimestamp());
 		if (tempType == null) {
@@ -362,7 +362,7 @@ public final class CompField extends ASTNode
 		tempType = tempType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 		if (tempType instanceof ITypeWithComponents) {
-			Identifier resultId = ((ITypeWithComponents) tempType).getComponentIdentifierByName(getIdentifier());
+			final Identifier resultId = ((ITypeWithComponents) tempType).getComponentIdentifierByName(getIdentifier());
 			return Declaration.createInstance(tempType.getDefiningAssignment(), resultId);
 		}
 

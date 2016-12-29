@@ -129,7 +129,7 @@ public final class Signature_Type extends Type {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType last = otherType.getTypeRefdLast(timestamp);
+		final IType last = otherType.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || last.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -141,7 +141,7 @@ public final class Signature_Type extends Type {
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -243,7 +243,7 @@ public final class Signature_Type extends Type {
 		if (formalParList != null) {
 			formalParList.check(timestamp, this);
 			for (int i = 0, size = formalParList.getNofParameters(); i < size && !componentInternal; i++) {
-				IType type = formalParList.getParameterByIndex(i).getType();
+				final IType type = formalParList.getParameterByIndex(i).getType();
 				if (type != null && type.isComponentInternal(timestamp)) {
 					componentInternal = true;
 				}
@@ -262,7 +262,7 @@ public final class Signature_Type extends Type {
 		if (exceptions != null) {
 			exceptions.check(timestamp, this);
 			for (int i = 0, size = exceptions.getNofExceptions(); i < size && !componentInternal; i++) {
-				IType type = exceptions.getExceptionByIndex(i);
+				final IType type = exceptions.getExceptionByIndex(i);
 				if (type != null && type.isComponentInternal(timestamp)) {
 					componentInternal = true;
 				}
@@ -281,7 +281,7 @@ public final class Signature_Type extends Type {
 		typeSet.add(this);
 		if (formalParList != null) {
 			for (int i = 0, size = formalParList.getNofParameters(); i < size; i++) {
-				IType type = formalParList.getParameterByIndex(i).getType();
+				final IType type = formalParList.getParameterByIndex(i).getType();
 				if (type != null && type.isComponentInternal(timestamp)) {
 					type.checkComponentInternal(timestamp, typeSet, operation);
 				}
@@ -294,7 +294,7 @@ public final class Signature_Type extends Type {
 
 		if (exceptions != null) {
 			for (int i = 0, size = exceptions.getNofExceptions(); i < size; i++) {
-				IType type = exceptions.getExceptionByIndex(i);
+				final IType type = exceptions.getExceptionByIndex(i);
 				if (type != null && type.isComponentInternal(timestamp)) {
 					type.checkComponentInternal(timestamp, typeSet, operation);
 				}
@@ -375,15 +375,15 @@ public final class Signature_Type extends Type {
 	 * */
 	private void checkThisValueSequence(final CompilationTimeStamp timestamp, final Sequence_Value value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
-		Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
+		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
 		boolean inSnyc = true;
 		final int nofTypeComponents = getNofParameters();
 		final int nofvalueComponents = value.getNofComponents();
 		int nextIndex = 0;
 		SignatureFormalParameter lastParameter = null;
 		for (int i = 0; i < nofvalueComponents; i++) {
-			NamedValue namedValue = value.getSeqValueByIndex(i);
-			Identifier valueId = namedValue.getName();
+			final NamedValue namedValue = value.getSeqValueByIndex(i);
+			final Identifier valueId = namedValue.getName();
 			if (!formalParList.hasParameterWithName(valueId.getName())) {
 				namedValue.getLocation().reportSemanticError(MessageFormat.format(
 						NONEXISTENTPARAMETER, valueId.getDisplayName(), getTypename()));
@@ -399,13 +399,13 @@ public final class Signature_Type extends Type {
 				componentMap.put(valueId.getName(), namedValue);
 			}
 
-			SignatureFormalParameter formalParameter = formalParList.getParameterByName(valueId.getName());
+			final SignatureFormalParameter formalParameter = formalParList.getParameterByName(valueId.getName());
 			if (inSnyc) {
 				if (incompleteAllowed) {
 					boolean found = false;
 
 					for (int j = nextIndex; j < nofTypeComponents && !found; j++) {
-						SignatureFormalParameter formalParameter2 = formalParList.getParameterByIndex(j);
+						final SignatureFormalParameter formalParameter2 = formalParList.getParameterByIndex(j);
 						if (valueId.getName().equals(formalParameter2.getIdentifier().getName())) {
 							lastParameter = formalParameter2;
 							nextIndex = j + 1;
@@ -420,7 +420,7 @@ public final class Signature_Type extends Type {
 						inSnyc = false;
 					}
 				} else {
-					SignatureFormalParameter formalParameter2 = formalParList.getParameterByIndex(i);
+					final SignatureFormalParameter formalParameter2 = formalParList.getParameterByIndex(i);
 					if (formalParameter != formalParameter2) {
 						namedValue.getLocation().reportSemanticError(MessageFormat.format(
 								"Unexpected field `{0}'' in signature value, expecting `{1}''",
@@ -430,19 +430,19 @@ public final class Signature_Type extends Type {
 				}
 			}
 
-			Type type = formalParameter.getType();
-			IValue componentValue = namedValue.getValue();
+			final Type type = formalParameter.getType();
+			final IValue componentValue = namedValue.getValue();
 			if (componentValue != null) {
 				componentValue.setMyGovernor(type);
-				IValue tempValue = type.checkThisValueRef(timestamp, componentValue);
+				final IValue tempValue = type.checkThisValueRef(timestamp, componentValue);
 				type.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(expectedValue, false, false, true, implicitOmit, strElem));
 			}
 		}
 
 		if (!incompleteAllowed) {
 			for (int i = 0; i < formalParList.getNofInParameters(); i++) {
-				SignatureFormalParameter formalParameter = formalParList.getInParameterByIndex(i);
-				Identifier identifier = formalParameter.getIdentifier();
+				final SignatureFormalParameter formalParameter = formalParList.getInParameterByIndex(i);
+				final Identifier identifier = formalParameter.getIdentifier();
 				if (!componentMap.containsKey(identifier.getName()) && SignatureFormalParameter.PARAM_OUT != formalParameter.getDirection()) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Field `{0}'' is missing from signature value", identifier.getDisplayName()));
@@ -459,7 +459,7 @@ public final class Signature_Type extends Type {
 
 		switch (template.getTemplatetype()) {
 		case TEMPLATE_LIST:
-			ITTCN3Template transformed = template.setTemplatetype(timestamp, Template_type.NAMED_TEMPLATE_LIST);
+			final ITTCN3Template transformed = template.setTemplatetype(timestamp, Template_type.NAMED_TEMPLATE_LIST);
 			checkThisNamedTemplateList(timestamp, (Named_Template_List) transformed, isModified);
 			break;
 		case NAMED_TEMPLATE_LIST:
@@ -479,10 +479,10 @@ public final class Signature_Type extends Type {
 	}
 
 	private void checkThisNamedTemplateList(final CompilationTimeStamp timestamp, final Named_Template_List template, final boolean isModified) {
-		Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
+		final Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
 		boolean inSynch = true;
-		int nofTypeParameters =  getNofParameters();  //TODO:  alternatives:formalParList.getNofInParameters(); formalParList.getNofOutParameters()
-		int nofTemplateComponents = template.getNofTemplates();
+		final int nofTypeParameters =  getNofParameters();  //TODO:  alternatives:formalParList.getNofInParameters(); formalParList.getNofOutParameters()
+		final int nofTemplateComponents = template.getNofTemplates();
 		int tI = 0;
 		if(nofTemplateComponents < nofTypeParameters) {
 			template.getLocation().reportSemanticError(
@@ -497,9 +497,9 @@ public final class Signature_Type extends Type {
 //					this.getFullName(), nofTypeParameters, nofTemplateComponents));
 //		}
 		for (int vI = 0; vI < nofTemplateComponents; vI++) {
-			NamedTemplate namedTemplate = template.getTemplateByIndex(vI);
-			Identifier identifier = namedTemplate.getName();
-			String name = identifier.getName();
+			final NamedTemplate namedTemplate = template.getTemplateByIndex(vI);
+			final Identifier identifier = namedTemplate.getName();
+			final String name = identifier.getName();
 
 			if (hasParameterWithName(name)) {
 				if (componentMap.containsKey(name)) {
@@ -512,7 +512,7 @@ public final class Signature_Type extends Type {
 					componentMap.put(name, namedTemplate);
 				}
 
-				SignatureFormalParameter parameter = formalParList.getParameterByName(name);
+				final SignatureFormalParameter parameter = formalParList.getParameterByName(name);
 				if (inSynch) {
 					SignatureFormalParameter parameter2 = null;
 					boolean found = false;
@@ -529,9 +529,9 @@ public final class Signature_Type extends Type {
 					}
 				}
 
-				Type parameterType = parameter.getType();
+				final Type parameterType = parameter.getType();
 				ITTCN3Template componentTemplate = namedTemplate.getTemplate();
-				componentTemplate.setMyGovernor(parameterType);
+				componentTemplate.setMyGovernor(parameterType); //FIXME: will be overwritten?
 				componentTemplate = parameterType.checkThisTemplateRef(timestamp, componentTemplate);
 				componentTemplate.checkThisTemplateGeneric(timestamp, parameterType, isModified, false, false, true, false);
 			} else {
@@ -546,8 +546,8 @@ public final class Signature_Type extends Type {
 			SignatureFormalParameter firstUndefOut = null;
 
 			for (int i = 0; i < nofTypeParameters; i++) {
-				SignatureFormalParameter parameter = formalParList.getParameterByIndex(i);
-				Identifier identifier = parameter.getIdentifier();
+				final SignatureFormalParameter parameter = formalParList.getParameterByIndex(i);
+				final Identifier identifier = parameter.getIdentifier();
 
 				if (!componentMap.containsKey(identifier.getName())
 						|| Template_type.TEMPLATE_NOTUSED.equals(componentMap.get(identifier.getName()).getTemplate().getTemplatetype())) {
@@ -580,12 +580,12 @@ public final class Signature_Type extends Type {
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));

@@ -67,7 +67,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp) || this == temp) {
 			return true;
@@ -79,7 +79,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		switch (temp.getTypetype()) {
 		case TYPE_ASN1_CHOICE: {
-			ASN1_Choice_Type tempType = (ASN1_Choice_Type) temp;
+			final ASN1_Choice_Type tempType = (ASN1_Choice_Type) temp;
 			TypeCompatibilityInfo.Chain lChain = leftChain;
 			TypeCompatibilityInfo.Chain rChain = rightChain;
 			if (lChain == null) {
@@ -91,11 +91,11 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				rChain.add(tempType);
 			}
 			for (int i = 0, size = getNofComponents(); i < size; i++) {
-				CompField cf = getComponentByIndex(i);
-				IType cfType = cf.getType().getTypeRefdLast(timestamp);
+				final CompField cf = getComponentByIndex(i);
+				final IType cfType = cf.getType().getTypeRefdLast(timestamp);
 				for (int j = 0, size2 = tempType.getNofComponents(timestamp); j < size2; j++) {
-					CompField tempComponentField = tempType.getComponentByIndex(j);
-					IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
+					final CompField tempComponentField = tempType.getComponentByIndex(j);
+					final IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
 					if (!cf.getIdentifier().getDisplayName().equals(tempComponentField.getIdentifier().getDisplayName())) {
 						continue;
 					}
@@ -119,7 +119,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return false;
 		}
 		case TYPE_TTCN3_CHOICE: {
-			TTCN3_Choice_Type tempType = (TTCN3_Choice_Type) temp;
+			final TTCN3_Choice_Type tempType = (TTCN3_Choice_Type) temp;
 			if (this == tempType) {
 				return true;
 			}
@@ -134,11 +134,11 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				rChain.add(tempType);
 			}
 			for (int i = 0, size = getNofComponents(); i < size; i++) {
-				CompField cf = getComponentByIndex(i);
-				IType cfType = cf.getType().getTypeRefdLast(timestamp);
+				final CompField cf = getComponentByIndex(i);
+				final IType cfType = cf.getType().getTypeRefdLast(timestamp);
 				for (int j = 0, size2 = tempType.getNofComponents(); j < size2; j++) {
-					CompField tempComponentField = tempType.getComponentByIndex(j);
-					IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
+					final CompField tempComponentField = tempType.getComponentByIndex(j);
+					final IType tempTypeCompFieldType = tempComponentField.getType().getTypeRefdLast(timestamp);
 					if (!cf.getIdentifier().getDisplayName().equals(tempComponentField.getIdentifier().getDisplayName())) {
 						continue;
 					}
@@ -181,7 +181,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
-		IType temp = type.getTypeRefdLast(timestamp);
+		final IType temp = type.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
@@ -212,7 +212,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	public void checkConstructorName(final String definitionName) {
 		if (hasComponentWithName(definitionName)) {
-			CompField field = getComponentByName(definitionName);
+			final CompField field = getComponentByName(definitionName);
 			field.getIdentifier().getLocation().reportSemanticError(MessageFormat.format(UNSUPPERTED_FIELDNAME, field.getIdentifier().getDisplayName()));
 		}
 	}
@@ -234,11 +234,11 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			cachedChain = ((ReferenceChain) referenceChain).toCachedReferenceChain();
 		}
 
-		Map<String, CompField> map = compFieldMap.getComponentFieldMap(timestamp);
+		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(timestamp);
 		cachedChain.markErrorState();
 		int i = 1;
 		for (CompField compField : map.values()) {
-			IType type = compField.getType();
+			final IType type = compField.getType();
 			if (type != null) {
 				cachedChain.markState();
 				type.checkRecursions(timestamp, cachedChain);
@@ -326,7 +326,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	private void checkThisValueChoice(final CompilationTimeStamp timestamp, final Choice_Value value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean strElem) {
-		Identifier name = value.getName();
+		final Identifier name = value.getName();
 		if (!hasComponentWithName(name.getName())) {
 			if (value.isAsn()) {
 				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTCHOICE, name.getDisplayName(), getFullName()));
@@ -343,7 +343,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return;
 		}
 
-		Type alternativeType = getComponentByName(name.getName()).getType();
+		final Type alternativeType = getComponentByName(name.getName()).getType();
 		alternativeValue.setMyGovernor(alternativeType);
 		alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
 		alternativeType.checkThisValue(timestamp, alternativeValue, new ValueCheckingOptions(expectedValue,
@@ -363,26 +363,26 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		if (Template_type.NAMED_TEMPLATE_LIST.equals(template.getTemplatetype())) {
-			Named_Template_List namedTemplateList = (Named_Template_List) template;
-			int nofTemplates = namedTemplateList.getNofTemplates();
+			final Named_Template_List namedTemplateList = (Named_Template_List) template;
+			final int nofTemplates = namedTemplateList.getNofTemplates();
 			if (nofTemplates != 1) {
 				template.getLocation().reportSemanticError(ONEFIELDEXPECTED);
 			}
 
 			for (int i = 0; i < nofTemplates; i++) {
-				NamedTemplate namedTemplate = namedTemplateList.getTemplateByIndex(i);
-				Identifier name = namedTemplate.getName();
+				final NamedTemplate namedTemplate = namedTemplateList.getTemplateByIndex(i);
+				final Identifier name = namedTemplate.getName();
 
-				CompField field = compFieldMap.getCompWithName(name);
+				final CompField field = compFieldMap.getCompWithName(name);
 				if (field == null) {
 					namedTemplate.getLocation().reportSemanticError(MessageFormat.format(REFERENCETONONEXISTENTFIELD, name.getDisplayName(), getFullName()));
 				} else {
-					Type fieldType = field.getType();
+					final Type fieldType = field.getType();
 					ITTCN3Template namedTemplateTemplate = namedTemplate.getTemplate();
 
 					namedTemplateTemplate.setMyGovernor(fieldType);
 					namedTemplateTemplate = fieldType.checkThisTemplateRef(timestamp, namedTemplateTemplate);
-					Completeness_type completeness = namedTemplateList.getCompletenessConditionChoice(timestamp, isModified, name);
+					final Completeness_type completeness = namedTemplateList.getCompletenessConditionChoice(timestamp, isModified, name);
 					namedTemplateTemplate.checkThisTemplateGeneric(
 							timestamp, fieldType, Completeness_type.MAY_INCOMPLETE.equals(completeness), false, false, true, implicitOmit);
 				}

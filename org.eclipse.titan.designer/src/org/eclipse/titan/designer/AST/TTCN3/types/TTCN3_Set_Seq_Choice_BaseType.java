@@ -125,19 +125,19 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	@Override
 	public final IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return null;
 		case fieldSubReference:
-			Identifier id = subreference.getId();
-			CompField compField = compFieldMap.getCompWithName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
 						MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(),
@@ -145,7 +145,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				return null;
 			}
 
-			IType fieldType = compField.getType();
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return null;
 			}
@@ -154,7 +154,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				return null;
 			}
 
-			Expected_Value_type internalExpectation =
+			final Expected_Value_type internalExpectation =
 					expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : expectedIndex;
 
 			return fieldType.getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
@@ -172,18 +172,19 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	@Override
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return false;
 		case fieldSubReference:
-			Identifier id = subreference.getId();
-			CompField compField = compFieldMap.getCompWithName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				subreference.getLocation().reportSemanticError(
 						MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(),
@@ -191,12 +192,12 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				return false;
 			}
 
-			IType fieldType = compField.getType();
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
 
-			int fieldIndex = compFieldMap.fields.indexOf(compField);
+			final int fieldIndex = compFieldMap.fields.indexOf(compField);
 			subrefsArray.add(fieldIndex);
 			typeArray.add(this);
 			return fieldType.getSubrefsAsArray(timestamp, reference, actualSubReference + 1, subrefsArray, typeArray);
@@ -213,11 +214,12 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
-		ISubReference subreference = subreferences.get(actualSubReference);
+
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			return false;
@@ -226,12 +228,13 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				return false;
 			}
 
-			Identifier id = subreference.getId();
-			CompField compField = compFieldMap.getCompWithName(id);
+			final Identifier id = subreference.getId();
+			final CompField compField = compFieldMap.getCompWithName(id);
 			if (compField == null) {
 				return false;
 			}
-			IType fieldType = compField.getType();
+
+			final IType fieldType = compField.getType();
 			if (fieldType == null) {
 				return false;
 			}
@@ -269,16 +272,16 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			}
 		}*/
 
-		MultipleWithAttributes selfAttributes = withAttributesPath.getAttributes();
+		final MultipleWithAttributes selfAttributes = withAttributesPath.getAttributes();
 		if (selfAttributes == null) {
 			return;
 		}
 
-		MultipleWithAttributes newSelfAttributes = new MultipleWithAttributes();
+		final MultipleWithAttributes newSelfAttributes = new MultipleWithAttributes();
 		for (int i = 0; i < selfAttributes.getNofElements(); i++) {
-			SingleWithAttribute temp = selfAttributes.getAttribute(i);
+			final SingleWithAttribute temp = selfAttributes.getAttribute(i);
 			if (Attribute_Type.Encode_Attribute.equals(temp.getAttributeType())) {
-				SingleWithAttribute newAttribute = new SingleWithAttribute(
+				final SingleWithAttribute newAttribute = new SingleWithAttribute(
 						temp.getAttributeType(), temp.hasOverride(), null, temp.getAttributeSpecification());
 				newSelfAttributes.addAttribute(newAttribute);
 			}
@@ -293,8 +296,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		}
 
 		for (int i = 0, size = getNofComponents(); i < size; i++) {
-			CompField componentField = getComponentByIndex(i);
-			IType componentType = componentField.getType();
+			final CompField componentField = getComponentByIndex(i);
+			final IType componentType = componentField.getType();
 
 			componentType.clearWithAttributes();
 			if (encodeAttributePath == null) {
@@ -306,34 +309,34 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 		// Distribute the attributes with qualifiers to the components
 		for (int j = 0; j < selfAttributes.getNofElements(); j++) {
-			SingleWithAttribute tempSingle = selfAttributes.getAttribute(j);
-			Qualifiers tempQualifiers = tempSingle.getQualifiers();
+			final SingleWithAttribute tempSingle = selfAttributes.getAttribute(j);
+			final Qualifiers tempQualifiers = tempSingle.getQualifiers();
 			if (tempQualifiers == null || tempQualifiers.getNofQualifiers() == 0) {
 				continue;
 			}
 
 			for (int k = 0, kmax = tempQualifiers.getNofQualifiers(); k < kmax; k++) {
-				Qualifier tempQualifier = tempQualifiers.getQualifierByIndex(k);
+				final Qualifier tempQualifier = tempQualifiers.getQualifierByIndex(k);
 				if (tempQualifier.getNofSubReferences() == 0) {
 					continue;
 				}
 
-				ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
+				final ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
 				boolean componentFound = false;
 				for (int i = 0, size = getNofComponents(); i < size; i++) {
-					CompField componentField = getComponentByIndex(i);
-					Identifier componentId = componentField.getIdentifier();
+					final CompField componentField = getComponentByIndex(i);
+					final Identifier componentId = componentField.getIdentifier();
 
 					if (tempSubReference.getReferenceType() == Subreference_type.fieldSubReference
 						&& tempSubReference.getId().equals(componentId)) {
 						// Found a qualifier whose first identifier matches the component name
-						Qualifiers calculatedQualifiers = new Qualifiers();
+						final Qualifiers calculatedQualifiers = new Qualifiers();
 						calculatedQualifiers.addQualifier(tempQualifier.getQualifierWithoutFirstSubRef());
 
-						SingleWithAttribute tempSingle2 = new SingleWithAttribute(
+						final SingleWithAttribute tempSingle2 = new SingleWithAttribute(
 								tempSingle.getAttributeType(), tempSingle.hasOverride(), calculatedQualifiers, tempSingle.getAttributeSpecification());
 						tempSingle2.setLocation(new Location(tempSingle.getLocation()));
-						IType componentType = componentField.getType();
+						final IType componentType = componentField.getType();
 						MultipleWithAttributes componentAttributes = componentType.getAttributePath().getAttributes();
 						if (componentAttributes == null) {
 							componentAttributes = new MultipleWithAttributes();
@@ -373,7 +376,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		compFieldMap.check(timestamp);
 
 		for (int i = 0, size = getNofComponents(); i < size; i++) {
-			IType type = getComponentByIndex(i).getType();
+			final IType type = getComponentByIndex(i).getType();
 			if (type != null && type.isComponentInternal(timestamp)) {
 				componentInternal = true;
 				break;
@@ -422,27 +425,29 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	 * */
 	@Override
 	public final void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
-		ISubReference subreference = subreferences.get(i);
+
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
-				CompField compField = compFieldMap.getCompWithName(subreference.getId());
+				final CompField compField = compFieldMap.getCompWithName(subreference.getId());
 				if (compField == null) {
 					return;
 				}
-				IType type = compField.getType();
+
+				final IType type = compField.getType();
 				if (type != null) {
 					type.addProposal(propCollector, i + 1);
 				}
 			} else {
 				// final part of the reference
-				List<CompField> compFields = compFieldMap.getComponentsWithPrefix(subreference.getId().getName());
+				final List<CompField> compFields = compFieldMap.getComponentsWithPrefix(subreference.getId().getName());
 				for (CompField compField : compFields) {
-					String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
+					final String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
 					propCollector.addProposal(compField.getIdentifier(), " - " + proposalKind, ImageCache.getImage(getOutlineIcon()), proposalKind);
 					IType type = compField.getType();
 					if (type != null && compField.getIdentifier().equals(subreference.getId())) {
@@ -468,26 +473,27 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	 * */
 	@Override
 	public final void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
-				CompField compField = compFieldMap.getCompWithName(subreference.getId());
+				final CompField compField = compFieldMap.getCompWithName(subreference.getId());
 				if (compField == null) {
 					return;
 				}
-				IType type = compField.getType();
+
+				final IType type = compField.getType();
 				if (type != null) {
 					type.addDeclaration(declarationCollector, i + 1);
 				}
 			} else {
 				// final part of the reference
-				List<CompField> compFields = compFieldMap.getComponentsWithPrefix(subreference.getId().getName());
+				final List<CompField> compFields = compFieldMap.getComponentsWithPrefix(subreference.getId().getName());
 				for (CompField compField : compFields) {
 					declarationCollector.addDeclaration(compField.getIdentifier().getDisplayName(), compField.getIdentifier().getLocation(), this);
 				}

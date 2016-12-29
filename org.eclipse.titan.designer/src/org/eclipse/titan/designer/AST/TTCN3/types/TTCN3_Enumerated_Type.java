@@ -89,7 +89,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
 		otherType.check(timestamp);
-		IType temp = otherType.getTypeRefdLast(timestamp);
+		final IType temp = otherType.getTypeRefdLast(timestamp);
 
 		if (getIsErroneous(timestamp) || temp.getIsErroneous(timestamp)) {
 			return true;
@@ -166,14 +166,14 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		parseAttributes(timestamp);
 
 		nameMap = new HashMap<String, EnumItem>(items.getItems().size());
-		Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.getItems().size());
+		final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.getItems().size());
 
-		List<EnumItem> enumItems = items.getItems();
+		final List<EnumItem> enumItems = items.getItems();
 		// check duplicated names and values
 		for (int i = 0, size = enumItems.size(); i < size; i++) {
-			EnumItem item = enumItems.get(i);
-			Identifier id = item.getId();
-			String fieldName = id.getName();
+			final EnumItem item = enumItems.get(i);
+			final Identifier id = item.getId();
+			final String fieldName = id.getName();
 			if (nameMap.containsKey(fieldName)) {
 				nameMap.get(fieldName).getId().getLocation().reportSingularSemanticError(
 						MessageFormat.format(DUPLICATEENUMERATIONIDENTIFIERFIRST, id.getDisplayName()));
@@ -182,18 +182,18 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 				nameMap.put(fieldName, item);
 			}
 
-			Value value = item.getValue();
+			final Value value = item.getValue();
 			if (value != null && item.isOriginal()) {
 				if (value.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(value.getValuetype())) {
 					value.getLocation().reportSemanticError(MessageFormat.format("INTEGER value was expected for enumeration `{0}''", id.getDisplayName()));
 					setIsErroneous(true);
 				} else {
-					Integer_Value enumValue = (Integer_Value) value;
+					final Integer_Value enumValue = (Integer_Value) value;
 					if (!enumValue.isNative()) {
 						enumValue.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, value));
 						setIsErroneous(true);
 					} else {
-						Long enumLong = enumValue.getValue();
+						final Long enumLong = enumValue.getValue();
 						if (valueMap.containsKey(enumLong)) {
 							valueMap.get(enumLong).getLocation().reportSingularSemanticError(
 									MessageFormat.format(DUPLICATEDENUMERATIONVALUEFIRST, enumLong, valueMap.get(enumLong).getId().getDisplayName()));
@@ -216,12 +216,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			}
 
 			for (int i = 0, size = enumItems.size(); i < size; i++) {
-				EnumItem item = enumItems.get(i);
+				final EnumItem item = enumItems.get(i);
 				if (!item.isOriginal()) {
 					//optimization: if the same value was already assigned, there is no need to create it again.
-					IValue value = item.getValue();
+					final IValue value = item.getValue();
 					if (value == null || ((Integer_Value) value).getValue() != firstUnused) {
-						Integer_Value tempValue = new Integer_Value(firstUnused.longValue());
+						final Integer_Value tempValue = new Integer_Value(firstUnused.longValue());
 						tempValue.setLocation(item.getLocation());
 						item.setValue(tempValue);
 					}
@@ -252,7 +252,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
 			if (hasEnumItemWithName(((Undefined_LowerIdentifier_Value) value).getIdentifier())) {
-				IValue temp = value.setValuetype(timestamp, Value_type.ENUMERATED_VALUE);
+				final IValue temp = value.setValuetype(timestamp, Value_type.ENUMERATED_VALUE);
 				temp.setMyGovernor(this);
 				return temp;
 			}
@@ -269,7 +269,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
-		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
+		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
@@ -329,12 +329,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	@Override
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
 			return this;
 		}
 
-		ISubReference subreference = subreferences.get(actualSubReference);
+		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
@@ -374,12 +374,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	 * */
 	@Override
 	public void addProposal(final ProposalCollector propCollector, final int i) {
-		List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() != 1 || propCollector.getReference().getModuleIdentifier() != null) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType()) && items != null) {
 			items.addProposal(propCollector);
 		}
@@ -399,24 +399,24 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	 * */
 	@Override
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (i != 0 || subreferences.size() != 1 || declarationCollector.getReference().getModuleIdentifier() != null) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType()) && items != null) {
 			items.addDeclaration(declarationCollector, i);
 		}
 	}
 	
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i, final Location commentLocation) {
-		List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
+		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (i != 0 || subreferences.size() != 1 || declarationCollector.getReference().getModuleIdentifier() != null) {
 			return;
 		}
 
-		ISubReference subreference = subreferences.get(i);
+		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType()) && items != null) {
 			
 			if (commentLocation != null) {

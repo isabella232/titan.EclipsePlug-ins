@@ -76,7 +76,7 @@ public final class RealLimit extends LimitType {
 
 	@Override
 	public boolean isAdjacent(final LimitType other) {
-		RealLimit rl = (RealLimit) other;
+		final RealLimit rl = (RealLimit) other;
 		return ((Double.compare(value, rl.value) == 0) && ((valueType.value() + 1) == rl.valueType.value()));
 	}
 

@@ -123,9 +123,9 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 		orderedComponentTypeBodies.clear();
 
 		for (Reference reference : componentReferences) {
-			Component_Type componentType = reference.chkComponentypeReference(timestamp);
+			final Component_Type componentType = reference.chkComponentypeReference(timestamp);
 			if (componentType != null) {
-				ComponentTypeBody compTypeBody = componentType.getComponentBody();
+				final ComponentTypeBody compTypeBody = componentType.getComponentBody();
 				if (compTypeBody != null) {
 					if (componentTypeBodies.containsKey(compTypeBody)) {
 						componentTypeBodies.get(compTypeBody).getId().getLocation().reportSingularSemanticError(
@@ -168,7 +168,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 		}
 
 		for (int i = 0, size = componentReferences.size(); i < size; i++) {
-			Reference reference = componentReferences.get(i);
+			final Reference reference = componentReferences.get(i);
 
 			reference.updateSyntax(reparser, false);
 			reparser.updateLocation(reference.getLocation());

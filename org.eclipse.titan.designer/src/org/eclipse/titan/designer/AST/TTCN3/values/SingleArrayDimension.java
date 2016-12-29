@@ -94,12 +94,12 @@ public final class SingleArrayDimension extends ArrayDimension {
 			return;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
+		final IValue last = value.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_CONSTANT, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			return;
 		}
 
-		Type_type ttype = value.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_CONSTANT);
+		final Type_type ttype = value.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_CONSTANT);
 		switch (ttype) {
 		case TYPE_INTEGER:
 			if (last.isUnfoldable(timestamp)) {
