@@ -62,8 +62,8 @@ public final class TestcasenameExpression extends Expression_Value {
 		// unqualified name or "".
 		if (myScope != null) {
 			if (myScope instanceof StatementBlock) {
-				StatementBlock block = (StatementBlock) myScope;
-				Definition definition = block.getMyDefinition();
+				final StatementBlock block = (StatementBlock) myScope;
+				final Definition definition = block.getMyDefinition();
 				if (definition == null) {
 					// An error would be better here.
 					lastValue = new Charstring_Value("");

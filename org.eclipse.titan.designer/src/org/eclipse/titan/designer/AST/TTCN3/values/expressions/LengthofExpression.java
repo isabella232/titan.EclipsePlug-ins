@@ -103,7 +103,7 @@ public final class LengthofExpression extends Expression_Value {
 			return true;
 		}
 
-		ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+		final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
 			return ((SpecificValue_Template) templateInstance.getTemplateBody()).getSpecificValue().isUnfoldable(timestamp,
 					expectedValue, referenceChain);
@@ -125,12 +125,12 @@ public final class LengthofExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
 		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		if (governor == null) {
-			ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if (governor == null) {
@@ -139,7 +139,7 @@ public final class LengthofExpression extends Expression_Value {
 			return;
 		}
 
-		Type_type typetype = templateInstance.getExpressionReturntype(timestamp, internalExpectation);
+		final Type_type typetype = templateInstance.getExpressionReturntype(timestamp, internalExpectation);
 		switch (typetype) {
 		case TYPE_CHARSTRING:
 		case TYPE_UCHARSTRING:
@@ -186,8 +186,8 @@ public final class LengthofExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		ITTCN3Template template = templateInstance.getTemplateBody();
-		IValue value = ((SpecificValue_Template) template).getSpecificValue().getValueRefdLast(timestamp, referenceChain);
+		final ITTCN3Template template = templateInstance.getTemplateBody();
+		final IValue value = ((SpecificValue_Template) template).getSpecificValue().getValueRefdLast(timestamp, referenceChain);
 		int length;
 		switch (value.getValuetype()) {
 		case CHARSTRING_VALUE:

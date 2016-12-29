@@ -106,7 +106,7 @@ public final class Bit2OctExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_BITSTRING:
@@ -149,7 +149,7 @@ public final class Bit2OctExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -157,7 +157,7 @@ public final class Bit2OctExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case BITSTRING_VALUE:
-			String tempBitstring = ((Bitstring_Value) last).getValue();
+			final String tempBitstring = ((Bitstring_Value) last).getValue();
 			lastValue = new Octetstring_Value(bit2oct(tempBitstring));
 			lastValue.copyGeneralProperties(this);
 			break;
@@ -170,7 +170,7 @@ public final class Bit2OctExpression extends Expression_Value {
 	}
 
 	public static String bit2oct(final String bitString) {
-		String string1 = Bit2HexExpression.bit2hex(bitString);
+		final String string1 = Bit2HexExpression.bit2hex(bitString);
 		return Hex2OctExpression.hex2oct(string1);
 	}
 

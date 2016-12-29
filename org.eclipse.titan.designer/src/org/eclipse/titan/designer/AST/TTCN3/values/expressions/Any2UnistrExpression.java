@@ -129,7 +129,7 @@ public final class Any2UnistrExpression extends Expression_Value {
 		IType type = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
 
 		if (type == null) {
-			ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
 			type = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 

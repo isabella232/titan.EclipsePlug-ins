@@ -132,12 +132,12 @@ public class Ttcn2StringExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
 		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		if (governor == null) {
-			ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if (governor == null) {

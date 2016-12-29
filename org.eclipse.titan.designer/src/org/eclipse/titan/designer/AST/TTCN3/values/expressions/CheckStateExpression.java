@@ -170,10 +170,10 @@ public final class CheckStateExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			IValue last = mValue.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = mValue.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				CharstringExtractor cs = new CharstringExtractor( originalString );
+				final CharstringExtractor cs = new CharstringExtractor( originalString );
 				if ( cs.isErrorneous() ) {
 					mValue.getLocation().reportSemanticError( cs.getErrorMessage() );
 					setIsErroneous(true);

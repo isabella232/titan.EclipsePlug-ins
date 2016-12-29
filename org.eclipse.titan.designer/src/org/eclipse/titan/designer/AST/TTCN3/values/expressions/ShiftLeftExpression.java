@@ -102,7 +102,7 @@ public final class ShiftLeftExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last == null || value1 == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -114,7 +114,7 @@ public final class ShiftLeftExpression extends Expression_Value {
 		}
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
 		switch (tempType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
@@ -252,8 +252,8 @@ public final class ShiftLeftExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		String string;
 		long shiftSize;

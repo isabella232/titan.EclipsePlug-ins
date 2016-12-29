@@ -96,7 +96,7 @@ public final class ComponentRunnningExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		IValue tempValue = value.setLoweridToReference(timestamp);
+		final IValue tempValue = value.setLoweridToReference(timestamp);
 		Component_Type.checkExpressionOperandComponentRefernce(timestamp, tempValue, OPERATIONNAME);
 
 		checkExpressionDynamicPart(expectedValue, OPERATIONNAME, false, true, false);

@@ -104,13 +104,13 @@ public final class RNDWithValueExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_REAL: {
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				Real_Value real = (Real_Value) last;
+				final Real_Value real = (Real_Value) last;
 				if (real.isSpecialFloat()) {
 					value.getLocation().reportSemanticError(
 							MessageFormat.format(OPERANDERROR2, real.createStringRepresentation()));

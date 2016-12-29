@@ -105,7 +105,7 @@ public final class Oct2IntExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_OCTETSTRING:
@@ -148,7 +148,7 @@ public final class Oct2IntExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -156,7 +156,7 @@ public final class Oct2IntExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case OCTETSTRING_VALUE:
-			String octetString = ((Octetstring_Value) last).getValue();
+			final String octetString = ((Octetstring_Value) last).getValue();
 			lastValue = Hex2IntExpression.hex2int(octetString);
 			lastValue.copyGeneralProperties(this);
 			break;

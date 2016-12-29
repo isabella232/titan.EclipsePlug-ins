@@ -93,7 +93,7 @@ public final class ValueofExpression extends Expression_Value {
 
 	@Override
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IType governor = super.getMyGovernor();
+		final IType governor = super.getMyGovernor();
 
 		if (governor != null) {
 			return governor;
@@ -120,7 +120,7 @@ public final class ValueofExpression extends Expression_Value {
 			return true;
 		}
 
-		ITTCN3Template temp = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+		final ITTCN3Template temp = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 		if (temp == null || !temp.isValue(timestamp) || temp.getValue().isUnfoldable(timestamp)) {
 			return true;
 		}
@@ -155,7 +155,7 @@ public final class ValueofExpression extends Expression_Value {
 			return;
 		}
 
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 		IType governor = myGovernor;
 		if (governor == null) {
@@ -163,7 +163,7 @@ public final class ValueofExpression extends Expression_Value {
 		}
 
 		if (governor == null) {
-			ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 

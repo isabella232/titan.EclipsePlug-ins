@@ -93,7 +93,7 @@ public final class StringConcatenationExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last == null || value1 == null || value2 == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -148,7 +148,7 @@ public final class StringConcatenationExpression extends Expression_Value {
 		}
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_BITSTRING:
@@ -261,8 +261,8 @@ public final class StringConcatenationExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		if (last1.getIsErroneous(timestamp) || last2.getIsErroneous(timestamp)) {
 			return lastValue;
@@ -270,45 +270,45 @@ public final class StringConcatenationExpression extends Expression_Value {
 
 		switch (last1.getValuetype()) {
 		case BITSTRING_VALUE: {
-			String string1 = ((Bitstring_Value) last1).getValue();
-			String string2 = ((Bitstring_Value) last2).getValue();
+			final String string1 = ((Bitstring_Value) last1).getValue();
+			final String string2 = ((Bitstring_Value) last2).getValue();
 			lastValue = new Bitstring_Value(string1 + string2);
 			lastValue.copyGeneralProperties(this);
 			break;
 		}
 		case HEXSTRING_VALUE: {
-			String string1 = ((Hexstring_Value) last1).getValue();
-			String string2 = ((Hexstring_Value) last2).getValue();
+			final String string1 = ((Hexstring_Value) last1).getValue();
+			final String string2 = ((Hexstring_Value) last2).getValue();
 			lastValue = new Hexstring_Value(string1 + string2);
 			lastValue.copyGeneralProperties(this);
 			break;
 		}
 		case OCTETSTRING_VALUE: {
-			String string1 = ((Octetstring_Value) last1).getValue();
-			String string2 = ((Octetstring_Value) last2).getValue();
+			final String string1 = ((Octetstring_Value) last1).getValue();
+			final String string2 = ((Octetstring_Value) last2).getValue();
 			lastValue = new Octetstring_Value(string1 + string2);
 			lastValue.copyGeneralProperties(this);
 			break;
 		}
 		case CHARSTRING_VALUE: {
-			String string1 = ((Charstring_Value) last1).getValue();
+			final String string1 = ((Charstring_Value) last1).getValue();
 			if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(last2.getValuetype())) {
-				UniversalCharstring string2 = ((UniversalCharstring_Value) last2).getValue();
+				final UniversalCharstring string2 = ((UniversalCharstring_Value) last2).getValue();
 				lastValue = new UniversalCharstring_Value(new UniversalCharstring(string1).append(string2));
 			} else {
-				String string2 = ((Charstring_Value) last2).getValue();
+				final String string2 = ((Charstring_Value) last2).getValue();
 				lastValue = new Charstring_Value(string1 + string2);
 			}
 			lastValue.copyGeneralProperties(this);
 			break;
 		}
 		case UNIVERSALCHARSTRING_VALUE: {
-			UniversalCharstring string1 = ((UniversalCharstring_Value) last1).getValue();
+			final UniversalCharstring string1 = ((UniversalCharstring_Value) last1).getValue();
 			if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(last2.getValuetype())) {
-				UniversalCharstring string2 = ((UniversalCharstring_Value) last2).getValue();
+				final UniversalCharstring string2 = ((UniversalCharstring_Value) last2).getValue();
 				lastValue = new UniversalCharstring_Value(new UniversalCharstring(string1).append(string2));
 			} else {
-				String string2 = ((Charstring_Value) last2).getValue();
+				final String string2 = ((Charstring_Value) last2).getValue();
 				lastValue = new UniversalCharstring_Value(new UniversalCharstring(string1).append(string2));
 			}
 			lastValue.copyGeneralProperties(this);

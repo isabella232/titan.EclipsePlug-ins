@@ -121,7 +121,7 @@ public final class RegexpExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last == null || templateInstance1 == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -132,8 +132,8 @@ public final class RegexpExpression extends Expression_Value {
 			return Type_type.TYPE_UNDEFINED;
 		}
 
-		ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
-		Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		final ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+		final Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		switch (tempType) {
 		case TYPE_CHARSTRING:
 		case TYPE_UCHARSTRING:
@@ -188,7 +188,7 @@ public final class RegexpExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
 		setIsErroneous(false);
@@ -196,7 +196,7 @@ public final class RegexpExpression extends Expression_Value {
 		if (templateInstance1 != null) {
 			IType governor1 = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
 			if (governor1 == null) {
-				ITTCN3Template temp = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+				final ITTCN3Template temp = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
 				governor1 = temp.getExpressionGovernor(timestamp, internalExpectation);
 			}
 			if (governor1 == null) {
@@ -211,7 +211,7 @@ public final class RegexpExpression extends Expression_Value {
 				return;
 			}
 
-			ITTCN3Template temp = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template temp = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
 			temp.checkSpecificValue(timestamp, false);
 
 			switch (governor1.getTypeRefdLast(timestamp).getTypetypeTtcn3()) {
@@ -231,7 +231,7 @@ public final class RegexpExpression extends Expression_Value {
 		if (templateInstance2 != null) {
 			IType governor2 = templateInstance2.getExpressionGovernor(timestamp, internalExpectation);
 			if (governor2 == null) {
-				ITTCN3Template temp = templateInstance2.getTemplateBody().setLoweridToReference(timestamp);
+				final ITTCN3Template temp = templateInstance2.getTemplateBody().setLoweridToReference(timestamp);
 				governor2 = temp.getExpressionGovernor(timestamp, internalExpectation);
 			}
 			if (governor2 == null) {
@@ -260,15 +260,15 @@ public final class RegexpExpression extends Expression_Value {
 		}
 
 		if (value3 != null) {
-			IValue temp = value3.setLoweridToReference(timestamp);
-			Type_type tempType3 = temp.getExpressionReturntype(timestamp, expectedValue);
+			final IValue temp = value3.setLoweridToReference(timestamp);
+			final Type_type tempType3 = temp.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType3) {
 			case TYPE_INTEGER:
-				IValue last3 = temp.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue last3 = temp.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!last3.isUnfoldable(timestamp) && Value.Value_type.INTEGER_VALUE.equals(last3.getValuetype())) {
 					if (((Integer_Value) last3).isNative()) {
-						long i = ((Integer_Value) last3).getValue();
+						final long i = ((Integer_Value) last3).getValue();
 						if (i < 0) {
 							value3.getLocation().reportSemanticError(OPERANDERROR4);
 							setIsErroneous(true);

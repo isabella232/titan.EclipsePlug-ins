@@ -128,7 +128,7 @@ public final class Int2BitExpression extends Expression_Value {
 		IValue last2 = null;
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType1 = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType1 = value1.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType1) {
 		case TYPE_INTEGER:
@@ -152,20 +152,20 @@ public final class Int2BitExpression extends Expression_Value {
 		}
 
 		value2.setLoweridToReference(timestamp);
-		Type_type tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType2) {
 		case TYPE_INTEGER:
 			last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last2.isUnfoldable(timestamp) && Value.Value_type.INTEGER_VALUE.equals(last2.getValuetype())) {
 				if (((Integer_Value) last2).isNative()) {
-					int i2 = ((Integer_Value) last2).intValue();
+					final int i2 = ((Integer_Value) last2).intValue();
 					if (i2 < 0) {
 						value2.getLocation().reportSemanticError(OPERANDERROR4);
 						setIsErroneous(true);
 					} else if (last1 != null && !last1.isUnfoldable(timestamp)
 							&& Value.Value_type.INTEGER_VALUE.equals(last1.getValuetype())) {
-						Integer_Value i1 = (Integer_Value) last1;
+						final Integer_Value i1 = (Integer_Value) last1;
 						if ((i1.shiftRight(i2).compareTo(new Integer_Value(0))) > 0) {
 							location.reportSemanticError(MessageFormat.format(OPERANDERROR5, i1.toString(), i2));
 							setIsErroneous(true);
@@ -214,14 +214,14 @@ public final class Int2BitExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 		if (last1.getIsErroneous(timestamp) || last2.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
 		}
 
-		int i2 = ((Integer_Value) last2).intValue();
+		final int i2 = ((Integer_Value) last2).intValue();
 		lastValue = new Bitstring_Value(int2bit((Integer_Value) last1, i2));
 
 		lastValue.copyGeneralProperties(this);

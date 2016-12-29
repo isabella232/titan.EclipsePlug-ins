@@ -134,12 +134,13 @@ public final class SizeOfExpression extends Expression_Value {
 			setIsErroneous(true);
 			return -1;
 		}
+
 		dimensions.checkIndices(timestamp, ref, assignment.getAssignmentName(), true, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-		List<ISubReference> subreferences = ref.getSubreferences();
+		final List<ISubReference> subreferences = ref.getSubreferences();
 		int referencedDimensions;
 		if (subreferences.size() > 1) {
 			referencedDimensions = subreferences.size() - 1;
-			int nofDimensions = dimensions.size();
+			final int nofDimensions = dimensions.size();
 			if (referencedDimensions < nofDimensions) {
 				setIsErroneous(true);
 				return -1;
@@ -184,7 +185,7 @@ public final class SizeOfExpression extends Expression_Value {
 
 		// Timer and port arrays are handled separately
 		if (template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
-			SpecificValue_Template specValTempl = (SpecificValue_Template) template;
+			final SpecificValue_Template specValTempl = (SpecificValue_Template) template;
 			IValue val = specValTempl.getSpecificValue();
 			val.setMyGovernor(specValTempl.getMyGovernor());
 			if (val.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
@@ -192,11 +193,11 @@ public final class SizeOfExpression extends Expression_Value {
 			}
 
 			if (val != null && val.getValuetype() == Value_type.REFERENCED_VALUE) {
-				Referenced_Value referencedValue = (Referenced_Value) val;
-				Reference ref = referencedValue.getReference();
-				Assignment temporalAss = ref.getRefdAssignment(timestamp, true);
+				final Referenced_Value referencedValue = (Referenced_Value) val;
+				final Reference ref = referencedValue.getReference();
+				final Assignment temporalAss = ref.getRefdAssignment(timestamp, true);
 				if (temporalAss != null) {
-					Assignment_type asstype = temporalAss.getAssignmentType();
+					final Assignment_type asstype = temporalAss.getAssignmentType();
 					ArrayDimensions dimensions;
 					if (asstype == Assignment_type.A_PORT) {
 						dimensions = ((Def_Port) temporalAss).getDimensions();
@@ -211,7 +212,7 @@ public final class SizeOfExpression extends Expression_Value {
 
 		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectedValue);
 		if (governor == null) {
-			ITTCN3Template templ = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template templ = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 			governor = templ.getExpressionGovernor(timestamp, internalExpectedValue);
 		}
 		if (governor == null) {
@@ -219,7 +220,7 @@ public final class SizeOfExpression extends Expression_Value {
 			return -1;
 		}
 
-		Type_type typetype = templateInstance.getExpressionReturntype(timestamp, internalExpectedValue);
+		final Type_type typetype = templateInstance.getExpressionReturntype(timestamp, internalExpectedValue);
 		switch (typetype) {
 		case TYPE_TTCN3_SET:
 		case TYPE_SET_OF:
@@ -259,8 +260,8 @@ public final class SizeOfExpression extends Expression_Value {
 			return evaluateValue(value);
 		}
 
-		Reference ref = ((Referenced_Value) value).getReference();
-		Assignment assignment = ref.getRefdAssignment(timestamp, true);
+		final Reference ref = ((Referenced_Value) value).getReference();
+		final Assignment assignment = ref.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return -1;
 		}
@@ -277,11 +278,11 @@ public final class SizeOfExpression extends Expression_Value {
 			template = ((Def_Template) assignment).getTemplate(timestamp).getTemplateReferencedLast(timestamp, referenceChain);
 			return evaluateTemplate(template, timestamp);
 		case A_TIMER: {
-			ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
+			final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 			return checkTimerPort(timestamp, ref, dimensions, assignment);
 		}
 		case A_PORT: {
-			ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
+			final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
 			return checkTimerPort(timestamp, ref, dimensions, assignment);
 		}
 		case A_EXT_CONST:
@@ -376,21 +377,21 @@ public final class SizeOfExpression extends Expression_Value {
 	private long evaluateValue(final IValue value) {
 		switch (value.getValuetype()) {
 		case SEQUENCEOF_VALUE: {
-			SequenceOf_Value seqOfValue = (SequenceOf_Value) value;
+			final SequenceOf_Value seqOfValue = (SequenceOf_Value) value;
 			if (seqOfValue.isIndexed()) {
 				return -1;
 			}
 			return seqOfValue.getNofComponents();
 		}
 		case SETOF_VALUE: {
-			SetOf_Value setOfValue = (SetOf_Value) value;
+			final SetOf_Value setOfValue = (SetOf_Value) value;
 			if (setOfValue.isIndexed()) {
 				return -1;
 			}
 			return setOfValue.getNofComponents();
 		}
 		case ARRAY_VALUE: {
-			Array_Value arrayValue = (Array_Value) value;
+			final Array_Value arrayValue = (Array_Value) value;
 			if (arrayValue.isIndexed()) {
 				return -1;
 			}
@@ -402,7 +403,7 @@ public final class SizeOfExpression extends Expression_Value {
 			return ((RelativeObjectIdentifier_Value) value).getNofComponents();
 		case SEQUENCE_VALUE: {
 			int result = 0;
-			Sequence_Value temp = (Sequence_Value) value;
+			final Sequence_Value temp = (Sequence_Value) value;
 			for (int i = 0, size = temp.getNofComponents(); i < size; i++) {
 				if (!Value_type.OMIT_VALUE.equals(temp.getSeqValueByIndex(i).getValue().getValuetype())) {
 					result++;
@@ -412,7 +413,7 @@ public final class SizeOfExpression extends Expression_Value {
 		}
 		case SET_VALUE: {
 			int result = 0;
-			Set_Value temp = (Set_Value) value;
+			final Set_Value temp = (Set_Value) value;
 			for (int i = 0, size = temp.getNofComponents(); i < size; i++) {
 				if (!Value_type.OMIT_VALUE.equals(temp.getSequenceValueByIndex(i).getValue().getValuetype())) {
 					result++;
@@ -437,9 +438,9 @@ public final class SizeOfExpression extends Expression_Value {
 	private long evaluateTemplate(final ITTCN3Template template, final CompilationTimeStamp timestamp) {
 		switch (template.getTemplatetype()) {
 		case TEMPLATE_LIST: {
-			Template_List temp = (Template_List) template;
+			final Template_List temp = (Template_List) template;
 			if (temp.templateContainsAnyornone()) {
-				LengthRestriction lengthRestriction = temp.getLengthRestriction();
+				final LengthRestriction lengthRestriction = temp.getLengthRestriction();
 				if (lengthRestriction == null) {
 					templateInstance.getLocation()
 							.reportSemanticError(
@@ -449,7 +450,7 @@ public final class SizeOfExpression extends Expression_Value {
 				}
 
 				if (lengthRestriction instanceof RangeLenghtRestriction) {
-					IValue upper = ((RangeLenghtRestriction) lengthRestriction).getUpperValue(timestamp);
+					final IValue upper = ((RangeLenghtRestriction) lengthRestriction).getUpperValue(timestamp);
 					if (Value_type.REAL_VALUE.equals(upper.getValuetype()) && ((Real_Value) upper).isPositiveInfinity()) {
 						templateInstance.getLocation()
 								.reportSemanticError(
@@ -459,12 +460,12 @@ public final class SizeOfExpression extends Expression_Value {
 					}
 
 					if (Value_type.INTEGER_VALUE.equals(upper.getValuetype())) {
-						int nofComponents = temp.getNofTemplatesNotAnyornone(timestamp);
+						final int nofComponents = temp.getNofTemplatesNotAnyornone(timestamp);
 						if (nofComponents == ((Integer_Value) upper).intValue()) {
 							return nofComponents;
 						}
 
-						IValue lower = ((RangeLenghtRestriction) lengthRestriction).getLowerValue(timestamp);
+						final IValue lower = ((RangeLenghtRestriction) lengthRestriction).getLowerValue(timestamp);
 						if (lower != null && Value_type.INTEGER_VALUE.equals(lower.getValuetype())
 								&& ((Integer_Value) upper).intValue() == ((Integer_Value) lower).intValue()) {
 							return ((Integer_Value) upper).intValue();
@@ -476,7 +477,7 @@ public final class SizeOfExpression extends Expression_Value {
 						return -1;
 					}
 				} else {
-					IValue restriction = ((SingleLenghtRestriction) lengthRestriction).getRestriction(timestamp);
+					final IValue restriction = ((SingleLenghtRestriction) lengthRestriction).getRestriction(timestamp);
 					if (Value_type.INTEGER_VALUE.equals(restriction.getValuetype())) {
 						return ((Integer_Value) restriction).intValue();
 					}
@@ -484,7 +485,7 @@ public final class SizeOfExpression extends Expression_Value {
 			} else {
 				int result = 0;
 				for (int i = 0, size = temp.getNofTemplates(); i < size; i++) {
-					ITTCN3Template tmp = temp.getTemplateByIndex(i);
+					final ITTCN3Template tmp = temp.getTemplateByIndex(i);
 					switch (tmp.getTemplatetype()) {
 					case SPECIFIC_VALUE:
 						if (tmp.getValue().getValuetype() != Value_type.OMIT_VALUE) {
@@ -501,9 +502,9 @@ public final class SizeOfExpression extends Expression_Value {
 		}
 		case NAMED_TEMPLATE_LIST: {
 			int result = 0;
-			Named_Template_List temp = (Named_Template_List) template;
+			final Named_Template_List temp = (Named_Template_List) template;
 			for (int i = 0, size = temp.getNofTemplates(); i < size; i++) {
-				ITTCN3Template tmp = temp.getTemplateByIndex(i).getTemplate();
+				final ITTCN3Template tmp = temp.getTemplateByIndex(i).getTemplate();
 				switch (tmp.getTemplatetype()) {
 				case SPECIFIC_VALUE:
 					if (tmp.getValue().getValuetype() != Value_type.OMIT_VALUE) {
@@ -537,7 +538,7 @@ public final class SizeOfExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		long i = checkExpressionOperands(timestamp, expectedValue, referenceChain);
+		final long i = checkExpressionOperands(timestamp, expectedValue, referenceChain);
 		if (i != -1) {
 			lastValue = new Integer_Value(i);
 			lastValue.copyGeneralProperties(this);

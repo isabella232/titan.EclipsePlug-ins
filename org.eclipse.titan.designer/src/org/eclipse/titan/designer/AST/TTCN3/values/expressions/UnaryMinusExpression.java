@@ -85,7 +85,7 @@ public final class UnaryMinusExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 		getValueRefdLast(timestamp, expectedValue, null);
 		switch (tempType) {
 		case TYPE_INTEGER:
@@ -127,7 +127,7 @@ public final class UnaryMinusExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 		switch (tempType) {
 		case TYPE_INTEGER:
 		case TYPE_REAL:
@@ -166,7 +166,7 @@ public final class UnaryMinusExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -178,7 +178,7 @@ public final class UnaryMinusExpression extends Expression_Value {
 			lastValue.copyGeneralProperties(this);
 			break;
 		case REAL_VALUE:
-			double tempFloat = ((Real_Value) last).getValue();
+			final double tempFloat = ((Real_Value) last).getValue();
 			lastValue = new Real_Value(-1 * tempFloat);
 			lastValue.copyGeneralProperties(this);
 			break;

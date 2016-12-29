@@ -107,14 +107,14 @@ public final class Oct2CharExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_OCTETSTRING:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				String string = ((Octetstring_Value) last).getValue();
-				byte[] bytes = string.getBytes();
+				final String string = ((Octetstring_Value) last).getValue();
+				final byte[] bytes = string.getBytes();
 				for (int i = 0; i < bytes.length / 2; i++) {
 					if (bytes[i * 2] < '0' || bytes[i * 2] > '7') {
 						value.getLocation().reportSemanticError(OPERANDERROR2);
@@ -161,7 +161,7 @@ public final class Oct2CharExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -169,7 +169,7 @@ public final class Oct2CharExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case OCTETSTRING_VALUE: {
-			String octetString = ((Octetstring_Value) last).getValue();
+			final String octetString = ((Octetstring_Value) last).getValue();
 			lastValue = new Charstring_Value(oct2char(octetString));
 			lastValue.copyGeneralProperties(this);
 			break;
@@ -184,10 +184,10 @@ public final class Oct2CharExpression extends Expression_Value {
 
 	public static String oct2char(final String octetString) {
 		final StringBuilder builder = new StringBuilder();
-		byte[] bytes = octetString.getBytes();
+		final byte[] bytes = octetString.getBytes();
 
 		for (int i = 0; i < bytes.length / 2; i++) {
-			int c = 16 * BitstringUtilities.charToHexdigit(bytes[2 * i]) + BitstringUtilities.charToHexdigit(bytes[2 * i + 1]);
+			final int c = 16 * BitstringUtilities.charToHexdigit(bytes[2 * i]) + BitstringUtilities.charToHexdigit(bytes[2 * i + 1]);
 			builder.append((char) c);
 		}
 

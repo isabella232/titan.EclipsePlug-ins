@@ -142,7 +142,7 @@ public final class ModuloExpression extends Expression_Value {
 
 			switch (tempType2) {
 			case TYPE_INTEGER:
-				IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (lastValue != null && !lastValue.isUnfoldable(timestamp)
 						&& Value.Value_type.INTEGER_VALUE.equals(lastValue.getValuetype())) {
 					if (((Integer_Value) lastValue).equals(new Integer_Value(0L))) {
@@ -183,8 +183,8 @@ public final class ModuloExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		if (last1.getIsErroneous(timestamp) || last2.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
@@ -193,10 +193,10 @@ public final class ModuloExpression extends Expression_Value {
 
 		switch (last1.getValuetype()) {
 		case INTEGER_VALUE:
-			BigInteger i1 = ((Integer_Value) last1).getValueValue();
-			BigInteger i2Abs = ((Integer_Value) last2).getValueValue().abs();
-			BigInteger temp = i1.remainder(i2Abs);
-			BigInteger result = i1.compareTo(BigInteger.ZERO) >= 0 ? temp : (temp.equals(BigInteger.ZERO) ? BigInteger.ZERO : temp
+			final BigInteger i1 = ((Integer_Value) last1).getValueValue();
+			final BigInteger i2Abs = ((Integer_Value) last2).getValueValue().abs();
+			final BigInteger temp = i1.remainder(i2Abs);
+			final BigInteger result = i1.compareTo(BigInteger.ZERO) >= 0 ? temp : (temp.equals(BigInteger.ZERO) ? BigInteger.ZERO : temp
 					.add(i2Abs));
 			lastValue = new Integer_Value(result);
 			lastValue.copyGeneralProperties(this);

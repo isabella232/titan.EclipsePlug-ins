@@ -102,7 +102,7 @@ public final class UndefRunningExpression extends Expression_Value {
 			return;
 		}
 
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			setIsErroneous(true);
 			return;
@@ -111,7 +111,7 @@ public final class UndefRunningExpression extends Expression_Value {
 		switch (assignment.getAssignmentType()) {
 		case A_TIMER:
 		case A_PAR_TIMER: {
-			TimerRunningExpression realExpression = new TimerRunningExpression(reference);
+			final TimerRunningExpression realExpression = new TimerRunningExpression(reference);
 			realExpression.setMyScope(getMyScope());
 			realExpression.setFullNameParent(this);
 			realExpression.setLocation(getLocation());
@@ -128,11 +128,11 @@ public final class UndefRunningExpression extends Expression_Value {
 		case A_PAR_VAL_IN:
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT: {
-			Referenced_Value value = new Referenced_Value(reference);
+			final Referenced_Value value = new Referenced_Value(reference);
 			value.setMyScope(getMyScope());
 			value.setFullNameParent(this);
 			value.getValueRefdLast(timestamp, referenceChain);
-			ComponentRunnningExpression realExpression = new ComponentRunnningExpression(value);
+			final ComponentRunnningExpression realExpression = new ComponentRunnningExpression(value);
 			realExpression.setMyScope(getMyScope());
 			realExpression.setFullNameParent(this);
 			realExpression.setLocation(getLocation());

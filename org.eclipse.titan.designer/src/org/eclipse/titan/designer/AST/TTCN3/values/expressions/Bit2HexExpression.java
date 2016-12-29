@@ -106,7 +106,7 @@ public final class Bit2HexExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_BITSTRING:
@@ -149,7 +149,7 @@ public final class Bit2HexExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -157,7 +157,7 @@ public final class Bit2HexExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case BITSTRING_VALUE:
-			String tempBitstring = ((Bitstring_Value) last).getValue();
+			final String tempBitstring = ((Bitstring_Value) last).getValue();
 			lastValue = new Hexstring_Value(bit2hex(tempBitstring));
 			lastValue.copyGeneralProperties(this);
 			break;
@@ -172,12 +172,12 @@ public final class Bit2HexExpression extends Expression_Value {
 	public static String bit2hex(final String bitString) {
 		final byte[] zeros = new byte[] { '0', '0', '0', '0' };
 		final char[] digits = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-		int hexLength = (bitString.length() + 3) / 4;
+		final int hexLength = (bitString.length() + 3) / 4;
 		final StringBuilder builder = new StringBuilder(hexLength);
 		int index;
-		byte[] bytes = bitString.getBytes();
+		final byte[] bytes = bitString.getBytes();
 		int subindex = 0;
-		byte[] bytes4 = new byte[hexLength * 4];
+		final byte[] bytes4 = new byte[hexLength * 4];
 		System.arraycopy(zeros, 0, bytes4, 0, hexLength * 4 - bitString.length());
 		System.arraycopy(bytes, 0, bytes4, hexLength * 4 - bitString.length(), bytes.length);
 		for (int i = 0; i < hexLength; i++) {

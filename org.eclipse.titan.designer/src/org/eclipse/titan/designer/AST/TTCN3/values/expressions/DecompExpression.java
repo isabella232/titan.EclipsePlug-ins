@@ -108,7 +108,7 @@ public final class DecompExpression extends Expression_Value {
 			return true;
 		}
 
-		boolean result = value1.isUnfoldable(timestamp, expectedValue, referenceChain)
+		final boolean result = value1.isUnfoldable(timestamp, expectedValue, referenceChain)
 				|| value2.isUnfoldable(timestamp, expectedValue, referenceChain)
 				|| value3.isUnfoldable(timestamp, expectedValue, referenceChain);
 

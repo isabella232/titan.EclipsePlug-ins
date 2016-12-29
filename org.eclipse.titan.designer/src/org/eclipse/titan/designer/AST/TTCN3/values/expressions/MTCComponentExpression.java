@@ -78,12 +78,12 @@ public final class MTCComponentExpression extends Expression_Value {
 			return;
 		}
 
-		IType governorLast = myGovernor.getTypeRefdLast(timestamp);
+		final IType governorLast = myGovernor.getTypeRefdLast(timestamp);
 		if (!Type_type.TYPE_COMPONENT.equals(governorLast.getTypetype())) {
 			return;
 		}
 
-		Type componentType = myScope.getMtcSystemComponentType(timestamp, false);
+		final Type componentType = myScope.getMtcSystemComponentType(timestamp, false);
 		if (componentType != null && !governorLast.isCompatible(timestamp, componentType, null, null, null)) {
 			getLocation().reportSemanticError(
 					MessageFormat.format(

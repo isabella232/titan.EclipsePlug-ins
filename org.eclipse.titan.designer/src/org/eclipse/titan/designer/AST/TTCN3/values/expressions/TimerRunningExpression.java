@@ -106,7 +106,7 @@ public final class TimerRunningExpression extends Expression_Value {
 			return;
 		}
 
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			setIsErroneous(true);
 			return;
@@ -114,7 +114,7 @@ public final class TimerRunningExpression extends Expression_Value {
 
 		switch (assignment.getAssignmentType()) {
 		case A_TIMER: {
-			ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
+			final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 			if (dimensions != null) {
 				dimensions.checkIndices(timestamp, reference, "timer", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			} else if (reference.getSubreferences().size() > 1) {

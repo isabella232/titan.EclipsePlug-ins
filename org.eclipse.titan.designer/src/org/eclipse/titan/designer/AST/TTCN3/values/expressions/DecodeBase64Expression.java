@@ -106,7 +106,7 @@ public final class DecodeBase64Expression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
@@ -149,7 +149,7 @@ public final class DecodeBase64Expression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -157,7 +157,7 @@ public final class DecodeBase64Expression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
-			String tempBitstring = ((Charstring_Value) last).getValue();
+			final String tempBitstring = ((Charstring_Value) last).getValue();
 			lastValue = new Octetstring_Value(calculateValue(tempBitstring));
 			lastValue.copyGeneralProperties(this);
 			break;

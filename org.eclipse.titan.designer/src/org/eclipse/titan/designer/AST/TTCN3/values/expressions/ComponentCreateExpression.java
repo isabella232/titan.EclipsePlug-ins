@@ -162,8 +162,8 @@ public final class ComponentCreateExpression extends Expression_Value {
 			final IReferenceChain referenceChain) {
 		checkCreate(timestamp);
 		if (name != null) {
-			IValue last = name.setLoweridToReference(timestamp);
-			Type_type typeType = last.getExpressionReturntype(timestamp, expectedValue);
+			final IValue last = name.setLoweridToReference(timestamp);
+			final Type_type typeType = last.getExpressionReturntype(timestamp, expectedValue);
 			if (!last.getIsErroneous(timestamp)) {
 				switch (typeType) {
 				case TYPE_CHARSTRING:
@@ -179,8 +179,8 @@ public final class ComponentCreateExpression extends Expression_Value {
 			}
 		}
 		if (location != null) {
-			IValue last = location.setLoweridToReference(timestamp);
-			Type_type typeType = last.getExpressionReturntype(timestamp, expectedValue);
+			final IValue last = location.setLoweridToReference(timestamp);
+			final Type_type typeType = last.getExpressionReturntype(timestamp, expectedValue);
 			if (!last.getIsErroneous(timestamp)) {
 				switch (typeType) {
 				case TYPE_CHARSTRING:
@@ -226,7 +226,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 		checkCreateTimestamp = timestamp;
 		checkCreateCache = null;
 
-		Assignment assignment = componentReference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = componentReference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			setIsErroneous(true);
 			return null;
@@ -238,7 +238,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 			return null;
 		}
 
-		IType type = ((Def_Type) assignment).getType(timestamp).getFieldType(timestamp, componentReference, 1,
+		final IType type = ((Def_Type) assignment).getType(timestamp).getFieldType(timestamp, componentReference, 1,
 				Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 		if (type == null) {
 			setIsErroneous(true);
@@ -252,7 +252,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 		}
 
 		if (myGovernor != null) {
-			IType last = myGovernor.getTypeRefdLast(timestamp);
+			final IType last = myGovernor.getTypeRefdLast(timestamp);
 
 			if (Type_type.TYPE_COMPONENT.equals(last.getTypetype()) && !last.isCompatible(timestamp, type, null, null, null)) {
 				componentReference.getLocation().reportSemanticError(

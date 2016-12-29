@@ -107,14 +107,14 @@ public final class Str2BitExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				String string = ((Charstring_Value) last).getValue();
-				byte[] bytes = string.getBytes();
+				final String string = ((Charstring_Value) last).getValue();
+				final byte[] bytes = string.getBytes();
 				for (int i = 0; i < bytes.length; i++) {
 					if (bytes[i] != '0' && bytes[i] != '1') {
 						value.getLocation().reportSemanticError(OPERANDERROR2);
@@ -157,14 +157,14 @@ public final class Str2BitExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			return lastValue;
 		}
 
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
-			String string = ((Charstring_Value) last).getValue();
+			final String string = ((Charstring_Value) last).getValue();
 			lastValue = new Bitstring_Value(string);
 			break;
 		default:

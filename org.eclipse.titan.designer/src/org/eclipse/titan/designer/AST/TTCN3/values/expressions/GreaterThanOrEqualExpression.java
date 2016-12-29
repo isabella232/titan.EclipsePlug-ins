@@ -127,7 +127,7 @@ public final class GreaterThanOrEqualExpression extends Expression_Value {
 		ExpressionUtilities.checkExpressionOperatorCompatibility(timestamp, this, referenceChain, expectedValue, value1, value2);
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType1 = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType1 = value1.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType1) {
 		case TYPE_INTEGER:
@@ -145,7 +145,7 @@ public final class GreaterThanOrEqualExpression extends Expression_Value {
 		}
 
 		value2.setLoweridToReference(timestamp);
-		Type_type tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType2) {
 		case TYPE_INTEGER:
@@ -184,8 +184,8 @@ public final class GreaterThanOrEqualExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		if (last1.getIsErroneous(timestamp) || last2.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
@@ -199,8 +199,8 @@ public final class GreaterThanOrEqualExpression extends Expression_Value {
 			break;
 		}
 		case REAL_VALUE: {
-			double float1 = ((Real_Value) last1).getValue();
-			double float2 = ((Real_Value) last2).getValue();
+			final double float1 = ((Real_Value) last1).getValue();
+			final double float2 = ((Real_Value) last2).getValue();
 			lastValue = new Boolean_Value(Double.compare(float1, float2) >= 0);
 			lastValue.copyGeneralProperties(this);
 			break;
@@ -212,14 +212,14 @@ public final class GreaterThanOrEqualExpression extends Expression_Value {
 			governor2 = governor2.getTypeRefdLast(timestamp);
 
 			if (governor1 instanceof TTCN3_Enumerated_Type) {
-				EnumItem item1 = ((TTCN3_Enumerated_Type) governor1).getEnumItemWithName(((Enumerated_Value) last1).getValue());
-				EnumItem item2 = ((TTCN3_Enumerated_Type) governor2).getEnumItemWithName(((Enumerated_Value) last2).getValue());
+				final EnumItem item1 = ((TTCN3_Enumerated_Type) governor1).getEnumItemWithName(((Enumerated_Value) last1).getValue());
+				final EnumItem item2 = ((TTCN3_Enumerated_Type) governor2).getEnumItemWithName(((Enumerated_Value) last2).getValue());
 				lastValue = new Boolean_Value(
 						((Integer_Value) item1.getValue()).intValue() >= ((Integer_Value) item2.getValue()).intValue());
 				lastValue.copyGeneralProperties(this);
 			} else {
-				EnumItem item1 = ((ASN1_Enumerated_Type) governor1).getEnumItemWithName(((Enumerated_Value) last1).getValue());
-				EnumItem item2 = ((ASN1_Enumerated_Type) governor2).getEnumItemWithName(((Enumerated_Value) last2).getValue());
+				final EnumItem item1 = ((ASN1_Enumerated_Type) governor1).getEnumItemWithName(((Enumerated_Value) last1).getValue());
+				final EnumItem item2 = ((ASN1_Enumerated_Type) governor2).getEnumItemWithName(((Enumerated_Value) last2).getValue());
 				lastValue = new Boolean_Value(
 						((Integer_Value) item1.getValue()).intValue() >= ((Integer_Value) item2.getValue()).intValue());
 				lastValue.copyGeneralProperties(this);

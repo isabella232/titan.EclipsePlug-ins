@@ -95,7 +95,7 @@ public final class IsValueExpression extends Expression_Value {
 			return true;
 		}
 
-		ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+		final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 		if (templateInstance.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
 			return ((SpecificValue_Template) template).getSpecificValue().isUnfoldable(timestamp, expectedValue, referenceChain);
 		}
@@ -125,12 +125,12 @@ public final class IsValueExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
 		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		if (governor == null) {
-			ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if (governor == null) {
@@ -167,10 +167,10 @@ public final class IsValueExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		ITTCN3Template template = templateInstance.getTemplateBody();
+		final ITTCN3Template template = templateInstance.getTemplateBody();
 		boolean isSingleValue = templateInstance.getDerivedReference() == null && template.isValue(timestamp);
 		if (isSingleValue) {
-			IValue other = template.getValue();
+			final IValue other = template.getValue();
 			isSingleValue = other.evaluateIsvalue(false);
 		}
 
@@ -249,7 +249,7 @@ public final class IsValueExpression extends Expression_Value {
 			}
 			break;
 		case SPECIFIC_VALUE:
-			IValue tempValue = ((SpecificValue_Template) template).getSpecificValue();
+			final IValue tempValue = ((SpecificValue_Template) template).getSpecificValue();
 			switch (tempValue.getValuetype()) {
 			case REFERENCED_VALUE:
 				type.checkThisValueRef(timestamp, tempValue);

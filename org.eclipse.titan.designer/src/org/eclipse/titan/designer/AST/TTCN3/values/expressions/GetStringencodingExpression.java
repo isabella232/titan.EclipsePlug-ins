@@ -111,7 +111,7 @@ public final class GetStringencodingExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_OCTETSTRING:
@@ -154,7 +154,7 @@ public final class GetStringencodingExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -162,7 +162,7 @@ public final class GetStringencodingExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case OCTETSTRING_VALUE: {
-			String octetString = ((Octetstring_Value) last).getValue();
+			final String octetString = ((Octetstring_Value) last).getValue();
 			lastValue = new Charstring_Value(calculateValue(octetString));
 			lastValue.copyGeneralProperties(this);
 			break;
@@ -178,10 +178,10 @@ public final class GetStringencodingExpression extends Expression_Value {
 	public String calculateValue(final String octetString) {
 		//TODO: reimplement
 		final StringBuilder builder = new StringBuilder();
-		byte[] bytes = octetString.getBytes();
+		final byte[] bytes = octetString.getBytes();
 
 		for (int i = 0; i < bytes.length / 2; i++) {
-			int c = 16 * BitstringUtilities.charToHexdigit(bytes[2 * i]) + BitstringUtilities.charToHexdigit(bytes[2 * i + 1]);
+			final int c = 16 * BitstringUtilities.charToHexdigit(bytes[2 * i]) + BitstringUtilities.charToHexdigit(bytes[2 * i + 1]);
 			builder.append((char) c);
 		}
 

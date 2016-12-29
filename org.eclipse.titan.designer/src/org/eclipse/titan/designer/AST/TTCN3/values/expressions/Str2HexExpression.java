@@ -107,16 +107,16 @@ public final class Str2HexExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				String string = ((Charstring_Value) last).getValue();
-				byte[] bytes = string.getBytes();
+				final String string = ((Charstring_Value) last).getValue();
+				final byte[] bytes = string.getBytes();
 				for (int i = 0; i < bytes.length; i++) {
-					byte c = bytes[i];
+					final byte c = bytes[i];
 					final boolean isLetter = (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
 					final boolean isDigit = c >= '0' && c <= '9';
 					if (!(isLetter || isDigit)) {
@@ -160,14 +160,14 @@ public final class Str2HexExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			return lastValue;
 		}
 
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
-			String string = ((Charstring_Value) last).getValue();
+			final String string = ((Charstring_Value) last).getValue();
 			lastValue = new Hexstring_Value(string.toUpperCase());
 			break;
 		default:

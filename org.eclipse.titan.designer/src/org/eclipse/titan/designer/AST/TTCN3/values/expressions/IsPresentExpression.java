@@ -99,16 +99,16 @@ public final class IsPresentExpression extends Expression_Value {
 			return true;
 		}
 
-		ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+		final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 		if (templateInstance.getDerivedReference() != null) {
 			return true;
 		}
 
 		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
-			IValue specificValue = ((SpecificValue_Template) template).getValue();
+			final IValue specificValue = ((SpecificValue_Template) template).getValue();
 			if (Value_type.REFERENCED_VALUE.equals(specificValue.getValuetype())) {
-				Reference reference = ((Referenced_Value) specificValue).getReference();
-				Assignment ass = reference.getRefdAssignment(timestamp, false);
+				final Reference reference = ((Referenced_Value) specificValue).getReference();
+				final Assignment ass = reference.getRefdAssignment(timestamp, false);
 				if (ass == null) {
 					return true;
 				}
@@ -133,7 +133,7 @@ public final class IsPresentExpression extends Expression_Value {
 
 				// TODO improve to better detect unbound
 				// elements
-				IValue last = specificValue.getValueRefdLast(timestamp, expectedValue, null);
+				final IValue last = specificValue.getValueRefdLast(timestamp, expectedValue, null);
 				if (last == null) {
 					return true;
 				}
@@ -146,8 +146,8 @@ public final class IsPresentExpression extends Expression_Value {
 
 			return specificValue.isUnfoldable(timestamp, expectedValue, referenceChain);
 		} else if (Template_type.TEMPLATE_REFD.equals(template.getTemplatetype())) {
-			Reference reference = ((Referenced_Template) template).getReference();
-			Assignment ass = reference.getRefdAssignment(timestamp, true);
+			final Reference reference = ((Referenced_Template) template).getReference();
+			final Assignment ass = reference.getRefdAssignment(timestamp, true);
 			if (ass == null) {
 				return true;
 			}
@@ -162,7 +162,7 @@ public final class IsPresentExpression extends Expression_Value {
 			}
 
 			// TODO improve to better detect unbound elements
-			TTCN3Template last = template.getTemplateReferencedLast(timestamp);
+			final TTCN3Template last = template.getTemplateReferencedLast(timestamp);
 			if (last == null) {
 				return true;
 			}
@@ -200,12 +200,12 @@ public final class IsPresentExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
 		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
 		if (governor == null) {
-			ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if (governor == null) {
@@ -246,13 +246,13 @@ public final class IsPresentExpression extends Expression_Value {
 		template = template.getTemplateReferencedLast(timestamp);
 		boolean result = false;
 		if (template.getTemplatetype() == Template_type.TEMPLATE_REFD) {
-			TTCN3Template last = template.getTemplateReferencedLast(timestamp);
+			final TTCN3Template last = template.getTemplateReferencedLast(timestamp);
 			if (last != null && Template_type.SPECIFIC_VALUE.equals(last.getTemplatetype())) {
 				result = ((SpecificValue_Template) last).getValue().evaluateIspresent(timestamp,
 						((Referenced_Template) template).getReference(), 1);
 			}
 		} else if (template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
-			IValue value = ((SpecificValue_Template) template).getValue();
+			final IValue value = ((SpecificValue_Template) template).getValue();
 			if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
 				result = value.evaluateIspresent(timestamp, ((Referenced_Value) value).getReference(), 1);
 			} else {
@@ -295,11 +295,11 @@ public final class IsPresentExpression extends Expression_Value {
 			internalExpectation = expectedValue;
 		}
 
-		ITTCN3Template body = instance.getTemplateBody();
+		final ITTCN3Template body = instance.getTemplateBody();
 		if (body.getTemplatetype() == Template_type.TEMPLATE_REFD) {
 			((Referenced_Template) body).getReference().setUsedInIsbound(); // FIXME
 		} else if (body.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
-			IValue value = ((SpecificValue_Template) body).getValue();
+			final IValue value = ((SpecificValue_Template) body).getValue();
 			if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
 				((Referenced_Value) value).getReference().setUsedInIsbound(); // FIXME
 			}
@@ -345,7 +345,7 @@ public final class IsPresentExpression extends Expression_Value {
 			}
 			break;
 		case SPECIFIC_VALUE:
-			IValue tempValue = ((SpecificValue_Template) template).getSpecificValue();
+			final IValue tempValue = ((SpecificValue_Template) template).getSpecificValue();
 			switch (tempValue.getValuetype()) {
 			case REFERENCED_VALUE:
 				type.checkThisValueRef(timestamp, tempValue);

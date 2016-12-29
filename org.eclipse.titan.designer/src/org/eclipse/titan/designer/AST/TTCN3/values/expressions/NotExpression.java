@@ -105,7 +105,7 @@ public final class NotExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type temp = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type temp = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (temp) {
 		case TYPE_BOOL:
@@ -147,8 +147,7 @@ public final class NotExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
-
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -156,7 +155,7 @@ public final class NotExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case BOOLEAN_VALUE:
-			boolean b = ((Boolean_Value) last).getValue();
+			final boolean b = ((Boolean_Value) last).getValue();
 			lastValue = new Boolean_Value(!b);
 			lastValue.copyGeneralProperties(this);
 			break;

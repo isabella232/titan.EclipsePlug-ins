@@ -107,13 +107,13 @@ public final class Hex2IntExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_HEXSTRING:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				String hexstring = ((Hexstring_Value) last).getValue();
+				final String hexstring = ((Hexstring_Value) last).getValue();
 				int startIndex = 0;
 				while (startIndex < hexstring.length() && '0' == hexstring.charAt(startIndex)) {
 					startIndex++;
@@ -157,7 +157,7 @@ public final class Hex2IntExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -165,7 +165,7 @@ public final class Hex2IntExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case HEXSTRING_VALUE:
-			String temp = ((Hexstring_Value) last).getValue();
+			final String temp = ((Hexstring_Value) last).getValue();
 			lastValue = hex2int(temp);
 			break;
 		default:
@@ -177,7 +177,7 @@ public final class Hex2IntExpression extends Expression_Value {
 	}
 
 	public static Integer_Value hex2int(final String hexString) {
-		byte[] bytes = hexString.getBytes();
+		final byte[] bytes = hexString.getBytes();
 		int startIndex = 0;
 		while (startIndex < bytes.length && '0' == bytes[startIndex]) {
 			startIndex++;

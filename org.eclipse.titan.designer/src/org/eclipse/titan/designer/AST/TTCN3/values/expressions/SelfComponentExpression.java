@@ -57,7 +57,7 @@ public final class SelfComponentExpression extends Expression_Value {
 			return null;
 		}
 
-		RunsOnScope runsOnScope = myScope.getScopeRunsOn();
+		final RunsOnScope runsOnScope = myScope.getScopeRunsOn();
 		if (runsOnScope == null) {
 			return null;
 		}
@@ -88,17 +88,17 @@ public final class SelfComponentExpression extends Expression_Value {
 			return;
 		}
 
-		IType governorLast = myGovernor.getTypeRefdLast(timestamp);
+		final IType governorLast = myGovernor.getTypeRefdLast(timestamp);
 		if (!Type_type.TYPE_COMPONENT.equals(governorLast.getTypetype())) {
 			return;
 		}
 
-		RunsOnScope runsOnScope = myScope.getScopeRunsOn();
+		final RunsOnScope runsOnScope = myScope.getScopeRunsOn();
 		if (runsOnScope == null) {
 			return;
 		}
 
-		Type componentType = runsOnScope.getComponentType();
+		final Type componentType = runsOnScope.getComponentType();
 		if (componentType != null && !governorLast.isCompatible(timestamp, componentType, null, null, null)) {
 			getLocation().reportSemanticError(
 					MessageFormat.format(

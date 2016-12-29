@@ -110,16 +110,16 @@ public final class Unichar2CharExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_UCHARSTRING:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
+				final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
 
 				for (int i = 0; i < string.length(); i++) {
-					UniversalChar uchar = string.get(i);
+					final UniversalChar uchar = string.get(i);
 					if (uchar.group() != 0 || uchar.plane() != 0 || uchar.row() != 0 || uchar.cell() > 127) {
 						value.getLocation().reportSemanticError(OPERANDERROR2);
 						setIsErroneous(true);
@@ -161,7 +161,7 @@ public final class Unichar2CharExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -169,9 +169,9 @@ public final class Unichar2CharExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case UNIVERSALCHARSTRING_VALUE: {
-			UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
-			UniversalChar uchar = string.get(0);
-			byte[] bytes = new byte[] { (byte) uchar.cell() };
+			final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
+			final UniversalChar uchar = string.get(0);
+			final byte[] bytes = new byte[] { (byte) uchar.cell() };
 			lastValue = new Charstring_Value(new String(bytes));
 			break;
 		}

@@ -78,12 +78,12 @@ public final class SystemComponentExpression extends Expression_Value {
 			return;
 		}
 
-		IType governorLast = myGovernor.getTypeRefdLast(timestamp);
+		final IType governorLast = myGovernor.getTypeRefdLast(timestamp);
 		if (!Type_type.TYPE_COMPONENT.equals(governorLast.getTypetype())) {
 			return;
 		}
 
-		Type componentType = myScope.getMtcSystemComponentType(timestamp, true);
+		final Type componentType = myScope.getMtcSystemComponentType(timestamp, true);
 		if (componentType != null && !governorLast.isCompatible(timestamp, componentType, null, null, null)) {
 			// This actually would be an internal error
 			getLocation().reportSemanticError(

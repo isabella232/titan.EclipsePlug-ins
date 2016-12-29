@@ -108,7 +108,7 @@ public final class Unichar2OctExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_UCHARSTRING:
@@ -148,7 +148,7 @@ public final class Unichar2OctExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -156,9 +156,9 @@ public final class Unichar2OctExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case UNIVERSALCHARSTRING_VALUE: {
-			UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
-			UniversalChar uchar = string.get(0);
-			byte[] bytes = new byte[] { (byte) uchar.cell() };
+			final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
+			final UniversalChar uchar = string.get(0);
+			final byte[] bytes = new byte[] { (byte) uchar.cell() };
 			lastValue = new Octetstring_Value(new String(bytes));
 			break;
 		}

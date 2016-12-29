@@ -106,8 +106,8 @@ public final class ExpressionUtilities {
 
 		// if there was no governor in the beginning there shall be no
 		// governor in the end (but midway we need to set them)
-		boolean governor1set = operand1.getMyGovernor() != null;
-		boolean governor2set = operand2.getMyGovernor() != null;
+		final boolean governor1set = operand1.getMyGovernor() != null;
+		final boolean governor2set = operand2.getMyGovernor() != null;
 
 		checkExpressionOperatorCompatibilityInternal(timestamp, expression, referenceChain, expectedValue, operand1, operand2);
 
@@ -152,8 +152,8 @@ public final class ExpressionUtilities {
 
 		// if there was no governor in the beginning there shall be no
 		// governor in the end (but midway we need to set them)
-		boolean governor1set = operand1.getMyGovernor() != null;
-		boolean governor2set = operand2.getTemplateBody().getMyGovernor() != null;
+		final boolean governor1set = operand1.getMyGovernor() != null;
+		final boolean governor2set = operand2.getTemplateBody().getMyGovernor() != null;
 
 		checkExpressionOperatorCompatibilityInternal(timestamp, expression, referenceChain, expectedValue, operand1, operand2);
 
@@ -198,16 +198,16 @@ public final class ExpressionUtilities {
 		IValue operand1 = param1;
 		IValue operand2 = param2;
 
-		Type_type tempType1 = operand1.getExpressionReturntype(timestamp, expectedValue);
-		Type_type tempType2 = operand2.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType1 = operand1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType2 = operand2.getExpressionReturntype(timestamp, expectedValue);
 
 		if (Type_type.TYPE_UNDEFINED.equals(tempType1)) {
 			if (Type_type.TYPE_UNDEFINED.equals(tempType2)) {
 				if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(operand1.getValuetype())) {
 					if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(operand2.getValuetype())) {
-						Scope scope = expression.getMyScope();
-						Module module = scope.getModuleScope();
-						Identifier identifier = ((Undefined_LowerIdentifier_Value) operand1).getIdentifier();
+						final Scope scope = expression.getMyScope();
+						final Module module = scope.getModuleScope();
+						final Identifier identifier = ((Undefined_LowerIdentifier_Value) operand1).getIdentifier();
 						if (scope.hasAssignmentWithId(timestamp, identifier)
 								|| module.hasImportedAssignmentWithID(timestamp, identifier)) {
 							operand1 = operand1.setLoweridToReference(timestamp);
@@ -216,7 +216,7 @@ public final class ExpressionUtilities {
 							return;
 						}
 
-						Identifier identifier2 = ((Undefined_LowerIdentifier_Value) operand2).getIdentifier();
+						final Identifier identifier2 = ((Undefined_LowerIdentifier_Value) operand2).getIdentifier();
 						if (scope.hasAssignmentWithId(timestamp, identifier2)
 								|| module.hasImportedAssignmentWithID(timestamp, identifier2)) {
 							operand2 = operand2.setLoweridToReference(timestamp);
@@ -263,8 +263,8 @@ public final class ExpressionUtilities {
 			}
 		}
 
-		IType type1 = operand1.getExpressionGovernor(timestamp, expectedValue);
-		IType type2 = operand2.getExpressionGovernor(timestamp, expectedValue);
+		final IType type1 = operand1.getExpressionGovernor(timestamp, expectedValue);
+		final IType type2 = operand2.getExpressionGovernor(timestamp, expectedValue);
 
 		if (operand1.getIsErroneous(timestamp) || operand2.getIsErroneous(timestamp)) {
 			expression.setIsErroneous(true);
@@ -273,10 +273,10 @@ public final class ExpressionUtilities {
 
 		if (type1 != null) {
 			if (type2 != null) {
-				TypeCompatibilityInfo info1 = new TypeCompatibilityInfo(type1, type2, true);
-				TypeCompatibilityInfo info2 = new TypeCompatibilityInfo(type2, type1, true);
-				boolean retVal1 = type1.isCompatible(timestamp, type2, info1, null, null);
-				boolean retVal2 = type2.isCompatible(timestamp, type1, info2, null, null);
+				final TypeCompatibilityInfo info1 = new TypeCompatibilityInfo(type1, type2, true);
+				final TypeCompatibilityInfo info2 = new TypeCompatibilityInfo(type2, type1, true);
+				final boolean retVal1 = type1.isCompatible(timestamp, type2, info1, null, null);
+				final boolean retVal2 = type2.isCompatible(timestamp, type1, info2, null, null);
 				if (!retVal1 && !retVal2) {
 					expression.getLocation().reportSemanticError(info1.toString());
 					expression.setIsErroneous(true);
@@ -294,7 +294,7 @@ public final class ExpressionUtilities {
 				}
 			} else {
 				operand2.setMyGovernor(type1);
-				IValue tempValue = type1.checkThisValueRef(timestamp, operand2);
+				final IValue tempValue = type1.checkThisValueRef(timestamp, operand2);
 
 				if (Value_type.OMIT_VALUE.equals(operand2.getValuetype())) {
 					operand1.checkExpressionOmitComparison(timestamp, expectedValue);
@@ -308,7 +308,7 @@ public final class ExpressionUtilities {
 			}
 		} else if (type2 != null) {
 			operand1.setMyGovernor(type2);
-			IValue tempValue = type2.checkThisValueRef(timestamp, operand1);
+			final IValue tempValue = type2.checkThisValueRef(timestamp, operand1);
 			if (Value_type.OMIT_VALUE.equals(operand1.getValuetype())) {
 				operand2.checkExpressionOmitComparison(timestamp, expectedValue);
 			} else {
@@ -346,10 +346,10 @@ public final class ExpressionUtilities {
 		}
 
 		IValue operand1 = param1;
-		TemplateInstance operand2 = param2;
+		final TemplateInstance operand2 = param2;
 
-		Type_type tempType1 = operand1.getExpressionReturntype(timestamp, expectedValue);
-		Type_type tempType2 = operand2.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType1 = operand1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType2 = operand2.getExpressionReturntype(timestamp, expectedValue);
 		ITTCN3Template temp2 = operand2.getTemplateBody();
 
 		if (Type_type.TYPE_UNDEFINED.equals(tempType1)) {
@@ -359,9 +359,9 @@ public final class ExpressionUtilities {
 					if (Template_type.SPECIFIC_VALUE.equals(temp2.getTemplatetype())
 							&& Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(((SpecificValue_Template) temp2)
 									.getSpecificValue().getValuetype())) {
-						Scope scope = expression.getMyScope();
-						Module module = scope.getModuleScope();
-						Identifier identifier = ((Undefined_LowerIdentifier_Value) operand1).getIdentifier();
+						final Scope scope = expression.getMyScope();
+						final Module module = scope.getModuleScope();
+						final Identifier identifier = ((Undefined_LowerIdentifier_Value) operand1).getIdentifier();
 						if (scope.hasAssignmentWithId(timestamp, identifier)
 								|| module.hasImportedAssignmentWithID(timestamp, identifier)) {
 							operand1 = operand1.setLoweridToReference(timestamp);
@@ -370,7 +370,7 @@ public final class ExpressionUtilities {
 							return;
 						}
 
-						Identifier identifier2 = ((Undefined_LowerIdentifier_Value) ((SpecificValue_Template) temp2)
+						final Identifier identifier2 = ((Undefined_LowerIdentifier_Value) ((SpecificValue_Template) temp2)
 								.getSpecificValue()).getIdentifier();
 						if (scope.hasAssignmentWithId(timestamp, identifier2)
 								|| module.hasImportedAssignmentWithID(timestamp, identifier2)) {
@@ -392,7 +392,7 @@ public final class ExpressionUtilities {
 					temp2 = temp2.setLoweridToReference(timestamp);
 					
 					//To avoid infinite loop:
-					TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
+					final TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
 							operand2.getDerivedReference(), (TTCN3Template) temp2);
 					
 					if (operand2 == tempTemplateInstance2) {
@@ -429,7 +429,7 @@ public final class ExpressionUtilities {
 				temp2 = temp2.setLoweridToReference(timestamp);
 				
 				//To avoid infinite loop:
-				TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
+				final TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
 						operand2.getDerivedReference(), (TTCN3Template) temp2);
 				if (operand2 == tempTemplateInstance2) {
 					return;
@@ -440,8 +440,8 @@ public final class ExpressionUtilities {
 			} 
 		}
 
-		IType type1 = operand1.getExpressionGovernor(timestamp, expectedValue);
-		IType type2 = operand2.getExpressionGovernor(timestamp, expectedValue);
+		final IType type1 = operand1.getExpressionGovernor(timestamp, expectedValue);
+		final IType type2 = operand2.getExpressionGovernor(timestamp, expectedValue);
 		// ITTCN3Template temp2 = operand2.getTemplateBody();
 
 		if (operand1.getIsErroneous(timestamp) || temp2.getIsErroneous(timestamp)) {
@@ -451,10 +451,10 @@ public final class ExpressionUtilities {
 
 		if (type1 != null) {
 			if (type2 != null) {
-				TypeCompatibilityInfo info1 = new TypeCompatibilityInfo(type1, type2, true);
-				TypeCompatibilityInfo info2 = new TypeCompatibilityInfo(type2, type1, true);
-				boolean retVal1 = type1.isCompatible(timestamp, type2, info1, null, null);
-				boolean retVal2 = type2.isCompatible(timestamp, type1, info2, null, null);
+				final TypeCompatibilityInfo info1 = new TypeCompatibilityInfo(type1, type2, true);
+				final TypeCompatibilityInfo info2 = new TypeCompatibilityInfo(type2, type1, true);
+				final boolean retVal1 = type1.isCompatible(timestamp, type2, info1, null, null);
+				final boolean retVal2 = type2.isCompatible(timestamp, type1, info2, null, null);
 				if (!retVal1 && !retVal2) {
 					expression.getLocation().reportSemanticError(info1.toString());
 					expression.setIsErroneous(true);
@@ -472,7 +472,7 @@ public final class ExpressionUtilities {
 				}
 			} else {
 				temp2.setMyGovernor(type1);
-				ITTCN3Template tempValue = type1.checkThisTemplateRef(timestamp, temp2);
+				final ITTCN3Template tempValue = type1.checkThisTemplateRef(timestamp, temp2);
 
 				if (Template_type.OMIT_VALUE.equals(temp2.getTemplatetype())
 						|| (Template_type.SPECIFIC_VALUE.equals(temp2.getTemplatetype())
@@ -481,7 +481,7 @@ public final class ExpressionUtilities {
 					operand1.checkExpressionOmitComparison(timestamp, expectedValue);
 				} else {
 					type1.checkThisTemplate(timestamp, (TTCN3Template) tempValue, false, false);
-					TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
+					final TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
 							operand2.getDerivedReference(), (TTCN3Template) tempValue);
 					if (operand2 == tempTemplateInstance2) {
 						return;
@@ -493,7 +493,7 @@ public final class ExpressionUtilities {
 			}
 		} else if (type2 != null) {
 			operand1.setMyGovernor(type2);
-			IValue tempValue = type2.checkThisValueRef(timestamp, operand1);
+			final IValue tempValue = type2.checkThisValueRef(timestamp, operand1);
 			if (Value_type.OMIT_VALUE.equals(operand1.getValuetype())) {
 				// temp2.check_expression_omit_comparison(timestamp,
 				// expectedValue); ???

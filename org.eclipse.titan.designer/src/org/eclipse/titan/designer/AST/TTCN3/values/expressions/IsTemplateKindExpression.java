@@ -148,7 +148,7 @@ public final class IsTemplateKindExpression extends Expression_Value {
 		IType type = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
 
 		if (type == null) {
-			ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
 			type = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 
@@ -212,10 +212,10 @@ public final class IsTemplateKindExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			IValue last = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				CharstringExtractor cs = new CharstringExtractor( originalString );
+				final CharstringExtractor cs = new CharstringExtractor( originalString );
 				if ( cs.isErrorneous() ) {
 					value2.getLocation().reportSemanticError( cs.getErrorMessage() );
 					setIsErroneous(true);

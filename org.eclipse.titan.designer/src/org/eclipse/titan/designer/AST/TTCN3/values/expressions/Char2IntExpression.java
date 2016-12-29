@@ -108,14 +108,14 @@ public final class Char2IntExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				CharstringExtractor cs = new CharstringExtractor( originalString );
+				final CharstringExtractor cs = new CharstringExtractor( originalString );
 				if ( cs.isErrorneous() ) {
 					value.getLocation().reportSemanticError( cs.getErrorMessage() );
 					setIsErroneous(true);
@@ -167,7 +167,7 @@ public final class Char2IntExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -175,7 +175,7 @@ public final class Char2IntExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
-			String string = ((Charstring_Value) last).getValue();
+			final String string = ((Charstring_Value) last).getValue();
 			lastValue = new Integer_Value(string.charAt(0));
 			lastValue.copyGeneralProperties(this);
 			break;

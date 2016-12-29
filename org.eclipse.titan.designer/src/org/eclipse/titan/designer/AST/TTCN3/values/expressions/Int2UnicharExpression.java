@@ -109,13 +109,13 @@ public final class Int2UnicharExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_INTEGER:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp) && Value.Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
-				Integer_Value i = (Integer_Value) last;
+				final Integer_Value i = (Integer_Value) last;
 				if (i.signum() < 0 || i.compareTo(new Integer_Value(Integer.MAX_VALUE)) > 0) {
 					value.getLocation().reportSemanticError(OPERANDERROR2);
 					setIsErroneous(true);
@@ -159,19 +159,19 @@ public final class Int2UnicharExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			return lastValue;
 		}
 
 		switch (last.getValuetype()) {
 		case INTEGER_VALUE: {
-			long i = ((Integer_Value) last).getValue();
+			final long i = ((Integer_Value) last).getValue();
 
-			long group = (i >> 24) & 0xFF;
-			long plane = (i >> 16) & 0xFF;
-			long row = (i >> 8) & 0xFF;
-			long cell = i & 0xFF;
+			final long group = (i >> 24) & 0xFF;
+			final long plane = (i >> 16) & 0xFF;
+			final long row = (i >> 8) & 0xFF;
+			final long cell = i & 0xFF;
 
 			lastValue = new UniversalCharstring_Value(new UniversalCharstring(new UniversalChar((int) group, (int) plane, (int) row,
 					(int) cell)));

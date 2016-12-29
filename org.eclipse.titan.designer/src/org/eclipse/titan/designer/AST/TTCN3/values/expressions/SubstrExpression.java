@@ -123,7 +123,7 @@ public final class SubstrExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last == null || templateInstance1 == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -134,8 +134,8 @@ public final class SubstrExpression extends Expression_Value {
 			return Type_type.TYPE_UNDEFINED;
 		}
 
-		ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
-		Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		final ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+		final Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		switch (tempType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
@@ -164,13 +164,14 @@ public final class SubstrExpression extends Expression_Value {
 		if (template == null || !Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
 			return true;
 		}
-		IValue value1 = ((SpecificValue_Template) template).getSpecificValue();
+
+		final IValue value1 = ((SpecificValue_Template) template).getSpecificValue();
 		if (value1 == null) {
 			return true;
 		}
 
 		template = template.setLoweridToReference(timestamp);
-		Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		final Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		switch (tempType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
@@ -199,7 +200,7 @@ public final class SubstrExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
 		Type_type tempType1 = null;
@@ -208,7 +209,7 @@ public final class SubstrExpression extends Expression_Value {
 		IValue value1 = null;
 
 		if (templateInstance1 != null) {
-			ITTCN3Template temp = templateInstance1.getTemplateBody();
+			final ITTCN3Template temp = templateInstance1.getTemplateBody();
 			if (!Template_type.SPECIFIC_VALUE.equals(temp.getTemplatetype())) {
 				location.reportSemanticError(OPERANDERROR1);
 				setIsErroneous(true);
@@ -243,10 +244,10 @@ public final class SubstrExpression extends Expression_Value {
 
 			switch (tempType2) {
 			case TYPE_INTEGER:
-				IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!last2.isUnfoldable(timestamp) && Value.Value_type.INTEGER_VALUE.equals(last2.getValuetype())) {
 					if (((Integer_Value) last2).isNative()) {
-						long i = ((Integer_Value) last2).getValue();
+						final long i = ((Integer_Value) last2).getValue();
 						if (i < 0) {
 							value2.getLocation().reportSemanticError(OPERANDERROR3);
 							setIsErroneous(true);
@@ -273,10 +274,10 @@ public final class SubstrExpression extends Expression_Value {
 
 			switch (tempType3) {
 			case TYPE_INTEGER:
-				IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!last3.isUnfoldable(timestamp) && Value.Value_type.INTEGER_VALUE.equals(last3.getValuetype())) {
 					if (((Integer_Value) last3).isNative()) {
-						long i = ((Integer_Value) last3).getValue();
+						final long i = ((Integer_Value) last3).getValue();
 						if (i < 0) {
 							value3.getLocation().reportSemanticError(OPERANDERROR5);
 							setIsErroneous(true);
@@ -344,24 +345,24 @@ public final class SubstrExpression extends Expression_Value {
 
 		if (value2.isUnfoldable(timestamp)) {
 			if (!value3.isUnfoldable(timestamp)) {
-				IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				long last3Value = ((Integer_Value) last3).getValue();
+				final IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final long last3Value = ((Integer_Value) last3).getValue();
 				if (last3Value > valueSize) {
 					location.reportSemanticError(MessageFormat.format(OPERANDERROR6, last3Value, valueSize));
 					setIsErroneous(true);
 				}
 			}
 		} else {
-			IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			long last2Value = ((Integer_Value) last2).getValue();
+			final IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final long last2Value = ((Integer_Value) last2).getValue();
 			if (value3.isUnfoldable(timestamp)) {
 				if (last2Value > valueSize) {
 					location.reportSemanticError(MessageFormat.format(OPERANDERROR7, last2Value, valueSize));
 					setIsErroneous(true);
 				}
 			} else {
-				IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				long last3Value = ((Integer_Value) last3).getValue();
+				final IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final long last3Value = ((Integer_Value) last3).getValue();
 				if (last2Value + last3Value > valueSize) {
 					location.reportSemanticError(MessageFormat.format(OPERANDERROR8, last2Value, last3Value, valueSize));
 					setIsErroneous(true);
@@ -391,14 +392,14 @@ public final class SubstrExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		ITTCN3Template temp = templateInstance1.getTemplateBody();
-		IValue value1 = ((SpecificValue_Template) temp).getSpecificValue();
-		IValue v1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue v2 = value2.getValueRefdLast(timestamp, referenceChain);
-		IValue v3 = value3.getValueRefdLast(timestamp, referenceChain);
+		final ITTCN3Template temp = templateInstance1.getTemplateBody();
+		final IValue value1 = ((SpecificValue_Template) temp).getSpecificValue();
+		final IValue v1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue v2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue v3 = value3.getValueRefdLast(timestamp, referenceChain);
 
-		int index = (int) ((Integer_Value) v2).getValue();
-		int len = (int) ((Integer_Value) v3).getValue();
+		final int index = (int) ((Integer_Value) v2).getValue();
+		final int len = (int) ((Integer_Value) v3).getValue();
 
 		switch (v1.getValuetype()) {
 		case BITSTRING_VALUE:

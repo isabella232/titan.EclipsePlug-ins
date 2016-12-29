@@ -97,7 +97,7 @@ public final class AndExpression extends Expression_Value {
 			return true;
 		}
 
-		IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
+		final IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -181,10 +181,10 @@ public final class AndExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
 		if (Value_type.BOOLEAN_VALUE.equals(last1.getValuetype())) {
 			if (((Boolean_Value) last1).getValue()) {
-				Boolean_Value temp = (Boolean_Value) value2.getValueRefdLast(timestamp, referenceChain);
+				final Boolean_Value temp = (Boolean_Value) value2.getValueRefdLast(timestamp, referenceChain);
 				lastValue = new Boolean_Value(temp.getValue());
 				lastValue.copyGeneralProperties(this);
 			} else {
@@ -196,9 +196,9 @@ public final class AndExpression extends Expression_Value {
 			// potential side effects
 			// the right operand can only be eliminated if it is a
 			// literal "true"
-			IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+			final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 			if (Value_type.BOOLEAN_VALUE.equals(last2.getValuetype()) && ((Boolean_Value) last2).getValue()) {
-				Boolean_Value temp = (Boolean_Value) value1.getValueRefdLast(timestamp, referenceChain);
+				final Boolean_Value temp = (Boolean_Value) value1.getValueRefdLast(timestamp, referenceChain);
 				lastValue = new Boolean_Value(temp.getValue());
 				lastValue.copyGeneralProperties(this);
 			}

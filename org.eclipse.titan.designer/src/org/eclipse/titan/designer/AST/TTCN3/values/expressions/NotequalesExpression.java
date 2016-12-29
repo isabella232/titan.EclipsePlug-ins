@@ -146,8 +146,8 @@ public final class NotequalesExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		if (last1.getIsErroneous(timestamp) || last2.getIsErroneous(timestamp)) {
 			setIsErroneous(true);

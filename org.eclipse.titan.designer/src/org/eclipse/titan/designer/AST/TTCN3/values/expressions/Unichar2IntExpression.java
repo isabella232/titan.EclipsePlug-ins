@@ -111,7 +111,7 @@ public final class Unichar2IntExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		IValue last;
 
@@ -119,7 +119,7 @@ public final class Unichar2IntExpression extends Expression_Value {
 		case TYPE_UCHARSTRING:
 			last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
+				final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
 				if ( string.isErrorneous() ) {
 					value.getLocation().reportSemanticError( string.getErrorMessage() );
 					setIsErroneous(true);
@@ -133,7 +133,7 @@ public final class Unichar2IntExpression extends Expression_Value {
 			last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				CharstringExtractor cs = new CharstringExtractor( originalString );
+				final CharstringExtractor cs = new CharstringExtractor( originalString );
 				if ( cs.isErrorneous() ) {
 					value.getLocation().reportSemanticError( cs.getErrorMessage() );
 					setIsErroneous(true);
@@ -179,7 +179,7 @@ public final class Unichar2IntExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -187,14 +187,14 @@ public final class Unichar2IntExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case UNIVERSALCHARSTRING_VALUE: {
-			UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
-			UniversalChar uchar = string.get(0);
-			int result = (uchar.group() << 24) | (uchar.plane() << 16) | (uchar.row() << 8) | uchar.cell();
+			final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
+			final UniversalChar uchar = string.get(0);
+			final int result = (uchar.group() << 24) | (uchar.plane() << 16) | (uchar.row() << 8) | uchar.cell();
 			lastValue = new Integer_Value(result);
 			break;
 		}
 		case CHARSTRING_VALUE: {
-			String string = ((Charstring_Value) last).getValue();
+			final String string = ((Charstring_Value) last).getValue();
 			lastValue = new Integer_Value(string.charAt(0));
 			break;
 		}

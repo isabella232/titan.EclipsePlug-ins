@@ -141,7 +141,7 @@ public final class RemainderExpression extends Expression_Value {
 
 			switch (tempType2) {
 			case TYPE_INTEGER:
-				IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (lastValue != null && !lastValue.isUnfoldable(timestamp)
 						&& Value.Value_type.INTEGER_VALUE.equals(lastValue.getValuetype())) {
 					if (((Integer_Value) lastValue).equals(new Integer_Value(0))) {
@@ -182,8 +182,8 @@ public final class RemainderExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		if (last1 == null || last2 == null) {
 			setIsErroneous(true);

@@ -112,7 +112,7 @@ public final class Enum2IntExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		IType tempType = value.getExpressionGovernor(timestamp, expectedValue);
+		final IType tempType = value.getExpressionGovernor(timestamp, expectedValue);
 		if (tempType == null) {
 			value.getLocation().reportSemanticError(
 					"Please use a reference to an emurated value as the first operand of operation `enum2int()'");
@@ -120,11 +120,11 @@ public final class Enum2IntExpression extends Expression_Value {
 			return;
 		}
 
-		IType last = tempType.getTypeRefdLast(timestamp);
+		final IType last = tempType.getTypeRefdLast(timestamp);
 		switch (last.getTypetype()) {
 		case TYPE_ASN1_ENUMERATED:
 		case TYPE_TTCN3_ENUMERATED: {
-			IValue lastValue = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue lastValue = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (Value_type.OMIT_VALUE.equals(lastValue.getValuetype())) {
 				value.getLocation().reportSemanticError("The operand of operation `enum2int' cannot be omit");
 				setIsErroneous(true);
@@ -168,7 +168,7 @@ public final class Enum2IntExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last == null || last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -179,13 +179,13 @@ public final class Enum2IntExpression extends Expression_Value {
 
 		switch (type.getTypetype()) {
 		case TYPE_ASN1_ENUMERATED: {
-			EnumItem item = ((ASN1_Enumerated_Type) type).getEnumItemWithName(((Enumerated_Value) last).getValue());
+			final EnumItem item = ((ASN1_Enumerated_Type) type).getEnumItemWithName(((Enumerated_Value) last).getValue());
 			lastValue = new Integer_Value(((Integer_Value) item.getValue()).getValue());
 			lastValue.copyGeneralProperties(this);
 			break;
 		}
 		case TYPE_TTCN3_ENUMERATED: {
-			EnumItem item = ((TTCN3_Enumerated_Type) type).getEnumItemWithName(((Enumerated_Value) last).getValue());
+			final EnumItem item = ((TTCN3_Enumerated_Type) type).getEnumItemWithName(((Enumerated_Value) last).getValue());
 			lastValue = new Integer_Value(((Integer_Value) item.getValue()).getValue());
 			lastValue.copyGeneralProperties(this);
 			break;

@@ -104,7 +104,7 @@ public final class DecodeExpression extends Expression_Value {
 	
 	
 	private void checkFirstExpressionOperand(final CompilationTimeStamp timestamp){
-		Assignment temporalAssignment = reference1.getRefdAssignment(timestamp, true);
+		final Assignment temporalAssignment = reference1.getRefdAssignment(timestamp, true);
 
 		if (temporalAssignment == null) {
 			setIsErroneous(true);
@@ -131,10 +131,10 @@ public final class DecodeExpression extends Expression_Value {
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT: {
-			Referenced_Template template = new Referenced_Template(reference1);
+			final Referenced_Template template = new Referenced_Template(reference1);
 			template.setMyScope(getMyScope());
 			template.setFullNameParent(new BridgingNamedNode(this, ".<operand>"));
-			ITTCN3Template last = template.getTemplateReferencedLast(timestamp);
+			final ITTCN3Template last = template.getTemplateReferencedLast(timestamp);
 			if (!Template_type.SPECIFIC_VALUE.equals(last.getTemplatetype()) && last != template) {
 				reference1.getLocation().reportSemanticError(
 						MessageFormat.format("Specific value template was expected instead of `{0}''",
@@ -152,7 +152,7 @@ public final class DecodeExpression extends Expression_Value {
 			return;
 		}
 
-		IType temporalType = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference1, 1,
+		final IType temporalType = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference1, 1,
 				Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 		if (temporalType == null) {
 			setIsErroneous(true);
@@ -168,7 +168,7 @@ public final class DecodeExpression extends Expression_Value {
 	}
 	
 	private void checkSecondExpressionOperand(final CompilationTimeStamp timestamp){
-		Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
+		final Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
 
 		if (temporalAssignment == null) {
 			setIsErroneous(true);
@@ -249,7 +249,7 @@ public final class DecodeExpression extends Expression_Value {
 	 *                must not be null.
 	 * */
 	private void checkRecursionHelper(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain referenceChain) {
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			setIsErroneous(true);
 			return;
@@ -264,7 +264,7 @@ public final class DecodeExpression extends Expression_Value {
 		case A_PAR_VAL_IN:
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT: {
-			Referenced_Value value = new Referenced_Value(reference);
+			final Referenced_Value value = new Referenced_Value(reference);
 			value.setMyScope(getMyScope());
 			value.setFullNameParent(this);
 
@@ -278,7 +278,7 @@ public final class DecodeExpression extends Expression_Value {
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT: {
-			Referenced_Template template = new Referenced_Template(reference1);
+			final Referenced_Template template = new Referenced_Template(reference1);
 			template.setMyScope(getMyScope());
 			template.setFullNameParent(this);
 

@@ -110,7 +110,7 @@ public final class RotateLeftExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last == null || value1 == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -122,7 +122,7 @@ public final class RotateLeftExpression extends Expression_Value {
 		}
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
 		switch (tempType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
@@ -153,7 +153,7 @@ public final class RotateLeftExpression extends Expression_Value {
 		}
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_BITSTRING:
@@ -325,8 +325,8 @@ public final class RotateLeftExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		String string;
 		int shiftSize;
@@ -357,7 +357,7 @@ public final class RotateLeftExpression extends Expression_Value {
 			lastValue.copyGeneralProperties(this);
 			break;
 		case UNIVERSALCHARSTRING_VALUE:
-			UniversalCharstring string2 = ((UniversalCharstring_Value) last1).getValue();
+			final UniversalCharstring string2 = ((UniversalCharstring_Value) last1).getValue();
 			shiftSize = ((Integer_Value) last2).intValue();
 			lastValue = new UniversalCharstring_Value(rotateLeft(string2, shiftSize));
 			lastValue.copyGeneralProperties(this);
@@ -389,7 +389,7 @@ public final class RotateLeftExpression extends Expression_Value {
 			return RotateRightExpression.rotateRight(string, -rotateSize);
 		}
 
-		int realAmmount = rotateSize % string.length();
+		final int realAmmount = rotateSize % string.length();
 		if (realAmmount == 0) {
 			return string;
 		}
@@ -416,7 +416,7 @@ public final class RotateLeftExpression extends Expression_Value {
 			return RotateRightExpression.rotateRight(string, -rotateSize);
 		}
 
-		int realAmmount = rotateSize % string.length();
+		final int realAmmount = rotateSize % string.length();
 		if (realAmmount == 0) {
 			return new UniversalCharstring(string);
 		}

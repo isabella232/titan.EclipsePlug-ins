@@ -106,7 +106,7 @@ public final class Float2StrExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_REAL:
@@ -149,7 +149,7 @@ public final class Float2StrExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
@@ -157,7 +157,7 @@ public final class Float2StrExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case REAL_VALUE:
-			double temp = ((Real_Value) last).getValue();
+			final double temp = ((Real_Value) last).getValue();
 			final StringBuilder builder = new StringBuilder();
 			builder.append(temp);
 			lastValue = new Charstring_Value(builder.toString());

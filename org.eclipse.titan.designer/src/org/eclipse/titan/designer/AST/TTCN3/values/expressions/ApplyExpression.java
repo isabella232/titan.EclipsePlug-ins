@@ -130,7 +130,7 @@ public final class ApplyExpression extends Expression_Value {
 		type = type.getTypeRefdLast(timestamp);
 		switch (type.getTypetype()) {
 		case TYPE_FUNCTION:
-			Type result = ((Function_Type) type).getReturnType();
+			final Type result = ((Function_Type) type).getReturnType();
 			if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(expectedValue) && ((Function_Type) type).returnsTemplate()) {
 				location.reportSemanticError(MessageFormat.format(VALUEXPECTED2, type.getTypename(), result.getTypename()));
 			}
@@ -160,7 +160,7 @@ public final class ApplyExpression extends Expression_Value {
 		type = type.getTypeRefdLast(timestamp);
 		switch (type.getTypetype()) {
 		case TYPE_FUNCTION:
-			IType returnType = ((Function_Type) type).getReturnType();
+			final IType returnType = ((Function_Type) type).getReturnType();
 			if (returnType == null) {
 				value.getLocation().reportSemanticError(MessageFormat.format(NORETURNTYPE, type.getTypename()));
 				setIsErroneous(true);
@@ -218,8 +218,8 @@ public final class ApplyExpression extends Expression_Value {
 			myScope.checkRunsOnScope(timestamp, type, this, "call");
 		}
 
-		ActualParameterList tempActualParameters = new ActualParameterList();
-		FormalParameterList formalParameterList = ((Function_Type) type).getFormalParameters();
+		final ActualParameterList tempActualParameters = new ActualParameterList();
+		final FormalParameterList formalParameterList = ((Function_Type) type).getFormalParameters();
 		if (!formalParameterList.checkActualParameterList(timestamp, actualParameterList, tempActualParameters)) {
 			tempActualParameters.setFullNameParent(this);
 			tempActualParameters.setMyScope(getMyScope());

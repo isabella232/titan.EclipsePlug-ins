@@ -76,7 +76,7 @@ public final class Not4bExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last == null || value == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -88,7 +88,7 @@ public final class Not4bExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 		switch (tempType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
@@ -130,7 +130,7 @@ public final class Not4bExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type temp = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type temp = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (temp) {
 		case TYPE_BITSTRING:
@@ -173,7 +173,7 @@ public final class Not4bExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 
 		if (last.getIsErroneous(timestamp)) {
 			setIsErroneous(true);

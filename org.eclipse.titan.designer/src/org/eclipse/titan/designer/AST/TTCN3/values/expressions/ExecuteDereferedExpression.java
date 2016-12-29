@@ -143,7 +143,7 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 		if (value != null) {
 			IType type;
 			value.setLoweridToReference(timestamp);
-			IValue last = value.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_TEMPLATE, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_TEMPLATE, referenceChain);
 			if (last.getIsErroneous(timestamp)) {
 				type = null;
 			} else {
@@ -156,9 +156,9 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 			if (type == null || type.getIsErroneous(timestamp)) {
 				setIsErroneous(true);
 			} else if (Type_type.TYPE_TESTCASE.equals(type.getTypetype())) {
-				FormalParameterList formalParameters = ((Testcase_Type) type).getFormalParameters();
-				ActualParameterList tempParameterList = new ActualParameterList();
-				boolean isErroneous = formalParameters.checkActualParameterList(timestamp, actualParameterList, tempParameterList);
+				final FormalParameterList formalParameters = ((Testcase_Type) type).getFormalParameters();
+				final ActualParameterList tempParameterList = new ActualParameterList();
+				final boolean isErroneous = formalParameters.checkActualParameterList(timestamp, actualParameterList, tempParameterList);
 				if (isErroneous) {
 					setIsErroneous(true);
 				}
@@ -174,14 +174,14 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 
 		if (timerValue != null) {
 			timerValue.setLoweridToReference(timestamp);
-			Type_type tempType = timerValue.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+			final Type_type tempType = timerValue.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 
 			switch (tempType) {
 			case TYPE_REAL:
-				IValue last = timerValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
+				final IValue last = timerValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
 				if (!last.isUnfoldable(timestamp)) {
-					Real_Value real = (Real_Value) last;
-					double i = real.getValue();
+					final Real_Value real = (Real_Value) last;
+					final double i = real.getValue();
 					if (i < 0.0) {
 						timerValue.getLocation().reportSemanticError(
 								MessageFormat.format(NEGATIVEDURATION, real.createStringRepresentation()));

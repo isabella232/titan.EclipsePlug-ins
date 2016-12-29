@@ -122,7 +122,7 @@ public final class ExecuteExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Assignment assignment = reference.getRefdAssignment(timestamp, true);
+		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 
 		if (assignment == null) {
 			setIsErroneous(true);
@@ -135,14 +135,14 @@ public final class ExecuteExpression extends Expression_Value {
 
 		if (timerValue != null) {
 			timerValue.setLoweridToReference(timestamp);
-			Type_type tempType = timerValue.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+			final Type_type tempType = timerValue.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 
 			switch (tempType) {
 			case TYPE_REAL:
-				IValue last = timerValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
+				final IValue last = timerValue.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
 				if (!last.isUnfoldable(timestamp)) {
-					Real_Value real = (Real_Value) last;
-					double i = real.getValue();
+					final Real_Value real = (Real_Value) last;
+					final double i = real.getValue();
 					if (i < 0.0) {
 						timerValue.getLocation().reportSemanticError(
 								MessageFormat.format(NEGATIVEDURATION, real.createStringRepresentation()));

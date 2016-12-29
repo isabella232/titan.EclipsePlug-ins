@@ -97,7 +97,7 @@ public final class SubstractExpression extends Expression_Value {
 		}
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
 		switch (tempType) {
 		case TYPE_INTEGER:
 		case TYPE_REAL:
@@ -146,9 +146,9 @@ public final class SubstractExpression extends Expression_Value {
 				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
 			case TYPE_REAL: {
-				IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!last.isUnfoldable(timestamp)) {
-					Real_Value real = (Real_Value) last;
+					final Real_Value real = (Real_Value) last;
 					if (real.isSpecialFloat()) {
 						value1.getLocation().reportSemanticError(
 								MessageFormat.format(FIRSTOPERANDERROR2, real.createStringRepresentation()));
@@ -176,9 +176,9 @@ public final class SubstractExpression extends Expression_Value {
 				value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
 			case TYPE_REAL: {
-				IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (lastValue != null && !lastValue.isUnfoldable(timestamp)) {
-					Real_Value real = (Real_Value) lastValue;
+					final Real_Value real = (Real_Value) lastValue;
 					if (real.isSpecialFloat()) {
 						value2.getLocation().reportSemanticError(
 								MessageFormat.format(SECONDOPERANDERROR2, real.createStringRepresentation()));
@@ -232,8 +232,8 @@ public final class SubstractExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		if (last1.getIsErroneous(timestamp) || last2.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
@@ -247,8 +247,8 @@ public final class SubstractExpression extends Expression_Value {
 			lastValue.copyGeneralProperties(this);
 			break;
 		case REAL_VALUE:
-			double f1 = ((Real_Value) last1).getValue();
-			double f2 = ((Real_Value) last2).getValue();
+			final double f1 = ((Real_Value) last1).getValue();
+			final double f2 = ((Real_Value) last2).getValue();
 			lastValue = new Real_Value(f1 - f2);
 			lastValue.copyGeneralProperties(this);
 			break;

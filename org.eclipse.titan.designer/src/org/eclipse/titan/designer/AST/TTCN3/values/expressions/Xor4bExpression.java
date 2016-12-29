@@ -91,7 +91,7 @@ public final class Xor4bExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last.getIsErroneous(timestamp) || value1 == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -103,7 +103,7 @@ public final class Xor4bExpression extends Expression_Value {
 		}
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
 		switch (tempType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
@@ -201,8 +201,8 @@ public final class Xor4bExpression extends Expression_Value {
 			}
 
 			// the operands must have the same length
-			IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-			IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+			final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+			final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 			switch (last1.getValuetype()) {
 			case BITSTRING_VALUE:
 				if (((Bitstring_Value) last1).getValueLength() != ((Bitstring_Value) last2).getValueLength()) {
@@ -249,8 +249,8 @@ public final class Xor4bExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		String str1;
 		String str2;
@@ -293,9 +293,9 @@ public final class Xor4bExpression extends Expression_Value {
 	 * @return the xor -ed value.
 	 * */
 	public static String xor4b(final String str1, final String str2) {
-		byte[] b1 = str1.getBytes();
-		byte[] b2 = str2.getBytes();
-		byte[] result = new byte[b1.length];
+		final byte[] b1 = str1.getBytes();
+		final byte[] b2 = str2.getBytes();
+		final byte[] result = new byte[b1.length];
 
 		for (int i = 0; i < b1.length; i++) {
 			result[i] = BitstringUtilities.hexdigitToChar(BitstringUtilities.charToHexdigit(b1[i])

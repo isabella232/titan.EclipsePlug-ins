@@ -174,15 +174,15 @@ public final class XorExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue last1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue last2 = value2.getValueRefdLast(timestamp, referenceChain);
 
 		if (last1.getIsErroneous(timestamp) || last2.getIsErroneous(timestamp)) {
 			setIsErroneous(true);
 			return lastValue;
 		}
 
-		boolean b = ((Boolean_Value) last1).getValue() ^ ((Boolean_Value) last2).getValue();
+		final boolean b = ((Boolean_Value) last1).getValue() ^ ((Boolean_Value) last2).getValue();
 		lastValue = new Boolean_Value(b);
 		lastValue.copyGeneralProperties(this);
 

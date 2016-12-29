@@ -140,7 +140,7 @@ public final class ReplaceExpression extends Expression_Value {
 
 	@Override
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		IValue last = getValueRefdLast(timestamp, expectedValue, null);
+		final IValue last = getValueRefdLast(timestamp, expectedValue, null);
 
 		if (last == null || templateInstance1 == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -151,8 +151,8 @@ public final class ReplaceExpression extends Expression_Value {
 			return Type_type.TYPE_UNDEFINED;
 		}
 
-		ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
-		Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		final ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+		final Type_type tempType = template.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		switch (tempType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
@@ -177,16 +177,18 @@ public final class ReplaceExpression extends Expression_Value {
 			return true;
 		}
 
-		ITTCN3Template template1 = templateInstance1.getTemplateBody();
+		final ITTCN3Template template1 = templateInstance1.getTemplateBody();
 		if (template1 == null || !Template_type.SPECIFIC_VALUE.equals(template1.getTemplatetype())) {
 			return true;
 		}
-		ITTCN3Template template4 = templateInstance4.getTemplateBody();
+
+		final ITTCN3Template template4 = templateInstance4.getTemplateBody();
 		if (template4 == null || !Template_type.SPECIFIC_VALUE.equals(template4.getTemplatetype())) {
 			return true;
 		}
-		IValue value1 = ((SpecificValue_Template) template1).getSpecificValue();
-		IValue value4 = ((SpecificValue_Template) template4).getSpecificValue();
+
+		final IValue value1 = ((SpecificValue_Template) template1).getSpecificValue();
+		final IValue value4 = ((SpecificValue_Template) template4).getSpecificValue();
 		if (value1 == null || value4 == null) {
 			return true;
 		}
@@ -202,7 +204,7 @@ public final class ReplaceExpression extends Expression_Value {
 		}
 
 		value1.setLoweridToReference(timestamp);
-		Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_BITSTRING:
@@ -229,14 +231,14 @@ public final class ReplaceExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
+		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
 		Type_type tempType1 = null;
 		IValue value1 = null;
 
 		if (templateInstance1 != null) {
-			ITTCN3Template temp = templateInstance1.getTemplateBody();
+			final ITTCN3Template temp = templateInstance1.getTemplateBody();
 			if (!Template_type.SPECIFIC_VALUE.equals(temp.getTemplatetype())) {
 				location.reportSemanticError(OPERANDERROR5);
 				setIsErroneous(true);
@@ -268,14 +270,14 @@ public final class ReplaceExpression extends Expression_Value {
 
 		if (value2 != null) {
 			value2.setLoweridToReference(timestamp);
-			Type_type tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
+			final Type_type tempType2 = value2.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType2) {
 			case TYPE_INTEGER:
-				IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!last2.isUnfoldable(timestamp) && Value.Value_type.INTEGER_VALUE.equals(last2.getValuetype())) {
 					if (((Integer_Value) last2).isNative()) {
-						long i = ((Integer_Value) last2).getValue();
+						final long i = ((Integer_Value) last2).getValue();
 						if (i < 0) {
 							value2.getLocation().reportSemanticError(OPERANDERROR3);
 							setIsErroneous(true);
@@ -298,14 +300,14 @@ public final class ReplaceExpression extends Expression_Value {
 
 		if (value3 != null) {
 			value3.setLoweridToReference(timestamp);
-			Type_type tempType3 = value3.getExpressionReturntype(timestamp, expectedValue);
+			final Type_type tempType3 = value3.getExpressionReturntype(timestamp, expectedValue);
 
 			switch (tempType3) {
 			case TYPE_INTEGER:
-				IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				if (!last3.isUnfoldable(timestamp) && Value.Value_type.INTEGER_VALUE.equals(last3.getValuetype())) {
 					if (((Integer_Value) last3).isNative()) {
-						long i = ((Integer_Value) last3).getValue();
+						final long i = ((Integer_Value) last3).getValue();
 						if (i < 0) {
 							value3.getLocation().reportSemanticError(OPERANDERROR4);
 							setIsErroneous(true);
@@ -329,7 +331,7 @@ public final class ReplaceExpression extends Expression_Value {
 		Type_type tempType4 = null;
 		IValue value4 = null;
 		if (templateInstance4 != null) {
-			ITTCN3Template temp = templateInstance4.getTemplateBody();
+			final ITTCN3Template temp = templateInstance4.getTemplateBody();
 			
 			switch( temp.getTemplatetype() ) {
 			case SPECIFIC_VALUE:
@@ -429,24 +431,24 @@ public final class ReplaceExpression extends Expression_Value {
 
 		if (value2.isUnfoldable(timestamp)) {
 			if (!value3.isUnfoldable(timestamp)) {
-				IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				long last3Value = ((Integer_Value) last3).getValue();
+				final IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final long last3Value = ((Integer_Value) last3).getValue();
 				if (last3Value > valueSize) {
 					location.reportSemanticError(MessageFormat.format(OPERANDERROR8, last3Value, valueSize));
 					setIsErroneous(true);
 				}
 			}
 		} else {
-			IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			long last2Value = ((Integer_Value) last2).getValue();
+			final IValue last2 = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final long last2Value = ((Integer_Value) last2).getValue();
 			if (value3.isUnfoldable(timestamp)) {
 				if (last2Value > valueSize) {
 					location.reportSemanticError(MessageFormat.format(OPERANDERROR9, last2Value, valueSize));
 					setIsErroneous(true);
 				}
 			} else {
-				IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				long last3Value = ((Integer_Value) last3).getValue();
+				final IValue last3 = value3.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				final long last3Value = ((Integer_Value) last3).getValue();
 				if (last2Value + last3Value > valueSize) {
 					location.reportSemanticError(MessageFormat.format(OPERANDERROR10, last2Value, last3Value, valueSize));
 					setIsErroneous(true);
@@ -482,24 +484,24 @@ public final class ReplaceExpression extends Expression_Value {
 		}
 
 		ITTCN3Template temp = templateInstance1.getTemplateBody();
-		IValue value1 = ((SpecificValue_Template) temp).getSpecificValue();
-		IValue v1 = value1.getValueRefdLast(timestamp, referenceChain);
-		IValue v2 = value2.getValueRefdLast(timestamp, referenceChain);
-		IValue v3 = value3.getValueRefdLast(timestamp, referenceChain);
+		final IValue value1 = ((SpecificValue_Template) temp).getSpecificValue();
+		final IValue v1 = value1.getValueRefdLast(timestamp, referenceChain);
+		final IValue v2 = value2.getValueRefdLast(timestamp, referenceChain);
+		final IValue v3 = value3.getValueRefdLast(timestamp, referenceChain);
 
 		temp = templateInstance4.getTemplateBody();
-		IValue value4 = ((SpecificValue_Template) temp).getSpecificValue();
-		IValue v4 = value4.getValueRefdLast(timestamp, referenceChain);
+		final IValue value4 = ((SpecificValue_Template) temp).getSpecificValue();
+		final IValue v4 = value4.getValueRefdLast(timestamp, referenceChain);
 
-		Value_type vt = value1.getValuetype();
+		final Value_type vt = value1.getValuetype();
 
-		int index = ((Integer_Value) v2).intValue();
-		int len = ((Integer_Value) v3).intValue();
+		final int index = ((Integer_Value) v2).intValue();
+		final int len = ((Integer_Value) v3).intValue();
 
 		switch (vt) {
 		case BITSTRING_VALUE: {
-			String v1Str = ((Bitstring_Value) v1).getValue();
-			String v4Str = ((Bitstring_Value) v4).getValue();
+			final String v1Str = ((Bitstring_Value) v1).getValue();
+			final String v4Str = ((Bitstring_Value) v4).getValue();
 			String result = v1Str.substring(0, index);
 			result = result.concat(v4Str);
 			result = result.concat(v1Str.substring(index + len));
@@ -508,8 +510,8 @@ public final class ReplaceExpression extends Expression_Value {
 			break;
 		}
 		case HEXSTRING_VALUE: {
-			String v1Str = ((Hexstring_Value) v1).getValue();
-			String v4Str = ((Hexstring_Value) v4).getValue();
+			final String v1Str = ((Hexstring_Value) v1).getValue();
+			final String v4Str = ((Hexstring_Value) v4).getValue();
 			String result = v1Str.substring(0, index);
 			result = result.concat(v4Str);
 			result = result.concat(v1Str.substring(index + len));
@@ -518,8 +520,8 @@ public final class ReplaceExpression extends Expression_Value {
 			break;
 		}
 		case OCTETSTRING_VALUE: {
-			String v1Str = ((Octetstring_Value) v1).getValue();
-			String v4Str = ((Octetstring_Value) v4).getValue();
+			final String v1Str = ((Octetstring_Value) v1).getValue();
+			final String v4Str = ((Octetstring_Value) v4).getValue();
 			String result = v1Str.substring(0, index * 2);
 			result = result.concat(v4Str);
 			result = result.concat(v1Str.substring((index + len) * 2));
@@ -528,8 +530,8 @@ public final class ReplaceExpression extends Expression_Value {
 			break;
 		}
 		case CHARSTRING_VALUE: {
-			String v1Str = ((Charstring_Value) v1).getValue();
-			String v4Str = ((Charstring_Value) v4).getValue();
+			final String v1Str = ((Charstring_Value) v1).getValue();
+			final String v4Str = ((Charstring_Value) v4).getValue();
 			String result = v1Str.substring(0, index);
 			result = result.concat(v4Str);
 			result = result.concat(v1Str.substring(index + len));
@@ -538,9 +540,9 @@ public final class ReplaceExpression extends Expression_Value {
 			break;
 		}
 		case UNIVERSALCHARSTRING_VALUE: {
-			UniversalCharstring v1Str = ((UniversalCharstring_Value) v1).getValue();
-			UniversalCharstring v4Str = ((UniversalCharstring_Value) v4).getValue();
-			UniversalCharstring result = v1Str.substring(0, index);
+			final UniversalCharstring v1Str = ((UniversalCharstring_Value) v1).getValue();
+			final UniversalCharstring v4Str = ((UniversalCharstring_Value) v4).getValue();
+			final UniversalCharstring result = v1Str.substring(0, index);
 			// This append() is not like concat().
 			result.append(v4Str);
 			result.append(v1Str.substring(index + len));

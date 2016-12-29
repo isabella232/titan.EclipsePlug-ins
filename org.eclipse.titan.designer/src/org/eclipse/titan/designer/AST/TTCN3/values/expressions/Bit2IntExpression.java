@@ -106,13 +106,13 @@ public final class Bit2IntExpression extends Expression_Value {
 		}
 
 		value.setLoweridToReference(timestamp);
-		Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_BITSTRING:
-			IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				String bitstring = ((Bitstring_Value) last).getValue();
+				final String bitstring = ((Bitstring_Value) last).getValue();
 				int startIndex = 0;
 				while (startIndex < bitstring.length() && '0' == bitstring.charAt(startIndex)) {
 					startIndex++;
@@ -157,14 +157,14 @@ public final class Bit2IntExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		IValue last = value.getValueRefdLast(timestamp, referenceChain);
+		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
 		if (last.getIsErroneous(timestamp)) {
 			return lastValue;
 		}
 
 		switch (last.getValuetype()) {
 		case BITSTRING_VALUE:
-			String tempBitstring = ((Bitstring_Value) last).getValue();
+			final String tempBitstring = ((Bitstring_Value) last).getValue();
 			lastValue = bit2int(tempBitstring);
 			break;
 		default:
@@ -177,7 +177,7 @@ public final class Bit2IntExpression extends Expression_Value {
 
 	public static Integer_Value bit2int(final String bitString) {
 		Integer_Value result = new Integer_Value(0);
-		byte[] bytes = bitString.getBytes();
+		final byte[] bytes = bitString.getBytes();
 		int startIndex = 0;
 		while (startIndex < bytes.length && '0' == bytes[startIndex]) {
 			startIndex++;
