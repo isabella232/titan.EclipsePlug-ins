@@ -37,8 +37,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class Named_Bits extends Value {
 
-	private List<Identifier> identifierList = new ArrayList<Identifier>();
-	private Map<String, Identifier> identifierMap = new HashMap<String, Identifier>();
+	private final List<Identifier> identifierList = new ArrayList<Identifier>();
+	private final Map<String, Identifier> identifierMap = new HashMap<String, Identifier>();
 
 	private Bitstring_Value realValue;
 

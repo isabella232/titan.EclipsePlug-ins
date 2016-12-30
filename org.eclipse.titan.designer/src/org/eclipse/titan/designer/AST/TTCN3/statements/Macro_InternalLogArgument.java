@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * */
 public final class Macro_InternalLogArgument extends InternalLogArgument {
-	private Macro_Value value;
+	private final Macro_Value value;
 
 	public Macro_InternalLogArgument(final Macro_Value value) {
 		super(ArgumentType.Macro);

@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * */
 public final class Reference_InternalLogArgument extends InternalLogArgument {
-	private Reference reference;
+	private final Reference reference;
 
 	public Reference_InternalLogArgument(final Reference reference) {
 		super(ArgumentType.Reference);

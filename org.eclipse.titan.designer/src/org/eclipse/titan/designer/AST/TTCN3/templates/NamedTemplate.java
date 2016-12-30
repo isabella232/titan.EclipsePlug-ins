@@ -37,7 +37,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 
 	private final Identifier name;
 	// TODO: Check if removing template property "final" causes problem or not
-	private ITemplateListItem template; 
+	private final ITemplateListItem template; 
 
 	/**
 	 * The location of the whole template. This location encloses the
@@ -49,7 +49,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 	 * Tells if this named template was parsed or created while doing the
 	 * semantic check.
 	 * */
-	private boolean parsed;
+	private final boolean parsed;
 
 	public NamedTemplate(final Identifier name, final ITemplateListItem template) {
 //		final boolean parsed = true;

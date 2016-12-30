@@ -14,8 +14,8 @@ import java.util.List;
  * @author Adam Delic
  * */
 public class SubScopeVisitor extends ASTVisitor {
-	private Scope root;
-	private List<Scope> subScopes = new ArrayList<Scope>();
+	private final Scope root;
+	private final List<Scope> subScopes = new ArrayList<Scope>();
 
 	public SubScopeVisitor(final Scope root) {
 		this.root = root;

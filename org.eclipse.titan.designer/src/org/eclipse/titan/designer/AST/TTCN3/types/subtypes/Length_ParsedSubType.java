@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Adam Delic
  * */
 public final class Length_ParsedSubType extends ParsedSubType {
-	private LengthRestriction length;
+	private final LengthRestriction length;
 
 	public Length_ParsedSubType(final LengthRestriction length) {
 		this.length = length;

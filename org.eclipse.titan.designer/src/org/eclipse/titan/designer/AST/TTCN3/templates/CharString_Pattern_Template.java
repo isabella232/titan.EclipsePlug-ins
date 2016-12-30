@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * */
 public final class CharString_Pattern_Template extends TTCN3Template {
 
-	private PatternString patternstring;
+	private final PatternString patternstring;
 
 	public CharString_Pattern_Template() {
 		patternstring = new PatternString(PatternType.CHARSTRING_PATTERN);

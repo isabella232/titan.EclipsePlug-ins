@@ -667,7 +667,7 @@ public final class MarkerHandler {
 	 * Collects all files that are under the starting resource.
 	 * */
 	public static final class FileFinder implements IResourceVisitor {
-		private List<IFile> files = new ArrayList<IFile>();
+		private final List<IFile> files = new ArrayList<IFile>();
 
 		@Override
 		public boolean visit(final IResource resource) throws CoreException {

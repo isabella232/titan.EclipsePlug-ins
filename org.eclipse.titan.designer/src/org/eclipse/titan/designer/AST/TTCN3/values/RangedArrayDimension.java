@@ -35,8 +35,8 @@ public final class RangedArrayDimension extends ArrayDimension {
 	private static final String OPERANDERROR4 = "Using a large integer value ({0}) as the lower boundary of an array dimension is not supported";
 	private static final String OPERANDERROR5 = "Using a large integer value ({0}) as the upper boundary of an array dimension is not supported";
 
-	private Value lower;
-	private Value upper;
+	private final Value lower;
+	private final Value upper;
 	private long size;
 	private long offset;
 

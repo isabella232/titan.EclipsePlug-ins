@@ -13,7 +13,8 @@ import org.eclipse.titan.designer.consoles.TITANDebugConsole;
  * @author Adam Delic
  * */
 public class ASTtoXMLgeneratorVisitor extends ASTVisitor {
-	private StringBuilder sb = new StringBuilder();
+	private final StringBuilder sb = new StringBuilder();
+
 	public ASTtoXMLgeneratorVisitor() {
 	}
 	

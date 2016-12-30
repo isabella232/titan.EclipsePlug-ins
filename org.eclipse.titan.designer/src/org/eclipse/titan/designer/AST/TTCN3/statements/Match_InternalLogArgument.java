@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * */
 public final class Match_InternalLogArgument extends InternalLogArgument {
-	private MatchExpression matchExpression;
+	private final MatchExpression matchExpression;
 
 	public Match_InternalLogArgument(final MatchExpression matchExpression) {
 		super(ArgumentType.Match);

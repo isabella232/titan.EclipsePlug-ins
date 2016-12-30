@@ -17,8 +17,8 @@ import org.eclipse.titan.designer.consoles.TITANDebugConsole;
  * @author Arpad Lovassy
  */
 public class ASTLocationChainVisitor extends ASTVisitor {
-	private List<IVisitableNode> chain = new ArrayList<IVisitableNode>();
-	private int offset;
+	private final List<IVisitableNode> chain = new ArrayList<IVisitableNode>();
+	private final int offset;
 
 	public ASTLocationChainVisitor(final int offset) {
 		this.offset = offset;

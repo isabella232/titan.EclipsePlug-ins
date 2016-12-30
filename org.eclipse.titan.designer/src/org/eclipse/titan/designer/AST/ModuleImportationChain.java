@@ -40,12 +40,12 @@ public final class ModuleImportationChain {
 	 * This String object must have exactly one location for inserting a text into.
 	 * See the {@link MessageFormat#format(String, Object...)} method for more information.
 	 * */
-	private String message;
+	private final String message;
 
 	/**
 	 * Should we report the problem as an error or as a warning.
 	 * */
-	private boolean isError;
+	private final boolean isError;
 
 	/**
 	 * Private constructor.

@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Adam Delic
  * */
 public final class Single_ParsedSubType extends ParsedSubType {
-	private Value value;
+	private final Value value;
 
 	public Single_ParsedSubType(final Value value) {
 		this.value = value;

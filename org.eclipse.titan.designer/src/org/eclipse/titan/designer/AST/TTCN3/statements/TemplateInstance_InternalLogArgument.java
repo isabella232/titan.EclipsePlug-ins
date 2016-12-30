@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * */
 public final class TemplateInstance_InternalLogArgument extends InternalLogArgument {
-	private TemplateInstance templateInstance;
+	private final TemplateInstance templateInstance;
 
 	public TemplateInstance_InternalLogArgument(final TemplateInstance templateInstance) {
 		super(ArgumentType.TemplateInstance);

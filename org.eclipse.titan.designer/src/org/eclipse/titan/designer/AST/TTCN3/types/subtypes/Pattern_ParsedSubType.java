@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Adam Delic
  * */
 public final class Pattern_ParsedSubType extends ParsedSubType {
-	private PatternString pattern;
+	private final PatternString pattern;
 
 	public Pattern_ParsedSubType(final PatternString pattern) {
 		this.pattern = pattern;

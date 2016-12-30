@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * */
 public final class String_InternalLogArgument extends InternalLogArgument {
-	private String argument;
+	private final String argument;
 
 	public String_InternalLogArgument(final String argument) {
 		super(ArgumentType.String);

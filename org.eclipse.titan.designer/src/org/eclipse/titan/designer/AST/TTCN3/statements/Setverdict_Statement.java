@@ -47,7 +47,7 @@ public final class Setverdict_Statement extends Statement {
 	private static final String STATEMENT_NAME = "setverdict";
 
 	private final Value verdictValue;
-	private LogArguments verdictReason;
+	private final LogArguments verdictReason;
 
 	/** whether to report the problem of not having an else branch */
 	private static String reportSetverdictWithoutReason;

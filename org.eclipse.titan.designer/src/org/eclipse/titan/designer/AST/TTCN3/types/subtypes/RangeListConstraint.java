@@ -35,8 +35,8 @@ public final class RangeListConstraint extends SubtypeConstraint {
 	}
 
 	static final class RangeLimit {
-		private LimitType value;
-		private boolean interval;
+		private final LimitType value;
+		private final boolean interval;
 
 		private RangeLimit(final LimitType v, final boolean i) {
 			value = v;

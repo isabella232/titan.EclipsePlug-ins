@@ -39,22 +39,22 @@ public final class CachedReferenceChain implements IReferenceChain {
 	 * This String object must have exactly one location for inserting a text into.
 	 * See the {@link MessageFormat#format(String, Object...)} method for more information.
 	 * */
-	private String message;
+	private final String message;
 
 	/**
 	 * Should we report the problem as an error or as a warning.
 	 * */
-	private boolean isError;
+	private final boolean isError;
 
 	/**
 	 * Used to store copies of the previous states of the chain.
 	 */
-	private List<List<IReferenceChainElement>> safeCopy = new ArrayList<List<IReferenceChainElement>>();
+	private final List<List<IReferenceChainElement>> safeCopy = new ArrayList<List<IReferenceChainElement>>();
 
 	/**
 	 * List of marked error states.
 	 */
-	private Stack<Integer> errorStates = new Stack<Integer>();
+	private final Stack<Integer> errorStates = new Stack<Integer>();
 
 	public CachedReferenceChain(final String message, final boolean isError) {
 		this.message = message;

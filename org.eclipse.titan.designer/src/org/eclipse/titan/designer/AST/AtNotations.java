@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * */
 public final class AtNotations extends ASTNode {
 
-	private ArrayList<AtNotation> atnotations;
+	private final ArrayList<AtNotation> atnotations;
 
 	public AtNotations() {
 		atnotations = new ArrayList<AtNotation>();

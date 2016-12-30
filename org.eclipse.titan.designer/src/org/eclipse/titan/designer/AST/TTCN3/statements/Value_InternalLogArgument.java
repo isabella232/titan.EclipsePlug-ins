@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * */
 public final class Value_InternalLogArgument extends InternalLogArgument {
-	private IValue value;
+	private final IValue value;
 
 	public Value_InternalLogArgument(final IValue value) {
 		super(ArgumentType.Value);

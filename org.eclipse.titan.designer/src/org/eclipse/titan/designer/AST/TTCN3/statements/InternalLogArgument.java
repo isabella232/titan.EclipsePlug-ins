@@ -18,7 +18,7 @@ public abstract class InternalLogArgument {
 		TemplateInstance, Value, Match, Macro, Reference, String
 	}
 
-	private ArgumentType argumentType;
+	private final ArgumentType argumentType;
 
 	protected InternalLogArgument(final ArgumentType argumentType) {
 		this.argumentType = argumentType;

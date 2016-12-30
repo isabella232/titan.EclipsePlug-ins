@@ -23,10 +23,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Adam Delic
  * */
 public final class Range_ParsedSubType extends ParsedSubType {
-	private Value min;
-	private boolean minExclusive;
-	private Value max;
-	private boolean maxExclusive;
+	private final Value min;
+	private final boolean minExclusive;
+	private final Value max;
+	private final boolean maxExclusive;
 
 	public Range_ParsedSubType(final Value min, final boolean minExclusive, final Value max, final boolean maxExclusive) {
 		this.min = min;

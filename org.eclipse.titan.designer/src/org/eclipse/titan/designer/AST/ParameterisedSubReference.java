@@ -29,7 +29,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	public static final String INVALIDVALUESUBREFERENCE = "Invalid reference: internal parameterisation is not supported";
 
 	private final Identifier identifier;
-	private ParsedActualParameters parsedParameters;
+	private final ParsedActualParameters parsedParameters;
 	private ActualParameterList actualParameters;
 
 	private Location location;
