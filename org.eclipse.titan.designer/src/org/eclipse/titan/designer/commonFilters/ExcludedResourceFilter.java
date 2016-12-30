@@ -32,20 +32,20 @@ public final class ExcludedResourceFilter extends org.eclipse.jface.viewers.View
 	}
 
 	private static void checkIsActive() {
-		IEclipsePreferences rootNode = (IEclipsePreferences) Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE).node(NAVIGATOR_QUALIFIER);
+		final IEclipsePreferences rootNode = (IEclipsePreferences) Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE).node(NAVIGATOR_QUALIFIER);
 		rootNode.addPreferenceChangeListener(new IPreferenceChangeListener() {
 
 			@Override
 			public void preferenceChange(final PreferenceChangeEvent event) {
 				if (FILTER_ACTIVATION_KEY.equals(event.getKey())) {
-					String temp = Platform.getPreferencesService().getString(NAVIGATOR_QUALIFIER, FILTER_ACTIVATION_KEY, "", null);
+					final String temp = Platform.getPreferencesService().getString(NAVIGATOR_QUALIFIER, FILTER_ACTIVATION_KEY, "", null);
 					isActive = temp.indexOf(FILTER_ID) != -1;
 					isActiveSet = true;
 				}
 			}
 		});
 
-		String temp = Platform.getPreferencesService().getString(NAVIGATOR_QUALIFIER, FILTER_ACTIVATION_KEY, "", null);
+		final String temp = Platform.getPreferencesService().getString(NAVIGATOR_QUALIFIER, FILTER_ACTIVATION_KEY, "", null);
 		isActive = temp.indexOf(FILTER_ID) != -1;
 		isActiveSet = true;
 	}
@@ -63,8 +63,8 @@ public final class ExcludedResourceFilter extends org.eclipse.jface.viewers.View
 	@Override
 	public boolean select(final Viewer viewer, final Object parentElement, final Object element) {
 		if (element instanceof IFile) {
-			IFile file = (IFile) element;
-			ResourceExclusionHelper helper = new ResourceExclusionHelper();
+			final IFile file = (IFile) element;
+			final ResourceExclusionHelper helper = new ResourceExclusionHelper();
 			if (helper.isExcludedByRegexp(file.getName())) {
 				return false;
 			}
@@ -73,8 +73,8 @@ public final class ExcludedResourceFilter extends org.eclipse.jface.viewers.View
 			}
 			return !ResourceExclusionHelper.isDirectlyExcluded(file);
 		} else if (element instanceof IFolder) {
-			IFolder folder = (IFolder) element;
-			ResourceExclusionHelper helper = new ResourceExclusionHelper();
+			final IFolder folder = (IFolder) element;
+			final ResourceExclusionHelper helper = new ResourceExclusionHelper();
 			if (helper.isExcludedByRegexp(folder.getName())) {
 				return false;
 			}

@@ -79,7 +79,7 @@ public class TITANProjectExportWizard extends Wizard implements IExportWizard {
 				return false;
 			}
 
-			String resourcename = resource.getName();
+			final String resourcename = resource.getName();
 			if (resourcename == null) {
 				return false;
 			}
@@ -119,7 +119,7 @@ public class TITANProjectExportWizard extends Wizard implements IExportWizard {
 		this.selection = selection;
 
 		if (selection != null && selection.size() == 1) {
-			List<?> selectionList = selection.toList();
+			final List<?> selectionList = selection.toList();
 			if ((selectionList.get(0) instanceof IProject)) {
 				project = (IProject) selectionList.get(0);
 			}
@@ -160,15 +160,15 @@ public class TITANProjectExportWizard extends Wizard implements IExportWizard {
 			return false;
 		}
 		
-		URI projectFileURI = TITANPathUtilities.resolvePathURI(projectFile, project.getLocation().toOSString());
-		IPath projectFilePath = URIUtil.toPath(projectFileURI);
+		final URI projectFileURI = TITANPathUtilities.resolvePathURI(projectFile, project.getLocation().toOSString());
+		final IPath projectFilePath = URIUtil.toPath(projectFileURI);
 		if( projectFilePath == null ) {
 			ErrorReporter.logError("Invalid target tpd file name. Use the Browse button to get a valid file path");
 			return false;
 		}
 		projectFile = projectFilePath.toString(); // FIXME: toOSString() ???
 
-		TITANProjectExporter exporter = new TITANProjectExporter(project, projectFile);
+		final TITANProjectExporter exporter = new TITANProjectExporter(project, projectFile);
 
 		exporter.setIsExcludedWorkingDirectoryContents(optionsPage.isExcludedWorkingDirectoryContents());
 		exporter.setIsExcludedDotResources(optionsPage.isExcludedDotResources());

@@ -452,7 +452,7 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 		TableItem[] items = hostViewer.getTable().getItems();
 		BuildLocation location;
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 		for (int i = 0; i < items.length; i++) {
 			location = (BuildLocation) items[i].getData();
 			if (i != 0) {

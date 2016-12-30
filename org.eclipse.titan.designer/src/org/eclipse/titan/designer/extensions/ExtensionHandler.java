@@ -48,7 +48,7 @@ public enum ExtensionHandler {
 	public void executeContributors(final IProgressMonitor monitor, final IProject project) {
 		final SubMonitor progress = SubMonitor.convert(monitor);
 
-		ISafeRunnable runnable = new ISafeRunnable() {
+		final ISafeRunnable runnable = new ISafeRunnable() {
 			@Override
 			public void handleException(final Throwable e) {
 				ErrorReporter.logExceptionStackTrace("Error in client plugin while processing project `" + project.getName() + "'", e);

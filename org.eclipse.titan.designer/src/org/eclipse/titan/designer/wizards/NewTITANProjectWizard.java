@@ -72,7 +72,7 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 	private IConfigurationElement config;
 
 	public NewTITANProjectWizard() {
-		IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 		wasAutoBuilding = description.isAutoBuilding();
 		description.setAutoBuilding(false);
 		try {
@@ -102,8 +102,8 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 	 * @return the path of the project to be created.
 	 * */
 	IPath getProjectPath() {
-		IPath path = mainPage.getLocationPath();
-		String name = mainPage.getProjectName();
+		final IPath path = mainPage.getLocationPath();
+		final String name = mainPage.getProjectName();
 
 		return path.append(name);
 	}
@@ -114,15 +114,15 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 	 * @return the new project created.
 	 */
 	private IProject createNewProject() {
-		IProject tempProjectHandle = mainPage.getProjectHandle();
+		final IProject tempProjectHandle = mainPage.getProjectHandle();
 
 		URI location = null;
 		if (!mainPage.useDefaults()) {
 			location = mainPage.getLocationURI();
 		}
 
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		String tempExecutableName = tempProjectHandle.getName();
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final String tempExecutableName = tempProjectHandle.getName();
 
 		final IProject newProjectHandle = ResourcesPlugin.getWorkspace().getRoot().getProject(tempExecutableName);
 
@@ -130,7 +130,7 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 		description.setLocationURI(location);
 		TITANNature.addTITANNatureToProject(description);
 
-		WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
+		final WorkspaceModifyOperation op = new WorkspaceModifyOperation() {
 			@Override
 			protected void execute(final IProgressMonitor monitor) throws CoreException {
 				createProject(description, newProjectHandle, monitor);
@@ -235,7 +235,7 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 		}
 
 		if (newProject == null) {
-			IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+			final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 			if (description.isAutoBuilding() != wasAutoBuilding) {
 				description.setAutoBuilding(wasAutoBuilding);
 				try {
@@ -257,7 +257,7 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), optionsPage.getWorkingFolder());
 
-			String executable = MakefileCreationData.getDefaultTargetExecutableName(newProject);
+			final String executable = MakefileCreationData.getDefaultTargetExecutableName(newProject);
 
 			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY), executable);
@@ -282,7 +282,7 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 
-		IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 		if (description.isAutoBuilding() != wasAutoBuilding) {
 			description.setAutoBuilding(wasAutoBuilding);
 			try {
@@ -298,13 +298,13 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(null, newProject,
+				final PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(null, newProject,
 						GeneralConstants.PROJECT_PROPERTY_PAGE, null, null);
 				if (dialog != null) {
 					dialog.open();
 				}
 
-				IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+				final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 				if (description.isAutoBuilding() != wasAutoBuilding) {
 					description.setAutoBuilding(wasAutoBuilding);
 					try {

@@ -38,7 +38,7 @@ public class IdentifierFinderVisitor extends ASTVisitor {
 	@Override
 	public int visit(IVisitableNode node) {
 		if (node instanceof ASN1Assignment) {
-			ASN1Assignment assignment = (ASN1Assignment) node;
+			final ASN1Assignment assignment = (ASN1Assignment) node;
 			if(assignment.getAssPard() != null) {
 				return V_SKIP;
 			}

@@ -58,14 +58,14 @@ public class NewProjectNameDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Composite nameContainer = new Composite(parent, SWT.NONE);
+		final Composite nameContainer = new Composite(parent, SWT.NONE);
 		nameContainer.setLayout(new GridLayout(2, false));
 		nameContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
-		Label nameLabel = new Label(nameContainer, SWT.NONE);
+		final Label nameLabel = new Label(nameContainer, SWT.NONE);
 		nameLabel.setText("The name of the project to create: ");
 
 		nameText = new Text(nameContainer, SWT.SINGLE | SWT.BORDER);
@@ -83,7 +83,7 @@ public class NewProjectNameDialog extends Dialog {
 
 	@Override
 	protected Control createContents(final Composite parent) {
-		Control temp = super.createContents(parent);
+		final Control temp = super.createContents(parent);
 		validate();
 
 		return temp;
@@ -95,7 +95,7 @@ public class NewProjectNameDialog extends Dialog {
 		}
 
 		name = nameText.getText();
-		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
+		final IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(name);
 		if (project.exists()) {
 			verdict.setVisible(true);
 			getButton(IDialogConstants.OK_ID).setEnabled(false);

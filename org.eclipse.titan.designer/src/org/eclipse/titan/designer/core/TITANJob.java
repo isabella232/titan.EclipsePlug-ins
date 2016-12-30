@@ -133,14 +133,15 @@ public class TITANJob extends WorkspaceJob {
 	 * @see #runInWorkspace(IProgressMonitor)
 	 * */
 	protected void setEnvironmentalVariables(final ProcessBuilder pb) {
-		Map<String, String> env = pb.environment();
+		final Map<String, String> env = pb.environment();
 
-		String ttcn3Dir = CompilerVersionInformationCollector.getResolvedInstallationPath(false);
+		final String ttcn3Dir = CompilerVersionInformationCollector.getResolvedInstallationPath(false);
 		if(License.isLicenseNeeded()) {
 			env.put(TTCN3_LICENSE_FILE_KEY, LicenseValidator.getResolvedLicenseFilePath(false));
 		}
+
 		env.put(TTCN3_DIR_KEY, ttcn3Dir);
-		String temp = env.get(LD_LIBRARY_PATH_KEY);
+		final String temp = env.get(LD_LIBRARY_PATH_KEY);
 		if (temp == null) {
 			env.put(LD_LIBRARY_PATH_KEY, ttcn3Dir + LIBRARY_SUB_DIR);
 		} else {
@@ -164,12 +165,12 @@ public class TITANJob extends WorkspaceJob {
 	 * @see #runInWorkspace(IProgressMonitor)
 	 * */
 	protected List<String> getFinalCommand(final List<String> actualCommand) {
-		StringBuilder tempCommand = new StringBuilder();
+		final StringBuilder tempCommand = new StringBuilder();
 		for (String c : actualCommand) {
 			tempCommand.append(c).append(SPACE);
 		}
 
-		List<String> finalCommand = new ArrayList<String>();
+		final List<String> finalCommand = new ArrayList<String>();
 		finalCommand.add(ExternalTitanAction.SHELL);
 		finalCommand.add("-c");
 		finalCommand.add(tempCommand.toString());
@@ -200,20 +201,20 @@ public class TITANJob extends WorkspaceJob {
 	 */
 	@Override
 	public final IStatus runInWorkspace(final IProgressMonitor monitor) {
-		IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
+		final IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 
 		if (commands == null || descriptions == null || commands.size() != descriptions.size()) {
 			return Status.CANCEL_STATUS;
 		}
 
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 
 		// If we are on win32 and we do not have cygwin -> cancel
 
 		if ( Cygwin.isMissingInOSWin32()) {
 			if(!reportedNoCygwin) {
 				ErrorReporter.logError(CYGWIN);
-				List<String> al = new ArrayList<String>();
+				final List<String> al = new ArrayList<String>();
 				al.add(CYGWIN);
 				reportExecutionProblem(project, prefs, getName(), al, null, true);
 				reportedNoCygwin = true; //do not report it next time!
@@ -225,13 +226,13 @@ public class TITANJob extends WorkspaceJob {
 		internalMonitor.beginTask(getName(), commands.size());
 		Activator.getDefault().pauseHandlingResourceChanges();
 
-		ProcessBuilder pb = new ProcessBuilder();
+		final ProcessBuilder pb = new ProcessBuilder();
 		setEnvironmentalVariables(pb);
 		pb.directory(workingDir);
 		pb.redirectErrorStream(true);
 		Process proc = null;
 
-		MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream(); 
+		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream(); 
 		
 		String line;
 		BufferedReader stdout;
@@ -273,7 +274,7 @@ public class TITANJob extends WorkspaceJob {
 			}
 
 			setName(descriptions.get(i));
-			List<String> finalCommand = getFinalCommand(commands.get(i));
+			final List<String> finalCommand = getFinalCommand(commands.get(i));
 			final StringBuilder builder = new StringBuilder();
 
 			for (String c : finalCommand) {
@@ -299,7 +300,7 @@ public class TITANJob extends WorkspaceJob {
 				return Status.CANCEL_STATUS;
 			}
 			stdout = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			BufferedReader stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+			final BufferedReader stderr = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
 
 			try {
 				while ((line = stdout.readLine()) != null) {
@@ -325,7 +326,7 @@ public class TITANJob extends WorkspaceJob {
 					TITANConsole.println(FAILURE + exitval,stream);
 					if (!analyzer.hasProcessedErrorMessages()) {
 						if (stderr.ready()) {
-							StringBuilder builder2 = new StringBuilder();
+							final StringBuilder builder2 = new StringBuilder();
 							while ((line = stderr.readLine()) != null) {
 								builder2.append(line);
 							}
@@ -412,7 +413,7 @@ public class TITANJob extends WorkspaceJob {
 	 */
 	public static void reportExecutionProblem(final IProject project, final IPreferencesService prefs, final String name,
 			final List<String> command, final String errorOutput, final boolean cygwin) {
-		boolean useMarker = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTPROGRAMERRORWITHMARKER, false,
+		final boolean useMarker = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTPROGRAMERRORWITHMARKER, false,
 				null);
 		if (useMarker && project != null) {
 			createProblemMarker(project, name + FAILED);
@@ -457,7 +458,7 @@ public class TITANJob extends WorkspaceJob {
 	 *                The message of the error.
 	 */
 	private static void createProblemMarker(final IResource resource, final String message) {
-		Location location = new Location(resource);
+		final Location location = new Location(resource);
 
 		location.reportExternalProblem(message, IMarker.SEVERITY_ERROR, GeneralConstants.COMPILER_ERRORMARKER);
 	}

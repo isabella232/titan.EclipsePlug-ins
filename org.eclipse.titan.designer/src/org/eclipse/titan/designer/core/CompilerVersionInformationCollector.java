@@ -132,17 +132,18 @@ public final class CompilerVersionInformationCollector {
 	 *                the installation path of the TITAN toolset.
 	 * */
 	private static void setEnvironmentalVariables(final ProcessBuilder pb, final String path) {
-		Map<String, String> env = pb.environment();
+		final Map<String, String> env = pb.environment();
 
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		String ttcn3Dir = PathConverter.convert(path, reportDebugInformation, TITANDebugConsole.getConsole());
+		final String ttcn3Dir = PathConverter.convert(path, reportDebugInformation, TITANDebugConsole.getConsole());
 		if( License.isLicenseNeeded() ) {
 			env.put(TTCN3_LICENSE_FILE_KEY, LicenseValidator.getResolvedLicenseFilePath(false));
 		}
+
 		env.put(TTCN3_DIR_KEY, ttcn3Dir);
-		String temp = env.get(LD_LIBRARY_PATH_KEY);
+		final String temp = env.get(LD_LIBRARY_PATH_KEY);
 		if (temp == null) {
 			env.put(LD_LIBRARY_PATH_KEY, ttcn3Dir + LIBRARY_SUB_DIR);
 		} else {
@@ -171,31 +172,31 @@ public final class CompilerVersionInformationCollector {
 			}
 		}
 
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		ArrayList<String> command = new ArrayList<String>();
+		final ArrayList<String> command = new ArrayList<String>();
 		command.add(PathConverter.convert(new Path(path + COMPILER_SUBPATH).toOSString(), reportDebugInformation,
 				TITANDebugConsole.getConsole()));
 		command.add('-' + VERSION_CHECK_FLAG);
 
-		ProcessBuilder pb = new ProcessBuilder();
+		final ProcessBuilder pb = new ProcessBuilder();
 		setEnvironmentalVariables(pb, path);
 		pb.redirectErrorStream(true);
 		Process proc = null;
 		BufferedReader stdout;
 
-		StringBuilder tempCommand = new StringBuilder();
+		final StringBuilder tempCommand = new StringBuilder();
 		for (String c : command) {
 			tempCommand.append(c).append(SPACE);
 		}
 
-		ArrayList<String> finalCommand = new ArrayList<String>();
+		final ArrayList<String> finalCommand = new ArrayList<String>();
 		finalCommand.add(ExternalTitanAction.SHELL);
 		finalCommand.add("-c");
 		finalCommand.add(tempCommand.toString());
 
-		StringBuilder readLines = new StringBuilder();
+		final StringBuilder readLines = new StringBuilder();
 
 		pb.command(finalCommand);
 		try {
@@ -222,7 +223,8 @@ public final class CompilerVersionInformationCollector {
 				}
 				line = stdout.readLine();
 			}
-			int exitval = proc.waitFor();
+
+			final int exitval = proc.waitFor();
 			if (exitval != 0) {
 				if (reportDebugInformation) {
 					TITANConsole.println(FAILURE + exitval);
@@ -248,16 +250,17 @@ public final class CompilerVersionInformationCollector {
 
 		final Matcher baseTITANErrorMatcher = BASE_TITAN_HEADER_PATTERN.matcher(readLines.toString());
 		if (baseTITANErrorMatcher.matches()) {
-			CompilerInfoStruct temp = new CompilerInfoStruct();
+			final CompilerInfoStruct temp = new CompilerInfoStruct();
 			temp.compilerProductNumber = baseTITANErrorMatcher.group(2);
 			temp.buildDate = baseTITANErrorMatcher.group(3);
 			temp.cCompilerVersion = baseTITANErrorMatcher.group(4);
 
 			return temp;
 		}
+
 		final Matcher baseTITANErrorMatcher2 = BASE_TITAN_HEADER_PATTERN2.matcher(readLines.toString());
 		if (baseTITANErrorMatcher2.matches()) {
-			CompilerInfoStruct temp = new CompilerInfoStruct();
+			final CompilerInfoStruct temp = new CompilerInfoStruct();
 			temp.compilerProductNumber = baseTITANErrorMatcher2.group(1);
 			temp.buildDate = baseTITANErrorMatcher2.group(2);
 			temp.cCompilerVersion = baseTITANErrorMatcher2.group(3);
@@ -278,11 +281,11 @@ public final class CompilerVersionInformationCollector {
 	 * @return the resolved installation path
 	 * */
 	public static String getResolvedInstallationPath(final boolean force) {
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		if (force || resolvedInstallationPath.length() == 0) {
-			String installationPath = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+			final String installationPath = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.TITAN_INSTALLATION_PATH, "", null);
 			resolvedInstallationPath = PathConverter.convert(installationPath, reportDebugInformation, TITANDebugConsole.getConsole());
 		}
@@ -303,7 +306,7 @@ public final class CompilerVersionInformationCollector {
 			return null;
 		}
 
-		CompilerInfoStruct temp = collectVersionInformation(path);
+		final CompilerInfoStruct temp = collectVersionInformation(path);
 		if (temp == null) {
 			return null;
 		}
@@ -320,7 +323,7 @@ public final class CompilerVersionInformationCollector {
 			return;
 		}
 
-		String installationPath = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+		final String installationPath = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.TITAN_INSTALLATION_PATH, null, null);
 		compilerInfoStruct = collectVersionInformation(installationPath);
 		infoIsUptodate = true;

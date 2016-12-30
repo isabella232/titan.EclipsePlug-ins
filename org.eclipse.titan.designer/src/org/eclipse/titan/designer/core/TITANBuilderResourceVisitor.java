@@ -87,9 +87,9 @@ public final class TITANBuilderResourceVisitor implements IResourceVisitor {
 		}
 
 		try {
-			URI resolved = resource.getWorkspace().getPathVariableManager().resolveURI(resourceLocation);
-			IFileStore store = EFS.getStore(resolved);
-			IFileInfo fileInfo = store.fetchInfo();
+			final URI resolved = resource.getWorkspace().getPathVariableManager().resolveURI(resourceLocation);
+			final IFileStore store = EFS.getStore(resolved);
+			final IFileInfo fileInfo = store.fetchInfo();
 			if (!fileInfo.exists()) {
 				ErrorReporter.logError("The resource `" + resource.getFullPath() + "' points to a non-existing location.");
 				return false;
@@ -103,9 +103,9 @@ public final class TITANBuilderResourceVisitor implements IResourceVisitor {
 		case IResource.FILE:
 			if (!ResourceExclusionHelper.isDirectlyExcluded((IFile) resource) && !helper.isExcludedByRegexp(resourcename)) {
 				boolean inExcluded = false;
-				IPath resourceFullPath = resource.getFullPath();
+				final IPath resourceFullPath = resource.getFullPath();
 				for (int i = 0; i < excludedFolders.size(); i++) {
-					IPath excludedFolder = excludedFolders.get(i);
+					final IPath excludedFolder = excludedFolders.get(i);
 					if (excludedFolder.isPrefixOf(resourceFullPath)) {
 						inExcluded = true;
 						break;
@@ -120,7 +120,7 @@ public final class TITANBuilderResourceVisitor implements IResourceVisitor {
 
 				boolean inCentralStorage = false;
 				for (int i = 0; i < centralStorages.size(); i++) {
-					URI centralFolder = centralStorages.get(i);
+					final URI centralFolder = centralStorages.get(i);
 					if (centralFolder.getHost() == resourceLocation.getHost() && resourceLocation.getPath().startsWith(centralFolder.getPath())) {
 						inCentralStorage = true;
 						break;

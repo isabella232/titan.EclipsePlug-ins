@@ -94,14 +94,14 @@ public final class SymbolicLinkHandler {
 	 */
 	public static void addSymlinkCreationCommand(final Map<String, IFile> files, final String workingDirectory, final TITANJob buildJob,
 			final Map<String, IFile> lastTimeRemovedFiles, final IProgressMonitor monitor, final boolean automaticMakefileManagement) {
-		List<String> symlinkFiles = new ArrayList<String>();
+		final List<String> symlinkFiles = new ArrayList<String>();
 		List<String> command;
-		boolean win32 = Platform.OS_WIN32.equals(Platform.getOS());
+		final boolean win32 = Platform.OS_WIN32.equals(Platform.getOS());
 		final String extension = win32 ? LINK_EXTENSION : EMPTY_STRING;
 
-		IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
+		final IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 		internalMonitor.beginTask("Checking the symbolic links of files", files.size());
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		for (IFile file : files.values()) {
@@ -113,7 +113,7 @@ public final class SymbolicLinkHandler {
 				}
 			}
 
-			IPath path = file.getLocation();
+			final IPath path = file.getLocation();
 			if (path == null) {
 				try {
 					// in case of files which are not local,
@@ -127,9 +127,10 @@ public final class SymbolicLinkHandler {
 				internalMonitor.worked(1);
 				continue;
 			}
-			String lastSegment = path.lastSegment();
-			boolean tempFileRemoved = lastTimeRemovedFiles.containsKey(lastSegment);
-			File tempFile = new File(workingDirectory + File.separatorChar + lastSegment + extension);
+
+			final String lastSegment = path.lastSegment();
+			final boolean tempFileRemoved = lastTimeRemovedFiles.containsKey(lastSegment);
+			final File tempFile = new File(workingDirectory + File.separatorChar + lastSegment + extension);
 
 			if (tempFile.exists() && !tempFileRemoved) {
 				if (win32) {
@@ -139,8 +140,8 @@ public final class SymbolicLinkHandler {
 				}
 
 				try {
-					String canonicalPath = tempFile.getCanonicalPath();
-					String absolutePath = tempFile.getAbsolutePath();
+					final String canonicalPath = tempFile.getCanonicalPath();
+					final String absolutePath = tempFile.getAbsolutePath();
 					if (!absolutePath.equals(canonicalPath) && path.toString().equals(canonicalPath)) {
 						symlinkFiles.add(lastSegment);
 						internalMonitor.worked(1);
@@ -192,11 +193,11 @@ public final class SymbolicLinkHandler {
 	public static void copyExternalFileToWorkingDirectory(final Map<String, IFile> files, final String workingDirectory,
 			final IProgressMonitor monitor) {
 
-		IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
+		final IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 		internalMonitor.beginTask("Checking the symbolic links of external files", files.size());
 
 		for (IFile file : files.values()) {
-			IPath path = file.getLocation();
+			final IPath path = file.getLocation();
 			if (path == null) {
 				try {
 					final URI uri = file.getLocationURI();
@@ -207,7 +208,7 @@ public final class SymbolicLinkHandler {
 					if (!destinationPath.toFile().exists()) {
 						// FIXME we should somehow
 						// detect if a copy is needed
-						IFileStore destination = EFS.getLocalFileSystem().getStore(destinationPath);
+						final IFileStore destination = EFS.getLocalFileSystem().getStore(destinationPath);
 						source.copy(destination, EFS.OVERWRITE, internalMonitor);
 					}
 				} catch (CoreException e) {
@@ -234,7 +235,7 @@ public final class SymbolicLinkHandler {
 	 * @return true if the refresh succeeded, false otherwise.
 	 */
 	public static boolean createSymlinks(final IResource resource) {
-		IProject rProject = resource.getProject();
+		final IProject rProject = resource.getProject();
 		if (!TITANBuilder.isBuilderEnabled(rProject)) {
 			return true;
 		}
@@ -244,7 +245,7 @@ public final class SymbolicLinkHandler {
 		}
 
 
-		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(rProject).getWorkingDirectoryPath(true);
+		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(rProject).getWorkingDirectoryPath(true);
 
 		if (workingDir == null || !workingDir.toFile().exists()) {
 			return true;
@@ -254,13 +255,13 @@ public final class SymbolicLinkHandler {
 			return true;
 		}
 
-		TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(rProject).getResourceVisitor();
+		final TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(rProject).getResourceVisitor();
 
 		if (visitor.getFiles().isEmpty()) {
 			return true;
 		}
 
-		TITANJob buildJob = new TITANJob(SYMBOLIC_LINK_CREATION_PROCESS, visitor.getFiles(), workingDir.toFile(), rProject);
+		final TITANJob buildJob = new TITANJob(SYMBOLIC_LINK_CREATION_PROCESS, visitor.getFiles(), workingDir.toFile(), rProject);
 		buildJob.setPriority(Job.DECORATE);
 		buildJob.setUser(true);
 		buildJob.setRule(rProject);
@@ -291,16 +292,16 @@ public final class SymbolicLinkHandler {
 			return true;
 		}
 
-		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
+		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
 
 		if (workingDir == null) {
 			return false;
 		}
 
-		TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
-		Map<String, IFile> excludedFiles = visitor.getExcludedFiles();
+		final TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
+		final Map<String, IFile> excludedFiles = visitor.getExcludedFiles();
 
-		TITANJob buildJob = new TITANJob("symbolic link removal", excludedFiles, workingDir.toFile(), project);
+		final TITANJob buildJob = new TITANJob("symbolic link removal", excludedFiles, workingDir.toFile(), project);
 		buildJob.setPriority(Job.DECORATE);
 		buildJob.setUser(true);
 		buildJob.setRule(project);
@@ -337,15 +338,14 @@ public final class SymbolicLinkHandler {
 			return;
 		}
 
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		File tempFile;
-		String extension = Platform.OS_WIN32.equals(Platform.getOS()) ? LINK_EXTENSION : EMPTY_STRING;
+		final String extension = Platform.OS_WIN32.equals(Platform.getOS()) ? LINK_EXTENSION : EMPTY_STRING;
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 		for (String key : files.keySet()) {
-			tempFile = new File(workingDirectory + File.separatorChar + key + extension);
-			List<String> command = new ArrayList<String>();
+			final File tempFile = new File(workingDirectory + File.separatorChar + key + extension);
+			final List<String> command = new ArrayList<String>();
 			command.add(REMOVE);
 			command.add(FORCE_EXECUTION);
 			command.add(APOSTROPHE
@@ -382,24 +382,23 @@ public final class SymbolicLinkHandler {
 			return;
 		}
 
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		File tempFile;
-		boolean isWindows = Platform.OS_WIN32.equals(Platform.getOS());
-		String extension = isWindows ? LINK_EXTENSION : EMPTY_STRING;
+		final boolean isWindows = Platform.OS_WIN32.equals(Platform.getOS());
+		final String extension = isWindows ? LINK_EXTENSION : EMPTY_STRING;
 		monitor.beginTask(CREATING_OUTDATED_LINK_REMOVAL, files.size());
 		String originalLocation;
 		for (Map.Entry<String, IFile> entry : files.entrySet()) {
-			tempFile = new File(workingDirectory + File.separatorChar + entry.getKey() + extension);
-			IPath location = entry.getValue().getLocation();
+			final File tempFile = new File(workingDirectory + File.separatorChar + entry.getKey() + extension);
+			final IPath location = entry.getValue().getLocation();
 			if (location == null) {
 				continue;
 			}
 			originalLocation = location.toOSString();
 			try {
 				if (tempFile.exists() && (isWindows || originalLocation.equals(tempFile.getCanonicalPath()))) {
-					List<String> command = new ArrayList<String>();
+					final List<String> command = new ArrayList<String>();
 					command.add(REMOVE);
 					command.add(FORCE_EXECUTION);
 					command.add(APOSTROPHE

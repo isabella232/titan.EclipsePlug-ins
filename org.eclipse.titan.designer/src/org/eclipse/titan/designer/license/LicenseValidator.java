@@ -83,7 +83,7 @@ public final class LicenseValidator {
 			return false;
 		}
 
-		File realFile = new File(licensePath);
+		final File realFile = new File(licensePath);
 		if (!realFile.exists()) {
 			showErrorDialog("Checking for TITAN license failed", "The file set as the TITAN license file does not seem to exist.\n\n"
 					+ CORRECTIONSTRING);
@@ -91,7 +91,7 @@ public final class LicenseValidator {
 			return false;
 		}
 
-		License license = new License(licensePath);
+		final License license = new License(licensePath);
 		license.process();
 
 		if (!license.isValid()) {
@@ -101,8 +101,8 @@ public final class LicenseValidator {
 			return false;
 		}
 
-		long validUntil = license.getValidUntil().getTime();
-		long now = System.currentTimeMillis();
+		final long validUntil = license.getValidUntil().getTime();
+		final long now = System.currentTimeMillis();
 
 		if (now > validUntil) {
 			showErrorDialog("Checking for TITAN license failed", "The TITAN license has expired.\n\n" + CORRECTIONSTRING);
@@ -135,7 +135,7 @@ public final class LicenseValidator {
 					}
 
 					LicenseErrorDialog.isDialogOpen = true;
-					LicenseErrorDialog dialog = new LicenseErrorDialog(null, title, message);
+					final LicenseErrorDialog dialog = new LicenseErrorDialog(null, title, message);
 					dialog.open();
 					LicenseErrorDialog.isDialogOpen = false;
 				}
@@ -163,12 +163,13 @@ public final class LicenseValidator {
 		if(!License.isLicenseNeeded()){
 			return "";
 		}
+
 		final IPreferencesService preferenceService = Platform.getPreferencesService();
-		boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		if (force || resolvedLicenseFilePath.length() == 0) {
-			String licensePath = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.LICENSE_FILE_PATH,
+			final String licensePath = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.LICENSE_FILE_PATH,
 					"", null);
 			resolvedLicenseFilePath = PathConverter.convert(licensePath, reportDebugInformation, TITANDebugConsole.getConsole());
 		}

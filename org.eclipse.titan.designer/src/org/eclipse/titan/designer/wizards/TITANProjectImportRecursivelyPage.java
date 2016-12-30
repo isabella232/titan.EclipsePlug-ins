@@ -37,9 +37,9 @@ public class TITANProjectImportRecursivelyPage extends WizardPage {
 	@Override
 	public void createControl(final Composite parent) {
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		pageComposite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL);
+		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 
@@ -49,12 +49,12 @@ public class TITANProjectImportRecursivelyPage extends WizardPage {
 	}
 
 	protected void createProjectFileEditor(final Composite parent) {
-		Font font = parent.getFont();
-		Group group = new Group(parent, SWT.NONE);
+		final Font font = parent.getFont();
+		final Group group = new Group(parent, SWT.NONE);
 		group.setText("Included projects:");
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		group.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		group.setLayout(layout);
 		group.setFont(font);

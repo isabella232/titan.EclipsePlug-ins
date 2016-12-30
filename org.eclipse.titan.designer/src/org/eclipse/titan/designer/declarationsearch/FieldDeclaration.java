@@ -31,7 +31,7 @@ class FieldDeclaration extends Declaration {
 	@Override
 	public List<Hit> getReferences(final Module module) {
 		try {
-			ReferenceFinder referenceFinder = new ReferenceFinder(ass);
+			final ReferenceFinder referenceFinder = new ReferenceFinder(ass);
 			referenceFinder.fieldId = fieldId;
 			final List<Hit> result = referenceFinder.findReferencesInModule(module);
 			if (ass.getMyScope().getModuleScope() == module) {

@@ -34,9 +34,9 @@ public final class NewTITANProjectCreationPage extends WizardNewProjectCreationP
 			return false;
 		}
 
-		String projectName = getProjectName();
+		final String projectName = getProjectName();
 		for (int i = 0; i < projectName.length(); i++) {
-			char c = projectName.charAt(i);
+			final char c = projectName.charAt(i);
 			final boolean isLetter = (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
 			final boolean isDigit = c >= '0' && c <= '9';
 			final boolean isSeparator = c == '_' || c == '-' || c == '.';
@@ -47,8 +47,8 @@ public final class NewTITANProjectCreationPage extends WizardNewProjectCreationP
 			}
 		}
 
-		URI uri = getLocationURI();
-		IPath path = URIUtil.toPath(uri);
+		final URI uri = getLocationURI();
+		final IPath path = URIUtil.toPath(uri);
 		if (path == null) {
 			setErrorMessage("The build system of TITAN currently does not support completely remote projects");
 			return false;

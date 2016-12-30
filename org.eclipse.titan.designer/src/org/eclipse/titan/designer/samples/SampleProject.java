@@ -63,12 +63,12 @@ public abstract class SampleProject {
 	private void setupFiles(final Map<String, String> files, final IContainer root) throws CoreException {
 		for (Map.Entry<String, String> entry : files.entrySet()) {
 			final int indexOfLastSlash = entry.getKey().lastIndexOf('/');
-			String filename = entry.getKey().substring(indexOfLastSlash + 1);
+			final String filename = entry.getKey().substring(indexOfLastSlash + 1);
 
 			IFile file;
 			if (indexOfLastSlash != -1) {
 				final String dir = entry.getKey().substring(0, indexOfLastSlash);
-				IFolder folder = root.getFolder(new Path(dir));
+				final IFolder folder = root.getFolder(new Path(dir));
 				if (!folder.exists()) {
 					createFolder(folder);
 				}
@@ -87,7 +87,7 @@ public abstract class SampleProject {
 	 * @throws CoreException
 	 */
 	private  void createFolder(final IFolder folder) throws CoreException {
-		IContainer parent = folder.getParent();
+		final IContainer parent = folder.getParent();
 		if (parent instanceof IFolder) {
 			createFolder((IFolder) parent);
 		}

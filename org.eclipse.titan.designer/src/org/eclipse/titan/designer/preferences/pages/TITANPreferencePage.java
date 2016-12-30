@@ -338,7 +338,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 		long validUntil = license.getValidUntil().getTime();
 		long now = System.currentTimeMillis();
 
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		if (now > validUntil) {
 			builder.append("Your TITAN license has expired\n\n");

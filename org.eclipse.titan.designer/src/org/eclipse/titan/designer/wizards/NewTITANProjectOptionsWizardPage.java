@@ -37,7 +37,7 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 	private final class BasicProjectSelectorListener implements ModifyListener {
 		@Override
 		public void modifyText(final ModifyEvent e) {
-			boolean valid = validatePage();
+			final boolean valid = validatePage();
 			setPageComplete(valid);
 		}
 	}
@@ -119,7 +119,7 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 
-		Label sourceLabel = new Label(pageComposite, SWT.NONE);
+		final Label sourceLabel = new Label(pageComposite, SWT.NONE);
 		sourceLabel.setText("source folder:");
 		sourceLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		sourceLabel.setToolTipText(SOURCEDIR_TOOLTIP);
@@ -143,7 +143,7 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 			}
 		});
 
-		Composite workingDirComposite = new Composite(pageComposite, SWT.NONE);
+		final Composite workingDirComposite = new Composite(pageComposite, SWT.NONE);
 		layout = new GridLayout();
 		workingDirComposite.setLayout(layout);
 		data = new GridData(GridData.FILL);
@@ -151,7 +151,7 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 		data.horizontalAlignment = SWT.FILL;
 		workingDirComposite.setLayoutData(data);
 
-		IPath projectPath = ((NewTITANProjectWizard) getWizard()).getProjectPath();
+		final IPath projectPath = ((NewTITANProjectWizard) getWizard()).getProjectPath();
 		workingDirectory = new TITANResourceLocator("working directory:", workingDirComposite, IResource.FOLDER, projectPath.toOSString());
 		workingDirectory.setStringValue("bin");
 		workingDirectory.getTextControl(workingDirComposite).setToolTipText(WORKINGDIR_TOOLTIP);
@@ -166,12 +166,12 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 	public void setVisible(final boolean visible) {
 		super.setVisible(visible);
 
-		IPath location = ((NewTITANProjectWizard) getWizard()).getProjectPath();
+		final IPath location = ((NewTITANProjectWizard) getWizard()).getProjectPath();
 		if (location == null) {
 			return;
 		}
 
-		IPath projectPath = ((NewTITANProjectWizard) getWizard()).getProjectPath();
+		final IPath projectPath = ((NewTITANProjectWizard) getWizard()).getProjectPath();
 		workingDirectory.setRootPath(projectPath.toOSString());
 	}
 
@@ -185,18 +185,18 @@ public final class NewTITANProjectOptionsWizardPage extends WizardPage {
 	}
 
 	private boolean validatePage() {
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
-		String sourceName = sourceText.getText();
+		final String sourceName = sourceText.getText();
 		if (!"".equals(sourceName)) {
-			IStatus nameStatus = workspace.validateName(sourceName, IResource.FOLDER);
+			final IStatus nameStatus = workspace.validateName(sourceName, IResource.FOLDER);
 			if (!nameStatus.isOK()) {
 				setErrorMessage(nameStatus.getMessage());
 				return false;
 			}
 		}
 
-		String workName = workingDirectory.getStringValue();
+		final String workName = workingDirectory.getStringValue();
 		if ("".equals(workName)) {
 			setErrorMessage(WORKINGDIR_EMPTY);
 			return false;

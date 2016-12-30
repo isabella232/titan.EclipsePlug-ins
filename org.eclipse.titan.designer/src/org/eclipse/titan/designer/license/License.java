@@ -106,7 +106,7 @@ public final class License {
 				tempLine = br.readLine();
 			}
 
-			StringBuilder licenseContents = new StringBuilder(400);
+			final StringBuilder licenseContents = new StringBuilder(400);
 			while (tempLine != null && !tempLine.contains(LICENSE_FOOTER)) {
 				tempLine = br.readLine();
 				licenseContents.append(tempLine);
@@ -138,78 +138,78 @@ public final class License {
 			return;
 		}
 
-		byte[] tempUniqueID = new byte[4];
+		final byte[] tempUniqueID = new byte[4];
 		System.arraycopy(rawData, 0, tempUniqueID, 0, 4);
 		uniqueID = createInt(tempUniqueID);
 
-		byte[] tempLicenseeName = new byte[48];
+		final byte[] tempLicenseeName = new byte[48];
 		System.arraycopy(rawData, 4, tempLicenseeName, 0, 48);
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < 48; i++) {
-			char ch = (char) unsignedByteToInt(tempLicenseeName[i]);
+			final char ch = (char) unsignedByteToInt(tempLicenseeName[i]);
 			if (ch != 0) {
 				sb.append(ch);
 			}
 		}
 		licenseeName = sb.toString();
 
-		byte[] tempLicenseeEmail = new byte[48];
+		final byte[] tempLicenseeEmail = new byte[48];
 		System.arraycopy(rawData, 52, tempLicenseeEmail, 0, 48);
 		sb = new StringBuilder();
 		for (int i = 0; i < 48; i++) {
-			char ch = (char) unsignedByteToInt(tempLicenseeEmail[i]);
+			final char ch = (char) unsignedByteToInt(tempLicenseeEmail[i]);
 			if (ch != 0) {
 				sb.append(ch);
 			}
 		}
 		licenseeEmail = sb.toString();
 
-		byte[] tempLicenseeCompany = new byte[48];
+		final byte[] tempLicenseeCompany = new byte[48];
 		System.arraycopy(rawData, 100, tempLicenseeCompany, 0, 48);
 		sb = new StringBuilder();
 		for (int i = 0; i < 48; i++) {
-			char ch = (char) unsignedByteToInt(tempLicenseeCompany[i]);
+			final char ch = (char) unsignedByteToInt(tempLicenseeCompany[i]);
 			if (ch != 0) {
 				sb.append(ch);
 			}
 		}
 		licenseeCompany = sb.toString();
 
-		byte[] tempLicenseeDepartment = new byte[16];
+		final byte[] tempLicenseeDepartment = new byte[16];
 		System.arraycopy(rawData, 148, tempLicenseeDepartment, 0, 16);
 		sb = new StringBuilder();
 		for (int i = 0; i < 16; i++) {
-			char ch = (char) unsignedByteToInt(tempLicenseeDepartment[i]);
+			final char ch = (char) unsignedByteToInt(tempLicenseeDepartment[i]);
 			if (ch != 0) {
 				sb.append(ch);
 			}
 		}
 		licenseeDepartment = sb.toString();
 
-		byte[] tempValidFrom = new byte[4];
+		final byte[] tempValidFrom = new byte[4];
 		System.arraycopy(rawData, 164, tempValidFrom, 0, 4);
 		validFrom = new Date(createInt(tempValidFrom) * 1000L);
 
-		byte[] tempValidUntil = new byte[4];
+		final byte[] tempValidUntil = new byte[4];
 		System.arraycopy(rawData, 168, tempValidUntil, 0, 4);
 		validUntil = new Date(createInt(tempValidUntil) * 1000L);
 
-		byte[] tempHostID = new byte[4];
+		final byte[] tempHostID = new byte[4];
 		System.arraycopy(rawData, 172, tempHostID, 0, 4);
 		hostID = createInt(tempHostID);
 
-		byte[] tempLoginName = new byte[8];
+		final byte[] tempLoginName = new byte[8];
 		System.arraycopy(rawData, 176, tempLoginName, 0, 8);
 		sb = new StringBuilder();
 		for (int i = 0; i < 8; i++) {
-			char ch = (char) unsignedByteToInt(tempLoginName[i]);
+			final char ch = (char) unsignedByteToInt(tempLoginName[i]);
 			if (ch != 0) {
 				sb.append(ch);
 			}
 		}
 		loginName = sb.toString();
 
-		byte[] from = new byte[4];
+		final byte[] from = new byte[4];
 		System.arraycopy(rawData, 184, from, 0, 4);
 		this.versionFrom[0] = createInt(from);
 		System.arraycopy(rawData, 188, from, 0, 4);
@@ -217,7 +217,7 @@ public final class License {
 		System.arraycopy(rawData, 192, from, 0, 4);
 		this.versionFrom[2] = createInt(from);
 
-		byte[] to = new byte[4];
+		final byte[] to = new byte[4];
 		System.arraycopy(rawData, 196, to, 0, 4);
 		this.versionTo[0] = createInt(to);
 		System.arraycopy(rawData, 200, to, 0, 4);
@@ -225,9 +225,9 @@ public final class License {
 		System.arraycopy(rawData, 204, to, 0, 4);
 		this.versionTo[2] = createInt(to);
 
-		byte[] temp = new byte[4];
+		final byte[] temp = new byte[4];
 		System.arraycopy(rawData, 208, temp, 0, 4);
-		int features = createInt(temp);
+		final int features = createInt(temp);
 		if ((features & Feature.TTCN3.value()) == Feature.TTCN3.value()) {
 			languageList.add(Feature.TTCN3.text());
 		}
@@ -274,7 +274,7 @@ public final class License {
 		}
 
 		System.arraycopy(rawData, 212, temp, 0, 4);
-		int limitations = createInt(temp);
+		final int limitations = createInt(temp);
 		if ((limitations & LIMIT_HOST) == LIMIT_HOST) {
 			limitationType = "HOST";
 		} else if ((limitations & LIMIT_USER) == LIMIT_USER) {
@@ -287,9 +287,9 @@ public final class License {
 	}
 
 	private boolean checkLicense() {
-		byte[] message = new byte[220];
+		final byte[] message = new byte[220];
 		System.arraycopy(rawData, 0, message, 0, 220);
-		byte[] dsaSignature = new byte[48];
+		final byte[] dsaSignature = new byte[48];
 		System.arraycopy(rawData, 220, dsaSignature, 0, 48);
 		boolean result = false;
 		Signature dsa = null;
@@ -397,22 +397,22 @@ public final class License {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder(300);
+		final StringBuilder builder = new StringBuilder(300);
 		builder.append("Unique ID\t: ").append(getUniqueID()).append('\n');
 		builder.append("Licensee\t: ").append(getLicenseeName()).append('\n');
 		builder.append("E-mail\t\t: ").append(getLicenseeEmail()).append('\n');
 		builder.append("Company\t: ").append(getLicenseeCompany()).append('\n');
 		builder.append("Department\t: ").append(getLicenseeDepartment()).append('\n');
 
-		SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd E HH:mm:ss z");
+		final SimpleDateFormat dFormat = new SimpleDateFormat("yyyy-MM-dd E HH:mm:ss z");
 		dFormat.setTimeZone(TimeZone.getTimeZone("GMT+2"));
 		builder.append("Valid from\t: ").append(dFormat.format(getValidFrom())).append('\n');
 		builder.append("Valid until\t: ").append(dFormat.format(getValidUntil())).append('\n');
 		builder.append("Limitation\t: ").append(getLimitationType()).append('\n');
 		builder.append("Host ID\t: ").append(getHostID()).append('\n');
 		builder.append("Login name\t: ").append(getLoginName()).append('\n');
-		int[] from = getVersionFrom();
-		int[] until = getVersionTo();
+		final int[] from = getVersionFrom();
+		final int[] until = getVersionTo();
 
 		builder.append("Versions\t: from ").append(from[0]).append('.').append(from[1]).append(".pl").append(from[2]);
 		builder.append(" until ").append(until[0]).append('.').append(until[1]).append(".pl").append(until[2]).append('\n');

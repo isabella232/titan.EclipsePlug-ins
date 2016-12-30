@@ -45,7 +45,7 @@ public class OverlayImageIcon extends CompositeImageDescriptor {
 	protected void drawCompositeImage(final int width, final int height) {
 		drawImage(baseImage.getImageData(), 0, 0);
 
-		ImageData imageData = decorator.getImageData();
+		final ImageData imageData = decorator.getImageData();
 		switch (position) {
 		case TOP_LEFT:
 			drawImage(imageData, 0, 0);

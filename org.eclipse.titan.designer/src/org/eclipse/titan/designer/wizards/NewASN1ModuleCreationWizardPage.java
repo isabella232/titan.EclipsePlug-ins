@@ -71,13 +71,13 @@ public final class NewASN1ModuleCreationWizardPage extends WizardNewFileCreation
 			return false;
 		}
 
-		String extension = getContainerFullPath().append(getFileName()).getFileExtension();
+		final String extension = getContainerFullPath().append(getFileName()).getFileExtension();
 
 		if (extension == null) {
 			// test what will happen if we add the extension
 			IPath fullPath = getContainerFullPath().append(getFileName()).addFileExtension(GlobalParser.SUPPORTED_ASN1_EXTENSIONS[1]);
 			// path is invalid if any prefix is occupied by a file
-			IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+			final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 			while (fullPath.segmentCount() > 1) {
 				if (root.getFile(fullPath).exists()) {
 					setErrorMessage(OCCUPIED);
@@ -101,12 +101,12 @@ public final class NewASN1ModuleCreationWizardPage extends WizardNewFileCreation
 		}
 
 		// check modulename
-		IPath path = getContainerFullPath();
+		final IPath path = getContainerFullPath();
 		if (hasLicense && path != null) {
-			IFile file = createFileHandle(path.append(getFileName()));
-			ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+			final IFile file = createFileHandle(path.append(getFileName()));
+			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 			if (projectSourceParser.getLastTimeChecked() == null) {
-				WorkspaceJob job = projectSourceParser.analyzeAll();
+				final WorkspaceJob job = projectSourceParser.analyzeAll();
 
 				if (job != null) {
 					try {
@@ -116,10 +116,11 @@ public final class NewASN1ModuleCreationWizardPage extends WizardNewFileCreation
 					}
 				}
 			}
-			String moduleName = getFileName();
-			int dotIndex = moduleName.indexOf('.');
-			moduleName = dotIndex == -1 ? moduleName : moduleName.substring(0, dotIndex);
-			Module module = projectSourceParser.getModuleByName(moduleName);
+
+			final String moduleName = getFileName();
+			final int dotIndex = moduleName.indexOf('.');
+			final String dotLessModuleName = dotIndex == -1 ? moduleName : moduleName.substring(0, dotIndex);
+			final Module module = projectSourceParser.getModuleByName(dotLessModuleName);
 			if (module != null) {
 				setErrorMessage("A module with the name " + moduleName + " already exists in the project "
 						+ file.getProject().getName());
@@ -167,10 +168,10 @@ public final class NewASN1ModuleCreationWizardPage extends WizardNewFileCreation
 		case EMPTY:
 			return super.getInitialContents();
 		case NAME_AND_EMPTY_BODY:
-			String temporalModule = ASN1CodeSkeletons.getASN1ModuleWithEmptyBody(getModuleName());
+			final String temporalModule = ASN1CodeSkeletons.getASN1ModuleWithEmptyBody(getModuleName());
 			return new BufferedInputStream(new ByteArrayInputStream(temporalModule.getBytes()));
 		case SKELETON:
-			String temporalModuleSkeleton = ASN1CodeSkeletons.getASN1ModuleSkeleton(getModuleName());
+			final String temporalModuleSkeleton = ASN1CodeSkeletons.getASN1ModuleSkeleton(getModuleName());
 			return new BufferedInputStream(new ByteArrayInputStream(temporalModuleSkeleton.getBytes()));
 		default:
 			return super.getInitialContents();
@@ -179,10 +180,11 @@ public final class NewASN1ModuleCreationWizardPage extends WizardNewFileCreation
 	}
 	
 	private String getModuleName() {
-		String moduleName = getFileName();
-		int dotIndex = moduleName.indexOf('.');
-		moduleName = dotIndex == -1 ? moduleName : moduleName.substring(0, dotIndex);
-		return moduleName;
+		final String moduleName = getFileName();
+		final int dotIndex = moduleName.indexOf('.');
+		final String dotLessModuleName = dotIndex == -1 ? moduleName : moduleName.substring(0, dotIndex);
+
+		return dotLessModuleName;
 	}
 
 }

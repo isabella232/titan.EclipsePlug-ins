@@ -51,10 +51,10 @@ class NewTITANProjectImportOptionsPage extends WizardPage {
 
 	@Override
 	public void createControl(final Composite parent) {
-		Composite pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final Composite pageComposite = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		pageComposite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL);
+		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 

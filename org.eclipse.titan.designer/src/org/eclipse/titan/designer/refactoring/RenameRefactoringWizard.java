@@ -20,7 +20,7 @@ public class RenameRefactoringWizard extends RefactoringWizard {
 	@Override
 	protected void addUserInputPages() {
 		setDefaultPageTitle(getRefactoring().getName());
-		RenameRefactoringInputPage page = new RenameRefactoringInputPage(getRefactoring().getName());
+		final RenameRefactoringInputPage page = new RenameRefactoringInputPage(getRefactoring().getName());
 		addPage(page);
 	}
 }

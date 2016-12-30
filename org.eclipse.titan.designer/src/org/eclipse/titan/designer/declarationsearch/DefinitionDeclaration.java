@@ -30,7 +30,7 @@ class DefinitionDeclaration extends Declaration {
 	@Override
 	public List<Hit> getReferences(final Module module) {
 		try {
-			ReferenceFinder referenceFinder = new ReferenceFinder(ass);
+			final ReferenceFinder referenceFinder = new ReferenceFinder(ass);
 			final List<Hit> result = referenceFinder.findReferencesInModule(module);
 			if (ass.getMyScope().getModuleScope() == module) {
 				result.add(new Hit(ass.getIdentifier()));
@@ -45,7 +45,7 @@ class DefinitionDeclaration extends Declaration {
 	@Override
 	public ReferenceFinder getReferenceFinder(final Module module) {
 		try {
-			ReferenceFinder referenceFinder = new ReferenceFinder(ass);
+			final ReferenceFinder referenceFinder = new ReferenceFinder(ass);
 			return referenceFinder;
 		} catch (final IllegalArgumentException e) {
 			return null;

@@ -80,10 +80,11 @@ public final class NewConfigFileWizard extends BasicNewResourceWizard {
 		if (mainPage.getContainerFullPath().append(mainPage.getFileName()).getFileExtension() == null) {
 			mainPage.setFileName(mainPage.getFileName() + '.' + GlobalParser.SUPPORTED_CONFIG_FILE_EXTENSIONS[0]);
 		}
-		IFile newConfigFile = mainPage.createNewFile();
+
+		final IFile newConfigFile = mainPage.createNewFile();
 		if (newConfigFile != null) {
 			try {
-				ProjectFileHandler pfHandler = new ProjectFileHandler(newConfigFile.getProject());
+				final ProjectFileHandler pfHandler = new ProjectFileHandler(newConfigFile.getProject());
 				pfHandler.saveProjectSettings();
 				newConfigFile.touch(new NullProgressMonitor());
 
@@ -105,11 +106,11 @@ public final class NewConfigFileWizard extends BasicNewResourceWizard {
 	 *                the module to be revealed
 	 * */
 	private void selectAndRevealNewModule(final IFile newModule) {
-		IWorkbench workbench = getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		final IWorkbench workbench = getWorkbench();
+		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		if (window != null) {
-			IEditorDescriptor desc = ConfigTextEditor.findCFGEditor(workbench);
-			IWorkbenchPage page = window.getActivePage();
+			final IEditorDescriptor desc = ConfigTextEditor.findCFGEditor(workbench);
+			final IWorkbenchPage page = window.getActivePage();
 			try {
 				page.openEditor(new FileEditorInput(newModule), desc.getId());
 			} catch (PartInitException e) {

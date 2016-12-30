@@ -91,6 +91,7 @@ public final class NewASN1ModuleWizard extends BasicNewResourceWizard {
 		if (mainPage.getContainerFullPath().append(mainPage.getFileName()).getFileExtension() == null) {
 			mainPage.setFileName(mainPage.getFileName() + '.' + GlobalParser.SUPPORTED_ASN1_EXTENSIONS[1]);
 		}
+
 		final IFile newModule = mainPage.createNewFile();
 		if (newModule != null) {
 			try {
@@ -99,11 +100,11 @@ public final class NewASN1ModuleWizard extends BasicNewResourceWizard {
 							FileBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY), TRUE);
 				}
 
-				ProjectFileHandler pfHandler = new ProjectFileHandler(newModule.getProject());
+				final ProjectFileHandler pfHandler = new ProjectFileHandler(newModule.getProject());
 				pfHandler.saveProjectSettings();
 				newModule.touch(new NullProgressMonitor());
 
-				WorkspaceJob refreshJob = new WorkspaceJob("Refreshing built resources") {
+				final WorkspaceJob refreshJob = new WorkspaceJob("Refreshing built resources") {
 					@Override
 					public IStatus runInWorkspace(final IProgressMonitor monitor) {
 						boolean proceedingOK = SymbolicLinkHandler.createSymlinks(newModule);
@@ -142,11 +143,11 @@ public final class NewASN1ModuleWizard extends BasicNewResourceWizard {
 	 *                the module to be revealed
 	 * */
 	private void selectAndRevealNewModule(final IFile newModule) {
-		IWorkbench workbench = getWorkbench();
-		IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+		final IWorkbench workbench = getWorkbench();
+		final IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 		if (window != null) {
-			IEditorDescriptor desc = ASN1Editor.findASN1Editor(workbench);
-			IWorkbenchPage page = window.getActivePage();
+			final IEditorDescriptor desc = ASN1Editor.findASN1Editor(workbench);
+			final IWorkbenchPage page = window.getActivePage();
 			try {
 				page.openEditor(new FileEditorInput(newModule), desc.getId());
 			} catch (PartInitException e) {

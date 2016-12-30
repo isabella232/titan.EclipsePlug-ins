@@ -40,10 +40,10 @@ public class TITANProjectImportPage extends WizardNewProjectCreationPage {
 			return false;
 		}
 
-		IProject handle = getProjectHandle();
-		IPath path = handle.getLocation();
+		final IProject handle = getProjectHandle();
+		final IPath path = handle.getLocation();
 		if (path == null) {
-			String name = handle.getName();
+			final String name = handle.getName();
 			IPath path2 = handle.getWorkspace().getRoot().getLocation();
 			path2 = path2.append(name);
 			if (path2.toFile().exists()) {

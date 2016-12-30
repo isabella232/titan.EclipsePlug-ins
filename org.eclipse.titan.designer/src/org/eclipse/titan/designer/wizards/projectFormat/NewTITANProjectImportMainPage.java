@@ -38,7 +38,7 @@ class NewTITANProjectImportMainPage extends WizardPage {
 
 		@Override
 		public void modifyText(final ModifyEvent e) {
-			Object source = e.getSource();
+			final Object source = e.getSource();
 			if (source == projectFileText) {
 				handleProjectFileModified();
 			} else if(source == searchPathEnumerateTextField) {
@@ -53,7 +53,7 @@ class NewTITANProjectImportMainPage extends WizardPage {
 
 		@Override
 		public void widgetSelected(final SelectionEvent e) {
-			Object source = e.getSource();
+			final Object source = e.getSource();
 			if (source == projectFileSelectionButton) {
 				handleProjectFileButtonSelected();
 			}
@@ -87,9 +87,9 @@ class NewTITANProjectImportMainPage extends WizardPage {
 	@Override
 	public void createControl(final Composite parent) {
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		pageComposite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL);
+		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 
@@ -100,7 +100,7 @@ class NewTITANProjectImportMainPage extends WizardPage {
 	}
 
 	protected void createProjectFileEditor(final Composite parent) {
-		Font font = parent.getFont();
+		final Font font = parent.getFont();
 		Group group = new Group(parent, SWT.NONE);
 		group.setText("Original project file:");
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
@@ -134,10 +134,10 @@ class NewTITANProjectImportMainPage extends WizardPage {
 	
 
 	protected void handleProjectFileButtonSelected() {
-		FileDialog dialog = new FileDialog(getShell());
+		final FileDialog dialog = new FileDialog(getShell());
 		dialog.setFilterPath(projectFileText.getText());
 		dialog.setFilterExtensions(new String[] { "*.tpd", "*.Tpd", "*.TITAN_Project_Format" });
-		String file = dialog.open();
+		final String file = dialog.open();
 		if (file != null && !file.equals(projectFileText.getText())) {
 			projectFileText.setText(file);
 		}
@@ -178,11 +178,12 @@ class NewTITANProjectImportMainPage extends WizardPage {
 	 * Check and extract the search paths from the Text
 	 */
 	private boolean checkSearchPaths() {
-		String text = searchPathEnumerateTextField.getText().trim();
+		final String text = searchPathEnumerateTextField.getText().trim();
 		if (!text.isEmpty() && !text.startsWith("-I")) {
 			setErrorMessage("The search path shall start with -I.");
 			return false;
 		}
+
 		searchPaths = new ArrayList<String>(Arrays.asList(text.split("\\s*-I\\s*", -1)));
 		searchPaths.removeAll(Arrays.asList(null, ""));
 		for (String string : searchPaths) {
@@ -191,7 +192,8 @@ class NewTITANProjectImportMainPage extends WizardPage {
 				setErrorMessage("The path (" + string + ")  contains whitespaces or the -I flag is missing.");
 				return false;
 			}
-			IPath path = new Path(string);
+
+			final IPath path = new Path(string);
 			if (!path.isAbsolute()) {
 				setErrorMessage("The paths in the search paths must be absolute. " + string + " is not an absolute path.");
 				return false;

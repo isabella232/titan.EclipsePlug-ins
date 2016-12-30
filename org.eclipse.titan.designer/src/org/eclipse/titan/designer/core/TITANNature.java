@@ -91,7 +91,7 @@ public final class TITANNature implements IProjectNature {
 	 * @param description the project description to receive the natures.
 	 * */
 	public static void addTITANNatureToProject(final IProjectDescription description) {
-		List<String> newIds = new ArrayList<String>();
+		final List<String> newIds = new ArrayList<String>();
 		newIds.addAll(Arrays.asList(description.getNatureIds()));
 		int index = newIds.indexOf(TITANNature.NATURE_ID);
 		if (index == -1) {
@@ -173,15 +173,15 @@ public final class TITANNature implements IProjectNature {
 	 *                 if something goes wrong.
 	 */
 	public static void addTITANBuilderToProject(final IProject project) throws CoreException {
-		IProjectDescription description = project.getDescription();
-		int javaCommandIndex = getJavaCommandIndex(description.getBuildSpec());
+		final IProjectDescription description = project.getDescription();
+		final int javaCommandIndex = getJavaCommandIndex(description.getBuildSpec());
 
 		if (javaCommandIndex == -1) {
-			ICommand newCommand = description.newCommand();
+			final ICommand newCommand = description.newCommand();
 			newCommand.setBuilderName(TITANBuilder.BUILDER_ID);
 
-			ICommand[] oldBuildSpec = description.getBuildSpec();
-			ICommand[] newCommands = new ICommand[oldBuildSpec.length + 1];
+			final ICommand[] oldBuildSpec = description.getBuildSpec();
+			final ICommand[] newCommands = new ICommand[oldBuildSpec.length + 1];
 			System.arraycopy(oldBuildSpec, 0, newCommands, 1, oldBuildSpec.length);
 			newCommands[0] = newCommand;
 			description.setBuildSpec(newCommands);
@@ -199,14 +199,14 @@ public final class TITANNature implements IProjectNature {
 	 *                 if something goes wrong
 	 */
 	public static void removeTITANBuilderFromProject(final IProject project) throws CoreException {
-		IProjectDescription description = project.getDescription();
-		int javaCommandIndex = getJavaCommandIndex(description.getBuildSpec());
+		final IProjectDescription description = project.getDescription();
+		final int javaCommandIndex = getJavaCommandIndex(description.getBuildSpec());
 		if (javaCommandIndex == -1) {
 			return;
 		}
 
-		ICommand[] oldBuildSpec = description.getBuildSpec();
-		ICommand[] newCommands = new ICommand[oldBuildSpec.length - 1];
+		final ICommand[] oldBuildSpec = description.getBuildSpec();
+		final ICommand[] newCommands = new ICommand[oldBuildSpec.length - 1];
 		System.arraycopy(oldBuildSpec, 0, newCommands, 0, javaCommandIndex);
 		System.arraycopy(oldBuildSpec, javaCommandIndex + 1, newCommands, javaCommandIndex, oldBuildSpec.length - javaCommandIndex - 1);
 		description.setBuildSpec(newCommands);

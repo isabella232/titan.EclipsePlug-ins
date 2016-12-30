@@ -36,7 +36,7 @@ final class SyntaxHighlightColoringElement implements ISyntaxHighlightTreeElemen
 		this.basePreferenceKey = key;
 
 		if (words != null) {
-			StringBuilder builder = new StringBuilder();
+			final StringBuilder builder = new StringBuilder();
 			for (int i = 0; i < words.length; i++) {
 				if (i > 0) {
 					builder.append(", ");

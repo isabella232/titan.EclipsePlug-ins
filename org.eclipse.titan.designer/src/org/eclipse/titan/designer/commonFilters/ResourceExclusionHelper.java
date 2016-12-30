@@ -44,14 +44,14 @@ public final class ResourceExclusionHelper {
 
 	public ResourceExclusionHelper() {
 		this.matchers = new ArrayList<Matcher>();
-		String stringList = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+		final String stringList = Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.EXCLUDED_RESOURCES, "", null);
-		List<String> splittedList = intelligentSplit(stringList, '#', '\\');
+		final List<String> splittedList = intelligentSplit(stringList, '#', '\\');
 		boolean reportedError = false;
 		for (String item : splittedList) {
 			try {
-				Pattern pattern = Pattern.compile(item);
-				Matcher matcher = pattern.matcher("");
+				final Pattern pattern = Pattern.compile(item);
+				final Matcher matcher = pattern.matcher("");
 				matchers.add(matcher);
 			} catch (PatternSyntaxException e) {
 				if (!reportedError) {
@@ -158,12 +158,13 @@ public final class ResourceExclusionHelper {
 	 *                used as delimiters.
 	 * */
 	// FIXME there is already an implementation for this.
-	public static final java.util.List<String> intelligentSplit(final String input, final char delimiter, final char escape) {
-		java.util.List<String> results = new ArrayList<String>();
+	public static final List<String> intelligentSplit(final String input, final char delimiter, final char escape) {
+		final List<String> results = new ArrayList<String>();
 		if (input == null || input.length() == 0) {
 			return results;
 		}
-		StringBuilder tempResult = new StringBuilder();
+
+		final StringBuilder tempResult = new StringBuilder();
 		int i;
 		// no over indexing is possible if the input was converted
 		// correctly, as an escape must be escaping something

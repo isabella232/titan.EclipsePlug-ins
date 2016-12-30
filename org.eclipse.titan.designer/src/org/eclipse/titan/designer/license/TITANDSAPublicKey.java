@@ -92,7 +92,7 @@ public final class TITANDSAPublicKey implements java.security.interfaces.DSAPubl
 
 	@Override
 	public DSAParams getParams() {
-		DSAParams params = new DSAParams() {
+		final DSAParams params = new DSAParams() {
 
 			@Override
 			public BigInteger getG() {

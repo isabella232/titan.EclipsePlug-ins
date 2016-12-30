@@ -32,11 +32,11 @@ public class RenameRefactoringInputPage extends UserInputWizardPage {
 
 	@Override
 	public void createControl(final Composite parent) {
-		Composite top = new Composite(parent, SWT.NONE);
+		final Composite top = new Composite(parent, SWT.NONE);
 		initializeDialogUnits(top);
 		setControl(top);
 		top.setLayout(new GridLayout(2, false));
-		Label label = new Label(top, SWT.NONE);
+		final Label label = new Label(top, SWT.NONE);
 		label.setText("New name:");
 		newNameText = new Text(top, SWT.BORDER);
 		newNameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -71,12 +71,13 @@ public class RenameRefactoringInputPage extends UserInputWizardPage {
 	 * @return true if it is valid, false otherwise
 	 */
 	boolean checkNewNameValidity() {
-		String newName = newNameText.getText();
+		final String newName = newNameText.getText();
 		if (newName.length() == 0) {
 			setErrorMessage(null);
 			setPageComplete(false);
 			return false;
 		}
+
 		switch (((RenameRefactoring) getRefactoring()).getModule().getModuletype()) {
 		case TTCN3_MODULE:
 			if (!Identifier.isValidInTtcn(newName)) {

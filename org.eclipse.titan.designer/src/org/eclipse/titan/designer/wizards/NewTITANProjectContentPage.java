@@ -71,9 +71,9 @@ public class NewTITANProjectContentPage extends WizardPage {
 	@Override
 	public void createControl(final Composite parent) {
 		pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		pageComposite.setLayout(layout);
-		GridData data = new GridData(GridData.FILL);
+		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
 
@@ -90,8 +90,8 @@ public class NewTITANProjectContentPage extends WizardPage {
 	 *                the parent composite
 	 */
 	private void createSampleProjectsGroup(final Composite parent) {
-		Group projectAndDescription = new Group(parent, SWT.NONE);
-		GridLayout gridLayout = new GridLayout();
+		final Group projectAndDescription = new Group(parent, SWT.NONE);
+		final GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 2;
 		projectAndDescription.setLayout(gridLayout);
 		projectAndDescription.setLayoutData(new GridData(GridData.FILL_BOTH));

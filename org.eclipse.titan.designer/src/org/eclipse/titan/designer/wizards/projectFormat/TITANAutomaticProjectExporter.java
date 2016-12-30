@@ -86,7 +86,7 @@ public final class TITANAutomaticProjectExporter {
 			return false;
 		}
 
-		TITANProjectExporter exporter = new TITANProjectExporter(project);
+		final TITANProjectExporter exporter = new TITANProjectExporter(project);
 		exporter.setProjectFileFromLoadLocation();
 		exporter.setExportPreferences();
 
@@ -109,7 +109,7 @@ public final class TITANAutomaticProjectExporter {
 			Display.getDefault().syncExec(new Runnable() {
 				@Override
 				public void run() {
-					FileDialog dialog = new FileDialog(new Shell(Display.getDefault(), SWT.ON_TOP));
+					final FileDialog dialog = new FileDialog(new Shell(Display.getDefault(), SWT.ON_TOP));
 					dialog.setText("Location for the TITAN Project Descriptor (tpd) file");
 					dialog.setFileName(projectFileName);
 					dialog.setFilterExtensions(new String[] { "*.tpd" });
@@ -123,7 +123,7 @@ public final class TITANAutomaticProjectExporter {
 			}
 
 			// convert the file name for common shape ( \ -> / )
-			IPath temp = new Path(projectFileName);
+			final IPath temp = new Path(projectFileName);
 			projectFileName = temp.toString();
 			ProjectBuildPropertyData.setLoadLocation(project, projectFileName);
 			exporter.setProjectFileFromLoadLocation();

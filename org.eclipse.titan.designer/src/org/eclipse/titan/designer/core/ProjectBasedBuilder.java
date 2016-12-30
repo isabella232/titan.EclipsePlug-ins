@@ -113,8 +113,7 @@ public final class ProjectBasedBuilder {
 	 *         there were errors.
 	 * */
 	public IPath getWorkingDirectoryPath(final boolean reportError) {
-
-		URI uri = getWorkingDirectoryURI(reportError);
+		final URI uri = getWorkingDirectoryURI(reportError);
 		if (uri == null) {
 			return null;
 		}
@@ -138,7 +137,7 @@ public final class ProjectBasedBuilder {
 			return new IContainer[0];
 		}
 
-		IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
+		final IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
 		return wroot.findContainersForLocationURI(uri);
 	}
 
@@ -162,8 +161,8 @@ public final class ProjectBasedBuilder {
 	 * @return a list of all projects reachable from the actual project.
 	 * */
 	public List<IProject> getAllReachableProjects() {
-		List<IProject> referenceChain = new ArrayList<IProject>();
-		List<IProject> knownProjects = new ArrayList<IProject>();
+		final List<IProject> referenceChain = new ArrayList<IProject>();
+		final List<IProject> knownProjects = new ArrayList<IProject>();
 
 		getAllReachableProjects(referenceChain, project, knownProjects);
 
@@ -193,13 +192,13 @@ public final class ProjectBasedBuilder {
 			return;
 		}
 
-		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(actualProject).getReferencedProjects();
+		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(actualProject).getReferencedProjects();
 
 		if (referencedProjects.length == 0) {
 			knownProjects.add(actualProject);
 		}
 
-		int size = referenceChain.size();
+		final int size = referenceChain.size();
 		referenceChain.add(actualProject);
 		for (IProject temporalProject : referencedProjects) {
 			getAllReachableProjects(referenceChain, temporalProject, knownProjects);
@@ -216,8 +215,8 @@ public final class ProjectBasedBuilder {
 	 * @return a list of all projects referencing transitively the actual project.
 	 * */
 	public List<IProject> getAllReferencingProjects() {
-		List<IProject> referenceChain = new ArrayList<IProject>();
-		List<IProject> knownProjects = new ArrayList<IProject>();
+		final List<IProject> referenceChain = new ArrayList<IProject>();
+		final List<IProject> knownProjects = new ArrayList<IProject>();
 
 		getAllReferencingProjects(referenceChain, project, knownProjects);
 
@@ -246,13 +245,13 @@ public final class ProjectBasedBuilder {
 			return;
 		}
 
-		IProject[] referencingProjects = ProjectBasedBuilder.getProjectBasedBuilder(actualProject).getReferencingProjects();
+		final IProject[] referencingProjects = ProjectBasedBuilder.getProjectBasedBuilder(actualProject).getReferencingProjects();
 
 		if (referencingProjects.length == 0) {
 			knownProjects.add(actualProject);
 		}
 
-		int size = referenceChain.size();
+		final int size = referenceChain.size();
 		referenceChain.add(actualProject);
 		for (IProject temporalProject : referencingProjects) {
 			getAllReferencingProjects(referenceChain, temporalProject, knownProjects);
@@ -321,7 +320,7 @@ public final class ProjectBasedBuilder {
 	 *         resource
 	 */
 	public TITANBuilderResourceVisitor getResourceVisitor() {
-		TITANBuilderResourceVisitor visitor = new TITANBuilderResourceVisitor(getWorkingDirectoryResources(false));
+		final TITANBuilderResourceVisitor visitor = new TITANBuilderResourceVisitor(getWorkingDirectoryResources(false));
 		try {
 			if (project.isAccessible()) {
 				project.accept(visitor);
@@ -329,30 +328,31 @@ public final class ProjectBasedBuilder {
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
+
 		return visitor;
 	}
 
 	public Map<String, IFile> getFilesofReferencedProjects() {
-		Set<IProject> projectSet = new HashSet<IProject>();
+		final Set<IProject> projectSet = new HashSet<IProject>();
 		projectSet.add(project);
 
 		return getFilesofReferencedProjects(projectSet);
 	}
 
 	private Map<String, IFile> getFilesofReferencedProjects(final Set<IProject> visitedProjects) {
-		IProject[] projects = getReferencedProjects();
-		Map<String, IFile> files = new HashMap<String, IFile>();
+		final IProject[] projects = getReferencedProjects();
+		final Map<String, IFile> files = new HashMap<String, IFile>();
 
 		for (IProject tempProject : projects) {
 			try {
 				if (tempProject.isAccessible() && !visitedProjects.contains(tempProject)) {
-					IContainer[] workingDirectories = getProjectBasedBuilder(tempProject).getWorkingDirectoryResources(false);
-					IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(tempProject).getWorkingDirectoryPath(false);
+					final IContainer[] workingDirectories = getProjectBasedBuilder(tempProject).getWorkingDirectoryResources(false);
+					final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(tempProject).getWorkingDirectoryPath(false);
 					ReferencedProjectResourceVisitor visitor = new ReferencedProjectResourceVisitor(workingDirectories,
 							workingDir);
 
 					visitedProjects.add(tempProject);
-					Map<String, IFile> tempFiles = getProjectBasedBuilder(tempProject).getFilesofReferencedProjects(
+					final Map<String, IFile> tempFiles = getProjectBasedBuilder(tempProject).getFilesofReferencedProjects(
 							visitedProjects);
 					files.putAll(tempFiles);
 

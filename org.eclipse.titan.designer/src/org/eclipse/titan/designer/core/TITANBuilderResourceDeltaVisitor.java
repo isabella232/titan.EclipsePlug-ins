@@ -60,7 +60,7 @@ public final class TITANBuilderResourceDeltaVisitor implements IResourceDeltaVis
 			return;
 		}
 
-		IProject project = delta.getResource().getProject();
+		final IProject project = delta.getResource().getProject();
 		if (project == null) {
 			return;
 		}
@@ -69,7 +69,7 @@ public final class TITANBuilderResourceDeltaVisitor implements IResourceDeltaVis
 			makefileScript = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakeAttributesData.TEMPORAL_MAKEFILE_SCRIPT_PROPERTY));
 			if (makefileScript != null) {
-				URI uri = TITANPathUtilities.resolvePathURI(makefileScript, project.getLocation().toOSString());
+				final URI uri = TITANPathUtilities.resolvePathURI(makefileScript, project.getLocation().toOSString());
 				makefileScript = URIUtil.toPath(uri).toOSString();
 			}
 		} catch (CoreException e) {
@@ -136,8 +136,8 @@ public final class TITANBuilderResourceDeltaVisitor implements IResourceDeltaVis
 
 	@Override
 	public boolean visit(final IResourceDelta delta) {
-		IResource resource = delta.getResource();
-		IPath resourceLocation = resource.getLocation();
+		final IResource resource = delta.getResource();
+		final IPath resourceLocation = resource.getLocation();
 		if (resourceLocation == null) {
 			return false;
 		}

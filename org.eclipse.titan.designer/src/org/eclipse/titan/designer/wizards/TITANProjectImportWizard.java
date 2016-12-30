@@ -51,7 +51,7 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 	private IConfigurationElement config;
 
 	public TITANProjectImportWizard() {
-		IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 		wasAutoBuilding = description.isAutoBuilding();
 		description.setAutoBuilding(false);
 		try {
@@ -117,7 +117,7 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 				targetLocation);
 
 		if (newProject == null) {
-			IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+			final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 			if (description.isAutoBuilding() != wasAutoBuilding) {
 				description.setAutoBuilding(wasAutoBuilding);
 				try {
@@ -149,17 +149,17 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 		BasicNewProjectResourceWizard.updatePerspective(config);
 		selectAndReveal(newProject);
 
-		ProjectInformation information = mainPage.getInformation();
+		final ProjectInformation information = mainPage.getInformation();
 
 		List<IncludedProject> includedProjects = information.getIncludedProjects();
 		if (!includedProjects.isEmpty() && (recursivelyPage == null || recursivelyPage.getRecursiveImport())) {
 			final IWorkspace workspace = ResourcesPlugin.getWorkspace();
-			List<String> processedProjectFiles = new ArrayList<String>();
+			final List<String> processedProjectFiles = new ArrayList<String>();
 			processedProjectFiles.add(information.getSourceFile());
-			List<IPath> projectFilesToBeProcessed = new ArrayList<IPath>();
+			final List<IPath> projectFilesToBeProcessed = new ArrayList<IPath>();
 
 			for (IncludedProject includedProject : includedProjects) {
-				IPath temp = includedProject.getAbsolutePath();
+				final IPath temp = includedProject.getAbsolutePath();
 				if (temp != null) {
 					projectFilesToBeProcessed.add(temp);
 				}
@@ -170,11 +170,11 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 					continue;
 				}
 
-				GUIProjectImporter importer = new GUIProjectImporter();
-				ProjectInformation tempProjectInformation = importer
+				final GUIProjectImporter importer = new GUIProjectImporter();
+				final ProjectInformation tempProjectInformation = importer
 						.loadProjectFile(tempPath.toOSString(), null,false); //false: not headless
-				IPath tempPath2 = tempPath.removeFileExtension();
-				String includedProjectName = tempPath2.lastSegment();
+				final IPath tempPath2 = tempPath.removeFileExtension();
+				final String includedProjectName = tempPath2.lastSegment();
 
 				IProject tempProject = workspace.getRoot().getProject(includedProjectName);
 				if (tempProject.exists()) {
@@ -203,7 +203,7 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 
 				includedProjects = tempProjectInformation.getIncludedProjects();
 				for (IncludedProject includedProject : includedProjects) {
-					IPath temp = includedProject.getAbsolutePath();
+					final IPath temp = includedProject.getAbsolutePath();
 					if (temp != null) {
 						projectFilesToBeProcessed.add(temp);
 					}
@@ -214,13 +214,13 @@ public class TITANProjectImportWizard extends BasicNewResourceWizard implements 
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
 			public void run() {
-				PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(null, newProject,
+				final PreferenceDialog dialog = PreferencesUtil.createPropertyDialogOn(null, newProject,
 						GeneralConstants.PROJECT_PROPERTY_PAGE, null, null);
 				if (dialog != null) {
 					dialog.open();
 				}
 
-				IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
+				final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
 				if (description.isAutoBuilding() != wasAutoBuilding) {
 					description.setAutoBuilding(wasAutoBuilding);
 					try {

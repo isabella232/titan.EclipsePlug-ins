@@ -65,7 +65,7 @@ public final class TITANInstallationValidator {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					InstallationErrorDialog dialog = new InstallationErrorDialog(null,
+					final InstallationErrorDialog dialog = new InstallationErrorDialog(null,
 							"Checking for installed TITAN failed", "The installation path of TITAN is not set.\n\n"
 									+ CORRECTION_STRING);
 					dialog.open();
@@ -82,12 +82,12 @@ public final class TITANInstallationValidator {
 			compilerPath = compilerPath + ".exe";
 		}
 
-		File tempFile = new File(compilerPath);
+		final File tempFile = new File(compilerPath);
 		if (!tempFile.exists()) {
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override
 				public void run() {
-					InstallationErrorDialog dialog = new InstallationErrorDialog(null,
+					final InstallationErrorDialog dialog = new InstallationErrorDialog(null,
 							"Checking for installed TITAN failed", "No TITAN was found at " + installationPath + "\n\n"
 									+ CORRECTION_STRING);
 					dialog.open();

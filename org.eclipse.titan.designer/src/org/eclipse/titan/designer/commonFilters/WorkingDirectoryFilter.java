@@ -41,14 +41,14 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 	}
 
 	private static void checkIsActive() {
-		IEclipsePreferences rootNode = (IEclipsePreferences) Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE)
+		final IEclipsePreferences rootNode = (IEclipsePreferences) Platform.getPreferencesService().getRootNode().node(InstanceScope.SCOPE)
 				.node(NAVIGATOR_QUALIFIER);
 		rootNode.addPreferenceChangeListener(new IPreferenceChangeListener() {
 
 			@Override
 			public void preferenceChange(final PreferenceChangeEvent event) {
 				if (FILTER_ACTIVATION_KEY.equals(event.getKey())) {
-					String temp = Platform.getPreferencesService()
+					final String temp = Platform.getPreferencesService()
 							.getString(NAVIGATOR_QUALIFIER, FILTER_ACTIVATION_KEY, "", null);
 					isActive = temp.indexOf(FILTER_ID) != -1;
 					isActiveSet = true;
@@ -56,7 +56,7 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 			}
 		});
 
-		String temp = Platform.getPreferencesService().getString(NAVIGATOR_QUALIFIER, FILTER_ACTIVATION_KEY, "", null);
+		final String temp = Platform.getPreferencesService().getString(NAVIGATOR_QUALIFIER, FILTER_ACTIVATION_KEY, "", null);
 		isActive = temp.indexOf(FILTER_ID) != -1;
 		isActiveSet = true;
 	}
@@ -83,18 +83,18 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 			return elements;
 		}
 
-		IResource parentResource = (IResource) tempParent;
-		IProject project = parentResource.getProject();
+		final IResource parentResource = (IResource) tempParent;
+		final IProject project = parentResource.getProject();
 		if (project == null) {
 			return elements;
 		}
 
 		workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
 
-		int size = elements.length;
-		List<Object> out = new ArrayList<Object>(size);
+		final int size = elements.length;
+		final List<Object> out = new ArrayList<Object>(size);
 		for (int i = 0; i < size; ++i) {
-			Object element = elements[i];
+			final Object element = elements[i];
 			if (specialSelect(viewer, tempParent, element)) {
 				out.add(element);
 			}
@@ -115,9 +115,9 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 			return true;
 		}
 
-		IFolder folder = (IFolder) element;
-		IProject project = folder.getProject();
-		IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
+		final IFolder folder = (IFolder) element;
+		final IProject project = folder.getProject();
+		final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
 		for (IContainer workingDirectory : workingDirectories) {
 			if (workingDirectory.equals(folder)) {
 				return false;
@@ -146,7 +146,7 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 			return true;
 		}
 
-		IFolder folder = (IFolder) element;
+		final IFolder folder = (IFolder) element;
 		for (IContainer workingDirectory : workingDirectories) {
 			if (workingDirectory.equals(folder)) {
 				return false;

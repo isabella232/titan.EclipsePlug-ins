@@ -68,7 +68,7 @@ public final class NewConfigFileCreationWizardPage extends WizardNewFileCreation
 			return false;
 		}
 
-		String extension = getContainerFullPath().append(getFileName()).getFileExtension();
+		final String extension = getContainerFullPath().append(getFileName()).getFileExtension();
 
 		if (extension == null) {
 			setErrorMessage(null);
@@ -106,13 +106,13 @@ public final class NewConfigFileCreationWizardPage extends WizardNewFileCreation
 	 * Finish button is disabled and error message is displayed. 
 	 */
 	public boolean validateName() {
-		String originalmoduleName = getFileName();
+		final String originalmoduleName = getFileName();
 		if (originalmoduleName == null) {
 			return false;
 		}
 
-		int dotIndex = originalmoduleName.lastIndexOf('.');
-		String longModuleName = dotIndex == -1 ? originalmoduleName : originalmoduleName.substring(0, dotIndex);
+		final int dotIndex = originalmoduleName.lastIndexOf('.');
+		final String longModuleName = dotIndex == -1 ? originalmoduleName : originalmoduleName.substring(0, dotIndex);
 
 		if ("".equals(longModuleName)) {
 			setErrorMessage(EMPTYCFGFILENAMEERROR);

@@ -397,7 +397,7 @@ public class ExcludeRegexpEditor extends FieldEditor {
 	 * @see #parseString
 	 */
 	protected String createList(final String[] items) {
-		StringBuilder builder = new StringBuilder();
+		final StringBuilder builder = new StringBuilder();
 
 		for (int i = 0; i < items.length; i++) {
 			String item = items[i];

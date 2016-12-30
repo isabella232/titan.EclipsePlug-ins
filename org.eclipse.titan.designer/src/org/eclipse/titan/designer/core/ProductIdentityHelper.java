@@ -94,7 +94,7 @@ public final class ProductIdentityHelper {
 		int majorVersion = 0;
 		if (productNumberSuffix != null) {
 			try {
-				BigInteger temp = new BigInteger(productNumberSuffix);
+				final BigInteger temp = new BigInteger(productNumberSuffix);
 				if (temp.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) >= 0) {
 					if (location != null) {
 						location.reportSemanticError(MessageFormat
@@ -116,7 +116,7 @@ public final class ProductIdentityHelper {
 
 		int minorVersion = 0;
 		try {
-			BigInteger temp = new BigInteger(revisionDigit);
+			final BigInteger temp = new BigInteger(revisionDigit);
 			if (temp.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) >= 0) {
 				if (location != null) {
 					location.reportSemanticError(MessageFormat
@@ -135,8 +135,8 @@ public final class ProductIdentityHelper {
 			return null;
 		}
 
-		char c = revisionLetter.charAt(0);
-		int patchVersion = revisionLetter.codePointAt(0) - "A".codePointAt(0);
+		final char c = revisionLetter.charAt(0);
+		final int patchVersion = revisionLetter.codePointAt(0) - "A".codePointAt(0);
 		switch (c) {
 		case 'I':
 		case 'O':
@@ -155,7 +155,7 @@ public final class ProductIdentityHelper {
 		int buildVersion = 0;
 		if (verificationStep != null) {
 			try {
-				BigInteger temp = new BigInteger(verificationStep);
+				final BigInteger temp = new BigInteger(verificationStep);
 				if (temp.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) >= 0) {
 					if (location != null) {
 						location.reportSemanticError(MessageFormat

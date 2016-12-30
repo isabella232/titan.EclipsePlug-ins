@@ -41,8 +41,8 @@ public final class Base64Decoder {
 	}
 
 	public static byte[] decode(final byte[] data) {
-		int len = data.length / 4 * 3;
-		ByteArrayOutputStream bOut = new ByteArrayOutputStream(len);
+		final int len = data.length / 4 * 3;
+		final ByteArrayOutputStream bOut = new ByteArrayOutputStream(len);
 
 		try {
 			decode(data, 0, data.length, bOut);
@@ -70,7 +70,7 @@ public final class Base64Decoder {
 		}
 
 		int i = off;
-		int finish = end - 4;
+		final int finish = end - 4;
 
 		i = nextI(data, i, finish);
 		byte b1, b2, b3, b4;

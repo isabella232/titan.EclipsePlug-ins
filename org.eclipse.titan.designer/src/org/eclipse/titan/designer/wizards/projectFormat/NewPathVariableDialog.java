@@ -58,17 +58,17 @@ public class NewPathVariableDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Composite nameContainer = new Composite(parent, SWT.NONE);
+		final Composite nameContainer = new Composite(parent, SWT.NONE);
 		nameContainer.setLayout(new GridLayout(2, false));
 		nameContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		Label label = new Label(nameContainer, SWT.NONE);
 		label.setText("The name of the path variable: ");
-		Text text = new Text(nameContainer, SWT.SINGLE | SWT.BORDER);
+		final Text text = new Text(nameContainer, SWT.SINGLE | SWT.BORDER);
 		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		text.setText(name);
 		text.setEditable(false);
@@ -89,8 +89,8 @@ public class NewPathVariableDialog extends Dialog {
 	}
 
 	private void validate() {
-		String temp = newValue.getText();
-		Path tempPath = new Path(temp);
+		final String temp = newValue.getText();
+		final Path tempPath = new Path(temp);
 		if (tempPath.isValidPath(temp)) {
 			actualValue = URIUtil.toURI(tempPath);
 			getButton(OK).setEnabled(true);

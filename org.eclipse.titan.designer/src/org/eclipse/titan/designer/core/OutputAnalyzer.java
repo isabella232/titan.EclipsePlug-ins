@@ -123,7 +123,7 @@ public final class OutputAnalyzer {
 	 * */
 	public void dispose() {
 		documentMap.clear();
-		ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
+		final ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
 		for (IPath path : filesOpened) {
 			try {
 				manager.disconnect(path,LocationKind.IFILE,null);
@@ -149,10 +149,10 @@ public final class OutputAnalyzer {
 	 */
 	public boolean parseTitanErrors(final String line) {
 		if (baseTITANErrorMatcher.reset(line).matches()) {
-			String filename = baseTITANErrorMatcher.group(1);
-			String location = baseTITANErrorMatcher.group(2);
-			String type = baseTITANErrorMatcher.group(3);
-			String message = baseTITANErrorMatcher.group(4);
+			final String filename = baseTITANErrorMatcher.group(1);
+			final String location = baseTITANErrorMatcher.group(2);
+			final String type = baseTITANErrorMatcher.group(3);
+			final String message = baseTITANErrorMatcher.group(4);
 
 			if (locationFormatMatcher1.reset(location).matches()) {
 				return addTITANMarker(filename, Integer.parseInt(locationFormatMatcher1.group(1)), -1,
@@ -254,16 +254,16 @@ public final class OutputAnalyzer {
 			resource = files.get(fileName);
 		} else {
 			boolean found = false;
-			IPath filePath = new Path(fileName);
-			String lastSegment = filePath.lastSegment();
+			final IPath filePath = new Path(fileName);
+			final String lastSegment = filePath.lastSegment();
 			if (files.containsKey(lastSegment)) {
 				resource = files.get(lastSegment);
 				found = true;
 			}
 			if (!found) {
 				for (IFile file2 : files.values()) {
-					IPath path2 = file2.getProject().getLocation().append(fileName);
-					String temp = path2.toOSString();
+					final IPath path2 = file2.getProject().getLocation().append(fileName);
+					final String temp = path2.toOSString();
 					if (files.containsKey(temp)) {
 						resource = files.get(temp);
 						found = true;
@@ -273,11 +273,11 @@ public final class OutputAnalyzer {
 			}
 			if (!found) {
 				for (IFile file2 : files.values()) {
-					IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(file2.getProject()).getWorkingDirectoryPath(
+					final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(file2.getProject()).getWorkingDirectoryPath(
 							true);
 					if (workingDir != null) {
-						IPath path2 = workingDir.append(fileName);
-						String temp = path2.toOSString();
+						final IPath path2 = workingDir.append(fileName);
+						final String temp = path2.toOSString();
 						if (files.containsKey(temp)) {
 							resource = files.get(temp);
 							found = true;
@@ -287,11 +287,11 @@ public final class OutputAnalyzer {
 				}
 			}
 			if (!found) {
-				URI workingDirUri = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryURI(true);
+				final URI workingDirUri = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryURI(true);
 				if (workingDirUri != null) {
-					URI uri2 = URIUtil.append(workingDirUri, fileName);
-					IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
-					IFile[] results = wroot.findFilesForLocationURI(uri2);
+					final URI uri2 = URIUtil.append(workingDirUri, fileName);
+					final IWorkspaceRoot wroot = ResourcesPlugin.getWorkspace().getRoot();
+					final IFile[] results = wroot.findFilesForLocationURI(uri2);
 					if (results != null && results.length > 0) {
 						resource = results[0];
 						found = true;
@@ -324,11 +324,11 @@ public final class OutputAnalyzer {
 				if (documentMap.containsKey(resource)) {
 					document = documentMap.get(resource);
 				} else {
-					ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
-					IPath fullPath = resource.getFullPath();
+					final ITextFileBufferManager manager = FileBuffers.getTextFileBufferManager();
+					final IPath fullPath = resource.getFullPath();
 					if (manager != null) {
 						manager.connect(fullPath, LocationKind.IFILE, null);
-						ITextFileBuffer buffer = manager.getTextFileBuffer(fullPath,LocationKind.IFILE);
+						final ITextFileBuffer buffer = manager.getTextFileBuffer(fullPath,LocationKind.IFILE);
 						document = buffer.getDocument();
 						documentMap.put(resource, document);
 						filesOpened.add(fullPath);
