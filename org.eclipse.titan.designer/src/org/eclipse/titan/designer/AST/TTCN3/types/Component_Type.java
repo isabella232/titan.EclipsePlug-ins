@@ -442,6 +442,7 @@ public final class Component_Type extends Type {
 				if (tempValue == null) {
 					return;
 				}
+
 				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tempValue = tempValue.getReferencedSubValue(timestamp, reference, 1, chain);
 				chain.release();

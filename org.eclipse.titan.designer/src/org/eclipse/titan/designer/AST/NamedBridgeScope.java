@@ -30,7 +30,7 @@ public final class NamedBridgeScope extends Scope {
 	}
 	
 	@Override
-	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
+	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			return getParentScope().getAssBySRef(timestamp, reference, refChain);
 	}
 

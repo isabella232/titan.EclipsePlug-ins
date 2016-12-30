@@ -15,10 +15,11 @@ public class ASTVisitor {
 	public static final int V_ABORT = 2;
 	public static final int V_CONTINUE = 3;
 
-	public int visit(IVisitableNode node) {
+	public int visit(final IVisitableNode node) {
 		return V_CONTINUE;
 	}
-	public int leave(IVisitableNode node) {
+
+	public int leave(final IVisitableNode node) {
 		return V_CONTINUE;
 	}
 }

@@ -16,12 +16,13 @@ import java.util.List;
 public class SubScopeVisitor extends ASTVisitor {
 	private Scope root;
 	private List<Scope> subScopes = new ArrayList<Scope>();
-	public SubScopeVisitor(Scope root) {
+
+	public SubScopeVisitor(final Scope root) {
 		this.root = root;
 	}
 
 	@Override
-	public int visit(IVisitableNode node) {
+	public int visit(final IVisitableNode node) {
 		if (node instanceof Scope) {
 			final Scope scope = (Scope)node;
 			if (scope.isChildOf(root)) {

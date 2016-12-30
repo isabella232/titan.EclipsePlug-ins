@@ -18,7 +18,7 @@ public class ASTtoXMLgeneratorVisitor extends ASTVisitor {
 	}
 	
 	@Override
-	public int visit(IVisitableNode node) {
+	public int visit(final IVisitableNode node) {
 		sb.append("<li><b>").append(node.getClass().getSimpleName()).append("</b>");
 		
 		if (node instanceof Identifier) {
@@ -32,7 +32,7 @@ public class ASTtoXMLgeneratorVisitor extends ASTVisitor {
 		return V_CONTINUE;
 	}
 	@Override
-	public int leave(IVisitableNode node) {
+	public int leave(final IVisitableNode node) {
 		sb.append("</ul></li>");
 		return V_CONTINUE;
 	}

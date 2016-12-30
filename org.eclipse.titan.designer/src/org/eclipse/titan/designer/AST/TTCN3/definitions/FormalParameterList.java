@@ -930,7 +930,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 	
 	@Override
-	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
+	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			if (reference.getModuleIdentifier() != null || parameterMap == null) {
 			return getParentScope().getAssBySRef(timestamp, reference);
 		}

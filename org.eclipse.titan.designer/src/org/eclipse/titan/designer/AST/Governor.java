@@ -21,6 +21,6 @@ public abstract class Governor extends Setting implements IGovernor {
 	}		
 	
 	@Override
-	public void check(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
+	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 	}
 }

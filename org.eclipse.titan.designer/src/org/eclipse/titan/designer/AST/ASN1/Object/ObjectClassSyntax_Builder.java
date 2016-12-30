@@ -144,6 +144,7 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 		if (null == parser) {
 			return;
 		}
+
 		final List<ObjectClassSyntax_Node> nodes = parser.pr_special_ObjectClassSyntax_Builder(fieldSpecifications).nodes;
 		if (null != nodes) {
 			for (final ObjectClassSyntax_Node node : nodes) {

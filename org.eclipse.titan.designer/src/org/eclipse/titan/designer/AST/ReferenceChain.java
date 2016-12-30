@@ -108,7 +108,7 @@ public final class ReferenceChain implements IReferenceChain {
 		return true;
 	}
 
-	private void reportError(int firstIndex) {
+	private void reportError(final int firstIndex) {
 		//for every element of the circle
 		for (int i = firstIndex; i < chainLinks.size(); i++) {
 			final Joiner joiner = new Joiner(" -> ");

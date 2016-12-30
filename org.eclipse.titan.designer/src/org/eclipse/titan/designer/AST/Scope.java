@@ -614,7 +614,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		return sb.toString();
 	}
 
-	public boolean isChildOf(Scope s) {
+	public boolean isChildOf(final Scope s) {
 		Scope tempScope = getParentScope();
 		while (tempScope != null) {
 			if (tempScope == s) {
@@ -623,6 +623,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 
 			tempScope = tempScope.getParentScope();
 		}
+
 		return false;
 	}
 }

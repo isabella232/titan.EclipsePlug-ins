@@ -767,7 +767,7 @@ public final class TTCN3Module extends Module {
 	}
 	
 	@Override
-	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
+	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 		// if a moduleId is present, that import (or the actual module)
 		// must be searched
 		final Identifier moduleId = reference.getModuleIdentifier();

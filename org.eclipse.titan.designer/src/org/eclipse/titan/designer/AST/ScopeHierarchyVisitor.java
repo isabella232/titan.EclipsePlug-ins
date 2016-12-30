@@ -18,20 +18,21 @@ class ScopeTreeNode {
 	List<ScopeTreeNode> children = new ArrayList<ScopeTreeNode>();
 	List<Assignment> assignments = new ArrayList<Assignment>();
 
-	public ScopeTreeNode(Scope scope) {
+	public ScopeTreeNode(final Scope scope) {
 		this.scope = scope;
 	}
 
-	public void add(Scope s, Assignment a) {
+	public void add(final Scope s, final Assignment a) {
 		final List<Scope> scopePath = new ArrayList<Scope>();
-		while (s != null) {
-			scopePath.add(s);
-			s = s.getParentScope();
+		Scope tempScope = s;
+		while (tempScope != null) {
+			scopePath.add(tempScope);
+			tempScope = tempScope.getParentScope();
 		}
 		addPath(scopePath, a);
 	}
 
-	void addPath(List<Scope> scopePath, Assignment a) {
+	void addPath(final List<Scope> scopePath, final Assignment a) {
 		if (scopePath.isEmpty()) {
 			if (a != null) {
 				assignments.add(a);
@@ -53,7 +54,7 @@ class ScopeTreeNode {
 		}
 	}
 
-	public void printTreeAsHTML(StringBuilder sb) {
+	public void printTreeAsHTML(final StringBuilder sb) {
 		if (scope != null) {
 			sb.append("<li><b>").append(scope.getClass().getSimpleName()).append("</b> <i>").append(scope.getFullName()).append("</i>");
 		}
@@ -82,7 +83,7 @@ public class ScopeHierarchyVisitor extends ASTVisitor {
 	ScopeTreeNode scopeTree = new ScopeTreeNode(null);
 
 	@Override
-	public int visit(IVisitableNode node) {
+	public int visit(final IVisitableNode node) {
 		if (node instanceof Scope) {
 			final Scope scope = (Scope) node;
 			scopeTree.add(scope, null);

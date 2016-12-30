@@ -33,7 +33,7 @@ public final class LargeLocation extends Location {
 	 * @param aEndToken the last token, its end position will be used for the location.
 	 *                  NOTE: end position is the column index after the token's last character.
 	 */
-	public LargeLocation(IFile aFile, Token aStartToken, Token aEndToken ) {
+	public LargeLocation(final IFile aFile, final Token aStartToken, final Token aEndToken ) {
 		super(aFile, aStartToken.getLine(), aStartToken.getStartIndex(), -1);
 		endLine = -1;
 

@@ -74,7 +74,7 @@ public class AllElementsFrom extends TemplateBody {
 
 	@Override
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified, final boolean allowOmit,
-			boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 
 		if (template == null) {
 			ErrorReporter.INTERNAL_ERROR();

@@ -319,7 +319,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 		
 	@Override
-	public void check(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
+	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}

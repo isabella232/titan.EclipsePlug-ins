@@ -45,12 +45,12 @@ public final class ReferenceFinder {
 		public Identifier identifier;
 		public Reference reference;
 
-		public Hit(Identifier identifier) {
+		public Hit(final Identifier identifier) {
 			this.identifier = identifier;
 			this.reference = null;
 		}
 
-		public Hit(Identifier identifier, Reference reference) {
+		public Hit(final Identifier identifier, final Reference reference) {
 			this.identifier = identifier;
 			this.reference = reference;
 		}

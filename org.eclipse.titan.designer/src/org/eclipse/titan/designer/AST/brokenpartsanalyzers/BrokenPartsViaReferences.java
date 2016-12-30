@@ -240,7 +240,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	protected Map<Module, List<AssignmentHandler>> collectBrokenParts(
 			final List<Module> startModules, 
 			final Map<Module, List<Module>> invertedImports,
-			boolean useIncrementalParsing) {
+			final boolean useIncrementalParsing) {
 
 		final List<Module> startModulesCopy = new ArrayList<Module>(startModules);
 
@@ -337,7 +337,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 
 	protected void collectRealBrokenParts(
 			final Map<Module, List<AssignmentHandler>> moduleAndAssignments,
-			boolean useIncrementalParsing) {
+			final boolean useIncrementalParsing) {
 		for (Map.Entry<Module, List<AssignmentHandler>> entry : moduleAndAssignments.entrySet()) {
 
 			final List<Assignment> assignments = new ArrayList<Assignment>();

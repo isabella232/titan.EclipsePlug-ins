@@ -146,7 +146,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 		usedForImportation = true;
 	}
 	
-	public final void setUsedForImportation(boolean used) {
+	public final void setUsedForImportation(final boolean used) {
 		usedForImportation = used;
 	}
 

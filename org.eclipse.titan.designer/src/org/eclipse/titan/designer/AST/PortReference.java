@@ -35,7 +35,7 @@ public class PortReference extends Reference {
 	}
 
 	@Override
-	public Assignment getRefdAssignment(CompilationTimeStamp timestamp, boolean checkParameterList) {
+	public Assignment getRefdAssignment(final CompilationTimeStamp timestamp, final boolean checkParameterList) {
 		if(myScope == null || componentType == null) {
 			return null;
 		}

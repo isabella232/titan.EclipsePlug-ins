@@ -245,7 +245,7 @@ public final class ASN1Module extends Module {
 	}
 	
 	@Override
-	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
+	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 		Identifier moduleId = reference.getModuleIdentifier();
 		final Identifier id = reference.getId();
 

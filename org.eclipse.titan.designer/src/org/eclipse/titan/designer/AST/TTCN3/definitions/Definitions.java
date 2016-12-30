@@ -463,7 +463,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 	
 	@Override
-	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
+	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 		if (reference.getModuleIdentifier() != null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}

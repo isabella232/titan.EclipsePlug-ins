@@ -85,7 +85,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 	
 	@Override
-	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
+	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			if (componentDefinitions != null && componentDefinitions.hasLocalAssignmentWithId(reference.getId())) {
 			return componentDefinitions.getLocalAssignmentById(reference.getId());
 		}

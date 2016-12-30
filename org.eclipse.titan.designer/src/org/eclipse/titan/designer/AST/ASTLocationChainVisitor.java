@@ -20,7 +20,7 @@ public class ASTLocationChainVisitor extends ASTVisitor {
 	private List<IVisitableNode> chain = new ArrayList<IVisitableNode>();
 	private int offset;
 
-	public ASTLocationChainVisitor(int offset) {
+	public ASTLocationChainVisitor(final int offset) {
 		this.offset = offset;
 	}
 
@@ -29,7 +29,7 @@ public class ASTLocationChainVisitor extends ASTVisitor {
 	}
 
 	@Override
-	public int visit(IVisitableNode node) {
+	public int visit(final IVisitableNode node) {
 		if (node instanceof ILocateableNode) {
 			final Location loc = ((ILocateableNode)node).getLocation();
 			if (loc != null && loc.containsOffset(offset)) {

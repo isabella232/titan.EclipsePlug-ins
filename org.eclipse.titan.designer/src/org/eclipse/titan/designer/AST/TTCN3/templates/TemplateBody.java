@@ -205,7 +205,7 @@ public class TemplateBody implements ITemplateListItem {
 
 	@Override
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp,
-			String definitionName, final Location usageLocation) {
+			final String definitionName, final Location usageLocation) {
 		return template.checkPresentRestriction(timestamp, definitionName, usageLocation);
 	}
 

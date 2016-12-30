@@ -211,7 +211,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 	
 	@Override
-	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, IReferenceChain refChain) {
+	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			return getParentScope().getAssBySRef(timestamp, reference);
 	}
 
