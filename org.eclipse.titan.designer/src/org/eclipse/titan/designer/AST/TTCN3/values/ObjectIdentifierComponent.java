@@ -55,8 +55,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	}
 
 	private static final class Nameform {
-		String name;
-		int value;
+		private String name;
+		private int value;
 
 		public Nameform(final String name, final int value) {
 			this.name = name;

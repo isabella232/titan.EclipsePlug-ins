@@ -62,7 +62,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 	/** Holds the last time when the components were checked, or null if never. */
 	private CompilationTimeStamp lastCompilationTimeStamp;
-	CompilationTimeStamp lastUniquenessCheck;
+	private CompilationTimeStamp lastUniquenessCheck;
 
 	/**
 	 * The location of the whole component field map. This location encloses the

@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Verdict_Value;
  * */
 public final class VerdicttypeListConstraint extends SubtypeConstraint {
 
-	static final String[] VERDICT_NAMES = { "none", "pass", "inconc", "fail", "error" };
+	private static final String[] VERDICT_NAMES = { "none", "pass", "inconc", "fail", "error" };
 
 	public enum ConstraintValue {
 		NONE(0x01), PASS(0x02), INCONC(0x04), FAIL(0x08), ERROR(0x10), ALL(0x1F); // all
