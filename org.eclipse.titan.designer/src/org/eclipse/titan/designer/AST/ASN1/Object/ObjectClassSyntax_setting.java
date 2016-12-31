@@ -54,27 +54,19 @@ public final class ObjectClassSyntax_setting extends ObjectClassSyntax_Node {
 
 	@Override
 	public String getDisplayName() {
-		final StringBuilder builder = new StringBuilder();
 		switch (settingType) {
 		case S_T:
-			builder.append("<Type>");
-			break;
+			return "<Type>";
 		case S_V:
-			builder.append("<Value>");
-			break;
+			return"<Value>";
 		case S_VS:
-			builder.append("<ValueSet>");
-			break;
+			return"<ValueSet>";
 		case S_O:
-			builder.append("<Object>");
-			break;
+			return"<Object>";
 		case S_OS:
-			builder.append("<ObjectSet>");
-			break;
+			return"<ObjectSet>";
 		default:
-			builder.append("<unknown setting kind>");
-			break;
+			return"<unknown setting kind>";
 		}
-		return builder.toString();
 	}
 }
