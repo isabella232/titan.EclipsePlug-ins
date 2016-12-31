@@ -131,11 +131,10 @@ public final class SelectUnionCase_Statement extends Statement {
 			governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
 					true, false, false));
 		}
-		
-		//referenced union type to check
-		final TTCN3_Choice_Type unionType;
-		
+
 		if ( governor != null ) {
+			//referenced union type to check
+			final TTCN3_Choice_Type unionType;
 			//referenced type
 			final IType refd = governor.getTypeRefdLast( timestamp );
 			if ( refd instanceof TTCN3_Choice_Type ) {
