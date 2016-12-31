@@ -166,7 +166,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	@Override
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append(getNameForStringRep() + "( ");
+		builder.append(getNameForStringRep()).append("( ");
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			if (i > 0) {
 				builder.append(", ");

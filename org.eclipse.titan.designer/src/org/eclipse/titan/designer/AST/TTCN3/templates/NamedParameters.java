@@ -65,7 +65,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	public String createStringRepresentation() {
 		final StringBuilder sb = new StringBuilder();
 		for (NamedParameter n : namedParams) {
-			sb.append(n.createStringRepresentation() + ", ");
+			sb.append(n.createStringRepresentation()).append(", ");
 		}
 		if (!namedParams.isEmpty()) {
 			sb.setLength(sb.length() - 2);

@@ -159,7 +159,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	public String createStringRepresentation() {
 		final StringBuilder sb = new StringBuilder();
 		for (TemplateInstance ti : instances) {
-			sb.append(ti.createStringRepresentation() + ", ");
+			sb.append(ti.createStringRepresentation()).append(", ");
 		}
 		if (!instances.isEmpty()) {
 			sb.setLength(sb.length() - 2);
