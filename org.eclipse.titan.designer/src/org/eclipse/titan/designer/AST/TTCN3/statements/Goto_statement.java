@@ -141,9 +141,8 @@ public final class Goto_statement extends Statement {
 		}
 
 		if (labelIndex > gotoIndex) {
-			final boolean errorFound = false;
-			for (int i = gotoIndex + 1; i < labelIndex && !errorFound; i++) {
-				final 	Statement statement = labelStatementBlock.getStatementByIndex(i);
+			for (int i = gotoIndex + 1; i < labelIndex; i++) {
+				final Statement statement = labelStatementBlock.getStatementByIndex(i);
 				if (Statement_type.S_DEF.equals(statement.getType())) {
 					location.reportSemanticError(MessageFormat.format(LOCALDEFINITIONCROSSING, identifier.getDisplayName()));
 					statement.getLocation().reportSemanticError(

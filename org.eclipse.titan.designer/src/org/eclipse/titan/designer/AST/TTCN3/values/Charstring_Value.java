@@ -62,13 +62,12 @@ public final class Charstring_Value extends Value {
 			return target;
 		}
 
-		final boolean warning = false;
 		for (int i = 0; i < oldString.length() && !original.getIsErroneous(timestamp); i++) {
 			final UniversalChar uchar = oldString.get(i);
 			if (uchar.group() != 0 || uchar.plane() != 0 || uchar.row() != 0) {
 				original.getLocation().reportSemanticError(MessageFormat.format(QUADRUPLEPROBLEM, uchar.group(), uchar.plane(), uchar.row(), uchar.cell(), i));
 				original.setIsErroneous(true);
-			} else if (uchar.cell() > 127 && !warning) {
+			} else if (uchar.cell() > 127) {
 				original.getLocation().reportSemanticWarning(MessageFormat.format(CHARACTERCODEPROBLEM, uchar.cell(), i));
 			}
 		}
