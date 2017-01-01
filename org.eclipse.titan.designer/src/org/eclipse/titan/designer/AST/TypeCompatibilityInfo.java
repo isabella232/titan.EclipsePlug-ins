@@ -206,7 +206,7 @@ public final class TypeCompatibilityInfo {
 		}
 		returnValue.append(" are not compatible");
 		if (errorStr != null) {
-			returnValue.append(": " + errorStr);
+			returnValue.append(": ").append(errorStr);
 		}
 		return returnValue.toString();
 	}
