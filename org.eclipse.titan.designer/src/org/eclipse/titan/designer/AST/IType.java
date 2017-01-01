@@ -256,10 +256,20 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/** @return true if the done extension was assigned to this type */
 	boolean hasDoneAttribute();
 
+	/** @return true if this type has a constraint attached to it */
 	boolean isConstrained();
 
+	/**
+	 * Add constraints to this type.
+	 * 
+	 * @param constraints
+	 *                the constraints to be added.
+	 * */
 	void addConstraints(final Constraints constraints);
 
+	/**
+	 * @return the constraints set on this type, null if none.
+	 * */
 	Constraints getConstraints();
 
 	/**
@@ -606,6 +616,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	boolean isIdentical(final CompilationTimeStamp timestamp, final IType type);
 
+	/**
+	 * Returns the name of this type for the user to identify the type.
+	 * 
+	 * For simple primitive types (like integer, float, bitstring) this is their name.
+	 * For other types this is the full name of the definition of the type.
+	 * 
+	 * @return the name of the type.
+	 * */
 	String getTypename();
 
 	/**
@@ -614,6 +632,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 */
 	Type_type getTypetypeTtcn3();
 
+	/**
+	 * @return the assignment/definition that defines this type.
+	 * */
 	Assignment getDefiningAssignment();
 
 	// TODO declaration and proposal collecting should not belong here
@@ -648,7 +669,28 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	void addProposal(final ProposalCollector propCollector, final int i);
 
+	/**
+	 * Creates the description part of this type to be displayed, in the
+	 * code completion.
+	 * 
+	 * @param the
+	 *                part of the description to be extended
+	 * 
+	 * @return the description extended with this type's description.
+	 * */
 	StringBuilder getProposalDescription(final StringBuilder builder);
 
+	/**
+	 * This function is used by user interface functions to determine which
+	 * field of a type is enclosing the provided offset. For example this is
+	 * used to find all references to a field.
+	 * 
+	 * @param offset
+	 *                the offset of the location in the file to search for.
+	 * @param rf
+	 *                the reference finder object that will store the type
+	 *                and field informations when the offset is inside a
+	 *                field of this type.
+	 * */
 	void getEnclosingField(final int offset, final ReferenceFinder rf);
 }
