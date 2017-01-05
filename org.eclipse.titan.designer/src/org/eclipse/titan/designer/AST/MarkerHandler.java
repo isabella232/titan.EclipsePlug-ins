@@ -253,17 +253,28 @@ public final class MarkerHandler {
 		synchronized (MARKERS) {
 			final Map<IResource, Set<Long>> typeSpecificRemovable = MARKERS_TO_BE_REMOVED.get(markerTypeID);
 
+			if (typeSpecificRemovable == null) {
+				return;
+			}
+
 			if (!typeSpecificRemovable.containsKey(file)) {
 				return;
 			}
 
 			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+			if (typeSpecificMarkers == null) {
+				return;
+			}
+
 			fileSpecificMarkers = typeSpecificMarkers.get(file);
+
+			if (fileSpecificMarkers == null) {
+				return;
+			}
 
 			markersTobeDeleted.addAll(typeSpecificRemovable.get(file));
 
 			typeSpecificRemovable.remove(file);
-
 
 			for (long markerID : markersTobeDeleted) {
 				try {
@@ -272,9 +283,9 @@ public final class MarkerHandler {
 						externalMarker.delete();
 					}
 
-					//removes the marker from the MARKERS, too:
-					for(int i = fileSpecificMarkers.size()-1; i>=0; i--) {
-						if( fileSpecificMarkers.get(i).markerID ==markerID ) {
+					// removes the marker from the MARKERS, too:
+					for (int i = fileSpecificMarkers.size() - 1; i >= 0; i--) {
+						if (fileSpecificMarkers.get(i).markerID == markerID) {
 							fileSpecificMarkers.remove(i);
 						}
 					}
@@ -284,7 +295,6 @@ public final class MarkerHandler {
 			}
 
 		}
-
 
 	}
 
