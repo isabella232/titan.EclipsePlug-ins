@@ -13,8 +13,6 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
@@ -35,9 +33,8 @@ public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 		final Definition s = (Definition) node;
 		if (s instanceof FormalParameter) {
 			final Definition enclose = ((FormalParameter) s).getMyParameterList().getMyDefinition();
-			// do not bother formal parameters in external functions and
-			// template definitions
-			if (enclose instanceof Def_Extfunction || enclose instanceof Def_Template || enclose instanceof Def_Type) {
+			// do not bother formal parameters in external functions
+			if (enclose instanceof Def_Extfunction) {
 				return;
 			}
 		}
