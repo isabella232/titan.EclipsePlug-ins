@@ -210,18 +210,56 @@ public final class Sequence_Value extends Value {
 			return null;
 		case fieldSubReference:
 			final Identifier fieldId = ((FieldSubReference) subreference).getId();
+			CompField compField;
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				if (!((TTCN3_Sequence_Type) type).hasComponentWithName(fieldId.getName())) {
 					subreference.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTFIELD, fieldId.getDisplayName(), type.getTypename()));
 					return null;
 				}
+
+				compField = ((TTCN3_Sequence_Type) type).getComponentByName(fieldId.getTtcnName());
+				if (compField.isOptional()) {
+					//create an explicit omit value
+					final Value result = new Omit_Value();
+
+					final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+					result.setFullNameParent(bridge);
+
+					result.setMyScope(getMyScope());
+
+					return result;
+				} else if (compField.hasDefault()) {
+					return compField.getDefault().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
+				}
+
+				if (!reference.getUsedInIsbound()) {
+					subreference.getLocation().reportSemanticError(MessageFormat.format("Reference to unbound record field `{0}''", fieldId.getDisplayName()));
+					return null;
+				}
+
 				break;
 			case TYPE_ASN1_SEQUENCE:
 				if (!((ASN1_Sequence_Type) type).hasComponentWithName(fieldId)) {
 					subreference.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTFIELD, fieldId.getDisplayName(), type.getTypename()));
 					return null;
 				}
+
+				compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
+				if (compField.isOptional()) {
+					//create an explicit omit value
+					final Value result = new Omit_Value();
+
+					final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+					result.setFullNameParent(bridge);
+
+					result.setMyScope(getMyScope());
+
+					return result;
+				} else if (compField.hasDefault()) {
+					return compField.getDefault().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
+				}
+
 				break;
 			default:
 				return null;
@@ -229,28 +267,6 @@ public final class Sequence_Value extends Value {
 
 			if (values.hasNamedValueWithName(fieldId)) {
 				return values.getNamedValueByName(fieldId).getValue().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
-			}
-
-			if (Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
-				if (!reference.getUsedInIsbound()) {
-					subreference.getLocation().reportSemanticError(MessageFormat.format("Reference to unbound record field `{0}''", fieldId.getDisplayName()));
-				}
-				return null;
-			}
-
-			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
-			if (compField.isOptional()) {
-				//create an explicit omit value
-				final Value result = new Omit_Value();
-
-				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
-				result.setFullNameParent(bridge);
-
-				result.setMyScope(getMyScope());
-
-				return result;
-			} else if (compField.hasDefault()) {
-				return compField.getDefault().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
 			}
 
 			return null;
