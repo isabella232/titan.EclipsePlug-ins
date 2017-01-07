@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
@@ -230,7 +231,9 @@ public final class Sequence_Value extends Value {
 
 					return result;
 				} else if (compField.hasDefault()) {
-					return compField.getDefault().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
+					// TTCN-3 sequence type can not have default fields, this should no have ben able to get into the AST
+					ErrorReporter.INTERNAL_ERROR("Field " + fieldId.getDisplayName() + " of TTCN-3 type " + type.getTypename() + " should not have default values.");
+					return null;
 				}
 
 				if (!reference.getUsedInIsbound()) {
