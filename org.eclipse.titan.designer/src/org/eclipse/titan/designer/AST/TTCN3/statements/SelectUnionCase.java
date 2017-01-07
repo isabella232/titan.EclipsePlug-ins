@@ -45,8 +45,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	private static final String INVALIDUNIONFIELD = "Union `{0}'' has no field `{1}''";
 	private static final String CASEALREADYCOVERED = "Case `{0}'' is already covered";
 
-	private static final String FULLNAMEPART1 = ".identifier";
-	private static final String FULLNAMEPART2 = ".block";
+	private static final String FULLNAMEPART = ".block";
 
 	private final Identifier mIdentifier;
 	private final StatementBlock mStatementBlock;
@@ -67,7 +66,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		final StringBuilder builder = super.getFullName(child);
 
 		if (mStatementBlock == child) {
-			return builder.append(FULLNAMEPART2);
+			return builder.append(FULLNAMEPART);
 		}
 
 		return builder;
