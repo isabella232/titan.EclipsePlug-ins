@@ -239,8 +239,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			return;
 		}
 		final Type_type type_type = temporalType.getTypeRefdLast(timestamp).getTypetype();  
-		if ( type_type != Type_type.TYPE_UCHARSTRING ||
-			 type_type  != Type_type.TYPE_UCHARSTRING) {
+		if ( type_type != Type_type.TYPE_UCHARSTRING) {
 			if (!isErroneous) {
 				location.reportSemanticError(OPERAND1_ERROR1);
 				setIsErroneous(true);
