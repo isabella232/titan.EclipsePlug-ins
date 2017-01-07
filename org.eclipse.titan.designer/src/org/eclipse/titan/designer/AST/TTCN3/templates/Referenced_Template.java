@@ -93,6 +93,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final ITTCN3Template last = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 		if (Template_type.TEMPLATE_REFD.equals(last.getTemplatetype())) {
@@ -119,6 +120,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		// Do nothing
 	}
@@ -137,6 +139,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (reference != null) {
@@ -145,6 +148,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (myGovernor != null) {
 			return myGovernor;
@@ -164,6 +168,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
@@ -328,6 +333,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		final TTCN3Template temp = getTemplateReferencedLast(timestamp);
 		if (temp != this && !temp.getIsErroneous(timestamp)) {
@@ -336,6 +342,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this) && reference != null) {
 			final ISubReference subReference = reference.getSubreferences().get(0);
@@ -357,6 +364,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		if (getIsErroneous(timestamp) || reference == null) {
@@ -409,6 +417,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		final TTCN3Template last = getTemplateReferencedLast(timestamp);
 		last.checkTemplateSpecificLengthRestriction(timestamp, typeType);
@@ -494,6 +503,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -518,6 +528,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (reference == null) {
@@ -528,6 +539,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

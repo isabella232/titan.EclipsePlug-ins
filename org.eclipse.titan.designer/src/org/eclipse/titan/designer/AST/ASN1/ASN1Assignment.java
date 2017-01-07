@@ -133,11 +133,13 @@ public abstract class ASN1Assignment extends Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 		}
 		
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (null != assPard) {
 			assPard.check(timestamp);
@@ -169,6 +171,7 @@ public abstract class ASN1Assignment extends Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (assPard == null) {
 			return;
@@ -183,6 +186,7 @@ public abstract class ASN1Assignment extends Assignment {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;

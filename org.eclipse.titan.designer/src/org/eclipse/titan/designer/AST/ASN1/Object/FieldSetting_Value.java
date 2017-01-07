@@ -37,11 +37,13 @@ public final class FieldSetting_Value extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final FieldSpecification fieldSpecification) {
 		//Do nothing while values are missing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		//Do nothing while values are missing
 	}
@@ -52,6 +54,7 @@ public final class FieldSetting_Value extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (name != null && !name.accept(v)) {
 			return false;

@@ -162,10 +162,12 @@ public abstract class Expression_Value extends Value {
 	protected IValue lastValue;
 
 	@Override
+	/** {@inheritDoc} */
 	public final Value_type getValuetype() {
 		return Value_type.EXPRESSION_VALUE;
 	}
 
+	/** @return the type of the operation represented by the expression */
 	public abstract Operation_type getOperationType();
 
 	@Override
@@ -307,5 +309,6 @@ public abstract class Expression_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
 }

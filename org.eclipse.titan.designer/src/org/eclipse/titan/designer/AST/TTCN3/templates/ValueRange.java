@@ -58,6 +58,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (min != null) {
@@ -69,6 +70,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -170,6 +172,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -187,6 +190,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (min != null) {
 			min.findReferences(referenceFinder, foundIdentifiers);
@@ -197,6 +201,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (min != null && !min.accept(v)) {
 			return false;

@@ -112,6 +112,7 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (isIndexed) {
@@ -128,6 +129,7 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -155,6 +157,7 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	 * @param isDamaged true if the location contains the damaged area, false if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -182,6 +185,7 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (isIndexed) {
 			for (IndexedValue iv : indexedValues) {
@@ -195,6 +199,7 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (isIndexed) {
 			for (IndexedValue iv : indexedValues) {

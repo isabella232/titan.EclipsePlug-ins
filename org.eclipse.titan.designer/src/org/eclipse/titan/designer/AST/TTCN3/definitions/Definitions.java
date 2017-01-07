@@ -97,6 +97,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -165,16 +166,19 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "ttcn.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -362,6 +366,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * Refresh all markers on groups, definitions
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastCompilationTimeStamp != null && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
@@ -458,11 +463,13 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 		if (reference.getModuleIdentifier() != null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
@@ -539,6 +546,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (!this.groups.isEmpty()) {
 
@@ -1065,6 +1073,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		final List<Definition> tempList = new ArrayList<Definition>(definitions);
 		for (Definition definition : tempList) {
@@ -1073,6 +1082,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

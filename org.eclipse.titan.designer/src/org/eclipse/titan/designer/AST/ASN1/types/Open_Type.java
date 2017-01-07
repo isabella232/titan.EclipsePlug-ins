@@ -86,21 +86,25 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_OPENTYPE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type newInstance() {
 		return new Open_Type(objectClass, fieldName);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		return Type_type.TYPE_TTCN3_CHOICE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != compFieldMap) {
@@ -142,6 +146,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -167,11 +172,13 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		return "open type";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		if (null == getNameParent()) {
 			return getTypename();
@@ -181,11 +188,13 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "asn1_opentype.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(timestamp);
 
@@ -209,6 +218,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -227,6 +237,7 @@ public final class Open_Type extends ASN1Type {
 
 	// FIXME add tests
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -314,6 +325,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit) {
 		registerUsage(template);
@@ -365,6 +377,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -407,6 +420,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("open type");
 	}
@@ -473,6 +487,7 @@ public final class Open_Type extends ASN1Type {
 	 *                (used by the declaration collector) should be checked.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -513,6 +528,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (compFieldMap != null) {
@@ -527,6 +543,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

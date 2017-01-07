@@ -15,6 +15,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 public final class DoneAttribute extends ExtensionAttribute {
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.DONE;
 	}

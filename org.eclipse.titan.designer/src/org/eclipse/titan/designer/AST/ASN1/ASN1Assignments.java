@@ -71,6 +71,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -89,16 +90,19 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "asn.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -260,6 +264,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastCompilationTimeStamp && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
@@ -296,6 +301,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		final Reference reference = declarationCollector.getReference();
 		if (null == reference.getModuleIdentifier()) {
@@ -338,6 +344,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		for (ASN1Assignment ass : assignments) {
 			ass.findReferences(referenceFinder, foundIdentifiers);
@@ -348,6 +355,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

@@ -277,6 +277,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -290,11 +291,13 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -887,11 +890,13 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			if (reference.getModuleIdentifier() != null || definitionMap == null) {
 			if (minimiseMemoryUsage) {
@@ -952,6 +957,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (definitionMap != null && declarationCollector.getReference().getModuleIdentifier() == null) {
 			final String name = declarationCollector.getReference().getId().getName();
@@ -969,6 +975,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (!isDamaged) {
 			// handle the simple case quickly
@@ -1142,6 +1149,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (statements == null) {
 			return;
@@ -1154,6 +1162,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

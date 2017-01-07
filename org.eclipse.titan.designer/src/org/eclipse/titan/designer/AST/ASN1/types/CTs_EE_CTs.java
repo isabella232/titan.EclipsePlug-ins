@@ -64,6 +64,7 @@ public final class CTs_EE_CTs extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		componentTypeList1.setMyScope(scope);
@@ -290,6 +291,7 @@ public final class CTs_EE_CTs extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (componentTypeList1 != null) {
@@ -304,6 +306,7 @@ public final class CTs_EE_CTs extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentTypeList1 != null && !componentTypeList1.accept(v)) {
 			return false;

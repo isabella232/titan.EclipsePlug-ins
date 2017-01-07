@@ -34,6 +34,7 @@ public final class RegularComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		componentField.setMyScope(scope);
 	}
@@ -82,6 +83,7 @@ public final class RegularComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (componentField != null) {
 			componentField.findReferences(referenceFinder, foundIdentifiers);
@@ -89,6 +91,7 @@ public final class RegularComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentField != null && !componentField.accept(v)) {
 			return false;

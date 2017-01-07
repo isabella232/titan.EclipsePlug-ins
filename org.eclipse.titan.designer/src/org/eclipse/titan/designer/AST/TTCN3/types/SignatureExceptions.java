@@ -57,6 +57,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -78,6 +79,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		for (Type exception : exceptionTypes) {
@@ -181,6 +183,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -196,6 +199,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (exceptionTypes != null) {
 			for (Type t : exceptionTypes) {
@@ -205,6 +209,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (exceptionTypes!=null) {
 			for (Type t : exceptionTypes) {

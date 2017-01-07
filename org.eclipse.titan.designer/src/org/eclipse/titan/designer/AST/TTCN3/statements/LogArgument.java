@@ -77,6 +77,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (templateInstance != null) {
@@ -85,11 +86,13 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -369,6 +372,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -381,6 +385,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (templateInstance == null) {
 			return;
@@ -390,6 +395,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (templateInstance != null && !templateInstance.accept(v)) {
 			return false;

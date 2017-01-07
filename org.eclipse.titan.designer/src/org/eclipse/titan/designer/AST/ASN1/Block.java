@@ -86,11 +86,13 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		return getFullName(null).toString();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		if (null != mNameParent) {
 			final INamedNode tempParent = mNameParent.get();
@@ -103,16 +105,19 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setFullNameParent(final INamedNode nameParent) {
 		this.mNameParent = new WeakReference<INamedNode>(nameParent);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		return mNameParent.get();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

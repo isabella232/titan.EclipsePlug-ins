@@ -38,11 +38,13 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	private Location location = NULL_Location.INSTANCE;
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}

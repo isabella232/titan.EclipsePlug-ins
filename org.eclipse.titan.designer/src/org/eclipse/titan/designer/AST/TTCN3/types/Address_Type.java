@@ -40,17 +40,20 @@ public final class Address_Type extends Type implements IReferencingType {
 	private IType address;
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_ADDRESS;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		return false;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		if (isErroneous) {
 			return Type_type.TYPE_UNDEFINED;
@@ -60,16 +63,19 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		return "address";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "address.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -120,6 +126,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -137,6 +144,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -151,6 +159,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
 			final boolean isModified, final boolean implicitOmit) {
 		registerUsage(template);
@@ -163,6 +172,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getTypeRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final boolean newChain = null == referenceChain;
 		IReferenceChain tempReferenceChain;
@@ -189,6 +199,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getTypeRefd(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (refChain != null && !refChain.add(this)) {
 			setIsErroneous(true);
@@ -210,6 +221,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		if (lastTimeChecked == null) {
@@ -230,6 +242,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -243,11 +256,13 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("address");
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (address != null) {
@@ -256,6 +271,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

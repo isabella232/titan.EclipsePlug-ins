@@ -127,6 +127,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -183,11 +184,13 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -326,11 +329,13 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 		if (reference.getModuleIdentifier() != null) {
 			return getParentScope().getAssBySRef(timestamp, reference);
@@ -436,11 +441,13 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getChainLocation() {
 		if (identifier != null && identifier.getLocation() != null) {
 			return identifier.getLocation();
@@ -807,6 +814,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
 			addDeclaration(declarationCollector, 0);
@@ -836,6 +844,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -869,6 +878,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (definitions != null) {
 			for (Definition def : definitions) {
@@ -884,6 +894,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

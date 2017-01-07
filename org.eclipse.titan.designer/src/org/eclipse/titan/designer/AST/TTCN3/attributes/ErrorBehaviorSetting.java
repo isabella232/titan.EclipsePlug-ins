@@ -52,6 +52,7 @@ public final class ErrorBehaviorSetting extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

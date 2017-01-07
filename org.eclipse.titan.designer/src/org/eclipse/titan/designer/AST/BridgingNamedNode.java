@@ -31,6 +31,7 @@ public final class BridgingNamedNode implements INamedNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		StringBuilder builder;
 
@@ -49,16 +50,19 @@ public final class BridgingNamedNode implements INamedNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		return getFullName(null).toString();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setFullNameParent(final INamedNode nameParent) {
 		this.nameParent = new WeakReference<INamedNode>(nameParent);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		return nameParent.get();
 	}

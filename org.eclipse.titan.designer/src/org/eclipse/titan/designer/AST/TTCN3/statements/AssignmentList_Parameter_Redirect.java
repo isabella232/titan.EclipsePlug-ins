@@ -45,6 +45,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -56,6 +57,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (assignments != null) {
@@ -86,6 +88,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final Signature_Type signature, final boolean isOut) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -166,6 +169,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -175,6 +179,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (assignments == null) {
 			return;
@@ -184,6 +189,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (assignments != null && !assignments.accept(v)) {
 			return false;

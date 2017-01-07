@@ -25,11 +25,13 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public final class NamedBridgeScope extends Scope {
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			return getParentScope().getAssBySRef(timestamp, reference, refChain);
 	}
@@ -40,11 +42,13 @@ public final class NamedBridgeScope extends Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {	
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT: return false;

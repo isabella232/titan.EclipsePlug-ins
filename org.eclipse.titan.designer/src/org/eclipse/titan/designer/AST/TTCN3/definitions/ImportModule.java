@@ -126,6 +126,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		if (myModuleIdentifier != null) {
 			return myModuleIdentifier.getDisplayName();
@@ -135,11 +136,13 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -288,6 +291,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		setUnhandledChange(false);
 
@@ -313,6 +317,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
 			final List<Integer> result = new ArrayList<Integer>();
@@ -324,6 +329,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossiblePrefixTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
 			final List<Integer> result = new ArrayList<Integer>(2);
@@ -345,6 +351,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			boolean enveloped = false;
@@ -556,6 +563,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final Identifier targetModuleId) {
 		final Module savedReferredModule = referredModule;
 		if (savedReferredModule != null) {
@@ -593,6 +601,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

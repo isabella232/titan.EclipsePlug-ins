@@ -37,24 +37,31 @@ public abstract class ExtensionAttribute implements ILocateableNode, INamedNode 
 	 **/
 	private Location location = NULL_Location.INSTANCE;
 
+	/**
+	 * @return the kind of the extension attribute represented by this attribute instance.
+	 * */
 	public abstract ExtensionAttribute_type getAttributeType();
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		return getFullName(this).toString();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		if (nameParent != null) {
 			return nameParent.getFullName(this);
@@ -64,11 +71,13 @@ public abstract class ExtensionAttribute implements ILocateableNode, INamedNode 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setFullNameParent(final INamedNode nameParent) {
 		this.nameParent = nameParent;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		return nameParent;
 	}

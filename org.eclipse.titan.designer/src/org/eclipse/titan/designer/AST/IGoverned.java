@@ -12,6 +12,7 @@ package org.eclipse.titan.designer.AST;
  * */
 public interface IGoverned extends ISetting {
 
+	/** @return the governor governing this governed instance */
 	IGovernor getMyGovernor();
 
 }

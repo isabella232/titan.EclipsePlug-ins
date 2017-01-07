@@ -56,6 +56,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		templates.setMyScope(scope);
@@ -149,6 +150,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -164,6 +166,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	protected abstract String getNameForStringRep();
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(getNameForStringRep()).append("( ");
@@ -188,6 +191,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
@@ -202,6 +206,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -223,6 +228,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (templates == null) {
@@ -233,6 +239,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

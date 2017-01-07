@@ -63,16 +63,19 @@ public final class Unknown_Start_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Statement_type getType() {
 		return Statement_type.S_START_UNKNOWN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -86,6 +89,7 @@ public final class Unknown_Start_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (reference != null) {
@@ -103,6 +107,7 @@ public final class Unknown_Start_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -178,6 +183,7 @@ public final class Unknown_Start_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (value != null) {
 			return null;
@@ -190,6 +196,7 @@ public final class Unknown_Start_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -209,6 +216,7 @@ public final class Unknown_Start_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (realStatement != null) {
 			realStatement.findReferences(referenceFinder, foundIdentifiers);
@@ -223,6 +231,7 @@ public final class Unknown_Start_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (realStatement != null) {
 			return realStatement.accept(v);

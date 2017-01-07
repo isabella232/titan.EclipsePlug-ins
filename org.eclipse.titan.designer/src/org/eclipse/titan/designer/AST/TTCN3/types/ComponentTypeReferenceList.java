@@ -51,6 +51,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -69,11 +70,13 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -83,6 +86,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		for (Reference reference : componentReferences) {
 			reference.setMyScope(scope);
@@ -162,6 +166,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -176,6 +181,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (componentReferences != null) {
 			for (Reference ref : componentReferences) {
@@ -185,6 +191,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentReferences != null) {
 			for (Reference ref : componentReferences) {

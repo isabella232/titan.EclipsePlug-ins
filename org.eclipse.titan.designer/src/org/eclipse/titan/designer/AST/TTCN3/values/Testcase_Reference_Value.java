@@ -44,11 +44,13 @@ public final class Testcase_Reference_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value_type getValuetype() {
 		return Value_type.TESTCASE_REFERENCE_VALUE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("refers(");
 		builder.append(referredTestcase.getAssignmentName()).append(')');
@@ -60,6 +62,7 @@ public final class Testcase_Reference_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -87,17 +90,20 @@ public final class Testcase_Reference_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		return false;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_TESTCASE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
@@ -108,6 +114,7 @@ public final class Testcase_Reference_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -115,6 +122,7 @@ public final class Testcase_Reference_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

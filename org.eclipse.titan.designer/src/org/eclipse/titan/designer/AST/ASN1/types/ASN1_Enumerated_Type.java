@@ -99,6 +99,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (enumerations != null) {

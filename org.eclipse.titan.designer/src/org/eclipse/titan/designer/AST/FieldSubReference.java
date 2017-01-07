@@ -40,31 +40,37 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		return "";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		return new StringBuilder();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setFullNameParent(final INamedNode nameParent) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		if (null != fieldId) {
 			fieldId.setLocation(location);
@@ -73,6 +79,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 
 	// Location is optimized not to store an object as it is not needed
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return new Location(fieldId.getLocation());
 	}
@@ -91,6 +98,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -100,11 +108,13 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT: return false;

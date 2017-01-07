@@ -79,11 +79,13 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -180,6 +182,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
 			final List<Integer> result = new ArrayList<Integer>();
@@ -191,6 +194,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossiblePrefixTokens() {
 		return new ArrayList<Integer>(0);
 	}
@@ -205,6 +209,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			boolean enveloped = false;
@@ -271,6 +276,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;

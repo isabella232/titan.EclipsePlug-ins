@@ -43,6 +43,7 @@ public final class TypeMappingTargets extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -57,6 +58,7 @@ public final class TypeMappingTargets extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		for (int i = 0, size = targets.size(); i < size; i++) {
@@ -65,6 +67,7 @@ public final class TypeMappingTargets extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (targets == null) {
 			return;
@@ -76,6 +79,7 @@ public final class TypeMappingTargets extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (targets != null) {
 			for (TypeMappingTarget tmt : targets) {

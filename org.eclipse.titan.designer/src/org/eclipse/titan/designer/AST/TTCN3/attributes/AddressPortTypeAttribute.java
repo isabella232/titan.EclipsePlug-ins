@@ -16,6 +16,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 public final class AddressPortTypeAttribute extends PortTypeAttribute {
 
 	@Override
+	/** {@inheritDoc} */
 	public PortType_type getPortTypeType() {
 		return PortType_type.ADDRESS;
 	}

@@ -100,6 +100,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -127,6 +128,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "testcase.gif";
 	}
@@ -179,6 +181,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		if (bridgeScope != null && bridgeScope.getParentScope() == scope) {
 			return;
@@ -217,11 +220,13 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
 		
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -337,6 +342,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {
@@ -350,6 +356,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			lastTimeChecked = null;
@@ -497,6 +504,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (formalParList != null) {
@@ -514,6 +522,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

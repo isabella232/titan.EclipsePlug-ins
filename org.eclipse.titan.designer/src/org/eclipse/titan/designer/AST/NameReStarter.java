@@ -27,21 +27,25 @@ public final class NameReStarter implements INamedNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		return new StringBuilder(newNameStart);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		return newNameStart;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setFullNameParent(final INamedNode nameParent) {
 		this.nameParent = new WeakReference<INamedNode>(nameParent);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		if (nameParent == null) {
 			return null;

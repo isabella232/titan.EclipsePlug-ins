@@ -62,6 +62,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
@@ -72,6 +73,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -97,6 +99,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -111,6 +114,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (indexed_templates == null) {
 			return;
@@ -122,6 +126,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (indexed_templates != null) {
 			for (IndexedTemplate it : indexed_templates) {

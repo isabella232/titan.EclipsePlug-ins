@@ -24,6 +24,7 @@ public abstract class ObjectSet extends GovernedSet {
 	protected ObjectClass myGovernor;
 
 	@Override
+	/** {@inheritDoc} */
 	public final Setting_type getSettingtype() {
 		return Setting_type.S_OS;
 	}
@@ -31,6 +32,7 @@ public abstract class ObjectSet extends GovernedSet {
 	public abstract ObjectSet newInstance();
 
 	@Override
+	/** {@inheritDoc} */
 	public final ObjectClass getMyGovernor() {
 		return myGovernor;
 	}

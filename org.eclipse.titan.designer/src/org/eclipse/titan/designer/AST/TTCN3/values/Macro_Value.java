@@ -55,11 +55,13 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value_type getValuetype() {
 		return Value_type.MACRO_VALUE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		switch (value) {
 		case MODULEID:
@@ -86,6 +88,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (value == null) {
 			return Type_type.TYPE_CHARSTRING;
@@ -100,6 +103,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
@@ -109,6 +113,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -128,6 +133,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (Macro_type.TESTCASEID.equals(value)) {
@@ -138,6 +144,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValueRefdLast(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		return evaluateMacro(expectedValue);
@@ -266,6 +273,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -273,6 +281,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

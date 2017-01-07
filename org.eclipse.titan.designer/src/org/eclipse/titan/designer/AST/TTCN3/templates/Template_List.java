@@ -66,6 +66,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("{ ");
@@ -237,6 +238,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			templates.getTemplateByIndex(i).checkSpecificValue(timestamp, true);
@@ -244,6 +246,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_SEQUENCE_OF.equals(typeType) || Type_type.TYPE_SET_OF.equals(typeType)) {
 			final int nofTemplatesGood = getNofTemplatesNotAnyornone(timestamp); //at least !
@@ -272,6 +275,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (lengthRestriction != null) {
 			lengthRestriction.findReferences(referenceFinder, foundIdentifiers);
@@ -285,6 +289,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

@@ -1377,6 +1377,7 @@ public final class SubType implements IIncrementallyUpdateable {
 	 *         changes, otherwise 0.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();

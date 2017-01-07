@@ -648,11 +648,13 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -784,6 +786,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT: return false;

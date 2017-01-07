@@ -24,21 +24,25 @@ public final class RNDExpression extends Expression_Value {
 	private static final String OPERATIONNAME = "rnd()";
 
 	@Override
+	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.RND_OPERATION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_REAL;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		return OPERATIONNAME;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		return true;
@@ -61,6 +65,7 @@ public final class RNDExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -77,6 +82,7 @@ public final class RNDExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -84,6 +90,7 @@ public final class RNDExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

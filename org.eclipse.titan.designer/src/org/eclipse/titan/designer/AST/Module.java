@@ -185,11 +185,13 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -338,6 +340,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

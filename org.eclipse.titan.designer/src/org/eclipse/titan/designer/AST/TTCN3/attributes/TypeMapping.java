@@ -52,11 +52,13 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -74,6 +76,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -85,6 +88,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (source_type != null) {
@@ -184,6 +188,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (source_type != null) {
 			source_type.findReferences(referenceFinder, foundIdentifiers);
@@ -194,6 +199,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (source_type != null && !source_type.accept(v)) {
 			return false;

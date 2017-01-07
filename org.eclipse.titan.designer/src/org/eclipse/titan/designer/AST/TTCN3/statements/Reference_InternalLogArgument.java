@@ -28,6 +28,7 @@ public final class Reference_InternalLogArgument extends InternalLogArgument {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (reference == null) {
 			return;

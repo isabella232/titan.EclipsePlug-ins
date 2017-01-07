@@ -47,11 +47,13 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}

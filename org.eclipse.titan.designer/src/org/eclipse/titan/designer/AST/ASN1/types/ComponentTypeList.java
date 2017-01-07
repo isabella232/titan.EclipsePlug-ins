@@ -41,6 +41,7 @@ public final class ComponentTypeList extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		for (ComponentType componentType : componentTypes) {
@@ -99,6 +100,7 @@ public final class ComponentTypeList extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (componentTypes == null) {
 			return;
@@ -110,6 +112,7 @@ public final class ComponentTypeList extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentTypes != null) {
 			for (ComponentType ct : componentTypes) {

@@ -46,6 +46,7 @@ public final class NamedParameter extends ASTNode implements ILocateableNode, II
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (instance != null) {
@@ -54,11 +55,13 @@ public final class NamedParameter extends ASTNode implements ILocateableNode, II
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -93,6 +96,7 @@ public final class NamedParameter extends ASTNode implements ILocateableNode, II
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -107,6 +111,7 @@ public final class NamedParameter extends ASTNode implements ILocateableNode, II
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (instance != null) {
 			instance.findReferences(referenceFinder, foundIdentifiers);
@@ -114,6 +119,7 @@ public final class NamedParameter extends ASTNode implements ILocateableNode, II
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (name != null && !name.accept(v)) {
 			return false;

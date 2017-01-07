@@ -26,6 +26,7 @@ public final class PrintingAttribute extends ExtensionAttribute implements IVisi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.PRINTING;
 	}
@@ -53,6 +54,7 @@ public final class PrintingAttribute extends ExtensionAttribute implements IVisi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

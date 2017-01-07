@@ -95,11 +95,13 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -206,11 +208,13 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			return getParentScope().getAssBySRef(timestamp, reference);
 	}
@@ -225,6 +229,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
 			final List<Integer> result = new ArrayList<Integer>();
@@ -236,6 +241,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossiblePrefixTokens() {
 		return new ArrayList<Integer>(0);
 	}
@@ -330,6 +336,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (statementblock != null) {
 			statementblock.findReferences(referenceFinder, foundIdentifiers);
@@ -340,6 +347,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

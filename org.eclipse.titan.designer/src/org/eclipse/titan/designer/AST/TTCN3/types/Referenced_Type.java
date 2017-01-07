@@ -66,6 +66,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_REFERENCED;
 	}
@@ -85,16 +86,19 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type newInstance() {
 		return new Referenced_Type(reference);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (reference != null) {
@@ -103,11 +107,13 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "type reference: " + reference;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -137,6 +143,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		if (isErroneous) {
 			return Type_type.TYPE_UNDEFINED;
@@ -146,6 +153,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		if (isErroneous || refdLast == null || refdLast == this) {
 			return "Referenced type";
@@ -155,11 +163,13 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "referenced.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		if (lastTimeChecked == null) {
@@ -209,6 +219,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		Assignment ass;
 		if (lastTimeChecked == null) {
@@ -237,11 +248,13 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -294,6 +307,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -311,6 +325,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -338,6 +353,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit) {
 		if (getIsErroneous(timestamp)) {
@@ -353,6 +369,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getTypeRefd(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (refChain.add(this) && reference != null && !getIsErroneous(timestamp)) {
 			if (refd != null) {
@@ -432,6 +449,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getTypeRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final boolean newChain = null == referenceChain;
 		IReferenceChain tempReferenceChain;
@@ -458,6 +476,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -506,6 +525,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	 *            the declaration collector) should be checked.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -517,6 +537,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -536,6 +557,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (reference != null) {
@@ -544,6 +566,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

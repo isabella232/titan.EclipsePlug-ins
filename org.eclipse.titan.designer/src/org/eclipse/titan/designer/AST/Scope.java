@@ -111,11 +111,13 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		return getFullName(null).toString();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		if (nameParent == null) {
 			return new StringBuilder();
@@ -131,11 +133,13 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setFullNameParent(final INamedNode nameParent) {
 		this.nameParent = new WeakReference<INamedNode>(nameParent);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		if (nameParent == null) {
 			return null;
@@ -498,6 +502,23 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	 *         reference, or null.
 	 * */
 	public abstract Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference);
+
+	/**
+	 * Tries to find the assignment that a given reference refers to.
+	 * <p>
+	 * This function walks the scope hierarchy in a bottom-up order, for
+	 * this reason it must be started in the smallest enclosing scope, or
+	 * might miss some assignments.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic checking cycle.
+	 * @param reference
+	 *                the reference used to describe the assignment to be
+	 *                found.
+	 *
+	 * @return the first assignment that can be referred to be the provided
+	 *         reference, or null.
+	 * */
 	public abstract Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain referenceChain);
 
 	/**

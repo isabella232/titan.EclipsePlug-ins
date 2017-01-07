@@ -25,11 +25,13 @@ public abstract class ComponentType extends ExtensionAddition implements ILocate
 	protected Location location;
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}

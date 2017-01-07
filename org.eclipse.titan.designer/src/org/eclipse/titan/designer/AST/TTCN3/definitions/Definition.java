@@ -501,6 +501,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 *                might point us a step forward to the declaration.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 	}
 
@@ -512,6 +513,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		final List<Integer> result = new ArrayList<Integer>();
 
@@ -527,6 +529,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossiblePrefixTokens() {
 		if (isLocal()) {
 			final List<Integer> result = new ArrayList<Integer>(2);
@@ -559,6 +562,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	public abstract void updateSyntax(final TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (withAttributesPath != null) {
 			withAttributesPath.findReferences(referenceFinder, foundIdentifiers);
@@ -569,6 +573,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;

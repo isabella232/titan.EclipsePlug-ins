@@ -75,11 +75,13 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_SEQUENCE_OF;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type newInstance() {
 		if (getOfType() instanceof ASN1Type) {
 			return new SequenceOf_Type(((IASN1Type) getOfType()).newInstance());
@@ -89,6 +91,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -375,16 +378,19 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "record_of.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
 		return SubType.SubType_type.ST_RECORDOF;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -541,6 +547,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
 			final boolean isModified, final boolean implicitOmit) {
 		registerUsage(template);
@@ -693,6 +700,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -760,6 +768,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		builder.append("sequence of ");
 		if (getOfType() != null) {

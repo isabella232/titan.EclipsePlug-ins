@@ -43,6 +43,7 @@ public final class Named_Bits extends Value {
 	private Bitstring_Value realValue;
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("{");
 		boolean first = true;
@@ -59,6 +60,7 @@ public final class Named_Bits extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (null == lastTimeChecked || lastTimeChecked.isLess(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
@@ -97,6 +99,7 @@ public final class Named_Bits extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -134,11 +137,13 @@ public final class Named_Bits extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value_type getValuetype() {
 		return Value_type.NAMED_BITS;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (null == realValue || realValue.getIsErroneous(timestamp)) {
@@ -149,6 +154,7 @@ public final class Named_Bits extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValueRefdLast(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (null == realValue || realValue.getIsErroneous(timestamp)) {
@@ -159,6 +165,7 @@ public final class Named_Bits extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
 		if (null == realValue) {
 			return false;
@@ -168,6 +175,7 @@ public final class Named_Bits extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -175,6 +183,7 @@ public final class Named_Bits extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifierList != null) {
 			for (Identifier id : identifierList) {

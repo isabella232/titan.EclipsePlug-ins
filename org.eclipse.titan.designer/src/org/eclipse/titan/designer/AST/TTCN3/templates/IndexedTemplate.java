@@ -61,16 +61,19 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (index != null) {
@@ -91,6 +94,7 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -108,6 +112,7 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (template == null) {
 			return;
@@ -117,6 +122,7 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (index != null && !index.accept(v)) {
 			return false;

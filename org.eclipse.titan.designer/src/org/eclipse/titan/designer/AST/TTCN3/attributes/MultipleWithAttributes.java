@@ -50,11 +50,13 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -96,6 +98,7 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -112,6 +115,7 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (attributes == null) {
 			return;
@@ -123,6 +127,7 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

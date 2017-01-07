@@ -168,11 +168,13 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -925,11 +927,13 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			if (reference.getModuleIdentifier() != null || parameterMap == null) {
 			return getParentScope().getAssBySRef(timestamp, reference);
@@ -1066,6 +1070,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (parameters != null) {
 			for (FormalParameter formalPar : parameters) {
@@ -1075,6 +1080,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

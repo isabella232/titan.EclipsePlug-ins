@@ -21,6 +21,7 @@ public final class TitanVersionAttribute extends ModuleVersionAttribute {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.TITANVERSION;
 	}

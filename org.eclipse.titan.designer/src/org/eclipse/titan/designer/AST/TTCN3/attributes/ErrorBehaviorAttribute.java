@@ -27,6 +27,7 @@ public final class ErrorBehaviorAttribute extends ExtensionAttribute implements 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.ERRORBEHAVIOR;
 	}
@@ -54,6 +55,7 @@ public final class ErrorBehaviorAttribute extends ExtensionAttribute implements 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

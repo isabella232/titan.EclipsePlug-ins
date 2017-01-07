@@ -38,11 +38,13 @@ public abstract class TypeMappingTarget extends ASTNode implements ILocateableNo
 	public abstract String getMappingName();
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}

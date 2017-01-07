@@ -42,6 +42,7 @@ public final class ExceptionSpecification extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		type.setMyScope(scope);
@@ -57,6 +58,7 @@ public final class ExceptionSpecification extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (type != null) {
 			type.findReferences(referenceFinder, foundIdentifiers);
@@ -67,6 +69,7 @@ public final class ExceptionSpecification extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (type != null && !type.accept(v)) {
 			return false;

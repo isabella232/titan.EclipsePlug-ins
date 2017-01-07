@@ -48,6 +48,7 @@ public final class ExtensionAdditions extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		for (ExtensionAddition extensionAddition : extensionAdditions) {
@@ -107,6 +108,7 @@ public final class ExtensionAdditions extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (extensionAdditions == null) {
 			return;
@@ -118,6 +120,7 @@ public final class ExtensionAdditions extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (extensionAdditions != null) {
 			for (ExtensionAddition ea : extensionAdditions) {

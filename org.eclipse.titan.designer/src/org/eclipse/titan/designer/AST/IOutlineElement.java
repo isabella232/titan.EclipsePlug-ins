@@ -15,6 +15,10 @@ public interface IOutlineElement {
 	Identifier getIdentifier();
 	String getOutlineText();
 
+	/**
+	 * Returns the name of the icon to be used in the outline view for this element.
+	 * Must be the name of a gif file located in the icons folder.
+	 * */
 	String getOutlineIcon();
 
 	/**

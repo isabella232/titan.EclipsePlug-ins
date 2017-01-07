@@ -28,6 +28,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	protected IType myGovernor;
 
 	@Override
+	/** {@inheritDoc} */
 	public Setting_type getSettingtype() {
 		return Setting_type.S_V;
 	}
@@ -48,6 +49,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract Value_type getValuetype();
 
 	/**
@@ -56,6 +58,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @return the type governing this value.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public final IType getMyGovernor() {
 		return myGovernor;
 	}
@@ -66,6 +69,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @param governor the governor to be set.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public final void setMyGovernor(final IType governor) {
 		myGovernor = governor;
 	}
@@ -97,11 +101,13 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getChainLocation() {
 		return location;
 	}
@@ -115,6 +121,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @return the governor of the value if it was used in an expression.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		IType type = getMyGovernor();
 
@@ -201,6 +208,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @param referenceChain the ReferenceChain used to detect circular references.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final IReferenceChain tempReferencChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue temp = getValueRefdLast(timestamp, tempReferencChain);
@@ -253,6 +261,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @return the actual or the last referred value
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValueRefdLast(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -313,6 +322,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @return true if the value can be used within the isvalue expression directly.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsvalue(final boolean fromSequence) {
 		return true;
 	}

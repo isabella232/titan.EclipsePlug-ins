@@ -206,11 +206,13 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getLocation() {
 		return location;
 	}
@@ -232,6 +234,9 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		isErroneous = true;
 	}
 
+	/**
+	 * @return the name of this statement.
+	 * */
 	public abstract String getStatementName();
 
 	/**
@@ -327,12 +332,14 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		// By default statements can not be extended
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossiblePrefixTokens() {
 		// By default statements can not be prepended
 		return new ArrayList<Integer>(0);

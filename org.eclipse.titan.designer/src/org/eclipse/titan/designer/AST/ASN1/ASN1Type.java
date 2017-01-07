@@ -19,10 +19,12 @@ import org.eclipse.titan.designer.AST.Type;
 public abstract class ASN1Type extends Type implements IASN1Type {
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract IASN1Type newInstance();
 
 	// TODO: remove when location is fixed
 	@Override
+	/** {@inheritDoc} */
 	public Location getLikelyLocation() {
 		return getLocation();
 	}

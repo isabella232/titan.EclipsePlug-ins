@@ -54,6 +54,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (parsedParameters != null) {
@@ -70,11 +71,13 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -102,6 +105,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -115,6 +119,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (parsedParameters != null) {
 			parsedParameters.findReferences(referenceFinder, foundIdentifiers);
@@ -122,6 +127,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;

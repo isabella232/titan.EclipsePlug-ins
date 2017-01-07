@@ -16,5 +16,6 @@ package org.eclipse.titan.designer.AST;
 public abstract class Governed extends Setting implements IGoverned {
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract IGovernor getMyGovernor();
 }

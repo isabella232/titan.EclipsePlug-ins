@@ -73,11 +73,13 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.ISCHOOSEN_OPERATION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("ischoosen(");
 		builder.append(reference.getDisplayName());
@@ -86,6 +88,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (reference != null) {
@@ -94,6 +97,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -105,11 +109,13 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_BOOL;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		checkExpressionOperands(timestamp, expectedValue, referenceChain);
@@ -280,6 +286,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -330,6 +337,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		checkExpressionOperands(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
 		if (referenceChain.add(this)) {
@@ -345,6 +353,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -357,6 +366,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (reference == null) {
 			return;
@@ -366,6 +376,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (reference != null && !reference.accept(v)) {
 			return false;

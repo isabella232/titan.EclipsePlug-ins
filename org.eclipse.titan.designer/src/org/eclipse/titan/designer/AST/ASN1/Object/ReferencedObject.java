@@ -54,6 +54,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != reference) {
@@ -62,6 +63,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		if (null != reference && null != reference.getLocation()) {
 			return reference.getLocation();
@@ -71,11 +73,13 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "object reference: " + reference;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getChainLocation() {
 		return getLocation();
 	}
@@ -113,6 +117,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -166,6 +171,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -177,6 +183,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (reference != null && !reference.accept(v)) {
 			return false;
