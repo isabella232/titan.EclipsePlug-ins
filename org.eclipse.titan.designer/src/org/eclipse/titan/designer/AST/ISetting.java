@@ -45,11 +45,5 @@ public interface ISetting extends IASTNode, ILocateableNode {
 	 * */
 	Setting_type getSettingtype();
 
-	@Override
-	void setLocation(final Location location);
-
-	@Override
-	Location getLocation();
-
 	boolean isAsn();
 }
