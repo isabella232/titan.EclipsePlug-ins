@@ -66,9 +66,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		if (mIdentifier == child) {
-			return builder.append(FULLNAMEPART1);
-		} else if (mStatementBlock == child) {
+		if (mStatementBlock == child) {
 			return builder.append(FULLNAMEPART2);
 		}
 
