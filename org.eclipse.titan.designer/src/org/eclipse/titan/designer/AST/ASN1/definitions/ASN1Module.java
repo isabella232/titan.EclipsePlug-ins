@@ -323,6 +323,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		final Identifier moduleId = propCollector.getReference().getModuleIdentifier();
 		if (null == moduleId) {

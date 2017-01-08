@@ -108,6 +108,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -198,6 +199,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -205,6 +207,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void parseAttributes(final CompilationTimeStamp timestamp) {
 		checkDoneAttribute(timestamp);
 
@@ -342,6 +345,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		if (typeSet.contains(this)) {
 			return;
@@ -441,6 +445,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -561,6 +566,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
@@ -579,6 +585,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() < i) {
@@ -657,6 +664,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		if (ofType == null) {
 			return;

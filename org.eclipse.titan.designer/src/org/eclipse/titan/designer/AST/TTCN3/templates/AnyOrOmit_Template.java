@@ -27,11 +27,13 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 	private static final String SIGNATUREERROR = "Generic wildcard `*'' cannot be used for signature `{0}''";
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.ANY_OR_OMIT;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous any or omit";

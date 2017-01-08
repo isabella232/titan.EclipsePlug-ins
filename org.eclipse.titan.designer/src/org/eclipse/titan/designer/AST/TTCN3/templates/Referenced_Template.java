@@ -88,6 +88,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.TEMPLATE_REFD;
 	}
@@ -126,6 +127,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous referenced template";
@@ -226,6 +228,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (reference == null) {
 			setIsErroneous(true);
@@ -424,6 +427,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkValueomitRestriction(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed,
 			final Location usageLocation) {
 		if(reference == null) {

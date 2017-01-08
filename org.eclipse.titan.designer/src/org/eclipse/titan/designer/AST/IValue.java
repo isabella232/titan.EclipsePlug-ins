@@ -373,6 +373,11 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 * */
 	boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference);
 
+	/**
+	 * Try to find the definition in which this value was defined.
+	 * 
+	 * @return the definition defining this value, or null
+	 * */
 	Definition getDefiningAssignment();
 
 }

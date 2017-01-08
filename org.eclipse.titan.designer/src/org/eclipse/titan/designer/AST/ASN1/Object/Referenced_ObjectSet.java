@@ -209,6 +209,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());

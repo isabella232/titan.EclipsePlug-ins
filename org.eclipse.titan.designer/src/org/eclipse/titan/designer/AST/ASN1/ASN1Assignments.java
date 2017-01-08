@@ -290,6 +290,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (null == propCollector.getReference().getModuleIdentifier()) {
 			for (ASN1Assignment assignment : assignments) {

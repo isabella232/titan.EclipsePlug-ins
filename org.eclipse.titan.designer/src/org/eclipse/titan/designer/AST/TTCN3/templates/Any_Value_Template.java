@@ -25,11 +25,13 @@ public final class Any_Value_Template extends TTCN3Template {
 	private static final String SIGNATUREERROR = "Generic wildcard `?'' cannot be used for signature `{0}''";
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.ANY_VALUE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous any value";

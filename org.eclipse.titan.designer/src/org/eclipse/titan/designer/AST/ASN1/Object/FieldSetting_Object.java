@@ -77,6 +77,7 @@ public final class FieldSetting_Object extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null != object) {
 			object.addProposal(propCollector, i);

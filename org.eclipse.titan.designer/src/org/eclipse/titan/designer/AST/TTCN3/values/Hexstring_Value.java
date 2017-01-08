@@ -147,6 +147,7 @@ public final class Hexstring_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		switch (newType) {
 		case BITSTRING_VALUE:

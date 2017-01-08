@@ -65,6 +65,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		if (Value_type.REAL_VALUE.equals(newType)) {
 			return new Real_Value(value.floatValue());

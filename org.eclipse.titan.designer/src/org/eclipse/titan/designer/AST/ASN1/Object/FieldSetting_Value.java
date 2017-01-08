@@ -49,6 +49,7 @@ public final class FieldSetting_Value extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		//Do nothing while values are missing
 	}

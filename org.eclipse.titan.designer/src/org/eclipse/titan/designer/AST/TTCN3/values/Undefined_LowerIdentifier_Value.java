@@ -204,6 +204,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		lastTimeChecked = timestamp;
 

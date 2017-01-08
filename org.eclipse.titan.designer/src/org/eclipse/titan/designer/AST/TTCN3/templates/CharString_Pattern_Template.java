@@ -36,11 +36,13 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.CSTR_PATTERN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous character string pattern";
@@ -76,6 +78,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TTCN3Template setTemplatetype(final CompilationTimeStamp timestamp, final Template_type newType) {
 		TTCN3Template realTemplate;
 

@@ -147,6 +147,7 @@ public final class Function_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -226,6 +227,7 @@ public final class Function_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -285,6 +287,7 @@ public final class Function_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		if (runsOnSelf) {
 			location.reportSemanticError(MessageFormat.format("Function type `{0}'' with `runs on self'' clause cannot be {1}", getTypename(), operation));
@@ -584,6 +587,7 @@ public final class Function_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() != i + 1 || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {

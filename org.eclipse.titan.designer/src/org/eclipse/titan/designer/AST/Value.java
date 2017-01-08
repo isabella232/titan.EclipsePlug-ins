@@ -195,6 +195,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @return the new value of the provided kind if the conversion is possible, or this value otherwise.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		setIsErroneous(true);
 		return this;
@@ -328,11 +329,13 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		return true;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		return true;
 	}
@@ -348,6 +351,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	public abstract void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException;
 
 	@Override
+	/** {@inheritDoc} */
 	public Definition getDefiningAssignment() {
 		INamedNode parent = getNameParent();
 		while (parent != null && !(parent instanceof Definition)) {

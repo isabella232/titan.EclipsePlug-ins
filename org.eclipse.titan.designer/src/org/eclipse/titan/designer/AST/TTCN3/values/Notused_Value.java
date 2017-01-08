@@ -104,11 +104,13 @@ public final class Notused_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		return false;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		return false;
 	}

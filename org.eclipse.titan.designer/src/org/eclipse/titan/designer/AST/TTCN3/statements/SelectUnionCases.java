@@ -153,8 +153,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param aUnionType
 	 *                the referenced union type of the select expression, to check the cases against.
-	 *                It can be null. In this case no check needs to be done,
-	 *                because type check was done in SelectUnionCase_Statement.check() and it failed
+	 *                It can not be null.
 	 * @param aFieldNames
 	 *                union field names, which are not covered yet.
 	 *                If a field name is found, it is removed from the list.

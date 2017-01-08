@@ -106,6 +106,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	String getTemplateTypeName();
 
 	@Override
+	/** {@inheritDoc} */
 	IType getMyGovernor();
 
 	/**

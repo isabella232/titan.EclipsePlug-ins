@@ -129,6 +129,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -194,6 +195,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
 		if (reference.getSubreferences().size() == 1) {
@@ -208,6 +210,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
 		if (reference.getSubreferences().size() == 1) {
 			return true;
@@ -241,6 +244,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -288,6 +292,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		final IType last = getTypeRefdLast(timestamp);
 
@@ -502,6 +507,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	 *            the proposal collector) should be checked for completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());

@@ -81,11 +81,13 @@ public final class Default_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		return true;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		location.reportSemanticError(MessageFormat.format("Default type cannot be {0}", operation));
 	}

@@ -366,6 +366,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
 			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {

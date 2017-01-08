@@ -154,6 +154,7 @@ public final class Bitstring_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		if (Value_type.OCTETSTRING_VALUE.equals(newType)) {
 			return new Octetstring_Value(this);
