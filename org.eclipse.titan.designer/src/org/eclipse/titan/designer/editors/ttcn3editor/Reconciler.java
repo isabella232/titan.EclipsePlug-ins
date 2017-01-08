@@ -344,7 +344,8 @@ public class Reconciler implements IReconciler {
 			}
 			
 			if(!MAP.containsKey(newInput)) {
-				MAP.put(newInput, new LinkedList<Reconciler.Listener>());
+				LinkedList<Reconciler.Listener> temp = new LinkedList<Reconciler.Listener>();
+				MAP.putIfAbsent(newInput, temp);
 			}
 			MAP.get(newInput).add(this);
 			
