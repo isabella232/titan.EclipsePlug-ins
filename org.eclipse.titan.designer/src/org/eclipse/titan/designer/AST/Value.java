@@ -83,7 +83,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @return the timestamp of the last time this value was checked.
 	 * */
 	@Override
-	public CompilationTimeStamp getLastTimeChecked() {
+	public final CompilationTimeStamp getLastTimeChecked() {
 		return lastTimeChecked;
 	}
 
@@ -96,7 +96,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @param lastTimeChecked the timestamp when this value was last checked.
 	 * */
 	@Override
-	public void setLastTimeChecked(final CompilationTimeStamp lastTimeChecked) {
+	public final void setLastTimeChecked(final CompilationTimeStamp lastTimeChecked) {
 		this.lastTimeChecked = lastTimeChecked;
 	}
 
@@ -352,7 +352,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 
 	@Override
 	/** {@inheritDoc} */
-	public Definition getDefiningAssignment() {
+	public final Definition getDefiningAssignment() {
 		INamedNode parent = getNameParent();
 		while (parent != null && !(parent instanceof Definition)) {
 			parent = parent.getNameParent();

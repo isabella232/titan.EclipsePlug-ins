@@ -140,7 +140,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public WithAttributesPath getAttributePath() {
+	public final WithAttributesPath getAttributePath() {
 		if (withAttributesPath == null) {
 			withAttributesPath = new WithAttributesPath();
 		}
@@ -160,7 +160,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void clearWithAttributes() {
+	public final void clearWithAttributes() {
 		if (withAttributesPath != null) {
 			withAttributesPath.setWithAttributes(null);
 		}
@@ -168,7 +168,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void setWithAttributes(final MultipleWithAttributes attributes) {
+	public final void setWithAttributes(final MultipleWithAttributes attributes) {
 		if (withAttributesPath == null) {
 			withAttributesPath = new WithAttributesPath();
 		}
@@ -178,7 +178,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasDoneAttribute() {
+	public final boolean hasDoneAttribute() {
 		return hasDone;
 	}
 
@@ -207,7 +207,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public SubType getSubtype() {
+	public final SubType getSubtype() {
 		return subType;
 	}
 
@@ -294,7 +294,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasVariantAttributes(final CompilationTimeStamp timestamp) {
+	public final boolean hasVariantAttributes(final CompilationTimeStamp timestamp) {
 		if (withAttributesPath == null) {
 			return false;
 		}
@@ -323,7 +323,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkDoneAttribute(final CompilationTimeStamp timestamp) {
+	public final void checkDoneAttribute(final CompilationTimeStamp timestamp) {
 		hasDone = false;
 
 		if (withAttributesPath == null) {
