@@ -521,6 +521,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
 			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {

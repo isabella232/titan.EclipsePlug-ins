@@ -392,11 +392,11 @@ pr_InOutTypeMapping[ IInOutTypeMappingAttribute attribute ]:
 (	
 	IN
 	LPAREN
-	pr_TypeMappingList	{$attribute.setInMappings($pr_TypeMappingList.mappings);}
+	pr_TypeMappingList	{if($attribute != null) {$attribute.setInMappings($pr_TypeMappingList.mappings);}}
 	RPAREN
 |	OUT
 	LPAREN
-	pr_TypeMappingList	{$attribute.setOutMappings($pr_TypeMappingList.mappings);}
+	pr_TypeMappingList	{if($attribute != null) {$attribute.setOutMappings($pr_TypeMappingList.mappings);}}
 	RPAREN
 )
 {

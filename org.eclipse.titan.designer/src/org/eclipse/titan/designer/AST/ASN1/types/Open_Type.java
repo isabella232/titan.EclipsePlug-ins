@@ -160,6 +160,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -441,6 +442,7 @@ public final class Open_Type extends ASN1Type {
 	 *                completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -519,6 +521,7 @@ public final class Open_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		if (compFieldMap == null) {
 			return;

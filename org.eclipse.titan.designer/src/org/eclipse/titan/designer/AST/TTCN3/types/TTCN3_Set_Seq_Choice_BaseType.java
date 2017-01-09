@@ -170,6 +170,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -213,6 +214,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
@@ -255,6 +257,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void parseAttributes(final CompilationTimeStamp timestamp) {
 		checkDoneAttribute(timestamp);
 
@@ -546,6 +549,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		compFieldMap.getEnclosingField(offset, rf);
 	}

@@ -129,6 +129,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		if (components == null) {
 			return;
@@ -262,6 +263,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	 *                completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i || components == null) {
@@ -295,6 +297,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {

@@ -156,8 +156,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param aUnionType
 	 *                the referenced union type of the select expression, to check the cases against.
-	 *                It can be null. In this case no check needs to be done,
-	 *                because type check was done in SelectUnionCase_Statement.check() and it failed
+	 *                It can not be null.
 	 * @param aUnreachable
 	 *                tells if this case branch is still reachable or not.
 	 * @param aFieldNames
@@ -178,19 +177,17 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 		boolean unreachable2 = aUnreachable;
 		if ( mIdentifier != null ) {
-			if ( aUnionType != null ) {
-				// name of the union component
-				final String name = mIdentifier.getName();
-				if ( aUnionType.hasComponentWithName( name ) ) {
-					if ( aFieldNames.contains( name ) ) {
-						aFieldNames.remove( name );
-					} else {
-						//this case is already covered
-						location.reportSemanticWarning( MessageFormat.format( CASEALREADYCOVERED, name ) );
-					}
+			// name of the union component
+			final String name = mIdentifier.getName();
+			if ( aUnionType.hasComponentWithName( name ) ) {
+				if ( aFieldNames.contains( name ) ) {
+					aFieldNames.remove( name );
 				} else {
-					location.reportSemanticError( MessageFormat.format( INVALIDUNIONFIELD, aUnionType.getFullName(), name ) );
+					//this case is already covered
+					location.reportSemanticWarning( MessageFormat.format( CASEALREADYCOVERED, name ) );
 				}
+			} else {
+				location.reportSemanticError( MessageFormat.format( INVALIDUNIONFIELD, aUnionType.getFullName(), name ) );
 			}
 		} else {
 			// case else

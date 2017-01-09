@@ -268,6 +268,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	 *                completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 
 		if (null != referred_type && !this.equals(referred_type)) {

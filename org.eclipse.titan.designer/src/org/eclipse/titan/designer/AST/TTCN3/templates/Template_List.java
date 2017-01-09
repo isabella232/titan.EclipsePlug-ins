@@ -52,11 +52,13 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.TEMPLATE_LIST;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous value list notation";
@@ -91,6 +93,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TTCN3Template setTemplatetype(final CompilationTimeStamp timestamp, final Template_type newType) {
 		switch (newType) {
 		case NAMED_TEMPLATE_LIST:
@@ -101,6 +104,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected ITTCN3Template getReferencedArrayTemplate(final CompilationTimeStamp timestamp, final IValue arrayIndex,
 			final IReferenceChain referenceChain) {
 		IValue indexValue = arrayIndex.setLoweridToReference(timestamp);
@@ -204,6 +208,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isValue(final CompilationTimeStamp timestamp) {
 		if (lengthRestriction != null || isIfpresent || getIsErroneous(timestamp)) {
 			return false;
@@ -219,6 +224,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValue() {
 		if (asValue != null) {
 			return asValue;
@@ -258,6 +264,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkValueomitRestriction(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed, final Location usageLocation) {
 		if (omitAllowed) {
 			checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_OMIT, usageLocation);

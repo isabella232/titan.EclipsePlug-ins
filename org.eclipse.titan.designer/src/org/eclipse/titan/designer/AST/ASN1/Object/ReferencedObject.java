@@ -160,6 +160,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());

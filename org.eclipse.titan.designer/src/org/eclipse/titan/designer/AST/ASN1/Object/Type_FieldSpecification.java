@@ -79,6 +79,7 @@ public final class Type_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null != definedType) {
 			definedType.addProposal(propCollector, i);

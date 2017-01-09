@@ -83,6 +83,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -117,6 +118,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		return true;
 	}
@@ -135,6 +137,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		location.reportSemanticError(MessageFormat.format("Port type `{0}'' cannot be {1}", getTypename(), operation));
 	}
@@ -190,6 +193,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (body != null) {
 			body.addProposal(propCollector, i);

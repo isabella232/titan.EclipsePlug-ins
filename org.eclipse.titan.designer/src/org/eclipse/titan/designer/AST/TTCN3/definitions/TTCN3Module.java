@@ -886,6 +886,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		final Identifier moduleId = propCollector.getReference().getModuleIdentifier();
 		if (moduleId == null) {

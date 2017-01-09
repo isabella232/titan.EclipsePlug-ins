@@ -156,6 +156,7 @@ public final class UniversalCharstring_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		switch (newType) {
 		case CHARSTRING_VALUE:

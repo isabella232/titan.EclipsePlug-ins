@@ -22,11 +22,13 @@ public final class PermutationMatch_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.PERMUTATION_MATCH;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous permutation match";

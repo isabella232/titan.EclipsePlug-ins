@@ -485,6 +485,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 *                we wish to find completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final String proposalKind = getProposalKind();
 		propCollector.addProposal(identifier, " - " + proposalKind, ImageCache.getImage(getOutlineIcon()), proposalKind);

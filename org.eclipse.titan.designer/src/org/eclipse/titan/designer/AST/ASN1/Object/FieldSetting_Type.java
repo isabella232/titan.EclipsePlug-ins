@@ -80,6 +80,7 @@ public final class FieldSetting_Type extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null != type) {
 			type.addProposal(propCollector, i);

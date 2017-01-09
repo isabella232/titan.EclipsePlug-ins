@@ -351,6 +351,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -370,6 +371,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -412,6 +414,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		if (typeSet.contains(this)) {
 			return;
@@ -750,6 +753,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() < i) {
@@ -817,6 +821,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		if (elementType == null) {
 			return;

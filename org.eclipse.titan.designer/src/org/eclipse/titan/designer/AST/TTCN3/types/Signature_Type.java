@@ -142,6 +142,7 @@ public final class Signature_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -231,6 +232,7 @@ public final class Signature_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -281,6 +283,7 @@ public final class Signature_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		if (typeSet.contains(this)) {
 			return;

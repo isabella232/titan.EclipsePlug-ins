@@ -93,6 +93,7 @@ public final class Object_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null != objectClass) {
 			objectClass.addProposal(propCollector, i);

@@ -830,6 +830,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	// This is the same as in ASN1_Sequence_type
 	@Override
+	/** {@inheritDoc} */
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();

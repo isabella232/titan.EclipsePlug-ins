@@ -528,6 +528,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	// FIXME ezeket sem teszteltuk
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final Identifier targetModuleId) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 

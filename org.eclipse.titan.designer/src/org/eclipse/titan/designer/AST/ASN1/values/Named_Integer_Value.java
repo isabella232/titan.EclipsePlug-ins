@@ -134,6 +134,7 @@ public final class Named_Integer_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		// the conversion is done in ASN1_Integer_Type#check_this_value
 		return super.setValuetype(timestamp, newType);

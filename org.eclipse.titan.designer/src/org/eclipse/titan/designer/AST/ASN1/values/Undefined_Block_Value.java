@@ -162,6 +162,7 @@ public final class Undefined_Block_Value extends Value {
 
 	// FIXME can be converted to: charsyms
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		lastTimeChecked = timestamp;
 

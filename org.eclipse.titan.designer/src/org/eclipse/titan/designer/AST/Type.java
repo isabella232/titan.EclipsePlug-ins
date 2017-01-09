@@ -127,17 +127,20 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public abstract Type_type getTypetype();
 
 	@Override
+	/** {@inheritDoc} */
 	public final IType getParentType() {
 		return parentType;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setParentType(final IType type) {
 		parentType = type;
 	}
 
 	@Override
-	public WithAttributesPath getAttributePath() {
+	/** {@inheritDoc} */
+	public final WithAttributesPath getAttributePath() {
 		if (withAttributesPath == null) {
 			withAttributesPath = new WithAttributesPath();
 		}
@@ -146,6 +149,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setAttributeParentPath(final WithAttributesPath parent) {
 		if (withAttributesPath == null) {
 			withAttributesPath = new WithAttributesPath();
@@ -155,14 +159,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
-	public void clearWithAttributes() {
+	/** {@inheritDoc} */
+	public final void clearWithAttributes() {
 		if (withAttributesPath != null) {
 			withAttributesPath.setWithAttributes(null);
 		}
 	}
 
 	@Override
-	public void setWithAttributes(final MultipleWithAttributes attributes) {
+	/** {@inheritDoc} */
+	public final void setWithAttributes(final MultipleWithAttributes attributes) {
 		if (withAttributesPath == null) {
 			withAttributesPath = new WithAttributesPath();
 		}
@@ -171,16 +177,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
-	public boolean hasDoneAttribute() {
+	/** {@inheritDoc} */
+	public final boolean hasDoneAttribute() {
 		return hasDone;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean isConstrained() {
 		return constraints != null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addConstraints(final Constraints constraints) {
 		if (constraints == null) {
 			return;
@@ -191,16 +200,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Constraints getConstraints() {
 		return constraints;
 	}
 
 	@Override
-	public SubType getSubtype() {
+	/** {@inheritDoc} */
+	public final SubType getSubtype() {
 		return subType;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setParsedRestrictions(final List<ParsedSubType> parsedRestrictions) {
 		this.parsedRestrictions = parsedRestrictions;
 	}
@@ -212,6 +224,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getChainLocation() {
 		return getLocation();
 	}
@@ -253,10 +266,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional);
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -268,6 +283,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
@@ -277,7 +293,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
-	public boolean hasVariantAttributes(final CompilationTimeStamp timestamp) {
+	/** {@inheritDoc} */
+	public final boolean hasVariantAttributes(final CompilationTimeStamp timestamp) {
 		if (withAttributesPath == null) {
 			return false;
 		}
@@ -305,7 +322,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
-	public void checkDoneAttribute(final CompilationTimeStamp timestamp) {
+	/** {@inheritDoc} */
+	public final void checkDoneAttribute(final CompilationTimeStamp timestamp) {
 		hasDone = false;
 
 		if (withAttributesPath == null) {
@@ -323,6 +341,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void parseAttributes(final CompilationTimeStamp timestamp) {
 		checkDoneAttribute(timestamp);
 		// FIXME To support the processing of variant attributes this
@@ -353,6 +372,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkConstructorName(final String definitionName) {
 		// nothing to be done by default
 	}
@@ -399,16 +419,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		return false;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		// nothing to be done by default
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkEmbedded(final CompilationTimeStamp timestamp, final Location errorLocation, final boolean defaultAllowed,
 			final String errorMessage) {
 		// nothing to be done by default
@@ -798,7 +821,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param referenceChain
 	 * @return
 	 */
-	
 	public ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template t, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		switch( t.getTemplatetype() ){
@@ -981,6 +1003,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	
 	//TODO: This function is obsolete, use the general function everywhere instead!
 	@Override
+	/** {@inheritDoc} */
 	public ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template t) {
 		return checkThisTemplateRef(timestamp,t,Expected_Value_type.EXPECTED_TEMPLATE, null);
 	}
@@ -1002,10 +1025,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit);
 
 	@Override
+	/** {@inheritDoc} */
 	public final void checkThisTemplateSubtype(final CompilationTimeStamp timestamp, final ITTCN3Template template) {
 		if (ITTCN3Template.Template_type.PERMUTATION_MATCH.equals(template.getTemplatetype())) {
 			// a permutation is just a fragment, in itself it has no type
@@ -1018,10 +1043,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain);
 	
 	@Override
+	/** {@inheritDoc} */
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 
@@ -1043,6 +1070,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CompatibilityLevel getCompatibility(final CompilationTimeStamp timestamp, final IType type, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		if (info == null) {
@@ -1095,6 +1123,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -1107,9 +1136,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract String getTypename();
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract Type_type getTypetypeTtcn3();
 
 	/**
@@ -1162,6 +1193,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 	}
 
@@ -1375,6 +1407,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getDefiningAssignment() {
 		if(getMyScope() == null) {
 			return null;
@@ -1387,6 +1420,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 	}
 

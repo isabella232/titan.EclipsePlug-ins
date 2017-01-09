@@ -235,6 +235,7 @@ public final class Choice_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {
@@ -285,6 +286,7 @@ public final class Choice_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (getIsErroneous(timestamp) || subreferences.size() <= actualSubReference) {

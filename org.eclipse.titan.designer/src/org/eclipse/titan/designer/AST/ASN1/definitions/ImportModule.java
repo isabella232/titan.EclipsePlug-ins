@@ -190,6 +190,7 @@ public final class ImportModule extends ModuleImportation {
 	 *                there or not.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final Identifier targetModuleId) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 

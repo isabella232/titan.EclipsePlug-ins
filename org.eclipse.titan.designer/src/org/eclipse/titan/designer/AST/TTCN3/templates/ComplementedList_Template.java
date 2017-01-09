@@ -30,11 +30,13 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.COMPLEMENTED_LIST;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous complemented list match";

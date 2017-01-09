@@ -25,11 +25,13 @@ public final class NotUsed_Template extends TTCN3Template {
 	private Notused_Value asValue = null;
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.TEMPLATE_NOTUSED;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous not used symbol";
@@ -52,11 +54,13 @@ public final class NotUsed_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isValue(final CompilationTimeStamp timestamp) {
 		return true;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValue() {
 		if (asValue != null) {
 			return asValue;
@@ -82,6 +86,7 @@ public final class NotUsed_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkValueomitRestriction(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed, final Location usageLocation) {
 		if (omitAllowed) {
 			checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_OMIT, usageLocation);

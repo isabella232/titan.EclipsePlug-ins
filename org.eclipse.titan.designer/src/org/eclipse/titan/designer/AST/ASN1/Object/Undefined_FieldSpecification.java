@@ -235,6 +235,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (fieldSpecification != null) {
 			fieldSpecification.addProposal(propCollector, i);

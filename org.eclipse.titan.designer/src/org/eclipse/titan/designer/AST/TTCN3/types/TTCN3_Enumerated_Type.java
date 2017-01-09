@@ -102,6 +102,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		return isCompatible(timestamp, type, null, null, null);
 	}
@@ -386,6 +387,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	 *            the proposal collector) should be checked for completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() != 1 || propCollector.getReference().getModuleIdentifier() != null) {
@@ -481,6 +483,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		if (items == null) {
 			return;

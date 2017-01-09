@@ -169,6 +169,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *         this template.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public ITTCN3Template setLoweridToReference(final CompilationTimeStamp timestamp) {
 		return this;
 	}
@@ -354,6 +355,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @return the actual or the last referred template
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		return this;
 	}
@@ -372,6 +374,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *         possible, or this template otherwise.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public TTCN3Template setTemplatetype(final CompilationTimeStamp timestamp, final Template_type newType) {
 		setIsErroneous(true);
 		return this;
@@ -838,6 +841,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *         value.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public boolean isValue(final CompilationTimeStamp timestamp) {
 		return false;
 	}
@@ -847,6 +851,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *         a value, otherwise null
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValue() {
 		return null;
 	}
@@ -1025,6 +1030,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *         there's no warning
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkValueomitRestriction(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed, final Location usageLocation) {
 		if (omitAllowed) {
 			checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_OMIT, usageLocation);

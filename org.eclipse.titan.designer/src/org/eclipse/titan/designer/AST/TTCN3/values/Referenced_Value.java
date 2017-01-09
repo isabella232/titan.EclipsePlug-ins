@@ -190,6 +190,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(newType)) {
 			final IValue temp = getValueRefdLast(timestamp, null);
@@ -559,6 +560,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsbound(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
@@ -572,6 +574,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIspresent(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);

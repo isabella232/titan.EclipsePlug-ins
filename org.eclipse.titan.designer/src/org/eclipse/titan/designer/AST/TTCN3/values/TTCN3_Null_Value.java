@@ -48,6 +48,7 @@ public final class TTCN3_Null_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		switch (newType) {
 		case DEFAULT_NULL_VALUE:

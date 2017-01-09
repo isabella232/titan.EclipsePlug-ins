@@ -411,6 +411,7 @@ public final class Anytype_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getSubrefsAsArray(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final List<Integer> subrefsArray, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -452,6 +453,7 @@ public final class Anytype_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean getFieldTypesAsArray(final Reference reference, final int actualSubReference, final List<IType> typeArray) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() <= actualSubReference) {
@@ -505,6 +507,7 @@ public final class Anytype_Type extends Type {
 	 *            the proposal collector) should be checked for completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -579,6 +582,7 @@ public final class Anytype_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		compFieldMap.getEnclosingField(offset, rf);
 	}

@@ -60,11 +60,13 @@ public final class Indexed_Template_List extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.INDEXED_TEMPLATE_LIST;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous indexed assignment notation";
@@ -146,6 +148,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected ITTCN3Template getReferencedArrayTemplate(final CompilationTimeStamp timestamp, final IValue arrayIndex,
 			final IReferenceChain referenceChain) {
 		IValue indexValue = arrayIndex.setLoweridToReference(timestamp);
@@ -259,6 +262,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isValue(final CompilationTimeStamp timestamp) {
 		if (lengthRestriction != null || isIfpresent || getIsErroneous(timestamp)) {
 			return false;
@@ -274,6 +278,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValue() {
 		if (asValue != null) {
 			return asValue;
@@ -321,6 +326,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkValueomitRestriction(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed, final Location usageLocation) {
 		if (omitAllowed) {
 			checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_OMIT, usageLocation);

@@ -215,16 +215,19 @@ public class AllElementsFrom extends TemplateBody {
 	}
 
 	// @Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.ALLELEMENTSFROM;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		return "all from ".concat(template.getTemplateTypeName());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isValue(final CompilationTimeStamp timestamp) {
 		return false;
 	}

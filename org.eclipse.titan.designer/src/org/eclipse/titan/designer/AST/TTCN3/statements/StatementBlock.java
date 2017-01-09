@@ -925,6 +925,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (definitionMap != null && propCollector.getReference().getModuleIdentifier() == null) {
 			final HashMap<String, Definition> temp = new HashMap<String, Definition>(definitionMap);

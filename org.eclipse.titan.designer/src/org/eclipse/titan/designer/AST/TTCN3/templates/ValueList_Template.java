@@ -27,11 +27,13 @@ public final class ValueList_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.VALUE_LIST;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous value list match";

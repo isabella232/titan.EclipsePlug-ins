@@ -161,6 +161,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());

@@ -68,12 +68,13 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.SPECIFIC_VALUE;
 	}
 
 	@Override
-	// Location is optimized not to store an object at it is not needed
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return new Location(specificValue.getLocation());
 	}
@@ -85,6 +86,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous specific value";
@@ -164,6 +166,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ITTCN3Template setLoweridToReference(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && lastTimeChecked.equals(timestamp)) {
 			return realTemplate;
@@ -201,6 +204,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (realTemplate != null && realTemplate != this) {
 			return realTemplate.getTemplateReferencedLast(timestamp, referenceChain);
@@ -352,6 +356,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isValue(final CompilationTimeStamp timestamp) {
 		if (lengthRestriction != null || isIfpresent || getIsErroneous(timestamp)) {
 			return false;
@@ -415,6 +420,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValue() {
 		return specificValue;
 	}
@@ -459,6 +465,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TTCN3Template setTemplatetype(final CompilationTimeStamp timestamp, final Template_type newType) {
 		lastTimeChecked = timestamp;
 
@@ -477,6 +484,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkValueomitRestriction(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed, final Location usageLocation) {
 		if (omitAllowed) {
 			checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_OMIT, usageLocation);

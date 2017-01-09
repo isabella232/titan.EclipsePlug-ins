@@ -99,6 +99,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
 			if (componentDefinitions != null) {

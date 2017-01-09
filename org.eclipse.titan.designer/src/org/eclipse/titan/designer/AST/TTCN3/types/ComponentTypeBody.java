@@ -778,6 +778,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
 			addProposal(propCollector, 0);

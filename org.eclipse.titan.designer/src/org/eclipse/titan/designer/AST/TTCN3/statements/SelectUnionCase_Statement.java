@@ -148,6 +148,8 @@ public final class SelectUnionCase_Statement extends Statement {
 			} else {
 				expression.getLocation().reportSemanticError( TYPEMUSTBEUNION );
 				unionType = null;
+				lastTimeChecked = timestamp;
+				return;
 			}
 
 			// list of union field names. Names of processed field names are removed from the list

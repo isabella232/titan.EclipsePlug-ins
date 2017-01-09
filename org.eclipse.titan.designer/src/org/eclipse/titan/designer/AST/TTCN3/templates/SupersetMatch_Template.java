@@ -23,11 +23,13 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.SUPERSET_MATCH;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous superset match";

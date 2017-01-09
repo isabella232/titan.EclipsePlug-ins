@@ -110,6 +110,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null != fixedType) {
 			fixedType.addProposal(propCollector, i);

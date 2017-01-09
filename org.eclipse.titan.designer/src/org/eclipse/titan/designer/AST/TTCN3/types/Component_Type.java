@@ -98,6 +98,7 @@ public final class Component_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setAttributeParentPath(final WithAttributesPath parent) {
 		super.setAttributeParentPath(parent);
 		componentBody.setAttributeParentPath(withAttributesPath);
@@ -125,6 +126,7 @@ public final class Component_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
@@ -278,6 +280,7 @@ public final class Component_Type extends Type {
 	 *            the proposal collector) should be checked for completions.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subrefs = propCollector.getReference().getSubreferences();
 		if (subrefs.size() <= i || Subreference_type.arraySubReference.equals(subrefs.get(i).getReferenceType())) {

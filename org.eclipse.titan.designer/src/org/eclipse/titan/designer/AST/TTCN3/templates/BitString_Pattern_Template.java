@@ -26,11 +26,13 @@ public final class BitString_Pattern_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Template_type getTemplatetype() {
 		return Template_type.BSTR_PATTERN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTemplateTypeName() {
 		if (isErroneous) {
 			return "erroneous bitstring pattern";
