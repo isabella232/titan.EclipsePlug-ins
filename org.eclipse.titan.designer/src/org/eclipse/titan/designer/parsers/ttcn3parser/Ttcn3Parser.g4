@@ -7752,7 +7752,10 @@ pr_Identifier returns [Identifier identifier]
 pr_CString returns[String string]:
 	CSTRING
 {
-	$string = $CSTRING.text.replaceAll("^\"|\"$", "");
+	$string = $CSTRING.text;
+	if($string != null) {
+		$string = $string.replaceAll("^\"|\"$", "");
+	}
 };
 
 pr_FreeText returns[String string]:
