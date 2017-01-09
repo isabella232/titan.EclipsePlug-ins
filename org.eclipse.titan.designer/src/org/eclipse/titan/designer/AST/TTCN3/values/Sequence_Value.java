@@ -10,7 +10,6 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
@@ -211,44 +210,29 @@ public final class Sequence_Value extends Value {
 			return null;
 		case fieldSubReference:
 			final Identifier fieldId = ((FieldSubReference) subreference).getId();
-			CompField compField;
 			switch (type.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				if (!((TTCN3_Sequence_Type) type).hasComponentWithName(fieldId.getName())) {
 					subreference.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTFIELD, fieldId.getDisplayName(), type.getTypename()));
 					return null;
 				}
-
-				compField = ((TTCN3_Sequence_Type) type).getComponentByName(fieldId.getTtcnName());
-				if (compField.isOptional()) {
-					//create an explicit omit value
-					final Value result = new Omit_Value();
-
-					final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
-					result.setFullNameParent(bridge);
-
-					result.setMyScope(getMyScope());
-
-					return result;
-				} else if (compField.hasDefault()) {
-					// TTCN-3 sequence type can not have default fields, this should no have ben able to get into the AST
-					ErrorReporter.INTERNAL_ERROR("Field " + fieldId.getDisplayName() + " of TTCN-3 type " + type.getTypename() + " should not have default values.");
-					return null;
-				}
-
-				if (!reference.getUsedInIsbound()) {
-					subreference.getLocation().reportSemanticError(MessageFormat.format("Reference to unbound record field `{0}''", fieldId.getDisplayName()));
-					return null;
-				}
-
 				break;
 			case TYPE_ASN1_SEQUENCE:
 				if (!((ASN1_Sequence_Type) type).hasComponentWithName(fieldId)) {
 					subreference.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTFIELD, fieldId.getDisplayName(), type.getTypename()));
 					return null;
 				}
+				break;
+			default:
+				return null;
+			}
 
-				compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
+			if (values.hasNamedValueWithName(fieldId)) {
+				return values.getNamedValueByName(fieldId).getValue().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
+			}
+
+			if (Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
+				final CompField compField = ((TTCN3_Sequence_Type) type).getComponentByName(fieldId.getDisplayName());
 				if (compField.isOptional()) {
 					//create an explicit omit value
 					final Value result = new Omit_Value();
@@ -263,13 +247,26 @@ public final class Sequence_Value extends Value {
 					return compField.getDefault().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
 				}
 
-				break;
-			default:
+				
+				if (!reference.getUsedInIsbound()) {
+					subreference.getLocation().reportSemanticError(MessageFormat.format("Reference to unbound record field `{0}''", fieldId.getDisplayName()));
+				}
 				return null;
 			}
 
-			if (values.hasNamedValueWithName(fieldId)) {
-				return values.getNamedValueByName(fieldId).getValue().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
+			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
+			if (compField.isOptional()) {
+				//create an explicit omit value
+				final Value result = new Omit_Value();
+
+				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
+				result.setFullNameParent(bridge);
+
+				result.setMyScope(getMyScope());
+
+				return result;
+			} else if (compField.hasDefault()) {
+				return compField.getDefault().getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
 			}
 
 			return null;
