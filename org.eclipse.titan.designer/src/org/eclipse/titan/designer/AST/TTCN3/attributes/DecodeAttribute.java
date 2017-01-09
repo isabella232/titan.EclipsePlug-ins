@@ -29,6 +29,7 @@ public final class DecodeAttribute extends ExtensionAttribute implements IVisita
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.DECODE;
 	}
@@ -42,6 +43,7 @@ public final class DecodeAttribute extends ExtensionAttribute implements IVisita
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

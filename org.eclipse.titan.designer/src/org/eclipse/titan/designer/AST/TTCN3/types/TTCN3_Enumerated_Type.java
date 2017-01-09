@@ -72,11 +72,13 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_TTCN3_ENUMERATED;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (items != null) {
@@ -85,6 +87,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -104,6 +107,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		if (isErroneous) {
 			return Type_type.TYPE_UNDEFINED;
@@ -113,11 +117,13 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		return getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "enumeration.gif";
 	}
@@ -158,6 +164,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	 * @param timestamp the timestamp of the actual semantic check cycle.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -244,11 +251,13 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
 		return SubType.SubType_type.ST_ENUM;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
 			if (hasEnumItemWithName(((Undefined_LowerIdentifier_Value) value).getIdentifier())) {
@@ -262,6 +271,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -311,6 +321,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
 			final boolean isModified, final boolean implicitOmit) {
 		registerUsage(template);
@@ -327,6 +338,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -356,6 +368,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("enumerated");
 	}
@@ -398,6 +411,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	 *            the declaration collector) should be checked.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (i != 0 || subreferences.size() != 1 || declarationCollector.getReference().getModuleIdentifier() != null) {
@@ -426,6 +440,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			lastTimeChecked = null;
@@ -481,6 +496,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (items != null) {
@@ -489,6 +505,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

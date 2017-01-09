@@ -21,6 +21,7 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// Do nothing
 	}

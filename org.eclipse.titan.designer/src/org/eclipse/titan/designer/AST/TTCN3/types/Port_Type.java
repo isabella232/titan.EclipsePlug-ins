@@ -50,11 +50,13 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_PORT;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (body != null) {
@@ -67,6 +69,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -92,6 +95,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		if (isErroneous) {
 			return Type_type.TYPE_UNDEFINED;
@@ -101,11 +105,13 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		return getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "port.gif";
 	}
@@ -116,6 +122,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		parseAttributes(timestamp);
 
@@ -139,6 +146,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
 			final boolean isModified, final boolean implicitOmit) {
 		registerUsage(template);
@@ -146,6 +154,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -175,6 +184,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("port");
 	}
@@ -187,6 +197,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -208,6 +219,7 @@ public final class Port_Type extends Type {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (body != null) {
@@ -216,6 +228,7 @@ public final class Port_Type extends Type {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

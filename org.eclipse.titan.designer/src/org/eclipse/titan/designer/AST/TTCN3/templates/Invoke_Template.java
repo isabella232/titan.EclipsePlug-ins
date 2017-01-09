@@ -89,6 +89,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(value.createStringRepresentation());
@@ -111,6 +112,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (value != null) {
@@ -126,6 +128,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (myGovernor != null) {
 			return myGovernor;
@@ -164,6 +167,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp) || value == null) {
 			return Type_type.TYPE_UNDEFINED;
@@ -178,17 +182,20 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		checkInvoke(timestamp);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// nothing to be done here, as template references can not
 		// appear here
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		checkInvoke(timestamp);
@@ -261,6 +268,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -295,6 +303,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (value != null) {
@@ -306,6 +315,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

@@ -29,21 +29,25 @@ public final class Stop_Profiler_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Statement_type getType() {
 		return Statement_type.S_STOP_PROFILER;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		return super.getFullName(child);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		// Do nothing
 	}
@@ -54,6 +58,7 @@ public final class Stop_Profiler_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -63,6 +68,7 @@ public final class Stop_Profiler_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -70,11 +76,13 @@ public final class Stop_Profiler_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		return true;
 	}

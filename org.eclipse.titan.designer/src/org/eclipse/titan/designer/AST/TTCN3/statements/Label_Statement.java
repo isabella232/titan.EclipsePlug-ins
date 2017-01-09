@@ -38,11 +38,13 @@ public final class Label_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Statement_type getType() {
 		return Statement_type.S_LABEL;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
@@ -70,6 +72,7 @@ public final class Label_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -89,6 +92,7 @@ public final class Label_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -98,11 +102,13 @@ public final class Label_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// label search not supported yet
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;

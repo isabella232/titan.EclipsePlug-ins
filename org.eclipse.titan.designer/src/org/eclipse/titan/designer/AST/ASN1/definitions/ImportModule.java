@@ -51,6 +51,7 @@ public final class ImportModule extends ModuleImportation {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return (null != identifier) ? identifier.getDisplayName() : null;
 	}
@@ -136,6 +137,7 @@ public final class ImportModule extends ModuleImportation {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastImportCheckTimeStamp != null && !lastImportCheckTimeStamp.isLess(timestamp)) {
 			return;
@@ -218,6 +220,7 @@ public final class ImportModule extends ModuleImportation {
 	 *                should be inserted into.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final Identifier targetModuleId) {
 		final Module savedReferredModule = referredModule;
 		if (savedReferredModule != null) {
@@ -239,6 +242,7 @@ public final class ImportModule extends ModuleImportation {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

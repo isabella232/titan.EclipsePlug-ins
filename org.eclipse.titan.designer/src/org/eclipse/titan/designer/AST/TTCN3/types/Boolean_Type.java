@@ -40,16 +40,19 @@ public final class Boolean_Type extends ASN1Type {
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for type `boolean''";
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_BOOL;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type newInstance() {
 		return new Boolean_Type();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		if (isErroneous) {
 			return Type_type.TYPE_UNDEFINED;
@@ -59,16 +62,19 @@ public final class Boolean_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		return BOOLEAN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "boolean.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -82,11 +88,13 @@ public final class Boolean_Type extends ASN1Type {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
 		return SubType.SubType_type.ST_BOOLEAN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -104,6 +112,7 @@ public final class Boolean_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
 
@@ -153,6 +162,7 @@ public final class Boolean_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit) {
 		registerUsage(template);
@@ -166,6 +176,7 @@ public final class Boolean_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -195,6 +206,7 @@ public final class Boolean_Type extends ASN1Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append(BOOLEAN);
 	}

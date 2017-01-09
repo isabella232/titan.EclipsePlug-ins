@@ -40,6 +40,7 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("'");
 		builder.append(pattern);
@@ -72,6 +73,7 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
@@ -81,11 +83,13 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		getLocation().reportSemanticError("A specific value expected instead of an octetstring pattern");
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_OCTETSTRING.equals(typeType)) {
 			final boolean hasAnyOrNone = containsAnyornoneSymbol();
@@ -94,6 +98,7 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// nothing to be done
 	}

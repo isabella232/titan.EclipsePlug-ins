@@ -19,9 +19,13 @@ public abstract class PortTypeAttribute extends ExtensionAttribute {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.PORTTYPE;
 	}
 
+	/**
+	 * @return the kind of port (internal, address, provider, user) by this porttype instance
+	 * */
 	public abstract PortType_type getPortTypeType();
 }

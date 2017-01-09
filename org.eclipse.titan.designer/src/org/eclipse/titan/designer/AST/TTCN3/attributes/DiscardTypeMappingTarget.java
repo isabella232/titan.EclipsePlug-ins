@@ -34,6 +34,7 @@ public final class DiscardTypeMappingTarget extends TypeMappingTarget {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final Type source) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -43,6 +44,7 @@ public final class DiscardTypeMappingTarget extends TypeMappingTarget {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

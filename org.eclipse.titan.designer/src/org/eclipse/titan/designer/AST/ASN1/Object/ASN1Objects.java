@@ -40,6 +40,7 @@ public final class ASN1Objects extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// TODO: objects ?
 		return true;

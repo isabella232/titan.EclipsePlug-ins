@@ -28,27 +28,32 @@ public final class ComponentNullExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.COMPONENT_NULL_OPERATION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_COMPONENT;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		return "null";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		return false;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -62,6 +67,7 @@ public final class ComponentNullExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -69,11 +75,13 @@ public final class ComponentNullExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsvalue(final boolean fromSequence) {
 		return false;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

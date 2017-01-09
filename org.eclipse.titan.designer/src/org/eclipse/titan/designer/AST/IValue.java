@@ -114,6 +114,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 * */
 	void copyGeneralProperties(final IValue original);
 
+	/** @return the kind of the value represented by the Value instance */
 	Value_type getValuetype();
 
 	@Override

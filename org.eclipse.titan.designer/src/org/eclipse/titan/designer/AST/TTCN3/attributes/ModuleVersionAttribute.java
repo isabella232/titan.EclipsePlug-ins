@@ -82,6 +82,7 @@ public class ModuleVersionAttribute extends ExtensionAttribute {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.VERSION;
 	}

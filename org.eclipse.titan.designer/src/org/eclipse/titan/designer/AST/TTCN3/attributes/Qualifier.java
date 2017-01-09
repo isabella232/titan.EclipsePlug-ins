@@ -74,11 +74,13 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -149,6 +151,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -162,6 +165,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (definition != null && subReferences != null) {
 			// TODO: the following for() does not work because
@@ -203,6 +207,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

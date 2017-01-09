@@ -40,6 +40,7 @@ public final class Types extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (types != null) {
 			for (Type t : types) {

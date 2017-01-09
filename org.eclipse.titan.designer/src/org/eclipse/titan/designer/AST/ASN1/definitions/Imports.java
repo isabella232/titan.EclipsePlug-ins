@@ -95,11 +95,13 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -125,6 +127,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "imports.gif";
 	}
@@ -382,6 +385,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (importedModules_v != null) {
 			for (ImportModule im : importedModules_v) {

@@ -33,6 +33,7 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getFullName() {
 		return getFullName(this).toString();
 	}
@@ -132,6 +133,7 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		if (null != nameParent) {
 			return nameParent.getFullName(this);
@@ -141,26 +143,31 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setFullNameParent(final INamedNode nameParent) {
 		this.nameParent = nameParent;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public INamedNode getNameParent() {
 		return nameParent;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		myScope = scope;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Scope getMyScope() {
 		return myScope;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 	}
 	
@@ -172,6 +179,7 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 	protected abstract boolean memberAccept(final ASTVisitor v);
 	
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT: return false;

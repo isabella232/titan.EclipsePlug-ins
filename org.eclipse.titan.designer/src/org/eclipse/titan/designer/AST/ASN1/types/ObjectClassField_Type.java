@@ -51,16 +51,19 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_OBJECTCLASSFIELDTYPE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type newInstance() {
 		return new ObjectClassField_Type(referred_type, objectClass, fieldName);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "type ObjectClassFieldType: " + referred_type.getFullName();
 	}
@@ -74,6 +77,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -94,11 +98,13 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		return Type_type.TYPE_UNDEFINED;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		if (isErroneous || null == referred_type || this == referred_type) {
 			return "Object class field type";
@@ -108,11 +114,13 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "titan.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -131,6 +139,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -144,6 +153,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -161,6 +171,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IType last = getTypeRefd(timestamp, tempReferenceChain);
@@ -174,6 +185,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit) {
 		registerUsage(template);
@@ -189,6 +201,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getTypeRefd(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (refChain.add(this) && !getIsErroneous(timestamp)) {
 			return referred_type;
@@ -200,6 +213,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -229,6 +243,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		if (null != referred_type) {
 			return referred_type.getProposalDescription(builder);
@@ -275,6 +290,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	 *                (used by the declaration collector) should be checked.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (null != referred_type && !this.equals(referred_type)) {
 			referred_type.addDeclaration(declarationCollector, i);
@@ -282,12 +298,14 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		// TODO
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

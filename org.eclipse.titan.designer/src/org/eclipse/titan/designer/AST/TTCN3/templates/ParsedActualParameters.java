@@ -57,6 +57,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (unnamedPart != null) {
@@ -68,6 +69,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 		if (unnamedPart != null) {
@@ -79,6 +81,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -128,6 +131,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -145,6 +149,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (unnamedPart != null) {
 			unnamedPart.findReferences(referenceFinder, foundIdentifiers);
@@ -164,6 +169,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (unnamedPart != null && !unnamedPart.accept(v)) {
 			return false;

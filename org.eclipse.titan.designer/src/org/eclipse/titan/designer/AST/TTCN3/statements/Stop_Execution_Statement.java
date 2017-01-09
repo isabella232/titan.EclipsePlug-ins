@@ -19,16 +19,19 @@ public final class Stop_Execution_Statement extends Statement {
 	private static final String STATEMENT_NAME = "stop";
 
 	@Override
+	/** {@inheritDoc} */
 	public Statement_type getType() {
 		return Statement_type.S_STOP_EXECUTION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		//Do nothing
 	}
@@ -39,11 +42,13 @@ public final class Stop_Execution_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		// nothing to be done
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -51,6 +56,7 @@ public final class Stop_Execution_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

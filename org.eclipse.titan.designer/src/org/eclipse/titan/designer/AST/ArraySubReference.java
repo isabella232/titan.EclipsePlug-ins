@@ -51,6 +51,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -62,6 +63,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != value) {
@@ -75,11 +77,13 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -99,6 +103,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -111,6 +116,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (value == null) {
 			return;
@@ -120,6 +126,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (value != null) {
 			if (!value.accept(v)) {

@@ -108,6 +108,7 @@ public final class Constraints extends ASTNode {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (constraints == null) {
 			return;
@@ -119,6 +120,7 @@ public final class Constraints extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (constraints != null) {
 			for (Constraint c : constraints) {

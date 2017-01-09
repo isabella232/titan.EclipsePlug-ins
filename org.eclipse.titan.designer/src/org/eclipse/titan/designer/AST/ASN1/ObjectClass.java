@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public abstract class ObjectClass extends Governor {
 
 	@Override
+	/** {@inheritDoc} */
 	public final Setting_type getSettingtype() {
 		return Setting_type.S_OC;
 	}

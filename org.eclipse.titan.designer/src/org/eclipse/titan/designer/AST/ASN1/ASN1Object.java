@@ -25,11 +25,12 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	protected ObjectClass myGovernor;
 
 	@Override
+	/** {@inheritDoc} */
 	public final Setting_type getSettingtype() {
 		return Setting_type.S_O;
 	}
 
-	/** @return a new instance */
+	/** @return a new instance of this AST node */
 	public abstract ASN1Object newInstance();
 
 	@Override
@@ -38,6 +39,7 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final ObjectClass getMyGovernor() {
 		return myGovernor;
 	}

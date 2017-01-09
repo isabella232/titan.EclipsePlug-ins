@@ -39,6 +39,7 @@ public final class Length_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -51,11 +52,13 @@ public final class Length_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return length.getLocation();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (length == null) {
 			return;
@@ -65,6 +68,7 @@ public final class Length_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

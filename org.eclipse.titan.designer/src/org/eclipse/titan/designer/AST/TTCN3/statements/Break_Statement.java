@@ -21,11 +21,13 @@ public final class Break_Statement extends Statement {
 	private static final String STATEMENT_NAME = "break";
 
 	@Override
+	/** {@inheritDoc} */
 	public Statement_type getType() {
 		return Statement_type.S_BREAK;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
@@ -36,6 +38,7 @@ public final class Break_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -47,6 +50,7 @@ public final class Break_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -54,6 +58,7 @@ public final class Break_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

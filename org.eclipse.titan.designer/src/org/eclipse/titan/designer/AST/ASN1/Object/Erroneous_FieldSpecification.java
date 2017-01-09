@@ -51,11 +51,13 @@ public final class Erroneous_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -86,6 +88,7 @@ public final class Erroneous_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;

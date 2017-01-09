@@ -135,6 +135,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		subReferences.trimToSize();
@@ -144,6 +145,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -157,12 +159,14 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		//Do nothing
 	}
 
 	// Location is optimized not to store an object at it is not needed
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		Location temp;
 		if (modid != null) {
@@ -801,6 +805,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		for (int i = 0; i < subReferences.size(); i++) {
 			subReferences.get(i).findReferences(referenceFinder, foundIdentifiers);
@@ -843,6 +848,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (modid != null && !modid.accept(v)) {
 			return false;

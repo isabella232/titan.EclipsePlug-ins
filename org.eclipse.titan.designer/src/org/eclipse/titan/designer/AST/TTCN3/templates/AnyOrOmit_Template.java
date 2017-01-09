@@ -41,6 +41,7 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("*");
 		if (lengthRestriction != null) {
@@ -53,16 +54,19 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		getLocation().reportSemanticError("A specific value expected instead of an any or omit");
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// nothing to be done
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		if (!allowAnyOrOmit) {

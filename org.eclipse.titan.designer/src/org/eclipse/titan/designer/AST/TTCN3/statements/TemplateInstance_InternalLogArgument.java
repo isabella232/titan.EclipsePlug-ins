@@ -26,6 +26,7 @@ public final class TemplateInstance_InternalLogArgument extends InternalLogArgum
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (templateInstance == null) {
 			return;

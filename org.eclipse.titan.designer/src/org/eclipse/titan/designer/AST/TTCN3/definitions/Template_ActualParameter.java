@@ -32,6 +32,7 @@ public final class Template_ActualParameter extends ActualParameter {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
@@ -41,6 +42,7 @@ public final class Template_ActualParameter extends ActualParameter {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (template == null) {
 			return;
@@ -63,6 +65,7 @@ public final class Template_ActualParameter extends ActualParameter {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -75,6 +78,7 @@ public final class Template_ActualParameter extends ActualParameter {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (template != null) {
 			if (!template.accept(v)) {

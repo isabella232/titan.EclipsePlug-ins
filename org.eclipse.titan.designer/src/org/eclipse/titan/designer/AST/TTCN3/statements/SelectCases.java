@@ -42,6 +42,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -74,6 +75,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	 *                the scope to be set.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		for (int i = 0, size = select_cases.size(); i < size; i++) {
 			select_cases.get(i).setMyScope(scope);
@@ -180,6 +182,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -195,6 +198,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (select_cases == null) {
 			return;
@@ -206,6 +210,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (select_cases != null) {
 			for (final SelectCase sc : select_cases) {

@@ -106,6 +106,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getChainLocation() {
 		if (identifier != null && identifier.getLocation() != null) {
 			return identifier.getLocation();

@@ -51,16 +51,19 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_SELECTION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type newInstance() {
 		return new Selection_Type(identifier, selectionType.newInstance());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != selectionType) {
@@ -69,11 +72,13 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "selection type with name: " + identifier.getDisplayName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -94,11 +99,13 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
 		return Type_type.TYPE_UNDEFINED;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		if (isErroneous || null == selectionType || this == selectionType) {
 			return "Selection type";
@@ -108,11 +115,13 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "asn1_selection.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		builder.append("selection of ");
 		if (null != selectionType) {
@@ -122,6 +131,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -146,6 +156,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -163,6 +174,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IType last = getTypeRefd(timestamp, refChain);
@@ -176,6 +188,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit) {
 		registerUsage(template);
@@ -218,6 +231,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getTypeRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final boolean newChain = null == referenceChain;
 		IReferenceChain tempReferenceChain;
@@ -239,6 +253,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -252,6 +267,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		if (null == lastTimeChecked) {
@@ -271,6 +287,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (selectionType != null) {
@@ -279,6 +296,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

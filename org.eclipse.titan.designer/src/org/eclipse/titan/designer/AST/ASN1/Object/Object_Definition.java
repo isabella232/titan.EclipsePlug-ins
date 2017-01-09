@@ -65,6 +65,7 @@ public final class Object_Definition extends ASN1Object {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -79,6 +80,7 @@ public final class Object_Definition extends ASN1Object {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
@@ -89,6 +91,7 @@ public final class Object_Definition extends ASN1Object {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -256,6 +259,7 @@ public final class Object_Definition extends ASN1Object {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -302,6 +306,7 @@ public final class Object_Definition extends ASN1Object {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (fieldSettings != null) {
 			for (final FieldSetting fs : fieldSettings) {

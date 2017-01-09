@@ -41,6 +41,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -76,6 +77,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		for (int i = 0, size = ifclauses.size(); i < size; i++) {
@@ -192,6 +194,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -206,6 +209,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (ifclauses == null) {
 			return;
@@ -236,6 +240,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (ifclauses != null) {
 			for (final If_Clause ic : ifclauses) {

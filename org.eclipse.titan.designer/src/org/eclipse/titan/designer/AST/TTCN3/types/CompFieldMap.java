@@ -84,11 +84,13 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -152,6 +154,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	 * @param scope the scope to be set
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
@@ -313,6 +316,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			lastCompilationTimeStamp = null;
@@ -484,6 +488,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (fields == null) {
 			return;
@@ -495,6 +500,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (fields != null) {
 			for (CompField cf : fields) {

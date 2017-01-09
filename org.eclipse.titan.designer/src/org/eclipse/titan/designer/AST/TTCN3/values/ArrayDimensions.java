@@ -44,6 +44,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		for (int i = 0; i < dimensions.size(); i++) {
@@ -52,6 +53,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -163,6 +165,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	 *            only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -178,6 +181,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (dimensions == null) {
 			return;
@@ -189,6 +193,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (dimensions != null) {
 			for (ArrayDimension dim : dimensions) {

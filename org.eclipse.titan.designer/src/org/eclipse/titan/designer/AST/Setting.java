@@ -32,24 +32,29 @@ public abstract class Setting extends ASTNode implements ISetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean getIsErroneous(final CompilationTimeStamp timestamp) {
 		return isErroneous;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setIsErroneous(final boolean isErroneous) {
 		this.isErroneous = isErroneous;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract Setting_type getSettingtype();
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}

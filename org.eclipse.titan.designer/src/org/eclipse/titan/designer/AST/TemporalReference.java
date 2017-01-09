@@ -24,6 +24,7 @@ public final class TemporalReference extends Reference {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		myScope = scope;
 	}

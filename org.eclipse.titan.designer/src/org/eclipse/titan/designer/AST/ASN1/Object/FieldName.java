@@ -64,6 +64,7 @@ public final class FieldName extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (fields != null) {
 			for (final Identifier id : fields) {

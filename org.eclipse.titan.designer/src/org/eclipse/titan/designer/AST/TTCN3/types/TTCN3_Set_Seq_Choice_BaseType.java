@@ -551,6 +551,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (compFieldMap != null) {
@@ -559,6 +560,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

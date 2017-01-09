@@ -80,6 +80,7 @@ public final class TableConstraint extends Constraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -437,11 +438,13 @@ public final class TableConstraint extends Constraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// TODO
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// TODO
 		return true;

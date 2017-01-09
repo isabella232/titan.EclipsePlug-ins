@@ -42,6 +42,7 @@ public final class ExtensionAdditionGroup extends ExtensionAddition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -53,6 +54,7 @@ public final class ExtensionAdditionGroup extends ExtensionAddition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != versionNumber) {
@@ -87,6 +89,7 @@ public final class ExtensionAdditionGroup extends ExtensionAddition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (versionNumber != null) {
 			versionNumber.findReferences(referenceFinder, foundIdentifiers);
@@ -97,6 +100,7 @@ public final class ExtensionAdditionGroup extends ExtensionAddition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (versionNumber != null && !versionNumber.accept(v)) {
 			return false;

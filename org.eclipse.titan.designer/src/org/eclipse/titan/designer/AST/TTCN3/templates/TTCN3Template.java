@@ -84,6 +84,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	protected ITTCN3Template baseTemplate;
 
 	@Override
+	/** {@inheritDoc} */
 	public Setting_type getSettingtype() {
 		return Setting_type.S_TEMPLATE;
 	}
@@ -120,6 +121,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @return the governor type.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public final IType getMyGovernor() {
 		return myGovernor;
 	}
@@ -131,11 +133,13 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                the type to be set.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public final void setMyGovernor(final IType governor) {
 		myGovernor = governor;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "template reference: " + getFullName();
 	}
@@ -386,6 +390,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *         expression.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_UNDEFINED;
 	}
@@ -401,6 +406,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @return the governor of the template if it was used in an expression.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (myGovernor != null) {
 			return myGovernor;
@@ -935,6 +941,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                for the template, false otherwise
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		
@@ -1082,6 +1089,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -1101,6 +1109,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (lengthRestriction == null) {
 			return;
@@ -1110,6 +1119,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (lengthRestriction != null && !lengthRestriction.accept(v)) {
 			return false;

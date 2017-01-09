@@ -27,6 +27,7 @@ public final class EncDecValueAttribute extends ExtensionAttribute implements II
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.ENCDECVALUE;
 	}

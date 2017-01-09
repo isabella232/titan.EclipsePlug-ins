@@ -62,16 +62,19 @@ public final class Start_Timer_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Statement_type getType() {
 		return Statement_type.S_START_TIMER;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -85,6 +88,7 @@ public final class Start_Timer_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (timerReference != null) {
@@ -96,6 +100,7 @@ public final class Start_Timer_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -174,6 +179,7 @@ public final class Start_Timer_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -193,6 +199,7 @@ public final class Start_Timer_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (timerReference != null) {
 			timerReference.findReferences(referenceFinder, foundIdentifiers);
@@ -203,6 +210,7 @@ public final class Start_Timer_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (timerReference != null && !timerReference.accept(v)) {
 			return false;

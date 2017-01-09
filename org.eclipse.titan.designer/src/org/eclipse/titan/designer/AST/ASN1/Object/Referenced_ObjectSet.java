@@ -61,11 +61,13 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "objectSet reference: " + reference;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getChainLocation() {
 		if (null != reference && null != reference.getLocation()) {
 			return reference.getLocation();
@@ -75,6 +77,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != reference) {
@@ -122,6 +125,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -182,6 +186,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	 */
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScopeOse(final Scope scope) {
 		setMyScope(scope);
 	}
@@ -192,6 +197,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -214,6 +220,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (reference != null && !reference.accept(v)) {
 			return false;

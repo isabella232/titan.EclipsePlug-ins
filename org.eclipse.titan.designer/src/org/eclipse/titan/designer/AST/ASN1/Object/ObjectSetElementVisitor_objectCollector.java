@@ -108,6 +108,7 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// TODO
 		return true;

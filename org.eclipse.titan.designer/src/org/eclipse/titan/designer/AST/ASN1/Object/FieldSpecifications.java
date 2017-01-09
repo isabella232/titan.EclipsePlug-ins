@@ -44,6 +44,7 @@ public final class FieldSpecifications extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -165,6 +166,7 @@ public final class FieldSpecifications extends ASTNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (fieldSpecifications != null) {
 			for (final FieldSpecification fs : fieldSpecifications) {

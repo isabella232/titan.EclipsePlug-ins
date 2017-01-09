@@ -138,6 +138,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;

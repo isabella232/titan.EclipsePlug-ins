@@ -52,11 +52,13 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "object class reference: " + reference;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getChainLocation() {
 		if (null != reference && null != reference.getLocation()) {
 			return reference.getLocation();
@@ -66,6 +68,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		reference.setMyScope(scope);
@@ -123,6 +126,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -168,6 +172,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -179,6 +184,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (reference != null && !reference.accept(v)) {
 			return false;

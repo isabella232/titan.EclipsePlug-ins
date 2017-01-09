@@ -62,6 +62,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -83,6 +84,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                the scope to be set.
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		//TODO: remove
 		/*
@@ -114,11 +116,13 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -219,6 +223,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -237,6 +242,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		//TODO: remove
 		/*
@@ -250,6 +256,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (mIdentifier != null && !mIdentifier.accept(v)) {
 			return false;

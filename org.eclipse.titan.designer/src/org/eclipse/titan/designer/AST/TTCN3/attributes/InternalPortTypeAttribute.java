@@ -17,6 +17,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 public final class InternalPortTypeAttribute extends PortTypeAttribute {
 
 	@Override
+	/** {@inheritDoc} */
 	public PortType_type getPortTypeType() {
 		return PortType_type.INTERNAL;
 	}

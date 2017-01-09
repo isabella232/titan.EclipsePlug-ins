@@ -61,6 +61,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -77,11 +78,13 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "constant_external.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (type != null) {
@@ -97,11 +100,13 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 		}
 		
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -165,6 +170,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subrefs = declarationCollector.getReference().getSubreferences();
 		if (subrefs.size() >= i + 1 && identifier.getName().equals(subrefs.get(i).getId().getName())) {
@@ -177,6 +183,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			lastTimeChecked = null;
@@ -239,6 +246,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (type != null) {
@@ -247,6 +255,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

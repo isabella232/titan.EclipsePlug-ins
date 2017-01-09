@@ -31,21 +31,25 @@ public final class SelfComponentExpression extends Expression_Value {
 	private static final String OPERATIONNAME = "self";
 
 	@Override
+	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.SELF_COMPONENT_OPERATION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_COMPONENT;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		return "self";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			if (myGovernor != null) {
@@ -66,6 +70,7 @@ public final class SelfComponentExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		return true;
@@ -111,6 +116,7 @@ public final class SelfComponentExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -127,6 +133,7 @@ public final class SelfComponentExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -134,6 +141,7 @@ public final class SelfComponentExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

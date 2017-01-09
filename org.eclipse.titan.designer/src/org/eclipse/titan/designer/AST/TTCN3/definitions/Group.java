@@ -117,11 +117,13 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -175,6 +177,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -354,6 +357,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "outline_group.gif";
 	}
@@ -448,6 +452,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
 			final List<Integer> result = new ArrayList<Integer>();
@@ -459,6 +464,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossiblePrefixTokens() {
 		if (withAttributesPath == null || withAttributesPath.getAttributes() == null) {
 			final List<Integer> result = new ArrayList<Integer>(2);
@@ -958,6 +964,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;

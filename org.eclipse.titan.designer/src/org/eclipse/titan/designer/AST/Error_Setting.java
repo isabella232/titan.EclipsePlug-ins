@@ -15,11 +15,13 @@ package org.eclipse.titan.designer.AST;
 public final class Error_Setting extends Setting {
 
 	@Override
+	/** {@inheritDoc} */
 	public Setting_type getSettingtype() {
 		return Setting_type.S_ERROR;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;

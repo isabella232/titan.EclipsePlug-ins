@@ -71,6 +71,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -116,6 +117,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 *                the scope to be set.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		altGuards.trimToSize();
 		for (int i = 0, size = altGuards.size(); i < size; i++) {
@@ -252,6 +254,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			freed = false;
@@ -307,6 +310,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (altGuards == null) {
 			return;
@@ -318,6 +322,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (altGuards != null) {
 			for (AltGuard ag : altGuards) {

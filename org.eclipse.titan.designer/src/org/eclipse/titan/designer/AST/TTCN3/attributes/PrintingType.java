@@ -45,16 +45,19 @@ public final class PrintingType extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -78,6 +81,7 @@ public final class PrintingType extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (PrintingTypeEnum.NONE == printingType) {
 			return false;

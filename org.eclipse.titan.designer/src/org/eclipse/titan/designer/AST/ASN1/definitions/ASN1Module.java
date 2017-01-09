@@ -122,6 +122,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(INamedNode.MODULENAMEPREFIX).append(getIdentifier().getDisplayName());
@@ -156,6 +157,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "asn.gif";
 	}
@@ -210,6 +212,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastCompilationTimeStamp && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
@@ -240,11 +243,13 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 		Identifier moduleId = reference.getModuleIdentifier();
 		final Identifier id = reference.getId();
@@ -340,6 +345,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		final Identifier moduleId = declarationCollector.getReference().getModuleIdentifier();
 		if (null == moduleId) {
@@ -379,6 +385,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (assignments != null) {
 			assignments.findReferences(referenceFinder, foundIdentifiers);
@@ -386,6 +393,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

@@ -57,6 +57,7 @@ public final class Range_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -74,6 +75,7 @@ public final class Range_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		// FIXME: this object should always know it's own location, but
 		// currently infinity is null
@@ -85,6 +87,7 @@ public final class Range_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (min != null) {
 			min.findReferences(referenceFinder, foundIdentifiers);
@@ -95,6 +98,7 @@ public final class Range_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

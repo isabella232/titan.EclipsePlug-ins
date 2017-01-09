@@ -104,6 +104,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (definedValue != null) {
@@ -115,11 +116,13 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -632,6 +635,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 *    that must be destroyed to handle the syntactic changes, otherwise 0.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser,  final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -657,6 +661,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (name!=null && !name.accept(v)) {
 			return false;

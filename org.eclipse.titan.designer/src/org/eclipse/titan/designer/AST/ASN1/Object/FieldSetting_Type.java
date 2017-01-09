@@ -49,6 +49,7 @@ public final class FieldSetting_Type extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final FieldSpecification fieldSpecification) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -71,6 +72,7 @@ public final class FieldSetting_Type extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (null != type) {
 			type.addDeclaration(declarationCollector, i);
@@ -85,6 +87,7 @@ public final class FieldSetting_Type extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (name != null && !name.accept(v)) {
 			return false;

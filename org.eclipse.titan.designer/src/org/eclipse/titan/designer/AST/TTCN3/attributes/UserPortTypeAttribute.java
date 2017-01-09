@@ -30,6 +30,7 @@ public final class UserPortTypeAttribute extends PortTypeAttribute implements II
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public PortType_type getPortTypeType() {
 		return PortType_type.USER;
 	}

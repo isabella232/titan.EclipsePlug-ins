@@ -118,6 +118,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Setting_type getSettingtype() {
 		return Setting_type.S_T;
 	}
@@ -205,6 +206,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return "type reference: " + getFullName();
 	}
@@ -215,6 +217,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getTypeRefdLast(final CompilationTimeStamp timestamp) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IType result = getTypeRefdLast(timestamp, referenceChain);
@@ -239,6 +242,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final boolean interruptIfOptional) {
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -333,11 +337,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * */
 	// FIXME could be made abstract
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
 		
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 	if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -352,6 +358,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
 		return SubType.SubType_type.ST_NONE;
 	}
@@ -387,6 +394,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 	}
 
@@ -407,6 +415,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		if (Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype())) {
 			return value.setValuetype(timestamp, Value_type.REFERENCED_VALUE);
@@ -416,6 +425,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		value.setIsErroneous(false);
 
@@ -1112,6 +1122,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return the description of this type.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder;
 	}
@@ -1168,6 +1179,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                (used by the declaration collector) should be checked.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 	}
 
@@ -1346,6 +1358,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -1378,6 +1391,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (constraints != null) {
 			constraints.findReferences(referenceFinder, foundIdentifiers);
@@ -1393,6 +1407,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (constraints != null && !constraints.accept(v)) {
 			return false;

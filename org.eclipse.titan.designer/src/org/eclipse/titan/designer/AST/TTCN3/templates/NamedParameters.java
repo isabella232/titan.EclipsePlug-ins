@@ -41,6 +41,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
@@ -50,6 +51,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -102,11 +104,13 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -121,6 +125,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -135,6 +140,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (namedParams == null) {
 			return;
@@ -146,6 +152,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (namedParams != null) {
 			for (NamedParameter np : namedParams) {

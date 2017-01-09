@@ -54,11 +54,13 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.INT2OCT_OPERATION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("int2oct(");
 		builder.append(value1.createStringRepresentation());
@@ -68,6 +70,7 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (value1 != null) {
@@ -79,6 +82,7 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -92,11 +96,13 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_OCTETSTRING;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (value1 == null || value2 == null) {
@@ -190,6 +196,7 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -230,6 +237,7 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			if (value1 != null) {
@@ -246,6 +254,7 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -263,6 +272,7 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (value1 != null) {
 			value1.findReferences(referenceFinder, foundIdentifiers);
@@ -273,6 +283,7 @@ public final class Int2OctExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (value1 != null && !value1.accept(v)) {
 			return false;

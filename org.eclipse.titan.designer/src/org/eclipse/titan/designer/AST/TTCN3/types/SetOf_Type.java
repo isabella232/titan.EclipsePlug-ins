@@ -53,11 +53,13 @@ public final class SetOf_Type extends AbstractOfType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getTypetype() {
 		return Type_type.TYPE_SET_OF;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type newInstance() {
 		if (getOfType() instanceof ASN1Type) {
 			return new SetOf_Type(((IASN1Type) getOfType()).newInstance());
@@ -67,6 +69,7 @@ public final class SetOf_Type extends AbstractOfType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -302,16 +305,19 @@ public final class SetOf_Type extends AbstractOfType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "set_of.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
 		return SubType.SubType_type.ST_SETOF;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -379,6 +385,7 @@ public final class SetOf_Type extends AbstractOfType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit) {
 		registerUsage(template);
@@ -524,6 +531,7 @@ public final class SetOf_Type extends AbstractOfType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		builder.append("set of ");
 		if (getOfType() != null) {

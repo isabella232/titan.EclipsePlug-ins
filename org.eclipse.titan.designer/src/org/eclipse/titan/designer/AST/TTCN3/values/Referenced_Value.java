@@ -77,11 +77,13 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value_type getValuetype() {
 		return Value_type.REFERENCED_VALUE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		// do not evaluate the value now.
 		if (referencedValue != null && referencedValue != this) {
@@ -98,11 +100,13 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		final IType temporalType = getExpressionGovernor(timestamp, expectedValue);
 		if (temporalType == null) {
@@ -117,6 +121,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		final Assignment ass = reference.getRefdAssignment(timestamp, false);
@@ -151,6 +156,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -171,6 +177,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (reference != null) {
@@ -196,6 +203,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValueRefdLast(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -338,6 +346,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp,  final Expected_Value_type expectedValue) {
 		if (myGovernor != null) {
 			return myGovernor;
@@ -505,6 +514,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp,  final IValue other) {
 		if (lastTimeChecked == null) {
 			getValueRefdLast(timestamp, null);
@@ -522,6 +532,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser,  final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -534,6 +545,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsvalue(final boolean fromSequence) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
@@ -573,6 +585,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (reference == null) {
 			return;
@@ -582,6 +595,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (reference!=null && !reference.accept(v)) {
 			return false;

@@ -57,6 +57,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -200,6 +201,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -229,6 +231,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (fieldSpecifications != null && !fieldSpecifications.accept(v)) {
 			return false;

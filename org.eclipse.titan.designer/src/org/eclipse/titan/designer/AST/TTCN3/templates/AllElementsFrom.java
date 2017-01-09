@@ -63,16 +63,19 @@ public class AllElementsFrom extends TemplateBody {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getMyGovernor() {
 		return myGovernor;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyGovernor(final IType governor) {
 		myGovernor = governor;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified, final boolean allowOmit,
 			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 

@@ -40,6 +40,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	protected CTs_EE_CTs components;
 
 	@Override
+	/** {@inheritDoc} */
 	public String getTypename() {
 		return getFullName();
 	}
@@ -109,6 +110,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != components) {
@@ -136,6 +138,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (components != null) {
@@ -144,6 +147,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;
@@ -202,6 +206,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	 *                (used by the declaration collector) should be checked.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {

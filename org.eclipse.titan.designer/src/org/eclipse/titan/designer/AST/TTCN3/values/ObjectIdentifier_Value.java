@@ -37,6 +37,7 @@ public final class ObjectIdentifier_Value extends Value {
 	private final List<ObjectIdentifierComponent> objectIdComponents = new ArrayList<ObjectIdentifierComponent>();
 
 	@Override
+	/** {@inheritDoc} */
 	public Value_type getValuetype() {
 		return Value_type.OBJECTID_VALUE;
 	}
@@ -52,6 +53,7 @@ public final class ObjectIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -67,11 +69,13 @@ public final class ObjectIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_OBJECTID;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
 		if (!isAsn()) {
@@ -105,6 +109,7 @@ public final class ObjectIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -132,6 +137,7 @@ public final class ObjectIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		return true;
@@ -160,11 +166,13 @@ public final class ObjectIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean evaluateIsvalue(final boolean fromSequence) {
 		return true;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = other.getValueRefdLast(timestamp, referenceChain);
@@ -189,6 +197,7 @@ public final class ObjectIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -203,6 +212,7 @@ public final class ObjectIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (objectIdComponents!=null) {
 			for (ObjectIdentifierComponent c : objectIdComponents) {

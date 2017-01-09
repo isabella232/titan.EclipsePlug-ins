@@ -42,6 +42,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -74,6 +75,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 *                the scope to be set.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
 			mSelectUnionCases.get(i).setMyScope(scope);
@@ -185,6 +187,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -200,6 +203,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (mSelectUnionCases == null) {
 			return;
@@ -211,6 +215,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (mSelectUnionCases != null) {
 			for (final SelectUnionCase sc : mSelectUnionCases) {

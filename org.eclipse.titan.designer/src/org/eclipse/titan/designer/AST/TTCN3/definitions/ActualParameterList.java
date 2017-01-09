@@ -30,6 +30,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	private ArrayList<ActualParameter> parameters;
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
@@ -44,6 +45,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -116,6 +118,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -134,6 +137,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (parameters != null) {
 			for (ActualParameter ap : parameters) {

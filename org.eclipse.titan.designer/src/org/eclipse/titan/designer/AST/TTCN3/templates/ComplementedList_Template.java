@@ -44,6 +44,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (myGovernor != null) {
 			return myGovernor;
@@ -60,6 +61,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
@@ -76,11 +78,13 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		getLocation().reportSemanticError("A specific value expected instead of a complemented list match");
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		

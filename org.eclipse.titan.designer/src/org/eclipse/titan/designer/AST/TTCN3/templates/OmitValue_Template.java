@@ -46,6 +46,7 @@ public final class OmitValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("omit");
 		if (lengthRestriction != null) {
@@ -58,6 +59,7 @@ public final class OmitValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		if (!allowOmit) {
 			getLocation().reportSemanticError(SPECIFICVALUEEXPECTED);
@@ -65,16 +67,19 @@ public final class OmitValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		lengthRestriction.getLocation().reportSemanticError("Length restriction cannot be used with omit value");
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// nothing to be done
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		if (!allowOmit) {

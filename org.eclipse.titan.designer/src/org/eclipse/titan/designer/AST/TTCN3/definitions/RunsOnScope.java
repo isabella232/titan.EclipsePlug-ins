@@ -80,11 +80,13 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			if (componentDefinitions != null && componentDefinitions.hasLocalAssignmentWithId(reference.getId())) {
 			return componentDefinitions.getLocalAssignmentById(reference.getId());
@@ -107,6 +109,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
 			if (componentDefinitions != null
@@ -124,6 +127,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (componentType != null) {
 			componentType.findReferences(referenceFinder, foundIdentifiers);
@@ -134,6 +138,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

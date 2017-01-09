@@ -27,6 +27,7 @@ public final class VersionRequirementAttribute extends ModuleVersionAttribute {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ExtensionAttribute_type getAttributeType() {
 		return ExtensionAttribute_type.REQUIRES;
 	}

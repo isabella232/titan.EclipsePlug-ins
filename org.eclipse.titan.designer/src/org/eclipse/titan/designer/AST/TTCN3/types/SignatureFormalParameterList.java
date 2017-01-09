@@ -69,6 +69,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -100,6 +101,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 	 * @param scope the scope to be set
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		if (parameters == null) {
 			return;
@@ -276,6 +278,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -294,6 +297,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (parameters != null) {
 			for (SignatureFormalParameter sfp : parameters) {
@@ -303,6 +307,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (parameters != null) {
 			for (SignatureFormalParameter sfp : parameters) {

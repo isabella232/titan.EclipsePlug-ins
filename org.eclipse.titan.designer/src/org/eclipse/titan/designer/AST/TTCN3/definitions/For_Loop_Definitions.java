@@ -86,6 +86,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -136,16 +137,19 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineIcon() {
 		return "ttcn.gif";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
@@ -241,6 +245,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastCompilationTimeStamp != null && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
@@ -303,11 +308,13 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			if (reference.getModuleIdentifier() != null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
@@ -384,6 +391,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
 			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
@@ -403,6 +411,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 *                if only its' location needs to be updated.
 	 * */
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (!isDamaged) {
 			// handle the simple case quickly
@@ -582,6 +591,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		for (Definition definition : definitions) {
 			definition.findReferences(referenceFinder, foundIdentifiers);
@@ -589,6 +599,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

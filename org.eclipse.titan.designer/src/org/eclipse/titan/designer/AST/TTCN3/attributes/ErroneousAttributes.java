@@ -368,6 +368,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// qualifiers are searched in withAttributePath part, not here
 		if (errAttrSpecs != null) {
@@ -378,6 +379,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {
 		switch (v.visit(this)) {
 		case ASTVisitor.V_ABORT:

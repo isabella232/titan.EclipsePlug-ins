@@ -64,11 +64,13 @@ public final class Exports extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		this.location = location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		return location;
 	}
@@ -125,6 +127,7 @@ public final class Exports extends ASTNode implements ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		// TODO
 		return true;

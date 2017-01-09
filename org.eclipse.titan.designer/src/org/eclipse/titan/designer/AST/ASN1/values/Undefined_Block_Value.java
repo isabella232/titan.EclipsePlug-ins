@@ -60,21 +60,25 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Value_type getValuetype() {
 		return Value_type.UNDEFINED_BLOCK;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		return "<unsupported valuetype>";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (null == lastTimeChecked || lastTimeChecked.isLess(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
@@ -88,6 +92,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final IReferenceChain refChain) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -126,6 +131,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (null == lastTimeChecked || lastTimeChecked.isLess(timestamp)) {
@@ -140,6 +146,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getValueRefdLast(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (null == lastTimeChecked || lastTimeChecked.isLess(timestamp)) {
@@ -426,6 +433,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
 		if (null == realValue || realValue.getIsErroneous(timestamp)) {
 			return false;
@@ -435,6 +443,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -442,6 +451,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (null == realValue || realValue.getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
@@ -451,6 +461,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (realValue != null && !realValue.getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			if (!realValue.accept(v)) {
@@ -461,6 +472,7 @@ public final class Undefined_Block_Value extends Value {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Location getLocation() {
 		if (null != mBlock) {
 			return mBlock.getLocation();

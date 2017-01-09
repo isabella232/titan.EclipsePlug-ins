@@ -39,6 +39,7 @@ public final class Undefined_Assignment_T_or_OC extends Undefined_Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != reference) {
@@ -102,6 +103,7 @@ public final class Undefined_Assignment_T_or_OC extends Undefined_Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (!super.memberAccept(v)) {
 			return false;

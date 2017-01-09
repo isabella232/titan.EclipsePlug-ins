@@ -52,6 +52,7 @@ public abstract class Constraint extends ASTNode {
 	public abstract void check(final CompilationTimeStamp timestamp);
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// TODO: ASN.1 subtypes are not implemented yet
 	}

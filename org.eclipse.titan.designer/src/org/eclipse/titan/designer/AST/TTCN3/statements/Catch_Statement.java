@@ -111,11 +111,13 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Statement_type getType() {
 		return Statement_type.S_CATCH;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
@@ -129,6 +131,7 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -150,6 +153,7 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (portReference != null) {
@@ -185,6 +189,7 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -372,6 +377,7 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		if (redirectSender != null) {
 			return null;
@@ -402,6 +408,7 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
@@ -439,6 +446,7 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (portReference != null) {
 			portReference.findReferences(referenceFinder, foundIdentifiers);
@@ -461,6 +469,7 @@ public final class Catch_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (portReference != null && !portReference.accept(v)) {
 			return false;

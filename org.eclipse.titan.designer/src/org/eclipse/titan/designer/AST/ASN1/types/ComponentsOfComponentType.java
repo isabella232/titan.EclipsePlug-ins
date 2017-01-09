@@ -49,6 +49,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -60,6 +61,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		if (null != componentsOfType) {
@@ -184,6 +186,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (componentsOfType != null) {
 			componentsOfType.findReferences(referenceFinder, foundIdentifiers);
@@ -191,6 +194,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentsOfType != null && !componentsOfType.accept(v)) {
 			return false;

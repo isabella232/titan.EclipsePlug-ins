@@ -46,6 +46,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp)) {
 			return Type_type.TYPE_UNDEFINED;
@@ -55,11 +56,13 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		getLocation().reportSemanticError("A specific value expected instead of a subset match");
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_SET_OF.equals(typeType)) {
 			lengthRestriction.checkNofElements(timestamp, getNofTemplatesNotAnyornone(timestamp), false, true, true, this);

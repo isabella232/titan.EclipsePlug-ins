@@ -75,11 +75,13 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String chainedDescription() {
 		return getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Location getChainLocation() {
 		return getLocation();
 	}
@@ -182,6 +184,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -224,6 +227,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (fieldSpecification != null) {
 			fieldSpecification.addDeclaration(declarationCollector, i);
@@ -238,6 +242,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifier != null && !identifier.accept(v)) {
 			return false;
