@@ -120,6 +120,8 @@ public final class SelectUnionCase_Statement extends Statement {
 			return;
 		}
 
+		lastTimeChecked = timestamp;
+
 		if (expression == null) {
 			return;
 		}
@@ -131,47 +133,42 @@ public final class SelectUnionCase_Statement extends Statement {
 			if (!temp.getIsErroneous(timestamp)) {
 				expression.getLocation().reportSemanticError(UNDETERMINABLETYPE);
 			}
-		} else {
-			temp = governor.checkThisValueRef(timestamp, expression);
-			governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
-					true, false, false));
+			return;
 		}
 
-		if ( governor != null ) {
-			//referenced union type to check
-			final TTCN3_Choice_Type unionType;
-			//referenced type
-			final IType refd = governor.getTypeRefdLast( timestamp );
-			if ( refd instanceof TTCN3_Choice_Type ) {
-				//referenced union type to check
-				unionType = (TTCN3_Choice_Type)refd;
-			} else {
-				expression.getLocation().reportSemanticError( TYPEMUSTBEUNION );
-				unionType = null;
-				lastTimeChecked = timestamp;
-				return;
-			}
+		temp = governor.checkThisValueRef(timestamp, expression);
+		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
+				true, false, false));
 
-			// list of union field names. Names of processed field names are removed from the list
-			final List<String> fieldNames = new ArrayList<String>();
-			for ( int i = 0; i < unionType.getNofComponents(); i++ ) {
-				final String compName = unionType.getComponentIdentifierByIndex( i ).getName();
-				fieldNames.add( compName );
-			}
-			mSelectUnionCases.check( timestamp, unionType, fieldNames );
-			if ( !fieldNames.isEmpty() ) {
-				final StringBuilder sb = new StringBuilder( CASENOTCOVERED );
-				for ( int i = 0; i < fieldNames.size(); i++ ) {
-					if ( i > 0 ) {
-						sb.append(", ");
-					}
-					sb.append( fieldNames.get( i ) );
+		//referenced type
+		final IType refd = governor.getTypeRefdLast( timestamp );
+		if (!( refd instanceof TTCN3_Choice_Type) ) {
+			expression.getLocation().reportSemanticError( TYPEMUSTBEUNION );
+			return;
+		}
+
+		//referenced union type to check
+		final TTCN3_Choice_Type unionType = (TTCN3_Choice_Type)refd;
+
+		// list of union field names. Names of processed field names are removed from the list
+		final List<String> fieldNames = new ArrayList<String>();
+		for ( int i = 0; i < unionType.getNofComponents(); i++ ) {
+			final String compName = unionType.getComponentIdentifierByIndex( i ).getName();
+			fieldNames.add( compName );
+		}
+
+		mSelectUnionCases.check( timestamp, unionType, fieldNames );
+
+		if ( !fieldNames.isEmpty() ) {
+			final StringBuilder sb = new StringBuilder( CASENOTCOVERED );
+			for ( int i = 0; i < fieldNames.size(); i++ ) {
+				if ( i > 0 ) {
+					sb.append(", ");
 				}
-				location.reportSemanticWarning( sb.toString() );
+				sb.append( fieldNames.get( i ) );
 			}
+			location.reportSemanticWarning( sb.toString() );
 		}
-
-		lastTimeChecked = timestamp;
 	}
 
 	@Override

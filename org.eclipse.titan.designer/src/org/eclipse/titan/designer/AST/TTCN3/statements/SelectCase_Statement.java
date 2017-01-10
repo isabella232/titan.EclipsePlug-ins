@@ -116,6 +116,8 @@ public final class SelectCase_Statement extends Statement {
 			return;
 		}
 
+		lastTimeChecked = timestamp;
+
 		if (expression == null) {
 			return;
 		}
@@ -127,15 +129,14 @@ public final class SelectCase_Statement extends Statement {
 			if (!temp.getIsErroneous(timestamp)) {
 				expression.getLocation().reportSemanticError(UNDETERMINABLETYPE);
 			}
-		} else {
-			temp = governor.checkThisValueRef(timestamp, expression);
-			governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
-					true, false, false));
+			return;
 		}
 
-		selectcases.check(timestamp, governor);
+		temp = governor.checkThisValueRef(timestamp, expression);
+		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
+					true, false, false));
 
-		lastTimeChecked = timestamp;
+		selectcases.check(timestamp, governor);
 	}
 
 	@Override
