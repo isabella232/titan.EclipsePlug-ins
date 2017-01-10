@@ -86,7 +86,7 @@ public final class CheckStateExpression extends Expression_Value {
 		builder.append(mPortReference.getDisplayName());
 		builder.append(".checkstate(");
 		builder.append(mValue.createStringRepresentation());
-		builder.append(")");
+		builder.append(')');
 		return builder.toString();
 	}
 
