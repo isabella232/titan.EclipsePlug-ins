@@ -347,9 +347,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 		if (lengthRestriction != null || isIfpresent || getIsErroneous(timestamp)) {
 			return false;
 		}
-
-		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(specificValue.getValuetype())) {
-			final IType governor = ((Function_Reference_Value) specificValue).getExpressionGovernor(timestamp,
+		final IValue templ = specificValue.setLoweridToReference(timestamp);
+				
+		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(templ.getValuetype())) {
+			final IType governor = ((Function_Reference_Value) templ).getExpressionGovernor(timestamp,
 					Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (governor == null) {
 				return true;
@@ -359,10 +360,8 @@ public final class SpecificValue_Template extends TTCN3Template {
 			if (Type_type.TYPE_FUNCTION.equals(last.getTypetype()) && ((Function_Type) last).returnsTemplate()) {
 				return false;
 			}
-		} else if (Value_type.REFERENCED_VALUE.equals(specificValue.getValuetype()) 
-				//|| Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(specificValue.getValuetype())
-			) { //TODO: check this hack!  
-			final Reference reference = getReference();
+		} else if (Value_type.REFERENCED_VALUE.equals(templ.getValuetype()) ) {
+			final Reference reference = ((Referenced_Value) templ).getReference();
 			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment == null) {
 				return true;
@@ -379,11 +378,12 @@ public final class SpecificValue_Template extends TTCN3Template {
 			case A_FUNCTION_RVAL:
 			case A_EXT_FUNCTION_RVAL:
 			case A_MODULEPAR:
-				return true;
+			case A_MODULEPAR_TEMPLATE:
+				return true; //runtime evaluation!
 			case A_TEMPLATE:
 			case A_PAR_TEMP_IN:
 			case A_PAR_TEMP_INOUT:
-			case A_FUNCTION_RTEMP:
+			case A_FUNCTION_RTEMP:			
 			case A_VAR_TEMPLATE:
 				boolean result = true;
 				final Restriction_type rt = ((Definition) assignment).getTemplateRestriction();

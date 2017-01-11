@@ -30,13 +30,16 @@ public class ExpectedValueTypeTest {
 	
 	private ArrayList<MarkerToCheck> ExpectedValueTypeTest_ttcn_initializer() {
 		//ExpectedValueTypeTest.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(26);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(28);
 		int lineNum = 14;
 		markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@ExpectedValueTypeTest.Rec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 21;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template module parameter `@ExpectedValueTypeTest.tsp_i'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 7;
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("Restriction 'value' on template does not allow usage of this template",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("Formal parameter without template restriction not allowed here",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Restriction 'value' on template does not allow usage of this template",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 12;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template module parameter `@ExpectedValueTypeTest.tsp_trec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
@@ -81,5 +84,4 @@ public class ExpectedValueTypeTest {
 
 		return markersToCheck;
 	}
-
 }

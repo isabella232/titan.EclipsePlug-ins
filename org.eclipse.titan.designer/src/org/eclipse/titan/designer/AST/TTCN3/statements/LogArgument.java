@@ -114,13 +114,13 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 		isErroneous = false;
 
 		ITTCN3Template template = templateInstance.getTemplateBody();
-		template = template.getTemplateReferencedLast(timestamp);
+		template = template.setLoweridToReference(timestamp);
 		if (template.getIsErroneous(timestamp)) {
 			isErroneous = true;
 			return;
 		}
 
-		template = template.setLoweridToReference(timestamp);
+		template = template.getTemplateReferencedLast(timestamp);
 		if (template.getIsErroneous(timestamp)) {
 			isErroneous = true;
 			return;
@@ -137,8 +137,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			IType governor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 
 			if (governor == null) {
-				final ITTCN3Template temporalTemplate = template.setLoweridToReference(timestamp);
-				governor = temporalTemplate.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+				governor = template.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 			}
 
 			if (governor == null) {
@@ -196,7 +195,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 
 		//TODO: Is the next part necessary ???
 		temp.setMyGovernor(governor);
-		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, true, true, true, false));
+		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, true, true, true, false));//TODO:WHY
 
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		if (ArgumentType.Value.equals(internalLogArgument.getArgumentType()) && !temp.isUnfoldable(timestamp)) {

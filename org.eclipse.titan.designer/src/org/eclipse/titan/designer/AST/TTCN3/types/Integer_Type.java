@@ -216,7 +216,7 @@ public final class Integer_Type extends Type {
 			}
 		}
 	}
-
+	
 	@Override
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
 			final boolean isModified, final boolean implicitOmit) {

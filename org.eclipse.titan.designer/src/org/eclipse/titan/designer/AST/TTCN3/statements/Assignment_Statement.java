@@ -171,18 +171,18 @@ public final class Assignment_Statement extends Statement {
 			}
 		case A_VAR:
 			((Def_Var) assignment).setWritten();
-			if (template.isValue(timestamp)) {
+			if ( Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) || template.isValue(timestamp)) {
 				final 	IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
-			} else {
-				if( Template_type.VALUE_LIST.equals(template.getTemplatetype()) && ((ValueList_Template) template).getNofTemplates() == 1) {
+			} else if (
+				Template_type.VALUE_LIST.equals(template.getTemplatetype())
+				&& ((ValueList_Template) template).getNofTemplates() == 1) {
 					break;
-				} else {
-					template.getLocation().reportSemanticError(TEMPLATEASSIGNMENTTOVALUE);
-					template.setIsErroneous(true);
-					return;
-				}
+			} else {
+				template.getLocation().reportSemanticError(TEMPLATEASSIGNMENTTOVALUE);
+				template.setIsErroneous(true);
+				return;
 			}
 		case A_PAR_TEMP_IN:
 			((FormalParameter) assignment).useAsLValue(reference);
