@@ -108,6 +108,11 @@ public class AST_tests {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(assignment_ttcn_initializer(), "cfgFile/module_parameters/assignment/assignment.ttcn");
 	}
 
+	@Test
+	public void sapc_ttcn() throws Exception {
+		Designer_plugin_tests.checkSemanticMarkersOnFile(sapc_ttcn_initializer(), "src/Basic_tests/templates/all_from/positive/sapc.ttcn");
+	}
+	
 	private ArrayList<MarkerToCheck> ASNValues_asn_initializer() {
 		//ASNValues.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(3);
@@ -5708,11 +5713,12 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
-
+	
+	//template_assignment_tests_ttcn
+	
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4568);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4573);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5863,7 +5869,8 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_bitstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `bitstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 26;
 		markersToCheck.add(new MarkerToCheck("hexstring value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `hexstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5900,7 +5907,8 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_hexstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `hexstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 27;
 		markersToCheck.add(new MarkerToCheck("octetstring value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `octetstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5937,7 +5945,8 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_octetstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `octetstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 15;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep' in module `template_assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6084,7 +6093,8 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_charstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `charstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 24;
 		markersToCheck.add(new MarkerToCheck("Universal character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `universal charstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6126,7 +6136,8 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_universalcharstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `universal charstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 16;
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@template_assignment_tests.mycomponent'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7430,7 +7441,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
+	
 	private ArrayList<MarkerToCheck> template_formalparlist_tests_ttcn_initializer() {
 		//template_formalparlist_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(22);
@@ -11723,4 +11734,16 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
+	
+	//sapc_ttcn
+	
+	private ArrayList<MarkerToCheck> sapc_ttcn_initializer() {
+		//sapc.ttcn
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
+		int lineNum = 63;
+		markersToCheck.add(new MarkerToCheck("Index overflow in a template of `sequence of' type `@types.CreateSAPCSubscription.pcBlacklistService_list': the index is 3, but the template has only 3 elements",  lineNum, IMarker.SEVERITY_ERROR));
+
+		return markersToCheck;
+	}
+	
 }

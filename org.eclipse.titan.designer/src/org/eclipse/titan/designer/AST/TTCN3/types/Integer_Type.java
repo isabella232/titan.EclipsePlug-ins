@@ -224,7 +224,7 @@ public final class Integer_Type extends Type {
 			}
 		}
 	}
-
+	
 	@Override
 	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,

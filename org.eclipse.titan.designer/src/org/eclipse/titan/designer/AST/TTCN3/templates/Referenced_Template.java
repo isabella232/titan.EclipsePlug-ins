@@ -32,7 +32,9 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
@@ -203,17 +205,33 @@ public final class Referenced_Template extends TTCN3Template {
 
 		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 
-		if (ass == null || !Assignment_type.A_TEMPLATE.equals(ass.getAssignmentType())) { //TODO: more template shall be accepted
-			// the error was already reported
+		if (ass == null ){
 			setIsErroneous(true);
 			return this;
 		}
-
+		ITTCN3Template template = null;
+		
+		switch(ass.getAssignmentType()) {
+		case A_TEMPLATE:
+			template = ((Def_Template) ass).getTemplate(timestamp);
+			break;
+		case A_VAR_TEMPLATE:
+			((Def_Var_Template) ass).check(timestamp);
+			template = ((Def_Var_Template) ass).getInitialValue();
+			break;
+		case A_MODULEPAR_TEMPLATE:
+			template = ((Def_ModulePar_Template) ass).getDefaultTemplate();
+			break;
+		default:
+			setIsErroneous(true);
+			return this;
+		}
+				
+		if ( template != null) {
+			template = template.getReferencedSubTemplate(timestamp, reference, referenceChain);
+		}
+		
 		final List<ISubReference> subreferences = reference.getSubreferences();
-
-		ITTCN3Template template = ((Def_Template) ass).getTemplate(timestamp);
-		template = template.getReferencedSubTemplate(timestamp, reference, referenceChain);
-
 		if (template != null) {
 			return template;
 		} else if (subreferences != null && reference.hasUnfoldableIndexSubReference(timestamp)) {
