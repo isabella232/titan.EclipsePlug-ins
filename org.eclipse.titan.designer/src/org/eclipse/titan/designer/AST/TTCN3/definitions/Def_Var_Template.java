@@ -41,7 +41,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
- * The Def_Var class represents TTCN3 template variables.
+ * Represents a TTCN3 template variable.
  * 
  * @author Kristof Szabados
  * @author Arpad Lovassy
