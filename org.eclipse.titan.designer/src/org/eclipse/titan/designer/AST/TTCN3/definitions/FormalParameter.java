@@ -502,7 +502,7 @@ public final class FormalParameter extends Definition {
 		}
 
 		final ITTCN3Template template = actualParameter.getTemplateBody();
-		if (template.isValue(timestamp) && type != null) {
+		if ( (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) || template.isValue(timestamp)) && type != null) {
 			final IValue value = template.getValue();
 			value.setMyGovernor(type);
 			final IValue temp = type.checkThisValueRef(timestamp, value);
