@@ -163,11 +163,16 @@ public final class LogFileCacheHandler {
 	 */
 	public static void clearLogFolderCache(final IFolder logFolder) {
 		File indexFile = getCacheFolderFor(logFolder);
+		if (!indexFile.exists()) {
+			return;
+		}
  
-		if (indexFile.exists() && indexFile.isDirectory()) {
+		if (indexFile.isDirectory()) {
 			File[] filesInFolder = indexFile.listFiles();
-			for (File aFilesInFolder : filesInFolder) {
-				aFilesInFolder.delete();
+			if (filesInFolder != null) {
+				for (File aFilesInFolder : filesInFolder) {
+					aFilesInFolder.delete();
+				}
 			}
 			FileUtils.deleteQuietly(indexFile);
 		}
