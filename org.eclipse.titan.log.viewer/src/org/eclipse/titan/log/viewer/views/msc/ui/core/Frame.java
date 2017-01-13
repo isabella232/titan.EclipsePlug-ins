@@ -262,7 +262,7 @@ public class Frame extends BasicFrame {
 	}
 
 	private int drawLifeLineNodes(final IGC context, final List<? extends MSCNode> list, final int startIndex, final int step)	{
-		if (!this.hasChildren || (list.size() < 0)) {
+		if (!this.hasChildren || list.isEmpty()) {
 			return 0;
 		}
 
@@ -294,7 +294,7 @@ public class Frame extends BasicFrame {
 	 * @return the number of GraphNodes drawn
 	 */
 	private int drawNodes(final IGC context, final List<MSCNode> list, final int startIndex, final int step) {
-		if (!this.hasChildren || (list.size() < 0)) {
+		if (!this.hasChildren || list.isEmpty()) {
 			return 0;
 		}
 		
