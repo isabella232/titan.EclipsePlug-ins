@@ -69,7 +69,7 @@ public class RecordParser {
 	 * @throws ParseException if the log record can not be parsed
 	 */
 	private LogRecord parse() throws ParseException {
-		if ((this.buffer == null) || (this.buffer.length < 0)) {
+		if ((this.buffer == null) || (this.buffer.length == 0)) {
 			throw new ParseException(Messages.getString("RecordParser.0"), //$NON-NLS-1$
 					this.bufPointer);
 		}
