@@ -150,13 +150,14 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 	}
 
 	private void showInEditor(final ILocateableNode node) {
-		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		final Location location = node.getLocation();
 		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(location.getFile().getName());
 		if (desc == null) {
 			TITANDebugConsole.println("Cannot find the editor");
 			return;
 		}
+
+		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		try {
 			final IEditorPart editorPart = activePage.openEditor(new FileEditorInput((IFile) location.getFile()), desc.getId());
 			if (editorPart != null && (editorPart instanceof AbstractTextEditor)) {
