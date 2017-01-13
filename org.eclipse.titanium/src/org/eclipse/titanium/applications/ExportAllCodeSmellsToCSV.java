@@ -12,7 +12,6 @@ import java.util.Calendar;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titanium.markers.export.BaseProblemExporter;
 import org.eclipse.titanium.markers.export.CsvProblemExporter;
 /**
  * Prototype application for extracting the contents of the problems view into
@@ -36,7 +35,7 @@ public class ExportAllCodeSmellsToCSV extends InformationExporter {
 
 	@Override
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
-		final BaseProblemExporter exporter = new CsvProblemExporter(project);
+		final CsvProblemExporter exporter = new CsvProblemExporter(project);
 
 		try {
 			exporter.exportMarkers(monitor, args[0] + project.getName(), Calendar.getInstance().getTime());

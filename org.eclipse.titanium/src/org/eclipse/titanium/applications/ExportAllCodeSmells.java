@@ -14,7 +14,6 @@ import java.util.Date;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titanium.markers.export.BaseProblemExporter;
 import org.eclipse.titanium.markers.export.XlsProblemExporter;
 
 /**
@@ -40,7 +39,7 @@ public class ExportAllCodeSmells extends InformationExporter {
 
 	@Override
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
-		final BaseProblemExporter exporter = new XlsProblemExporter(project);
+		final XlsProblemExporter exporter = new XlsProblemExporter(project);
 
 		try {
 			Date date;

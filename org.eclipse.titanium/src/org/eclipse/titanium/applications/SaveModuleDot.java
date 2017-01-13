@@ -18,7 +18,6 @@ import org.eclipse.titanium.graph.clustering.BaseCluster;
 import org.eclipse.titanium.graph.clustering.ClustererBuilder;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
 import org.eclipse.titanium.graph.components.NodeDescriptor;
-import org.eclipse.titanium.graph.generators.GraphGenerator;
 import org.eclipse.titanium.graph.generators.ModuleGraphGenerator;
 import org.eclipse.titanium.graph.visualization.GraphHandler;
 
@@ -48,7 +47,8 @@ public class SaveModuleDot extends InformationExporter {
 	@Override
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
 		final ErrorHandler errorHandler = new ConsoleErrorHandler();
-		final GraphGenerator generator = new ModuleGraphGenerator(project, errorHandler);
+		final ModuleGraphGenerator generator = new ModuleGraphGenerator(project, errorHandler);
+
 		try {
 			generator.generateGraph();
 			

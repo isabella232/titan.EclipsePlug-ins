@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.titanium.error.ConsoleErrorHandler;
 import org.eclipse.titanium.error.ErrorHandler;
 import org.eclipse.titanium.graph.generators.ComponentGraphGenerator;
-import org.eclipse.titanium.graph.generators.GraphGenerator;
 import org.eclipse.titanium.graph.visualization.GraphHandler;
 
 /**
@@ -35,7 +34,7 @@ public class SaveComponentDot extends InformationExporter {
 	@Override
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
 		final ErrorHandler errorHandler = new ConsoleErrorHandler();
-		final GraphGenerator generator = new ComponentGraphGenerator(project, errorHandler);
+		final ComponentGraphGenerator generator = new ComponentGraphGenerator(project, errorHandler);
 
 		try {
 			generator.generateGraph();
