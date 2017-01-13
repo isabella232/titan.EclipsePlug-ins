@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.editors.GeneralPairMatcher;
  * @author Kristof Szabados
  */
 public final class ASN1DoubleClickStrategy implements ITextDoubleClickStrategy {
-	protected ITextViewer fText;
+	private ITextViewer fText;
 
 	@Override
 	public final void doubleClicked(final ITextViewer part) {

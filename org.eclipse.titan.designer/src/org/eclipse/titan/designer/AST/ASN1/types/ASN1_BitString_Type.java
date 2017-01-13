@@ -61,7 +61,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 	private static final String BITSTRINGVALUEEXPECTED2 = "bitstring value was expected";
 
 	private final Block mBlock;
-	protected NamedValues namedValues;
+	private NamedValues namedValues;
 	
 	public ASN1_BitString_Type(final Block aBlock) {
 		this.mBlock = aBlock;

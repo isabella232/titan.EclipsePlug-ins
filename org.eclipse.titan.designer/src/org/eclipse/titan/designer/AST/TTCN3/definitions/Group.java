@@ -79,9 +79,9 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	private CompilationTimeStamp lastUniquenessCheckTimeStamp;
 
 	/** The identifier of the group. */
-	protected Identifier identifier;
+	private Identifier identifier;
 
-	protected WithAttributesPath withAttributesPath = null;
+	private WithAttributesPath withAttributesPath = null;
 
 	/** The location of the group. */
 	private Location location;

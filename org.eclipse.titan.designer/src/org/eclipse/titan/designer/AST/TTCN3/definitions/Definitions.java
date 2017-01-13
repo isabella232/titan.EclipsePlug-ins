@@ -72,7 +72,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * Stores those definitions which were identified to be duplicates of
 	 * others. This is used to provide much faster operation.
 	 * */
-	protected List<Definition> doubleDefinitions;
+	private List<Definition> doubleDefinitions;
 
 	/**
 	 * Holds the last time when these definitions were checked, or null if
@@ -84,7 +84,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * Holds the last time when the uniqueness of these definitions were
 	 * checked, or null if never.
 	 */
-	protected CompilationTimeStamp lastUniquenessCheckTimeStamp;
+	private CompilationTimeStamp lastUniquenessCheckTimeStamp;
 
 	/** The list of the groups contained in this scope. */
 	private final List<Group> groups;

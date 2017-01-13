@@ -17,7 +17,7 @@ import org.eclipse.core.resources.IResource;
  */
 public final class LargeLocation extends Location {
 	
-	protected int endLine;
+	private int endLine;
 
 	public LargeLocation(final IResource file, final int line, final int endline, final int offset, final int endOffset) {
 		super(file, line, offset, endOffset);

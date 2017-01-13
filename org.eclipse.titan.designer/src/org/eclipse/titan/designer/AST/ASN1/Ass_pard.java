@@ -50,9 +50,9 @@ public final class Ass_pard implements IIdentifierContainer, IVisitableNode {
 	private final Map<Module, Integer> instance_counters = new HashMap<Module, Integer>();
 
 	/** the time when this assignment was checked the last time. */
-	protected CompilationTimeStamp lastTimeChecked;
+	private CompilationTimeStamp lastTimeChecked;
 
-	protected boolean isErroneous = false;
+	private boolean isErroneous = false;
 
 	/**
 	 * The set of all parameterized assignments that were instanced in the

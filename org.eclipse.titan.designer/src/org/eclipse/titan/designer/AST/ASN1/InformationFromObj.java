@@ -56,9 +56,9 @@ public final class InformationFromObj extends Reference {
 	private boolean isErroneous;
 
 	/** ObjectClass, Object or ObjectSet. */
-	protected final Defined_Reference reference;
+	private final Defined_Reference reference;
 
-	protected final FieldName fieldName;
+	private final FieldName fieldName;
 
 	private enum SettingDetectionState {
 		ObjectClass, ObjectSet, Object

@@ -39,8 +39,8 @@ public final class ObjectClass_Definition extends ObjectClass {
 	private final Block fieldSpecsBlock;
 	private final Block withSyntaxBlock;
 
-	protected FieldSpecifications fieldSpecifications;
-	protected ObjectClassSyntax_root ocsRoot;
+	private FieldSpecifications fieldSpecifications;
+	private ObjectClassSyntax_root ocsRoot;
 
 	public ObjectClass_Definition(final Block fieldSpecsBlock, final Block withSyntaxBlock) {
 		this.fieldSpecsBlock = fieldSpecsBlock;

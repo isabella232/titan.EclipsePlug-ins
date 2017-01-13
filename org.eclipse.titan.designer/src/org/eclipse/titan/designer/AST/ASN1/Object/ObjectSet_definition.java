@@ -44,7 +44,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	private final Block mBlock;
 
 	private List<IObjectSet_Element> objectSetElements;
-	protected ASN1Objects objects;
+	private ASN1Objects objects;
 
 	public ObjectSet_definition() {
 		setObjectSetElements(new ArrayList<IObjectSet_Element>());

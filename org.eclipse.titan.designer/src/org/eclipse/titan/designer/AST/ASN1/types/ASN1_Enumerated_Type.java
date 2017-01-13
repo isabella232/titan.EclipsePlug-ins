@@ -71,7 +71,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for enumerated type";
 
 	private final Block mBlock;
-	protected ASN1_Enumeration enumerations;
+	private ASN1_Enumeration enumerations;
 	private Map<String, EnumItem> nameMap;
 	private Integer firstUnused;
 

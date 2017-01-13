@@ -34,18 +34,18 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokens;
 public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 
 	private final Block mBlock;
-	protected final Object_Definition myObject;
+	private final Object_Definition myObject;
 
 	/**
 	 * Stores whether the parsing was successful. If it is false, the
 	 * parsing cannot be continued.
 	 * */
-	protected boolean success;
+	private boolean success;
 	/** Stores whether the previous parsing was successful. */
-	protected boolean previousSuccess;
+	private boolean previousSuccess;
 
 	/** the actual index till which the tokens are already parsed. */
-	protected int internalIndex;
+	private int internalIndex;
 
 	public ObjectClassSyntax_Parser(final Block aBlock, final Object_Definition myObject) {
 		this.myObject = myObject;

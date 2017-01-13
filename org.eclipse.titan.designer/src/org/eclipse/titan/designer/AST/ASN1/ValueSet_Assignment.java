@@ -29,7 +29,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 	private static final String UNKNOWNASSIGNMENT = "unknown value assignment";
 
 	/** left. */
-	protected final IASN1Type type;
+	private final IASN1Type type;
 	/** right */
 	private final Block mBlock;
 

@@ -49,7 +49,7 @@ public final class Goto_statement extends Statement {
 
 	// The actual value of the severity level to report stricter constant
 	// checking on.
-	protected static String banishGOTO;
+	public static String banishGOTO;
 
 	static {
 		final IPreferencesService ps = Platform.getPreferencesService();

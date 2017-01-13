@@ -35,15 +35,15 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  * */
 public final class CompilerVersionInformationCollector {
-	protected static final String TTCN3_LICENSE_FILE_KEY = "TTCN3_LICENSE_FILE";
-	protected static final String TTCN3_DIR_KEY = "TTCN3_DIR";
-	protected static final String LD_LIBRARY_PATH_KEY = "LD_LIBRARY_PATH";
-	protected static final String LIBRARY_SUB_DIR = "/lib";
+	private static final String TTCN3_LICENSE_FILE_KEY = "TTCN3_LICENSE_FILE";
+	private static final String TTCN3_DIR_KEY = "TTCN3_DIR";
+	private static final String LD_LIBRARY_PATH_KEY = "LD_LIBRARY_PATH";
+	private static final String LIBRARY_SUB_DIR = "/lib";
 	public static final String VERSION_CHECK_FLAG = "v";
 	public static final String COMPILER_SUBPATH = File.separatorChar + "bin" + File.separatorChar + "compiler";
-	protected static final String SPACE = " ";
-	protected static final String SUCCESS = "Operation finished successfully.";
-	protected static final String FAILURE = "Operation failed with return value: ";
+	private static final String SPACE = " ";
+	private static final String SUCCESS = "Operation finished successfully.";
+	private static final String FAILURE = "Operation failed with return value: ";
 
 	private static final Pattern BASE_TITAN_HEADER_PATTERN = Pattern.compile(
 			"TTCN\\-3 and ASN\\.1 Compiler for the TTCN\\-3 Test Executor, version (.+)\\n"

@@ -96,7 +96,7 @@ public final class TTCN3Module extends Module {
 
 	private final List<ImportModule> importedModules;
 	private final List<FriendModule> friendModules;
-	protected Definitions definitions;
+	private Definitions definitions;
 	private ControlPart controlpart;
 
 	private Location commentLocation = null;
@@ -110,7 +110,7 @@ public final class TTCN3Module extends Module {
 	private Anytype_Type anytype;
 	private Def_Type anytypeDefinition;
 
-	protected WithAttributesPath withAttributesPath = null;
+	private WithAttributesPath withAttributesPath = null;
 
 	// The "supplied" version
 	private ProductIdentity versionNumber = null;

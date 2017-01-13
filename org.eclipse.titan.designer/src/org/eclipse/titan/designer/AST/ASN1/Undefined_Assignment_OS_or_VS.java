@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  */
 public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 
-	protected final Reference reference;
+	private final Reference reference;
 	private final Block mBlock;
 	
 	public Undefined_Assignment_OS_or_VS(final Identifier id, final Ass_pard assPard, final Reference reference, final Block aBlock) {

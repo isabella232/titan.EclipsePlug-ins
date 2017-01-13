@@ -52,9 +52,9 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 		return KIND;
 	}
 
-	protected StatementBlock statementblock;
+	private StatementBlock statementblock;
 
-	protected WithAttributesPath withAttributesPath = null;
+	private WithAttributesPath withAttributesPath = null;
 
 	private Location location;
 

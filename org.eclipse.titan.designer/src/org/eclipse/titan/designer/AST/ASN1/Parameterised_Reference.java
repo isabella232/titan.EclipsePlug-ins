@@ -43,26 +43,26 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokens;
  * @author Arpad Lovassy
  */
 public final class Parameterised_Reference extends Defined_Reference {
-	protected static final String FULLNAMEPART1 = ".<block>";
-	protected static final String FULLNAMEPART2 = "{}";
+	private static final String FULLNAMEPART1 = ".<block>";
+	private static final String FULLNAMEPART2 = "{}";
 
 	private static final String ASSIGNMENTEXPECTED = "ASN.1 assignment expected";
 	private static final String PARAMETERISEDASSIGNMENTEXPECTED = "Parameterized assignment expected";
-	protected static final String DIFFERENTPARAMETERNUMBERS = "Too {0} parameters: `{1}'' was expected instead of `{2}''";
+	private static final String DIFFERENTPARAMETERNUMBERS = "Too {0} parameters: `{1}'' was expected instead of `{2}''";
 
 	private final Block mBlock;
 
-	protected final Defined_Reference assignmentReference;
-	protected boolean isErroneous;
+	private final Defined_Reference assignmentReference;
+	private boolean isErroneous;
 
-	protected ASN1Assignments assignments;
+	private ASN1Assignments assignments;
 	private Defined_Reference finalReference;
 
 	private CompilationTimeStamp lastCheckTimeStamp;	
 
 	private NameReStarter newAssignmentNameStart;
 
-	protected Location location;
+	private Location location;
 
 	public Parameterised_Reference(final Defined_Reference reference, final Block aBlock) {
 		super(null);

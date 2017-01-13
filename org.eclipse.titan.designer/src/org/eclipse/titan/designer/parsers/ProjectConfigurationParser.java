@@ -74,10 +74,10 @@ public final class ProjectConfigurationParser {
 	private static final String SOURCE_ANALYSING = "Analysing the config file";
 	private static final String PARSING = "parsing";
 	private IProject project;
-	protected Map<IFile, String> uptodateFiles;
+	private Map<IFile, String> uptodateFiles;
 	private Set<IFile> highlySyntaxErroneousFiles;
-	protected Map<IFile, String> fileMap;
-	protected Map<String, CfgDefinitionInformation> definitions;
+	private Map<IFile, String> fileMap;
+	private Map<String, CfgDefinitionInformation> definitions;
 
 	/**
 	 * Counts how many parallel analyzer threads are running. Should not be

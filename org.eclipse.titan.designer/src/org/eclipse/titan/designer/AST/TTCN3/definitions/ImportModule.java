@@ -64,7 +64,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 		IReferencingElement {
 	public static final String MISSINGMODULE = "There is no module with name `{0}''";
 
-	protected WithAttributesPath withAttributesPath = null;
+	private WithAttributesPath withAttributesPath = null;
 
 	private Identifier myModuleIdentifier;
 	private TTCN3Module myModule;

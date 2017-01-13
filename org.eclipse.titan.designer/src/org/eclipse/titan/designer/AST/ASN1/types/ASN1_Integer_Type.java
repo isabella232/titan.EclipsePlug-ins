@@ -68,7 +68,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 	private static final String INCORRECTUPPERBOUNDARY = "The upper boundary cannot be -infinity";
 
 	private final Block mBlock;
-	protected NamedValues namedNumbers;
+	private NamedValues namedNumbers;
 	
 	private static enum BOUNDARY_TYPE {
 		LOWER, UPPER

@@ -47,7 +47,7 @@ public final class CTs_EE_CTs extends ASTNode {
 
 	private CompilationTimeStamp lastTimeChecked;
 
-	protected ArrayList<CompField> components = new ArrayList<CompField>();
+	private ArrayList<CompField> components = new ArrayList<CompField>();
 	private HashMap<String, CompField> componentsMap = new HashMap<String, CompField>();
 
 	public CTs_EE_CTs(final ComponentTypeList componentTypeList1, final ExtensionAndException extensionAndException,
@@ -121,6 +121,10 @@ public final class CTs_EE_CTs extends ASTNode {
 		}
 
 		return componentsMap.get(identifier.getName());
+	}
+	
+	public int indexOf(final CompField field) {
+		return components.indexOf(field);
 	}
 
 	public void trCompsof(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain, final boolean inEllipsis) {

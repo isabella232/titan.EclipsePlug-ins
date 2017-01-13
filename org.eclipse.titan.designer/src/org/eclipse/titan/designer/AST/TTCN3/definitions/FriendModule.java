@@ -52,7 +52,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	public static final String MISSINGMODULE = "There is no module with name `{0}''";
 
 	private Identifier identifier;
-	protected WithAttributesPath withAttributesPath = null;
+	private WithAttributesPath withAttributesPath = null;
 	private Group parentGroup = null;
 
 	private IProject project;

@@ -32,8 +32,8 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokens;
  */
 public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 
-	protected Block mBlock;
-	protected final FieldSpecifications fieldSpecifications;
+	private Block mBlock;
+	private final FieldSpecifications fieldSpecifications;
 
 	public ObjectClassSyntax_Builder(final Block aBlock, final FieldSpecifications aFieldSpecifications) {
 		this.mBlock = aBlock;

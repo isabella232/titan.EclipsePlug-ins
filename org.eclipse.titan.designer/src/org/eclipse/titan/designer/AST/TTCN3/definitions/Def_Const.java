@@ -63,7 +63,7 @@ public final class Def_Const extends Definition {
 	}
 
 	private final Type type;
-	protected Value value;
+	private Value value;
 
 	public Def_Const(final Identifier identifier, final Type type, final Value value) {
 		super(identifier);
