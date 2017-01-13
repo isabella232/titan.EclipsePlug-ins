@@ -241,7 +241,7 @@ public final class Activator extends AbstractUIPlugin {
 	 * The constructor.
 	 */
 	public Activator() {
-		plugin = this;
+		setDefault(this);
 	}
 
 	/**
@@ -503,9 +503,21 @@ public final class Activator extends AbstractUIPlugin {
 		final IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		workspace.removeResourceChangeListener(listener);
 		workspace.removeResourceChangeListener(decoratorUpdater);
-		plugin = null;
+		setDefault(null);
 
 		super.stop(context);
+	}
+
+	/**
+	 * Sets the default singleton instance of this plug-in,
+	 * that later can be used to access plug-in specific preference settings.
+	 * 
+	 * @param activator the single instance of this plug-in class.
+	 * */
+	private static void setDefault(final Activator activator) {
+		if (plugin == null) {
+			plugin = activator;
+		}
 	}
 
 	/**

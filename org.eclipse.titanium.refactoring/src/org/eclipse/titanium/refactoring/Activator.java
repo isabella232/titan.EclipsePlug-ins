@@ -24,18 +24,30 @@ public class Activator extends AbstractUIPlugin {
 	private static Activator plugin;
 
 	public Activator() {
+		setDefault(this);
 	}
 
 	@Override
 	public void start(final BundleContext context) throws Exception {
-		plugin = this;
 		super.start(context);
 	}
 
 	@Override
 	public void stop(final BundleContext context) throws Exception {
-		plugin = null;
+		setDefault(null);
 		super.stop(context);
+	}
+
+	/**
+	 * Sets the default singleton instance of this plug-in,
+	 * that later can be used to access plug-in specific preference settings.
+	 * 
+	 * @param activator the single instance of this plug-in class.
+	 * */
+	private static void setDefault(final Activator activator) {
+		if (plugin == null) {
+			plugin = activator;
+		}
 	}
 
 	/**

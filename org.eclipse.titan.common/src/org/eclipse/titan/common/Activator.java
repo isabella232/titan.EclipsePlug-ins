@@ -29,7 +29,7 @@ public final class Activator extends AbstractUIPlugin {
 	private WorkspaceJob usageStatSenderJob;
 
 	public Activator() {
-		plugin = this;
+		setDefault(this);
 	}
 
 	@Override
@@ -42,11 +42,23 @@ public final class Activator extends AbstractUIPlugin {
 
 	@Override
 	public void stop(final BundleContext context) throws Exception {
-		plugin = null;
+		setDefault(null);
 		if (usageStatSenderJob != null) {
 			usageStatSenderJob.cancel();
 		}
 		super.stop(context);
+	}
+
+	/**
+	 * Sets the default singleton instance of this plug-in,
+	 * that later can be used to access plug-in specific preference settings.
+	 * 
+	 * @param activator the single instance of this plug-in class.
+	 * */
+	private static void setDefault(final Activator activator) {
+		if (plugin == null) {
+			plugin = activator;
+		}
 	}
 
 	/**

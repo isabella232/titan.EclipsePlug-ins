@@ -53,7 +53,7 @@ public class Activator extends AbstractUIPlugin {
 	 * The constructor
 	 */
 	public Activator() {
-		plugin = this;
+		setDefault(this);
 		this.imageCache = new HashMap<String, Image>();
 		this.guiResourceCache = new HashMap<String, Resource>();
 	}
@@ -82,7 +82,7 @@ public class Activator extends AbstractUIPlugin {
 		PreferencesHandler prefHandler = PreferencesHandler.getInstance();
 		prefHandler.removeListener();
 		prefHandler.dispose();
-		plugin = null;
+		setDefault(null);
 		disposeImages();
 		disposeGUIResources();
 
@@ -91,6 +91,18 @@ public class Activator extends AbstractUIPlugin {
 		workspace.removeResourceChangeListener(this.resourceListener);
 
 		super.stop(context);
+	}
+
+	/**
+	 * Sets the default singleton instance of this plug-in,
+	 * that later can be used to access plug-in specific preference settings.
+	 * 
+	 * @param activator the single instance of this plug-in class.
+	 * */
+	private static void setDefault(final Activator activator) {
+		if (plugin == null) {
+			plugin = activator;
+		}
 	}
 
 	/**
