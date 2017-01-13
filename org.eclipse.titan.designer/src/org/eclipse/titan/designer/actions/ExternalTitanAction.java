@@ -69,7 +69,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 	protected IProject singleSelectedProject = null;
 
 	private final class InternalResourceVisitor implements IResourceVisitor {
-		private boolean processExludedOnes;
+		private final boolean processExludedOnes;
 		private ResourceExclusionHelper helper = null;
 
 		public InternalResourceVisitor(final boolean processExludedOnes) {
