@@ -132,7 +132,7 @@ public final class ExecuteExpression extends Expression_Value {
 
 		if (assignment == null) {
 			setIsErroneous(true);
-		} else if (!Assignment_type.A_TESTCASE.equals(assignment.getAssignmentType())) {
+		} else if (!Assignment_type.A_TESTCASE.semanticallyEquals(assignment.getAssignmentType())) {
 			reference.getLocation().reportSemanticError(
 					MessageFormat.format("Reference to a testcase was expected in the argument instead of {0}",
 							assignment.getDescription()));

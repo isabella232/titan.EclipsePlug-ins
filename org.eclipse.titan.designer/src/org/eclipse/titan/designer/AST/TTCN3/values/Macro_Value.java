@@ -193,7 +193,7 @@ public final class Macro_Value extends Value {
 						location.reportSemanticError(TESCASEIDINCONTROLPART);
 						setIsErroneous(true);
 					} else {
-						if (Assignment_type.A_TESTCASE.equals(definition.getAssignmentType())) {
+						if (Assignment_type.A_TESTCASE.semanticallyEquals(definition.getAssignmentType())) {
 							// folding is possible in testcases only
 							lastValue = new Charstring_Value(definition.getIdentifier().getDisplayName());
 							lastValue.copyGeneralProperties(this);

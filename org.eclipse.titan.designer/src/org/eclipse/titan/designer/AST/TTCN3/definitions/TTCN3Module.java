@@ -264,7 +264,7 @@ public final class TTCN3Module extends Module {
 
 		final Definition definition = definitions.getLocalAssignmentByID(timestamp, addressIdentifier);
 
-		if (!Assignment_type.A_TYPE.equals(definition.getAssignmentType())) {
+		if (!Assignment_type.A_TYPE.semanticallyEquals(definition.getAssignmentType())) {
 			return null;
 		}
 

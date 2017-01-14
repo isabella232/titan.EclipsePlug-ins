@@ -507,7 +507,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 					// to a template having formal
 					// parameters, where each has
 					// default values
-					if (!Assignment.Assignment_type.A_TEMPLATE.equals(referredAssignment.getAssignmentType())
+					if (!Assignment.Assignment_type.A_TEMPLATE.semanticallyEquals(referredAssignment.getAssignmentType())
 							|| !formalParameterList.hasOnlyDefaultValues()) {
 						final String message = MessageFormat.format(
 								"Reference to parameterized definition `{0}'' without actual parameter list",
@@ -573,7 +573,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	public final Component_Type chkComponentypeReference(final CompilationTimeStamp timestamp) {
 		final Assignment assignment = getRefdAssignment(timestamp, true);
 		if (assignment != null) {
-			if (Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
+			if (Assignment_type.A_TYPE.semanticallyEquals(assignment.getAssignmentType())) {
 				IType type = assignment.getType(timestamp);
 				if (type != null) {
 					type = type.getTypeRefdLast(timestamp);
@@ -658,7 +658,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			return false;
 		}
 
-		if (!Assignment_type.A_ALTSTEP.equals(assignment.getAssignmentType())) {
+		if (!Assignment_type.A_ALTSTEP.semanticallyEquals(assignment.getAssignmentType())) {
 			getLocation().reportSemanticError(MessageFormat.format(ALTSTEPEXPECTED, assignment.getDescription()));
 			return false;
 		}

@@ -74,7 +74,7 @@ public final class TestcasenameExpression extends Expression_Value {
 					lastValue = new Charstring_Value("");
 					lastValue.copyGeneralProperties(this);
 				} else {
-					if (Assignment_type.A_TESTCASE.equals(definition.getAssignmentType())) {
+					if (Assignment_type.A_TESTCASE.semanticallyEquals(definition.getAssignmentType())) {
 						lastValue = new Charstring_Value(definition.getIdentifier().getDisplayName());
 						lastValue.copyGeneralProperties(this);
 					}

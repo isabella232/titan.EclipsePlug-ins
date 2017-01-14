@@ -143,7 +143,7 @@ public final class Referenced_Altguard extends AltGuard {
 		if (reference != null) {
 			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment != null) {
-				if (Assignment_type.A_ALTSTEP.equals(assignment.getAssignmentType())) {
+				if (Assignment_type.A_ALTSTEP.semanticallyEquals(assignment.getAssignmentType())) {
 					reference.getMyScope().checkRunsOnScope(timestamp, assignment, reference, "call");
 				} else {
 					reference.getLocation().reportSemanticError(

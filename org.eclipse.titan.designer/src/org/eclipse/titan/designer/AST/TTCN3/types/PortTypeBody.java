@@ -432,7 +432,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		PortTypeBody providerBody = null;
 		final Assignment assignment = providerReference.getRefdAssignment(timestamp, true);
 		if (assignment != null) {
-			if (Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
+			if (Assignment_type.A_TYPE.semanticallyEquals(assignment.getAssignmentType())) {
 				final IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
 				if (Type_type.TYPE_PORT.equals(type.getTypetype())) {
 					providerType = type;
