@@ -277,7 +277,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 					final List<AssignmentHandler> dependentAssignments = getAssignmentsFrom(dependentModule);
 					moduleAndBrokenAssignments.put(dependentModule, dependentAssignments);
 				}
-			} else {
+			} else { //incremental parsing + no name change
 				for (int j = 0; j < whereStartModuleUsed.size(); ++j) {
 					final Module dependentModule = whereStartModuleUsed.get(j);
 					List<AssignmentHandler> dependentAssignments;
@@ -492,8 +492,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	// It is used to check if this kind of algorithm is too slow
 	// For debugging purposes you can set it for "false"
 	private boolean isTooSlow(){
-		return false;
-		//return ((System.nanoTime()-start) > TIMELIMIT);	
+		return ((System.nanoTime()-start) > TIMELIMIT);	
 	}
 
 	protected void writeDebugInfo(final Map<Module, List<AssignmentHandler>> moduleAndAssignments) {
