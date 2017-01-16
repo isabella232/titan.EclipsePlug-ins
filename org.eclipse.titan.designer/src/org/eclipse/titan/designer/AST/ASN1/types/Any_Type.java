@@ -90,6 +90,7 @@ public final class Any_Type extends ASN1Type {
 		template.setMyGovernor(this);
 
 		template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
+		template.setIsErroneous(true);
 
 		if (null != template.getLengthRestriction()) {
 			template.getLocation().reportSemanticError(LENGTHRESTRICTIONNOTALLOWED);

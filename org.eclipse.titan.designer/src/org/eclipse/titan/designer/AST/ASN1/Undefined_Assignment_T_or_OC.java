@@ -83,6 +83,7 @@ public final class Undefined_Assignment_T_or_OC extends Undefined_Assignment {
 
 		if (null == realAssignment) {
 			location.reportSemanticError(UNRECOGNISABLEASSIGNMENT);
+			isErroneous = true;
 		} else {
 			realAssignment.setLocation(location);
 			realAssignment.setMyScope(myScope);

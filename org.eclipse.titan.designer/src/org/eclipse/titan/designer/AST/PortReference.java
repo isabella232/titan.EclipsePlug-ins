@@ -50,7 +50,7 @@ public class PortReference extends Reference {
 		if (!componentBody.hasLocalAssignmentWithId(portIdentifier)) {
 			getLocation().reportSemanticError(
 					MessageFormat.format(NOPORTWITHNAME, componentType.getTypename(), portIdentifier.getDisplayName()));
-
+			setIsErroneous(true);
 			referredAssignment = null;
 			lastTimeChecked = timestamp;
 			return null;

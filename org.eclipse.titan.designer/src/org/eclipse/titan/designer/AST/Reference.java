@@ -494,6 +494,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 					final String message = MessageFormat.format("The referenced {0} cannot have actual parameters",
 							referredAssignment.getDescription());
 					getLocation().reportSemanticError(message);
+					setIsErroneous(true);
 				}
 			} else if (!subReferences.isEmpty()) {
 				final ISubReference firstSubReference = subReferences.get(0);
@@ -513,6 +514,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 								"Reference to parameterized definition `{0}'' without actual parameter list",
 								referredAssignment.getIdentifier().getDisplayName());
 						getLocation().reportSemanticError(message);
+						setIsErroneous(true);
 					}
 				}
 			}
@@ -585,12 +587,14 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 							return null;
 						default:
 							getLocation().reportSemanticError(COMPONENTEXPECTED);
+							setIsErroneous(true);
 							break;
 						}
 					}
 				}
 			} else {
 				getLocation().reportSemanticError(TYPEEXPECTED);
+				setIsErroneous(true);
 			}
 		}
 		return null;
@@ -633,12 +637,14 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			break;
 		default:
 			getLocation().reportSemanticError(MessageFormat.format(VARIABLEXPECTED, assignment.getDescription()));
+			setIsErroneous(true);
 			return null;
 		}
 
 		final IType result = type.getFieldType(timestamp, this, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null, false);
 		if (result != null && subReferences != null && refersToStringElement()) {
 			getLocation().reportSemanticError(MessageFormat.format(STRINGELEMENTUNUSABLE, result.getTypename()));
+			setIsErroneous(true);
 		}
 
 		return result;
@@ -660,6 +666,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		if (!Assignment_type.A_ALTSTEP.equals(assignment.getAssignmentType())) {
 			getLocation().reportSemanticError(MessageFormat.format(ALTSTEPEXPECTED, assignment.getDescription()));
+			setIsErroneous(true);
 			return false;
 		}
 
@@ -734,6 +741,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		if (!(assignment instanceof ASN1Assignment)) {
 			getLocation().reportSemanticError(ASN1SETTINGEXPECTED);
+			setIsErroneous(true);
 			return false;
 		}
 

@@ -405,6 +405,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (subtypeType == SubType.SubType_type.ST_NONE) {
 			getLocation().reportSemanticError(
 					MessageFormat.format("TTCN-3 subtype constraints are not applicable to type `{0}''", getTypename()));
+			setIsErroneous(true);
 			return;
 		}
 

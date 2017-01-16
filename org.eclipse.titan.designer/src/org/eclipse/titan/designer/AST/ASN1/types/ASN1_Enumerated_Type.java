@@ -307,6 +307,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		if (!Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
 			value.getLocation().reportSemanticError(
 					MessageFormat.format("INTEGER value was expected for enumeration `{0}''", itemID.getDisplayName()));
+			value.setIsErroneous(true);
 			return;
 		}
 
@@ -316,6 +317,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 					MessageFormat.format(
 							"The numeric value of enumeration `{0}'' ({1}) is too large for being represented in memory",
 							itemID.getDisplayName(), temp.getValueValue()));
+			value.setIsErroneous(true);
 			return;
 		}
 
@@ -331,6 +333,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 					MessageFormat.format(
 						"ENUMERATED values shall be monotonically growing after the ellipsis: the value of `{0}'' must be at least {1} instead of {2}",
 										itemID.getDisplayName(), firstUnused, enumValue));
+				value.setIsErroneous(true);
 			}
 		} else {
 			if (valueMap.containsKey(enumValue)) {
@@ -427,9 +430,10 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		template.setMyGovernor(this);
 
 		template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
-
+		template.setIsErroneous(true);
 		if (template.getLengthRestriction() != null) {
 			template.getLocation().reportSemanticError(LENGTHRESTRICTIONNOTALLOWED);
+			template.setIsErroneous(true);
 		}
 	}
 

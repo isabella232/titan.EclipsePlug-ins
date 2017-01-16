@@ -101,6 +101,7 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 
 		if (null == realAssignment) {
 			location.reportSemanticError(UNRECOGNISABLEASSIGNMENT);
+			isErroneous = true;
 		} else {
 			realAssignment.setLocation(location);
 			realAssignment.setMyScope(myScope);

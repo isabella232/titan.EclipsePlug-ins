@@ -254,6 +254,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		components.check(timestamp);
 		if (components.getNofComps() <= 0 && location != null) {
 			location.reportSemanticError(MISSINGALTERNATIVE);
+			setIsErroneous(true);
 		}
 
 		if (constraints != null) {
@@ -313,8 +314,10 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		default:
 			if (value.isAsn()) {
 				value.getLocation().reportSemanticError(MessageFormat.format(CHOICEEXPECTED, getFullName()));
+				value.setIsErroneous(true);
 			} else {
 				value.getLocation().reportSemanticError(MessageFormat.format(UNIONEXPECTED, getFullName()));
+				value.setIsErroneous(true);
 			}
 			value.setIsErroneous(true);
 		}
@@ -369,6 +372,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			final int nofTemplates = namedTemplateList.getNofTemplates();
 			if (nofTemplates != 1) {
 				template.getLocation().reportSemanticError(ONEFIELDEXPECTED);
+				template.setIsErroneous(true);
 			}
 
 			for (int i = 0; i < nofTemplates; i++) {
@@ -397,10 +401,12 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		} else {
 			template.getLocation().reportSemanticError(
 					MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName(), getTypename()));
+			template.setIsErroneous(true);
 		}
 
 		if (template.getLengthRestriction() != null) {
 			template.getLocation().reportSemanticError(MessageFormat.format(LENGTHRESTRICTIONNOTALLOWED, getTypename()));
+			template.setIsErroneous(true);
 		}
 	}
 

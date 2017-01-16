@@ -111,6 +111,7 @@ public final class Value_Assignment extends ASN1Assignment {
 	public IValue getValue() {
 		if (null != assPard) {
 			location.reportSemanticError(MessageFormat.format("`{0}'' is a parameterized value assignment", getFullName()));
+			isErroneous = true;
 			return null;
 		}
 
