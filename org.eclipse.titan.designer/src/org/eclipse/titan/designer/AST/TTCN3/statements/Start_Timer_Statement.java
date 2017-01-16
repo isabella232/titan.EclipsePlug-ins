@@ -112,7 +112,7 @@ public final class Start_Timer_Statement extends Statement {
 
 		if (timerValue == null) {
 			final Assignment assignment = timerReference.getRefdAssignment(timestamp, true);
-			if (assignment != null && Assignment_type.A_TIMER.equals(assignment.getAssignmentType())) {
+			if (assignment != null && Assignment_type.A_TIMER.semanticallyEquals(assignment.getAssignmentType())) {
 				final Def_Timer defTimer = (Def_Timer) assignment;
 				if (!defTimer.hasDefaultDuration(timestamp, timerReference)) {
 					location.reportSemanticError(MessageFormat.format(MISSINGDEFAULTDURATION, assignment.getDescription()));

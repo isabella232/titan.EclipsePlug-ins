@@ -153,7 +153,7 @@ public final class Def_Port extends Definition {
 			return;
 		}
 
-		if (Assignment_type.A_TYPE.equals(assignment.getAssignmentType()) && assignment.getType(timestamp) != null) {
+		if (Assignment_type.A_TYPE.semanticallyEquals(assignment.getAssignmentType()) && assignment.getType(timestamp) != null) {
 			IType type = assignment.getType(timestamp);
 			type = type.getTypeRefdLast(timestamp);
 			if (type != null && !type.getIsErroneous(timestamp)) {
@@ -188,7 +188,7 @@ public final class Def_Port extends Definition {
 		check(timestamp);
 		definition.check(timestamp);
 
-		if (!Assignment_type.A_PORT.equals(definition.getAssignmentType())) {
+		if (!Assignment_type.A_PORT.semanticallyEquals(definition.getAssignmentType())) {
 			location.reportSemanticError(MessageFormat.format(
 					"Local definition `{0}'' is a port, but the definition inherited from component type `{1}'' is a {2}",
 					identifier.getDisplayName(), definition.getMyScope().getFullName(), definition.getAssignmentName()));

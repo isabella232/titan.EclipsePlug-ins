@@ -181,7 +181,7 @@ public final class Port_Utility {
 			return null;
 		}
 
-		if (!Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
+		if (!Assignment_type.A_TYPE.semanticallyEquals(assignment.getAssignmentType())) {
 			reference.getLocation().reportSemanticError(MessageFormat.format(SIGNATUREEXPECTED1, assignment.getAssignmentName()));
 			return null;
 		}
@@ -395,7 +395,7 @@ public final class Port_Utility {
 			return null;
 		}
 
-		if (!Assignment_type.A_PORT.equals(assignment.getAssignmentType())) {
+		if (!Assignment_type.A_PORT.semanticallyEquals(assignment.getAssignmentType())) {
 			portReference.getLocation().reportSemanticError(
 					MessageFormat.format(DEFINITIONNOTPORT, portIdentifier.getDisplayName(), componentType.getTypename(),
 							assignment.getAssignmentName()));

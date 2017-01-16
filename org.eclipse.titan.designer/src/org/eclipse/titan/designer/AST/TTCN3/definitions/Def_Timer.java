@@ -266,7 +266,7 @@ public final class Def_Timer extends Definition {
 		check(timestamp);
 		definition.check(timestamp);
 
-		if (!Assignment_type.A_TIMER.equals(definition.getAssignmentType())) {
+		if (!Assignment_type.A_TIMER.semanticallyEquals(definition.getAssignmentType())) {
 			location.reportSemanticError(MessageFormat.format(
 					"Local definition `{0}'' is a timer, but the definition inherited from component type `{1}'' is a {2}",
 					identifier.getDisplayName(), definition.getMyScope().getFullName(), definition.getAssignmentName()));

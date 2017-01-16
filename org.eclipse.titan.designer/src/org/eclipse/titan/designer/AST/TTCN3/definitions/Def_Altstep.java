@@ -353,7 +353,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 				text.append(", ");
 			}
 			final FormalParameter parameter = formalParList.getParameterByIndex(i);
-			if (Assignment_type.A_PAR_TIMER.equals(parameter.getRealAssignmentType())) {
+			if (Assignment_type.A_PAR_TIMER.semanticallyEquals(parameter.getRealAssignmentType())) {
 				text.append("timer");
 			} else {
 				final IType type = parameter.getType(lastTimeChecked);

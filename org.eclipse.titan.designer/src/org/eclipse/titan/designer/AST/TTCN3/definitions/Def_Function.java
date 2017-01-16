@@ -487,7 +487,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			if (formalParList.getNofParameters() == 1) {
 				final FormalParameter parameter = formalParList.getParameterByIndex(0);
 				final Assignment_type assignmentType = parameter.getRealAssignmentType();
-				if (Assignment_type.A_PAR_VAL_IN.equals(assignmentType) || Assignment_type.A_PAR_VAL.equals(assignmentType)) {
+				if (Assignment_type.A_PAR_VAL_IN.semanticallyEquals(assignmentType)) {
 					inputType = parameter.getType(timestamp);
 				} else {
 					parameter.getLocation()
@@ -506,7 +506,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		} else if (formalParList.getNofParameters() == 2) {
 			final FormalParameter firstParameter = formalParList.getParameterByIndex(0);
 			if (EncodingPrototype_type.SLIDING.equals(prototype)) {
-				if (Assignment_type.A_PAR_VAL_INOUT.equals(firstParameter.getRealAssignmentType())) {
+				if (Assignment_type.A_PAR_VAL_INOUT.semanticallyEquals(firstParameter.getRealAssignmentType())) {
 					final Type firstParameterType = firstParameter.getType(timestamp);
 					final IType last = firstParameterType.getTypeRefdLast(timestamp);
 					if (last.getIsErroneous(timestamp)) {
@@ -535,7 +535,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				}
 			} else {
 				final Assignment_type assignmentType = firstParameter.getRealAssignmentType();
-				if (Assignment_type.A_PAR_VAL_IN.equals(assignmentType) || Assignment_type.A_PAR_VAL.equals(assignmentType)) {
+				if (Assignment_type.A_PAR_VAL_IN.semanticallyEquals(assignmentType) || Assignment_type.A_PAR_VAL.semanticallyEquals(assignmentType)) {
 					inputType = firstParameter.getType(timestamp);
 				} else {
 					firstParameter.getLocation()
@@ -547,7 +547,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			}
 
 			final FormalParameter secondParameter = formalParList.getParameterByIndex(1);
-			if (Assignment_type.A_PAR_VAL_OUT.equals(secondParameter.getRealAssignmentType())) {
+			if (Assignment_type.A_PAR_VAL_OUT.semanticallyEquals(secondParameter.getRealAssignmentType())) {
 				outputType = secondParameter.getType(timestamp);
 			} else {
 				secondParameter.getLocation()
@@ -574,7 +574,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				location.reportSemanticError(MessageFormat.format(
 						"The function must have a return type for attribute `prototype({0})''", prototype.getName()));
 			} else {
-				if (Assignment_type.A_FUNCTION_RTEMP.equals(assignmentType)) {
+				if (Assignment_type.A_FUNCTION_RTEMP.semanticallyEquals(assignmentType)) {
 					returnType.getLocation()
 							.reportSemanticError(
 									MessageFormat.format(
@@ -682,7 +682,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				text.append(", ");
 			}
 			final FormalParameter parameter = formalParList.getParameterByIndex(i);
-			if (Assignment_type.A_PAR_TIMER.equals(parameter.getRealAssignmentType())) {
+			if (Assignment_type.A_PAR_TIMER.semanticallyEquals(parameter.getRealAssignmentType())) {
 				text.append("timer");
 			} else {
 				final IType type = parameter.getType(lastTimeChecked);

@@ -239,7 +239,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 			return null;
 		}
 
-		if (!Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
+		if (!Assignment_type.A_TYPE.semanticallyEquals(assignment.getAssignmentType())) {
 			componentReference.getLocation().reportSemanticError(MessageFormat.format(COMPONENTEXPECTED, assignment.getDescription()));
 			setIsErroneous(true);
 			return null;

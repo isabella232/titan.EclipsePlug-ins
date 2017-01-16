@@ -338,15 +338,14 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				parameters.set(i, parameter);
 			}
 
-			if (Assignment_type.A_TEMPLATE.equals(definitionType)) {
-				if (!Assignment_type.A_PAR_VAL_IN.equals(parameter.getAssignmentType())
-						&& !Assignment_type.A_PAR_VAL.equals(parameter.getAssignmentType())
-						&& !Assignment_type.A_PAR_TEMP_IN.equals(parameter.getAssignmentType())) {
+			if (Assignment_type.A_TEMPLATE.semanticallyEquals(definitionType)) {
+				if (!Assignment_type.A_PAR_VAL_IN.semanticallyEquals(parameter.getAssignmentType())
+						&& !Assignment_type.A_PAR_TEMP_IN.semanticallyEquals(parameter.getAssignmentType())) {
 					parameter.getLocation().reportSemanticError("A template cannot have " + parameter.getAssignmentName());
 				}
-			} else if (Assignment_type.A_TESTCASE.equals(definitionType)) {
-				if (Assignment_type.A_PAR_TIMER.equals(parameter.getAssignmentType())
-						&& Assignment_type.A_PAR_PORT.equals(parameter.getAssignmentType())) {
+			} else if (Assignment_type.A_TESTCASE.semanticallyEquals(definitionType)) {
+				if (Assignment_type.A_PAR_TIMER.semanticallyEquals(parameter.getAssignmentType())
+						&& Assignment_type.A_PAR_PORT.semanticallyEquals(parameter.getAssignmentType())) {
 					parameter.getLocation().reportSemanticError("A testcase cannot have " + parameter.getAssignmentName());
 				}
 			} else {
@@ -797,7 +796,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				final FormalParameterList formalParameterList = referencedFormalParameter.getMyParameterList();
 				if (formalParameterList != null) {
 					final Definition definition = formalParameterList.getMyDefinition();
-					if (definition != null && !Assignment_type.A_TESTCASE.equals(definition.getAssignmentType())) {
+					if (definition != null && !Assignment_type.A_TESTCASE.semanticallyEquals(definition.getAssignmentType())) {
 						reference.getLocation().reportSemanticError(
 								MessageFormat.format(ILLEGALACTIVATEPARAMETER, i + 1, description,
 										assignment.getDescription()));
@@ -888,7 +887,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				continue;
 			}
 			
-			if(!typeParameter.getAssignmentType().equals(functionParameter.getAssignmentType())) {
+			if(!typeParameter.getAssignmentType().semanticallyEquals(functionParameter.getAssignmentType())) {
 				callSite.reportSemanticError(MessageFormat.format("The kind of the {0}th parameter is not the same: {1} was expected instead of {2}", i, typeParameter.getAssignmentName(), functionParameter.getAssignmentName()));
 			}
 

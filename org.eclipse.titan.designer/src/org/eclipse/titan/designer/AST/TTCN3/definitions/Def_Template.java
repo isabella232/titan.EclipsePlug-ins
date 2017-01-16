@@ -232,7 +232,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			}
 
 			final FormalParameter parameter = formalParList.getParameterByIndex(i);
-			if (Assignment_type.A_PAR_TIMER.equals(parameter.getRealAssignmentType())) {
+			if (Assignment_type.A_PAR_TIMER.semanticallyEquals(parameter.getRealAssignmentType())) {
 				text.append("timer");
 			} else {
 				final IType parameterType = parameter.getType(lastTimeChecked);

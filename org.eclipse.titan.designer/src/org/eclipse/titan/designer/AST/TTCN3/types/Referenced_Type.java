@@ -231,7 +231,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			ass = reference.getRefdAssignment(lastTimeChecked, true);
 		}
 
-		if (ass != null && Assignment_type.A_TYPE.equals(ass.getAssignmentType())) {
+		if (ass != null && Assignment_type.A_TYPE.semanticallyEquals(ass.getAssignmentType())) {
 			if (ass instanceof Def_Type) {
 				final Def_Type defType = (Def_Type) ass;
 				return builder.append(defType.getIdentifier().getDisplayName());
@@ -383,7 +383,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 			Assignment ass = reference.getRefdAssignment(timestamp, true, refChain);
 
-			if (ass != null && Assignment_type.A_UNDEF.equals(ass.getAssignmentType())) {
+			if (ass != null && Assignment_type.A_UNDEF.semanticallyEquals(ass.getAssignmentType())) {
 				ass = ((Undefined_Assignment) ass).getRealAssignment(timestamp);
 			}
 

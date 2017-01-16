@@ -255,7 +255,7 @@ public final class Def_Var_Template extends Definition {
 		check(timestamp);
 		definition.check(timestamp);
 
-		if (!Assignment_type.A_VAR_TEMPLATE.equals(definition.getAssignmentType())) {
+		if (!Assignment_type.A_VAR_TEMPLATE.semanticallyEquals(definition.getAssignmentType())) {
 			location.reportSemanticError(MessageFormat
 					.format("Local definition `{0}'' is a template variable, but the definition inherited from component type `{1}'' is a {2}",
 							identifier.getDisplayName(), definition.getMyScope().getFullName(),

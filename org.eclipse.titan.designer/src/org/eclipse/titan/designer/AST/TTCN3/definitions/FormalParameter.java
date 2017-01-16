@@ -315,7 +315,7 @@ public final class FormalParameter extends Definition {
 			return;
 		}
 
-		if (Assignment_type.A_TEMPLATE.equals(definition.getAssignmentType())) {
+		if (Assignment_type.A_TEMPLATE.semanticallyEquals(definition.getAssignmentType())) {
 			reference.getLocation().reportSemanticError(
 					MessageFormat.format(
 							"Parameter `{0}'' of the template cannot be passed further as `out'' or `inout'' parameter",

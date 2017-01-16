@@ -111,7 +111,7 @@ public final class Testcase_Instance_Statement extends Statement {
 			return;
 		}
 
-		if (!Assignment_type.A_TESTCASE.equals(assignment.getAssignmentType())) {
+		if (!Assignment_type.A_TESTCASE.semanticallyEquals(assignment.getAssignmentType())) {
 			testcaseReference.getLocation().reportSemanticError(MessageFormat.format(TESTCASEEXPECTED, assignment.getFullName()));
 			return;
 		}

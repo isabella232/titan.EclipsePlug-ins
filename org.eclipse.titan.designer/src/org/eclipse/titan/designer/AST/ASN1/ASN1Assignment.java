@@ -162,7 +162,7 @@ public abstract class ASN1Assignment extends Assignment {
 	 * */
 	public boolean isAssignmentType(final CompilationTimeStamp timestamp, final Assignment_type assignmentType,
 			final IReferenceChain referenceChain) {
-		return getAssignmentType().equals(assignmentType);
+		return getAssignmentType().semanticallyEquals(assignmentType);
 	}
 
 	// TODO: remove when location is fixed

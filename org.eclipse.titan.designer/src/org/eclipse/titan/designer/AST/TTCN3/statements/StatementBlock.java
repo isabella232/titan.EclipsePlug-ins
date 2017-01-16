@@ -861,7 +861,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	@Override
 	public Component_Type getMtcSystemComponentType(final CompilationTimeStamp timestamp, final boolean isSystem) {
-		if (myDefinition == null || !Assignment_type.A_TESTCASE.equals(myDefinition.getAssignmentType())) {
+		if (myDefinition == null || !Assignment_type.A_TESTCASE.semanticallyEquals(myDefinition.getAssignmentType())) {
 			return null;
 		}
 
