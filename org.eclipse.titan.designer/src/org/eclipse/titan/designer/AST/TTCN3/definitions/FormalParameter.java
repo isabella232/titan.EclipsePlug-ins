@@ -502,16 +502,17 @@ public final class FormalParameter extends Definition {
 		}
 
 		final ITTCN3Template template = actualParameter.getTemplateBody();
-		if ( (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) || template.isValue(timestamp)) && type != null) {
+		if ( type != null) {
 			final IValue value = template.getValue();
-			value.setMyGovernor(type);
-			final IValue temp = type.checkThisValueRef(timestamp, value);
-			if(!Value_type.NOTUSED_VALUE.equals(temp.getValuetype())) {
-			  type.checkThisValue(timestamp, temp, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
+			if( value != null) {
+				value.setMyGovernor(type);
+				final IValue temp = type.checkThisValueRef(timestamp, value);
+				if(!Value_type.NOTUSED_VALUE.equals(temp.getValuetype())) {
+					type.checkThisValue(timestamp, temp, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
+				}
+				return new Value_ActualParameter(temp);
 			}
-			return new Value_ActualParameter(temp);
 		}
-
 		actualParameter.getLocation().reportSemanticError(MessageFormat.format(SPECIFICVALUEXPECTED, getAssignmentName()));
 		final ActualParameter temp = new Value_ActualParameter(null);
 		temp.setIsErroneous();
