@@ -34,6 +34,16 @@ public class OutOfMemoryCheck {
 						"org.eclipse.titan.designer.preferences.pages.TITANPreferencePage", null, null).open();
 			}
 		}
+
+		@Override
+		public int open() {
+			isDialogOpen = true;
+
+			int result =  super.open();
+			isDialogOpen = false;
+
+			return result;
+		}
 	}
 
 	public static boolean isOutOfMemoryAlreadyReported() {
@@ -53,11 +63,9 @@ public class OutOfMemoryCheck {
 					}
 
 					Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.USEONTHEFLYPARSING, false);
-					OutOfMemoryErrorDialog.isDialogOpen = true;
 
 					final OutOfMemoryErrorDialog dialog = new OutOfMemoryErrorDialog(null, "Low memory", OUTOFMEMORYERROR);
 					dialog.open();
-					OutOfMemoryErrorDialog.isDialogOpen = false;
 				}
 			});
 		}
