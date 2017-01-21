@@ -51,9 +51,11 @@ public class OutOfMemoryCheck {
 					if (OutOfMemoryErrorDialog.isDialogOpen) {
 						return;
 					}
+
 					Activator.getDefault().getPreferenceStore().setValue(PreferenceConstants.USEONTHEFLYPARSING, false);
 					OutOfMemoryErrorDialog.isDialogOpen = true;
-					OutOfMemoryErrorDialog dialog = new OutOfMemoryErrorDialog(null, "Low memory", OUTOFMEMORYERROR);
+
+					final OutOfMemoryErrorDialog dialog = new OutOfMemoryErrorDialog(null, "Low memory", OUTOFMEMORYERROR);
 					dialog.open();
 					OutOfMemoryErrorDialog.isDialogOpen = false;
 				}
@@ -74,12 +76,12 @@ public class OutOfMemoryCheck {
 	 * */
 	public static boolean isOutOfMemory() {
 		if (Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.CHECKFORLOWMEMORY)) {
-			Runtime Rt = Runtime.getRuntime();
+			final Runtime Rt = Runtime.getRuntime();
 
-			long free = Rt.freeMemory();
-			long total = Rt.totalMemory();
+			final long free = Rt.freeMemory();
+			final long total = Rt.totalMemory();
 
-			long limit = Math.min(200 * DecimalMegaByte, Math.round(total * (double)0.1));
+			final long limit = Math.min(200 * DecimalMegaByte, Math.round(total * (double)0.1));
 
 			if (free < limit) {
 				ErrorReporter.logError("limit: "+String.valueOf(limit)+", free: " + String.valueOf(free));
