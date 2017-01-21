@@ -46,6 +46,10 @@ public class OutOfMemoryCheck {
 		}
 	}
 
+	private OutOfMemoryCheck() {
+		// Hide constructor
+	}
+
 	public static boolean isOutOfMemoryAlreadyReported() {
 		return isOutOfMemory;
 	}
