@@ -30,40 +30,71 @@ import org.eclipse.titan.designer.GeneralConstants;
  * @author Arpad Lovassy
  */
 public class Location {
+
+	/**
+	 * File if the source code.
+	 */
 	private IResource file;
+
+	/**
+	 * Line number.
+	 * Starts with 1, or -1 if undefined.
+	 */
 	private int line;
+
+	/**
+	 * Position before the first character of the location.
+	 * Starts with 0, or -1 if undefined.
+	 */
 	private int offset;
+
+	/**
+	 * Position after the last character of the location. -1 if undefined.
+	 * In other words: the start position of the last character + 1, because a character is 1 character long, so
+	 * end position of a character == start position of a character + 1 
+	 * <p>
+	 * For example:
+	 * <pre>
+	 *   __apple__
+	 *   012345678
+	 * </pre>
+	 *   The location of "apple" is: offset == 2, endOffset == 7
+	 * <p>
+	 * NOTE: org.antlr.v4.runtime.Token.getStopIndex() returns the start position of the last character,
+	 *       so if Location is converted from Token, +1 must be added to getStopIndex(),
+	 *       so Location.endOffset = Token.getStopIndex() + 1,
+	 *       but Location.offset = Token.getStartIndex()
+	 */
 	private int endOffset;
 
-	protected Location() {
-		file = null;
-		line = -1;
-		offset = -1;
-		endOffset = -1;
-	}
-
+	/**
+	 * Copy constructor
+	 * @param location original location object to copy
+	 */
 	public Location(final Location location) {
 		setLocation(location);
-	}
-
-	public Location(final IResource file) {
-		this.file = file;
-		line = -1;
-		offset = -1;
-		endOffset = -1;
-	}
-
-	public Location(final IResource file, final int line) {
-		this.file = file;
-		this.line = line;
-		offset = -1;
-		endOffset = -1;
 	}
 
 	public Location(final IResource file, final int line, final int offset, final int endOffset) {
 		setLocation(file, line, offset, endOffset);
 	}
-	
+
+	public Location(final IResource file, final int line) {
+		this( file, line, -1, -1 );
+	}
+
+	public Location(final IResource file) {
+		this( file, -1 );
+	}
+
+	/**
+	 * Constructor.
+	 * Default implementation for NULL_Location
+	 */
+	protected Location() {
+		this( ( IResource )null );
+	}
+
 	/**
 	 * Constructor for ANTLR v4 tokens
 	 * @param aFile the parsed file
@@ -75,26 +106,7 @@ public class Location {
 	 */
 	public Location( final IResource aFile, final Token aStartToken, final Token aEndToken ) {
 		setLocation( aFile, aStartToken.getLine(), aStartToken.getStartIndex(),
-				     aEndToken.getStopIndex()+1);
-	}
-
-	/**
-	 * Constructor for ANTLR v4 token, where the start and end token is the same
-	 * @param aFile the parsed file
-	 * @param aToken the start and end token
-	 */
-	public Location( final IResource aFile, final Token aToken ) {
-		this( aFile, aToken, aToken );
-	}
-
-	/**
-	 * Constructor for ANTLR v4 token, where location is based on another location, and end token is modified
-	 * @param aBaseLocation base location
-	 * @param aEndToken the new end token
-	 */
-	public Location( final Location aBaseLocation, final Token aEndToken ) {
-		this( aBaseLocation );
-		this.setEndOffset( aEndToken );
+					 aEndToken.getStopIndex() + 1 );
 	}
 
 	/**
@@ -105,26 +117,18 @@ public class Location {
 		this.setOffset( aToken.getStartIndex() );
 	}
 
-	/**
-	 * Sets the end offset with an ANTLR v4 end token
-	 * @param aEndToken the new end token
-	 */
-	public final void setEndOffset( final Token aEndToken ) {
-		this.setEndOffset( aEndToken.getStopIndex() + 1 ); // after the last character of the aEndToken
-	}
-	
 	public static Location interval(final Location startLoc, final Location endLoc) {
 		return new Location(startLoc.getFile(), startLoc.getLine(), startLoc.getOffset(), endLoc.getEndOffset());
 	}
-	
-	protected final void setLocation(final Location location) {
+
+	private final void setLocation(final Location location) {
 		file = location.getFile();
 		line = location.getLine();
 		offset = location.getOffset();
 		endOffset = location.getEndOffset();
 	}
 
-	protected final void setLocation(final IResource file, final int line, final int offset, final int endOffset) {
+	private final void setLocation(final IResource file, final int line, final int offset, final int endOffset) {
 		this.file = file;
 		this.line = line;
 		this.offset = offset;
@@ -173,17 +177,6 @@ public class Location {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Checks if the actual location starts before the one provided.
-	 *
-	 * @param other the other location to check against
-	 *
-	 * @return true if this location starts on a lower offset.
-	 * */
-	public final boolean isBefore(final Location other) {
-		return offset < other.getOffset();
 	}
 
 	/**
