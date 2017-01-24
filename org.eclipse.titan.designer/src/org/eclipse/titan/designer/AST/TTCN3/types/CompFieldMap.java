@@ -328,8 +328,8 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 			boolean enveloped = false;
 			int nofDamaged = 0;
-			int leftBoundary = location.getOffset() + 1;
-			int rightBoundary = location.getEndOffset() - 1;
+			int leftBoundary = location.getOffset();
+			int rightBoundary = location.getEndOffset();
 			final int damageOffset = reparser.getDamageStart();
 			IAppendableSyntax lastAppendableBeforeChange = null;
 			IAppendableSyntax lastPrependableBeforeChange = null;
@@ -354,7 +354,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 					}
 				} else {
 					if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-						leftBoundary = tempLocation.getEndOffset() + 1;
+						leftBoundary = tempLocation.getEndOffset();
 						lastAppendableBeforeChange = field;
 					}
 					if (tempLocation.getOffset() >= damageOffset && tempLocation.getOffset() < rightBoundary) {

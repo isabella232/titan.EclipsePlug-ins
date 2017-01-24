@@ -995,8 +995,8 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		lastTimeChecked = null;
 		boolean enveloped = false;
 		int nofDamaged = 0;
-		int leftBoundary = location.getOffset() + 1;
-		int rightBoundary = location.getEndOffset() - 1;
+		int leftBoundary = location.getOffset();
+		int rightBoundary = location.getEndOffset();
 		final int damageOffset = reparser.getDamageStart();
 		IAppendableSyntax lastAppendableBeforeChange = null;
 		IAppendableSyntax lastPrependableBeforeChange = null;
@@ -1024,7 +1024,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 				}
 			} else {
 				if (cumulativeLocation.getEndOffset() < damageOffset && cumulativeLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = cumulativeLocation.getEndOffset() + 1;
+					leftBoundary = cumulativeLocation.getEndOffset();
 					lastAppendableBeforeChange = statement;
 				}
 				if (cumulativeLocation.getOffset() >= damageOffset && cumulativeLocation.getOffset() < rightBoundary) {

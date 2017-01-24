@@ -587,8 +587,8 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		int result = 0;
 		boolean enveloped = false;
 		int nofDamaged = 0;
-		int leftBoundary = location.getOffset() + 1;
-		int rightBoundary = location.getEndOffset() - 1;
+		int leftBoundary = location.getOffset();
+		int rightBoundary = location.getEndOffset();
 		final int damageOffset = reparser.getDamageStart();
 		final int damageEndOffset = reparser.getDamageEnd();
 		IAppendableSyntax lastAppendableBeforeChange = null;
@@ -601,11 +601,11 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				enveloped = true;
 			} else if (!reparser.isDamaged(tempLocation)) {
 				if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = tempLocation.getEndOffset() + 1;
+					leftBoundary = tempLocation.getEndOffset();
 					lastAppendableBeforeChange = controlpart;
 				}
 				if (tempLocation.getOffset() > damageEndOffset && tempLocation.getOffset() < rightBoundary) {
-					rightBoundary = tempLocation.getOffset() - 1;
+					rightBoundary = tempLocation.getOffset();
 					lastPrependableBeforeChange = controlpart;
 				}
 			}
@@ -622,17 +622,17 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				nofDamaged++;
 			} else {
 				if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = tempLocation.getEndOffset() + 1;
+					leftBoundary = tempLocation.getEndOffset();
 					lastAppendableBeforeChange = tempGroup;
 				}
 				if (tempLocation.getOffset() > damageEndOffset && tempLocation.getOffset() < rightBoundary) {
-					rightBoundary = tempLocation.getOffset() - 1;
+					rightBoundary = tempLocation.getOffset();
 					lastPrependableBeforeChange = tempGroup;
 				}
 			}
 		}
 		if (!groups.isEmpty()) {
-			isControlPossible &= groups.get(groups.size() - 1).getLocation().getEndOffset() <= leftBoundary;
+			isControlPossible &= groups.get(groups.size() - 1).getLocation().getEndOffset() < leftBoundary;
 		}
 
 		for (int i = 0, size = importedModules.size(); i < size && !enveloped; i++) {
@@ -647,18 +647,18 @@ public final class Definitions extends Assignments implements ILocateableNode {
 					nofDamaged++;
 				} else {
 					if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-						leftBoundary = tempLocation.getEndOffset() + 1;
+						leftBoundary = tempLocation.getEndOffset();
 						lastAppendableBeforeChange = tempImport;
 					}
 					if (tempLocation.getOffset() > damageEndOffset && tempLocation.getOffset() < rightBoundary) {
-						rightBoundary = tempLocation.getOffset() - 1;
+						rightBoundary = tempLocation.getOffset();
 						lastPrependableBeforeChange = tempImport;
 					}
 				}
 			}
 		}
 		if (!importedModules.isEmpty()) {
-			isControlPossible &= importedModules.get(importedModules.size() - 1).getLocation().getEndOffset() <= leftBoundary;
+			isControlPossible &= importedModules.get(importedModules.size() - 1).getLocation().getEndOffset() < leftBoundary;
 		}
 
 		for (int i = 0, size = friendModules.size(); i < size && !enveloped; i++) {
@@ -673,18 +673,18 @@ public final class Definitions extends Assignments implements ILocateableNode {
 					nofDamaged++;
 				} else {
 					if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-						leftBoundary = tempLocation.getEndOffset() + 1;
+						leftBoundary = tempLocation.getEndOffset();
 						lastAppendableBeforeChange = tempFriend;
 					}
 					if (tempLocation.getOffset() > damageEndOffset && tempLocation.getOffset() < rightBoundary) {
-						rightBoundary = tempLocation.getOffset() - 1;
+						rightBoundary = tempLocation.getOffset();
 						lastPrependableBeforeChange = tempFriend;
 					}
 				}
 			}
 		}
 		if (!friendModules.isEmpty()) {
-			isControlPossible &= friendModules.get(friendModules.size() - 1).getLocation().getEndOffset() <= leftBoundary;
+			isControlPossible &= friendModules.get(friendModules.size() - 1).getLocation().getEndOffset() < leftBoundary;
 		}
 
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
@@ -705,11 +705,11 @@ public final class Definitions extends Assignments implements ILocateableNode {
 					}
 				} else {
 					if (cumulativeLocation.getEndOffset() < damageOffset && cumulativeLocation.getEndOffset() > leftBoundary) {
-						leftBoundary = cumulativeLocation.getEndOffset() + 1;
+						leftBoundary = cumulativeLocation.getEndOffset();
 						lastAppendableBeforeChange = temp;
 					}
 					if (cumulativeLocation.getOffset() > damageEndOffset && cumulativeLocation.getOffset() < rightBoundary) {
-						rightBoundary = cumulativeLocation.getOffset() - 1;
+						rightBoundary = cumulativeLocation.getOffset();
 						lastPrependableBeforeChange = temp;
 					}
 				}
@@ -717,12 +717,12 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				final Location tempCommentLocation = temp.getCommentLocation();
 				if (tempCommentLocation != null && reparser.isDamaged(tempCommentLocation)) {
 					nofDamaged++;
-					rightBoundary = tempLocation.getEndOffset() + 1;//check it !!! 
+					rightBoundary = tempLocation.getEndOffset(); 
 				}
 			}
 		}
 		if (!definitions.isEmpty()) {
-			isControlPossible &= definitions.get(definitions.size() - 1).getLocation().getEndOffset() <= leftBoundary;
+			isControlPossible &= definitions.get(definitions.size() - 1).getLocation().getEndOffset() < leftBoundary;
 		}
 
 		// extend the reparser to the calculated values if the damage

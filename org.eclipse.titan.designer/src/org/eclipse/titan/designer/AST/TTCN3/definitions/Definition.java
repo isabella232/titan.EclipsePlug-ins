@@ -627,7 +627,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		ParserUtilities.setBuildParseTree( parser );
 		final IFile file = (IFile) location.getFile();
 		parser.setActualFile(file);
-		parser.setOffset( location.getOffset() + 1 );
+		parser.setOffset( location.getOffset() );
 		parser.setLine( location.getLine() );
 
 		// remove ConsoleErrorListener
@@ -648,7 +648,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		if (errors != null) {
 			for (int i = 0; i < errors.size(); i++) {
 				final Location temp = new Location(location);
-				temp.setOffset(temp.getOffset() + 1);
+				temp.setOffset( temp.getOffset() );
 				ParserMarkerSupport.createOnTheFlySyntacticMarker(file, errors.get(i), IMarker.SEVERITY_ERROR, temp);
 			}
 		}

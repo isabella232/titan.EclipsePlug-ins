@@ -596,8 +596,8 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 		boolean enveloped = false;
 		int nofDamaged = 0;
-		int leftBoundary = innerLocation.getOffset() + 1;
-		int rightBoundary = innerLocation.getEndOffset() - 1;
+		int leftBoundary = innerLocation.getOffset();
+		int rightBoundary = innerLocation.getEndOffset();
 		final int damageOffset = reparser.getDamageStart();
 		IAppendableSyntax lastAppendableBeforeChange = null;
 		IAppendableSyntax lastPrependableBeforeChange = null;
@@ -613,7 +613,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 				nofDamaged++;
 			} else {
 				if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = tempLocation.getEndOffset() + 1;
+					leftBoundary = tempLocation.getEndOffset();
 					lastAppendableBeforeChange = temp;
 				}
 				if (tempLocation.getOffset() >= damageOffset && tempLocation.getOffset() < rightBoundary) {
@@ -634,7 +634,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 				nofDamaged++;
 			} else {
 				if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = tempLocation.getEndOffset() + 1;
+					leftBoundary = tempLocation.getEndOffset();
 					lastAppendableBeforeChange = temp;
 				}
 				if (tempLocation.getOffset() >= damageOffset && tempLocation.getOffset() < rightBoundary) {
@@ -655,7 +655,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 				nofDamaged++;
 			} else {
 				if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = tempLocation.getEndOffset() + 1;
+					leftBoundary = tempLocation.getEndOffset();
 					lastAppendableBeforeChange = temp;
 				}
 				if (tempLocation.getOffset() >= damageOffset && tempLocation.getOffset() < rightBoundary) {
@@ -682,7 +682,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 				// reparser.extendDamagedRegion(temp_location);
 			} else {
 				if (tempLocation.getEndOffset() < damageOffset && tempLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = tempLocation.getEndOffset() + 1;
+					leftBoundary = tempLocation.getEndOffset();
 					lastAppendableBeforeChange = temp;
 				}
 				if (tempLocation.getOffset() >= damageOffset && tempLocation.getOffset() < rightBoundary) {

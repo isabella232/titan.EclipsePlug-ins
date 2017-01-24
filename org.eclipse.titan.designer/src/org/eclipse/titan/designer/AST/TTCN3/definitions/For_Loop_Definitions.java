@@ -437,8 +437,8 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		lastCompilationTimeStamp = null;
 		boolean enveloped = false;
 		int nofDamaged = 0;
-		int leftBoundary = location.getOffset() + 1;
-		int rightBoundary = location.getEndOffset() - 1;
+		int leftBoundary = location.getOffset();
+		int rightBoundary = location.getEndOffset();
 		final int damageOffset = reparser.getDamageStart();
 		IAppendableSyntax lastAppendableBeforeChange = null;
 		IAppendableSyntax lastPrependableBeforeChange = null;
@@ -460,7 +460,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 				}
 			} else {
 				if (cumulativeLocation.getEndOffset() < damageOffset && cumulativeLocation.getEndOffset() > leftBoundary) {
-					leftBoundary = cumulativeLocation.getEndOffset() + 1;
+					leftBoundary = cumulativeLocation.getEndOffset();
 					lastAppendableBeforeChange = temp;
 				}
 				if (cumulativeLocation.getOffset() >= damageOffset && cumulativeLocation.getOffset() < rightBoundary) {

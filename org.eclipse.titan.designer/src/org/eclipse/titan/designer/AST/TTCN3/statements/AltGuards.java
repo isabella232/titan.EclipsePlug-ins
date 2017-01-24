@@ -260,8 +260,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			freed = false;
 			boolean enveloped = false;
 			int nofDamaged = 0;
-			int leftBoundary = location.getOffset() + 1;
-			int rightBoundary = location.getEndOffset() - 1;
+			int leftBoundary = location.getOffset();
+			int rightBoundary = location.getEndOffset();
 			final int damageOffset = reparser.getDamageStart();
 
 			for (int i = 0, size = altGuards.size(); i < size && !enveloped; i++) {
@@ -276,7 +276,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					nofDamaged++;
 				} else {
 					if (temporalLocation.getEndOffset() < damageOffset && temporalLocation.getEndOffset() > leftBoundary) {
-						leftBoundary = temporalLocation.getEndOffset() + 1;
+						leftBoundary = temporalLocation.getEndOffset();
 					}
 					if (temporalLocation.getOffset() >= damageOffset && temporalLocation.getOffset() < rightBoundary) {
 						rightBoundary = temporalLocation.getOffset();
