@@ -17,9 +17,16 @@ package org.eclipse.titan.codegenerator.TTCN3JavaAPI;
 
 public class Timer {
 
+	/** start time. Number of milliseconds since 1970-01-01 00:00:00 */
 	public long starttime;
+	
+	/** timer delay between start time and timer event in milliseconds */
 	public long timetorun;
+	
+	/** true if and only if timer is running */
     public boolean running;
+    
+    /** true if and only if timer delay is set */
     private boolean set;
 
     public Timer(FLOAT t) {
@@ -34,6 +41,10 @@ public class Timer {
     	set0(t.value);
     }
     
+	/**
+	 * Sets timer delay between start time and timer event
+	 * @param t timer delay in seconds
+	 */
     private void set0(double t) {
         timetorun = (long) (t * 1000.0);
         running = false;
