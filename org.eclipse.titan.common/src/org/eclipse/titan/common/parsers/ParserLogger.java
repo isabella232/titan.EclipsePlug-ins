@@ -9,6 +9,8 @@ package org.eclipse.titan.common.parsers;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -40,6 +42,9 @@ public final class ParserLogger {
 		sPrinter = aPrinter;
 	}
 
+	/** date format in ISO 8601 */
+	private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
 	/**
 	 * Logs a parse tree. (General version)
 	 * Token name is resolved if ...LexerLogUtil.java is generated,
@@ -61,9 +66,9 @@ public final class ParserLogger {
 		}
 		setPrinter( aPrinter );
 		aPrinter.println( "---- parse tree" );
-		aPrinter.println( "Parser type: " + aDescription );
-		aPrinter.println( "Call stack: " + printCallStack( 4 ) );
-		aPrinter.println( "Prediction mode: " + aParser.getInterpreter().getPredictionMode() );
+		aPrinter.println( DATE_FORMAT.format( new Date() ) ) ;
+		aPrinter.println( "Parser type: " + aDescription + ", Prediction mode: " + aParser.getInterpreter().getPredictionMode() );
+		aPrinter.println( "Call stack: " + printCallStackReverse( 4 ) );
 		final TokenStream tokenStream = aParser.getTokenStream();
 		if ( ! ( tokenStream instanceof CommonTokenStream ) ) {
 			aPrinter.println("ERROR: tokenStream is not CommonTokenStream");
@@ -356,7 +361,7 @@ public final class ParserLogger {
 	 * @param aText input text
 	 * @return escaped text
 	 */
-	private static String getEscapedText( final String aText ) {
+	public static String getEscapedText( final String aText ) {
 		String txt = aText;
 		if ( txt == null ) {
 			return "";
@@ -451,7 +456,7 @@ public final class ParserLogger {
 	}
 
 	/**
-	 * Prints full stack trace in one line
+	 * Prints full stack trace in one line.
 	 * Short class name is used without full qualification.
 	 * @param aN [in] number of methods, which are not needed. These are the top of the call stack
 	 *                getStackTrace()
@@ -474,6 +479,28 @@ public final class ParserLogger {
 	}
 
 	/**
+	 * Prints full stack trace in one line in reversed order.
+	 * Short class name is used without full qualification.
+	 * @param aN [in] number of methods, which are not needed. These are the top of the call stack
+	 *                getStackTrace()
+	 *                this function
+	 *                logParseTree() function(s)
+	 * @return string representation of the call stack
+	 */
+	public static String printCallStackReverse( final int aN ) {
+		final StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		final StringBuilder sb = new StringBuilder();
+		for ( int i = aN; i < stackTrace.length; i++ ) {
+			final StackTraceElement ste = stackTrace[ i ];
+			if ( i > aN ) {
+				sb.append(" <- ");
+			}
+			printStackTraceElement( sb, ste );
+		}
+		return sb.toString();
+	}
+
+	/**
 	 * Prints a stack trace element (method call of a call chain) with short class name and method name
 	 * @param aSb [in/out] the log string, where new strings are added
 	 * @param aSte stack trace element
@@ -482,10 +509,11 @@ public final class ParserLogger {
 	private static void printStackTraceElement( final StringBuilder aSb, final StackTraceElement aSte ) {
 		final String className = aSte.getClassName();
 		final String shortClassName = className.substring( className.lastIndexOf('.') + 1 );
-		final String methodName = aSte.getMethodName();
 		aSb.append( shortClassName ); 
 		aSb.append( "." );
-		aSb.append( methodName );
+		aSb.append( aSte.getMethodName() );
+		aSb.append( ":" );
+		aSb.append( aSte.getLineNumber() );
 	}
 
 	private static void print( final String aMsg ) {
