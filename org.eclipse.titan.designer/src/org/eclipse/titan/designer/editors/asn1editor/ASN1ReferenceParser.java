@@ -76,7 +76,7 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 
 			ASN1ReferenceParser refAnalyzer = newInstance();
 
-			reference = refAnalyzer.parseReference(file, toBeParsed, document.getLineOfOffset(ofs), ofs);
+			reference = refAnalyzer.parseReference(file, toBeParsed, document.getLineOfOffset(ofs) + 1, ofs);
 
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);

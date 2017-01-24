@@ -127,7 +127,7 @@ public final class TTCN3ReferenceParser implements IReferenceParser {
 			}
 
 			TTCN3ReferenceAnalyzer refAnalyzer = new TTCN3ReferenceAnalyzer();
-			reference = refAnalyzer.parse(file, toBeParsed, reportErrors, document.getLineOfOffset(ofs), ofs);
+			reference = refAnalyzer.parse(file, toBeParsed, reportErrors, document.getLineOfOffset(ofs) + 1, ofs);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
