@@ -461,6 +461,11 @@ public final class TTCN3ReparseUpdater {
 		}
 	}
 
+	/**
+	 * @param text the source text, where the search is done
+	 * @param offset the offset or position of the character in the string. This is the character index, starts from 0.
+	 * @return The line number of the offset. Line number starts from 0.
+	 */
 	public static final int getLineOfOffset(final String text, final int offset) {
 		int lineCounter = 0;
 		for (int i = 0; i < offset; i++) {
@@ -472,9 +477,14 @@ public final class TTCN3ReparseUpdater {
 		return lineCounter;
 	}
 
+	/**
+	 * @param text the source text, where the search is done
+	 * @param offset the offset or position of the character in the string. This is the character index, starts from 0.
+	 * @return The column number of the offset. Column number starts from 0.
+	 */
 	public static final int getPositionInLine(final String text, final int offset) {
 		int columnCounter = 0;
-		for (int i = offset - 1; i > 0; i--) {
+		for (int i = offset - 1; i >= 0; i--) {
 			if ('\n' == text.charAt(i)) {
 				return columnCounter;
 			}
