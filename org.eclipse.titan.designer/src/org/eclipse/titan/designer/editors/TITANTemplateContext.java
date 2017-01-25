@@ -80,7 +80,7 @@ public final class TITANTemplateContext extends DocumentTemplateContext {
 		IDocument temporalDocument = new Document(buffer.getString());
 		MultiTextEdit edit = new MultiTextEdit(0, temporalDocument.getLength());
 		List<RangeMarker> positions = variablesToPositions(variables);
-		for (int i = temporalDocument.getNumberOfLines() - 1; i > 0; i--) {
+		for (int i = temporalDocument.getNumberOfLines() - 1; i >= 0; i--) {
 			edit.addChild(new InsertEdit(temporalDocument.getLineOffset(i), prefixString));
 		}
 		edit.addChildren(positions.toArray(new TextEdit[positions.size()]));
