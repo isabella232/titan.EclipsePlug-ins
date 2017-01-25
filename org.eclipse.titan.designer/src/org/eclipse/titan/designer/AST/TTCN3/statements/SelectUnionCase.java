@@ -86,12 +86,6 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
-		//TODO: remove
-		/*
-		if (mIdentifier != null) {
-			mIdentifier.setMyScope(scope);
-		}
-		*/
 		if (mStatementBlock != null) {
 			mStatementBlock.setMyScope(scope);
 		}
@@ -227,8 +221,6 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		}
 
 		if (mIdentifier != null) {
-			//TODO: remove
-			//mIdentifier.updateSyntax(reparser, false);
 			reparser.updateLocation(mIdentifier.getLocation());
 		}
 
@@ -241,12 +233,6 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		//TODO: remove
-		/*
-		if (mIdentifier != null) {
-			mIdentifier.findReferences(referenceFinder, foundIdentifiers);
-		}
-		*/
 		if (mStatementBlock != null) {
 			mStatementBlock.findReferences(referenceFinder, foundIdentifiers);
 		}

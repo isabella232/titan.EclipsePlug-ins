@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * The SelectUnionCases class is helper class for the SelectUnionCase_Statement class.
  * Holds a list of the select union cases that were parsed from the source code.
  * 
- * @see SelectUnionCase_Statement {@link SelectCase_Statement}
+ * @see SelectUnionCase_Statement
  * @see SelectUnionCase
  * 
  * @author Arpad Lovassy
