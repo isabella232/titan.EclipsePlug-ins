@@ -154,7 +154,7 @@
 			<arg value="-package" />
 			<arg value="org.eclipse.titan.designer.parsers.ttcn3parser" />
 			<!--
-			  Parsers are dependent to the *.token files (these are generated from  lexer),
+			  Parsers are dependent to the *.token files (these are generated from lexer),
 			  so the directory of the *.token file is added as lib
 			  NOTE: If parser g4 compilation is made from that directory, then -lib is not needed
 			-->
@@ -178,6 +178,14 @@
 				<include name="....g4" />
 			</fileset>
 		-->
+
+		<!--
+		  Checks if the token type names and token type indexes correspond to each other
+		  in the generated Ttcn3 lexers.
+		  If this line fails, it happens most probably because Ttcn3Lexer.g4 defines a token,
+		  which is not defined in Ttcn3BaseLexer.g4
+		-->
+		<exec executable="../Tools/antlr4_check_ttcn3_lexers.pl" failonerror="true"/>
 	</target>
 </project>
 
