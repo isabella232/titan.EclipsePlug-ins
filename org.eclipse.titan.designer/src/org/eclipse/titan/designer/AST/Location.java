@@ -32,7 +32,7 @@ import org.eclipse.titan.designer.GeneralConstants;
 public class Location {
 
 	/**
-	 * File if the source code.
+	 * File of the source code.
 	 */
 	private IResource file;
 
