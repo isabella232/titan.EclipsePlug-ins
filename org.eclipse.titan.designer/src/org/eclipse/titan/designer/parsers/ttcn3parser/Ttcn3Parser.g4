@@ -274,6 +274,30 @@ public Token getStopToken() {
 }
 
 /**
+ * Gets the last visible token of the current rule.
+ * 
+ * This is used inside the rule, because \$stop is filled only
+ * in the finally block in the generated java code, so it does
+ * NOT have the correct value in @after and @finally actions.
+ * 
+ * This method can be used in any part of the rule.
+ * 
+ * Please note that visible means that the token is not on the hidden channel!
+ * 
+ * @return last consumed token
+ */
+public Token getLastVisibleToken() {
+	int index = _input.index() - 1;
+	Token temp = _input.get( index );
+	while (index >= 0 && temp.getChannel() == temp.HIDDEN_CHANNEL) {
+		index--;
+		temp = _input.get( index );
+	}
+
+	return temp;
+	}
+
+/**
  * Create new location, which modified by the parser offset and line,
  * where the start and end token is the same
  * @param aToken the start and end token
@@ -567,7 +591,6 @@ pr_OwnGlobalModuleId returns [Identifier identifier]
 
 pr_ModuleDefinitionsList [Group parent_group]:
 (	(	col = pr_ModuleDefinition[parent_group]
-		pr_SemiColon?
 	)*
 );
 
@@ -587,9 +610,9 @@ pr_ModuleDefinition [Group parent_group]:
 				}
 			}
 		}
-|	pr_ImportDef[parent_group]
-|	pr_GroupDef[parent_group]
-|	pr_FriendModuleDef[parent_group]
+|	pr_ImportDef[parent_group] pr_SemiColon?
+|	pr_GroupDef[parent_group] pr_SemiColon?
+|	pr_FriendModuleDef[parent_group] pr_SemiColon?
 );
 
 pr_ModuleDef returns [List<Definition> definitions]
@@ -597,6 +620,7 @@ pr_ModuleDef returns [List<Definition> definitions]
 	$definitions = new ArrayList<Definition>();
 	VisibilityModifier modifier = null;
 	MultipleWithAttributes attributes = null;
+	boolean semicolon = false;
 }:
 (	(	m = pr_Visibility { modifier = $m.modifier; }	)?
 	(	d1 = pr_TypeDef { if($d1.def_type != null) { $definitions.add($d1.def_type); } }
@@ -623,6 +647,7 @@ pr_ModuleDef returns [List<Definition> definitions]
 	|	d10 = pr_ModuleParDef { if($d10.parameters != null) { $definitions.addAll($d10.parameters); } }
 	)
 	(	a = pr_WithStatement { attributes = $a.attributes; }	)?
+	(	pr_SemiColon {semicolon = true;}	)?
 )
 {
 	for ( int i = 0; i < $definitions.size(); i++ ) {
@@ -635,9 +660,13 @@ pr_ModuleDef returns [List<Definition> definitions]
 		if( attributes != null ) {
 			definition.setWithAttributes( attributes );
 			Location loc = definition.getLocation();
-			loc.setEndOffset(offset + getStopToken().getStopIndex() + 1);
+			loc.setEndOffset(offset + getLastVisibleToken().getStopIndex() + 1);
 		}
-		definition.setCumulativeDefinitionLocation(getLocation( $start, getStopToken()));
+		if(semicolon) {
+			Location loc = definition.getLocation();
+			loc.setEndOffset(offset + getLastVisibleToken().getStopIndex() + 1);
+		}
+		definition.setCumulativeDefinitionLocation(getLocation( $start, getLastVisibleToken()));
 	}
 
 	for ( Definition definition : $definitions ) {

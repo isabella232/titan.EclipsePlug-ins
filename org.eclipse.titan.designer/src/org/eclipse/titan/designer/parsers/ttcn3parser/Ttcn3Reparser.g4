@@ -57,8 +57,8 @@ pr_reparse_ModuleDefinitionsList
 	List<ControlPart> control_parts
 	]
 :
-(	(	pr_reparse_ModuleDefinition[ $parent_group, $all_definitions, $local_definitions, $local_groups, $all_imports, $local_imports, $all_friends, $local_friends ]
-		pr_SemiColon?
+(
+	(	pr_reparse_ModuleDefinition[ $parent_group, $all_definitions, $local_definitions, $local_groups, $all_imports, $local_imports, $all_friends, $local_friends ]
 	)*
 	(	{ $control_parts != null }?
 		c = pr_ModuleControlPart { $control_parts.add($c.controlpart); }
@@ -79,7 +79,6 @@ pr_reparse_ModuleDefinitionsList2
 	]
 :
 (	(	pr_reparse_ModuleDefinition[ $parent_group, $all_definitions, $local_definitions, $local_groups, $all_imports, $local_imports, $all_friends, $local_friends ]
-		pr_SemiColon?
 	)*
 );
 
@@ -111,8 +110,11 @@ pr_reparse_ModuleDefinition
 		$local_definitions.addAll( defs );
 	}
 |	pr_reparse_ImportDef[ $parent_group, $all_imports, $local_imports ]
+	pr_SemiColon?
 |	pr_reparse_GroupDef[ $parent_group, $all_definitions, $local_definitions, $local_groups, $all_imports, $local_imports, $all_friends, $local_friends ]
+	pr_SemiColon?
 |	pr_reparse_FriendModuleDef[ $parent_group, $all_friends, $local_friends ]
+	pr_SemiColon?
 );
 
 pr_reparse_ImportDef [Group parent_group, List<ImportModule> all_imports, List<ImportModule> local_imports]
