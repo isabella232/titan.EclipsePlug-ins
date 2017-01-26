@@ -946,11 +946,15 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		}
 
 		final boolean tempIsControlPossible = isControlPossible;
-		if (!enveloped && reparser.envelopsDamage(location)) {
-			reparser.extendDamagedRegion(leftBoundary, rightBoundary);
-			result = reparse( reparser, tempIsControlPossible );
-			result = Math.max(result - 1, 0);
-			lastCompilationTimeStamp = null;
+		if (!enveloped) {
+			if(reparser.envelopsDamage(location)){
+				reparser.extendDamagedRegion(leftBoundary, rightBoundary);
+				result = reparse( reparser, tempIsControlPossible );
+				result = Math.max(result - 1, 0);
+				lastCompilationTimeStamp = null;
+			} else {
+				result = Math.max(result, 1);
+			}
 		}
 
 		if (result == 0) {
