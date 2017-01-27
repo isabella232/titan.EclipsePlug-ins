@@ -1,5 +1,6 @@
 package org.eclipse.titan.designer;
 
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.dialogs.IDialogConstants;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -8,6 +9,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 
@@ -87,7 +89,8 @@ public class OutOfMemoryCheck {
 	 * @return true: if the remaining free memory is low
 	 * */
 	public static boolean isOutOfMemory() {
-		if (Activator.getDefault().getPreferenceStore().getBoolean(PreferenceConstants.CHECKFORLOWMEMORY)) {
+		final boolean checkForLowMemory = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.CHECKFORLOWMEMORY, false, null);
+		if (checkForLowMemory) {
 			final Runtime Rt = Runtime.getRuntime();
 
 			final long free = Rt.freeMemory();

@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.commonFilters.ResourceExclusionHelper;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
 import org.eclipse.titan.designer.parsers.FileSaveTracker;
 import org.eclipse.titan.designer.parsers.GlobalParser;
+import org.eclipse.ui.PlatformUI;
 
 /**
  * General project visitor which is able to detect if a file included in the build process has changed, and is also able to mark it as one needing
@@ -36,7 +37,8 @@ public final class GlobalDeltaVisitor implements IResourceDeltaVisitor {
 
 	public GlobalDeltaVisitor(final IProject project) {
 		this.project = project;
-		workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(true);
+		final boolean reportError = 	PlatformUI.isWorkbenchRunning();	//Do not report error in headless mode
+		workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(reportError);
 	}
 
 	@Override
