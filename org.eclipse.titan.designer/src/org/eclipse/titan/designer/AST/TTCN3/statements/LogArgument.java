@@ -129,8 +129,8 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			return;
 		}
 
-		if (templateInstance.getType() == null && templateInstance.getDerivedReference() == null && template.isValue(timestamp)) {
-			final IValue value = template.getValue();
+		final IValue value = template.getValue();
+		if (value!=null) {
 			final IType gov = template.getMyGovernor();
 			if (gov != null) {
 				value.setMyGovernor(gov);

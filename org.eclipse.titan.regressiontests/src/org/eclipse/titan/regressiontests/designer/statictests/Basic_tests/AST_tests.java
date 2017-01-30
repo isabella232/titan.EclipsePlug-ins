@@ -4042,7 +4042,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
 		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `statement_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
+		
 		lineNum += 69;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `c_integer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
