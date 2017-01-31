@@ -4042,9 +4042,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
 		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
-		
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `statement_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 69;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `c_integer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
@@ -10055,9 +10053,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `@value_tests.myunionType' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 6;
-		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of timer `TL_temp2'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 2;
+		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A non-negative float value was expected as timer duration instead of -5",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  ++lineNum, IMarker.SEVERITY_ERROR));

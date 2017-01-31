@@ -367,6 +367,7 @@ public final class Referenced_Value extends Value {
 		case A_MODULEPAR:
 		case A_MODULEPAR_TEMPLATE:
 		case A_TEMPLATE:
+		case A_TIMER:
 		case A_VAR:
 		case A_VAR_TEMPLATE:
 		case A_FUNCTION_RVAL:

@@ -383,6 +383,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 			switch (assignment.getAssignmentType()) {
 			case A_CONST:
+			case A_TIMER:
 			case A_EXT_CONST:
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
