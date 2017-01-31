@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -15,28 +16,39 @@ import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.AnytypeAttribute;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.AttributeSpecification;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
-import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completeness_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
+import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.values.Anytype_Value;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.extensionattributeparser.ExtensionAttributeAnalyzer;
 
 /**
  * anytype type.
@@ -196,7 +208,7 @@ public final class Anytype_Type extends Type {
 	 * The fields of the anytype have to be recollected every time the module is checked,
 	 * as definitions might have changed.
 	 * */
-	public void clear() {
+	private void clear() {
 		compFieldMap = new CompFieldMap();
 		compFieldMap.setMyType(this);
 		compFieldMap.setFullNameParent(this);
@@ -249,9 +261,89 @@ public final class Anytype_Type extends Type {
 		lastTimeChecked = timestamp;
 		isErroneous = false;
 
+		analyzeExtensionAttributes(timestamp);
+
 		parseAttributes(timestamp);
 
 		compFieldMap.check(timestamp);
+	}
+
+	/**
+	 * Convert and check the anytype attributes applied to the module of this type.
+	 * 
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle.
+	 * */
+	private void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
+		clear();
+
+		final TTCN3Module myModule = (TTCN3Module) getMyScope().getModuleScope();
+		final WithAttributesPath moduleAttributePath = myModule.getAttributePath();
+
+		if (moduleAttributePath == null) {
+			return;
+		}
+
+		final List<SingleWithAttribute> realAttributes = moduleAttributePath.getRealAttributes(timestamp);
+
+		SingleWithAttribute attribute;
+		List<AttributeSpecification> specifications = null;
+		for (int i = 0; i < realAttributes.size(); i++) {
+			attribute = realAttributes.get(i);
+			if (Attribute_Type.Extension_Attribute.equals(attribute.getAttributeType())) {
+				final Qualifiers qualifiers = attribute.getQualifiers();
+				if (qualifiers == null || qualifiers.getNofQualifiers() == 0) {
+					if (specifications == null) {
+						specifications = new ArrayList<AttributeSpecification>();
+					}
+					specifications.add(attribute.getAttributeSpecification());
+				}
+			}
+		}
+
+		if (specifications == null) {
+			return;
+		}
+
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
+		AttributeSpecification specification;
+		for (int i = 0; i < specifications.size(); i++) {
+			specification = specifications.get(i);
+			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+			analyzer.parse(specification);
+			final List<ExtensionAttribute> temp = analyzer.getAttributes();
+			if (temp != null) {
+				attributes.addAll(temp);
+			}
+		}
+
+		final Scope definitionsScope = myModule.getDefinitions();
+		ExtensionAttribute extensionAttribute;
+		for (int i = 0; i < attributes.size(); i++) {
+			extensionAttribute = attributes.get(i);
+
+			if(ExtensionAttribute_type.ANYTYPE.equals(extensionAttribute.getAttributeType())) {
+				final AnytypeAttribute anytypeAttribute = (AnytypeAttribute) extensionAttribute;
+
+				for (int j = 0; j < anytypeAttribute.getNofTypes(); j++) {
+					final Type tempType = anytypeAttribute.getType(j);
+
+					String fieldName;
+					Identifier identifier = null;
+					if (Type_type.TYPE_REFERENCED.equals(tempType.getTypetype())) {
+						final Reference reference = ((Referenced_Type) tempType).getReference();
+						identifier = reference.getId();
+						fieldName = identifier.getTtcnName();
+					} else {
+						fieldName = tempType.getTypename();
+						identifier = new Identifier(Identifier_type.ID_TTCN, fieldName);
+					}
+
+					tempType.setMyScope(definitionsScope);
+					addComp(new CompField(identifier, tempType, false, null));
+				}
+			}
+		}
 	}
 
 	@Override

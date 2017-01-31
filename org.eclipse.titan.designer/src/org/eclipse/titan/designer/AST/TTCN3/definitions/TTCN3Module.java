@@ -29,7 +29,6 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
@@ -42,8 +41,6 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.Type;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.AnytypeAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.AttributeSpecification;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ModuleVersionAttribute;
@@ -55,8 +52,6 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.TitanVersionAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.VersionRequirementAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
-import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
-import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.core.CompilerVersionInformationCollector;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.core.ProductIdentityHelper;
@@ -420,7 +415,6 @@ public final class TTCN3Module extends Module {
 
 		// re-initialize at the beginning of the cycle.
 		versionNumber = null;
-		anytype.clear();
 		missingReferences.clear();
 
 		if (withAttributesPath != null) {
@@ -438,9 +432,7 @@ public final class TTCN3Module extends Module {
 			friendModule.check(timestamp);
 		}
 
-		if (withAttributesPath != null) {
-			analyzeExtensionAttributes(timestamp);
-		}
+		analyzeExtensionAttributes(timestamp);
 
 		anytypeDefinition.check(timestamp);
 		definitions.check(timestamp);
@@ -466,7 +458,6 @@ public final class TTCN3Module extends Module {
 
 		// re-initialize at the beginning of the cycle.
 		versionNumber = null;
-		anytype.clear();
 		missingReferences.clear();
 
 		if (withAttributesPath != null) {
@@ -484,9 +475,7 @@ public final class TTCN3Module extends Module {
 			friendModule.check(timestamp);
 		}
 
-		if (withAttributesPath != null) {
-			analyzeExtensionAttributes(timestamp);
-		}
+		analyzeExtensionAttributes(timestamp);
 
 		//anytypeDefinition.check(timestamp);
 		//definitions.check(timestamp);
@@ -514,12 +503,16 @@ public final class TTCN3Module extends Module {
 	}
 
 	/**
-	 * Convert and check the anytype attributes applied to this module.
+	 * Convert and check the version, requires and titan version extension attributes.
 	 * 
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * */
-	public void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
+	private void analyzeExtensionAttributes(final CompilationTimeStamp timestamp) {
+		if (withAttributesPath == null) {
+			return;
+		}
+
 		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
 
 		SingleWithAttribute attribute;
@@ -558,28 +551,6 @@ public final class TTCN3Module extends Module {
 			extensionAttribute = attributes.get(i);
 
 			switch (extensionAttribute.getAttributeType()) {
-			case ANYTYPE: {
-				final AnytypeAttribute anytypeAttribute = (AnytypeAttribute) extensionAttribute;
-
-				for (int j = 0; j < anytypeAttribute.getNofTypes(); j++) {
-					final Type tempType = anytypeAttribute.getType(j);
-
-					String fieldName;
-					Identifier identifier = null;
-					if (Type_type.TYPE_REFERENCED.equals(tempType.getTypetype())) {
-						final Reference reference = ((Referenced_Type) tempType).getReference();
-						identifier = reference.getId();
-						fieldName = identifier.getTtcnName();
-					} else {
-						fieldName = tempType.getTypename();
-						identifier = new Identifier(Identifier_type.ID_TTCN, fieldName);
-					}
-
-					tempType.setMyScope(definitions);
-					anytype.addComp(new CompField(identifier, tempType, false, null));
-				}
-				break;
-			}
 			case VERSION: {
 				final ModuleVersionAttribute moduleVersion = (ModuleVersionAttribute) extensionAttribute;
 				moduleVersion.parse();
