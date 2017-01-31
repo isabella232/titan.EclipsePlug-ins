@@ -18,7 +18,6 @@ package org.eclipse.titan.codegenerator.TTCN3JavaAPI;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.net.URL;
 
 public class MC{
 

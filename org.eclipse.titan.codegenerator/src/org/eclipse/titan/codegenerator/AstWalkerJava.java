@@ -110,7 +110,6 @@ public final class AstWalkerJava implements IWorkbenchWindowActionDelegate {
 		new AstWalkerJava().run(null);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void run(IAction action) {
 
 		/**/

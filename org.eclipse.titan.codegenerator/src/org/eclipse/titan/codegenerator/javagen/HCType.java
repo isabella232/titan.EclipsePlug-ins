@@ -15,20 +15,6 @@
 
 
 package org.eclipse.titan.codegenerator.javagen;
-import org.eclipse.titan.codegenerator.TTCN3JavaAPI.*;
-import java.util.HashSet;
-import java.util.concurrent.TimeUnit;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.util.ArrayList;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
-import java.util.Vector;
-import java.math.BigInteger;
-import java.net.ServerSocket;
 
 public class HCType {
 	

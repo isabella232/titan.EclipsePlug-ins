@@ -102,7 +102,6 @@ public final class AstRunnerJava implements IWorkbenchWindowActionDelegate {
 		new AstRunnerJava().run(null);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void run(IAction action) {
 
 		boolean projectfound=false;

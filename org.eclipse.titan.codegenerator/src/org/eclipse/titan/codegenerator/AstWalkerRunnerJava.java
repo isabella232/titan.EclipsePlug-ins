@@ -95,7 +95,6 @@ public final class AstWalkerRunnerJava implements IWorkbenchWindowActionDelegate
 		new AstWalkerRunnerJava().run(null);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void run(IAction action) {
 
 		(new AstWalkerJava()).run(action);

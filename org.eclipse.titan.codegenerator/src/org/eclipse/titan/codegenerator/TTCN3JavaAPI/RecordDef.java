@@ -17,7 +17,6 @@ package org.eclipse.titan.codegenerator.TTCN3JavaAPI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public abstract class RecordDef extends StructuredTypeDef {
     public List<String> fieldsInOrder; //stores the order of fields of record type

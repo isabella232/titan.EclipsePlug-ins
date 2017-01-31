@@ -15,8 +15,6 @@
 
 package org.eclipse.titan.codegenerator.TTCN3JavaAPI;
 
-import java.util.Set;
-
 public abstract class SetDef extends StructuredTypeDef {
 
 }
