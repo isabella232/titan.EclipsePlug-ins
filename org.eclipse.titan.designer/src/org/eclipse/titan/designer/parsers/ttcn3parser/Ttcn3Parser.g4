@@ -2681,7 +2681,6 @@ pr_FunctionStatementOrDefList returns[List<Statement> statements]
 			{	if($statements == null) {$statements = $s.statements;}
 				else if ($s.statements != null) { $statements.addAll($s.statements); }
 			}
-		pr_SemiColon?
 	)+
 );
 
@@ -2695,12 +2694,13 @@ pr_FunctionStatementOrDef returns[List<Statement> statements]
 |	d2 = pr_FunctionLocalInst { definitions =  $d2.definitions; }
 |	s = pr_FunctionStatement { statement = $s.statement; }
 )
+pr_SemiColon?
 {
 	if(definitions != null) {
 		for(Definition definition : definitions) {
-			definition.setCumulativeDefinitionLocation(getLocation( $start, getStopToken()));
+			definition.setCumulativeDefinitionLocation(getLocation( $start, getLastVisibleToken()));
 			Statement temp_statement = new Definition_Statement(definition);
-			temp_statement.setLocation(getLocation( $start, getStopToken()));
+			temp_statement.setLocation(getLocation( $start, getLastVisibleToken()));
 			$statements.add(temp_statement);
 		}
 	} else if(statement != null) {
@@ -3271,10 +3271,9 @@ pr_AltstepLocalDefList returns[ List<Definition> definitions]
 	$definitions = null;
 }:
 (	d = pr_AltstepLocalDef { $definitions = $d.definitions; }
-	(	pr_SemiColon?
+	(
 		d2 = pr_AltstepLocalDef { if( $definitions != null && $d2.definitions != null) { $definitions.addAll($d2.definitions); }}
 	)*
-	pr_SemiColon?
 );
 
 pr_AltstepLocalDef returns[ List<Definition> definitions]
@@ -3292,10 +3291,11 @@ pr_AltstepLocalDef returns[ List<Definition> definitions]
 			}
 		}
 )
+pr_SemiColon?
 {
 	for ( int i = 0; i < $definitions.size(); i++ ) {
 		Definition definition = $definitions.get(i);
-		definition.setCumulativeDefinitionLocation(getLocation( $start, getStopToken()));
+		definition.setCumulativeDefinitionLocation(getLocation( $start, getLastVisibleToken()));
 	}
 };
 
@@ -4061,14 +4061,12 @@ pr_ModuleControlBody returns [StatementBlock block]
 
 pr_ControlStatementOrDefList returns [StatementBlock statementblock]:
 (	s = pr_ControlStatementOrDef
-	pr_SemiColon?
 	(	s2 = pr_ControlStatementOrDef
 			{
 				if ( $s.statements != null && $s2.statements != null ) {
 					$s.statements.addAll( $s2.statements );
 				}
 			}
-		pr_SemiColon?
 	)*
 )
 {
@@ -4089,14 +4087,15 @@ pr_ControlStatementOrDef returns [List<Statement> statements]
 |	s = pr_ControlStatement { statement = $s.statement;}
 |	d2 = pr_FunctionLocalDef { definitions = $d2.definitions; }
 )
+pr_SemiColon?
 {
 	$statements = new ArrayList<Statement>();
 	if(definitions != null) {
 		for(Definition definition : definitions) {
 			if(definition != null) {
-				definition.setCumulativeDefinitionLocation(getLocation( $start, getStopToken()));
+				definition.setCumulativeDefinitionLocation(getLocation( $start, getLastVisibleToken()));
 				Statement temp_statement = new Definition_Statement(definition);
-				temp_statement.setLocation(getLocation( $start, getStopToken()));
+				temp_statement.setLocation(getLocation( $start, getLastVisibleToken()));
 				$statements.add(temp_statement);
 			}
 		}
