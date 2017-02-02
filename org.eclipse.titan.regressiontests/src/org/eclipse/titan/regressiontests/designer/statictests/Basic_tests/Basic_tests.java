@@ -18,6 +18,7 @@ import org.junit.runners.Suite.SuiteClasses;
 	AST_tests.class, 
 	TemplateTestSuite.class, 
 	LazyTryCatchTest.class,
+	SelectUnionTest.class,
 	ExpectedValueTypeTest.class,
 	Structured.class,
 	ConfigFileTest.class
