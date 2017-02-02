@@ -1,0 +1,317 @@
+//Goal: to implement this task:
+//Bug 506451 - Test Bug 506448 - Ttcn3Parser: support select union (syntactic and semantic check)
+//Status: 
+//===Positive tests (no markers expected) ===
+
+module SelectUnionTest {
+
+type component EmptyCT {};
+
+type union Messages {
+  integer msg1,
+  bitstring msg2,
+  boolean msg3,
+  octetstring msg4,
+  charstring msg5
+}
+
+function f_select_union_without_else(in Messages pl_msg, out integer pl_result) {
+  select union (pl_msg) {
+    case (msg1) { pl_result := 1; }
+    case (msg2) { pl_result := 2; }
+    case (msg3) { pl_result := 3; }
+    case (msg4) { pl_result := 4; }
+    case (msg5) { pl_result := 5; }
+  }
+}
+
+testcase tc_SelectUnionWithoutElse() runs on EmptyCT {
+  var integer vl_result;
+  var Messages vl_myMessage;
+
+  vl_myMessage.msg1 := 42;
+  f_select_union_without_else(vl_myMessage, vl_result);
+  if (vl_result != 1) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg2 := '0000'B;
+  f_select_union_without_else(vl_myMessage, vl_result);
+  if (vl_result != 2) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg3 := false;
+  f_select_union_without_else(vl_myMessage, vl_result);
+  if (vl_result != 3) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg4 := 'AAAA'O;
+  f_select_union_without_else(vl_myMessage, vl_result);
+  if (vl_result != 4) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg5 := "lorem ipsum";
+  f_select_union_without_else(vl_myMessage, vl_result);
+  if (vl_result != 5) {
+    setverdict(fail);
+  }
+  setverdict(pass);
+}
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+function f_select_union_with_else(in Messages pl_msg, out integer pl_result) {
+  select union (pl_msg) {
+    case (msg1) { pl_result := 1; }
+    case else { pl_result := 0; }
+  }
+}
+
+
+testcase tc_SelectUnionWithElse() runs on EmptyCT {
+  var integer vl_result;
+  var Messages vl_myMessage;
+
+  vl_myMessage.msg1 := 42;
+  f_select_union_with_else(vl_myMessage, vl_result);
+  if (vl_result != 1) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg2 := '0000'B;
+  f_select_union_with_else(vl_myMessage, vl_result);
+  if (vl_result != 0) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg3 := false;
+  f_select_union_with_else(vl_myMessage, vl_result);
+  if (vl_result != 0) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg4 := 'AAAA'O;
+  f_select_union_with_else(vl_myMessage, vl_result);
+  if (vl_result != 0) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg5 := "lorem ipsum";
+  f_select_union_with_else(vl_myMessage, vl_result);
+  if (vl_result != 0) {
+    setverdict(fail);
+  }
+  setverdict(pass);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Anytype
+
+//This section is not accepted by titan.EclipsePlug-ins:
+//TODO: implement it! 
+//function f_select_union_anytype(in anytype p_msg, out integer result) {
+//  select union (p_msg) {
+//    case (integer) { result := 1; }
+//    case (bitstring) { result := 2; }
+//    case (boolean) { result := 3; }
+//    case (octetstring) { result := 4; }
+//    case (Messages) { result := 5; }
+//    case else { result := 0; }
+//  }
+//}
+//
+//
+//testcase tc_SelectUnionAnyType() runs on EmptyCT {
+//  var integer result;
+//  var anytype myAnyType;
+//
+//  myAnyType.integer := 42;
+//  f_select_union_anytype(myAnyType, result);
+//  if (result != 1) {
+//    setverdict(fail);
+//  }
+//
+//  myAnyType.bitstring := '0000'B;
+//  f_select_union_anytype(myAnyType, result);
+//  if (result != 2) {
+//    setverdict(fail);
+//  }
+//
+//  myAnyType.boolean := false;
+//  f_select_union_anytype(myAnyType, result);
+//  if (result != 3) {
+//    setverdict(fail);
+//  }
+//
+//  myAnyType.octetstring := 'AAAA'O;
+//  f_select_union_anytype(myAnyType, result);
+//  if (result != 4) {
+//    setverdict(fail);
+//  }
+//
+//  myAnyType.Messages.msg4 := 'AAAA'O;
+//  f_select_union_anytype(myAnyType, result);
+//  if (result != 5) {
+//    setverdict(fail);
+//  }
+//
+//  myAnyType.charstring := "lorem ipsum";
+//  f_select_union_anytype(myAnyType, result);
+//  if (result != 0) {
+//    setverdict(fail);
+//  }
+//  setverdict(pass);
+//}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Multiple branch
+//This section is not accepted by titan.EclipsePlug-ins:
+//TODO: implement it! 
+
+function f_select_union_multiple_branches(in Messages pl_msg, out integer pl_result) {
+  select union (pl_msg) {
+    case (msg1) { pl_result := 1; }
+//    case (msg2, msg3) { pl_result := 2; } //not accepted
+//    case (msg4, msg5) { pl_result := 3; } //not accepted
+	case else {pl_result := -1;}
+  }
+}
+
+
+testcase tc_SelectUnionMultipleBranches() runs on EmptyCT {
+  var integer vl_result;
+  var Messages vl_myMessage;
+
+  vl_myMessage.msg1 := 42;
+  f_select_union_multiple_branches(vl_myMessage, vl_result);
+  if (vl_result != 1) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg2 := '0000'B;
+  f_select_union_multiple_branches(vl_myMessage, vl_result);
+  if (vl_result != 2) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg3 := false;
+  f_select_union_multiple_branches(vl_myMessage, vl_result);
+  if (vl_result != 2) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg4 := 'AAAA'O;
+  f_select_union_multiple_branches(vl_myMessage, vl_result);
+  if (vl_result != 3) {
+    setverdict(fail);
+  }
+
+  vl_myMessage.msg5 := "lorem ipsum";
+  f_select_union_multiple_branches(vl_myMessage, vl_result);
+  if (vl_result != 3) {
+    setverdict(fail);
+  }
+  setverdict(pass);
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+// Anytype with Multiple branches
+//This section is not accepted by titan.EclipsePlug-ins:
+//TODO: implement it! 
+
+//function f_select_union_multiple_branches_anytype(in anytype pl_msg, out integer pl_result) {
+//  select union (pl_msg) {
+//    case (integer) { pl_result := 1; }
+//    case (bitstring, boolean) { pl_result := 2; }
+//    case (octetstring, charstring) { pl_result := 3; }
+//  }
+//}
+//
+//
+//testcase tc_SelectUnionMultipleBranchesAnyType() runs on EmptyCT {
+//  var integer vl_result;
+//  var anytype vl_myMessage;
+//
+//  vl_myMessage.integer := 42;
+//  f_select_union_multiple_branches_anytype(vl_myMessage, vl_result);
+//  if (vl_result != 1) {
+//    setverdict(fail);
+//  }
+//
+//  vl_myMessage.bitstring := '0000'B;
+//  f_select_union_multiple_branches_anytype(vl_myMessage, vl_result);
+//  if (vl_result != 2) {
+//    setverdict(fail);
+//  }
+//
+//  vl_myMessage.boolean := false;
+//  f_select_union_multiple_branches_anytype(vl_myMessage, vl_result);
+//  if (vl_result != 2) {
+//    setverdict(fail);
+//  }
+//
+//  vl_myMessage.octetstring := 'AAAA'O;
+//  f_select_union_multiple_branches_anytype(vl_myMessage, vl_result);
+//  if (vl_result != 3) {
+//    setverdict(fail);
+//  }
+//
+//  vl_myMessage.charstring := "lorem ipsum";
+//  f_select_union_multiple_branches_anytype(vl_myMessage, vl_result);
+//  if (vl_result != 3) {
+//    setverdict(fail);
+//  }
+//  setverdict(pass);
+//}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+type integer Byte (-128 .. 127) with { variant "8 bit" };
+
+// Just to compile: the head of the select union is a complicated expression
+function f_select_union_different_codegen(in anytype pl_msg, out integer pl_result) {
+  var Messages vl_arr[1];
+  var Messages vl_myMessage;
+  vl_myMessage.msg1 := 1;
+  vl_arr := { vl_myMessage };
+  var Byte vl_x := 11;
+  select union (vl_arr[f_return_1(encvalue_unichar(vl_x, "UTF-8"))]) {
+    case (msg1) { pl_result := 1; }
+//    case (msg2, msg3) { pl_result := 2; } //TODO:implement it
+    case (msg4) { pl_result := 3; }
+	case else { pl_result :=-1; }
+  }
+}
+
+function f_return_1(in universal charstring pl_str) return integer {
+  return 1;
+}
+
+
+///////////////////////////////////////////////////////////////////////////////
+
+
+control {
+  execute(tc_SelectUnionWithoutElse());
+  execute(tc_SelectUnionWithElse());
+//  execute(tc_SelectUnionAnyType());
+  execute(tc_SelectUnionMultipleBranches());
+//  execute(tc_SelectUnionMultipleBranchesAnyType());
+}
+
+}
+with {
+  extension "anytype integer, bitstring"
+  extension "anytype charstring, boolean, octetstring"
+  extension "anytype Messages"
+  encode "RAW";
+}
