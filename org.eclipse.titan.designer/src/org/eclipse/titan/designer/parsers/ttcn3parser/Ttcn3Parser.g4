@@ -7730,26 +7730,27 @@ pr_SelectUnionCaseBody returns[ SelectUnionCases selectUnionCases ]
 pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 @init {
 	$selectUnionCase = null;
-	SelectUnionCaseHeader header = null;
+	List<IVisitableNode> items = null;
 }:
 (	CASE
-	(	a = pr_LParen	{ header = new SelectUnionCaseHeader(); }
-		(	i = pr_Identifier	{ if( $i.identifier != null ) { header.add( $i.identifier ); } }
-		|	t = pr_Type		{ if ( $t.type != null ) { header.add( $t.type ); } }
-		)
+	(	a = pr_LParen	{ items = new ArrayList<IVisitableNode>(); }
+		pr_SelectUnionCaseHeader[ items ]
 		(	pr_Comma
-			(	i = pr_Identifier	{ if( $i.identifier != null ) { header.add( $i.identifier ); } }
-			|	t = pr_Type		{ if ( $t.type != null ) { header.add( $t.type ); } }
-			)
+			pr_SelectUnionCaseHeader[ items ]
 		)*
-		b = pr_RParen	{ header.setLocation( getLocation( $a.start, $b.stop ) ); }
+		b = pr_RParen
 	|	ELSE
 	)
 	s = pr_StatementBlock
 )
-{	$selectUnionCase = new SelectUnionCase( header, $s.statementblock );
+{	$selectUnionCase = new SelectUnionCase( items, $s.statementblock );
 	$selectUnionCase.setLocation( getLocation( $start, getStopToken() ) );
 };
+
+pr_SelectUnionCaseHeader[ List<IVisitableNode> items ]:
+(	i = pr_Identifier	{ if ( $i.identifier != null ) { $items.add( $i.identifier ); } }
+|	t = pr_Type			{ if ( $t.type != null ) { $items.add( $t.type ); } }
+);
 
 pr_TryCatchConstruct returns[Statement statement]
 @init {
