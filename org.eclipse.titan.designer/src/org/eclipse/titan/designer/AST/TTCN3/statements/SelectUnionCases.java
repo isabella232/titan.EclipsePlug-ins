@@ -15,16 +15,19 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
- * The SelectUnionCases class is helper class for the SelectUnionCase_Statement class.
+ * Helper class for the SelectUnionCase_Statement class.
+ * Represent the body part of a select union.
  * Holds a list of the select union cases that were parsed from the source code.
  * 
  * @see SelectUnionCase_Statement
@@ -147,7 +150,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	/**
-	 * Does the semantic checking of the select case list.
+	 * Does the semantic checking of the select case list of union type
 	 * 
 	 * @param aTimestamp
 	 *                the timestamp of the actual semantic check cycle.
@@ -160,9 +163,28 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
 	 */
 	public void check( final CompilationTimeStamp aTimestamp, final TTCN3_Choice_Type aUnionType, final List<String> aFieldNames ) {
-		boolean unrechable = false;
+		boolean unreachable = false;
 		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			unrechable = mSelectUnionCases.get(i).check( aTimestamp, aUnionType, unrechable, aFieldNames );
+			unreachable = mSelectUnionCases.get(i).check( aTimestamp, aUnionType, unreachable, aFieldNames );
+		}
+	}
+
+	/**
+	 * Does the semantic checking of the select case list of anytype type
+	 * 
+	 * @param aTimestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param aAnytypeType
+	 *                the referenced anytype type of the select expression, to check the cases against.
+	 *                It can not be null.
+	 * @param aTypesCovered
+	 *                types, which are already covered.
+	 *                If a new type is found, it is added to the list.
+	 */
+	public void check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final List<Type> aTypesCovered ) {
+		boolean unreachable = false;
+		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
+			unreachable = mSelectUnionCases.get(i).check( aTimestamp, aAnytypeType, unreachable, aTypesCovered );
 		}
 	}
 

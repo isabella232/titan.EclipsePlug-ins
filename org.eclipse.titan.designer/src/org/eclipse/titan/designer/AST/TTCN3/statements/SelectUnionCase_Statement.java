@@ -16,18 +16,20 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
- * The SelectUnionCase_Statement class represents TTCN3 select union statements.
+ * Represents a TTCN-3 select union statement.
  * 
  * @see SelectUnionCases
  * @see SelectUnionCase
@@ -36,7 +38,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  */
 public final class SelectUnionCase_Statement extends Statement {
 	private static final String UNDETERMINABLETYPE = "Cannot determine the type of the expression";
-	private static final String TYPEMUSTBEUNION = "The type of the expression must be union";
+	private static final String TYPE_MUST_BE_UNION_OR_ANYTYPE = "The type of the expression must be union or anytype";
 	private static final String CASENOTCOVERED = "Cases not covered for the following fields: ";
 
 	private static final String FULLNAMEPART1 = ".expression";
@@ -142,22 +144,35 @@ public final class SelectUnionCase_Statement extends Statement {
 
 		//referenced type
 		final IType refd = governor.getTypeRefdLast( timestamp );
-		if (!( refd instanceof TTCN3_Choice_Type) ) {
-			expression.getLocation().reportSemanticError( TYPEMUSTBEUNION );
+
+		if ( refd instanceof TTCN3_Choice_Type ) {
+			//referenced union type to check
+			final TTCN3_Choice_Type unionType = (TTCN3_Choice_Type)refd;
+			checkUnionType( timestamp, unionType );
+		} else if ( refd instanceof Anytype_Type ) {
+			//referenced anytype type to check
+			final Anytype_Type anytypeType = (Anytype_Type)refd;
+			checkAnytypeType( timestamp, anytypeType );
+		} else {
+			expression.getLocation().reportSemanticError( TYPE_MUST_BE_UNION_OR_ANYTYPE );
 			return;
 		}
+	}
 
-		//referenced union type to check
-		final TTCN3_Choice_Type unionType = (TTCN3_Choice_Type)refd;
-
+	/**
+	 * Checks if select union expression is union
+	 * @param aTimestamp the timestamp of the actual semantic check cycle.
+	 * @param aUnionType referenced union type to check
+	 */
+	private void checkUnionType( final CompilationTimeStamp aTimestamp, TTCN3_Choice_Type aUnionType ) {
 		// list of union field names. Names of processed field names are removed from the list
 		final List<String> fieldNames = new ArrayList<String>();
-		for ( int i = 0; i < unionType.getNofComponents(); i++ ) {
-			final String compName = unionType.getComponentIdentifierByIndex( i ).getName();
+		for ( int i = 0; i < aUnionType.getNofComponents(); i++ ) {
+			final String compName = aUnionType.getComponentIdentifierByIndex( i ).getName();
 			fieldNames.add( compName );
 		}
 
-		mSelectUnionCases.check( timestamp, unionType, fieldNames );
+		mSelectUnionCases.check( aTimestamp, aUnionType, fieldNames );
 
 		if ( !fieldNames.isEmpty() ) {
 			final StringBuilder sb = new StringBuilder( CASENOTCOVERED );
@@ -169,6 +184,17 @@ public final class SelectUnionCase_Statement extends Statement {
 			}
 			location.reportSemanticWarning( sb.toString() );
 		}
+	}
+
+	/**
+	 * Checks if select union expression is anytype
+	 * @param aTimestamp the timestamp of the actual semantic check cycle.
+	 * @param aAnytypeType referenced anytype type to check
+	 */
+	private void checkAnytypeType( final CompilationTimeStamp aTimestamp, Anytype_Type aAnytypeType ) {
+		// list of types, which are already covered
+		final List<Type> typesCovered = new ArrayList<Type>();
+		mSelectUnionCases.check( aTimestamp, aAnytypeType, typesCovered );
 	}
 
 	@Override

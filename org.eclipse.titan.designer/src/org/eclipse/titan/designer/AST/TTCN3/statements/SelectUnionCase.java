@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
@@ -16,14 +15,15 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
-import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -32,7 +32,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
- * The SelectUnionCase class is helper class for the SelectUnionCase_Statement class.
+ * Helper class for the SelectUnionCase_Statement class.
  * Represents a select union case branch parsed from the source code.
  * 
  * @see SelectUnionCase_Statement
@@ -41,19 +41,18 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Arpad Lovassy
  */
 public final class SelectUnionCase extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
-	private static final String NEVERREACH1 = "Control never reaches this code because of previous effective cases(s)";
-	private static final String INVALIDUNIONFIELD = "Union `{0}'' has no field `{1}''";
-	private static final String CASEALREADYCOVERED = "Case `{0}'' is already covered";
+	private static final String NEVER_REACH = "Control never reaches this code because of previous effective cases(s)";
 
 	private static final String FULLNAMEPART = ".block";
 
-	private final Identifier mIdentifier;
+	/** Header part of a select select union case, which is a list of union fields or types */
+	private final SelectUnionCaseHeader mHeader;
 	private final StatementBlock mStatementBlock;
 
 	private Location location = NULL_Location.INSTANCE;
 
-	public SelectUnionCase(final Identifier aIdentifier, final StatementBlock aStatementBlock) {
-		this.mIdentifier = aIdentifier;
+	public SelectUnionCase(final SelectUnionCaseHeader aHeader, final StatementBlock aStatementBlock) {
+		this.mHeader = aHeader;
 		this.mStatementBlock = aStatementBlock;
 
 		if (mStatementBlock != null) {
@@ -123,7 +122,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 	/** @return true if the select case is the else case, false otherwise. */
 	public boolean hasElse() {
-		return mIdentifier == null;
+		return mHeader == null;
 	}
 
 	/**
@@ -144,7 +143,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	/**
-	 * Does the semantic checking of this select case.
+	 * Does the semantic checking of this select case of union type.
 	 * 
 	 * @param aTimestamp
 	 *                the timestamp of the actual semantic check cycle.
@@ -160,33 +159,57 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * 
 	 * @return true if this case branch was found to be unreachable, false
 	 *         otherwise.
-	 * */
+	 */
 	public boolean check( final CompilationTimeStamp aTimestamp, final TTCN3_Choice_Type aUnionType, final boolean aUnreachable,
 						  final List<String> aFieldNames ) {
 		if ( aUnreachable ) {
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
-							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVERREACH1);
+							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVER_REACH);
 		}
 
 		boolean unreachable2 = aUnreachable;
-		if ( mIdentifier != null ) {
-			// name of the union component
-			final String name = mIdentifier.getName();
-			if ( aUnionType.hasComponentWithName( name ) ) {
-				if ( aFieldNames.contains( name ) ) {
-					aFieldNames.remove( name );
-				} else {
-					//this case is already covered
-					location.reportSemanticWarning( MessageFormat.format( CASEALREADYCOVERED, name ) );
-				}
-			} else {
-				location.reportSemanticError( MessageFormat.format( INVALIDUNIONFIELD, aUnionType.getFullName(), name ) );
-			}
+		if ( mHeader != null ) {
+			mHeader.check( aUnionType, aFieldNames );
 		} else {
 			// case else
 			unreachable2 = true;
 			aFieldNames.clear();
+		}
+
+		mStatementBlock.check( aTimestamp );
+
+		return unreachable2;
+	}
+
+	/**
+	 * Does the semantic checking of this select case of anytype type.
+	 * 
+	 * @param aTimestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param aAnytypeType
+	 *                the referenced anytype type of the select expression, to check the cases against.
+	 *                It can not be null.
+	 * @param aUnreachable
+	 *                tells if this case branch is still reachable or not.
+	 * 
+	 * @return true if this case branch was found to be unreachable, false
+	 *         otherwise.
+	 */
+	public boolean check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final boolean aUnreachable,
+						  final List<Type> aTypesCovered ) {
+		if ( aUnreachable ) {
+			location.reportConfigurableSemanticProblem(
+					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
+							PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null), NEVER_REACH);
+		}
+
+		boolean unreachable2 = aUnreachable;
+		if ( mHeader != null ) {
+			mHeader.check( aAnytypeType, aTypesCovered );
+		} else {
+			// case else
+			unreachable2 = true;
 		}
 
 		mStatementBlock.check( aTimestamp );
@@ -220,8 +243,9 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 			throw new ReParseException();
 		}
 
-		if (mIdentifier != null) {
-			reparser.updateLocation(mIdentifier.getLocation());
+		if ( mHeader != null ) {
+			mHeader.updateSyntax( reparser, false );
+			reparser.updateLocation( mHeader.getLocation() );
 		}
 
 		if (mStatementBlock != null) {
@@ -241,7 +265,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (mIdentifier != null && !mIdentifier.accept(v)) {
+		if ( mHeader != null && !mHeader.accept( v ) ) {
 			return false;
 		}
 		if (mStatementBlock != null && !mStatementBlock.accept(v)) {

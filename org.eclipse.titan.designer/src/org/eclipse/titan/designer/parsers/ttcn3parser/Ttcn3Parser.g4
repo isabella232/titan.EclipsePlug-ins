@@ -7730,19 +7730,24 @@ pr_SelectUnionCaseBody returns[ SelectUnionCases selectUnionCases ]
 pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 @init {
 	$selectUnionCase = null;
-	Identifier identifier = null;
+	SelectUnionCaseHeader header = null;
 }:
 (	CASE
-	(	pr_LParen
-		i = pr_Identifier	{ identifier = $i.identifier; }
-		pr_RParen
+	(	a = pr_LParen	{ header = new SelectUnionCaseHeader(); }
+		(	i = pr_Identifier	{ if( $i.identifier != null ) { header.add( $i.identifier ); } }
+		|	t = pr_Type		{ if ( $t.type != null ) { header.add( $t.type ); } }
+		)
+		(	pr_Comma
+			(	i = pr_Identifier	{ if( $i.identifier != null ) { header.add( $i.identifier ); } }
+			|	t = pr_Type		{ if ( $t.type != null ) { header.add( $t.type ); } }
+			)
+		)*
+		b = pr_RParen	{ header.setLocation( getLocation( $a.start, $b.stop ) ); }
 	|	ELSE
 	)
 	s = pr_StatementBlock
-	pr_SemiColon?
 )
-{
-	$selectUnionCase = new SelectUnionCase( identifier, $s.statementblock );
+{	$selectUnionCase = new SelectUnionCase( header, $s.statementblock );
 	$selectUnionCase.setLocation( getLocation( $start, getStopToken() ) );
 };
 
