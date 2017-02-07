@@ -15,12 +15,16 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.jface.preference.PreferenceStore;
+import org.eclipse.jface.util.IPropertyChangeListener;
+import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.TabFolder;
 import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.titan.common.fieldeditors.TITANResourceLocatorFieldEditor;
@@ -39,7 +43,8 @@ import org.eclipse.ui.dialogs.PropertyPage;
  * */
 public final class MakefileCreationTab {
 	private static final String CREATIONATTRIBUTES_TEXT = "Makefile creation attributes";
-
+	private static final String INVALID_CODESPLITTING_NUMBER = "Invalid code splitting number in makefile creation tab: ";
+	private boolean makeFileGenerationEnabled = true; //Is it not stored elsewhere???
 	private Composite automaticBuildPropertiesComposite;
 	private Button useAbsolutePathButton;
 	private Button gnuMakeButton;
@@ -47,8 +52,11 @@ public final class MakefileCreationTab {
 	private Button dynamicLinking;
 	private Button functionTestRuntimeButton;
 	private Button singleModeButton;
+	private Group codeSplittingGroup;
 	private Composite codeSplittingComposite;
-	private ComboFieldEditor codeSplitting;
+	private ComboFieldEditor codeSplitting; //code splitting mode
+	private Composite codeSplittingNumberComposite;
+	private IntegerFieldEditor codeSplittingNumber; //clode splitting number if codeSpitting == "number"
 	private Composite defaultTargetComposite;
 	private ComboFieldEditor defaultTarget;
 
@@ -78,6 +86,8 @@ public final class MakefileCreationTab {
 
 		codeSplittingComposite.dispose();
 		codeSplitting.dispose();
+		codeSplittingNumberComposite.dispose();
+		codeSplittingNumber.dispose();
 
 		defaultTarget.dispose();
 		defaultTargetComposite.dispose();
@@ -121,19 +131,61 @@ public final class MakefileCreationTab {
 		singleModeButton = new Button(automaticBuildPropertiesComposite, SWT.CHECK);
 		singleModeButton.setText("generate Makefile for single mode");
 
-		codeSplittingComposite = new Composite(automaticBuildPropertiesComposite, SWT.NONE);
+		//codeSplitting	
+		codeSplittingGroup = new Group(automaticBuildPropertiesComposite, SWT.NONE);
+		codeSplittingGroup.setText("Code Splitting (-U)");
+		final GridLayout layout = new GridLayout();
+		layout.numColumns = 1;
+		codeSplittingGroup.setLayout(layout);
+		final GridData gridData = new GridData(SWT.FILL, SWT.FILL, false, false);
+		codeSplittingGroup.setLayoutData(gridData);
 
-		codeSplitting = new ComboFieldEditor(MakefileCreationData.CODE_SPLITTING_PROPERTY, "Code splitting (-U)", new String[][] {
-				{ "none", GeneralConstants.NONE }, { "type", GeneralConstants.TYPE } }, codeSplittingComposite);
+		codeSplittingComposite = new Composite(codeSplittingGroup, SWT.NONE);
+		codeSplitting = new ComboFieldEditor(MakefileCreationData.CODE_SPLITTING_PROPERTY, "Splitting mode:",
+			new String[][] {
+				{ "none", GeneralConstants.NONE },
+				{ "type", GeneralConstants.TYPE },
+				{ "number", GeneralConstants.NUMBER} },
+			codeSplittingComposite);
 
+		codeSplitting.setPropertyChangeListener(new IPropertyChangeListener() {
+			@Override
+			public void propertyChange(PropertyChangeEvent event) {
+				updateCodeSplittingNumberEnabled();
+			}
+		});
+
+		codeSplittingNumberComposite = new Composite(codeSplittingGroup, SWT.NONE);
+		final GridLayout codeSplittingNumberLayout = new GridLayout();
+		codeSplittingNumberComposite.setLayout(codeSplittingNumberLayout);
+		final GridData codeSplittingNumberData = new GridData(GridData.FILL);
+		codeSplittingNumberData.grabExcessHorizontalSpace = true;
+		codeSplittingNumberData.horizontalAlignment = SWT.FILL;
+		codeSplittingNumberComposite.setLayoutData(codeSplittingNumberData);
+		codeSplittingNumber = new IntegerFieldEditor(
+				GeneralConstants.NUMBER_DEFAULT,
+				"Number (1-9999):",
+				codeSplittingNumberComposite,
+				5);
+		codeSplittingNumber.setValidRange(1, 9999);
+		codeSplittingNumber.setPropertyChangeListener (new IPropertyChangeListener() {
+
+			@Override
+			public void propertyChange(final PropertyChangeEvent event) {
+				checkCodeSplittingNumber();
+			}
+		});
+
+		//defaultTarget
 		defaultTargetComposite = new Composite(automaticBuildPropertiesComposite, SWT.NONE);
-		defaultTarget = new ComboFieldEditor(MakefileCreationData.DEFAULT_TARGET_PROPERTY, "Default target",
+		defaultTarget = new ComboFieldEditor(MakefileCreationData.DEFAULT_TARGET_PROPERTY, "Default target:",
 				MakefileCreationData.DefaultTarget.getDisplayNamesAndValues(), defaultTargetComposite);
 
+		//target exe
 		targetExecutableComposite = new Composite(automaticBuildPropertiesComposite, SWT.NONE);
-		GridLayout targetExecutablelayout = new GridLayout();
-		targetExecutableComposite.setLayout(targetExecutablelayout);
-		GridData targetExecutableData = new GridData(GridData.FILL);
+		final GridLayout targetExecutableLayout = new GridLayout();
+		targetExecutableComposite.setLayout(targetExecutableLayout);
+		final GridData targetExecutableData = new GridData(GridData.FILL);
 		targetExecutableData.grabExcessHorizontalSpace = true;
 		targetExecutableData.horizontalAlignment = SWT.FILL;
 		targetExecutableComposite.setLayoutData(targetExecutableData);
@@ -158,13 +210,17 @@ public final class MakefileCreationTab {
 	 *                the actual state of automatic Makefile generation.
 	 * */
 	protected void setMakefileGenerationEnabled(final boolean value) {
+		makeFileGenerationEnabled = value;
 		useAbsolutePathButton.setEnabled(value);
 		gnuMakeButton.setEnabled(value);
 		incrementalDependecyRefresh.setEnabled(value);
 		dynamicLinking.setEnabled(value);
 		functionTestRuntimeButton.setEnabled(value);
 		singleModeButton.setEnabled(value);
+		codeSplittingComposite.setEnabled(value);
 		codeSplitting.setEnabled(value, codeSplittingComposite);
+		updateCodeSplittingNumberEnabled();
+		defaultTargetComposite.setEnabled(value);
 		defaultTarget.setEnabled(value, defaultTargetComposite);
 		temporalTargetExecutableFileFieldEditor.setEnabled(value, targetExecutableComposite);
 	}
@@ -319,6 +375,7 @@ public final class MakefileCreationTab {
 		functionTestRuntimeButton.setSelection(MakefileCreationData.FUNCTIONTESTRUNTIME_DEFAULT_VALUE);
 		singleModeButton.setSelection(MakefileCreationData.SINGLEMODE_DEFAULT_VALUE);
 		codeSplitting.setSelectedValue(MakefileCreationData.CODE_SPLITTING_DEFAULT_VALUE);
+		codeSplittingNumber.setStringValue(GeneralConstants.NUMBER_DEFAULT);
 		defaultTarget.setSelectedValue(MakefileCreationData.DefaultTarget.getDefault().toString());
 		temporalTargetExecutableFileFieldEditor.setStringValue(MakefileCreationData.getDefaultTargetExecutableName(project));
 		setMakefileGenerationEnabled(true); // everything is enabled in the list just listed
@@ -358,6 +415,15 @@ public final class MakefileCreationTab {
 			}
 			page.setErrorMessage(errorMessage);
 			return false;
+		}
+
+		if ( GeneralConstants.NUMBER.equals(codeSplitting.getActualValue())){
+			try {
+				codeSplittingNumber.getIntValue();
+			} catch (NumberFormatException e) {
+				page.setErrorMessage(INVALID_CODESPLITTING_NUMBER + codeSplittingNumber.getStringValue());
+				return false;
+			}
 		}
 
 		return true;
@@ -400,14 +466,31 @@ public final class MakefileCreationTab {
 					MakefileCreationData.SINGLEMODE_PROPERTY));
 			singleModeButton.setSelection("true".equals(temp) ? true : false);
 
-			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+			//Code Splitting:
+			String codeSplittingType = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.CODE_SPLITTING_PROPERTY));
-			if (temp == null || temp.length() == 0) {
+			if (codeSplittingType == null || codeSplittingType.length() == 0) {
 				codeSplitting.setSelectedValue(GeneralConstants.NONE);
+				codeSplittingNumber.setStringValue(GeneralConstants.NUMBER_DEFAULT);
+			} else if (codeSplittingType.equals(GeneralConstants.NONE) || codeSplittingType.equals(GeneralConstants.TYPE)){
+				codeSplitting.setSelectedValue(codeSplittingType);
+				codeSplittingNumber.setStringValue(GeneralConstants.NUMBER_DEFAULT);
 			} else {
-				codeSplitting.setSelectedValue(temp);
+				//number supposed:
+				codeSplittingNumber.setStringValue(codeSplittingType);
+				try {
+					codeSplittingNumber.getIntValue();
+					codeSplitting.setSelectedValue(GeneralConstants.NUMBER);
+				} catch (final NumberFormatException e) {
+					//not number is set:
+					codeSplitting.setSelectedValue(GeneralConstants.NONE);
+					codeSplittingNumber.setStringValue(GeneralConstants.NUMBER_DEFAULT);
+					ErrorReporter.INTERNAL_ERROR(INVALID_CODESPLITTING_NUMBER + codeSplittingNumber.getStringValue());
+				}
 			}
+			updateCodeSplittingNumberEnabled();
 
+			//Default target:
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.DEFAULT_TARGET_PROPERTY));
 			if (temp == null || temp.length() == 0) {
@@ -428,15 +511,11 @@ public final class MakefileCreationTab {
 				temporalTargetExecutableFileFieldEditor.setStringValue(temp);
 			}
 		} catch (CoreException e) {
-			useAbsolutePathButton.setSelection(false);
-			gnuMakeButton.setSelection(false);
-			incrementalDependecyRefresh.setSelection(false);
-			dynamicLinking.setSelection(false);
-			functionTestRuntimeButton.setSelection(false);
-			singleModeButton.setSelection(false);
-			codeSplitting.setEnabled(false, codeSplittingComposite);
+			codeSplitting.setSelectedValue(MakefileCreationData.CODE_SPLITTING_DEFAULT_VALUE);
+			codeSplittingNumber.setStringValue(GeneralConstants.NUMBER_DEFAULT);
 			defaultTarget.setSelectedValue(MakefileCreationData.DefaultTarget.getDefault().toString());
 			temporalTargetExecutableFileFieldEditor.setStringValue(MakefileCreationData.getDefaultTargetExecutableName(project,useAbsolutePath));
+			setMakefileGenerationEnabled(false);
 		}
 	}
 
@@ -458,9 +537,24 @@ public final class MakefileCreationTab {
 			setProperty(project, MakefileCreationData.FUNCTIONTESTRUNTIME_PROPERTY, functionTestRuntimeButton.getSelection() ? "true"
 					: "false");
 			setProperty(project, MakefileCreationData.SINGLEMODE_PROPERTY, singleModeButton.getSelection() ? "true" : "false");
-			setProperty(project, MakefileCreationData.CODE_SPLITTING_PROPERTY, codeSplitting.getActualValue());
-			setProperty(project, MakefileCreationData.DEFAULT_TARGET_PROPERTY, defaultTarget.getActualValue());
+			
+			String codeSplittingActualValue = codeSplitting.getActualValue();
+			
+			if (codeSplittingActualValue.equals(GeneralConstants.NONE) || codeSplittingActualValue.equals(GeneralConstants.TYPE)) {
+				setProperty(project, MakefileCreationData.CODE_SPLITTING_PROPERTY, codeSplittingActualValue);
+			} else if ( codeSplittingActualValue.equals(GeneralConstants.NUMBER)) {
+				try {
+					codeSplittingNumber.getIntValue();
+					setProperty(project, MakefileCreationData.CODE_SPLITTING_PROPERTY, codeSplittingNumber.getStringValue());
+				} catch( NumberFormatException e)  {
+					ErrorReporter.logError(INVALID_CODESPLITTING_NUMBER + codeSplittingNumber.getStringValue());
+				}
+			} else {
+				setProperty(project, MakefileCreationData.CODE_SPLITTING_PROPERTY, GeneralConstants.NONE);
+				ErrorReporter.INTERNAL_ERROR("Invalid code splitting value in makefile creation tab:" +  codeSplittingActualValue);
+			}
 
+			setProperty(project, MakefileCreationData.DEFAULT_TARGET_PROPERTY, defaultTarget.getActualValue());
 			String temp = temporalTargetExecutableFileFieldEditor.getStringValue();
 			URI path = URIUtil.toURI(temp);
 			URI resolvedPath = TITANPathUtilities.resolvePathURI(temp, project.getLocation().toOSString());
@@ -500,10 +594,28 @@ public final class MakefileCreationTab {
 	 *                    </ul>
 	 * */
 	private void setProperty(final IProject project, final String name, final String value) throws CoreException {
-		QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
-		String oldValue = project.getPersistentProperty(qualifiedName);
+		final QualifiedName qualifiedName = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, name);
+		final String oldValue = project.getPersistentProperty(qualifiedName);
 		if (value != null && !value.equals(oldValue)) {
 			project.setPersistentProperty(qualifiedName, value);
+		}
+	}
+
+	private void checkCodeSplittingNumber() {
+		if(!codeSplittingNumber.isValid()) {
+			page.setErrorMessage(INVALID_CODESPLITTING_NUMBER+codeSplittingNumber.getStringValue());
+		} else {
+			page.setErrorMessage(null);
+		}
+	}
+
+	private void updateCodeSplittingNumberEnabled() {
+		if ( makeFileGenerationEnabled && GeneralConstants.NUMBER.equals(codeSplitting.getActualValue())) {
+			codeSplittingNumber.setEnabled(true, codeSplittingNumberComposite);
+			checkCodeSplittingNumber();
+		} else {
+			codeSplittingNumber.setEnabled(false, codeSplittingNumberComposite);
+			page.setErrorMessage(null);
 		}
 	}
 }

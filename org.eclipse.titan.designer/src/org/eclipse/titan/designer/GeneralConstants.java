@@ -47,6 +47,8 @@ public final class GeneralConstants {
 	// code splitting
 	public static final String NONE = "none";
 	public static final String TYPE = "type";
+	public static final String NUMBER = "number";
+	public static final String NUMBER_DEFAULT = "1";
 
 	public static final String VERSION_STRING = ON_THE_FLY_ANALYZER_VERSION.toString();
 	public static final String COPYRIGHT_STRING = "# Copyright (c) 2000-2016 Ericsson Telecom AB";
