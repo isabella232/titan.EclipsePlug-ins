@@ -12,6 +12,8 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.IntegerFieldEditor;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
@@ -62,6 +64,12 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		addField(useIncrementalParsing);
 		
 		composite = new Composite(tempParent, SWT.NONE);
+		final GridLayout compositeLayout = new GridLayout();
+		composite.setLayout(compositeLayout);
+		final GridData compositeData = new GridData(GridData.FILL);
+		compositeData.grabExcessHorizontalSpace = true;
+		compositeData.horizontalAlignment = SWT.FILL;
+		composite.setLayoutData(compositeData);
 
 //		minimiseMemoryUsage = new BooleanFieldEditor(PreferenceConstants.MINIMISEMEMORYUSAGE, MINIMISE_MEMORY_USAGE, tempParent);
 //		addField(minimiseMemoryUsage);	
