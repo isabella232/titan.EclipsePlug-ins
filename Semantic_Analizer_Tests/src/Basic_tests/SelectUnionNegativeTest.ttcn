@@ -1,0 +1,212 @@
+//Goal: to implement this task and to insert into the plugin regression test
+//Bug 506451 - Test Bug 506448 - Ttcn3Parser: support select union (syntactic and semantic check)
+//Status: 
+module SelectUnionNegativeTest {
+//===Negative tests ( error markers expected)===
+//Based on titan.core/function_test/Semantic_Analyser/TTCN3_SA_9_TD.script
+type union Message {
+  integer msg1,
+  integer msg2,
+  integer msg3,
+  integer msg4
+}
+
+// Not union or anytype header
+function f_A1()
+{
+  var integer vl_result;
+  var Message vl_msg;
+  vl_msg.msg1 := 3;
+
+  select union (vl_result) //expected error
+  {
+    case (msg1)
+    { result := "a"; } //expected error, statement block is not checked?
+    case (msg2)
+    { result := 2; }
+    case (msg3)
+    { result := 3; }
+    case (msg4)
+    { result := 4; }
+  }
+
+
+}
+
+//Branch not member of the union
+function f_A2()
+{
+  var integer vl_result;
+  var Message vl_msg;
+  vl_msg.msg1 := 3;
+
+  select union (vl_msg)
+  {
+    case (msg1)
+    { vl_result := 1; }
+    case (msgBAD) //expected error, wrong location
+    { vl_result := "a"; } //expected error, ok
+    case (msg3)
+    { vl_result := 3; }
+    case (msg4)
+    { vl_result := 4; }
+  }
+  log("Result:  ", vl_result);
+
+}
+
+//Branch not member of anytype
+function f_A3()
+{
+  var integer vl_result;
+  var anytype vl_msg;
+
+  select union (vl_msg) //unexpected error
+  {
+    case (integer)
+    { vl_result := 1; }
+    case (charstring)
+    { vl_result := 2; }
+    case (bitstring)
+    { vl_result := 3; }
+    case (octetstring) //error expected, octetstring is not allowed
+    { vl_result := 4; }
+  }
+  log("Result:  ", vl_result);
+
+}
+
+//Two cases have the same union field
+function f_A4()
+{
+  var integer vl_result;
+  var Message vl_msg;
+  vl_msg.msg1 := 3;
+
+  select union (vl_msg) //expected warning, ok
+  {
+    case (msg1)
+    { vl_result := 1; }
+    case (msg1) //expected error, received warning, wrong location, error text is wrong (?)
+    { vl_result := 2; }
+    case (msg3)
+    { vl_result := 3; }
+    case (msg4)
+    { vl_result := 4; }
+  }
+  log("Result:  ", vl_result);
+
+}
+
+
+//Two cases have the same union field v2
+function f_A5()
+{
+  var integer vl_result;
+  var Message vl_msg;
+  vl_msg.msg1 := 3;
+
+  select union (vl_msg)
+  {
+    case (msg1)
+    { vl_result := 1; }
+    case (msg2, msg1)  //error expected
+    { vl_result := 2; }
+    case (msg3)
+    { vl_result := 3; }
+    case (msg4)
+    { vl_result := 4; }
+  }
+  log("Result:  ", vl_result);
+
+}
+
+//Two cases have the same union field v3
+   function f_A6()
+   {
+      var integer vl_result;
+      var Message vl_msg;
+      vl_msg.msg1 := 3;
+
+      select union (vl_msg)
+      {
+          case (msg1)
+              { vl_result := 1; }
+           case (msg2, msg2) //expected error
+              { vl_result := 2; }
+           case (msg3)
+              { vl_result := 3; }
+           case (msg4)
+              { vl_result := 4; }
+      }
+      log("Result:  ", vl_result);
+
+   }
+
+//Two cases have the same anytype field
+function f_A7()
+{
+  var integer vl_result;
+  var anytype vl_msg;
+
+  select union (vl_msg) //wrong marker
+  {
+    case (integer) 
+    { vl_result := 1; }
+    case (integer) //expected waring: case 'integer' already covered
+    { vl_result := 2; }
+    case (charstring)
+    { vl_result := 3; }
+    case (bitstring)
+    { vl_result := 4; }
+  }
+  log("Result:  ", vl_result);
+}
+//Two cases have the same anytype field v2
+function f_A8()
+{
+  var integer vl_result;
+  var anytype vl_msg;
+
+  select union (vl_msg)
+  {
+    case (integer)
+    { vl_result := 1; }
+    case (charstring, integer) //expected waring: case 'integer' already covered
+    { vl_result := 2; }
+    case (charstring) //expected waring: case 'charstring' already covered
+    { vl_result := 3; }
+    case (bitstring)
+    { vl_result := 4; }
+  }
+  log("Result:  ", vl_result);
+
+}
+//Two cases have the same anytype field v3
+
+
+function f_A9()
+{
+  var integer vl_result;
+  var anytype vl_msg;
+
+  select union (vl_msg)
+  {
+    case (integer)
+    { vl_result := 1; }
+    case (charstring, charstring)
+    { vl_result := 2; }
+    case (octetstring) 
+    { vl_result := 3; }
+    case (bitstring)
+    { vl_result := 4; }
+    case (universal charstring) {}
+    case (NotExistingType) {} //expected error
+  }
+  log("Result:  ", vl_result);
+
+}
+
+} with {
+extension "anytype integer, charstring, bitstring";
+}

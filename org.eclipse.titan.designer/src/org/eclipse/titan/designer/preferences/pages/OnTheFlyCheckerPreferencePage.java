@@ -32,7 +32,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	private static final String CHECK_MEMORY = "Warn and disable parsing before the system runs out of memory";
 	private static final String ENABLE_PARSING = "Enable parsing of TTCN-3, ASN.1 and Runtime Configuration files";
 	private static final String ENABLE_INCREMENTAL_PARSING = "Enable the incremental parsing of TTCN-3 files (EXPERIMENTAL)";
-	private static final String MINIMISE_MEMORY_USAGE = "Minimise memory usage";
+//	private static final String MINIMISE_MEMORY_USAGE = "Minimise memory usage";
 	private static final String DELAY_SEMANTIC_CHECKING = "Delay the on-the-fly semantic check till the file is saved";
 	private static final String RECONCILER_TIMEOUT = "Timeout in seconds before on-the-fly check starts";
 
