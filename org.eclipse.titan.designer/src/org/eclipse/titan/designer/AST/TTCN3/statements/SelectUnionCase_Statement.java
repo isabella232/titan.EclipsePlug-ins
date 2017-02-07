@@ -13,13 +13,12 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.Type;
-import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
@@ -193,7 +192,7 @@ public final class SelectUnionCase_Statement extends Statement {
 	 */
 	private void checkAnytypeType( final CompilationTimeStamp aTimestamp, Anytype_Type aAnytypeType ) {
 		// list of types, which are already covered
-		final List<Type> typesCovered = new ArrayList<Type>();
+		final List<String> typesCovered = new ArrayList<String>();
 		mSelectUnionCases.check( aTimestamp, aAnytypeType, typesCovered );
 	}
 

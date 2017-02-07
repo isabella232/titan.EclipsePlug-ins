@@ -7730,10 +7730,10 @@ pr_SelectUnionCaseBody returns[ SelectUnionCases selectUnionCases ]
 pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 @init {
 	$selectUnionCase = null;
-	List<IVisitableNode> items = null;
+	List<Identifier> items = null;
 }:
 (	CASE
-	(	a = pr_LParen	{ items = new ArrayList<IVisitableNode>(); }
+	(	a = pr_LParen	{ items = new ArrayList<Identifier>(); }
 		pr_SelectUnionCaseHeader[ items ]
 		(	pr_Comma
 			pr_SelectUnionCaseHeader[ items ]
@@ -7747,9 +7747,13 @@ pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 	$selectUnionCase.setLocation( getLocation( $start, getStopToken() ) );
 };
 
-pr_SelectUnionCaseHeader[ List<IVisitableNode> items ]:
-(	i = pr_Identifier	{ if ( $i.identifier != null ) { $items.add( $i.identifier ); } }
-|	t = pr_Type			{ if ( $t.type != null ) { $items.add( $t.type ); } }
+pr_SelectUnionCaseHeader[ List<Identifier> items ]:
+(	i = pr_Identifier		{ if ( $i.identifier != null ) { $items.add( $i.identifier ); } }
+|	t = pr_PredefinedType	{ if ( $t.type != null ) { 
+								Identifier identifier = new Identifier(Identifier_type.ID_TTCN, $t.type.getTypename(), getLocation( $t.start, $t.stop));
+								$items.add( identifier );
+							  }
+							}
 );
 
 pr_TryCatchConstruct returns[Statement statement]

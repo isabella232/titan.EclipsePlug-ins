@@ -14,9 +14,8 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
@@ -178,10 +177,10 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 *                the referenced anytype type of the select expression, to check the cases against.
 	 *                It can not be null.
 	 * @param aTypesCovered
-	 *                types, which are already covered.
+	 *                names of types, which are already covered.
 	 *                If a new type is found, it is added to the list.
 	 */
-	public void check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final List<Type> aTypesCovered ) {
+	public void check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final List<String> aTypesCovered ) {
 		boolean unreachable = false;
 		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
 			unreachable = mSelectUnionCases.get(i).check( aTimestamp, aAnytypeType, unreachable, aTypesCovered );

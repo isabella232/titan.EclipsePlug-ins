@@ -15,22 +15,17 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
-import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
-import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
-import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -52,9 +47,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	//Error/warning messages
 	private static final String NEVER_REACH = "Control never reaches this code because of previous effective cases(s)";
 	private static final String INVALID_UNION_FIELD = "Union `{0}'' has no field `{1}''";
-	private static final String NOT_A_UNION_FIELD = "There is no union field `{1}'' in union `{0}''";
-	private static final String NOT_A_UNION_FIELD_2 = "Not a union field in union `{0}''";
-	private static final String NOT_TYPE = "Not a type in union `{0}''";
+	private static final String INVALID_ANYTYPE_FIELD = "Anytype `{0}'' has no field `{1}''";
 	private static final String CASE_ALREADY_COVERED = "Case `{0}'' is already covered";
 
 	private static final String FULLNAMEPART = ".block";
@@ -63,13 +56,13 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * Header part of a select select union case, which is a list of union fields (Identifier) or types (Type).
 	 * A syntactically and semantically correct select case header contains only Identifier or only Type objects.
 	 */
-	private final List<IVisitableNode> mItems;
+	private final List<Identifier> mItems;
 
 	private final StatementBlock mStatementBlock;
 
 	private Location location = NULL_Location.INSTANCE;
 
-	public SelectUnionCase( final List<IVisitableNode> aItems, final StatementBlock aStatementBlock ) {
+	public SelectUnionCase( final List<Identifier> aItems, final StatementBlock aStatementBlock ) {
 		this.mItems = aItems;
 		this.mStatementBlock = aStatementBlock;
 
@@ -215,7 +208,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *         otherwise.
 	 */
 	public boolean check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final boolean aUnreachable,
-						  final List<Type> aTypesCovered ) {
+						  final List<String> aTypesCovered ) {
 		if ( aUnreachable ) {
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
@@ -246,25 +239,18 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
 	 */
 	public void check( final TTCN3_Choice_Type aUnionType, final List<String> aFieldNames ) {
-		for ( IVisitableNode item : mItems ) {
-			if ( item instanceof Identifier ) {
-				final Identifier identifier = (Identifier)item;
-				// name of the union component
-				final String name = identifier.getName();
-				if ( aUnionType.hasComponentWithName( name ) ) {
-					if ( aFieldNames.contains( name ) ) {
-						aFieldNames.remove( name );
-					} else {
-						//this case is already covered
-						location.reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, name ) );
-					}
+		for ( Identifier identifier : mItems ) {
+			// name of the union component
+			final String name = identifier.getName();
+			if ( aUnionType.hasComponentWithName( name ) ) {
+				if ( aFieldNames.contains( name ) ) {
+					aFieldNames.remove( name );
 				} else {
-					location.reportSemanticError( MessageFormat.format( INVALID_UNION_FIELD, aUnionType.getFullName(), name ) );
+					//this case is already covered
+					location.reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, name ) );
 				}
-			} else 	if ( item instanceof Type ) {
-				location.reportSemanticError( MessageFormat.format(NOT_A_UNION_FIELD, aUnionType.getFullName(), ((Type)item ).getTypename() ) );
 			} else {
-				location.reportSemanticError( MessageFormat.format( NOT_A_UNION_FIELD_2, aUnionType.getFullName() ) );
+				location.reportSemanticError( MessageFormat.format( INVALID_UNION_FIELD, aUnionType.getFullName(), name ) );
 			}
 		}
 	}
@@ -278,51 +264,24 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                types, which are already covered.
 	 *                If a new type is found, it is added to the list.
 	 */
-	public void check( final Anytype_Type aAnytypeType, final List<Type> aTypesCovered ) {
+	public void check( final Anytype_Type aAnytypeType, final List<String> aTypesCovered ) {
 		final int size = mItems.size();
 		for ( int i = 0; i < size; i++ ) {
-			final IVisitableNode item = mItems.get( i );
-			if ( item instanceof Type ) {
-				final Type type = (Type)item;
-				checkType( type, aTypesCovered );
-			} else 	if ( item instanceof Identifier ) {
-				//This case means, that a type is parsed as an identifier, because we don't know at parse time, if a
-				//name in a select union case header is type or identifier. In this case we just transform the identifier to a type
-				final Identifier identifier = (Identifier)item;
-
-				//creating new Type from Identifier
-				Reference reference = new Reference( null );
-				FieldSubReference subReference = new FieldSubReference( identifier );
-				subReference.setLocation( identifier.getLocation() );
-				reference.addSubReference(subReference);
-				final Type type = new Referenced_Type(reference);
-
-				//replace old Identifier to the new Type in the list
-				mItems.set( i, type );
-
-				checkType( type, aTypesCovered );
+			final Identifier identifier = mItems.get( i );
+			final String name = identifier.getName();
+			if ( aAnytypeType.hasComponentWithName( name ) ) {
+				if ( aTypesCovered.contains( name ) ) {
+					aTypesCovered.remove( name );
+				} else {
+					//this case is already covered
+					location.reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, name ) );
+				}
 			} else {
-				location.reportSemanticError( MessageFormat.format( NOT_TYPE, aAnytypeType.getFullName() ) );
+				location.reportSemanticError( MessageFormat.format( INVALID_ANYTYPE_FIELD, aAnytypeType.getFullName(), name ) );
 			}
 		}
 	}
 
-	/**
-	 * Checks just one type from the select case header
-	 * @param aType the type to check
-	 * @param aTypesCovered
-	 *                types, which are already covered.
-	 *                If a new type is found, it is added to the list.
-	 */
-	private void checkType( final Type aType, final List<Type> aTypesCovered ) {
-		if ( aTypesCovered.contains( aType ) ) {
-			//this case is already covered
-			location.reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, aType ) );
-		} else {
-			aTypesCovered.add( aType );
-		}
-	}
-	
 	/**
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
@@ -350,14 +309,10 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		}
 
 		if ( mItems != null ) {
-			for ( IVisitableNode item : mItems ) {
+			for ( Identifier item : mItems ) {
 				if ( item instanceof Identifier ) {
 					final Identifier identifier = (Identifier)item;
 					reparser.updateLocation( identifier.getLocation() );
-				} else if ( item instanceof Type ) {
-					final Type type = (Type)item;
-					type.updateSyntax( reparser, isDamaged );
-					reparser.updateLocation( type.getLocation() );
 				} else {
 					//program error, this should not happen
 					ErrorReporter.INTERNAL_ERROR("Invalid type in select union case");
@@ -383,7 +338,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if ( mItems != null) {
-			for ( IVisitableNode item : mItems ) {
+			for ( Identifier item : mItems ) {
 				if ( !item.accept( v ) ) {
 					return false;
 				}
