@@ -193,6 +193,10 @@ public final class SelectUnionCase_Statement extends Statement {
 	private void checkAnytypeType( final CompilationTimeStamp aTimestamp, Anytype_Type aAnytypeType ) {
 		// list of types, which are already covered
 		final List<String> typesCovered = new ArrayList<String>();
+		for ( int i = 0; i < aAnytypeType.getNofComponents(); i++ ) {
+			final String compName = aAnytypeType.getComponentByIndex(i).getIdentifier().getName();
+			typesCovered.add( compName );
+		}
 		mSelectUnionCases.check( aTimestamp, aAnytypeType, typesCovered );
 	}
 
