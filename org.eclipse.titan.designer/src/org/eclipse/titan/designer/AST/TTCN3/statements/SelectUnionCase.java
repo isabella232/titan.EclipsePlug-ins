@@ -247,10 +247,10 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 					aFieldNames.remove( name );
 				} else {
 					//this case is already covered
-					location.reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, name ) );
+					identifier.getLocation().reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, name ) );
 				}
 			} else {
-				location.reportSemanticError( MessageFormat.format( INVALID_UNION_FIELD, aUnionType.getFullName(), name ) );
+				identifier.getLocation().reportSemanticError( MessageFormat.format( INVALID_UNION_FIELD, aUnionType.getFullName(), name ) );
 			}
 		}
 	}
@@ -274,10 +274,10 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 					aTypesCovered.remove( name );
 				} else {
 					//this case is already covered
-					location.reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, name ) );
+					identifier.getLocation().reportSemanticWarning( MessageFormat.format( CASE_ALREADY_COVERED, name ) );
 				}
 			} else {
-				location.reportSemanticError( MessageFormat.format( INVALID_ANYTYPE_FIELD, aAnytypeType.getFullName(), name ) );
+				identifier.getLocation().reportSemanticError( MessageFormat.format( INVALID_ANYTYPE_FIELD, aAnytypeType.getFullName(), name ) );
 			}
 		}
 	}
