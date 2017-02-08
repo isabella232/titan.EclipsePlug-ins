@@ -56,7 +56,7 @@ public final class MakefileCreationTab {
 	private Composite codeSplittingComposite;
 	private ComboFieldEditor codeSplitting; //code splitting mode
 	private Composite codeSplittingNumberComposite;
-	private IntegerFieldEditor codeSplittingNumber; //clode splitting number if codeSpitting == "number"
+	private IntegerFieldEditor codeSplittingNumber; //code splitting number if codeSpitting == "number"
 	private Composite defaultTargetComposite;
 	private ComboFieldEditor defaultTarget;
 

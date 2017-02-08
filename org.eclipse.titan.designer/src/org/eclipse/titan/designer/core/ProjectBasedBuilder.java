@@ -26,7 +26,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.TITANPathUtilities;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.properties.data.MakeAttributesData;
+import org.eclipse.titan.designer.properties.data.MakefileCreationData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 
 /**
@@ -366,5 +368,50 @@ public final class ProjectBasedBuilder {
 		}
 
 		return files;
+	}
+	
+	public boolean checkCodeSplittingEquality(){
+		final Location location = new Location(project);
+		String codeSplitting = "";
+		boolean errorFound = false;
+		StringBuilder wrongProjects = new StringBuilder();
+		wrongProjects.append("Code splitting setting failure in project(s): ");
+		try {
+			codeSplitting = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.CODE_SPLITTING_PROPERTY));
+			if(codeSplitting == null) {
+				ErrorReporter.logError("Code splitting value is not set for "+ project.getName());
+				return false;
+			}
+			String tempCodeSplitting;
+			final IProject[] projects = getReferencedProjects();
+			for (IProject tempProject : projects) { 
+				if(tempProject.isAccessible()) {
+					tempCodeSplitting = tempProject.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+							MakefileCreationData.CODE_SPLITTING_PROPERTY));
+					if(!codeSplitting.equals(tempCodeSplitting)) {
+						ErrorReporter.logError(
+								"Code splitting error found in project " + tempProject.getName() + ";Project "+project.getName()+" expected "+codeSplitting+" ,got "+tempCodeSplitting);
+						if (errorFound!=false ){
+							wrongProjects.append(",");
+						};
+						wrongProjects.append(tempProject.getName());
+						errorFound = true;
+					}
+				} else {
+					ErrorReporter.logError("This referenced project is not accessible:" + tempProject);
+				}
+			}
+		} catch (CoreException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		if(errorFound){
+			wrongProjects.append("; Project ").append(project.getName()).append(" expected ").append(codeSplitting);
+			location.reportSemanticError(wrongProjects.toString());
+			return false;
+		} else {
+			return true;
+		}
 	}
 }

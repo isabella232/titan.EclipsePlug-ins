@@ -748,6 +748,10 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			return project.getReferencedProjects();
 		}
 		
+		if(!ProjectBasedBuilder.getProjectBasedBuilder(project).checkCodeSplittingEquality()){
+			return project.getReferencedProjects();
+		}
+		
 		final SubMonitor progress = SubMonitor.convert(monitor);
 		
 		
