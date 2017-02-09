@@ -73,6 +73,7 @@ import org.eclipse.ui.console.MessageConsole;
  * @author Kristof Szabados
  * @author Jeno Balasko
  * @author Arpad Lovassy
+ * @author Szabo Bence Janos
  */
 //check out IWorkspaceRoot.findFilesForLocation
 public final class InternalMakefileGenerator {
@@ -499,6 +500,20 @@ public final class InternalMakefileGenerator {
 			}
 
 			hasRegular = userHeadersRegular || userSourcesRegular || baseUserHeadersRegular || baseUserSourcesRegular;
+		}
+	}
+	
+	private String getSplittingMode() {
+		if (GeneralConstants.TYPE.equals(codeSplittingMode) || GeneralConstants.NONE.equals(codeSplittingMode)) {
+			return codeSplittingMode;
+		} else {
+			try {
+				Integer.parseInt(codeSplittingMode);
+				return GeneralConstants.NUMBER;
+			} catch (NumberFormatException e) {
+				e.printStackTrace();
+			}
+			return GeneralConstants.NONE;
 		}
 	}
 
@@ -1124,7 +1139,42 @@ public final class InternalMakefileGenerator {
 
 		contents.append("\nGENERATED_HEADERS =");
 		if (gnuMake) {
-			contents.append(" $(GENERATED_SOURCES:.cc=.hh)");
+		    // If GNU make and split to slices code splitting set, then if we would
+		    // use the .cc=.hh then the _part_i.hh header files would be printed into
+		    // the makefile that would cause weird behavior.
+			if (getSplittingMode().equals(GeneralConstants.NUMBER)) {
+				if (ttcn3ModulesRegular) {
+					contents.append(" $(TTCN3_MODULES:.ttcn=.hh)");
+					if (preprocess) {
+						contents.append(" $(TTCN3_PP_MODULES:.ttcnpp=.hh)");
+					}
+				} else {
+					for (ModuleStruct module : ttcn3Modules) {
+						if (module.getDirectory() == null || !centralStorage) {
+							contents.append(' ').append(module.generatedName(false, "hh"));
+						}
+					}
+					if (preprocess) {
+						for (ModuleStruct module : ttcnppModules) {
+							if (module.getDirectory() == null || !centralStorage) {
+								contents.append(' ').append(module.generatedName(false, "hh"));
+							}
+						}
+					}
+				}
+				if (asn1ModulesRegular) {
+					contents.append(" $(ASN1_MODULES:.asn=.hh)");
+				} else {
+					for (ModuleStruct module : asn1modules) {
+						if (module.getDirectory() == null || !centralStorage) {
+							contents.append(' ').append(module.generatedName(false, "hh"));
+						}
+					}
+				}
+			} else {
+				// Generate normally
+				contents.append(" $(GENERATED_SOURCES:.cc=.hh)");
+			}
 		} else {
 			for (ModuleStruct module : ttcn3Modules) {
 				if (module.getDirectory() == null || !centralStorage) {
@@ -1211,7 +1261,42 @@ public final class InternalMakefileGenerator {
 			}
 			contents.append("\nBASE_GENERATED_HEADERS =");
 			if (gnuMake) {
-				contents.append(" $(BASE_GENERATED_SOURCES:.cc=.hh)");
+			    // If GNU make and split to slices code splitting set, then if we would
+			    // use the .cc=.hh then the _part_i.hh header files would be printed into
+			    // the makefile that would cause weird behavior.
+				if (getSplittingMode().equals(GeneralConstants.NUMBER)) {
+					if (ttcn3ModulesRegular) {
+						contents.append(" $(BASE_TTCN3_MODULES:.ttcn=.hh)");
+						if (preprocess) {
+							contents.append(" $(BASE_TTCN3_PP_MODULES:.ttcnpp=.hh)");
+						}
+					} else {
+						for (ModuleStruct module : ttcn3Modules) {
+							if (module.getDirectory() != null) {
+								contents.append(' ').append(module.generatedName(true, "hh"));
+							}
+						}
+						if (preprocess) {
+							for (ModuleStruct module : ttcnppModules) {
+								if (module.getDirectory() != null) {
+									contents.append(' ').append(module.generatedName(true, "hh"));
+								}
+							}
+						}
+					}
+					if (asn1ModulesRegular) {
+						contents.append(" $(BASE_ASN1_MODULES:.asn=.hh)");
+					} else {
+						for (ModuleStruct module : asn1modules) {
+							if (module.getDirectory() != null) {
+								contents.append(' ').append(module.generatedName(true, "hh"));
+							}
+						}
+					}
+				} else {
+					// Generate normally
+					contents.append(" $(BASE_GENERATED_SOURCES:.cc=.hh)");
+				}
 			} else {
 				for (ModuleStruct module : ttcn3Modules) {
 					if (module.getDirectory() != null) {
