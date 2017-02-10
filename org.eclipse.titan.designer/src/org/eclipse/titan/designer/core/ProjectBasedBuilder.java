@@ -391,7 +391,8 @@ public final class ProjectBasedBuilder {
 							MakefileCreationData.CODE_SPLITTING_PROPERTY));
 					if(!codeSplitting.equals(tempCodeSplitting)) {
 						ErrorReporter.logError(
-								"Code splitting error found in project " + tempProject.getName() + ";Project "+project.getName()+" expected "+codeSplitting+" ,got "+tempCodeSplitting);
+								"Code splitting error found in project " + tempProject.getName() + "; Project "
+										+project.getName() + " expected " + codeSplitting + ", got " + tempCodeSplitting);
 						if (errorFound!=false ){
 							wrongProjects.append(",");
 						};
