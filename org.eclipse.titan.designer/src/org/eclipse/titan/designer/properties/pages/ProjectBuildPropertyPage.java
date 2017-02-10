@@ -253,7 +253,6 @@ public final class ProjectBuildPropertyPage extends PropertyPage {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
 				updateContents();
-				updateSymlinkLessbuild(generateInternalMakefileButton.getSelection());
 			}
 		});
 
@@ -267,7 +266,7 @@ public final class ProjectBuildPropertyPage extends PropertyPage {
 				updateContents();
 			}
 		});
-		updateSymlinkLessbuild(generateInternalMakefileButton.getSelection());
+		updateSymlinkLessbuild(generateMakefileButton.getEnabled());
 
 		makefileOperationsTabFolder = new TabFolder(pageComposite, SWT.BORDER);
 
@@ -315,17 +314,17 @@ public final class ProjectBuildPropertyPage extends PropertyPage {
 		}
 
 		if (generateMakefileButton.getSelection()) {
+			generateInternalMakefileButton.setEnabled(true);
 			makefileCreationTab.setMakefileGenerationEnabled(true);
 			internalMakefileCreationTab.setMakefileGenerationEnabled(generateInternalMakefileButton.getSelection());
 			makeAttributesTab.setMakefileGenerationEnabled(true);
-			generateInternalMakefileButton.setEnabled(true);
-			updateSymlinkLessbuild(generateInternalMakefileButton.getSelection());
+			updateSymlinkLessbuild(true);
 		} else {
 			makefileCreationTab.setMakefileGenerationEnabled(false);
 			internalMakefileCreationTab.setMakefileGenerationEnabled(false);
 			makeAttributesTab.setMakefileGenerationEnabled(false);
 			generateInternalMakefileButton.setEnabled(false);
-			updateSymlinkLessbuild(true);
+			updateSymlinkLessbuild(false);
 		}
 
 	}
