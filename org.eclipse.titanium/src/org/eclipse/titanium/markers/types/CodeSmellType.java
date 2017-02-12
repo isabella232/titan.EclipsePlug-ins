@@ -26,6 +26,7 @@ public enum CodeSmellType implements ProblemType{
 	IF_INSTEAD_ALTGUARD("If instead altguard", 1.0, 2.0, 8.0),
 	IF_INSTEAD_RECEIVE_TEMPLATE("If instead receive template", 1.0, 2.0, 8.0),
 	IF_WITHOUT_ELSE("If without else", 0.5, 1.0, 8.0),
+	IF_NOT_WITHOUT_ELSE("If not without else", 0.5, 1.0, 8.0),
 	INCORRECT_SHIFT_ROTATE_SIZE("Incorrect shift or rotation size", 1.0, 2.0, 8.0),
 	INFINITE_LOOP("Infinite loop", 0.0, 1.0, 3.5),
 	ISBOUND_WITHOUT_ELSE("IsBound without else", 0.5, 1.0, 8.0),

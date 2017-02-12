@@ -67,6 +67,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.TOO_MANY_STATEMENTS.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.TOO_MANY_STATEMENTS_SIZE, 150);
 		preferenceStore.setDefault(ProblemTypePreference.IF_WITHOUT_ELSE.getPreferenceName(), GeneralConstants.IGNORE);
+		preferenceStore.setDefault(ProblemTypePreference.IF_NOT_WITHOUT_ELSE.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.SWITCH_ON_BOOLEAN.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.SETVERDICT_WITHOUT_REASON.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.LAZY.getPreferenceName(), GeneralConstants.IGNORE);

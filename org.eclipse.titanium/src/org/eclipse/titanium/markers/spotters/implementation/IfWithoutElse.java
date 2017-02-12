@@ -17,7 +17,7 @@ import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 public class IfWithoutElse extends BaseModuleCodeSmellSpotter {
-	private static final String ERROR_MESSAGE = "Conditional operation without else clause";
+	private static final String ERROR_MESSAGE = "Conditional operation with positive condition and without else clause";
 
 	public IfWithoutElse() {
 		super(CodeSmellType.IF_WITHOUT_ELSE);
@@ -27,7 +27,8 @@ public class IfWithoutElse extends BaseModuleCodeSmellSpotter {
 	public void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof If_Statement) {
 			final If_Statement s = (If_Statement) node;
-			if (s.getStatementBlock() == null && s.getIfClauses() != null && s.getIfClauses().isExactlyOne()) {
+			if (s.getStatementBlock() == null && s.getIfClauses() != null && s.getIfClauses().isExactlyOne()
+					&& !s.getIfClauses().isExactlyOneNegated()) {
 				final StatementBlock parentBlock = s.getMyStatementBlock();
 				if (parentBlock != null && parentBlock.getSize() == 1) {
 					problems.report(s.getLocation(), ERROR_MESSAGE);

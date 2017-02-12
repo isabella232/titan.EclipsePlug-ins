@@ -44,6 +44,7 @@ public final class StaticData {
 		m.put(CodeSmellType.IF_INSTEAD_ALTGUARD, new BaseModuleCodeSmellSpotter[] { new IfInsteadAltguard() });
 		m.put(CodeSmellType.IF_INSTEAD_RECEIVE_TEMPLATE, new BaseModuleCodeSmellSpotter[] { new IfInsteadReceiveTemplate() });
 		m.put(CodeSmellType.IF_WITHOUT_ELSE, new BaseModuleCodeSmellSpotter[] { new IfWithoutElse() });
+		m.put(CodeSmellType.IF_NOT_WITHOUT_ELSE, new BaseModuleCodeSmellSpotter[] { new IfNotWithoutElse() });
 		m.put(CodeSmellType.INCORRECT_SHIFT_ROTATE_SIZE, new BaseModuleCodeSmellSpotter[] { new IncorrectRotate.RotateLeft(),
 				new IncorrectRotate.RotateRight(), new IncorrectShift.ShiftLeft(),
 				new IncorrectShift.ShiftRight() });
