@@ -49,13 +49,13 @@ public final class CompilerVersionInformationCollector {
 			"TTCN\\-3 and ASN\\.1 Compiler for the TTCN\\-3 Test Executor, version (.+)\\n"
 			+ "Product number: (.+)\\n"
 			+ "Build date: (.+)\\n"
-			+ "Compiled with: (.+)\\n\\n"
+			+ "Compiled with: ([^\\n]+)\\n?\\n"
 			+ "(.+)", Pattern.MULTILINE | Pattern.DOTALL);
 	private static final Pattern BASE_TITAN_HEADER_PATTERN2 = Pattern.compile(
 			"TTCN\\-3 and ASN\\.1 Compiler for the TTCN\\-3 Test Executor\\n"
 			+ "Product number: (.+)\\n"
 			+ "Build date: (.+)\\n"
-			+ "Compiled with: (.+)\\n\\n"
+			+ "Compiled with: ([^\\n]+)\\n?\\n"
 			+ "(.+)", Pattern.MULTILINE | Pattern.DOTALL);
 
 	private static final class CompilerInfoStruct {
