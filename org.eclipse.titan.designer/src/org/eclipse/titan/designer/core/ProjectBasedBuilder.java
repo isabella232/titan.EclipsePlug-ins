@@ -18,6 +18,7 @@ import java.util.Set;
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
@@ -26,7 +27,9 @@ import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.TITANPathUtilities;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.properties.data.MakeAttributesData;
 import org.eclipse.titan.designer.properties.data.MakefileCreationData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
@@ -369,7 +372,11 @@ public final class ProjectBasedBuilder {
 
 		return files;
 	}
-	
+	/**
+	 * Checks whether the code splitting modes are the same in the referred projects as splitting mode in the current project.
+	 * If difference was found, compilation error marker is placed on the current project
+	 * @return true if the splitting modes are the same, otherwise false
+	 */
 	public boolean checkCodeSplittingEquality(){
 		final Location location = new Location(project);
 		String codeSplitting = "";
@@ -404,12 +411,11 @@ public final class ProjectBasedBuilder {
 				}
 			}
 		} catch (CoreException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		if(errorFound){
 			wrongProjects.append("; Project ").append(project.getName()).append(" expected ").append(codeSplitting);
-			location.reportSemanticError(wrongProjects.toString());
+			location.reportExternalProblem(wrongProjects.toString(), IMarker.SEVERITY_ERROR, GeneralConstants.COMPILER_ERRORMARKER);
 			return false;
 		} else {
 			return true;

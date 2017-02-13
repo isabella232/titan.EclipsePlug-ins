@@ -666,9 +666,12 @@ public final class ProjectSourceParser {
 	 * @return status information on exit.
 	 * */
 	private IStatus internalDoAnalyzeWithReferences(final SubMonitor monitor) {
+		MarkerHandler.markMarkersForRemoval(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, project);
 		if (!checkConfigurationRequirements(project, GeneralConstants.ONTHEFLY_SEMANTIC_MARKER)) {
+			MarkerHandler.removeMarkedMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, project);
 			return Status.OK_STATUS;
 		}
+		MarkerHandler.removeMarkedMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, project);
 		
 		if (OutOfMemoryCheck.isOutOfMemoryAlreadyReported()) {
 			return Status.CANCEL_STATUS;

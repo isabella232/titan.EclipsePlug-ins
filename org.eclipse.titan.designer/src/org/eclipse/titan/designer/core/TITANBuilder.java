@@ -52,6 +52,7 @@ import org.eclipse.titan.common.path.TITANPathUtilities;
 import org.eclipse.titan.common.utils.Cygwin;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
+import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.consoles.TITANConsole;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.makefile.ExternalMakefileGenerator;
@@ -700,7 +701,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 	 */
 	@Override
 	protected IProject[] build(final int kind, @SuppressWarnings("rawtypes") final Map args, final IProgressMonitor monitor) throws CoreException {
-		
+			
 		IProject project = getProject();
 		if (!TITANInstallationValidator.check(true)) {
 			return project.getReferencedProjects();
@@ -718,42 +719,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
 		boolean reportDebugInformation = store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION);
 
-		if (store.getBoolean(PreferenceConstants.TREATONTHEFLYERRORSFATALFORBUILD)) {
-			// IF the option to treat on-the-fly errors as fatal for
-			// build was set, and we find an error marker, quit the
-			// build.
-			IMarker[] markers = project.findMarkers(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
-				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
-					return project.getReferencedProjects();
-				}
-			}
-
-			markers = project.findMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
-				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
-					return project.getReferencedProjects();
-				}
-			}
-			
-			markers = project.findMarkers(GeneralConstants.ONTHEFLY_MIXED_MARKER, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
-				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
-					return project.getReferencedProjects();
-				}
-			}
-		}
-
-		if (!ProjectSourceParser.checkConfigurationRequirements(project, GeneralConstants.COMPILER_ERRORMARKER)) {
-			return project.getReferencedProjects();
-		}
-		
-		if(!ProjectBasedBuilder.getProjectBasedBuilder(project).checkCodeSplittingEquality()){
-			return project.getReferencedProjects();
-		}
-		
 		final SubMonitor progress = SubMonitor.convert(monitor);
-		
 		
 		String consoleActionBeforeBuild = store.getString(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD);	 
 		
@@ -767,6 +733,49 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			TITANConsole.clearConsole();
 		} 
 		//else: nothing
+		
+		if (store.getBoolean(PreferenceConstants.TREATONTHEFLYERRORSFATALFORBUILD)) {
+			// IF the option to treat on-the-fly errors as fatal for
+			// build was set, and we find an error marker, quit the build.
+			IMarker[] markers = project.findMarkers(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, true, IResource.DEPTH_INFINITE);
+			for (IMarker marker : markers) {
+				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
+					TITANConsole.println("Build failed because of syntactical errors");
+					return project.getReferencedProjects();
+				}
+			}
+
+			markers = project.findMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, true, IResource.DEPTH_INFINITE);
+			for (IMarker marker : markers) {
+				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
+					TITANConsole.println("Build failed because of semantic errors");
+					return project.getReferencedProjects();
+				}
+			}
+			
+			markers = project.findMarkers(GeneralConstants.ONTHEFLY_MIXED_MARKER, true, IResource.DEPTH_INFINITE);
+			for (IMarker marker : markers) {
+				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
+					TITANConsole.println("Build failed because of mixed errors");
+					return project.getReferencedProjects();
+				}
+			}
+		}
+		
+		MarkerHandler.markMarkersForRemoval(GeneralConstants.COMPILER_ERRORMARKER, project);
+
+		if (!ProjectSourceParser.checkConfigurationRequirements(project, GeneralConstants.COMPILER_ERRORMARKER)) {
+			TITANConsole.println("Build failed because of build configuration error. See view 'Error Log' for details.");
+			return project.getReferencedProjects();
+		}
+		
+		if(!ProjectBasedBuilder.getProjectBasedBuilder(project).checkCodeSplittingEquality()){
+			TITANConsole.println("Build failed because of code splitting setting error.\n"
+					+ "Code splitting settings shall be the same. See view 'Error Log' for details.");
+			return project.getReferencedProjects();
+		}
+		
+		MarkerHandler.removeAllMarkedMarkers(project);
 		
 		if (reportDebugInformation) {
 			TITANDebugConsole.println("starting to build " + project.getName());
