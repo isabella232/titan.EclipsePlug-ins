@@ -29,7 +29,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.TITANPathUtilities;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.Location;
-import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.properties.data.MakeAttributesData;
 import org.eclipse.titan.designer.properties.data.MakefileCreationData;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
