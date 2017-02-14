@@ -383,19 +383,32 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		
 		//markers on imports cannot be removed, they are already refreshed
 		
+		//These offsets will be used to remove last comments within Definitions
+		int maxEndOffset = 0;
+		int lastEndOffset = 0;
+		
 		for(Definition definition : definitions){
-			if(definition.getLastTimeChecked() == null || definition.getLastTimeChecked().isLess(timestamp)){
+			if (definition.getLastTimeChecked() == null || definition.getLastTimeChecked().isLess(timestamp) ){
 				MarkerHandler.markAllSemanticMarkersForRemoval(definition.getCommentLocation()); 
 				MarkerHandler.markAllSemanticMarkersForRemoval(definition); //doubleDefinition report will be deleted!
+				lastEndOffset = definition.getLocation().getEndOffset();
+				if (lastEndOffset > maxEndOffset) { 
+					maxEndOffset = lastEndOffset;
+				}
 			}
 		}
-		
+
 		for(Group group: groups){
 			group.markMarkersForRemoval(timestamp);
 		}
-		
-		//TODO: remove markers on commented lines
-		
+
+		//remove markers on the final commented lines (for incremental parsing)
+		final int defsEndOffset = getLocation().getEndOffset();
+		if (maxEndOffset < defsEndOffset) {
+			final Location loc = new Location(getLocation().getFile(), 0, maxEndOffset, defsEndOffset);
+			MarkerHandler.markAllSemanticMarkersForRemoval(loc);
+		}
+				
 		checkUniqueness(timestamp);
 		checkGroups(timestamp);
 		for( Definition definition: definitions){
