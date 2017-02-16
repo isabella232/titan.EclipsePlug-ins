@@ -630,7 +630,6 @@ public final class ProjectSourceParser {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				syntacticAnalyzer.updateSyntax(file, reparser);
-
 				return Status.OK_STATUS;
 			}
 		};

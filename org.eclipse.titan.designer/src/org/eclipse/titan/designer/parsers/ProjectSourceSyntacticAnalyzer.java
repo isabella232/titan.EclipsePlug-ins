@@ -297,7 +297,6 @@ public final class ProjectSourceSyntacticAnalyzer {
 					try {
 						((TTCN3Module) module).updateSyntax(reparser, sourceParser);
 						reparser.updateLocation(((TTCN3Module) module).getLocation());
-						MarkerHandler.markAllOnTheFlyMarkersForRemoval(file, reparser.getDamageStart(), reparser.getDamageEnd());
 					} catch (ReParseException e) {
 						syntacticallyOutdated = true;
 
