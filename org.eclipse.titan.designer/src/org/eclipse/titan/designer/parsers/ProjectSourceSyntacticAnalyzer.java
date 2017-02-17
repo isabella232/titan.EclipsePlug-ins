@@ -619,7 +619,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			
 			for (IFile file : ttcn3FilesToCheck) {
 				//if not incremental parsing applied then all the markers should be marked for removal
-				//later this markings can be removed if they can be skipped
+				//later these markings can be removed if they can be skipped
 				if(useIncrementalParsing) {
 					MarkerHandler.markAllMarkersForRemoval(file, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 				} else {
