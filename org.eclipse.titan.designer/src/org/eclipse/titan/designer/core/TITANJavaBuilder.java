@@ -44,7 +44,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		}
 
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		boolean reportDebugInformation = store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION);
+		final boolean reportDebugInformation = store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION);
 
 		final SubMonitor progress = SubMonitor.convert(monitor);
 		progress.beginTask("Build", 2);
@@ -57,11 +57,10 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 		IProgressMonitor codeGeneratorMonitor = progress.newChild(1);
 		codeGeneratorMonitor.beginTask("Checking prerequisites", sourceParser.getModules().size());
-		ProjectSourceCompiler javaCompiler = new ProjectSourceCompiler();
 		for(Module module : sourceParser.getModules()) {
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");
 			try {
-				javaCompiler.compile( module );
+				ProjectSourceCompiler.compile( module, reportDebugInformation );
 			} catch ( CoreException e ) {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
