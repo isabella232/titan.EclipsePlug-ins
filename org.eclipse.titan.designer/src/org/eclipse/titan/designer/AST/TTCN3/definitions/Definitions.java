@@ -757,8 +757,6 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		// extend the reparser to the calculated values if the damage
 		// was not enveloped
 		if (!enveloped && reparser.isDamaged(location)) {
-			reparser.extendDamagedRegion(leftBoundary, rightBoundary);
-
 			// if there is an element that is right now being
 			// extended we should add it to the damaged domain as
 			// the extension might be correct
@@ -793,6 +791,10 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				lastUniquenessCheckTimeStamp = null;
 				lastCompilationTimeStamp = null;
 			}
+			
+			//extend damaged region till the neighbor definitions just here to avoid calculating something damaged or extended:
+			//Perhaps it should be moved even farther:
+			reparser.extendDamagedRegion(leftBoundary, rightBoundary);
 		}
 
 		// update what is left
