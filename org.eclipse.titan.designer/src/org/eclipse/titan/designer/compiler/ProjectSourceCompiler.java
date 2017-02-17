@@ -96,27 +96,23 @@ public class ProjectSourceCompiler {
 	 * @param aImportName short class name to import. This function knows the package of all the runtime classes.
 	 */
 	private static void writeImport( final StringBuilder aSb, final String aImportName ) {
-		switch ( aImportName ) {
-		case "TitanCharString":
-		case "TitanInteger":
+		if ( "TitanCharString".equals( aImportName ) ||
+			 "TitanInteger".equals( aImportName ) ) {
 			aSb.append( "import " );
 			aSb.append( PACKAGE_RUNTIME_TYPES );
 			aSb.append( "." );
 			aSb.append( aImportName );
 			aSb.append( ";\n" );
-			break;	
-		case "TtcnError":
+		} else if ( "TtcnError".equals( aImportName ) ) {
 			aSb.append( "import " );
 			aSb.append( PACKAGE_RUNTIME_ROOT );
 			aSb.append( "." );
 			aSb.append( aImportName );
 			aSb.append( ";\n" );
-			break;	
-		default:
+		} else {
 			aSb.append( "//TODO: unknown import: " );
 			aSb.append( aImportName );
 			aSb.append( "\n" );
-			break;	
 		}
 	}
 }
