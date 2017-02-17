@@ -52,6 +52,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.TitanVersionAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.VersionRequirementAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.core.CompilerVersionInformationCollector;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.core.ProductIdentityHelper;
@@ -1216,5 +1217,19 @@ public final class TTCN3Module extends Module {
 
 	public List<Location> getInactiveCodeLocations() {
 		return inactiveCodeLocations;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "class " + name + " {\n" );
+		if ( definitions != null ) {
+			definitions.generateJava( aData );
+		}
+		if ( controlpart != null ) {
+			controlpart.generateJava( aData );
+		}
+		sb.append( "}\n" );
 	}
 }

@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -179,5 +180,16 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 		}
 
 		return null;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( name );
+		sb.append( " = " );
+		value.generateJava( aData );
 	}
 }

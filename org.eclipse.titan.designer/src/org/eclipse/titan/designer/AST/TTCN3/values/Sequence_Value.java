@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -725,5 +726,27 @@ public final class Sequence_Value extends Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "new " );
+		//type name
+		sb.append( myGovernor.getJavaName( aData ) );
+		sb.append( "();\n" );
+		final int size = values.getSize();
+		for ( int i = 0; i < size; i++ ) {
+			final NamedValue namedValue = values.getNamedValueByIndex( i );
+			sb.append( "\t\t" );
+			sb.append( getDefiningAssignment().getIdentifier() );
+			sb.append( "." );
+			namedValue.generateJava( aData );
+			if ( i < size - 1 ) {
+				sb.append( ";\n" );
+				//after the last one ";\n" is written anyway
+			}
+		}
 	}
 }

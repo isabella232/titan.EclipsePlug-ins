@@ -24,7 +24,9 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.SkeletonTemplateProposal;
 import org.eclipse.titan.designer.editors.T3Doc;
@@ -370,5 +372,20 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\tpublic static void main( String[] args ) {\n" );	
+		final int size = statementblock.getSize();
+		for ( int i = 0; i < size; i++ ) {
+			final Statement statement = statementblock.getStatementByIndex( i );
+			statement.generateJava( aData );
+		}
+		sb.append( "\t}\n" );
 	}
 }

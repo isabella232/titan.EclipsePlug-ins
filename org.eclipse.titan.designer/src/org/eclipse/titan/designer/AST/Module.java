@@ -17,6 +17,7 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ProjectStructureDataCollector;
@@ -360,5 +361,24 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	@Override
 	public Declaration getDeclaration() {
 		return Declaration.createInstance(this);
+	}
+
+	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
+	/**
+	 * Add generated java code on this level
+	 * @param aData the generated java code with other info
+	 */
+	//public abstract void generateJava( final JavaGenData aData );
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
 	}
 }

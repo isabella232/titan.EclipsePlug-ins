@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -605,5 +606,11 @@ public final class Referenced_Value extends Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		reference.generateJava( aData );
 	}
 }

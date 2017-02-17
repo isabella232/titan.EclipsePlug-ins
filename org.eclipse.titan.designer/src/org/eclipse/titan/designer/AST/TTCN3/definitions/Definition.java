@@ -54,6 +54,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -671,5 +672,24 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 			}
 		}
 		return returnValue;
+	}
+
+	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
+	/**
+	 * Add generated java code on Type level
+	 * @param aData the generated java code with other info
+	 */
+	//public abstract void generateJava( final JavaGenData aData );
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
 	}
 }

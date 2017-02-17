@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.SkeletonTemplateProposal;
@@ -1159,5 +1160,19 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				throw new UnsupportedOperationException();
 			}
 		};
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		if ( definitions != null ) {
+			for ( Definition definition : definitions ) {
+				definition.generateJava( aData );
+				sb.append( "\n" );
+			}
+		}
 	}
 }

@@ -8,7 +8,9 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.core.runtime.Platform;
@@ -36,6 +38,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.Omit_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Sequence_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
@@ -783,5 +786,303 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("sequence");
+	}
+
+	/**
+	 * Data structure to store sequence field variable and type names.
+	 * Used for java code generation.
+	 */
+	private class FieldInfo {
+
+		/** Java type name of the field */
+		private String mJavaTypeName;
+
+		/** Field variable name in TTCN-3 and java */
+		private String mVarName;
+
+		/** Field variable name in java getter/setter function names and parameters */
+		private String mJavaVarName;
+
+		/** Java AST type name (for debug purposes) */
+		private String mVarTypeName;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final String className = getDefiningAssignment().getIdentifier().toString();
+		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
+		for ( final CompField compField : compFieldMap.fields ) {
+			final FieldInfo fi = new FieldInfo();
+			fi.mJavaTypeName = compField.getType().getJavaName( aData );
+			fi.mVarName = compField.getIdentifier().getName();
+			fi.mJavaVarName = getJavaGetterName( fi.mVarName );
+			fi.mVarTypeName =  compField.getType().getClass().getSimpleName();
+			namesList.add( fi );
+		}
+
+		final StringBuilder sb = aData.getSrc();
+		sb.append( " {\n" );
+		generateDeclaration( aData, namesList );
+		generateConstructor( sb, namesList, className );
+		generateConstructorManyParams( sb, namesList, className );
+		generateConstructorCopy( sb, className );
+		generateAssign( aData, namesList, className );
+		generateCleanUp( sb, namesList );
+		generateIsBound( sb, namesList );
+		generateIsValue( sb, namesList );
+		generateOperatorEquals( sb, namesList, className );
+		generateGettersSetters( sb, namesList );
+		sb.append( "\t}\n" );
+	}
+
+	/**
+	 * Generating declaration of the member variables
+	 * @param aData the generated java code with other info
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateDeclaration( final JavaGenData aData, final List<FieldInfo> aNamesList ) {
+		final StringBuilder sb = aData.getSrc();
+		for ( final FieldInfo fi : aNamesList ) {
+			sb.append( "\t\tprivate " );
+			sb.append( fi.mJavaTypeName );
+			sb.append( " " );
+			sb.append( fi.mVarName );
+			sb.append( ";" );
+			if ( aData.isDebug() ) {
+				sb.append( " //" );
+				sb.append( fi.mVarTypeName );
+			}
+			sb.append( "\n" );
+		}
+	}
+
+	/**
+	 * Generating constructor without parameter
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 * @param aClassName the class name of the record class
+	 */
+	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
+											 final String aClassName ) {
+		aSb.append( "\n\t\tpublic " );
+		aSb.append( aClassName );
+		aSb.append( "() {\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			aSb.append( "\t\t\t" );
+			aSb.append( fi.mVarName );
+			aSb.append( " = new " );
+			aSb.append( fi.mJavaTypeName );
+			aSb.append( "();\n" );
+		}
+		aSb.append( "\t\t}\n" );
+	}
+
+	/**
+	 * Generating constructor with many parameters (one for each record field)
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 * @param aClassName the class name of the record class
+	 */
+	private static void generateConstructorManyParams( final StringBuilder aSb, final List<FieldInfo> aNamesList,
+													   final String aClassName ) {
+		aSb.append( "\n\t\tpublic " );
+		aSb.append( aClassName );
+		aSb.append( "( " );
+		boolean first = true;
+		for ( final FieldInfo fi : aNamesList ) {
+			if ( first ) {
+				first = false;
+			} else {
+				aSb.append( ", " );
+			}
+			aSb.append( "final " );
+			aSb.append( fi.mJavaTypeName );
+			aSb.append( " a" );
+			aSb.append( fi.mJavaVarName );
+		}
+		aSb.append( " ) {\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			aSb.append( "\t\t\tthis." );
+			aSb.append( fi.mVarName );
+			aSb.append( ".assign( a" );
+			aSb.append( fi.mJavaVarName );
+			aSb.append( " );\n" );
+		}
+		aSb.append( "\t\t}\n" );
+	}
+
+	/**
+	 * Generating constructor with 1 parameter (copy constructor)
+	 * @param aSb the output, where the java code is written
+	 * @param aClassName the class name of the record class
+	 */
+	private static void generateConstructorCopy( final StringBuilder aSb, final String aClassName ) {
+		aSb.append( "\n\t\tpublic " );
+		aSb.append( aClassName );
+		aSb.append( "( final " );
+		aSb.append( aClassName );
+		aSb.append( " aOtherValue ) {\n" +
+					"\t\t\tassign( aOtherValue );\n" +
+					"\t\t}\n" );
+	}
+
+	/**
+	 * Generating assign() function
+	 * @param aData the generated java code with other info
+	 * @param aNamesList sequence field variable and type names
+	 * @param aClassName the class name of the record class
+	 */
+	private static void generateAssign( final JavaGenData aData, final List<FieldInfo> aNamesList,
+										final String aClassName ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\n\t\tpublic " );
+		sb.append( aClassName );
+		sb.append( " assign( final " );
+		sb.append( aClassName );
+		sb.append( " aOtherValue ) {\n" );
+
+		sb.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
+				   "\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
+		aData.addImport( "TtcnError" );
+		sb.append( aClassName );
+		sb.append( "\" );\n" +
+				   "\t\t\t}\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			sb.append( "\n\t\t\tif ( aOtherValue.get" );
+			sb.append( fi.mJavaVarName );
+			sb.append( "().isBound() ) {\n" +
+					   "\t\t\t\tthis." );
+			sb.append( fi.mVarName );
+			sb.append( ".assign( aOtherValue.get" );
+			sb.append( fi.mJavaVarName );
+			sb.append( "() );\n" +
+					   "\t\t\t} else {\n" +
+					   "\t\t\t\tthis." );
+			sb.append( fi.mVarName );
+			sb.append( ".cleanUp();\n" +
+					   "\t\t\t}\n" );
+		}
+		sb.append( "\n\t\t\treturn this;\n" +
+				   "\t\t}\n" );
+	}
+
+	/**
+	 * Generating cleanUp() function
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateCleanUp( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append( "\n\t\tpublic void cleanUp() {\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			aSb.append( "\t\t\t" );
+			aSb.append( fi.mVarName );
+			aSb.append( ".cleanUp();\n" );
+		}
+		aSb.append( "\t\t}\n" );
+	}
+
+	/**
+	 * Generating isBound() function
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
+		//TODO: remove
+		//for( int i = 0; i < 80; i++ )
+		for ( final FieldInfo fi : aNamesList ) {
+			aSb.append( "\t\t\tif ( " );
+			aSb.append( fi.mVarName );
+			aSb.append( ".isBound() ) return true;\n" );
+		}
+		aSb.append( "\t\t\treturn false;\n" +
+					"\t\t}\n" );
+	}
+
+	/**
+	 * Generating isValue() function
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			aSb.append( "\t\t\tif ( !" );
+			aSb.append( fi.mVarName );
+			aSb.append( ".isValue() ) return false;\n" );
+		}
+		aSb.append( "\t\t\treturn true;\n" +
+					"\t\t}\n" );
+	}
+
+	/**
+	 * Generating operatorEquals() function
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 * @param aClassName the class name of the record class
+	 */
+	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
+												final String aClassName ) {
+		aSb.append( "\n\t\tpublic boolean operatorEquals( final " );
+		aSb.append( aClassName );
+		aSb.append( " aOtherValue ) {\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			aSb.append( "\t\t\tif ( ! this." );
+			aSb.append( fi.mVarName );
+			aSb.append( ".operatorEquals( aOtherValue." );
+			aSb.append( fi.mVarName );
+			aSb.append( " ) ) return false;\n" );
+		}
+		aSb.append( "\t\t\treturn true;\n" +
+					"\t\t}\n" );
+	}
+
+	/**
+	 * Generating getters/setters for the member variables
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateGettersSetters( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		for ( final FieldInfo fi : aNamesList ) {
+			aSb.append( "\n\t\tpublic " );
+			aSb.append( fi.mJavaTypeName );
+			aSb.append( " get" );
+			aSb.append( fi.mJavaVarName );
+			aSb.append( "() {\n" +
+						"\t\t\treturn " );
+			aSb.append( fi.mVarName );
+			aSb.append( ";\n" +
+						"\t\t}\n" );
+
+			aSb.append( "\n\t\tpublic void set" );
+			aSb.append( fi.mJavaVarName );
+			aSb.append( "( final " );
+			aSb.append( fi.mJavaTypeName );
+			aSb.append( " a" );
+			aSb.append( fi.mJavaVarName );
+			aSb.append( " ) {\n" +
+						"\t\t\tthis." );
+			aSb.append( fi.mVarName );
+			aSb.append( " = a" );
+			aSb.append( fi.mJavaVarName );
+			aSb.append( ";\n" +
+						"\t\t}\n" );
+		}
+	}
+
+	/**
+	 * Generates getter/setter name without "get"/"set" for TTCN-3 record fields,
+	 * which will be class member variables in java 
+	 * @return aTtcn3RecField TTCN-3 record field name
+	 */
+	private static String getJavaGetterName( final String aTtcn3RecField ) {
+		if ( aTtcn3RecField == null ) {
+			return null;
+		}
+		if ( aTtcn3RecField.length() == 0 ) {
+			return "";
+		}
+		return aTtcn3RecField.substring(0, 1).toUpperCase() + aTtcn3RecField.substring(1);
 	}
 }

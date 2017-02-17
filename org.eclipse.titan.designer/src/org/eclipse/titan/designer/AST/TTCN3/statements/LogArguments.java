@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -133,5 +134,27 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		if ( arguments == null ) {
+			return;
+		}
+		final int size = arguments.size();
+		if ( size > 0 ) {
+			final StringBuilder sb = aData.getSrc();
+			sb.append( " " );
+			for ( int i = 0; i < size; i++ ) {
+				if ( i > 0 ) {
+					sb.append( ", " );
+				}
+				arguments.get( i ).generateJava( aData );
+			}
+			sb.append( " " );
+		}
 	}
 }

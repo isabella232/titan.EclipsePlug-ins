@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.IsValueExpression;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -380,4 +381,9 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 * */
 	Definition getDefiningAssignment();
 
+	/**
+	 * Add generated java code on this level
+	 * @param aData the generated java code with other info
+	 */
+	void generateJava( final JavaGenData aData );
 }

@@ -37,6 +37,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Address_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Testcase_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -479,5 +480,15 @@ public final class Def_Type extends Definition {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\tpublic static class " );
+		sb.append( identifier );
+		//TODO: make sure, that type is not null
+		type.generateJava( aData );
 	}
 }

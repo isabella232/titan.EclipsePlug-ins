@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.titan.designer.AST.Type.CompatibilityLevel;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
@@ -693,4 +694,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                field of this type.
 	 * */
 	void getEnclosingField(final int offset, final ReferenceFinder rf);
+
+	//TODO: comment
+	String getJavaName( final JavaGenData aData );
 }

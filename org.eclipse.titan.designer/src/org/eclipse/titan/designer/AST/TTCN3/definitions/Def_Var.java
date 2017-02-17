@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -444,5 +445,19 @@ public final class Def_Var extends Definition {
 	 */
 	public boolean isLazy() {
 		return mIsLazy;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( type.getJavaName( aData ) );
+		sb.append( " " );
+		sb.append( identifier );
+		if ( initialValue != null ) {
+			sb.append( " = " );
+			initialValue.generateJava( aData );
+		}
+		sb.append( ";\n" );
 	}
 }

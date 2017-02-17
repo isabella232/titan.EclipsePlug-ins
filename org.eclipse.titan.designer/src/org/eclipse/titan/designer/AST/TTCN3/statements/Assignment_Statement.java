@@ -52,6 +52,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReparseUtilities;
@@ -511,5 +512,16 @@ public final class Assignment_Statement extends Statement {
 
 	public TTCN3Template getTemplate() {
 		return template;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t\t" );
+		sb.append( reference.getDisplayName() );
+		sb.append( " = " );
+		template.generateJava( aData );
+		sb.append( ";\n" );
 	}
 }

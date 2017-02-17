@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstances;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.SkeletonTemplateProposal;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -1098,5 +1099,26 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		final int size = parameters.size();
+		if ( size == 0 ) {
+			return;
+		}
+		sb.append( " " );
+		for ( int i = 0; i < size; i++ ) {
+			final FormalParameter parameter = parameters.get( i );
+			if ( i > 0 ) {
+				sb.append( ", " );
+			}
+			parameter.generateJava( aData );
+		}
+		sb.append( " " );
 	}
 }

@@ -39,6 +39,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -1458,5 +1459,36 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 		}
 		return true;
+	}
+
+	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
+	/**
+	 * Add generated java code on this level
+	 * @param aData the generated java code with other info
+	 */
+	//public abstract void generateJava( final JavaGenData aData );
+
+	//TODO: remove
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t" );
+		sb.append( "//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
+	}
+
+	/**
+	 * @param aData the generated java code with other info
+	 * @return default short type name
+	 *                 example value: RoI instead of @Test1.RoI 
+	 */
+	public String getJavaName( final JavaGenData aData ) {
+		String fullname = getTypename();
+		return fullname.substring( fullname.lastIndexOf(".") + 1 );
 	}
 }

@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST;
 
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
@@ -66,4 +67,10 @@ public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IId
 	 * */
 	@Override
 	void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	void generateJava( final JavaGenData aData );
 }

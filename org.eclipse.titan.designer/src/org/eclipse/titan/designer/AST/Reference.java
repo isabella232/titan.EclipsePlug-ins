@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.IParameterisedAssignment;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -875,5 +876,21 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	@Override
 	public Declaration getDeclaration() {
 		return getReferencedDeclaration(null);
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		final int size = this.subReferences.size();
+		for ( int i = 0; i < size; i++ ) {
+			final ISubReference subref = subReferences.get( i );
+			if ( i > 0 ) {
+				sb.append( "." );
+			}
+			subref.generateJava( aData );
+		}
 	}
 }

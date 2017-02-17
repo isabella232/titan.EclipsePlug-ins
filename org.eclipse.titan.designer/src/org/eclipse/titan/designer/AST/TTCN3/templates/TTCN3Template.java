@@ -44,6 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -1131,5 +1132,26 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return false;
 		}
 		return true;
+	}
+
+	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
+	/**
+	 * Add generated java code on this level
+	 * @param aData the generated java code with other info
+	 */
+	//public abstract void generateJava( final JavaGenData aData );
+
+	//TODO: remove
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t" );
+		sb.append( "//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
 	}
 }

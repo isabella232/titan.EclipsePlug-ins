@@ -40,8 +40,10 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.EditorTracker;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
@@ -888,5 +890,37 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\tpublic static " );
+
+		// return value
+		if ( returnType != null ) {
+			sb.append( returnType.getJavaName( aData ) );
+		} else {
+			sb.append( "void" );
+		}
+
+		sb.append( " " );
+
+		// function name
+		sb.append( identifier );
+
+		// arguments
+		sb.append( "(" );
+		if ( formalParList != null ) {
+			formalParList.generateJava( aData );
+		}
+		sb.append( ") {\n" );
+		final int size = block.getSize();
+		for ( int i = 0; i < size; i++ ) {
+			final Statement statement = block.getStatementByIndex( i );
+			statement.generateJava( aData );
+		}
+		sb.append( "\t}\n" );	
 	}
 }
