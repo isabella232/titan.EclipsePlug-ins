@@ -385,7 +385,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		//markers on imports cannot be removed, they are already refreshed
 		
 		//These offsets will be used to remove last comments within Definitions
-		int maxEndOffset = 0;
+		int maxEndOffset = getLocation().getOffset();
 		int lastEndOffset = 0;
 		
 		for(Definition definition : definitions){
@@ -443,7 +443,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 		
-		int maxEndOffset = 0;
+		int maxEndOffset = getLocation().getOffset();
 		int lastEndOffset = 0;
 		
 		for(Definition definition : definitions){

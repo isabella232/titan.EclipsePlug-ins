@@ -21,13 +21,13 @@ function f_A1()
   select union (vl_result) //expected error
   {
     case (msg1)
-    { result := "a"; } //expected error, statement block is not checked?
+    { vl_result := "a"; } //expected error, statement block is not checked?
     case (msg2)
-    { result := 2; }
+    { vl_result := 2; }
     case (msg3)
-    { result := 3; }
+    { vl_result := 3; }
     case (msg4)
-    { result := 4; }
+    { vl_result := 4; }
   }
 
 
