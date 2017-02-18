@@ -453,7 +453,7 @@ public final class Def_Var extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( type.getJavaName( aData ) );
 		sb.append( " " );
-		sb.append( identifier );
+		sb.append( identifier.getName() );
 		if ( initialValue != null ) {
 			sb.append( " = " );
 			initialValue.generateJava( aData );

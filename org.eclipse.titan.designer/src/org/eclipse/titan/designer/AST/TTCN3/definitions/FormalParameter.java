@@ -995,7 +995,7 @@ public final class FormalParameter extends Definition {
 		sb.append( type.getJavaName( aData ) );
 		sb.append( " " );
 		// parameter name
-		sb.append( identifier );
+		sb.append( identifier.getName() );
 
 		//TODO: implement: handle default value
 	}

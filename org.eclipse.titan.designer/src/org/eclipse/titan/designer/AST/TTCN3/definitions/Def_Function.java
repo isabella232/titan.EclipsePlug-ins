@@ -908,7 +908,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		sb.append( " " );
 
 		// function name
-		sb.append( identifier );
+		sb.append( identifier.getName() );
 
 		// arguments
 		sb.append( "(" );

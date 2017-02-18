@@ -487,7 +487,7 @@ public final class Def_Type extends Definition {
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\tpublic static class " );
-		sb.append( identifier );
+		sb.append( identifier.getName() );
 		//TODO: make sure, that type is not null
 		type.generateJava( aData );
 	}

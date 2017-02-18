@@ -188,7 +188,7 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 	 */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
-		sb.append( name );
+		sb.append( name.getName() );
 		sb.append( " = " );
 		value.generateJava( aData );
 	}

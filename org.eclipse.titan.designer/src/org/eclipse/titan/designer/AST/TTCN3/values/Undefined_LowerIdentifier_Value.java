@@ -292,6 +292,6 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
-		sb.append( identifier );
+		sb.append( identifier.getName() );
 	}
 }
