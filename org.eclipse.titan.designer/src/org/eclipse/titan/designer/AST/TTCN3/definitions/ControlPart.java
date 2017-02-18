@@ -380,7 +380,8 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	 */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
-		sb.append( "\tpublic static void main( String[] args ) {\n" );	
+		sb.append( "\tpublic static void main( String[] args ) {\n" );
+		sb.append( "//TODO this is only temporal implementation!\n" );
 		final int size = statementblock.getSize();
 		for ( int i = 0; i < size; i++ ) {
 			final Statement statement = statementblock.getStatementByIndex( i );

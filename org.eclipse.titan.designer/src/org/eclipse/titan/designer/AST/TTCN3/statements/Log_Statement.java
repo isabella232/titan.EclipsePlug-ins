@@ -117,6 +117,7 @@ public final class Log_Statement extends Statement {
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t\t" );
+		sb.append( "//TODO this is only temporal implementation!\n" );
 		sb.append( "System.out.println(" );
 		logArguments.generateJava( aData );
 		sb.append( ");\n" );
