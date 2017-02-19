@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Module.module_type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -66,5 +67,32 @@ public abstract class Setting extends ASTNode implements ISetting {
 		}
 
 		return module_type.ASN_MODULE.equals(myScope.getModuleScope().getModuletype());
+	}
+	
+	/**
+	 * Returns a Java reference that points to this setting from the module of the parameter scope.
+	 * 
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java setting in the generated code.
+	 */
+	public String getGenNameOwn(final Scope scope) {
+		if(myScope == null || scope == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
+			return "FATAL_ERROR encountered";
+		}
+
+		final StringBuilder returnValue = new StringBuilder();
+		final Module myModule = myScope.getModuleScope();//get_scope_mod_gen
+		// TODO also check for the special module once ASN.1 is needed
+		if(!myModule.equals(scope.getModuleScope())) {
+			//TODO properly prefix the setting with the module's Java reference
+			returnValue.append(myModule.getName()).append(".");
+		}
+
+		//TODO implement the calculation of generated name, this is just temporary
+		String fullname = getFullName();
+		returnValue.append( fullname.substring( fullname.lastIndexOf(".") + 1 ));
+		
+		return returnValue.toString();
 	}
 }

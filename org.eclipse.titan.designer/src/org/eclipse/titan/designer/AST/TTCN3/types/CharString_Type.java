@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
@@ -308,8 +309,9 @@ public final class CharString_Type extends Type {
 	}
 
 	@Override
-	public String getJavaName( final JavaGenData aData ) {
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final Scope scope) {
 		aData.addImport( "TitanCharString" );
-		return "TitanCharString";
+		return "TitanInteger";
 	}
 }

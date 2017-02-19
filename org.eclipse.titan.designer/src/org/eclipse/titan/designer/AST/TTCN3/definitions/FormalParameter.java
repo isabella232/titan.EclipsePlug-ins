@@ -992,7 +992,8 @@ public final class FormalParameter extends Definition {
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		//TODO: implement: make sure, that type is not null
-		sb.append( type.getJavaName( aData ) );
+		//TODO for templates too!
+		sb.append( type.getGenNameValue( aData, getMyScope() ) );
 		sb.append( " " );
 		// parameter name
 		sb.append( identifier.getName() );

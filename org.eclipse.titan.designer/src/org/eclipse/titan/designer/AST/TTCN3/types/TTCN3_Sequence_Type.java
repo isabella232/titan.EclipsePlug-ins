@@ -814,7 +814,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		for ( final CompField compField : compFieldMap.fields ) {
 			final FieldInfo fi = new FieldInfo();
-			fi.mJavaTypeName = compField.getType().getJavaName( aData );
+			fi.mJavaTypeName = compField.getType().getGenNameValue( aData, getMyScope() );
 			fi.mVarName = compField.getIdentifier().getName();
 			fi.mJavaVarName = getJavaGetterName( fi.mVarName );
 			fi.mVarTypeName =  compField.getType().getClass().getSimpleName();

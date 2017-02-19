@@ -900,7 +900,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		// return value
 		if ( returnType != null ) {
-			sb.append( returnType.getJavaName( aData ) );
+			//TODO: for templates too
+			sb.append( returnType.getGenNameValue( aData, getMyScope() ) );
 		} else {
 			sb.append( "void" );
 		}

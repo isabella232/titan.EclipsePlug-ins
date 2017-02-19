@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -351,8 +352,10 @@ public final class Integer_Type extends Type {
 		return builder.append("integer");
 	}
 
+	
 	@Override
-	public String getJavaName( final JavaGenData aData ) {
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final Scope scope) {
 		aData.addImport( "TitanInteger" );
 		return "TitanInteger";
 	}

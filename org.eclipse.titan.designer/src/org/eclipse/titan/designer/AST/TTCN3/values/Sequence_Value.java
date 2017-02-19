@@ -734,7 +734,7 @@ public final class Sequence_Value extends Value {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "new " );
 		//type name
-		sb.append( myGovernor.getJavaName( aData ) );
+		sb.append( myGovernor.getGenNameValue( aData, getMyScope() ) );
 		sb.append( "();\n" );
 		final int size = values.getSize();
 		for ( int i = 0; i < size; i++ ) {
