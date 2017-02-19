@@ -370,6 +370,7 @@
       <run class="org.eclipse.titan.designer.core.TITANNature" />
     </runtime>
     <builder id="org.eclipse.titan.designer.core.TITANBuilder" />
+    <!--<builder id="org.eclipse.titan.designer.core.TITANJavaBuilder" />-->
   </extension>
   <extension point="org.eclipse.ui.ide.projectNatureImages">
     <image icon="icons/titan.gif" id="org.eclipse.titan.designer.core.TITANNatureImage"
@@ -381,6 +382,12 @@
       <run class="org.eclipse.titan.designer.core.TITANBuilder" />
     </builder>
   </extension>
+  <!--<extension id="org.eclipse.titan.designer.core.TITANJavaBuilder"
+    name="TITANJavaBuilder" point="org.eclipse.core.resources.builders">
+    <builder hasNature="true">
+      <run class="org.eclipse.titan.designer.core.TITANJavaBuilder" />
+    </builder>
+  </extension>-->
   <extension point="org.eclipse.ui.menus">
     <menuContribution locationURI="popup:org.eclipse.ui.popup.any?after=additions">
       <menu
@@ -867,6 +874,12 @@
       name="TITAN Project" finalPerspective="org.eclipse.titan.designer.perspectives.EditingPerspective"
       preferredPerspectives="org.eclipse.titan.designer.perspectives.EditingPerspective"
       project="true" />
+    <!--<wizard category="org.eclipse.titan.designer.wizards.NewTITANWizard"
+      class="org.eclipse.titan.designer.wizards.NewTITANJavaProjectWizard"
+      icon="icons/titan.gif" id="org.eclipse.titan.designer.wizards.NewTITANJavaProjectWizard"
+      name="TITAN Java Project" finalPerspective="org.eclipse.titan.designer.perspectives.EditingPerspective"
+      preferredPerspectives="org.eclipse.titan.designer.perspectives.EditingPerspective"
+      project="true" />-->
     <wizard category="org.eclipse.titan.designer.wizards.NewTITANWizard"
       class="org.eclipse.titan.designer.wizards.NewTTCN3ModuleWizard"
       icon="icons/ttcn.gif" id="org.eclipse.titan.designer.wizards.NewTTCN3ModuleWizard"
@@ -1197,6 +1210,16 @@
         </or>
       </enablement>
     </commonWizard>
+    <!--<commonWizard type="new"
+      wizardId="org.eclipse.titan.designer.wizards.NewTITANJavaProjectWizard"
+      menuGroupId="TITAN extension">
+      <enablement>
+        <or>
+          <adapt type="org.eclipse.core.resources.IProject" />
+          <adapt type="org.eclipse.core.resources.IWorkspaceRoot" />
+        </or>
+      </enablement>
+    </commonWizard>-->
     <commonWizard type="new"
       wizardId="org.eclipse.titan.designer.wizards.NewTTCN3ModuleWizard"
       menuGroupId="TITAN extension">

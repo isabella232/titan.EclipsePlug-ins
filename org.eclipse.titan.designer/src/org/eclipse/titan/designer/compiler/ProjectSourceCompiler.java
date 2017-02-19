@@ -19,11 +19,11 @@ public class ProjectSourceCompiler {
 
 	/** the root package of the generated java source */
 	private final static String PACKAGE_GENERATED_ROOT = "org.eclipse.titan.generated";
-	private final static String PACKAGE_RUNTIME_ROOT = "org.eclipse.titan.runtime";
+	private final static String PACKAGE_RUNTIME_ROOT = "org.eclipse.titan.runtime.core";
 //	private final static String PACKAGE_RUNTIME_TYPES = PACKAGE_RUNTIME_ROOT + ".types";
 
 	/** the root folder of the generated java source */
-	private final static String DIR_GENERATED_ROOT = "src/org/eclipse/titan/generated";
+	private final static String DIR_GENERATED_ROOT = "java_src/org/eclipse/titan/generated";
 
 	/**
 	 * Generates java code for a module
