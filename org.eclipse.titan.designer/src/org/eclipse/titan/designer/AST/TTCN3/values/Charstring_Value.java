@@ -247,7 +247,7 @@ public final class Charstring_Value extends Value {
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "new TitanCharString( \"" );
-		aData.addImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "TitanCharString" );
 		sb.append( value );
 		sb.append( "\" )" );
 	}

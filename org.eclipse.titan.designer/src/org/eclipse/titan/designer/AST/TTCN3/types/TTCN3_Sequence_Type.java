@@ -944,7 +944,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		sb.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
 				   "\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
-		aData.addImport( "TtcnError" );
+		aData.addCommonLibraryImport( "TtcnError" );
 		sb.append( aClassName );
 		sb.append( "\" );\n" +
 				   "\t\t\t}\n" );

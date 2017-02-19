@@ -262,7 +262,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "new TitanInteger( " );
-		aData.addImport( "TitanInteger" );
+		aData.addBuiltinTypeImport( "TitanInteger" );
 		sb.append( value.intValue() );
 		sb.append( " )" );
 	}

@@ -356,7 +356,7 @@ public final class Integer_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(JavaGenData aData, final Scope scope) {
-		aData.addImport( "TitanInteger" );
+		aData.addBuiltinTypeImport( "TitanInteger" );
 		return "TitanInteger";
 	}
 }

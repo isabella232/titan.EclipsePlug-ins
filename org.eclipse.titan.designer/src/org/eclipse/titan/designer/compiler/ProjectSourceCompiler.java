@@ -20,7 +20,7 @@ public class ProjectSourceCompiler {
 	/** the root package of the generated java source */
 	private final static String PACKAGE_GENERATED_ROOT = "org.eclipse.titan.generated";
 	private final static String PACKAGE_RUNTIME_ROOT = "org.eclipse.titan.runtime";
-	private final static String PACKAGE_RUNTIME_TYPES = PACKAGE_RUNTIME_ROOT + ".types";
+//	private final static String PACKAGE_RUNTIME_TYPES = PACKAGE_RUNTIME_ROOT + ".types";
 
 	/** the root folder of the generated java source */
 	private final static String DIR_GENERATED_ROOT = "src/org/eclipse/titan/generated";
@@ -84,6 +84,14 @@ public class ProjectSourceCompiler {
 		aSb.append( "package " );
 		aSb.append( PACKAGE_GENERATED_ROOT );
 		aSb.append( ";\n\n" );
+		
+		for ( String importName : aData.getInternalImports() ) {
+			aSb.append( "import " );
+			aSb.append( PACKAGE_RUNTIME_ROOT );
+			aSb.append( "." );
+			aSb.append( importName );
+			aSb.append( ";\n" );
+		}
 		for ( String importName : aData.getImports() ) {
 			writeImport( aSb, importName );
 		}
@@ -96,23 +104,8 @@ public class ProjectSourceCompiler {
 	 * @param aImportName short class name to import. This function knows the package of all the runtime classes.
 	 */
 	private static void writeImport( final StringBuilder aSb, final String aImportName ) {
-		if ( "TitanCharString".equals( aImportName ) ||
-			 "TitanInteger".equals( aImportName ) ) {
-			aSb.append( "import " );
-			aSb.append( PACKAGE_RUNTIME_TYPES );
-			aSb.append( "." );
-			aSb.append( aImportName );
-			aSb.append( ";\n" );
-		} else if ( "TtcnError".equals( aImportName ) ) {
-			aSb.append( "import " );
-			aSb.append( PACKAGE_RUNTIME_ROOT );
-			aSb.append( "." );
-			aSb.append( aImportName );
-			aSb.append( ";\n" );
-		} else {
-			aSb.append( "//TODO: unknown import: " );
-			aSb.append( aImportName );
-			aSb.append( "\n" );
-		}
+		aSb.append( "//TODO: unknown import: " );
+		aSb.append( aImportName );
+		aSb.append( "\n" );
 	}
 }
