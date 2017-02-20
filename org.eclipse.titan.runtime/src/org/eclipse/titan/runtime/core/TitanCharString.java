@@ -52,6 +52,14 @@ public class TitanCharString {
 		return this;
 	}
 
+	public boolean isBound() {
+		return val_ptr != null;
+	}
+
+	public boolean isValue() {
+		return val_ptr != null;
+	}
+	
 	public void mustBound( final String aErrorMessage ) {
 		if ( val_ptr == null ) {
 			throw new TtcnError( aErrorMessage );
