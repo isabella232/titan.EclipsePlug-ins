@@ -10,6 +10,7 @@ package org.eclipse.titan.common.parsers;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -131,7 +132,7 @@ public final class ParserLogger {
 							 final List<Token> aTokens,
 							 final TokenNameResolver aTokenNameResolver ) {
 		try {
-			log( aRoot, aParser, aTokens, aTokenNameResolver, 0, false );
+			log( aRoot, aParser, aTokens, aTokenNameResolver, new ArrayList<Boolean>(), false, false );
 		} catch( Exception e ) {
 			final StringWriter sw = new StringWriter();
 			final PrintWriter pw = new PrintWriter( sw );
@@ -148,15 +149,19 @@ public final class ParserLogger {
 	 * @param aParser parser to get rule name
 	 * @param aTokens token list to get tokens by index (for getting tokens of a rule) 
 	 * @param aTokenNameResolver resolver to get token name
-	 * @param aLevel indentation level
+	 * @param aLevel a list, that tells, if tree section is drawn for that level (parent).
+	 *               If the parent of the given level is already the last child, tree sections are not drawn below.
+	 *               NOTE: indentation level is aLevel.size() 
 	 * @param aParentOneChild parent has 1 child
+	 * @param aLastChild this node is the last child of its parent
 	 */
 	private static void log( final ParseTree aRoot,
 							 final Parser aParser,
 							 final List<Token> aTokens,
 							 final TokenNameResolver aTokenNameResolver,
-							 final int aLevel,
-							 final boolean aParentOneChild ) {
+							 final List<Boolean> aLevel,
+							 final boolean aParentOneChild,
+							 final boolean aLastChild ) {
 		if ( aRoot == null ) {
 			println( "ERROR: ParseTree root is null" );
 			return;
@@ -183,7 +188,15 @@ public final class ParserLogger {
 
 			for( int i = 0; i < count; i++ ) {
 				final ParseTree child = rule.getChild( i );
-				log( child, aParser, aTokens, aTokenNameResolver, aLevel + ( aParentOneChild ? 0 : 1 ), oneChild );
+				List<Boolean> level = aLevel;
+				if ( !aParentOneChild ) {
+					level = new ArrayList<Boolean>( aLevel );
+					if ( aLastChild ) {
+						level.set( level.size() - 1, false );
+					}
+					level.add( true );
+				}
+				log( child, aParser, aTokens, aTokenNameResolver, level, oneChild, i == count - 1 );
 			}
 		} else if ( aRoot instanceof TerminalNodeImpl ) {
 			final TerminalNodeImpl tn = (TerminalNodeImpl)aRoot;
@@ -450,6 +463,29 @@ public final class ParserLogger {
 		final StringBuilder sb = new StringBuilder();
 		for ( int i = 0; i < aLevel; i++ ) {
 			sb.append( "  " );
+		}
+		print( sb.toString() );
+		print( aMsg );
+	}
+
+	/**
+	 * Prints message to console for logging purpose
+	 * with level dependent indentation
+	 * and also with tree structure, so a rectangular line is drawn between the parent and the children.
+	 * @param aMsg message
+	 * @param aLevel a list, that tells, if tree section is drawn for that level (parent).
+	 *               If the parent of the given level is already the last child, tree sections are not drawn below.
+	 *               NOTE: indentation level is aLevel.size() 
+	 */
+	private static void printIndent( final String aMsg, final List<Boolean> aLevel ) {
+		final StringBuilder sb = new StringBuilder();
+		final int size = aLevel.size();
+		for ( int i = 0; i < size; i++ ) {
+			if ( i < size - 1 ) {
+				sb.append( aLevel.get( i ) ? "| " : "  " );
+			} else {
+				sb.append( "+-" );
+			}
 		}
 		print( sb.toString() );
 		print( aMsg );
