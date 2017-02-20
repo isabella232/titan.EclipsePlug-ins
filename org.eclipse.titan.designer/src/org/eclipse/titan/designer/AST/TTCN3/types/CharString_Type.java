@@ -312,6 +312,6 @@ public final class CharString_Type extends Type {
 	/** {@inheritDoc} */
 	public String getGenNameValue(JavaGenData aData, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
-		return "TitanInteger";
+		return "TitanCharString";
 	}
 }
