@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -568,5 +569,17 @@ public final class SequenceOf_Value extends Value {
 			return false;
 		}
 		return true;
+	}
+	
+	public void generateJava( final JavaGenData aData ) {
+		if (convertedValue != null) {
+			convertedValue.generateJava(aData);
+			return;
+		}
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
 	}
 }
