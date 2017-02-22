@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -454,5 +455,21 @@ public final class Def_Var_Template extends Definition {
 
 	public boolean getWritten() {
 		return wasAssigned;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		final String typeName = type.getGenNameTemplate( aData, getMyScope() );
+		sb.append( typeName );
+		sb.append( " " );
+		sb.append( identifier.getName() );
+		if ( initialValue != null ) {
+			sb.append( " = new " ). append(typeName).append("(");
+			initialValue.generateJava( aData );
+			sb.append(")");
+		}
+		sb.append( ";\n" );
 	}
 }
