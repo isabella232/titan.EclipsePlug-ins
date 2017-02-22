@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Enumerated_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -296,5 +297,16 @@ public final class LessThanExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		//TODO this is just a simplified version to enable early performance testing
+		final StringBuilder sb = aData.getSrc();
+		value1.generateJava(aData);
+		sb.append(".isLessThan(");
+		value2.generateJava(aData);
+		sb.append(")");
 	}
 }
