@@ -674,7 +674,7 @@ public final class InternalMakefileGenerator {
 			contents.append("unknown");
 		}
 		contents.append(") on ").append(new Date()).append("\n\n");
-		contents.append(GeneralConstants.COPYRIGHT_STRING).append('\n');
+		contents.append("# ").append(GeneralConstants.COPYRIGHT_STRING).append('\n');
 		contents.append('\n');
 		contents.append("# The following make commands are available:\n");
 		contents.append("# - make, make all      ");
