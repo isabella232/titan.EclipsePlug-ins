@@ -52,6 +52,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Statement.Statement_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.SkeletonTemplateProposal;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -1189,4 +1190,16 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		return statements.isEmpty();
 	}
 
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		final int size = statements.size();
+		for ( int i = 0; i < size; i++ ) {
+			final Statement statement = statements.get(i);
+			statement.generateJava( aData );
+		}
+	}
 }

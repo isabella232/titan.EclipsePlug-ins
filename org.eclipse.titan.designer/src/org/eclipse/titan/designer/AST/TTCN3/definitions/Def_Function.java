@@ -899,11 +899,18 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		sb.append( "\tpublic static " );
 
 		// return value
-		if ( returnType != null ) {
-			//TODO: for templates too
+		switch (assignmentType) {
+		case A_FUNCTION_RVAL: 
 			sb.append( returnType.getGenNameValue( aData, getMyScope() ) );
-		} else {
+			break;
+		case A_FUNCTION_RTEMP: 
+			sb.append( returnType.getGenNameTemplate( aData, getMyScope() ) );
+			break;
+		case A_FUNCTION:
 			sb.append( "void" );
+			break;
+		default:
+			//TODO fatal error
 		}
 
 		sb.append( " " );
@@ -917,11 +924,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.generateJava( aData );
 		}
 		sb.append( ") {\n" );
-		final int size = block.getSize();
-		for ( int i = 0; i < size; i++ ) {
-			final Statement statement = block.getStatementByIndex( i );
-			statement.generateJava( aData );
-		}
+		block.generateJava(aData);
 		sb.append( "\t}\n" );	
 	}
 }
