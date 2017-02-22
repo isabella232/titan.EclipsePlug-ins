@@ -12,12 +12,15 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ChangeableBoolean;
+import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -254,5 +257,22 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 
 	public List<If_Clause> getClauses() {
 		return ifclauses;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 * @param blockCount the number of block already created
+	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
+	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
+	 */
+	public void generateJava( final JavaGenData aData, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
+		for (int i = 0; i < ifclauses.size(); i++) {
+			if (unReachable.getValue()) {
+				return;
+			}
+
+			ifclauses.get(i).generateJava(aData, blockCount, unReachable, eachFalse);
+		}
 	}
 }

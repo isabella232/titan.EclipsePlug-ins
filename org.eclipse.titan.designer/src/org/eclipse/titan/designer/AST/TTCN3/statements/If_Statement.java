@@ -17,15 +17,18 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ChangeableBoolean;
+import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
@@ -276,5 +279,34 @@ public final class If_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		//TODO this is just a simplified version to enable early performance testing
+		final StringBuilder sb = aData.getSrc();
+		ChangeableInteger blockCount = new ChangeableInteger(0);
+		ChangeableBoolean unReachable = new ChangeableBoolean(false);
+		ChangeableBoolean eachFalse = new ChangeableBoolean(true);
+		
+		ifClauses.generateJava(aData, blockCount, unReachable, eachFalse);
+		if (statementblock != null && !unReachable.getValue()) {
+			if(!eachFalse.getValue()) {
+				sb.append("else ");
+			}
+			eachFalse.setValue(false);
+			sb.append("{\n");
+			blockCount.setValue(blockCount.getValue() + 1);
+			statementblock.generateJava(aData);
+		}
+		
+		for(int i = 0 ; i < blockCount.getValue(); i++) {
+			sb.append("}\n");
+		}
+		
+		if(eachFalse.getValue()) {
+			sb.append("/* never occurs */;\n");
+		}
 	}
 }

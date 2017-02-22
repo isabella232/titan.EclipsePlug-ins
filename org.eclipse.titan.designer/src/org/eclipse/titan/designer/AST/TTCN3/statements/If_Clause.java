@@ -13,23 +13,26 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ChangeableBoolean;
+import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -282,5 +285,45 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 
 	public StatementBlock getStatementBlock() {
 		return statementblock;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 * @param blockCount the number of block already created
+	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
+	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
+	 * 
+	 * TODO: if we can generate "else if" -s the blockCount is not needed
+	 */
+	public void generateJava( final JavaGenData aData, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
+		if (unReachable.getValue()) {
+			return;
+		}
+		if (!expression.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			final IValue last = expression.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+			if (((Boolean_Value) last).getValue()) {
+				unReachable.setValue(true);
+			} else {
+				return;
+			}
+		}
+		final StringBuilder sb = aData.getSrc();
+		if(!eachFalse.getValue()) {
+			sb.append("else ");
+		}
+		if(!unReachable.getValue()) {
+			if(!eachFalse.getValue()) {
+				sb.append("{\n");
+				blockCount.setValue(blockCount.getValue() + 1);
+			}
+			sb.append("if (");
+			expression.generateJava(aData);
+			sb.append(")"); 
+		}
+		eachFalse.setValue(false);
+		sb.append("{\n");
+		statementblock.generateJava(aData);
+		sb.append("}\n");
 	}
 }
