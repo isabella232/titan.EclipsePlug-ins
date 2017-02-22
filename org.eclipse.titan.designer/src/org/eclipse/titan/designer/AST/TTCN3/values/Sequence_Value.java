@@ -740,7 +740,7 @@ public final class Sequence_Value extends Value {
 		for ( int i = 0; i < size; i++ ) {
 			final NamedValue namedValue = values.getNamedValueByIndex( i );
 			sb.append( "\t\t" );
-			sb.append( getDefiningAssignment().getIdentifier() );
+			sb.append( getDefiningAssignment().getIdentifier().getName() );
 			sb.append( "." );
 			namedValue.generateJava( aData );
 			if ( i < size - 1 ) {
