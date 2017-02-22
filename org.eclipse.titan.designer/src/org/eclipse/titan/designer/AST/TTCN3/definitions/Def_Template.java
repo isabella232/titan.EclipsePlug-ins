@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -851,5 +852,21 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	 */
 	public boolean isLazy() {
 		return mIsLazy;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( type.getGenNameTemplate( aData, getMyScope() ) );
+		sb.append( " " );
+		sb.append( identifier.getName() );
+		//TODO generate code for missing parts
+		sb.append( "\t" );
+		sb.append( "//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() body is not implemented!\n" );
+
+		sb.append( ";\n" );
 	}
 }
