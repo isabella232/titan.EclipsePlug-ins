@@ -519,7 +519,7 @@ public final class Assignment_Statement extends Statement {
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t\t" );
-		sb.append( reference.getDisplayName() ); // TODO most probably the display name is not what we want to use here
+		reference.generateJava(aData);
 		sb.append( ".assign( " );
 		template.generateJava( aData );
 		sb.append( " );\n" );
