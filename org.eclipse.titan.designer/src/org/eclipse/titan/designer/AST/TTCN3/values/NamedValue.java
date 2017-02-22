@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferencingElement;
@@ -188,8 +189,10 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 	 */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
-		sb.append( name.getName() );
-		sb.append( " = " );
+		sb.append("get");
+		sb.append( FieldSubReference.getJavaGetterName(name.getName()) );
+		sb.append( "().assign(" );
 		value.generateJava( aData );
+		sb.append(")");
 	}
 }
