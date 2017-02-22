@@ -991,9 +991,24 @@ public final class FormalParameter extends Definition {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
-		//TODO: implement: make sure, that type is not null
-		//TODO for templates too!
-		sb.append( type.getGenNameValue( aData, getMyScope() ) );
+		//TODO: implement: based on access type the code needs to be more refined
+		//TODO for timers too!
+		switch (assignmentType) {
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_INOUT:
+		case A_PAR_VAL_OUT:
+			sb.append( type.getGenNameValue( aData, getMyScope() ) );
+			break;
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_INOUT:
+		case A_PAR_TEMP_OUT:
+			sb.append( type.getGenNameTemplate( aData, getMyScope() ) );
+			break;
+		default:
+			//TODO fatal error
+		}
+		
 		sb.append( " " );
 		// parameter name
 		sb.append( identifier.getName() );
