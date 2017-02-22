@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Values;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -312,5 +313,21 @@ public final class Template_List extends CompositeTemplate {
 	@Override
 	protected String getNameForStringRep() {
 		return "";
+	}
+
+	public void generateJava( final JavaGenData aData ) {
+		if (asValue != null) {
+			asValue.generateJava(aData);
+			return;
+		}
+		
+		//TODO generate code for missing parts
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t" );
+		sb.append( "//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
+
+		return;
 	}
 }

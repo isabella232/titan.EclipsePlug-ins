@@ -20,8 +20,8 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -272,34 +272,33 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	 *   TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY
 	 */ 
 	final protected boolean allowOmitInValueList(final boolean allowOmit) {
-			if( !allowOmit ) {
-				return false;
-			}
-	
-			final Location loc = this.getLocation();
-			if(loc == null || (loc instanceof NULL_Location)) {
-				return true;
-			}
-
-			final IResource f = loc.getFile();
-			if( f == null) {
-				return true;
-			}
-
-			final IProject project = f.getProject();
-			if(project == null) {
-				return true;
-			}
-
-			final QualifiedName qn = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY);
-			try {
-				final String s= project.getPersistentProperty(qn);
-				return ( "true".equals(s));
-			} catch (CoreException e) {
-				ErrorReporter.logExceptionStackTrace(e);
-				return true;
-			}
-			
+		if( !allowOmit ) {
+			return false;
 		}
 
+		final Location loc = this.getLocation();
+		if(loc == null || (loc instanceof NULL_Location)) {
+			return true;
+		}
+
+		final IResource f = loc.getFile();
+		if( f == null) {
+			return true;
+		}
+
+		final IProject project = f.getProject();
+		if(project == null) {
+			return true;
+		}
+
+		final QualifiedName qn = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY);
+		try {
+			final String s= project.getPersistentProperty(qn);
+			return ( "true".equals(s));
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+			return true;
+		}
+
+	}
 }

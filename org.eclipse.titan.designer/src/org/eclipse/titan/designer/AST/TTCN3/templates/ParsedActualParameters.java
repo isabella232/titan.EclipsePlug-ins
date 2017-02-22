@@ -16,12 +16,11 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
-import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
@@ -44,7 +43,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	private NamedParameters namedPart;
 
 	/** the formal parameter list that this was checked against */
-	private FormalParameterList formalParList = null;
+	public FormalParameterList formalParList = null;
 
 	private Location location;
 
@@ -194,15 +193,5 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 			sb.append(namedPart.createStringRepresentation());
 		}
 		return sb.toString();
-	}
-
-	/**
-	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
-	 */
-	public void generateJava( final JavaGenData aData ) {
-		if ( unnamedPart != null ) {
-			unnamedPart.generateJava( aData );
-		}
 	}
 }
