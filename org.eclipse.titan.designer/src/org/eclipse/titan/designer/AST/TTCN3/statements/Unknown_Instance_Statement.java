@@ -180,9 +180,8 @@ public final class Unknown_Instance_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t\t" );
-		reference.generateJava( aData );
-		sb.append( ";\n" );
+		if (realStatement != null) {
+			realStatement.generateJava(aData);
+		}
 	}
 }
