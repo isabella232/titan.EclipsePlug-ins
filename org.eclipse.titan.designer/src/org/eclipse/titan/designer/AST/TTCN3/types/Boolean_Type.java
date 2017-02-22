@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
@@ -25,13 +26,15 @@ import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * boolean type.
  * 
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class Boolean_Type extends ASN1Type {
 	private static final String BOOLEAN = "boolean";
 	private static final String BOOLEANVALUEEXPECTED1 = "boolean value was expected";
@@ -211,4 +214,19 @@ public final class Boolean_Type extends ASN1Type {
 		return builder.append(BOOLEAN);
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( " extends TitanBoolean {}\n" );
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue( final JavaGenData aData, final Scope scope ) {
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		aData.addBuiltinTypeImport( "TitanBoolean_template" );
+		return "TitanBoolean";
+	}
 }
