@@ -18,6 +18,7 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.designer.Activator;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -816,7 +817,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final FieldInfo fi = new FieldInfo();
 			fi.mJavaTypeName = compField.getType().getGenNameValue( aData, getMyScope() );
 			fi.mVarName = compField.getIdentifier().getName();
-			fi.mJavaVarName = getJavaGetterName( fi.mVarName );
+			fi.mJavaVarName = FieldSubReference.getJavaGetterName( fi.mVarName );
 			fi.mVarTypeName =  compField.getType().getClass().getSimpleName();
 			namesList.add( fi );
 		}
@@ -1069,20 +1070,5 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			aSb.append( ";\n" +
 						"\t\t}\n" );
 		}
-	}
-
-	/**
-	 * Generates getter/setter name without "get"/"set" for TTCN-3 record fields,
-	 * which will be class member variables in java 
-	 * @return aTtcn3RecField TTCN-3 record field name
-	 */
-	private static String getJavaGetterName( final String aTtcn3RecField ) {
-		if ( aTtcn3RecField == null ) {
-			return null;
-		}
-		if ( aTtcn3RecField.length() == 0 ) {
-			return "";
-		}
-		return aTtcn3RecField.substring(0, 1).toUpperCase() + aTtcn3RecField.substring(1);
 	}
 }
