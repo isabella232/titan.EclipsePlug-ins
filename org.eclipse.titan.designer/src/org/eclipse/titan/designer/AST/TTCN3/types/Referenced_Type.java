@@ -595,4 +595,15 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		return refdLast.getGenNameValue(aData, scope);
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final Scope scope) {
+		if (this == refdLast || refdLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			return "FATAL_ERROR encountered";
+		}
+
+		return refdLast.getGenNameTemplate(aData, scope);
+	}
 }
