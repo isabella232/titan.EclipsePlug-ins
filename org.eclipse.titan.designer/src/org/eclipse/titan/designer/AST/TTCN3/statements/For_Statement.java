@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.For_Loop_Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -427,4 +428,24 @@ public final class For_Statement extends Statement {
 		return statementblock;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		//TODO this is just a simplified version to enable early performance testing
+		final StringBuilder sb = aData.getSrc();
+		sb.append("\t\t{\n");
+		if(definitions != null) {
+			definitions.generateJava(aData);
+		} else if (initialAssignment != null) {
+			initialAssignment.generateJava(aData);
+		}
+		sb.append("\t\t\tfor( ; ; ) {\n");
+			sb.append("\t\t\t\tif(!");
+			finalExpression.generateJava(aData);
+			sb.append(") break;\n");
+			statementblock.generateJava(aData);
+			stepAssignment.generateJava(aData);
+		sb.append( "\t\t\t}\n" );
+		sb.append( "\t\t}\n" );
+	}
 }

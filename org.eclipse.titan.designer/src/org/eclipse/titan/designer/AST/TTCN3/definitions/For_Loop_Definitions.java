@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.SkeletonTemplateProposal;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -639,5 +640,19 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 				throw new UnsupportedOperationException();
 			}
 		};
+	}
+	
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		if ( definitions != null ) {
+			for ( Definition definition : definitions ) {
+				definition.generateJava( aData );
+				sb.append( "\n" );
+			}
+		}
 	}
 }
