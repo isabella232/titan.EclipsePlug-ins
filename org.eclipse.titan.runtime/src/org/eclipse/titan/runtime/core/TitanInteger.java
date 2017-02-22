@@ -164,7 +164,29 @@ public class TitanInteger {
 	public boolean operatorNotEquals( final TitanInteger otherValue ) {
 		return !operatorEquals( otherValue );
 	}
+	
+	//originally operator <
+	public boolean isLessThan(final TitanInteger otherValue) {
+		mustBound("Unbound left operand of integer comparison.");
+		otherValue.mustBound("Unbound right operand of integer comparison.");
+		if (nativeFlag) {
+			if(otherValue.nativeFlag) {
+				return nativeInt < otherValue.nativeInt;
+			} else {
+				BigInteger this_int = BigInteger.valueOf(nativeInt);
+				return -1 == this_int.compareTo(otherValue.openSSL);
+			}
+		} else {
+			if(otherValue.nativeFlag) {
+				BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+				return -1 == openSSL.compareTo(other_int);
+			} else {
+				return -1 == openSSL.compareTo(otherValue.openSSL);
+			}
+		}
+	}
 
+	//originally clean_up
 	public void cleanUp() {
 		if(!nativeFlag) {
 			openSSL = null;
