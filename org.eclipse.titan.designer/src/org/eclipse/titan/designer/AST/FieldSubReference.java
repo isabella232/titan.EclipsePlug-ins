@@ -132,13 +132,35 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 		return true;
 	}
 
+	/**
+	 * Generates getter/setter name without "get"/"set" for TTCN-3 record fields,
+	 * which will be class member variables in java 
+	 * @return aTtcn3RecField TTCN-3 record field name
+	 */
+	public static String getJavaGetterName( final String aTtcn3RecField ) {
+		if ( aTtcn3RecField == null ) {
+			return null;
+		}
+		if ( aTtcn3RecField.length() == 0 ) {
+			return "";
+		}
+		return aTtcn3RecField.substring(0, 1).toUpperCase() + aTtcn3RecField.substring(1);
+	}
+
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t" );
-		sb.append( "//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+	public void generateJava( final JavaGenData aData, final boolean isFirst ) {
+		//TODO actually there should be several ways to generate a reference
+		// for example left and right side usage in an assignment
+		if (fieldId != null) {
+			final StringBuilder sb = aData.getSrc();
+			if (isFirst) {
+				sb.append( fieldId.getName() );
+			} else {
+				sb.append( ".get" );
+				sb.append( getJavaGetterName(fieldId.getName()) );
+				sb.append( "()" );
+			}
+		}
 	}
 }

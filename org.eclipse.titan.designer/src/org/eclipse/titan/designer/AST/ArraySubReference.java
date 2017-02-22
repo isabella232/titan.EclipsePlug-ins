@@ -139,7 +139,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean isFirst ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t" );
 		sb.append( "//TODO: " );

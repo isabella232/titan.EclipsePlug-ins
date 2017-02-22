@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -73,4 +74,17 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 	 * */
 	@Override
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
+	
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t\t" );
+		sb.append( "//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
+	}
 }

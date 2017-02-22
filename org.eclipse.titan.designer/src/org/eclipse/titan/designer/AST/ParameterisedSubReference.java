@@ -143,11 +143,11 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean isFirst) {
 		final StringBuilder sb = aData.getSrc();
-		sb.append( identifier );
+		sb.append( identifier.getName() );
 		sb.append( "(" );
-		parsedParameters.generateJava( aData );
+		actualParameters.generateJava( aData );
 		sb.append( ")" );
 	}
 }

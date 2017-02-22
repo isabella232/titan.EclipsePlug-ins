@@ -887,10 +887,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		final int size = this.subReferences.size();
 		for ( int i = 0; i < size; i++ ) {
 			final ISubReference subref = subReferences.get( i );
-			if ( i > 0 ) {
-				sb.append( "." );
-			}
-			subref.generateJava( aData );
+			subref.generateJava( aData, i==0 );
 		}
 	}
 }
