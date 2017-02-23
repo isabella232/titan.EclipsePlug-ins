@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -531,6 +532,22 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template template);
 
 	/**
+	 * Checks whether the provided template is a specific value and the
+	 * embedded value is a referenced one. 
+	 * Additionally checks whether the template has the expected value type and avoids circular references.
+	 * 
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param template
+	 *                the template to check.
+	 * 
+	 * @return the checked template, might be different from the one passed
+	 *         as parameter.
+	 * */	
+	ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final Expected_Value_type expectedValue, final IReferenceChain referenceChain);
+	
+	/**
 	 * Does the semantic checking of the provided template according to the
 	 * a specific type.
 	 * 
@@ -722,4 +739,5 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public String getGenNameTemplate(final JavaGenData aData, final Scope scope);
+
 }

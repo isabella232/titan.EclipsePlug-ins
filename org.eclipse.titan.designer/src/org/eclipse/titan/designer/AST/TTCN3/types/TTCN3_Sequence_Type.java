@@ -748,7 +748,14 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					}
 				}
 
-				final Type type = componentField.getType();
+				Type type = componentField.getType();
+				if( type == null) {
+					return; //report Internal error?
+				}
+				type = (Type) type.getTypeRefdLast(timestamp);
+				if( type == null) {
+					return; //report Internal error?
+				}
 				ITTCN3Template componentTemplate = namedTemplate.getTemplate();
 				componentTemplate.setMyGovernor(type);
 				componentTemplate = type.checkThisTemplateRef(timestamp, componentTemplate);

@@ -146,7 +146,7 @@ public final class Assignment_Statement extends Statement {
 		if (template == null) {
 			return;
 		}
-
+		
 		switch (assignment.getAssignmentType()) {
 		case A_PAR_VAL_IN:
 			((FormalParameter) assignment).useAsLValue(reference);
@@ -162,7 +162,8 @@ public final class Assignment_Statement extends Statement {
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL:
 			((FormalParameter) assignment).setWritten();
-			if (template.isValue(timestamp)) {
+			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
+			if (template.isValue(timestamp)) { //TODO: isValue should be checked within the previous line! This is double check!
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
@@ -192,16 +193,16 @@ public final class Assignment_Statement extends Statement {
 			}
 		case A_PAR_TEMP_IN:
 			((FormalParameter) assignment).useAsLValue(reference);
-			checkTemplateAssignment(timestamp, assignment);
+			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_TEMPLATE,null);
 			break;
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT:
 			((FormalParameter) assignment).setWritten();
-			checkTemplateAssignment(timestamp, assignment);
+			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_TEMPLATE,null);
 			break;
 		case A_VAR_TEMPLATE:
 			((Def_Var_Template) assignment).setWritten();
-			checkTemplateAssignment(timestamp, assignment);
+			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_TEMPLATE,null);
 			break;
 		default:
 			reference.getLocation().reportSemanticError(MessageFormat.format(VARIABLEREFERENCEEXPECTED, assignment.getAssignmentName()));
@@ -381,7 +382,8 @@ public final class Assignment_Statement extends Statement {
 		}
 	}
 
-	private void checkTemplateAssignment(final CompilationTimeStamp timestamp, final Assignment assignment) {
+	private void checkTemplateAssignment(final CompilationTimeStamp timestamp, final Assignment assignment, 
+			final Expected_Value_type expectedValue, final IReferenceChain referenceChain) {
 		IType type = getType(timestamp, assignment);
 
 		if (type == null) {
@@ -389,14 +391,14 @@ public final class Assignment_Statement extends Statement {
 			return;
 		}
 
-		type = type.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+		type = type.getFieldType(timestamp, reference, 1, expectedValue, false);
 		if (type == null) {
 			isErroneous = true;
 			return;
 		}
 
 		template.setMyGovernor(type);
-		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template);
+		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
 		temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false);
 		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 		if (ass != null && ass instanceof Definition) {

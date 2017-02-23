@@ -823,6 +823,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param referenceChain
 	 * @return
 	 */
+	@Override
+	/** {@inheritDoc} */
 	public ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template t, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		switch( t.getTemplatetype() ){
