@@ -858,6 +858,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
+		if ( !isLocal() ) {
+			sb.append( "\tpublic static " );
+		}
 		sb.append( type.getGenNameTemplate( aData, getMyScope() ) );
 		sb.append( " " );
 		sb.append( identifier.getName() );

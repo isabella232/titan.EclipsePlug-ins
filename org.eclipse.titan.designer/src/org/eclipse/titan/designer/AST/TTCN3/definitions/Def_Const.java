@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -446,5 +447,23 @@ public final class Def_Const extends Definition {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		if ( !isLocal() ) {
+			sb.append( "\tpublic static " );
+		}
+		sb.append( "final " );
+		sb.append( type.getGenNameValue( aData, getMyScope() ) );
+		sb.append( " " );
+		sb.append( identifier.getName() );
+		if ( value != null ) {
+			sb.append( " = " );
+			value.generateJava( aData );
+		}
+		sb.append( ";\n" );
 	}
 }

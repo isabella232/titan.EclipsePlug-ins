@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.EditorTracker;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
@@ -44,7 +45,8 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * The Def_Testcase class represents TTCN3 testcase definitions.
  * 
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class Def_Testcase extends Definition implements IParameterisedAssignment {
 	private static final String FULLNAMEPART1 = ".<formal_parameter_list>";
 	private static final String FULLNAMEPART2 = ".<runs_on_type>";
@@ -541,5 +543,30 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			return false;
 		}
 		return true;
+	}
+
+	//TODO: implement: not complete, verdict and runs on handling missing
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\tpublic static " );
+
+		// return value
+		sb.append( "void" );
+
+		sb.append( " " );
+
+		// function name
+		sb.append( identifier.getName() );
+
+		// arguments
+		sb.append( "(" );
+		if ( formalParList != null ) {
+			formalParList.generateJava( aData );
+		}
+		sb.append( ") {\n" );
+		block.generateJava(aData);
+		sb.append( "\t}\n" );	
 	}
 }

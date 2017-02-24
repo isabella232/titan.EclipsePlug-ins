@@ -155,6 +155,9 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	 * @param aData the generated java code with other info
 	 */
 	public void generateJava( final JavaGenData aData ) {
+		if ( parameters == null ) {
+			return;
+		}
 		final int size = parameters.size();
 		for (int i = 0; i < size; i++) {
 			if (i > 0) {

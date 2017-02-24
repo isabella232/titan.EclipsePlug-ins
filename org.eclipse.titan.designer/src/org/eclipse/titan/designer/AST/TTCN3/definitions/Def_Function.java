@@ -40,7 +40,6 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
-import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;

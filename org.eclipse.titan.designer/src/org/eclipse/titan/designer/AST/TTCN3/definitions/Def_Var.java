@@ -451,6 +451,9 @@ public final class Def_Var extends Definition {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
+		if ( !isLocal() ) {
+			sb.append( "\tpublic static " );
+		}
 		sb.append( type.getGenNameValue( aData, getMyScope() ) );
 		sb.append( " " );
 		sb.append( identifier.getName() );
