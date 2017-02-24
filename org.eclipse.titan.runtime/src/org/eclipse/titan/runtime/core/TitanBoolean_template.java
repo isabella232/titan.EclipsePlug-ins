@@ -124,4 +124,25 @@ public class TitanBoolean_template extends Base_Template {
 
 		setSelection(otherValue);
 	}
+
+	public TitanBoolean and( final TitanBoolean otherValue ) {
+		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
+			throw new TtcnError( "And operation of a non specific value template" );
+		}
+		return single_value.and( otherValue );
+	}
+
+	public TitanBoolean and( final TitanBoolean_template otherTemplate ) {
+		if ( otherTemplate.templateSelection != template_sel.SPECIFIC_VALUE ) {
+			throw new TtcnError( "And operation of a non specific value template argument" );
+		}
+		return and( otherTemplate.single_value );
+	}
+
+	public TitanBoolean equalsTo( final TitanBoolean otherValue ) {
+		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
+			throw new TtcnError( "Equals operation of a non specific value template" );
+		}
+		return single_value.equalsTo( otherValue );
+	}
 }

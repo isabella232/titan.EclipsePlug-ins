@@ -68,10 +68,42 @@ public class TitanBoolean {
 	 * originally operator or
 	 */
 	public TitanBoolean or( final TitanBoolean aOtherValue ) {
-		mustBound( "Unbound left operand of boolean addition." );
-		aOtherValue.mustBound( "Unbound right operand of boolean addition." );
+		mustBound( "Unbound left operand of boolean or operation." );
+		aOtherValue.mustBound( "Unbound right operand of boolean or operation." );
 
 		return new TitanBoolean( boolean_value || aOtherValue.boolean_value );
+	}
+
+	/**
+	 * this and aOtherValue
+	 * originally operator and
+	 */
+	public TitanBoolean and( final TitanBoolean aOtherValue ) {
+		mustBound( "Unbound left operand of boolean and operation." );
+		aOtherValue.mustBound( "Unbound right operand of boolean and operation." );
+
+		return new TitanBoolean( boolean_value && aOtherValue.boolean_value );
+	}
+
+	/**
+	 * this == aOtherValue
+	 * originally operator ==
+	 */
+	public TitanBoolean equalsTo( final TitanBoolean aOtherValue ) {
+		mustBound( "Unbound left operand of boolean equals operation." );
+		aOtherValue.mustBound( "Unbound right operand of boolean equals operation." );
+
+		return new TitanBoolean( boolean_value == aOtherValue.boolean_value );
+	}
+
+	/**
+	 * not this
+	 * originally operator not
+	 */
+	public TitanBoolean not() {
+		mustBound( "Unbound left operand of boolean and operation." );
+
+		return new TitanBoolean( !boolean_value );
 	}
 
 	//originally operator==
