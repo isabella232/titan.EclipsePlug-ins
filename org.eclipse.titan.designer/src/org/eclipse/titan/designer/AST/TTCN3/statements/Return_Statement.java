@@ -118,14 +118,14 @@ public final class Return_Statement extends Statement {
 				location.reportSemanticError(MessageFormat.format(MISSINGVALUE,  returnType.getTypename()));
 				break;
 			}
-			
-		
+
 			// General:
 			template.setMyGovernor(returnType);
 			final ITTCN3Template temporalTemplate = returnType.checkThisTemplateRef(timestamp, template,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
-			temporalTemplate.checkThisTemplateGeneric(timestamp, returnType, false, /* isModified */
+			temporalTemplate.checkThisTemplateGeneric(timestamp, returnType, 
+					false, /* isModified */
 					false, /* allowOmit */
-					true, /* allowAnyOrOmit */ //TODO:false
+					false, /* allowAnyOrOmit */
 					true, /* subCheck */
 					false /* implicitOmit */);
 			TemplateRestriction.check(timestamp, definition, temporalTemplate, null);
