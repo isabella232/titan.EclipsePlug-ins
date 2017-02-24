@@ -317,9 +317,9 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 				sb.append("{\n");
 				blockCount.setValue(blockCount.getValue() + 1);
 			}
-			sb.append("if (");
+			sb.append("if ( ");
 			expression.generateJava(aData);
-			sb.append(")"); 
+			sb.append(".getValue() )"); 
 		}
 		eachFalse.setValue(false);
 		sb.append("{\n");
