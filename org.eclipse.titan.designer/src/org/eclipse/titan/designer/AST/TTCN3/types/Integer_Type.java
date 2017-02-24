@@ -37,7 +37,8 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class Integer_Type extends Type {
 	public static final String INTEGERVALUEEXPECTED = "integer value was expected";
 	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for type `integer''";
@@ -352,7 +353,14 @@ public final class Integer_Type extends Type {
 		return builder.append("integer");
 	}
 
-	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( " extends TitanInteger {}\n" );
+		aData.addBuiltinTypeImport( "TitanInteger" );
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(JavaGenData aData, final Scope scope) {
