@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.text.templates.Template;
@@ -42,6 +43,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
@@ -54,7 +56,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * component type (TTCN-3).
  * 
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class Component_Type extends Type {
 	private static final String COMPONENT_GIF = "component.gif";
 	private static final String COMPONENTVALUEEXPECTED = "Component value was expected";
@@ -662,5 +665,15 @@ public final class Component_Type extends Type {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( " {\n" );
+		//TODO: implement
+		sb.append( "\t\t//TODO: Component_Type.generateJava() is not fully implemented!\n" );
+		sb.append( "\t}\n" );
 	}
 }

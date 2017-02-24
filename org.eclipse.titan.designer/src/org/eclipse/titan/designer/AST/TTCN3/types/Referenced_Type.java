@@ -595,7 +595,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		return refdLast.getGenNameValue(aData, scope);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final Scope scope) {
@@ -605,5 +605,17 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		return refdLast.getGenNameTemplate(aData, scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final String className = getGenNameValue( aData, getMyScope() ); 
+		final StringBuilder sb = aData.getSrc();
+		sb.append( " extends " );
+		sb.append( className );
+		//TODO: implement: package of the imported class is unknown
+		aData.addImport( className );
+		sb.append( " {}\n" );
 	}
 }

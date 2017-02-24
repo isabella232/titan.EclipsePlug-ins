@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completenes
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Choice_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -410,5 +411,15 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("union");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( " {\n" );
+		//TODO: implement
+		sb.append( "\t\t//TODO: TTCN3_Choice_Type.generateJava() is not fully implemented!\n" );
+		sb.append( "\t}\n" );
 	}
 }
