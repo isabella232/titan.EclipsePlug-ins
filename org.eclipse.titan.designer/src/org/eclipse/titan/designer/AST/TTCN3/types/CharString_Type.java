@@ -38,7 +38,8 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * character string type (TTCN-3).
  * 
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class CharString_Type extends Type {
 	private static final String CHARSTRING = "charstring";
 	public static final String CHARSTRINGVALUEEXPECTED = "Character string value was expected";
@@ -306,6 +307,14 @@ public final class CharString_Type extends Type {
 			declarationCollector.addDeclaration(CHARSTRING, location, this);
 
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		sb.append( " extends TitanCharString {}\n" );
+		aData.addBuiltinTypeImport( "TitanCharString" );
 	}
 
 	@Override

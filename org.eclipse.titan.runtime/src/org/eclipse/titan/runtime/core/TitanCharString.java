@@ -14,11 +14,8 @@ package org.eclipse.titan.runtime.core;
  */
 public class TitanCharString {
 
-	//TODO: implement ANY and/or OMIT
-
 	/**
 	 * charstring value.
-	 * It can be null if ANY or OMIT
 	 */
 	private String val_ptr;
 
@@ -43,7 +40,7 @@ public class TitanCharString {
 	public void setValue( final String aOtherValue ) {
 		val_ptr = aOtherValue;
 	}
-	
+
 	//originally operator=
 	public TitanCharString assign( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound charstring value." );
@@ -59,18 +56,18 @@ public class TitanCharString {
 	public boolean isValue() {
 		return val_ptr != null;
 	}
-	
+
 	public void mustBound( final String aErrorMessage ) {
 		if ( val_ptr == null ) {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
-	
+
 	/**
-	 * this + aOther
-	 * originally operator+
+	 * this + aOtherValue
+	 * originally operator&
 	 */
-	public TitanCharString add( final TitanCharString aOtherValue ) {
+	public TitanCharString append( final TitanCharString aOtherValue ) {
 		mustBound( "Unbound left operand of charstring addition." );
 		aOtherValue.mustBound( "Unbound right operand of charstring addition." );
 
@@ -93,7 +90,7 @@ public class TitanCharString {
 	public void cleanUp() {
 		val_ptr = null;
 	}
-	
+
 	@Override
 	public String toString() {
 		if ( val_ptr == null ) {
