@@ -119,6 +119,17 @@ public final class Return_Statement extends Statement {
 				break;
 			}
 			
+		
+			// General:
+			template.setMyGovernor(returnType);
+			final ITTCN3Template temporalTemplate = returnType.checkThisTemplateRef(timestamp, template,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
+			temporalTemplate.checkThisTemplateGeneric(timestamp, returnType, false, /* isModified */
+					false, /* allowOmit */
+					true, /* allowAnyOrOmit */ //TODO:false
+					true, /* subCheck */
+					false /* implicitOmit */);
+			TemplateRestriction.check(timestamp, definition, temporalTemplate, null);
+			
 			switch (template.getTemplatetype()) {
 			case SPECIFIC_VALUE:
 				break; //error handling in Types.java
@@ -140,15 +151,6 @@ public final class Return_Statement extends Statement {
 				}
 			}
 
-			// General:
-			template.setMyGovernor(returnType);
-			final ITTCN3Template temporalTemplate = returnType.checkThisTemplateRef(timestamp, template,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
-			temporalTemplate.checkThisTemplateGeneric(timestamp, returnType, false, /* isModified */
-					false, /* allowOmit */
-					true, /* allowAnyOrOmit */ //TODO:false
-					true, /* subCheck */
-					false /* implicitOmit */);
-			TemplateRestriction.check(timestamp, definition, temporalTemplate, null);
 			break;
 
 		case A_FUNCTION_RTEMP:
