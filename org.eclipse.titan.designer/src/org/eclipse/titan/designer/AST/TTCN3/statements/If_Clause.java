@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -317,9 +318,14 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 				sb.append("{\n");
 				blockCount.setValue(blockCount.getValue() + 1);
 			}
-			sb.append("if ( ");
+			sb.append("if (");
 			expression.generateJava(aData);
-			sb.append(".getValue() )"); 
+			//TODO: this is a temporal support for boolean and TitanBoolean expressions
+			// fix once the expression handling is supported correctly.
+			if(expression instanceof Boolean_Value || expression instanceof Undefined_LowerIdentifier_Value) {
+				sb.append(".getValue()"); 
+			}
+			sb.append(" )"); 
 		}
 		eachFalse.setValue(false);
 		sb.append("{\n");
