@@ -150,14 +150,20 @@ public final class Assignment_Statement extends Statement {
 		switch (assignment.getAssignmentType()) {
 		case A_PAR_VAL_IN:
 			((FormalParameter) assignment).useAsLValue(reference);
-			if (template.isValue(timestamp)) {
+			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
+			if (template.isValue(timestamp)) { //TODO: isValue should be checked within the previous line! This is double check!
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
+				break;
+			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype()) 
+			  && ((ValueList_Template) template).getNofTemplates() == 1) {
+				//TODO: convert (x) to x to compilation!
+				break;
 			} else {
 				template.getLocation().reportSemanticError(TEMPLATEASSIGNMENTTOVALUE);
 				template.setIsErroneous(true);
+				return;
 			}
-			break;
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL:
@@ -167,23 +173,23 @@ public final class Assignment_Statement extends Statement {
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
+			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype()) 
+			  && ((ValueList_Template) template).getNofTemplates() == 1) {
+				//TODO: convert (x) to x to compilation!
+				break;
 			} else {
-				if( Template_type.VALUE_LIST.equals(template.getTemplatetype()) && ((ValueList_Template) template).getNofTemplates() == 1) {
-					break;
-				} else {
-					template.getLocation().reportSemanticError(TEMPLATEASSIGNMENTTOVALUE);
-					template.setIsErroneous(true);
-					return;
-				}
+				template.getLocation().reportSemanticError(TEMPLATEASSIGNMENTTOVALUE);
+				template.setIsErroneous(true);
+				return;
 			}
+			//break 
 		case A_VAR:
 			((Def_Var) assignment).setWritten();
 			if ( Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) || template.isValue(timestamp)) {
 				final 	IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
-			} else if (
-				Template_type.VALUE_LIST.equals(template.getTemplatetype())
+			} else if ( Template_type.VALUE_LIST.equals(template.getTemplatetype())
 				&& ((ValueList_Template) template).getNofTemplates() == 1) {
 					break;
 			} else {
