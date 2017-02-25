@@ -815,14 +815,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 	}
 
-	/**
-	 * 
-	 * @param timestamp 
-	 * @param t	- the template to be checked
-	 * @param expectedValue - the expected value type. 
-	 * @param referenceChain
-	 * @return
-	 */
 	@Override
 	/** {@inheritDoc} */
 	public ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template t, final Expected_Value_type expectedValue,
