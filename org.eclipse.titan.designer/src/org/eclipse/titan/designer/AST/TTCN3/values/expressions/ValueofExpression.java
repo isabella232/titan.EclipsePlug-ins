@@ -272,6 +272,10 @@ public final class ValueofExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
-		templateInstance.generateJava( aData );
+		if (templateInstance != null) {
+			final StringBuilder sb = aData.getSrc();
+			templateInstance.generateJava( aData );
+			sb.append( ".valueOf()" );
+		}
 	}
 }
