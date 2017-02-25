@@ -1,6 +1,8 @@
 package org.eclipse.titan.designer.compiler;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -50,16 +52,51 @@ public class ProjectSourceCompiler {
 		IFile file = folder.getFile( aModule.getName() + ".java");
 		createDir( folder );
 
-		//write to file
-		final InputStream headerStream = new ByteArrayInputStream( headerSb.toString().getBytes() );
+		//write to file if changed
+		final String content = headerSb.append(data.getSrc().toString()).toString();
 		if (file.exists()) {
-			file.setContents( headerStream, IResource.FORCE | IResource.KEEP_HISTORY, null );
+			if(needsUpdate(file, content) ) {
+				final InputStream outputStream = new ByteArrayInputStream( content.getBytes() );
+				file.setContents( outputStream, IResource.FORCE | IResource.KEEP_HISTORY, null );
+			}
 		} else {
-			file.create( headerStream, IResource.FORCE, null );
+			final InputStream outputStream = new ByteArrayInputStream( content.getBytes() );
+			file.create( outputStream, IResource.FORCE, null );
 		}
-		final InputStream bodyStream = new ByteArrayInputStream( data.getSrc().toString().getBytes() );
-		file.appendContents( bodyStream, IResource.FORCE | IResource.KEEP_HISTORY, null );
 	}
+
+	/**
+	 * Compares the content of the file and the provided string content,
+	 *  to determine if the file content needs to be updated or not.
+	 * 
+	 * @param file the file to check
+	 * @param content the string to be generated if not already present in the file
+	 * @return true if the file does not contain the provided string parameter
+	 * */
+	private static boolean needsUpdate(final IFile file, final String content) throws CoreException {
+		boolean result = true;
+		final InputStream filestream = file.getContents();
+		final BufferedInputStream bufferedFile = new BufferedInputStream(filestream);
+		final InputStream contentStream = new ByteArrayInputStream( content.getBytes() );
+		final BufferedInputStream bufferedOutput = new BufferedInputStream(contentStream);
+		try {
+			int read1 = bufferedFile.read();
+			int read2 = bufferedOutput.read();
+			while (read1 != -1 && read1 == read2) {
+				read1 = bufferedFile.read();
+				read2 = bufferedOutput.read();
+			}
+
+			result = read1 != read2;
+			bufferedFile.close();
+			bufferedOutput.close();
+		} catch (IOException exception) {
+			return true;
+		}
+
+		return result;
+	}
+
 
 	/**
 	 * RECURSIVE
