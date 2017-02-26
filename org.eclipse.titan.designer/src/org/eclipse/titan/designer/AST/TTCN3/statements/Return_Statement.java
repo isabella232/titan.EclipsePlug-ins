@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueList_Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -229,10 +230,14 @@ public final class Return_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t\treturn " );
-		template.generateJava( aData );
-		sb.append( ";\n" );
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append( "\t\treturn " );
+		if (template != null) {
+			//TODO more nuanced code generation
+			ExpressionStruct expression = new ExpressionStruct();
+			template.generateJavaExpression( aData, expression );
+			expression.mergeExpression(source, false);
+		}
+		source.append( ";\n" );
 	}
 }

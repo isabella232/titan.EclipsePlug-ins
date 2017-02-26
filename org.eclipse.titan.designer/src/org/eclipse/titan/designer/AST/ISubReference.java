@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST;
 
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -71,7 +72,9 @@ public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IId
 	/**
 	 * Add generated java code on this level.
 	 * @param aData the generated java code with other info
+	 * @param expression the expression for code generation
 	 * @param isFirst is this the first parameter in the reference?
+	 * 
 	 */
-	void generateJava( final JavaGenData aData, final boolean isFirst );
+	void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst );
 }

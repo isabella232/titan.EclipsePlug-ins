@@ -453,17 +453,46 @@ public final class Def_Const extends Definition {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
+		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			sb.append( "\tpublic static " );
+			source.append( "\tpublic static " );
 		}
-		sb.append( "final " );
-		sb.append( type.getGenNameValue( aData, getMyScope() ) );
-		sb.append( " " );
-		sb.append( identifier.getName() );
+		source.append( "final " );
+		//TODO temporary code to adapt to the starting code
+		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		source.append( typeGeneratedName );
+		source.append( " " );
+		source.append( identifier.getName() );
+		// TODO actually this belongs to the module initialization
 		if ( value != null ) {
-			sb.append( " = " );
-			value.generateJava( aData );
+			source.append( " = " );
+			value.generateJavaInit( aData, source, identifier.getName() );
 		}
-		sb.append( ";\n" );
+		source.append( ";\n" );
+		sb.append(source);
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		source.append( typeGeneratedName );
+		source.append( " " );
+		source.append( identifier.getName() );
+		if (value != null && value.canGenerateSingleExpression() ) {
+			source.append("= new ");
+			source.append(typeGeneratedName);
+			source.append("(");
+			source.append(value.generateSingleExpression(aData));
+			source.append(");\n");
+		} else {
+			source.append("= new ");
+			source.append(typeGeneratedName);
+			source.append("();\n");
+			if (value != null) {
+				value.generateJavaInit(aData, source, identifier.getName() );
+				source.append(";\n");
+			}
+		}
 	}
 }

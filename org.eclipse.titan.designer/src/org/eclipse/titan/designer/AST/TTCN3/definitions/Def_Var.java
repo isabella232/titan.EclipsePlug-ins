@@ -450,17 +450,46 @@ public final class Def_Var extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		//TODO this should handle only the global case
+		//TODO there are no Global variables
 		final StringBuilder sb = aData.getSrc();
+		//TODO temporary code to adapt to the starting code
+		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			sb.append( "\tpublic static " );
+			source.append( "\tpublic static " );
 		}
-		sb.append( type.getGenNameValue( aData, getMyScope() ) );
-		sb.append( " " );
-		sb.append( identifier.getName() );
+		source.append( type.getGenNameValue( aData, source, getMyScope() ) );
+		source.append( " " );
+		source.append( identifier.getName() );
 		if ( initialValue != null ) {
-			sb.append( " = " );
-			initialValue.generateJava( aData );
+			source.append( " = " );
+			initialValue.generateJavaInit(aData, source, identifier.getName() );
 		}
-		sb.append( ";\n" );
+		source.append( ";\n" );
+		sb.append(source);
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		source.append( typeGeneratedName );
+		source.append( " " );
+		source.append( identifier.getName() );
+		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
+			source.append("= new ");
+			source.append(typeGeneratedName);
+			source.append("(");
+			source.append(initialValue.generateSingleExpression(aData));
+			source.append(");\n");
+		} else {
+			source.append("= new ");
+			source.append(typeGeneratedName);
+			source.append("();\n");
+			if (initialValue != null) {
+				initialValue.generateJavaInit(aData, source, identifier.getName() );
+				source.append(";\n");
+			}
+		}
 	}
 }

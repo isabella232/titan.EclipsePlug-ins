@@ -24,6 +24,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -322,6 +324,16 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public TTCN3Template getTemplate() {
 		return template;
+	}
+
+	@Override
+	public void generateJavaExpression(JavaGenData aData, ExpressionStruct expression) {
+		template.generateJavaExpression(aData, expression);
+	}
+
+	@Override
+	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+		template.generateJavaInit(aData, source, name);
 	}
 	
 

@@ -259,11 +259,38 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "new TitanInteger( " );
-		aData.addBuiltinTypeImport( "TitanInteger" );
-		sb.append( value.intValue() );
-		sb.append( " )" );
+	public boolean canGenerateSingleExpression() {
+		return isNative();
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		if (isNative()) {
+			aData.addBuiltinTypeImport( "TitanInteger" );
+			StringBuilder result = new StringBuilder();
+			result.append( "new TitanInteger( " );
+			result.append(value);
+			result.append( " )" );
+			return result;
+		}
+		
+		// TODO Auto-generated method stub
+		return new StringBuilder("/* Can only generate single expression to native integers */");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport( "TitanInteger" );
+		aData.addImport("java.math.BigInteger");
+		source.append(name);
+		source.append(".assign(");
+		source.append( "new TitanInteger( new BigInteger(\"" );
+		source.append( value.toString() );
+		source.append( "\") ) )" );
+		return source;
+	}
+	
+	
 }

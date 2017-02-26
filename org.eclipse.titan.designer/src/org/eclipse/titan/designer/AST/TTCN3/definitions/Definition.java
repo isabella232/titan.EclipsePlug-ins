@@ -682,8 +682,11 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	//public abstract void generateJava( final JavaGenData aData );
 
 	/**
-	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * Generate Java code for module level definitions.
+	 * 
+	 * generate_code in the compiler
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
 	 */
 	public void generateJava( final JavaGenData aData ) {
 		//default implementation
@@ -691,5 +694,20 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		sb.append( "\t//TODO: " );
 		sb.append( getClass().getSimpleName() );
 		sb.append( ".generateJava() is not implemented!\n" );
+	}
+	
+	/**
+	 * Generate Java code for definitions embedded in statementblocks.
+	 * 
+	 * generate_code_str in the compiler
+	 * 
+	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 */
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		//default implementation
+		source.append( "\t//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJavaString() is not implemented!\n" );
 	}
 }

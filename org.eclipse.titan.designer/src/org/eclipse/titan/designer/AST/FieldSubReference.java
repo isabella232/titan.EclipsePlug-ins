@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -149,17 +150,16 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final boolean isFirst ) {
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst ) {
 		//TODO actually there should be several ways to generate a reference
 		// for example left and right side usage in an assignment
 		if (fieldId != null) {
-			final StringBuilder sb = aData.getSrc();
 			if (isFirst) {
-				sb.append( fieldId.getName() );
+				expression.expression.append( fieldId.getName() );
 			} else {
-				sb.append( ".get" );
-				sb.append( getJavaGetterName(fieldId.getName()) );
-				sb.append( "()" );
+				expression.expression.append( ".get" );
+				expression.expression.append( getJavaGetterName(fieldId.getName()) );
+				expression.expression.append( "()" );
 			}
 		}
 	}

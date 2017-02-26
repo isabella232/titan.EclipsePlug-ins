@@ -817,51 +817,50 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		final String className = getDefiningAssignment().getIdentifier().toString();
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		for ( final CompField compField : compFieldMap.fields ) {
 			final FieldInfo fi = new FieldInfo();
-			fi.mJavaTypeName = compField.getType().getGenNameValue( aData, getMyScope() );
+			fi.mJavaTypeName = compField.getType().getGenNameValue( aData, source, getMyScope() );
 			fi.mVarName = compField.getIdentifier().getName();
 			fi.mJavaVarName = FieldSubReference.getJavaGetterName( fi.mVarName );
 			fi.mVarTypeName =  compField.getType().getClass().getSimpleName();
 			namesList.add( fi );
 		}
 
-		final StringBuilder sb = aData.getSrc();
-		sb.append( " {\n" );
-		generateDeclaration( aData, namesList );
-		generateConstructor( sb, namesList, className );
-		generateConstructorManyParams( sb, namesList, className );
-		generateConstructorCopy( sb, className );
-		generateAssign( aData, namesList, className );
-		generateCleanUp( sb, namesList );
-		generateIsBound( sb, namesList );
-		generateIsValue( sb, namesList );
-		generateOperatorEquals( sb, namesList, className );
-		generateGettersSetters( sb, namesList );
-		sb.append( "\t}\n" );
+		source.append( " {\n" );
+		generateDeclaration( aData, source, namesList );
+		generateConstructor( source, namesList, className );
+		generateConstructorManyParams( source, namesList, className );
+		generateConstructorCopy( source, className );
+		generateAssign( aData, source, namesList, className );
+		generateCleanUp( source, namesList );
+		generateIsBound( source, namesList );
+		generateIsValue( source, namesList );
+		generateOperatorEquals( source, namesList, className );
+		generateGettersSetters( source, namesList );
+		source.append( "\t}\n" );
 	}
 
 	/**
 	 * Generating declaration of the member variables
 	 * @param aData the generated java code with other info
+	 * @param source the source to be updated
 	 * @param aNamesList sequence field variable and type names
 	 */
-	private static void generateDeclaration( final JavaGenData aData, final List<FieldInfo> aNamesList ) {
-		final StringBuilder sb = aData.getSrc();
+	private static void generateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
-			sb.append( "\t\tprivate " );
-			sb.append( fi.mJavaTypeName );
-			sb.append( " " );
-			sb.append( fi.mVarName );
-			sb.append( ";" );
+			source.append( "\t\tprivate " );
+			source.append( fi.mJavaTypeName );
+			source.append( " " );
+			source.append( fi.mVarName );
+			source.append( ";" );
 			if ( aData.isDebug() ) {
-				sb.append( " //" );
-				sb.append( fi.mVarTypeName );
+				source.append( " //" );
+				source.append( fi.mVarTypeName );
 			}
-			sb.append( "\n" );
+			source.append( "\n" );
 		}
 	}
 
@@ -937,41 +936,41 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	/**
 	 * Generating assign() function
-	 * @param aData the generated java code with other info
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
 	 * @param aNamesList sequence field variable and type names
 	 * @param aClassName the class name of the record class
 	 */
-	private static void generateAssign( final JavaGenData aData, final List<FieldInfo> aNamesList,
+	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 										final String aClassName ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\n\t\tpublic " );
-		sb.append( aClassName );
-		sb.append( " assign( final " );
-		sb.append( aClassName );
-		sb.append( " aOtherValue ) {\n" );
+		source.append( "\n\t\tpublic " );
+		source.append( aClassName );
+		source.append( " assign( final " );
+		source.append( aClassName );
+		source.append( " aOtherValue ) {\n" );
 
-		sb.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
+		source.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
 				   "\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
 		aData.addCommonLibraryImport( "TtcnError" );
-		sb.append( aClassName );
-		sb.append( "\" );\n" +
+		source.append( aClassName );
+		source.append( "\" );\n" +
 				   "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
-			sb.append( "\n\t\t\tif ( aOtherValue.get" );
-			sb.append( fi.mJavaVarName );
-			sb.append( "().isBound() ) {\n" +
+			source.append( "\n\t\t\tif ( aOtherValue.get" );
+			source.append( fi.mJavaVarName );
+			source.append( "().isBound() ) {\n" +
 					   "\t\t\t\tthis." );
-			sb.append( fi.mVarName );
-			sb.append( ".assign( aOtherValue.get" );
-			sb.append( fi.mJavaVarName );
-			sb.append( "() );\n" +
+			source.append( fi.mVarName );
+			source.append( ".assign( aOtherValue.get" );
+			source.append( fi.mJavaVarName );
+			source.append( "() );\n" +
 					   "\t\t\t} else {\n" +
 					   "\t\t\t\tthis." );
-			sb.append( fi.mVarName );
-			sb.append( ".cleanUp();\n" +
+			source.append( fi.mVarName );
+			source.append( ".cleanUp();\n" +
 					   "\t\t\t}\n" );
 		}
-		sb.append( "\n\t\t\treturn this;\n" +
+		source.append( "\n\t\t\treturn this;\n" +
 				   "\t\t}\n" );
 	}
 

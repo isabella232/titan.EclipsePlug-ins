@@ -330,11 +330,25 @@ public final class AddExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		value1.generateJava( aData );
-		sb.append( ".add( " );
-		value2.generateJava( aData );
-		sb.append( " )" );
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(" = ");
+		
+		generateCodeExpressionExpression(aData, expression);
+		
+		expression.mergeExpression(source, false);
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		value1.generateCodeExpression(aData, expression);
+		expression.expression.append( ".add( " );
+		value2.generateCodeExpression(aData, expression);
+		expression.expression.append( " )" );
 	}
 }

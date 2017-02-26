@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -139,11 +140,10 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final boolean isFirst ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t" );
-		sb.append( "//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst ) {
+		expression.expression.append( "\t" );
+		expression.expression.append( "//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateJava() is not implemented!\n" );
 	}
 }

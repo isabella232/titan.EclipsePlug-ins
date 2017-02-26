@@ -989,29 +989,29 @@ public final class FormalParameter extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
 		//TODO: implement: based on access type the code needs to be more refined
 		//TODO for timers too!
+		//TODO actually formal parameters are generated in generate_code ... with sub function
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
-			sb.append( type.getGenNameValue( aData, getMyScope() ) );
+			source.append( type.getGenNameValue( aData, source, getMyScope() ) );
 			break;
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
-			sb.append( type.getGenNameTemplate( aData, getMyScope() ) );
+			source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
 			break;
 		default:
 			//TODO fatal error
 		}
 		
-		sb.append( " " );
+		source.append( " " );
 		// parameter name
-		sb.append( identifier.getName() );
+		source.append( identifier.getName() );
 
 		//TODO: implement: handle default value
 	}

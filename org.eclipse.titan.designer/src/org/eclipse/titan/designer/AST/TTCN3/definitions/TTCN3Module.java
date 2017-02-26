@@ -1239,6 +1239,5 @@ public final class TTCN3Module extends Module {
 		if ( controlpart != null ) {
 			controlpart.generateJava( aData );
 		}
-		sb.append( "}\n" );
 	}
 }

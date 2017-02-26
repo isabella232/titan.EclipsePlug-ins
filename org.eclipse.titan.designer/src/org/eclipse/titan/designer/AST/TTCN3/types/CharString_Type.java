@@ -311,15 +311,14 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( " extends TitanCharString {}\n" );
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append( " extends TitanCharString {}\n" );
 		aData.addBuiltinTypeImport( "TitanCharString" );
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final Scope scope) {
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		return "TitanCharString";
 	}

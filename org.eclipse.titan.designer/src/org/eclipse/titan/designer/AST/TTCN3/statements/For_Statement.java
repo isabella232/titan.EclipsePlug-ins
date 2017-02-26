@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
@@ -430,22 +431,26 @@ public final class For_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		//TODO this is just a simplified version to enable early performance testing
-		final StringBuilder sb = aData.getSrc();
-		sb.append("\t\t{\n");
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append("\t\t{\n");
 		if(definitions != null) {
-			definitions.generateJava(aData);
+			definitions.generateJava(aData, source);
 		} else if (initialAssignment != null) {
-			initialAssignment.generateJava(aData);
+			initialAssignment.generateJava(aData, source);
 		}
-		sb.append("\t\t\tfor( ; ; ) {\n");
-			sb.append("\t\t\t\tif(!");
-			finalExpression.generateJava(aData);
-			sb.append(") break;\n");
-			statementblock.generateJava(aData);
-			stepAssignment.generateJava(aData);
-		sb.append( "\t\t\t}\n" );
-		sb.append( "\t\t}\n" );
+		source.append("\t\t\tfor( ; ; ) {\n");
+
+		ChangeableInteger blockCount = new ChangeableInteger(0);
+		finalExpression.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
+		source.append(")) break;\n");
+
+		for(int i = 0 ; i < blockCount.getValue(); i++) {
+			source.append("}\n");
+		}
+
+		statementblock.generateJava(aData, source);
+		stepAssignment.generateJava(aData, source);
+		source.append( "\t\t\t}\n" );
+		source.append( "\t\t}\n" );
 	}
 }

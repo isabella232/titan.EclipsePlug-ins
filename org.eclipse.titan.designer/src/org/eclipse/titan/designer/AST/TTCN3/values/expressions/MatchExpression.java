@@ -238,12 +238,26 @@ public final class MatchExpression extends Expression_Value {
 	}
 
 	@Override
-	public void generateJava(JavaGenData aData) {
-		//TODO this is just a simplified version to enable early performance testing
-		final StringBuilder sb = aData.getSrc();
-		templateInstance.generateJava(aData);
-		sb.append(".match(");
-		value.generateJava(aData);
-		sb.append(")");
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(".assign(");
+		generateCodeExpressionExpression(aData, expression);
+		expression.expression.append(")");
+
+		expression.mergeExpression(source, false);
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		templateInstance.generateJava(aData, expression);
+		expression.expression.append( ".match( " );
+		value.generateCodeExpression(aData, expression);
+		expression.expression.append( " )" );
 	}
 }

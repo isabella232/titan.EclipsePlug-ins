@@ -290,14 +290,15 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
 	 * @param blockCount the number of block already created
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
 	 * 
 	 * TODO: if we can generate "else if" -s the blockCount is not needed
 	 */
-	public void generateJava( final JavaGenData aData, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
+	public void generateJava( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
 		if (unReachable.getValue()) {
 			return;
 		}
@@ -309,27 +310,25 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 				return;
 			}
 		}
-		final StringBuilder sb = aData.getSrc();
+
 		if(!eachFalse.getValue()) {
-			sb.append("else ");
+			source.append("else ");
 		}
 		if(!unReachable.getValue()) {
 			if(!eachFalse.getValue()) {
-				sb.append("{\n");
+				source.append("{\n");
 				blockCount.setValue(blockCount.getValue() + 1);
 			}
-			sb.append("if (");
-			expression.generateJava(aData);
-			//TODO: this is a temporal support for boolean and TitanBoolean expressions
-			// fix once the expression handling is supported correctly.
-			if(expression instanceof Boolean_Value || expression instanceof Undefined_LowerIdentifier_Value) {
-				sb.append(".getValue()"); 
-			}
-			sb.append(" )"); 
+
+			//TODO this is temporary solution, to handle both object and native types.
+			// with better checks this piece of code might not be needed
+			expression.generateCodeTmp(aData, source, "if (TitanBoolean.getNative(", blockCount);
+
+			source.append(") )"); 
 		}
 		eachFalse.setValue(false);
-		sb.append("{\n");
-		statementblock.generateJava(aData);
-		sb.append("}\n");
+		source.append("{\n");
+		statementblock.generateJava(aData, source);
+		source.append("}\n");
 	}
 }

@@ -571,15 +571,49 @@ public final class SequenceOf_Value extends Value {
 		return true;
 	}
 	
-	public void generateJava( final JavaGenData aData ) {
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
 		if (convertedValue != null) {
-			convertedValue.generateJava(aData);
-			return;
+			return convertedValue.canGenerateSingleExpression();
 		}
-		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+		
+		if (values == null) {
+			return false;
+		}
+		
+		if (values.isIndexed()) {
+			return values.getNofIndexedValues() == 0;
+		}
+
+		return values.getNofValues() == 0;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		if (convertedValue != null) {
+			return convertedValue.generateSingleExpression(aData);
+		}
+
+		//TODO the empty record is so frequent that it is worth to handle in the library
+		return new StringBuilder("NULL_VALUE");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		if (convertedValue != null) {
+			return convertedValue.generateJavaInit(aData, source, name);
+		}
+		
+		//default implementation
+		source.append( "\t//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJava() is not implemented!\n" );
+				
+		return source;
+	}
+	
+	
 }

@@ -42,6 +42,13 @@ public class TitanBoolean {
 	}
 
 	//originally operator=
+	public TitanBoolean assign( final boolean aOtherValue ) {
+		boolean_value = aOtherValue;
+
+		return this;
+	}
+		
+	//originally operator=
 	public TitanBoolean assign( final TitanBoolean aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound boolean value." );
 		boolean_value = aOtherValue.boolean_value;
@@ -129,5 +136,13 @@ public class TitanBoolean {
 			return "<unbound>";
 		}
 		return boolean_value.toString();
+	}
+	
+	public static boolean getNative(final boolean value) {
+		return value;
+	}
+	
+	public static boolean getNative(final TitanBoolean otherValue) {
+		return otherValue.getValue();
 	}
 }

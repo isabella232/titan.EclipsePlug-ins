@@ -355,15 +355,14 @@ public final class Integer_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( " extends TitanInteger {}\n" );
+	public void generateJava( final JavaGenData aData, final StringBuilder source  ) {
+		source.append( " extends TitanInteger {}\n" );
 		aData.addBuiltinTypeImport( "TitanInteger" );
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final Scope scope) {
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source , final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanInteger" );
 		aData.addBuiltinTypeImport( "TitanInteger_template" );
 		return "TitanInteger";

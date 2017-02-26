@@ -368,14 +368,14 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	//TODO: remove
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t\t" );
-		sb.append( "//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+		source.append( "\t\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJava() is not implemented!\n" );
 	}
 }

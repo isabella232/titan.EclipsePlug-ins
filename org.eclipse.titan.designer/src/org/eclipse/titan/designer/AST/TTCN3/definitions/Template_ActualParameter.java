@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -91,9 +92,35 @@ public final class Template_ActualParameter extends ActualParameter {
 	
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		if (template != null) {
-			template.generateJava(aData);
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression) {
+		//TODO not complete implementation pl. copye_needed missing
+		if (template != null ) {
+			StringBuilder expressionExpression = new StringBuilder();
+			ExpressionStruct tempExpression = new ExpressionStruct();
+			template.generateJava(aData, tempExpression);
+			if(tempExpression.preamble.length() > 0) {
+				expression.preamble.append(tempExpression.preamble);
+			}
+			if(tempExpression.postamble.length() == 0) {
+				expressionExpression.append(tempExpression.expression);
+			} else {
+				// make sure the postambles of the parameters are executed before the
+				// function call itself (needed if the template contains function calls
+				// with lazy or fuzzy parameters)
+				String tempId = aData.getTemporaryVariableName();
+				template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble, myScope);
+				expression.preamble.append(" ");
+				expression.preamble.append(tempId);
+				expression.preamble.append("(");
+				expression.preamble.append(tempExpression.expression);
+				expression.preamble.append(")");
+				
+				expression.preamble.append(tempExpression.postamble);
+				expressionExpression.append(tempId);
+			}
+			
+			//TODO copy might be needed here
+			expression.expression.append(expressionExpression);
 		}
 	}
 }

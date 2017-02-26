@@ -12,6 +12,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -78,9 +79,35 @@ public final class Value_ActualParameter extends ActualParameter {
 	
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression) {
+		//TODO not complete implementation pl. copye_needed missing
 		if (value != null ) {
-			value.generateJava(aData);
+			StringBuilder expressionExpression = new StringBuilder();
+			ExpressionStruct valueExpression = new ExpressionStruct();
+			value.generateCodeExpression(aData, valueExpression);
+			if(valueExpression.preamble.length() > 0) {
+				expression.preamble.append(valueExpression.preamble);
+			}
+			if(valueExpression.postamble.length() == 0) {
+				expressionExpression.append(valueExpression.expression);
+			} else {
+				// make sure the postambles of the parameters are executed before the
+				// function call itself (needed if the value contains function calls
+				// with lazy or fuzzy parameters)
+				String tempId = aData.getTemporaryVariableName();
+				value.getMyGovernor().getGenNameValue(aData, expression.preamble, myScope);
+				expression.preamble.append(" ");
+				expression.preamble.append(tempId);
+				expression.preamble.append("(");
+				expression.preamble.append(valueExpression.expression);
+				expression.preamble.append(")");
+				
+				expression.preamble.append(valueExpression.postamble);
+				expressionExpression.append(tempId);
+			}
+			
+			//TODO copy might be needed here
+			expression.expression.append(expressionExpression);
 		}
 	}
 }

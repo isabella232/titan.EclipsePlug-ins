@@ -730,23 +730,73 @@ public final class Sequence_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "new " );
-		//type name
-		sb.append( myGovernor.getGenNameValue( aData, getMyScope() ) );
-		sb.append( "();\n" );
-		final int size = values.getSize();
-		for ( int i = 0; i < size; i++ ) {
-			final NamedValue namedValue = values.getNamedValueByIndex( i );
-			sb.append( "\t\t" );
-			sb.append( getDefiningAssignment().getIdentifier().getName() );
-			sb.append( "." );
-			namedValue.generateJava( aData );
-			if ( i < size - 1 ) {
-				sb.append( ";\n" );
-				//after the last one ";\n" is written anyway
+	public boolean canGenerateSingleExpression() {
+		// TODO actually empty could be
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		// TODO actually empty could be
+		return new StringBuilder("/* generating code for empty record/set is not yet supported */");
+	}
+
+	@Override
+	/** {@inheritDoc}
+	 * generate_code_init_se in the compiler
+	 * */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		int nofComps = 0;
+		switch (type.getTypetype()) {
+		case TYPE_TTCN3_SEQUENCE:
+			nofComps = ((TTCN3_Sequence_Type) type).getNofComponents();
+			break;
+		case TYPE_ASN1_SEQUENCE:
+			nofComps = ((ASN1_Sequence_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			break;
+		default:
+			//TODO fatal error
+		}
+		
+		CompField compField = null;
+		for (int i = 0; i < nofComps; i++) {
+			switch (type.getTypetype()) {
+			case TYPE_TTCN3_SEQUENCE:
+				compField = ((TTCN3_Sequence_Type) type).getComponentByIndex(i);
+				break;
+			case TYPE_ASN1_SEQUENCE:
+				compField = ((ASN1_Sequence_Type) type).getComponentByIndex(i);
+				break;
+			default:
+				// TODO fatal error
+			}
+			final Identifier fieldName = compField.getIdentifier();
+
+			IValue fieldValue;
+			if (hasComponentWithName(fieldName)) {
+				fieldValue = getComponentByName(fieldName).getValue();
+			}//TODO add support for asn default values when needed
+			else {
+				continue;
+			}
+			
+			if (fieldValue != null) {
+				//TODO handle the case when temporary reference is needed
+				StringBuilder embeddedName = new StringBuilder();
+				embeddedName.append(name);
+				embeddedName.append(".get");
+				embeddedName.append(FieldSubReference.getJavaGetterName(fieldName.getName()));
+				embeddedName.append("()");
+				//TODO add extra handling for optional fields
+				fieldValue.generateJavaInit(aData, source, embeddedName.toString());
+				source.append(";\n");
 			}
 		}
+		
+		return source;
 	}
+	
+	
 }

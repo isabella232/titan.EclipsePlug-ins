@@ -179,9 +179,9 @@ public final class Unknown_Instance_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		if (realStatement != null) {
-			realStatement.generateJava(aData);
+			realStatement.generateJava(aData, source);
 		}
 	}
 }

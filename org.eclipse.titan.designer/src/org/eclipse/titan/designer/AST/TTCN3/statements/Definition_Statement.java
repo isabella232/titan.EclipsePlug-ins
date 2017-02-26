@@ -183,11 +183,11 @@ public final class Definition_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		if ( definition != null ) {
-			sb.append( "\t\t" );
-			definition.generateJava( aData );
+			source.append( "\t\t" );
+			
+			definition.generateJavaString(aData, source);
 		}
 	}
 }

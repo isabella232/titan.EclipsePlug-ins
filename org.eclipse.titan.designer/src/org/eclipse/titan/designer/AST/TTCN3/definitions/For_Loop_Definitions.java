@@ -644,14 +644,14 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		if ( definitions != null ) {
 			for ( Definition definition : definitions ) {
-				definition.generateJava( aData );
-				sb.append( "\n" );
+				definition.generateJavaString( aData, source );
+				source.append( "\n" );
 			}
 		}
 	}

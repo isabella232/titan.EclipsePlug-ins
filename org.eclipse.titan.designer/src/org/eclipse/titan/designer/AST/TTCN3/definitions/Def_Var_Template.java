@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -460,16 +461,40 @@ public final class Def_Var_Template extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		//TODO this should handle only the global case
+		//TODO there are no Global variable templates
 		final StringBuilder sb = aData.getSrc();
-		final String typeName = type.getGenNameTemplate( aData, getMyScope() );
-		sb.append( typeName );
-		sb.append( " " );
-		sb.append( identifier.getName() );
+		//TODO temporary hack to adapt to the starting code
+		StringBuilder source = new StringBuilder();
+		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
+		source.append( typeName );
+		source.append( " " );
+		source.append( identifier.getName() );
+		//TODO this actually belongs to the module initialization
 		if ( initialValue != null ) {
-			sb.append( " = new " ). append(typeName).append("(");
-			initialValue.generateJava( aData );
-			sb.append(")");
+			source.append( " = new " ). append(typeName).append("(");
+			//TODO use ::get_lhs_name instead of generic getGennameOwn
+			initialValue.generateJavaInit( aData, source, initialValue.getGenNameOwn(myScope) );
+			source.append(")");
 		}
-		sb.append( ";\n" );
+		source.append( ";\n" );
+		sb.append(source);
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
+		source.append( typeName );
+		source.append( " " );
+		source.append( identifier.getName() );
+		if ( initialValue != null ) {
+			source.append( " = new " ). append(typeName).append("(");
+			ExpressionStruct expression = new ExpressionStruct();
+			initialValue.generateJavaExpression( aData, expression );
+			expression.mergeExpression(source, false);
+			source.append(")");
+		}
+		source.append( ";\n" );
 	}
 }

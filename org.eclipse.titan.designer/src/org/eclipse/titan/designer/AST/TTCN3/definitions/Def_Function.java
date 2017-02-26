@@ -895,35 +895,38 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
-		sb.append( "\tpublic static " );
+		//TODO temporary code to adapt to the starting code
+		StringBuilder source = new StringBuilder();
+		source.append( "\tpublic static " );
 
 		// return value
 		switch (assignmentType) {
 		case A_FUNCTION_RVAL: 
-			sb.append( returnType.getGenNameValue( aData, getMyScope() ) );
+			source.append( returnType.getGenNameValue( aData, source, getMyScope() ) );
 			break;
 		case A_FUNCTION_RTEMP: 
-			sb.append( returnType.getGenNameTemplate( aData, getMyScope() ) );
+			source.append( returnType.getGenNameTemplate( aData, source, getMyScope() ) );
 			break;
 		case A_FUNCTION:
-			sb.append( "void" );
+			source.append( "void" );
 			break;
 		default:
 			//TODO fatal error
 		}
 
-		sb.append( " " );
+		source.append( " " );
 
 		// function name
-		sb.append( identifier.getName() );
+		source.append( identifier.getName() );
 
 		// arguments
-		sb.append( "(" );
+		source.append( "(" );
 		if ( formalParList != null ) {
-			formalParList.generateJava( aData );
+			formalParList.generateJava( aData, source );
 		}
-		sb.append( ") {\n" );
-		block.generateJava(aData);
-		sb.append( "\t}\n" );	
+		source.append( ") {\n" );
+		block.generateJava(aData, source);
+		source.append( "\t}\n" );	
+		sb.append(source);
 	}
 }

@@ -42,6 +42,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Macro_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.MatchExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -405,9 +406,12 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
-		templateInstance.generateJava( aData );
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		ExpressionStruct expression = new ExpressionStruct();
+		templateInstance.generateJava( aData, expression );
+		expression.mergeExpression(source, false);
 	}
 }

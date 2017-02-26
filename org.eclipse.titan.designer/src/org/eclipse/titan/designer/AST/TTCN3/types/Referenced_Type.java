@@ -587,35 +587,34 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final Scope scope) {
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			return "FATAL_ERROR encountered";
 		}
 
-		return refdLast.getGenNameValue(aData, scope);
+		return refdLast.getGenNameValue(aData, source, scope);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTemplate(final JavaGenData aData, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			return "FATAL_ERROR encountered";
 		}
 
-		return refdLast.getGenNameTemplate(aData, scope);
+		return refdLast.getGenNameTemplate(aData, source, scope);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final String className = getGenNameValue( aData, getMyScope() ); 
-		final StringBuilder sb = aData.getSrc();
-		sb.append( " extends " );
-		sb.append( className );
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		final String className = getGenNameValue( aData, source, getMyScope() ); 
+		source.append( " extends " );
+		source.append( className );
 		//TODO: implement: package of the imported class is unknown
 		aData.addImport( className );
-		sb.append( " {}\n" );
+		source.append( " {}\n" );
 	}
 }

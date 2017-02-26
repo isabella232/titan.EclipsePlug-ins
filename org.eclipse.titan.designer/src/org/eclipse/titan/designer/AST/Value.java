@@ -7,10 +7,12 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.IsValueExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -371,14 +373,184 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	//public abstract void generateJava( final JavaGenData aData );
 
 	/**
-	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
-	 */
-	public void generateJava( final JavaGenData aData ) {
+	 * Returns whether the evaluation of this value has side-effects that shall
+	 * be eliminated in case of short-circuit evaluation of logical "and" and
+	 * "or" operations. This function is applied on the second (right) operand
+	 * of the expression.
+	 * 
+	 * needs_short_circuit in the compiler
+	 * */
+	public boolean needsShortCircuit () {
+		//fatal error
+		return true;
+	}
+
+	/**
+	 * Returns whether the value can be represented by an in-line Java
+	 *  expression.
+	 *  
+	 *  has_single_expr in the compiler
+	 * */
+	public boolean canGenerateSingleExpression() {
+		//TODO this might be a good location to check for the need of conversion
+		//TODO implement
+		return false;
+	}
+	
+	/**
+	 * Returns the equivalent Java expression.
+	 * It can be used only if canGenerateSingleExpression() returns true
+	 * 
+	 * get_single_expr in the compiler
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		StringBuilder source = new StringBuilder();
 		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+		//TODO this might be a good location to check for the need of conversion
+		source.append( "\t//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateSingleExpression() is not implemented!\n" );
+		
+		return source;
+	}
+	
+	/**
+	 * Generates a Java code sequence, which initializes the Java
+	 *  object named  name with the contents of the value. The code
+	 *  sequence is appended to argument source and the resulting
+	 *  string is returned.
+	 *  
+	 *  generate_code_init in the compiler
+	 *  
+	 *  @param aData the structure to put imports into and get temporal variable names from.
+	 *  @param source the source to be updated
+	 *  @param name the name to be used for initialization
+	 * */
+	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		//default implementation
+		//TODO this is a good location to check for the need of conversion
+		source.append( "\t//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJavaInit() is not implemented!\n" );
+		
+		return source;
+	}
+	
+	/**
+	 * Generates the equivalent Java code for the value. It is used
+	 *  when the value is part of a complex expression (e.g. as
+	 *  operand of a built-in operation, actual parameter, array
+	 *  index). The generated code fragments are appended to the
+	 *  fields of visitor expr.
+	 *  
+	 *  generate_code_expr in the compiler
+	 *  
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+		
+		expression.expression.append( "\t//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
+	}
+	
+	/**
+	 *  Generates a value for temporary use. Example:
+	 *
+	 *  str: // empty
+	 *  prefix: if(
+	 *  blockcount: 0
+	 *
+	 *  if the value is simple, then returns:
+	 *
+	 *  // empty
+	 *  if(simple
+	 *
+	 *  if the value is complex, then returns:
+	 *
+	 *  // empty
+	 *  {
+	 *    booelan tmp_2;
+	 *    {
+	 *      preamble... tmp_1...
+	 *      tmp_2=func5(tmp_1);
+	 *      postamble
+	 *    }
+	 *    if(tmp_2
+	 *
+	 *  and also increments the blockcount because you have to close it...
+	 *  
+	 *  generate_code_tmp in the compiler
+	 *  
+	 *  @param aData the structure to put imports into and get temporal variable names from.
+	 *  @param source the source to be updated
+	 *  @param prefix the string to be used as prefix of the value
+	 *  @param blockCount the counter storing the number of open block in the local area
+	 */
+	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final ChangeableInteger blockCount) {
+		StringBuilder s2 = new StringBuilder();
+		StringBuilder s1 = generateCodeTmp(aData, new StringBuilder(), s2);
+		
+		if(s2.length() > 0) {
+			if(blockCount.getValue() == 0) {
+				source.append("{\n");
+				blockCount.setValue(blockCount.getValue() + 1);
+			}
+			source.append(s2);
+		}
+		
+		source.append(prefix);
+		source.append(s1);
+		
+		return source;
+	}
+	
+	/**
+	 * as above 
+	 *  @param aData the structure to put imports into and get temporal variable names from.
+	 *  @param source the source code to be updated
+	 *  @param init is the content to be generated before the current value
+	 * */
+	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
+		ExpressionStruct expression = new ExpressionStruct();
+		
+		//TODO actually only the mandatory part is needed
+		generateCodeExpression(aData, expression);
+		
+		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			String tempId = aData.getTemporaryVariableName();
+			if(Type_type.TYPE_BOOL.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
+				init.append("boolean");
+			} else {
+				myGovernor.getGenNameValue(aData, init, myScope);
+			}
+			init.append(" ");
+			init.append(tempId);
+			init.append(";\n");
+			
+			if (expression.preamble.length() > 0) {
+				init.append(expression.preamble);
+			}
+			init.append(tempId);
+			init.append(" = ");
+			init.append(expression.expression);
+			init.append(";\n");
+			if(expression.postamble.length() > 0) {
+				init.append(expression.postamble);
+			}
+			init.append("}\n");
+			source.append(tempId);
+		} else {
+			source.append(expression.expression);
+		}
+		
+		return source;
 	}
 }

@@ -216,12 +216,26 @@ public final class NotExpression extends Expression_Value {
 		}
 		return true;
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(" = ");
+		
+		generateCodeExpressionExpression(aData, expression);
+		
+		source.append(expression.mergeExpression(source, false));
+
+		return source;
+	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		value.generateJava( aData );
-		sb.append( ".not()" );
+	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		value.generateCodeExpression(aData, expression);
+		expression.expression.append( ".not()" );
 	}
 }

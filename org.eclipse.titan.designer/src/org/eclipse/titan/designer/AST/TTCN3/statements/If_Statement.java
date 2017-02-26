@@ -283,30 +283,29 @@ public final class If_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		//TODO this is just a simplified version to enable early performance testing
-		final StringBuilder sb = aData.getSrc();
 		ChangeableInteger blockCount = new ChangeableInteger(0);
 		ChangeableBoolean unReachable = new ChangeableBoolean(false);
 		ChangeableBoolean eachFalse = new ChangeableBoolean(true);
 		
-		ifClauses.generateJava(aData, blockCount, unReachable, eachFalse);
+		ifClauses.generateJava(aData, source, blockCount, unReachable, eachFalse);
 		if (statementblock != null && !unReachable.getValue()) {
 			if(!eachFalse.getValue()) {
-				sb.append("else ");
+				source.append("else ");
 			}
 			eachFalse.setValue(false);
-			sb.append("{\n");
+			source.append("{\n");
 			blockCount.setValue(blockCount.getValue() + 1);
-			statementblock.generateJava(aData);
+			statementblock.generateJava(aData, source);
 		}
 		
 		for(int i = 0 ; i < blockCount.getValue(); i++) {
-			sb.append("}\n");
+			source.append("}\n");
 		}
 		
 		if(eachFalse.getValue()) {
-			sb.append("/* never occurs */;\n");
+			source.append("/* never occurs */;\n");
 		}
 	}
 }

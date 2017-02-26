@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -460,9 +461,21 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
-		templateBody.generateJava( aData );
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
+		if (derivedReference != null) {
+			//TODO implement
+			expression.expression.append( "\t" );
+			expression.expression.append( "//TODO: " );
+			expression.expression.append( getClass().getSimpleName() );
+			expression.expression.append( ".generateJava() is not implemented!\n" );
+		} else {
+			//TODO handle decoded redirect
+			templateBody.generateJavaExpression( aData, expression );
+			//TODO handle decoded redirect
+		}
+		
 	}
 }

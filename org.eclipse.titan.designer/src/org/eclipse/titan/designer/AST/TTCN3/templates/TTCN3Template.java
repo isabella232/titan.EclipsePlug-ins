@@ -44,6 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -1144,14 +1145,28 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	//TODO: remove
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression for code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJavaExpression( final JavaGenData aData, final ExpressionStruct expression ) {
 		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t" );
-		sb.append( "//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+		expression.expression.append( "\t" );
+		expression.expression.append( "//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateJava() is not implemented!\n" );
+	}
+	
+	/**
+	 * Add generated java code for initializing a template
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param name the name to init
+	 */
+	public void generateJavaInit( final JavaGenData aData, final StringBuilder source, final String name ) {
+		//default implementation
+		source.append( "\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJava() is not implemented!\n" );
 	}
 }

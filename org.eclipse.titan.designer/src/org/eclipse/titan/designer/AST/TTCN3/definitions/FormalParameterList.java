@@ -1103,22 +1103,22 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		final int size = parameters.size();
 		if ( size == 0 ) {
 			return;
 		}
-		sb.append( " " );
+		source.append( " " );
 		for ( int i = 0; i < size; i++ ) {
 			final FormalParameter parameter = parameters.get( i );
 			if ( i > 0 ) {
-				sb.append( ", " );
+				source.append( ", " );
 			}
-			parameter.generateJava( aData );
+			parameter.generateJavaString( aData, source );
 		}
-		sb.append( " " );
+		source.append( " " );
 	}
 }

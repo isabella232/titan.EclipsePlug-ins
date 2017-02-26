@@ -276,11 +276,82 @@ public final class AndExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		value1.generateJava( aData );
-		sb.append( ".and( " );
-		value2.generateJava( aData );
-		sb.append( " )" );
+	public boolean canGenerateSingleExpression() {
+		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression()
+				&& !value2.needsShortCircuit();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(" = ");
+		
+		generateCodeExpressionExpression(aData, expression);
+		
+		expression.mergeExpression(source, false);
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
+		if (value2.needsShortCircuit()) {
+			String tempId = aData.getTemporaryVariableName();
+			expression.preamble.append("TitanBoolean ");
+			expression.preamble.append(tempId);
+			expression.preamble.append(" = new TitanBoolean();\n");
+			
+			ExpressionStruct expression2 = new ExpressionStruct();
+			expression2.expression.append(tempId);
+			expression2.expression.append(".assign(");
+			value1.generateCodeExpression(aData, expression2);
+			expression2.expression.append(");\n");
+			expression2.mergeExpression(expression.preamble, false);
+			
+			expression.preamble.append("if (");
+			expression.preamble.append(tempId);
+			expression.preamble.append(".getValue()) ");
+			
+			expression2 = new ExpressionStruct();
+			expression2.expression.append(tempId);
+			expression2.expression.append(".assign(");
+			value2.generateCodeExpression(aData, expression2);
+			expression2.expression.append(");\n");
+			expression2.mergeExpression(expression.preamble, false);
+			
+			expression.expression.append(tempId);
+		} else {
+			//TODO actually a bit more complicated
+			value1.generateCodeExpression(aData, expression);
+			expression.expression.append( ".and( " );
+			value2.generateCodeExpression(aData, expression);
+			expression.expression.append( " )" );
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
+		ExpressionStruct expression = new ExpressionStruct();
+		
+		//TODO actually only the mandatory part is needed
+		generateCodeExpression(aData, expression);
+		
+		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			if(expression.preamble.length() > 0) {
+				init.append(expression.preamble);
+			}
+			if(expression.postamble.length() > 0) {
+				init.append(expression.postamble);
+			}
+			source.append(expression.expression);
+		} else {
+			source.append(expression.expression);
+		}
+		
+		return source;
 	}
 }

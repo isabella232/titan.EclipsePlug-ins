@@ -11,14 +11,13 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.titan.designer.AST.Type.CompatibilityLevel;
-import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -720,11 +719,12 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * 
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData the generated java code with other info
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
 	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameValue(final JavaGenData aData, final Scope scope);
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope);
 	
 	/**
 	 * Returns the name of the Java template class that represents this at runtime.
@@ -734,10 +734,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * 
 	 * get_genname_template in titan.core
 	 *
-	 * @param aData the generated java code with other info
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
 	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameTemplate(final JavaGenData aData, final Scope scope);
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope);
 
 }

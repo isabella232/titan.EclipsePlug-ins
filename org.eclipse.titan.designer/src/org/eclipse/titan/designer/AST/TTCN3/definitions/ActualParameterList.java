@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -151,19 +152,29 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	}
 	
 	/**
-	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * Generates the Java equivalent of the actual parameter list without
+	 * considering any aliasing between variables and 'in' parameters.
+	 * 
+	 * generate_code_noalias in the compiler
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression used for code generation
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJavaNoAlias( final JavaGenData aData, final ExpressionStruct expression ) {
 		if ( parameters == null ) {
 			return;
 		}
 		final int size = parameters.size();
 		for (int i = 0; i < size; i++) {
 			if (i > 0) {
-				aData.getSrc().append(", ");
+				expression.expression.append(", ");
 			}
-			parameters.get(i).generateJava(aData);
+			parameters.get(i).generateJava(aData, expression);
 		}
+	}
+	
+	//TODO re-implement 
+	public void generateJavaAlias( final JavaGenData aData, final ExpressionStruct expression) {
+		generateJavaNoAlias(aData, expression);
 	}
 }

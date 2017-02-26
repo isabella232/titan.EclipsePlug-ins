@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -610,7 +611,65 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		reference.generateJava( aData );
+	public boolean canGenerateSingleExpression() {
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (last == this) {
+			return false;
+		}
+		
+		return last.canGenerateSingleExpression();
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsShortCircuit() {
+		// TODO this should be more nuanced to improve generated code efficiency
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (last == this) {
+			return new StringBuilder("/* fatal error during generating code for erroneous reference */");
+		}
+		
+		return last.generateSingleExpression(aData);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (last == this) {
+			return new StringBuilder("/* fatal error during generating code for erroneous reference */");
+		}
+
+		//TODO might need initialization see needs_init_precede
+		source.append(name);
+		source.append(".assign(");
+		source.append("TEMPORARY_NAME");//TODO needs last.getGennameOwn
+		source.append(")");
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		//TODO check and handle conversion needs
+		//TODO actually generate_code_const_ref
+		reference.generateJavaAlias(aData, expression);
+	}
+	
+	
 }

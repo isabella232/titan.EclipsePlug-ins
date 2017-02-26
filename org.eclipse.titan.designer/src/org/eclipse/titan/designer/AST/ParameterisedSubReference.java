@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -143,11 +144,10 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final boolean isFirst) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( identifier.getName() );
-		sb.append( "(" );
-		actualParameters.generateJava( aData );
-		sb.append( ")" );
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst) {
+		expression.expression.append( identifier.getName() );
+		expression.expression.append( "(" );
+		actualParameters.generateJavaAlias( aData, expression );
+		expression.expression.append( ")" );
 	}
 }

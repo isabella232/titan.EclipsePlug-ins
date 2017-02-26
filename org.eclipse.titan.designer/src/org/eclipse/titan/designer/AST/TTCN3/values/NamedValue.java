@@ -182,17 +182,4 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 
 		return null;
 	}
-
-	/**
-	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
-	 */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append("get");
-		sb.append( FieldSubReference.getJavaGetterName(name.getName()) );
-		sb.append( "().assign(" );
-		value.generateJava( aData );
-		sb.append(")");
-	}
 }

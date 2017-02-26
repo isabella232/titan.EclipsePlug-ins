@@ -261,18 +261,19 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
 	 * @param blockCount the number of block already created
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
 	 */
-	public void generateJava( final JavaGenData aData, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
+	public void generateJava( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
 		for (int i = 0; i < ifclauses.size(); i++) {
 			if (unReachable.getValue()) {
 				return;
 			}
 
-			ifclauses.get(i).generateJava(aData, blockCount, unReachable, eachFalse);
+			ifclauses.get(i).generateJava(aData, source, blockCount, unReachable, eachFalse);
 		}
 	}
 }

@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -155,10 +156,11 @@ public final class Function_Instance_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t\t" );
-		reference.generateJava( aData );
-		sb.append( ";\n" );
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append( "\t\t" );
+		ExpressionStruct expression = new ExpressionStruct();
+		reference.generateJavaAlias( aData, expression );
+		expression.mergeExpression(source, false);
+		source.append( ";\n" );
 	}
 }

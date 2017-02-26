@@ -19,6 +19,8 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -410,4 +412,18 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 */
 	boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation);
 
+	/**
+	 * Add generated java code for expression
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression for code generated
+	 */
+	public void generateJavaExpression( final JavaGenData aData, final ExpressionStruct expression );
+	
+	/**
+	 * Add generated java code for initializing a template
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param name the name to init
+	 */
+	public void generateJavaInit( final JavaGenData aData, final StringBuilder source, final String name );
 }

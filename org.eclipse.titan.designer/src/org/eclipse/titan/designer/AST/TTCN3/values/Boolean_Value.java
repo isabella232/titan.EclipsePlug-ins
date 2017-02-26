@@ -152,11 +152,39 @@ public final class Boolean_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "new TitanBoolean( " );
-		aData.addBuiltinTypeImport( "TitanBoolean" );
-		sb.append( value );
-		sb.append( " )" );
+	public boolean canGenerateSingleExpression() {
+		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsShortCircuit() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		StringBuilder result = new StringBuilder();
+		result.append("new TitanBoolean( ");
+		result.append(value);
+		result.append( " )" );
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		source.append(name);
+		source.append(".assign(");
+		source.append("new TitanBoolean( ");
+		source.append( value );
+		source.append( " ) )" );
+
+		return source;
+	}
+	
+	
 }

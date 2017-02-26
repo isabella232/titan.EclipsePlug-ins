@@ -233,11 +233,25 @@ public final class EqualsExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		value1.generateJava( aData );
-		sb.append( ".equalsTo( " );
-		value2.generateJava( aData );
-		sb.append( " )" );
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(" = ");
+		
+		generateCodeExpressionExpression(aData, expression);
+		
+		source.append(expression.mergeExpression(source, false));
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		value1.generateCodeExpression(aData, expression);
+		expression.expression.append( ".equalsTo( " );
+		value1.generateCodeExpression(aData, expression);
+		expression.expression.append( " )" );
 	}
 }

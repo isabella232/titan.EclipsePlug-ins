@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -177,23 +178,23 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression for code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
 		if ( instances == null ) {
 			return;
 		}
 		final int size = instances.size();
 		if ( size > 0 ) {
-			final StringBuilder sb = aData.getSrc();
-			sb.append( " " );
+			expression.expression.append( " " );
 			for ( int i = 0; i < size; i++ ) {
 				if ( i > 0 ) {
-					sb.append( ", " );
+					expression.expression.append( ", " );
 				}
-				instances.get( i ).generateJava( aData );
+				instances.get( i ).generateJava( aData, expression );
 			}
-			sb.append( " " );
+			expression.expression.append( " " );
 		}
 	}
 }

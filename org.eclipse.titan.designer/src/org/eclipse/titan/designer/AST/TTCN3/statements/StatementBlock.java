@@ -1192,14 +1192,14 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		final int size = statements.size();
 		for ( int i = 0; i < size; i++ ) {
 			final Statement statement = statements.get(i);
-			statement.generateJava( aData );
+			statement.generateJava( aData, source );
 		}
 	}
 }

@@ -857,19 +857,36 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		//TODO this should handle only the global case
 		final StringBuilder sb = aData.getSrc();
+		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			sb.append( "\tpublic static " );
+			source.append( "\tpublic static " );
 		}
-		sb.append( type.getGenNameTemplate( aData, getMyScope() ) );
-		sb.append( " " );
-		sb.append( identifier.getName() );
+		//TODO temporary code to adapt to the starting code
+		source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
+		source.append( " " );
+		source.append( identifier.getName() );
 		//TODO generate code for missing parts
-		sb.append( "\t" );
-		sb.append( "//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() body is not implemented!\n" );
-
-		sb.append( ";\n" );
+		source.append( "\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJava() body is not implemented!\n" );
+		source.append( ";\n" );
+		sb.append(source);
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
+		source.append( " " );
+		source.append( identifier.getName() );
+		//TODO generate code for missing parts
+		source.append( "\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJava() body is not implemented!\n" );
+		source.append( ";\n" );
 	}
 }

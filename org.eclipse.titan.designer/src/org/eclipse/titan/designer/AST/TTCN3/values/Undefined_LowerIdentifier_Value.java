@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.ASN1.values.Named_Integer_Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -290,8 +291,45 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( identifier.getName() );
+	public boolean canGenerateSingleExpression() {
+		if (realValue != null) {
+			return realValue.canGenerateSingleExpression();
+		}
+		
+		// error
+		return false;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		if (realValue != null) {
+			return realValue.generateSingleExpression(aData);
+		}
+		
+		return new StringBuilder("/* fatal error undefined lower identifier encountered */");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+		if (realValue != null) {
+			return realValue.generateJavaInit(aData, source, name);
+		}
+		
+		return new StringBuilder("/* fatal error undefined lower identifier encountered */");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (realValue != null) {
+			realValue.generateCodeExpression(aData, expression);
+			return;
+		}
+		
+		expression.expression.append("/* fatal error undefined lower identifier encountered */");
+	}
+	
+	
 }

@@ -52,6 +52,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -524,12 +525,20 @@ public final class Assignment_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t\t" );
-		reference.generateJava(aData);
-		sb.append( ".assign( " );
-		template.generateJava( aData );
-		sb.append( " );\n" );
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		//TODO this is actually much more complicated
+		source.append( "\t\t" );
+		
+		ExpressionStruct expression = new ExpressionStruct();
+		reference.generateJavaAlias(aData, expression);
+		expression.mergeExpression(source, false);
+		
+		source.append( ".assign( " );
+		
+		expression = new ExpressionStruct();
+		template.generateJavaExpression( aData, expression);
+		expression.mergeExpression(source, false);
+
+		source.append( " );\n" );
 	}
 }

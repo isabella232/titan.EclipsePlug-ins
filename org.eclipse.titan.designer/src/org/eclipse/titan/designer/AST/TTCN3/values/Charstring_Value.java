@@ -244,11 +244,34 @@ public final class Charstring_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "new TitanCharString( \"" );
-		aData.addBuiltinTypeImport( "TitanCharString" );
-		sb.append( value );
-		sb.append( "\" )" );
+	public boolean canGenerateSingleExpression() {
+		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		//TODO register as module level charstring literal and return the literal's name
+		aData.addBuiltinTypeImport( "TitanCharString" );
+		StringBuilder result = new StringBuilder();
+		result.append("new TitanCharString( \"");
+		result.append(value);
+		result.append( "\" )" );
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport( "TitanCharString" );
+		source.append(name);
+		source.append(".assign(");
+		source.append("new TitanCharString( \"");
+		source.append( value );
+		source.append( "\" ) )" );
+
+		return source;
+	}
+	
+	
 }

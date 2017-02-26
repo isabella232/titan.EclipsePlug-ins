@@ -39,8 +39,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
-import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -1465,15 +1465,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	//TODO: remove
 	/**
 	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t" );
-		sb.append( "//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+		source.append( "\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJava() is not implemented!\n" );
 	}
 
 	/**
@@ -1484,17 +1484,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * 
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData the generated java code with other info
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
 	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameValue(final JavaGenData aData, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		//TODO: default implementation, should be replace with fatal_error once finished
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t" );
-		sb.append( "//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".getGenNameValue() is not implemented!\n" );
+		source.append( "\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".getGenNameValue() is not implemented!\n" );
 		
 		//TODO temporary solution before creating the code for calculating the generated name
 		return getGenNameOwn(scope);
@@ -1508,13 +1508,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * 
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData the generated java code with other info
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
 	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
-	public String getGenNameTemplate(final JavaGenData aData, final Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		
 		//TODO temporary solution before creating the code for calculating the generated name
-		return getGenNameValue(aData, scope) + "_template";
+		return getGenNameValue(aData, source, scope) + "_template";
 	}
 }

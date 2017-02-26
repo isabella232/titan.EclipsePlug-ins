@@ -44,6 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ApplyExpression;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -548,8 +549,15 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
-	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		specificValue.generateJava( aData );
+	public void generateJavaExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		specificValue.generateCodeExpression( aData, expression );
 	}
+
+	@Override
+	public void generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		//TODO handle post init rearrangement
+		specificValue.generateJavaInit( aData, source, name );
+	}
+	
+	
 }

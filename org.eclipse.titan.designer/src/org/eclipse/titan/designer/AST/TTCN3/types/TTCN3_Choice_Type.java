@@ -415,11 +415,10 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
-		sb.append( " {\n" );
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append( " {\n" );
 		//TODO: implement
-		sb.append( "\t\t//TODO: TTCN3_Choice_Type.generateJava() is not fully implemented!\n" );
-		sb.append( "\t}\n" );
+		source.append( "\t\t//TODO: TTCN3_Choice_Type.generateJava() is not fully implemented!\n" );
+		source.append( "\t}\n" );
 	}
 }

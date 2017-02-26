@@ -18,6 +18,8 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -311,4 +313,46 @@ public abstract class Expression_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsShortCircuit() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData ) {
+		ExpressionStruct expression = new ExpressionStruct();
+		generateCodeExpressionExpression(aData, expression);
+		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			//fatal error
+		}
+		
+		return expression.mergeExpression(new StringBuilder(), false);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, ExpressionStruct expression) {
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+		
+		generateCodeExpressionExpression(aData, expression);
+	}
+	
+	/**
+	 * Helper function for generateCodeExpression(). It is used when
+	*  the value is an expression.
+	*  
+	*  @param aData only used to update imports if needed
+	*  @param expression the expression for code generation
+	 * */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		expression.expression.append( "\t//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateJava() is not implemented!\n" );
+	}
 }
