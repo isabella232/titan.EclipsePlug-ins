@@ -308,7 +308,7 @@ public final class LessThanExpression extends Expression_Value {
 		
 		generateCodeExpressionExpression(aData, expression);
 		
-		source.append(expression.mergeExpression(source, false));
+		expression.mergeExpression(source, false);
 
 		return source;
 	}
