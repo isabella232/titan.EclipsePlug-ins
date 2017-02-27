@@ -31,6 +31,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.IOUtils;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
+import org.eclipse.titan.designer.core.ProjectBasedBuilder;
 import org.eclipse.titanium.markers.handler.Marker;
 import org.eclipse.titanium.markers.handler.MarkerHandler;
 import org.eclipse.titanium.markers.types.CodeSmellType;
@@ -105,6 +106,9 @@ public class XlsProblemExporter extends BaseProblemExporter {
 		}
 		progress.worked(10);
 
+		final List<IProject> projects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+		projects.remove(project);
+
 		try {
 			final HSSFSheet summarySheet = workbook.getSheetAt(0);
 			createTimeSheet(workbook);
@@ -118,7 +122,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			final Map<TaskType, List<IMarker>> markers = collectMarkers();
 			// export the task markers:
 			for (final TaskType t : TaskType.values()) {
-				createTaskSheet(workbook, t, markers.get(t));
+				createTaskSheet(workbook, t, markers.get(t), projects.size() > 0);
 
 				final Row row1 = summarySheet.createRow(summaryRow++);
 				label = row1.createCell(0);
@@ -138,7 +142,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			progress.setWorkRemaining(CodeSmellType.values().length + 1);
 			// export the semantic problem markers:
 			for (final CodeSmellType t : CodeSmellType.values()) {
-				createCodeSmellSheet(workbook, mh, t);
+				createCodeSmellSheet(workbook, mh, t, projects.size() > 0);
 
 				final Row row1 = summarySheet.createRow(summaryRow++);
 				label = row1.createCell(0);
@@ -152,8 +156,21 @@ public class XlsProblemExporter extends BaseProblemExporter {
 				progress.worked(1);
 			}
 
+			final StringBuilder nameBuilder = new StringBuilder("Project: ");
+			nameBuilder.append(project.getName());
+			if (projects.size() > 0) {
+				nameBuilder.append(" including ( ");
+				for(int i = 0; i < projects.size(); i++) {
+					if(i > 0) {
+						nameBuilder.append(", ");
+					}
+					nameBuilder.append(projects.get(i).getName());
+				}
+				nameBuilder.append(" )");
+			}
 			final Row row0 = summarySheet.createRow(0);
-			row0.createCell(0).setCellValue("Project: " + project.getName());
+			row0.createCell(0).setCellValue(nameBuilder.toString());
+			
 
 			final Row row1 = summarySheet.createRow(1);
 			row1.createCell(0).setCellValue("Code smell \\ date");
@@ -261,8 +278,9 @@ public class XlsProblemExporter extends BaseProblemExporter {
 	 * @param workbook the workbook to work in.
 	 * @param t the task type to export.
 	 * @param markers the list of markers.
+	 * @param fullPath the resource names should use full path or project relative
 	 * */
-	private void createTaskSheet(final HSSFWorkbook workbook, final TaskType t, final List<IMarker> markers) {
+	private void createTaskSheet(final HSSFWorkbook workbook, final TaskType t, final List<IMarker> markers, final boolean fullPath) {
 		if (markers.isEmpty()) {
 			return;
 		}
@@ -288,7 +306,11 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			}
 
 			label = row.createCell(1);
-			label.setCellValue(m.getResource().getName());
+			if( fullPath) {
+				label.setCellValue(m.getResource().getFullPath().toString());
+			} else {
+				label.setCellValue(m.getResource().getName());
+			}
 
 			numberCell = row.createCell(2);
 			try {
@@ -310,8 +332,9 @@ public class XlsProblemExporter extends BaseProblemExporter {
 	 * @param workbook the workbook to work in.
 	 * @param mh the markerhandler object knowing the occurences of the given code smell
 	 * @param t the codesmell type to export
+	 * @param fullPath the resource names should use full path or project relative
 	 * */
-	private void createCodeSmellSheet(final HSSFWorkbook workbook, final MarkerHandler mh, final CodeSmellType t) {
+	private void createCodeSmellSheet(final HSSFWorkbook workbook, final MarkerHandler mh, final CodeSmellType t, final boolean fullPath) {
 		if (mh.get(t).isEmpty()) {
 			return;
 		}
@@ -337,7 +360,11 @@ public class XlsProblemExporter extends BaseProblemExporter {
 				label.setCellValue(m.getMessage());
 
 				label = row.createCell(1);
-				label.setCellValue(m.getResource().getName());
+				if( fullPath) {
+					label.setCellValue(m.getResource().getFullPath().toString());
+				} else {
+					label.setCellValue(m.getResource().getName());
+				}
 
 				label = row.createCell(2);
 				label.setCellValue(m.getLine());
