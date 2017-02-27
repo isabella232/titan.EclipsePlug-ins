@@ -13,19 +13,20 @@ package org.eclipse.titan.runtime.core;
  */
 public class TitanFloat {
 
-	//TODO: implement ANY and/or OMIT
-
 	/**
 	 * float value.
-	 * It can be null if ANY or OMIT
 	 */
-	private Double float_value;
+	private Ttcn3Float float_value;
 
 	public TitanFloat() {
 		super();
 	}
 
 	public TitanFloat( final double aOtherValue ) {
+		float_value = new Ttcn3Float( aOtherValue );
+	}
+
+	public TitanFloat( final Ttcn3Float aOtherValue ) {
 		float_value = aOtherValue;
 	}
 
@@ -35,11 +36,7 @@ public class TitanFloat {
 	}
 
 	public Double getValue() {
-		return float_value;
-	}
-
-	public void setValue( final double aOtherValue ) {
-		float_value = aOtherValue;
+		return float_value.getValue();
 	}
 
 	//originally operator=
@@ -66,13 +63,91 @@ public class TitanFloat {
 
 	/**
 	 * this + aOtherValue
-	 * originally operator&
+	 * originally operator+
 	 */
-	public TitanFloat append( final TitanFloat aOtherValue ) {
+	public TitanFloat add( final TitanFloat aOtherValue ) {
 		mustBound( "Unbound left operand of float addition." );
 		aOtherValue.mustBound( "Unbound right operand of float addition." );
 
-		return new TitanFloat( float_value + aOtherValue.float_value );
+		return new TitanFloat( float_value.add( aOtherValue.float_value.getValue() ) );
+	}
+
+	/**
+	 * this + aOtherValue
+	 * originally operator+
+	 */
+	public TitanFloat add( final double aOtherValue ) {
+		mustBound( "Unbound left operand of float addition." );
+
+		return new TitanFloat( float_value.add( aOtherValue ) );
+	}
+
+	/**
+	 * this - aOtherValue
+	 * originally operator-
+	 */
+	public TitanFloat sub( final TitanFloat aOtherValue ) {
+		mustBound( "Unbound left operand of float subtraction." );
+		aOtherValue.mustBound( "Unbound right operand of float subtraction." );
+
+		return new TitanFloat( float_value.sub( aOtherValue.float_value.getValue() ) );
+	}
+
+	/**
+	 * this - aOtherValue
+	 * originally operator-
+	 */
+	public TitanFloat sub( final double aOtherValue ) {
+		mustBound( "Unbound left operand of float subtraction." );
+
+		return new TitanFloat( float_value.sub( aOtherValue ) );
+	}
+
+	/**
+	 * this * aOtherValue
+	 * originally operator*
+	 */
+	public TitanFloat mul( final TitanFloat aOtherValue ) {
+		mustBound( "Unbound left operand of float multiplication." );
+		aOtherValue.mustBound( "Unbound right operand of float multiplication." );
+
+		return new TitanFloat( float_value.mul( aOtherValue.float_value.getValue() ) );
+	}
+
+	/**
+	 * this * aOtherValue
+	 * originally operator*
+	 */
+	public TitanFloat mul( final double aOtherValue ) {
+		mustBound( "Unbound left operand of float multiplication." );
+
+		return new TitanFloat( float_value.mul( aOtherValue ) );
+	}
+
+	/**
+	 * this / aOtherValue
+	 * originally operator/
+	 */
+	public TitanFloat div( final TitanFloat aOtherValue ) {
+		mustBound( "Unbound left operand of float division." );
+		aOtherValue.mustBound( "Unbound right operand of float division." );
+		final double otherValue = aOtherValue.float_value.getValue();
+		if ( otherValue == 0.0 ) {
+			throw new TtcnError("Float division by zero.");
+		}
+		return new TitanFloat( float_value.mul( otherValue ) );
+	}
+
+	/**
+	 * this / aOtherValue
+	 * originally operator/
+	 */
+	public TitanFloat div( final double aOtherValue ) {
+		mustBound( "Unbound left operand of float division." );
+		if ( aOtherValue == 0.0 ) {
+			throw new TtcnError("Float division by zero.");
+		}
+		return new TitanFloat( float_value.mul( aOtherValue ) );
 	}
 
 	//originally operator==
@@ -80,7 +155,7 @@ public class TitanFloat {
 		mustBound("Unbound left operand of float comparison.");
 		aOtherValue.mustBound("Unbound right operand of float comparison.");
 
-		return float_value.equals(aOtherValue.float_value);
+		return float_value.equalsTo( aOtherValue.float_value.getValue() );
 	}
 
 	//originally operator!=
@@ -92,14 +167,14 @@ public class TitanFloat {
 	public boolean isLessThan(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return float_value < otherValue.float_value;
+		return float_value.isLessThan( otherValue.float_value.getValue() );
 	}
 
 	//originally operator >
 	public boolean isGreaterThan(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return float_value > otherValue.float_value;
+		return float_value.isGreaterThan( otherValue.float_value.getValue() );
 	}
 
 	//originally operator <=
