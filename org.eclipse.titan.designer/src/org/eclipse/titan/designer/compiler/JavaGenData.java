@@ -12,6 +12,12 @@ public class JavaGenData {
 
 	/** the java source file without the import part */
 	private StringBuilder mSrc;
+	
+	/** the contents of pre_init */
+	private StringBuilder preInit;
+	
+	/** the contents of post_init */
+	private StringBuilder postInit;
 
 	/** The imports with short class names */
 	private Set<String> mImports;
@@ -23,9 +29,17 @@ public class JavaGenData {
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
 	private boolean mDebug;
+	
+	/**
+	 * internal variable used to generate temporal helper variables with unique names.
+	 * */
+	private int tempVariableCounter = 0;
 
 	public JavaGenData() {
 		mSrc = new StringBuilder();
+		preInit = new StringBuilder();
+		postInit = new StringBuilder();
+
 		// TreeSet keeps elements in natural order (alphabetical)
 		mImports = new TreeSet<String>();
 		mInternalImports = new TreeSet<String>();
@@ -39,6 +53,19 @@ public class JavaGenData {
 		return mSrc;
 	}
 
+	/**
+	 * @return the string where new pre init code is written
+	 */
+	public StringBuilder getPreInit() {
+		return preInit;
+	}
+	
+	/**
+	 * @return the string where new post init code is written
+	 */
+	public StringBuilder getPostInit() {
+		return postInit;
+	}
 	/**
 	 * Adds a new import
 	 * @param aNewImport the new import with short class name. It is ignored in case of duplicate.
@@ -86,4 +113,19 @@ public class JavaGenData {
 		mDebug = aDebug;
 	}
 
+	/**
+	 * Returns an identifier used for temporary Java objects,
+	 *  which is unique in the module
+	 *  
+	 * Module::get_temporary_id() in the compiler
+	 * 
+	 * TODO rethink in the compiler, should not be part of the semantic structure
+	 * */
+	public String getTemporaryVariableName() {
+		StringBuilder builder = new StringBuilder("tmp_");
+		tempVariableCounter++;
+		builder.append(tempVariableCounter);
+		
+		return builder.toString();
+	}
 }

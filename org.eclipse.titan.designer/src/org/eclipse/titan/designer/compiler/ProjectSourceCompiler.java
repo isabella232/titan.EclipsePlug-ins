@@ -45,6 +45,9 @@ public class ProjectSourceCompiler {
 		//write imports
 		StringBuilder headerSb = new StringBuilder();
 		writeHeader( headerSb, data );
+		
+		writeFooter(data);
+		
 
 		//write src file body
 		IProject project  = aModule.getProject();
@@ -154,6 +157,33 @@ public class ProjectSourceCompiler {
 		}
 		aSb.append( "\n" );
 	}
+	
+	/**
+	 * Builds footer part of the java source file.
+	 * <ul>
+	 *   <li> pre init function: to initialize constants before module parameters are processed
+	 *   <li> post init function: to initialize local "constants" after module parameters were processed.
+	 * </ul>
+	 * 
+	 * @param aData data collected during code generation, we need the include files form it
+	 */
+	private static void writeFooter( final JavaGenData aData) {
+		StringBuilder aSb = aData.getSrc();
+		aSb.append("\n" );
+		aSb.append("static void pre_init_module()").append("\n" );
+		aSb.append("{").append("\n" );
+		aSb.append(aData.getPreInit());
+		aSb.append("").append("\n" );
+		aSb.append("}").append("\n" );
+
+		aSb.append("static void post_init_module()").append("\n" );
+		aSb.append("{").append("\n" );
+		aSb.append(aData.getPostInit());
+		aSb.append("").append("\n" );	
+		aSb.append("}").append("\n" );
+		
+		aSb.append( "}\n" );
+	}
 
 	/**
 	 * Writes an import to the header
@@ -161,8 +191,8 @@ public class ProjectSourceCompiler {
 	 * @param aImportName short class name to import. This function knows the package of all the runtime classes.
 	 */
 	private static void writeImport( final StringBuilder aSb, final String aImportName ) {
-		aSb.append( "//TODO: unknown import: " );
+		aSb.append( "import " );
 		aSb.append( aImportName );
-		aSb.append( "\n" );
+		aSb.append( ";\n" );
 	}
 }

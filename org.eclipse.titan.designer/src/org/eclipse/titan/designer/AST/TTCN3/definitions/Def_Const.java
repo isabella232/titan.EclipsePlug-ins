@@ -458,15 +458,15 @@ public final class Def_Const extends Definition {
 			source.append( "\tpublic static " );
 		}
 		source.append( "final " );
-		//TODO temporary code to adapt to the starting code
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
 		source.append( identifier.getName() );
-		// TODO actually this belongs to the module initialization
+		source.append( " = new " );
+		source.append( typeGeneratedName );
+		source.append( "();\n" );
 		if ( value != null ) {
-			source.append( " = " );
-			value.generateJavaInit( aData, source, identifier.getName() );
+			value.generateJavaInit( aData, aData.getPreInit(), identifier.getName() );
 		}
 		source.append( ";\n" );
 		sb.append(source);
