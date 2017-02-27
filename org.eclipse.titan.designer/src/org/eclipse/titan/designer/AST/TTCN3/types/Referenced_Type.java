@@ -614,7 +614,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		source.append( " extends " );
 		source.append( className );
 		//TODO: implement: package of the imported class is unknown
-		aData.addImport( className );
+		aData.addBuiltinTypeImport( className );
 		source.append( " {}\n" );
 	}
 }
