@@ -236,7 +236,7 @@ public final class Return_Statement extends Statement {
 			//TODO more nuanced code generation
 			ExpressionStruct expression = new ExpressionStruct();
 			template.generateJavaExpression( aData, expression );
-			expression.mergeExpression(source, false);
+			expression.mergeExpression(source);
 		}
 		source.append( ";\n" );
 	}

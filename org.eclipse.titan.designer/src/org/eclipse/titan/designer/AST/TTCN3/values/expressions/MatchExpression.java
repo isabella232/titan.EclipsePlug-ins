@@ -246,7 +246,7 @@ public final class MatchExpression extends Expression_Value {
 		generateCodeExpressionExpression(aData, expression);
 		expression.expression.append(")");
 
-		expression.mergeExpression(source, false);
+		expression.mergeExpression(source);
 
 		return source;
 	}

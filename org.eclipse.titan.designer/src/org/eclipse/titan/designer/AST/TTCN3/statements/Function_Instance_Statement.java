@@ -160,7 +160,7 @@ public final class Function_Instance_Statement extends Statement {
 		source.append( "\t\t" );
 		ExpressionStruct expression = new ExpressionStruct();
 		reference.generateJavaAlias( aData, expression );
-		expression.mergeExpression(source, false);
+		expression.mergeExpression(source);
 		source.append( ";\n" );
 	}
 }

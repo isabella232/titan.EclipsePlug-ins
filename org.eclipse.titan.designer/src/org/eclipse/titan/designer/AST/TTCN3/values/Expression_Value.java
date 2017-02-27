@@ -329,7 +329,7 @@ public abstract class Expression_Value extends Value {
 			//fatal error
 		}
 		
-		return expression.mergeExpression(new StringBuilder(), false);
+		return expression.mergeExpression(new StringBuilder());
 	}
 
 	@Override

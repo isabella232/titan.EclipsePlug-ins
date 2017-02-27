@@ -278,7 +278,7 @@ public final class ValueofExpression extends Expression_Value {
 		
 		generateCodeExpressionExpression(aData, expression);
 		
-		expression.mergeExpression(source, false);
+		expression.mergeExpression(source);
 
 		return source;
 	}

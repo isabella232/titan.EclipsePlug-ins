@@ -290,7 +290,7 @@ public final class AndExpression extends Expression_Value {
 		
 		generateCodeExpressionExpression(aData, expression);
 		
-		expression.mergeExpression(source, false);
+		expression.mergeExpression(source);
 
 		return source;
 	}
@@ -309,7 +309,7 @@ public final class AndExpression extends Expression_Value {
 			expression2.expression.append(".assign(");
 			value1.generateCodeExpression(aData, expression2);
 			expression2.expression.append(");\n");
-			expression2.mergeExpression(expression.preamble, false);
+			expression2.mergeExpression(expression.preamble);
 			
 			expression.preamble.append("if (");
 			expression.preamble.append(tempId);
@@ -320,7 +320,7 @@ public final class AndExpression extends Expression_Value {
 			expression2.expression.append(".assign(");
 			value2.generateCodeExpression(aData, expression2);
 			expression2.expression.append(");\n");
-			expression2.mergeExpression(expression.preamble, false);
+			expression2.mergeExpression(expression.preamble);
 			
 			expression.expression.append(tempId);
 		} else {

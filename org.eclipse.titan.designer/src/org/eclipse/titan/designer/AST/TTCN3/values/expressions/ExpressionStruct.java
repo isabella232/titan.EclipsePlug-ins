@@ -21,7 +21,7 @@ public class ExpressionStruct {
 	public StringBuilder postamble = new StringBuilder();
 	
 	//merge_free_expr in compiler
-	public StringBuilder mergeExpression(final StringBuilder source, final boolean isBlock) {
+	public StringBuilder mergeExpression(final StringBuilder source) {
 		if(preamble.length() > 0 || postamble.length() > 0) {
 			source.append("{\n");
 			source.append(preamble);
@@ -29,11 +29,8 @@ public class ExpressionStruct {
 		
 		source.append(expression);
 		
-		if (isBlock) {
-			source.append("}\n");
-		} //else {
-		//	source.append(";\n");
-		//}
+		//temporary difference from the compiler
+//		source.append(";\n");
 		
 		if(preamble.length() > 0 || postamble.length() > 0) {
 			source.append(postamble);

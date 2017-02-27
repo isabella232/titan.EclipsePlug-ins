@@ -492,7 +492,7 @@ public final class Def_Var_Template extends Definition {
 			source.append( " = new " ). append(typeName).append("(");
 			ExpressionStruct expression = new ExpressionStruct();
 			initialValue.generateJavaExpression( aData, expression );
-			expression.mergeExpression(source, false);
+			expression.mergeExpression(source);
 			source.append(")");
 		}
 		source.append( ";\n" );
