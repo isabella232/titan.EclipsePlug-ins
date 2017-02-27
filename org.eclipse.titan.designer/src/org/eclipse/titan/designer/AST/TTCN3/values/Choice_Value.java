@@ -44,7 +44,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class Choice_Value extends Value {
 	private static final String ONEFIELDEXPECTED1 = "Union value must have one active field";
-	private static final String ONEFIELDEXPECTED2 = "Only one field was expected in union value istead of {0}";
+	private static final String ONEFIELDEXPECTED2 = "Only one field was expected in union value instead of {0}";
 	private static final String NONEXISTENTFIELD = "Reference to non-existent union field `{0}'' in type `{1}''";
 	private static final String INACTIVEFIELD = "Reference to inactive field `{0}'' in a value of union type `{1}''. The active field is `{2}''";
 
