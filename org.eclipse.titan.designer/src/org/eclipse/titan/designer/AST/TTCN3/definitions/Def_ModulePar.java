@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -364,5 +365,36 @@ public final class Def_ModulePar extends Definition {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+		StringBuilder source = new StringBuilder();
+		if ( !isLocal() ) {
+			source.append( "\tpublic static " );
+		}
+		source.append( "final " );
+		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		source.append( typeGeneratedName );
+		source.append( " " );
+		source.append( identifier.getName() );
+		source.append( " = new " );
+		source.append( typeGeneratedName );
+		source.append( "();\n" );
+		if ( defaultValue != null ) {
+			defaultValue.generateJavaInit( aData, aData.getPreInit(), identifier.getName() );
+		}
+		source.append( ";\n" );
+		sb.append(source);
+		
+		//TODO remaining functionality: implicit omit, setting/logging module parameters
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		// TODO fatal error there is no local module parameter
 	}
 }
