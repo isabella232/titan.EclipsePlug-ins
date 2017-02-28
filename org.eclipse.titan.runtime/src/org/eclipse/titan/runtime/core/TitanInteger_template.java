@@ -197,6 +197,11 @@ public class TitanInteger_template extends Base_Template {
 	}
 	
 	// originally set_type
+	public void setType(final template_sel templateType) {
+		setType(templateType, 0);
+	}
+
+	// originally set_type
 	public void setType(final template_sel templateType, final int listLength) {
 		cleanUp();
 		switch (templateType) {
@@ -229,5 +234,77 @@ public class TitanInteger_template extends Base_Template {
 		}
 		
 		return value_list.get(listIndex);
+	}
+	
+	// originally set_min
+	public void setMin(final int otherMinValue) {
+		if (!template_sel.VALUE_RANGE.equals(templateSelection)) {
+			throw new TtcnError("Integer template is not range when setting lower limit.");
+		}
+		
+		if (max_is_present) {
+			if (!max_value.isGreaterThanOrEqual(otherMinValue)) {
+				throw new TtcnError("The lower limit of the range is greater than the upper limit in an integer template.");
+			}
+		}
+		
+		min_is_present = true;
+		min_is_exclusive = false;
+		min_value = new TitanInteger(otherMinValue);
+	}
+	
+	// originally set_min
+	public void setMin(final TitanInteger otherMinValue) {
+		otherMinValue.mustBound("Using an unbound value when setting the lower bound in an integer range template.");
+		
+		if (!template_sel.VALUE_RANGE.equals(templateSelection)) {
+			throw new TtcnError("Integer template is not range when setting lower limit.");
+		}
+		
+		if (max_is_present) {
+			if (!max_value.isGreaterThanOrEqual(otherMinValue)) {
+				throw new TtcnError("The lower limit of the range is greater than the upper limit in an integer template.");
+			}
+		}
+		
+		min_is_present = true;
+		min_is_exclusive = false;
+		min_value = otherMinValue;
+	}
+	
+	// originally set_max
+	public void setMax(final int otherMaxValue) {
+		if (!template_sel.VALUE_RANGE.equals(templateSelection)) {
+			throw new TtcnError("Integer template is not range when setting upper limit.");
+		}
+
+		if (min_is_present) {
+			if (min_value.isGreaterThan(otherMaxValue)) {
+				throw new TtcnError("The upper limit of the range is smaller than the lower limit in an integer template.");
+			}
+		}
+
+		max_is_present = true;
+		max_is_exclusive = false;
+		max_value = new TitanInteger(otherMaxValue);
+	}
+
+	// originally set_max
+	public void setMax(final TitanInteger otherMaxValue) {
+		otherMaxValue.mustBound("Using an unbound value when setting the upper bound in an integer range template.");
+
+		if (!template_sel.VALUE_RANGE.equals(templateSelection)) {
+			throw new TtcnError("Integer template is not range when setting upper limit.");
+		}
+
+		if (max_is_present) {
+			if (!max_value.isGreaterThan(otherMaxValue)) {
+				throw new TtcnError("TThe upper limit of the range is smaller than the lower limit in an integer template.");
+			}
+		}
+
+		max_is_present = true;
+		max_is_exclusive = false;
+		max_value = otherMaxValue;
 	}
 }
