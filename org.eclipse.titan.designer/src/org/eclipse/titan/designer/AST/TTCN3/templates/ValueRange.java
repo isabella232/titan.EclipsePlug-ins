@@ -20,6 +20,8 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -210,5 +212,50 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Add generated java code for initializing a template
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param name the name to init
+	 */
+	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		
+		//TODO: add support for rearrange init
+		ExpressionStruct expression = new ExpressionStruct();
+		StringBuilder initStatement = new StringBuilder();
+		initStatement.append(name);
+		initStatement.append(".setType( template_sel.VALUE_RANGE );\n");
+		if(min != null) {
+			min.generateCodeExpression(aData, expression);
+			initStatement.append(name);
+			initStatement.append(".setMin( ");
+			initStatement.append(expression.expression);
+			initStatement.append(" );\n");
+		}
+		// TODO: min exclusive not stored yet
+		
+		if(max != null) {
+			expression.expression = new StringBuilder();
+			max.generateCodeExpression(aData, expression);
+			initStatement.append(name);
+			initStatement.append(".setMax( ");
+			initStatement.append(expression.expression);
+			initStatement.append(" );\n");
+		}
+		// TODO: max exclusive not stored yet
+		
+		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			source.append("{\n");
+			source.append(expression.preamble);
+			source.append(initStatement);
+			source.append(expression.postamble);
+			source.append("}\n");
+		} else {
+			source.append(initStatement);
+		}
 	}
 }

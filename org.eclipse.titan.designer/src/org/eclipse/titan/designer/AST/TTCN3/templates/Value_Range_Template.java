@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -166,5 +167,41 @@ public final class Value_Range_Template extends TTCN3Template {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getSingleExpresion(JavaGenData aData, boolean castIsNeeded) {
+		StringBuilder result = new StringBuilder();
+
+		result.append( "\t//TODO: fatal error while generating " );
+		result.append( getClass().getSimpleName() );
+		result.append( ".generateSingleExpression() !\n" );
+		// TODO: fatal error
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		
+		if (valueRange != null) {
+			// TODO: add support for rearrange init
+			valueRange.generateJavaInit(aData, source, name);
+		}
+
+		// TODO:  missing parts need to be completed
+		
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }
