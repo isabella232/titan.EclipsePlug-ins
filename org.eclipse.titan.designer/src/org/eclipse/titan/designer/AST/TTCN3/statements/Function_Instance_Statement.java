@@ -161,6 +161,5 @@ public final class Function_Instance_Statement extends Statement {
 		ExpressionStruct expression = new ExpressionStruct();
 		reference.generateJavaAlias( aData, expression );
 		expression.mergeExpression(source);
-		source.append( ";\n" );
 	}
 }

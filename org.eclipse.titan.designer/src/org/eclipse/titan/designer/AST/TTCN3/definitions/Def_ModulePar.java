@@ -386,7 +386,6 @@ public final class Def_ModulePar extends Definition {
 		if ( defaultValue != null ) {
 			defaultValue.generateJavaInit( aData, aData.getPreInit(), identifier.getName() );
 		}
-		source.append( ";\n" );
 		sb.append(source);
 		
 		//TODO remaining functionality: implicit omit, setting/logging module parameters

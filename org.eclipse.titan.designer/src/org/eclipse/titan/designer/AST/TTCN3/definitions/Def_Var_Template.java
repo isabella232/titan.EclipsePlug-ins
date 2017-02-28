@@ -470,31 +470,27 @@ public final class Def_Var_Template extends Definition {
 		source.append( typeName );
 		source.append( " " );
 		source.append( identifier.getName() );
+		source.append( " = new " ). append(typeName).append("();\n");
 		//TODO this actually belongs to the module initialization
 		if ( initialValue != null ) {
-			source.append( " = new " ). append(typeName).append("(");
 			//TODO use ::get_lhs_name instead of generic getGennameOwn
 			initialValue.generateJavaInit( aData, source, initialValue.getGenNameOwn(myScope) );
-			source.append(")");
 		}
-		source.append( ";\n" );
 		sb.append(source);
 	}
 	
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		// temporal code until generate_code_object and generateJavaInit is supported for templates
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
 		source.append( " " );
 		source.append( identifier.getName() );
+		source.append( " = new " ). append(typeName).append("();\n");
 		if ( initialValue != null ) {
-			source.append( " = new " ). append(typeName).append("(");
-			ExpressionStruct expression = new ExpressionStruct();
-			initialValue.generateJavaExpression( aData, expression );
-			expression.mergeExpression(source);
-			source.append(")");
+			initialValue.generateJavaInit( aData, source, identifier.getName() );
 		}
-		source.append( ";\n" );
+		
 	}
 }

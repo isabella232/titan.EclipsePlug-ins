@@ -458,14 +458,16 @@ public final class Def_Var extends Definition {
 		if ( !isLocal() ) {
 			source.append( "\tpublic static " );
 		}
-		source.append( type.getGenNameValue( aData, source, getMyScope() ) );
+		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		source.append( typeGeneratedName );
 		source.append( " " );
 		source.append( identifier.getName() );
+		source.append("= new ");
+		source.append(typeGeneratedName);
+		source.append("();\n");
 		if ( initialValue != null ) {
-			source.append( " = " );
 			initialValue.generateJavaInit(aData, source, identifier.getName() );
 		}
-		source.append( ";\n" );
 		sb.append(source);
 	}
 	
@@ -488,7 +490,6 @@ public final class Def_Var extends Definition {
 			source.append("();\n");
 			if (initialValue != null) {
 				initialValue.generateJavaInit(aData, source, identifier.getName() );
-				source.append(";\n");
 			}
 		}
 	}

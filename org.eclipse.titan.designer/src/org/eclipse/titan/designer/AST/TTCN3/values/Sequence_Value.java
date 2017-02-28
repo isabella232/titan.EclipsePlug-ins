@@ -791,7 +791,6 @@ public final class Sequence_Value extends Value {
 				embeddedName.append("()");
 				//TODO add extra handling for optional fields
 				fieldValue.generateJavaInit(aData, source, embeddedName.toString());
-				source.append(";\n");
 			}
 		}
 		

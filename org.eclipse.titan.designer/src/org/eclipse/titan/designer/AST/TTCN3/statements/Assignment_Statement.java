@@ -533,13 +533,15 @@ public final class Assignment_Statement extends Statement {
 		
 		ExpressionStruct expression = new ExpressionStruct();
 		reference.generateJavaAlias(aData, expression);
-		expression.mergeExpression(source);
+		source.append(expression.preamble);
+		source.append(expression.expression);
 		
 		source.append( ".assign( " );
 		
 		expression = new ExpressionStruct();
 		template.generateJavaExpression( aData, expression);
-		expression.mergeExpression(source);
+		source.append(expression.preamble);
+		source.append(expression.expression);
 
 		source.append( " );\n" );
 	}

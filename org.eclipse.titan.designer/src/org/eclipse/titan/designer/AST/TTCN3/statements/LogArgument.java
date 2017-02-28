@@ -412,6 +412,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		ExpressionStruct expression = new ExpressionStruct();
 		templateInstance.generateJava( aData, expression );
-		expression.mergeExpression(source);
+		source.append(expression.preamble);
+		source.append(expression.expression);
 	}
 }

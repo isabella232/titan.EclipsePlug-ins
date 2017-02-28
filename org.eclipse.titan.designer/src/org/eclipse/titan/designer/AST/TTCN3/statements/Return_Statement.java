@@ -238,6 +238,5 @@ public final class Return_Statement extends Statement {
 			template.generateJavaExpression( aData, expression );
 			expression.mergeExpression(source);
 		}
-		source.append( ";\n" );
 	}
 }

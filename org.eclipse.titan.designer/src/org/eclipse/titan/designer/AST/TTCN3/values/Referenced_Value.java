@@ -659,7 +659,7 @@ public final class Referenced_Value extends Value {
 		source.append(name);
 		source.append(".assign(");
 		source.append("TEMPORARY_NAME");//TODO needs last.getGennameOwn
-		source.append(")");
+		source.append(");\n");
 		return source;
 	}
 

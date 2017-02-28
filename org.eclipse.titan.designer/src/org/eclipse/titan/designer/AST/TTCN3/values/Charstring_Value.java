@@ -268,7 +268,7 @@ public final class Charstring_Value extends Value {
 		source.append(".assign(");
 		source.append("new TitanCharString( \"");
 		source.append( value );
-		source.append( "\" ) )" );
+		source.append( "\" ) );\n" );
 
 		return source;
 	}

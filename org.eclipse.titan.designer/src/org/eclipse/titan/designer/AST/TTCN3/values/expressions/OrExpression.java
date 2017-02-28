@@ -299,7 +299,7 @@ public final class OrExpression extends Expression_Value {
 			expression2.expression.append(tempId);
 			expression2.expression.append(".assign(");
 			value1.generateCodeExpression(aData, expression2);
-			expression2.expression.append(");\n");
+			expression2.expression.append(")");
 			expression2.mergeExpression(expression.preamble);
 			
 			expression.preamble.append("if (!");
@@ -310,7 +310,7 @@ public final class OrExpression extends Expression_Value {
 			expression2.expression.append(tempId);
 			expression2.expression.append(".assign(");
 			value2.generateCodeExpression(aData, expression2);
-			expression2.expression.append(");\n");
+			expression2.expression.append(")");
 			expression2.mergeExpression(expression.preamble);
 			
 			expression.expression.append(tempId);

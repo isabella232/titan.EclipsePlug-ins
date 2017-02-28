@@ -181,7 +181,7 @@ public final class Boolean_Value extends Value {
 		source.append(".assign(");
 		source.append("new TitanBoolean( ");
 		source.append( value );
-		source.append( " ) )" );
+		source.append( " ) );\n" );
 
 		return source;
 	}

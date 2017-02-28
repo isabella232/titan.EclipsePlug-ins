@@ -28,9 +28,7 @@ public class ExpressionStruct {
 		}
 		
 		source.append(expression);
-		
-		//temporary difference from the compiler
-//		source.append(";\n");
+		source.append(";\n");
 		
 		if(preamble.length() > 0 || postamble.length() > 0) {
 			source.append(postamble);

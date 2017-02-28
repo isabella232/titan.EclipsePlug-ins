@@ -468,7 +468,6 @@ public final class Def_Const extends Definition {
 		if ( value != null ) {
 			value.generateJavaInit( aData, aData.getPreInit(), identifier.getName() );
 		}
-		source.append( ";\n" );
 		sb.append(source);
 	}
 	
@@ -491,7 +490,6 @@ public final class Def_Const extends Definition {
 			source.append("();\n");
 			if (value != null) {
 				value.generateJavaInit(aData, source, identifier.getName() );
-				source.append(";\n");
 			}
 		}
 	}
