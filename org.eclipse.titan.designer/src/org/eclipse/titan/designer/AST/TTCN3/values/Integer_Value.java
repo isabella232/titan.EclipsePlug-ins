@@ -260,35 +260,47 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return isNative();
+		return true;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport( "TitanInteger" );
+		StringBuilder result = new StringBuilder();
+
 		if (isNative()) {
-			aData.addBuiltinTypeImport( "TitanInteger" );
-			StringBuilder result = new StringBuilder();
+			
 			result.append( "new TitanInteger( " );
 			result.append(value);
 			result.append( " )" );
-			return result;
+		} else {
+			aData.addImport("java.math.BigInteger");
+			
+			result.append( "new TitanInteger( new BigInteger(\"" );
+			result.append( value.toString() );
+			result.append( "\") )" );
 		}
 		
-		// TODO Auto-generated method stub
-		return new StringBuilder("/* Can only generate single expression to native integers */");
+		return result;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "TitanInteger" );
-		aData.addImport("java.math.BigInteger");
 		source.append(name);
-		source.append(".assign(");
-		source.append( "new TitanInteger( new BigInteger(\"" );
-		source.append( value.toString() );
-		source.append( "\") ) );\n" );
+		source.append(".assign( ");
+		if (isNative()) {
+			source.append( value );
+		} else {
+			aData.addImport("java.math.BigInteger");
+
+			source.append( "new TitanInteger( new BigInteger(\"" );
+			source.append( value.toString() );
+			source.append( "\") )" );
+		}
+		source.append( " );\n" );
 		return source;
 	}
 	
