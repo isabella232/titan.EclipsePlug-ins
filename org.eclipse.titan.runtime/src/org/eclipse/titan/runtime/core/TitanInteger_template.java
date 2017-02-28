@@ -195,4 +195,39 @@ public class TitanInteger_template extends Base_Template {
 			throw new TtcnError("Matching with an uninitialized/unsupported integer template.");
 		}
 	}
+	
+	// originally set_type
+	public void setType(final template_sel templateType, final int listLength) {
+		cleanUp();
+		switch (templateType) {
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			setSelection(templateType);
+			value_list = new ArrayList<TitanInteger_template>(listLength);
+			break;
+		case VALUE_RANGE:
+			setSelection(template_sel.VALUE_RANGE);
+			min_is_present = false;
+			max_is_present = false;
+			min_is_exclusive = false;
+			max_is_exclusive = false;
+			break;
+		default:
+			throw new TtcnError("Setting an invalid type for an integer template.");
+		}
+	}
+	
+	// originally list_iem
+	public TitanInteger_template listItem(final int listIndex) {
+		if (!template_sel.VALUE_LIST.equals(templateSelection) &&
+			!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
+			throw new TtcnError("Accessing a list element of a non-list integer template.");
+		}
+		
+		if (listIndex > value_list.size()) {
+			throw new TtcnError("Index overflow in an integer value list template.");
+		}
+		
+		return value_list.get(listIndex);
+	}
 }

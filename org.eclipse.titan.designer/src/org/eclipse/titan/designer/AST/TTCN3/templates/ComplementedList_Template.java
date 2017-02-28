@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
@@ -15,6 +16,7 @@ import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -164,5 +166,51 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	@Override
 	protected String getNameForStringRep() {
 		return "complement";
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getSingleExpresion(JavaGenData aData, boolean castIsNeeded) {
+		StringBuilder result = new StringBuilder();
+
+		result.append( "\t//TODO: fatal error while generating " );
+		result.append( getClass().getSimpleName() );
+		result.append( ".generateSingleExpression() !\n" );
+		// TODO: fatal error
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		
+		int nofTs = templates.getNofTemplates();
+		String typeName = myGovernor.getGenNameTemplate(aData, source, myScope);
+		//TODO: add support for all_from
+		
+		source.append(name);
+		source.append(".setType( template_sel.COMPLEMENTED_LIST, ");
+		source.append(nofTs);
+		source.append( " );\n" );
+		
+		for (int i = 0 ; i < nofTs ; i++) {
+			ITemplateListItem template = templates.getTemplateByIndex(i);
+			// TODO: handle needs template reference
+			String embeddedName = name + ".listItem(" + i + ")";
+			template.generateJavaInit(aData, source, embeddedName);
+		}
+		// TODO:  missing parts need to be completed
+		
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }
