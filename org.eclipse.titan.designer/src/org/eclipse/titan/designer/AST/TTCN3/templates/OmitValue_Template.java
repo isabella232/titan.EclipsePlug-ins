@@ -151,7 +151,7 @@ public final class OmitValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* || get_needs_conversion()*/) {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
 			return false;
 		}
 

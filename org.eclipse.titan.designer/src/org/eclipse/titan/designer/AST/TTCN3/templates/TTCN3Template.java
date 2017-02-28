@@ -1161,7 +1161,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *  Java expression.
 	 * */
 	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* || get_needs_conversion()*/) {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
 			return false;
 		}
 		//TODO fatal error

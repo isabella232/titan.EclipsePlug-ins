@@ -112,7 +112,7 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* || get_needs_conversion()*/) {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
 			return false;
 		}
 
@@ -128,7 +128,7 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 			result.append( "\t//TODO: fatal error while generating " );
 			result.append( getClass().getSimpleName() );
 			result.append( ".generateSingleExpression() !\n" );
-			//fatal error
+			// TODO: fatal error
 			return result;
 		}
 

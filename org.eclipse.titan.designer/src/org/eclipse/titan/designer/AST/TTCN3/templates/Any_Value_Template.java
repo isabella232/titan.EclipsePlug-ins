@@ -96,7 +96,7 @@ public final class Any_Value_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* || get_needs_conversion()*/) {
+		if (lengthRestriction != null || isIfpresent /*  TODO: || get_needs_conversion()*/) {
 			return false;
 		}
 
@@ -112,7 +112,7 @@ public final class Any_Value_Template extends TTCN3Template {
 			result.append( "\t//TODO: fatal error while generating " );
 			result.append( getClass().getSimpleName() );
 			result.append( ".generateSingleExpression() !\n" );
-			//fatal error
+			// TODO: fatal error
 			return result;
 		}
 
@@ -132,7 +132,7 @@ public final class Any_Value_Template extends TTCN3Template {
 		source.append(".assign( ");
 		source.append(getSingleExpresion(aData, false));
 		source.append( " );\n" );
-		//TODO missing parts need to be completed
+		// TODO:  missing parts need to be completed
 		
 		if (isIfpresent) {
 			source.append(name);
