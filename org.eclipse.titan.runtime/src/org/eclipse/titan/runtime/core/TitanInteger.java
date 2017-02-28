@@ -177,6 +177,17 @@ public class TitanInteger {
 	}
 	
 	//originally operator <
+	public boolean isLessThan(final int otherValue) {
+		mustBound("Unbound left operand of integer comparison.");
+		if (nativeFlag) {
+			return nativeInt < otherValue;
+		} else {
+			BigInteger other_int = BigInteger.valueOf(otherValue);
+			return -1 == openSSL.compareTo(other_int);
+		}
+	}
+	
+	//originally operator <
 	public boolean isLessThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");
@@ -197,6 +208,18 @@ public class TitanInteger {
 		}
 	}
 	
+	//originally operator >
+	public boolean isGreaterThan(final int otherValue) {
+		mustBound("Unbound left operand of integer comparison.");
+		if (nativeFlag) {
+			return nativeInt > otherValue;
+		} else {
+			BigInteger other_int = BigInteger.valueOf(otherValue);
+			return 1 == openSSL.compareTo(other_int);
+
+		}
+	}
+
 	//originally operator >
 	public boolean isGreaterThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -219,7 +242,17 @@ public class TitanInteger {
 	}
 	
 	//originally operator <=
+	public boolean isLessThanOrEqual(final int otherValue) {
+		return !isGreaterThan(otherValue);
+	}
+
+	//originally operator <=
 	public boolean isLessThanOrEqual(final TitanInteger otherValue) {
+		return !isGreaterThan(otherValue);
+	}
+
+	//originally operator >=
+	public boolean isGreaterThanOrEqual(final int otherValue) {
 		return !isGreaterThan(otherValue);
 	}
 
