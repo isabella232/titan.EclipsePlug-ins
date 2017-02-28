@@ -18,29 +18,36 @@ public class Base_Template {
 		SUBSET_MATCH,
 		DECODE_MATCH
 	};
-	
-	//TODO add is_ifpresent
-	
+
 	template_sel templateSelection;
+	boolean is_ifPresent;
 	
 	protected Base_Template() {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+		is_ifPresent = false;
 	}
 	
 	protected Base_Template(final template_sel otherValue) {
 		templateSelection = otherValue;
+		is_ifPresent = false;
 	}
 	
 	protected void setSelection(final template_sel otherValue) {
 		templateSelection = otherValue;
+		is_ifPresent = false;
 	}
 	
 	protected void setSelection(final Base_Template otherValue) {
 		templateSelection = otherValue.templateSelection;
+		is_ifPresent = otherValue.is_ifPresent;
 	}
 	
 	public template_sel getSelection() {
 		return templateSelection;
+	}
+	
+	public void set_ifPresent() {
+		is_ifPresent = true;
 	}
 	
 	protected void checkSingleSelection(final template_sel otherValue) {
