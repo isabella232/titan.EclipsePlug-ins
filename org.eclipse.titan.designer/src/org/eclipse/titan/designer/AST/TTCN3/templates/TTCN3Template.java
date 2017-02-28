@@ -1157,7 +1157,39 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	}
 	
 	/**
+	 * Returns whether the template can be represented by an in-line
+	 *  Java expression.
+	 * */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* || get_needs_conversion()*/) {
+			return false;
+		}
+		//TODO fatal error
+		return false;
+	}
+
+	/**
+	 * Returns the equivalent Java expression. It can be used only if
+	 *  \a has_single_expr() returns true.
+	 *  
+	 *  @param aData the structure to put imports into and get temporal variable names from.
+	 *  @param castIsNeeded indicates whether the generic wildcards have to be explicitly
+	 *  converted to the appropriate type.
+	 * */
+	public StringBuilder getSingleExpresion(final JavaGenData aData, final boolean castIsNeeded) {
+		StringBuilder source = new StringBuilder();
+		//default implementation
+		//TODO this might be a good location to check for the need of conversion
+		source.append( "\t//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateSingleExpression() is not implemented!\n" );
+		
+		return source;
+	}
+
+	/**
 	 * Add generated java code for initializing a template
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source for code generated
 	 * @param name the name to init

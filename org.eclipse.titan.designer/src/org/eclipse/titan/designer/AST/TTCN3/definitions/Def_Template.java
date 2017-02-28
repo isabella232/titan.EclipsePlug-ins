@@ -863,10 +863,21 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		if ( !isLocal() ) {
 			source.append( "\tpublic static " );
 		}
-		//TODO temporary code to adapt to the starting code
-		source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
+
+		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
+		source.append( typeName );
 		source.append( " " );
 		source.append( identifier.getName() );
+		source.append( " = new " ). append(typeName).append("();\n");
+		
+		if (formalParList == null && baseTemplate == null) {
+			if ( body != null ) {
+				//TODO can optimize for single expressions;
+				body.generateJavaInit( aData, aData.getPostInit(), identifier.getName() );
+				sb.append(source);
+				return;
+			}
+		}
 		//TODO generate code for missing parts
 		source.append( "\t" );
 		source.append( "//TODO: " );
@@ -879,9 +890,19 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
-		source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
+		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
+		source.append( typeName );
 		source.append( " " );
 		source.append( identifier.getName() );
+		source.append( " = new " ). append(typeName).append("();\n");
+		
+		if (formalParList == null && baseTemplate == null) {
+			if ( body != null ) {
+				//TODO can optimize for single expressions;
+				body.generateJavaInit( aData, source, identifier.getName() );
+				return;
+			}
+		}
 		//TODO generate code for missing parts
 		source.append( "\t" );
 		source.append( "//TODO: " );

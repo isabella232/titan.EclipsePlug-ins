@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -93,6 +94,7 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation) {
 		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
@@ -100,9 +102,57 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
 		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* || get_needs_conversion()*/) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getSingleExpresion(JavaGenData aData, boolean castIsNeeded) {
+		StringBuilder result = new StringBuilder();
+
+		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
+			result.append( "\t//TODO: fatal error while generating " );
+			result.append( getClass().getSimpleName() );
+			result.append( ".generateSingleExpression() !\n" );
+			//fatal error
+			return result;
+		}
+
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		result.append( "template_sel.ANY_OR_OMIT" );
+		
+		//TODO handle cast needed
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		source.append(name);
+		source.append(".assign( ");
+		source.append(getSingleExpresion(aData, false));
+		source.append( " );\n" );
+		//TODO missing parts need to be completed
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }

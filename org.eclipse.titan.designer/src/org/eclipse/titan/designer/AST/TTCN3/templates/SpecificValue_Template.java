@@ -549,14 +549,21 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateJavaExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		specificValue.generateCodeExpression( aData, expression );
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		//TODO handle post init rearrangement
 		specificValue.generateJavaInit( aData, source, name );
+		
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 	
 	
