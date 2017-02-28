@@ -68,6 +68,14 @@
       </run>
     </application>
   </extension>
+  <extension id="org.eclipse.titanium.applications.ExportAllCodeSmellsForProject"
+    point="org.eclipse.core.runtime.applications">
+    <application cardinality="singleton-global" thread="main"
+      visible="true">
+      <run class="org.eclipse.titanium.applications.ExportAllCodeSmellsForProject">
+      </run>
+    </application>
+  </extension>
   <extension
     id="org.eclipse.titanium.applications.ExportAllCodeSmellsToCSV"
     point="org.eclipse.core.runtime.applications">
