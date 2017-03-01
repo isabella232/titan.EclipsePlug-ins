@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Date;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -134,7 +133,8 @@ public class ProjectSourceCompiler {
 			aSb.append("unknown");
 		}
 		//TODO date will need to be simplified to have optimize build time
-		aSb.append(") on ").append(new Date()).append("\n");
+//		aSb.append(") on ").append(new Date()).append("\n");
+		aSb.append(")\n");
 		aSb.append("\n" );
 		aSb.append( "// ").append(GeneralConstants.COPYRIGHT_STRING).append("\n" );
 		aSb.append("\n" );
