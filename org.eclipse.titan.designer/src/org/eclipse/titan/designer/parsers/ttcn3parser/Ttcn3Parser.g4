@@ -2378,15 +2378,19 @@ pr_IfPresentMatch:
 pr_Range returns[ValueRange valueRange]
 @init {
 	$valueRange = null;
+	boolean minExclusive = false;
+	boolean maxExclusive = false;
 }:
 (	col = pr_LParen
+	( pr_ExcludeBound { minExclusive = true; } )?
 	min = pr_LowerBound
 	RANGEOP
+	( pr_ExcludeBound { maxExclusive = true; } )?
 	max = pr_UpperBound
 	endcol = pr_RParen
 )
 {
-	$valueRange = new ValueRange($min.value, $max.value);
+	$valueRange = new ValueRange($min.value, minExclusive, $max.value, maxExclusive);
 };
 
 pr_LowerBound returns[Value value]

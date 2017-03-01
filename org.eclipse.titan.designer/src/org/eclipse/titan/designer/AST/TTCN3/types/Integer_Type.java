@@ -244,7 +244,8 @@ public final class Integer_Type extends Type {
 			final ValueRange range = ((Value_Range_Template) template).getValueRange();
 			final IValue lower = checkBoundary(timestamp, range.getMin(),BOUNDARY_TYPE.LOWER);
 			final IValue upper = checkBoundary(timestamp, range.getMax(),BOUNDARY_TYPE.UPPER);
-
+			range.setTypeType(getTypetypeTtcn3());
+			
 			// Template references are not checked.
 			if (lower != null && Value.Value_type.INTEGER_VALUE.equals(lower.getValuetype()) && upper != null
 					&& Value.Value_type.INTEGER_VALUE.equals(upper.getValuetype())) {
@@ -253,6 +254,7 @@ public final class Integer_Type extends Type {
 					template.setIsErroneous(true);
 				}
 			}
+			//TODO some checks are still missing
 			break;
 		case VALUE_LIST:
 			final ValueList_Template temp = (ValueList_Template) template;

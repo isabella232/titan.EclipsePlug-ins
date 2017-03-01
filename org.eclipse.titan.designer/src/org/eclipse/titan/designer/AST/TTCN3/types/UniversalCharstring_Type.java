@@ -231,6 +231,7 @@ public final class UniversalCharstring_Type extends Type {
 			final ValueRange range = ((Value_Range_Template) template).getValueRange();
 			final IValue lower = checkBoundary(timestamp, type, range.getMin(), template, "lower");
 			final IValue upper = checkBoundary(timestamp, type, range.getMax(), template, "upper");
+			range.setTypeType(type.getTypetypeTtcn3());
 
 			if (lower != null && upper != null) {
 				UniversalCharstring value1;

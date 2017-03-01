@@ -214,12 +214,14 @@ public final class Float_Type extends ASN1Type {
 			final ValueRange range = ((Value_Range_Template) template).getValueRange();
 			final IValue lower = checkBoundary(timestamp, range.getMin());
 			final IValue upper = checkBoundary(timestamp, range.getMax());
+			range.setTypeType(getTypetypeTtcn3());
 
 			if (lower != null && upper != null) {
 				if (((Real_Value) lower).getValue() > ((Real_Value) upper).getValue()) {
 					template.getLocation().reportSemanticError(INCORRECTBOUNDARIES);
 				}
 			}
+			// TODO: some checks are still missing
 		} else {
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
 		}

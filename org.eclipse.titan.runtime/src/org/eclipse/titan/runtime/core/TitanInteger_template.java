@@ -272,6 +272,11 @@ public class TitanInteger_template extends Base_Template {
 		min_value = otherMinValue;
 	}
 	
+	//originally set_min_exclusive
+	public void setMinExclusive(final boolean minExclusive) {
+		min_is_exclusive = minExclusive;
+	}
+	
 	// originally set_max
 	public void setMax(final int otherMaxValue) {
 		if (!template_sel.VALUE_RANGE.equals(templateSelection)) {
@@ -306,5 +311,10 @@ public class TitanInteger_template extends Base_Template {
 		max_is_present = true;
 		max_is_exclusive = false;
 		max_value = otherMaxValue;
+	}
+	
+	//originally set_max_exclusive
+	public void setMaxExclusive(final boolean maxExclusive) {
+		max_is_exclusive = maxExclusive;
 	}
 }

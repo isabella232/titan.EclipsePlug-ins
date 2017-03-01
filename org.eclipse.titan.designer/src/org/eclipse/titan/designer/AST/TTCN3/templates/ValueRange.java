@@ -36,12 +36,18 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	private static final String FULLNAMEPART2 = ".<lower_boundary>";
 
 	private final Value min;
+	private final boolean minExclusive;
 	private final Value max;
+	private final boolean maxExclusive;
+	
+	private Type_type typeType;
 
-	public ValueRange(final Value min, final Value max) {
+	public ValueRange(final Value min, final boolean minExclusive, final Value max, final boolean maxExclusive) {
 		super();
 		this.min = min;
+		this.minExclusive = minExclusive;
 		this.max = max;
+		this.maxExclusive = maxExclusive;
 
 		if (min != null) {
 			min.setFullNameParent(this);
@@ -214,6 +220,10 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		return true;
 	}
 
+	public void setTypeType(final Type_type typeType) {
+		this.typeType = typeType;
+	}
+	
 	/**
 	 * Add generated java code for initializing a template
 	 *
@@ -236,7 +246,19 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 			initStatement.append(expression.expression);
 			initStatement.append(" );\n");
 		}
-		// TODO: min exclusive not stored yet
+		if(minExclusive) {
+			switch(typeType) {
+			case TYPE_INTEGER:
+			case TYPE_REAL:
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+				initStatement.append(name);
+				initStatement.append(".setMinExclusive(true);\n");
+				break;
+			default:
+				//fatal error
+			}
+		}
 		
 		if(max != null) {
 			expression.expression = new StringBuilder();
@@ -246,7 +268,19 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 			initStatement.append(expression.expression);
 			initStatement.append(" );\n");
 		}
-		// TODO: max exclusive not stored yet
+		if(maxExclusive) {
+			switch(typeType) {
+			case TYPE_INTEGER:
+			case TYPE_REAL:
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+				initStatement.append(name);
+				initStatement.append(".setMaxExclusive(true);\n");
+				break;
+			default:
+				//fatal error
+			}
+		}
 		
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			source.append("{\n");
