@@ -382,6 +382,8 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\tpublic static void main( String[] args ) {\n" );
 		sb.append( "//TODO this is only temporal implementation!\n" );
+		sb.append( "pre_init_module();\n" );
+		sb.append( "post_init_module();\n" );
 		StringBuilder body = new StringBuilder();
 		final int size = statementblock.getSize();
 		for ( int i = 0; i < size; i++ ) {
