@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.common.actions;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -86,8 +87,11 @@ public final class FormatLog extends AbstractHandler implements IWorkbenchWindow
 
 		FileChannel inChannel = null;
 		FileChannel outChannel = null;
+		FileInputStream fileInputStream = null;
+		//TODO: if Java 7 will be supported, use try-with-resources instead of closeQuietly
 		try {
-			inChannel = new FileInputStream(source).getChannel();
+			fileInputStream = new FileInputStream(source);
+			inChannel = fileInputStream.getChannel();
 
 			outChannel = openOutputFile(targetPath);
 
@@ -97,7 +101,7 @@ public final class FormatLog extends AbstractHandler implements IWorkbenchWindow
 			ErrorReporter.logExceptionStackTrace("Error while formatting log file: " + file.getLocation().toOSString(), e);
 			return new Status(IStatus.ERROR, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, e.getMessage() != null ? e.getMessage() : "", e);
 		} finally {
-			IOUtils.closeQuietly(inChannel, outChannel);
+			IOUtils.closeQuietly(fileInputStream, outChannel);
 		}
 
 		if (targetFiles != null) {
