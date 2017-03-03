@@ -10,6 +10,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.StringTokenizer;
 
 //import com.sun.org.apache.bcel.internal.classfile.LineNumber;
@@ -30,8 +31,8 @@ public class CheckListGenerator {
 			return;
 		}
 
-		LineInputStream lin;
-		DataOutputStream dos;
+		LineInputStream lin = null;
+		DataOutputStream dos = null;
 		Error_Message[] messageArr = new Error_Message[100000];
 		
 		//create input/output streams
@@ -49,6 +50,18 @@ public class CheckListGenerator {
 		{
 			System.out.println("Fileopen unsuccessful ...");
 			e.printStackTrace();
+			try {
+				dos.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block, NPE check
+				e1.printStackTrace();
+			}
+			try {
+				lin.close();
+			} catch (IOException e1) {
+				// TODO Auto-generated catch block, NPE check
+				e1.printStackTrace();
+			}
 			return;
 		}
 		
@@ -222,18 +235,47 @@ public class CheckListGenerator {
 			filechange = false;
 			//writing out the converted line
 			try{
-			System.out.println(outline.toString());
-			dos.writeBytes(outline.toString());
-			dos.flush();
+				System.out.println(outline.toString());
+				dos.writeBytes(outline.toString());
+				dos.flush();
 			}
 			catch (Exception e)
 			{
-			   e.printStackTrace();
-			   return;
+				e.printStackTrace();
+				try {
+					dos.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block, NPE check
+					e1.printStackTrace();
+				}
+				try {
+					lin.close();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block, NPE check
+					e1.printStackTrace();
+				}
+				return;
+			} 
+
+		}//for-loop
+		
+		try {
+			if (dos != null) {
+				dos.close();
 			}
-			
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block, NPE check
+			e1.printStackTrace();
 		}
-			
+		try {
+			if(lin!=null){
+				lin.close();
+			}
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block, NPE check
+			e1.printStackTrace();
+		}
+
 	}
-	
+
 }
