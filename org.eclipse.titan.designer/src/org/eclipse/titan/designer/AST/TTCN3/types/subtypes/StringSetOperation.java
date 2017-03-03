@@ -264,7 +264,10 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 					case EXCEPT:
 						return (StringSubtypeTreeElement) a.except(b);
 					}
-				}
+				};
+				break;
+			case OPERATION:
+				//TODO;
 			}
 		}
 
