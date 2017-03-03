@@ -268,6 +268,9 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 				break;
 			case OPERATION:
 				//TODO;
+				break;
+			default:
+				break;
 			}
 		}
 
