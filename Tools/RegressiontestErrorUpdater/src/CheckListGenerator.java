@@ -51,12 +51,15 @@ public class CheckListGenerator {
 			System.out.println("Fileopen unsuccessful ...");
 			e.printStackTrace();
 			try {
-				dos.close();
+				if (dos != null){
+					dos.close();
+				}
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block, NPE check
 				e1.printStackTrace();
 			}
 			try {
+				if (lin != null)
 				lin.close();
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block, NPE check
@@ -243,13 +246,17 @@ public class CheckListGenerator {
 			{
 				e.printStackTrace();
 				try {
-					dos.close();
+					if (dos != null) {
+						dos.close();
+					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block, NPE check
 					e1.printStackTrace();
 				}
 				try {
-					lin.close();
+					if (lin!=null) {
+						lin.close();
+					}
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block, NPE check
 					e1.printStackTrace();
@@ -268,7 +275,7 @@ public class CheckListGenerator {
 			e1.printStackTrace();
 		}
 		try {
-			if(lin!=null){
+			if (lin!=null) {
 				lin.close();
 			}
 		} catch (IOException e1) {
