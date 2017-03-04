@@ -652,10 +652,18 @@ public final class Referenced_Value extends Value {
 		referenceChain.release();
 
 		if (last == this) {
-			return new StringBuilder("/* fatal error during generating code for erroneous reference */");
+			ExpressionStruct expression = new ExpressionStruct();
+			expression.expression.append(name);
+			expression.expression.append(".assign(");
+			reference.generateConstRef(aData, expression);
+			expression.expression.append(")");
+			expression.mergeExpression(source);
+
+			return source;
 		}
 
 		//TODO might need initialization see needs_init_precede
+		//TODO Value.cc:generate_code_init_refd
 		source.append(name);
 		source.append(".assign(");
 		source.append("TEMPORARY_NAME");//TODO needs last.getGennameOwn
@@ -668,7 +676,7 @@ public final class Referenced_Value extends Value {
 	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
 		//TODO check and handle conversion needs
 		//TODO actually generate_code_const_ref
-		reference.generateJavaAlias(aData, expression);
+		reference.generateConstRef(aData, expression);
 	}
 	
 	

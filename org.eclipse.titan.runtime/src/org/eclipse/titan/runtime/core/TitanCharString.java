@@ -7,12 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+
 
 /**
  * TTCN-3 charstring
  * @author Arpad Lovassy
  */
-public class TitanCharString {
+public class TitanCharString extends Base_Type {
 
 	/**
 	 * charstring value.
@@ -48,10 +50,23 @@ public class TitanCharString {
 
 		return this;
 	}
+	
+	@Override
+	public TitanCharString assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanCharString) {
+			return assign((TitanCharString)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
+	}
 
 	public boolean isBound() {
 		return val_ptr != null;
 	}
+
+	public boolean isPresent() {
+		return isBound();
+	};
 
 	public boolean isValue() {
 		return val_ptr != null;
@@ -80,6 +95,15 @@ public class TitanCharString {
 		aOtherValue.mustBound("Unbound right operand of charstring comparison.");
 
 		return val_ptr.equals(aOtherValue.val_ptr);
+	}
+	
+	@Override
+	public boolean operatorEquals(final Base_Type otherValue) {
+		if (otherValue instanceof TitanCharString) {
+			return operatorEquals((TitanCharString)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
 	//originally operator!=

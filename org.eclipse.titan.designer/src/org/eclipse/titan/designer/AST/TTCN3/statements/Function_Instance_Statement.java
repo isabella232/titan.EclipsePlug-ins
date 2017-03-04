@@ -159,7 +159,7 @@ public final class Function_Instance_Statement extends Statement {
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\t" );
 		ExpressionStruct expression = new ExpressionStruct();
-		reference.generateJavaAlias( aData, expression );
+		reference.generateConstRef( aData, expression );
 		expression.mergeExpression(source);
 	}
 }

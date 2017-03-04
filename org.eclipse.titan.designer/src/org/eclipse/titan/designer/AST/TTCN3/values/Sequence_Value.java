@@ -777,6 +777,11 @@ public final class Sequence_Value extends Value {
 			IValue fieldValue;
 			if (hasComponentWithName(fieldName)) {
 				fieldValue = getComponentByName(fieldName).getValue();
+				if(Value_type.NOTUSED_VALUE.equals(fieldValue.getValuetype())) {
+					continue;
+				} else if (Value_type.OMIT_VALUE.equals(fieldValue.getValuetype())) {
+					fieldValue = null;
+				}
 			}//TODO add support for asn default values when needed
 			else {
 				continue;
@@ -789,8 +794,13 @@ public final class Sequence_Value extends Value {
 				embeddedName.append(".get");
 				embeddedName.append(FieldSubReference.getJavaGetterName(fieldName.getName()));
 				embeddedName.append("()");
+				if(compField.isOptional() /*&& fieldValue.isCompound() */) {
+					embeddedName.append(".get()");
+				}
 				//TODO add extra handling for optional fields
 				fieldValue.generateJavaInit(aData, source, embeddedName.toString());
+			} else {
+				// TODO: handle omit value
 			}
 		}
 		

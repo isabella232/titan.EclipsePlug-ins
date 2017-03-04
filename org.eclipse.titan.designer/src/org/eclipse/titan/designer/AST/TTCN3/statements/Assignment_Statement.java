@@ -189,7 +189,7 @@ public final class Assignment_Statement extends Statement {
 			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
 			template.setIsErroneous(false);
 			if ( Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) || template.isValue(timestamp)) {
-				final 	IValue temporalValue = template.getValue();
+				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
 			} else if ( Template_type.VALUE_LIST.equals(template.getTemplatetype())
@@ -529,10 +529,24 @@ public final class Assignment_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		//TODO this is actually much more complicated
+		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+		switch (assignment.getAssignmentType()) {
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_OUT:
+		case A_PAR_VAL_INOUT:
+		case A_PAR_VAL:
+		case A_VAR:
+			//TODO handle value
+		default:
+			//TODO handle template
+		}
+		
+		
+		// TODO Assignment::generate_code
 		source.append( "\t\t" );
 		
 		ExpressionStruct expression = new ExpressionStruct();
-		reference.generateJavaAlias(aData, expression);
+		reference.generateJava(aData, expression);
 		source.append(expression.preamble);
 		source.append(expression.expression);
 		

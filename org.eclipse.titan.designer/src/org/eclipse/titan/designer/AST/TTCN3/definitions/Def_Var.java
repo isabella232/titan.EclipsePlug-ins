@@ -468,6 +468,7 @@ public final class Def_Var extends Definition {
 		if ( initialValue != null ) {
 			initialValue.generateJavaInit(aData, source, identifier.getName() );
 		}
+		// TODO add cleanup
 		sb.append(source);
 	}
 	

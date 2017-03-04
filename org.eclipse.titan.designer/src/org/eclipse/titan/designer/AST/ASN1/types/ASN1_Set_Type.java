@@ -723,7 +723,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	}
 
 	/** Parses the block as if it were the block of a set. */
-	private void parseBlockSet() {
+	public void parseBlockSet() {
 		if (null == mBlock) {
 			return;
 		}

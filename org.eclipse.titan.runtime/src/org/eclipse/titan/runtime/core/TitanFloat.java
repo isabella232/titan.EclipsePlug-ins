@@ -7,11 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+
 /**
  * TTCN-3 float
  * @author Arpad Lovassy
  */
-public class TitanFloat {
+public class TitanFloat extends Base_Type {
 
 	/**
 	 * float value.
@@ -46,10 +48,23 @@ public class TitanFloat {
 
 		return this;
 	}
+	
+	@Override
+	public TitanFloat assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanFloat) {
+			return assign((TitanFloat)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
+	}
 
 	public boolean isBound() {
 		return float_value != null;
 	}
+
+	public boolean isPresent() {
+		return isBound();
+	};
 
 	public boolean isValue() {
 		return float_value != null;
@@ -156,6 +171,15 @@ public class TitanFloat {
 		aOtherValue.mustBound("Unbound right operand of float comparison.");
 
 		return float_value.equalsTo( aOtherValue.float_value.getValue() );
+	}
+	
+	@Override
+	public boolean operatorEquals(final Base_Type otherValue) {
+		if (otherValue instanceof TitanFloat) {
+			return operatorEquals((TitanFloat)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
 	//originally operator!=

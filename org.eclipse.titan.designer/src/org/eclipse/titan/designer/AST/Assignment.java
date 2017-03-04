@@ -10,8 +10,10 @@ package org.eclipse.titan.designer.AST;
 import java.text.MessageFormat;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Group;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -304,5 +306,44 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	@Override
 	public Declaration getDeclaration() {
 		return Declaration.createInstance(this);
+	}
+	
+	/**
+	 * Returns a string containing the Java reference pointing to this
+	 * definition from the Java equivalent of scope \a p_scope.
+	 * The reference is a simple identifier qualified with a namespace when necessary.
+	 * If \a p_prefix is not NULL it is inserted before the string returned by
+	 * function \a get_genname().
+	 * 
+	 * get_genname_from_scope in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java value class in the generated code.
+	 */
+	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
+		if(myScope == null || scope == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
+			return "FATAL_ERROR encountered";
+		}
+		
+		final StringBuilder returnValue = new StringBuilder();
+		final Module myModule = myScope.getModuleScope();//get_scope_mod_gen
+		// TODO also check for the special module once ASN.1 is needed
+		if(!myModule.equals(scope.getModuleScope())) {
+			//TODO properly prefix the setting with the module's Java reference
+			returnValue.append(myModule.getName()).append(".");
+		}
+
+		if (prefix != null) {
+			returnValue.append(prefix);
+		}
+
+		//TODO implement the calculation of generated name, this is just temporary
+		returnValue.append(identifier.getName());
+		//TODO add support for not normal formal parameter evaluations
+
+		return returnValue.toString();
 	}
 }

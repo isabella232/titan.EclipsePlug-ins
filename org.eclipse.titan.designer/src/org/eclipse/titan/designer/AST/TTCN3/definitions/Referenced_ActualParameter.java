@@ -79,7 +79,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
 		if (reference != null) {
 			// TODO implement properly
-			reference.generateJavaAlias(aData, expression);
+			reference.generateJava(aData, expression);
 		}
 	}
 }

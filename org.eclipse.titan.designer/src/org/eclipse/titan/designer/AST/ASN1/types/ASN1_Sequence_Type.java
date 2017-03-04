@@ -812,7 +812,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 	}
 
 	/** Parses the block as if it were the block of a sequence. */
-	private void parseBlockSequence() {
+	public void parseBlockSequence() {
 		if (null == mBlock) {
 			return;
 		}

@@ -7,12 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+
 
 /**
  * TTCN-3 boolean
  * @author Arpad Lovassy
  */
-public class TitanBoolean {
+public class TitanBoolean extends Base_Type {
 
 	/**
 	 * boolean_value in core.
@@ -56,9 +58,22 @@ public class TitanBoolean {
 		return this;
 	}
 
+	@Override
+	public TitanBoolean assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanBoolean) {
+			return assign((TitanBoolean)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
+	}
+
 	public boolean isBound() {
 		return boolean_value != null;
 	}
+
+	public boolean isPresent() {
+		return isBound();
+	};
 
 	public boolean isValue() {
 		return boolean_value != null;
@@ -119,6 +134,15 @@ public class TitanBoolean {
 		aOtherValue.mustBound("Unbound right operand of boolean comparison.");
 
 		return boolean_value.equals(aOtherValue.boolean_value);
+	}
+	
+	@Override
+	public boolean operatorEquals(final Base_Type otherValue) {
+		if (otherValue instanceof TitanBoolean) {
+			return operatorEquals((TitanBoolean)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
 	//originally operator!=

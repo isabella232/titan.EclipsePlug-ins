@@ -807,6 +807,8 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
+		
+		private boolean isOptional;
 
 		/** Field variable name in java getter/setter function names and parameters */
 		private String mJavaVarName;
@@ -820,13 +822,21 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		final String className = getDefiningAssignment().getIdentifier().toString();
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
+		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final FieldInfo fi = new FieldInfo();
 			fi.mJavaTypeName = compField.getType().getGenNameValue( aData, source, getMyScope() );
 			fi.mVarName = compField.getIdentifier().getName();
+			fi.isOptional = compField.isOptional();
+			hasOptional |= fi.isOptional;
 			fi.mJavaVarName = FieldSubReference.getJavaGetterName( fi.mVarName );
 			fi.mVarTypeName =  compField.getType().getClass().getSimpleName();
 			namesList.add( fi );
+		}
+		
+		if(hasOptional) {
+			aData.addBuiltinTypeImport("Optional");
+			aData.addBuiltinTypeImport("Optional.optional_sel");
 		}
 
 		source.append( " {\n" );
@@ -852,7 +862,13 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	private static void generateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( "\t\tprivate " );
-			source.append( fi.mJavaTypeName );
+			if (fi.isOptional) {
+				source.append("Optional<");
+				source.append( fi.mJavaTypeName );
+				source.append(">");
+			} else {
+				source.append( fi.mJavaTypeName );
+			}
 			source.append( " " );
 			source.append( fi.mVarName );
 			source.append( ";" );
@@ -879,8 +895,17 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			aSb.append( "\t\t\t" );
 			aSb.append( fi.mVarName );
 			aSb.append( " = new " );
-			aSb.append( fi.mJavaTypeName );
-			aSb.append( "();\n" );
+			if (fi.isOptional) {
+				aSb.append("Optional<");
+				aSb.append( fi.mJavaTypeName );
+				aSb.append(">(");
+				aSb.append( fi.mJavaTypeName );
+				aSb.append( ".class);\n" );
+			} else {
+				aSb.append( fi.mJavaTypeName );
+				aSb.append( "();\n" );
+			}
+			
 		}
 		aSb.append( "\t\t}\n" );
 	}
@@ -904,7 +929,13 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				aSb.append( ", " );
 			}
 			aSb.append( "final " );
-			aSb.append( fi.mJavaTypeName );
+			if (fi.isOptional) {
+				aSb.append("Optional<");
+				aSb.append( fi.mJavaTypeName );
+				aSb.append(">");
+			} else {
+				aSb.append( fi.mJavaTypeName );
+			}
 			aSb.append( " a" );
 			aSb.append( fi.mJavaVarName );
 		}
@@ -999,9 +1030,18 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		//TODO: remove
 		//for( int i = 0; i < 80; i++ )
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\tif ( " );
-			aSb.append( fi.mVarName );
-			aSb.append( ".isBound() ) return true;\n" );
+			if (fi.isOptional) {
+				aSb.append( "\t\t\tif ( optional_sel.OPTIONAL_OMIT.equals(" );
+				aSb.append( fi.mVarName );
+				aSb.append(".getSelection()) || ");
+				aSb.append(fi.mVarName);
+				aSb.append( ".isBound() ) return true;\n" );
+			} else {
+				aSb.append( "\t\t\tif ( " );
+				aSb.append( fi.mVarName );
+				aSb.append( ".isBound() ) return true;\n" );
+			}
+			
 		}
 		aSb.append( "\t\t\treturn false;\n" +
 					"\t\t}\n" );
@@ -1015,9 +1055,17 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	private static void generateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\tif ( !" );
-			aSb.append( fi.mVarName );
-			aSb.append( ".isValue() ) return false;\n" );
+			if (fi.isOptional) {
+				aSb.append( "\t\t\tif ( !optional_sel.OPTIONAL_OMIT.equals(" );
+				aSb.append( fi.mVarName );
+				aSb.append(".getSelection()) && !");
+				aSb.append(fi.mVarName);
+				aSb.append( ".isValue() ) return true;\n" );
+			} else {
+				aSb.append( "\t\t\tif ( " );
+				aSb.append( fi.mVarName );
+				aSb.append( ".isValue() ) return true;\n" );
+			}
 		}
 		aSb.append( "\t\t\treturn true;\n" +
 					"\t\t}\n" );
@@ -1053,7 +1101,13 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	private static void generateGettersSetters( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
 			aSb.append( "\n\t\tpublic " );
-			aSb.append( fi.mJavaTypeName );
+			if (fi.isOptional) {
+				aSb.append("Optional<");
+				aSb.append( fi.mJavaTypeName );
+				aSb.append(">");
+			} else {
+				aSb.append( fi.mJavaTypeName );
+			}
 			aSb.append( " get" );
 			aSb.append( fi.mJavaVarName );
 			aSb.append( "() {\n" +
@@ -1062,19 +1116,41 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			aSb.append( ";\n" +
 						"\t\t}\n" );
 
-			aSb.append( "\n\t\tpublic void set" );
+			aSb.append( "\n\t\tpublic " );
+			if (fi.isOptional) {
+				aSb.append("Optional<");
+				aSb.append( fi.mJavaTypeName );
+				aSb.append(">");
+			} else {
+				aSb.append( fi.mJavaTypeName );
+			}
+			aSb.append( " constGet" );
 			aSb.append( fi.mJavaVarName );
-			aSb.append( "( final " );
-			aSb.append( fi.mJavaTypeName );
-			aSb.append( " a" );
-			aSb.append( fi.mJavaVarName );
-			aSb.append( " ) {\n" +
-						"\t\t\tthis." );
+			aSb.append( "() {\n" +
+						"\t\t\treturn " );
 			aSb.append( fi.mVarName );
-			aSb.append( " = a" );
-			aSb.append( fi.mJavaVarName );
 			aSb.append( ";\n" +
 						"\t\t}\n" );
+
+//			aSb.append( "\n\t\tpublic void set" );
+//			aSb.append( fi.mJavaVarName );
+//			aSb.append( "( final " );
+//			if (fi.isOptional) {
+//				aSb.append("Optional<");
+//				aSb.append( fi.mJavaTypeName );
+//				aSb.append(">");
+//			} else {
+//				aSb.append( fi.mJavaTypeName );
+//			}
+//			aSb.append( " a" );
+//			aSb.append( fi.mJavaVarName );
+//			aSb.append( " ) {\n" +
+//						"\t\t\tthis." );
+//			aSb.append( fi.mVarName );
+//			aSb.append( " = a" );
+//			aSb.append( fi.mJavaVarName );
+//			aSb.append( ";\n" +
+//						"\t\t}\n" );
 		}
 	}
 }

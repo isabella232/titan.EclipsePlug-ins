@@ -12,11 +12,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.AST.ASN1.ASN1Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.ISetting.Setting_type;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.ASN1.ASN1Assignment;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
@@ -26,7 +31,12 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.IParameterisedAssignment;
+import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
+import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
@@ -884,11 +894,212 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * @param aData only used to update imports if needed
 	 * @param expression the expression for code generated
 	 */
-	public void generateJavaAlias( final JavaGenData aData, final ExpressionStruct expression ) {
-		final int size = this.subReferences.size();
-		for ( int i = 0; i < size; i++ ) {
-			final ISubReference subref = subReferences.get( i );
-			subref.generateJava( aData, expression, i==0 );
+	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
+		boolean isTemplate;
+		IType referedGovernor;
+		switch (referredAssignment.getAssignmentType()) {
+		case A_CONST:
+		case A_EXT_CONST:
+		case A_MODULEPAR:
+		case A_VAR:
+		case A_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RVAL:
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_OUT:
+		case A_PAR_VAL_INOUT:
+			isTemplate = false;
+			referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+			break;
+		case A_MODULEPAR_TEMPLATE:
+		case A_TEMPLATE:
+		case A_VAR_TEMPLATE:
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_OUT:
+		case A_PAR_TEMP_INOUT:
+			isTemplate = true;
+			referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+			break;
+		default:
+			isTemplate = false;
+			referedGovernor = null;
+			break;
+		}
+
+		if (subReferences.get(0) instanceof ParameterisedSubReference) {
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			expression.expression.append("( ");
+			ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
+			temp.getActualParameters().generateJavaAlias(aData, expression);
+			expression.expression.append(" )");
+		} else {
+			//TODO add fuzzy handling
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+		}
+		
+		generateCode(aData, expression, isTemplate, false, referedGovernor);
+	}
+	
+	/**
+	 * originally has_single_expr
+	 * */
+	public boolean hasSingleExpression() {
+		if (referredAssignment == null) {
+			//TODO: fatal error
+			return false;
+		}
+		
+		//TODO implement more precision
+		
+		return false;
+//		for (int i = 0; i < subReferences.size(); i++) {
+//			if(!subReferences.get(i).hasSingleExpression()) {
+//				return false;
+//			}
+//		}
+//
+//		return true;
+	}
+	
+	public void generateConstRef(final JavaGenData aData, final ExpressionStruct expression) {
+		if (subReferences.size() == 1) {
+			generateJava(aData, expression);
+			return;
+		}
+		
+		boolean isTemplate;
+		switch (referredAssignment.getAssignmentType()) {
+		case A_MODULEPAR:
+		case A_VAR:
+		case A_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RVAL:
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_OUT:
+		case A_PAR_VAL_INOUT:
+			isTemplate = false;
+			break;
+		case A_MODULEPAR_TEMPLATE:
+		case A_TEMPLATE:
+		case A_VAR_TEMPLATE:
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_OUT:
+		case A_PAR_TEMP_INOUT:
+			isTemplate = true;
+			break;
+		case A_CONST:
+		case A_EXT_CONST:
+		default:
+			generateJava(aData, expression);
+			return;
+		}
+		
+		IType referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+
+		//ha parameterezett
+		if (subReferences.get(0) instanceof ParameterisedSubReference) {
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			expression.expression.append("( ");
+			ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
+			temp.getActualParameters().generateJavaAlias(aData, expression);
+			expression.expression.append(" )");
+		} else {
+			//TODO add fuzzy handling
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+		}
+		
+		generateCode(aData, expression, isTemplate, true, referedGovernor);
+	}
+	
+	// originally fieldOrArrayRefs
+	private void generateCode(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate, final boolean isConst, IType type) {
+		for ( int i = 1; i < subReferences.size(); i++) {
+			if (type != null) {
+				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			}
+			
+			ISubReference subreference = subReferences.get(i);
+			if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
+				Identifier id = ((FieldSubReference) subreference).getId();
+				expression.expression.append(".");
+				if(type != null && Type_type.TYPE_ANYTYPE.equals(type.getTypetype())) {
+					expression.expression.append("AT_");
+				}
+				if (isConst) {
+					expression.expression.append("constGet");
+				} else {
+					expression.expression.append("get");
+				}
+				expression.expression.append(FieldSubReference.getJavaGetterName(id.getName()));
+				expression.expression.append("()");
+				if (type != null) {
+					CompField compField = null;
+					switch(type.getTypetype()) {
+					case TYPE_TTCN3_CHOICE:
+					case TYPE_TTCN3_SEQUENCE:
+					case TYPE_TTCN3_SET:
+						compField = ((TTCN3_Set_Seq_Choice_BaseType)type).getComponentByName(id.getName());
+						break;
+					case TYPE_ANYTYPE:
+						compField = ((Anytype_Type)type).getComponentByName(id.getName());
+						break;
+					case TYPE_OPENTYPE:
+						compField = ((Open_Type)type).getComponentByName(id);
+						break;
+					case TYPE_ASN1_SEQUENCE:
+						((ASN1_Sequence_Type)type).parseBlockSequence();
+						compField = ((ASN1_Sequence_Type)type).getComponentByName(id);
+						break;
+					case TYPE_ASN1_SET:
+						((ASN1_Set_Type)type).parseBlockSet();
+						compField = ((ASN1_Set_Type)type).getComponentByName(id);
+						break;
+					case TYPE_ASN1_CHOICE:
+						((ASN1_Choice_Type)type).parseBlockChoice();
+						compField = ((ASN1_Choice_Type)type).getComponentByName(id);
+						break;
+					default:
+						//TODO fatal error:
+						return;
+					}
+					
+					if (compField != null && compField.isOptional() && !isTemplate) {
+						if (isConst) {
+							expression.expression.append(".constGet()");
+						} else {
+							expression.expression.append(".get()");
+						}
+						type = compField.getType();
+					}
+				}
+			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
+				Value value = ((ArraySubReference)subreference).getValue();
+				//TODO actually should get the last governor
+				IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+				//TODO add support for indexing with array or record of
+				// generate "getAt" functions instead of operator[]
+				if (isConst) {
+					expression.expression.append(".constGetAt(");
+				} else {
+					expression.expression.append(".getAt(");
+				}
+				value.generateCodeExpression(aData, expression);
+				expression.expression.append(")");
+				
+				if(type != null) {
+					switch(type.getTypetype()) {
+					case TYPE_SEQUENCE_OF:
+					case TYPE_SET_OF:
+						type = ((AbstractOfType) type).getOfType();
+						break;
+					case TYPE_ARRAY:
+						type = ((Array_Type) type).getElementType();
+						break;
+					default:
+						type = null;
+					}
+				}
+			}
 		}
 	}
 }

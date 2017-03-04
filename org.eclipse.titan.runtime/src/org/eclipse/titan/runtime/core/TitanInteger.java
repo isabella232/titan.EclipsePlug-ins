@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.math.BigInteger;
+import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.TtcnError;
 
@@ -15,7 +16,7 @@ import org.eclipse.titan.runtime.core.TtcnError;
  * TTCN-3 integer
  * @author Arpad Lovassy
  */
-public class TitanInteger {
+public class TitanInteger extends Base_Type {
 	private boolean boundFlag;
 
 	private boolean nativeFlag;
@@ -94,10 +95,23 @@ public class TitanInteger {
 
 		return this;
 	}
+	
+	@Override
+	public TitanInteger assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanInteger) {
+			return assign((TitanInteger)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
+	}
 
 	public boolean isBound() {
 		return boundFlag;
 	}
+
+	public boolean isPresent() {
+		return isBound();
+	};
 
 	public boolean isValue() {
 		return boundFlag;
@@ -169,6 +183,15 @@ public class TitanInteger {
 				return openSSL.equals(otherValue.openSSL);
 			}
 		}
+	}
+
+	@Override
+	public boolean operatorEquals(final Base_Type otherValue) {
+		if (otherValue instanceof TitanInteger) {
+			return operatorEquals((TitanInteger)otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
 	//originally operator!=
