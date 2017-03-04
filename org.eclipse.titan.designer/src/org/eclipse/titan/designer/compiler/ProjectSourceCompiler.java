@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.titan.designer.GeneralConstants;
+import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.Module;
 
 /**
@@ -37,6 +38,13 @@ public class ProjectSourceCompiler {
 	 * @throws CoreException
 	 */
 	public static void compile( final Module aModule, final boolean aDebug ) throws CoreException {
+		IResource sourceFile = aModule.getLocation().getFile();
+		if(MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, sourceFile)) {
+			// if there are syntactic errors in the module don't generate code for it
+			// TODO semantic errors need to be checked for severity
+			return;
+		}
+		
 		JavaGenData data = new JavaGenData();
 		data.setDebug( aDebug );
 		aModule.generateJava( data );
