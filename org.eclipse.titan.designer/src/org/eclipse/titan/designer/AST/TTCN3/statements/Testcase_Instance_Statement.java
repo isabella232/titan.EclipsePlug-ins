@@ -23,6 +23,8 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -186,5 +188,15 @@ public final class Testcase_Instance_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append( "\t\t" );
+		//TODO this is actually more complicated
+		ExpressionStruct expression = new ExpressionStruct();
+		testcaseReference.generateConstRef( aData, expression );
+		expression.mergeExpression(source);
 	}
 }
