@@ -149,9 +149,10 @@ public class SatelliteView extends ViewPart {
 	 *            : The satellite graph to add
 	 */
 	public void add(final CustomSatelliteViewer satGraph) {
-		if (satGraph == null || satView == null) {
+		if (satGraph == null || satView == null || satelliteGraph == satGraph) {
 			return;
 		}
+
 		satelliteGraph = satGraph;
 		satelliteGraph.setPreferredSize(windowSize);
 		satelliteGraph.changeSize(windowSize);
