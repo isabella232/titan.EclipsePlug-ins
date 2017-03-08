@@ -187,7 +187,9 @@ public final class Assignment_Statement extends Statement {
 		case A_VAR:
 			((Def_Var) assignment).setWritten();
 			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
-			template.setIsErroneous(false);
+			if (template.getIsErroneous(timestamp) ) {
+				return;
+			}
 			if ( Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) || template.isValue(timestamp)) {
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
