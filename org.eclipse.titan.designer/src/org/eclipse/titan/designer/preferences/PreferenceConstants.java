@@ -24,7 +24,6 @@ public final class PreferenceConstants {
 	public static final String USEONTHEFLYPARSING = ProductConstants.PRODUCT_ID_DESIGNER + ".useOnTheFlyParsing";
 	public static final String USEINCREMENTALPARSING = ProductConstants.PRODUCT_ID_DESIGNER + ".useIncrementalParsing";
 	public static final String DELAYSEMANTICCHECKINGTILLSAVE = ProductConstants.PRODUCT_ID_DESIGNER + ".delaySemantiCheckingTillSave";
-	public static final String MINIMISEMEMORYUSAGE = ProductConstants.PRODUCT_ID_DESIGNER + ".minimiseMemoryUsage";
 	public static final String RECONCILERTIMEOUT = ProductConstants.PRODUCT_ID_DESIGNER + ".reconcilerTimeout";
 	public static final String PROCESSINGUNITSTOUSE = ProductConstants.PRODUCT_ID_DESIGNER + ".processingUnitsToUse";
 	//Actions on console before build

@@ -9,7 +9,6 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -29,7 +28,6 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
-import org.eclipse.titan.designer.editors.EditorTracker;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -291,9 +289,6 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			block.check(timestamp);
 
 			block.postCheck();
-			if (!EditorTracker.containsKey((IFile) getLocation().getFile())) {
-				block.free();
-			}
 		}
 
 		if (withAttributesPath != null) {

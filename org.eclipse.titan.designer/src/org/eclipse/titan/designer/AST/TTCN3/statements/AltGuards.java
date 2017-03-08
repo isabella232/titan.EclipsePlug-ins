@@ -48,9 +48,6 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	private static final String FULLNAMEPART = ".alt_guard_";
 	private final ArrayList<AltGuard> altGuards;
 
-	/** stores whether the altguards were freed or not. */
-	private boolean freed = false;
-
 	/**
 	 * The location of the whole assignment. This location encloses the
 	 * assignment fully, as it is used to report errors to.
@@ -243,21 +240,10 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		}
 	}
 
-	/**
-	 * Free up the statements stored inside this statement block.
-	 * */
-	public void free() {
-		if (StatementBlock.minimiseMemoryUsage && !freed) {
-			freed = true;
-			altGuards.clear();
-		}
-	}
-
 	@Override
 	/** {@inheritDoc} */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
-			freed = false;
 			boolean enveloped = false;
 			int nofDamaged = 0;
 			int leftBoundary = location.getOffset();

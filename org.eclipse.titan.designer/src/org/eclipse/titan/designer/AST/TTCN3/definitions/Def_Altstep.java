@@ -9,7 +9,6 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import java.util.List;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -30,7 +29,6 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuards;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
-import org.eclipse.titan.designer.editors.EditorTracker;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -266,15 +264,9 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		if (block != null) {
 			block.postCheck();
-			if (!EditorTracker.containsKey((IFile) getLocation().getFile())) {
-				block.free();
-			}
 		}
 		if (altGuards != null) {
 			altGuards.postCheck();
-			if (!EditorTracker.containsKey((IFile) getLocation().getFile())) {
-				altGuards.free();
-			}
 		}
 	}
 
