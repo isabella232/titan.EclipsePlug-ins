@@ -52,8 +52,6 @@ public final class InformationFromObj extends Reference {
 	private static final String INVALIDNOTATION3 = "This notation is not permitted"
 			+ " (object, objectset, (fixed type) value or valueset fieldreference was expected)";
 
-	@SuppressWarnings("unused")
-	private boolean isErroneous;
 
 	/** ObjectClass, Object or ObjectSet. */
 	private final Defined_Reference reference;
@@ -70,7 +68,7 @@ public final class InformationFromObj extends Reference {
 		super(null);
 		this.reference = reference;
 		this.fieldName = fieldName;
-		isErroneous = false;
+		setIsErroneous(false);
 
 		if (null != reference) {
 			reference.setFullNameParent(this);
@@ -127,11 +125,11 @@ public final class InformationFromObj extends Reference {
 
 	@Override
 	public ISetting getRefdSetting(final CompilationTimeStamp timestamp) {
-		isErroneous = false;
+		setIsErroneous(false);
 		ISetting temporalSetting = reference.getRefdSetting(timestamp);
 
 		if (null == temporalSetting) {
-			isErroneous = true;
+			setIsErroneous(true);
 			return new Error_Setting();
 		}
 
@@ -165,11 +163,11 @@ public final class InformationFromObj extends Reference {
 			objectClass = ((ObjectClass) temporalSetting).getRefdLast(timestamp, null);
 			break;
 		case S_ERROR:
-			isErroneous = true;
+			setIsErroneous(true);
 			return new Error_Setting();
 		default:
 			location.reportSemanticError(MessageFormat.format(INVALIDREFERENCE, getDisplayName()));
-			isErroneous = true;
+			setIsErroneous(true);
 			return new Error_Setting();
 		}
 
@@ -184,7 +182,7 @@ public final class InformationFromObj extends Reference {
 					.getLast();
 
 			if (Fieldspecification_types.FS_ERROR.equals(currentFieldSpecification.getFieldSpecificationType())) {
-				isErroneous = true;
+				setIsErroneous(true);
 				return new Error_Setting();
 			}
 
@@ -202,11 +200,11 @@ public final class InformationFromObj extends Reference {
 				}
 					break;
 				case FS_ERROR:
-					isErroneous = true;
+					setIsErroneous(true);
 					return new Error_Setting();
 				default:
 					location.reportSemanticError(INVALIDNOTATION1);
-					isErroneous = true;
+					setIsErroneous(true);
 					return new Error_Setting();
 				}
 				break;
@@ -261,11 +259,11 @@ public final class InformationFromObj extends Reference {
 				}
 					break;
 				case FS_ERROR:
-					isErroneous = true;
+					setIsErroneous(true);
 					return new Error_Setting();
 				default:
 					location.reportSemanticError(INVALIDNOTATION1);
-					isErroneous = true;
+					setIsErroneous(true);
 					return new Error_Setting();
 				}
 				break;
@@ -303,11 +301,11 @@ public final class InformationFromObj extends Reference {
 				}
 					break;
 				case FS_ERROR:
-					isErroneous = true;
+					setIsErroneous(true);
 					return new Error_Setting();
 				default:
 					location.reportSemanticError(INVALIDNOTATION1);
-					isErroneous = true;
+					setIsErroneous(true);
 					return new Error_Setting();
 				}
 				break;
@@ -343,15 +341,15 @@ public final class InformationFromObj extends Reference {
 			case FS_VS_FT:
 			case FS_VS_VT:
 				location.reportSemanticError(UNSUPPORTEDCONSTRUCT);
-				isErroneous = true;
+				setIsErroneous(true);
 				break;
 			case FS_O:
 			case FS_OS:
 				location.reportSemanticError(INVALIDNOTATION2);
-				isErroneous = true;
+				setIsErroneous(true);
 				break;
 			default:
-				isErroneous = true;
+				setIsErroneous(true);
 				break;
 			}
 			break;
@@ -410,14 +408,14 @@ public final class InformationFromObj extends Reference {
 			case FS_V_FT:
 			case FS_VS_FT:
 				location.reportSemanticError(VALUESETFROMOBJECTS_NOT_SUPPORTED);
-				isErroneous = true;
+				setIsErroneous(true);
 				break;
 			case FS_ERROR:
-				isErroneous = true;
+				setIsErroneous(true);
 				break;
 			default:
 				location.reportSemanticError(INVALIDNOTATION3);
-				isErroneous = true;
+				setIsErroneous(true);
 				break;
 			}
 			break;
@@ -425,7 +423,7 @@ public final class InformationFromObj extends Reference {
 			temporalSetting = object.getSettingByNameDefault(currentFieldName);
 			break;
 		default:
-			isErroneous = true;
+			setIsErroneous(true);
 			break;
 		}
 
