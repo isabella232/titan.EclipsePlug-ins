@@ -283,8 +283,8 @@ public class ModuleGraphEditor extends GraphEditor {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				chosenLayout.setSelected(false);
-				isom.setSelected(true);
-				chosenLayout = (LayoutEntry) isom;
+				tdag.setSelected(true);
+				chosenLayout = (LayoutEntry) tdag;
 				enableModuleMenus(true);
 				setGraph(originalGraph);
 			}
