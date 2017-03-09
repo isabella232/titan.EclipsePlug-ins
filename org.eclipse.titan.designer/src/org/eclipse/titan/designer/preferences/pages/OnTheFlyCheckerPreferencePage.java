@@ -32,7 +32,6 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	private static final String CHECK_MEMORY = "Warn and disable parsing before the system runs out of memory";
 	private static final String ENABLE_PARSING = "Enable parsing of TTCN-3, ASN.1 and Runtime Configuration files";
 	private static final String ENABLE_INCREMENTAL_PARSING = "Enable the incremental parsing of TTCN-3 files (EXPERIMENTAL)";
-//	private static final String MINIMISE_MEMORY_USAGE = "Minimise memory usage";
 	private static final String DELAY_SEMANTIC_CHECKING = "Delay the on-the-fly semantic check till the file is saved";
 	private static final String RECONCILER_TIMEOUT = "Timeout in seconds before on-the-fly check starts";
 
@@ -40,11 +39,8 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	private BooleanFieldEditor checkForLowMemory;
 	private BooleanFieldEditor useOnTheFlyParsing;
 	private BooleanFieldEditor useIncrementalParsing;
-//	private BooleanFieldEditor minimiseMemoryUsage;
 	private BooleanFieldEditor delaySemanticCheckTillSave;
 	private IntegerFieldEditor reconcilerTimeout;
-
-//	private boolean minimiseMemoryChanged = false;
 
 	public OnTheFlyCheckerPreferencePage() {
 		super(GRID);
@@ -71,9 +67,6 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		compositeData.horizontalAlignment = SWT.FILL;
 		composite.setLayoutData(compositeData);
 
-//		minimiseMemoryUsage = new BooleanFieldEditor(PreferenceConstants.MINIMISEMEMORYUSAGE, MINIMISE_MEMORY_USAGE, tempParent);
-//		addField(minimiseMemoryUsage);	
-
 		reconcilerTimeout = new IntegerFieldEditor(PreferenceConstants.RECONCILERTIMEOUT, RECONCILER_TIMEOUT, composite);
 		reconcilerTimeout.setValidRange(0, 10);
 		reconcilerTimeout.setTextLimit(2);
@@ -83,21 +76,6 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		addField(delaySemanticCheckTillSave);
 	}
 
-/*	@Override
-	public void propertyChange(final PropertyChangeEvent event) {
-		if (event.getSource().equals(minimiseMemoryUsage)) {
-			boolean newValue = ((Boolean) event.getNewValue()).booleanValue();
-			if (newValue) {
-				minimiseMemoryChanged = true;
-				ErrorReporter.parallelWarningDisplayInMessageDialog(
-						"On-the-fly analyzer",
-						"Minimise memory usage is on, this could indicate that in some cases rename refactoring function will not operate properly!");
-			}
-		}
-		
-		super.propertyChange(event);
-	}*/
-	
 	@Override
 	public void init(final IWorkbench workbench) {
 		setDescription(DESCRIPTION);
@@ -115,7 +93,6 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		}
 		useOnTheFlyParsing.dispose();
 		useIncrementalParsing.dispose();
-//		minimiseMemoryUsage.dispose();
 		delaySemanticCheckTillSave.dispose();
 		reconcilerTimeout.dispose();
 		composite.dispose();
@@ -123,7 +100,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 	}
 
 	private boolean isImportantChanged() {
-		return false;//getPreferenceStore().getBoolean(PreferenceConstants.MINIMISEMEMORYUSAGE) != minimiseMemoryUsage.getBooleanValue();
+		return false;
 	}
 
 	@Override
@@ -134,16 +111,8 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 				"Settings of the on-the-fly analyzer have changed, the known projects have to be re-analyzed completly.\n" 
 				+ "This might take some time.");
 
-//			if (minimiseMemoryChanged
-//					&& Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
-//							PreferenceConstants.MINIMISEMEMORYUSAGE, false, null)) {
-//				GlobalParser.clearAllInformation();
-//			} else {
-				GlobalParser.clearSemanticInformation();
-//			}
 
-//			minimiseMemoryChanged = false;
-
+			GlobalParser.clearSemanticInformation();
 			GlobalParser.reAnalyzeSemantically();
 		}
 		if (getPreferenceStore().getBoolean(PreferenceConstants.USEONTHEFLYPARSING)) {
