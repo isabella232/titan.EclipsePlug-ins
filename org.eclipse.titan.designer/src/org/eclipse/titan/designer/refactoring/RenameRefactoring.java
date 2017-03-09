@@ -86,9 +86,6 @@ public class RenameRefactoring extends Refactoring {
 
 	private static final String ONTHEFLYANALAYSISDISABLED = "On-the-fly analysis is disabled,"
 			+ " there is no reliable semantic information present for the refactoring to work on";
-	private static final String MINIMISEWARNING = "Minimise memory usage is enabled, which can cause unexpected behaviour in the refactoring process!\n"
-			+ "Refactoring is not supported with the memory minimise option turned on, "
-			+ "we do not take any responsibility for it.";
 
 	final IFile file;
 	final Module module;
@@ -131,7 +128,7 @@ public class RenameRefactoring extends Refactoring {
 
 		RefactoringStatus result = new RefactoringStatus();
 		try {
-			pm.beginTask("Checking preconditions...", 3);
+			pm.beginTask("Checking preconditions...", 2);
 			
 			final IPreferencesService prefs = Platform.getPreferencesService();//PreferenceConstants.USEONTHEFLYPARSING
 			if (! prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, false, null)) {
@@ -152,12 +149,6 @@ public class RenameRefactoring extends Refactoring {
 					result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, file.getProject()));
 					break;
 				}
-			}
-			pm.worked(1);
-
-			
-			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.MINIMISEMEMORYUSAGE, false, null)) {
-				result.addError(MINIMISEWARNING);
 			}
 			pm.worked(1);
 		} catch (CoreException e) {

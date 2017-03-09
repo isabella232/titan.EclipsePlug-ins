@@ -46,9 +46,6 @@ public class LazyficationRefactoring extends Refactoring {
 	public static final String PROJECTCONTAINSERRORS = "The project `{0}'' contains errors, which might corrupt the result of the refactoring";
 	public static final String PROJECTCONTAINSTTCNPPFILES = "The project `{0}'' contains .ttcnpp files, which might corrupt the result of the refactoring";
 	private static final String ONTHEFLYANALAYSISDISABLED = "The on-the-fly analysis is disabled, there is semantic information present to work on";
-	private static final String MINIMISEWARNING = "Minimise memory usage is enabled, which can cause unexpected behaviour in the refactoring process!\n"
-			+ "Refactoring is not supported with the memory minimise option turned on, "
-			+ "we do not take any responsibility for it.";
 
 	private final IStructuredSelection selection;
 	private final Set<IProject> projects = new HashSet<IProject>();
@@ -89,9 +86,6 @@ public class LazyficationRefactoring extends Refactoring {
 			final IPreferencesService prefs = Platform.getPreferencesService();
 			if (! prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, false, null)) {
 				result.addError(ONTHEFLYANALAYSISDISABLED);
-			}
-			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.MINIMISEMEMORYUSAGE, false, null)) {
-				result.addError(MINIMISEWARNING);
 			}
 			pm.worked(1);
 			// check that there are no ttcnpp files in the project

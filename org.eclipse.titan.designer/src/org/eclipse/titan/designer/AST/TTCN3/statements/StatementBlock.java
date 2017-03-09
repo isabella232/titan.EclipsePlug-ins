@@ -16,7 +16,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.core.resources.IFile;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.util.IPropertyChangeListener;
@@ -34,22 +33,17 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
-import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
-import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TTCN3Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Statement.Statement_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -140,19 +134,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 **/
 	private ReturnStatus_type returnStatus;
 
-	/**
-	 * A quick cache for all the references escaping this statementblock.
-	 * This way the statements can be freed, as we have impostors for the
-	 * references.
-	 * */
-	private List<FakeReference> referencesGoingOut = new ArrayList<FakeReference>();
-
-	/**
-	 * stores whether the statements of this statementblock were freed or
-	 * not.
-	 */
-	private boolean freed = false;
-
 	private static final Comparator<Statement> STATEMENT_INSERTION_COMPARATOR = new Comparator<Statement>() {
 
 		@Override
@@ -162,8 +143,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	};
 
-	/** whether memory usage minimalisation should be used or not. */
-	protected static boolean minimiseMemoryUsage;
 	/** whether to report the problem of an empty statement block */
 	private static String reportEmptyStatementBlock;
 	/** whether to report the problem of having too many parameters or not */
@@ -174,8 +153,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	static {
 		final IPreferencesService ps = Platform.getPreferencesService();
 		if ( ps != null ) {
-			minimiseMemoryUsage = ps.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.MINIMISEMEMORYUSAGE, false, null);
 			reportEmptyStatementBlock = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, GeneralConstants.WARNING, null);
 			reportTooManyStatements = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
@@ -189,10 +166,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 					@Override
 					public void propertyChange(final PropertyChangeEvent event) {
 						final String property = event.getProperty();
-						if (PreferenceConstants.MINIMISEMEMORYUSAGE.equals(property)) {
-							minimiseMemoryUsage = ps.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
-									PreferenceConstants.MINIMISEMEMORYUSAGE, false, null);
-						} else if (PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK.equals(property)) {
+						if (PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK.equals(property)) {
 							reportEmptyStatementBlock = ps.getString(ProductConstants.PRODUCT_ID_DESIGNER,
 									PreferenceConstants.REPORT_EMPTY_STATEMENT_BLOCK, GeneralConstants.WARNING, null);
 						} else if (PreferenceConstants.REPORT_TOOMANY_STATEMENTS.equals(property)) {
@@ -205,68 +179,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 					}
 				});
 			}
-		}
-	}
-
-	private static final class FakeReference {
-		String moduleName;
-		String definition;
-		boolean usedOnLeftSide;
-
-		FakeReference(final Reference reference) {
-			final Identifier moduleId = reference.getModuleIdentifier();
-			if (moduleId != null) {
-				moduleName = moduleId.getTtcnName();
-			} else {
-				moduleName = null;
-			}
-
-			final Identifier id = reference.getId();
-			if (id != null) {
-				definition = id.getTtcnName();
-			} else {
-				definition = null;
-			}
-			usedOnLeftSide = reference.getUsedOnLeftHandSide();
-		}
-
-		@Override
-		public boolean equals(final Object obj) {
-			if (this == obj) {
-				return true;
-			}
-
-			if (obj instanceof FakeReference) {
-				final FakeReference other = (FakeReference) obj;
-				if (moduleName == null) {
-					if (other.moduleName != null) {
-						return false;
-					}
-				} else if (!moduleName.equals(other.moduleName)) {
-					return false;
-				}
-
-				if (definition == null) {
-					if (other.definition != null) {
-						return false;
-					}
-				} else if (!definition.equals(other.definition)) {
-					return false;
-				}
-
-				return usedOnLeftSide == other.usedOnLeftSide;
-			}
-
-			return false;
-		}
-
-		@Override
-		public int hashCode() {
-			if (definition != null) {
-				return definition.hashCode();
-			}
-
-			return super.hashCode();
 		}
 	}
 
@@ -623,49 +535,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			return;
 		}
 
-		if (freed && minimiseMemoryUsage) {
-			MarkerHandler.reEnableAllSemanticMarkers((IFile) location.getFile(), location.getOffset(), location.getEndOffset());
-			final List<FakeReference> copy = new ArrayList<FakeReference>(referencesGoingOut);
-			for (final FakeReference reference : copy) {
-				Reference tempRef;
-				if (reference.moduleName != null) {
-					tempRef = new Reference(new Identifier(Identifier_type.ID_TTCN, reference.moduleName));
-				} else {
-					tempRef = new Reference(null);
-				}
-				tempRef.addSubReference(new FieldSubReference(new Identifier(Identifier_type.ID_TTCN, reference.definition)));
-				tempRef.setMyScope(this);
-				final Assignment assignment = tempRef.getRefdAssignment(timestamp, false);
-				if (assignment == null) {
-					return;
-				}
-
-				if (reference.usedOnLeftSide) {
-					switch (assignment.getAssignmentType()) {
-					case A_VAR_TEMPLATE:
-						((Def_Var_Template) assignment).setWritten();
-						break;
-					case A_VAR:
-						((Def_Var) assignment).setWritten();
-						break;
-					case A_PAR_TEMP_OUT:
-					case A_PAR_TEMP_INOUT:
-					case A_PAR_VAL_OUT:
-					case A_PAR_VAL_INOUT:
-					case A_PAR_VAL:
-						((FormalParameter) assignment).setWritten();
-						break;
-					default:
-						break;
-					}
-				}
-			}
-
-			return;
-		}
-
-		referencesGoingOut.clear();
-
 		if (definitionMap != null) {
 			definitionMap.clear();
 		}
@@ -725,23 +594,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 		for (int i = 0, size = statements.size(); i < size; i++) {
 			statements.get(i).postCheck();
-		}
-	}
-
-	/**
-	 * Free up the statements stored inside this statement block.
-	 * */
-	public void free() {
-		if (minimiseMemoryUsage && !freed) {
-			freed = true;
-
-			statements.clear();
-			if (definitionMap != null) {
-				definitionMap.clear();
-			}
-			if (labelMap != null) {
-				labelMap.clear();
-			}
 		}
 	}
 
@@ -900,12 +752,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
 			if (reference.getModuleIdentifier() != null || definitionMap == null) {
-			if (minimiseMemoryUsage) {
-				final FakeReference fakeReference = new FakeReference(reference);
-				if (!referencesGoingOut.contains(fakeReference)) {
-					referencesGoingOut.add(fakeReference);
-				}
-			}
 
 			return getParentScope().getAssBySRef(timestamp, reference);
 		}
@@ -913,13 +759,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		final Assignment assignment = definitionMap.get(reference.getId().getName());
 		if (assignment != null) {
 			return assignment;
-		}
-
-		if (minimiseMemoryUsage) {
-			final FakeReference fakeReference = new FakeReference(reference);
-			if (!referencesGoingOut.contains(fakeReference)) {
-				referencesGoingOut.add(fakeReference);
-			}
 		}
 
 		return getParentScope().getAssBySRef(timestamp, reference);
@@ -991,7 +830,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			return;
 		}
 
-		freed = false;
 		returnStatus = null;
 		lastTimeChecked = null;
 		boolean enveloped = false;
