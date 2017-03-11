@@ -464,4 +464,49 @@ public final class Array_Value extends Value {
 		}
 		return true;
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				values.getIndexedValueByIndex(i).getValue().setGenNamePrefix(prefix);
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				values.getValueByIndex(i).setGenNamePrefix(prefix);
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameRecursive(String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
+		
+		if (myGovernor == null) {
+			return;
+		}
+
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+			return;
+		}
+		
+		long offset = ((Array_Type) type).getDimension().getOffset();
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				embeddedName.append('[').append(offset + i).append(']');
+				values.getIndexedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				embeddedName.append('[').append(offset + i).append(']');
+				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
+			}
+		}
+	}
 }

@@ -12,4 +12,5 @@ package org.eclipse.titan.designer.AST;
  * */
 public interface IGovernedSimple extends IGoverned {
 
+	public void setGenNamePrefix(final String prefix);
 }

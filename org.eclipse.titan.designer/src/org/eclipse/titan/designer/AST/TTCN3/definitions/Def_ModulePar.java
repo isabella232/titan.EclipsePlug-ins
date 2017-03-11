@@ -370,6 +370,15 @@ public final class Def_ModulePar extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (defaultValue != null) {
+			//defaultValue.setGenNamePrefix("modulepar_");//currently does not need the prefix
+			defaultValue.setGenNameRecursive(genName);
+		}
+		
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
@@ -379,12 +388,12 @@ public final class Def_ModulePar extends Definition {
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		source.append( " = new " );
 		source.append( typeGeneratedName );
 		source.append( "();\n" );
 		if ( defaultValue != null ) {
-			defaultValue.generateJavaInit( aData, aData.getPreInit(), identifier.getName() );
+			defaultValue.generateJavaInit( aData, aData.getPreInit(), genName );
 		}
 		sb.append(source);
 		

@@ -544,4 +544,39 @@ public final class SetOf_Value extends Value {
 		}
 		return true;
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				values.getIndexedValueByIndex(i).getValue().setGenNamePrefix(prefix);
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				values.getValueByIndex(i).setGenNamePrefix(prefix);
+			}
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameRecursive(String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
+		
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				embeddedName.append('[').append(i).append(']');
+				values.getIndexedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				embeddedName.append('[').append(i).append(']');
+				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
+			}
+		}
+	}
 }

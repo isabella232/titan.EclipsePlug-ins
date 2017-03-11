@@ -183,6 +183,15 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		}
 	}
 
+	/**
+	 * Sets the genname of embedded definitions using the provided prefix
+	 * */
+	public void setGenName(final String prefix) {
+		for (Definition def : definitions) {
+			def.setGenName(prefix + def.getIdentifier().getName());
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public Location getLocation() {

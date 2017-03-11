@@ -33,6 +33,10 @@ public final class Template_ActualParameter extends ActualParameter {
 		this.template = template;
 	}
 
+	public TemplateInstance getTemplateInstance() {
+		return template;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {

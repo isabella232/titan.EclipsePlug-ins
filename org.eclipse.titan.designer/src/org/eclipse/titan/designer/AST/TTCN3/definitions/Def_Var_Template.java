@@ -461,6 +461,7 @@ public final class Def_Var_Template extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
 		//TODO this should handle only the global case
 		//TODO there are no Global variable templates
 		final StringBuilder sb = aData.getSrc();
@@ -469,7 +470,7 @@ public final class Def_Var_Template extends Definition {
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		source.append( " = new " ). append(typeName).append("();\n");
 		//TODO this actually belongs to the module initialization
 		if ( initialValue != null ) {
@@ -482,14 +483,22 @@ public final class Def_Var_Template extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (initialValue != null) {
+			initialValue.setGenNameRecursive(genName);
+		}
+		
 		// temporal code until generate_code_object and generateJavaInit is supported for templates
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		source.append( " = new " ). append(typeName).append("();\n");
 		if ( initialValue != null ) {
-			initialValue.generateJavaInit( aData, source, identifier.getName() );
+			initialValue.generateJavaInit( aData, source, genName );
 		}
 		
 	}

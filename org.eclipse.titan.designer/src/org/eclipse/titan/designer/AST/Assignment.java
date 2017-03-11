@@ -136,6 +136,11 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 		return isErroneous;
 	}
 
+	/**
+	 * Returns a string containing the Java reference pointing to this assignment.
+	 * */
+	public abstract String getGenName();
+	
 	@Override
 	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {

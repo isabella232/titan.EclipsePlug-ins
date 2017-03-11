@@ -889,6 +889,11 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
+		if (formalParList != null) {
+			formalParList.setGenName(genName);
+		}
+		
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
@@ -912,7 +917,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		source.append( " " );
 
 		// function name
-		source.append( identifier.getName() );
+		source.append( genName );
 
 		// arguments
 		source.append( "(" );

@@ -31,6 +31,10 @@ public final class Value_ActualParameter extends ActualParameter {
 		this.value = value;
 	}
 
+	public IValue getValue() {
+		return value;
+	}
+	
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {

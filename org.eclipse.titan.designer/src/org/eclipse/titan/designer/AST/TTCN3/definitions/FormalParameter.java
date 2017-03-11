@@ -1011,7 +1011,7 @@ public final class FormalParameter extends Definition {
 		
 		source.append( " " );
 		// parameter name
-		source.append( identifier.getName() );
+		source.append( getGenName() );
 
 		//TODO: implement: handle default value
 	}

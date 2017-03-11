@@ -450,6 +450,7 @@ public final class Def_Var extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
 		//TODO this should handle only the global case
 		//TODO there are no Global variables
 		final StringBuilder sb = aData.getSrc();
@@ -461,12 +462,12 @@ public final class Def_Var extends Definition {
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		source.append("= new ");
 		source.append(typeGeneratedName);
 		source.append("();\n");
 		if ( initialValue != null ) {
-			initialValue.generateJavaInit(aData, source, identifier.getName() );
+			initialValue.generateJavaInit(aData, source, genName );
 		}
 		// TODO add cleanup
 		sb.append(source);
@@ -475,10 +476,18 @@ public final class Def_Var extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (initialValue != null) {
+			initialValue.setGenNameRecursive(getGenName());
+		}
+		
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
 			source.append("= new ");
 			source.append(typeGeneratedName);
@@ -490,7 +499,7 @@ public final class Def_Var extends Definition {
 			source.append(typeGeneratedName);
 			source.append("();\n");
 			if (initialValue != null) {
-				initialValue.generateJavaInit(aData, source, identifier.getName() );
+				initialValue.generateJavaInit(aData, source, genName );
 			}
 		}
 	}

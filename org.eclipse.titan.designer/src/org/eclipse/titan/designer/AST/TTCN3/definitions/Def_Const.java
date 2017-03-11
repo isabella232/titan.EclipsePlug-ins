@@ -452,6 +452,15 @@ public final class Def_Const extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (value != null) {
+			//value.setGenNamePrefix("const_");//currently does not need the prefix
+			value.setGenNameRecursive(genName);
+		}
+
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
@@ -461,12 +470,12 @@ public final class Def_Const extends Definition {
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		source.append( " = new " );
 		source.append( typeGeneratedName );
 		source.append( "();\n" );
 		if ( value != null ) {
-			value.generateJavaInit( aData, aData.getPreInit(), identifier.getName() );
+			value.generateJavaInit( aData, aData.getPreInit(), genName );
 		}
 		sb.append(source);
 	}
@@ -474,10 +483,19 @@ public final class Def_Const extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (value != null) {
+			//value.setGenNamePrefix("const_");//currently does not need the prefix
+			value.setGenNameRecursive(genName);
+		}
+		
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		if (value != null && value.canGenerateSingleExpression() ) {
 			source.append("= new ");
 			source.append(typeGeneratedName);
@@ -489,7 +507,7 @@ public final class Def_Const extends Definition {
 			source.append(typeGeneratedName);
 			source.append("();\n");
 			if (value != null) {
-				value.generateJavaInit(aData, source, identifier.getName() );
+				value.generateJavaInit(aData, source, genName );
 			}
 		}
 	}

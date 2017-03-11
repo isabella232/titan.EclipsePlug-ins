@@ -85,6 +85,8 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	/** The visibility modifier of the definition */
 	private VisibilityModifier visibilityModifier;
 
+	protected String genName = new String(); 
+	
 	private Location commentLocation = null;
 	
 	/**
@@ -292,6 +294,20 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		}
 
 		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenName() {
+		if(genName.isEmpty()) {
+			return identifier.getName();
+		}
+
+		return genName;
+	}
+
+	public void setGenName(final String genName) {
+		this.genName = genName;
 	}
 
 	/**

@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
@@ -45,6 +46,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.NamedParameter;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedParameters;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NotUsed_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstances;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
@@ -1099,6 +1101,33 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			return false;
 		}
 		return true;
+	}
+
+	public void setGenName(final String prefix) {
+		for (FormalParameter parameter : parameters) {
+			String parameterName = parameter.getIdentifier().getName();
+			if (!Assignment_type.A_TIMER.equals(parameter.getAssignmentType())) {
+				parameter.getType(CompilationTimeStamp.getBaseTimestamp()).setGenName(prefix, parameterName);
+			}
+			
+			if (parameter.hasDefaultValue()) {
+				StringBuilder embeddedName = new StringBuilder(prefix);
+				embeddedName.append('_');
+				embeddedName.append(parameterName);
+				embeddedName.append("_defval");
+				ActualParameter defaultValue = parameter.getDefaultValue();
+				if (defaultValue instanceof Value_ActualParameter) {
+					IValue value = ((Value_ActualParameter) defaultValue).getValue();
+					//value.setGenNamePrefix("const_");//currently does not need the prefix
+					value.setGenNameRecursive(embeddedName.toString());
+				} else if (defaultValue instanceof Template_ActualParameter) {
+					TemplateInstance instance = ((Template_ActualParameter) defaultValue).getTemplateInstance();
+					TTCN3Template template = instance.getTemplateBody();
+					//template.setGenNamePrefix("template_");//currently does not need the prefix
+					template.setGenNameRecursive(embeddedName.toString());
+				}
+			}
+		}
 	}
 
 	/**

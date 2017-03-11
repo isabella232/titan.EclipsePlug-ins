@@ -365,6 +365,19 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 
 	}
 
+	/**
+	 * sets the name to be used when generating code recursively
+	 * */
+	public void setGenNameRecursive(final String parameterGenName) {
+		if(parameterGenName.endsWith("().get()")) {
+			setGenName(parameterGenName.substring(0, parameterGenName.length() - 8));
+		} else if(parameterGenName.endsWith("().constGet()")) {
+			setGenName(parameterGenName.substring(0, parameterGenName.length() - 13));
+		} else {
+			setGenName(parameterGenName);
+		}
+	}
+
 	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
 	/**
 	 * Add generated java code on this level

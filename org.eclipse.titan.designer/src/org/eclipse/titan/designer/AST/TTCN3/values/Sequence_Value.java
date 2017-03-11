@@ -730,6 +730,42 @@ public final class Sequence_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		for (int i = 0; i < values.getSize(); i++) {
+			values.getNamedValueByIndex(i).getValue().setGenNamePrefix(prefix);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameRecursive(String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
+		
+		if (myGovernor == null) {
+			return;
+		}
+		
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if(Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
+			for (int i = 0; i < values.getSize(); i++) {
+				String name = values.getNamedValueByIndex(i).getName().getName();
+				if(((TTCN3_Sequence_Type)type).hasComponentWithName(name)) {
+					StringBuilder embeddedName = new StringBuilder(parameterGenName);
+					embeddedName.append('.');
+					embeddedName.append(name);
+					embeddedName.append("()");
+					if(((TTCN3_Sequence_Type)type).getComponentByName(name).isOptional()) {
+						embeddedName.append(".get()");
+					}
+					values.getNamedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
+				}
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		// TODO actually empty could be
 		return false;
@@ -806,6 +842,4 @@ public final class Sequence_Value extends Value {
 		
 		return source;
 	}
-	
-	
 }

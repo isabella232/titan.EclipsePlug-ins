@@ -1494,7 +1494,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".getGenNameValue() is not implemented!\n" );
+		source.append( ".getGenNameValue() might not be implemented yet!\n" );
 		
 		//TODO temporary solution before creating the code for calculating the generated name
 		return getGenNameOwn(scope);

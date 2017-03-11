@@ -136,8 +136,8 @@ public abstract class ASN1Assignment extends Assignment {
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -163,6 +163,35 @@ public abstract class ASN1Assignment extends Assignment {
 	public boolean isAssignmentType(final CompilationTimeStamp timestamp, final Assignment_type assignmentType,
 			final IReferenceChain referenceChain) {
 		return getAssignmentType().semanticallyEquals(assignmentType);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenName() {
+		if(myScope == null ||
+				myScope.getParentScope().equals(myScope.getModuleScope())) {
+			// use the simple identifier if the assignment does not have scope
+			// or it is a simple assignment at module scope
+			return identifier.getName();
+		} else {
+			// this assignment belongs to an instantiation of a parameterized
+			// assignment: use the name of the parent scope to obtain genname
+			StringBuilder nameBuilder = new StringBuilder("@");
+			nameBuilder.append(myScope.getScopeName());
+			String displayName = identifier.getDisplayName();
+			boolean isParameterised = displayName.contains(".");
+			if(isParameterised) {
+				nameBuilder.append('.');
+				nameBuilder.append(displayName);
+			}
+			
+			StringBuilder returnValue = new StringBuilder(Identifier.getTtcnNameFromAsnName(nameBuilder.toString()));
+			if(isParameterised) {
+				returnValue.append("_par_");
+			}
+			
+			return returnValue.toString();
+		}
 	}
 
 	// TODO: remove when location is fixed

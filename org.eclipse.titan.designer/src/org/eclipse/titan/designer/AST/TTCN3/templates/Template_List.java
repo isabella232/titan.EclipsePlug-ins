@@ -312,6 +312,36 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			templates.getTemplateByIndex(i).setGenNamePrefix(prefix);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameRecursive(String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
+		
+		if(myGovernor == null) {
+			return;
+		}
+
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		long offset = 0;
+		if(Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+			offset = ((Array_Type) type).getDimension().getOffset();
+		}
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			StringBuilder embeddedName = new StringBuilder(parameterGenName);
+			embeddedName.append('[').append(offset + i).append(']');
+			templates.getTemplateByIndex(i).getTemplate().setGenNameRecursive(embeddedName.toString());
+		}
+	}
+
+	@Override
 	protected String getNameForStringRep() {
 		return "";
 	}

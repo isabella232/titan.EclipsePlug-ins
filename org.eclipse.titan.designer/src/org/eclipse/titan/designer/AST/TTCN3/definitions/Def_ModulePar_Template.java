@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -374,4 +375,20 @@ public final class Def_ModulePar_Template extends Definition {
 		}
 		return true;
 	}
+
+	@Override
+	public void generateJava(JavaGenData aData) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (defaultTemplate != null) {
+			//defaultTemplate.setGenNamePrefix("modulepar_");//currently does not need the prefix
+			defaultTemplate.setGenNameRecursive(genName);
+		}
+		// TODO Auto-generated method stub
+		super.generateJava(aData);
+	}
+	
+	
 }

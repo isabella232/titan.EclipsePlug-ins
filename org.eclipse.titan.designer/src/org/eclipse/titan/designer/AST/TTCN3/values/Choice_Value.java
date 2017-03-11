@@ -387,4 +387,26 @@ public final class Choice_Value extends Value {
 		}
 		return true;
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		value.setGenNamePrefix(prefix);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameRecursive(String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
+		
+		StringBuilder embeddedName = new StringBuilder(parameterGenName);
+		embeddedName.append('.');
+		if(Type_type.TYPE_ANYTYPE.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
+			embeddedName.append("AT_");
+		}
+		embeddedName.append(name.getName());
+		embeddedName.append("()");
+		value.setGenNameRecursive(embeddedName.toString());
+	}
 }

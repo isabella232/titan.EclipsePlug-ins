@@ -556,4 +556,40 @@ public final class Set_Value extends Value {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		for (int i = 0; i < values.getSize(); i++) {
+			values.getNamedValueByIndex(i).getValue().setGenNamePrefix(prefix);
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameRecursive(String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
+		
+		if (myGovernor == null) {
+			return;
+		}
+		
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if(Type_type.TYPE_TTCN3_SET.equals(type.getTypetype())) {
+			for (int i = 0; i < values.getSize(); i++) {
+				String name = values.getNamedValueByIndex(i).getName().getName();
+				if(((TTCN3_Set_Type)type).hasComponentWithName(name)) {
+					StringBuilder embeddedName = new StringBuilder(parameterGenName);
+					embeddedName.append('.');
+					embeddedName.append(name);
+					embeddedName.append("()");
+					if(((TTCN3_Set_Type)type).getComponentByName(name).isOptional()) {
+						embeddedName.append(".get()");
+					}
+					values.getNamedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
+				}
+			}
+		}
+	}
 }

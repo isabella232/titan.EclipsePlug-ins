@@ -383,6 +383,11 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	Definition getDefiningAssignment();
 
 	/**
+	 * sets the name to be used when generating code recursively
+	 * */
+	public void setGenNameRecursive(final String parameterGenName);
+
+	/**
 	 * Returns whether the evaluation of this value has side-effects that shall
 	 * be eliminated in case of short-circuit evaluation of logical "and" and
 	 * "or" operations. This function is applied on the second (right) operand

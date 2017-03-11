@@ -41,6 +41,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
@@ -731,4 +732,16 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		}
 		return true;
 	}
+
+	@Override
+	public void generateJava(JavaGenData aData) {
+		final String genName = getGenName();
+		if (formalParList != null) {
+			formalParList.setGenName(genName);
+		}
+		// TODO Auto-generated method stub
+		super.generateJava(aData);
+	}
+	
+	
 }

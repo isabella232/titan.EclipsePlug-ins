@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuards;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -550,4 +551,16 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	public int nofBranches() {
 		return altGuards.getNofAltguards();
 	}
+
+	@Override
+	public void generateJava(JavaGenData aData) {
+		final String genName = getGenName();
+		if (formalParList != null) {
+			formalParList.setGenName(genName);
+		}
+		// TODO Auto-generated method stub
+		super.generateJava(aData);
+	}
+	
+	
 }

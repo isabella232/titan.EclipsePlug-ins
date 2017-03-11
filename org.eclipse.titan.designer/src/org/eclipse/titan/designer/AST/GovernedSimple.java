@@ -15,4 +15,19 @@ package org.eclipse.titan.designer.AST;
  */
 public abstract class GovernedSimple extends Governed implements IGovernedSimple {
 
+	/**
+	 * A prefix that shall be inserted before the genname when initializing
+	 * the Java object. Without this prefix the genname points to a read-only
+	 * Java object reference. For example, `const_c1' is a writable object with
+	 * limited access (file static), but `c1' is a global const reference
+	 * pointing to it.
+	 * Possible values: "const_", "modulepar_", "template_"
+	 * 
+	 * TODO: check might not be needed in the Java code generator
+	 * */
+	private String genNamePrefix;
+	
+	public void setGenNamePrefix(final String prefix) {
+		genNamePrefix = prefix;
+	}
 }

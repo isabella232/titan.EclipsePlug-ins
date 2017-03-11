@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.types.Address_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Testcase_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -485,11 +486,19 @@ public final class Def_Type extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName(genName);
+			if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+				((Component_Type)type).getComponentBody().setGenName(genName + "_component_");
+			}
+		}
+
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		source.append( "\tpublic static class " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		//TODO: make sure, that type is not null
 		type.generateJava( aData, source );
 		sb.append(source);

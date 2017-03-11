@@ -857,6 +857,17 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (formalParList != null) {
+			formalParList.setGenName(genName);
+		}
+		if (body != null) {
+			//body.setGenNamePrefix("template_");
+			body.setGenNameRecursive(genName);
+		}
 		//TODO this should handle only the global case
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
@@ -867,13 +878,13 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		source.append( " = new " ). append(typeName).append("();\n");
 		
 		if (formalParList == null && baseTemplate == null) {
 			if ( body != null ) {
 				//TODO can optimize for single expressions;
-				body.generateJavaInit( aData, aData.getPostInit(), identifier.getName() );
+				body.generateJavaInit( aData, aData.getPostInit(), genName );
 				sb.append(source);
 				return;
 			}
@@ -890,16 +901,28 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		if (formalParList != null) {
+			formalParList.setGenName(genName);
+		}
+		if (body != null) {
+			//body.setGenNamePrefix("template_");//currently does not need the prefix
+			body.setGenNameRecursive(genName);
+		}
+		
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
 		source.append( " " );
-		source.append( identifier.getName() );
+		source.append( genName );
 		source.append( " = new " ). append(typeName).append("();\n");
 		
 		if (formalParList == null && baseTemplate == null) {
 			if ( body != null ) {
 				//TODO can optimize for single expressions;
-				body.generateJavaInit( aData, source, identifier.getName() );
+				body.generateJavaInit( aData, source, genName );
 				return;
 			}
 		}

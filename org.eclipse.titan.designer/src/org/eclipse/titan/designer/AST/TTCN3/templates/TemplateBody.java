@@ -327,6 +327,12 @@ public class TemplateBody implements ITemplateListItem {
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		template.setGenNamePrefix(prefix);
+	}
+
+	@Override
 	public void generateJavaExpression(JavaGenData aData, ExpressionStruct expression) {
 		template.generateJavaExpression(aData, expression);
 	}

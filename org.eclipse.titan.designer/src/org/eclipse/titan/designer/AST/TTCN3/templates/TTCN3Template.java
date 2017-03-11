@@ -1135,6 +1135,13 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		return true;
 	}
 
+	/**
+	 * sets the name to be used when generating code recursively
+	 * */
+	public void setGenNameRecursive(final String parameterGenName) {
+		setGenName(parameterGenName);
+	}
+
 	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
 	/**
 	 * Add generated java code on this level

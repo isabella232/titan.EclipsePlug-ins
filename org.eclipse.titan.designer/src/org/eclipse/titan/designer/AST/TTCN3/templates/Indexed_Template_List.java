@@ -380,4 +380,13 @@ public final class Indexed_Template_List extends TTCN3Template {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
+			indexedTemplates.getTemplateByIndex(i).getTemplate().setGenNamePrefix(prefix);
+		}
+	}
 }

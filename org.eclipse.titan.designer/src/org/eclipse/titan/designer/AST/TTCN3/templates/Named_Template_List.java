@@ -478,4 +478,35 @@ public final class Named_Template_List extends TTCN3Template {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNamePrefix(final String prefix) {
+		super.setGenNamePrefix(prefix);
+		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
+			namedTemplates.getTemplateByIndex(i).getTemplate().setGenNamePrefix(prefix);
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameRecursive(String parameterGenName) {
+		super.setGenNameRecursive(parameterGenName);
+		
+		if(myGovernor == null) {
+			return;
+		}
+
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
+			StringBuilder embeddedName = new StringBuilder(parameterGenName);
+			embeddedName.append('.');
+			if(Type_type.TYPE_ANYTYPE.equals(type.getTypetype())) {
+				embeddedName.append("AT_");
+			}
+			embeddedName.append(namedTemplates.getTemplateByIndex(i).getName().getName());
+			embeddedName.append("()");
+			namedTemplates.getTemplateByIndex(i).getTemplate().getTemplate().setGenNameRecursive(embeddedName.toString());
+		}
+	}
 }

@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -266,4 +267,16 @@ public final class Def_ExternalConst extends Definition {
 		}
 		return true;
 	}
+
+	@Override
+	public void generateJava(JavaGenData aData) {
+		final String genName = getGenName();
+		if (type != null) {
+			type.setGenName("_T_", genName);
+		}
+		// TODO Auto-generated method stub
+		super.generateJava(aData);
+	}
+	
+	
 }
