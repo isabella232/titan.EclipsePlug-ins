@@ -610,6 +610,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append( "\tpublic static class " );
+		source.append( getGenNameOwn() );
 		final String className = getGenNameValue( aData, source, getMyScope() ); 
 		source.append( " extends " );
 		source.append( className );

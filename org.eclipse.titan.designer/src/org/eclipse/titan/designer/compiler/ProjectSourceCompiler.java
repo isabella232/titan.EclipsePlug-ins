@@ -53,6 +53,10 @@ public class ProjectSourceCompiler {
 		StringBuilder headerSb = new StringBuilder();
 		writeHeader( headerSb, data );
 		
+		for(StringBuilder typeString: data.getTypes().values()) {
+			data.getSrc().append(typeString);
+		}
+
 		writeFooter(data);
 		
 

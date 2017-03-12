@@ -313,6 +313,8 @@ public final class CharString_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+		source.append( "\tpublic static class " );
+		source.append( getGenNameOwn() );
 		source.append( " extends TitanCharString {}\n" );
 		aData.addBuiltinTypeImport( "TitanCharString" );
 	}

@@ -1,5 +1,6 @@
 package org.eclipse.titan.designer.compiler;
 
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -24,6 +25,8 @@ public class JavaGenData {
 	
 	/** The imports with short class names */
 	private Set<String> mInternalImports;
+	
+	private HashMap<String, StringBuilder> types;
 
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
@@ -44,8 +47,19 @@ public class JavaGenData {
 		mImports = new TreeSet<String>();
 		mInternalImports = new TreeSet<String>();
 		mDebug = false;
+		types = new HashMap<String, StringBuilder>();
 	}
 
+	public StringBuilder getCodeForType(final String typeName) {
+		if(types.containsKey(typeName)) {
+			return types.get(typeName);
+		}
+
+		StringBuilder temp = new StringBuilder();
+		types.put(typeName, temp);
+		return temp;
+	}
+	
 	/**
 	 * @return the string where new java code is written
 	 */
@@ -97,6 +111,10 @@ public class JavaGenData {
 		return mImports;
 	}
 
+	public HashMap<String, StringBuilder> getTypes() {
+		return types;
+	}
+	
 	/**
 	 * @return the internal imports with short class names in alphabetical order
 	 */

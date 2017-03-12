@@ -487,6 +487,7 @@ public final class Def_Type extends Definition {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData ) {
 		final String genName = getGenName();
+		
 		if (type != null) {
 			type.setGenName(genName);
 			if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
@@ -494,11 +495,9 @@ public final class Def_Type extends Definition {
 			}
 		}
 
-		final StringBuilder sb = aData.getSrc();
+		final StringBuilder sb = aData.getCodeForType(genName);//aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
-		source.append( "\tpublic static class " );
-		source.append( genName );
 		//TODO: make sure, that type is not null
 		type.generateJava( aData, source );
 		sb.append(source);

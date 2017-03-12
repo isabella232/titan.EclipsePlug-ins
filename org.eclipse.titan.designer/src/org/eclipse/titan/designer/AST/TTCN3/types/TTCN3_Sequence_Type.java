@@ -820,7 +820,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
-		final String className = getDefiningAssignment().getIdentifier().toString();
+		final String className = getGenNameOwn();
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
@@ -839,7 +839,14 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
 		}
+		
+		for ( final CompField compField : compFieldMap.fields ) {
+			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			compField.getType().generateJava(aData, tempSource);
+		}
 
+		source.append( "\tpublic static class " );
+		source.append( getGenNameOwn() );
 		source.append( " {\n" );
 		generateDeclaration( aData, source, namesList );
 		generateConstructor( source, namesList, className );
