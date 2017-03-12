@@ -962,13 +962,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 	
 	public void generateConstRef(final JavaGenData aData, final ExpressionStruct expression) {
-		if (subReferences.size() == 1) {
-			generateJava(aData, expression);
-			return;
-		}
-		
 		boolean isTemplate;
 		switch (referredAssignment.getAssignmentType()) {
+		case A_CONST:
+		case A_EXT_CONST:
 		case A_MODULEPAR:
 		case A_VAR:
 		case A_FUNCTION_RVAL:
@@ -987,11 +984,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		case A_PAR_TEMP_INOUT:
 			isTemplate = true;
 			break;
-		case A_CONST:
-		case A_EXT_CONST:
 		default:
-			generateJava(aData, expression);
-			return;
+			isTemplate = false;
+			break;
 		}
 		
 		IType referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
