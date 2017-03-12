@@ -835,6 +835,8 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			namesList.add( fi );
 		}
 		
+		aData.addBuiltinTypeImport("Base_Type");
+		aData.addImport("java.text.MessageFormat");
 		if(hasOptional) {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
@@ -847,6 +849,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		source.append( "\tpublic static class " );
 		source.append( getGenNameOwn() );
+		source.append(" extends Base_Type");
 		source.append( " {\n" );
 		generateDeclaration( aData, source, namesList );
 		generateConstructor( source, namesList, className );
@@ -855,6 +858,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		generateAssign( aData, source, namesList, className );
 		generateCleanUp( source, namesList );
 		generateIsBound( source, namesList );
+		generateIsPresent( source, namesList );
 		generateIsValue( source, namesList );
 		generateOperatorEquals( source, namesList, className );
 		generateGettersSetters( source, namesList );
@@ -1011,6 +1015,16 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 		source.append( "\n\t\t\treturn this;\n" +
 				   "\t\t}\n" );
+		
+		source.append("\n");
+		source.append("@Override\n");
+		source.append("public ").append( aClassName ).append(" assign(final Base_Type otherValue) {\n");
+		source.append("if (otherValue instanceof ").append(aClassName).append(" ) {\n");
+		source.append("return assign((").append( aClassName ).append(") otherValue);\n");
+		source.append("}\n\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));\n");
+		source.append("}\n");
+
 	}
 
 	/**
@@ -1053,6 +1067,17 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 		aSb.append( "\t\t\treturn false;\n" +
 					"\t\t}\n" );
+	}
+
+	/**
+	 * Generating isPresent() function
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append( "\n\t\tpublic boolean isPresent() {\n" );
+		aSb.append( "\t\t\treturn isBound();\n");
+		aSb.append( "\t\t}\n" );
 	}
 
 	/**
@@ -1099,6 +1124,15 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 		aSb.append( "\t\t\treturn true;\n" +
 					"\t\t}\n" );
+		
+		aSb.append("\n");
+		aSb.append("@Override\n");
+		aSb.append("public boolean operatorEquals(final Base_Type otherValue) {\n");
+		aSb.append("if (otherValue instanceof ").append(aClassName).append(" ) {\n");
+		aSb.append("return operatorEquals((").append( aClassName ).append(") otherValue);\n");
+		aSb.append("}\n\n");
+		aSb.append("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));");
+		aSb.append("}\n");
 	}
 
 	/**
