@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
@@ -795,6 +796,14 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("sequence");
 	}
+
+	
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
+		return getGenNameOwn(scope);
+	}
+
 
 	/**
 	 * Data structure to store sequence field variable and type names.
