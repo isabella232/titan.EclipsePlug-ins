@@ -1017,13 +1017,13 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				   "\t\t}\n" );
 		
 		source.append("\n");
-		source.append("@Override\n");
-		source.append("public ").append( aClassName ).append(" assign(final Base_Type otherValue) {\n");
-		source.append("if (otherValue instanceof ").append(aClassName).append(" ) {\n");
-		source.append("return assign((").append( aClassName ).append(") otherValue);\n");
-		source.append("}\n\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));\n");
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic ").append( aClassName ).append(" assign(final Base_Type otherValue) {\n");
+		source.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
+		source.append("\t\t\t\treturn assign((").append( aClassName ).append(") otherValue);\n");
+		source.append("\t\t\t}\n\n");
+		source.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));\n");
+		source.append("\t\t}\n");
 
 	}
 
@@ -1076,7 +1076,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 */
 	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic boolean isPresent() {\n" );
-		aSb.append( "\t\t\treturn isBound();\n");
+		aSb.append( "\t\t\t\treturn isBound();\n");
 		aSb.append( "\t\t}\n" );
 	}
 
@@ -1126,13 +1126,13 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					"\t\t}\n" );
 		
 		aSb.append("\n");
-		aSb.append("@Override\n");
-		aSb.append("public boolean operatorEquals(final Base_Type otherValue) {\n");
-		aSb.append("if (otherValue instanceof ").append(aClassName).append(" ) {\n");
-		aSb.append("return operatorEquals((").append( aClassName ).append(") otherValue);\n");
-		aSb.append("}\n\n");
-		aSb.append("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));");
-		aSb.append("}\n");
+		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic boolean operatorEquals(final Base_Type otherValue) {\n");
+		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
+		aSb.append("\t\t\t\treturn operatorEquals((").append( aClassName ).append(") otherValue);\n");
+		aSb.append("\t\t\t}\n\n");
+		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));");
+		aSb.append("\t\t}\n");
 	}
 
 	/**
