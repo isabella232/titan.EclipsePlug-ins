@@ -821,6 +821,8 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		final String className = getGenNameOwn();
+		final String classReadableName = getFullName();
+
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
@@ -855,12 +857,12 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		generateConstructor( source, namesList, className );
 		generateConstructorManyParams( source, namesList, className );
 		generateConstructorCopy( source, className );
-		generateAssign( aData, source, namesList, className );
+		generateAssign( aData, source, namesList, className, classReadableName );
 		generateCleanUp( source, namesList );
 		generateIsBound( source, namesList );
 		generateIsPresent( source, namesList );
 		generateIsValue( source, namesList );
-		generateOperatorEquals( source, namesList, className );
+		generateOperatorEquals( source, namesList, className, classReadableName);
 		generateGettersSetters( source, namesList );
 		source.append( "\t}\n" );
 	}
@@ -983,9 +985,11 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * @param source the source code generated
 	 * @param aNamesList sequence field variable and type names
 	 * @param aClassName the class name of the record class
+	 * @param classReadableName the readable name of the class
 	 */
 	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
-										final String aClassName ) {
+						final String aClassName, final String classReadableName ) {
+		aData.addCommonLibraryImport( "TtcnError" );
 		source.append( "\n\t\tpublic " );
 		source.append( aClassName );
 		source.append( " assign( final " );
@@ -994,8 +998,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		source.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
 				   "\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
-		aData.addCommonLibraryImport( "TtcnError" );
-		source.append( aClassName );
+		source.append( classReadableName );
 		source.append( "\" );\n" +
 				   "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
@@ -1022,7 +1025,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		source.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
 		source.append("\t\t\t\treturn assign((").append( aClassName ).append(") otherValue);\n");
 		source.append("\t\t\t}\n\n");
-		source.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));\n");
+		source.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
 		source.append("\t\t}\n");
 
 	}
@@ -1109,9 +1112,10 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
 	 * @param aClassName the class name of the record class
+	 * @param classReadableName the readable name of the class
 	 */
 	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
-												final String aClassName ) {
+							final String aClassName, final String classReadableName ) {
 		aSb.append( "\n\t\tpublic boolean operatorEquals( final " );
 		aSb.append( aClassName );
 		aSb.append( " aOtherValue ) {\n" );
@@ -1131,7 +1135,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
 		aSb.append("\t\t\t\treturn operatorEquals((").append( aClassName ).append(") otherValue);\n");
 		aSb.append("\t\t\t}\n\n");
-		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(aClassName).append("\", otherValue));");
+		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));");
 		aSb.append("\t\t}\n");
 	}
 
