@@ -65,15 +65,16 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	public Optional<TYPE> assign(final Optional<TYPE> otherValue) {
 		switch(otherValue.optionalSelection) {
 		case OPTIONAL_PRESENT:
-			if(!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+				optionalValue.assign(otherValue.optionalValue);
+				
+			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
-			} else {
-				optionalValue.assign(otherValue.optionalValue);
 			}
 			break;
 		case OPTIONAL_OMIT:
@@ -99,15 +100,15 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		
 		switch(optionalOther.optionalSelection) {
 		case OPTIONAL_PRESENT:
-			if(!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+				optionalValue.assign(optionalOther.optionalValue);
+			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
-			} else {
-				optionalValue.assign(optionalOther.optionalValue);
 			}
 			break;
 		case OPTIONAL_OMIT:
