@@ -132,11 +132,11 @@ public class TitanInteger_template extends Base_Template {
 			if(min_is_present) {
 				min_value = new TitanInteger(otherValue.min_value);
 			}
+			max_is_present = otherValue.max_is_present;
+			max_is_exclusive = otherValue.max_is_exclusive;
 			if(max_is_present) {
 				max_value = new TitanInteger(otherValue.max_value);
 			}
-			max_is_present = otherValue.max_is_present;
-			otherValue.max_is_exclusive = otherValue.max_is_exclusive;
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported integer template.");

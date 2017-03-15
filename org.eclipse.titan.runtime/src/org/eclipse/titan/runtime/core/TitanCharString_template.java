@@ -133,11 +133,11 @@ public class TitanCharString_template extends Base_Template {
 			if(min_is_set) {
 				min_value = new TitanCharString(otherValue.min_value);
 			}
+			max_is_set = otherValue.max_is_set;
+			max_is_exclusive = otherValue.max_is_exclusive;
 			if(max_is_set) {
 				max_value = new TitanCharString(otherValue.max_value);
 			}
-			max_is_set = otherValue.max_is_set;
-			otherValue.max_is_exclusive = otherValue.max_is_exclusive;
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported charstring template.");
