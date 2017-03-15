@@ -230,7 +230,12 @@ public final class Boolean_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
-		aData.addBuiltinTypeImport( "TitanBoolean_template" );
 		return "TitanBoolean";
+	}
+
+	@Override
+	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+		aData.addBuiltinTypeImport( "TitanBoolean_template" );
+		return "TitanBoolean_template";
 	}
 }
