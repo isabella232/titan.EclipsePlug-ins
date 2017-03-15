@@ -963,13 +963,27 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			aSb.append( fi.mJavaVarName );
 		}
 		aSb.append( " ) {\n" );
-		aSb.append( "\t\t\tthis();\n" );
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\tthis." );
+			aSb.append( "\t\t\t" );
 			aSb.append( fi.mVarName );
-			aSb.append( ".assign( a" );
-			aSb.append( fi.mJavaVarName );
-			aSb.append( " );\n" );
+			aSb.append( " = new " );
+			if (fi.isOptional) {
+				aSb.append("Optional<");
+				aSb.append( fi.mJavaTypeName );
+				aSb.append(">(");
+				aSb.append( fi.mJavaTypeName );
+				aSb.append( ".class);\n" );
+				aSb.append( "\t\t\tthis." );
+				aSb.append( fi.mVarName );
+				aSb.append( ".assign( a" );
+				aSb.append( fi.mJavaVarName );
+				aSb.append( " );\n" );
+			} else {
+				aSb.append( fi.mJavaTypeName );
+				aSb.append( "( a");
+				aSb.append( fi.mJavaVarName );
+				aSb.append(" );\n" );
+			}
 		}
 		aSb.append( "\t\t}\n" );
 	}
