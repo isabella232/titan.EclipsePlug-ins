@@ -20,9 +20,9 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	
 	private optional_sel optionalSelection;
 	
-	private Class<TYPE> clazz;
+	private final Class<TYPE> clazz;
 	
-	public Optional(Class<TYPE> clazz) {
+	public Optional(final Class<TYPE> clazz) {
 		optionalValue = null;
 		optionalSelection = optional_sel.OPTIONAL_UNBOUND;
 		this.clazz = clazz;
@@ -96,7 +96,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to optional", otherValue));
 		}
 		
-		Optional<?> optionalOther = (Optional<?>)otherValue;
+		final Optional<?> optionalOther = (Optional<?>)otherValue;
 		
 		switch(optionalOther.optionalSelection) {
 		case OPTIONAL_PRESENT:
@@ -235,7 +235,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to an optional value", otherValue));
 		}
 
-		Optional<?> optionalOther = (Optional<?>) otherValue;
+		final Optional<?> optionalOther = (Optional<?>) otherValue;
 		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
 				return true;
