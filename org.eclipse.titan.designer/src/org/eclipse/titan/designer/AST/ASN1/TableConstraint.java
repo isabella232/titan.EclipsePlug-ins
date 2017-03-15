@@ -26,7 +26,11 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
+import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting;
+import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Type;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectSet_definition;
+import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
+import org.eclipse.titan.designer.AST.ASN1.Object.Referenced_ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
@@ -34,6 +38,9 @@ import org.eclipse.titan.designer.AST.ASN1.types.ObjectClassField_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
+import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
@@ -186,7 +193,7 @@ public final class TableConstraint extends Constraint {
 			tempType = parent;
 			atNotation.setFirstComponent(parent);
 
-			// component identifiers... do they exist?
+			// component identifiers... do they exist? yes, if the refd type is constrained
 			FieldName componentIdentifiers = atNotation.getComponentIdentifiers();
 			for (int j = 0; j < componentIdentifiers.getNofFields(); j++) {
 				Identifier identifier = componentIdentifiers.getFieldByIndex(i);
@@ -315,6 +322,7 @@ public final class TableConstraint extends Constraint {
 			}
 		}
 
+		//===This c++ code has been implemented below===
 		// FIXME enable once all missing parts are filled in,
 		// and we become able to consistently reach the referenced types.
 		/*
@@ -336,11 +344,42 @@ public final class TableConstraint extends Constraint {
 		 * 
 		 * //FIXME implement
 		 * 
+		 * 
 		 * }
 		 * 
 		 * //FIXME maybe something is missing from here
 		 * openType.check(timestamp);
 		 */
+		
+		if( objectSet instanceof Referenced_ObjectSet){
+			ObjectSet_definition objects = objectSet.getRefdLast(timestamp, null);
+			List<IObjectSet_Element> oses = objects.getObjectSetElements();
+			for( IObjectSet_Element ose : oses) {
+				if (ose instanceof Object_Definition) {
+					Object_Definition od = (Object_Definition) ose;
+					if( !od.hasFieldSettingWithNameDefault(objectClassFieldname) ) {
+						continue;
+					}
+					
+					FieldSetting fs = od.getFieldSettingWithNameDefault(objectClassFieldname);
+					
+					if (fs instanceof FieldSetting_Type) {
+						FieldSetting_Type fst = (FieldSetting_Type)fs;
+						IASN1Type type = fst.getSetting();
+						if (type instanceof Referenced_Type) {
+							Identifier name = ((Referenced_Type) type).getReference().getId();
+							//Value defaultValue = TODO
+							//only the name->type mappings is important, avoid duplication
+							if (!openType.hasComponentWithName(name)) {
+								openType.addComponent(new CompField( name, (Type) type, false, null));
+							}
+						}
+					}
+				}
+				
+			}
+			openType.check(timestamp);
+		}
 	}
 
 	/*
@@ -448,5 +487,6 @@ public final class TableConstraint extends Constraint {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// TODO
 		return true;
-	}
+	} 
+
 }

@@ -82,7 +82,7 @@ public final class Open_Type extends ASN1Type {
 			objectClass.setFullNameParent(this);
 		}
 
-		isErroneous = true;
+		isErroneous = false;
 	}
 
 	@Override
@@ -124,9 +124,12 @@ public final class Open_Type extends ASN1Type {
 		myTableConstraint = constraint;
 	}
 
+	//Stores the possible name->type mappings
+	//This gives a weak checking
 	public void addComponent(final CompField field) {
 		if (null != field && null != compFieldMap) {
 			compFieldMap.addComp(field);
+			lastTimeChecked = null;
 		}
 	}
 
@@ -226,9 +229,6 @@ public final class Open_Type extends ASN1Type {
 		}
 
 		lastTimeChecked = timestamp;
-		// isErroneous = false;
-		isErroneous = true;
-
 		compFieldMap.check(timestamp);
 
 		if (null != constraints) {
@@ -264,6 +264,8 @@ public final class Open_Type extends ASN1Type {
 		default:
 			break;
 		}
+		
+		this.check(timestamp);
 
 		switch (last.getValuetype()) {
 		case SEQUENCE_VALUE:
@@ -296,15 +298,17 @@ public final class Open_Type extends ASN1Type {
 
 	private void checkThisValueChoice(final CompilationTimeStamp timestamp, final Choice_Value value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean strElem) {
-		final Identifier name = value.getName();
+		final Identifier nameOrig = value.getName();
+		//convert the first letter to upper case:
+		String ttcnName = nameOrig.getTtcnName();
+		ttcnName = ttcnName.substring(0,1).toUpperCase()+ttcnName.substring(1);
+		final Identifier name = new Identifier(nameOrig.getType(), ttcnName, nameOrig.getLocation());
 		if (!hasComponentWithName(name)) {
 			if (value.isAsn()) {
 				value.getLocation().reportSemanticError(
 						MessageFormat.format(NONEXISTENTCHOICE, name.getDisplayName(), getFullName()));
-				setIsErroneous(true);
 			} else {
 				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, name.getDisplayName(), getFullName()));
-				setIsErroneous(true);
 			}
 		}
 

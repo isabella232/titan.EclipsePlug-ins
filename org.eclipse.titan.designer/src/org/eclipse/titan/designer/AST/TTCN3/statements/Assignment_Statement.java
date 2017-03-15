@@ -190,8 +190,8 @@ public final class Assignment_Statement extends Statement {
 			if (template.getIsErroneous(timestamp) ) {
 				return;
 			}
-			if ( Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) || template.isValue(timestamp)) {
-				final IValue temporalValue = template.getValue();
+			final IValue temporalValue = template.getValue();
+			if	(temporalValue != null) {
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
 			} else if ( Template_type.VALUE_LIST.equals(template.getTemplatetype())
@@ -401,6 +401,8 @@ public final class Assignment_Statement extends Statement {
 			isErroneous = true;
 			return;
 		}
+		
+		type.check(timestamp); //temp
 
 		type = type.getFieldType(timestamp, reference, 1, expectedValue, false);
 		if (type == null) {

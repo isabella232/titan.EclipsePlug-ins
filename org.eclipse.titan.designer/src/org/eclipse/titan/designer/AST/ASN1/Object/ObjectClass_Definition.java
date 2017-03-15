@@ -116,6 +116,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 				}
 			}
 		}
+		//TODO: Check the opposite way: each element of objectDefinition should be found in fieldSpecifications
 	}
 	
 	private void parseBlockFieldSpecs() {

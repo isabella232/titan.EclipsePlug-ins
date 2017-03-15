@@ -199,6 +199,7 @@ public final class Object_Definition extends ASN1Object {
 
 		return false;
 	}
+	
 
 	public ISetting getSettingByNameDefault(final Identifier identifier) {
 		if (null == lastTimeChecked) {
@@ -213,6 +214,29 @@ public final class Object_Definition extends ASN1Object {
 			final FieldSpecification fs = myGovernor.getFieldSpecifications().getFieldSpecificationByIdentifier(identifier);
 			if (fs.hasDefault()) {
 				return fs.getDefault();
+			}
+		}
+
+		if (!isErroneous) {
+			location.reportSemanticError(MessageFormat.format(MISSINGSETTINGORDEFAULT, identifier.getDisplayName(), getFullName()));
+		}
+
+		return null;
+	}
+	
+	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier) {
+		if (null == lastTimeChecked) {
+			check(CompilationTimeStamp.getBaseTimestamp());
+		}
+
+		if (fieldSettingMap.containsKey(identifier.getName())) {
+			return fieldSettingMap.get(identifier.getName());
+		}
+
+		if (myGovernor.getFieldSpecifications().hasFieldSpecificationWithId(identifier)) {
+			final FieldSpecification fs = myGovernor.getFieldSpecifications().getFieldSpecificationByIdentifier(identifier);
+			if (fs.hasDefault()) {
+				return (FieldSetting) fs.getDefault();
 			}
 		}
 

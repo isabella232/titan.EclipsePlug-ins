@@ -104,6 +104,8 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		if (field != null && field.getIdentifier() != null && field.getIdentifier().getName() != null) {
 			fields.add(field);
 			field.setFullNameParent(this);
+			lastCompilationTimeStamp = null;
+			lastUniquenessCheck = null;
 		}
 	}
 
@@ -124,6 +126,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 					this.fields.add((position + 1) * -1, field);
 					field.setMyScope(getMyScope());
 					field.setFullNameParent(this);
+					lastCompilationTimeStamp = null;
 				}
 			}
 		}
