@@ -217,10 +217,13 @@ public final class Boolean_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
-		source.append( "\tpublic static class " );
-		source.append( getGenNameOwn() );
-		source.append( " extends TitanBoolean {}\n" );
 		aData.addBuiltinTypeImport( "TitanBoolean" );
+
+		if(needsAlias()) {
+			source.append( "\tpublic static class " );
+			source.append( getGenNameOwn() );
+			source.append( " extends TitanBoolean {}\n" );
+		}
 	}
 
 	@Override

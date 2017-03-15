@@ -358,10 +358,13 @@ public final class Integer_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source  ) {
-		source.append( "\tpublic static class " );
-		source.append( getGenNameOwn() );
-		source.append( " extends TitanInteger {}\n" );
 		aData.addBuiltinTypeImport( "TitanInteger" );
+
+		if(needsAlias()) {
+			source.append( "\tpublic static class " );
+			source.append( getGenNameOwn() );
+			source.append( " extends TitanInteger {}\n" );
+		}
 	}
 
 	@Override
