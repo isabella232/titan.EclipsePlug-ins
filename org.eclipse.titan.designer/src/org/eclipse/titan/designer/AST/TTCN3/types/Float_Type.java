@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
@@ -34,6 +35,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.Value_Range_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -287,4 +289,23 @@ public final class Float_Type extends ASN1Type {
 		return builder.append("float");
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData, final StringBuilder source  ) {
+		aData.addBuiltinTypeImport( "TitanFloat" );
+
+		if(needsAlias()) {
+			source.append( "\tpublic static class " );
+			source.append( getGenNameOwn() );
+			source.append( " extends TitanFloat {}\n" );
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source , final Scope scope) {
+		aData.addBuiltinTypeImport( "TitanFloat" );
+		aData.addBuiltinTypeImport( "TitanFloat_template" );
+		return "TitanInteger";
+	}
 }
