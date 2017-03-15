@@ -230,11 +230,30 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
-		if (otherValue instanceof Optional<?>) {
-			return operatorEquals((Optional<?>)otherValue);
+		if (!(otherValue instanceof Optional<?>)) {
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to an optional value", otherValue));
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
+		Optional<?> optionalOther = (Optional<?>) otherValue;
+		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
+			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
+				return true;
+			} else {
+				throw new TtcnError("The left operand of comparison is an unbound optional value.");
+			}
+		} else {
+			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
+				throw new TtcnError("The right operand of comparison is an unbound optional value.");
+			} else {
+				if(optionalSelection == optionalOther.optionalSelection) {
+					return false;
+				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+					return optionalValue.operatorEquals(optionalOther.optionalValue);
+				} else {
+					return true;
+				}
+			}
+		}
 	}
 	
 	
