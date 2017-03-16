@@ -20,9 +20,9 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	
 	private optional_sel optionalSelection;
 	
-	private Class<TYPE> clazz;
+	private final Class<TYPE> clazz;
 	
-	public Optional(Class<TYPE> clazz) {
+	public Optional(final Class<TYPE> clazz) {
 		optionalValue = null;
 		optionalSelection = optional_sel.OPTIONAL_UNBOUND;
 		this.clazz = clazz;
@@ -65,15 +65,16 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	public Optional<TYPE> assign(final Optional<TYPE> otherValue) {
 		switch(otherValue.optionalSelection) {
 		case OPTIONAL_PRESENT:
-			if(!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+				optionalValue.assign(otherValue.optionalValue);
+				
+			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
-			} else {
-				optionalValue.assign(otherValue.optionalValue);
 			}
 			break;
 		case OPTIONAL_OMIT:
@@ -95,19 +96,19 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to optional", otherValue));
 		}
 		
-		Optional<?> optionalOther = (Optional<?>)otherValue;
+		final Optional<?> optionalOther = (Optional<?>)otherValue;
 		
 		switch(optionalOther.optionalSelection) {
 		case OPTIONAL_PRESENT:
-			if(!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+				optionalValue.assign(optionalOther.optionalValue);
+			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
-			} else {
-				optionalValue.assign(optionalOther.optionalValue);
 			}
 			break;
 		case OPTIONAL_OMIT:
@@ -230,11 +231,30 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
-		if (otherValue instanceof Optional<?>) {
-			return operatorEquals((Optional<?>)otherValue);
+		if (!(otherValue instanceof Optional<?>)) {
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to an optional value", otherValue));
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
+		final Optional<?> optionalOther = (Optional<?>) otherValue;
+		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
+			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
+				return true;
+			} else {
+				throw new TtcnError("The left operand of comparison is an unbound optional value.");
+			}
+		} else {
+			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
+				throw new TtcnError("The right operand of comparison is an unbound optional value.");
+			} else {
+				if(optionalSelection == optionalOther.optionalSelection) {
+					return false;
+				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+					return optionalValue.operatorEquals(optionalOther.optionalValue);
+				} else {
+					return true;
+				}
+			}
+		}
 	}
 	
 	

@@ -18,23 +18,23 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.designer.Activator;
-import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
-import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.OmitValue_Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.Omit_Value;
@@ -797,33 +797,10 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		return builder.append("sequence");
 	}
 
-	
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
 		return getGenNameOwn(scope);
-	}
-
-
-	/**
-	 * Data structure to store sequence field variable and type names.
-	 * Used for java code generation.
-	 */
-	private class FieldInfo {
-
-		/** Java type name of the field */
-		private String mJavaTypeName;
-
-		/** Field variable name in TTCN-3 and java */
-		private String mVarName;
-		
-		private boolean isOptional;
-
-		/** Field variable name in java getter/setter function names and parameters */
-		private String mJavaVarName;
-
-		/** Java AST type name (for debug purposes) */
-		private String mVarTypeName;
 	}
 
 	@Override
@@ -836,21 +813,11 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			compField.getType().setGenName(getGenNameOwn(), compField.getIdentifier().getName());
-			final FieldInfo fi = new FieldInfo();
-			fi.mJavaTypeName = compField.getType().getGenNameValue( aData, source, getMyScope() );
-			fi.mVarName = compField.getIdentifier().getName();
-			fi.isOptional = compField.isOptional();
-			hasOptional |= fi.isOptional;
-			fi.mJavaVarName = FieldSubReference.getJavaGetterName( fi.mVarName );
-			fi.mVarTypeName =  compField.getType().getClass().getSimpleName();
+			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
+					compField.getIdentifier().getName(), compField.isOptional(),
+					compField.getType().getClass().getSimpleName());
+			hasOptional |= compField.isOptional();
 			namesList.add( fi );
-		}
-		
-		aData.addBuiltinTypeImport("Base_Type");
-		aData.addImport("java.text.MessageFormat");
-		if(hasOptional) {
-			aData.addBuiltinTypeImport("Optional");
-			aData.addBuiltinTypeImport("Optional.optional_sel");
 		}
 		
 		for ( final CompField compField : compFieldMap.fields ) {
@@ -858,354 +825,6 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			compField.getType().generateJava(aData, tempSource);
 		}
 
-		source.append( "\tpublic static class " );
-		source.append( getGenNameOwn() );
-		source.append(" extends Base_Type");
-		source.append( " {\n" );
-		generateDeclaration( aData, source, namesList );
-		generateConstructor( source, namesList, className );
-		generateConstructorManyParams( source, namesList, className );
-		generateConstructorCopy( source, className );
-		generateAssign( aData, source, namesList, className, classReadableName );
-		generateCleanUp( source, namesList );
-		generateIsBound( source, namesList );
-		generateIsPresent( source, namesList );
-		generateIsValue( source, namesList );
-		generateOperatorEquals( source, namesList, className, classReadableName);
-		generateGettersSetters( source, namesList );
-		source.append( "\t}\n" );
-	}
-
-	/**
-	 * Generating declaration of the member variables
-	 * @param aData the generated java code with other info
-	 * @param source the source to be updated
-	 * @param aNamesList sequence field variable and type names
-	 */
-	private static void generateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList ) {
-		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\t\tprivate " );
-			if (fi.isOptional) {
-				source.append("Optional<");
-				source.append( fi.mJavaTypeName );
-				source.append(">");
-			} else {
-				source.append( fi.mJavaTypeName );
-			}
-			source.append( " " );
-			source.append( fi.mVarName );
-			source.append( ";" );
-			if ( aData.isDebug() ) {
-				source.append( " //" );
-				source.append( fi.mVarTypeName );
-			}
-			source.append( "\n" );
-		}
-	}
-
-	/**
-	 * Generating constructor without parameter
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
-	 */
-	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
-											 final String aClassName ) {
-		aSb.append( "\n\t\tpublic " );
-		aSb.append( aClassName );
-		aSb.append( "() {\n" );
-		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\t" );
-			aSb.append( fi.mVarName );
-			aSb.append( " = new " );
-			if (fi.isOptional) {
-				aSb.append("Optional<");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append(">(");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append( ".class);\n" );
-			} else {
-				aSb.append( fi.mJavaTypeName );
-				aSb.append( "();\n" );
-			}
-			
-		}
-		aSb.append( "\t\t}\n" );
-	}
-
-	/**
-	 * Generating constructor with many parameters (one for each record field)
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
-	 */
-	private static void generateConstructorManyParams( final StringBuilder aSb, final List<FieldInfo> aNamesList,
-													   final String aClassName ) {
-		aSb.append( "\n\t\tpublic " );
-		aSb.append( aClassName );
-		aSb.append( "( " );
-		boolean first = true;
-		for ( final FieldInfo fi : aNamesList ) {
-			if ( first ) {
-				first = false;
-			} else {
-				aSb.append( ", " );
-			}
-			aSb.append( "final " );
-			if (fi.isOptional) {
-				aSb.append("Optional<");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append(">");
-			} else {
-				aSb.append( fi.mJavaTypeName );
-			}
-			aSb.append( " a" );
-			aSb.append( fi.mJavaVarName );
-		}
-		aSb.append( " ) {\n" );
-		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\tthis." );
-			aSb.append( fi.mVarName );
-			aSb.append( ".assign( a" );
-			aSb.append( fi.mJavaVarName );
-			aSb.append( " );\n" );
-		}
-		aSb.append( "\t\t}\n" );
-	}
-
-	/**
-	 * Generating constructor with 1 parameter (copy constructor)
-	 * @param aSb the output, where the java code is written
-	 * @param aClassName the class name of the record class
-	 */
-	private static void generateConstructorCopy( final StringBuilder aSb, final String aClassName ) {
-		aSb.append( "\n\t\tpublic " );
-		aSb.append( aClassName );
-		aSb.append( "( final " );
-		aSb.append( aClassName );
-		aSb.append( " aOtherValue ) {\n" +
-					"\t\t\tassign( aOtherValue );\n" +
-					"\t\t}\n" );
-	}
-
-	/**
-	 * Generating assign() function
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
-	 * @param classReadableName the readable name of the class
-	 */
-	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
-						final String aClassName, final String classReadableName ) {
-		aData.addCommonLibraryImport( "TtcnError" );
-		source.append( "\n\t\tpublic " );
-		source.append( aClassName );
-		source.append( " assign( final " );
-		source.append( aClassName );
-		source.append( " aOtherValue ) {\n" );
-
-		source.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
-				   "\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
-		source.append( classReadableName );
-		source.append( "\" );\n" +
-				   "\t\t\t}\n" );
-		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\n\t\t\tif ( aOtherValue.get" );
-			source.append( fi.mJavaVarName );
-			source.append( "().isBound() ) {\n" +
-					   "\t\t\t\tthis." );
-			source.append( fi.mVarName );
-			source.append( ".assign( aOtherValue.get" );
-			source.append( fi.mJavaVarName );
-			source.append( "() );\n" +
-					   "\t\t\t} else {\n" +
-					   "\t\t\t\tthis." );
-			source.append( fi.mVarName );
-			source.append( ".cleanUp();\n" +
-					   "\t\t\t}\n" );
-		}
-		source.append( "\n\t\t\treturn this;\n" +
-				   "\t\t}\n" );
-		
-		source.append("\n");
-		source.append("\t\t@Override\n");
-		source.append("\t\tpublic ").append( aClassName ).append(" assign(final Base_Type otherValue) {\n");
-		source.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
-		source.append("\t\t\t\treturn assign((").append( aClassName ).append(") otherValue);\n");
-		source.append("\t\t\t}\n\n");
-		source.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
-		source.append("\t\t}\n");
-
-	}
-
-	/**
-	 * Generating cleanUp() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 */
-	private static void generateCleanUp( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic void cleanUp() {\n" );
-		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\t" );
-			aSb.append( fi.mVarName );
-			aSb.append( ".cleanUp();\n" );
-		}
-		aSb.append( "\t\t}\n" );
-	}
-
-	/**
-	 * Generating isBound() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 */
-	private static void generateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
-		//TODO: remove
-		//for( int i = 0; i < 80; i++ )
-		for ( final FieldInfo fi : aNamesList ) {
-			if (fi.isOptional) {
-				aSb.append( "\t\t\tif ( optional_sel.OPTIONAL_OMIT.equals(" );
-				aSb.append( fi.mVarName );
-				aSb.append(".getSelection()) || ");
-				aSb.append(fi.mVarName);
-				aSb.append( ".isBound() ) return true;\n" );
-			} else {
-				aSb.append( "\t\t\tif ( " );
-				aSb.append( fi.mVarName );
-				aSb.append( ".isBound() ) return true;\n" );
-			}
-			
-		}
-		aSb.append( "\t\t\treturn false;\n" +
-					"\t\t}\n" );
-	}
-
-	/**
-	 * Generating isPresent() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 */
-	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isPresent() {\n" );
-		aSb.append( "\t\t\t\treturn isBound();\n");
-		aSb.append( "\t\t}\n" );
-	}
-
-	/**
-	 * Generating isValue() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 */
-	private static void generateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
-		for ( final FieldInfo fi : aNamesList ) {
-			if (fi.isOptional) {
-				aSb.append( "\t\t\tif ( !optional_sel.OPTIONAL_OMIT.equals(" );
-				aSb.append( fi.mVarName );
-				aSb.append(".getSelection()) && !");
-				aSb.append(fi.mVarName);
-				aSb.append( ".isValue() ) return true;\n" );
-			} else {
-				aSb.append( "\t\t\tif ( " );
-				aSb.append( fi.mVarName );
-				aSb.append( ".isValue() ) return true;\n" );
-			}
-		}
-		aSb.append( "\t\t\treturn true;\n" +
-					"\t\t}\n" );
-	}
-
-	/**
-	 * Generating operatorEquals() function
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
-	 * @param classReadableName the readable name of the class
-	 */
-	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
-							final String aClassName, final String classReadableName ) {
-		aSb.append( "\n\t\tpublic boolean operatorEquals( final " );
-		aSb.append( aClassName );
-		aSb.append( " aOtherValue ) {\n" );
-		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\tif ( ! this." );
-			aSb.append( fi.mVarName );
-			aSb.append( ".operatorEquals( aOtherValue." );
-			aSb.append( fi.mVarName );
-			aSb.append( " ) ) return false;\n" );
-		}
-		aSb.append( "\t\t\treturn true;\n" +
-					"\t\t}\n" );
-		
-		aSb.append("\n");
-		aSb.append("\t\t@Override\n");
-		aSb.append("\t\tpublic boolean operatorEquals(final Base_Type otherValue) {\n");
-		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
-		aSb.append("\t\t\t\treturn operatorEquals((").append( aClassName ).append(") otherValue);\n");
-		aSb.append("\t\t\t}\n\n");
-		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));");
-		aSb.append("\t\t}\n");
-	}
-
-	/**
-	 * Generating getters/setters for the member variables
-	 * @param aSb the output, where the java code is written
-	 * @param aNamesList sequence field variable and type names
-	 */
-	private static void generateGettersSetters( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\n\t\tpublic " );
-			if (fi.isOptional) {
-				aSb.append("Optional<");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append(">");
-			} else {
-				aSb.append( fi.mJavaTypeName );
-			}
-			aSb.append( " get" );
-			aSb.append( fi.mJavaVarName );
-			aSb.append( "() {\n" +
-						"\t\t\treturn " );
-			aSb.append( fi.mVarName );
-			aSb.append( ";\n" +
-						"\t\t}\n" );
-
-			aSb.append( "\n\t\tpublic " );
-			if (fi.isOptional) {
-				aSb.append("Optional<");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append(">");
-			} else {
-				aSb.append( fi.mJavaTypeName );
-			}
-			aSb.append( " constGet" );
-			aSb.append( fi.mJavaVarName );
-			aSb.append( "() {\n" +
-						"\t\t\treturn " );
-			aSb.append( fi.mVarName );
-			aSb.append( ";\n" +
-						"\t\t}\n" );
-
-//			aSb.append( "\n\t\tpublic void set" );
-//			aSb.append( fi.mJavaVarName );
-//			aSb.append( "( final " );
-//			if (fi.isOptional) {
-//				aSb.append("Optional<");
-//				aSb.append( fi.mJavaTypeName );
-//				aSb.append(">");
-//			} else {
-//				aSb.append( fi.mJavaTypeName );
-//			}
-//			aSb.append( " a" );
-//			aSb.append( fi.mJavaVarName );
-//			aSb.append( " ) {\n" +
-//						"\t\t\tthis." );
-//			aSb.append( fi.mVarName );
-//			aSb.append( " = a" );
-//			aSb.append( fi.mJavaVarName );
-//			aSb.append( ";\n" +
-//						"\t\t}\n" );
-		}
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false);
 	}
 }
