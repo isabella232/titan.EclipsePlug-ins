@@ -449,7 +449,7 @@ public final class Def_Var extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		//TODO this should handle only the global case
 		//TODO there are no Global variables
@@ -468,8 +468,12 @@ public final class Def_Var extends Definition {
 		source.append("();\n");
 		if ( initialValue != null ) {
 			initialValue.generateJavaInit(aData, source, genName );
+		} else if (cleanUp) {
+			StringBuilder initComp = aData.getInitComp();
+			initComp.append(genName);
+			initComp.append(".cleanUp();\n");
 		}
-		// TODO add cleanup
+
 		sb.append(source);
 	}
 	
@@ -501,6 +505,14 @@ public final class Def_Var extends Definition {
 			if (initialValue != null) {
 				initialValue.generateJavaInit(aData, source, genName );
 			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
+		if (initialValue != null) {
+			initialValue.generateJavaInit(aData, initComp, definition.getGenNameFromScope(aData, initComp, myScope, ""));
 		}
 	}
 }

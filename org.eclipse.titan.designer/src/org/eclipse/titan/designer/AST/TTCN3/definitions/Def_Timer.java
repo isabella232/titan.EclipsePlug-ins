@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -437,5 +438,11 @@ public final class Def_Timer extends Definition {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
+		//TODO implement
 	}
 }

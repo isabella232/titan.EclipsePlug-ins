@@ -369,7 +369,7 @@ public final class Def_ModulePar extends Definition {
 	
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);

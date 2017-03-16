@@ -553,13 +553,13 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
-	public void generateJava(JavaGenData aData) {
+	public void generateJava(JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
 		// TODO Auto-generated method stub
-		super.generateJava(aData);
+		super.generateJava(aData, cleanUp);
 	}
 	
 	

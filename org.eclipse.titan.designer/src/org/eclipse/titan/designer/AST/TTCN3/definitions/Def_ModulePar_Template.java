@@ -377,7 +377,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
-	public void generateJava(JavaGenData aData) {
+	public void generateJava(JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);
@@ -387,7 +387,7 @@ public final class Def_ModulePar_Template extends Definition {
 			defaultTemplate.setGenNameRecursive(genName);
 		}
 		// TODO Auto-generated method stub
-		super.generateJava(aData);
+		super.generateJava(aData, cleanUp);
 	}
 	
 	

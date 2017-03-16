@@ -888,7 +888,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		if (formalParList != null) {
 			formalParList.setGenName(genName);

@@ -19,6 +19,9 @@ public class JavaGenData {
 	
 	/** the contents of post_init */
 	private StringBuilder postInit;
+	
+	/** the contents of init_comp_type */
+	private StringBuilder initComp;
 
 	/** The imports with short class names */
 	private Set<String> mImports;
@@ -42,6 +45,7 @@ public class JavaGenData {
 		mSrc = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
+		initComp = new StringBuilder();
 
 		// TreeSet keeps elements in natural order (alphabetical)
 		mImports = new TreeSet<String>();
@@ -80,6 +84,11 @@ public class JavaGenData {
 	public StringBuilder getPostInit() {
 		return postInit;
 	}
+	
+	public StringBuilder getInitComp() {
+		return initComp;
+	}
+	
 	/**
 	 * Adds a new import
 	 * @param aNewImport the new import with short class name. It is ignored in case of duplicate.

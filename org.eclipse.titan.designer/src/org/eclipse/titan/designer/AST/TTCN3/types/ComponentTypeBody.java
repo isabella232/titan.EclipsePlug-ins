@@ -17,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
@@ -48,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.VisibilityModifier;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.SkeletonTemplateProposal;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -930,5 +930,58 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			return false;
 		}
 		return true;
+	}
+
+	
+	/**
+	 * Add generated java code on this level.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		StringBuilder init_comp = aData.getInitComp();
+		init_comp.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
+		
+		if (extendsReferences != null) {
+			boolean hasBaseComponents = false;
+			for (ComponentTypeBody cb : compatibleBodies) {
+				if (cb.definitions.size() > 0) {
+					if(!hasBaseComponents) {
+						init_comp.append("if(init_base_comps) {\n");
+						hasBaseComponents = true;
+					}
+					
+					//TODO get_scope_mod_gen
+					if(getModuleScope().equals(cb.getModuleScope())) {
+						init_comp.append("init_comp_type(\"");
+						init_comp.append(cb.getIdentifier().getDisplayName());
+						init_comp.append("\", false);\n");
+					} else {
+						init_comp.append("//TODO implement Module_List");
+						init_comp.append("Module_List::initialize_component(\"");
+						init_comp.append(cb.getModuleScope().getIdentifier().getDisplayName());
+						init_comp.append("\", \"");
+						init_comp.append(cb.getIdentifier().getDisplayName());
+						init_comp.append("\", false);\n");
+					}
+				}
+			}
+		
+			if (hasBaseComponents) {
+				init_comp.append("}\n");
+			}
+		}
+		
+		for (Definition def : definitions) {
+			if(extendsGainedDefinitions.containsKey(def.getIdentifier().getName())) {
+				def.generateCodeInitComp(aData, init_comp, extendsGainedDefinitions.get(def.getIdentifier().getName()));
+			} else {
+				def.generateJava(aData, true);
+			}
+		}
+		
+		init_comp.append("return true;\n");
+		init_comp.append("} else ");
 	}
 }

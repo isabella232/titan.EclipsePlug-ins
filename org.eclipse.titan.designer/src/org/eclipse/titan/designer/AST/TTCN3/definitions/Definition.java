@@ -711,4 +711,17 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateJavaString() is not implemented!\n" );
 	}
+	
+	/**
+	 * Generates the Java initializer sequence for a definition of a component
+	 * type, appends to initComp.
+	 * The function
+	 * is used when this definition is realized using the Java objects of definition
+	 * \a base_defn inherited from another component type. The function is
+	 * implemented only for those definitions that can appear within component
+	 * types, the generic version causes \a FATAL_ERROR.
+	 * */
+	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
+		//TODO cause FATAL error
+	}
 }

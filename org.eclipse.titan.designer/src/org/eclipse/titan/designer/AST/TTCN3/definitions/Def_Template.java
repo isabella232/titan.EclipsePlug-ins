@@ -856,7 +856,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);
@@ -932,5 +932,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateJava() body is not implemented!\n" );
 		source.append( ";\n" );
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
+		//TODO implement
 	}
 }

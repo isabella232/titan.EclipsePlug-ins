@@ -194,6 +194,12 @@ public class ProjectSourceCompiler {
 		aSb.append("").append("\n" );	
 		aSb.append("}").append("\n" );
 		
+		aSb.append("static boolean init_comp_type(final String component_type, final boolean init_base_comps)\n");
+		aSb.append("{\n");
+		aSb.append(aData.getInitComp());
+		aSb.append("return false;\n");
+		aSb.append("}\n");
+		
 		aSb.append( "}\n" );
 	}
 

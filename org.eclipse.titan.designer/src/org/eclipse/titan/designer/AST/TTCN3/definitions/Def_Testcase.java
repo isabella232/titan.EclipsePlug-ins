@@ -543,7 +543,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	//TODO: implement: not complete, verdict and runs on handling missing
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		if (formalParList != null) {
 			formalParList.setGenName(genName);

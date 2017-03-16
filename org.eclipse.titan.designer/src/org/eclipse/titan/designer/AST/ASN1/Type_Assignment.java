@@ -215,7 +215,7 @@ public final class Type_Assignment extends ASN1Assignment {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 
 		if (type != null) {

@@ -16,20 +16,19 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
-import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -460,7 +459,7 @@ public final class Def_Var_Template extends Definition {
 	
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		//TODO this should handle only the global case
 		//TODO there are no Global variable templates
@@ -476,6 +475,10 @@ public final class Def_Var_Template extends Definition {
 		if ( initialValue != null ) {
 			//TODO use ::get_lhs_name instead of generic getGennameOwn
 			initialValue.generateJavaInit( aData, source, initialValue.getGenNameOwn(myScope) );
+		} else if (cleanUp) {
+			StringBuilder initComp = aData.getInitComp();
+			initComp.append(genName);
+			initComp.append(".cleanUp();\n");
 		}
 		sb.append(source);
 	}

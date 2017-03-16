@@ -451,7 +451,7 @@ public final class Def_Const extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);
@@ -510,5 +510,12 @@ public final class Def_Const extends Definition {
 				value.generateJavaInit(aData, source, genName );
 			}
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
+		/* This function actually does nothing as \a this and \a base_defn are
+		 * exactly the same. */
 	}
 }

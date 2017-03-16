@@ -1177,7 +1177,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public void generateJava( final JavaGenData aData ) {
 		if ( definitions != null ) {
 			for ( Definition definition : definitions ) {
-				definition.generateJava( aData );
+				definition.generateJava( aData, false );
 			}
 		}
 	}

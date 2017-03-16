@@ -485,21 +485,27 @@ public final class Def_Type extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		
-		if (type != null) {
-			type.setGenName(genName);
-			if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-				((Component_Type)type).getComponentBody().setGenName(genName + "_component_");
-			}
+		if (type == null) {
+			return;
 		}
+
+		type.setGenName(genName);
+		
 
 		final StringBuilder sb = aData.getCodeForType(genName);//aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		//TODO: make sure, that type is not null
 		type.generateJava( aData, source );
+		
+		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+			((Component_Type)type).getComponentBody().setGenName(genName + "_component_");
+			((Component_Type)type).getComponentBody().generateCode(aData, source);
+		}
+
 		sb.append(source);
 	}
 }

@@ -269,13 +269,13 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
-	public void generateJava(JavaGenData aData) {
+	public void generateJava(JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);
 		}
 		// TODO Auto-generated method stub
-		super.generateJava(aData);
+		super.generateJava(aData, cleanUp);
 	}
 	
 	
