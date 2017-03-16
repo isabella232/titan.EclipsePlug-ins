@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Assignments;
 import org.eclipse.titan.designer.AST.ASN1.Defined_Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -415,5 +416,20 @@ public final class ASN1Module extends Module {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		//TODO handle imports
+		//TODO handle coding attributes
+		//TODO module setup/teardown infrastructure
+		
+		final StringBuilder sb = aData.getSrc();
+		sb.append("// ASN.1 module are NOT supported by the Java code Generator!\n");
+		sb.append( "class " + name + " {\n" );
+		if ( assignments != null ) {
+			assignments.generateJava( aData );
+		}
 	}
 }

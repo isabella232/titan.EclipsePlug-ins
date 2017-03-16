@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -210,5 +211,19 @@ public final class Type_Assignment extends ASN1Assignment {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData ) {
+		final String genName = getGenName();
+
+		if (type != null) {
+			final StringBuilder sb = aData.getCodeForType(genName);
+			//TODO temporary code to adapt to the starting code
+			StringBuilder source = new StringBuilder();
+			type.generateJava( aData, source );
+			sb.append(source);
+		}
 	}
 }

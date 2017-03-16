@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -402,5 +403,17 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 				throw new UnsupportedOperationException();
 			}
 		};
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the generated java code with other info
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		if ( assignments != null ) {
+			for ( ASN1Assignment assignment : assignments ) {
+				assignment.generateJava( aData );
+			}
+		}
 	}
 }

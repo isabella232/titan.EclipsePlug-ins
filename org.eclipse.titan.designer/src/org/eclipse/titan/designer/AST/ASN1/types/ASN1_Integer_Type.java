@@ -50,6 +50,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValues;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 import org.eclipse.titan.designer.parsers.asn1parser.Asn1Parser;
@@ -541,5 +542,30 @@ public final class ASN1_Integer_Type extends ASN1Type {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData, final StringBuilder source  ) {
+		aData.addBuiltinTypeImport( "TitanInteger" );
+
+		if(needsAlias()) {
+			source.append( "\tpublic static class " );
+			source.append( getGenNameOwn() );
+			source.append( " extends TitanInteger {}\n" );
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source , final Scope scope) {
+		aData.addBuiltinTypeImport( "TitanInteger" );
+		return "TitanInteger";
+	}
+
+	@Override
+	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+		aData.addBuiltinTypeImport( "TitanInteger_template" );
+		return "TitanInteger_template";
 	}
 }
