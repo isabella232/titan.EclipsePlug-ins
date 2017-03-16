@@ -309,9 +309,14 @@ public final class TableConstraint extends Constraint {
 						chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 						ObjectSet_definition osdef2 = objectSet.getRefdLast(timestamp, chain);
 						chain.release();
-
-						if (osdef1 == osdef2) {
+						//TODO: why do two ObjectSet_definitions exist with the same content? Perhaps this is a programming error?
+						//i.e why is this function "equivalent" necessary?
+						if (osdef1!=null && osdef1.equivalent(osdef2)) {
 							ok = true;
+						} else if (osdef1==null && osdef2==null){
+							ok = true;
+						} else {
+							ok = false;
 						}
 					}
 				}

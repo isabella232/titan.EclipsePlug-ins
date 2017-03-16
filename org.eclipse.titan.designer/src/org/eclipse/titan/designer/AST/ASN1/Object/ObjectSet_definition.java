@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceChainElement;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
@@ -25,7 +26,6 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.IObjectSet_Element;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -60,6 +60,40 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 		setObjectSetElements(new ArrayList<IObjectSet_Element>());
 		mBlock = null;
 		this.objects = objects;
+	}
+	
+	//Two objectSet_definition is equivalent if their content is the same, i.e
+	//- the same reference or
+	//- location, objects, objectSetElements are the same
+	public boolean equivalent(final Object obj){
+		if (this == obj) {
+			return true;
+		}
+
+		if (!(obj instanceof ObjectSet_definition)) {
+			return false;
+		}
+
+		final ObjectSet_definition other = (ObjectSet_definition) obj;
+
+		if (this.location != other.getLocation()) {return false;}
+		if (this.getNofObjects() != other.getNofObjects() ) { return false; }
+		if (this.getObjectSetElements().size() != other.getObjectSetElements().size()) { return false; }
+		int n = this.getNofObjects();
+		for(int i=0;i<n;i++) {
+			if (this.getObjectByIndex(i) != other.getObjectByIndex(i)) { 
+				return false;
+			}
+		}
+		
+		n=this.getObjectSetElements().size();
+		for(int i=0;i<n;i++) {
+			if ( this.getObjectSetElements().get(i) != other.getObjectSetElements().get(i) ) {
+				return false;
+			}
+		}
+		return true; 
+		//TODO: why do two ObjectSet_definitions exist with the same content? Perhaps this is a programming error?
 	}
 
 	public ObjectSet_definition newInstance() {
