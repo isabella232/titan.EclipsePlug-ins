@@ -1500,12 +1500,14 @@ pr_BuiltinValue_reg returns[Value value]
 (	
 	a = BSTRING
 	{
-		$value = new Bitstring_Value($a.getText());
+		String temp = $a.getText();
+		$value = new Bitstring_Value(temp.substring(1, temp.length() - 2));
 		$value.setLocation(getLocation($a, $a));
 	}
 |	b = HSTRING
 	{
-		$value = new Hexstring_Value($b.getText());
+		String temp = $b.getText();
+		$value = new Hexstring_Value(temp.substring(1, temp.length() - 2));
 		$value.setLocation(getLocation($b, $b));
 	}
 |	c = pr_Val_CString	{ $value = $c.value; }
@@ -1875,7 +1877,8 @@ pr_Val_CString returns[Charstring_Value value]
 @init { $value = null; }:
 	CSTRING
 {
-	$value = new Charstring_Value($start.getText());
+	String temp = $start.getText();
+	$value = new Charstring_Value(temp.substring(1, temp.length() - 1));
 	$value.setLocation(getLocation($start, $start));
 };
 
