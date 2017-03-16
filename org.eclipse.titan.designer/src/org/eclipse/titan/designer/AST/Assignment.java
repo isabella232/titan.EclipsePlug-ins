@@ -351,4 +351,19 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 
 		return returnValue.toString();
 	}
+
+	/**
+	 * Generate Java code for module level definitions/assignments.
+	 * 
+	 * generate_code in the compiler
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 */
+	public void generateJava( final JavaGenData aData ) {
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateJava() is not implemented!\n" );
+	}
 }

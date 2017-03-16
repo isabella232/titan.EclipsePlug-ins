@@ -741,4 +741,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope);
 
+	/**
+	 * Add generated java code on this level.
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 */
+	public void generateJava( final JavaGenData aData, final StringBuilder source );
 }

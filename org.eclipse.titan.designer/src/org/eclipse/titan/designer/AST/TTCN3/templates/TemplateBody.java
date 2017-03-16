@@ -333,6 +333,12 @@ public class TemplateBody implements ITemplateListItem {
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public void setGenName(String prefix, String suffix) {
+		template.setGenName(prefix, suffix);
+	}
+
+	@Override
 	public void generateJavaExpression(JavaGenData aData, ExpressionStruct expression) {
 		template.generateJavaExpression(aData, expression);
 	}
