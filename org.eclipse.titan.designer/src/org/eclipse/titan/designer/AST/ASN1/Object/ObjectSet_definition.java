@@ -65,16 +65,10 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	//Two objectSet_definition is equivalent if their content is the same, i.e
 	//- the same reference or
 	//- location, objects, objectSetElements are the same
-	public boolean equivalent(final Object obj){
-		if (this == obj) {
+	public boolean equivalent(final ObjectSet_definition other){
+		if (this == other) {
 			return true;
 		}
-
-		if (!(obj instanceof ObjectSet_definition)) {
-			return false;
-		}
-
-		final ObjectSet_definition other = (ObjectSet_definition) obj;
 
 		if (this.location != other.getLocation()) {return false;}
 		if (this.getNofObjects() != other.getNofObjects() ) { return false; }
