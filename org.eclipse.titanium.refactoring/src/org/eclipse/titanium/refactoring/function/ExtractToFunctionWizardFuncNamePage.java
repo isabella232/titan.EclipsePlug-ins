@@ -96,7 +96,7 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 		for(int i = 0; i < assignments.getNofAssignments(); i++) {
 			Assignment asg = assignments.getAssignmentByIndex(i);
 			if(asg.getIdentifier().getDisplayName().equals(newName)) {
-				setErrorMessage("Already Exist!");
+				setErrorMessage("A function with the provided name already exists!");
 				setPageComplete(false);
 				return false;
 			}
