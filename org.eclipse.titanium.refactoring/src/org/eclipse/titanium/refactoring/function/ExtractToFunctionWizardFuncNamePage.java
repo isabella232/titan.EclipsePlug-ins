@@ -73,7 +73,8 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 			setPageComplete(false);
 			return false;
 		}
-		Module mod = ((ExtractToFunctionRefactoring)getRefactoring()).getSelectedModule();
+
+		final Module mod = ((ExtractToFunctionRefactoring)getRefactoring()).getSelectedModule();
 		switch (mod.getModuletype()) {
 		case TTCN3_MODULE:
 			if (!Identifier.isValidInTtcn(newName)) {
@@ -92,9 +93,10 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 		default:
 			ErrorReporter.INTERNAL_ERROR();
 		}
-		Assignments assignments = mod.getAssignments();
+
+		final Assignments assignments = mod.getAssignments();
 		for(int i = 0; i < assignments.getNofAssignments(); i++) {
-			Assignment asg = assignments.getAssignmentByIndex(i);
+			final Assignment asg = assignments.getAssignmentByIndex(i);
 			if(asg.getIdentifier().getDisplayName().equals(newName)) {
 				setErrorMessage("A function with the provided name already exists!");
 				setPageComplete(false);
