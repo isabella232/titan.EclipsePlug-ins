@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.AST.Module;
  * Wizard page #1: edit the name of the new function.
  *
  * @author Viktor Varga
- * @author Mikecz Márk László
+ * @author Mikecz Mark Laszlo
  */
 public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 
@@ -54,7 +54,7 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 			@Override
 			public void modifyText(final ModifyEvent e) {
 				if (checkNewNameValidity()) {
-					final StringBuilder newFuncNameSB = ((ExtractToFunctionRefactoring)getRefactoring()).getNewFunctionName();
+					final StringBuilder newFuncNameSB = ((ExtractToFunctionRefactoring) getRefactoring()).getNewFunctionName();
 					newFuncNameSB.setLength(0);
 					newFuncNameSB.append(newFuncName.getText());
 				}
@@ -65,7 +65,6 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 		checkNewNameValidity();
 	}
 
-
 	private boolean checkNewNameValidity() {
 		final String newName = newFuncName.getText();
 		if (newName.length() == 0) {
@@ -74,7 +73,7 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 			return false;
 		}
 
-		final Module mod = ((ExtractToFunctionRefactoring)getRefactoring()).getSelectedModule();
+		final Module mod = ((ExtractToFunctionRefactoring) getRefactoring()).getSelectedModule();
 		switch (mod.getModuletype()) {
 		case TTCN3_MODULE:
 			if (!Identifier.isValidInTtcn(newName)) {
@@ -95,9 +94,9 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 		}
 
 		final Assignments assignments = mod.getAssignments();
-		for(int i = 0; i < assignments.getNofAssignments(); i++) {
+		for (int i = 0; i < assignments.getNofAssignments(); i++) {
 			final Assignment asg = assignments.getAssignmentByIndex(i);
-			if(asg.getIdentifier().getDisplayName().equals(newName)) {
+			if (asg.getIdentifier().getDisplayName().equals(newName)) {
 				setErrorMessage("A function with the provided name already exists!");
 				setPageComplete(false);
 				return false;
@@ -107,6 +106,5 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 		setPageComplete(true);
 		return true;
 	}
-
 
 }
