@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.Module;
  * Wizard page #1: edit the name of the new function.
  *
  * @author Viktor Varga
+ * @author Mikecz Márk László
  */
 public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 
@@ -62,7 +63,6 @@ public class ExtractToFunctionWizardFuncNamePage extends UserInputWizardPage {
 		newFuncName.setFocus();
 		newFuncName.selectAll();
 		checkNewNameValidity();
-
 	}
 
 
