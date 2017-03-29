@@ -854,7 +854,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				// TODO: maybe a partially erroneous reference could be searched too
 				return;
 			}
-			if (subReferences.size() != typeArray.size() + 1) {
+			//TODO: subReferences.size()>0 is just temporary. Rethink if it is correct or or not
+			if (subReferences.size()>0 && subReferences.size() != typeArray.size() + 1) {
 				ErrorReporter.INTERNAL_ERROR();
 				return;
 			}
