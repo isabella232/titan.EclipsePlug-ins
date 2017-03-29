@@ -93,6 +93,10 @@ public final class InformationFromObj extends Reference {
 	public Location getLocation() {
 		return location;
 	}
+	
+	public FieldName getFieldName(){
+		return fieldName;
+	}
 
 	@Override
 	/** {@inheritDoc} */

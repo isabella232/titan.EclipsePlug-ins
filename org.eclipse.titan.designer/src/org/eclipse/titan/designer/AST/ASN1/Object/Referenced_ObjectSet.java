@@ -14,15 +14,20 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceChainElement;
 import org.eclipse.titan.designer.AST.ISetting;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
+import org.eclipse.titan.designer.AST.ASN1.Defined_Reference;
 import org.eclipse.titan.designer.AST.ASN1.IObjectSet_Element;
+import org.eclipse.titan.designer.AST.ASN1.InformationFromObj;
 import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSetElement_Visitor;
+import org.eclipse.titan.designer.AST.ASN1.ObjectSet_Assignment;
+import org.eclipse.titan.designer.AST.ASN1.Parameterised_Reference;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -87,9 +92,12 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 
 	public ObjectSet getRefd(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
+			if (osReferenced != null && lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
+				return osReferenced;
+			}
 			final Assignment assignment = reference.getRefdAssignment(timestamp, true, referenceChain);
 			if (null != assignment) {
-				final ISetting setting = reference.getRefdSetting(timestamp);
+				final ISetting setting = assignment.getSetting(timestamp);//TODO check in the compiler too !!!
 				if (null != setting && !Setting_type.S_ERROR.equals(setting.getSettingtype())) {
 					if (Setting_type.S_OS.equals(setting.getSettingtype())) {
 						osReferenced = (ObjectSet) setting;
@@ -101,6 +109,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 			}
 		}
 		osReferenced = new ObjectSet_definition();
+		osReferenced.setFullNameParent(this);
 		osReferenced.setMyGovernor(getMyGovernor());
 		return osReferenced;
 	}
@@ -123,6 +132,74 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 
 		return referencedLast;
 	}
+	
+	public boolean isReferencedInformationFromObj() {
+		return (reference instanceof InformationFromObj);
+	}
+	
+	public boolean isReferencedParameterisedReference() {
+		return (reference instanceof Parameterised_Reference);
+	}
+	
+	public boolean isReferencedDefinedReference(){
+		return (reference instanceof Defined_Reference);
+	}
+	
+	/**
+	 * Returns the referenced ObjectClass. The evaluation depends on the type of the reference
+	 * @param timestamp
+	 * @return the referenced ObjectClass if found. Otherwise returns null.
+	 */
+	public ObjectClass getRefdObjectClass(final CompilationTimeStamp timestamp){
+		ObjectClass refdClass = null;
+		if (reference instanceof InformationFromObj){
+			final ObjectClass tempGovernor = getRefdLast(timestamp, null).getMyGovernor();
+			if (tempGovernor == null) {
+				return null;
+			}
+			refdClass = tempGovernor.getRefdLast(timestamp, null);
+			final FieldName fn = ( (InformationFromObj) reference).getFieldName();
+			if( fn.getNofFields()==1) {
+				Identifier fieldId = fn.getFieldByIndex(0);
+				FieldSpecifications fss = refdClass.getFieldSpecifications();
+				FieldSpecification fs = fss.getFieldSpecificationByIdentifier(fieldId);
+				if( fs instanceof Undefined_FieldSpecification) {
+					fs = ((Undefined_FieldSpecification) fs).getRealFieldSpecification();
+				}
+				switch( fs.getFieldSpecificationType() ) {
+				case FS_OS:
+					refdClass = ((ObjectSet_FieldSpecification) fs).getObjectClass().getRefdLast(timestamp, null);
+					break;
+				case FS_T:
+					//TODO: implement the other cases
+					break;
+				default:
+					//TODO: implement the other cases
+					break;
+				}
+			}
+		} else if ( reference instanceof Parameterised_Reference){
+			Defined_Reference dref = ((Parameterised_Reference) reference).getRefDefdSimple();
+			if( dref == null ) return null;
+			Assignment ass = dref.getRefdAssignment(timestamp,false,null);
+			if (ass instanceof ObjectSet_Assignment){
+				ass.check(timestamp);
+				osReferenced = ((ObjectSet_Assignment) ass).getObjectSet(timestamp);//experimental
+				refdClass = ((ObjectSet_Assignment) ass).getObjectSet(timestamp).getMyGovernor().getRefdLast(timestamp, null);
+			}
+		} else if (reference instanceof Defined_Reference){
+			Assignment ass = ((Defined_Reference) reference).getRefdAssignment(timestamp,false,null);
+			if (ass instanceof ObjectSet_Assignment){
+				ass.check(timestamp);
+				osReferenced = ((ObjectSet_Assignment) ass).getObjectSet(timestamp);//experimental
+				refdClass = ((ObjectSet_Assignment) ass).getObjectSet(timestamp).getMyGovernor().getRefdLast(timestamp, null);
+			}
+		} else {
+			//TODO, perhaps it is impossible
+			return refdClass; //to debug
+		}
+		return refdClass;
+	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -136,12 +213,13 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		if (null == myGovernor) {
 			return;
 		}
-
+		
 		final ObjectClass myClass = myGovernor.getRefdLast(timestamp, null);
-		final ObjectClass refdClass = getRefdLast(timestamp, null).getMyGovernor().getRefdLast(timestamp, null);
+		final ObjectClass refdClass = getRefdObjectClass(timestamp);
 		if (myClass != refdClass) {
-			location.reportSemanticError(MessageFormat.format(MISMATCH, myClass.getFullName(), refdClass.getFullName()));
-
+			if (location != null && refdClass!=null && myClass!=null) {
+				location.reportSemanticError(MessageFormat.format(MISMATCH, myClass.getFullName(), refdClass.getFullName()));
+			}
 			osReferenced = new ObjectSet_definition();
 			osReferenced.setMyGovernor(myGovernor);
 			osReferenced.check(timestamp);

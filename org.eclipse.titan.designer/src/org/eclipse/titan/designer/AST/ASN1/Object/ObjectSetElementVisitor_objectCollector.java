@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
 import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
@@ -55,9 +56,13 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 		if (visitedElements.contains(object)) {
 			return;
 		}
-		if (!governor.equals(object.getMyGovernor().getRefdLast(timestamp, null))) {
-			location.reportSemanticError(MessageFormat.format(OBJECTOFCLASSEXPECTED, governor.getFullName(), p.getFullName(), p
-					.getMyGovernor().getRefdLast(timestamp, null).getFullName()));
+		final ObjectClass myClass = governor.getRefdLast(timestamp, null);
+		final ObjectClass refdClass = object.getMyGovernor().getRefdLast(timestamp, null);
+		
+		if (myClass != refdClass) {
+			if( location != NULL_Location.INSTANCE && refdClass!=null) {
+				location.reportSemanticError(MessageFormat.format(OBJECTOFCLASSEXPECTED, myClass.getFullName(), p.getFullName(), refdClass.getFullName()));
+			}
 			return;
 		}
 		visitedElements.add(object);
@@ -70,18 +75,24 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 	}
 
 	public void visitObjectSet(final ObjectSet p, final boolean force) {
+
+		if(governor == null || p == null) {
+			return;
+		}
+
+		final ObjectClass myClass = governor.getRefdLast(timestamp, null);
+		ObjectClass refdClass = null;
+		if (p instanceof Referenced_ObjectSet){
+			refdClass = ((Referenced_ObjectSet)p).getRefdObjectClass(timestamp);
+		} 
+
+		if(myClass != refdClass &&  myClass!=null && refdClass!=null) {
+			p.getLocation().reportSemanticError(
+					MessageFormat.format(OBJECTOFCLASSEXPECTED, myClass.getFullName(), p.getFullName(), refdClass.getFullName()));
+			return;
+		}
+		
 		final ObjectSet_definition os = p.getRefdLast(timestamp, null);
-		final ObjectClass tempGovernor = os.getMyGovernor();
-
-		if (null == tempGovernor) {
-			return;
-		}
-
-		if (!governor.equals(tempGovernor.getRefdLast(timestamp, null))) {
-			p.getLocation().reportSemanticError(MessageFormat.format(OBJECTOFCLASSEXPECTED, governor.getFullName(), p.getFullName(),
-					tempGovernor.getRefdLast(timestamp, null).getFullName()));
-			return;
-		}
 		if (visitedElements.contains(os)) {
 			if (!force) {
 				return;
@@ -89,6 +100,22 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 		} else {
 			visitedElements.add(os);
 		}
+		
+		//=== Visit objects =====
+		
+		//In case of Parameterised_Reference, the ObjectSet contains the parameters
+		// therefore its objects have different type
+		// E.g: Ericsson-MAP-ReturnError-v2 ::= ReturnError{{Errors {{Supported-Ericsson-MAP-Operations-v2}}}} 
+		//                                                   ^Par ref ^^^^^^ObjectSet
+		if(((Referenced_ObjectSet)p).isReferencedParameterisedReference()) { 
+			return; 
+		}
+		//In case of Defined_Reference, the ObjectSet contains...
+		//TODO: check this!
+		if(((Referenced_ObjectSet)p).isReferencedDefinedReference()){
+			return;
+		}
+		
 		final ASN1Objects otherObjects = os.getObjs();
 
 		otherObjects.trimToSize();
