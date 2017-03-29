@@ -751,8 +751,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
-			if (reference.getModuleIdentifier() != null || definitionMap == null) {
-
+		if (reference.getModuleIdentifier() != null || definitionMap == null) {
 			return getParentScope().getAssBySRef(timestamp, reference);
 		}
 
