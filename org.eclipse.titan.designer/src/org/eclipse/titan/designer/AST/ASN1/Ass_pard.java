@@ -20,6 +20,7 @@ import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IIdentifierContainer;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -171,6 +172,19 @@ public final class Ass_pard implements IIdentifierContainer, IVisitableNode {
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// TODO
+//		if (mParameters == null) {
+//			check( CompilationTimeStamp.getBaseTimestamp());
+//		}
+//		Identifier id = referenceFinder.getReferredIdentifier();
+//		if (id == null) { return; }
+//		int N = mParameters.size();
+//		for(int i=0;i<N;i++){
+//			if (id.getAsnName().equals( mParameters.get(i).identifier.getAsnName())) {
+//				foundIdentifiers.add( new Hit(mParameters.get(i).identifier ));
+////				foundIdentifiers.add(new Hit(id));
+//			}
+//		}
+//		
 	}
 
 	@Override
