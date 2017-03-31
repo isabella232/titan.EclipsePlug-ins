@@ -306,9 +306,9 @@ public final class Open_Type extends ASN1Type {
 		if (!hasComponentWithName(name)) {
 			if (value.isAsn()) {
 				value.getLocation().reportSemanticError(
-						MessageFormat.format(NONEXISTENTCHOICE, name.getDisplayName(), getFullName()));
+						MessageFormat.format(NONEXISTENTCHOICE, nameOrig.getDisplayName(), getFullName()));
 			} else {
-				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, name.getDisplayName(), getFullName()));
+				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, nameOrig.getDisplayName(), getFullName()));
 			}
 		}
 
