@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Type;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectSet_definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
+import org.eclipse.titan.designer.AST.ASN1.Object.ReferencedObject;
 import org.eclipse.titan.designer.AST.ASN1.Object.Referenced_ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
@@ -352,34 +353,41 @@ public final class TableConstraint extends Constraint {
 		 * openType.check(timestamp);
 		 */
 		
-		if( objectSet instanceof Referenced_ObjectSet){
-			ObjectSet_definition objects = objectSet.getRefdLast(timestamp, null);
-			List<IObjectSet_Element> oses = objects.getObjectSetElements();
-			for( IObjectSet_Element ose : oses) {
-				if (ose instanceof Object_Definition) {
-					Object_Definition od = (Object_Definition) ose;
-					if( !od.hasFieldSettingWithNameDefault(objectClassFieldname) ) {
-						continue;
+		if (objectSet instanceof Referenced_ObjectSet){
+			if ( ((Referenced_ObjectSet) objectSet).isReferencedDefinedReference() ){
+				ObjectSet_definition objects = objectSet.getRefdLast(timestamp, null);
+				List<IObjectSet_Element> oses = objects.getObjectSetElements();
+				for( IObjectSet_Element ose : oses) {
+					if (ose instanceof ReferencedObject) {
+						ose = ((ReferencedObject) ose).getRefdLast(timestamp);
 					}
-					
-					FieldSetting fs = od.getFieldSettingWithNameDefault(objectClassFieldname);
-					
-					if (fs instanceof FieldSetting_Type) {
-						FieldSetting_Type fst = (FieldSetting_Type)fs;
-						IASN1Type type = fst.getSetting();
-						if (type instanceof Referenced_Type) {
-							Identifier name = ((Referenced_Type) type).getReference().getId();
-							//Value defaultValue = TODO
-							//only the name->type mappings is important, avoid duplication
-							if (!openType.hasComponentWithName(name)) {
-								openType.addComponent(new CompField( name, (Type) type, false, null));
+					if (ose instanceof Object_Definition) {
+						Object_Definition od = (Object_Definition) ose;
+						if( !od.hasFieldSettingWithNameDefault(objectClassFieldname) ) {
+							continue;
+						}
+
+						FieldSetting fs = od.getFieldSettingWithNameDefault(objectClassFieldname);
+
+						if (fs instanceof FieldSetting_Type) {
+							FieldSetting_Type fst = (FieldSetting_Type)fs;
+							IASN1Type type = fst.getSetting();
+							if (type instanceof Referenced_Type) {
+								Identifier name = ((Referenced_Type) type).getReference().getId();
+								//Value defaultValue = TODO
+								//only the name->type mappings is important, avoid duplication
+								if (!openType.hasComponentWithName(name)) {
+									openType.addComponent(new CompField( name, (Type) type, false, null));
+								}
 							}
 						}
+					} else {
+						
 					}
+
 				}
-				
-			}
-			openType.check(timestamp);
+				openType.check(timestamp);
+			} //TODO:Other possibilities
 		}
 	}
 
