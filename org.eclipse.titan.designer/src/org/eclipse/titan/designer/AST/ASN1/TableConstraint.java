@@ -381,10 +381,7 @@ public final class TableConstraint extends Constraint {
 								}
 							}
 						}
-					} else {
-						
-					}
-
+					} 
 				}
 				openType.check(timestamp);
 			} //TODO:Other possibilities
