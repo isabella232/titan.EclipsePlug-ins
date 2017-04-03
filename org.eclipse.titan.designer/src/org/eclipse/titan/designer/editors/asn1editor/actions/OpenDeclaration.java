@@ -152,6 +152,9 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 
 		final Module module = projectSourceParser.containedModule(file);
+		if( module == null) {
+			return; //TODO: How could this happen??? (NPE occured)
+		}
 		IdentifierFinderVisitor visitor = new IdentifierFinderVisitor(offset);
 		module.accept(visitor);
 		final Declaration decl = visitor.getReferencedDeclaration();
