@@ -156,7 +156,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 			final Expected_Value_type internalExpectation =
 					expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : expectedIndex;
-
+			//This is the recursive function call:
 			return fieldType.getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
 		case parameterisedSubReference:
 			subreference.getLocation().reportSemanticError(
