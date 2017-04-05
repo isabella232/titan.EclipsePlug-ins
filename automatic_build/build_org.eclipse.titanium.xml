@@ -37,11 +37,11 @@
             <path refid="PDE.classpath"/>
             <path refid="common.classpath"/>
             <path refid="designer.classpath"/>
-	    <pathelement location="${lib.dir}/org.apache.commons.collections15/collections-generic-4.01.jar"/>
-	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-graph-impl-2.0.1.jar"/>
-	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-visualization-2.0.1.jar"/>
-	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-algorithms-2.0.1.jar"/>
-	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-io-2.0.1.jar"/>
+	    	<!-- <pathelement location="${lib.dir}/org.apache.commons.collections15/collections-generic-4.01.jar"/>  -->
+	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-graph-impl-2.1.jar"/>
+	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-visualization-2.1.jar"/>
+	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-algorithms-2.1.jar"/>
+	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-io-2.1.jar"/>
 	    </classpath>
         </javac>
     </target>
