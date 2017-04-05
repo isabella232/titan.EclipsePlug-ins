@@ -19,12 +19,14 @@ import java.util.Map;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
+import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -205,7 +207,14 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 
+		//In case of Open_Type it is normal that a type is referenced more times, but only once per Object
+		//Now one field of an object class can one Open_Type, and each object of its object set can add a possible type to it
+		//FIXME: Perhaps this class should be copied under asn1 to handle this ASN1 problem
 		if (doubleComponents != null) {
+			INamedNode p = getNameParent();
+			if( p instanceof Open_Type ) {
+				return;
+			}
 			for (int i = 0, size = doubleComponents.size(); i < size; i++) {
 				final CompField field = doubleComponents.get(i);
 				//remove duplication from fields - not used anymore
