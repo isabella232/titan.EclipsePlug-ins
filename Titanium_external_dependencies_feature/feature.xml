@@ -2,35 +2,25 @@
 <feature
       id="Titanium_external_dependencies"
       label="Titanium_external_dependencies"
-      version="1.0.0.20160823-1130">
+      version="1.0.0.20170405-1100">
 
    <description>
-      These feature packages Jung 2.0.1, org.apache.commons.collection15 4.01 and apache POI to ease installation.
+      These feature packages Jung 2.1, com.google.guava 21.0 and apache POI to ease installation.
 They are external features to the Titan toolset.
    </description>
 
    <copyright>
-      All rights regarding jung and org.apache.commons.collection15 belong to their respective owners.
+      All rights regarding jung, com.google.guava 21.0 and apache POI belong to their respective owners.
    </copyright>
 
    <license url="">
-      These feature packages Jung 2.0.1 and org.apache.commons.collection15
-4.01
+      These feature packages Jung 2.1, com.google.guava 21.0 and apache POI
 They are external features to the Titan toolset.
-All rights regarding jung and org.apache.commons.collection15 belong to their respective owners.
+All rights regarding Jung 2.1, com.google.guava 21.0 and apache POI belong to their respective owners.
+
+Jung license: https://github.com/jrtom/jung/blob/master/LICENSE
+Both com.google.guava 21.0 and apache POI use the The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
    </license>
-
-   <plugin
-         id="edu.uci.ics.jung"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.20160527-1200"/>
-
-   <plugin
-         id="org.apache.commons.collections15"
-         download-size="0"
-         install-size="0"
-         version="1.0.0.20160527-1200"/>
 
    <plugin
          id="org.apache.poi"
@@ -38,5 +28,18 @@ All rights regarding jung and org.apache.commons.collection15 belong to their re
          install-size="0"
          version="3.9.0.v201405241750"
          unpack="false"/>
+
+   <plugin
+         id="com.google.guava"
+         download-size="0"
+         install-size="0"
+         version="21.0.0.v20170206-1425"
+         unpack="false"/>
+
+   <plugin
+         id="edu.uci.ics.jung"
+         download-size="0"
+         install-size="0"
+         version="2.1.0.20170405-1030"/>
 
 </feature>
