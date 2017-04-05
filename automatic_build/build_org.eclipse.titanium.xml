@@ -31,7 +31,7 @@
     <target depends="init" name="build">
         <echo message="${ant.project.name}: ${ant.file}"/>
         <javac debug="${javac.debug}" debuglevel="${javac.debuglevel}"
-			   destdir="bin" source="${source}" target="${target}" failonerror="true">
+			   destdir="bin" source="1.8" target="1.8" failonerror="true">
             <src path="src"/>
 	    <classpath>
             <path refid="PDE.classpath"/>
