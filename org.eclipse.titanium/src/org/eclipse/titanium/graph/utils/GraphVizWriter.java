@@ -17,7 +17,7 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import org.apache.commons.collections15.Transformer;
+import com.google.common.base.Function;
 
 import edu.uci.ics.jung.graph.Graph;
 
@@ -43,7 +43,7 @@ public class GraphVizWriter<V, E> {
 	 * @throws IOException
 	 * 			  On IO error
 	 */
-	public void save(final Graph<V, E> g, final String filename, final Transformer<V,String> labeler, final String graphName) throws IOException{
+	public void save(final Graph<V, E> g, final String filename, final Function<V,String> labeler, final String graphName) throws IOException{
 		final SortedSet<V> nodes = new TreeSet<V>();
 		final Map<V,SortedSet<V>> successors = new HashMap<V, SortedSet<V>>();
 		for (final V source : g.getVertices()) {
@@ -62,11 +62,11 @@ public class GraphVizWriter<V, E> {
 		for (final V from : nodes) {
 			final Collection<V> actSuccessors = successors.get(from);
 			for (final V to : actSuccessors) {
-				writer.write("\t\""+labeler.transform(from)+"\" -> \""+labeler.transform(to)+"\";\n");
+				writer.write("\t\""+labeler.apply(from)+"\" -> \""+labeler.apply(to)+"\";\n");
 			}
 			
 			if (g.getPredecessorCount(from)==0 && actSuccessors.isEmpty()) {
-				writer.write("\t\""+labeler.transform(from)+"\";\n");
+				writer.write("\t\""+labeler.apply(from)+"\";\n");
 			}
 		}
 		

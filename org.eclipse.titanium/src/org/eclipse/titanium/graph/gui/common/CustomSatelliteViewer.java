@@ -41,7 +41,7 @@ public class CustomSatelliteViewer extends SatelliteVisualizationViewer<NodeDesc
 	 * @param master : the {@link VisualizationViewer} of the whole big graph. (Usually part of the graph editor window)
 	 */
 	public CustomSatelliteViewer(final VisualizationViewer<NodeDescriptor, EdgeDescriptor> master) {
-		super(master);
+		super(master, new Dimension(600,600));
 		actZoom = 1.0f;
 		final PluggableGraphMouse satMouse = new PluggableGraphMouse() {
 			@Override

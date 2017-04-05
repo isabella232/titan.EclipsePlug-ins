@@ -16,13 +16,13 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JComponent;
 
-import org.apache.commons.collections15.Transformer;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
 import org.eclipse.titanium.graph.components.NodeColours;
 import org.eclipse.titanium.graph.components.NodeDescriptor;
 import org.eclipse.titanium.graph.gui.common.CustomVisualizationViewer;
 
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
+import com.google.common.base.Function;
+
 import edu.uci.ics.jung.visualization.picking.PickedState;
 import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
 
@@ -33,14 +33,14 @@ import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
  * @param <V>
  *            the node's type
  */
-class NodeShape<V> implements Transformer<V, Shape> {
+class NodeShape<V> implements Function<V, Shape> {
 	private static final int BOX_HEIGHT = 30;
 	private static final int ESTIMATED_CHARACTER_WIDTH = 8; // TODO works, but
 															// real calculations
 															// would be more
 															// robust.
 
-	private Transformer<V, String> labeller;
+	private Function<V, String> labeller;
 
 	/**
 	 * Constructor
@@ -48,11 +48,15 @@ class NodeShape<V> implements Transformer<V, Shape> {
 	 * @param labeller
 	 *            : the node name -> node's shown name converter
 	 */
-	public NodeShape(final Transformer<V, String> labeller) {
+	public NodeShape(final Function<V, String> labeller) {
 		if (labeller != null) {
 			this.labeller = labeller;
 		} else {
-			this.labeller = new ToStringLabeller<V>();
+			this.labeller = new Function<V, String>() {
+				public String apply(V o) {
+					return o.toString();
+				}
+			};
 		}
 	}
 
@@ -60,8 +64,8 @@ class NodeShape<V> implements Transformer<V, Shape> {
 	 * @return returning constant round rectangle
 	 */
 	@Override
-	public Shape transform(final V v) {
-		final int textLength = labeller.transform(v).length();
+	public Shape apply(final V v) {
+		final int textLength = labeller.apply(v).length();
 		final int textDrawnWidth = textLength * ESTIMATED_CHARACTER_WIDTH;
 		return new RoundRectangle2D.Double(-0.5 * textDrawnWidth, -0.5 * BOX_HEIGHT, textDrawnWidth, BOX_HEIGHT, 10, 10);
 	}
@@ -76,7 +80,7 @@ class NodeShape<V> implements Transformer<V, Shape> {
  * @param <V>
  *            the node's type
  */
-class NodeColour<V> implements Transformer<V, Paint> {
+class NodeColour<V> implements Function<V, Paint> {
 	private final PickedState<V> picked;
 
 	/**
@@ -94,7 +98,7 @@ class NodeColour<V> implements Transformer<V, Paint> {
 	 * The function returns a colour as described in the class's documentation
 	 */
 	@Override
-	public Paint transform(final V v) {
+	public Paint apply(final V v) {
 		if (picked.isPicked(v)) {
 			return NodeColours.PICKED_COLOUR;
 		} else {
@@ -114,7 +118,7 @@ class NodeColour<V> implements Transformer<V, Paint> {
  * @param <E>
  *            edge's type
  */
-class EdgeColour<E> implements Transformer<E, Paint> {
+class EdgeColour<E> implements Function<E, Paint> {
 	private final PickedState<E> picked;
 
 	/**
@@ -133,7 +137,7 @@ class EdgeColour<E> implements Transformer<E, Paint> {
 	 * chosen, but there are edges chosen (they will have red colour).
 	 */
 	@Override
-	public Paint transform(final E e) {
+	public Paint apply(final E e) {
 		if (picked.getPicked().isEmpty()) {
 			if (e instanceof EdgeDescriptor) {
 				return ((EdgeDescriptor) e).getColor();
@@ -233,7 +237,7 @@ public class GraphRenderer<V, E> {
 	 *            : A class that stores, which edges are selected currently on
 	 *            the graph
 	 */
-	public GraphRenderer(final Transformer<V, String> labeller, final PickedState<V> vertexPicked, final PickedState<E> edgePicked) {
+	public GraphRenderer(final Function<V, String> labeller, final PickedState<V> vertexPicked, final PickedState<E> edgePicked) {
 		shape = new NodeShape<V>(labeller);
 		vertexColour = new NodeColour<V>(vertexPicked);
 		edgeColour = new EdgeColour<E>(edgePicked);

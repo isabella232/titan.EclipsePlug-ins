@@ -10,17 +10,17 @@ package org.eclipse.titanium.graph.components;
 import java.awt.BasicStroke;
 import java.awt.Stroke;
 
-import org.apache.commons.collections15.Transformer;
+import com.google.common.base.Function;
 
 /**
  * This class can makes edges colored red more emphasized, by doubling their width.
  * 
  * @author Kristof Szabados
  */
-public 	class EdgeStroke<E> implements Transformer<E, Stroke> {
+public 	class EdgeStroke<E> implements Function<E, Stroke> {
 
 	@Override
-	public Stroke transform(final E e) {
+	public Stroke apply(final E e) {
 		if (e instanceof EdgeDescriptor && NodeColours.DARK_RED.equals(((EdgeDescriptor) e).getColor())) {
 			return new BasicStroke(2.0f);
 		}

@@ -26,7 +26,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-import org.apache.commons.collections15.Transformer;
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
@@ -75,6 +74,8 @@ import org.eclipse.ui.contexts.IContextService;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.EditorPart;
 
+import com.google.common.base.Function;
+
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
@@ -88,7 +89,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 public abstract class GraphEditor extends EditorPart implements Searchable<NodeDescriptor>{
 	protected DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> graph;
 	protected GraphHandler handler;
-	protected Transformer<NodeDescriptor, String> labeler;
+	protected Function<NodeDescriptor, String> labeler;
 	protected JPanel drawArea;
 	protected Frame window;
 	protected Dimension windowSize;
@@ -671,7 +672,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 	 * @param labeler
 	 *            : the labeler to set
 	 */
-	public void setLabeller(final Transformer<NodeDescriptor, String> labeler) {
+	public void setLabeller(final Function<NodeDescriptor, String> labeler) {
 		this.labeler = labeler;
 	}
 
@@ -766,7 +767,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 	@Override
 	public void elemChosen(final NodeDescriptor element){
 		final CustomVisualizationViewer visualisator = handler.getVisualizator();
-		visualisator.jumpToPlace(visualisator.getGraphLayout().transform(element));
+		visualisator.jumpToPlace(visualisator.getGraphLayout().apply(element));
 		
 		for (final NodeDescriptor node : graph.getVertices()) {
 			node.setNodeColour(NodeColours.NOT_RESULT_COLOUR);

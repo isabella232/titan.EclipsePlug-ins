@@ -18,12 +18,13 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Set;
 
-import org.apache.commons.collections15.Transformer;
 import org.eclipse.titanium.Activator;
 import org.eclipse.titanium.error.GUIErrorHandler;
 import org.eclipse.titanium.graph.gui.layouts.algorithms.HierarcicalLayoutAlgorithm;
 import org.eclipse.titanium.metrics.IMetricEnum;
 import org.eclipse.titanium.preferences.PreferenceConstants;
+
+import com.google.common.base.Function;
 
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.Graph;
@@ -102,7 +103,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	 * @return Returns the position calculated for a given node
 	 */
 	@Override
-	public Point2D transform(final V v) {
+	public Point2D apply(final V v) {
 		final Point2D p = places.get(v);
 
 		return p != null ? p : new Point2D.Double();
@@ -187,7 +188,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	 *            : The transformer to use
 	 */
 	@Override
-	public void setInitializer(final Transformer<V, Point2D> trf) {
+	public void setInitializer(final Function<V, Point2D> trf) {
 		// intentionally empty
 	}
 

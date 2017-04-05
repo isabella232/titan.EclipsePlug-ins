@@ -11,9 +11,10 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.Set;
 
-import org.apache.commons.collections15.Transformer;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
 import org.eclipse.titanium.graph.components.NodeDescriptor;
+
+import com.google.common.base.Function;
 
 import edu.uci.ics.jung.algorithms.layout.AggregateLayout;
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
@@ -26,7 +27,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
  * 
  * @author Gabor Jenei
  */
-public final class ClusterTransformer implements Transformer<NodeDescriptor, Point2D> {
+public final class ClusterTransformer implements Function<NodeDescriptor, Point2D> {
 	private final AggregateLayout<NodeDescriptor, EdgeDescriptor> mainLayout;
 	private final Set<Set<NodeDescriptor>> clusters;
 
@@ -58,7 +59,7 @@ public final class ClusterTransformer implements Transformer<NodeDescriptor, Poi
 	 */
 	protected void groupCluster(final Set<NodeDescriptor> vertices) {
 		if (vertices.size() < mainLayout.getGraph().getVertexCount()) {
-			final Point2D center = mainLayout.transform(vertices.iterator().next());
+			final Point2D center = mainLayout.apply(vertices.iterator().next());
 			final DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> subGraph = new DirectedSparseGraph<NodeDescriptor, EdgeDescriptor>();
 			for (final NodeDescriptor v : vertices) {
 				subGraph.addVertex(v);
@@ -82,7 +83,7 @@ public final class ClusterTransformer implements Transformer<NodeDescriptor, Poi
 	 *            : the node to transform to coordinates
 	 */
 	@Override
-	public Point2D transform(final NodeDescriptor v) {
-		return mainLayout.transform(v);
+	public Point2D apply(final NodeDescriptor v) {
+		return mainLayout.apply(v);
 	}
 }

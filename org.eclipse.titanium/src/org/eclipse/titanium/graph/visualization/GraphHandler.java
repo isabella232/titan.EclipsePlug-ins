@@ -20,7 +20,6 @@ import java.util.Set;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.collections15.Transformer;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titanium.error.GUIErrorHandler;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
@@ -34,13 +33,14 @@ import org.eclipse.titanium.graph.gui.utils.LayoutEntry;
 import org.eclipse.titanium.graph.utils.GraphVizWriter;
 import org.eclipse.titanium.metrics.IMetricEnum;
 
+import com.google.common.base.Function;
+
 import edu.uci.ics.jung.algorithms.layout.Layout;
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 import edu.uci.ics.jung.graph.Graph;
 import edu.uci.ics.jung.io.PajekNetWriter;
 import edu.uci.ics.jung.visualization.VisualizationViewer;
 import edu.uci.ics.jung.visualization.control.CrossoverScalingControl;
-import edu.uci.ics.jung.visualization.decorators.ToStringLabeller;
 import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 /**
@@ -62,7 +62,11 @@ public class GraphHandler {
 	}
 
 	private DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> g;
-	private static final Transformer<NodeDescriptor, String> NODE_LABELER=new ToStringLabeller<NodeDescriptor>();
+	private static final Function<NodeDescriptor, String> NODE_LABELER = new Function<NodeDescriptor, String>() {
+		public String apply(NodeDescriptor o) {
+			return o.toString();
+		}
+	};
 	
 	private CustomVisualizationViewer actVisualisator;
 	private Layout<NodeDescriptor, EdgeDescriptor> layout;
@@ -167,9 +171,9 @@ public class GraphHandler {
 			throw new BadLayoutException("You must draw a graph before!", ErrorType.NO_OBJECT);
 		}
 
-		final Transformer<EdgeDescriptor, Number> edgeWeights = new Transformer<EdgeDescriptor, Number>() {
+		final Function<EdgeDescriptor, Number> edgeWeights = new Function<EdgeDescriptor, Number>() {
 			@Override
-			public Number transform(final EdgeDescriptor e) {
+			public Number apply(final EdgeDescriptor e) {
 				return e.getWeight();
 			}
 		};
@@ -241,10 +245,10 @@ public class GraphHandler {
 				size = new Dimension(layout.getSize().width, layout.getSize().height);
 			}
 			
-			final Transformer<NodeDescriptor, Point2D> trf = new Transformer<NodeDescriptor, Point2D>() {
+			final Function<NodeDescriptor, Point2D> trf = new Function<NodeDescriptor, Point2D>() {
 				@Override
-				public Point2D transform(final NodeDescriptor v) {
-					return layout.transform(v);
+				public Point2D apply(final NodeDescriptor v) {
+					return layout.apply(v);
 				}
 			};
 			

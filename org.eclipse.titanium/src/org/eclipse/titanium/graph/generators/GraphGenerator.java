@@ -10,7 +10,6 @@ package org.eclipse.titanium.graph.generators;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.collections15.Transformer;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -21,6 +20,8 @@ import org.eclipse.titanium.error.ErrorHandler;
 import org.eclipse.titanium.error.PrimitiveErrorHandler;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
 import org.eclipse.titanium.graph.components.NodeDescriptor;
+
+import com.google.common.base.Function;
 
 import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
@@ -33,7 +34,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 public abstract class GraphGenerator {
 	protected DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> graph;
 	protected Map<String, NodeDescriptor> labels;
-	protected final Transformer<NodeDescriptor, String> labeler;
+	protected final Function<NodeDescriptor, String> labeler;
 	protected Job graphGenerator;
 	protected IProject project;
 	protected final ErrorHandler errorHandler;
@@ -50,9 +51,9 @@ public abstract class GraphGenerator {
 	 *            : An object that implements error handling capabilities
 	 */
 	public GraphGenerator(final IProject project, final ErrorHandler eHandler) {
-		labeler = new Transformer<NodeDescriptor, String>() {
+		labeler = new Function<NodeDescriptor, String>() {
 			@Override
-			public String transform(final NodeDescriptor v) {
+			public String apply(final NodeDescriptor v) {
 				return v.getDisplayName();
 			}
 		};
@@ -116,7 +117,7 @@ public abstract class GraphGenerator {
 	 * @return A {@link NodeLabeler} that transforms node IDs into node names.
 	 * @throws InterruptedException
 	 */
-	public Transformer<NodeDescriptor, String> getLabeler() throws InterruptedException {
+	public Function<NodeDescriptor, String> getLabeler() throws InterruptedException {
 		graphGenerator.join();
 		return labeler;
 	}

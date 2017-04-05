@@ -149,7 +149,7 @@ public class TitaniumISOMLayout<V, E> extends AbstractLayout<V, E> implements It
 		while (!queue.isEmpty()) {
 			current = queue.remove(queue.size() - 1);
 			final ISOMVertexData currData = getISOMVertexData(current);
-			final Point2D currXYData = transform(current);
+			final Point2D currXYData = apply(current);
 
 			final double dx = tempXYD.getX() - currXYData.getX();
 			final double dy = tempXYD.getY() - currXYData.getY();

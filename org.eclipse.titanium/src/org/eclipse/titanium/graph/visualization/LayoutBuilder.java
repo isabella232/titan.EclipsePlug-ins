@@ -11,7 +11,6 @@ import java.awt.Dimension;
 import java.awt.geom.Point2D;
 import java.util.Set;
 
-import org.apache.commons.collections15.Transformer;
 import org.eclipse.titanium.Activator;
 import org.eclipse.titanium.graph.clustering.gui.ClusterTransformer;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
@@ -24,6 +23,8 @@ import org.eclipse.titanium.graph.gui.layouts.TitaniumISOMLayout;
 import org.eclipse.titanium.graph.gui.utils.LayoutEntry;
 import org.eclipse.titanium.graph.gui.utils.MetricsLayoutEntry;
 import org.eclipse.titanium.preferences.PreferenceConstants;
+
+import com.google.common.base.Function;
 
 import edu.uci.ics.jung.algorithms.layout.CircleLayout;
 import edu.uci.ics.jung.algorithms.layout.FRLayout;
@@ -44,7 +45,7 @@ public class LayoutBuilder {
 	private final Dimension size;
 	
 	private Set<Set<NodeDescriptor>> clusters;
-	private Transformer<NodeDescriptor, Point2D> pointTransformer;
+	private Function<NodeDescriptor, Point2D> pointTransformer;
 	
 	/**
 	 * Constructor
@@ -74,7 +75,7 @@ public class LayoutBuilder {
 	 * @param trf : The transformer to set
 	 * @return This object, in order to implement builder pattern correctly
 	 */
-	public LayoutBuilder transformer(final Transformer<NodeDescriptor, Point2D> trf) {
+	public LayoutBuilder transformer(final Function<NodeDescriptor, Point2D> trf) {
 		pointTransformer = trf;
 		return this;
 	}
