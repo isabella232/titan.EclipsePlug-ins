@@ -59,7 +59,7 @@ public final class Open_Type extends ASN1Type {
 	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for union type `{1}''";
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for union type `{0}''";
 	private static final String ONEFIELDEXPECTED = "A template for union type must contain exactly one selected field";
-	private static final String REFERENCETONONEXISTENTFIELD = "Reference to non-existent field `{0}'' in union template for type `{1}''";
+	private static final String REFERENCETONONEXISTENTFIELD = "Reference to non-existent field `{0}'' in template of type `{1}''";
 	private static final String CHOICEEXPECTED = "CHOICE value was expected for type `{0}''";
 	private static final String UNIONEXPECTED = "Union value was expected for type `{0}''";
 	private static final String NONEXISTENTCHOICE = "Reference to a non-existent alternative `{0}'' in CHOICE value for type `{1}''";
@@ -133,17 +133,18 @@ public final class Open_Type extends ASN1Type {
 		}
 	}
 
+	//don't use it before get
 	public boolean hasComponentWithName(final Identifier identifier) {
-		if (null != compFieldMap && null != compFieldMap.getCompWithName(identifier)) {
-			return true;
-		}
-
-		return false;
+		return  null != getComponentByName(identifier);
 	}
 
 	public CompField getComponentByName(final Identifier identifier) {
+		//convert the first letter to upper case:
+		String ttcnName = identifier.getTtcnName();
+		ttcnName = ttcnName.substring(0,1).toUpperCase()+ttcnName.substring(1);
+		final Identifier name = new Identifier(identifier.getType(), ttcnName, identifier.getLocation());
 		if (null != compFieldMap) {
-			return compFieldMap.getCompWithName(identifier);
+			return compFieldMap.getCompWithName(name);
 		}
 		return null;
 	}
@@ -298,27 +299,20 @@ public final class Open_Type extends ASN1Type {
 
 	private void checkThisValueChoice(final CompilationTimeStamp timestamp, final Choice_Value value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean strElem) {
-		final Identifier nameOrig = value.getName();
-		//convert the first letter to upper case:
-		String ttcnName = nameOrig.getTtcnName();
-		ttcnName = ttcnName.substring(0,1).toUpperCase()+ttcnName.substring(1);
-		final Identifier name = new Identifier(nameOrig.getType(), ttcnName, nameOrig.getLocation());
-		if (!hasComponentWithName(name)) {
+		final Identifier name = value.getName();
+		final CompField field = getComponentByName(name);
+		if (field == null) {
 			if (value.isAsn()) {
 				value.getLocation().reportSemanticError(
-						MessageFormat.format(NONEXISTENTCHOICE, nameOrig.getDisplayName(), getFullName()));
+						MessageFormat.format(NONEXISTENTCHOICE, name.getDisplayName(), getFullName()));
 			} else {
-				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, nameOrig.getDisplayName(), getFullName()));
+				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, name.getDisplayName(), getFullName()));
 			}
-		}
-
-		final CompField field = getComponentByName(name);
-		if (null != field) {
+		} else {
 			IValue alternativeValue = value.getValue();
 			if (null == alternativeValue) {
 				return;
 			}
-
 			final Type alternativeType = field.getType();
 			alternativeValue.setMyGovernor(alternativeType);
 			alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
@@ -351,11 +345,11 @@ public final class Open_Type extends ASN1Type {
 				final NamedTemplate namedTemplate = namedTemplateList.getTemplateByIndex(i);
 				final Identifier name = namedTemplate.getName();
 
-				final CompField field = compFieldMap.getCompWithName(name);
+				final CompField field = getComponentByName(name);
 				if (field == null) {
-					// named_template.getLocation().reportSemanticError(MessageFormat.format(REFERENCETONONEXISTENTFIELD,
-					// name.get_displayName(),
-					// getFullName()));
+					 namedTemplate.getLocation().reportSemanticError(MessageFormat.format(REFERENCETONONEXISTENTFIELD,
+					 name.getDisplayName(),
+					 getFullName()));
 				} else {
 					final Type fieldType = field.getType();
 					if (fieldType != null && !fieldType.getIsErroneous(timestamp)) {
@@ -397,10 +391,10 @@ public final class Open_Type extends ASN1Type {
 			return null;
 		case fieldSubReference:
 			final Identifier id = subreference.getId();
-			final CompField compField = compFieldMap.getCompWithName(id);
+			final CompField compField = getComponentByName(id);
 			if (compField == null) {
-				// reference.getLocation().reportSemanticError(MessageFormat.format(TTCN3_Set_Seq_Choice_BaseType.NONEXISTENTFIELDREFERENCE,
-				// id.get_displayName(), getFullName()));
+				reference.getLocation().reportSemanticError(MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE,
+				id.getDisplayName(), getFullName()));
 				reference.setIsErroneous(true);
 				return this;
 			}

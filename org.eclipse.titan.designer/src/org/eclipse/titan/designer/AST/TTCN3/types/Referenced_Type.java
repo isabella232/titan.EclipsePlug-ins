@@ -183,7 +183,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return this;
 		}
 
-		if (refdLast != null && this != refdLast && !getIsErroneous(timestamp)) {
+		if (refdLast != null && this != refdLast) {
 			final Expected_Value_type internalExpectation =
 					expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE : expectedIndex;
 			final IType temp = refdLast.getFieldType(timestamp, reference, actualSubReference, internalExpectation, refChain, interruptIfOptional);
