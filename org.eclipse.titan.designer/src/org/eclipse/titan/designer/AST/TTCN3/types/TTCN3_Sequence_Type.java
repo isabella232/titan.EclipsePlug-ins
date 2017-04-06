@@ -537,6 +537,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * */
 	private void checkThisValueSeq(final CompilationTimeStamp timestamp, final Sequence_Value value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
+		check(timestamp);
 		final CompilationTimeStamp valueTimeStamp = value.getLastTimeChecked();
 		if (valueTimeStamp == null || valueTimeStamp.isLess(timestamp)) {
 			value.removeGeneratedValues();
@@ -556,7 +557,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final NamedValue namedValue = value.getSeqValueByIndex(i);
 			final Identifier valueId = namedValue.getName();
 
-			if (!realComponents.containsKey(valueId.getName())) {
+			if (realComponents == null || !realComponents.containsKey(valueId.getName())) {
 				namedValue.getLocation().reportSemanticError(
 						MessageFormat.format(isAsn ? NONEXISTENTFIELDERRORASN1 : NONEXISTENTFIELDERRORTTCN3, namedValue
 								.getName().getDisplayName(), getTypename()));
