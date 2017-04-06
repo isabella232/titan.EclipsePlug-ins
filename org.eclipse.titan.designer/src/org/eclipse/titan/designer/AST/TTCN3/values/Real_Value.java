@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Float_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -257,5 +258,20 @@ public final class Real_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport( "TitanFloat" );
+		source.append(name);
+		source.append(".assign( ");
+		source.append( "new TitanFloat(" );
+		source.append( createStringRepresentation() );
+		source.append( " )" );
+		source.append( " );\n" );
+		return source;
+		//TODO: This solution is ok for a valid double value. Special values should be handled!
+		//Special values: +/-not_a_number, +infinity,-infinity
 	}
 }
