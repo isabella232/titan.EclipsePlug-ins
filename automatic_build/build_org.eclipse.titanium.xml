@@ -38,6 +38,8 @@
             <path refid="common.classpath"/>
             <path refid="designer.classpath"/>
 	    	<!-- <pathelement location="${lib.dir}/org.apache.commons.collections15/collections-generic-4.01.jar"/>  -->
+	    	<pathelement location="/home/titanrt/eclipse_sdk/eclipse-SDK-4.5.2-linux-gtk-x86_64/plugins/com.google.guava_21.0.0.v20170206-1425.jar"/>
+	    	<pathelement location="/home/titanrt/eclipse_sdk/eclipse-SDK-4.5.2-linux-gtk-x86_64/plugins/edu.uci.ics.jung_2.1.0.20170405-1030.jar"/>
 	    	<!-- <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-graph-impl-2.1.jar"/>
 	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-visualization-2.1.jar"/>
 	    <pathelement location="${lib.dir}/edu.uci.ics.jung/jung-algorithms-2.1.jar"/>
