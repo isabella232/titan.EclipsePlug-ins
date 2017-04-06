@@ -140,9 +140,8 @@ public final class Open_Type extends ASN1Type {
 
 	public CompField getComponentByName(final Identifier identifier) {
 		//convert the first letter to upper case:
-		String ttcnName = identifier.getTtcnName();
-		ttcnName = ttcnName.substring(0,1).toUpperCase()+ttcnName.substring(1);
-		final Identifier name = new Identifier(identifier.getType(), ttcnName, identifier.getLocation());
+		String name = identifier.getName();
+		name = name.substring(0,1).toUpperCase()+name.substring(1);
 		if (null != compFieldMap) {
 			return compFieldMap.getCompWithName(name);
 		}
@@ -228,13 +227,14 @@ public final class Open_Type extends ASN1Type {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
-
-		lastTimeChecked = timestamp;
 		compFieldMap.check(timestamp);
-
+		if( compFieldMap.isEmpty()){
+			return; //too early check
+		}
 		if (null != constraints) {
 			constraints.check(timestamp);
 		}
+		lastTimeChecked = timestamp;
 	}
 
 	// FIXME add tests
@@ -390,9 +390,13 @@ public final class Open_Type extends ASN1Type {
 			subreference.getLocation().reportSemanticError(MessageFormat.format(ArraySubReference.INVALIDSUBREFERENCE, getTypename()));
 			return null;
 		case fieldSubReference:
+			check(timestamp);
 			final Identifier id = subreference.getId();
 			final CompField compField = getComponentByName(id);
-			if (compField == null) {
+			if (compField == null) { 
+				if (compFieldMap.getComponentFieldMap(timestamp).isEmpty()) {
+					return null; //too early analysis
+				}
 				reference.getLocation().reportSemanticError(MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE,
 				id.getDisplayName(), getFullName()));
 				reference.setIsErroneous(true);
@@ -451,7 +455,7 @@ public final class Open_Type extends ASN1Type {
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
-				final CompField compField = compFieldMap.getCompWithName(subreference.getId());
+				final CompField compField = getComponentByName(subreference.getId());
 				if (compField == null) {
 					return;
 				}
@@ -498,7 +502,7 @@ public final class Open_Type extends ASN1Type {
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 			if (subreferences.size() > i + 1) {
 				// the reference might go on
-				final CompField compField = compFieldMap.getCompWithName(subreference.getId());
+				final CompField compField = getComponentByName(subreference.getId());
 				if (compField == null) {
 					return;
 				}

@@ -108,7 +108,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			field.setFullNameParent(this);
 			lastCompilationTimeStamp = null;
 			lastUniquenessCheck = null;
-		}
+		} 
 	}
 
 	/**
@@ -129,11 +129,16 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 					field.setMyScope(getMyScope());
 					field.setFullNameParent(this);
 					lastCompilationTimeStamp = null;
+					lastUniquenessCheck = null;
 				}
 			}
 		}
 	}
-
+	/**
+	 * Returns the componentFieldMap. If necessary, creates it and fills it. Never return null.
+	 * @param timestamp
+	 * @return the componentFieldMap
+	 */
 	public Map<String, CompField> getComponentFieldMap(final CompilationTimeStamp timestamp) {
 		if (lastUniquenessCheck == null) {
 			checkUniqueness(timestamp);
@@ -180,7 +185,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		if (lastUniquenessCheck != null && !lastUniquenessCheck.isLess(timestamp)) {
 			return;
 		}
-		lastUniquenessCheck = timestamp;
+
 
 		if (doubleComponents != null) {
 			doubleComponents.clear();
@@ -188,6 +193,12 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 		componentFieldMap = new HashMap<String, CompField>(fields.size());
 
+		if(fields.size()==0) {
+			return; //too early check
+		}
+		
+		lastUniquenessCheck = timestamp;
+		
 		for (int i = 0, size = fields.size(); i < size; i++) {
 			final CompField field = fields.get(i);
 
@@ -230,6 +241,13 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		}
 		
 	}
+	/**
+	 * Checks if the member 'fields' is empty 
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return (fields.size() == 0) ;
+	}
 
 	/**
 	 * Does the semantic checking of the field.
@@ -240,15 +258,12 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		if (lastCompilationTimeStamp != null && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
 		}
-		lastCompilationTimeStamp = timestamp;
-
 		checkUniqueness(timestamp);
-
 		if (myType == null) {
 			return;
 		}
-
 		final Type parentType = myType.get();
+		lastCompilationTimeStamp = timestamp;
 		for (int i = 0, size = fields.size(); i < size; i++) {
 			final CompField field = fields.get(i);
 			field.getType().setParentType(parentType);
@@ -258,18 +273,33 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 
 	/**
 	 * Returns the component identified by the given name. The list of
-	 * components is also checked if it was not before.
+	 * components is also checked if it hasn't been checked before.
 	 *
 	 * @param id the identifier selecting the component to return.
 	 * @return the component found, or null if none.
 	 * */
 	public CompField getCompWithName(final Identifier id) {
+		checkUniqueness(CompilationTimeStamp.getBaseTimestamp());
+		if (componentFieldMap!=null && componentFieldMap.containsKey(id.getName())) {
+			return componentFieldMap.get(id.getName());
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns the component identified by the given name. The list of
+	 * components is also checked if it was not before.
+	 *
+	 * @param name of the identifier selecting the component to return.
+	 * @return the component found, or null if none.
+	 * */
+	public CompField getCompWithName(final String name) {
 		if (lastUniquenessCheck == null) {
 			checkUniqueness(CompilationTimeStamp.getBaseTimestamp());
 		}
 
-		if (componentFieldMap.containsKey(id.getName())) {
-			return componentFieldMap.get(id.getName());
+		if (componentFieldMap!=null && componentFieldMap.containsKey(name)) {
+			return componentFieldMap.get(name);
 		}
 
 		return null;

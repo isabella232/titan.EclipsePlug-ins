@@ -201,8 +201,9 @@ public final class TableConstraint extends Constraint {
 				switch (tempType.getTypetype()) {
 				case TYPE_ASN1_CHOICE: {
 					final ASN1_Choice_Type temp2 = (ASN1_Choice_Type) tempType;
-					if (temp2.hasComponentWithName(identifier)) {
-						tempType = temp2.getComponentByName(identifier).getType();
+					final CompField cf = temp2.getComponentByName(identifier);
+					if (cf!=null && null!=(tempType = cf.getType())) {
+						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
 								MessageFormat.format(NOCOMPONENTERROR, tempType.getFullName(),
@@ -225,8 +226,9 @@ public final class TableConstraint extends Constraint {
 				}
 				case TYPE_OPENTYPE: {
 					final Open_Type temp2 = (Open_Type) tempType;
-					if (temp2.hasComponentWithName(identifier)) {
-						tempType = temp2.getComponentByName(identifier).getType();
+					final CompField cf = temp2.getComponentByName(identifier);
+					if (cf !=null) {
+						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
 								MessageFormat.format(NOCOMPONENTERROR, tempType.getFullName(),
@@ -237,8 +239,9 @@ public final class TableConstraint extends Constraint {
 				}
 				case TYPE_ASN1_SEQUENCE: {
 					final ASN1_Sequence_Type temp2 = (ASN1_Sequence_Type) tempType;
-					if (temp2.hasComponentWithName(identifier)) {
-						tempType = temp2.getComponentByName(identifier).getType();
+					final CompField cf = temp2.getComponentByName(identifier);
+					if (cf!=null && null != (tempType = cf.getType())) {
+						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
 								MessageFormat.format(NOCOMPONENTERROR, tempType.getFullName(),
@@ -261,8 +264,9 @@ public final class TableConstraint extends Constraint {
 				}
 				case TYPE_ASN1_SET: {
 					final ASN1_Set_Type temp2 = (ASN1_Set_Type) tempType;
-					if (temp2.hasComponentWithName(identifier)) {
-						tempType = temp2.getComponentByName(identifier).getType();
+					final CompField cf = temp2.getComponentByName(identifier);
+					if (cf!=null) {
+						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
 								MessageFormat.format(NOCOMPONENTERROR, tempType.getFullName(),
@@ -373,6 +377,7 @@ public final class TableConstraint extends Constraint {
 							FieldSetting_Type fst = (FieldSetting_Type)fs;
 							IASN1Type type = fst.getSetting();
 							if (type instanceof Referenced_Type) {
+								//TODO: replace false with the real value inherited from the CLASS
 								Identifier name = ((Referenced_Type) type).getReference().getId();
 								//Value defaultValue = TODO
 								//only the name->type mappings is important, avoid duplication

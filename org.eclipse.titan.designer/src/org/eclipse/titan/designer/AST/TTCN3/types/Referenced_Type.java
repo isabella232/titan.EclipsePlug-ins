@@ -175,10 +175,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
-		if (lastTimeChecked == null) {
-			check(timestamp);
-		}
 
+		check(timestamp);
 		if (reference.getSubreferences().size() == 1) {
 			return this;
 		}
