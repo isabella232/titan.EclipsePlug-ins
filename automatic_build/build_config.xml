@@ -17,7 +17,7 @@
 
 	<property name="build.help" value="true"/>
 
-    <property name="ECLIPSE_HOME" value="/proj/TTCN/Tools/eclipse-3.7_x86_64/"/>
+    <property name="ECLIPSE_HOME" value="/home/titanrt/eclipse_sdk/eclipse-SDK-4.5.2-linux-gtk-x86_64"/>
 	<!-- ANTLR runtime -->
 	<property name="antlr4.jar.location" location="/home/titanrt/tools/antlr/4.3/antlr-4.3-complete.jar"/>
 
