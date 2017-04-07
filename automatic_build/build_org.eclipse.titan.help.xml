@@ -93,9 +93,11 @@
 			<pathconvert property="@{usrguide.dir}.usrguide.list" refid="@{usrguide.dir}.docFiles" targetos="unix"/>
 			<log message="usrguide.dir.usrguide.list = ${@{usrguide.dir}.usrguide.list}"/>
 
-			<iterate list="${@{usrguide.dir}.usrguide.list}" unless:blank="${@{usrguide.dir}.usrguide.list}">
-				<convert.pdf docFile="${element}" />
-			</iterate>
+			<sequential unless:blank="${@{usrguide.dir}.usrguide.list}">
+				<iterate list="${@{usrguide.dir}.usrguide.list}">
+					<convert.pdf docFile="${element}" />
+				</iterate>
+			</sequential>
 
 			<copy todir="${build.dir}/${help.name}/docs">
 				<fileset dir="@{usrguide.dir}">
