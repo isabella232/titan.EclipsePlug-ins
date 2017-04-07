@@ -459,7 +459,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 *
 	 *  // empty
 	 *  {
-	 *    booelan tmp_2;
+	 *    boolean tmp_2;
 	 *    {
 	 *      preamble... tmp_1...
 	 *      tmp_2=func5(tmp_1);

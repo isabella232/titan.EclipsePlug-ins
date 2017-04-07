@@ -490,7 +490,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *
 	 *  // empty
 	 *  {
-	 *    booelan tmp_2;
+	 *    boolean tmp_2;
 	 *    {
 	 *      preamble... tmp_1...
 	 *      tmp_2=func5(tmp_1);
