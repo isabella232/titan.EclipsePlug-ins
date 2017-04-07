@@ -19,6 +19,12 @@ public class Base_Template {
 		DECODE_MATCH
 	};
 
+	public enum template_res {
+		TR_VALUE,
+		TR_OMIT,
+		TR_PRESENT
+	};
+
 	template_sel templateSelection;
 	boolean is_ifPresent;
 	
@@ -45,11 +51,11 @@ public class Base_Template {
 	public template_sel getSelection() {
 		return templateSelection;
 	}
-	
+
 	public void set_ifPresent() {
 		is_ifPresent = true;
 	}
-	
+
 	protected void checkSingleSelection(final template_sel otherValue) {
 		switch (otherValue) {
 		case ANY_VALUE:
@@ -60,4 +66,39 @@ public class Base_Template {
 			throw new TtcnError("Initialization of a template with an invalid selection.");
 		}
 	}
+	
+	protected static String getResName(template_res tr) {
+		switch (tr) {
+		case TR_VALUE: return "value";
+		case TR_OMIT: return "omit";
+		case TR_PRESENT: return "present";
+		default: break;
+		}
+		return "<unknown/invalid>";
+	}
+
+	protected void log_generic() {
+		switch (templateSelection) {
+		case UNINITIALIZED_TEMPLATE:
+			TtcnLogger.log_event_uninitialized();
+			break;
+		case OMIT_VALUE:
+			TtcnLogger.log_event_str("omit");
+			break;
+		case ANY_VALUE:
+			TtcnLogger.log_char('?');
+			break;
+		case ANY_OR_OMIT:
+			TtcnLogger.log_char('*');
+			break;
+		default:
+			TtcnLogger.log_event_str("<unknown template selection>");
+			break;
+		}
+	}
+
+	protected void log_ifpresent() {
+		if (is_ifPresent) TtcnLogger.log_event_str(" ifpresent");
+	}
+
 }
