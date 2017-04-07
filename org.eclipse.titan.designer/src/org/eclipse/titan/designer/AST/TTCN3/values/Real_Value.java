@@ -259,19 +259,39 @@ public final class Real_Value extends Value {
 		// no members
 		return true;
 	}
+	/**
+	 * Converts to a string that can be inserted into the generated Java code
+	 * @return
+	 */
+	public String createJavaStringRepresentation() {
+		if(Double.isFinite(value)) {
+			return Double.toString(value);
+		} else if (Double.isNaN(value)){
+			return "Double.NaN";
+		} else if (Double.isInfinite(value) && Double.compare(value,0)>0) {
+			if( Double.compare(value,0)>0) {
+				return "Double.POSITIVE_INFINITY";
+			} else {
+				return "-Double.NEGATIVE_INFINITY";
+			}
+		} else {
+			return Double.toString(value);
+		}
+	}
 	
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanFloat" );
+		aData.addBuiltinTypeImport( "Ttcn3Float" );
 		source.append(name);
 		source.append(".assign( ");
-		source.append( "new TitanFloat(" );
-		source.append( createStringRepresentation() );
+		source.append( "new TitanFloat( " );
+		source.append( "new Ttcn3Float( " );
+		source.append( createJavaStringRepresentation() );
+		source.append( " )" );
 		source.append( " )" );
 		source.append( " );\n" );
 		return source;
-		//TODO: This solution is ok for a valid double value. Special values should be handled!
-		//Special values: +/-not_a_number, +infinity,-infinity
 	}
 }

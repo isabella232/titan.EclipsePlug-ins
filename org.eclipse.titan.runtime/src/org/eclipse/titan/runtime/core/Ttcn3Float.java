@@ -92,4 +92,45 @@ public class Ttcn3Float {
 		// TTCN-3 handles 0.0 and 1.0 as one case, the only thing that matters is if the signum is negative or not.
 		return Double.doubleToLongBits( d ) == NEGATIVE_ZERO;
 	}
+	
+	public String createJavaStringRepresentation() {
+		if(Double.isFinite(value)) {
+			return Double.toString(value);
+		} else if (Double.isNaN(value)){
+			return "Double.NaN";
+		} else if (Double.isInfinite(value) && Double.compare(value,0)>0) {
+			if( Double.compare(value,0)>0) {
+				return "Double.POSITIVE_INFINITY";
+			} else {
+				return "-Double.NEGATIVE_INFINITY";
+			}
+		} else {
+			return Double.toString(value);
+		}
+	}
+	/**
+	 * Converts the value to ttcn representation
+	 * It is useful in the logging, for example
+	 * @return the converted string
+	 */
+	public String createTtcn3StringRepresentation() {
+		if(Double.isFinite(value)) {
+			return Double.toString(value);
+		} else if (Double.isNaN(value)){
+			return "not_a_number";
+		} else if (Double.isInfinite(value) && Double.compare(value,0)>0) {
+			if( Double.compare(value,0)>0) {
+				return "+infinity";
+			} else {
+				return "-infinity";
+			}
+		} else {
+			return Double.toString(value);
+		}
+	}
+	
+	@Override
+	public String toString() {
+		return createTtcn3StringRepresentation();
+	}
 }
