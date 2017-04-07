@@ -32,7 +32,7 @@
         <echo message="${ant.project.name}: ${ant.file}"/>
     	<pathconvert property="PDE.classpathProp" refid="PDE.classpath"/>
     	<echo message="${ant.project.name}: PDE class path: ${PDE.classpathProp}"/>
-        <javac debug="${javac.debug}" debuglevel="${javac.debuglevel}" verbose="yes"
+        <javac debug="${javac.debug}" debuglevel="${javac.debuglevel}"
 			   destdir="bin" source="1.8" target="1.8" failonerror="true">
             <src path="src"/>
 	    <classpath>
