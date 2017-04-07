@@ -442,6 +442,7 @@ public final class For_Statement extends Statement {
 
 		ChangeableInteger blockCount = new ChangeableInteger(0);
 		finalExpression.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
+		aData.addBuiltinTypeImport( "TitanBoolean" );
 		source.append(")) break;\n");
 
 		for(int i = 0 ; i < blockCount.getValue(); i++) {
