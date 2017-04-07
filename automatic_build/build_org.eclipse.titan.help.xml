@@ -73,9 +73,10 @@
 			</condition>
 			<log message="build.help = ${build.help}"/>
 			<log message="build.help.true = ${build.help.true}"/>
-			<build.usrguide.if.build.help
-				if:set="build.help.true"
-				usrguide.dir="@{usrguide.dir}" />
+			<sequential if:set="build.help.true">
+				<build.usrguide.if.build.help
+					usrguide.dir="@{usrguide.dir}" />
+			</sequential>
 		</sequential>
 	</macrodef>
 
