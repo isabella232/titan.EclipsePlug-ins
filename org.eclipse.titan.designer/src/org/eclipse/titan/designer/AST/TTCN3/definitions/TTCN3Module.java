@@ -201,12 +201,18 @@ public final class TTCN3Module extends Module {
 	}
 
 	public void addImportedModule(final ImportModule impmod) {
-		if (impmod != null && impmod.getIdentifier() != null) {
-			importedModules.add(impmod);
-			impmod.setMyModule(identifier);
-			impmod.setMyModule(this);
-			impmod.setProject(project);
+		if (impmod == null || impmod.getIdentifier() == null || impmod.getLocation() == null) {
+			return;
 		}
+
+		int index = importedModules.size();
+		while (index > 0 && importedModules.get(index-1).getLocation().getOffset() > impmod.getLocation().getOffset()) {
+			index--;
+		}
+		importedModules.add(index, impmod);
+		impmod.setMyModule(identifier);
+		impmod.setMyModule(this);
+		impmod.setProject(project);
 	}
 
 	public void addGroup(final Group group) {
