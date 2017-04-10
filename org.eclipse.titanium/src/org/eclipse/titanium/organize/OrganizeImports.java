@@ -29,6 +29,8 @@ import org.eclipse.text.edits.DeleteEdit;
 import org.eclipse.text.edits.InsertEdit;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
@@ -37,8 +39,8 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ImportModule;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollectionHelper;
-import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.editors.actions.OpenDeclarationLabelProvider;
+import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
@@ -89,19 +91,18 @@ public final class OrganizeImports {
 	 */
 	public static Location findReferenceInProject(final Reference reference, final IProject project) {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
-		final DeclarationCollector declarationCollector = new DeclarationCollector(reference);
+		final List<DeclarationCollectionHelper> collected = new ArrayList<DeclarationCollectionHelper>();
+		final Identifier identifier = reference.getId();
 		for (final String moduleName : projectSourceParser.getKnownModuleNames()) {
 			final Module m = projectSourceParser.getModuleByName(moduleName);
-			if (m != null) {
-				m.getAssignments().addDeclaration(declarationCollector);
+			if (m != null && m.getAssignments().hasLocalAssignmentWithID(CompilationTimeStamp.getBaseTimestamp(), identifier)) {
+				Assignment assignment = m.getAssignments().getLocalAssignmentByID(CompilationTimeStamp.getBaseTimestamp(), identifier);
+				if (assignment != null) {
+					collected.add(new DeclarationCollectionHelper(assignment.getProposalDescription(), assignment.getIdentifier().getLocation(),
+							assignment));
+				}
 			}
 		}
-
-		DeclarationCollectionHelper declaration = null;
-		List<DeclarationCollectionHelper> collected = declarationCollector.getCollected();
-
-		// remove declarations found on multiple path
-		collected = new ArrayList<DeclarationCollectionHelper>(new HashSet<DeclarationCollectionHelper>(collected));
 
 		Location loc = null;
 
@@ -116,12 +117,13 @@ public final class OrganizeImports {
 			Display.getDefault().syncExec(dialog);
 			loc = dialog.getSelected();
 		} else if (collected.size() == 1) {
-			declaration = collected.get(0);
+			DeclarationCollectionHelper declaration = collected.get(0);
 			loc = declaration.location;
 			TITANDebugConsole.println("Exactly one module for " + reference.getDisplayName() + " is found: " + loc.getFile().getName());
 		} else {
 			TITANDebugConsole.println("No imports for " + reference.getDisplayName() + " is found");
 		}
+
 		return loc;
 	}
 
