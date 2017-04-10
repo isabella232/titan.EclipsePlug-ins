@@ -21,13 +21,15 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class NotequalesExpression extends Expression_Value {
 	private final Value value1;
 	private final Value value2;
@@ -223,5 +225,15 @@ public final class NotequalesExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		value1.generateCodeExpression(aData, expression);
+		expression.expression.append( ".equalsTo( " );
+		value2.generateCodeExpression(aData, expression);
+		expression.expression.append( " ).not()" );
 	}
 }

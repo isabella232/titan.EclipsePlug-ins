@@ -301,6 +301,7 @@ public final class AndExpression extends Expression_Value {
 		if (value2.needsShortCircuit()) {
 			String tempId = aData.getTemporaryVariableName();
 			expression.preamble.append("TitanBoolean ");
+			aData.addBuiltinTypeImport( "TitanBoolean" );
 			expression.preamble.append(tempId);
 			expression.preamble.append(" = new TitanBoolean();\n");
 			
