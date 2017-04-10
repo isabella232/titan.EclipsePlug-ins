@@ -108,6 +108,27 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	/**
+	 * this xor aOtherValue
+	 * originally operator ^
+	 */
+	public TitanBoolean xor(final boolean aOtherValue) {
+		mustBound("The left operand of xor operator is an unbound boolean value.");
+
+		return new TitanBoolean( boolean_value.booleanValue() != aOtherValue);
+	}
+
+	/**
+	 * this xor aOtherValue
+	 * originally operator ^
+	 */
+	public TitanBoolean xor(final TitanBoolean aOtherValue) {
+		mustBound("The left operand of xor operator is an unbound boolean value.");
+		aOtherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
+
+		return new TitanBoolean( boolean_value.booleanValue() != aOtherValue.boolean_value.booleanValue());
+	}
+
+	/**
 	 * this == aOtherValue
 	 * originally operator ==
 	 */
