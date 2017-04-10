@@ -19,14 +19,18 @@ public class TitanCharString extends Base_Type {
 	/**
 	 * charstring value.
 	 */
-	private String val_ptr;
+	private StringBuilder val_ptr;
 
 	public TitanCharString() {
 		super();
 	}
 
-	public TitanCharString( final String aOtherValue ) {
+	public TitanCharString( final StringBuilder aOtherValue ) {
 		val_ptr = aOtherValue;
+	}
+
+	public TitanCharString( final String aOtherValue ) {
+		setValue( aOtherValue );
 	}
 
 	public TitanCharString( final TitanCharString aOtherValue ) {
@@ -36,11 +40,11 @@ public class TitanCharString extends Base_Type {
 
 	//originally char*()
 	public String getValue() {
-		return val_ptr;
+		return val_ptr.toString();
 	}
 
 	public void setValue( final String aOtherValue ) {
-		val_ptr = aOtherValue;
+		val_ptr = new StringBuilder( aOtherValue );
 	}
 
 	//originally operator=
@@ -86,7 +90,7 @@ public class TitanCharString extends Base_Type {
 		mustBound( "Unbound left operand of charstring addition." );
 		aOtherValue.mustBound( "Unbound right operand of charstring addition." );
 
-		return new TitanCharString( val_ptr + aOtherValue.val_ptr );
+		return new TitanCharString( val_ptr.append( aOtherValue.val_ptr ) );
 	}
 
 	//originally operator==
@@ -120,6 +124,16 @@ public class TitanCharString extends Base_Type {
 		if ( val_ptr == null ) {
 			return "<unbound>";
 		}
-		return val_ptr;
+		return val_ptr.toString();
+	}
+
+	public void set_char( int aPos, char aNewValue ) {
+		if ( val_ptr != null ) {
+			val_ptr.setCharAt( aPos, aNewValue );
+		}
+	}
+
+	public char get_char( int aPos ) {
+		return val_ptr != null ? val_ptr.charAt( aPos ) : null;
 	}
 }
