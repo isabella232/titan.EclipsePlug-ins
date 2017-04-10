@@ -610,7 +610,7 @@ pr_ModuleDefinition [Group parent_group]:
 				}
 			}
 		}
-|	pr_ImportDef[parent_group] pr_SemiColon?
+|	pr_ImportDef[parent_group]
 |	pr_GroupDef[parent_group] pr_SemiColon?
 |	pr_FriendModuleDef[parent_group] pr_SemiColon?
 );
@@ -3317,6 +3317,7 @@ pr_ImportDef [Group parent_group]
 	boolean selective = false;
 	ImportModule impmod = null;
 	MultipleWithAttributes attributes = null;
+	boolean semicolon = false;
 }:
 (	( m = pr_ComponentElementVisibility { modifier = $m.modifier; } )?
 	col = IMPORT
@@ -3327,6 +3328,7 @@ pr_ImportDef [Group parent_group]
 		endb = pr_EndChar { endcol = $endb.stop; selective = true; }
 	)
 	( a = pr_WithStatement { endcol = $a.stop; attributes = $a.attributes; } )?
+	( pr_SemiColon {semicolon = true;})?
 )
 {
 	if(impmod != null) {
@@ -3335,6 +3337,10 @@ pr_ImportDef [Group parent_group]
 		}
 		impmod.setWithAttributes(attributes);
 		impmod.setLocation(getLocation( modifier != null ? $m.start : $col, endcol));
+		if(semicolon) {
+			Location loc = impmod.getLocation();
+			loc.setEndOffset(offset + getLastVisibleToken().getStopIndex() + 1);
+		}
 		if(parent_group == null) {
 	  		impmod.setAttributeParentPath(act_ttcn3_module.getAttributePath());
 		} else {
