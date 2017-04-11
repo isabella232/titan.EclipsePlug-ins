@@ -264,11 +264,9 @@ public final class Real_Value extends Value {
 	 * @return
 	 */
 	public String createJavaStringRepresentation() {
-		if(Double.isFinite(value)) {
-			return Double.toString(value);
-		} else if (Double.isNaN(value)){
+		if (Double.isNaN(value)){
 			return "Double.NaN";
-		} else if (Double.isInfinite(value) && Double.compare(value,0)>0) {
+		} else if (Double.isInfinite(value)) {
 			if( Double.compare(value,0)>0) {
 				return "Double.POSITIVE_INFINITY";
 			} else {
