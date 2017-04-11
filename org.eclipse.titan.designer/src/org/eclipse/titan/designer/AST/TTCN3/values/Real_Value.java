@@ -260,6 +260,28 @@ public final class Real_Value extends Value {
 		return true;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport( "TitanFloat" );
+		aData.addBuiltinTypeImport( "Ttcn3Float" );
+
+		StringBuilder result = new StringBuilder();
+		result.append( "new TitanFloat( " );
+		result.append( "new Ttcn3Float( " );
+		result.append( createJavaStringRepresentation() );
+		result.append( " )" );
+		result.append( " )" );
+
+		return result;
+	}
+
 	/**
 	 * Converts to a string that can be inserted into the generated Java code
 	 * @return
