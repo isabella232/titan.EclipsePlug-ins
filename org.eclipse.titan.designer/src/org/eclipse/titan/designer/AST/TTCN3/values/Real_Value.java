@@ -259,11 +259,12 @@ public final class Real_Value extends Value {
 		// no members
 		return true;
 	}
+
 	/**
 	 * Converts to a string that can be inserted into the generated Java code
 	 * @return
 	 */
-	public String createJavaStringRepresentation() {
+	private String createJavaStringRepresentation() {
 		if (Double.isNaN(value)){
 			return "Double.NaN";
 		} else if (Double.isInfinite(value)) {
