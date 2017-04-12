@@ -96,6 +96,9 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 			GeneralPairMatcher pairMatcher = new ASN1ReferencePairMatcher();
 
 			ofs = referenceStartOffset(ofs, document, pairMatcher);
+			if (-1 == ofs) {
+				return reference;
+			}
 
 			// the last character where the loop stopped is not part
 			// of the reference
