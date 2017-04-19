@@ -48,32 +48,32 @@ public class CircularImportation extends BaseProjectCodeSmellSpotter {
 		});
 
 		final CycleCheck check = new CycleCheck(modules);
-		for (final List<Module> c : check.cycles) {
+		for (final List<Module> cycle : check.cycles) {
 			final StringBuilder sb = new StringBuilder("Importation cycle detected: ");
-			for (final Module m : c) {
-				sb.append(m.getName());
+			for (final Module module : cycle) {
+				sb.append(module.getName());
 				sb.append(" -> ");
 			}
-			sb.append(c.get(0).getName());
+			sb.append(cycle.get(0).getName());
 			final String errMsg = sb.toString();
 
 			// Try to find the locations to report, i.e. the import statements.
 			// We handle only the case of TTCN3Module-s.
-			final Iterator<Module> it = c.iterator();
+			final Iterator<Module> it = cycle.iterator();
 			Module imported = it.next();
 			Module importer;
 			while (it.hasNext()) {
 				importer = it.next();
-			if (importer instanceof TTCN3Module) {
-				for (final ImportModule im : ((TTCN3Module) importer).getImports()) {
-					if (im.getName().equals(imported.getName())) {
-						problems.report(im.getLocation(), errMsg);
+				if (importer instanceof TTCN3Module) {
+					for (final ImportModule im : ((TTCN3Module) importer).getImports()) {
+						if (im.getName().equals(imported.getName())) {
+							problems.report(im.getLocation(), errMsg);
+						}
 					}
 				}
-			}
 				imported = importer;
 			}
-			importer = c.get(0);
+			importer = cycle.get(0);
 			if (importer instanceof TTCN3Module) {
 				for (final ImportModule im : ((TTCN3Module) importer).getImports()) {
 					if (im.getName().equals(imported.getName())) {
@@ -124,31 +124,31 @@ class CycleCheck {
 		}
 	}
 
-	private void dfs(final Node n) {
-		n.state = State.GRAY;
-		for (final Module m : n.module.getImportedModules()) {
-			final Node child = map.get(m);
+	private void dfs(final Node node) {
+		node.state = State.GRAY;
+		for (final Module module : node.module.getImportedModules()) {
+			final Node child = map.get(module);
 			if (child != null) {
 				switch (child.state) {
 				case WHITE:
-					child.parent = n;
+					child.parent = node;
 					dfs(child);
 					break;
 				case GRAY:
-					newCycle(child, n);
+					newCycle(child, node);
 					break;
 				case BLACK:
 					break;
 				}
 			}
 		}
-		n.state = State.BLACK;
+		node.state = State.BLACK;
 	}
 
-	private void newCycle(final Node knot, final Node n) {
+	private void newCycle(final Node knot, final Node node) {
 		final List<Module> cycle = new ArrayList<Module>();
-		if (knot.module != n.module) {
-			Node p = n;
+		if (knot.module != node.module) {
+			Node p = node;
 			do {
 				cycle.add(0, p.module);
 				p = p.parent;
