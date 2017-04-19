@@ -64,13 +64,13 @@ public class CircularImportation extends BaseProjectCodeSmellSpotter {
 			Module importer;
 			while (it.hasNext()) {
 				importer = it.next();
-				if (importer instanceof TTCN3Module) {
-					for (final ImportModule im : ((TTCN3Module) importer).getImports()) {
-						if (im.getName().equals(imported.getName())) {
-							problems.report(im.getLocation(), errMsg);
-						}
+			if (importer instanceof TTCN3Module) {
+				for (final ImportModule im : ((TTCN3Module) importer).getImports()) {
+					if (im.getName().equals(imported.getName())) {
+						problems.report(im.getLocation(), errMsg);
 					}
 				}
+			}
 				imported = importer;
 			}
 			importer = c.get(0);
@@ -150,11 +150,11 @@ class CycleCheck {
 		if (knot.module != n.module) {
 			Node p = n;
 			do {
-				cycle.add(p.module);
+				cycle.add(0, p.module);
 				p = p.parent;
 			} while (p != knot);
 		}
-		cycle.add(knot.module);
+		cycle.add(0, knot.module);
 		cycles.add(cycle);
 	}
 
