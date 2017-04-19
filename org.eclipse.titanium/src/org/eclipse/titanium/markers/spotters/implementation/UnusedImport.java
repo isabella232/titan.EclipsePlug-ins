@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.IVisitableNode;
-import org.eclipse.titan.designer.AST.ModuleImportation;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ImportModule;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
@@ -25,10 +25,13 @@ public class UnusedImport extends BaseModuleCodeSmellSpotter {
 
 	@Override
 	public void process(final IVisitableNode node, final Problems problems) {
-		if (node instanceof ModuleImportation) {
-			final ModuleImportation s = (ModuleImportation) node;
+		if (node instanceof ImportModule) {
+			final ImportModule s = (ImportModule) node;
 			if (!s.getUsedForImportation()) {
-				problems.report(s.getIdentifier().getLocation(), ERROR_MESSAGE);
+				final TTCN3Module module = s.getMyModule();
+				if (module.getLastCompilationTimeStamp() != null && !module.getLastCompilationTimeStamp().isLess(module.getLastImportationCheckTimeStamp())) {
+					problems.report(s.getIdentifier().getLocation(), ERROR_MESSAGE);
+				}
 			}
 		}
 	}

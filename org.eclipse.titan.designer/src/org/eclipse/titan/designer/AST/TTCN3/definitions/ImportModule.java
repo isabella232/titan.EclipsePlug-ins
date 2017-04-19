@@ -167,7 +167,12 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 		this.myModule = myModule;
 	}
 
-	protected TTCN3Module getMyModule() {
+	/**
+	 * returns the module the importation is located in
+	 * 
+	 * @return the module of the importation.
+	 * */
+	public TTCN3Module getMyModule() {
 		return myModule;
 	}
 
