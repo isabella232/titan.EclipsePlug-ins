@@ -95,6 +95,16 @@
           name="ExpandFieldNamesProject">
     </command>
     <command
+          defaultHandler="org.eclipse.titanium.refactoring.fieldordering.OrderFieldNamesActionFromEditor"
+          id="org.eclipse.titanium.commands.OrderFieldNamesModule"
+          name="OrderFieldNamesModule">
+    </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.fieldordering.OrderFieldNamesActionFromBrowser"
+          id="org.eclipse.titanium.commands.OrderFieldNamesProject"
+          name="OrderFieldNamesProject">
+    </command>
+    <command
           defaultHandler="org.eclipse.titanium.refactoring.logging.ContextLoggingActionFromEditor"
           id="org.eclipse.titanium.commands.ContextLoggingFromEditor"
           name="ContextLoggingFromEditor">
@@ -163,6 +173,12 @@
                  label="Expand value list notation in module">
            </command>
            <command
+                 commandId="org.eclipse.titanium.commands.OrderFieldNamesModule"
+                 icon="resources/icons/titan.gif"
+                 id="org.eclipse.titanium.commands.OrderFieldNamesModule"
+                 label="Order value list notation in module">
+           </command>
+           <command
                  commandId="org.eclipse.titanium.commands.ContextLoggingFromEditor"
                  icon="resources/icons/titan.gif"
                  id="org.eclipse.titanium.commands.ContextLoggingFromEditor"
@@ -223,6 +239,18 @@
            <command
                  commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
                  label="Expand value list notation">
+                 <visibleWhen checkEnabled="false">
+                     <with variable="selection">  
+                        <iterate operator="and">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                           </adapt>  
+                        </iterate>
+                     </with>
+                   </visibleWhen>
+           </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
+                 label="Order value list notation">
                  <visibleWhen checkEnabled="false">
                      <with variable="selection">  
                         <iterate operator="and">
@@ -329,6 +357,18 @@
 	            <command
 	                  commandId="org.eclipse.titanium.commands.ExpandFieldNamesProject"
 	                  label="Expand value list notation">
+	                  <visibleWhen checkEnabled="false">
+                        <with variable="selection">  
+                           <iterate operator="and">
+                              <adapt type="org.eclipse.core.resources.IResource">
+                              </adapt>  
+                           </iterate>
+                        </with>
+                      </visibleWhen>
+	            </command>
+	            <command
+	                  commandId="org.eclipse.titanium.commands.OrderFieldNamesProject"
+	                  label="Order value list notation">
 	                  <visibleWhen checkEnabled="false">
                         <with variable="selection">  
                            <iterate operator="and">

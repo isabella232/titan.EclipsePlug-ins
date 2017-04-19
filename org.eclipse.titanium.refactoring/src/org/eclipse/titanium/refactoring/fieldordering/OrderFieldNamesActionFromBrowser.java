@@ -1,4 +1,4 @@
-package org.eclipse.titanium.refactoring.expandvaluelistnotation;
+package org.eclipse.titanium.refactoring.fieldordering;
 
 import java.util.Set;
 
@@ -20,25 +20,25 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.titanium.refactoring.Utils;
 
 /**
- * This class handles the {@link ExpandFieldNamesRefactoring} class when the operation is
+ * This class handles the {@link MinimizeVisibilityRefactoring} class when the operation is
  * called from the package browser for a single or multiple project(s), folder(s) or file(s).
  * <p>
  * {@link #execute(ExecutionEvent)} is called by the UI (see plugin.xml).
  *
  * @author Zsolt Tabi
  */
-public class ExpandFieldNamesActionFromBrowser extends AbstractHandler implements IObjectActionDelegate {
+public class OrderFieldNamesActionFromBrowser extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;
 
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-		performExpandFieldNames();
+		performOrderFieldNames();
 		return null;
 	}
 	@Override
 	public void run(final IAction action) {
-		performExpandFieldNames();
+		performOrderFieldNames();
 
 	}
 	@Override
@@ -49,7 +49,7 @@ public class ExpandFieldNamesActionFromBrowser extends AbstractHandler implement
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 	}
 
-	private void performExpandFieldNames() {
+	private void performOrderFieldNames() {
 		//find selection
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
@@ -63,9 +63,9 @@ public class ExpandFieldNamesActionFromBrowser extends AbstractHandler implement
 		Activator.getDefault().pauseHandlingResourceChanges();
 
 		//create refactoring
-		final ExpandFieldNamesRefactoring refactoring = new ExpandFieldNamesRefactoring(structSelection);
+		final OrderFieldNamesRefactoring refactoring = new OrderFieldNamesRefactoring(structSelection);
 		//open wizard
-		final ExpandFieldNamesWizard wiz = new ExpandFieldNamesWizard(refactoring);
+		final OrderFieldNamesWizard wiz = new OrderFieldNamesWizard(refactoring);
 		final RefactoringWizardOpenOperation operation = new RefactoringWizardOpenOperation(wiz);
 		// getting the active editor
 		final TTCN3Editor targetEditor = Utils.getActiveEditor();

@@ -1,4 +1,4 @@
-package org.eclipse.titanium.refactoring.expandvaluelistnotation;
+package org.eclipse.titanium.refactoring.fieldordering;
 import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -25,18 +25,21 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
- * This class represents the 'Expand field names' refactoring operation.
+ * This class represents the 'Minimize visibility modifiers' refactoring operation.
  * <p>
- * This refactoring operation expands all field names in the given
+ * This refactoring operation minimizes all visibility modifiers in the given
  *   files/folders/projects, which are contained in a {@link IStructuredSelection} object.
  * The operation can be executed using the mechanisms in the superclass, through a wizard for example
  *
  * @author Zsolt Tabi
  */
-public class ExpandFieldNamesRefactoring extends Refactoring {
+public class OrderFieldNamesRefactoring extends Refactoring {
 	public static final String PROJECTCONTAINSERRORS = "The project `{0}'' contains errors, which might corrupt the result of the refactoring";
 	public static final String PROJECTCONTAINSTTCNPPFILES = "The project `{0}'' contains .ttcnpp files, which might corrupt the result of the refactoring";
 	private static final String ONTHEFLYANALAYSISDISABLED = "The on-the-fly analysis is disabled, there is semantic information present to work on";
+	private static final String MINIMISEWARNING = "Minimise memory usage is enabled, which can cause unexpected behaviour in the refactoring process!\n"
+			+ "Refactoring is not supported with the memory minimise option turned on, "
+			+ "we do not take any responsibility for it.";
 
 	private final IStructuredSelection selection;
 	private final Set<IProject> projects = new HashSet<IProject>();
@@ -51,7 +54,7 @@ public class ExpandFieldNamesRefactoring extends Refactoring {
 	 *
 	 * */
 
-	public ExpandFieldNamesRefactoring(final IStructuredSelection selection) {
+	public OrderFieldNamesRefactoring(final IStructuredSelection selection) {
 		this.selection = selection;
 
 		final Iterator<?> it = selection.iterator();
@@ -108,6 +111,7 @@ public class ExpandFieldNamesRefactoring extends Refactoring {
 				}
 			}
 			pm.worked(1);
+
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			result.addFatalError(e.getMessage());
