@@ -183,6 +183,7 @@ class OrganizeImportsOp implements IRunnableWithProgress {
 
 		for (final IProject project : projects) {
 			final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
+			parser.reportOutdating(files);
 			final WorkspaceJob job = parser.analyzeAll();
 
 			monitor.subTask("Waiting for semantic analysis on project " + project.getName());
