@@ -14,6 +14,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.AtNotation;
 import org.eclipse.titan.designer.AST.AtNotations;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
@@ -23,6 +24,8 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
@@ -39,6 +42,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ObjectClassField_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
@@ -72,7 +76,6 @@ public final class TableConstraint extends Constraint {
 
 	protected ObjectSet objectSet;
 	protected AtNotations atNotationList;
-	//TODO: remove if not used
 	private Identifier objectClassFieldname;
 
 	private IType constrainedType;
@@ -326,44 +329,15 @@ public final class TableConstraint extends Constraint {
 				myType.getLocation().reportSemanticError(SAMECONSTRAINTEXPECTED);
 				return;
 			}
-		}
+		}  //for loop
 
-		//===This c++ code has been implemented below===
-		// FIXME enable once all missing parts are filled in,
-		// and we become able to consistently reach the referenced types.
-		/*
-		 * // well, the atnotations seems to be ok, let's produce the alternatives for the opentype openType.clear();
-		 *  ASN1Objects objects; ReferenceChain chain =
-		 * ReferenceChain.getInstance(ReferenceChain.CIRCULARREFERENCE, true);
-		 * objects = objectSet.get_refd_last(timestamp, chain).get_objs();
-		 * chain.release();
-		 *
-		 * for (int i = 0; i < objects.get_nof_objects(); i++) {
-		 * Object_Definition obj = objects.get_object_byIndex(i);
-		 * if(!obj.has_fieldSetting_withName_default(objectClass_fieldname)){
-		 *  continue;
-		 *   }
-		 *
-		 * tempType = (Type)obj.get_setting_byName_default(objectClass_fieldname);
-		 *  openType.add_component(new CompField(get_openTypeAlternativeName(timestamp, tempType), tempType, false, false,
-		 * null));
-		 * 
-		 * //FIXME implement
-		 * 
-		 * 
-		 * }
-		 * 
-		 * //FIXME maybe something is missing from here
-		 * openType.check(timestamp);
-		 */
-		
 		if (objectSet instanceof Referenced_ObjectSet){
 			if ( ((Referenced_ObjectSet) objectSet).isReferencedDefinedReference() ){
 				ObjectSet_definition objects = objectSet.getRefdLast(timestamp, null);
 				List<IObjectSet_Element> oses = objects.getObjectSetElements();
 				for( IObjectSet_Element ose : oses) {
 					if (ose instanceof ReferencedObject) {
-						ose = ((ReferencedObject) ose).getRefdLast(timestamp);
+						ose = ((ReferencedObject) ose).getRefdLast(timestamp);//fspec
 					}
 					if (ose instanceof Object_Definition) {
 						Object_Definition od = (Object_Definition) ose;
@@ -372,63 +346,81 @@ public final class TableConstraint extends Constraint {
 						}
 
 						FieldSetting fs = od.getFieldSettingWithNameDefault(objectClassFieldname);
-
+						//fs in C++: t_type, fset in void OC_defn::chk_this_obj(Object *p_obj) in Object.cc
 						if (fs instanceof FieldSetting_Type) {
 							FieldSetting_Type fst = (FieldSetting_Type)fs;
 							IASN1Type type = fst.getSetting();
-							if (type instanceof Referenced_Type) {
-								//TODO: replace false with the real value inherited from the CLASS
-								Identifier name = ((Referenced_Type) type).getReference().getId();
-								//Value defaultValue = TODO
-								//only the name->type mappings is important, avoid duplication
-								if (!openType.hasComponentWithName(name)) {
-									openType.addComponent(new CompField( name, (Type) type, false, null));
-								}
+							Identifier id = getOpenTypeAlternativeName(timestamp, (Type) type);
+							if (!openType.hasComponentWithName(id)) {
+								openType.addComponent(new CompField( id, (Type) type, false, null));
 							}
+						} else {
+							continue;
 						}
 					} 
 				}
 				openType.check(timestamp);
-			} //TODO:Other possibilities
+			} else {
+				return; //TODO:Other possibilities
+			}
+		} else {
+			return;
 		}
 	}
+	
+	
+	//Original titan.core version: t_type->get_otaltname(is_strange);
+	private Identifier getOpenTypeAlternativeName(CompilationTimeStamp timestamp, Type type) {
+		StringBuffer sb = new StringBuffer();
+		//TODO:  if (is_tagged() || is_constrained() || hasRawAttrs()) {
+		if (type.isConstrained()) {
+			sb.append(type.getGenNameOwn());
+		} else if (type instanceof Referenced_Type) {
+			Reference t_ref = ((Referenced_Type) type).getReference();
+			if (t_ref != null) {
+				final Identifier id = t_ref.getId();
+				final String dn = id.getDisplayName();
+				int i = dn.indexOf('.');
+				if (i >= 0 && i < dn.length()) {
+					// id is not regular because t_ref is a parameterized reference
+					sb.append(id.getName());
+				} else {
+					Assignment as = t_ref.getRefdAssignment(timestamp, true);
+					Scope assScope = as.getMyScope();
+					if (assScope.getParentScope() == assScope.getModuleScope()) {
+						sb.append(id.getName());
+					} else {
+						// t_ref is a dummy reference in a parameterized assignment
+						// (i.e. it points to a parameter assignment of an instantiation)
+						// perform the same examination recursively on the referenced type
+						// (which is the actual parameter)
+						return getOpenTypeAlternativeName(timestamp,
+								(Type) ((Referenced_Type) type).getTypeRefd(timestamp, null));
+					}
+				}
+			} else {
+				// the type comes from an information object [class]
+				// examine the referenced type recursively
+				return getOpenTypeAlternativeName(timestamp,
+						(Type) ((Referenced_Type) type).getTypeRefd(timestamp, null));
+			}
+		} else {
+			Identifier tmpId1 = new Identifier(Identifier_type.ID_NAME, type.getFullName());
+			String s = tmpId1.getDisplayName();
+			//module name will be cut off: 
+			if (s.startsWith("@") && s.indexOf('.') > 0) {
+				s = s.substring(s.indexOf('.') + 1);
+			}
+			Identifier tmpId2 = new Identifier(Identifier_type.ID_ASN, s);
+			sb.append(tmpId2.getTtcnName());
+		}
+		// conversion to lower case initial:
+		sb.replace(0, 1, sb.substring(0, 1).toLowerCase());
+		// trick:
+		Identifier tmpId = new Identifier(Identifier_type.ID_NAME, sb.toString());
+		return new Identifier(Identifier_type.ID_ASN, tmpId.getAsnName());
+	}
 
-	/*
-	 * //FIXME some options are not used as they are not yet available
-	 * private Identifier get_openTypeAlternativeName(CompilationTimeStamp
-	 * timestamp, Type type) {
-	 * 
-	 * String s = null;
-	 * 
-	 * if (Type_type.TYPE_REFERENCED.equals(type.get_typetype())) {
-	 * Reference reference = ((Referenced_Type) type).getReference();
-	 * 
-	 * if (reference == null) {
-	 * 
-	 * } else { Identifier identifier = reference.getId(); String
-	 * displayName = identifier.get_displayName(); if
-	 * (displayName.indexOf('.') == -1) { Scope assignmentScope =
-	 * reference.get_refd_assignment(timestamp, true).get_my_scope(); if
-	 * (assignmentScope.getParentScope() ==
-	 * assignmentScope.getModuleScope()) { s = identifier.get_name(); } else
-	 * {
-	 * 
-	 * }
-	 * 
-	 * } else {
-	 * 
-	 * } } } else {
-	 * 
-	 * }
-	 * 
-	 * if (s == null) { return null; }
-	 * 
-	 * StringBuilder builder = new StringBuilder(s); builder.setCharAt(0,
-	 * Character.toLowerCase(builder.charAt(0))); Identifier tempId = new
-	 * Identifier(Identifier_type.ID_NAME, builder.toString()); // This is
-	 * because the origin of the returned ID must be ASN. return new
-	 * Identifier(Identifier_type.ID_ASN, tempId.get_asnName()); }
-	 */
 	private void parseBlocks() {
 		if (mObjectSetBlock == null) {
 			return;
