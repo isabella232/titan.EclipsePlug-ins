@@ -307,12 +307,7 @@ public final class Real_Value extends Value {
 		aData.addBuiltinTypeImport( "Ttcn3Float" );
 		source.append(name);
 		source.append(".assign( ");
-		source.append( "new TitanFloat( " );
-		source.append( "new Ttcn3Float( " );
-		source.append( createJavaStringRepresentation() );
-		source.append( " )" );
-		source.append( " )" );
-		source.append( " );\n" );
+		source.append(generateSingleExpression(aData));
 		return source;
 	}
 }
