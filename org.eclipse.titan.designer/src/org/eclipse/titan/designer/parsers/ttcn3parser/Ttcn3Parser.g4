@@ -3511,11 +3511,9 @@ pr_ImportModuleId returns [ImportModule impmod]
 	pr_LanguageSpec?
 );
 
-pr_LanguageKeyword returns[String stringValue]:
+pr_LanguageKeyword:
 	LANGUAGE
-{
-	$stringValue = $LANGUAGE.getText();
-};
+;
 
 pr_LanguageSpec:
 (	pr_LanguageKeyword
