@@ -463,6 +463,7 @@ pr_TTCN3Module
 }:
 (	m = pr_TTCN3ModuleKeyword	{ col = $m.start; }
 	i = pr_TTCN3ModuleId		{ act_ttcn3_module = new TTCN3Module( $i.identifier, project ); }
+	( l = pr_LanguageSpec )?
 	begin = pr_BeginChar
 	pr_ModuleDefinitionsList[null]
 	( c = pr_ModuleControlPart	{ definitionsEnd = $c.stop; controlpart = $c.controlpart; } )?
@@ -565,7 +566,6 @@ pr_TTCN3ModuleId returns[Identifier identifier]
 	$identifier = null;
 }:
 (	i = pr_OwnGlobalModuleId
-	pr_LanguageSpec?
 )
 {
 	$identifier = $i.identifier;
@@ -3508,16 +3508,23 @@ pr_ImportModuleId returns [ImportModule impmod]
 	$impmod = null;
 }:
 (	i = pr_ImportGlobalModuleId { $impmod = new ImportModule($i.identifier); }
-	pr_LanguageSpec?
+	( l = pr_LanguageSpec
+	)?
 );
 
 pr_LanguageKeyword:
 	LANGUAGE
 ;
 
-pr_LanguageSpec:
+pr_LanguageSpec returns[ArrayList<String> languageSpec]
+@init {
+	$languageSpec = new ArrayList<String>();
+}:
 (	pr_LanguageKeyword
-	pr_FreeText
+	t = pr_FreeText { $languageSpec.add( $t.string ); }
+	(	pr_Comma
+		t = pr_FreeText { $languageSpec.add( $t.string ); }
+	)*
 );
 
 pr_ImportGlobalModuleId returns [Identifier identifier]
