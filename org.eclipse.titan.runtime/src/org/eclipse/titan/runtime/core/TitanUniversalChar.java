@@ -37,6 +37,10 @@ public class TitanUniversalChar {
 			   left_value.getUc_cell() == right_value.getUc_cell();
 	}
 
+	public boolean operatorEquals( final TitanUniversalChar right_value ) {
+		return operatorEquals( this, right_value );
+	}
+
 	//originally boolean operator<(const universal_char& left_value, const universal_char& right_value)
 	public static boolean lessThan( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
 		if (left_value.getUc_group() < right_value.getUc_group()) return true;
@@ -50,6 +54,10 @@ public class TitanUniversalChar {
 				} else return false;
 			} else return false;
 		} else return false;
+	}
+
+	public boolean lessThan( final TitanUniversalChar right_value ) {
+		return lessThan( this, right_value );
 	}
 
 	public char getUc_group() {
