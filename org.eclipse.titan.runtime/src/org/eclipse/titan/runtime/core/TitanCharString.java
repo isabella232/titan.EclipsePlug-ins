@@ -26,11 +26,11 @@ public class TitanCharString extends Base_Type {
 	}
 
 	public TitanCharString( final StringBuilder aOtherValue ) {
-		val_ptr = aOtherValue;
+		val_ptr = new StringBuilder( aOtherValue );
 	}
 
 	public TitanCharString( final String aOtherValue ) {
-		setValue( aOtherValue );
+		copyValue( aOtherValue );
 	}
 
 	public TitanCharString( final TitanCharString aOtherValue ) {
@@ -39,18 +39,23 @@ public class TitanCharString extends Base_Type {
 	}
 
 	//originally char*()
-	public String getValue() {
-		return val_ptr.toString();
+	public StringBuilder getValue() {
+		mustBound("Getting an unbound charstring value as string.");
+		return val_ptr;
 	}
 
-	public void setValue( final String aOtherValue ) {
+	private void copyValue( final String aOtherValue ) {
+		val_ptr = new StringBuilder( aOtherValue );
+	}
+
+	private void copyValue( final StringBuilder aOtherValue ) {
 		val_ptr = new StringBuilder( aOtherValue );
 	}
 
 	//originally operator=
 	public TitanCharString assign( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound charstring value." );
-		val_ptr = aOtherValue.val_ptr;
+		copyValue( aOtherValue.val_ptr );
 
 		return this;
 	}
@@ -119,21 +124,61 @@ public class TitanCharString extends Base_Type {
 		val_ptr = null;
 	}
 
+	//originally operator[](int)
+	TitanCharString_Element getAt(int index_value) {
+		if (val_ptr == null && index_value == 0) {
+			val_ptr = new StringBuilder();
+			return new TitanCharString_Element(false, this, 0);
+		} else {
+			mustBound("Accessing an element of an unbound charstring value.");
+			if (index_value < 0) {
+				throw new TtcnError("Accessing an charstring element using a negative index (" + index_value + ").");
+			}
+
+			int n_nibbles = val_ptr.length();
+			if (index_value > n_nibbles) {
+				throw new TtcnError("Index overflow when accessing a charstring element: The index is " + index_value +
+					", but the string has only " + n_nibbles + " hexadecimal digits.");
+			}
+			if (index_value == n_nibbles) {
+				return new TitanCharString_Element( false, this, index_value );
+			} else {
+				return new TitanCharString_Element( true, this, index_value );
+			}
+		}
+	}
+
+	//originally operator[](const INTEGER&)
+	TitanCharString_Element getAt(final TitanInteger index_value) {
+		index_value.mustBound("Indexing a charstring value with an unbound integer value.");
+		return getAt( index_value.getInt() );
+	}
+
+	//originally operator[](int) const
+	final TitanCharString_Element constGetAt( final int index_value ) {
+		mustBound("Accessing an element of an unbound charstring value.");
+		if (index_value < 0) {
+			throw new TtcnError("Accessing an charstring element using a negative index (" + index_value + ").");
+		}
+		final int n_nibbles = val_ptr.length();
+		if (index_value >= n_nibbles) {
+			throw new TtcnError("Index overflow when accessing a charstring element: The index is " + index_value +
+					", but the string has only " + n_nibbles + " hexadecimal digits.");
+		}
+		return new TitanCharString_Element(true, this, index_value);
+	}
+
+	//originally operator[](const INTEGER&) const
+	final TitanCharString_Element constGetAt( final TitanInteger index_value ) {
+		index_value.mustBound("Indexing a charstring value with an unbound integer value.");
+		return constGetAt( index_value.getInt() );
+	}
+
 	@Override
 	public String toString() {
 		if ( val_ptr == null ) {
 			return "<unbound>";
 		}
 		return val_ptr.toString();
-	}
-
-	public void set_char( int aPos, char aNewValue ) {
-		if ( val_ptr != null ) {
-			val_ptr.setCharAt( aPos, aNewValue );
-		}
-	}
-
-	public char get_char( int aPos ) {
-		return val_ptr != null ? val_ptr.charAt( aPos ) : null;
 	}
 }

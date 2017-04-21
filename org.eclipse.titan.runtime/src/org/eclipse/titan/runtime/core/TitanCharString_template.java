@@ -21,38 +21,38 @@ public class TitanCharString_template extends Base_Template {
 
 	// value_list part
 	private ArrayList<TitanCharString_template> value_list;
-	
+
 	// value range part
 	private boolean min_is_set, max_is_set;
 	private boolean min_is_exclusive, max_is_exclusive;
 	private TitanCharString min_value, max_value;
-	
+
 	//TODO: implement: pattern_value part for STRING_PATTERN case
-	
+
 	public TitanCharString_template () {
 		//do nothing
 	}
-	
+
 	public TitanCharString_template (final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
-	
+
 	public TitanCharString_template (final String otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);
 	}
-	
+
 	public TitanCharString_template (final TitanCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound charstring value.");
 		single_value = new TitanCharString(otherValue);
 	}
-	
+
 	public TitanCharString_template (final TitanCharString_template otherValue) {
 		copyTemplate(otherValue);
 	}
-	
+
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -71,7 +71,7 @@ public class TitanCharString_template extends Base_Template {
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
-	
+
 	//originally operator=
 	public TitanCharString_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);
@@ -80,13 +80,13 @@ public class TitanCharString_template extends Base_Template {
 
 		return this;
 	}
-	
+
 	//originally operator=
 	public TitanCharString_template assign( final String otherValue ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);
-		
+
 		return this;
 	}
 
@@ -106,10 +106,10 @@ public class TitanCharString_template extends Base_Template {
 			cleanUp();
 			copyTemplate(otherValue);
 		}
-		
+
 		return this;
 	}
-	
+
 	private void copyTemplate(final TitanCharString_template otherValue) {
 		switch (otherValue.templateSelection) {
 		case SPECIFIC_VALUE:
@@ -145,7 +145,7 @@ public class TitanCharString_template extends Base_Template {
 
 		setSelection(otherValue);
 	}
-	
+
 	// originally match
 	public boolean match(final TitanCharString otherValue) {
 		return match(otherValue, false);
@@ -189,7 +189,7 @@ public class TitanCharString_template extends Base_Template {
 				throw new TtcnError("The lower bound (\"" + minValueChar + "\") is greater than the upper bound " +
 						"(\"" + maxValueChar + "\") when matching with a charstring value range template.");
 			}
-			final String otherStr = otherValue.getValue();
+			final StringBuilder otherStr = otherValue.getValue();
 			int min_value_offset = 0;
 			int max_value_offset = 0;
 			if (min_is_exclusive) min_value_offset = 1;

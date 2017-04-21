@@ -30,7 +30,7 @@ public class TitanCharString_Element {
 		other_value.mustBound("Assignment of an unbound charstring element.");
 		bound_flag = true;
 		str_val = new TitanCharString( other_value.str_val );
-		str_val.set_char(char_pos, other_value.str_val.getValue().charAt( char_pos ));
+		str_val.getValue().setCharAt( char_pos, other_value.str_val.getValue().charAt( other_value.char_pos ) );
 		return this;
 	}
 
@@ -43,15 +43,15 @@ public class TitanCharString_Element {
 		}
 		bound_flag = true;
 		str_val = new TitanCharString( other_value );
-		str_val.set_char(char_pos, other_value.getValue().charAt(0));
+		str_val.getValue().setCharAt( char_pos, other_value.getValue().charAt(0) );
 		return this;
 	}
-	
+
 	//originally operator==
 	public boolean equalsTo( final TitanCharString_Element other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring comparison.");
-		return str_val.getValue().charAt(char_pos) == other_value.str_val.getValue().charAt( other_value.char_pos );
+		return get_char() == other_value.str_val.getValue().charAt( other_value.char_pos );
 	}
 
 	//originally operator==
@@ -61,11 +61,11 @@ public class TitanCharString_Element {
 		if (other_value.getValue().length() != 1) {
 			return false;
 		}
-		return str_val.getValue().charAt( char_pos ) == other_value.getValue().charAt(0);
+		return get_char() == other_value.getValue().charAt(0);
 	}
 
 	public char get_char() {
-		return str_val != null ? str_val.get_char( char_pos ) : null;
+		return str_val.getValue().charAt( char_pos );
 	}
 
 }
