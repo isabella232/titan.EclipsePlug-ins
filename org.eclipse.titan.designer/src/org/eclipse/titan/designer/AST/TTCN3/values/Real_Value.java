@@ -303,11 +303,10 @@ public final class Real_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanFloat" );
-		aData.addBuiltinTypeImport( "Ttcn3Float" );
 		source.append(name);
 		source.append(".assign( ");
 		source.append(generateSingleExpression(aData));
+		source.append( " );\n" );
 		return source;
 	}
 }
