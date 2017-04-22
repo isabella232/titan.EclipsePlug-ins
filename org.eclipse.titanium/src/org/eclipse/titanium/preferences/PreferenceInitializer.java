@@ -53,6 +53,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.READONLY_VARIABLE.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.GOTO.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.CIRCULAR_IMPORTATION.getPreferenceName(), GeneralConstants.IGNORE);
+		preferenceStore.setDefault(ProblemTypePreference.LANGUAGE_MIXING.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.NONPRIVATE_PRIVATE.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.VISIBILITY_IN_DEFINITION.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.MODULENAME_IN_DEFINITION.getPreferenceName(), GeneralConstants.IGNORE);
@@ -145,6 +146,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
 		// populate baselines:
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.CIRCULAR_IMPORTATION, 1, 50000);
+		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.LANGUAGE_MIXING, 1, 50000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.TOO_MANY_STATEMENTS, 2, 20000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.TOO_MANY_PARAMETERS, 2, 1500);
 		// setSmellImpactAndBaseLine(preferenceStore, SemanticProblemType., 1,

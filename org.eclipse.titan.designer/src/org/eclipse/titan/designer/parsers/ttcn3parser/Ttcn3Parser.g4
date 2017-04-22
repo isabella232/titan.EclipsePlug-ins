@@ -460,10 +460,11 @@ pr_TTCN3Module
 	Token definitionsEnd = null;
 	ControlPart controlpart = null;
 	MultipleWithAttributes attributes = null;
+	ArrayList<String> languageSpecifications = null;
 }:
 (	m = pr_TTCN3ModuleKeyword	{ col = $m.start; }
 	i = pr_TTCN3ModuleId		{ act_ttcn3_module = new TTCN3Module( $i.identifier, project ); }
-	( l = pr_LanguageSpec )?
+	( l = pr_LanguageSpec 		{ languageSpecifications = $l.languageSpec; } )?
 	begin = pr_BeginChar
 	pr_ModuleDefinitionsList[null]
 	( c = pr_ModuleControlPart	{ definitionsEnd = $c.stop; controlpart = $c.controlpart; } )?
@@ -472,6 +473,7 @@ pr_TTCN3Module
 	( endb = pr_SemiColon		{ endcol = $endb.stop; } )?
 )
 {
+	act_ttcn3_module.setLanguageSpecifications(languageSpecifications);
 	act_ttcn3_module.setLocation( getLargeLocation( col, endcol ) );
 	act_ttcn3_module.setDefinitionsLocation( getLocation( $begin.start, definitionsEnd ) );
 	act_ttcn3_module.setWithAttributes( attributes );

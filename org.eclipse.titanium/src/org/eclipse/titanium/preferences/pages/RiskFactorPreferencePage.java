@@ -40,6 +40,7 @@ public class RiskFactorPreferencePage extends PreferencePage implements IWorkben
 		insertTask(TaskType.FIXME);
 		insertTask(TaskType.TODO);
 		insertSP(CodeSmellType.CIRCULAR_IMPORTATION);
+		insertSP(CodeSmellType.LANGUAGE_MIXING);
 		insertSP(CodeSmellType.TOO_MANY_STATEMENTS);
 		insertSP(CodeSmellType.TOO_MANY_PARAMETERS);
 		// insertSP(SemanticProblemType.); // TODO: divergent naming convention

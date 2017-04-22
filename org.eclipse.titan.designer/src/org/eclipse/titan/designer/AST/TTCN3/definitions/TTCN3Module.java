@@ -90,6 +90,7 @@ public final class TTCN3Module extends Module {
 
 	private static final String MISSINGREFERENCE = "There is no visible definition with name `{0}'' in module `{1}''";
 
+	private ArrayList<String> languageSpecifications;
 	private final List<ImportModule> importedModules;
 	private final List<FriendModule> friendModules;
 	private Definitions definitions;
@@ -151,6 +152,14 @@ public final class TTCN3Module extends Module {
 		}
 
 		return builder;
+	}
+
+	public void setLanguageSpecifications(final ArrayList<String> languageSpecifications) {
+		this.languageSpecifications = languageSpecifications;
+	}
+
+	public ArrayList<String> getLanguageSpecifictions() {
+		return languageSpecifications;
 	}
 
 	/**
