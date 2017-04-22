@@ -7,6 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+/**
+ * 
+ * @author Arpad Lovassy
+ */
 public class TitanCharString_Element {
 	boolean bound_flag;
 	TitanCharString str_val;

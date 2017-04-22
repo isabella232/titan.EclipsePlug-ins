@@ -10,6 +10,7 @@ package org.eclipse.titan.runtime.core;
 /**
  * originally universal_char
  * Represents UTF-32 character
+ * 
  * @author Arpad Lovassy
  */
 public class TitanUniversalChar {
