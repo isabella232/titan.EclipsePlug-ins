@@ -141,6 +141,7 @@ public class TitanCharString extends Base_Type {
 					", but the string has only " + n_nibbles + " characters.");
 			}
 			if (index_value == n_nibbles) {
+				val_ptr.setLength(index_value + 1);
 				return new TitanCharString_Element( false, this, index_value );
 			} else {
 				return new TitanCharString_Element( true, this, index_value );
