@@ -80,6 +80,9 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				+ " it recommendable for an altstep to handle any possible incoming message types");
 		m.put(ProblemTypePreference.CIRCULAR_IMPORTATION, "Circular importation is not prohibited in TTCN-3,"
 				+ " but it is also not recommended.");
+		m.put(ProblemTypePreference.LANGUAGE_MIXING, "Mixing modules with different language versions in the same project "
+				+ "is a sign of architectural problems as it can lead to missunderstandings/unexpected behaviours/aged design.\n"
+				+ "it is always recommended to adapt TTCN-3 source code to the newest version of the standard.");
 		m.put(ProblemTypePreference.CONSECUTIVE_ASSIGNMENTS, "Consecutive assignments should be merged due to performance issues");
 		m.put(ProblemTypePreference.CONVERT_TO_ENUM, "Select statements should be used with enumerations. Branch coverage can not \n" +
 				"be calculated on integers.");
@@ -212,6 +215,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			comp.setLayout(new FillLayout(SWT.VERTICAL));
 			createField(comp, ProblemTypePreference.GOTO);
 			createField(comp, ProblemTypePreference.CIRCULAR_IMPORTATION);
+			createField(comp, ProblemTypePreference.LANGUAGE_MIXING);
 			createField(comp, ProblemTypePreference.MISSING_IMPORT);
 			createField(comp, ProblemTypePreference.UNUSED_IMPORT);
 			createField(comp, ProblemTypePreference.MISSING_FRIEND);

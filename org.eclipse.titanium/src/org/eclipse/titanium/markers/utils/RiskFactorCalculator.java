@@ -28,6 +28,7 @@ public class RiskFactorCalculator {
 		TaskType.FIXME,
 		TaskType.TODO,
 		CodeSmellType.CIRCULAR_IMPORTATION,
+		CodeSmellType.LANGUAGE_MIXING,
 		CodeSmellType.TOO_MANY_STATEMENTS,
 		CodeSmellType.TOO_MANY_PARAMETERS,
 		// SemanticProblemType..name() // TODO: divergent naming convention
