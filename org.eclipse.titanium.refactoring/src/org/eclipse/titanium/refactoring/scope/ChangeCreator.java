@@ -373,7 +373,7 @@ public class ChangeCreator {
 		 * */
 		final MultiDeclaration md = declStNode.getMultiDeclaration();
 		final StatementNode firstDeclPart = md.getFirstStatement();
-		final Definition defVarToMove = (Definition)declStNode.getDeclaredVar().getAssmnt();
+		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
 		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
 		final boolean firstDefInMdMoved = firstDeclPart.isMoved();
 		final Location declStmtLoc = declStmt.getLocation();
@@ -499,8 +499,8 @@ public class ChangeCreator {
 	private String calculateMultiDeclarationMoveContent(final String fileContent, final StatementNode declStNode) {
 		final MultiDeclaration md = declStNode.getMultiDeclaration();
 		final StatementNode firstDeclPart = md.getFirstStatement();
-		final Definition firstDefInStmt = (Definition)firstDeclPart.getDeclaredVar().getAssmnt();
-		final Definition defVarToMove = (Definition)declStNode.getDeclaredVar().getAssmnt();
+		final Definition firstDefInStmt = firstDeclPart.getDeclaredVar().getDefinition();
+		final Definition defVarToMove = declStNode.getDeclaredVar().getDefinition();
 		final Definition_Statement declStmt = (Definition_Statement)declStNode.getAstNode();
 		final Location declStmtLoc = declStmt.getLocation();
 		final String stmtContent = fileContent.substring(declStmtLoc.getOffset(), declStmtLoc.getEndOffset());

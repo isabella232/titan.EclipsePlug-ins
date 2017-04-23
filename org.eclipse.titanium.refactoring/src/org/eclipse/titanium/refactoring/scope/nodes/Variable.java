@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 
 /**
  * A class representing a variable.
@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.AST.Assignment;
  */
 public class Variable {
 
-	public final Assignment assmnt;	//the def_var, or FormalParameter object
+	public final Definition definition;	//the def_var, or FormalParameter object
 
 	public final StatementNode declaration;
 
@@ -37,15 +37,15 @@ public class Variable {
 	 * If true, the variable cannot be refactored. */
 	public final boolean isParameter;
 
-	public Variable(final Assignment assmnt, final StatementNode declaration, final boolean isParameter) {
-		this.assmnt = assmnt;
+	public Variable(final Definition definition, final StatementNode declaration, final boolean isParameter) {
+		this.definition = definition;
 		this.declaration = declaration;
 		this.isParameter = isParameter;
 		this.references = new ArrayList<Reference>();
 	}
 
-	public Assignment getAssmnt() {
-		return assmnt;
+	public Definition getDefinition() {
+		return definition;
 	}
 	public StatementNode getDeclaration() {
 		return declaration;
@@ -77,19 +77,19 @@ public class Variable {
 				return;
 			}
 		}
-		final String fname = assmnt.getLocation().getFile().toString();
+		final String fname = definition.getLocation().getFile().toString();
 		ErrorReporter.logError("Variable.removeReference(): Could not remove reference for variable: " + toString() + "; in file " + fname);
 	}
 
 	@Override
 	public String toString() {
-		return assmnt == null ? "null" : assmnt.getIdentifier().toString();
+		return definition == null ? "null" : definition.getIdentifier().toString();
 	}
 
 	public String toStringRecursive(final boolean includeRefs, final int prefixLen) {
 		final String prefix = new String(new char[prefixLen]).replace('\0', ' ');
 		final StringBuilder sb = new StringBuilder();
-		sb.append(prefix).append("VAR: ").append(assmnt == null ? "null" : assmnt.getIdentifier().toString());
+		sb.append(prefix).append("VAR: ").append(definition == null ? "null" : definition.getIdentifier().toString());
 		if (includeRefs) {
 			sb.append('\n').append(prefix).append("  refs:\n");
 			for (Reference r: references) {

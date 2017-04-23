@@ -57,7 +57,7 @@ public class Environment {
 
 	public Variable getVariable(final Assignment as) {
 		for (Variable var: vars) {
-			if (var.assmnt.equals(as)) {
+			if (var.definition.equals(as)) {
 				return var;
 			}
 		}
