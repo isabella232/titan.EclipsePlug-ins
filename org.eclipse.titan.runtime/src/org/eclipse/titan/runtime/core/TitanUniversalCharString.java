@@ -298,6 +298,7 @@ public class TitanUniversalCharString extends Base_Type {
 					", but the string has only " + n_nibbles + " characters.");
 			}
 			if (index_value == n_nibbles) {
+				val_ptr.add(null);
 				return new TitanUniversalCharString_Element( false, this, index_value );
 			} else {
 				return new TitanUniversalCharString_Element( true, this, index_value );
