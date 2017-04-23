@@ -282,7 +282,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	TitanUniversalCharString_Element getAt(int index_value) {
+	public TitanUniversalCharString_Element getAt(int index_value) {
 		if (val_ptr == null && index_value == 0) {
 			val_ptr = new ArrayList<TitanUniversalChar>();
 			return new TitanUniversalCharString_Element(false, this, 0);
@@ -306,13 +306,13 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	//originally operator[](const INTEGER&)
-	TitanUniversalCharString_Element getAt(final TitanInteger index_value) {
+	public TitanUniversalCharString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a universal charstring value with an unbound integer value.");
 		return getAt( index_value.getInt() );
 	}
 
 	//originally operator[](int) const
-	final TitanUniversalCharString_Element constGetAt( final int index_value ) {
+	public TitanUniversalCharString_Element constGetAt( final int index_value ) {
 		mustBound("Accessing an element of an unbound universal charstring value.");
 		if (index_value < 0) {
 			throw new TtcnError("Accessing an universal charstring element using a negative index (" + index_value + ").");
@@ -326,7 +326,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	//originally operator[](const INTEGER&) const
-	final TitanUniversalCharString_Element constGetAt( final TitanInteger index_value ) {
+	public TitanUniversalCharString_Element constGetAt( final TitanInteger index_value ) {
 		index_value.mustBound("Indexing a universal charstring value with an unbound integer value.");
 		return constGetAt( index_value.getInt() );
 	}
