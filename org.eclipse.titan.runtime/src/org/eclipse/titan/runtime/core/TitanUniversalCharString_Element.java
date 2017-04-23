@@ -40,7 +40,6 @@ public class TitanUniversalCharString_Element {
 	public TitanUniversalCharString_Element assign( final TitanUniversalCharString_Element other_value ) {
 		other_value.mustBound("Assignment of an unbound charstring element.");
 		bound_flag = true;
-		str_val = new TitanUniversalCharString( other_value.str_val );
 		str_val.setCharAt( char_pos, other_value.str_val.charAt( other_value.char_pos ) );
 		return this;
 	}
@@ -52,7 +51,6 @@ public class TitanUniversalCharString_Element {
 			throw new TtcnError( "Assignment of a charstring value with length other than 1 to a charstring element." );
 		}
 		bound_flag = true;
-		str_val = new TitanUniversalCharString( other_value );
 		str_val.setCharAt( char_pos, other_value.charAt(0) );
 		return this;
 	}

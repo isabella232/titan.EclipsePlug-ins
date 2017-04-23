@@ -8,6 +8,8 @@
 package org.eclipse.titan.runtime.core;
 
 /**
+ * originally universal_char
+ * Represents UTF-32 character
  * 
  * @author Arpad Lovassy
  */
@@ -40,7 +42,6 @@ public class TitanCharString_Element {
 	public TitanCharString_Element assign( final TitanCharString_Element other_value ) {
 		other_value.mustBound("Assignment of an unbound charstring element.");
 		bound_flag = true;
-		str_val = new TitanCharString( other_value.str_val );
 		str_val.getValue().setCharAt( char_pos, other_value.str_val.getValue().charAt( other_value.char_pos ) );
 		return this;
 	}
@@ -53,7 +54,6 @@ public class TitanCharString_Element {
 				"with length other than 1 to a charstring element." );
 		}
 		bound_flag = true;
-		str_val = new TitanCharString( other_value );
 		str_val.getValue().setCharAt( char_pos, other_value.getValue().charAt(0) );
 		return this;
 	}
