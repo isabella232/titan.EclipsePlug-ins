@@ -295,7 +295,7 @@ public class TitanUniversalCharString extends Base_Type {
 			int n_nibbles = val_ptr.size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a universal charstring element: The index is " + index_value +
-					", but the string has only " + n_nibbles + " hexadecimal digits.");
+					", but the string has only " + n_nibbles + " characters.");
 			}
 			if (index_value == n_nibbles) {
 				return new TitanUniversalCharString_Element( false, this, index_value );
@@ -320,7 +320,7 @@ public class TitanUniversalCharString extends Base_Type {
 		final int n_nibbles = val_ptr.size();
 		if (index_value >= n_nibbles) {
 			throw new TtcnError("Index overflow when accessing a universal charstring element: The index is " + index_value +
-					", but the string has only " + n_nibbles + " hexadecimal digits.");
+					", but the string has only " + n_nibbles + " characters.");
 		}
 		return new TitanUniversalCharString_Element(true, this, index_value);
 	}
