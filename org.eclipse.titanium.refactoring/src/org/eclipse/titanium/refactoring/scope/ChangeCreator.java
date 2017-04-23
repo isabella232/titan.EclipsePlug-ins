@@ -110,7 +110,7 @@ public class ChangeCreator {
 	}
 
 	/**
-	 * Creates the {@link #change} object, which contains all the inserted and edited visibility modifiers
+	 * Creates the {@link #change} object, which contains all the inserted and edited texts
 	 * in the selected resources.
 	 * */
 	private Change createFileChange(final IFile toVisit) {
@@ -137,8 +137,8 @@ public class ChangeCreator {
 				funcs = new HashSet<Definition>();
 				funcs.add(defSelection);
 			} else {
-				ErrorReporter.logError("ChangeCreator.createFileChange(): " +
-						"defSelection must be of type Def_Function or Def_Testcase. ");
+				ErrorReporter.logError("Variable scope reduction called for " + defSelection.getIdentifier().getDisplayName()
+						+ ", but it is only supported for functions and testcases. ");
 				return null;
 			}
 		}
