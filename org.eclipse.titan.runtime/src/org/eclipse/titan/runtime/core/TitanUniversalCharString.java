@@ -355,10 +355,14 @@ public class TitanUniversalCharString extends Base_Type {
 
 	@Override
 	public String toString() {
-		if ( val_ptr == null ) {
+		if ( !isBound() ) {
 			return "<unbound>";
 		}
-		return val_ptr.toString();
+		if ( charstring ) {
+			return cstr.toString();
+		} else {
+			return val_ptr.toString();
+		}
 	}
 
 	final TitanUniversalChar charAt( int i ) {
