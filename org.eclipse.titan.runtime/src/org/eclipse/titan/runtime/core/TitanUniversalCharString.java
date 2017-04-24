@@ -19,11 +19,15 @@ import java.util.List;
 public class TitanUniversalCharString extends Base_Type {
 
 	/** Internal data */
-	private List<TitanUniversalChar> val_ptr = new ArrayList<TitanUniversalChar>();
+	private List<TitanUniversalChar> val_ptr;
 
 	/** Character string values are stored in an optimal way */
 	private StringBuilder cstr;
 
+	/**
+	 * true, if cstr is used <br>
+	 * false, if val_ptr is used
+	 */
 	private boolean charstring;
 
 	public TitanUniversalCharString() {
@@ -31,6 +35,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public TitanUniversalCharString( final TitanUniversalChar aOtherValue ) {
+		val_ptr = new ArrayList<TitanUniversalChar>();
 		val_ptr.add( aOtherValue );
 		charstring = false;
 	}
@@ -99,7 +104,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public boolean isBound() {
-		return val_ptr != null;
+		return charstring ? cstr != null : val_ptr != null;
 	}
 
 	public boolean isPresent() {
@@ -107,7 +112,7 @@ public class TitanUniversalCharString extends Base_Type {
 	};
 
 	public boolean isValue() {
-		return val_ptr != null;
+		return isBound();
 	}
 
 	public void mustBound( final String aErrorMessage ) {
@@ -177,7 +182,7 @@ public class TitanUniversalCharString extends Base_Type {
 		else other_len = other_value.length();
 		if (other_len == 0) return this;
 		if ( charstring ) {
-			return new TitanUniversalCharString( cstr + other_value );
+			return new TitanUniversalCharString( cstr.append( other_value ) );
 		}
 		TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 		for (int i = 0; i < other_len; i++) {
@@ -279,12 +284,24 @@ public class TitanUniversalCharString extends Base_Type {
 
 	public void cleanUp() {
 		val_ptr = null;
+		cstr = null;
+	}
+
+	/**
+	 * @return number of digits 
+	 */
+	private int size() {
+		return charstring ? cstr.length() : val_ptr.size();
 	}
 
 	//originally operator[](int)
 	public TitanUniversalCharString_Element getAt(int index_value) {
-		if (val_ptr == null && index_value == 0) {
-			val_ptr = new ArrayList<TitanUniversalChar>();
+		if ( !isBound() && index_value == 0 ) {
+			if ( charstring ) {
+				cstr = new StringBuilder();
+			} else {
+				val_ptr = new ArrayList<TitanUniversalChar>();
+			}
 			return new TitanUniversalCharString_Element(false, this, 0);
 		} else {
 			mustBound("Accessing an element of an unbound universal charstring value.");
@@ -292,13 +309,17 @@ public class TitanUniversalCharString extends Base_Type {
 				throw new TtcnError("Accessing an universal charstring element using a negative index (" + index_value + ").");
 			}
 
-			int n_nibbles = val_ptr.size();
+			int n_nibbles = size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a universal charstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " characters.");
 			}
 			if (index_value == n_nibbles) {
-				val_ptr.add(null);
+				if ( charstring ) {
+					cstr.append( (char)0 );
+				} else {
+					val_ptr.add( new TitanUniversalChar( (char)0, (char)0, (char)0, (char)0 ) );
+				}
 				return new TitanUniversalCharString_Element( false, this, index_value );
 			} else {
 				return new TitanUniversalCharString_Element( true, this, index_value );
