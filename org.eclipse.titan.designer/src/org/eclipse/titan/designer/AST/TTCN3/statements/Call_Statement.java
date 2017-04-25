@@ -374,7 +374,8 @@ public final class Call_Statement extends Statement {
 					if (instance != null) {
 						final IType tempSignature = instance.getExpressionGovernor(timestamp,
 								Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-						if (signature != null && !signature.isCompatible(timestamp, tempSignature, null, null, null)) {
+						if (tempSignature != null && signature != null
+								&& !signature.isCompatible(timestamp, tempSignature, null, null, null)) {
 							final String message = MessageFormat.format(GETRPELYTOWRONGSIGNATURE,
 									signature.getTypename(), tempSignature.getTypename());
 							instance.getLocation().reportSemanticError(message);
