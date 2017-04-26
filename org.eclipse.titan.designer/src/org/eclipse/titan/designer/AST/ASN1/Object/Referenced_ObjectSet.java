@@ -200,6 +200,10 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		}
 		return refdClass;
 	}
+	
+	public Identifier getId(){
+		return reference.getId();
+	}
 
 	@Override
 	/** {@inheritDoc} */

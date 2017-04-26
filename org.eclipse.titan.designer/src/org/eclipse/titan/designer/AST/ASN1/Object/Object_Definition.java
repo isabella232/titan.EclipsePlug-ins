@@ -224,7 +224,9 @@ public final class Object_Definition extends ASN1Object {
 		return null;
 	}
 	
-	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier) {
+	//This function can get identifier with or without error reporting in case of not founding identifier
+	//It is cheaper than calling the function hasFieldSettingWithNameDefault and then the get function again
+	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier, boolean reportError) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}
@@ -240,11 +242,17 @@ public final class Object_Definition extends ASN1Object {
 			}
 		}
 
-		if (!isErroneous) {
+		if (reportError && !isErroneous) {
 			location.reportSemanticError(MessageFormat.format(MISSINGSETTINGORDEFAULT, identifier.getDisplayName(), getFullName()));
 		}
 
 		return null;
+		
+	}
+	
+	//This function is always report error if identifier cannot be found
+	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier) {
+		return getFieldSettingWithNameDefault(identifier, true);
 	}
 
 	@Override
