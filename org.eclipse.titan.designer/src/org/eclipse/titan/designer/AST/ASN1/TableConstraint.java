@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.Constraint;
 import org.eclipse.titan.designer.AST.Constraints;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
+import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
@@ -30,7 +31,10 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting;
+import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Object;
+import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Type;
+import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Value;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectSet_definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.ReferencedObject;
@@ -175,6 +179,8 @@ public final class TableConstraint extends Constraint {
 			return;
 		}
 
+		//outermostparent->set_opentype_outermost();
+
 		// TODO implement the setting of set_has_openType
 		AtNotation atNotation;
 		for (int i = 0; i < atNotationList.getNofAtNotations(); i++) {
@@ -298,8 +304,7 @@ public final class TableConstraint extends Constraint {
 			atNotation.setLastComponent(tempType);
 
 			/*
-			 * check if the referenced component is constrained by
-			 * the same objectset...
+			 * check if the referenced component is constrained by the same objectset...
 			 */
 			boolean ok = false;
 			Constraints constraints = tempType.getConstraints();
@@ -331,9 +336,18 @@ public final class TableConstraint extends Constraint {
 			}
 		}  //for loop
 
-		if (objectSet instanceof Referenced_ObjectSet){
+		// well, the atnotations seems to be ok, let's produce the alternatives for the opentype
+		
+		//***** UGLY BUT WORKS ! *****
+		// TODO: Correct this code! It is working but
+		// 1.Implement it with recursion!
+		// 2.Implement the missing branches!
+		// 3.Make tests!
+		if (objectSet instanceof Referenced_ObjectSet) {
+			//			ObjectClass objClass = ((Referenced_ObjectSet) objectSet).getRefdObjectClass(timestamp);//temp, check the result
 			if ( ((Referenced_ObjectSet) objectSet).isReferencedDefinedReference() ){
 				ObjectSet_definition objects = objectSet.getRefdLast(timestamp, null);
+				//=========>recursion point
 				List<IObjectSet_Element> oses = objects.getObjectSetElements();
 				for( IObjectSet_Element ose : oses) {
 					if (ose instanceof ReferencedObject) {
@@ -341,34 +355,104 @@ public final class TableConstraint extends Constraint {
 					}
 					if (ose instanceof Object_Definition) {
 						Object_Definition od = (Object_Definition) ose;
-						if( !od.hasFieldSettingWithNameDefault(objectClassFieldname) ) {
-							continue;
-						}
-
-						FieldSetting fs = od.getFieldSettingWithNameDefault(objectClassFieldname);
-						//fs in C++: t_type, fset in void OC_defn::chk_this_obj(Object *p_obj) in Object.cc
-						if (fs instanceof FieldSetting_Type) {
-							FieldSetting_Type fst = (FieldSetting_Type)fs;
-							IASN1Type type = fst.getSetting();
-							Identifier id = getOpenTypeAlternativeName(timestamp, (Type) type);
-							if (!openType.hasComponentWithName(id)) {
-								openType.addComponent(new CompField( id, (Type) type, false, null));
+						//TODO: handle FieldSetting options:
+						// FieldSetting_Type, FieldSetting_ObjectSet, FieldSetting_Value
+						FieldSetting fs = od.getFieldSettingWithNameDefault(objectClassFieldname,false);
+						if( fs != null ) {
+							//fs in C++: t_type, fset in void OC_defn::chk_this_obj(Object *p_obj) in Object.cc
+							if (fs instanceof FieldSetting_Type) {
+								FieldSetting_Type fst = (FieldSetting_Type)fs;
+								IASN1Type type = fst.getSetting();
+								Identifier id = getOpenTypeAlternativeName(timestamp, (Type) type);
+								if (!openType.hasComponentWithName(id)) {
+									openType.addComponent(new CompField( id, (Type) type, false, null));
+								}
+							} else {
+								continue;
 							}
 						} else {
-							continue;
-						}
-					} 
-				}
+							Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
+							fs = od.getFieldSettingWithNameDefault(objectSetId,false);
+							if( fs == null) {
+								continue;
+							} 
+
+							if( fs instanceof FieldSetting_ObjectSet ) {
+								ISetting objectSet1 = fs.getSetting();
+								// Perhaps this point can be the starting point of the recursion:
+								//
+								if( objectSet1 instanceof ObjectSet_definition) {
+									//=========>recursion point
+									List<IObjectSet_Element> oses1 = ((ObjectSet_definition) objectSet1).getObjectSetElements();
+									for( IObjectSet_Element ose1 : oses1 ){
+										if (ose1 instanceof ReferencedObject) {
+											ose1 = ((ReferencedObject) ose1).getRefdLast(timestamp);//fspec
+										}
+										if (ose1 instanceof Object_Definition) {
+											Object_Definition od1 = (Object_Definition) ose1;
+											//TODO: handle FieldSetting options:
+											// FieldSetting_Type, FieldSetting_ObjectSet, FieldSetting_Value
+											FieldSetting fs1 = od1.getFieldSettingWithNameDefault(objectClassFieldname, false);
+											if( fs1!=null){
+												//fs in C++: t_type, fset in void OC_defn::chk_this_obj(Object *p_obj) in Object.cc
+												if (fs1 instanceof FieldSetting_Type) {
+													FieldSetting_Type fst = (FieldSetting_Type)fs1;
+													IASN1Type type1 = fst.getSetting();
+													Identifier id1 = getOpenTypeAlternativeName(timestamp, (Type) type1);
+													if (!openType.hasComponentWithName(id1)) {
+														openType.addComponent(new CompField( id1, (Type) type1, false, null));
+													}
+												} else {
+													continue;
+												}
+											} else {
+												//NOT TESTED PART:
+												fs1 = od1.getFieldSettingWithNameDefault(objectSetId,false);
+												if(fs1 != null){
+													//TO BE CONT
+													continue;
+												}
+												continue;
+											}
+										}
+									} 
+									//goto 336 ??
+									continue;
+								} else if (fs instanceof FieldSetting_Object ) {
+									continue;
+								} else if ( fs instanceof FieldSetting_Type ) {
+									continue;
+								} else if ( fs instanceof FieldSetting_Value ) {
+									continue;
+								} else {
+									continue;
+								}
+								
+							}
+						} 
+					}
+				}//for
 				openType.check(timestamp);
-			} else {
-				return; //TODO:Other possibilities
-			}
+			} else if( objectSet instanceof ObjectSet_definition){
+				List<IObjectSet_Element> oses1 = ((ObjectSet_definition) objectSet).getObjectSetElements();
+				for( IObjectSet_Element ose1 : oses1 ){
+					if (ose1 instanceof ReferencedObject) {
+						ose1 = ((ReferencedObject) ose1).getRefdLast(timestamp);//fspec
+					}
+				}
+				return; 
+			}//TODO:Other possibilities
 		} else {
 			return;
 		}
 	}
-	
-	
+
+// TODO: Implement the recursive function
+//	private void collectTypesOfOpenType(ObjectSet objectSet, final Open_Type openType, Identifier objectClassFieldname) {
+//		
+//	}
+
+
 	//Original titan.core version: t_type->get_otaltname(is_strange);
 	private Identifier getOpenTypeAlternativeName(CompilationTimeStamp timestamp, Type type) {
 		StringBuffer sb = new StringBuffer();
