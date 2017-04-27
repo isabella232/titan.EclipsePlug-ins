@@ -3878,7 +3878,7 @@ public class AST_tests {
 	
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(985);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(991);
 		int lineNum = 41;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `compTimer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
@@ -3896,8 +3896,6 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("Signature `@statement_tests.S_ProvedureSignatureID' cannot be used on a message based port",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate outgoing message type `integer'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Outgoing message type `integer' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Outgoing signature type `@statement_tests.S_ProvedureSignatureID' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Signature `@statement_tests.S_ProvedureSignatureID' cannot be used on a message based port",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
@@ -4142,8 +4140,12 @@ public class AST_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("The `system' component reference shall not be used in a connect operation", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortName_PT' and `@statement_tests.testPortonlyOut' is not consistent",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortonlyOut' and `@statement_tests.testPortName_PT' is not consistent",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing message type `integer' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing signature type `@statement_tests.S_ProvedureSignatureID' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortName_PT' and `@statement_tests.testPortonlyOut' is not consistent",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing message type `integer' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing signature type `@statement_tests.S_ProvedureSignatureID' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortonlyOut' and `@statement_tests.testPortName_PT' is not consistent",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 7;
 		markersToCheck.add(new MarkerToCheck("Component type `@statement_tests.componentName_CT' does not have a port with name `portname1_PT'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `portname1_PT' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -4156,8 +4158,12 @@ public class AST_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("The `system' component reference shall not be used in a disconnect operation", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortName_PT' and `@statement_tests.testPortonlyOut' is not consistent",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortonlyOut' and `@statement_tests.testPortName_PT' is not consistent",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing message type `integer' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing signature type `@statement_tests.S_ProvedureSignatureID' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortName_PT' and `@statement_tests.testPortonlyOut' is not consistent",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing message type `integer' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Outgoing signature type `@statement_tests.S_ProvedureSignatureID' of port type `@statement_tests.testPortName_PT' is not present on the incoming list of port type `@statement_tests.testPortonlyOut'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The connection between port types `@statement_tests.testPortonlyOut' and `@statement_tests.testPortName_PT' is not consistent",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 9;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `akarmi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a port or port parameter was expected instead of variable",  ++lineNum, IMarker.SEVERITY_ERROR));
