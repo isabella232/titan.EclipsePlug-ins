@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values;
 
+import org.eclipse.titan.designer.compiler.JavaGenData;
+
 /**
  * Represents a single univerchar character.
  * 
@@ -158,5 +160,27 @@ public final class UniversalChar {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Returns the Java expression to be used in the generated code.
+	 * 
+	 * get_single_expr in the compiler
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport( "TitanUniversalChar" );
+
+		StringBuilder result = new StringBuilder();
+
+		result.append("new TitanUniversalChar( ");
+		result.append("(char) ").append(group).append(", ");
+		result.append("(char) ").append(plane).append(", ");
+		result.append("(char) ").append(row).append(", ");
+		result.append("(char) ").append(cell);
+		result.append(" )");
+
+		return result;
 	}
 }

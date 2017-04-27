@@ -10,6 +10,8 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.designer.compiler.JavaGenData;
+
 /**
  * Internal representation of a universal charstring.
  * 
@@ -290,4 +292,28 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 		return false;
 	}
 
+	/**
+	 * Returns the Java expression to be used in the generated code.
+	 * 
+	 * get_single_expr in the compiler
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		StringBuilder result = new StringBuilder();
+		result.append("new TitanUniversalChar[]{");
+
+		for (int i = 0, size = value.size(); i < size; i++) {
+			UniversalChar temp = value.get(i);
+
+			result.append(temp.generateSingleExpression(aData));
+			if(i != size - 1) {
+				result.append(", ");
+			}
+		}
+
+		result.append("}");
+
+		return result;
+	}
 }

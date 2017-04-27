@@ -45,6 +45,15 @@ public class TitanUniversalCharString extends Base_Type {
 		charstring = false;
 	}
 
+	public TitanUniversalCharString(final TitanUniversalChar[] aOther) {
+		val_ptr = new ArrayList<TitanUniversalChar>();
+		for(int i = 0; i < aOther.length; i++) {
+			val_ptr.add( aOther[i] );
+		}
+
+		charstring = false;
+	}
+
 	public TitanUniversalCharString( final String aOtherValue ) {
 		cstr = new StringBuilder( aOtherValue );
 		charstring = true;

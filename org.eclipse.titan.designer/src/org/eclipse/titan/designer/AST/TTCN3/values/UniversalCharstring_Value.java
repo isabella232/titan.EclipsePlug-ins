@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ASN1.values.ISO2022String_Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.UniversalCharstring_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -208,5 +209,32 @@ public final class UniversalCharstring_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+
+		return value.generateSingleExpression(aData);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+
+		source.append(name);
+		source.append(".assign(");
+		source.append(value.generateSingleExpression(aData));
+		source.append(");\n");
+
+		return source;
 	}
 }
