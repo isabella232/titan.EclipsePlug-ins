@@ -272,6 +272,4 @@ public final class Charstring_Value extends Value {
 
 		return source;
 	}
-	
-	
 }
