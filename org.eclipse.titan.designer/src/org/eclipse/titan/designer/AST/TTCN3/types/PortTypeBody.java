@@ -1117,13 +1117,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 *
 	 * @param timestamp the timestamp of the actual semantic cycle.
 	 * @param other the other port type body to compare to.
+	 * @param connectionLocation the location of the connection to report the error messages to.
 	 * */
-	public void reportConnectionErrors(final CompilationTimeStamp timestamp, final PortTypeBody other) {
+	public void reportConnectionErrors(final CompilationTimeStamp timestamp, final PortTypeBody other, final Location connectionLocation) {
 		if (outMessages != null) {
 			for (int i = 0, size = outMessages.getNofTypes(); i < size; i++) {
 				final IType messageType = outMessages.getTypeByIndex(i);
 				if (other.inMessages == null || !other.inMessages.hasType(timestamp, messageType)) {
-					messageType.getLocation().reportSemanticError(MessageFormat.format(
+					connectionLocation.reportSemanticError(MessageFormat.format(
 							"Outgoing message type `{0}'' of port type `{1}'' is not present on the incoming list of port type `{2}''"
 							, messageType.getTypename(), myType.getTypename(), other.myType.getTypename()));
 				}
@@ -1134,7 +1135,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			for (int i = 0, size = outSignatures.getNofTypes(); i < size; i++) {
 				final IType signatureType = outSignatures.getTypeByIndex(i);
 				if (other.inSignatures == null || !other.inSignatures.hasType(timestamp, outSignatures.getTypeByIndex(i))) {
-					signatureType.getLocation().reportSemanticError(MessageFormat.format(
+					connectionLocation.reportSemanticError(MessageFormat.format(
 							"Outgoing signature type `{0}'' of port type `{1}'' is not present on the incoming list of port type `{2}''"
 							, signatureType.getTypename(), myType.getTypename(), other.myType.getTypename()));
 				}

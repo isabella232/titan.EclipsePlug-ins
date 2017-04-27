@@ -136,9 +136,9 @@ public final class Disconnect_Statement extends Statement {
 		if (!body1.isConnectable(timestamp, body2) || (body1 != body2 && !body2.isConnectable(timestamp, body1))) {
 			location.reportSemanticError(MessageFormat.format(Connect_Statement.INCONSISTENTCONNECTION, portType1.getTypename(),
 					portType2.getTypename()));
-			body1.reportConnectionErrors(timestamp, body2);
+			body1.reportConnectionErrors(timestamp, body2, location);
 			if (body1 != body2) {
-				body2.reportConnectionErrors(timestamp, body1);
+				body2.reportConnectionErrors(timestamp, body1, location);
 			}
 		}
 
