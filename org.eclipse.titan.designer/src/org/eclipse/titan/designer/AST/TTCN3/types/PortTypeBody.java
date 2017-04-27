@@ -1095,6 +1095,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					return false;
 				}
 			}
+		} else if ((OperationModes.OP_Message.equals(operationMode) || OperationModes.OP_Mixed.equals(operationMode)) && other.outMessages == null) {
+			return false;
 		}
 
 		if (outSignatures != null) {
@@ -1129,6 +1131,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							, messageType.getTypename(), myType.getTypename(), other.myType.getTypename()));
 				}
 			}
+		} else if ((OperationModes.OP_Message.equals(operationMode) || OperationModes.OP_Mixed.equals(operationMode)) && other.outMessages == null) {
+			connectionLocation.reportSemanticError(MessageFormat.format(
+					"Neither port type `{0}'' nor port type `{1}'' can send messages"
+					, myType.getTypename(), other.myType.getTypename()));
 		}
 
 		if (outSignatures != null) {
