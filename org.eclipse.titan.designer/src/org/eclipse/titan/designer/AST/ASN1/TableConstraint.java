@@ -31,10 +31,8 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting;
-import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Object;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Type;
-import org.eclipse.titan.designer.AST.ASN1.Object.FieldSetting_Value;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectSet_definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.ReferencedObject;
@@ -307,10 +305,10 @@ public final class TableConstraint extends Constraint {
 			 * check if the referenced component is constrained by the same objectset...
 			 */
 			boolean ok = false;
-			Constraints constraints = tempType.getConstraints();
+			final Constraints constraints = tempType.getConstraints();
 			if (constraints != null) {
 				constraints.check(timestamp);
-				TableConstraint tableConstraint = constraints.getTableConstraint();
+				final TableConstraint tableConstraint = constraints.getTableConstraint();
 				if (tableConstraint != null) {
 					IType ocft = tableConstraint.constrainedType;
 					if (Type_type.TYPE_OBJECTCLASSFIELDTYPE.equals(ocft.getTypetype())) {
@@ -320,7 +318,7 @@ public final class TableConstraint extends Constraint {
 						ObjectSet_definition osdef1 = tableConstraint.objectSet.getRefdLast(timestamp, chain);
 						chain.release();
 						chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-						ObjectSet_definition osdef2 = objectSet.getRefdLast(timestamp, chain);
+						final ObjectSet_definition osdef2 = objectSet.getRefdLast(timestamp, chain);
 						chain.release();
 						if( osdef1 == osdef2) {
 							ok = true;
@@ -339,7 +337,7 @@ public final class TableConstraint extends Constraint {
 		// well, the atnotations seems to be ok, let's produce the alternatives for the opentype
 		
 		if (objectSet instanceof Referenced_ObjectSet) {
-			Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
+			final Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
 			collectTypesOfOpenType(timestamp, objectSet, openType, objectSetId);
 		} else {
 			return; //TODO: is it posssible? Perhaps log error!
@@ -347,7 +345,7 @@ public final class TableConstraint extends Constraint {
 
 	}
 
-	private void collectTypesOfOpenType(CompilationTimeStamp aTimestamp, ObjectSet aObjectSet, final Open_Type aOpenType, final Identifier aObjectSetId) {
+	private void collectTypesOfOpenType(final CompilationTimeStamp aTimestamp, ObjectSet aObjectSet, final Open_Type aOpenType, final Identifier aObjectSetId) {
 		
 		if (aObjectSet instanceof Referenced_ObjectSet) {
 			if ( ((Referenced_ObjectSet) aObjectSet).isReferencedDefinedReference()){
@@ -366,14 +364,14 @@ public final class TableConstraint extends Constraint {
 				ose = ((ReferencedObject) ose).getRefdLast(aTimestamp);//fspec
 			}
 			if (ose instanceof Object_Definition) {
-				Object_Definition od = (Object_Definition) ose;
+				final Object_Definition od = (Object_Definition) ose;
 				FieldSetting fs = od.getFieldSettingWithNameDefault(objectClassFieldname,false);
 				if( fs != null ) {
 					//fs in C++: t_type, fset in void OC_defn::chk_this_obj(Object *p_obj) in Object.cc
 					//TODO: handle FieldSetting options: FieldSetting_Type, FieldSetting_ObjectSet, FieldSetting_Value
 					if (fs instanceof FieldSetting_Type) {
-						FieldSetting_Type fst = (FieldSetting_Type)fs;
-						IASN1Type type = fst.getSetting();
+						final FieldSetting_Type fst = (FieldSetting_Type)fs;
+						final IASN1Type type = fst.getSetting();
 						Identifier id = getOpenTypeAlternativeName(aTimestamp, (Type) type);
 						if (!aOpenType.hasComponentWithName(id)) {
 							aOpenType.addComponent(new CompField( id, (Type) type, false, null));
@@ -388,7 +386,7 @@ public final class TableConstraint extends Constraint {
 					} 
 
 					if( fs instanceof FieldSetting_ObjectSet ) {
-						ISetting objectSet1 = fs.getSetting();
+						final ISetting objectSet1 = fs.getSetting();
 						ObjectSet objectSet2;
 						if(objectSet1 instanceof ObjectSet) {
 							objectSet2 = (ObjectSet) objectSet1;
