@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
@@ -166,8 +167,12 @@ public class PrivateViaPublic {
 			while (namedValueIterator.hasNext()) {
 
 				final NamedValue namedValue = namedValueIterator.next();
+				final IValue value = namedValue.getValue();
+				if (value == null) {
+					return;
+				}
 
-				final IType namedValueType = namedValue.getValue().getMyGovernor();
+				final IType namedValueType = value.getMyGovernor();
 
 				if (namedValueType instanceof Referenced_Type) {
 					final Reference namedValueReference = ((Referenced_Type) namedValueType).getReference();
