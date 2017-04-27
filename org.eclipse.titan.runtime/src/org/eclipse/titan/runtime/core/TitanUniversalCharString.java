@@ -55,6 +55,12 @@ public class TitanUniversalCharString extends Base_Type {
 		charstring = true;
 	}
 
+	public TitanUniversalCharString( final TitanCharString aOtherValue ) {
+		aOtherValue.mustBound( "Copying an unbound charstring value." );
+		cstr = new StringBuilder( aOtherValue.getValue() );
+		charstring = true;
+	}
+
 	public TitanUniversalCharString( final TitanUniversalCharString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound universal charstring value." );
 		val_ptr = copyList( aOtherValue.val_ptr );
