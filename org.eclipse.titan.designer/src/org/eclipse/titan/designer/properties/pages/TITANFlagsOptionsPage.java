@@ -44,6 +44,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button quietly;
 	private Button omitInValueList;
 	private Button warningsForBadVariants;
+	private Button ignoreUntaggedOnTopLevelUnion;
 
 	//private Composite namingRuleComposite;
 	//private ComboFieldEditor namingRules;
@@ -71,6 +72,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			quietly.dispose();
 			omitInValueList.dispose();
 			warningsForBadVariants.dispose();
+			ignoreUntaggedOnTopLevelUnion.dispose();
 		}
 	}
 
@@ -135,6 +137,9 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		warningsForBadVariants = new Button(mainComposite, SWT.CHECK);
 		warningsForBadVariants.setText("Display warnings instead of errors for invalid variants (-E)");
 		
+		ignoreUntaggedOnTopLevelUnion = new Button(mainComposite, SWT.CHECK);
+		ignoreUntaggedOnTopLevelUnion.setText(
+				"Ignore UNTAGGED enc. instr. on top level unions (legacy behaviour) (-N)");
 		return mainComposite;
 	}
 
@@ -161,6 +166,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		quietly.setEnabled(enabled);
 		omitInValueList.setEnabled(enabled);
 		warningsForBadVariants.setEnabled(enabled);
+		ignoreUntaggedOnTopLevelUnion.setEnabled(enabled);
 	}
 
 	@Override
@@ -228,6 +234,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		quietly.setSelection(false);
 		omitInValueList.setSelection(false);
 		warningsForBadVariants.setSelection(false);
+		ignoreUntaggedOnTopLevelUnion.setSelection(true);
 	}
 
 	@Override
@@ -318,6 +325,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
 			warningsForBadVariants.setSelection("true".equals(temp) ? true : false);
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
+			ignoreUntaggedOnTopLevelUnion.setSelection("true".equals(temp) ? true : false);
 
 		} catch (CoreException e) {			
 			performDefaults();
@@ -346,6 +357,8 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			setProperty(project, TITANFlagsOptionsData.QUIETLY_PROPERTY, quietly.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY ,  omitInValueList.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY,  warningsForBadVariants.getSelection() ? "true" : "false");
+			setProperty(project, TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY,  ignoreUntaggedOnTopLevelUnion.getSelection() ? "true" : "false");
+			
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return false;

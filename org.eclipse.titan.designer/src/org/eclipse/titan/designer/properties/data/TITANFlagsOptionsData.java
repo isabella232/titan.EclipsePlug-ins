@@ -45,18 +45,19 @@ public final class TITANFlagsOptionsData {
 	public static final String DISABLE_SUBTYPE_CHECKING_PROPERTY = "disableSubtypeChecking";
 	public static final String ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY = "omitInValueList";
 	public static final String WARNINGS_FOR_BAD_VARIANTS_PROPERTY = "warningsForBadVariants";
+	public static final String IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY = "ignoreUntaggedOnTopLevelUnion";
 
 	public static final String[] PROPERTIES = {
 			DISABLE_BER_PROPERTY, DISABLE_RAW_PROPERTY, DISABLE_TEXT_PROPERTY, DISABLE_XER_PROPERTY, DISABLE_JSON_PROPERTY,
 			FORCE_XER_IN_ASN1_PROPERTY, DEFAULT_AS_OMIT_PROPERTY, FORCE_OLD_FUNC_OUT_PAR_PROPERTY, GCC_MESSAGE_FORMAT_PROPERTY, LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
-			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, WARNINGS_FOR_BAD_VARIANTS_PROPERTY, 
-			QUIETLY_PROPERTY, DISABLE_SUBTYPE_CHECKING_PROPERTY };
+			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, QUIETLY_PROPERTY,
+			DISABLE_SUBTYPE_CHECKING_PROPERTY,WARNINGS_FOR_BAD_VARIANTS_PROPERTY, IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY };
 	public static final String[] TAGS = PROPERTIES;
 	public static final String[] DEFAULT_VALUES = {
 		"false", "false", "false", "false", "false", 
 		"false", "false", "false", "false", "false",
 		"true",  "true",  "false", "false", "false",
-		"false", "false" };
+		"false", "false","false"};
 
 	private TITANFlagsOptionsData() {
 		// Do nothing
@@ -136,6 +137,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
 			builder.append("true".equals(temp) ? "E" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
+			builder.append("true".equals(temp) ? "N" : "");
 
 			if (builder.length() > 0) {
 				builder.insert(0, '-');
@@ -229,6 +234,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
 			builder.append("true".equals(temp) ? " + warnings for unrecognized encodings" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
+			builder.append("true".equals(temp) ? " + ignore UNTAGGED encoding instruction on top level unions" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.CODE_SPLITTING_PROPERTY));
