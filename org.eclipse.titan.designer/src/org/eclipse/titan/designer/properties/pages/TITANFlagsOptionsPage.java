@@ -234,7 +234,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		quietly.setSelection(false);
 		omitInValueList.setSelection(false);
 		warningsForBadVariants.setSelection(false);
-		ignoreUntaggedOnTopLevelUnion.setSelection(true);
+		ignoreUntaggedOnTopLevelUnion.setSelection(false);
 	}
 
 	@Override
