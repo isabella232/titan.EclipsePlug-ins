@@ -491,24 +491,15 @@ public final class Signature_Type extends Type {
 		}
 	}
 
+	//see void Type::chk_this_template_Signature(Template *t, namedbool incomplete_allowed) in Type_chk.cc
 	private void checkThisNamedTemplateList(final CompilationTimeStamp timestamp, final Named_Template_List template, final boolean isModified) {
 		final Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
 		boolean inSynch = true;
 		final int nofTypeParameters =  getNofParameters();  //TODO:  alternatives:formalParList.getNofInParameters(); formalParList.getNofOutParameters()
 		final int nofTemplateComponents = template.getNofTemplates();
-		int tI = 0;
-		if(nofTemplateComponents < nofTypeParameters) {
-			template.getLocation().reportSemanticError(
-					MessageFormat.format("Too few elements in value list notation for type `{0}'': {1} was expected instead of {2}",
-					this.getFullName(), nofTypeParameters, nofTemplateComponents));
-		}
 
-// TODO The compiler does not do this check:
-//		if(nofTemplateComponents > nofTypeParameters) {
-//			template.getLocation().reportSemanticError(
-//					MessageFormat.format("Too many elements in value list notation for type `{0}'': {1} was expected instead of {2}",
-//					this.getFullName(), nofTypeParameters, nofTemplateComponents));
-//		}
+		int tI = 0;
+
 		for (int vI = 0; vI < nofTemplateComponents; vI++) {
 			final NamedTemplate namedTemplate = template.getTemplateByIndex(vI);
 			final Identifier identifier = namedTemplate.getName();
