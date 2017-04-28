@@ -54,14 +54,15 @@ public final class TITANFlagsOptionsData {
 			DISABLE_BER_PROPERTY, DISABLE_RAW_PROPERTY, DISABLE_TEXT_PROPERTY, DISABLE_XER_PROPERTY, DISABLE_JSON_PROPERTY,
 			FORCE_XER_IN_ASN1_PROPERTY, DEFAULT_AS_OMIT_PROPERTY, FORCE_OLD_FUNC_OUT_PAR_PROPERTY, GCC_MESSAGE_FORMAT_PROPERTY, LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
 			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, WARNINGS_FOR_BAD_VARIANTS_PROPERTY, 
-			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, /*insert here the next new item*/
+			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, ACTIVATE_DEBUGGER_PROPERTY,/*insert here the next new item*/
 			QUIETLY_PROPERTY, DISABLE_SUBTYPE_CHECKING_PROPERTY };
 	public static final String[] TAGS = PROPERTIES;
 	public static final String[] DEFAULT_VALUES = {
 		"false", "false", "false", "false", "false", 
 		"false", "false", "false", "false", "false",
-		"true",  "true",  "false", "false", "false",
-		"false", "false","false"};
+		"false",  "false",  "false", "false", "false",
+		"false", "false", /*insert here the next new item*/
+		"false","false"};
 
 	private TITANFlagsOptionsData() {
 		// Do nothing
@@ -145,6 +146,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
 			builder.append("true".equals(temp) ? "N" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData. ACTIVATE_DEBUGGER_PROPERTY));
+			builder.append("true".equals(temp) ? "n" : "");
 
 			if (builder.length() > 0) {
 				builder.insert(0, '-');
@@ -243,6 +248,10 @@ public final class TITANFlagsOptionsData {
 					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
 			builder.append("true".equals(temp) ? " + ignore UNTAGGED encoding instruction on top level unions" : "");
 
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
+			builder.append("true".equals(temp) ? " + activate debugger" : "");
+			
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.CODE_SPLITTING_PROPERTY));
 			if (temp != null && !"".equals(temp) && !GeneralConstants.NONE.equals(temp)) {
