@@ -7835,7 +7835,7 @@ pr_LazyOrFuzzyModifier returns[ boolean isLazy ]
 (	LAZYKEYWORD	{ $isLazy = true; }
 |	FUZZYKEYWORD
 		{
-			reportWarning( "Modifier '@fuzzy' is not yet supported.", $start, getStopToken() );
+			reportWarning( "Modifier `@fuzzy' is not yet supported.", $start, getStopToken() );
 		}
 )
 ;
@@ -7849,16 +7849,16 @@ pr_DecodedModifier:
 ;
 
 pr_DeterministicModifier:
-	DETERMINISTICKEYWORD	//TODO: Modifier '@deterministic' is not yet supported.
+	DETERMINISTICKEYWORD	//TODO: Modifier `@deterministic' is not yet supported.
 {
-	reportWarning( "Modifier '@deterministic' is not yet supported.", $start, getStopToken() );
+	reportWarning( "Modifier `@deterministic' is not yet supported.", $start, getStopToken() );
 };
 
 pr_IndexSpec:
 	i = INDEXKEYWORD
 	pr_ValueStoreSpec
 {
-	reportWarning( "Modifier '@index' is not yet supported.", $i );
+	reportWarning( "Modifier `@index' is not yet supported.", $i );
 };
 
 //------------------------------------------------------
