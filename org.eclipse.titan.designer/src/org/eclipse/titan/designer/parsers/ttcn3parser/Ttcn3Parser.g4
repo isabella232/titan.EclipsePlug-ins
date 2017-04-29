@@ -7846,7 +7846,9 @@ pr_DecodedModifier:
 		v = pr_SingleExpression	//TODO: handle value: $v.value
 		pr_RParen
 	)?
-;
+{
+	reportWarning( "Modifier `@decoded' is not yet supported.", $start, getStopToken() );
+};
 
 pr_DeterministicModifier:
 	DETERMINISTICKEYWORD	//TODO: Modifier `@deterministic' is not yet supported.
