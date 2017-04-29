@@ -8,6 +8,7 @@
 package org.eclipse.titan.common.parsers.cfg;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -210,5 +211,10 @@ public final class CfgAnalyzer {
 		loggingSectionHandler = parser.getLoggingSectionHandler();
 		
 		rootInterval = lexer.getRootInterval();
+		
+		try {
+			reader.close();
+		} catch (IOException e) {
+		}
 	}
 }
