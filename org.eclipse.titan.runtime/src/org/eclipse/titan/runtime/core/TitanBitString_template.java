@@ -158,7 +158,7 @@ public class TitanBitString_template extends Base_Template {
 	}
 
 	//originally operator[](const INTEGER&) const
-	TitanBitString_Element constGetAt( final TitanInteger index_value) {
+	public TitanBitString_Element constGetAt( final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring template with an unbound integer value.");
 		return constGetAt( index_value.getInt() );
 	}

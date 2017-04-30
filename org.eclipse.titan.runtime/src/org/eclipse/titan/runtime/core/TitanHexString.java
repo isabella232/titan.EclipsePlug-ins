@@ -123,7 +123,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	TitanHexString_Element getAt(final int index_value) {
+	public TitanHexString_Element getAt(final int index_value) {
 		if (nibbles_ptr == null && index_value == 0) {
 			nibbles_ptr = new ArrayList<Byte>();
 			return new TitanHexString_Element(false, this, 0);
@@ -147,13 +147,13 @@ public class TitanHexString extends Base_Type {
 	}
 
 	//originally operator[](const INTEGER&)
-	TitanHexString_Element getAt(final TitanInteger index_value) {
+	public TitanHexString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring value with an unbound integer value.");
 		return getAt( index_value.getInt() );
 	}
 
 	//originally operator[](int) const
-	final TitanHexString_Element constGetAt( final int index_value ) {
+	public final TitanHexString_Element constGetAt( final int index_value ) {
 		mustBound("Accessing an element of an unbound hexstring value.");
 		if (index_value < 0) {
 			throw new TtcnError("Accessing an hexstring element using a negative index (" + index_value + ").");
@@ -167,7 +167,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	//originally operator[](const INTEGER&) const
-	final TitanHexString_Element constGetAt(final TitanInteger index_value) {
+	public final TitanHexString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring value with an unbound integer value.");
 		return constGetAt( index_value.getInt() );
 	}

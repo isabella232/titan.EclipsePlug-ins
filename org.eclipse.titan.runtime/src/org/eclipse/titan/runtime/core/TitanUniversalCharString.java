@@ -392,11 +392,13 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
+	// intentionally package public
 	final TitanUniversalChar charAt( final int i ) {
 		//TODO, handle charstring case also if needed
 		return val_ptr.get( i );
 	}
 
+	// intentionally package public
 	final void setCharAt( final int i, final TitanUniversalChar c ) {
 		//TODO, handle charstring case also if needed
 		val_ptr.set( i, c );

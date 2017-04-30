@@ -180,7 +180,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	TitanBitString_Element getAt(final int index_value) {
+	public TitanBitString_Element getAt(final int index_value) {
 		if (bits_ptr == null && index_value == 0) {
 			bits_ptr = new ArrayList<Byte>();
 			return new TitanBitString_Element(false, this, 0);
@@ -204,13 +204,13 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator[](const INTEGER&)
-	TitanBitString_Element getAt(final TitanInteger index_value) {
+	public TitanBitString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
 		return getAt( index_value.getInt() );
 	}
 
 	//originally operator[](int) const
-	final TitanBitString_Element constGetAt( final int index_value ) {
+	public final TitanBitString_Element constGetAt( final int index_value ) {
 		mustBound("Accessing an element of an unbound bitstring value.");
 		if (index_value < 0) {
 			throw new TtcnError("Accessing an bitstring element using a negative index (" + index_value + ").");
@@ -224,7 +224,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator[](const INTEGER&) const
-	final TitanBitString_Element constGetAt(final TitanInteger index_value) {
+	public final TitanBitString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
 		return constGetAt( index_value.getInt() );
 	}

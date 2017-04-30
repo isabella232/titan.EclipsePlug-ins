@@ -157,7 +157,7 @@ public class TitanHexString_template extends Base_Template {
 	}
 
 	//originally operator[](const INTEGER&) const
-	TitanHexString_Element constGetAt( final TitanInteger index_value) {
+	public TitanHexString_Element constGetAt( final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
 		return constGetAt( index_value.getInt() );
 	}

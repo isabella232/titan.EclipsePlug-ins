@@ -3,9 +3,9 @@ package org.eclipse.titan.runtime.core;
 import java.util.List;
 
 public class TitanOctetString_Element {
-	boolean bound_flag;
-	TitanOctetString str_val;
-	int nibble_pos;
+	private boolean bound_flag;
+	private TitanOctetString str_val;
+	private int nibble_pos;
 
 	public TitanOctetString_Element( final boolean par_bound_flag, final TitanOctetString par_str_val, final int par_nibble_pos ) {
 		bound_flag = par_bound_flag;
@@ -90,14 +90,14 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator~
-	TitanOctetString operatorBitwiseNot()	{
+	public TitanOctetString operatorBitwiseNot()	{
 		mustBound("Unbound octetstring element operand of operator not4b.");
 		final char result = (char) (~str_val.get_nibble(nibble_pos) & 0x0F);
 		return new TitanOctetString( result );
 	}
 
 	//originally operator&
-	TitanOctetString operatorBitwiseAnd(final TitanOctetString other_value) {
+	public TitanOctetString operatorBitwiseAnd(final TitanOctetString other_value) {
 		mustBound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound octetstring value.");
 		if (other_value.getValue().size() != 1) {
@@ -108,7 +108,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator&
-	TitanOctetString operatorBitwiseAnd(final TitanOctetString_Element other_value) {
+	public TitanOctetString operatorBitwiseAnd(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound octetstring element.");
 		final char result = (char) (str_val.get_nibble(nibble_pos) & other_value.str_val.get_nibble(other_value.nibble_pos));
@@ -116,7 +116,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator|
-	TitanOctetString operatorBitwiseOr(final TitanOctetString other_value) {
+	public TitanOctetString operatorBitwiseOr(final TitanOctetString other_value) {
 		mustBound("Left operand of operator or4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound octetstring value.");
 		if (other_value.getValue().size() != 1) {
@@ -127,7 +127,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator|
-	TitanOctetString operatorBitwiseOr(final TitanOctetString_Element other_value) {
+	public TitanOctetString operatorBitwiseOr(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator or4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound octetstring element.");
 		final char result = (char) (str_val.get_nibble(nibble_pos) | other_value.str_val.get_nibble(other_value.nibble_pos));
@@ -135,7 +135,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator^
-	TitanOctetString operatorBitwiseXor(final TitanOctetString other_value) {
+	public TitanOctetString operatorBitwiseXor(final TitanOctetString other_value) {
 		mustBound("Left operand of operator xor4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound octetstring value.");
 		if (other_value.getValue().size() != 1) {
@@ -146,18 +146,18 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator^
-	TitanOctetString operatorBitwiseXor(final TitanOctetString_Element other_value) {
+	public TitanOctetString operatorBitwiseXor(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator xor4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound octetstring element.");
 		final char result = (char) (str_val.get_nibble(nibble_pos) ^ other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanOctetString( result );
 	}
 
-	char get_nibble() {
+	public char get_nibble() {
 		return (char) str_val.get_nibble( nibble_pos );
 	}
 
-	void log() {
+	public void log() {
 		if ( bound_flag ) {
 			TtcnLogger.log_char('\'');
 			TtcnLogger.log_octet(str_val.get_nibble(nibble_pos));

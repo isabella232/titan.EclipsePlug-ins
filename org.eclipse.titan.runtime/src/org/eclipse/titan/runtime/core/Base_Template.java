@@ -25,8 +25,8 @@ public class Base_Template {
 		TR_PRESENT
 	};
 
-	template_sel templateSelection;
-	boolean is_ifPresent;
+	protected template_sel templateSelection;
+	protected boolean is_ifPresent;
 
 	protected Base_Template() {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;

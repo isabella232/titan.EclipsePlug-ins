@@ -115,7 +115,7 @@ public class TitanVerdictType extends Base_Type {
 		return verdict_value;
 	}
 
-	void log() {
+	public void log() {
 		if (isValid( verdict_value )) {
 			TtcnLogger.log_event_str( verdict_name[ verdict_value.ordinal() ] );
 		}
@@ -132,7 +132,7 @@ public class TitanVerdictType extends Base_Type {
 	//TODO: implement VERDICTTYPE::decode()
 	//TODO: implement VERDICTTYPE::XER_encode()
 
-	VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
+	public VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
 		for (VerdictTypeEnum i : VerdictTypeEnum.values()) {
 			if ( verdict_name[i.ordinal()].equals( v ) ) {
 				return i;
