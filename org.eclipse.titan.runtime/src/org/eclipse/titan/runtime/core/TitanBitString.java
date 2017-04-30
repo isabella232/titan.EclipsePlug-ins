@@ -66,7 +66,7 @@ public class TitanBitString extends Base_Type {
 		n_bits = bits;
 	}
 
-	public List<Byte> copyList( final List<Byte> srcList ) {
+	public final List<Byte> copyList( final List<Byte> srcList ) {
 		if ( srcList == null ) {
 			return null;
 		}
