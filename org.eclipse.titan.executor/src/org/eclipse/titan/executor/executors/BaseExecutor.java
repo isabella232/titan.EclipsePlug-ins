@@ -98,15 +98,15 @@ import static org.eclipse.titan.executor.properties.FieldEditorPropertyPage.getO
  * This is a base class to build the Executors on.
  * <p>
  * It tries to hide all of the launchConfiguration handling and HC starting issues from the specific Executors
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
 public abstract class BaseExecutor {
-	
+
 	//TODO: implement
 	protected static final boolean CREATE_TEMP_CFG = false;
-	
+
 	public static final String PADDEDDATETIMEFORMAT = "%1$tF %1$tH:%1$tM:%1$tS.%1$tL000";
 	public static final String DATETIMEFORMAT = "%1$tF %1$tH:%1$tM:%1$tS.%2$06d";
 
@@ -168,7 +168,7 @@ public abstract class BaseExecutor {
 	 * @author Arpad Lovassy
 	 */
 	protected class EmptyExecutionRunnable implements Runnable {
-		
+
 		public EmptyExecutionRunnable() {}
 
 		@Override
@@ -176,7 +176,7 @@ public abstract class BaseExecutor {
 			MessageDialog.openError( new Shell( Display.getDefault() ), EMPTY_EXECUTION_FAILED_TITLE, EMPTY_EXECUTION_FAILED_TEXT );
 		}
 	}
-	
+
 	/**
 	 * Initializes the Executor with data extracted from the provided launch configuration.
 	 *
@@ -230,7 +230,7 @@ public abstract class BaseExecutor {
 		lastTimeSelectionTime = configuration.getAttribute("lastTimeSelectionTime", 1);
 		int tempLastSelectionType = configuration.getAttribute("lastTimeSelectionType", 0);
 		lastTimeSelectionType = ExecutableType.getExecutableType(tempLastSelectionType);
-		
+
 		List<String> hostNames = configuration.getAttribute(HOSTNAMES, (ArrayList<String>) null);
 		List<String> hostWorkingDirectories = configuration.getAttribute(HOSTWORKINGDIRECTORIES, (ArrayList<String>) null);
 		List<String> hostExecutables = configuration.getAttribute(HOSTEXECUTABLES, (ArrayList<String>) null);
@@ -266,7 +266,7 @@ public abstract class BaseExecutor {
 							availableTestcases.add(testcase);
 						}
 					}
-					
+
 				}
 			}
 		}
@@ -485,7 +485,7 @@ public abstract class BaseExecutor {
 	public final void startHostControllers() {
 		if (hostControllers == null || hostControllers.isEmpty()) {
 			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "",
-				NO_HOSTCONTROLLER_SPECIFIED));
+					NO_HOSTCONTROLLER_SPECIFIED));
 			return;
 		}
 		ProcessBuilder pb = new ProcessBuilder();
@@ -598,9 +598,9 @@ public abstract class BaseExecutor {
 	public MenuManager createMenu(final MenuManager manager) {
 		return manager;
 	}
-	
+
 	protected abstract String getDefaultLogFileName();
-	
+
 	/**
 	 * @return the relative directory path of the default log file from the preferences
 	 */
@@ -615,13 +615,13 @@ public abstract class BaseExecutor {
 					PreferenceConstants.EXECUTOR_PREFERENCE_PAGE_ID, PreferenceConstants.LOG_FOLDER_PATH_NAME);
 		}
 		return null;
-		*/
+		 */
 		// log files are created in the bin (actual) directory
 		// until temporary cfg file creation is fixed:
 		//  - ../log/MyExample-%n.log file is set as LogFile if it's not provided by the input cfg file
 		return ".";
 	}
-	
+
 	/**
 	 * @return the relative path of the log dir (from the cfg file, or the default from the preferences)
 	 */
@@ -631,10 +631,10 @@ public abstract class BaseExecutor {
 			String parent = file.getParent();
 			return parent != null ? parent : "";
 		}
-		
+
 		return this.getDefaultLogFileDir();
 	}
-	
+
 	/**
 	 * Creates the content of the configuration file
 	 * @return the generated cfg string
@@ -652,7 +652,7 @@ public abstract class BaseExecutor {
 		}
 		return builder.toString();
 	}
-	
+
 	/**
 	 * Reads the configuration file producing a configuration file handler.
 	 *
@@ -662,7 +662,7 @@ public abstract class BaseExecutor {
 		if (isNullOrEmpty(configFilePath)) {
 			return null;
 		}
-		
+
 		final ConfigFileHandler configHandler = new ConfigFileHandler();
 		configHandler.readFromFile(configFilePath);
 		Map<String, String> env = appendEnvironmentalVariables ? new HashMap<String, String>( System.getenv() ) : new HashMap<String, String>();
@@ -674,7 +674,7 @@ public abstract class BaseExecutor {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
 		}
-		
+
 		configHandler.setEnvMap(env);
 		configHandler.processASTs();
 		logFileNameDefined = configHandler.isLogFileNameDefined();
@@ -690,19 +690,19 @@ public abstract class BaseExecutor {
 		if ( !isDeleteLogFilesSet( preferenceStore ) ) {
 			return;
 		}
-		
+
 		String workingDirRelative = getLogDir();
 		if ( workingDirRelative == null ) {
 			return;
 		}
 		String logFileFolder = workingdirectoryPath + File.separator + workingDirRelative + File.separator;
 		Path path = new Path(logFileFolder);
-		
+
 		IContainer folder = ResourcesPlugin.getWorkspace().getRoot().getContainerForLocation(path);
 		if (folder == null || !folder.exists()) {
 			return;
 		}
-	
+
 		final StringBuilder filesThatCanNotBeDeleted = new StringBuilder();
 		try {
 			for (IResource resource : folder.members()) {
@@ -720,11 +720,11 @@ public abstract class BaseExecutor {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"Error while deleting log files", "The log folder is not accessible.");
 		}
-		
+
 		if (filesThatCanNotBeDeleted.length() > 0) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
-				"Error while deleting log files", 
-				"The following log files can not be deleted:\n" + filesThatCanNotBeDeleted.toString());
+					"Error while deleting log files",
+					"The following log files can not be deleted:\n" + filesThatCanNotBeDeleted.toString());
 		}
 	}
 
@@ -745,7 +745,7 @@ public abstract class BaseExecutor {
 	 * Merges the generated log files together.
 	 */
 	protected void mergeLogFiles() {
- 		if (logFilesMerged) {
+		if (logFilesMerged) {
 			return;
 		} else {
 			logFilesMerged = true;
@@ -754,20 +754,20 @@ public abstract class BaseExecutor {
 		if ( !isAutomaticMergeEnabled( preferenceStore ) ) {
 			return;
 		}
-		
+
 		String workingDirRelative =  getLogDir();
 		if ( workingDirRelative == null ) {
 			return;
 		}
 		String logFileFolder = workingdirectoryPath + File.separator + workingDirRelative + File.separator;
 		Path path = new Path(logFileFolder);
-		
-		
+
+
 		IContainer folder = ResourcesPlugin.getWorkspace().getRoot().getContainerForLocation(path);
 		if (folder == null || !folder.exists()) {
 			return;
 		}
-		
+
 		List<IFile> filesToMerge = new ArrayList<IFile>();
 		try {
 			folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
@@ -783,9 +783,9 @@ public abstract class BaseExecutor {
 				}
 			}
 		} catch (CoreException e) {
-			ErrorReporter.parallelErrorDisplayInMessageDialog( 
-				"Error while merging log files", 
-				"The log folder "+logFileFolder+ " is not accessible.");
+			ErrorReporter.parallelErrorDisplayInMessageDialog(
+					"Error while merging log files",
+					"The log folder "+logFileFolder+ " is not accessible.");
 		}
 
 		MergeLog mergeLog = new MergeLog();
@@ -805,7 +805,7 @@ public abstract class BaseExecutor {
 		if (isNullOrEmpty(cfgString)) {
 			return;
 		}
-		
+
 		if (!keepTemporarilyGeneratedConfigFiles && null != temporalConfigFile && temporalConfigFile.exists()) {
 			boolean result = temporalConfigFile.delete();
 			if (!result) {

@@ -62,7 +62,7 @@ public final class JNIMainControllerTab extends BaseMainControllerTab {
 	 * @param configFilePath the path of the configuration file.
 	 * */
 	public static boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration,
-	                                              final IProject project, final String configFilePath) {
+			final IProject project, final String configFilePath) {
 		return BaseMainControllerTab.initLaunchConfiguration(configuration, project, configFilePath, false);
 	}
 }

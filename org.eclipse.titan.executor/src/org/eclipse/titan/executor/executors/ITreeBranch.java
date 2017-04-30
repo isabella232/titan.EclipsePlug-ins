@@ -13,7 +13,7 @@ import java.util.List;
  * This interface represents a tree branch, that can have leafs under itself.
  * <p>
  * Extends tree leaf, allowing to store tree branches in tree branches.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface ITreeBranch extends ITreeLeaf {

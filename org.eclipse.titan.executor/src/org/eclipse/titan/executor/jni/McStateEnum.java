@@ -11,7 +11,7 @@ package org.eclipse.titan.executor.jni;
  * For representing the global state of MC.
  * <p>
  * The original C++ structure can be found at TTCNv3\mctr2\mctr\MainController.h
- * 
+ *
  * @author Peter Dimitrov
  * */
 public final class McStateEnum {

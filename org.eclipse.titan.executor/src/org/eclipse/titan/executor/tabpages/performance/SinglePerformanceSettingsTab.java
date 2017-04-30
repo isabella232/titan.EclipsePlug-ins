@@ -18,5 +18,5 @@ public final class SinglePerformanceSettingsTab extends BasePerformanceSettingsT
 	public void executorSpecificControls(final Composite pageComposite) {
 		createKeepConfigfileArea(pageComposite);
 	}
-	
+
 }

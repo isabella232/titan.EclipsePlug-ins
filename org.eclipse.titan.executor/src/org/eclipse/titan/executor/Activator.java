@@ -13,7 +13,7 @@ import org.osgi.framework.BundleContext;
 
 /**
  * The activator class controls the plug-in life cycle.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Activator extends AbstractUIPlugin {
@@ -38,7 +38,7 @@ public final class Activator extends AbstractUIPlugin {
 	/**
 	 * Sets the default singleton instance of this plug-in,
 	 * that later can be used to access plug-in specific preference settings.
-	 * 
+	 *
 	 * @param activator the single instance of this plug-in class.
 	 * */
 	private static void setDefault(final Activator activator) {

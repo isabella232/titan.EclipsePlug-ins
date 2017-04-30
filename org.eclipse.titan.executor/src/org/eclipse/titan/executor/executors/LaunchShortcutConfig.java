@@ -46,8 +46,8 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 	 * @param configFilePath the path of the configuration file.
 	 * */
 	public abstract boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration,
-	                                                final IProject project, final String configFilePath);
-	
+			final IProject project, final String configFilePath);
+
 	protected ILaunchConfigurationWorkingCopy getWorkingCopy(final IProject project, IFile file, final String mode) {
 
 		try {
@@ -120,7 +120,7 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 			ErrorReporter.logError("Config file not found"); // Is it necessary???
 			return;
 		}
-		
+
 		final IFile file = (IFile) selections[0];
 		final IProject project = file.getProject();
 
@@ -138,7 +138,7 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 			if (result) {
 				result = HostControllersTab.initLaunchConfiguration(wc);
 			}
-			
+
 			if (result) {
 				wc.setMappedResources(new IResource[] {project, file});
 				wc.setAttribute(EXECUTECONFIGFILEONLAUNCH, true);

@@ -48,7 +48,7 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 	 * @param configFilePath the path of the configuration file.
 	 * */
 	public abstract boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration,
-	                                                final IProject project, final String configFilePath);
+			final IProject project, final String configFilePath);
 
 	protected ILaunchConfigurationWorkingCopy getWorkingCopy(final IProject project, IFile file, final String mode) {
 
@@ -140,7 +140,7 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
 						"An error was found while creating the default launch configuration for project "
 								+ project.getName(),
-						"Config file not found in project " + project.getName());
+								"Config file not found in project " + project.getName());
 				return;
 			}
 		} else {

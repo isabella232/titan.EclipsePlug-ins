@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  * The middleware that connects the JNI executor and the MainController.
- * 
+ *
  * @author Peter Dimitrov
  * */
 public final class JNIMiddleWare {

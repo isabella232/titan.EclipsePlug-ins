@@ -391,7 +391,7 @@ public final class ExecutorMonitorView extends ViewPart {
 			LaunchElement element = (LaunchElement) root.children().get(i);
 			ILaunch launched = element.launch();
 			if (null == launched) {
-//				DebugPlugin.getDefault().getLaunchManager().removeLaunch(launched);
+				//				DebugPlugin.getDefault().getLaunchManager().removeLaunch(launched);
 				continue;
 			}
 			ILaunchConfiguration launchConfiguration = launched.getLaunchConfiguration();

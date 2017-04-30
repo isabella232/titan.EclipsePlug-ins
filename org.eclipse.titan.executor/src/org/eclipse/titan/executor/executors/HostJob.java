@@ -33,7 +33,7 @@ import java.util.Formatter;
 
 /**
  * Connects to the a started Host Controllers and redirects its output to the notification view and the TITANConsole.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class HostJob extends Job {

@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * Simple content provider for the execute dialog.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ExecuteDialogContentProvider implements ITreeContentProvider {

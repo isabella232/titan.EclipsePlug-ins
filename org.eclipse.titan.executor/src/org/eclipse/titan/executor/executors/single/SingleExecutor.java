@@ -180,13 +180,13 @@ public final class SingleExecutor extends BaseExecutor {
 				} else {
 					Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
-							"Error while processing the configuration file", 
+							"Error while processing the configuration file",
 							exception.getMessage() + "\n Please refer to the Error Log view for further information.");
 					ErrorReporter.logError(exception.getMessage());
 				}
 				return;
 			}
-			
+
 			List<Integer> disallowedNodes = new ArrayList<Integer>(6);
 			disallowedNodes.add(CfgLexer.MAIN_CONTROLLER_SECTION);
 			disallowedNodes.add(CfgLexer.DEFINE_SECTION);

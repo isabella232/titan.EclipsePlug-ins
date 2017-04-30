@@ -17,7 +17,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Generic class to cache images inside the Executor plug-in.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ImageCache {
@@ -32,7 +32,7 @@ public final class ImageCache {
 	/**
 	 * Creates an ImageDescriptor from the image's name, whose root is the
 	 * icons directory.
-	 * 
+	 *
 	 * @param name
 	 *                the name of the image starting from the icons
 	 *                directory
@@ -45,7 +45,7 @@ public final class ImageCache {
 	/**
 	 * Creates and returns the image identified by the provided name. This
 	 * always gives back the same image instance for the same file name
-	 * 
+	 *
 	 * @param name
 	 *                the name of the image starting from the icons
 	 *                directory

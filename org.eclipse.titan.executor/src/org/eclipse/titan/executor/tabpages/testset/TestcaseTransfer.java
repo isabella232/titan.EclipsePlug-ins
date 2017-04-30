@@ -91,7 +91,7 @@ public final class TestcaseTransfer extends ByteArrayTransfer {
 			for (TestCaseTreeElement testcase : testcases) {
 				out.writeUTF((testcase).name());
 			}
-			
+
 			bytes = byteOut.toByteArray();
 		} catch (IOException e) {
 			ErrorReporter.logExceptionStackTrace(e);

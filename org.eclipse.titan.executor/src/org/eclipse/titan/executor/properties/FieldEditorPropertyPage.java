@@ -201,7 +201,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	 * <code>FieldEditor.store</code>. Note that this method does not save the
 	 * preference store itself; it just stores the values back into the
 	 * preference store.
-	 * 
+	 *
 	 * @see FieldEditor#store()
 	 */
 	@Override
@@ -240,12 +240,12 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 
 	/**
 	 * Enables or disables the field editors and buttons of this page
-	*/
+	 */
 	protected void updateFieldEditors() {
 		if (!isPropertyPage()) {
 			return;
 		}
-		
+
 		boolean projectSettings = useProjectSettingsButton.getSelection();
 		Composite parent = getFieldEditorParent();
 		for (FieldEditor editor : editors) {
@@ -280,11 +280,11 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 			}
 		});
 	}
-	
+
 	protected List<FieldEditor> getFieldEditors() {
 		return editors;
 	}
-	
+
 	/**
 	 * Returns true if the "Use Project Settings" radio button is selected
 	 * @return true if the button is selected, false otherwise
@@ -296,7 +296,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	public boolean isPropertyPage() {
 		return element != null;
 	}
-	
+
 	public static String getOverlayedPreferenceValue(final IPreferenceStore store, final IResource resource, final String pageId, final String name) {
 		IProject project = resource.getProject();
 		String value = null;

@@ -13,7 +13,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
  * This thread is used to stimulate the mctr_cli executor timely, to ask the real Main Controller for information.
  * <p>
  * On this way the even if the mctr_cli losses sync with the Main Controller, it will be able to recover it within a user defined timeout limit.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class BackgroundThread extends Thread {

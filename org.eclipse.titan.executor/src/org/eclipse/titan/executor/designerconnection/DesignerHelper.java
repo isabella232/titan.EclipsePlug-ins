@@ -14,7 +14,7 @@ import org.eclipse.ui.preferences.ScopedPreferenceStore;
  * This class stores constants and functions that make it possible for the executor plug-in the reach some settings from the Designer plug-in.
  * <p>
  * It is important to note that it is a valid case when the designer plug-in is not installed together with the executor plug-in.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class DesignerHelper {

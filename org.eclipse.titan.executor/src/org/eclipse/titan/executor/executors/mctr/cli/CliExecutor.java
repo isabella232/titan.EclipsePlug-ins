@@ -65,11 +65,11 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * This executor handles the execution of tests compiled in a parallel mode, connecting to the MainController via command line.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class CliExecutor extends BaseExecutor {
-	
+
 	private static final String EXTERNAL_TERMINATION = "Execution terminated from outside";
 
 	private Action automaticExecution, startHC, cmtc, smtc, emtc, exit, info;
@@ -112,7 +112,7 @@ public final class CliExecutor extends BaseExecutor {
 	private final Matcher hcConnectedMatcher = HC_CONNECTED_PATTERN.matcher("");
 
 	private static final Pattern ERROR_STARTUP_PATTERN = Pattern.compile("Error: (.+)");
-	
+
 	private static final String MTC_CREATED = " MTC is created.";
 	private static final String TEST_EXECUTION_FINISHED = " Test execution finished.";
 	private static final String EXECUTE_SECTION_FINISHED = " Execution of [EXECUTE] section finished.";
@@ -455,7 +455,7 @@ public final class CliExecutor extends BaseExecutor {
 	/**
 	 * Initializes and displays a dialog to the user. If the user selected an
 	 * executable element, it is also started here.
-	 * 
+	 *
 	 * @param automaticExecution tells if the configuration file shall be automatically selected for execution,
 	 *                              or shall the user be able to select something.
 	 * */
@@ -725,7 +725,7 @@ public final class CliExecutor extends BaseExecutor {
 	 * Processes the host controller related part of the mctr_cli's answer to the info command.
 	 * <p>
 	 * @see #processInfoOutput(BufferedReader)
-	 * 
+	 *
 	 * @param stdout the output of the process to be parsed.
 	 * @param root the main controller element to add the host controller data to.
 	 * */
@@ -783,7 +783,7 @@ public final class CliExecutor extends BaseExecutor {
 	 * Processes the component related part of the mctr_cli's answer to the info command.
 	 * <p>
 	 * @see #processInfoOutputHC(BufferedReader, MainControllerElement)
-	 * 
+	 *
 	 * @param stdout the output of the process to be parsed.
 	 * @param host the host to add the component data to.
 	 * */
@@ -831,15 +831,15 @@ public final class CliExecutor extends BaseExecutor {
 	}
 
 	/**
-	 * Processes the welcome screen. 
-	 * This is needed as sometimes the process already forgets about this information, 
+	 * Processes the welcome screen.
+	 * This is needed as sometimes the process already forgets about this information,
 	 * when the listeners get installed.
 	 * It waits for main controller output lines and returns if it received any of these messages:
 	 * <li>Listening on TCP port ...
 	 * <li>Listening on IP address ... and TCP port ...
 	 * <li>Error: ...
 	 * It stores the IP address and TCP port gathered from the message
-	 * 
+	 *
 	 * @param stdout the output of the process to be parsed.
 	 * */
 	private void processWelcomeScreen(final BufferedReader stdout) {
@@ -867,7 +867,7 @@ public final class CliExecutor extends BaseExecutor {
 							started = true;
 							suspectedLastState = JniExecutor.MC_LISTENING;
 						} else {
-						  line = stdout.readLine();
+							line = stdout.readLine();
 						}
 					}
 				}

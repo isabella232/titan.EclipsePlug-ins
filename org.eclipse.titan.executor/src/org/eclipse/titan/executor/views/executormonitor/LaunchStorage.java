@@ -14,7 +14,7 @@ import org.eclipse.debug.core.ILaunch;
 
 public class LaunchStorage {
 	private static final Map<ILaunch, LaunchElement> LAUNCHELEMENTS_MAP = new HashMap<ILaunch, LaunchElement>();
-	
+
 	private LaunchStorage() {
 		//Do nothing
 	}
@@ -31,11 +31,11 @@ public class LaunchStorage {
 	public static Map<ILaunch, LaunchElement> getLaunchElementMap() {
 		return LAUNCHELEMENTS_MAP;
 	}
-	
+
 	/**
 	 * Registers the provided launch element.
 	 * If it is not yet registered.
-	 * 
+	 *
 	 * @param element the launch element to be registered.
 	 * */
 	public static void registerLaunchElement(final LaunchElement element) {

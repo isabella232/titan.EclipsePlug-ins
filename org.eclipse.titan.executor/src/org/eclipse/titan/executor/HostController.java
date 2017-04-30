@@ -9,7 +9,7 @@ package org.eclipse.titan.executor;
 
 /**
  * Contains the data describing a Host Controller.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class HostController implements Cloneable {

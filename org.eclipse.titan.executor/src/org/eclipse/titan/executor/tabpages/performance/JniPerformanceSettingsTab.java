@@ -20,5 +20,5 @@ public final class JniPerformanceSettingsTab extends BasePerformanceSettingsTab 
 		createSeverityLevelExtractionArea(pageComposite);
 	}
 
-	
+
 }

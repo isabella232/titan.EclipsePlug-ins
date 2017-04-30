@@ -58,7 +58,7 @@ public final class LaunchConfigurationDelegate extends TitanLaunchConfigurationD
 					+ "Only one instance can be running at any time.", null);
 			throw new CoreException(status);
 		}
-		
+
 		showExecutionPerspective();
 		final JniExecutor executor = new JniExecutor(arg0);
 		executor.startSession(arg2);

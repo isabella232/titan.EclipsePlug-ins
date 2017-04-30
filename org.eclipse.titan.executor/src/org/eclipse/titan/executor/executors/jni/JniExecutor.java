@@ -62,7 +62,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
 
 /**
  * This executor handles the execution of tests compiled in a parallel mode, via directly connecting to the MainController written in C++.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class JniExecutor extends BaseExecutor implements IJNICallback {
@@ -535,7 +535,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 				} else {
 					Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
-							"Error while processing the configuration file", 
+							"Error while processing the configuration file",
 							exception.getMessage() + "\n Please refer to the Error Log view for further information.");
 				}
 				return;
@@ -565,7 +565,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		if (localAddress != null && !EMPTY_STRING.equals(localAddress) && 0 == tcpport) {
 			addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), EMPTY_STRING, EMPTY_STRING,
 					"If LocalAddress is specified you must also set the TCPPort in the configuration file: " + configFilePath));
-			
+
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"Error in the configuration",
 					"If LocalAddress is specified you must also set the TCPPort in the configuration file: " + configFilePath);

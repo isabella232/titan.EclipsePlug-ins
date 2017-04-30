@@ -20,7 +20,7 @@ public final class PreferenceConstants {
 	public static final String DELETE_LOG_FILES_LABEL = "Delete log files before execution.";
 	public static final String AUTOMATIC_MERGE_NAME = "automaticMergeEnabled";
 	public static final String AUTOMATIC_MERGE_LABEL = "Merge the log files after test execution.";
-	
+
 	/** private constructor to disable instantiation */
 	private PreferenceConstants() {
 	}

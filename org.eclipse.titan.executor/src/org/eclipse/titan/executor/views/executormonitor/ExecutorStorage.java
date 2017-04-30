@@ -15,7 +15,7 @@ import org.eclipse.titan.executor.executors.BaseExecutor;
 
 public class ExecutorStorage {
 	private static final Map<ILaunch, BaseExecutor> EXECUTOR_MAP = new HashMap<ILaunch, BaseExecutor>();
-	
+
 	private ExecutorStorage() {
 		//Do nothing
 	}
@@ -32,11 +32,11 @@ public class ExecutorStorage {
 	public static Map<ILaunch, BaseExecutor> getExecutorMap() {
 		return EXECUTOR_MAP;
 	}
-	
+
 	/**
 	 * Register the provided launch element.
 	 * Only done if the launch is already registered.
-	 * 
+	 *
 	 * @param element the element to be registered
 	 * */
 	public static void registerExecutorStorage(final LaunchElement element) {

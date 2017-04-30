@@ -11,7 +11,7 @@ package org.eclipse.titan.executor.jni;
  * Structure for storing global identifiers of TTCN-3 definitions.
  * <p>
  * The original C++ structure can be found at TTCNv3\core\Types.h
- * 
+ *
  * @author Peter Dimitrov
  * */
 public final class QualifiedName {

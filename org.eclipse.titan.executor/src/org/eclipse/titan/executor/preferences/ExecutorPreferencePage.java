@@ -32,7 +32,7 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 	private StringFieldEditor logFolderPath;
 	private BooleanFieldEditor deleteLogFiles;
 	private BooleanFieldEditor automaticMerge;
-	
+
 	public ExecutorPreferencePage() {
 		super(FieldEditorPreferencePage.GRID);
 	}
@@ -47,7 +47,7 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 		Composite parent = getFieldEditorParent();
 		setLogFolder = new BooleanFieldEditor(PreferenceConstants.SET_LOG_FOLDER, PreferenceConstants.SET_LOG_FOLDER_LABEL, parent);
 		addField(setLogFolder);
-		
+
 		logFolderPath = new StringFieldEditor(
 				PreferenceConstants.LOG_FOLDER_PATH_NAME, PreferenceConstants.LOG_FOLDER_PATH_LABEL, StringFieldEditor.UNLIMITED, parent);
 		addField(logFolderPath);
@@ -62,14 +62,14 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 	@Override
 	protected void updateFieldEditors() {
 		final Composite fieldEditorParent = getFieldEditorParent();
-		
+
 		if (isPropertyPage() && !isProjectSettingsSelected()) {
 			for (FieldEditor editor : getFieldEditors()) {
 				editor.setEnabled(false, fieldEditorParent);
 			}
 			return;
 		}
-		
+
 		setLogFolder.setEnabled(true, fieldEditorParent);
 		boolean setLogFolderValue = setLogFolder.getBooleanValue();
 		logFolderPath.setEnabled(setLogFolderValue, fieldEditorParent);
@@ -80,7 +80,7 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 	@Override
 	public boolean performOk() {
 		boolean result = super.performOk();
-		
+
 		IEclipsePreferences node = (IEclipsePreferences) Platform.getPreferencesService().getRootNode()
 				.node(InstanceScope.SCOPE).node(org.eclipse.titan.executor.Activator.PLUGIN_ID);
 		if (node != null) {
@@ -97,7 +97,7 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
 		super.propertyChange(event);
-		
+
 		if (event.getSource() == setLogFolder) {
 			updateFieldEditors();
 		}

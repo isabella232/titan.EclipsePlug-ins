@@ -36,7 +36,7 @@ import org.eclipse.titan.executor.Activator;
 
 /**
  * This class creates the dialog presenting the user with the selection of executable elements.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ExecuteDialog extends Dialog {

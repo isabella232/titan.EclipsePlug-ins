@@ -44,9 +44,9 @@ public final class ExecutedTestcase {
 	@Override
 	public String toString() {
 		Joiner joiner = new Joiner(" ")
-				.join(timestamp)
-				.join(testcaseName)
-				.join(verdict);
+		.join(timestamp)
+		.join(testcaseName)
+		.join(verdict);
 		if (!reason.isEmpty()) {
 			joiner.join(reason);
 		}

@@ -15,7 +15,7 @@ import org.eclipse.titan.executor.tabpages.maincontroller.SingleMainControllerTa
  * @author Kristof Szabados
  * */
 public final class LaunchShortcut extends org.eclipse.titan.executor.executors.LaunchShortcut {
-	
+
 	@Override
 	protected String getConfigurationId() {
 		return "org.eclipse.titan.executor.executors.single.LaunchConfigurationDelegate";

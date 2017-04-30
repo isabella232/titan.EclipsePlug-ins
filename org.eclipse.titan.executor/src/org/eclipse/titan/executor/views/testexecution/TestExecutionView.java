@@ -253,11 +253,11 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 		}
 		final StringBuilder builder = new StringBuilder(element.name());
 		builder.append("\nVerdict statistics: ")
-				.append(none).append(" none (").append((100 * none) / sum).append("%), ")
-				.append(pass).append(" pass (").append((100 * pass) / sum).append("%), ")
-				.append(inconc).append(" inconc (").append((100 * inconc) / sum).append("%), ")
-				.append(fail).append(" fail (").append((100 * fail) / sum).append("%), ")
-				.append(error).append(" error(").append((100 * error) / sum).append("%)");
+		.append(none).append(" none (").append((100 * none) / sum).append("%), ")
+		.append(pass).append(" pass (").append((100 * pass) / sum).append("%), ")
+		.append(inconc).append(" inconc (").append((100 * inconc) / sum).append("%), ")
+		.append(fail).append(" fail (").append((100 * fail) / sum).append("%), ")
+		.append(error).append(" error(").append((100 * error) / sum).append("%)");
 		return builder.toString();
 	}
 
@@ -301,7 +301,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 	private void saveAs() {
 		NotificationView.saveLaunchElementAs(getSite().getShell(), actualInput);
 	}
-	
+
 	private static synchronized TestExecutionView getInstance() {
 		return instance;
 	}

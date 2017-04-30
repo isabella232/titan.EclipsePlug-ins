@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * Represents a branch of a tree.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class TreeBranch extends TreeLeaf implements ITreeBranch {

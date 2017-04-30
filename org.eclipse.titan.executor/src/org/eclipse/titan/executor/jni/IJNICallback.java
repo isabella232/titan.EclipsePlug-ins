@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  * The callback interface that is used by the MainController to call back to the executor.
- * 
+ *
  * @author Peter Dimitrov
  * */
 public interface IJNICallback {

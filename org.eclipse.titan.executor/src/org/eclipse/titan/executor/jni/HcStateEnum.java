@@ -11,7 +11,7 @@ package org.eclipse.titan.executor.jni;
  * Possible states of a HC.
  * <p>
  * The original C++ structure can be found at TTCNv3\mctr2\mctr\MainController.h
- * 
+ *
  * @author Peter Dimitrov
  * */
 public final class HcStateEnum {

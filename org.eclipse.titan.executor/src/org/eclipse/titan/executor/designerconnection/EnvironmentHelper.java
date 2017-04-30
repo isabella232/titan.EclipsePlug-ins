@@ -23,7 +23,7 @@ import java.util.Map;
 
 /**
  * This class has utility functions to help handling environmental variables.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class EnvironmentHelper {
@@ -66,7 +66,7 @@ public final class EnvironmentHelper {
 	 * @return the original hashmap of environment variables that were updated.
 	 * */
 	public static Map<String, String> resolveVariables(final Map<String, String> originalVariables,
-	                                                   final Map<String, String> additionalVariables) throws CoreException {
+			final Map<String, String> additionalVariables) throws CoreException {
 		final IStringVariableManager manager = VariablesPlugin.getDefault().getStringVariableManager();
 		for (Map.Entry<String, String> variable : additionalVariables.entrySet()) {
 			if (null != variable.getValue()) {

@@ -11,7 +11,7 @@ package org.eclipse.titan.executor.jni;
  * Verdict types.
  * <p>
  * The original C++ structure can be found at TTCNv3\core\Types.h
- * 
+ *
  * @author Peter Dimitrov
  * */
 public final class VerdictTypeEnum {

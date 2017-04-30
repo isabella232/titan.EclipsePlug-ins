@@ -17,14 +17,14 @@ import org.eclipse.titan.executor.executors.TitanLaunchConfigurationDelegate;
  * @author Kristof Szabados
  * */
 public final class LaunchConfigurationDelegate extends
-		TitanLaunchConfigurationDelegate {
+TitanLaunchConfigurationDelegate {
 
 	@Override
 	public void launch(final ILaunchConfiguration arg0, final String arg1, final ILaunch arg2,
 			final IProgressMonitor arg3) throws CoreException {
-		
+
 		showExecutionPerspective();
-		
+
 		CliExecutor executor = new CliExecutor(arg0);
 		executor.startSession(arg2);
 	}

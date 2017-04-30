@@ -9,7 +9,7 @@ package org.eclipse.titan.executor.executors.single;
 
 /**
  * Our internal Boolean implementation, where the internal value can be changed.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class MyBoolean {

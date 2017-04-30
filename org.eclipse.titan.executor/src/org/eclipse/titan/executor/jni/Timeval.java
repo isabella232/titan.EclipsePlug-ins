@@ -11,13 +11,13 @@ package org.eclipse.titan.executor.jni;
  * Data structure for representing a time value.
  * <p>
  * The original C++ structure can be found at TTCNv3\mctr2\mctr\MainController.h
- * 
+ *
  * @author Peter Dimitrov
  * */
 public final class Timeval {
-	 // seconds
+	// seconds
 	public long tv_sec;
-	 // microSeconds
+	// microSeconds
 	public long tv_usec;
 
 	public Timeval(final long tv_sec, final long tv_usec) {

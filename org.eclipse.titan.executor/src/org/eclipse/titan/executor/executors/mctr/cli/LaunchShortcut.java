@@ -21,7 +21,7 @@ public final class LaunchShortcut extends org.eclipse.titan.executor.executors.L
 	}
 
 	@Override
-	protected String getDialogTitle() { 
+	protected String getDialogTitle() {
 		return "Select (parallel) mctr_cli mode execution configuration";
 	}
 

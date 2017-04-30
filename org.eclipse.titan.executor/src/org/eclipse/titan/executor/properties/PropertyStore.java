@@ -29,9 +29,9 @@ public class PropertyStore extends PreferenceStore {
 	private boolean inserting = false;
 
 	public PropertyStore(
-		final IResource resource,
-		final IPreferenceStore workbenchStore,
-		final String pageId) {
+			final IResource resource,
+			final IPreferenceStore workbenchStore,
+			final String pageId) {
 		this.resource = resource;
 		this.workbenchStore = workbenchStore;
 		this.pageId = pageId;
@@ -176,7 +176,7 @@ public class PropertyStore extends PreferenceStore {
 
 	@Override
 	public void setToDefault(final String name) {
-			setValue(name, getDefaultString(name));
+		setValue(name, getDefaultString(name));
 	}
 
 	@Override
