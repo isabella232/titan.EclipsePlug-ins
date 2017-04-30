@@ -72,7 +72,7 @@ public class TitanBitString extends Base_Type {
 		}
 		final List<Byte> newList = new ArrayList<Byte>( srcList.size() );
 		for (Byte uc : srcList) {
-			newList.add( new Byte( uc ) );
+			newList.add( Byte.valueOf( uc ) );
 		}
 		return newList;
 	}
