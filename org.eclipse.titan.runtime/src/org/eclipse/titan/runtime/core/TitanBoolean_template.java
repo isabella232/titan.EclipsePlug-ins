@@ -12,41 +12,41 @@ import java.util.ArrayList;
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 boolean template
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
 public class TitanBoolean_template extends Base_Template {
 	// single_value part
 	private TitanBoolean single_value;
-	
+
 	// value_list part
 	private ArrayList<TitanBoolean_template> value_list;
-	
+
 	public TitanBoolean_template () {
 		//do nothing
 	}
-	
+
 	public TitanBoolean_template (final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
-	
+
 	public TitanBoolean_template (final boolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
 	}
-	
+
 	public TitanBoolean_template (final TitanBoolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound boolean value.");
 		single_value = new TitanBoolean(otherValue);
 	}
-	
+
 	public TitanBoolean_template (final TitanBoolean_template otherValue) {
 		copyTemplate(otherValue);
 	}
-	
+
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -62,7 +62,7 @@ public class TitanBoolean_template extends Base_Template {
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
-	
+
 	//originally operator=
 	public TitanBoolean_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);
@@ -71,13 +71,13 @@ public class TitanBoolean_template extends Base_Template {
 
 		return this;
 	}
-	
+
 	//originally operator=
 	public TitanBoolean_template assign( final boolean otherValue ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
-		
+
 		return this;
 	}
 
@@ -87,7 +87,7 @@ public class TitanBoolean_template extends Base_Template {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
-		
+
 		return this;
 	}
 
@@ -97,10 +97,10 @@ public class TitanBoolean_template extends Base_Template {
 			cleanUp();
 			copyTemplate(otherValue);
 		}
-		
+
 		return this;
 	}
-	
+
 	private void copyTemplate(final TitanBoolean_template otherValue) {
 		switch (otherValue.templateSelection) {
 		case SPECIFIC_VALUE:

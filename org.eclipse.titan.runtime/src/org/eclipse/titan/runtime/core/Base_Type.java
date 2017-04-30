@@ -15,7 +15,7 @@ public abstract class Base_Type {
 
 	public abstract boolean isPresent();
 	public abstract boolean isBound();
-	
+
 	public boolean isValue() {
 		return isBound();
 	}
@@ -23,8 +23,8 @@ public abstract class Base_Type {
 	public boolean isOptional() {
 		return false;
 	}
-	
+
 	public abstract boolean operatorEquals(final Base_Type otherValue);
-	
+
 	public abstract Base_Type assign( final Base_Type otherValue );
 }

@@ -21,7 +21,7 @@ public class TitanHexString extends Base_Type {
 
 	/**
 	 * hexstring value.
-	 * 
+	 *
 	 * Packed storage of hex digits, filled from LSB.
 	 */
 	private List<Byte> nibbles_ptr;
@@ -78,7 +78,7 @@ public class TitanHexString extends Base_Type {
 		if (otherValue instanceof TitanHexString) {
 			return assign((TitanHexString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
@@ -109,7 +109,7 @@ public class TitanHexString extends Base_Type {
 		if (otherValue instanceof TitanHexString) {
 			return operatorEquals((TitanHexString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
@@ -136,7 +136,7 @@ public class TitanHexString extends Base_Type {
 			final int n_nibbles = nibbles_ptr.size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a hexstring element: The index is " + index_value +
-					", but the string has only " + n_nibbles + " hexadecimal digits.");
+						", but the string has only " + n_nibbles + " hexadecimal digits.");
 			}
 			if (index_value == n_nibbles) {
 				return new TitanHexString_Element( false, this, index_value );

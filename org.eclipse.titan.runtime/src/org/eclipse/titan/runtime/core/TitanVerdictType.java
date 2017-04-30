@@ -124,13 +124,13 @@ public class TitanVerdictType extends Base_Type {
 		}
 	}
 
-//TODO: implement VERDICTTYPE::set_param()
-//TODO: implement VERDICTTYPE::get_param()
-//TODO: implement VERDICTTYPE::encode_text()
-//TODO: implement VERDICTTYPE::decode_text()
-//TODO: implement VERDICTTYPE::encode()
-//TODO: implement VERDICTTYPE::decode()
-//TODO: implement VERDICTTYPE::XER_encode()
+	//TODO: implement VERDICTTYPE::set_param()
+	//TODO: implement VERDICTTYPE::get_param()
+	//TODO: implement VERDICTTYPE::encode_text()
+	//TODO: implement VERDICTTYPE::decode_text()
+	//TODO: implement VERDICTTYPE::encode()
+	//TODO: implement VERDICTTYPE::decode()
+	//TODO: implement VERDICTTYPE::XER_encode()
 
 	VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
 		for (VerdictTypeEnum i : VerdictTypeEnum.values()) {
@@ -146,9 +146,9 @@ public class TitanVerdictType extends Base_Type {
 		return null;
 	}
 
-//TODO: implement VERDICTTYPE::XER_decode()
-//TODO: implement VERDICTTYPE::XER_decode()
-//TODO: implement VERDICTTYPE::JSON_encode()
-//TODO: implement VERDICTTYPE::JSON_decode()
+	//TODO: implement VERDICTTYPE::XER_decode()
+	//TODO: implement VERDICTTYPE::XER_decode()
+	//TODO: implement VERDICTTYPE::JSON_encode()
+	//TODO: implement VERDICTTYPE::JSON_decode()
 
 }

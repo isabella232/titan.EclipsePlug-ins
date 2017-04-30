@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * TTCN-3 hexstring template
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanHexString_template extends Base_Template {
@@ -24,7 +24,7 @@ public class TitanHexString_template extends Base_Template {
 
 	/**
 	 * hexstring pattern value.
-	 * 
+	 *
 	 * Each element occupies one byte. Meaning of values:
 	 * 0 .. 15 -> 0 .. F, 16 -> ?, 17 -> *
 	 */

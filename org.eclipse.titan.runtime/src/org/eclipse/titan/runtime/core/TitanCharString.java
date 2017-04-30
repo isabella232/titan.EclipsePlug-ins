@@ -59,13 +59,13 @@ public class TitanCharString extends Base_Type {
 
 		return this;
 	}
-	
+
 	@Override
 	public TitanCharString assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharString) {
 			return assign((TitanCharString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
@@ -105,13 +105,13 @@ public class TitanCharString extends Base_Type {
 
 		return val_ptr.equals(aOtherValue.val_ptr);
 	}
-	
+
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharString) {
 			return operatorEquals((TitanCharString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
@@ -138,7 +138,7 @@ public class TitanCharString extends Base_Type {
 			final int n_nibbles = val_ptr.length();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a charstring element: The index is " + index_value +
-					", but the string has only " + n_nibbles + " characters.");
+						", but the string has only " + n_nibbles + " characters.");
 			}
 			if (index_value == n_nibbles) {
 				val_ptr.setLength(index_value + 1);

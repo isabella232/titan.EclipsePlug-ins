@@ -11,47 +11,47 @@ import java.util.ArrayList;
 
 /**
  * TTCN-3 float template
- * 
+ *
  * Not yet complete rewrite
  */
 public class TitanFloat_template extends Base_Template {
 	// int_val part
 	// TODO maybe should be renamed in core
 	private TitanFloat single_value;
-	
+
 	// value_list part
 	private ArrayList<TitanFloat_template> value_list;
-	
+
 	// value range part
 	private boolean min_is_present, max_is_present;
 	private boolean min_is_exclusive, max_is_exclusive;
 	private TitanFloat min_value, max_value;
-	
-	
+
+
 	public TitanFloat_template () {
 		//do nothing
 	}
-	
+
 	public TitanFloat_template (final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
-	
+
 	public TitanFloat_template (final int otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 	}
-	
+
 	public TitanFloat_template (final TitanFloat otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound float value.");
 		single_value = new TitanFloat(otherValue);
 	}
-	
+
 	public TitanFloat_template (final TitanFloat_template otherValue) {
 		copyTemplate(otherValue);
 	}
-	
+
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -70,7 +70,7 @@ public class TitanFloat_template extends Base_Template {
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
-	
+
 	//originally operator=
 	public TitanFloat_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);
@@ -79,13 +79,13 @@ public class TitanFloat_template extends Base_Template {
 
 		return this;
 	}
-	
+
 	//originally operator=
 	public TitanFloat_template assign( final double otherValue ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
-		
+
 		return this;
 	}
 
@@ -95,7 +95,7 @@ public class TitanFloat_template extends Base_Template {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
-		
+
 		return this;
 	}
 
@@ -105,10 +105,10 @@ public class TitanFloat_template extends Base_Template {
 			cleanUp();
 			copyTemplate(otherValue);
 		}
-		
+
 		return this;
 	}
-	
+
 	private void copyTemplate(final TitanFloat_template otherValue) {
 		switch (otherValue.templateSelection) {
 		case SPECIFIC_VALUE:
@@ -144,7 +144,7 @@ public class TitanFloat_template extends Base_Template {
 
 		setSelection(otherValue);
 	}
-	
+
 	// originally match
 	public boolean match(final TitanFloat otherValue) {
 		return match(otherValue, false);

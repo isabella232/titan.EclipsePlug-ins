@@ -48,13 +48,13 @@ public class TitanFloat extends Base_Type {
 
 		return this;
 	}
-	
+
 	@Override
 	public TitanFloat assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanFloat) {
 			return assign((TitanFloat)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
 	}
 
@@ -172,13 +172,13 @@ public class TitanFloat extends Base_Type {
 
 		return float_value.equalsTo( aOtherValue.float_value.getValue() );
 	}
-	
+
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanFloat) {
 			return operatorEquals((TitanFloat)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 

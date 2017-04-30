@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * TTCN-3 universal charstring template
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanUniversalCharString_template extends Base_Template {
@@ -96,7 +96,7 @@ public class TitanUniversalCharString_template extends Base_Template {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
-		
+
 		return this;
 	}
 
@@ -184,11 +184,11 @@ public class TitanUniversalCharString_template extends Base_Template {
 		case VALUE_RANGE:{
 			if (!min_is_set) {
 				throw new TtcnError("The lower bound is not set when " +
-					"matching with a universal charstring value range template.");
+						"matching with a universal charstring value range template.");
 			}
 			if (!max_is_set) {
 				throw new TtcnError("The upper bound is not set when " +
-					"matching with a universal charstring value range template.");
+						"matching with a universal charstring value range template.");
 			}
 			for (int i = 0; i < otherLen; i++) {
 				final TitanUniversalChar uc = otherStr.get( i );

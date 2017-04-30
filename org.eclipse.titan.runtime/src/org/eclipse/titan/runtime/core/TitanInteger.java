@@ -77,10 +77,10 @@ public class TitanInteger extends Base_Type {
 		boundFlag = true;
 		nativeFlag = true;
 		nativeInt = otherValue;
-		
+
 		return this;
 	}
-	
+
 	//originally operator=
 	public TitanInteger assign( final TitanInteger otherValue ) {
 		otherValue.mustBound( "Assignment of an unbound integer value." );
@@ -95,13 +95,13 @@ public class TitanInteger extends Base_Type {
 
 		return this;
 	}
-	
+
 	@Override
 	public TitanInteger assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanInteger) {
 			return assign((TitanInteger)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
@@ -116,7 +116,7 @@ public class TitanInteger extends Base_Type {
 	public boolean isValue() {
 		return boundFlag;
 	}
-	
+
 	public void mustBound( final String errorMessage ) {
 		if ( !boundFlag ) {
 			throw new TtcnError( errorMessage );
@@ -162,7 +162,7 @@ public class TitanInteger extends Base_Type {
 		final BigInteger other_int = BigInteger.valueOf(otherValue);
 		return openSSL.equals(other_int);
 	}
-	
+
 	//originally operator==
 	public boolean operatorEquals( final TitanInteger otherValue ) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -190,7 +190,7 @@ public class TitanInteger extends Base_Type {
 		if (otherValue instanceof TitanInteger) {
 			return operatorEquals((TitanInteger)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
@@ -198,7 +198,7 @@ public class TitanInteger extends Base_Type {
 	public boolean operatorNotEquals( final TitanInteger otherValue ) {
 		return !operatorEquals( otherValue );
 	}
-	
+
 	//originally operator <
 	public boolean isLessThan(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -209,7 +209,7 @@ public class TitanInteger extends Base_Type {
 			return -1 == openSSL.compareTo(other_int);
 		}
 	}
-	
+
 	//originally operator <
 	public boolean isLessThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -230,7 +230,7 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 	}
-	
+
 	//originally operator >
 	public boolean isGreaterThan(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -263,7 +263,7 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 	}
-	
+
 	//originally operator <=
 	public boolean isLessThanOrEqual(final int otherValue) {
 		return !isGreaterThan(otherValue);

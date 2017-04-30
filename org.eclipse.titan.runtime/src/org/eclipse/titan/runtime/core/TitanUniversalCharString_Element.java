@@ -8,7 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 /**
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanUniversalCharString_Element {

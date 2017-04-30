@@ -41,14 +41,14 @@ public class TitanHexString_Element {
 		other_value.mustBound("Assignment of unbound hexstring value.");
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError( "Assignment of a hexstring value " +
-				"with length other than 1 to a hexstring element." );
+					"with length other than 1 to a hexstring element." );
 		}
 		bound_flag = true;
 		str_val = new TitanHexString( other_value );
 		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
 		return this;
 	}
-	
+
 	//originally operator==
 	public boolean equalsTo( final TitanHexString_Element other_value ) {
 		mustBound("Unbound left operand of hexstring element comparison.");

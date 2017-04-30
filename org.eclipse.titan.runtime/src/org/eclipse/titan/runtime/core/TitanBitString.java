@@ -19,7 +19,7 @@ public class TitanBitString extends Base_Type {
 
 	/**
 	 * bitstring value.
-	 * 
+	 *
 	 * Packed storage of bits, filled from LSB.
 	 */
 	private List<Byte> bits_ptr;
@@ -134,7 +134,7 @@ public class TitanBitString extends Base_Type {
 		if (otherValue instanceof TitanBitString) {
 			return assign((TitanBitString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
@@ -165,7 +165,7 @@ public class TitanBitString extends Base_Type {
 		if (otherValue instanceof TitanBitString) {
 			return operatorEquals((TitanBitString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
@@ -193,7 +193,7 @@ public class TitanBitString extends Base_Type {
 			final int n_nibbles = bits_ptr.size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a bitstring element: The index is " + index_value +
-					", but the string has only " + n_nibbles + " hexadecimal digits.");
+						", but the string has only " + n_nibbles + " hexadecimal digits.");
 			}
 			if (index_value == n_nibbles) {
 				return new TitanBitString_Element( false, this, index_value );

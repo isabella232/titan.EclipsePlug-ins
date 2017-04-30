@@ -41,7 +41,7 @@ public class TitanBitString_Element {
 		other_value.mustBound("Assignment of unbound bitstring value.");
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError( "Assignment of a bitstring value " +
-				"with length other than 1 to a bitstring element." );
+					"with length other than 1 to a bitstring element." );
 		}
 		bound_flag = true;
 		str_val = new TitanBitString( other_value );

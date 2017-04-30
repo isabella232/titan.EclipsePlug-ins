@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * TTCN-3 octetstring template
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanOctetString_template extends Base_Template {
@@ -24,7 +24,7 @@ public class TitanOctetString_template extends Base_Template {
 
 	/**
 	 * octetstring pattern value
-	 * 
+	 *
 	 * Each element is represented as an unsigned short. Meaning of values:
 	 * 0 .. 255 -> 00 .. FF, 256 -> ?, 257 -> *
 	 */
@@ -55,7 +55,7 @@ public class TitanOctetString_template extends Base_Template {
 	public TitanOctetString_template (final TitanOctetString_template otherValue) {
 		copyTemplate(otherValue);
 	}
-	
+
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -86,7 +86,7 @@ public class TitanOctetString_template extends Base_Template {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue);
-		
+
 		return this;
 	}
 
@@ -106,10 +106,10 @@ public class TitanOctetString_template extends Base_Template {
 			cleanUp();
 			copyTemplate(otherValue);
 		}
-		
+
 		return this;
 	}
-	
+
 	private void copyTemplate(final TitanOctetString_template otherValue) {
 		switch (otherValue.templateSelection) {
 		case SPECIFIC_VALUE:

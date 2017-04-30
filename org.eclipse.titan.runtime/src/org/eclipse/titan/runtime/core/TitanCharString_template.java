@@ -12,7 +12,7 @@ import java.util.ArrayList;
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 charstring template
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanCharString_template extends Base_Template {
@@ -96,7 +96,7 @@ public class TitanCharString_template extends Base_Template {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);
-		
+
 		return this;
 	}
 
@@ -176,12 +176,12 @@ public class TitanCharString_template extends Base_Template {
 		case VALUE_RANGE:{
 			if (!min_is_set) {
 				throw new TtcnError("The lower bound is not set when " +
-					"matching with a charstring value range template.");
+						"matching with a charstring value range template.");
 			}
-					
+
 			if (!max_is_set) {
 				throw new TtcnError("The upper bound is not set when " +
-					"matching with a charstring value range template.");
+						"matching with a charstring value range template.");
 			}
 			final char minValueChar = min_value.getValue().charAt( 0 );
 			final char maxValueChar = max_value.getValue().charAt( 0 );
@@ -192,12 +192,16 @@ public class TitanCharString_template extends Base_Template {
 			final StringBuilder otherStr = otherValue.getValue();
 			int min_value_offset = 0;
 			int max_value_offset = 0;
-			if (min_is_exclusive) min_value_offset = 1;
-			if (max_is_exclusive) max_value_offset = 1;
+			if (min_is_exclusive) {
+				min_value_offset = 1;
+			}
+			if (max_is_exclusive) {
+				max_value_offset = 1;
+			}
 			final int otherLen = otherStr.length();
 			for (int i = 0; i < otherLen; i++) {
 				if ( otherStr.charAt( i ) < (minValueChar + min_value_offset) ||
-					 otherStr.charAt( i ) > (maxValueChar - max_value_offset)) {
+						otherStr.charAt( i ) > (maxValueChar - max_value_offset)) {
 					return false;
 				}
 			}

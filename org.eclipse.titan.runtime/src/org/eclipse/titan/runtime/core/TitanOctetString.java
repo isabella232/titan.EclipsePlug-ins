@@ -25,7 +25,7 @@ public class TitanOctetString extends Base_Type {
 
 	/**
 	 * octetstring value.
-	 * 
+	 *
 	 * Packed storage of hex digit pairs, filled from LSB.
 	 */
 	private List<Character> val_ptr;
@@ -94,7 +94,7 @@ public class TitanOctetString extends Base_Type {
 		if (otherValue instanceof TitanOctetString) {
 			return assign((TitanOctetString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
@@ -125,7 +125,7 @@ public class TitanOctetString extends Base_Type {
 		if (otherValue instanceof TitanOctetString) {
 			return operatorEquals((TitanOctetString)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
@@ -152,7 +152,7 @@ public class TitanOctetString extends Base_Type {
 			final int n_nibbles = val_ptr.size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a octetstring element: The index is " + index_value +
-					", but the string has only " + n_nibbles + " hexadecimal digits.");
+						", but the string has only " + n_nibbles + " hexadecimal digits.");
 			}
 			if (index_value == n_nibbles) {
 				return new TitanOctetString_Element( false, this, index_value );

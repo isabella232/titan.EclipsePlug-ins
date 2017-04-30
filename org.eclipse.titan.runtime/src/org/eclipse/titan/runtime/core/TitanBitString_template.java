@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * TTCN-3 bitstring template
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanBitString_template extends Base_Template {
@@ -24,7 +24,7 @@ public class TitanBitString_template extends Base_Template {
 
 	/**
 	 * bitstring pattern value.
-	 * 
+	 *
 	 * Each element occupies one byte. Meaning of values:
 	 * 0 -> 0, 1 -> 1, 2 -> ?, 3 -> *
 	 */
@@ -56,7 +56,7 @@ public class TitanBitString_template extends Base_Template {
 	public TitanBitString_template (final TitanBitString_template otherValue) {
 		copyTemplate(otherValue);
 	}
-	
+
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -87,7 +87,7 @@ public class TitanBitString_template extends Base_Template {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue);
-		
+
 		return this;
 	}
 
@@ -107,10 +107,10 @@ public class TitanBitString_template extends Base_Template {
 			cleanUp();
 			copyTemplate(otherValue);
 		}
-		
+
 		return this;
 	}
-	
+
 	private void copyTemplate(final TitanBitString_template otherValue) {
 		switch (otherValue.templateSelection) {
 		case SPECIFIC_VALUE:

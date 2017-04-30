@@ -46,7 +46,7 @@ public class Ttcn3Float {
 		return new Ttcn3Float( value / d );
 	}
 
-	// originally operator< 
+	// originally operator<
 	boolean isLessThan( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
@@ -59,7 +59,7 @@ public class Ttcn3Float {
 		}
 	}
 
-	// originally operator> 
+	// originally operator>
 	boolean isGreaterThan( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return !Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
@@ -92,7 +92,7 @@ public class Ttcn3Float {
 		// TTCN-3 handles 0.0 and 1.0 as one case, the only thing that matters is if the signum is negative or not.
 		return Double.doubleToLongBits( d ) == NEGATIVE_ZERO;
 	}
-	
+
 	public String createJavaStringRepresentation() {
 		if(Double.isFinite(value)) {
 			return Double.toString(value);
@@ -128,7 +128,7 @@ public class Ttcn3Float {
 			return Double.toString(value);
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return createTtcn3StringRepresentation();

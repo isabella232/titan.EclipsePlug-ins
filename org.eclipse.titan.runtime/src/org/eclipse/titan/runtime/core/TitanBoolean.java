@@ -49,7 +49,7 @@ public class TitanBoolean extends Base_Type {
 
 		return this;
 	}
-		
+
 	//originally operator=
 	public TitanBoolean assign( final TitanBoolean aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound boolean value." );
@@ -63,7 +63,7 @@ public class TitanBoolean extends Base_Type {
 		if (otherValue instanceof TitanBoolean) {
 			return assign((TitanBoolean)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
@@ -192,7 +192,7 @@ public class TitanBoolean extends Base_Type {
 		if (otherValue instanceof TitanBoolean) {
 			return operatorEquals((TitanBoolean)otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
@@ -212,11 +212,11 @@ public class TitanBoolean extends Base_Type {
 		}
 		return boolean_value.toString();
 	}
-	
+
 	public static boolean getNative(final boolean value) {
 		return value;
 	}
-	
+
 	public static boolean getNative(final TitanBoolean otherValue) {
 		return otherValue.getValue();
 	}
