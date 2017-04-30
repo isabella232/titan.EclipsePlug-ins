@@ -29,24 +29,24 @@ import org.eclipse.ui.IWorkbench;
  * be accessed directly via the preference store.
  */
 public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
-	
+
 	private StringListEditor compVisOrderEditor;
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public ComponentsVisualOrderPrefPage() {
 		super(GRID, false);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("VisualComponentsOrderPrefPage.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
 		this.compVisOrderEditor = new StringListEditor(PreferenceConstants.PREF_COMPONENT_ORDER_ID,
-												  "", //$NON-NLS-1$
-												  getFieldEditorParent(),
-												  true);
+				"", //$NON-NLS-1$
+				getFieldEditorParent(),
+				true);
 		this.compVisOrderEditor.setPreferenceStore(getPreferenceStore());
 		addField(this.compVisOrderEditor);
 	}
@@ -75,7 +75,7 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 		currentPrefs.put(this.compVisOrderEditor.getPreferenceName(), signalFilter);
 		return currentPrefs;
 	}
-	
+
 	/**
 	 * Method for getting the current preferences in the preference store
 	 * @return map of the preferences
@@ -85,7 +85,7 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 		currentPrefs.put(this.compVisOrderEditor.getPreferenceName(), this.compVisOrderEditor.getElements());
 		return currentPrefs;
 	}
-	
+
 	@Override
 	protected void exportPreferences() {
 		ImportExportUtils.exportSettings(getPageId(), getCurrentPreferencesSeparated(), true);
@@ -102,7 +102,7 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 		if (propertyValues == null) {
 			return;
 		}
-		
+
 		boolean sutFound = false;
 		boolean mtcFound = false;
 		String[] propertyValuesSeparated = propertyValues.split(File.pathSeparator);
@@ -114,8 +114,8 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 				mtcFound = true;
 			}
 		}
-		
-		// sut is missing (mandatory)	
+
+		// sut is missing (mandatory)
 		if (!sutFound) {
 			TitanLogExceptionHandler.handleException(new UserException(Messages.getString("ComponentsVisualOrderPrefPage.0"))); //$NON-NLS-1$
 		} else if (!mtcFound) {
@@ -136,22 +136,22 @@ public class ComponentsVisualOrderPrefPage extends LogViewerPreferenceRootPage {
 		this.compVisOrderEditor.clear();
 		this.compVisOrderEditor.load();
 	}
-	
+
 	/**
-	 * Clears the component visual order list 
+	 * Clears the component visual order list
 	 */
 	public void clearList() {
 		this.compVisOrderEditor.clear();
 		getApplyButton().setEnabled(true);
 	}
-	
+
 	/**
-	 * Adds a component to the component visual order list 
+	 * Adds a component to the component visual order list
 	 * @param componentName the name of the component
 	 */
 	public void addComponent(final String componentName) {
 		this.compVisOrderEditor.addElementToList(componentName);
 		getApplyButton().setEnabled(true);
 	}
-	
+
 }

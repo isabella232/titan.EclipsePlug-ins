@@ -37,7 +37,7 @@ public class LogFileActionProvider extends CommonActionProvider {
 		IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 		if (selection.size() == 1 && selection.getFirstElement() instanceof IFile) {
 			openLogFileAction.selectionChanged(null, selection);
-//			actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, openLogFileAction);
+			//			actionBars.setGlobalActionHandler(ICommonActionConstants.OPEN, openLogFileAction);
 		}
 	}
 
@@ -51,16 +51,16 @@ public class LogFileActionProvider extends CommonActionProvider {
 
 		openLogFileAction.selectionChanged(null, selection);
 		if (openLogFileAction.isEnabled()) {
-//			menu.insertAfter(ICommonMenuConstants.GROUP_OPEN, openLogFileAction);
+			//			menu.insertAfter(ICommonMenuConstants.GROUP_OPEN, openLogFileAction);
 		}
 		addOpenWithMenu(menu);
-		
+
 	}
 
 	private void addOpenWithMenu(final IMenuManager aMenu) {
 		final IStructuredSelection selection = (IStructuredSelection) getContext().getSelection();
 
-		if (selection == null || selection.size() != 1 
+		if (selection == null || selection.size() != 1
 				|| !(selection.getFirstElement() instanceof IFile)) {
 			return;
 		}

@@ -41,7 +41,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 
 /**
  * MSCWidget
- * 
+ *
  */
 public class MSCWidget extends ScrollView implements ISelectionProvider, SelectionListener, DisposeListener {
 
@@ -58,7 +58,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 	private int dragAndDropOffsetX;
 	private float zoomValue = 1;
 	private Set<ISelectionChangedListener> registeredListeners = new HashSet<ISelectionChangedListener>();
-	
+
 	/**
 	 * Constructor
 	 *
@@ -89,7 +89,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 
 	/**
 	 * Resize the contents to insure the frame fit into the view
-	 * 
+	 *
 	 * @param frame the frame which will be drawn into the view
 	 */
 	public void resizeContents(final Frame frame) {
@@ -100,7 +100,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 
 	/**
 	 * The frame to render (the sequence diagram)
-	 * 
+	 *
 	 * @param theFrame the frame to display
 	 */
 	public void setFrame(final Frame theFrame, final boolean resetPosition) {
@@ -120,7 +120,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 
 	/**
 	 * Returns the current Frame (the sequence diagram container)
-	 * 
+	 *
 	 * @return the frame
 	 */
 	public Frame getFrame() {
@@ -140,11 +140,11 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 		if (this.frame == null) {
 			return false;
 		}
-		
+
 		if (tempX + getVisibleWidth() > getContentsWidth()) {
 			tempX = getContentsWidth() - getVisibleWidth();
 		}
-		
+
 		if (tempY + getVisibleHeight() > getContentsHeight()) {
 			tempY = getContentsHeight() - getVisibleHeight();
 		}
@@ -170,7 +170,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 	protected void contentsMouseMoveEvent(final MouseEvent e) {
 		this.toolTip.hideToolTip();
 		if (((e.stateMask & SWT.BUTTON_MASK) != 0)
-			&& ((this.dragAndDrop != null) || this.dragAndDropEnabled)) {
+				&& ((this.dragAndDrop != null) || this.dragAndDropEnabled)) {
 
 			this.dragAndDropEnabled = false;
 			if (this.currentGraphNode instanceof LifelineHeader) {
@@ -196,7 +196,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 			}
 			this.overView = null;
 			Lifeline node = this.frame.getCloserLifeline(this.dragX);
-			
+
 			if (node != null) {
 				Lifeline currLifeline = ((LifelineHeader) this.dragAndDrop).getLifeline();
 				int rx = Math.round(node.getX() * this.zoomValue);
@@ -220,7 +220,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 	protected void contentsMouseDownEvent(final MouseEvent event) {
 		this.toolTip.hideToolTip();
 		if (((this.zoomInMode) || (this.zoomOutMode)) && (event.button == 1)) {
-			
+
 			int cx = Math.round(event.x / this.zoomValue);
 			int cy = Math.round(event.y / this.zoomValue);
 			if (this.zoomInMode) {
@@ -228,23 +228,23 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 					this.zoomValue = this.zoomValue * (float) 1.25;
 				}
 			} else {
-					this.zoomValue = this.zoomValue / (float) 1.25;
+				this.zoomValue = this.zoomValue / (float) 1.25;
 			}
-			
+
 			int x = Math.round(cx * this.zoomValue - (float) getVisibleWidth() / 2);
 			int y = Math.round(cy * this.zoomValue - (float) getVisibleHeight() / 2);
-			
+
 			int width = Math.round(this.frame.getWidth() * this.zoomValue);
 			int height = Math.round(this.frame.getHeight() * this.zoomValue);
 			resizeContents(width, height);
 
 			setContentsPos(x, y);
-			
+
 			redraw();
 		} else {
-			
+
 			this.dragAndDropEnabled = true;
-			
+
 			if (this.frame != null) {
 				int oldSelectedLine = frame.getSelectedLine();
 
@@ -332,7 +332,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 
 	/**
 	 * Returns the GraphNode overView the mouse if any
-	 * 
+	 *
 	 * @return the GraphNode
 	 */
 	public MSCNode getMouseOverNode() {
@@ -351,7 +351,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 
 	/**
 	 * Enables zoom in mode
-	 * @param value true to enable, false to disable 
+	 * @param value true to enable, false to disable
 	 */
 	public void setZoomInMode(final boolean value) {
 		if (value) {
@@ -362,7 +362,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 
 	/**
 	 * Enables zoom out mode
-	 * @param value true to enable, false to disable 
+	 * @param value true to enable, false to disable
 	 */
 	public void setZoomOutMode(final boolean value) {
 		if (value) {
@@ -371,7 +371,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 		this.zoomOutMode = value;
 	}
 
-	/** 
+	/**
 	 * Gets the zoom factor
 	 * @return the zoom factor
 	 */
@@ -397,7 +397,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 			this.zoomValue = (float) r.height / (float) getContentsHeight() * oldZoom;
 		}
 		if ((this.overView != null)
-			&& ((r.width != this.overView.getBounds().width) || (r.height != this.overView.getBounds().height))) {
+				&& ((r.width != this.overView.getBounds().width) || (r.height != this.overView.getBounds().height))) {
 			this.overView.dispose();
 			this.overView = null;
 		}
@@ -415,16 +415,16 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 			context.dispose();
 		}
 		if ((this.overView != null)
-			&& (r.width == this.overView.getBounds().width)
-			&& (r.height == this.overView.getBounds().height)) {
+				&& (r.width == this.overView.getBounds().width)
+				&& (r.height == this.overView.getBounds().height)) {
 			gc.drawImage(this.overView, 0, 0, r.width, r.height, 0, 0, r.width,	r.height);
-		}		
+		}
 		this.zoomValue = oldZoom;
 		super.drawOverview(gc, r);
 	}
 
 	/**
-	 * Resets the zoom factor 
+	 * Resets the zoom factor
 	 */
 	public void resetZoomFactor() {
 		int currentX = Math.round(getContentsX() / this.zoomValue);
@@ -442,7 +442,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 		int currSelectionY = oldSelection * MSCConstants.ROW_HEIGHT;
 		int visibleY = this.frame.getVisibleAreaY();
 		int visibleHeight = this.frame.getVisibleAreaHeight();
-		
+
 		// visible
 		int newSelection;
 		if (currSelectionY >= visibleY && currSelectionY <= (visibleY + visibleHeight)) {
@@ -453,14 +453,14 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 		} else {
 			newSelection = visibleY / MSCConstants.ROW_HEIGHT + 1;
 		}
-		
+
 		this.frame.setSelectedLine(newSelection);
 		if (frame.getSelectedLine() != oldSelection) {
 			fireSelectionChangeEvent();
 			redraw();
 		}
 	}
-	
+
 	@Override
 	protected void downArrowPressed() {
 		// If current selection is visible
@@ -468,7 +468,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 		int currSelectionY = oldSelection * MSCConstants.ROW_HEIGHT;
 		int visibleY = this.frame.getVisibleAreaY();
 		int visibleHeight = this.frame.getVisibleAreaHeight();
-		
+
 		// visible
 		int newSelection;
 		if (currSelectionY >= visibleY && currSelectionY <= (visibleY + visibleHeight)) {
@@ -479,14 +479,14 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 		} else {
 			newSelection = (visibleY + visibleHeight) / MSCConstants.ROW_HEIGHT - 2;
 		}
-		
+
 		this.frame.setSelectedLine(newSelection);
 		if (frame.getSelectedLine() != oldSelection) {
 			fireSelectionChangeEvent();
 			redraw();
 		}
 	}
-	
+
 	@Override
 	public void addSelectionChangedListener(final ISelectionChangedListener listener) {
 		this.registeredListeners.add(listener);
@@ -542,21 +542,21 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 	public ISelection getSelection() {
 		return new StructuredSelection(this.frame.getSelectedLine());
 	}
-	
+
 	private void fireSelectionChangeEvent() {
 		final List<ISelectionChangedListener> savedListeners = new ArrayList<ISelectionChangedListener>(registeredListeners);
 		for (ISelectionChangedListener listener : savedListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, getSelection()));
 		}
 	}
-	
+
 	@Override
 	protected void keyPressedEvent(final KeyEvent e) {
 		// Clear tool tip
 		this.toolTip.hideToolTip();
 		super.keyPressedEvent(e);
 	}
-	
+
 	@Override
 	protected void verticalScrollBarEvent(final SelectionEvent e) {
 		// Clear tool tip

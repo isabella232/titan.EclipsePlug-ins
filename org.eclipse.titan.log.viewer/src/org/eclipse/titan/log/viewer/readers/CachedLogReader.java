@@ -82,7 +82,7 @@ public class CachedLogReader implements ILogReader {
 	/**
 	 * Loads the given records to the cache. The parameters minRecordIndex, and maxRecordIndex specify
 	 * a range in the <code>logRecordIndexes</code> array. The records in the given range will be loaded.
-	 * 
+	 *
 	 * @param minIndex The index of the first record in the cache
 	 * @param minRecordIndex the lower bound of the range (inclusive)
 	 * @param maxRecordIndex the upper bound of the range (inclusive)

@@ -29,7 +29,7 @@ import org.eclipse.swt.widgets.Scrollable;
 import org.eclipse.swt.widgets.Shell;
 
 public class Overview {
-	
+
 	private static Cursor overviewCursor;
 	/** default size for overview */
 	private int overviewSize = 100;
@@ -80,7 +80,7 @@ public class Overview {
 				}
 			}
 		});
-		
+
 		c.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusLost(final FocusEvent e) {
@@ -183,7 +183,7 @@ public class Overview {
 		this.overview.setBounds(x, y, w, h);
 		this.overview.setVisible(true);
 		this.overview.redraw(x, y, w, h, false);
-		
+
 		if (overviewCursor == null) {
 			RGB[] rgb = {new RGB(0, 0, 0), new RGB(255, 0, 0)};
 			PaletteData pal = new PaletteData(rgb);
@@ -242,7 +242,7 @@ public class Overview {
 		if ((dx == 0) && (dy == 0)) {
 			return;
 		}
-		
+
 		// Prevent to many events
 		long time = 0xFFFFFFFFL & event.time;
 		if (time == this.lastTime) {
@@ -303,9 +303,9 @@ public class Overview {
 			fx *= 0.5f;
 			fy *= 0.5f;
 		}
-		
-		this.sv.scrollBy((int) (fx * dx), (int) (fy * dy));	
-		
+
+		this.sv.scrollBy((int) (fx * dx), (int) (fy * dy));
+
 		if (((cx != this.sv.contentsX) || (cy != this.sv.contentsY)) && this.overview != null) {
 			this.overview.redraw();
 			this.overview.update();
@@ -330,8 +330,8 @@ public class Overview {
 		}
 		return p;
 	}
-	
-	/** 
+
+	/**
 	 * Change overview size (at ratio 1:1), default is 100
 	 */
 	public void setOverviewSize(final int size) {

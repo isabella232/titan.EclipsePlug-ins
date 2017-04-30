@@ -26,7 +26,7 @@ public class LifelineHeader extends MSCNode {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param horizontalIndex the horizontal index (of the life line)
 	 */
 	public LifelineHeader(final Lifeline lifeline, final Frame frame) {
@@ -42,7 +42,7 @@ public class LifelineHeader extends MSCNode {
 	public void setDragAndDropMode(final boolean dragAndDrop) {
 		this.dragAndDrop = dragAndDrop;
 	}
-	
+
 	/**
 	 * Gets the drag and drop mode
 	 * @return the flag indication status of drag and drop mode
@@ -58,7 +58,7 @@ public class LifelineHeader extends MSCNode {
 	public int getIndex() {
 		return this.lifeline.getIndex();
 	}
-	
+
 	/**
 	 * Gets the lifeline which this headers represents
 	 * @return the lifeline
@@ -66,7 +66,7 @@ public class LifelineHeader extends MSCNode {
 	public Lifeline getLifeline() {
 		return this.lifeline;
 	}
-	
+
 	@Override
 	public int getX() {
 		return this.lifeline.getIndex() * MSCConstants.COLUMN_WIDTH + MSCConstants.COLUMN_SPACING / 4;
@@ -86,7 +86,7 @@ public class LifelineHeader extends MSCNode {
 	public int getHeight() {
 		return MSCConstants.ROW_HEIGHT - MSCConstants.ROW_SPACING + MSCConstants.HEADER_SHADOW_SIZE;
 	}
-	
+
 	@Override
 	public void draw(final IGC context) {
 		if (this.dragAndDrop) {
@@ -94,7 +94,7 @@ public class LifelineHeader extends MSCNode {
 		}
 		draw(context, getX(), getY(), getWidth(), getHeight());
 	}
-	
+
 	/**
 	 * Draws the header
 	 * @param context the context to draw on
@@ -104,54 +104,54 @@ public class LifelineHeader extends MSCNode {
 	public void draw(final IGC context, final int dragX, final int dragY) {
 		draw(context, dragX, getY(), getWidth(), getHeight());
 	}
-	
-	private void draw(final IGC context, final int x, final int y, final int width, final int height) { 		
+
+	private void draw(final IGC context, final int x, final int y, final int width, final int height) {
 		context.setLineStyle(context.getLineSolidStyle());
 		context.setLineWidth(MSCConstants.NORMAL_LINE_WIDTH);
-		
+
 		if (MSCConstants.DRAW_SHADOW) {
 			// Draw shadow
 			context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.LIFELIFE_HEADER_SHADOW_COLOR));
-			context.fillRectangle(x + MSCConstants.HEADER_SHADOW_SIZE, 
-								  y + MSCConstants.HEADER_SHADOW_SIZE,
-								  width, 
-								  height);
+			context.fillRectangle(x + MSCConstants.HEADER_SHADOW_SIZE,
+					y + MSCConstants.HEADER_SHADOW_SIZE,
+					width,
+					height);
 		}
-		
+
 		// Draw box
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.LIFELIFE_HEADER_BG_COLOR));
 		if (MSCConstants.DRAW_GRADIENT) {
 			context.setGradientColor((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
-			context.fillGradientRectangle(x, 
-								  		  y, 
-								  		  width - MSCConstants.HEADER_SHADOW_SIZE, 
-								  		  height - MSCConstants.HEADER_SHADOW_SIZE,
-								  		  true);
+			context.fillGradientRectangle(x,
+					y,
+					width - MSCConstants.HEADER_SHADOW_SIZE,
+					height - MSCConstants.HEADER_SHADOW_SIZE,
+					true);
 		} else {
-			context.fillRectangle(x, 
-			  		  			  y, 
-			  		  			  width - MSCConstants.HEADER_SHADOW_SIZE, 
-			  		  			  height - MSCConstants.HEADER_SHADOW_SIZE);
+			context.fillRectangle(x,
+					y,
+					width - MSCConstants.HEADER_SHADOW_SIZE,
+					height - MSCConstants.HEADER_SHADOW_SIZE);
 		}
 		if (MSCConstants.DRAW_BORDER) {
 			context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.LIFELIFE_HEADER_LINE_COLOR));
-			context.drawRectangle(x, 
-								  y, 
-								  width - MSCConstants.HEADER_SHADOW_SIZE, 
-								  height - MSCConstants.HEADER_SHADOW_SIZE);
+			context.drawRectangle(x,
+					y,
+					width - MSCConstants.HEADER_SHADOW_SIZE,
+					height - MSCConstants.HEADER_SHADOW_SIZE);
 		}
 
 		// Draw text
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.LIFELIFE_HEADER_FONT_COLOR));
 		context.setFont((Font) Activator.getDefault().getCachedResource(MSCConstants.MSC_DEFAULT_FONT));
-		context.drawTextTruncatedCentred(getName(), 
-										 x,
-										 y,
-										 width - MSCConstants.HEADER_SHADOW_SIZE, 
-										 height - MSCConstants.HEADER_SHADOW_SIZE,
-										 true);
+		context.drawTextTruncatedCentred(getName(),
+				x,
+				y,
+				width - MSCConstants.HEADER_SHADOW_SIZE,
+				height - MSCConstants.HEADER_SHADOW_SIZE,
+				true);
 	}
-	
+
 	@Override
 	public Type getType() {
 		return Type.LIFE_LINE_HEADER;
@@ -159,7 +159,7 @@ public class LifelineHeader extends MSCNode {
 
 	@Override
 	public boolean positiveDistanceToPoint(final int x, final int y) {
-		return true; 
+		return true;
 	}
 
 }

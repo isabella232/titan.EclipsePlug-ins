@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Display;
  *
  */
 public class TestCaseEventDispatcher extends Observable implements Observer {
-	
+
 	/**
 	 * Constructor
 	 */
@@ -38,5 +38,5 @@ public class TestCaseEventDispatcher extends Observable implements Observer {
 				Display.getCurrent().readAndDispatch();
 			}
 		});
-	}	
+	}
 }

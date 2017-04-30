@@ -14,17 +14,17 @@ import org.eclipse.titan.log.viewer.preferences.FilteredSilentEventUtils;
 import org.eclipse.titan.log.viewer.preferences.PreferenceConstants;
 
 public final class ResourcePropertyHandler {
-	
+
 	private static final int PROPERTY_MAX_SIZE = 2 * Constants.K;
 	private static final String PROPERTY_SIZE_KEY = "propertySize"; //$NON-NLS-1$
-	
+
 	private ResourcePropertyHandler() {
 		// Protected Constructor
 	}
-	
+
 	/**
 	 * Convenience method for getting resource properties
-	 * 
+	 *
 	 * @param resource the resource
 	 * @param pageId the page if of the property page
 	 * @param propertyKey the property key
@@ -64,10 +64,10 @@ public final class ResourcePropertyHandler {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Convenience method for setting resource properties
-	 * 
+	 *
 	 * @param resource the resource
 	 * @param pageId the page if of the property page
 	 * @param propertyKey the property key
@@ -96,10 +96,10 @@ public final class ResourcePropertyHandler {
 			resource.setPersistentProperty(new QualifiedName(pageId, propertyKey), propertyValue);
 		}
 	}
-	
+
 	/**
 	 * Convenience method for removing resource properties
-	 * 
+	 *
 	 * @param resource the resource
 	 * @param pageId the page if of the property page
 	 * @param propertyKey the property key

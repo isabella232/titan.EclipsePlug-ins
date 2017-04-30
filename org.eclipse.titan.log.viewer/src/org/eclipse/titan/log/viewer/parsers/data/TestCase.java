@@ -19,37 +19,37 @@ import org.eclipse.titan.log.viewer.utils.Constants;
  *
  */
 public class TestCase implements Serializable {
-	
+
 	private static final long serialVersionUID = -4142445231973786330L;
-	
+
 	private int testCaseNumber;
 	private String testCaseName;
 	private long filePointer;
 	private int verdict;
 	private int startRecordNumber;
-	private int endRecordNumber; 
+	private int endRecordNumber;
 	private URI logFileURI;
 	private transient IFile logFile;
 
 	/**
 	 * Test Case
-	 * 
+	 *
 	 * Note: This constructor is only required for jUnit test!
-	 * 
+	 *
 	 * @param logFile			the log file containing the test case
 	 * @param testCaseNumber	the number of the test case
 	 * @param testCaseName 		the name of the test case
 	 * @param filePointer 		the file pointer
 	 * @param verdict 			the verdict
-	 * @throws Exception 
+	 * @throws Exception
 	 */
 	public TestCase(final IFile logFile,
-					final int testCaseNumber,
-					final String testCaseName,
-			        final long filePointer,
-			        final int verdict,
-			        final int startRecordNumber,
-			        final int endRecordNumber) {
+			final int testCaseNumber,
+			final String testCaseName,
+			final long filePointer,
+			final int verdict,
+			final int startRecordNumber,
+			final int endRecordNumber) {
 		if (Constants.DEBUG) {
 			assert logFile != null;
 			assert testCaseName != null;
@@ -64,9 +64,9 @@ public class TestCase implements Serializable {
 		this.startRecordNumber = startRecordNumber;
 		this.endRecordNumber = endRecordNumber;
 	}
-	
+
 	/**
-	 * The TestCase constructor 
+	 * The TestCase constructor
 	 */
 	public TestCase(final IFile logFile) {
 		this.logFile = logFile;
@@ -89,7 +89,7 @@ public class TestCase implements Serializable {
 
 		return logFile;
 	}
-	
+
 	/**
 	 * Set the test case number
 	 * @param testCaseNumber the test case number
@@ -97,7 +97,7 @@ public class TestCase implements Serializable {
 	public void setTestCaseNumber(final int testCaseNumber) {
 		this.testCaseNumber = testCaseNumber;
 	}
-	
+
 	/**
 	 * Get the test case number
 	 * @return the test case number
@@ -105,7 +105,7 @@ public class TestCase implements Serializable {
 	public int getTestCaseNumber() {
 		return this.testCaseNumber;
 	}
-	
+
 	/**
 	 * Set the test case name
 	 * @param testCaseName the test case name
@@ -117,7 +117,7 @@ public class TestCase implements Serializable {
 		}
 		this.testCaseName = testCaseName;
 	}
-	
+
 	/**
 	 * Get the test case name
 	 * @return the test case name
@@ -125,7 +125,7 @@ public class TestCase implements Serializable {
 	public String getTestCaseName() {
 		return this.testCaseName;
 	}
-	
+
 	/**
 	 * Set the file pointer
 	 * @param filePointer the file pointer
@@ -133,7 +133,7 @@ public class TestCase implements Serializable {
 	public void setFilePointer(final long filePointer) {
 		this.filePointer = filePointer;
 	}
-	
+
 	/**
 	 * Get the file pointer
 	 * @return the file pointer
@@ -141,7 +141,7 @@ public class TestCase implements Serializable {
 	public long getFilePointer() {
 		return this.filePointer;
 	}
-	
+
 	/**
 	 * Get the number of rows
 	 * @return the number of rows
@@ -149,7 +149,7 @@ public class TestCase implements Serializable {
 	public int getNumberOfRecords() {
 		return this.endRecordNumber - this.startRecordNumber + 1;
 	}
-	 
+
 	/**
 	 * Set the test case verdict
 	 * @param verdict the test case verdict
@@ -157,7 +157,7 @@ public class TestCase implements Serializable {
 	public void setVerdict(final int verdict) {
 		this.verdict = verdict;
 	}
-	
+
 	/**
 	 * Get the test case verdict
 	 * @return the test case verdict
@@ -197,17 +197,17 @@ public class TestCase implements Serializable {
 	public void setEndRecordNumber(final int stopRecordNumber) {
 		this.endRecordNumber = stopRecordNumber;
 	}
-	
+
 	/**
 	 * Returns true if the test case is a control part.
-	 * This function depends on {@link testCaseName}. The test case name of a control part is 
+	 * This function depends on {@link testCaseName}. The test case name of a control part is
 	 * in "controlpart n" format where n is a number (n >= 1).
 	 * @return true if the test case represents a control part.
 	 */
 	// FIXME there should be a better way than this, but that might need some restructuring.
 	public boolean isControlPart() {
 		int indexOfSpace = "controlpart".length();
-		return testCaseName != null && testCaseName.length() > indexOfSpace 
+		return testCaseName != null && testCaseName.length() > indexOfSpace
 				&& testCaseName.charAt(indexOfSpace) == ' ';
 	}
 }

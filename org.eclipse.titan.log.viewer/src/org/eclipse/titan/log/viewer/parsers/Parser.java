@@ -75,14 +75,14 @@ public class Parser {
 	private List<Integer> eventVector = new ArrayList<Integer>();
 
 	private EventObjectFactory eventObjectFactory = new EventObjectFactory();
-	
+
 	public Parser(final LogFileMetaData logFileMetaData) {
 		this.logFileMetaData = logFileMetaData;
 	}
 
 	/**
 	 * Returns the number of port connections
-	 * 
+	 *
 	 * @return the number of port connections
 	 */
 	public int getCons() {
@@ -91,7 +91,7 @@ public class Parser {
 
 	/**
 	 * Returns the number records in the test case
-	 * 
+	 *
 	 * @return the number records in the test case
 	 */
 	public int getTestCaseRecords() {
@@ -100,7 +100,7 @@ public class Parser {
 
 	/**
 	 * Returns the number of port mappings
-	 * 
+	 *
 	 * @return the number of port mappings
 	 */
 	public int getMaps() {
@@ -109,7 +109,7 @@ public class Parser {
 
 	/**
 	 * Returns the number of component creations
-	 * 
+	 *
 	 * @return the number of component creations
 	 */
 	public int getPtcs() {
@@ -118,7 +118,7 @@ public class Parser {
 
 	/**
 	 * Returns the number of received messages
-	 * 
+	 *
 	 * @return the number of received messages
 	 */
 	public int getRecs() {
@@ -127,7 +127,7 @@ public class Parser {
 
 	/**
 	 * Returns the number of sent messages
-	 * 
+	 *
 	 * @return the number of sent messages
 	 */
 	public int getSends() {
@@ -136,7 +136,7 @@ public class Parser {
 
 	/**
 	 * Gets the start time
-	 * 
+	 *
 	 * @return the start time
 	 */
 	public long getStart() {
@@ -145,7 +145,7 @@ public class Parser {
 
 	/**
 	 * Sets the start time
-	 * 
+	 *
 	 * @param start
 	 *            the start time
 	 */
@@ -155,7 +155,7 @@ public class Parser {
 
 	/**
 	 * Gets the end time
-	 * 
+	 *
 	 * @return the end time
 	 */
 	public long getEnd() {
@@ -164,14 +164,14 @@ public class Parser {
 
 	/**
 	 * Sets the end time
-	 * 
+	 *
 	 * @param end
 	 *            the end time
 	 */
 	public void setEnd(final long end) {
 		this.end = end;
 	}
-	
+
 	/**
 	 * Gets the number of enqueued messages
 	 * @return
@@ -203,7 +203,7 @@ public class Parser {
 
 	/**
 	 * This function will parse eventObject from the log file
-	 * 
+	 *
 	 * @param testCase
 	 *            test case, PreferenceHolder preferences
 	 * @return ExecutionModel throws IOException
@@ -213,7 +213,7 @@ public class Parser {
 	public ExecutionModel preParse(final TestCase testCase,
 			final LogRecordIndex[] logRecordIndexes, final PreferencesHolder preferences,
 			final FilterPattern filterPattern, final IProgressMonitor monitor)
-			throws IOException, ParseException, TechnicalException {
+					throws IOException, ParseException, TechnicalException {
 		IProgressMonitor internalMonitor = monitor == null ? new NullProgressMonitor() : monitor;
 		wasCanceled = false;
 		this.logRecordIndexes = logRecordIndexes;
@@ -841,12 +841,12 @@ public class Parser {
 		this.messageAnalyser.setMessage(message);
 
 		// TODO remove filtering from this function
-		
+
 		boolean isLogRecordIgnored = false;
 		if (executionModel.getFilterPattern() != null) {
 			isLogRecordIgnored = !executionModel.getFilterPattern().match(logRecord);
 		}
-		
+
 		// This if-else branch is ordered so that the most common
 		// types of events are checked first and the less common
 		// ones in dropping order. Send and receives are the most
@@ -1021,7 +1021,7 @@ public class Parser {
 			String sourcePort = this.messageAnalyser.getPort(mappingSource);
 			String targetPort = this.messageAnalyser.getPort(target);
 
-			if (!filterMappingPorts 
+			if (!filterMappingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 
 				logRecord.setComponentReference(compRef);
@@ -1045,7 +1045,7 @@ public class Parser {
 			String sourcePort = this.messageAnalyser.getPort(unmappingSource);
 			String targetPort = this.messageAnalyser.getPort(target);
 
-			if (!filterMappingPorts 
+			if (!filterMappingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 				logRecord.setComponentReference(compRef);
 				EventObject event = createEventObject(logRecord, EventType.UNMAPPING_PORT);
@@ -1068,7 +1068,7 @@ public class Parser {
 			String sourcePort = this.messageAnalyser.getPort(connectionSource);
 			String targetPort = this.messageAnalyser.getPort(target);
 
-			if (!filterConnectingPorts 
+			if (!filterConnectingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 				logRecord.setComponentReference(compRef);
 				EventObject event = createEventObject(logRecord, EventType.CONNECTING_PORT);
@@ -1089,7 +1089,7 @@ public class Parser {
 			String sourcePort = this.messageAnalyser.getPort(disconnectionSource);
 			String targetPort = this.messageAnalyser.getPort(target);
 
-			if (!filterConnectingPorts 
+			if (!filterConnectingPorts
 					&& !(isComponentIgnored(compRef) || isComponentIgnored(targetRef))) {
 				logRecord.setComponentReference(compRef);
 				EventObject event = createEventObject(logRecord, EventType.DISCONNECTING_PORT);
@@ -1170,7 +1170,7 @@ public class Parser {
 
 				errorVector.clear();
 				failVector.clear();
-				
+
 
 			}
 		} else {
@@ -1252,7 +1252,7 @@ public class Parser {
 	private boolean isFunctionIgnored(final String sendType) {
 		return this.executionModel.isFunctionIgnored(sendType);
 	}
-	
+
 	private boolean isEventIgnored(final String event) {
 		if (this.executionModel.getFilterPattern() != null) {
 			return this.executionModel.isEventIgnored(event);

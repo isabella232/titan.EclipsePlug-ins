@@ -29,19 +29,19 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 
 	private BooleanFieldEditor connectingPortsEditor;
 	private BooleanFieldEditor mappingPortsEditor;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public FilteredPortsPreferencePage() {
 		super(GRID, false);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("FilteredPortsPreferencePage.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
-		
+
 		this.connectingPortsEditor = new BooleanFieldEditor(
 				PreferenceConstants.PREF_CONNECTING_PORTS_ID,
 				Messages.getString("FilteredPortsPreferencePage.1"), //$NON-NLS-1$
@@ -85,7 +85,7 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 	 */
 	private Map<String, String[]> getCurrentPreferencesSeparated() {
 		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
-		
+
 		String[] connectingPorts = new String[] {String.valueOf(this.connectingPortsEditor.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_CONNECTING_PORTS_ID, connectingPorts);
 		String[] mappingPorts = new String[] {String.valueOf(this.mappingPortsEditor.getBooleanValue())};
@@ -113,10 +113,10 @@ public class FilteredPortsPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void updatePage() {
-	
+
 		this.connectingPortsEditor.load();
 		this.mappingPortsEditor.load();
 
 	}
-	
+
 }

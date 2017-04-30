@@ -30,7 +30,7 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 		this.view = view;
 		this.widget = view.getMSCWidget();
 	}
-	
+
 	@Override
 	public void run() {
 		if (this.widget == null) {
@@ -40,7 +40,7 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 		if (model == null) {
 			return;
 		}
-		int[] setverdictPlaces = model.getSetverdict(); 
+		int[] setverdictPlaces = model.getSetverdict();
 		int selectedLine = (Integer) this.selection.getFirstElement();
 		selectSetVerdict(setverdictPlaces, selectedLine);
 	}
@@ -58,7 +58,7 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 	public void selectionChanged(final IStructuredSelection selection) {
 		this.selection = selection;
 		int selectedLine = (Integer) this.selection.getFirstElement();
-		
+
 		boolean enable = false;
 
 		ExecutionModel model = this.view.getModel();
@@ -66,7 +66,7 @@ public class JumpToNextSetverdictAction extends SelectionProviderAction {
 			setEnabled(false);
 			return;
 		}
-		
+
 		for (int j = 0; j < model.getSetverdict().length; j++) {
 			if (model.getSetverdict()[j] > selectedLine) {
 				enable = true;

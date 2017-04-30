@@ -46,7 +46,7 @@ public class ZoomAction extends Action {
 
 	@Override
 	public void run() {
-		
+
 		// Zoom in
 		if (getId().equals(MSCConstants.ID_ZOOM_OUT)) {
 			this.viewer.setZoomOutMode(isChecked());
@@ -57,7 +57,7 @@ public class ZoomAction extends Action {
 				this.viewer.setCursor(new Cursor(Display.getDefault(), SWT.CURSOR_ARROW));
 				setActionChecked(MSCConstants.ID_NO_ZOOM, true);
 			}
-		// Zoom out
+			// Zoom out
 		} else if (getId().equals(MSCConstants.ID_ZOOM_IN)) {
 			if (this.lastZoomIn == isChecked()) {
 				setChecked(!isChecked());
@@ -71,7 +71,7 @@ public class ZoomAction extends Action {
 				this.viewer.setCursor(new Cursor(Display.getDefault(), SWT.CURSOR_ARROW));
 				setActionChecked(MSCConstants.ID_NO_ZOOM, true);
 			}
-		// Reset zoom
+			// Reset zoom
 		} else if (getId().equals(MSCConstants.ID_RESET_ZOOM)) {
 			this.viewer.resetZoomFactor();
 			// The reset action is a radio button only to un-check the zoom in and out button
@@ -79,7 +79,7 @@ public class ZoomAction extends Action {
 			// We only have to force it to false every time
 			setChecked(false);
 			setActionChecked(MSCConstants.ID_NO_ZOOM, true);
-		// No zoom
+			// No zoom
 		} else if (getId().equals(MSCConstants.ID_NO_ZOOM)) {
 			setChecked(true);
 			this.viewer.setZoomInMode(false);
@@ -87,7 +87,7 @@ public class ZoomAction extends Action {
 			this.viewer.setCursor(new Cursor(Display.getDefault(), SWT.CURSOR_ARROW));
 		}
 	}
-	
+
 	public void setActionChecked(final String id, final boolean checked)	{
 		IActionBars bar = this.view.getViewSite().getActionBars();
 		if (bar == null) {

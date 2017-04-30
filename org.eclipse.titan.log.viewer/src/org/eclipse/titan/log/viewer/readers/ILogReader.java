@@ -23,7 +23,7 @@ public interface ILogReader extends Closeable {
 
 	/**
 	 * Reads a log record at a given position. The position is relative to this reader.
-	 * 
+	 *
 	 * @param position the position to read the log record from
 	 * @return the log record or <code>null</code> if the record does not exist in the reader
 	 * @throws IOException in case of file I/O errors
@@ -33,7 +33,7 @@ public interface ILogReader extends Closeable {
 
 	/**
 	 * Reads the log record with the given id
-	 * 
+	 *
 	 * @param id The id of the record (the position in the log file)
 	 * @return the log record or <code>null</code> if the record does not exist in the reader
 	 * @throws IOException in case of file I/O errors
@@ -47,10 +47,10 @@ public interface ILogReader extends Closeable {
 	 * @param recordNumber The number of the record
 	 * @return The position if the reader contains the record. -1 it it does not
 	 */
-	
+
 	/**
 	 * Returns the position of the record identified with the given id.
-	 * <br/> e.g.: <code>getRecord(getPositionFromRecordNumber(someIntVariable)) == getRecordById(someIntVatiable)</code> 
+	 * <br/> e.g.: <code>getRecord(getPositionFromRecordNumber(someIntVariable)) == getRecordById(someIntVatiable)</code>
 	 * @param id The identifier of the record (The position in the log file)
 	 * @return The position of the record in this LogReader or -1 if it does not exist
 	 */
@@ -63,7 +63,7 @@ public interface ILogReader extends Closeable {
 	 *  <code>false</code> otherwise.
 	 */
 	boolean contains(final int id);
-	
+
 	/**
 	 * Closes the reader. The reader can not be used, after calling this function.
 	 */

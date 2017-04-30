@@ -25,7 +25,7 @@ public class OpenTextTableStatisticalViewMenuAction extends SelectionProviderAct
 	private static final String NAME = Messages.getString("OpenTextTableMenuAction.0"); //$NON-NLS-1$
 	private IStructuredSelection selection;
 	private StatisticalView statisticalView;
-	
+
 	/**
 	 * Constructor
 	 * @param navigatorView the navigator View
@@ -45,7 +45,7 @@ public class OpenTextTableStatisticalViewMenuAction extends SelectionProviderAct
 		LogFileMetaData logFileMetaData = this.statisticalView.getLogFileMetaData();
 		TextTableViewHelper.open(logFileMetaData.getProjectName(), logFileMetaData.getProjectRelativePath(), tc.getStartRecordNumber());
 	}
-	
+
 	@Override
 	public void selectionChanged(final IStructuredSelection selection) {
 		boolean enabled = true;

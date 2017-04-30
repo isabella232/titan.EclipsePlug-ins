@@ -55,7 +55,7 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 	public void createFieldEditors() {
 
 		new Label(getFieldEditorParent(), SWT.NONE);
-		
+
 		this.verboseFieldEditor = new BooleanFieldEditor(
 				PreferenceConstants.PREF_VERBOSE_ID,
 				Messages.getString("GeneralSettingsPrefPage.1"), //$NON-NLS-1$
@@ -65,7 +65,7 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 		new Label(getFieldEditorParent(), SWT.NONE);
 		new Label(getFieldEditorParent(), SWT.NONE);
 
-		this.systemUnderTestFieldEditor = new StringFieldEditor(PreferenceConstants.PREF_SUT_ID, 
+		this.systemUnderTestFieldEditor = new StringFieldEditor(PreferenceConstants.PREF_SUT_ID,
 				Messages.getString("GeneralSettingsPrefPage.2"), //$NON-NLS-1$
 				getFieldEditorParent());
 		this.systemUnderTestFieldEditor.setTextLimit(Constants.MAX_COMP_NAME);
@@ -104,7 +104,7 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 				Messages.getString("GeneralSettingsPrefPage.14"), //$NON-NLS-1$
 				getFieldEditorParent());
 		addField(this.addingComponentFieldEditor);
-		
+
 		new Label(getFieldEditorParent(), SWT.NONE);
 		this.mscViewOpenerFieldEditor = new TitanRadioGroupFieldEditor(
 				PreferenceConstants.PREF_OPEN_MSCVIEW_DISPLAY,
@@ -116,11 +116,11 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 					{Messages.getString("GeneralSettingsPrefPage.18"), PreferenceConstants.PREF_MSCVIEW_FIRST_SETVERDICT } //$NON-NLS-1$
 
 				},
-				
+
 				getFieldEditorParent(),
 				true);
 		addField(this.mscViewOpenerFieldEditor);
-		
+
 		new Label(getFieldEditorParent(), SWT.NONE);
 		this.projectTabDefaultFieldEditor = new TitanRadioGroupFieldEditor(
 				PreferenceConstants.PREF_PROJECTTAB_DEFAULT,
@@ -131,11 +131,11 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 					{Messages.getString("GeneralSettingsPrefPage.19"), PreferenceConstants.PREF_PROJECTTAB_DEFAULT_TEXT }  //$NON-NLS-1$
 
 				},
-				
+
 				getFieldEditorParent(),
 				true);
 		addField(this.projectTabDefaultFieldEditor);
-		
+
 		new Label(getFieldEditorParent(), SWT.NONE);
 		this.testCaseTabDefaultFieldEditor = new TitanRadioGroupFieldEditor(
 				PreferenceConstants.PREF_TESTCASETAB_DEFAULT,
@@ -146,11 +146,11 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 					{Messages.getString("GeneralSettingsPrefPage.19"), PreferenceConstants.PREF_TESTCASETAB_DEFAULT_TEXT }  //$NON-NLS-1$
 
 				},
-				
+
 				getFieldEditorParent(),
 				true);
 		addField(this.testCaseTabDefaultFieldEditor);
-		
+
 		new Label(getFieldEditorParent(), SWT.NONE);
 		this.mscViewDefaultFieldEditor = new TitanRadioGroupFieldEditor(
 				PreferenceConstants.PREF_MSCVIEW_DEFAULT,
@@ -161,24 +161,24 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 					{Messages.getString("GeneralSettingsPrefPage.19"), PreferenceConstants.PREF_MSCVIEW_DEFAULT_TEXT } //$NON-NLS-1$
 
 				},
-				
+
 				getFieldEditorParent(),
 				true);
 		addField(this.mscViewDefaultFieldEditor);
-		
+
 
 	}
-	
+
 	@Override
 	public boolean performOk() {
 		String stringValue = this.systemUnderTestFieldEditor.getStringValue();
 		if (stringValue != null) {
-			// removes any leading and trailing white space 
+			// removes any leading and trailing white space
 			stringValue = stringValue.trim();
 			this.systemUnderTestFieldEditor.setStringValue(stringValue);
-		}	
+		}
 
-		return super.performOk();		
+		return super.performOk();
 	}
 
 	@Override
@@ -195,14 +195,14 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 		String verbose = String.valueOf(this.verboseFieldEditor.getBooleanValue());
 		String sut = this.systemUnderTestFieldEditor.getStringValue();
 		String valueContent = this.defaultFormatFieldEditor.getSelectedLabelValue();
-		String addingComponent = this.valueContentFieldEditor.getSelectedLabelValue();	
+		String addingComponent = this.valueContentFieldEditor.getSelectedLabelValue();
 		String openProperty = String.valueOf(this.addingComponentFieldEditor.getBooleanValue());
 		String openMSCView = this.mscViewOpenerFieldEditor.getSelectedLabelValue();
-		
+
 		String mscViewDefault = this.mscViewDefaultFieldEditor.getSelectedLabelValue();
 		String testcaseTabDefault = this.testCaseTabDefaultFieldEditor.getSelectedLabelValue();
 		String projectTabDefault = this.projectTabDefaultFieldEditor.getSelectedLabelValue();
-		
+
 		currentPrefs.put(PreferenceConstants.PREF_VERBOSE_ID, verbose);
 		currentPrefs.put(PreferenceConstants.PREF_SUT_ID, sut);
 		currentPrefs.put(PreferenceConstants.PREF_ASN1_DEFAULT_FORMAT, valueContent);
@@ -214,21 +214,21 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 		currentPrefs.put(PreferenceConstants.PREF_TESTCASETAB_DEFAULT, testcaseTabDefault);
 		return currentPrefs;
 	}
-	
+
 	@Override
 	protected void exportPreferences() {
 		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
 		String[] verbose = new String[] {String.valueOf(this.verboseFieldEditor.getBooleanValue())};
 		String[] sut = new String[] {this.systemUnderTestFieldEditor.getStringValue()};
 		String[] valueContent = new String[] {this.defaultFormatFieldEditor.getSelectedLabelValue()};
-		String[] addingComponent = new String[] {this.valueContentFieldEditor.getSelectedLabelValue()};	
+		String[] addingComponent = new String[] {this.valueContentFieldEditor.getSelectedLabelValue()};
 		String[] openProperty = new String[] {String.valueOf(this.addingComponentFieldEditor.getBooleanValue())};
-		String[] openMSCView = new String[] {this.mscViewOpenerFieldEditor.getSelectedLabelValue()};	
-		
+		String[] openMSCView = new String[] {this.mscViewOpenerFieldEditor.getSelectedLabelValue()};
+
 		String[] mscViewDefault = new String[] {this.mscViewDefaultFieldEditor.getSelectedLabelValue()};
 		String[] testcaseTabDefault = new String[] {this.testCaseTabDefaultFieldEditor.getSelectedLabelValue()};
 		String[] projectTabDefault = new String[] {this.projectTabDefaultFieldEditor.getSelectedLabelValue()};
-		
+
 		currentPrefs.put(PreferenceConstants.PREF_VERBOSE_ID, verbose);
 		currentPrefs.put(PreferenceConstants.PREF_SUT_ID, sut);
 		currentPrefs.put(PreferenceConstants.PREF_ASN1_DEFAULT_FORMAT, valueContent);
@@ -260,7 +260,7 @@ public class GeneralSettingsPrefPage extends LogViewerPreferenceRootPage {
 		this.defaultFormatFieldEditor.load();
 		this.valueContentFieldEditor.load();
 		this.verboseFieldEditor.load();
-		this.addingComponentFieldEditor.load();	
+		this.addingComponentFieldEditor.load();
 		this.mscViewDefaultFieldEditor.load();
 		this.testCaseTabDefaultFieldEditor.load();
 		this.projectTabDefaultFieldEditor.load();

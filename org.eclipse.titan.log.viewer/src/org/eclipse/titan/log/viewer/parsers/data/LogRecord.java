@@ -23,7 +23,7 @@ public class LogRecord {
 	private long recordOffset;
 	private int recordLength;
 	private int recordNumber;
-	
+
 	/**
 	 * Returns the component reference
 	 * @return the component reference
@@ -31,7 +31,7 @@ public class LogRecord {
 	public String getComponentReference() {
 		return this.componentReference;
 	}
-	
+
 	/**
 	 * Sets the component reference
 	 * @param componentReference the component reference
@@ -39,7 +39,7 @@ public class LogRecord {
 	public void setComponentReference(final String componentReference) {
 		this.componentReference = componentReference;
 	}
-	
+
 	/**
 	 * Returns the event type
 	 * @return the event type
@@ -47,7 +47,7 @@ public class LogRecord {
 	public String getEventType() {
 		return this.eventType;
 	}
-	
+
 	/**
 	 * Sets the event type
 	 * @param eventType the event type
@@ -55,7 +55,7 @@ public class LogRecord {
 	public void setEventType(final String eventType) {
 		this.eventType = eventType;
 	}
-	
+
 	/**
 	 * Returns the message
 	 * @return the message
@@ -63,7 +63,7 @@ public class LogRecord {
 	public String getMessage() {
 		return this.message;
 	}
-	
+
 	/**
 	 * Sets the message
 	 * @param message the message
@@ -71,7 +71,7 @@ public class LogRecord {
 	public void setMessage(final String message) {
 		this.message = message;
 	}
-	
+
 	/**
 	 * Returns the source information
 	 * @return the source information
@@ -79,7 +79,7 @@ public class LogRecord {
 	public String getSourceInformation() {
 		return this.sourceInformation;
 	}
-	
+
 	/**
 	 * Sets the source information
 	 * @param sourceInformation the source information
@@ -87,7 +87,7 @@ public class LogRecord {
 	public void setSourceInformation(final String sourceInformation) {
 		this.sourceInformation = sourceInformation;
 	}
-	
+
 	/**
 	 * Returns the time stamp
 	 * @return the time stamp
@@ -95,7 +95,7 @@ public class LogRecord {
 	public String getTimestamp() {
 		return this.timestamp;
 	}
-	
+
 	/**
 	 * Sets the time stamp
 	 * @param timestamp the time stamp
@@ -103,7 +103,7 @@ public class LogRecord {
 	public void setTimestamp(final String timestamp) {
 		this.timestamp = timestamp;
 	}
-	
+
 	/**
 	 * Returns the record length
 	 * @return the record length
@@ -111,7 +111,7 @@ public class LogRecord {
 	public int getRecordLength() {
 		return this.recordLength;
 	}
-	
+
 	/**
 	 * Sets the record length
 	 * @param recordLength the record length
@@ -119,7 +119,7 @@ public class LogRecord {
 	public void setRecordLength(final int recordLength) {
 		this.recordLength = recordLength;
 	}
-	
+
 	/**
 	 * Returns the record offset
 	 * @return the record offset
@@ -127,7 +127,7 @@ public class LogRecord {
 	public long getRecordOffset() {
 		return this.recordOffset;
 	}
-	
+
 	/**
 	 * Sets  the record offset
 	 * @param recordOffset the record offset
@@ -135,7 +135,7 @@ public class LogRecord {
 	public void setRecordOffset(final long recordOffset) {
 		this.recordOffset = recordOffset;
 	}
-	
+
 	/**
 	 * Returns the record number
 	 * @return the record number
@@ -143,7 +143,7 @@ public class LogRecord {
 	public int getRecordNumber() {
 		return this.recordNumber;
 	}
-	
+
 	/**
 	 * Sets the record number
 	 * @param recordNumber the record number

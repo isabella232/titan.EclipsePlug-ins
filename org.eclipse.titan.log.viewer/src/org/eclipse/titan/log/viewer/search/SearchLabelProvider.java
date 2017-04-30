@@ -32,18 +32,18 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 public class SearchLabelProvider extends LabelProvider {
 	private static final int MAX_TEXT_LENGTH = 500;
 	private final Image matchIcon;
-	
+
 	public SearchLabelProvider() {
 		super();
 		matchIcon = Activator.getImageDescriptor(Constants.ICONS_CHILD_OBJ).createImage();
 	}
-	
+
 	@Override
 	public Image getImage(final Object element) {
 		if (element instanceof Match) {
 			return matchIcon;
 		}
-		
+
 		return WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getImage(element);
 	}
 
@@ -52,7 +52,7 @@ public class SearchLabelProvider extends LabelProvider {
 		if (element instanceof IResource) {
 			return WorkbenchLabelProvider.getDecoratingWorkbenchLabelProvider().getText(element);
 		}
-		
+
 		if (element instanceof Match) {
 			Match match = (Match) element;
 			IFile logFile = (IFile) match.getElement();
@@ -81,7 +81,7 @@ public class SearchLabelProvider extends LabelProvider {
 			}
 			return result;
 		}
-		
+
 		return "Unexpected element";
 	}
 

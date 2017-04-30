@@ -39,33 +39,33 @@ public class TimeStampNode extends MSCNode {
 	public int getY() {
 		return MSCConstants.ROW_HEIGHT * this.getStartOccurrence() + MSCConstants.ROW_SPACING / 2;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return MSCConstants.COLUMN_WIDTH - MSCConstants.COLUMN_SPACING / 2;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return MSCConstants.ROW_HEIGHT - MSCConstants.ROW_SPACING;
 	}
-	
+
 	@Override
 	protected void draw(final IGC context) {
 		int x = getX();
 		int y = getY();
 		int width = getWidth();
 		int height = getHeight();
-		
+
 		// Draw time stamp
 		context.setFont((Font) Activator.getDefault().getCachedResource(MSCConstants.MSC_DEFAULT_FONT));
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.TIMESTAMP_FONT_COLOR));
 		context.drawTextTruncatedLeft(getName(),
-										 x,
-										 y, 
-										 width, 
-										 height, 
-										 true);
+				x,
+				y,
+				width,
+				height,
+				true);
 	}
 
 	@Override

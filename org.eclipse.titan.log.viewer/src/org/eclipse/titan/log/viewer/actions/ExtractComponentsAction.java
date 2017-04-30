@@ -30,7 +30,7 @@ import org.eclipse.titan.log.viewer.utils.Messages;
 
 /**
  * Class for the action which extracts test cases
- * from a TITAN Log Viewer log file 
+ * from a TITAN Log Viewer log file
  *
  */
 public class ExtractComponentsAction implements IRunnableWithProgress, Observer {
@@ -53,11 +53,11 @@ public class ExtractComponentsAction implements IRunnableWithProgress, Observer 
 		this.componentExtractor = new ComponentExtractor();
 		this.componentEventDispatcher = new ComponentEventDispatcher();
 		this.componentExtractor.addObserver(this.componentEventDispatcher);
-		
+
 		this.logFileHandler = new LogFileHandler(logFile);
 		this.logFileMetaData = null;
 		this.lastWorked = 0;
-		
+
 		// Add this viewer as an observer
 		this.componentEventDispatcher.addObserver(this);
 	}
@@ -75,7 +75,7 @@ public class ExtractComponentsAction implements IRunnableWithProgress, Observer 
 			TitanLogExceptionHandler.handleException(new UserException(e.getMessage()));
 			return;
 		}
-		
+
 		try {
 			if (this.monitor != null) {
 				this.monitor.beginTask(Messages.getString("ExtractComponentsAction.0"), 100); //$NON-NLS-1$
@@ -90,17 +90,17 @@ public class ExtractComponentsAction implements IRunnableWithProgress, Observer 
 			int numComp = this.components.size() + 2;
 			ConsoleWriter.getInstance().writeToConsole(
 					Messages.getString("ExtractComponentsAction.1")
-							+ numComp + Messages.getString("ExtractComponentsAction.4")
-							+ this.logFile.getName() + Messages.getString("ExtractComponentsAction.5")
-							+ (stop - start) / 1000.0 + Messages.getString("ExtractComponentsAction.2"),
+					+ numComp + Messages.getString("ExtractComponentsAction.4")
+					+ this.logFile.getName() + Messages.getString("ExtractComponentsAction.5")
+					+ (stop - start) / 1000.0 + Messages.getString("ExtractComponentsAction.2"),
 					this.logFileMetaData.getProjectName());
 			ConsoleWriter.getInstance().writeToConsole("", this.logFileMetaData.getProjectName()); //$NON-NLS-1$
 		} catch (final IOException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			// Generate Technical Error
 			String errorMsg = Messages.getString("ExtractComponentsAction.3") + //$NON-NLS-1$
-			this.logFile.getName()
-			+ "Reason: " + e.getMessage(); //$NON-NLS-1$
+					this.logFile.getName()
+					+ "Reason: " + e.getMessage(); //$NON-NLS-1$
 			TitanLogExceptionHandler.handleException(new TechnicalException(errorMsg));
 		} finally {
 			this.componentEventDispatcher.deleteObserver(this);
@@ -125,7 +125,7 @@ public class ExtractComponentsAction implements IRunnableWithProgress, Observer 
 			this.lastWorked = worked;
 		}
 	}
-	
+
 	/**
 	 * Returns the extracted components
 	 * @return the extracted components

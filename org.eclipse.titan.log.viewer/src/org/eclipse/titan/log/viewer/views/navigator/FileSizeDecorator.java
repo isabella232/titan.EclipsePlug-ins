@@ -20,14 +20,14 @@ import org.eclipse.titan.log.viewer.utils.Constants;
 
 /**
  * Decorates the file name with the size and unit
- * 
+ *
  */
 public class FileSizeDecorator implements ILightweightLabelDecorator {
 
 	public FileSizeDecorator() {
 		// Do nothing
 	}
-	
+
 	@Override
 	public void decorate(final Object element, final IDecoration decoration) {
 		if (!(element instanceof IFile)) {
@@ -45,18 +45,18 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 		} catch (CoreException e) {
 			return;
 		}
-		
+
 		String formattedSize = getFormattedSize(aFile);
 		decoration.addSuffix(" [" + formattedSize + ']'); //$NON-NLS-1$
 	} // decorate
 
 	/**
-	 * 
+	 *
 	 * Returns a formatted string containing the size of the file (including unit)
-	 * 
+	 *
 	 * @param aFile The file to get the size
 	 * @return the formatted string
-	 * 
+	 *
 	 */
 	private String getFormattedSize(final IFile aFile) {
 		long size = getSize(aFile);
@@ -65,7 +65,7 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 
 	/**
 	 * Returns the size of the passed file
-	 * 
+	 *
 	 */
 	private long getSize(final IFile file) {
 		IPath location = file.getLocation();
@@ -80,7 +80,7 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 	 * Get the formated size
 	 * @param unit
 	 * @return the formated size including unit (byte, kilo, mega, giga)
-	 * 
+	 *
 	 */
 	private String getFormat(final long size) {
 		String format = ""; //$NON-NLS-1$
@@ -112,7 +112,7 @@ public class FileSizeDecorator implements ILightweightLabelDecorator {
 	public void removeListener(final ILabelProviderListener listener) {
 		// Do nothing
 	}
-	
+
 	@Override
 	public void dispose() {
 		// Do nothing

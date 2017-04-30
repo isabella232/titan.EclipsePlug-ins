@@ -24,7 +24,7 @@ import org.eclipse.titan.log.viewer.views.msc.model.EventType;
 import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 
 /**
- * Responsible for reading a value message from a log file 
+ * Responsible for reading a value message from a log file
  *
  */
 public final class ValueReader {
@@ -36,7 +36,7 @@ public final class ValueReader {
 	private ValueReader() {
 		// Protected constructor
 	}
-	
+
 	/**
 	 * Returns the instance of ValueReader
 	 * @return the instance of ValueReader
@@ -82,7 +82,7 @@ public final class ValueReader {
 			break;
 		case SETVERDICT:
 			ConnectedRecord[] connectedRecords = event.getConnectedRecords();
-			
+
 			if (connectedRecords != null) {
 				StringBuilder messageBuilder = new StringBuilder("{ message := " + message.trim());
 				if (connectedRecords.length > 0) {
@@ -187,7 +187,7 @@ public final class ValueReader {
 		}
 		return message;
 	}
-	
+
 	private LogRecord getLogRecord(final URI logFilePath, final long offset, final int length) throws IOException, ParseException {
 		RandomAccessFile random = null;
 		LogRecord logRecord = null;

@@ -57,7 +57,7 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 	private IStructuredSelection selection;
 	private LogFileMetaData logFileMetaData;
 	private int recordToSelect = -1;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -108,7 +108,7 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 			if (!PreferencesHandler.getInstance().getPreferences(this.logFileMetaData.getProjectName()).getVisualOrderComponents().isEmpty()) {
 				// Get start time
 				final long start = new Date().getTime();
-				
+
 				if (!logFile.exists()) {
 					final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					IViewReference[] viewReferences = activePage.getViewReferences();
@@ -116,14 +116,14 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 					TitanLogExceptionHandler.handleException(new UserException(Messages.getString("OpenMSCViewMenuAction.4"))); //$NON-NLS-1$
 					return;
 				}
-				
+
 				//	Check if the file has been modified
 				if (LogFileCacheHandler.hasLogFileChanged(logFile)) {
 					LogFileCacheHandler.handleLogFileChange(logFile);
 					return;
 				}
 
-				// Get log record index file for selected log file - No need to check is exists due to 
+				// Get log record index file for selected log file - No need to check is exists due to
 				// LogFileCacheHandler.hasLogFileChanged(logFile) returning false above
 				File logRecordIndexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
 				final LogRecordIndex[] logRecordIndexes = LogFileCacheHandler.readLogRecordIndexFile(logRecordIndexFile, tc.getStartRecordNumber(), tc.getNumberOfRecords());
@@ -167,9 +167,9 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 								// Write data to the console
 								final long end = new Date().getTime();
 								parser.setEnd(end);
-								ConsoleWriter.getInstance().writeModelData(OpenMSCViewMenuAction.this.logFileMetaData.getProjectName(), 
-										parser, 
-										model, 
+								ConsoleWriter.getInstance().writeModelData(OpenMSCViewMenuAction.this.logFileMetaData.getProjectName(),
+										parser,
+										model,
 										OpenMSCViewMenuAction.this.logFileMetaData.getFilePath().toString());
 							}
 						});
@@ -192,12 +192,12 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 	private static String generateSecondaryViewId(final TestCase testCase, final LogFileMetaData metaData) {
 		// Secondary ID can not contain any ":" char, so replace with "_"
 		final String secondId = testCase.getTestCaseName()
-			// Since one log file can several tc:s with the same name a counter is needed
-			+ testCase.getTestCaseNumber()
-			// Even if log file has same name, it can still be in a different path
-			+ metaData.getFilePath().toString().replaceAll(":", "_") //$NON-NLS-1$//$NON-NLS-2$
-			// Needed if log file is in another project (otherwise header will not be updated) 
-			+ metaData.getProjectRelativePath();
+				// Since one log file can several tc:s with the same name a counter is needed
+				+ testCase.getTestCaseNumber()
+				// Even if log file has same name, it can still be in a different path
+				+ metaData.getFilePath().toString().replaceAll(":", "_") //$NON-NLS-1$//$NON-NLS-2$
+				// Needed if log file is in another project (otherwise header will not be updated)
+				+ metaData.getProjectRelativePath();
 		return secondId;
 	}
 
@@ -223,13 +223,13 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 				firstRow = 0;
 			}
 		} else {
-			firstRow = model.getRecordsPosition(recordToSelect) + 2; 
+			firstRow = model.getRecordsPosition(recordToSelect) + 2;
 			// + 2 == difference between the log records position in the events vector
 			//			and the position on the screen
 		}
 		return firstRow;
 	}
-	
+
 	private void showView(final ExecutionModel model, final Parser parser, final TestCase tc) {
 		final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		final String viewId = Constants.MSC_VIEW_ID;
@@ -267,7 +267,7 @@ public class OpenMSCViewMenuAction extends AbstractHandler implements IActionDel
 			setEnabled(false);
 			return;
 		}
-		
+
 		this.selection = (IStructuredSelection) selection;
 		if (this.selection.size() != 1 || !(this.selection.getFirstElement() instanceof TestCase)) {
 			setEnabled(false);

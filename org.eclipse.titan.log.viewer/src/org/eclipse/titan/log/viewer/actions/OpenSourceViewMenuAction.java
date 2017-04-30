@@ -201,7 +201,7 @@ public class OpenSourceViewMenuAction extends SelectionProviderAction {
 
 		OpenSourceAction.openEditor(targetFile, sourceInformation.getLineNumber(), view, forceEditorOpening);
 	}
-	
+
 	@Override
 	public void selectionChanged(final ISelection selection) {
 		if (selection instanceof EventSelection) {

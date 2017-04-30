@@ -36,7 +36,7 @@ public final class SelectionUtils {
 		IFile logFile = selectionToIFile(selection);
 		return logFile != null && hasLogFileExtension(logFile);
 	}
-	
+
 	/**
 	 * Returns an IFile from an selection
 	 * @param selection the selection

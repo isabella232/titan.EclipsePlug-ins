@@ -18,7 +18,7 @@ public class TreeViewComposite extends Composite {
 
 	private TreeViewer viewer;
 	private DetailData currentData;
-	
+
 
 	public TreeViewComposite(final Composite parent, final IViewSite site) {
 		super(parent, SWT.NO_BACKGROUND);
@@ -26,9 +26,9 @@ public class TreeViewComposite extends Composite {
 		this.viewer.setContentProvider(new DetailsViewContentProvider());
 		this.viewer.setLabelProvider(new DetailsViewLabelProvider());
 		this.viewer.setInput(site);
-		this.currentData = null;		
+		this.currentData = null;
 	}
-	
+
 	/**
 	 * Returns the viewer
 	 * @return the viewer
@@ -43,7 +43,7 @@ public class TreeViewComposite extends Composite {
 	 * @param newInput the new input
 	 */
 	public void inputChanged(final DetailData newInput) {
-	    String oldMessage = null;
+		String oldMessage = null;
 		if (newInput == null) {
 			// Clear tree view
 			this.viewer.getContentProvider().inputChanged(this.viewer, null, null);
@@ -53,7 +53,7 @@ public class TreeViewComposite extends Composite {
 		if ((this.currentData != null) && this.currentData.isEqualTo(newInput)) {
 			return;
 		}
-	   
+
 		this.currentData = newInput;
 		String message = this.currentData.getLine();
 		if (message.contains("{") && (message.indexOf("{") != 0)) {
@@ -61,19 +61,19 @@ public class TreeViewComposite extends Composite {
 			message = "{ " + message + " }";
 			this.currentData.setLine(message);
 		}
-			
+
 		this.viewer.getContentProvider().inputChanged(this.viewer, newInput, newInput);
-		
+
 		Tree tree = this.viewer.getTree();
-		 tree.setVisible(false);
+		tree.setVisible(false);
 		if (tree.getItemCount() > 0) {
 			this.viewer.setSelection(new StructuredSelection(tree.getItem(0).getData()));
 		}
 		if (oldMessage != null) {
 			this.currentData.setLine(oldMessage);
 		}
-		
+
 		this.viewer.expandAll();
-		 tree.setVisible(true);
+		tree.setVisible(true);
 	}
 }

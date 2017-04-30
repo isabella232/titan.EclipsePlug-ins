@@ -22,7 +22,7 @@ public class UserException extends TitanLogException {
 	public UserException(final Throwable t) {
 		super(t);
 	}
-	
+
 	/**
 	 * Constructor for messages
 	 * @param msg the message

@@ -10,7 +10,7 @@ package org.eclipse.titan.log.viewer.extractors;
 import org.eclipse.titan.log.viewer.utils.Constants;
 
 /**
- * Event used during extraction of test cases from log file 
+ * Event used during extraction of test cases from log file
  *
  */
 public class TestCaseEvent {
@@ -24,10 +24,10 @@ public class TestCaseEvent {
 		this.testCaseName = null;
 		this.progress = 0;
 	}
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param testCaseName the name of the test case
 	 * @param progress the progress
 	 */
@@ -35,7 +35,7 @@ public class TestCaseEvent {
 		if (Constants.DEBUG) {
 			assert testCaseName != null;
 			assert (progress >= 0) && (progress <= 100);
- 		}
+		}
 		this.testCaseName = testCaseName;
 		this.progress = progress;
 	}
@@ -55,7 +55,7 @@ public class TestCaseEvent {
 	public void setProgress(final int progress) {
 		if (Constants.DEBUG) {
 			assert (progress >= 0) && (progress <= 100);
- 		}
+		}
 		this.progress = progress;
 	}
 
@@ -74,7 +74,7 @@ public class TestCaseEvent {
 	public void setTestCaseName(final String testCaseName) {
 		if (Constants.DEBUG) {
 			assert testCaseName != null;
- 		}
+		}
 		this.testCaseName = testCaseName;
 	}
 }

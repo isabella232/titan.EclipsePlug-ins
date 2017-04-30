@@ -26,8 +26,8 @@ public class SilentEvent extends MSCNode {
 
 	/**
 	 * Constructor
-	 * 
-	 * @param eventOccurrence the event occurrence for the creation of this silent event 
+	 *
+	 * @param eventOccurrence the event occurrence for the creation of this silent event
 	 * @param type the silent event type
 	 */
 	public SilentEvent(final int eventOccurrence, final Lifeline lifeline, final String type) {

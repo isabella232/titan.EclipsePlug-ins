@@ -52,18 +52,18 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
  * These shift things are a hack but needed in order to properly handle artificial nodes.
  */
 public class MSCModel {
-	
+
 	private ExecutionModel model;
 	private Map<String, Lifeline> lifelines;
 	private Lifeline sutLifeline;
 	private Frame frame;
 	private URI logFilePath;
-	private String sutName;  
+	private String sutName;
 	private static final int MAX_CHARS = 100;
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param model the execution model
 	 * @param logFileMetaData the log file metadata (need for silent event tooltip)
 	 * @param sutName the name of the SUT
@@ -76,14 +76,14 @@ public class MSCModel {
 	}
 
 	/**
-	 * 
+	 *
 	 * @return the frame
 	 */
 	public Frame getModelFrame() {
 		if (this.model == null) {
 			return null;
 		}
-		
+
 		this.frame = new Frame(this);
 		this.frame.setName(this.model.getTestCase().getTestCaseName());
 
@@ -173,7 +173,7 @@ public class MSCModel {
 				createLifelineAndHeaderComponent(ref, time, this.lifelines.get(ref), occurrence);
 			}
 			break;
-		// Creation of Parallel Test Component (PTC)
+			// Creation of Parallel Test Component (PTC)
 		case PTC_CREATE:
 			createLifelineAndHeaderComponent(ref, time, new Lifeline(), occurrence);
 			break;
@@ -191,7 +191,7 @@ public class MSCModel {
 		case MTC_TERMINATE:
 			ref = Constants.MTC_REFERENCE;
 			terminateLifeLineComponent(ref, time, occurrence);
-			break;		
+			break;
 			// Termination of Parallel Test Component (PTC)
 		case PTC_TERMINATE:
 			terminateLifeLineComponent(ref, time, occurrence);
@@ -213,7 +213,7 @@ public class MSCModel {
 		//Set name without ref so that the visual order works
 		lifeline.setName(name);
 		this.frame.addLifeLine(lifeline);
-		
+
 		// Create and add Header
 		LifelineHeader lifeLineHeader = new LifelineHeader(lifeline, this.frame);
 		if (!name.contentEquals(this.sutName)
@@ -237,13 +237,13 @@ public class MSCModel {
 		if (tmpLifeline == null) {
 			return;
 		}
-		
+
 		// Get name
 		String name = getComponentNameFromReference(ref);
 		if (!name.contentEquals(this.sutName)
-		   && !name.contentEquals(MSCConstants.MTC_NAME)
-		   && !name.contentEquals(ref)) {
-			
+				&& !name.contentEquals(MSCConstants.MTC_NAME)
+				&& !name.contentEquals(ref)) {
+
 			name = name + " (" + ref + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
@@ -276,111 +276,111 @@ public class MSCModel {
 		String sourcePort = event.getPort();
 		String targetPort = event.getTargetPort();
 		switch (event.getType()) {
-		
-			// TC start
-			case TC_START:
-				return testCaseStart(name, time, this.frame.lifeLinesCount(), occurrence);
-				
+
+		// TC start
+		case TC_START:
+			return testCaseStart(name, time, this.frame.lifeLinesCount(), occurrence);
+
 			// TC end
-			case TC_END:
-				return testCaseEnd(name, time, this.frame.lifeLinesCount(), occurrence);
-		
+		case TC_END:
+			return testCaseEnd(name, time, this.frame.lifeLinesCount(), occurrence);
+
 			// Creation of System Component
-			case SYSTEM_CREATE:
-				ref = Constants.SUT_REFERENCE;
-				return createComponent(ref, time, this.lifelines.get(ref), occurrence);
-				// Creation of Host Controller (HC)
-			case HC_CREATE:
-				ref = Constants.HC_REFERENCE;
-				return createComponent(ref, time, this.lifelines.get(ref), occurrence);
+		case SYSTEM_CREATE:
+			ref = Constants.SUT_REFERENCE;
+			return createComponent(ref, time, this.lifelines.get(ref), occurrence);
+			// Creation of Host Controller (HC)
+		case HC_CREATE:
+			ref = Constants.HC_REFERENCE;
+			return createComponent(ref, time, this.lifelines.get(ref), occurrence);
 
 			// Creation of Main Test Component (MTC)
-			case MTC_CREATE: {
-				ref = Constants.MTC_REFERENCE;
-				Lifeline lifeLine = this.lifelines.get(ref);
-				return createComponent(ref, time, lifeLine, occurrence);
-			}
-			// Creation of Parallel Test Component (PTC)
-			case PTC_CREATE:
-				return createComponent(ref, time, this.lifelines.get(ref), occurrence);
+		case MTC_CREATE: {
+			ref = Constants.MTC_REFERENCE;
+			Lifeline lifeLine = this.lifelines.get(ref);
+			return createComponent(ref, time, lifeLine, occurrence);
+		}
+		// Creation of Parallel Test Component (PTC)
+		case PTC_CREATE:
+			return createComponent(ref, time, this.lifelines.get(ref), occurrence);
 
 			// Termination of System Component
-			case SYSTEM_TERMINATE:
-				ref = Constants.SUT_REFERENCE;
-				return terminateComponent(ref, time, occurrence);
+		case SYSTEM_TERMINATE:
+			ref = Constants.SUT_REFERENCE;
+			return terminateComponent(ref, time, occurrence);
 
-				// Termination of Host Controller (HC)
-			case HC_TERMINATE:
-				ref = Constants.HC_REFERENCE;
-				return terminateComponent(ref, time, occurrence);
+			// Termination of Host Controller (HC)
+		case HC_TERMINATE:
+			ref = Constants.HC_REFERENCE;
+			return terminateComponent(ref, time, occurrence);
 
 			// Termination of Main Test Component (MTC)
-			case MTC_TERMINATE:
-				ref = Constants.MTC_REFERENCE;
-				return terminateComponent(ref, time, occurrence);
-			
+		case MTC_TERMINATE:
+			ref = Constants.MTC_REFERENCE;
+			return terminateComponent(ref, time, occurrence);
+
 			// Termination of Parallel Test Component (PTC)
-			case PTC_TERMINATE:
-				return terminateComponent(ref, time, occurrence);
-				
+		case PTC_TERMINATE:
+			return terminateComponent(ref, time, occurrence);
+
 			// Messages
-			case SEND:
-				return addSignal(new SendSignal(), ref, target, name, time, occurrence);
-			case RECEIVE:
-				return addSignal(new ReceiveSignal(), ref, target, name, time, occurrence);
-				
+		case SEND:
+			return addSignal(new SendSignal(), ref, target, name, time, occurrence);
+		case RECEIVE:
+			return addSignal(new ReceiveSignal(), ref, target, name, time, occurrence);
+
 			// Enqueued messages
-			case ENQUEUED:
-				return addEnqueued(ref, target, name, time, occurrence);
+		case ENQUEUED:
+			return addEnqueued(ref, target, name, time, occurrence);
 
 			// Silent events
-			case SILENT_EVENT:
-				LogRecord logrecord = null;
-				try {
-					logrecord = ValueReader.getInstance().readLogRecordFromLogFile(this.logFilePath, event);
-				} catch (final IOException valueException) {
-					return addSilentEvent(ref, "", type, time, occurrence);
-				} catch (final ParseException e) {
-					return addSilentEvent(ref, "", type, time, occurrence);
-				}
+		case SILENT_EVENT:
+			LogRecord logrecord = null;
+			try {
+				logrecord = ValueReader.getInstance().readLogRecordFromLogFile(this.logFilePath, event);
+			} catch (final IOException valueException) {
+				return addSilentEvent(ref, "", type, time, occurrence);
+			} catch (final ParseException e) {
+				return addSilentEvent(ref, "", type, time, occurrence);
+			}
 
-				String messageText = getMessageTextFromRecord(logrecord);
+			String messageText = getMessageTextFromRecord(logrecord);
 
-				return addSilentEvent(ref, messageText, type, time, occurrence);
+			return addSilentEvent(ref, messageText, type, time, occurrence);
 
 			// Functions
-			case FUNCTION:
-				return addFunctionNode(new Function(), ref, target, name, time, occurrence);
+		case FUNCTION:
+			return addFunctionNode(new Function(), ref, target, name, time, occurrence);
 
 			// Function done
-			case PTC_DONE:
-				return addFunctionNode(new FunctionDone(), ref, target, name, time, occurrence);
+		case PTC_DONE:
+			return addFunctionNode(new FunctionDone(), ref, target, name, time, occurrence);
 
 			// Setverdict
-			case SETVERDICT:
-			case SETVERDICT_INCONC:
-			case SETVERDICT_NONE:
-			case SETVERDICT_PASS:
-				return addSetVerdict(ref, name, time, occurrence);
-				
+		case SETVERDICT:
+		case SETVERDICT_INCONC:
+		case SETVERDICT_NONE:
+		case SETVERDICT_PASS:
+			return addSetVerdict(ref, name, time, occurrence);
+
 			// Port mappings
-			case MAPPING_PORT:
-				return addPortEventNode(new PortMapping(sourcePort, targetPort), ref, target, time, occurrence);
+		case MAPPING_PORT:
+			return addPortEventNode(new PortMapping(sourcePort, targetPort), ref, target, time, occurrence);
 
 			// Port unmappings
-			case UNMAPPING_PORT:
-				return addPortEventNode(new PortUnmapping(sourcePort, targetPort), ref, target, time, occurrence);
+		case UNMAPPING_PORT:
+			return addPortEventNode(new PortUnmapping(sourcePort, targetPort), ref, target, time, occurrence);
 
 			// Port connections
-			case CONNECTING_PORT:
-				return addPortEventNode(new PortConnection(sourcePort, targetPort), ref, target, time, occurrence);
+		case CONNECTING_PORT:
+			return addPortEventNode(new PortConnection(sourcePort, targetPort), ref, target, time, occurrence);
 
-			// Port disconnections 
-			case DISCONNECTING_PORT:
-				return addPortEventNode(new PortDisconnection(sourcePort, targetPort), ref, target, time, occurrence);
+			// Port disconnections
+		case DISCONNECTING_PORT:
+			return addPortEventNode(new PortDisconnection(sourcePort, targetPort), ref, target, time, occurrence);
 
-			default:
-				return new MSCNode[]{};
+		default:
+			return new MSCNode[]{};
 		}
 	}
 
@@ -411,36 +411,36 @@ public class MSCModel {
 		// Create Test Case End
 		TestCaseEnd testCaseEnd = new TestCaseEnd(occurrence, name, width);
 		testCaseEnd.setName(name);
-		
+
 		// Create and add Time Stamp
 		return new MSCNode[] {testCaseEnd, new TimeStampNode(occurrence, time)};
 	}
 
 	private MSCNode[] createComponent(final String ref, final String time, final Lifeline lifeline, final int occurrence) {
-			String name = getComponentNameFromReference(ref);
-			if (!name.contentEquals(this.sutName)
-					&& !name.contentEquals(MSCConstants.MTC_NAME)
-					&& !name.contentEquals(ref)) {		
-						name = name + " (" + ref + ")"; //$NON-NLS-1$ //$NON-NLS-2$
-					}
-			ComponentCreation start = new ComponentCreation(occurrence, lifeline);
-			start.setName(name);
-			return new MSCNode[] {start, new TimeStampNode(occurrence, time)};
+		String name = getComponentNameFromReference(ref);
+		if (!name.contentEquals(this.sutName)
+				&& !name.contentEquals(MSCConstants.MTC_NAME)
+				&& !name.contentEquals(ref)) {
+			name = name + " (" + ref + ")"; //$NON-NLS-1$ //$NON-NLS-2$
+		}
+		ComponentCreation start = new ComponentCreation(occurrence, lifeline);
+		start.setName(name);
+		return new MSCNode[] {start, new TimeStampNode(occurrence, time)};
 	}
-	
+
 	private MSCNode[] terminateComponent(final String ref, final String time, final int occurrence) {
 		// Get life line
 		Lifeline tmpLifeline = this.lifelines.get(ref);
 		if (tmpLifeline == null) {
 			return new MSCNode[] {};
 		}
-		
+
 		// Get name
 		String name = getComponentNameFromReference(ref);
 		if (!name.contentEquals(this.sutName)
-		   && !name.contentEquals(MSCConstants.MTC_NAME)
-		   && !name.contentEquals(ref)) {
-			
+				&& !name.contentEquals(MSCConstants.MTC_NAME)
+				&& !name.contentEquals(ref)) {
+
 			name = name + " (" + ref + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
@@ -449,7 +449,7 @@ public class MSCModel {
 		ComponentTermination stop = new ComponentTermination(occurrence, tmpLifeline, verdict);
 		stop.setName(name);
 		tmpLifeline.setStop(stop);
-		
+
 		// Create and add Time Stamp
 		return new MSCNode[] {stop, new TimeStampNode(occurrence, time)};
 	}
@@ -470,7 +470,7 @@ public class MSCModel {
 		// Create and add Time Stamp
 		return new MSCNode[] {signal, new TimeStampNode(occurrence, time)};
 	}
-	
+
 	private MSCNode[] addEnqueued(final String ref, final String target, final String name, final String time, final int occurrence) {
 		Enqueued message = new Enqueued();
 		Lifeline source = this.lifelines.get(ref);
@@ -489,7 +489,7 @@ public class MSCModel {
 
 		return new MSCNode[] {message, new TimeStampNode(occurrence, time)};
 	}
-	
+
 	private MSCNode[] addSilentEvent(final String ref, final String name, final String type, final String time, final int occurrence) {
 		String silentEventType = null;
 		Set<String> types = Constants.EVENT_CATEGORIES.keySet();
@@ -502,7 +502,7 @@ public class MSCModel {
 		if (silentEventType == null) {
 			return new MSCNode[] {};
 		}
-		
+
 		// Get life line
 		Lifeline tmpLifeline = this.lifelines.get(ref);
 		if (tmpLifeline == null) {
@@ -566,13 +566,13 @@ public class MSCModel {
 			setverdictComp.setName(name);
 			temp[0] = setverdictComp;
 		}
-		
+
 		// Create and add Time Stamp
 		temp[1] = new TimeStampNode(occurrence, time);
 		return temp;
 	}
-	
-	
+
+
 	/**
 	 * This method is used to extract the name from a given
 	 * component once the component reference is known.
@@ -589,14 +589,14 @@ public class MSCModel {
 			if (component != null) {
 				if (component.getName().trim().length() > 0) {
 					return component.getName();
-				} 
+				}
 
 				return ref;
 			}
 		}
 		return ref;
-	}	
-	
+	}
+
 	/**
 	 * This method is used to extract the verdict from a given
 	 * component once the component reference is known.

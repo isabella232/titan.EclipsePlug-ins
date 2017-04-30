@@ -17,7 +17,7 @@ import org.eclipse.titan.log.viewer.views.msc.model.EventType;
 class EventObjectFactory {
 
 	public EventObject createEventObject(final EventType type, final LogRecord logRecord,
-	                                     MessageAnalyser messageAnalyser1, int timeStampConstant) {
+			MessageAnalyser messageAnalyser1, int timeStampConstant) {
 
 		EventObject eventObject = new EventObject(type);
 		if (logRecord != null) {
@@ -32,7 +32,7 @@ class EventObjectFactory {
 			}
 
 			eventObject.setEventType(logRecord.getEventType()); // event type in
-																// log file
+			// log file
 			eventObject.setRecordOffset(logRecord.getRecordOffset());
 			eventObject.setRecordLength(logRecord.getRecordLength());
 			eventObject.setRecordNumber(logRecord.getRecordNumber());
@@ -51,9 +51,9 @@ class EventObjectFactory {
 			eventObject.setReference(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE);
 			break;
 
-		// As TTCN tests always have a main test component, also here I have
-		// hard-wired the name, but this can easily be taken from the actual
-		// log.
+			// As TTCN tests always have a main test component, also here I have
+			// hard-wired the name, but this can easily be taken from the actual
+			// log.
 		case MTC_CREATE:
 		case MTC_TERMINATE:
 			eventObject.setName(org.eclipse.titan.log.viewer.utils.Constants.MTC);
@@ -65,32 +65,32 @@ class EventObjectFactory {
 			eventObject.setReference(org.eclipse.titan.log.viewer.utils.Constants.HC_REFERENCE);
 			break;
 
-		// This event type represents a component creation.
+			// This event type represents a component creation.
 		case PTC_CREATE:
 			eventObject.setReference(messageAnalyser1.getComponentCreationReference());
 			eventObject.setName(messageAnalyser1.getComponentCreationName());
 			break;
 
-		// This event type represents a component done event.
+			// This event type represents a component done event.
 		case PTC_DONE:
 			eventObject.setName("done"); //$NON-NLS-1$
 			eventObject.setReference(messageAnalyser1.getComponentDoneReference());
 			eventObject.setTarget(org.eclipse.titan.log.viewer.utils.Constants.MTC_REFERENCE);
 			break;
 
-		// This event type represents a test case start event.
+			// This event type represents a test case start event.
 		case TC_START:
 
 			String tcName = messageAnalyser1.getTestcaseName();
 			eventObject.setName(tcName);
 			break;
 
-		// This event type represents a test case termination event.
+			// This event type represents a test case termination event.
 		case TC_END:
 			eventObject.setName(messageAnalyser1.getTestcaseVerdict());
 			break;
 
-		// This event type represents a send event.
+			// This event type represents a send event.
 		case SEND:
 			String sendSource = messageAnalyser1.getSendSource();
 			eventObject.setReference(sendSource);

@@ -11,7 +11,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 /**
- * Class for getting external messages 
+ * Class for getting external messages
  *
  */
 public final class Messages {
@@ -20,7 +20,7 @@ public final class Messages {
 			.getBundle(BUNDLE_NAME);
 
 	/**
-	 * Protected constructor 
+	 * Protected constructor
 	 */
 	private Messages() {
 	}

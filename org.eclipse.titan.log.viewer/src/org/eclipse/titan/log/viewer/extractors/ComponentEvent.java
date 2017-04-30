@@ -15,10 +15,10 @@ public class ComponentEvent {
 
 	private String compName;
 	private int progress;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param compName the name of the component
 	 * @param progress the current progress (0 to 100)
 	 */

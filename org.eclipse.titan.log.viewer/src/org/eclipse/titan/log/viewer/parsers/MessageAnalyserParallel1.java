@@ -21,7 +21,7 @@ public class MessageAnalyserParallel1 extends MessageAnalyserFormat1 {
 	protected boolean isSystemTermination() {
 		return this.message.contains(HOST_CONTROLLER_FINISHED);
 	}
-	
+
 	@Override
 	public String getType() {
 		return "MessageAnalyserParallel1"; //$NON-NLS-1$

@@ -36,7 +36,7 @@ public class Frame extends BasicFrame {
 	private List<MSCNode> nodeCache = null;
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public Frame(final MSCModel model) {
 		this.comparator = new MSCNodeComparator();
@@ -76,7 +76,7 @@ public class Frame extends BasicFrame {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns the number of lifelines stored in the frame
 	 * @return the number of lifelines
@@ -102,7 +102,7 @@ public class Frame extends BasicFrame {
 
 		return lifelineNodes;
 	}
-	
+
 	/**
 	 * Moves the to most first position (first to the left)
 	 * @param lifeLine the lifeline to move
@@ -112,23 +112,23 @@ public class Frame extends BasicFrame {
 		if ((position == lifeLine.getIndex()) || (position > lifeLinesCount())) {
 			return;
 		}
-		
+
 		// Update index of lifelines
 		int oldPosition = lifeLine.getIndex();
-		
+
 		if (oldPosition > position) {
 			moveLeft(oldPosition, position);
 		} else {
 			moveRight(oldPosition, position);
 		}
-		
+
 		// Set new index
 		lifeLine.setIndex(position);
-		
+
 		// Update index
 		Collections.<Lifeline>sort(getLifelines(), this.comparator);
 	}
-	
+
 	private void moveLeft(final int oldPosition, final int newPosition) {
 		List<Lifeline> lifelines = getLifelines();
 		for (Lifeline currLifeLine : lifelines) {
@@ -138,7 +138,7 @@ public class Frame extends BasicFrame {
 			}
 		}
 	}
-	
+
 	private void moveRight(final int oldPosition, final int newPosition) {
 		List<Lifeline> lifelines = getLifelines();
 		for (Lifeline currLifeLine : lifelines) {
@@ -151,15 +151,15 @@ public class Frame extends BasicFrame {
 
 	/**
 	 * Adds a lifeline to the frame lifelines list.
-	 * The lifeline X drawing order depends on the lifeline 
+	 * The lifeline X drawing order depends on the lifeline
 	 * addition order into the frame lifelines list.
-	 * 
+	 *
 	 * @param lifeLine the lifeline to add
 	 */
 	public void addLifeLine(final Lifeline lifeLine) {
 		if (lifeLine == null) {
 			return;
-		} 
+		}
 		//set the lifeline parent frame
 		lifeLine.setFrame(this);
 		//Increate the frame lifeline counter
@@ -177,7 +177,7 @@ public class Frame extends BasicFrame {
 
 	/**
 	 * Adds a lifeline header to the frame's lifeline headers list.
-	 * 
+	 *
 	 * @param lifeLineHeader the lifeline header to add
 	 */
 	public void addLifeLineHeader(final LifelineHeader lifeLineHeader) {
@@ -192,7 +192,7 @@ public class Frame extends BasicFrame {
 
 	/**
 	 * Gets the closest lifeline for an x value
-	 * 
+	 *
 	 * @param x the x value
 	 * @return the closest lifeline
 	 */
@@ -223,7 +223,7 @@ public class Frame extends BasicFrame {
 		if (toReturn != null) {
 			return toReturn;
 		}
-		
+
 		if (nodeCache == null) {
 			return null;
 		}
@@ -242,11 +242,11 @@ public class Frame extends BasicFrame {
 		if (!this.hasChildren) {
 			return;
 		}
-		
+
 		int arrayStep = 1;
 		if ((MSCConstants.getFontHeight() + MSCConstants.MESSAGES_TEXT_VERTICAL_SPACING * 2) * context.getZoom() < MSCConstants.MESSAGE_SIGNIFICANT_VSPACING) {
 			arrayStep = Math.round(MSCConstants.MESSAGE_SIGNIFICANT_VSPACING / ((MSCConstants.getFontHeight()
-				+ MSCConstants.MESSAGES_TEXT_VERTICAL_SPACING * 2) * context.getZoom()));
+					+ MSCConstants.MESSAGES_TEXT_VERTICAL_SPACING * 2) * context.getZoom()));
 		}
 
 		// Draw all nodes
@@ -297,7 +297,7 @@ public class Frame extends BasicFrame {
 		if (!this.hasChildren || list.isEmpty()) {
 			return 0;
 		}
-		
+
 		int contextX = context.getContentsX();
 		int contextY = context.getContentsY();
 		int contextWidth = context.getVisibleWidth();

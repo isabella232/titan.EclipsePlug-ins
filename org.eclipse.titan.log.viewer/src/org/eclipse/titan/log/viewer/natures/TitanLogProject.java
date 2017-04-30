@@ -18,7 +18,7 @@ import org.eclipse.core.runtime.CoreException;
 //TODO: check if this is needed still
 public class TitanLogProject implements IProjectNature {
 
-	
+
 	private IProject project;
 
 	@Override

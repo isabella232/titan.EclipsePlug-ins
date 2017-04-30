@@ -42,11 +42,11 @@ public class PortConnection extends PortEventNode {
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillOval(tempX,
-						 y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-						 MSCConstants.MESSAGE_SYMBOL_SIZE);
+				y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
 
-		
+
 		// Draw circle of other end
 		tempX = tempX - getWidth();
 		if (direction == RIGHT) {
@@ -55,10 +55,10 @@ public class PortConnection extends PortEventNode {
 			tempX = tempX - MSCConstants.MESSAGE_SYMBOL_SIZE;
 		}
 		context.fillOval(tempX,
-				 		 y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE);
-		
+				y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
+
 
 		// Prepare text
 		if (this.sourcePort.contentEquals(this.targetPort)) {
@@ -80,15 +80,15 @@ public class PortConnection extends PortEventNode {
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillOval(tempX,
-						 yTop - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-						 MSCConstants.MESSAGE_SYMBOL_SIZE);
+				yTop - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
 
 		//Draw a filled circle at top of line
 		context.fillOval(tempX,
-				 		 yBottom - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE);
+				yBottom - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
 
 		// Prepare text
 		if (this.sourcePort.contentEquals(this.targetPort)) {

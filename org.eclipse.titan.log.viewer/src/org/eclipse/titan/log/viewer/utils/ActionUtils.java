@@ -30,7 +30,7 @@ import org.eclipse.titan.log.viewer.views.ILogViewerView;
  * Help class to navigator actions
  */
 public final class ActionUtils {
-	
+
 	private ActionUtils() {
 		// Hide constructor
 	}
@@ -44,20 +44,20 @@ public final class ActionUtils {
 	 */
 	public static void closeAssociatedViews(final IWorkbenchPage activePage, final IViewReference[] viewReferences, final IResource resource) {
 		switch (resource.getType()) {
-			case IResource.PROJECT: 
-				closeViewsForProject((IProject) resource, activePage, viewReferences);
-				break;
-			case IResource.FILE:
-				closeViewsForFiles((IFile) resource, activePage, viewReferences);
-				break;
-			case IResource.FOLDER:
-				closeViewsInclInFolder((IFolder) resource, activePage, viewReferences);
-				break;
-			default:
-				break;
+		case IResource.PROJECT:
+			closeViewsForProject((IProject) resource, activePage, viewReferences);
+			break;
+		case IResource.FILE:
+			closeViewsForFiles((IFile) resource, activePage, viewReferences);
+			break;
+		case IResource.FOLDER:
+			closeViewsInclInFolder((IFolder) resource, activePage, viewReferences);
+			break;
+		default:
+			break;
 		}
 	}
-	
+
 	/**
 	 * Updates the log file and it's children in the project explorer view. It should be used when the test cases
 	 * of the log file or the log file has changed. For example when the test case extraction is done.
@@ -69,7 +69,7 @@ public final class ActionUtils {
 			public void run() {
 				final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 				IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
-				
+
 				if (view instanceof CommonNavigator) {
 					CommonViewer viewer = ((CommonNavigator) view).getCommonViewer();
 					viewer.refresh(logFile, true);
@@ -78,7 +78,7 @@ public final class ActionUtils {
 			}
 		});
 	}
-	
+
 	/**
 	 * Closes all connected views when closing/deleting a project
 	 * and clear the test case tabbed navigator if necessary
@@ -180,7 +180,7 @@ public final class ActionUtils {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
 		}
-		
+
 		LogFileCacheHandler.clearLogFolderCache(folder);
 	}
 

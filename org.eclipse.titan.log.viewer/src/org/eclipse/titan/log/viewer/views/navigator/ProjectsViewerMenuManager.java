@@ -15,15 +15,15 @@ import org.eclipse.jface.action.MenuManager;
  * added to the projects viewer used in the navigator view
  *
  */
-public class ProjectsViewerMenuManager extends MenuManager { 
-	
+public class ProjectsViewerMenuManager extends MenuManager {
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public ProjectsViewerMenuManager() {
 		super("#PopupMenu"); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void addMenuListener(final IMenuListener listener) {
 		// Prevent other listeners then our own to remove additions

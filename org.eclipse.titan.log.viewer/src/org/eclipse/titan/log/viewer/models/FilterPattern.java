@@ -20,10 +20,10 @@ public class FilterPattern {
 	public enum Field {
 		SOURCE_INFO, MESSAGE
 	}
-	
+
 	private SortedMap<String, Boolean> eventsToFilter = null;
 	private boolean inclusive = true;
-	
+
 	private Map<Field, Boolean> fieldsToFilter = null;
 	private String filterExpression = null;
 	private boolean caseSensitive = false;
@@ -33,30 +33,30 @@ public class FilterPattern {
 	private boolean containsSilentEvents = false;
 
 	public FilterPattern(final Map<String, Boolean> eventsToFilter, final boolean inclusive,
-						final boolean containsSilentEvents) {
+			final boolean containsSilentEvents) {
 		setEventsToFilter(eventsToFilter, inclusive, containsSilentEvents);
 	}
-	
+
 	public FilterPattern(final String filterExpression, final Map<Field, Boolean> fieldsToFilter,
 			final boolean caseSensitive, final boolean regularExpression) {
 		setFilterExpression(filterExpression, fieldsToFilter, caseSensitive, regularExpression);
 	}
-	
+
 	public FilterPattern(final TimeInterval timeInterval) {
 		setTimeInterval(timeInterval);
 	}
-	
+
 	public FilterPattern(final FilterPattern otherPattern) {
 		setEventsToFilter(otherPattern.eventsToFilter, otherPattern.inclusive, otherPattern.containsSilentEvents);
-		setFilterExpression(otherPattern.getFilterExpression(), otherPattern.getFieldsToFilter(), 
+		setFilterExpression(otherPattern.getFilterExpression(), otherPattern.getFieldsToFilter(),
 				otherPattern.isCaseSensitive(), otherPattern.isRegularExpression());
 		setTimeInterval(otherPattern.getTimeInterval());
 	}
-	
+
 	public SortedMap<String, Boolean> getEventsToFilter() {
 		return eventsToFilter;
 	}
-	
+
 	public boolean isInclusive() {
 		return inclusive;
 	}
@@ -64,19 +64,19 @@ public class FilterPattern {
 	public void setInclusive(final boolean inclusive) {
 		this.inclusive = inclusive;
 	}
-	
+
 	public Map<Field, Boolean> getFieldsToFilter() {
 		return fieldsToFilter;
 	}
-	
+
 	public String getFilterExpression() {
 		return filterExpression != null ? filterExpression : "";
 	}
-	
+
 	public TimeInterval getTimeInterval() {
 		return timeInterval;
 	}
-	
+
 	public void setCaseSensitive(final boolean isCaseSensitive) {
 		if (this.caseSensitive == isCaseSensitive) {
 			return;
@@ -84,11 +84,11 @@ public class FilterPattern {
 		this.caseSensitive = isCaseSensitive;
 		compileFilterExpression();
 	}
-	
+
 	public boolean isCaseSensitive() {
 		return caseSensitive;
 	}
-	
+
 	public void setRegularExpression(final boolean isRegularExpression) {
 		if (this.regularExpression == isRegularExpression) {
 			return;
@@ -96,15 +96,15 @@ public class FilterPattern {
 		this.regularExpression = isRegularExpression;
 		compileFilterExpression();
 	}
-	
+
 	public boolean isRegularExpression() {
 		return regularExpression;
 	}
-	
+
 	public boolean containsSilentEvents() {
 		return containsSilentEvents;
 	}
-	
+
 	public void setTimeInterval(final TimeInterval timeInterval) {
 		if (timeInterval != null) {
 			this.timeInterval = new TimeInterval(timeInterval);
@@ -112,9 +112,9 @@ public class FilterPattern {
 		}
 		this.timeInterval = null;
 	}
-	
+
 	public void setEventsToFilter(final Map<String, Boolean> eventsToFilter, final boolean inclusive,
-							final boolean containsSilentEvents) {
+			final boolean containsSilentEvents) {
 		this.inclusive = inclusive;
 		this.containsSilentEvents = containsSilentEvents;
 		if (eventsToFilter != null) {
@@ -126,7 +126,7 @@ public class FilterPattern {
 		}
 		this.eventsToFilter = null;
 	}
-	
+
 	public boolean isEventIgnored(final String event) {
 		if (inclusive) {
 			return !eventsToFilter.get(event);
@@ -134,9 +134,9 @@ public class FilterPattern {
 
 		return eventsToFilter.get(event);
 	}
-	
+
 	public void setFilterExpression(final String filterExpression, final Map<Field, Boolean> fieldsToFilter,
-										final boolean isCaseSensitive, final boolean isRegularExpression) {
+			final boolean isCaseSensitive, final boolean isRegularExpression) {
 		if (filterExpression != null && fieldsToFilter != null) {
 			this.filterExpression = filterExpression;
 			this.caseSensitive = isCaseSensitive;
@@ -145,29 +145,29 @@ public class FilterPattern {
 			for (Map.Entry<Field, Boolean> entry : fieldsToFilter.entrySet()) {
 				this.fieldsToFilter.put(entry.getKey(), entry.getValue());
 			}
-			
+
 			compileFilterExpression();
 		} else {
 			this.filterExpression = null;
 			this.fieldsToFilter = null;
 		}
 	}
-	
+
 	public void compileFilterExpression() {
 		String regexp = isRegularExpression() ? filterExpression : convertToRegex(filterExpression);
-		
+
 		if (caseSensitive) {
 			this.filterExpressionCompiled = Pattern.compile(regexp, Pattern.DOTALL);
 		} else {
 			this.filterExpressionCompiled = Pattern.compile(regexp, Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
 		}
 	}
-	
+
 	public String convertToRegex(final String pattern) {
 		if (pattern == null || pattern.length() == 0) {
 			return ".*";
 		}
-		
+
 		StringBuilder builder = new StringBuilder();
 		int i = 0;
 		if (pattern.charAt(0) == '*') {
@@ -177,50 +177,50 @@ public class FilterPattern {
 		for ( ; i < pattern.length(); i++) {
 			char c = pattern.charAt(i);
 			switch(c) {
-				case '*':
-					builder.append(".*");
+			case '*':
+				builder.append(".*");
+				break;
+			case '?':
+				builder.append(".");
+				break;
+			case '\\':
+				if (i < pattern.length() - 1 && (pattern.charAt(i + 1) == '*' || pattern.charAt(i + 1) == '?')) {
+					builder.append("\\" + pattern.charAt(i + 1));
+					i++;
 					break;
-				case '?':
-					builder.append(".");
-					break;
-				case '\\':
-					if (i < pattern.length() - 1 && (pattern.charAt(i + 1) == '*' || pattern.charAt(i + 1) == '?')) {
-						builder.append("\\" + pattern.charAt(i + 1));
-						i++;
-						break;
-					}
+				}
 				//$FALL-THROUGH$
-			case '{': case '}': case '[': case ']': case '(': case ')':  
-				case '^': case '$': case '.': case '|':
-					builder.append("\\");
-					builder.append(c);
-					break;
-				default:
-					builder.append(c);
-					break;
+			case '{': case '}': case '[': case ']': case '(': case ')':
+			case '^': case '$': case '.': case '|':
+				builder.append("\\");
+				builder.append(c);
+				break;
+			default:
+				builder.append(c);
+				break;
 			}
 		}
 		if (builder.charAt(builder.length() - 2) != '.'
-			|| builder.charAt(builder.length() - 1) != '*') {
+				|| builder.charAt(builder.length() - 1) != '*') {
 			builder.append(".*");
 		}
 		return builder.toString();
 	}
-	
+
 	public boolean isMessageMatching(final String message) {
 		return filterExpressionCompiled.matcher(message).matches();
 	}
-	
+
 	public boolean match(final LogRecord record) {
 		if (eventsToFilter != null && !eventsToFilter.isEmpty()
-			&& inclusive != eventsToFilter.get(record.getEventType())) { // xor
-				return false;
+				&& inclusive != eventsToFilter.get(record.getEventType())) { // xor
+			return false;
 		}
-		
+
 		if (timeInterval != null && !timeInterval.contains(record.getTimestamp())) {
 			return false;
 		}
-		
+
 		if (filterExpression.length() > 0 && fieldsToFilter != null && !fieldsToFilter.isEmpty()) {
 			boolean b = false;
 			for (Map.Entry<Field, Boolean> entry : fieldsToFilter.entrySet()) {
@@ -240,12 +240,12 @@ public class FilterPattern {
 					}
 				}
 			}
-			
+
 			if (!b) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 
@@ -257,7 +257,7 @@ public class FilterPattern {
 		if (o == null || o.getClass() != this.getClass()) {
 			return false;
 		}
-		
+
 		FilterPattern rhs = (FilterPattern) o;
 		return ObjectUtils.equals(timeInterval, rhs.timeInterval)
 				&& ObjectUtils.equals(eventsToFilter, rhs.eventsToFilter)
@@ -267,7 +267,7 @@ public class FilterPattern {
 				&& ObjectUtils.equals(inclusive, rhs.inclusive)
 				&& ObjectUtils.equals(fieldsToFilter, rhs.fieldsToFilter);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.hash(eventsToFilter, fieldsToFilter, filterExpression,

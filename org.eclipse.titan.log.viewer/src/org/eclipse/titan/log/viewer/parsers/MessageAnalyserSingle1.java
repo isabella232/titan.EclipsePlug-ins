@@ -16,7 +16,7 @@ public class MessageAnalyserSingle1 extends MessageAnalyserFormat1 {
 	public String getType() {
 		return "MessageAnalyserSingle1"; //$NON-NLS-1$
 	}
-	
+
 	@Override
 	protected boolean isSystemCreation() {
 		return this.message.contains(ETS_STARTUP);

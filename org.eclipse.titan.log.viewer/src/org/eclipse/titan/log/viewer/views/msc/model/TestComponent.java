@@ -83,7 +83,7 @@ public class TestComponent {
 	public String getVerdict() {
 		return this.verdict;
 	}
-	
+
 	/**
 	 * Adds an entry in the hashmap where a local port is mapped to the
 	 * reference of a component. By looking up ports in this table, we can

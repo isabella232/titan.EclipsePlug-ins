@@ -15,9 +15,9 @@ public class ConnectedRecord {
 	private long recordOffset;
 	private int recordLength;
 	private int recordNumber;
-	
+
 	/**
-	 * Protected constructor 
+	 * Protected constructor
 	 */
 	public ConnectedRecord(final long recordOffset, final int recordLength, final int recordNumber) {
 		this.recordOffset = recordOffset;
@@ -42,5 +42,5 @@ public class ConnectedRecord {
 	public void setRecordOffset(final long recordOffset) {
 		this.recordOffset = recordOffset;
 	}
-	
+
 }

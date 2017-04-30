@@ -23,11 +23,11 @@ import org.eclipse.ui.IWorkingSetManager;
 import org.eclipse.ui.PlatformUI;
 
 public class SearchPattern {
-	
+
 	private FilterPattern filterPattern;
 	private IWorkingSet[] workingSets;
 	private int scope;
-	
+
 	public SearchPattern(final String searchString, final boolean isCaseSensitive, final boolean isRegularExpression,
 			final Map<String, Boolean> events, final Map<Field, Boolean> limitTo,
 			final int scope, final IWorkingSet[] workingsets) {
@@ -36,60 +36,60 @@ public class SearchPattern {
 		this.scope = scope;
 		this.workingSets = workingsets;
 	}
-	
+
 	public SearchPattern(final FilterPattern filterPattern, final int scope, final IWorkingSet[] workingsets) {
 		this.filterPattern = filterPattern;
 		this.scope = scope;
 		this.workingSets = workingsets;
 	}
-	
+
 	public SortedMap<String, Boolean> getEvents() {
 		return filterPattern.getEventsToFilter();
 	}
-	
+
 	public String getSearchString() {
 		return filterPattern.getFilterExpression();
 	}
-	
+
 	public Map<Field, Boolean> getLimitTo() {
 		return filterPattern.getFieldsToFilter();
 	}
-	
+
 	public boolean isCaseSensitive() {
 		return filterPattern.isCaseSensitive();
 	}
-	
+
 	public boolean isRegularExpression() {
 		return filterPattern.isRegularExpression();
 	}
-	
+
 	public IWorkingSet[] getWorkingSets() {
 		return workingSets;
 	}
-	
+
 	public int getScope() {
 		return scope;
 	}
-	
+
 	public boolean match(final LogRecord record) {
 		return filterPattern.match(record);
 	}
-	
+
 	public void store(final IDialogSettings settings) {
 		settings.put("searchString", filterPattern.getFilterExpression());
 		settings.put("isCaseSensitive", filterPattern.isCaseSensitive());
 		settings.put("isRegularExpression", filterPattern.isRegularExpression());
-		
+
 		for (Entry<String, Boolean> entry : filterPattern.getEventsToFilter().entrySet()) {
 			settings.put(entry.getKey(), entry.getValue());
 		}
-		
+
 		for (Entry<Field, Boolean> entry : filterPattern.getFieldsToFilter().entrySet()) {
 			settings.put(entry.getKey().toString(), entry.getValue());
 		}
-		
+
 		settings.put("scope", this.scope);
-		
+
 		if (workingSets != null) {
 			String[] wsIds = new String[workingSets.length];
 			for (int i = 0; i < workingSets.length; i++) {
@@ -100,25 +100,25 @@ public class SearchPattern {
 			settings.put("workingSets", new String[0]);
 		}
 	}
-	
+
 	public static SearchPattern create(final IDialogSettings settings) {
 		String loadedSearchString = settings.get("searchString");
 		boolean loadedIsCaseSensitive = settings.getBoolean("isCaseSensitive");
 		boolean loadedIsRegularExpression = settings.getBoolean("isRegularExpression");
-		
+
 		SortedMap<String, Boolean> loadedEvents = new TreeMap<String, Boolean>();
 		for (String entry : Constants.EVENT_CATEGORIES.keySet()) {
 			loadedEvents.put(entry, settings.getBoolean(entry));
 		}
-		
+
 		Map<Field, Boolean> loadedLimitTo = new HashMap<Field, Boolean>();
 		loadedLimitTo.put(Field.SOURCE_INFO, settings.getBoolean(Field.SOURCE_INFO.toString()));
 		loadedLimitTo.put(Field.MESSAGE, settings.getBoolean(Field.MESSAGE.toString()));
-		
-		FilterPattern loadedFilterPattern = new FilterPattern(loadedSearchString, loadedLimitTo, 
-														loadedIsCaseSensitive, loadedIsRegularExpression);
+
+		FilterPattern loadedFilterPattern = new FilterPattern(loadedSearchString, loadedLimitTo,
+				loadedIsCaseSensitive, loadedIsRegularExpression);
 		loadedFilterPattern.setEventsToFilter(loadedEvents, true, false);
-		
+
 		String[] wsIds = settings.getArray("workingSets"); //$NON-NLS-1$
 		IWorkingSet[] workingSets = null;
 		if (wsIds != null && wsIds.length > 0) {
@@ -131,7 +131,7 @@ public class SearchPattern {
 				}
 			}
 		}
-		
+
 		return new SearchPattern(loadedFilterPattern, settings.getInt("scope"), workingSets);
 	}
 }

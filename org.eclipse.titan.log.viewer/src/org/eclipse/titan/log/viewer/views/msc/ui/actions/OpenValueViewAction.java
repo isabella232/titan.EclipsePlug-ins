@@ -123,17 +123,17 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 			TitanLogExceptionHandler.handleException(new UserException(Messages.getString("OpenValueViewAction.1"))); //$NON-NLS-1$
 			return;
 		}
-		
+
 		if (LogFileCacheHandler.hasLogFileChanged(logFile)) {
 			LogFileCacheHandler.handleLogFileChange(logFile);
 			return;
 		}
-		
+
 		DetailsView detailsview  = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
 		if (detailsview == null && !forceEditorOpening) {
 			return;
 		}
-		
+
 		if (forceEditorOpening) {
 			try {
 				detailsview = (DetailsView) activePage.showView(Constants.DETAILS_VIEW_ID);
@@ -144,42 +144,42 @@ public class OpenValueViewAction extends SelectionProviderAction implements Dela
 			}
 		}
 
-			// pass log file meta data
-			detailsview.setLogFileMetaData(this.mscView.getLogFileMetaData());
+		// pass log file meta data
+		detailsview.setLogFileMetaData(this.mscView.getLogFileMetaData());
 
-			ExecutionModel model = this.mscView.getModel();
-			IEventObject ieventObject = model.getEvent(selectedLine - 2);
-			if (!(ieventObject instanceof EventObject)) {
-				return;
-			}
+		ExecutionModel model = this.mscView.getModel();
+		IEventObject ieventObject = model.getEvent(selectedLine - 2);
+		if (!(ieventObject instanceof EventObject)) {
+			return;
+		}
 
-			EventObject eventObject = (EventObject) ieventObject;
-			String testCase = model.getTestCase().getTestCaseName();
-			if ((testCase == null) || eventObject.getRecordNumber() == 0) {
-				return;
-			}
-			
-			// get value
-			LogRecord logrecord;
-			try {
-				logrecord = ValueReader.getInstance().readLogRecordFromLogFileCached(
-						this.mscView.getLogFileMetaData().getFilePath(),
-						eventObject);
-				
-			} catch (Exception e) {
-				ErrorReporter.logExceptionStackTrace(e);
-				TitanLogExceptionHandler.handleException(new TechnicalException(Messages.getString("OpenValueViewAction.3"))); //$NON-NLS-1$
-				return;
-			}
-			String message = logrecord.getMessage();
-			DetailData detailData = new DetailData(eventObject.getName(), 
-					   eventObject.getPort(), 
-					   message, 
-					   testCase,
-					   eventObject.getEventType(),
-					   logrecord.getSourceInformation());
-			
-			detailsview.setData(detailData, false);
+		EventObject eventObject = (EventObject) ieventObject;
+		String testCase = model.getTestCase().getTestCaseName();
+		if ((testCase == null) || eventObject.getRecordNumber() == 0) {
+			return;
+		}
+
+		// get value
+		LogRecord logrecord;
+		try {
+			logrecord = ValueReader.getInstance().readLogRecordFromLogFileCached(
+					this.mscView.getLogFileMetaData().getFilePath(),
+					eventObject);
+
+		} catch (Exception e) {
+			ErrorReporter.logExceptionStackTrace(e);
+			TitanLogExceptionHandler.handleException(new TechnicalException(Messages.getString("OpenValueViewAction.3"))); //$NON-NLS-1$
+			return;
+		}
+		String message = logrecord.getMessage();
+		DetailData detailData = new DetailData(eventObject.getName(),
+				eventObject.getPort(),
+				message,
+				testCase,
+				eventObject.getEventType(),
+				logrecord.getSourceInformation());
+
+		detailsview.setData(detailData, false);
 	}
 
 	private IFile getLogFileFromProject(LogFileMetaData logFileMetaData, IProject project) {

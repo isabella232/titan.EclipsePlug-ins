@@ -52,7 +52,7 @@ public class TextViewComposite extends Composite {
 		styledText.setFont(font);
 		useFormatting = true;
 	}
-	
+
 	@Override
 	public void dispose() {
 		if (styledText != null && !styledText.isDisposed()) {
@@ -63,7 +63,7 @@ public class TextViewComposite extends Composite {
 		}
 		super.dispose();
 	}
-	
+
 	/**
 	 * Indicates if formatting of the text should be used
 	 * @param useFormatting the flag indicating if formatting should be used
@@ -71,7 +71,7 @@ public class TextViewComposite extends Composite {
 	public void setUseFormatting(final boolean useFormatting) {
 		this.useFormatting = useFormatting;
 	}
-	
+
 	/**
 	 * Indents and sets a new text input
 	 * @param newInput the new text input
@@ -84,17 +84,17 @@ public class TextViewComposite extends Composite {
 		// If message is null or empty
 		String newText = newInput.getLine();
 		String newName = newInput.getName();
-		
+
 		if (isNullOrEmpty(newText)) {
 			currentText = null;
 			styledText.setText(""); //$NON-NLS-1$
 			return;
 		}
-		
+
 		if (isNullOrEmpty(newName)) {
 			currentName = null;
 		}
-		
+
 		// If message has not changed
 		if ((currentText != null && currentText.contentEquals(newText))
 				&& currentName != null && currentName.equals(newName)) {
@@ -231,6 +231,6 @@ public class TextViewComposite extends Composite {
 	public void setLogFileMetaData(final LogFileMetaData logFileMetaData) {
 		this.logFileMetaData = logFileMetaData;
 	}
-	
+
 }
 

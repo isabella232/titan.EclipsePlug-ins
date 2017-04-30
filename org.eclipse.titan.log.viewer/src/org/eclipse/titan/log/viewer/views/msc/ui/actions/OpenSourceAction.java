@@ -70,7 +70,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 	private DelayedSelector runnable = new DelayedSelector(this);
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 * @param view the MSC View
 	 */
 	public OpenSourceAction(final MSCView view, final boolean silent, final boolean forceEditorOpening) {
@@ -138,12 +138,12 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 			TitanLogExceptionHandler.handleException(new UserException(Messages.getString("OpenValueViewAction.1"))); //$NON-NLS-1$
 			return;
 		}
-		
+
 		if (LogFileCacheHandler.hasLogFileChanged(logFile)) {
 			LogFileCacheHandler.handleLogFileChange(logFile);
 			return;
 		}
-		
+
 		ExecutionModel model = this.mscView.getModel();
 		String testCase = model.getTestCase().getTestCaseName();
 
@@ -168,7 +168,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 				logrecord = ValueReader.getInstance().readLogRecordFromLogFileCached(
 						this.mscView.getLogFileMetaData().getFilePath(),
 						eventObject);
-	
+
 			} catch (final IOException valueException) {
 				ErrorReporter.logExceptionStackTrace(valueException);
 				ErrorReporter.INTERNAL_ERROR(Messages.getString("OpenValueViewAction.3")); //$NON-NLS-1$
@@ -178,7 +178,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 				ErrorReporter.INTERNAL_ERROR(Messages.getString("OpenValueViewAction.3")); //$NON-NLS-1$
 				return;
 			}
-	
+
 			try {
 				sourceInformation = SourceInformation.createInstance(logrecord.getSourceInformation());
 			} catch (InvalidSourceInformationException e) {
@@ -194,12 +194,12 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 				String setting = logFileMetaData.getOptionsSettings("SourceInfoFormat");
 				if (setting == null) {
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
-						"Error opening source", 
-						"This log file is not generated with source location information inserted. And it really does not seem to contain source location information");
+							"Error opening source",
+							"This log file is not generated with source location information inserted. And it really does not seem to contain source location information");
 				} else {
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
-						"Error opening source", 
-						"This log record does not seem to contain source location information");
+							"Error opening source",
+							"This log record does not seem to contain source location information");
 				}
 			}
 
@@ -215,7 +215,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 		final String fileName = sourceInformation.getSourceFileName();
 
 		IFile targetFile;
-		if (lastFilename != null && lastFilename.equals(fileName) && lastPath != null) { 
+		if (lastFilename != null && lastFilename.equals(fileName) && lastPath != null) {
 			IFile[] files = ResourcesPlugin.getWorkspace().getRoot().findFilesForLocationURI(lastPath);
 			if (files.length == 0) {
 				mscView.getViewSite().getActionBars().getStatusLineManager().setErrorMessage("The file `" + lastFilename + "' could not be found");
@@ -258,13 +258,13 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 
 	/**
 	 * Opens the editor for the given source file
-	 * 
+	 *
 	 * This method is intended to use only by {@link org.eclipse.titan.log.viewer.actions.OpenSourceViewMenuAction}
-	 * 
+	 *
 	 * @param targetFile The source file
 	 * @param lineNumber The line number to select
 	 * @param logView The view which initiated this action (used only to report errors on the status line)
-	 * @param forceEditorOpening 
+	 * @param forceEditorOpening
 	 */
 	public static void openEditor(final IFile targetFile, final int lineNumber, final IViewPart logView, final boolean forceEditorOpening) {
 		// search for the editor to open the file
@@ -290,20 +290,20 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 		try {
 			FileEditorInput editorInput = new FileEditorInput(targetFile);
 			IEditorPart editorPart = activePage.findEditor(editorInput);
-			
+
 			if (editorPart == null) {
 				if (!forceEditorOpening) {
 					return;
 				}
-				
+
 				editorPart = activePage.openEditor(editorInput, desc.getId());
 			}
-			
+
 			if (!(editorPart instanceof AbstractTextEditor)) {
 				logView.getViewSite().getActionBars().getStatusLineManager().setErrorMessage("Could not jump to the target position");
 				return;
 			}
-			
+
 			AbstractTextEditor textEditor = (AbstractTextEditor) editorPart;
 
 			IDocument targetDocument = textEditor.getDocumentProvider().getDocument(textEditor.getEditorInput());
@@ -330,7 +330,7 @@ public class OpenSourceAction extends SelectionProviderAction implements Delayed
 	/**
 	 * Tries to find the source file in the given project.
 	 * This functions searches the non-derived members of the project. If the file was not found in
-	 * the project, the referenced projects are searched as well. 
+	 * the project, the referenced projects are searched as well.
 	 * @param project The project to search the file in.
 	 * @param fileName The file to find
 	 * @return The file, or <code>null</code> if it can not be found

@@ -18,15 +18,15 @@ import org.eclipse.ui.IViewSite;
 import org.eclipse.titan.log.viewer.console.TITANDebugConsole;
 
 /**
- * This class builds the tree view 
- *  
+ * This class builds the tree view
+ *
  */
 public class DetailsViewContentProvider implements ITreeContentProvider {
 
 	private TreeParent invisibleRoot;
 	private String value = ""; //$NON-NLS-1$
 	private String sourceInfo = "";
-	
+
 	@Override
 	public void inputChanged(final Viewer v, final Object oldInput, final Object newInput) {
 		if (newInput == null || oldInput == null) {
@@ -134,7 +134,7 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 					continue;
 				}
 
-	//			Set TreeParent named or unnamed and add to parentStack
+				//			Set TreeParent named or unnamed and add to parentStack
 				if ("{".equals(token)) {
 					if (prev.endsWith(":=")) {
 						String parentName = prev.substring(0, prev.indexOf(' '));
@@ -146,9 +146,9 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 				}
 
 
-	//			End of TreeParent is found if this TreeParent has a parent
-	//			we add it as it's child. If there is no parent we add it to
-	//			root.
+				//			End of TreeParent is found if this TreeParent has a parent
+				//			we add it as it's child. If there is no parent we add it to
+				//			root.
 				if (token.endsWith("}")) {
 					if (!parentStack.isEmpty()) {
 						TreeParent tmpParent = parentStack.peek();
@@ -163,7 +163,7 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 					continue;
 				}
 
-	//			add child to parent or root.
+				//			add child to parent or root.
 				if (!(token.endsWith(":="))) {
 
 					if (!parentStack.isEmpty()) {
@@ -195,7 +195,7 @@ public class DetailsViewContentProvider implements ITreeContentProvider {
 	 * Build an empty tree hierarchy.
 	 */
 	private void buildTreeModel2() {
-		this.invisibleRoot = new TreeParent("");	//$NON-NLS-1$	
+		this.invisibleRoot = new TreeParent("");	//$NON-NLS-1$
 	}
 }
 

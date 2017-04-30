@@ -21,7 +21,7 @@ public class SetverdictComp extends MSCNode {
 
 	private Lifeline lifeline;
 	private String verdict;
-	
+
 	/**
 	 * Constructor
 	 * @param eventOccurrence the occurrence of this event
@@ -35,8 +35,8 @@ public class SetverdictComp extends MSCNode {
 	@Override
 	public int getX() {
 		return MSCConstants.COLUMN_WIDTH * this.lifeline.getIndex()
-		       + MSCConstants.COLUMN_WIDTH / 2
-		       - getWidth() / 2 + MSCConstants.SETVERDICT_SHADOW_SIZE;
+				+ MSCConstants.COLUMN_WIDTH / 2
+				- getWidth() / 2 + MSCConstants.SETVERDICT_SHADOW_SIZE;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class SetverdictComp extends MSCNode {
 	public int getHeight() {
 		return MSCConstants.ROW_HEIGHT - 2 * MSCConstants.ROW_SPACING + 2 * MSCConstants.SETVERDICT_SHADOW_SIZE;
 	}
-	
+
 	@Override
 	protected void draw(final IGC context) {
 		int x = getX();
@@ -62,43 +62,43 @@ public class SetverdictComp extends MSCNode {
 		int width = getWidth() - MSCConstants.SETVERDICT_SHADOW_SIZE;
 		int height = getHeight() - MSCConstants.SETVERDICT_SHADOW_SIZE;
 		int size = MSCConstants.SETVERDICT_SIZE;
-		
+
 		context.setLineStyle(context.getLineSolidStyle());
 		context.setLineWidth(size / 2);
-		
-		
+
+
 		if (MSCConstants.DRAW_SHADOW) {
 			// Draw shadow
 			context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.SETVERDICT_SHADOW_COLOR));
 			x = x + MSCConstants.SETVERDICT_SHADOW_SIZE;
 			y = y + MSCConstants.SETVERDICT_SHADOW_SIZE;
 			int[] shadowPointsA = {x, y,
-								   x + size, y,
-								   x + width, y + height,
-								   x + width - size, y + height};
+					x + size, y,
+					x + width, y + height,
+					x + width - size, y + height};
 			int[] shadowPointsB = {x + width, y,
-					   			   x + width - size, y,
-					   			   x, y + height,
-					   			   x + size, y + height};
+					x + width - size, y,
+					x, y + height,
+					x + size, y + height};
 			context.fillPolygon(shadowPointsA);
 			context.fillPolygon(shadowPointsB);
 			x = x - MSCConstants.SETVERDICT_SHADOW_SIZE;
 			y = y - MSCConstants.SETVERDICT_SHADOW_SIZE;
 		}
-		
+
 		// Draw X
 		width = width - MSCConstants.SETVERDICT_SHADOW_SIZE;
 		height = height - MSCConstants.SETVERDICT_SHADOW_SIZE;
-		
+
 		int[] pointsA = {x, y,
-					 	 x + size, y,
-					 	 x + width, y + height,
-					 	 x + width - size, y + height};
+				x + size, y,
+				x + width, y + height,
+				x + width - size, y + height};
 		int[] pointsB = {x + width, y,
-			 		 	 x + width - size, y,
-			 		 	 x, y + height,
-			 		 	 x + size, y + height};	
-		
+				x + width - size, y,
+				x, y + height,
+				x + size, y + height};
+
 		if (MSCConstants.DRAW_BORDER) {
 			// Draw borders of cross
 			context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.SETVERDICT_LINE_COLOR));

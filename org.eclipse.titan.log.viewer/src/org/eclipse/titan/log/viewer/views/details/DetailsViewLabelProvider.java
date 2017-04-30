@@ -14,7 +14,7 @@ import org.eclipse.titan.log.viewer.utils.Constants;
 
 /**
  * This class manage the tree icons
- *  
+ *
  */
 public class DetailsViewLabelProvider extends LabelProvider {
 
@@ -33,6 +33,6 @@ public class DetailsViewLabelProvider extends LabelProvider {
 		if (obj.toString().length() == 0) {
 			imageKey = Constants.ICONS_EMPTY_PARENT;
 		}
-		return Activator.getDefault().getIcon(imageKey); 
+		return Activator.getDefault().getIcon(imageKey);
 	}
 }

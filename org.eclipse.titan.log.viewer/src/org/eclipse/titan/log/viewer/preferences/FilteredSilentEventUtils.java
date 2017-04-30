@@ -20,15 +20,15 @@ import org.eclipse.titan.log.viewer.utils.ResourcePropertyHandler;
 
 /**
  * This class is a help class for Filtered Silent Events
- * 
- * It was created to easy handling of the changes caused 
+ *
+ * It was created to easy handling of the changes caused
  * by the new TITAN log format
  *
  */
 public final class FilteredSilentEventUtils {
-	
+
 	/**
-	 * HashMap to ease the preference conversion between TLV 1.0 and 1.1 (filtered silent events) 
+	 * HashMap to ease the preference conversion between TLV 1.0 and 1.1 (filtered silent events)
 	 */
 	private static final Map<String, String> OLD_TO_NEW_SILENT_EVENTS = new HashMap<String, String>();
 	static {
@@ -53,7 +53,7 @@ public final class FilteredSilentEventUtils {
 	private FilteredSilentEventUtils() {
 		// Protected Constructor
 	}
-	
+
 	/**
 	 * @param preferenceStore the preference store
 	 * @return true is the resource has old filter silent event properties, otherwise false
@@ -67,10 +67,10 @@ public final class FilteredSilentEventUtils {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * @param preferenceStore the preference store
-	 * @return a String with the old preferences 
+	 * @return a String with the old preferences
 	 */
 	public static String getOldFilteredSilentEventsFromPreferences(final IPreferenceStore preferenceStore) {
 		Map<String, Boolean> filteredSilentEvents = getDefaultFilteredSilentEvents();
@@ -79,7 +79,7 @@ public final class FilteredSilentEventUtils {
 		// Convert to preference string
 		return hashMapToPreferenceString(filteredSilentEvents);
 	}
-	
+
 	/**
 	 * @param preferenceStore the preference store
 	 */
@@ -89,7 +89,7 @@ public final class FilteredSilentEventUtils {
 			preferenceStore.setToDefault(currPrefKey);
 		}
 	}
-	
+
 	/**
 	 * @param resource the resource
 	 * @param pageId the page id
@@ -105,7 +105,7 @@ public final class FilteredSilentEventUtils {
 		}
 		return false;
 	}
-	
+
 	public static String getOldFilteredSilentEventsFromResource(final IResource resource, final String pageId) {
 		// Start with default
 		Map<String, Boolean> filteredSilentEvents = getDefaultFilteredSilentEvents();
@@ -114,14 +114,14 @@ public final class FilteredSilentEventUtils {
 		// Convert to preference string
 		return hashMapToPreferenceString(filteredSilentEvents);
 	}
-	
+
 	public static void clearOldFilteredSilentEventsPropertiesInResource(final IResource resource, final String pageId) {
 		Set<String> oldPrefKeys = OLD_TO_NEW_SILENT_EVENTS.keySet();
 		for (String currPrefKey : oldPrefKeys) {
 			ResourcePropertyHandler.removeProperty(resource, pageId, currPrefKey);
 		}
 	}
-	
+
 	/**
 	 * @return a map with the default filtered silent events
 	 */
@@ -137,7 +137,7 @@ public final class FilteredSilentEventUtils {
 		}
 		return silentEventFilters;
 	}
-	
+
 	/**
 	 * @param filteredSilentEvents a HashMap with the default filtered silent events
 	 * @param preferenceStore the preference store
@@ -156,7 +156,7 @@ public final class FilteredSilentEventUtils {
 			}
 		}
 	}
-	
+
 	/**
 	 * @param filteredSilentEvents a HashMap with the filtered silent events
 	 * @return a string with the filtered silent events (delimited)
@@ -171,20 +171,20 @@ public final class FilteredSilentEventUtils {
 				builder.append(entry.getKey()).append(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM).append(entry.getValue());
 			} else {
 				builder.append(filters).append(PreferenceConstants.PREFERENCE_DELIMITER)
-						.append(entry.getKey()).append(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM).append(entry.getValue());
+				.append(entry.getKey()).append(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM).append(entry.getValue());
 			}
 		}
 		filteredSilentEvents.clear();
 		return filters;
 	}
-	
+
 	/**
 	 * @param filteredSilentEvents a HashMap with the default filtered silent events
 	 * @param resource the resource
 	 * @param pageId the page id
 	 */
 	private static void addOldFilteredSilentEventsFromResource(final Map<String, Boolean> filteredSilentEvents,
-															   final IResource resource, final String pageId) {
+			final IResource resource, final String pageId) {
 		SortedMap<String, String[]> eventCategories = Constants.EVENT_CATEGORIES;
 		Set<String> oldPrefKeys = OLD_TO_NEW_SILENT_EVENTS.keySet();
 		for (String currPrefKey : oldPrefKeys) {

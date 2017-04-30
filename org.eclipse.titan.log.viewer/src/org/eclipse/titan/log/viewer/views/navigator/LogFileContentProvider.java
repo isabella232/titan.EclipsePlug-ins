@@ -53,7 +53,7 @@ public class LogFileContentProvider implements ITreeContentProvider {
 
 	@Override
 	public Object[] getChildren(final Object parentElement) {
-		Object[] emptyResult = new Object[] {}; 
+		Object[] emptyResult = new Object[] {};
 		if (!(parentElement instanceof IFile)) {
 			return emptyResult;
 		}
@@ -66,7 +66,7 @@ public class LogFileContentProvider implements ITreeContentProvider {
 		if (fileExtension == null || !fileExtension.equals(Constants.LOG_EXTENSION)) {
 			return emptyResult;
 		}
-		
+
 		try {
 			Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			if (temp != null && (Boolean) temp) {
@@ -82,7 +82,7 @@ public class LogFileContentProvider implements ITreeContentProvider {
 			return emptyResult;
 		}
 
-		
+
 		try {
 			final TestCaseExtractor extractor = new TestCaseExtractor();
 			extractor.extractTestCasesFromIndexedLogFile(logFile);
@@ -135,11 +135,11 @@ public class LogFileContentProvider implements ITreeContentProvider {
 		if (element instanceof TestCase) {
 			return ((TestCase) element).getLogFile();
 		}
-		
+
 		if (element instanceof IResource) {
 			return ((IResource) element).getParent();
 		}
-		
+
 		return null;
 	}
 

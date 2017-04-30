@@ -25,7 +25,7 @@ import org.eclipse.titan.log.viewer.preferences.PreferenceConstants;
 import org.eclipse.titan.log.viewer.utils.Constants;
 
 /**
- * This class is the data model for an extracted test case 
+ * This class is the data model for an extracted test case
  *
  */
 public class ExecutionModel extends Observable {
@@ -56,7 +56,7 @@ public class ExecutionModel extends Observable {
 	public TestCase getTestCase() {
 		return this.containedTestCase;
 	}
-	
+
 	/**
 	 * @return the components in this model
 	 */
@@ -74,7 +74,7 @@ public class ExecutionModel extends Observable {
 		List<IEventObject> result = getEvents(index, index);
 		return result.get(3);
 	}
-	
+
 	/**
 	 * Calculates the records position in the events vector.
 	 * The events are ordered by the record numbers so binary search can be used.
@@ -85,12 +85,12 @@ public class ExecutionModel extends Observable {
 		if (recordNumber < 0 || recordNumber > containedTestCase.getEndRecordNumber()) {
 			return -1;
 		}
-		
+
 		IEventObject element;
 		for (int min = 0, max = getNumberOfEvents() - 1, mid = (min + max) / 2;
 				min <= max;
 				mid = (min + max) / 2) {
-			
+
 			element = getEvent(mid);
 			if (recordNumber > element.getRecordNumber()) {
 				min = mid + 1;
@@ -156,14 +156,14 @@ public class ExecutionModel extends Observable {
 
 		return parser.getNumberOfEvents();
 	}
-	
+
 	/**
 	 * @return the active filter pattern (can be null)
 	 */
 	public FilterPattern getFilterPattern() {
 		return filterPattern;
 	}
-	
+
 	public void setFilterPattern(final FilterPattern filterPattern) {
 		this.filterPattern = filterPattern;
 	}
@@ -177,38 +177,38 @@ public class ExecutionModel extends Observable {
 		if (this.ignoredComponents == null) {
 			return null;
 		}
-		
+
 		// SUT name can not be filtered
 		if (name.contentEquals(this.sutName) || name.contentEquals(Constants.MTC)) {
 			return null;
 		}
-		
+
 		Set<String> filteredComp = this.ignoredComponents.keySet();
 		for (String currComp : filteredComp) {
 			int filterType = this.ignoredComponents.get(currComp);
 			switch (filterType) {
-				case PreferenceConstants.FILTER_EQUALS:
-					if (name.contentEquals(currComp)) {
-						return Constants.SUT_REFERENCE;
-					}
-					break;
-				case PreferenceConstants.FILTER_START_WITH:
-					if (name.startsWith(currComp)) {
-						return Constants.SUT_REFERENCE;
-					}
-					break;
-				case PreferenceConstants.FILTER_END_WITH:
-					if (name.endsWith(currComp)) {
-						return Constants.SUT_REFERENCE;
-					}
-					break;
-				case PreferenceConstants.FILTER_CONTAINS:
-					if (name.contains(currComp)) {
-						return Constants.SUT_REFERENCE;
-					}
-					break;
-				default:
-					break;
+			case PreferenceConstants.FILTER_EQUALS:
+				if (name.contentEquals(currComp)) {
+					return Constants.SUT_REFERENCE;
+				}
+				break;
+			case PreferenceConstants.FILTER_START_WITH:
+				if (name.startsWith(currComp)) {
+					return Constants.SUT_REFERENCE;
+				}
+				break;
+			case PreferenceConstants.FILTER_END_WITH:
+				if (name.endsWith(currComp)) {
+					return Constants.SUT_REFERENCE;
+				}
+				break;
+			case PreferenceConstants.FILTER_CONTAINS:
+				if (name.contains(currComp)) {
+					return Constants.SUT_REFERENCE;
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		return null;
@@ -234,7 +234,7 @@ public class ExecutionModel extends Observable {
 				&& component.getAlternative() != null;
 
 	}
-	
+
 	/**
 	 * This predicate is used to check if a signal is ignored or not.
 	 */
@@ -242,7 +242,7 @@ public class ExecutionModel extends Observable {
 		if (filterPattern != null) {
 			return false;
 		}
-		
+
 		if (this.ignoredSignals == null) {
 			return false;
 		}
@@ -252,39 +252,39 @@ public class ExecutionModel extends Observable {
 			int filterType = this.ignoredSignals.get(currSignal);
 
 			switch (filterType) {
-				case PreferenceConstants.FILTER_EQUALS:
-					if (tempSignal.contentEquals(currSignal)) {
-						return true;
-					}
-					break;
-				case PreferenceConstants.FILTER_START_WITH:
-					if (tempSignal.startsWith(currSignal)) {
-						return true;
-					}
-					break;
-				case PreferenceConstants.FILTER_END_WITH:
-					if (tempSignal.endsWith(currSignal)) {
-						return true;
-					}
-					break;
-				case PreferenceConstants.FILTER_CONTAINS:
-					if (tempSignal.contains(currSignal)) {
-						return true;
-					}
-					break;
-				default:
-					break;
+			case PreferenceConstants.FILTER_EQUALS:
+				if (tempSignal.contentEquals(currSignal)) {
+					return true;
+				}
+				break;
+			case PreferenceConstants.FILTER_START_WITH:
+				if (tempSignal.startsWith(currSignal)) {
+					return true;
+				}
+				break;
+			case PreferenceConstants.FILTER_END_WITH:
+				if (tempSignal.endsWith(currSignal)) {
+					return true;
+				}
+				break;
+			case PreferenceConstants.FILTER_CONTAINS:
+				if (tempSignal.contains(currSignal)) {
+					return true;
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean isEventIgnored(final String event) {
 		return this.filterPattern != null
 				&& filterPattern.isEventIgnored(event);
 
 	}
-	
+
 	/**
 	 * This predicate is used to check if a function is ignored or not.
 	 */
@@ -292,7 +292,7 @@ public class ExecutionModel extends Observable {
 		if (this.filterPattern != null) {
 			return false;
 		}
-		
+
 		if (this.ignoredFunctions == null) {
 			return false;
 		}
@@ -302,28 +302,28 @@ public class ExecutionModel extends Observable {
 			int filterType = this.ignoredFunctions.get(currFunction);
 
 			switch (filterType) {
-				case PreferenceConstants.FILTER_EQUALS:
-					if (function.contentEquals(currFunction)) {
-						return true;
-					}
-					break;
-				case PreferenceConstants.FILTER_START_WITH:
-					if (function.startsWith(currFunction)) {
-						return true;
-					}
-					break;
-				case PreferenceConstants.FILTER_END_WITH:
-					if (function.endsWith(currFunction)) {
-						return true;
-					}
-					break;
-				case PreferenceConstants.FILTER_CONTAINS:
-					if (function.contains(currFunction)) {
-						return true;
-					}
-					break;
-				default:
-					break;
+			case PreferenceConstants.FILTER_EQUALS:
+				if (function.contentEquals(currFunction)) {
+					return true;
+				}
+				break;
+			case PreferenceConstants.FILTER_START_WITH:
+				if (function.startsWith(currFunction)) {
+					return true;
+				}
+				break;
+			case PreferenceConstants.FILTER_END_WITH:
+				if (function.endsWith(currFunction)) {
+					return true;
+				}
+				break;
+			case PreferenceConstants.FILTER_CONTAINS:
+				if (function.contains(currFunction)) {
+					return true;
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		return false;
@@ -345,7 +345,7 @@ public class ExecutionModel extends Observable {
 		String componentName = event.getName();
 		if ((componentName != null) && (componentName.trim().length() > 0)) {
 			this.componentNames.put(event.getName(), reference);
-		} 
+		}
 	}
 
 	/**
@@ -353,26 +353,26 @@ public class ExecutionModel extends Observable {
 	 * of log events. The information in port mapping event lines
 	 * is stored in internal component tables that describe how
 	 * components are connected with each other.
-	 * 
+	 *
 	 * @param sourceRef the source
 	 * @param sourcePort the source port
 	 * @param targetRef the target
 	 * @param targetPort the target port
 	 */
 	public void addPortMapping(final String sourceRef, final String sourcePort, final String targetRef, final String targetPort) {
-			if (this.components != null) {
-				TestComponent sourceComponent = this.components.get(sourceRef);
+		if (this.components != null) {
+			TestComponent sourceComponent = this.components.get(sourceRef);
 
-				if (sourceComponent != null) {
-					sourceComponent.addFromEntry(targetPort, targetRef);
-				}
-
-				TestComponent targetComponent = this.components.get(targetRef);
-				// FIXME: sourcePort can be null at this point
-				if (targetComponent != null) {
-					targetComponent.addFromEntry(sourcePort, sourceRef);
-				}
+			if (sourceComponent != null) {
+				sourceComponent.addFromEntry(targetPort, targetRef);
 			}
+
+			TestComponent targetComponent = this.components.get(targetRef);
+			// FIXME: sourcePort can be null at this point
+			if (targetComponent != null) {
+				targetComponent.addFromEntry(sourcePort, sourceRef);
+			}
+		}
 	}
 
 	/**
@@ -390,14 +390,14 @@ public class ExecutionModel extends Observable {
 	public void setContainedTestCase(final TestCase containedTestCase) {
 		this.containedTestCase = containedTestCase;
 	}
-	
+
 	/**
 	 * Method for adding components that should be filtered
 	 */
 	public void addIgnoredComponent(final Map<String, Integer> ignoredComponents) {
 		this.ignoredComponents = ignoredComponents;
 	}
-	
+
 	/**
 	 * Method for adding signals that should be filtered
 	 */

@@ -65,7 +65,7 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 	private int lastWorked;
 	private IFile logFile;
 	private LogFileMetaData logFileMetaData;
-	private boolean logFileIsSupported;	
+	private boolean logFileIsSupported;
 	private TestCaseExtractor testCaseExtractor;
 
 	public OpenStatisticalViewMenuAction() {
@@ -225,8 +225,8 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 						if (OpenStatisticalViewMenuAction.this.monitor != null) {
 							OpenStatisticalViewMenuAction.this.monitor.beginTask(
 									Messages.getString("OpenStatisticalViewMenuAction.4")
-											+ OpenStatisticalViewMenuAction.this.logFile.getName()
-											+ Messages.getString("OpenStatisticalViewMenuAction.3"), 100);
+									+ OpenStatisticalViewMenuAction.this.logFile.getName()
+									+ Messages.getString("OpenStatisticalViewMenuAction.3"), 100);
 						}
 						// Extract test cases from log file
 						OpenStatisticalViewMenuAction.this.testCaseExtractor.extractTestCasesFromLogFile(

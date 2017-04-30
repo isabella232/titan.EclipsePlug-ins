@@ -20,7 +20,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
  *
  */
 public class LogFileMetaData implements Serializable {
-	
+
 	private static final long serialVersionUID = -8935133702928939531L;
 	private String version;
 	private long size;
@@ -60,7 +60,7 @@ public class LogFileMetaData implements Serializable {
 	public String getExecutionMode() {
 		return this.executionMode;
 	}
-	
+
 	/**
 	 * Set the execution mode
 	 * @param executionMode the string representation of the execution mode
@@ -68,15 +68,15 @@ public class LogFileMetaData implements Serializable {
 	public void setExecutionMode(final String executionMode) {
 		this.executionMode = executionMode;
 	}
-	
+
 	/**
-	 * Gets the path of log file 
+	 * Gets the path of log file
 	 * @return the full log file path
 	 */
 	public URI getFilePath() {
 		return this.filePath;
 	}
-	
+
 	/**
 	 * Sets the path of the log file
 	 * @param filePath the full log file path
@@ -84,7 +84,7 @@ public class LogFileMetaData implements Serializable {
 	public void setFilePath(final URI filePath) {
 		this.filePath = filePath;
 	}
-	
+
 	/**
 	 * Gets the last modified date of the log file
 	 * @return the last modified date of the log file as a long
@@ -92,7 +92,7 @@ public class LogFileMetaData implements Serializable {
 	public long getLastModified() {
 		return this.lastModified;
 	}
-	
+
 	/**
 	 * Sets the last modified date of the log file
 	 * @param lastModified the last modified date of the log file as a long
@@ -100,7 +100,7 @@ public class LogFileMetaData implements Serializable {
 	public void setLastModified(final long lastModified) {
 		this.lastModified = lastModified;
 	}
-	
+
 	/**
 	 * Gets the project name
 	 * @return the name of the project that the log file exists in
@@ -108,7 +108,7 @@ public class LogFileMetaData implements Serializable {
 	public String getProjectName() {
 		return this.projectName;
 	}
-	
+
 	/**
 	 * Sets the project name
 	 * @param projectName the name of the project that the log file exists in
@@ -116,7 +116,7 @@ public class LogFileMetaData implements Serializable {
 	public void setProjectName(final String projectName) {
 		this.projectName = projectName;
 	}
-	
+
 	/**
 	 * Gets the project relative path of the log file
 	 * @return the project relative path of the log file
@@ -124,7 +124,7 @@ public class LogFileMetaData implements Serializable {
 	public String getProjectRelativePath() {
 		return this.projectRelativePath;
 	}
-	
+
 	/**
 	 * Sets the project relative path of the log file
 	 * @param projectRelativePath the project relative path of the log file (example: \MyProject\logs\myLogFile.log)
@@ -132,7 +132,7 @@ public class LogFileMetaData implements Serializable {
 	public void setProjectRelativePath(final String projectRelativePath) {
 		this.projectRelativePath = projectRelativePath;
 	}
-	
+
 	/**
 	 * Gets the file size of the log file
 	 * @return the log file size
@@ -140,7 +140,7 @@ public class LogFileMetaData implements Serializable {
 	public long getSize() {
 		return this.size;
 	}
-	
+
 	/**
 	 * Sets the file size of the log file
 	 * @param size the log file size
@@ -148,7 +148,7 @@ public class LogFileMetaData implements Serializable {
 	public void setSize(final long size) {
 		this.size = size;
 	}
-	
+
 	/**
 	 * Gets the timestamp format of the log file
 	 * @return the string representation of the timestamp of the log file
@@ -156,16 +156,16 @@ public class LogFileMetaData implements Serializable {
 	public String getTimeStampFormat() {
 		return this.timeStampFormat;
 	}
-	
+
 	/**
- 	 * Sets the timestamp format of the log file
+	 * Sets the timestamp format of the log file
 	 * @param timeStamp the string representation of the timestamp of the log file
 	 */
 	public void setTimeStampFormat(final String timeStamp) {
 		this.timeStampConstant = timeStamp.length();
 		this.timeStampFormat = timeStamp;
 	}
-	
+
 	/**
 	 * Gets the version of TITAN Log Viewer
 	 * @return the version of TITAN Log Viewer used when creating the log file meta info
@@ -173,7 +173,7 @@ public class LogFileMetaData implements Serializable {
 	public String getVersion() {
 		return this.version;
 	}
-	
+
 	/**
 	 * Sets the version of TITAN Log Viewer
 	 * @param version the version of TITAN Log Viewer used when creating the log file meta info
@@ -181,17 +181,17 @@ public class LogFileMetaData implements Serializable {
 	public void setVersion(final String version) {
 		this.version = version;
 	}
-	
+
 	/**
-	 * Returns a flag indicating if log file has logged event types or not 
+	 * Returns a flag indicating if log file has logged event types or not
 	 * @return true if log file has logged event types, otherwise false
 	 */
 	public boolean hasLoggedEventTypes() {
 		return this.eventType;
 	}
-	
+
 	/**
-	 * Sets a flag indicating if log file has logged event types or not 
+	 * Sets a flag indicating if log file has logged event types or not
 	 * @param eventType the flag indication if the log file has logged event types or not
 	 */
 	public void setHasLoggedEventTypes(final boolean eventType) {
@@ -207,7 +207,7 @@ public class LogFileMetaData implements Serializable {
 	}
 
 	/**
-	 * Returns the file format 
+	 * Returns the file format
 	 * @return file format
 	 */
 	public int getFileFormat() {
@@ -215,7 +215,7 @@ public class LogFileMetaData implements Serializable {
 	}
 
 	/**
-	 * Sets the file format of the file. 
+	 * Sets the file format of the file.
 	 * @param fileFormat
 	 */
 	public void setFileFormat(final int fileFormat) {
@@ -244,11 +244,11 @@ public class LogFileMetaData implements Serializable {
 					this.optionsSettings.put(values[0], values[1]);
 				}
 			}
-		}		
+		}
 	}
 
 	/***
-	 * Fetch 
+	 * Fetch
 	 * @param key
 	 * @return the option
 	 */

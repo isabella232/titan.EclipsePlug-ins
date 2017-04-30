@@ -29,22 +29,22 @@ import org.eclipse.ui.IWorkbench;
 public class FilteredFunctionsPrefPage extends LogViewerPreferenceRootPage {
 
 	private StringListEditor filterFuntionsEditor;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public FilteredFunctionsPrefPage() {
 		super(GRID, false);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("FilteredFunctionsPrefPage.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
 		this.filterFuntionsEditor = new StringListEditor(PreferenceConstants.PREF_FILTER_FUNCTION_ID,
-									  "", //$NON-NLS-1$
-									  getFieldEditorParent(),
-									  false);
+				"", //$NON-NLS-1$
+				getFieldEditorParent(),
+				false);
 		this.filterFuntionsEditor.setPreferenceStore(getPreferenceStore());
 		addField(this.filterFuntionsEditor);
 	}

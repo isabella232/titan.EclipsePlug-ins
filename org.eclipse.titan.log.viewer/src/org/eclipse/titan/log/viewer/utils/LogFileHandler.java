@@ -28,7 +28,7 @@ import org.eclipse.titan.log.viewer.models.LogFileMetaData;
  *
  */
 public class LogFileHandler {
-	
+
 	private LogFileMetaData fileMetaInfo;
 
 	/**
@@ -48,10 +48,10 @@ public class LogFileHandler {
 
 	public LogFileHandler(final IFile logFile) {
 		this(logFile.getLocationURI(),
-			 logFile.getProject().getName(),
-			 File.separator + logFile.getProject().getName() + File.separator + logFile.getProjectRelativePath().toOSString());
+				logFile.getProject().getName(),
+				File.separator + logFile.getProject().getName() + File.separator + logFile.getProjectRelativePath().toOSString());
 	}
-	
+
 	/**
 	 * Method for determining time format from the beginning of string
 	 * @param logString the string containing the time stamp
@@ -104,8 +104,8 @@ public class LogFileHandler {
 	 * @param format
 	 * @return
 	 */
-	public static String validateTimeStamp(final String logLine, final String format) {	
-		String temp;		
+	public static String validateTimeStamp(final String logLine, final String format) {
+		String temp;
 		switch (format.length()) {
 		case Constants.DATETIME_FORMAT_LENGTH:
 			if (logLine.length() < Constants.DATETIME_FORMAT.length()) {
@@ -116,7 +116,7 @@ public class LogFileHandler {
 				return temp;
 			}
 			break;
-			
+
 		case Constants .TIME_FORMAT_LENGTH:
 			if (logLine.length() < Constants.TIME_FORMAT.length()) {
 				break;
@@ -126,7 +126,7 @@ public class LogFileHandler {
 				return temp;
 			}
 			break;
-			
+
 		case Constants.SECONDS_FORMAT_LENGTH:
 			if (logLine.length() < Constants.SECONDS_FORMAT.length()) {
 				break;
@@ -135,7 +135,7 @@ public class LogFileHandler {
 			if (strings.length < 1) {
 				return null;
 			}
-			temp = strings[0];	
+			temp = strings[0];
 			if (validateSeconds(temp)) {
 				return temp;
 			}
@@ -144,10 +144,10 @@ public class LogFileHandler {
 		default:
 			break;
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Validate a date time format
 	 * @param dateFormat
@@ -172,7 +172,7 @@ public class LogFileHandler {
 	private static boolean validateSeconds(final String secondFormat) {
 		return Pattern.matches(Constants.REGEXP_SECONDS_FORMAT, secondFormat);
 	}
-	
+
 	/**
 	 * This method looks in a log and populate a meta data object
 	 * with data from the log file. Throws exception if no valid log
@@ -184,12 +184,12 @@ public class LogFileHandler {
 		String logLine = null;
 		BufferedReader bufferedReader = null;
 		File logFile = new File(this.fileMetaInfo.getFilePath());
-		
+
 		// check if the log file exists
 		if (!logFile.exists()) {
 			throw new TechnicalException(Messages.getString("LogFileHandler.6")); //$NON-NLS-1$
 		}
-		
+
 		// check if .log file extension
 		int fileSize = logFile.getName().length();
 		String logExt = "." + Constants.LOG_EXTENSION; //$NON-NLS-1$
@@ -199,12 +199,12 @@ public class LogFileHandler {
 				throw new TechnicalException(Messages.getString("LogFileHandler.4")); //$NON-NLS-1$
 			}
 		}
-		
+
 		// check if the file is empty
 		if (logFile.length() == 0) {
 			throw new TechnicalException(Messages.getString("LogFileHandler.0")); //$NON-NLS-1$
 		}
-		
+
 		// check if the file is readable
 		if (!logFile.canRead()) {
 			throw new TechnicalException(Messages.getString("LogFileHandler.5")); //$NON-NLS-1$
@@ -250,7 +250,7 @@ public class LogFileHandler {
 			// set file size
 			this.fileMetaInfo.setSize(logFile.length());
 
-			// set last modified 
+			// set last modified
 			this.fileMetaInfo.setLastModified(logFile.lastModified());
 
 

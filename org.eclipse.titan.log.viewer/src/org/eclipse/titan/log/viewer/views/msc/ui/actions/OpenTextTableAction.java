@@ -23,9 +23,9 @@ public class OpenTextTableAction extends SelectionProviderAction {
 
 	private static final String NAME = Messages.getString("OpenTextTableAction.0"); //$NON-NLS-1$
 	private MSCView mscView;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 * @param view the MSC View
 	 */
 	public OpenTextTableAction(final MSCView view) {
@@ -38,7 +38,7 @@ public class OpenTextTableAction extends SelectionProviderAction {
 		LogFileMetaData logFileMetadata = mscView.getLogFileMetaData();
 		TextTableViewHelper.open(logFileMetadata.getProjectName(), logFileMetadata.getProjectRelativePath(), mscView.getSelectedRecordNumber());
 	}
-	
+
 	@Override
 	public void selectionChanged(final IStructuredSelection selection) {
 		//do nothing

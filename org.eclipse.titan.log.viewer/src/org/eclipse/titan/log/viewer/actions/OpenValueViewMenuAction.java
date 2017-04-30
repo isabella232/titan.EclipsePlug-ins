@@ -107,7 +107,7 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 		if (this.eventSelection == null) {
 			return;
 		}
-		
+
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		LogFileMetaData logFileMetaData;
 		if (this.view instanceof MSCView) {
@@ -131,17 +131,17 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 			}
 			return;
 		}
-		
+
 		if (LogFileCacheHandler.hasLogFileChanged(logFile)) {
 			LogFileCacheHandler.handleLogFileChange(logFile);
 			return;
 		}
-		
+
 		DetailsView detailsview = (DetailsView) activePage.findView(Constants.DETAILS_VIEW_ID);
 		if (detailsview == null && !forceEditorOpening) {
 			return;
 		}
-		
+
 		if (forceEditorOpening) {
 			try {
 				detailsview = (DetailsView) activePage.showView(Constants.DETAILS_VIEW_ID);
@@ -178,9 +178,9 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 			return;
 		}
 		String message = logrecord.getMessage();
-		DetailData detailData = new DetailData(eventObject.getName(), 
-				eventObject.getPort(), 
-				message, 
+		DetailData detailData = new DetailData(eventObject.getName(),
+				eventObject.getPort(),
+				message,
 				testCase,
 				eventObject.getEventType(),
 				logrecord.getSourceInformation());
@@ -188,7 +188,7 @@ public class OpenValueViewMenuAction extends SelectionProviderAction {
 		detailsview.setData(detailData, false);
 		detailsview.setFocus();
 	}
-	
+
 	@Override
 	public void selectionChanged(final ISelection selection) {
 		if (selection instanceof EventSelection) {

@@ -20,16 +20,16 @@ import org.eclipse.titan.log.viewer.utils.Constants;
  * Singleton for handling selection of log parser
  */
 public final class MessageAnalyserFactory {
-	
+
 	private MessageAnalyserFactory messageAnalyserFactory;
 
 	private MessageAnalyserFactory() {
 		// Hide constructor
 	}
-	
+
 	/**
 	 * Returns the correct parser according to the logFileMetaData.
-	 * @param logFileMetaData 
+	 * @param logFileMetaData
 	 * @return <the parser>
 	 * throws ParseExecption
 	 */

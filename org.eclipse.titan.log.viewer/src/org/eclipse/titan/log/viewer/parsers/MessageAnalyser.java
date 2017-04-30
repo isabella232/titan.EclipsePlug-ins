@@ -22,8 +22,8 @@ public abstract class MessageAnalyser {
 	private static final String CONNECT_OPERATION_ON = "Connect operation on"; //$NON-NLS-1$
 	private static final String MESSAGE_ENQUEUED_ON = "enqueued on"; //$NON-NLS-1$
 	protected String message;
-	 
- 	private static final String MAP_OPERATION_OF = "Map operation of"; //$NON-NLS-1$
+
+	private static final String MAP_OPERATION_OF = "Map operation of"; //$NON-NLS-1$
 	private static final String UNMAP_OPERATION_OF = "Unmap operation of"; //$NON-NLS-1$
 	protected static final String TTCN_3_PARALLEL_TEST_COMPONENT_STARTED_ON = "TTCN-3 Parallel Test Component started on .*"; //$NON-NLS-1$
 	protected static final String LOCAL_VERDICT_OF_MTC = "Local verdict of MTC:"; //$NON-NLS-1$
@@ -48,7 +48,7 @@ public abstract class MessageAnalyser {
 	protected static final String START_TIMER = "Start timer"; //$NON-NLS-1$
 	protected static final String FINAL_VERDICT = "Final verdict"; //$NON-NLS-1$
 	protected static final String RECEIVED_ON = "Received on"; //$NON-NLS-1$
-	protected static final String SENT_ON = "Sent on"; //$NON-NLS-1$	
+	protected static final String SENT_ON = "Sent on"; //$NON-NLS-1$
 	protected static final String ON_COMPONENT = "on component"; //$NON-NLS-1$
 	protected static final String STARTING_FUNCTION = "Starting function"; //$NON-NLS-1$
 	protected static final String AND = " and "; //$NON-NLS-1$
@@ -58,7 +58,7 @@ public abstract class MessageAnalyser {
 	protected static final String TO = " to "; //$NON-NLS-1$
 	protected static final String MAPPING_PORT = "Mapping port"; //$NON-NLS-1$
 	protected static final String COMPONENT_REFERENCE = "component reference"; //$NON-NLS-1$
-			
+
 	protected static final String COMPONENT_DONE_REFERENCE = "PTC with component reference"; //$NON-NLS-1$
 	protected static final String COMPONENT_DONE = "is done. Return value"; //$NON-NLS-1$
 	protected static final String COMPONENT_REFERENCE_CREATE = "Component reference:"; //$NON-NLS-1$
@@ -74,7 +74,7 @@ public abstract class MessageAnalyser {
 	protected static final String ETS_STARTUP = "TTCN-3 Test Executor started in single mode."; //$NON-NLS-1$
 	protected static final String ETS_TERMINATION = "TTCN-3 Test Executor finished in single mode."; //$NON-NLS-1$
 	private static final String SETVERDICT = "setverdict("; //$NON-NLS-1$
-	
+
 	private List<String> errorCausedBy;
 	private List<String> failCausedBy;
 
@@ -103,13 +103,13 @@ public abstract class MessageAnalyser {
 				return tokenizer.nextToken();
 			}
 		}
-		return ""; //$NON-NLS-1$ 
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
 	 * Predicates and access methods for different parts of log lines
 	 */
-	
+
 	/**
 	 * Line checker for the log file
 	 * @return true or false
@@ -131,14 +131,14 @@ public abstract class MessageAnalyser {
 	 * @return true or false
 	 */
 	protected abstract boolean isComponentTermination();
-	
+
 	// getComponentTerminationReference
 	/**
 	 * Getter for component termination reference
 	 * @return reference
 	 */
 	protected abstract String getComponentTerminationReference();
-	
+
 	// getMappingPort
 	/**
 	 * Line checker for the log file
@@ -187,7 +187,7 @@ public abstract class MessageAnalyser {
 	protected boolean isMTCTermination() {
 		return this.message.contains(MTC_FINISHED);
 	}
-	
+
 	/**
 	 * Line checker for the log file
 	 * @return true or false
@@ -195,8 +195,8 @@ public abstract class MessageAnalyser {
 	protected boolean isMTCDone() {
 		return this.message.contains(LOCAL_VERDICT_OF_MTC);
 	}
-	
-	
+
+
 	/**
 	 * Getter for verdict
 	 * @return a string with the verdict
@@ -204,7 +204,7 @@ public abstract class MessageAnalyser {
 	protected String getMTCVerdict() {
 		return getTokenAfterString(LOCAL_VERDICT_OF_MTC);
 	}
-	
+
 	/**
 	 * Line checker for the log file
 	 * @return true or false
@@ -220,7 +220,7 @@ public abstract class MessageAnalyser {
 			return getTokenAfterString(COMPONENT_NAME);
 		}
 
-		return ""; //$NON-NLS-1$	
+		return ""; //$NON-NLS-1$
 	}
 
 	/**
@@ -268,7 +268,7 @@ public abstract class MessageAnalyser {
 	public String getPortMapping() {
 		return getTokenAfterString(MAPPING_PORT, ":").trim(); //$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Getter for port mapping reference
 	 * @return reference
@@ -313,7 +313,7 @@ public abstract class MessageAnalyser {
 	}
 
 	public abstract String getPortUnMapping();
-	
+
 	/**
 	 * Getter for un-mapping port target
 	 * @return target
@@ -329,7 +329,7 @@ public abstract class MessageAnalyser {
 	public boolean isPortConnection() {
 		return this.message.contains(CONNECTING_PORTS);
 	}
-	
+
 	/**
 	 * Line checker for the log file
 	 * @return true or false
@@ -347,7 +347,7 @@ public abstract class MessageAnalyser {
 	 * @return reference
 	 */
 	public abstract String getPortConnectionSourceRef();
-	
+
 	/**
 	 * Getter for disconnecting ports
 	 * @return ports
@@ -359,7 +359,7 @@ public abstract class MessageAnalyser {
 	 * @return reference
 	 */
 	public abstract String getPortDisconnectionSourceRef();
-	
+
 
 	/**
 	 * Getter for port connection target
@@ -423,7 +423,7 @@ public abstract class MessageAnalyser {
 	 * @return type
 	 */
 	public String getSendType() {
-		//Special for message containing system(<text>) 
+		//Special for message containing system(<text>)
 		if (this.message.contains(org.eclipse.titan.log.viewer.utils.Constants.SUT_REFERENCE + "(")) { //$NON-NLS-1$
 			int stopIndex = this.message.indexOf(")"); //$NON-NLS-1$
 			String tmp = this.message.substring(stopIndex + 1);
@@ -501,7 +501,7 @@ public abstract class MessageAnalyser {
 	 * @return true or false
 	 */
 	public boolean isTimerStart() {
-		return this.message.contains(START_TIMER); 
+		return this.message.contains(START_TIMER);
 	}
 
 
@@ -513,11 +513,11 @@ public abstract class MessageAnalyser {
 	public void setMessage(final String message) {
 		this.message = message;
 	}
-	
-	
+
+
 	/**
-	 * This method checks if the message should be displayed as a silent event e.g. 
-	 * an event that has not been taken care of in any of the other if cases 
+	 * This method checks if the message should be displayed as a silent event e.g.
+	 * an event that has not been taken care of in any of the other if cases
 	 * and where a component reference can be detected in the message.
 	 * It is also a check that the referenced component is alive in the message sequence chart.
 	 * @return null or component reference
@@ -541,19 +541,19 @@ public abstract class MessageAnalyser {
 			return getComponentRef(getTokenAfterString(AND, " :")); //$NON-NLS-1$
 		} else if (this.message.contains(REMOVING_UNTERMINATED_MAPPING)) {
 			//Removing unterminated mapping between port <portname> and <componentref | "system">:<portname>
-			return getComponentRef(getTokenAfterString(AND, " :"));	//$NON-NLS-1$	
+			return getComponentRef(getTokenAfterString(AND, " :"));	//$NON-NLS-1$
 		} else if (this.message.contains(WAS_MAPPED_TO)) {
 			//Port <portname> was mapped to <component ref | "system">:<portname>.
-			return getComponentRef(getTokenAfterString(WAS_MAPPED_TO, " :"));  //$NON-NLS-1$	
+			return getComponentRef(getTokenAfterString(WAS_MAPPED_TO, " :"));  //$NON-NLS-1$
 		} else if (this.message.contains(WAS_UNMAPPED_FROM)) {
 			//Port <portname> was unmapped from <component ref | "system">:<portname>.
 			return getComponentRef(getTokenAfterString(WAS_UNMAPPED_FROM, " :"));  //$NON-NLS-1$
 		} else if (this.message.contains(CONNECTION_OF_PORT) && this.message.contains(WAS_CLOSED_UNEXPECTEDLY_BY_PEER)) {
 			//Connection of port <portname> to <component ref | mtc | system>:<portname> was closed unexpectedly by peer.
-			return getComponentRef(getTokenAfterString(TO, " :")); //$NON-NLS-1$	
+			return getComponentRef(getTokenAfterString(TO, " :")); //$NON-NLS-1$
 		} else if (this.message.contains(PORT) && this.message.contains(WAS_DISCONNECTED_FROM)) {
 			//Port <portname> was disconnected from <component ref | mtc| system>:<portname>.
-			return getComponentRef(getTokenAfterString(WAS_DISCONNECTED_FROM, " :")); //$NON-NLS-1$	
+			return getComponentRef(getTokenAfterString(WAS_DISCONNECTED_FROM, " :")); //$NON-NLS-1$
 		} else if (this.message.contains(MAP_OPERATION_OF) && this.message.contains(FINISHED)) {
 			// Map operation of <componentname(ref) | component ref | mtc | system>:<portname> to <componentname(ref) | component ref | mtc | system>:<portname> finished.
 			return getComponentRef(getTokenAfterString(MAP_OPERATION_OF, " :")); //$NON-NLS-1$
@@ -577,7 +577,7 @@ public abstract class MessageAnalyser {
 		return null;
 	} // isSilentEvent
 
-	
+
 	/**
 	 * Line checker for the log file
 	 * @return true or false
@@ -600,10 +600,10 @@ public abstract class MessageAnalyser {
 	 */
 	public String getEnqueuedTarget() {
 		String port = getTokenAfterString(MESSAGE_ENQUEUED_ON);
-		
-		return port; 
+
+		return port;
 	}
-	
+
 	/**
 	 * Getter for send type
 	 * @return type
@@ -628,18 +628,18 @@ public abstract class MessageAnalyser {
 	protected boolean isSetverdict() {
 		return this.message.contains(SETVERDICT) && this.message.contains("):"); //$NON-NLS-1$
 	}
-	
-	protected String getSetverdictName() {		
+
+	protected String getSetverdictName() {
 		return this.message.split(":")[0]; //$NON-NLS-1$
 	}
-	
+
 	protected String getSetverdictType() {
 		int startpos = this.message.indexOf("("); //$NON-NLS-1$
 		int stoppos = this.message.indexOf(")"); //$NON-NLS-1$
 		return this.message.substring(startpos + 1, stoppos);
 	}
 
-	
+
 	/**
 	 * Line checker for the log file
 	 * @return true or false
@@ -680,7 +680,7 @@ public abstract class MessageAnalyser {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Check if the message is a fail message
 	 */
@@ -693,13 +693,13 @@ public abstract class MessageAnalyser {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Getter for un-mapping port target
 	 * @return target
 	 */
 	public String getPort(final String componentAndPort) {
-		if (componentAndPort.contains(":")) { //$NON-NLS-1$ 
+		if (componentAndPort.contains(":")) { //$NON-NLS-1$
 			int index = componentAndPort.lastIndexOf(":"); //$NON-NLS-1$
 			if (index < 0) {
 				return "";  //$NON-NLS-1$

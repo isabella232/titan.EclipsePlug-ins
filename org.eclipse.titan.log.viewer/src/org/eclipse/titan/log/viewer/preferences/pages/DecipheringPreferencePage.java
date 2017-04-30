@@ -62,7 +62,7 @@ public class DecipheringPreferencePage extends LogViewerPreferenceRootPage {
 	private final List<String> deletedRuleSets = new ArrayList<String>();
 
 	/** Stores the already deleted message types.
-	 *     key   - the ruleset it belongs to 
+	 *     key   - the ruleset it belongs to
 	 *     value - the name of the message type
 	 */
 	private final Map<String, String> deletedMsgTypes = new HashMap<String, String>();

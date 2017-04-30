@@ -37,10 +37,10 @@ public class PortUnmapping extends PortEventNode {
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillPolygon(drawOuterPolygon(x, y, direction));
-		
+
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
 		context.fillPolygon(drawInnerPolygon(x, y, direction));
-		
+
 		// Draw second symbol
 		int tempX = x - getWidth();
 		if (direction == RIGHT) {
@@ -50,7 +50,7 @@ public class PortUnmapping extends PortEventNode {
 		}
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillPolygon(drawOuterPolygon(tempX, y, direction));
-		
+
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
 		context.fillPolygon(drawInnerPolygon(tempX, y, direction));
 
@@ -62,10 +62,10 @@ public class PortUnmapping extends PortEventNode {
 		//Draw polygon at bottom of line
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
-		context.fillPolygon(drawOuterPolygon(xLeft, yBottom, direction));		
+		context.fillPolygon(drawOuterPolygon(xLeft, yBottom, direction));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
 		context.fillPolygon(drawInnerPolygon(xLeft, yBottom, direction));
-		
+
 		//Draw the polygon at top
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillPolygon(drawOuterPolygon(xLeft, yTop, direction));
@@ -74,7 +74,7 @@ public class PortUnmapping extends PortEventNode {
 
 		setSymbolText(direction);
 	}
-	
+
 	/**
 	 * Set symbolText
 	 * @param direction
@@ -107,12 +107,12 @@ public class PortUnmapping extends PortEventNode {
 		//       \/                   \/
 		//       P4                    P4
 		int[] pointsB = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
-						 x - direction * (MSCConstants.MESSAGE_SYMBOL_SIZE - 2), y,
-						 x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2 - 2,
-						 x - direction * 2, y};
+				x - direction * (MSCConstants.MESSAGE_SYMBOL_SIZE - 2), y,
+				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2 - 2,
+				x - direction * 2, y};
 		return pointsB;
 	}
-	
+
 	/**
 	 * Draws the outer Polygon
 	 * @param x
@@ -128,11 +128,11 @@ public class PortUnmapping extends PortEventNode {
 		//      /   \____         ____/   \
 		//   P3 \   / P2           P3 \   / P2
 		//       \ /                   \ /
-		//       P4                    P4		
+		//       P4                    P4
 		int[] pointsA = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-				 x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y,
-				 x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-				 x, y};
+				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y,
+				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				x, y};
 		return pointsA;
 	}
 }

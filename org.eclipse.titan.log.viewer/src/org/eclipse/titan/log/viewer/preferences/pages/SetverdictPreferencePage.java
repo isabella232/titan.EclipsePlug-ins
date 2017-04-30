@@ -34,27 +34,27 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 	private StringListEditor errorCausedByEditor;
 	private StringListEditor failCausedByEditor;
 	private BooleanFieldEditor setverdictError;
-	private BooleanFieldEditor setverdictFail;	
+	private BooleanFieldEditor setverdictFail;
 	private BooleanFieldEditor setverdictInconc;
 	private BooleanFieldEditor setverdictPass;
 	private BooleanFieldEditor setverdictNone;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public SetverdictPreferencePage() {
 		super(GRID, false);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("SetverdictPreferencePage.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
-		
+
 		this.setverdictError = new BooleanFieldEditor(
 				PreferenceConstants.PREF_SETVERDICT_ERROR_ID,
 				Messages.getString("SetverdictPreferencePage.1"), //$NON-NLS-1$
-				getFieldEditorParent());		
+				getFieldEditorParent());
 		addField(this.setverdictError);
 		this.setverdictFail = new BooleanFieldEditor(
 				PreferenceConstants.PREF_SETVERDICT_FAIL_ID,
@@ -76,25 +76,25 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 				Messages.getString("SetverdictPreferencePage.5"), //$NON-NLS-1$
 				getFieldEditorParent());
 		addField(this.setverdictPass);
-		
-		
+
+
 		new Label(getFieldEditorParent(), SWT.NONE);
 		this.errorCausedByEditor = new StringListEditor(PreferenceConstants.PREF_ERROR_CAUSED_BY_ID,
-									  Messages.getString("SetverdictPreferencePage.6"), //$NON-NLS-1$
-									  getFieldEditorParent(),
-									  false);
+				Messages.getString("SetverdictPreferencePage.6"), //$NON-NLS-1$
+				getFieldEditorParent(),
+				false);
 		this.errorCausedByEditor.setPreferenceStore(getPreferenceStore());
-		
+
 		new Label(getFieldEditorParent(), SWT.NONE);
 		addField(this.errorCausedByEditor);
-		
+
 		this.failCausedByEditor = new StringListEditor(PreferenceConstants.PREF_FAIL_CAUSED_BY_ID,
-				 Messages.getString("SetverdictPreferencePage.7"), //$NON-NLS-1$
-				  getFieldEditorParent(),
-				  false);
+				Messages.getString("SetverdictPreferencePage.7"), //$NON-NLS-1$
+				getFieldEditorParent(),
+				false);
 		this.failCausedByEditor.setPreferenceStore(getPreferenceStore());
 		addField(this.failCausedByEditor);
-		
+
 	}
 
 	@Override
@@ -124,14 +124,14 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_INCONC_ID, setverdictI);
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_NONE_ID, setverdictN);
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_PASS_ID, setverdictP);
-		
+
 		String keywords = ""; //$NON-NLS-1$
 		String[] elements = this.errorCausedByEditor.getElements();
 		for (int i = 0; i < elements.length; i++) {
 			keywords = keywords.concat(elements[i] + separator);
 		}
 		currentPrefs.put(PreferenceConstants.PREF_ERROR_CAUSED_BY_ID, keywords);
-		
+
 		elements = this.failCausedByEditor.getElements();
 		for (int i = 0; i < elements.length; i++) {
 			keywords = keywords.concat(elements[i] + separator);
@@ -142,11 +142,11 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 
 	/**
 	 * Method for getting the current preferences in the preference store
-	 * @return map of the preferences 
+	 * @return map of the preferences
 	 */
 	private Map<String, String[]> getCurrentPreferencesSeparated() {
 		Map<String, String[]> currentPrefs = new HashMap<String, String[]>();
-		
+
 		String[] setverdictErrors = new String[] {String.valueOf(this.setverdictError.getBooleanValue())};
 		currentPrefs.put(PreferenceConstants.PREF_SETVERDICT_ERROR_ID, setverdictErrors);
 		String[] setverdictFails = new String[] {String.valueOf(this.setverdictFail.getBooleanValue())};
@@ -164,7 +164,7 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 	}
 
 	@Override
-	protected void exportPreferences() {	
+	protected void exportPreferences() {
 		ImportExportUtils.exportSettings(getPageId(), getCurrentPreferencesSeparated(), true);
 	}
 
@@ -183,18 +183,18 @@ public class SetverdictPreferencePage extends LogViewerPreferenceRootPage {
 
 	@Override
 	protected void updatePage() {
-	
+
 		this.setverdictError.load();
 		this.setverdictFail.load();
 		this.setverdictInconc.load();
 		this.setverdictNone.load();
 		this.setverdictPass.load();
-		
+
 		this.errorCausedByEditor.clear();
 		this.errorCausedByEditor.load();
-		
+
 		this.failCausedByEditor.clear();
 		this.failCausedByEditor.load();
 	}
-	
+
 }

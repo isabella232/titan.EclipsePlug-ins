@@ -23,7 +23,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 
 /**
  * NGC
- * 
+ *
  */
 public class NGC implements IGC {
 
@@ -42,7 +42,7 @@ public class NGC implements IGC {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param scrollView the view
 	 * @param gc the gc to draw on
 	 */
@@ -159,7 +159,7 @@ public class NGC implements IGC {
 	@Override
 	public void drawRectangle(final int x, final int y, final int width, final int height) {
 		int tempX = Math.round(x * this.view.getZoomFactor());
-		
+
 		// Workaround to avoid problems for some special cases (not very nice)
 		int tempY;
 		if (y != getContentsY()) {
@@ -168,7 +168,7 @@ public class NGC implements IGC {
 		} else {
 			tempY = 0;
 		}
-		
+
 		int tempWidth = Math.round(width * this.view.getZoomFactor());
 		int tempHeight = Math.round(height * this.view.getZoomFactor());
 		tempX = this.view.contentsToViewX(tempX);
@@ -392,7 +392,7 @@ public class NGC implements IGC {
 			localDrawText(nameToDisplay,
 					rectangle.x + 1 + (rectangle.width - this.context.textExtent(nameToDisplay).x) / 2,
 					rectangle.y + 1 + (rectangle.height - this.context.textExtent(nameToDisplay).y) / 2,
-						trans);
+					trans);
 		}
 	}
 
@@ -482,7 +482,7 @@ public class NGC implements IGC {
 
 	/**
 	 * Gets the height of the given font
-	 * 
+	 *
 	 * @param font the font to get height for
 	 * @return the height of the font
 	 */

@@ -18,7 +18,7 @@ public class TitanColorFieldEditor extends ColorFieldEditor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name The name of the editor
 	 * @param labelText The label text
 	 * @param parent The composite parent

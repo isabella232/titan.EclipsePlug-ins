@@ -37,7 +37,7 @@ public abstract class Token {
 	public String getContent() {
 		return this.token;
 	}
-	
+
 	/**
 	 * Gets the token list
 	 * @return the token list
@@ -55,7 +55,7 @@ public abstract class Token {
 		this.tokenList = tokenList;
 		return this.tokenList;
 	}
-	
+
 	/**
 	 * Gets the delimiter list
 	 * @return the delimiter list
@@ -63,7 +63,7 @@ public abstract class Token {
 	public int getDelimiterList() {
 		return this.delimiterList;
 	}
-	
+
 	/**
 	 * Sets a new delimiter list
 	 * @param delimiterList the new delimiter list

@@ -65,7 +65,7 @@ public class MSCFilterDialog extends Dialog {
 			MSCFilterDialog.this.changed = true;
 		}
 	};
-	
+
 	private Listener filterStringChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
@@ -76,7 +76,7 @@ public class MSCFilterDialog extends Dialog {
 				validate();
 				return;
 			}
-			
+
 			try {
 				Pattern.compile(filterStringBox.getText());
 				filterStringBox.setBackground(null);
@@ -90,7 +90,7 @@ public class MSCFilterDialog extends Dialog {
 			validate();
 		}
 	};
-	
+
 	private Listener startTimeStampChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
@@ -103,7 +103,7 @@ public class MSCFilterDialog extends Dialog {
 				validate();
 				return;
 			}
-			
+
 			startTimestamp.setToolTipText("");
 			startTimestamp.setBackground(null);
 			invalidStartTimestamp.setVisible(false);
@@ -111,7 +111,7 @@ public class MSCFilterDialog extends Dialog {
 			validate();
 		}
 	};
-	
+
 	private Listener endTimeStampChanged = new Listener() {
 		@Override
 		public void handleEvent(final Event event) {
@@ -124,7 +124,7 @@ public class MSCFilterDialog extends Dialog {
 				validate();
 				return;
 			}
-			
+
 			endTimestamp.setToolTipText("");
 			endTimestamp.setBackground(null);
 			invalidEndTimestamp.setVisible(false);
@@ -132,14 +132,14 @@ public class MSCFilterDialog extends Dialog {
 			validate();
 		}
 	};
-	
+
 	public MSCFilterDialog(final Shell parentShell, final FilterPattern filterPattern) {
 		super(parentShell);
 
 		this.filterPattern = new FilterPattern(filterPattern);
-	
+
 	}
-	
+
 	public MSCFilterDialog(final Shell parentShell) {
 		super(parentShell);
 	}
@@ -150,17 +150,17 @@ public class MSCFilterDialog extends Dialog {
 		parent.getShell().setImage(Activator.getDefault().getIcon(Constants.ICONS_FILTER));
 		Composite container = (Composite) super.createDialogArea(parent);
 		GridLayout mainLayout = new GridLayout(2, false);
-		
+
 		mainLayout.marginHeight = 20;
 		mainLayout.marginWidth = 20;
 		container.setLayout(mainLayout);
 		container.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-		
 
-		
+
+
 		createEventTypesGroup(container);
 		setTreeContent(filterPattern);
-		
+
 		Composite rightSide = new Composite(container, SWT.NONE);
 		GridLayout rightLayout = new GridLayout(1, true);
 		rightLayout.verticalSpacing = 20;
@@ -169,17 +169,17 @@ public class MSCFilterDialog extends Dialog {
 		createSearchGroup(rightSide);
 
 		createTimeGroup(rightSide);
-		
+
 		return container;
 	}
-	
- 	protected Group createEventTypesGroup(final Composite parent) {
+
+	protected Group createEventTypesGroup(final Composite parent) {
 		Group eventContainer = new Group(parent, SWT.NONE);
- 		GridLayout layout = new GridLayout(2, true);
- 		
+		GridLayout layout = new GridLayout(2, true);
+
 		eventContainer.setText("Event types");
 		eventContainer.setLayout(layout);
-		
+
 		GridData gd = new GridData();
 		gd.grabExcessHorizontalSpace = true;
 		gd.horizontalAlignment = SWT.CENTER;
@@ -234,7 +234,7 @@ public class MSCFilterDialog extends Dialog {
 					changed = true;
 				}
 			}
-			
+
 		});
 
 		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
@@ -245,13 +245,13 @@ public class MSCFilterDialog extends Dialog {
 		gridData.grabExcessVerticalSpace = true;
 		this.checkTree.setLayoutData(gridData);
 		gridData.widthHint = 180;
-		
+
 		inclusiveButton = new Button(eventContainer, SWT.CHECK);
 		inclusiveButton.setLayoutData(new GridData(SWT.CENTER, SWT.TOP, true, false, 2, 1));
 		inclusiveButton.setText("Inclusive");
 		inclusiveButton.setSelection(filterPattern.isInclusive());
 		inclusiveButton.addListener(SWT.Selection, changeListener);
-		
+
 		allButton = new Button(eventContainer, SWT.PUSH);
 		allButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
 		allButton.setText("Select all");
@@ -264,7 +264,7 @@ public class MSCFilterDialog extends Dialog {
 			}
 		});
 
-		
+
 		noneButton = new Button(eventContainer, SWT.PUSH);
 		noneButton.setText("Deselect all");
 		noneButton.setLayoutData(new GridData(SWT.FILL, SWT.TOP, true, false, 1, 1));
@@ -276,10 +276,10 @@ public class MSCFilterDialog extends Dialog {
 				MSCFilterDialog.this.deselectAll();
 			}
 		});
-		
+
 		return eventContainer;
 	}
- 
+
 	protected Group createSearchGroup(final Composite parent) {
 		Group searchGroup = new Group(parent, SWT.NONE);
 		GridLayout searchLayout = new GridLayout(2, true);
@@ -291,28 +291,28 @@ public class MSCFilterDialog extends Dialog {
 		wildCardsLabel.setText("* = any string, ? = any character, \\ = escape for literals: *?\\");
 		wildCardsLabel.setImage(Activator.getDefault().getIcon(Constants.ICONS_TREE_TEXT_OBJ));
 		wildCardsLabel.setLayoutData(new GridData(SWT.LEFT, SWT.CENTER, true, false, 2, 1));
-		
+
 		filterStringBox = new Text(searchGroup, SWT.BORDER);
 		filterStringBox.setText(filterPattern.getFilterExpression());
 		filterStringBox.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true , false, 2, 1));
 		filterStringBox.addListener(SWT.Modify, filterStringChanged);
 		filterStringBox.addListener(SWT.Modify, changeListener);
-		
+
 		isCaseSensitiveButton = new Button(searchGroup, SWT.CHECK);
 		isCaseSensitiveButton.setText("Case sensitive");
 		isCaseSensitiveButton.setSelection(filterPattern.isCaseSensitive());
 		isCaseSensitiveButton.addListener(SWT.Selection, changeListener);
-		
+
 		isRegularExpressionButton = new Button(searchGroup, SWT.CHECK);
 		isRegularExpressionButton.setText("Regular expression");
 		isRegularExpressionButton.setSelection(filterPattern.isRegularExpression());
 		isRegularExpressionButton.addListener(SWT.Selection, filterStringChanged);
 		isRegularExpressionButton.addListener(SWT.Selection, changeListener);
-		
+
 		Label searchInLabel = new Label(searchGroup, SWT.NONE);
 		searchInLabel.setText("Search in: ");
 		searchInLabel.setLayoutData(new GridData(SWT.LEFT, SWT.TOP, true, false, 2, 1));
-		
+
 		sourceInfoButton = new Button(searchGroup, SWT.CHECK);
 		sourceInfoButton.setText("Source Info");
 		if (filterPattern.getFieldsToFilter() != null) {
@@ -329,10 +329,10 @@ public class MSCFilterDialog extends Dialog {
 			messageButton.setSelection(true);
 		}
 		messageButton.addListener(SWT.Selection, changeListener);
-		
+
 		return searchGroup;
 	}
-	
+
 	protected Group createTimeGroup(final Composite parent) {
 		Group timeGroup = new Group(parent, SWT.NONE);
 		GridLayout timeLayout = new GridLayout(2, true);
@@ -340,7 +340,7 @@ public class MSCFilterDialog extends Dialog {
 		timeGroup.setLayout(timeLayout);
 		timeGroup.setLayoutData(new GridData(GridData.FILL, GridData.CENTER, true, false));
 		timeGroup.setText("Filter by time interval");
-		
+
 		Composite start = new Composite(timeGroup, SWT.NONE);
 		start.setLayout(new GridLayout(2, false));
 		Label startLabel = new Label(start, SWT.NONE);
@@ -351,38 +351,38 @@ public class MSCFilterDialog extends Dialog {
 		startTimestamp.addListener(SWT.Modify, startTimeStampChanged);
 		startTimestamp.addListener(SWT.Modify, changeListener);
 		startTimestamp.setTextLimit(filterPattern.getTimeInterval().getTimeStampFormat().length());
-		
+
 		Composite end = new Composite(timeGroup, SWT.NONE);
 		end.setLayout(new GridLayout(2, false));
 		Label endLabel = new Label(end, SWT.NONE);
 		endLabel.setText("End: ");
-		
+
 		endTimestamp = new Text(end, SWT.BORDER);
 		endTimestamp.setText(filterPattern.getTimeInterval().getEnd() != null ? filterPattern.getTimeInterval().getEnd() : "");
 		endTimestamp.setLayoutData(new GridData(filterPattern.getTimeInterval().getTimeStampFormat().length() * 6, 20));
 		endTimestamp.addListener(SWT.Modify, endTimeStampChanged);
 		endTimestamp.addListener(SWT.Modify, changeListener);
 		endTimestamp.setTextLimit(filterPattern.getTimeInterval().getTimeStampFormat().length());
-		
+
 		invalidStartTimestamp = new CLabel(timeGroup, SWT.NONE);
 		invalidStartTimestamp.setText("Invalid timestamp");
 		invalidStartTimestamp.setImage(Activator.getDefault().getIcon(Constants.ICONS_ERROR));
 		invalidStartTimestamp.setVisible(false);
-		
+
 		invalidEndTimestamp = new CLabel(timeGroup, SWT.NONE);
 		invalidEndTimestamp.setText("Invalid timestamp");
 		invalidEndTimestamp.setImage(Activator.getDefault().getIcon(Constants.ICONS_ERROR));
 		invalidEndTimestamp.setVisible(false);
-		
+
 		CLabel formatLabel = new CLabel(timeGroup, SWT.NONE);
 		formatLabel.setText("Format: " + filterPattern.getTimeInterval().getTimeStampFormat());
 		formatLabel.setImage(Activator.getDefault().getIcon(Constants.ICONS_TREE_TEXT_OBJ));
 		formatLabel.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, true, false, 2, 1));
-		
+
 		return timeGroup;
 	}
-	
-	
+
+
 	protected void loadFromPreferenceStore() {
 		// Get default values from preference store
 		String prefDefValues = Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES);
@@ -391,11 +391,11 @@ public class MSCFilterDialog extends Dialog {
 			updateGrayedState();
 		}
 	}
-	
+
 	/**
 	 * Updates the setChecked state of all tree items (parents and children)
-	 * 
-	 * @param prefValues the preference store value for which 
+	 *
+	 * @param prefValues the preference store value for which
 	 * tree items that should be checked
 	 */
 	private void updateCheckedState(final String prefValues) {
@@ -420,10 +420,10 @@ public class MSCFilterDialog extends Dialog {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the setGrayed state of the parents
-	 * A parent is grayed if one or more, but not all of the children is checked  
+	 * A parent is grayed if one or more, but not all of the children is checked
 	 */
 	private void updateGrayedState() {
 		TreeItem[] parents = this.checkTree.getItems();
@@ -443,15 +443,15 @@ public class MSCFilterDialog extends Dialog {
 			}
 		}
 	}
-	
+
 	public FilterPattern getFilterPattern() {
 		return filterPattern;
 	}
-	
+
 	public boolean getChanged() {
 		return changed;
 	}
-	
+
 	private boolean validate() {
 		if (isFilterStringValid && isStartTimeStampValid && isEndTimeStampValid) {
 			MSCFilterDialog.this.getButton(IDialogConstants.OK_ID).setEnabled(true);
@@ -468,30 +468,30 @@ public class MSCFilterDialog extends Dialog {
 			close();
 			return;
 		}
-		
+
 		for (TreeItem item : checkTree.getItems()) {
 			filterPattern.getEventsToFilter().put((String) item.getData(), item.getChecked());
 		}
 		filterPattern.setInclusive(inclusiveButton.getSelection());
-		
+
 		Map<Field, Boolean> fieldsToFilter = new HashMap<Field, Boolean>();
-		
+
 		fieldsToFilter.put(Field.SOURCE_INFO, sourceInfoButton.getSelection());
 		fieldsToFilter.put(Field.MESSAGE, messageButton.getSelection());
-		
-		filterPattern.setFilterExpression(filterStringBox.getText(), fieldsToFilter, 
+
+		filterPattern.setFilterExpression(filterStringBox.getText(), fieldsToFilter,
 				isCaseSensitiveButton.getSelection(), isRegularExpressionButton.getSelection());
-		
+
 		filterPattern.setCaseSensitive(isCaseSensitiveButton.getSelection());
 		filterPattern.setRegularExpression(isRegularExpressionButton.getSelection());
-		
+
 		filterPattern.setTimeInterval(
 				new TimeInterval(startTimestamp.getText(), endTimestamp.getText(), filterPattern.getTimeInterval().getTimeStampFormat()));
-		
+
 		setReturnCode(OK);
 		close();
 	}
-	
+
 	private void setTreeContent(final FilterPattern pattern) {
 		checkTree.setRedraw(false);
 		if (pattern.containsSilentEvents()) {
@@ -500,7 +500,7 @@ public class MSCFilterDialog extends Dialog {
 				parentItem.setText(entry.getKey());
 				parentItem.setData(entry.getKey());
 				parentItem.setChecked(pattern.getEventsToFilter().get(entry.getKey()));
-				
+
 				for (String str : entry.getValue()) {
 					String silentEvent = entry.getKey() + PreferenceConstants.SILENT_EVENTS_UNDERSCORE + str;
 					TreeItem childItem = new TreeItem(parentItem, SWT.NONE);
@@ -516,7 +516,7 @@ public class MSCFilterDialog extends Dialog {
 			checkTree.setRedraw(true);
 			return;
 		}
-		
+
 		for (Map.Entry<String, String[]> entry : Constants.EVENT_CATEGORIES.entrySet()) {
 			TreeItem parentItem = new TreeItem(checkTree, SWT.NONE);
 			parentItem.setText(entry.getKey());
@@ -525,7 +525,7 @@ public class MSCFilterDialog extends Dialog {
 		}
 		checkTree.setRedraw(true);
 	}
-	
+
 	/**
 	 * Deselects all tree items (parents and children)
 	 */
@@ -542,7 +542,7 @@ public class MSCFilterDialog extends Dialog {
 			}
 		}
 	}
-	
+
 	/**
 	 * Selects all tree items (parents and children)
 	 */

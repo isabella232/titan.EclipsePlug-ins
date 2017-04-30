@@ -76,9 +76,9 @@ public final class ConsoleWriter {
 			}
 		}
 	}
-	
+
 	/**
-	 * Disposes the console writer 
+	 * Disposes the console writer
 	 */
 	public void dispose() {
 		IOUtils.closeQuietly(out);
@@ -108,10 +108,10 @@ public final class ConsoleWriter {
 		conMan.addConsoles(new IConsole[]{myConsole});
 		return myConsole;
 	}
-	
+
 	public void writeModelData(final String projectName, final Parser parser, final ExecutionModel model, final String filepath) {
 		writeToConsole(Messages.getString("ExecutionModel.0") + filepath, projectName); //$NON-NLS-1$
-		writeToConsole(Messages.getString("ExecutionModel.1") + parser.getTestCaseRecords(), projectName); //$NON-NLS-1$		
+		writeToConsole(Messages.getString("ExecutionModel.1") + parser.getTestCaseRecords(), projectName); //$NON-NLS-1$
 		writeToConsole(Messages.getString("ExecutionModel.2") + model.getNumberOfEvents(), projectName); //$NON-NLS-1$
 		writeToConsole(Messages.getString("ExecutionModel.3") + parser.getPtcs(), projectName); //$NON-NLS-1$
 		writeToConsole(Messages.getString("ExecutionModel.4") + parser.getMaps(), projectName); //$NON-NLS-1$

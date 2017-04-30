@@ -15,7 +15,7 @@ import org.eclipse.titan.log.viewer.parsers.data.TestCase;
 import org.eclipse.titan.log.viewer.readers.CachedLogReader;
 
 /**
- * Class for details data  
+ * Class for details data
  *
  */
 public class StatisticalData {
@@ -23,7 +23,7 @@ public class StatisticalData {
 	private LogFileMetaData logFileMetaData;
 	private List<TestCase> testCaseVector;
 	private CachedLogReader cachedLogFileReader;
-	
+
 	public StatisticalData(final LogFileMetaData logFileMetaData, final List<TestCase> testCaseVector, final CachedLogReader cachedLogFileReader) {
 		this.logFileMetaData = logFileMetaData;
 		this.testCaseVector = new ArrayList<TestCase>();
@@ -34,7 +34,7 @@ public class StatisticalData {
 		}
 		this.cachedLogFileReader = cachedLogFileReader;
 	}
-	
+
 	public CachedLogReader getCachedLogFileReader() {
 		return cachedLogFileReader;
 	}

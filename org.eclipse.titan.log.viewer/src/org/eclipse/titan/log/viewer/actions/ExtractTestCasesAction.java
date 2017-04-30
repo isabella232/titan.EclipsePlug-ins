@@ -45,7 +45,7 @@ import org.eclipse.ui.navigator.CommonViewer;
 
 /**
  * Class for the action which extracts test cases
- * from a TITAN Log Viewer log file 
+ * from a TITAN Log Viewer log file
  *
  */
 public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
@@ -98,13 +98,13 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 			ErrorReporter.logExceptionStackTrace(e);
 			TitanLogExceptionHandler.handleException(new UserException(e.getMessage()));
 		}
-		
+
 		try {
 			this.monitor.beginTask(Messages.getString("ExtractTestCasesAction.0"), 100); //$NON-NLS-1$
 
 			// Check if a property file exists for the log file (if log file has changed or not)
 			boolean logFileHasChanged = LogFileCacheHandler.hasLogFileChanged(this.logFile);
-			
+
 			// Get the property file
 			File propertyFile = LogFileCacheHandler.getPropertyFileForLogFile(this.logFile);
 
@@ -116,7 +116,7 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 				if (Constants.DEBUG) {
 					TITANDebugConsole.getConsole().newMessageStream().println("Log file has NOT changed -> extracting from index file!"); //$NON-NLS-1$
 				}
-				// Get log file meta data 
+				// Get log file meta data
 				this.logFileMetaData = LogFileCacheHandler.logFileMetaDataReader(propertyFile);
 				// Extract test cases from the index file
 				this.testCaseExtractor.extractTestCasesFromIndexedLogFile(this.logFile);
@@ -225,7 +225,7 @@ public class ExtractTestCasesAction implements IRunnableWithProgress, Observer {
 			this.lastWorked = worked;
 		}
 	}
-	
+
 	/**
 	 * Returns the extracted testcases from the testCaseExtractor
 	 *  @return the testcases

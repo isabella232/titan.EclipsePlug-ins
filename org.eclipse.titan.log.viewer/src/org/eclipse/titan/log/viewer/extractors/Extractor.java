@@ -21,7 +21,7 @@ import org.eclipse.titan.log.viewer.utils.Constants;
 import org.eclipse.titan.common.utils.IOUtils;
 
 /**
- * Abstract class which enables data extraction from a log file 
+ * Abstract class which enables data extraction from a log file
  *
  */
 public abstract class Extractor extends Observable {
@@ -33,9 +33,9 @@ public abstract class Extractor extends Observable {
 	protected long lineCounter;
 	protected LogFileMetaData logFileMetaData;
 	protected int recordNumber;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public Extractor() {
 		this.buffer = null;
@@ -44,10 +44,10 @@ public abstract class Extractor extends Observable {
 		this.lineCounter = 0;
 		this.recordNumber = 0;
 	}
-	
+
 	/**
 	 * Extracts data from a Log File
-	 * 
+	 *
 	 * @param logFileMetaData the log file meta data of the log file to extract
 	 * @throws IOException if log file not found or error while extracting
 	 */
@@ -58,7 +58,7 @@ public abstract class Extractor extends Observable {
 		monitor.beginTask(logFile.getName() + ": Extracting testcases.", 100);
 		long monitorStep = logFile.length() / 100;
 		long monitorNextTick = monitorStep;
-		
+
 		FileInputStream in = null;
 		try {
 			// initialize
@@ -71,7 +71,7 @@ public abstract class Extractor extends Observable {
 			// read ahead buffer
 			int lengthRead = in.read(this.buffer, 0, Constants.INITIAL_BUFFER_SIZE);
 			int charsInBuffer = lengthRead;
-			
+
 			while (lengthRead != -1) {
 				boolean foundRecord = false;
 				int recordsInBlock = 0;
@@ -99,7 +99,7 @@ public abstract class Extractor extends Observable {
 					}
 					nextChar++;
 				} // while
-	
+
 				// here we have a block containing no full record
 				if (!foundRecord) {
 					byte[] oldBuffer = this.buffer;
@@ -112,7 +112,7 @@ public abstract class Extractor extends Observable {
 					continue;
 				}
 				int lefInBlock = 0;
-				
+
 				if (startLineIdx < charsInBuffer) {
 					lefInBlock = charsInBuffer - startLineIdx;
 					System.arraycopy(this.buffer, startLineIdx, this.buffer, 0,
@@ -152,10 +152,10 @@ public abstract class Extractor extends Observable {
 
 	protected abstract void processRow(int offsetStart, int offsetEnd, int recordNumber) throws IOException;
 	protected abstract void processRowsFinished(int offsetStart, int offsetEnd, int recordNumber) throws IOException;
-	
+
 	/**
 	 * Check to see if valid timestamp is next in the file
-	 * 
+	 *
 	 * @param nextChar pointer in the buffer
 	 * @param remaining number of bytes in the buffer
 	 * @return true if a valid timestamp otherwise false
@@ -205,7 +205,7 @@ public abstract class Extractor extends Observable {
 		}
 		return false;
 	}
-	
+
 	protected int findPos(final char[] ser, final int start, final int stop) {
 		int matchPos = 0;
 		for (int ix = start; ix < stop; ix++) {

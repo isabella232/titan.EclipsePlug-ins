@@ -96,7 +96,7 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * Sets the default singleton instance of this plug-in,
 	 * that later can be used to access plug-in specific preference settings.
-	 * 
+	 *
 	 * @param activator the single instance of this plug-in class.
 	 * */
 	private static void setDefault(final Activator activator) {
@@ -107,7 +107,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {
@@ -117,7 +117,7 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * Returns an image descriptor for the image file at the given plug-in
 	 * relative path.
-	 * 
+	 *
 	 * @param path
 	 *            the path
 	 * @return the image descriptor
@@ -128,7 +128,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Returns an cashed image from given location
-	 * 
+	 *
 	 * @param iconPath the plug-relative path
 	 * @return the image
 	 */
@@ -144,14 +144,14 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the image descriptor for the given image
-	 * 
+	 *
 	 * @param path the path to the image (icon)
 	 * @return the image descriptor for the given image
 	 */
 	public ImageDescriptor getCachedImageDescriptor(final String path) {
 		return ImageDescriptor.createFromImage(Activator.getDefault().getIcon(path));
 	}
-	
+
 	/**
 	 * Clears the image cache
 	 */
@@ -161,25 +161,25 @@ public class Activator extends AbstractUIPlugin {
 		}
 		this.imageCache.clear();
 	}
-	
+
 	/**
-	 * Return the resource asked for, if the resource is not found in the cache, it will be created 
+	 * Return the resource asked for, if the resource is not found in the cache, it will be created
 	 * @param key the resource key
 	 * @return resource the resource
 	 */
 	public Resource getCachedResource(final String key) {
 		if (this.guiResourceCache.containsKey(key)) {
 			return this.guiResourceCache.get(key);
-		}		
+		}
 		Resource resource = MSCConstants.getResource(key);
 		if (resource == null) {
 			TitanLogExceptionHandler.handleException(new TechnicalException("Resource could not be found")); //$NON-NLS-1$
 		}
 		return addResource(key, resource);
 	}
-	
+
 	/**
-	 * Return the resource asked for, if the resource is not found in the cache, it will be created 
+	 * Return the resource asked for, if the resource is not found in the cache, it will be created
 	 * @param key the resource key
 	 * @return resource the resource
 	 */
@@ -192,7 +192,7 @@ public class Activator extends AbstractUIPlugin {
 
 		if (this.guiResourceCache.containsKey(key)) {
 			return this.guiResourceCache.get(key);
-		}		
+		}
 		Resource resource = new Color(Display.getDefault(), color);
 		TitanLogExceptionHandler.handleException(new TechnicalException("Resource could not be found")); //$NON-NLS-1$
 		return addResource(key, resource);
@@ -200,7 +200,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Adds a resource to the resource cache
-	 * 
+	 *
 	 * @param key the resource key
 	 * @param resource the resource
 	 * @return the resource just added to the cache
@@ -219,7 +219,7 @@ public class Activator extends AbstractUIPlugin {
 		}
 		this.guiResourceCache.clear();
 	}
-	
+
 	/**
 	 * Returns a section in the Log Viewer plugin's dialog settings. If the section doesn't exist yet, it is created.
 	 *

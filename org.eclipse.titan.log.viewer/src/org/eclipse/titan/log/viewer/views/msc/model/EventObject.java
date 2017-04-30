@@ -41,7 +41,7 @@ public class EventObject implements IEventObject {
 	public EventObject(EventType type) {
 		this.type = type;
 	}
-	
+
 	/**
 	 * The methods below are trivial access
 	 * methods for information found in an instance of this test event class.
@@ -65,7 +65,7 @@ public class EventObject implements IEventObject {
 	public EventType getType() {
 		return this.type;
 	}
-	
+
 	/**
 	 * Setter for time
 	 * @param time The time stamp for the event
@@ -73,7 +73,7 @@ public class EventObject implements IEventObject {
 	public void setTime(final String time) {
 		this.time = time;
 	}
-	
+
 	/**
 	 * Getter for time
 	 * @return The time stamp for the event
@@ -89,7 +89,7 @@ public class EventObject implements IEventObject {
 	public void setName(final String name) {
 		this.name = name; // TODO minimising the String retainance should not be done here.
 	}
-	
+
 	/**
 	 * Getter for name
 	 * @return The name of the event
@@ -105,7 +105,7 @@ public class EventObject implements IEventObject {
 	public void setPort(final String port) {
 		this.port = port;
 	}
-	
+
 	/**
 	 * Getter for port
 	 * @return The optional port
@@ -122,7 +122,7 @@ public class EventObject implements IEventObject {
 		//FIXME should be handled correctly at source location.
 		this.target = pTarget;
 	}
-	
+
 	/**
 	 * Getter for target
 	 * @return The target of the event
@@ -139,7 +139,7 @@ public class EventObject implements IEventObject {
 		//FIXME should be handle correctly at source location.
 		this.reference = pReference;
 	}
-	
+
 	/**
 	 * Getter for reference
 	 * @return the reference of the event
@@ -156,7 +156,7 @@ public class EventObject implements IEventObject {
 	public void setEventType(final String eventType) {
 		this.eventType = eventType;
 	}
-	
+
 	/**
 	 * Getter for event type
 	 * @return the event type
@@ -164,7 +164,7 @@ public class EventObject implements IEventObject {
 	public String getEventType() {
 		return this.eventType;
 	}
-	
+
 	/**
 	 * Setter for record length
 	 * @param recordLength the length of the record
@@ -180,7 +180,7 @@ public class EventObject implements IEventObject {
 	public int getRecordLength() {
 		return this.recordLength;
 	}
-	
+
 	/**
 	 * Setter for record offset
 	 * @param recordOffset the record offset
@@ -188,7 +188,7 @@ public class EventObject implements IEventObject {
 	public void setRecordOffset(final long recordOffset) {
 		this.recordOffset = recordOffset;
 	}
-	
+
 	/**
 	 * Getter for record offset
 	 * @return the record offset
@@ -196,7 +196,7 @@ public class EventObject implements IEventObject {
 	public long getRecordOffset() {
 		return this.recordOffset;
 	}
-	
+
 	/**
 	 * Setter for record number
 	 * @param recordNumber the record number
@@ -204,7 +204,7 @@ public class EventObject implements IEventObject {
 	public void setRecordNumber(final int recordNumber) {
 		this.recordNumber = recordNumber;
 	}
-	
+
 	/**
 	 * Getter for record number
 	 * @return the record number

@@ -14,15 +14,15 @@ import java.io.Serializable;
  *
  */
 public class LogRecordIndex implements Serializable {
-	
+
 	private static final long serialVersionUID = -1043079242496342572L;
 	private long fileOffset; // We support files up to ~9 EB ((2^64)/2 -1 bytes)
 	private int recordLength; // Each record can be up to ~2 GB ((2^32)/2 -1 bytes)
 	private int recordNumber; // ...and have up to ~2 billion records
- 
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param fileOffset - The offset to the record from the <b>beginning</b> of file
 	 * @param recordLength - the number of bytes in the record
 	 */
@@ -31,19 +31,19 @@ public class LogRecordIndex implements Serializable {
 		this.recordLength = recordLength;
 		this.recordNumber = recordNumber;
 	}
-	
+
 	/**
 	 * Gets the offset within the file
-	 * 
+	 *
 	 * @return long address to the beginning of the index
 	 */
 	public long getFileOffset() {
 		return this.fileOffset;
 	}
-	
+
 	/**
 	 * Gets the record length
-	 * 
+	 *
 	 * @return the length of the record
 	 */
 	public int getRecordLength() {
@@ -52,8 +52,8 @@ public class LogRecordIndex implements Serializable {
 
 	/**
 	 * Adds to the record length
-	 * 
-	 * @param additionalRecord the additional record length to add 
+	 *
+	 * @param additionalRecord the additional record length to add
 	 */
 	public void addRecordLen(final int additionalRecord) {
 		this.recordLength += additionalRecord;

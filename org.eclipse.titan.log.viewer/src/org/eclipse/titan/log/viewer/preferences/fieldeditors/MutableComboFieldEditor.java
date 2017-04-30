@@ -45,7 +45,7 @@ public class MutableComboFieldEditor extends FieldEditor {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param items

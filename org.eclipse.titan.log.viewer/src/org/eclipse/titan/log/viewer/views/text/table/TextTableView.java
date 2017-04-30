@@ -83,7 +83,7 @@ import org.eclipse.titan.log.viewer.views.navigator.ProjectsViewerMenuManager;
 
 /**
  * This class represents the Text Table View
- * 
+ *
  */
 public class TextTableView extends ViewPart implements ISelectionProvider, ILogViewerView {
 
@@ -181,7 +181,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		 * Returns the header of the column
 		 */
 		public abstract String getDisplayName();
-		
+
 		/**
 		 * Returns the data to be displayed in this column.
 		 */
@@ -189,7 +189,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 		/**
 		 * Returns an icon to be displayed in the cell.
-		 * 
+		 *
 		 * @param logRecord The logrecord which contains the message.
 		 * @param setVerdictFilter Filter for the verdicts
 		 * @return The icon for the log record. Can be null if no icon should be displayed.
@@ -238,7 +238,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			}
 		}
 	}
-	
+
 
 	private final List<Column> orderedColumns = Arrays.asList(
 			Column.COL_TIMESTAMP,
@@ -294,7 +294,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		this.registeredListeners = new ArrayList<ISelectionChangedListener>();
 		filterAction = new FilterAction(this);
 		filterAction.setEnabled(true);
-		
+
 		addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
@@ -350,17 +350,17 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	/**
 	 * Called in the view life-cycle restore chain Reads back all view data if
 	 * memento has been set
-	 * 
+	 *
 	 * The restore is very restricted an checks that the
 	 * <li> Project still exists and is open
 	 * <li> The file is within the project
 	 * <li> The file size and file date has not changed
 	 */
-	private void restoreState() {  
+	private void restoreState() {
 		if (this.memento == null) {
 			return;
 		}
-//		this.problemDuringRestore = true; // TODO check the save and restore methods
+		//		this.problemDuringRestore = true; // TODO check the save and restore methods
 		this.memento = this.memento.getChild("selection"); //$NON-NLS-1$
 		if (this.memento == null) {
 			return;
@@ -481,8 +481,8 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 				}
 				setContentDescription(
 						TextTableView.this.logFileMetaData.getProjectRelativePath()
-								+ " [" + (TextTableView.this.table.getSelectionIndex() + 1)
-								+ "/" + TextTableView.this.filteredLogReader.size() + "]");
+						+ " [" + (TextTableView.this.table.getSelectionIndex() + 1)
+						+ "/" + TextTableView.this.filteredLogReader.size() + "]");
 				if (e.getSource() instanceof Table) {
 					updateSelection((Table) e.getSource());
 				}
@@ -595,7 +595,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		final CachedLogReader cachedReader = new CachedLogReader(filteredReader);
 		setInput(newLogFileMetaData, cachedReader, filteredReader, selection);
 	}
-	
+
 	/**
 	 * Sets the given file as the input of the view. The content of the log file will be displayed.
 	 * @see TextTableView#setInput(IFile, int)
@@ -606,12 +606,12 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 	/**
 	 * Sets the model input
-	 * 
+	 *
 	 * @param reader
 	 *            the log file reader
 	 */
 	private void setInput(final LogFileMetaData logFileMetaData, final CachedLogReader cachedReader,
-	                      final FilteredLogReader reader, final int selection) {
+			final FilteredLogReader reader, final int selection) {
 		setLogFileMetaData(logFileMetaData);
 
 		if (tableSetDataListener != null) {
@@ -648,7 +648,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 	/**
 	 * Sets the current log file meta data
-	 * 
+	 *
 	 * @param logFileMetaData the current log file meta data
 	 */
 	private void setLogFileMetaData(final LogFileMetaData logFileMetaData) {
@@ -662,7 +662,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		if (this.cachedLogReader != null) {
 			this.cachedLogReader.close();
 		}
-		
+
 		if (this.filteredLogReader != null) {
 			this.filteredLogReader.close();
 		}
@@ -708,13 +708,13 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		mgr.appendToGroup(Constants.ID_SWITCH_VIEW_GROUP, switchToMSCAction);
 
 		actionBars.updateActionBars();
-	}	
-	
+	}
+
 	/**
 	 * Refreshes the visible part of the table
 	 */
 	void refreshTable() {
-		
+
 		table.setItemCount(filteredLogReader.size());
 		table.setTopIndex(0);
 		table.setSelection(0);
@@ -733,7 +733,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		clearingThread = new ClearingRunnable(topIndex, visibleItems);
 
 		Display.getDefault().asyncExec(clearingThread);
-		
+
 		try {
 			cachedLogReader.cacheRecords(topIndex, startPos);
 			for (int rowIndex = topIndex; rowIndex <= startPos; ++rowIndex) {
@@ -749,11 +749,11 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			TitanLogExceptionHandler.handleException(new TechnicalException(Messages.getString("TextTableModel.7") + e.getMessage()));
 		}
 	}
-	
+
 	/**
 	 *  Loads the given record from the logfile to the table item.
 	 * @param item The item to load in.
-	 * @param record The record 
+	 * @param record The record
 	 */
 	private void setTableItem(final TableItem item, final LogRecord record) {
 		final SetVerdictFilter setVerdictFilter = new SetVerdictFilter(preferences);
@@ -806,7 +806,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 	protected void fillContextMenu(final IMenuManager menuManager) {
 		// MB_ADDITIONS must be added to the menuMgr or platform will
-		// throw a part initialize exception, this will fix this	
+		// throw a part initialize exception, this will fix this
 		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuManager.add(this.openValueViewMenuAction);
 		menuManager.add(openSourceViewMenuAction);
@@ -836,7 +836,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 
 	@Override
 	public void setSelection(final ISelection selection) {
-		this.eventSelection = selection;		
+		this.eventSelection = selection;
 	}
 
 	private void fireSelectionChangeEvent() {
@@ -844,7 +844,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 			listener.selectionChanged(new SelectionChangedEvent(this, this.eventSelection));
 		}
 	}
-	
+
 	/**
 	 * Returns the currently selected record.
 	 * @return The log record or null if no record is selected.
@@ -854,7 +854,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		if (index == -1) {
 			return null;
 		}
-		
+
 		TableItem selectedItem = table.getItem(index);
 		Object data = selectedItem.getData();
 		if (data instanceof LogRecord) {
@@ -875,9 +875,9 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 		}
 	}
 
-	/** 
+	/**
 	 * Update the selection in the provided table
-	 * 
+	 *
 	 *  @param table to work on
 	 **/
 	private void updateSelection(Table table1) {
@@ -902,11 +902,11 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	public boolean isFiltered() {
 		return filteredLogReader.isFiltered();
 	}
-	
+
 	/**
 	 * Returns true if the TextTableView contains the given record and it is not filtered.
 	 * @param recordNumber The record
-	 * @return 
+	 * @return
 	 */
 	public boolean contains(final int recordNumber) {
 		return filteredLogReader.contains(recordNumber);
@@ -915,7 +915,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	/**
 	 * Returns the view id of this view. It can be used with {@link org.eclipse.ui.IWorkbenchPage#showView(String, String, int)},
 	 * {@link org.eclipse.ui.IWorkbenchPage#findViewReference(String, String)} etc.
-	 * 
+	 *
 	 * @return the view id
 	 */
 	public static String getViewId() {
@@ -926,7 +926,7 @@ public class TextTableView extends ViewPart implements ISelectionProvider, ILogV
 	 * Returns the secondary id of the view. It can be used with {@link org.eclipse.ui.IWorkbenchPage#showView(String, String, int)},
 	 * {@link org.eclipse.ui.IWorkbenchPage#findViewReference(String, String)} etc.<br/>
 	 * The secondary id is created from the log file.
-	 * 
+	 *
 	 * @param logFile The log file of the view
 	 * @return
 	 */

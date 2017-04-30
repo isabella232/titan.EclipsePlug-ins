@@ -14,7 +14,7 @@ import org.eclipse.titan.log.viewer.views.msc.ui.view.IGC;
 
 /**
  * The base class used for all MSC nodes displayed in the Sequence Diagram.
- * 
+ *
  */
 public abstract class MSCNode {
 
@@ -82,7 +82,7 @@ public abstract class MSCNode {
 	public String getName()	{
 		return this.name;
 	}
-	
+
 	/**
 	 * Returns true if the graph node contains the point given in parameter, return false otherwise.
 	 * @param	x  the x coordinate of the point to test containment <br>
@@ -92,37 +92,37 @@ public abstract class MSCNode {
 	public boolean contains(int x, int y) {
 		return new Rectangle(getX(), getY(), getWidth(), getHeight()).contains(x, y);
 	}
-	
+
 	/**
 	 * Returns the x coordinate of the graph node
 	 * @return the x coordinate
 	 */
 	public abstract int getX();
-	
+
 	/**
 	 * Returns the y coordinate of the graph node
 	 * @return the y coordinate
 	 */
 	public abstract int getY();
-	
+
 	/**
 	 * Returns the graph node height
 	 * @return the graph node height
 	 */
 	public abstract int getHeight();
-	
+
 	/**
 	 * Returns the graph node width
 	 * @return the graph node width
 	 */
 	public abstract int getWidth();
-	
+
 	/**
 	 * Draws the graph node in the given context
 	 * @param context the graphical context to draw in
 	 */
 	protected abstract void draw(IGC context);
-	
+
 	/**
 	 * Returns the GraphNode visibility for the given visible area.
 	 * Wrong visibility calculation, may strongly impact drawing performance
@@ -135,7 +135,7 @@ public abstract class MSCNode {
 	boolean isVisible(int x, int y, int width, int height) {
 		return isVisibleRectange(this, x, y, width, height);
 	}
-	
+
 	/**
 	 * Return a comparator to sort the GraphNode of the same type
 	 * This comparator is used to order the GraphNode array of the given node type.
@@ -145,7 +145,7 @@ public abstract class MSCNode {
 	public Comparator<MSCNode> getComparator() {
 		return null;
 	}
-	
+
 	/**
 	 * If needed, return a different comparator to backward scan the GraphNode array
 	 * @return the backward comparator or null if not needed
@@ -158,7 +158,7 @@ public abstract class MSCNode {
 	 * Returns the type of the node
 	 * */
 	public abstract Type getType();
-	
+
 	/**
 	 * Return true if the distance from the GraphNode to the given point is positive
 	 * @param x the point x coordinate
@@ -176,7 +176,7 @@ public abstract class MSCNode {
 	public int getStartOccurrence() {
 		return eventOccurrence;
 	}
-	
+
 	/**
 	 * Returns the end event occurrence attached to this graphNode
 	 * @return the start event occurrence attached to the graphNode
@@ -185,7 +185,7 @@ public abstract class MSCNode {
 		return eventOccurrence;
 	}
 
-	
+
 	/**
 	 * Determine if the given point (px,py) is contained in the rectangle
 	 * (x,y,width,height)
@@ -193,8 +193,8 @@ public abstract class MSCNode {
 	 * @param y the rectangle y coordinate
 	 * @param width the rectangle width
 	 * @param height the rectangle height
-	 * @param px the x coordinate of the point to test 
-	 * @param py the y coordinate of the point to test 
+	 * @param px the x coordinate of the point to test
+	 * @param py the y coordinate of the point to test
 	 * @return true if contained false otherwise
 	 */
 	public static boolean contains(final int x, final int y, final int width, final int height, final int px, final int py) {
@@ -202,12 +202,12 @@ public abstract class MSCNode {
 		int locY = y;
 		int locWidth = width;
 		int locHeight = height;
-		
+
 		if (width < 0) {
 			locX = locX + width;
 			locWidth = -locWidth;
 		}
-		
+
 		if (height < 0) {
 			locY = locY + height;
 			locHeight = -locHeight;

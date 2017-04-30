@@ -35,10 +35,10 @@ import org.eclipse.ui.PlatformUI;
  * ResourceChangeListener class responsible for closing open MSC views
  * and to clean up cache entries. The listener is invoked when a resource
  * changed has occurred.
- * 
+ *
  * This class is the sole responsible for making sure that the opened views
  * are closed.
- * 
+ *
  */
 public class ResourceListener implements IResourceChangeListener {
 
@@ -73,21 +73,21 @@ public class ResourceListener implements IResourceChangeListener {
 		});
 	}
 
-	
-	
+
+
 	/**
 	 * This is the callback method as defined by the IResourceChange listener interface
-	 * 
+	 *
 	 * The processing requires knowledge about the event model.
 	 * <li>A POST_CHANGE event does *NOT* include any resource object in the event object!
 	 * <li>A PRE_DELETE and PRE_CLOSE is *ONLY* issued for project events
-	 * 
+	 *
 	 */
 	@Override
 	public void resourceChanged(final IResourceChangeEvent event) {
 
-		
-		
+
+
 		// note: these are the only events that we subscribe upon
 		switch (event.getType()) {
 		case IResourceChangeEvent.POST_CHANGE: // handles the delete of files and folder
@@ -103,7 +103,7 @@ public class ResourceListener implements IResourceChangeListener {
 			IResource closeResource = event.getResource();
 			handlePreCloseProject(closeResource);
 			break;
-			
+
 		default:
 			break;
 
@@ -111,8 +111,8 @@ public class ResourceListener implements IResourceChangeListener {
 	}
 
 	/**
-	 * Helper method that checks if the project is of log viewer nature 
-	 * 
+	 * Helper method that checks if the project is of log viewer nature
+	 *
 	 * @param resource The resource to check
 	 * @return true if the project has TITAN log viewer nature otherwise false
 	 */
@@ -133,13 +133,13 @@ public class ResourceListener implements IResourceChangeListener {
 		if (!changeInLogViewerProject(resource)) {
 			return;
 		}
-		
+
 		IProject project = resource.getProject();
 
 		if (Constants.DEBUG) {
 			TITANDebugConsole.getConsole().newMessageStream().println("Project delete " + project.getName()); //$NON-NLS-1$
 		}
-		
+
 		closeMSCWindows(project);
 	}
 
@@ -147,28 +147,28 @@ public class ResourceListener implements IResourceChangeListener {
 		if (!changeInLogViewerProject(resource)) {
 			return;
 		}
-		
+
 		IProject project = resource.getProject();
-		
+
 		if (Constants.DEBUG) {
 			TITANDebugConsole.getConsole().newMessageStream().println("Project close " + project.getName()); //$NON-NLS-1$
 		}
-		
+
 		closeMSCWindows(project);
 	}
 
-	
-	
+
+
 	/**
 	 * Callback method that handles all post changes
 	 * Implemented using the design pattern visitor that traverses
 	 * through the changed resources
-	 * 
+	 *
 	 * @param event The change event to handle
 	 */
 	private void handlePostChange(final IResourceChangeEvent event) {
-		
-		
+
+
 
 		IResourceDelta rootDelta = event.getDelta();
 
@@ -192,27 +192,27 @@ public class ResourceListener implements IResourceChangeListener {
 				}
 
 				switch (resource.getType()) {
-					case IResource.FILE:
-						IFile file = (IFile) resource;
-						if (Constants.DEBUG) {
-							TITANDebugConsole.getConsole().newMessageStream().println("File delete " + file.getName()); //$NON-NLS-1$
-						}
-						
-						if (SelectionUtils.hasLogFileExtension(file)) {
-							closeMSCWindows(file);
-						}
-						return false;
-					case IResource.FOLDER:
-						IFolder folder = (IFolder) resource;
-						
-						if (Constants.DEBUG) {
-							TITANDebugConsole.getConsole().newMessageStream().println("Folder delete " + folder.getName()); //$NON-NLS-1$
-						}
-						
-						closeMSCWindows(folder);
-						return false;
-					default:
-						return true;
+				case IResource.FILE:
+					IFile file = (IFile) resource;
+					if (Constants.DEBUG) {
+						TITANDebugConsole.getConsole().newMessageStream().println("File delete " + file.getName()); //$NON-NLS-1$
+					}
+
+					if (SelectionUtils.hasLogFileExtension(file)) {
+						closeMSCWindows(file);
+					}
+					return false;
+				case IResource.FOLDER:
+					IFolder folder = (IFolder) resource;
+
+					if (Constants.DEBUG) {
+						TITANDebugConsole.getConsole().newMessageStream().println("Folder delete " + folder.getName()); //$NON-NLS-1$
+					}
+
+					closeMSCWindows(folder);
+					return false;
+				default:
+					return true;
 				}
 			}
 

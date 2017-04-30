@@ -31,13 +31,13 @@ public abstract class Signal extends BaseMessage {
 	public void drawSymbol(final IGC context, final int x, final int y, final int direction) {
 		// Draw the arrow
 		int[] points = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						x, y,
-						x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2};
-		
+				x, y,
+				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2};
+
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillPolygon(points);
 	}
-	
+
 	@Override
 	public void drawSymbol(final IGC context, final int xLeft, final int xRight, final int yTop, final int yBottom, final int direction) {
 		drawSymbol(context, xLeft, yBottom, direction);

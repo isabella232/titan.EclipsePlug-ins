@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
  * Parse a log file in parallel execution mode with file mask n
  */
 public class MessageAnalyserFormat2 extends MessageAnalyser {
-	
+
 	private static final String LOCATION = ", location:"; //$NON-NLS-1$
 	private static final String PROCESS_ID = ", process id:";  //$NON-NLS-1$
 	private static final String TESTCASE_NAME = ", testcase name:"; //$NON-NLS-1$
@@ -24,7 +24,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 	private static final String LOCAL_VERDICT_OF_PTC_COMPNAME = "Local verdict of PTC \\S++"; //$NON-NLS-1$
 	private static final String PTC_WAS_CREATED_COMPONENT_REFERENCE_ONLY = "PTC was created. Component reference: [0-9]+\\, alive.*"; //$NON-NLS-1$
 	private static final String COMPONENT_DONE_VERDICT = "Local verdict of PTC"; //$NON-NLS-1$
-	
+
 	@Override
 	public String getType() {
 		return "MessageAnalyserFormat2"; //$NON-NLS-1$
@@ -49,7 +49,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 		return Pattern.matches(regexpComponent, this.message);
 
 	}
-	
+
 	@Override
 	protected String getComponentTerminationReference() {
 		String componentReference = ""; //$NON-NLS-1$
@@ -61,7 +61,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 		}
 		return componentReference;
 	}
-	
+
 	@Override
 	protected String getComponentTerminationVerdict() {
 		String componentVerdict = ""; //$NON-NLS-1$
@@ -73,22 +73,22 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 		}
 		return componentVerdict;
 	}
-	
+
 	@Override
-	protected boolean isComponentTermination() {		
+	protected boolean isComponentTermination() {
 		return this.message.contains(COMPONENT_DONE_VERDICT);
 	}
-	
+
 	@Override
 	public boolean isReceiveOperation() {
 		return this.message.contains(RECEIVE_OPERATION_ON_PORT);
 	}
-	
+
 	@Override
 	public String getReceiveOperationTarget() {
 		return getTokenAfterString(RECEIVE_OPERATION_ON_PORT);
 	}
-	
+
 	@Override
 	public String getReceiveOperationType() {
 		String [] strings = this.message.split(WITH_QUEUE_ID);
@@ -105,9 +105,9 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 	@Override
 	protected String getComponentCreationReference() {
-		 if (this.message.startsWith(TTCN_3_PARALLEL_TEST_COMPONENT)) {
-			 return getComponentRef(getReference(COMPONENT_REFERENCE_CREATE, COMPONENT_TYPE));
-		 }	
+		if (this.message.startsWith(TTCN_3_PARALLEL_TEST_COMPONENT)) {
+			return getComponentRef(getReference(COMPONENT_REFERENCE_CREATE, COMPONENT_TYPE));
+		}
 		return getComponentRef(getTokenAfterString(COMPONENT_REFERENCE_CREATE));
 	}
 
@@ -116,7 +116,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 		String compRef = getReference(COMPONENT_DONE_REFERENCE, IS_DONE);
 		return getComponentRef(compRef);
 	}
-	
+
 	@Override
 	public String getPortConnectionSource() {
 		return getReference(CONNECTING_PORTS, AND);
@@ -126,7 +126,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 	public String getPortConnectionSourceRef() {
 		return getComponentRef(getPortConnectionSource());
 	}
-	
+
 	@Override
 	public String getPortDisconnectionSource() {
 		return getReference(DISCONNECTING_PORTS, AND);
@@ -136,7 +136,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 	public String getPortDisconnectionSourceRef() {
 		return getComponentRef(getPortDisconnectionSource());
 	}
-	
+
 	@Override
 	public String getPortConnectionTarget() {
 		int startIndex = this.message.indexOf(AND) + AND.length();
@@ -157,12 +157,12 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 		String compNameAndRef = this.message.substring(i + ON_COMPONENT.length() + 1, this.message.length() - 1);
 		return getComponentRef(compNameAndRef);
 	}
-	
+
 	@Override
 	public String getPortUnMapping() {
 		return getReference(UNMAPPING_PORT, FROM);
 	}
-	
+
 	@Override
 	public String getPortMappingTarget() {
 		int startIndex = this.message.indexOf(TO) + TO.length();
@@ -180,22 +180,22 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 		}
 		return this.message.substring(startIndex, this.message.length() - 1).trim();
 	}
-	
+
 	@Override
-	public String getPortMappingSource() {		
+	public String getPortMappingSource() {
 		String compRef = getReference(MAPPING_PORT, TO);
 		return compRef;
 	}
-	
+
 	@Override
 	public boolean isPortDisconnection() {
 		return this.message.contains(DISCONNECTING_PORTS);
 	}
-	
+
 	private String getReference(final String startMessage, final String stopMessage) {
 		int startIndex = this.message.indexOf(startMessage);
 		int stopIndex = this.message.indexOf(stopMessage);
-		
+
 		//return "" if the messages do not occurs in the message string
 		if ((startIndex < 0) || (stopIndex < 0)) {
 			return ""; //$NON-NLS-1$
@@ -205,7 +205,7 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 		}
 		return this.message.substring(startIndex + startMessage.length() + 1, stopIndex).trim();
 	}
-	
+
 	@Override
 	protected String getComponentCreationName() {
 		if (this.message.contains(COMPONENT_NAME)) {
@@ -224,5 +224,5 @@ public class MessageAnalyserFormat2 extends MessageAnalyser {
 
 		return ""; //$NON-NLS-1$
 	}
-	
+
 }

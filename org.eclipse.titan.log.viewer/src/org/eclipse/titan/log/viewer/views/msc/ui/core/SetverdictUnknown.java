@@ -22,7 +22,7 @@ public class SetverdictUnknown extends MSCNode {
 
 	private String verdict;
 	private int lifelines;
-	
+
 	/**
 	 * Constructor
 	 * @param eventOccurrence the occurrence of this event
@@ -49,68 +49,68 @@ public class SetverdictUnknown extends MSCNode {
 	public int getY() {
 		return MSCConstants.ROW_HEIGHT * this.getStartOccurrence() + MSCConstants.ROW_SPACING / 2;
 	}
-	
+
 	@Override
 	public int getWidth() {
 		return this.lifelines * MSCConstants.COLUMN_WIDTH - MSCConstants.COLUMN_SPACING + 2 * MSCConstants.SETVERDICT_SHADOW_SIZE;
 	}
-	
+
 	@Override
 	public int getHeight() {
 		return MSCConstants.ROW_HEIGHT - MSCConstants.ROW_SPACING + MSCConstants.SETVERDICT_SHADOW_SIZE;
 	}
-	
+
 	@Override
 	protected void draw(final IGC context) {
 		int x = getX();
 		int y = getY();
 		int width = getWidth();
 		int height = getHeight();
-		
+
 		context.setLineStyle(context.getLineSolidStyle());
 		context.setLineWidth(MSCConstants.NORMAL_LINE_WIDTH);
 
 		if (MSCConstants.DRAW_SHADOW) {
 			// Draw shadow
 			context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.SETVERDICT_SHADOW_COLOR));
-			context.fillRectangle(x + MSCConstants.SETVERDICT_SHADOW_SIZE, 
-					  			  y + MSCConstants.SETVERDICT_SHADOW_SIZE,
-					  			  width, 
-					  			  height);
+			context.fillRectangle(x + MSCConstants.SETVERDICT_SHADOW_SIZE,
+					y + MSCConstants.SETVERDICT_SHADOW_SIZE,
+					width,
+					height);
 		}
-		
+
 		// Draw box
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.getVerdictColor(this.verdict)));
 		if (MSCConstants.DRAW_GRADIENT) {
 			context.setGradientColor((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
-			context.fillGradientRectangle(x, 
-								  		  y, 
-								  		  width - MSCConstants.SETVERDICT_SHADOW_SIZE, 
-								  		  height - MSCConstants.SETVERDICT_SHADOW_SIZE,
-								  		  true);
+			context.fillGradientRectangle(x,
+					y,
+					width - MSCConstants.SETVERDICT_SHADOW_SIZE,
+					height - MSCConstants.SETVERDICT_SHADOW_SIZE,
+					true);
 		} else {
-			context.fillRectangle(x, 
-			  		  			  y, 
-			  		  			  width - MSCConstants.SETVERDICT_SHADOW_SIZE, 
-			  		  			  height - MSCConstants.SETVERDICT_SHADOW_SIZE);
+			context.fillRectangle(x,
+					y,
+					width - MSCConstants.SETVERDICT_SHADOW_SIZE,
+					height - MSCConstants.SETVERDICT_SHADOW_SIZE);
 		}
 		if (MSCConstants.DRAW_BORDER) {
 			context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.SETVERDICT_LINE_COLOR));
-			context.drawRectangle(x, 
-								  y, 
-								  width - MSCConstants.SETVERDICT_SHADOW_SIZE, 
-								  height - MSCConstants.SETVERDICT_SHADOW_SIZE);
+			context.drawRectangle(x,
+					y,
+					width - MSCConstants.SETVERDICT_SHADOW_SIZE,
+					height - MSCConstants.SETVERDICT_SHADOW_SIZE);
 		}
 
 		// Draw text
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.SETVERDICT_FONT_COLOR));
 		context.setFont((Font) Activator.getDefault().getCachedResource(MSCConstants.MSC_DEFAULT_FONT));
-		context.drawTextTruncatedCentred(this.verdict, 
-								  		 x,
-								  		 y,
-								  		 width - MSCConstants.SETVERDICT_SHADOW_SIZE, 
-								  		 height - MSCConstants.SETVERDICT_SHADOW_SIZE,
-								  		 true);
+		context.drawTextTruncatedCentred(this.verdict,
+				x,
+				y,
+				width - MSCConstants.SETVERDICT_SHADOW_SIZE,
+				height - MSCConstants.SETVERDICT_SHADOW_SIZE,
+				true);
 	}
 
 	@Override

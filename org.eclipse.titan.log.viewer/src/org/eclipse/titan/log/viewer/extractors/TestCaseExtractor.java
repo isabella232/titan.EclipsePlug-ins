@@ -31,11 +31,11 @@ import org.eclipse.titan.log.viewer.utils.Messages;
 /**
  * This class creates an index of all included Test Cases
  * - For each test case there is a index created for each record containing the file offset and the length of the record
- * 
+ *
  * There is a distinction between a record and a line
  * - A line a array of bytes that is terminated with a LF
  * - A record begins with valid time stamp and is terminate with a LF followed by a timestamp or EOF
- * 		- A record can consists of one or several lines 
+ * 		- A record can consists of one or several lines
  */
 public class TestCaseExtractor extends Extractor {
 	private IFile logFile;
@@ -52,7 +52,7 @@ public class TestCaseExtractor extends Extractor {
 
 	private int currentControlPartNumber = 1;
 	private boolean firstActivation = true;
-	
+
 	public TestCaseExtractor() {
 		this.withinTestCase = false;
 		this.currentTestCaseNumber = 0;
@@ -63,7 +63,7 @@ public class TestCaseExtractor extends Extractor {
 
 	/**
 	 * Extracts test cases from a log file which already has a previously created index file
-	 * 
+	 *
 	 * @param logFile the log file to extract test cases from, can NOT be null
 	 * @throws IOException if file IO or parse errors occur
 	 * @throws ClassNotFoundException if test cases can not be read from the index file
@@ -74,7 +74,7 @@ public class TestCaseExtractor extends Extractor {
 		if (indexFile.length() == 0) {
 			throw new IOException();
 		}
-		
+
 		ObjectInputStream indexFileInputStream = null;
 		try {
 			indexFileInputStream = new ObjectInputStream(new FileInputStream(indexFile));
@@ -98,32 +98,32 @@ public class TestCaseExtractor extends Extractor {
 			IOUtils.closeQuietly(indexFileInputStream);
 		}
 	}
-	
-	
+
+
 	/**
-	 * Fetches a given test case with a passed id from a previously created index file 
-	 * 
-	 * @param indexFile the index file to extract test cases from, can NOT be null  
+	 * Fetches a given test case with a passed id from a previously created index file
+	 *
+	 * @param indexFile the index file to extract test cases from, can NOT be null
 	 * @param testCaseNumber number of the test case to fetch
 	 * @throws IOException if file IO or parse errors occur
 	 * @throws ClassNotFoundException if test cases can not be read from the index file
 	 */
-	
+
 	public static TestCase getTestCaseFromIndexFile(final File indexFile, final int testCaseNumber)
 			throws IOException, TechnicalException, ClassNotFoundException {
-		
+
 		ObjectInputStream indexFileInputStream = null;
 		try {
 			indexFileInputStream = new ObjectInputStream(new FileInputStream(indexFile));
-			
+
 			Object o = indexFileInputStream.readObject();
 			if (o instanceof List) {
 				List<?> testCases = (List<?>) o;
-				
+
 				// the vector is zero based but the testCase number starts numbering on 1
 				// so there must be an alignment
 				int testCasePosition = testCaseNumber - 1;
-				
+
 				if (testCases.size() < testCasePosition) {
 					throw new TechnicalException(Messages.getString("TestCaseExtractor.4")); //$NON-NLS-1$
 				}
@@ -134,7 +134,7 @@ public class TestCaseExtractor extends Extractor {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Extracts Test Cases from a Log File
 	 * @param logFileMetaData meta data about the log file
@@ -172,26 +172,26 @@ public class TestCaseExtractor extends Extractor {
 
 	/**
 	 * Returns the test case vector created during extraction of the log file
-	 * 
+	 *
 	 * @return the test case vector
 	 */
 	public List<TestCase> getTestCases() {
 		return this.testCaseVector;
 	}
-	
+
 	/**
 	 * Returns the log record index vector created during extraction of the log file
-	 * 
+	 *
 	 * @return the log record index vector
 	 */
 	public List<LogRecordIndex> getLogRecordIndexes() {
 		return this.logRecordIndexVector;
 	}
-	
+
 	/**
 	 * Returns a boolean flag which indicates if extraction did failed or not
-	 * Should be called AFTER calling extractTestCasesFromLogFile 
-	 * 
+	 * Should be called AFTER calling extractTestCasesFromLogFile
+	 *
 	 * @return true if failed otherwise true
 	 */
 	public boolean failedDuringExtraction() {
@@ -203,7 +203,7 @@ public class TestCaseExtractor extends Extractor {
 	protected void processRow(final int offsetStart, final int offsetEnd, final int recordNumber) throws IOException {
 		// Add log record to index
 		addLogRecordIndex(this.filePointer, offsetStart, offsetEnd, recordNumber);
-		
+
 		// Check if the R7B header exists in the log file.
 		if (!this.optionSet && contains(Constants.LOG_FORMAT, offsetStart, offsetEnd)) {
 			int startPos = findPos(Constants.LOG_FORMAT_OPTION, offsetStart, offsetEnd);
@@ -314,7 +314,7 @@ public class TestCaseExtractor extends Extractor {
 		this.currentTestCaseNumber++;
 		this.currentTestCase = new TestCase(logFile);
 		this.currentTestCase.setTestCaseNumber(this.currentTestCaseNumber);
-		
+
 		this.currentProgress = (int) (this.filePointer * (100.0 / this.fileSize));
 		this.currentTestCase.setTestCaseName(name);
 
@@ -323,7 +323,7 @@ public class TestCaseExtractor extends Extractor {
 	}
 
 	/**
-	 * Adds a test case to the test case vector and notifies the observers 
+	 * Adds a test case to the test case vector and notifies the observers
 	 */
 	private void addTestCase() {
 		String message = ""; //$NON-NLS-1$
@@ -332,7 +332,7 @@ public class TestCaseExtractor extends Extractor {
 			message = this.currentTestCase.getTestCaseName();
 		}
 		setChanged();
-		
+
 		final String fMessage = message;
 		Display.getDefault().asyncExec(new Runnable() {
 			@Override
@@ -341,7 +341,7 @@ public class TestCaseExtractor extends Extractor {
 			}
 		});
 	}
-	
+
 	private void addCrashedTestCase() {
 		if (!this.crashed) {
 			this.crashed = true;

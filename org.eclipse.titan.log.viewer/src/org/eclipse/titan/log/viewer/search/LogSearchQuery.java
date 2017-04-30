@@ -35,25 +35,25 @@ public class LogSearchQuery implements ISearchQuery {
 	private List<IFile> files;
 	private SearchPattern pattern;
 	private LogSearchResult result;
-	
+
 	public LogSearchQuery(final List<IFile> files, final SearchPattern pattern) {
 		this.files = files;
 		this.pattern = pattern;
 		result = new LogSearchResult(this);
 	}
-	
+
 	@Override
 	public IStatus run(final IProgressMonitor monitor) {
 		result.removeAll();
-		
+
 		int numOfRecords = 0;
 		for (IFile logFile : files) {
 			File indexFile = LogFileCacheHandler.getLogRecordIndexFileForLogFile(logFile);
 			numOfRecords += LogFileCacheHandler.getNumberOfLogRecordIndexes(indexFile);
 		}
-		
+
 		monitor.beginTask("Searching", numOfRecords);
-		
+
 		for (IFile logFile : files) {
 			if (monitor.isCanceled()) {
 				break;
@@ -68,7 +68,7 @@ public class LogSearchQuery implements ISearchQuery {
 			try {
 				LogRecordIndex[] indexes = LogFileCacheHandler.readLogRecordIndexFile(indexFile, 0, LogFileCacheHandler.getNumberOfLogRecordIndexes(indexFile));
 				SequentialLogFileReader reader = new SequentialLogFileReader(logFile.getLocationURI(), indexes);
-				
+
 				monitor.subTask("Filtering");
 				filterRecords(monitor, logFile, reader);
 				monitor.done();
@@ -103,7 +103,7 @@ public class LogSearchQuery implements ISearchQuery {
 	public String getLabel() {
 		return "TITAN Log Search";
 	}
-	
+
 	public SearchPattern getPattern() {
 		return pattern;
 	}

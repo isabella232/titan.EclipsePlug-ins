@@ -19,14 +19,14 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.titan.log.viewer.models.LogFileMetaData;
 
 public class ComponentExtractor extends Extractor {
-	
+
 
 	// Variables
 	private int currentProgress;
 	private int currentCompRef;
 	private String currentCompName;
 	private Map<Integer, String> components;
-	
+
 	// Constants for ComponentExtractor
 	private static final char[] PTC_CREATION = "PTC was created. Component reference: ".toCharArray(); //$NON-NLS-1$
 	private static final int PTC_CREATION_LENGTH = PTC_CREATION.length;
@@ -43,13 +43,13 @@ public class ComponentExtractor extends Extractor {
 	private static final char[] PTC_ALIVE = ", alive:".toCharArray(); //$NON-NLS-1$
 	private static final char[] TESTCASE_NAME = ", testcase name:".toCharArray(); //$NON-NLS-1$
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public ComponentExtractor() {
 		this.currentProgress = 0;
 		this.components = new HashMap<Integer, String>();
 	}
-	
+
 	/**
 	 * Extracts Components from a Log File
 	 * @param logFileMetaData meta data about the log file
@@ -58,7 +58,7 @@ public class ComponentExtractor extends Extractor {
 	public void extractComponentsFromLogFile(final LogFileMetaData logFileMetaData, final IProgressMonitor monitor) throws IOException {
 		extractFromLogFile(logFileMetaData, monitor);
 	}
-	
+
 	/**
 	 * Return  an array list with the name of all (no duplicates) the found components
 	 * @return an array list with the name of all (no duplicates) the found components
@@ -84,12 +84,12 @@ public class ComponentExtractor extends Extractor {
 		// Reset comp ref and name
 		this.currentCompRef = 0;
 		this.currentCompName = null;
-		
+
 		int pos = findPos(PTC_CREATION, offsetStart, offsetEnd);
 		if (pos > 0) {
 			// Component creation found, calculate start position for component reference
 			int compRefStartPos = pos + PTC_CREATION_LENGTH + 1;
-			
+
 			// Check if component name is defined
 			int compName = findPos(COMP_NAME_START, offsetStart, offsetEnd);
 			if (compName > 0) {
@@ -141,9 +141,9 @@ public class ComponentExtractor extends Extractor {
 				}
 			}
 		}
-		// find if the component has been created by the message 
+		// find if the component has been created by the message
 		//"TTCN-3 Parallel Test Component started on %s. Component reference: %d, component type: %s.%s. Version: %s"
-		
+
 		pos = findPos(TTCN_3_PARALLEL_TEST_COMPONENT_STARTED_ON, offsetStart, offsetEnd);
 		if (pos > 0) {
 			// TTCN-3 Component creation found, calculate start position for component reference
@@ -153,7 +153,7 @@ public class ComponentExtractor extends Extractor {
 
 				//Calculate component reference length
 				int compRefStartPos = compRef + COMP_REF_LENGTH + 2;
-				int compRefLength = findPos(COMP_TYPE, offsetStart, offsetEnd) + 1 - compRefStartPos; 
+				int compRefLength = findPos(COMP_TYPE, offsetStart, offsetEnd) + 1 - compRefStartPos;
 				if (compRefLength < 0) {
 					return;
 				}
@@ -163,7 +163,7 @@ public class ComponentExtractor extends Extractor {
 					// Illegal comp ref -> return
 					return;
 				}
-			
+
 				// Check if component name is defined
 				int compName = findPos(COMP_NAME_START, offsetStart, offsetEnd);
 				if (compName > 0) {
@@ -175,26 +175,26 @@ public class ComponentExtractor extends Extractor {
 						return;
 					}
 					this.currentCompName = new String(this.buffer, compNameStartPos, compNameLength);
-				} else {				
-						this.currentCompName = Integer.toString(this.currentCompRef);				
+				} else {
+					this.currentCompName = Integer.toString(this.currentCompRef);
 				}
 			}
 		}
-//		 Comp ref and name found, add component
+		//		 Comp ref and name found, add component
 		if ((this.currentCompRef > 0) && (this.currentCompName != null)) {
 			this.currentProgress = (int) (this.filePointer * (100.0 / this.fileSize));
 			addComponent();
 		}
 	}
-	
+
 	@Override
 	protected void processRowsFinished(final int offsetStart, final int offsetEnd, final int recordNumber) throws IOException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/**
-	 * Adds a test case to the test case vector and notifies the observers 
+	 * Adds a test case to the test case vector and notifies the observers
 	 */
 	private void addComponent() {
 		if (this.components.containsKey(this.currentCompRef)) {
@@ -208,9 +208,9 @@ public class ComponentExtractor extends Extractor {
 			notifyAddedComponent();
 		}
 	}
-	
+
 	/**
-	 * Notifies listeners that a new component was added 
+	 * Notifies listeners that a new component was added
 	 */
 	private void notifyAddedComponent() {
 		setChanged();

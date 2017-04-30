@@ -60,7 +60,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	private Button deselectAll;
 	private Map<String, String> oldPreferences;
 	private boolean enableSelectDeselectButtons;
-	
+
 	/**
 	 * Constructor
 	 * @param style the layout style
@@ -76,7 +76,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		this.editors.add(editor);
 		super.addField(editor);
 	}
-	
+
 	@Override
 	protected void contributeButtons(final Composite parent) {
 		// Add an import button
@@ -101,30 +101,30 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		});
 		// Add two columns to the parent's layout
 		((GridLayout) parent.getLayout()).numColumns += 2;
-		
+
 		if (this.enableSelectDeselectButtons) {
 			// Add a select all button
-		    this.selectAll = new Button(parent, SWT.PUSH);
-		    this.selectAll.setText(Messages.getString("FilteredSilentEventPrefPage.0")); //$NON-NLS-1$
-		    this.selectAll.addSelectionListener(new SelectionAdapter() {
-		    	@Override
-		    	public void widgetSelected(final SelectionEvent event) {     
-		    		performSelectAll();
-		    	}
-		    });
-	
-		    // Add a deselect all button
-		    this.deselectAll = new Button(parent, SWT.PUSH);
-		    this.deselectAll.setText(Messages.getString("FilteredSilentEventPrefPage.1")); //$NON-NLS-1$
-		    this.deselectAll.addSelectionListener(new SelectionAdapter() {
-		    	@Override
-		    	public void widgetSelected(final SelectionEvent event) {
-		    		performDeselectAll();
-		    	}
-		    });
-	
-		    // Add two columns to the parent's layout
-		    ((GridLayout) parent.getLayout()).numColumns += 2;
+			this.selectAll = new Button(parent, SWT.PUSH);
+			this.selectAll.setText(Messages.getString("FilteredSilentEventPrefPage.0")); //$NON-NLS-1$
+			this.selectAll.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(final SelectionEvent event) {
+					performSelectAll();
+				}
+			});
+
+			// Add a deselect all button
+			this.deselectAll = new Button(parent, SWT.PUSH);
+			this.deselectAll.setText(Messages.getString("FilteredSilentEventPrefPage.1")); //$NON-NLS-1$
+			this.deselectAll.addSelectionListener(new SelectionAdapter() {
+				@Override
+				public void widgetSelected(final SelectionEvent event) {
+					performDeselectAll();
+				}
+			});
+
+			// Add two columns to the parent's layout
+			((GridLayout) parent.getLayout()).numColumns += 2;
 		}
 	}
 
@@ -143,8 +143,8 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 			this.pageId = getPageId();
 			// Create an overlay preference store and fill it with properties
 			this.overlayStore = new PropertyStore((IResource) getElement(),
-											 super.getPreferenceStore(),
-											 this.pageId);
+					super.getPreferenceStore(),
+					this.pageId);
 			// Set overlay store as current preference store
 		}
 		super.createControl(parent);
@@ -159,17 +159,17 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 
 	@Override
 	protected abstract void createFieldEditors();
-	
+
 	@Override
 	public void setElement(final IAdaptable element) {
 		this.element = element;
 	}
-	
+
 	@Override
 	public IAdaptable getElement() {
 		return this.element;
 	}
-	
+
 	@Override
 	public boolean performOk() {
 		boolean result = super.performOk();
@@ -234,7 +234,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		}
 		return super.getPreferenceStore();
 	}
-	
+
 	/**
 	 * Convenience method for creating a radio button
 	 * @param parent the parent composite
@@ -272,8 +272,8 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 		// Set workspace/project radio buttons
 		try {
 			String use =
-				((IResource) getElement()).getPersistentProperty(
-					new QualifiedName(this.pageId, USEPROJECTSETTINGS));
+					((IResource) getElement()).getPersistentProperty(
+							new QualifiedName(this.pageId, USEPROJECTSETTINGS));
 			if (TRUE.equals(use)) {
 				this.useProjectSettingsButton.setSelection(true);
 			} else {
@@ -283,19 +283,19 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 			this.useWorkspaceSettingsButton.setSelection(true);
 		}
 	}
-	
+
 	/**
 	 * This method must be implemented by all pages
-	 * It is called upon when the export button is pressed 
+	 * It is called upon when the export button is pressed
 	 */
 	protected abstract void exportPreferences();
-	
+
 	/**
 	 * This method must be implemented by all pages
 	 * It is called upon when the import button is pressed
 	 */
 	protected abstract void importPreferences();
-	
+
 	/**
 	 * This method must be overridden by all pages that uses select all behavior
 	 * It is called upon when the select all button is pressed
@@ -303,7 +303,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	protected void performSelectAll() {
 		getApplyButton().setEnabled(true);
 	}
-	
+
 	/**
 	 * This method must be overridden by all pages that uses deselect all behavior
 	 * It is called upon when the deselect all button is pressed
@@ -314,12 +314,12 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 
 	/**
 	 * Returns the id of the current preference page as defined in plugin.xml
-	 * Subclasses must implement. 
-	 * 
+	 * Subclasses must implement.
+	 *
 	 * @return the qualifier
 	 */
 	protected abstract String getPageId();
-	
+
 	/**
 	 * Help method for getting a preference property
 	 * @param key property key
@@ -360,7 +360,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	 * Enables or disables the field editors and buttons of this page
 	 */
 	private void updateFieldEditors() {
-		// We iterate through all field editors 
+		// We iterate through all field editors
 		boolean enabled = this.useProjectSettingsButton.getSelection();
 		updateFieldEditors(enabled);
 		getApplyButton().setEnabled(true);
@@ -371,7 +371,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 			this.deselectAll.setEnabled(enabled);
 		}
 	}
-	
+
 	/**
 	 * Enables or disables the field editors and buttons of this page
 	 * Subclasses may override.
@@ -383,14 +383,14 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 			editor.setEnabled(enabled, parent);
 		}
 	}
-	
+
 	/**
-	 * This method is called after import preference 
-	 * has been called and should update the page with the 
+	 * This method is called after import preference
+	 * has been called and should update the page with the
 	 * new values set.
 	 */
 	protected abstract void updatePage();
-	
+
 	/**
 	 * Returns true if this instance represents a property page
 	 * @return true for property pages, false for preference pages
@@ -416,7 +416,7 @@ public abstract class LogViewerPreferenceRootPage extends FieldEditorPreferenceP
 	public void setOldPreferences(final Map<String, String> oldPreferences) {
 		this.oldPreferences = oldPreferences;
 	}
-	
+
 	/**
 	 * Enables/Disables if project setting is used by toggling the project/workspace radio buttons
 	 * @param enabled flag which indicates if project setting is enabled

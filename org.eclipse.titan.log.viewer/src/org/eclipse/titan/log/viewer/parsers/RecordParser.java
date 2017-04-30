@@ -40,7 +40,7 @@ public class RecordParser {
 
 	/**
 	 * Parses a log record given as a string
-	 * 
+	 *
 	 * @param record the log record
 	 * @throws ParseException if the log record can not be parsed
 	 */
@@ -49,10 +49,10 @@ public class RecordParser {
 		bufPointer = 0;
 		return parse();
 	}
-	
+
 	/**
 	 * Parses a log record given as a string
-	 * 
+	 *
 	 * @param record the log record
 	 * @throws ParseException if the log record can not be parsed
 	 */
@@ -64,7 +64,7 @@ public class RecordParser {
 
 	/**
 	 * Parses the log record and returns a logRecord with the tokens
-	 * 
+	 *
 	 * @return LogRecord the log record
 	 * @throws ParseException if the log record can not be parsed
 	 */
@@ -91,23 +91,23 @@ public class RecordParser {
 
 		for (Token thisToken : this.tokenBuffer) {
 			switch (thisToken.getType()) {
-				case Constants.TIME_STAMP:
-					thisLogRecord.setTimestamp(thisToken.getContent());
-					break;
-				case Constants.COMPONENT_REFERENCE:
-					thisLogRecord.setComponentReference(thisToken.getContent().toLowerCase());
-					break;
-				case Constants.EVENT_TYPE:
-					thisLogRecord.setEventType(thisToken.getContent());
-					break;
-				case Constants.SOURCE_INFORMATION:
-					thisLogRecord.setSourceInformation(thisToken.getContent());
-					break;
-				case Constants.MESSAGE:
-					thisLogRecord.setMessage(thisToken.getContent());
-					break;
-				default:
-					break;
+			case Constants.TIME_STAMP:
+				thisLogRecord.setTimestamp(thisToken.getContent());
+				break;
+			case Constants.COMPONENT_REFERENCE:
+				thisLogRecord.setComponentReference(thisToken.getContent().toLowerCase());
+				break;
+			case Constants.EVENT_TYPE:
+				thisLogRecord.setEventType(thisToken.getContent());
+				break;
+			case Constants.SOURCE_INFORMATION:
+				thisLogRecord.setSourceInformation(thisToken.getContent());
+				break;
+			case Constants.MESSAGE:
+				thisLogRecord.setMessage(thisToken.getContent());
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -115,7 +115,7 @@ public class RecordParser {
 	} //extractVector
 
 	/**
-	 * Initializes the tokenBuffer and startPointer 
+	 * Initializes the tokenBuffer and startPointer
 	 *
 	 */
 	private void initialize() {
@@ -124,10 +124,10 @@ public class RecordParser {
 	} //initialize
 
 	/**
-	 * The heart of the processing of tokens. 
-	 * 
+	 * The heart of the processing of tokens.
+	 *
 	 * RECURSIVE invoked
-	 * 
+	 *
 	 * @param thisToken
 	 * @throws ParseException
 	 */
@@ -144,7 +144,7 @@ public class RecordParser {
 		processToken(token);
 	} //processToken
 
-	/**	
+	/**
 	 * Adds a token to the vector of Tokens
 	 * @param thisToken
 	 */
@@ -153,8 +153,8 @@ public class RecordParser {
 	} //addToken
 
 	/**
-	 * Reads a delimiter token 
-	 * 
+	 * Reads a delimiter token
+	 *
 	 * @param expectedTokenMask
 	 * @return Token
 	 * @throws ParseException
@@ -173,8 +173,8 @@ public class RecordParser {
 	} // readDelimiterToken
 
 	/**
-	 * Read the next token 
-	 * 
+	 * Read the next token
+	 *
 	 * @param expectedTokenMask
 	 * @return Token
 	 * @throws ParseException
@@ -193,7 +193,7 @@ public class RecordParser {
 				String nextWord = peekNextWord();
 				//Check that the number is not last in logrecord.
 				if (nextWord.length() < 1) {
-					// unread -  
+					// unread -
 					// since it can not be determined if the string is a component reference or
 					// if it is belongs to the message, therefor the string will be included
 					// in the message
@@ -203,7 +203,7 @@ public class RecordParser {
 					return new ComponentReference(token);
 				}
 			}
-			
+
 		}
 
 		if ((expectedTokenMask & Constants.EVENT_TYPE) == Constants.EVENT_TYPE
@@ -319,7 +319,7 @@ public class RecordParser {
 	} //peekNextWord
 
 	/**
-	 * Read the timestamp and moves the buffer pointer the number of characters 
+	 * Read the timestamp and moves the buffer pointer the number of characters
 	 * according to the time format
 	 */
 	private TimeStamp readTimestamp() throws ParseException {
@@ -361,8 +361,8 @@ public class RecordParser {
 	} // readTimestamp
 
 	/**
-	 * Moves the buffer pointer the given number of characters. 
-	 * Also checks if the buffer contains enough characters, 
+	 * Moves the buffer pointer the given number of characters.
+	 * Also checks if the buffer contains enough characters,
 	 * if not an exception is thrown
 	 * @param counter
 	 * @throws ParseException
@@ -388,7 +388,7 @@ public class RecordParser {
 	} //getCurrentChar
 
 	/**
-	 * Read the buffer as long as the character is numeric. 
+	 * Read the buffer as long as the character is numeric.
 	 * Moves the buffer pointer with the number of numeric characters
 	 */
 	private void readNumeric() {
@@ -452,7 +452,7 @@ public class RecordParser {
 
 	/**
 	 * Checks if the token is a component reference
-	 * @param token 
+	 * @param token
 	 * @return boolean
 	 */
 	private boolean isComponentRef(final String token) {

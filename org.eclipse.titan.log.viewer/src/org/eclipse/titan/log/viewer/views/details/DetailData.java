@@ -10,7 +10,7 @@ package org.eclipse.titan.log.viewer.views.details;
 import org.eclipse.titan.common.utils.ObjectUtils;
 
 /**
- * Class for details data  
+ * Class for details data
  *
  */
 public class DetailData {
@@ -21,17 +21,17 @@ public class DetailData {
 	private String testCaseName;
 	private String eventType;
 	private String sourceInfo;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name the name
 	 * @param port the port
 	 * @param line the line (message)
 	 * @param testCaseName the test case name
 	 */
 	public DetailData(final String name, final String port, final String line,
-					  final String testCaseName, final String eventType, final String sourceInfo) {
+			final String testCaseName, final String eventType, final String sourceInfo) {
 		this.name = name;
 		this.port = port;
 		this.line = line;
@@ -39,7 +39,7 @@ public class DetailData {
 		this.eventType = eventType;
 		this.sourceInfo = sourceInfo;
 	}
-	
+
 	public DetailData() {
 		// Do nothing
 	}
@@ -66,19 +66,19 @@ public class DetailData {
 	}
 
 	/**
-	 * @param testCaseName the name of the test case 
+	 * @param testCaseName the name of the test case
 	 */
 	public void setTestCase(final String testCaseName) {
 		this.testCaseName = testCaseName;
 	}
-	
+
 	/**
 	 * @param eventType the event type
 	 */
 	public void setEventType(final String eventType) {
 		this.eventType = eventType;
 	}
-	
+
 	/**
 	 * @return the name
 	 */
@@ -92,21 +92,21 @@ public class DetailData {
 	public String getPort() {
 		return this.port;
 	}
-	
+
 	/**
 	 * @return the line (message)
 	 */
 	public String getLine() {
 		return this.line;
 	}
-	
+
 	/**
 	 * @return the name of the test case
 	 */
 	public String getTestCaseName() {
 		return this.testCaseName;
 	}
-	
+
 	/**
 	 * @return the event type
 	 */

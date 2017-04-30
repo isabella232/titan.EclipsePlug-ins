@@ -45,7 +45,7 @@ import org.eclipse.ui.part.ViewPart;
 
 /**
  * This class shows data obtained from the
- * tree model. 
+ * tree model.
  */
 public class DetailsView extends ViewPart implements ILogViewerView {
 	private DetailData currentEventObject;
@@ -88,16 +88,16 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 		// Set parent layout, one column
 		parent.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WHITE));
 		parent.setLayout(new GridLayout(1, false));
-		
+
 		// Create tool bar
 		createToolbar();
 
-		// Create stack composite 
+		// Create stack composite
 		this.stackComposite = new Composite(parent, SWT.NULL);
 		this.stackComposite.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_YELLOW));
 		this.stackComposite.setLayout(layout);
 		this.stackComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		
+
 		// Initialize top control
 		layout.topControl = getComposite();
 		restoreState();
@@ -133,19 +133,19 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 			mementoEventObject.putString("sourceInfo", currentEventObject.getSourceInfo()); //$NON-NLS-1$
 
 			mementoEventObject.putInteger("isSilentEvent", useFormatting ? 1 : 0);
-			
+
 			// save state about log file
 			Path filePath = new Path(logFileMetaData.getProjectRelativePath());
 			IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
 			if (logFile != null && logFile.exists()) {
 				File aLogFile = logFile.getLocation().toFile();
-				
+
 				// add property file to the memento
 				mementoEventObject.putString("propertyFile", LogFileCacheHandler.getPropertyFileForLogFile(logFile).getAbsolutePath()); //$NON-NLS-1$
 				mementoEventObject.putString("fileSize", String.valueOf(aLogFile.length())); //$NON-NLS-1$
 				mementoEventObject.putString("fileModification", String.valueOf(aLogFile.lastModified())); //$NON-NLS-1$
 			}
-			
+
 		} catch (Exception e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
@@ -164,7 +164,7 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 	 * @param newEventObject the new data
 	 */
 	public void setData(final DetailData newEventObject, final boolean useFormatting) {
-		
+
 		if (newEventObject != null) {
 			this.currentEventObject = newEventObject;
 			this.fullPath = logFileMetaData.getFilePath();
@@ -175,8 +175,8 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 		}
 		this.useFormatting = useFormatting;
 
-		// Check if input data is silent mode or not 
-		
+		// Check if input data is silent mode or not
+
 		textView = getTextView();
 		if (this.useFormatting) {
 			textView.setUseFormatting(false);
@@ -195,16 +195,16 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 
 	/**
 	 * Returns the associated project name
-	 * 
+	 *
 	 * @return the project name
 	 */
 	public String getProjectName() {
 		return projectName;
 	}
-	
+
 	/**
 	 * Returns the associated test case name
-	 * 
+	 *
 	 * @return the test case name
 	 */
 	public String getTestCaseName() {
@@ -228,12 +228,12 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 		}
 		super.dispose();
 	}
-	
+
 	@Override
 	public void setFocus() {
 		// Do nothing
 	}
-	
+
 	/**
 	 * Create a Tree mode and text mode action in the tool bar
 	 */
@@ -292,7 +292,7 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 		}
 		return getTextView();
 	}
-	
+
 	/**
 	 * Returns the graph view composite
 	 * @return the graph view composite
@@ -321,36 +321,36 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 		}
 		return textView;
 	}
-	
+
 	/**
-	 * Updates the header of the value view 
+	 * Updates the header of the value view
 	 */
 	private void updateHeader() {
-		if (this.currentEventObject != null) { // tree 
+		if (this.currentEventObject != null) { // tree
 			String header = this.logFileMetaData.getProjectRelativePath();
 			String testCaseName = this.currentEventObject.getTestCaseName();
 			if (testCaseName.length() > 0) {
 				header = header + "  -  " + testCaseName; //$NON-NLS-1$
 			}
 			String name = this.currentEventObject.getName();
-            if (name != null && name.trim().length() > 0) {
-            	header = header + " - " + name; //$NON-NLS-1$
-            }
+			if (name != null && name.trim().length() > 0) {
+				header = header + " - " + name; //$NON-NLS-1$
+			}
 			String eventType = this.currentEventObject.getEventType();
-            if (eventType != null && eventType.trim().length() > 0) {
-            	header = header + " - " + eventType; //$NON-NLS-1$
-            }
-            this.setContentDescription(header);
+			if (eventType != null && eventType.trim().length() > 0) {
+				header = header + " - " + eventType; //$NON-NLS-1$
+			}
+			this.setContentDescription(header);
 		} else {
 			// Clear header
 			this.setContentDescription(""); //$NON-NLS-1$
 		}
 	}
-	
+
 	/**
 	 * Called in the view life-cycle restore chain
 	 * Reads back all view data if memento has been set
-	 * 
+	 *
 	 * The restore is very restricted an checks that the
 	 * <li> Project still exists and is open
 	 * <li> The file is within the project
@@ -372,10 +372,10 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 				detailObject.setTestCase(mementoEventObject.getString("testCaseName")); //$NON-NLS-1$
 				detailObject.setEventType(mementoEventObject.getString("eventType")); //$NON-NLS-1$
 				detailObject.setSourceInfo(mementoEventObject.getString("sourceInfo")); //$NON-NLS-1$
-				
+
 				long fileSize = Long.parseLong(mementoEventObject.getString("fileSize")); //$NON-NLS-1$
 				long fileModification = Long.parseLong(mementoEventObject.getString("fileModification")); //$NON-NLS-1$
-				
+
 				//retrieve logfilemetaData
 				String propertyFilePath = mementoEventObject.getString("propertyFile"); //$NON-NLS-1$
 				if (propertyFilePath != null) {
@@ -429,7 +429,7 @@ public class DetailsView extends ViewPart implements ILogViewerView {
 
 	/**
 	 * Reads the preferred view from the preference store.
-	 * 
+	 *
 	 * @return true if the Tree view is preferred
 	 */
 	private boolean isTreeViewPreferred() {

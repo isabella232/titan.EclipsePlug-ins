@@ -37,14 +37,14 @@ public class PortMapping extends PortEventNode {
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillPolygon(drawPolygon(x, y, direction));
-		
+
 		int tempX = x - getWidth();
 		if (direction == RIGHT) {
 			tempX = tempX + MSCConstants.MESSAGE_SYMBOL_SIZE;
 		} else {
 			tempX = tempX - MSCConstants.MESSAGE_SYMBOL_SIZE;
 		}
-		
+
 		context.fillPolygon(drawPolygon(tempX, y, direction));
 		setSymbolText(direction);
 	}
@@ -53,11 +53,11 @@ public class PortMapping extends PortEventNode {
 	public void drawSymbol(final IGC context, final int xLeft, final int xRight, final int yTop, final int yBottom, final int direction) {
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillPolygon(drawPolygon(xLeft, yBottom, direction));
-		context.fillPolygon(drawPolygon(xLeft, yTop, direction));		
+		context.fillPolygon(drawPolygon(xLeft, yTop, direction));
 		setSymbolText(direction);
 	}
-	
-	/** 
+
+	/**
 	 * Sets the text of the symbol
 	 * @param direction
 	 */
@@ -80,7 +80,7 @@ public class PortMapping extends PortEventNode {
 	 * @return
 	 */
 	private int[] drawPolygon(final int x, final int y, final int direction) {
-		
+
 		// Direction LEFT         Direction RIGHT
 		//
 		//       P1                    P1
@@ -91,10 +91,10 @@ public class PortMapping extends PortEventNode {
 		//       P4                    P4
 
 		int[] points = {x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y,
-						 x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 x, y};
+				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE, y,
+				x - direction * MSCConstants.MESSAGE_SYMBOL_SIZE / 2, y + MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				x, y};
 		return points;
 	}
-	
+
 }

@@ -29,9 +29,9 @@ import org.eclipse.titan.log.viewer.utils.Constants;
 import org.eclipse.titan.log.viewer.utils.ResourcePropertyHandler;
 
 /**
- * Preferences handler, a singleton for handling TITAN Log Viewer 
- * related preferences 
- * 
+ * Preferences handler, a singleton for handling TITAN Log Viewer
+ * related preferences
+ *
  */
 //FIXME should listen to preference changes
 public final class PreferencesHandler implements IPropertyChangeListener {
@@ -51,7 +51,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	private int projectTabDefault;
 	private int testcaseTabDefault;
 	private int mscViewDefault;
-	
+
 	private boolean setverdictError;
 	private boolean setverdictFail;
 	private boolean setverdictInconc;
@@ -63,9 +63,9 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	private boolean useColoringKeywords;
 	private boolean filteredConnectingPorts;
 	private boolean filteredMappingPorts;
-	
-	
-	
+
+
+
 	private PreferencesHandler() {
 		this.preferenceStore = Activator.getDefault().getPreferenceStore();
 		// Initialize from preference store
@@ -82,7 +82,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		this.projectTabDefault = getProjectTabDefault(this.preferenceStore.getString(PreferenceConstants.PREF_PROJECTTAB_DEFAULT));
 		this.testcaseTabDefault = getTestcaseTabDefault(this.preferenceStore.getString(PreferenceConstants.PREF_PROJECTTAB_DEFAULT));
 		this.mscViewDefault = getMSCViewDefault(this.preferenceStore.getString(PreferenceConstants.PREF_PROJECTTAB_DEFAULT));
- 
+
 		//Setverdict
 		this.setverdictError = stringToBoolean(this.preferenceStore.getString(PreferenceConstants.PREF_SETVERDICT_ERROR_ID));
 		this.setverdictFail = stringToBoolean(this.preferenceStore.getString(PreferenceConstants.PREF_SETVERDICT_FAIL_ID));
@@ -98,11 +98,11 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		this.filteredMappingPorts = stringToBoolean(this.preferenceStore.getString(PreferenceConstants.PREF_MAPPING_PORTS_ID));
 
 	}
-	
+
 
 	/**
 	 * Returns an instance of the PreferencesHandler
-	 * @return the preferences handler instance 
+	 * @return the preferences handler instance
 	 */
 	public static synchronized PreferencesHandler getInstance() {
 		if (preferencesHandler == null) {
@@ -111,7 +111,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		}
 		return preferencesHandler;
 	}
-	
+
 	@Override
 	public void propertyChange(final PropertyChangeEvent event) {
 		String property = event.getProperty();
@@ -161,14 +161,14 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 			this.filteredMappingPorts = stringToBoolean(this.preferenceStore.getString(PreferenceConstants.PREF_MAPPING_PORTS_ID));
 		}
 	}
-	
+
 	/**
-	 * Deregister the preference handler as a listener on the preference store 
+	 * Deregister the preference handler as a listener on the preference store
 	 */
 	public void removeListener() {
 		this.preferenceStore.removePropertyChangeListener(this);
 	}
-	
+
 	/**
 	 * Returns the current preferences
 	 * @param project the current project
@@ -184,7 +184,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 
 		return getPreferencesHolder();
 	}
-	
+
 	/**
 	 * Returns the last directory for dialog when adding a log file
 	 * @return the last directory
@@ -192,7 +192,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	public String getLogFileLastDir() {
 		return this.preferenceStore.getString(PreferenceConstants.PREF_ADD_LOG_FILE_LAST_DIR);
 	}
-	
+
 	/**
 	 * Sets a new "last directory" for dialog when adding a log file
 	 * @param lastDir the new directory to set as last directory
@@ -200,7 +200,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	public void setLogFileLastDir(final String lastDir) {
 		this.preferenceStore.setValue(PreferenceConstants.PREF_ADD_LOG_FILE_LAST_DIR, lastDir);
 	}
-	
+
 	/**
 	 * Returns the last directory for dialog when adding a log folder
 	 * @return the last directory
@@ -208,7 +208,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	public String getLogFolderLastDir() {
 		return this.preferenceStore.getString(PreferenceConstants.PREF_ADD_LOG_FOLDER_LAST_DIR);
 	}
-	
+
 	/**
 	 * Sets a new "last directory" for dialog when adding a log folder
 	 * @param lastDir the new directory to set as last directory
@@ -216,7 +216,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	public void setLogFolderLastDir(final String lastDir) {
 		this.preferenceStore.setValue(PreferenceConstants.PREF_ADD_LOG_FOLDER_LAST_DIR, lastDir);
 	}
-	
+
 	/**
 	 * Returns the last directory for dialog when importing preferences
 	 * @return the last directory
@@ -224,15 +224,15 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	public String getImportLastDir() {
 		return this.preferenceStore.getString(PreferenceConstants.PREF_IMPORT_LAST_DIR);
 	}
-	
+
 	/**
 	 * Sets a new "last directory" for import preferences dialog
-	 * @param lastDir the new directory to set as last directory 
+	 * @param lastDir the new directory to set as last directory
 	 */
 	public void setImportLastDir(final String lastDir) {
 		this.preferenceStore.setValue(PreferenceConstants.PREF_IMPORT_LAST_DIR, lastDir);
 	}
-	
+
 	/**
 	 * Returns the last directory for dialog when exporting preferences
 	 * @return the last directory
@@ -240,10 +240,10 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 	public String getExportLastDir() {
 		return this.preferenceStore.getString(PreferenceConstants.PREF_EXPORT_LAST_DIR);
 	}
-	
+
 	/**
 	 * Sets a new "last directory" for export preferences dialog
-	 * @param lastDir the new directory to set as last directory 
+	 * @param lastDir the new directory to set as last directory
 	 */
 	public void setExportLastDir(final String lastDir) {
 		this.preferenceStore.setValue(PreferenceConstants.PREF_EXPORT_LAST_DIR, lastDir);
@@ -261,7 +261,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		// -> Tree (which is also default)
 		return PreferenceConstants.ASN1_TREEVIEW;
 	}
-	
+
 	/**
 	 * Returns the selected Value Content (tree or text)
 	 * @return a string representing the selected value content type
@@ -276,7 +276,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 			return PreferenceConstants.MSCVIEW_TOP;
 		}
 	}
-	
+
 	/**
 	 * Returns true if replace is selected, otherwise false
 	 * @return true if replace is selected, otherwise false
@@ -285,7 +285,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		return choice.contentEquals(PreferenceConstants.PREF_ADD_COMP_TO_VIS_ORDER_REPLACE);
 
 	}
-	
+
 	/**
 	 * Returns a boolean value from the boolean string representation
 	 * @param booleanString the boolean string ("true" / "false")
@@ -295,80 +295,80 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		return booleanString.contentEquals(PreferenceConstants.TRUE);
 
 	}
-	
+
 	/**
-	 * Creates and returns an string array list using "path separator" as separator 
+	 * Creates and returns an string array list using "path separator" as separator
 	 * @param stringList the string list (separated with "path separator")
 	 * @return the new string array list (converted string list)
 	 */
 	private List<String> stringListToArray(final String stringList) {
 		StringTokenizer st = new StringTokenizer(stringList, File.pathSeparator);
-        List<String> array = new ArrayList<String>();
-        while (st.hasMoreElements()) {
-            array.add((String) st.nextElement());
-        }
-        return array;
+		List<String> array = new ArrayList<String>();
+		while (st.hasMoreElements()) {
+			array.add((String) st.nextElement());
+		}
+		return array;
 	}
-	
+
 	private PreferencesHolder getPreferencesHolder() {
 		return new PreferencesHolder(
-				 this.verbosePrintout, 
-				 this.valueContentType,
-				 this.sutName,
-				 this.filteredComponents,
-				 this.filteredSignals,
-				 this.filteredFunctions,
-				 this.componentVisualOrder,
-				 this.filteredSilentEvents,
-				 this.replaceCompVisOrder,
-				 this.openPropAfterExtComp,
-				 this.mscViewOpen,
-				 this.projectTabDefault,
-				 this.testcaseTabDefault,
-				 this.mscViewDefault,
-				 this.setverdictError,
-				 this.setverdictFail,
-				 this.setverdictInconc,
-				 this.setverdictNone,
-				 this.setverdictPass,
-				 this.errorCausedBy,
-				 this.failCausedBy,
-				 this.useColoringKeywords,
-				 this.coloringKeywords,
-				 this.filteredConnectingPorts,
-				 this.filteredMappingPorts);
+				this.verbosePrintout,
+				this.valueContentType,
+				this.sutName,
+				this.filteredComponents,
+				this.filteredSignals,
+				this.filteredFunctions,
+				this.componentVisualOrder,
+				this.filteredSilentEvents,
+				this.replaceCompVisOrder,
+				this.openPropAfterExtComp,
+				this.mscViewOpen,
+				this.projectTabDefault,
+				this.testcaseTabDefault,
+				this.mscViewDefault,
+				this.setverdictError,
+				this.setverdictFail,
+				this.setverdictInconc,
+				this.setverdictNone,
+				this.setverdictPass,
+				this.errorCausedBy,
+				this.failCausedBy,
+				this.useColoringKeywords,
+				this.coloringKeywords,
+				this.filteredConnectingPorts,
+				this.filteredMappingPorts);
 	}
-	
+
 	private PreferencesHolder getOverlayedPreferencesHolder(final IResource resource) {
 		// set filter for silent events
 		return new PreferencesHolder(
-			stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_VERBOSE_ID)), 
-			getValueContentType(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_ASN1_DEFAULT_FORMAT)),
-			getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_SUT_ID),
-			getFilters(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_COMP_PAGE, PreferenceConstants.PREF_FILTER_COMPONENT_ID)),
-			getFilters(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_SIGNALS_PAGE, PreferenceConstants.PREF_FILTER_SIGNAL_ID)),
-			getFilters(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_FUNCTIONS_PAGE, PreferenceConstants.PREF_FILTER_FUNCTION_ID)),
-			stringListToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_COMP_VIS_ORDER_PAGE, PreferenceConstants.PREF_COMPONENT_ORDER_ID)),
-			silentEventsStringToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_SILENTEVENT_PAGE, PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES)),
-			replaceCompVisOrdWhenAdding(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_COMP_VISUAL_ORDER_ADD_REP_APP_ID)),
-			stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_COMP_VISUAL_ORDER_ADD_OPEN_PROP_ID)),
-			getMSCViewOpenType(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_OPEN_MSCVIEW_DISPLAY)),
-			getProjectTabDefault(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_PROJECTTAB_DEFAULT)),
-			getTestcaseTabDefault(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_TESTCASETAB_DEFAULT)),
-			getMSCViewDefault(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_MSCVIEW_DEFAULT)),	
-		    stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_ERROR_ID)),
-		    stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_FAIL_ID)),
-		    stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_INCONC_ID)),
-		    stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_NONE_ID)),
-		    stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_PASS_ID)),
-			stringListToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_ERROR_CAUSED_BY_ID)),
-			stringListToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_FAIL_CAUSED_BY_ID)),
-			stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_USE_HIGHLIGHT_ID)), 
-			getColors(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_HIGHLIGHT_KEYWORD_ID)),
-			stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_PORTS_PAGE, PreferenceConstants.PREF_CONNECTING_PORTS_ID)), 
-			stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_PORTS_PAGE, PreferenceConstants.PREF_MAPPING_PORTS_ID)));
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_VERBOSE_ID)),
+				getValueContentType(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_ASN1_DEFAULT_FORMAT)),
+				getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_SUT_ID),
+				getFilters(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_COMP_PAGE, PreferenceConstants.PREF_FILTER_COMPONENT_ID)),
+				getFilters(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_SIGNALS_PAGE, PreferenceConstants.PREF_FILTER_SIGNAL_ID)),
+				getFilters(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_FUNCTIONS_PAGE, PreferenceConstants.PREF_FILTER_FUNCTION_ID)),
+				stringListToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_COMP_VIS_ORDER_PAGE, PreferenceConstants.PREF_COMPONENT_ORDER_ID)),
+				silentEventsStringToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_SILENTEVENT_PAGE, PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES)),
+				replaceCompVisOrdWhenAdding(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_COMP_VISUAL_ORDER_ADD_REP_APP_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_COMP_VISUAL_ORDER_ADD_OPEN_PROP_ID)),
+				getMSCViewOpenType(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_OPEN_MSCVIEW_DISPLAY)),
+				getProjectTabDefault(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_PROJECTTAB_DEFAULT)),
+				getTestcaseTabDefault(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_TESTCASETAB_DEFAULT)),
+				getMSCViewDefault(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_MSCVIEW_DEFAULT)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_ERROR_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_FAIL_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_INCONC_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_NONE_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_SETVERDICT_PASS_ID)),
+				stringListToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_ERROR_CAUSED_BY_ID)),
+				stringListToArray(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_SETVERDICT_PAGE, PreferenceConstants.PREF_FAIL_CAUSED_BY_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_USE_HIGHLIGHT_ID)),
+				getColors(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_GENERAL_PAGE, PreferenceConstants.PREF_HIGHLIGHT_KEYWORD_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_PORTS_PAGE, PreferenceConstants.PREF_CONNECTING_PORTS_ID)),
+				stringToBoolean(getOverlayedPreferenceValue(resource, PreferenceConstants.PAGE_ID_FILTERED_PORTS_PAGE, PreferenceConstants.PREF_MAPPING_PORTS_ID)));
 	}
-	
+
 	private String getOverlayedPreferenceValue(final IResource resource, final String pageId, final String keyName) {
 		IProject project = resource.getProject();
 		String value = null;
@@ -383,14 +383,14 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		// no property set on resource, use preference store
 		return this.preferenceStore.getString(keyName);
 	}
-	
+
 	private boolean useProjectSettings(final IResource resource, final String pageId) {
 		String usingProjectSetting = ResourcePropertyHandler.getProperty(resource, pageId, LogViewerPreferenceRootPage.USEPROJECTSETTINGS);
 		return usingProjectSetting != null && "true".equals(usingProjectSetting);
 	}
-	
+
 	/**
-	 * Disposes the console writer 
+	 * Disposes the console writer
 	 */
 	public synchronized void dispose() {
 		try {
@@ -399,7 +399,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 			// Do nothing
 		}
 	}
-	
+
 	private Map<String, Boolean> silentEventsStringToArray(final String prefValues) {
 		String[] categories = prefValues.split(PreferenceConstants.PREFERENCE_DELIMITER);
 		Map<String, Boolean> silentEvents = new HashMap<String, Boolean>();
@@ -412,7 +412,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 		}
 		return silentEvents;
 	}
-	
+
 	/**
 	 * Returns the selected default behavior for the Project tab( extract test cases or text)
 	 * @return a integer representing the selected value content type
@@ -427,7 +427,7 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 			return PreferenceConstants.PROJECTTAB_DEFAULT_EXTRACT_TESTCASES;
 		}
 	}
-	
+
 	/**
 	 * Returns the selected default behavior for the test cases tab( open MSCView cases or text)
 	 * @return a integer representing the selected value content type
@@ -456,25 +456,25 @@ public final class PreferencesHandler implements IPropertyChangeListener {
 			return PreferenceConstants.MSCVIEW_DEFAULT_VALUEVIEW;
 		}
 	}
-	
+
 	private Map<String, Integer> getFilters(final String stringList) {
 		StringTokenizer st = new StringTokenizer(stringList, File.pathSeparator);
-        Map<String, Integer> filters = new HashMap<String, Integer>();
-        while (st.hasMoreElements()) {
-        	String filter = (String) st.nextElement();
-        	if ((filter.length() >= 3) && filter.startsWith("*") && filter.endsWith("*")) { //$NON-NLS-1$ //$NON-NLS-2$
-        		filters.put(filter.substring(1, filter.length() - 1), PreferenceConstants.FILTER_CONTAINS);
-        	} else if ((filter.length() >= 2) && filter.startsWith("*")) { //$NON-NLS-1$
-        		filters.put(filter.substring(1, filter.length()), PreferenceConstants.FILTER_END_WITH);
-        	} else if ((filter.length() >= 2) && filter.endsWith("*")) { //$NON-NLS-1$
-        		filters.put(filter.substring(0, filter.length() - 1), PreferenceConstants.FILTER_START_WITH);
-        	} else {
-        		filters.put(filter, PreferenceConstants.FILTER_EQUALS);
-        	}
-        }
-        return filters;
+		Map<String, Integer> filters = new HashMap<String, Integer>();
+		while (st.hasMoreElements()) {
+			String filter = (String) st.nextElement();
+			if ((filter.length() >= 3) && filter.startsWith("*") && filter.endsWith("*")) { //$NON-NLS-1$ //$NON-NLS-2$
+				filters.put(filter.substring(1, filter.length() - 1), PreferenceConstants.FILTER_CONTAINS);
+			} else if ((filter.length() >= 2) && filter.startsWith("*")) { //$NON-NLS-1$
+				filters.put(filter.substring(1, filter.length()), PreferenceConstants.FILTER_END_WITH);
+			} else if ((filter.length() >= 2) && filter.endsWith("*")) { //$NON-NLS-1$
+				filters.put(filter.substring(0, filter.length() - 1), PreferenceConstants.FILTER_START_WITH);
+			} else {
+				filters.put(filter, PreferenceConstants.FILTER_EQUALS);
+			}
+		}
+		return filters;
 	}
-	
+
 	private Map<String, RGB> getColors(final String stringList) {
 		StringTokenizer stringColors = new StringTokenizer(stringList, File.pathSeparator);
 		Map<String, RGB> keyWordColors = new HashMap<String, RGB>();

@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Display;
  *
  */
 public class ComponentEventDispatcher extends Observable implements Observer {
-	
+
 	/**
 	 * Constructor
 	 */
@@ -33,5 +33,5 @@ public class ComponentEventDispatcher extends Observable implements Observer {
 		setChanged();
 		notifyObservers(event);
 		Display.getCurrent().readAndDispatch();
-	}	
+	}
 }

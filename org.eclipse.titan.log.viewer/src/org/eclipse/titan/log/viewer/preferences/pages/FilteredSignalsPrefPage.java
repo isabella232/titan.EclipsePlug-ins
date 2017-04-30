@@ -29,19 +29,19 @@ import org.eclipse.ui.IWorkbench;
 public class FilteredSignalsPrefPage extends LogViewerPreferenceRootPage {
 
 	private StringListEditor filterSignalsEditor;
-	
+
 	public FilteredSignalsPrefPage() {
 		super(GRID, false);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("FilteredSignalsPrefPage.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
 		this.filterSignalsEditor = new StringListEditor(PreferenceConstants.PREF_FILTER_SIGNAL_ID,
-									  "", //$NON-NLS-1$
-									  getFieldEditorParent(),
-									  false);
+				"", //$NON-NLS-1$
+				getFieldEditorParent(),
+				false);
 		this.filterSignalsEditor.setPreferenceStore(getPreferenceStore());
 		addField(this.filterSignalsEditor);
 	}

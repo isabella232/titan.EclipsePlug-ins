@@ -23,21 +23,21 @@ import org.eclipse.titan.log.viewer.utils.Constants;
  *
  */
 public final class MSCConstants {
-	
+
 	/**
-	* RESOURCE KEYS 
-	**/
+	 * RESOURCE KEYS
+	 **/
 
 	// Color keys
 	private static final String COLOR_KEY_BLACK = "COLOR_BLACK"; //$NON-NLS-1$
 	private static final String COLOR_KEY_WHITE = "COLOR_WHITE"; //$NON-NLS-1$
-	
+
 	private static final String COLOR_KEY_LIGHTER_GREY = "COLOR_LIGHTER_GREY"; //$NON-NLS-1$
 	private static final String COLOR_KEY_LIGHT_GREY = "COLOR_LIGHT_GREY"; //$NON-NLS-1$
 	private static final String COLOR_KEY_GREY = "COLOR_GREY"; //$NON-NLS-1$
 	private static final String COLOR_KEY_DARK_GREY = "COLOR_DARK_GREY"; //$NON-NLS-1$
 	private static final String COLOR_KEY_SOFT_BLUE = "COLOR_SOFT_BLUE"; //$NON-NLS-1$
-	
+
 	// Silent event color keys
 	private static final String COLOR_KEY_EVENT_RED = "COLOR_EVENT_RED"; //$NON-NLS-1$
 	private static final String COLOR_KEY_EVENT_BLUE = "COLOR_EVENT_BLUE"; //$NON-NLS-1$
@@ -55,23 +55,23 @@ public final class MSCConstants {
 	private static final String COLOR_KEY_EVENT_LIGHT_BLUE = "COLOR_EVENT_LIGHT_BLUE"; //$NON-NLS-1$
 	private static final String COLOR_KEY_EVENT_DARK_PURPLE = "COLOR_EVENT_DARK_PURPLE"; //$NON-NLS-1$
 	private static final String COLOR_KEY_EVENT_PALE_PURPLE = "COLOR_EVENT_PALE_PURPLE"; //$NON-NLS-1$
-	
+
 	// Verdict color keys
 	private static final String COLOR_KEY_VERDICT_FAIL_ERROR = "COLOR_VERDICT_FAIL_ERROR"; //$NON-NLS-1$
 	private static final String COLOR_KEY_VERDICT_INCONC = "COLOR_VERDICT_INCONC"; //$NON-NLS-1$
 	private static final String COLOR_KEY_VERDICT_PASS = "COLOR_VERDICT_PASS"; //$NON-NLS-1$
 	private static final String COLOR_KEY_VERDICT_NONE = "COLOR_VERDICT_NONE"; //$NON-NLS-1$
-	
+
 	// Font keys
 	public static final String FONT_DEFAULT_KEY = "FONT_DEFAULT"; //$NON-NLS-1$
 	public static final String FONT_BOLD_KEY = "FONT_BOLD"; //$NON-NLS-1$
-	
-	
+
+
 	// Enumerator for resources
 	private static enum Resources {
 		// Colors
 		COLOR_BLACK, COLOR_WHITE,
-		COLOR_LIGHTER_GREY, COLOR_LIGHT_GREY, COLOR_GREY, COLOR_DARK_GREY, COLOR_SOFT_BLUE, 
+		COLOR_LIGHTER_GREY, COLOR_LIGHT_GREY, COLOR_GREY, COLOR_DARK_GREY, COLOR_SOFT_BLUE,
 		COLOR_EVENT_RED, COLOR_EVENT_BLUE, COLOR_EVENT_YELLOW, COLOR_EVENT_GREEN,
 		// Silent event colors
 		COLOR_EVENT_ORANGE, COLOR_EVENT_LIME, COLOR_EVENT_DARK_BLUE, COLOR_EVENT_LIGHT_YELLOW,
@@ -90,7 +90,7 @@ public final class MSCConstants {
 			}
 		}
 	}
-	
+
 	// TestFileReader Constants
 	public static final String READ_ONLY = "r"; //$NON-NLS-1$
 
@@ -101,23 +101,23 @@ public final class MSCConstants {
 	public static final int INITIAL_BUFFER_SIZE = 16 * K;
 
 	/**
-	* IDs
-	*/
+	 * IDs
+	 */
 	public static final String ID_ZOOM_IN = "org.eclipse.titan.log.viewer.views.msc.ui.actions.ZoomInCoolBar"; //$NON-NLS-1$
 	public static final String ID_ZOOM_OUT = "org.eclipse.titan.log.viewer.views.msc.ui.actions.ZoomOutCoolBar"; //$NON-NLS-1$
 	public static final String ID_NO_ZOOM = "org.eclipse.titan.log.viewer.views.msc.ui.actions.NoZoom"; //$NON-NLS-1$
 	public static final String ID_RESET_ZOOM = "org.eclipse.titan.log.viewer.views.msc.ui.actions.ResetZoom"; //$NON-NLS-1$
 	public static final String ID_ZOOM_GROUP = "ZOOM_GROUP"; //$NON-NLS-1$
-	
+
 	/**
-	* MODEL *
-	**/
+	 * MODEL *
+	 **/
 	public static final String SUT_NAME = "System"; //$NON-NLS-1$
 	public static final String MTC_NAME = "MTC"; //$NON-NLS-1$
-	
+
 	/**
-	* ICONS *
-	**/
+	 * ICONS *
+	 **/
 	public static final String ICON_ZOOM_MASK = "icons/zoom_mask.bmp"; //$NON-NLS-1$
 	public static final String ICON_ZOOM_IN_SOURCE = "icons/zoomin_source.bmp"; //$NON-NLS-1$
 	public static final String ICON_ZOOM_OUT_SOURCE = "icons/zoomout_source.bmp"; //$NON-NLS-1$
@@ -125,24 +125,24 @@ public final class MSCConstants {
 	public static final String ICON_MOVE = "icons/move.gif"; //$NON-NLS-1$
 	public static final String ICON_ZOOM_IN = "icons/zoomin_nav.gif"; //$NON-NLS-1$
 	public static final String ICON_ZOOM_OUT = "icons/zoomout_nav.gif"; //$NON-NLS-1$
-	
+
 	/**********
-	* GENERAL *
-	**********/
-	public static final boolean DRAW_BORDER = true;  
+	 * GENERAL *
+	 **********/
+	public static final boolean DRAW_BORDER = true;
 	public static final boolean DRAW_GRADIENT = true;
 	public static final boolean DRAW_SHADOW = true;
-	
+
 	/*********
-	* COLORS *
-	*********/
+	 * COLORS *
+	 *********/
 
 	// Verdict colors
 	public static final String VERDICT_FAIL_ERROR = COLOR_KEY_VERDICT_FAIL_ERROR;
 	public static final String VERDICT_INCONC = COLOR_KEY_VERDICT_INCONC;
 	public static final String VERDICT_PASS = COLOR_KEY_VERDICT_PASS;
 	public static final String VERDICT_NONE = COLOR_KEY_VERDICT_NONE;
-	
+
 	public static final Map<String, String> SILENT_EVENT_COLORS = new HashMap<String, String>();
 	static {
 		SILENT_EVENT_COLORS.put(Constants.EVENTTYPE_ERROR,      COLOR_KEY_EVENT_RED);
@@ -162,7 +162,7 @@ public final class MSCConstants {
 		SILENT_EVENT_COLORS.put(Constants.EVENTTYPE_MATCHING,   COLOR_KEY_EVENT_DARK_PURPLE);
 		SILENT_EVENT_COLORS.put(Constants.EVENTTYPE_DEBUG,      COLOR_KEY_EVENT_PALE_PURPLE);
 	}
-	
+
 	public static final String COMPONENT_BG_COLOR = COLOR_KEY_LIGHT_GREY;
 	public static final String COMPONENT_SHADOW_COLOR = COLOR_KEY_GREY;
 	public static final String COMPONENT_LINE_COLOR = COLOR_KEY_BLACK;
@@ -187,19 +187,19 @@ public final class MSCConstants {
 	public static final String TESTCASEEND_LINE_COLOR = COLOR_KEY_BLACK;
 	public static final String TESTCASEEND_SHADOW_COLOR = COLOR_KEY_GREY;
 	public static final String TIMESTAMP_FONT_COLOR = COLOR_KEY_DARK_GREY;
-	
+
 	// Selection
 	public static final String SELECTION_COLOR = COLOR_KEY_LIGHTER_GREY;
 
 	/**
-	* FONTS 
-	**/
+	 * FONTS
+	 **/
 	public static final String MSC_DEFAULT_FONT = FONT_DEFAULT_KEY;
 	public static final String MSC_BOLD_FONT = FONT_BOLD_KEY;
 
 	/**
-	* METRICS 
-	**/
+	 * METRICS
+	 **/
 
 	// Font size
 	private static int fontHeight = 10; // Default value
@@ -211,22 +211,22 @@ public final class MSCConstants {
 	public static final int COLUMN_SPACING = 12;
 	public static final int ROW_HEIGHT = fontHeight * 2 + ROW_SPACING;
 	public static final int COLUMN_WIDTH = defaultFontWidth * 23 + COLUMN_SPACING;
-	
+
 	// Margins
 	public static final int LEFT_MARGIN = 10;
 	public static final int RIGHT_MARGIN = 50;
 	public static final int TOP_MARGIN = 10;
 	public static final int BOTTOM_MARGIN = 50;
-	
+
 	// Header
 	public static final int HEADER_TEXT_H_SPACING = 10;
 	public static final int HEADER_TEXT_V_SPACING = 10;
 	public static final int HEADER_SHADOW_SIZE = 1;
-	
+
 	// Component
 	public static final int COMPONENT_TEXT_H_SPACING = 10;
 	public static final int COMPONENT_SHADOW_SIZE = 1;
-	
+
 	// Message
 	public static final int MESSAGE_SYMBOL_SIZE = 8;
 	public static final int MESSAGES_TEXT_VERTICAL_SPACING = 10;
@@ -236,30 +236,30 @@ public final class MSCConstants {
 
 	// Line width
 	public static final int NORMAL_LINE_WIDTH = 1;
-	
+
 	// Silent Event
 	public static final int SILENT_EVENT_SHADOW_SIZE = 1;
-	
+
 	public static final int SETVERDICT_SIZE = 4;
 	public static final int SETVERDICT_SHADOW_SIZE = 1;
-	
+
 	// Test Case End
 	public static final int TESTCASEEND_SHADOW_SIZE = 1;
-	
+
 	/**
 	 * Used to sample the diagram.
 	 * When the lifeline spacing is smaller than this constant when zooming out then less lifelines are displayed
 	 * to avoid lifelines overlapping and mainly saving some execution time
 	 */
 	public static final int LIFELINE_SIGNIFICANT_HSPACING = 10;
-	
+
 	/**
 	 * Used to sample the diagram.
 	 * When the message spacing is smaller than this constant when zooming out then less message are displayed
 	 * to avoid message overlapping and mainly saving some execution time
 	 */
 	public static final int MESSAGE_SIGNIFICANT_VSPACING = 1;
-	
+
 	public static final String ARROW_LEFT = " <- "; //$NON-NLS-1$
 	public static final String ARROW_RIGHT = " -> "; //$NON-NLS-1$
 
@@ -281,48 +281,48 @@ public final class MSCConstants {
 
 		Resource resource = null;
 		switch (resourceValue) {
-			// Colors
-			case COLOR_BLACK: 			   return new Color(Display.getDefault(),   0,   0,   0);
-			case COLOR_WHITE: 			   return new Color(Display.getDefault(), 255, 255, 255);
+		// Colors
+		case COLOR_BLACK: 			   return new Color(Display.getDefault(),   0,   0,   0);
+		case COLOR_WHITE: 			   return new Color(Display.getDefault(), 255, 255, 255);
 
-			case COLOR_LIGHTER_GREY:       return new Color(Display.getDefault(), 220, 220, 220);
-			case COLOR_LIGHT_GREY:   	   return new Color(Display.getDefault(), 200, 200, 200);
-			case COLOR_GREY :        	   return new Color(Display.getDefault(), 150, 150, 150);
-			case COLOR_DARK_GREY :   	   return new Color(Display.getDefault(), 100, 100, 100);
-			case COLOR_SOFT_BLUE :   	   return new Color(Display.getDefault(), 135, 155, 165);
+		case COLOR_LIGHTER_GREY:       return new Color(Display.getDefault(), 220, 220, 220);
+		case COLOR_LIGHT_GREY:   	   return new Color(Display.getDefault(), 200, 200, 200);
+		case COLOR_GREY :        	   return new Color(Display.getDefault(), 150, 150, 150);
+		case COLOR_DARK_GREY :   	   return new Color(Display.getDefault(), 100, 100, 100);
+		case COLOR_SOFT_BLUE :   	   return new Color(Display.getDefault(), 135, 155, 165);
 
-			case COLOR_EVENT_RED:          return new Color(Display.getDefault(), 255,   0,   0);
-			case COLOR_EVENT_BLUE:         return new Color(Display.getDefault(),   0,   0, 255);
-			case COLOR_EVENT_YELLOW:       return new Color(Display.getDefault(), 255, 255,   0);
-			case COLOR_EVENT_GREEN:        return new Color(Display.getDefault(),   0, 255,   0);
-			case COLOR_EVENT_ORANGE:       return new Color(Display.getDefault(), 255, 153,   0);
-			case COLOR_EVENT_LIME:         return new Color(Display.getDefault(), 204, 255,   0);
-			case COLOR_EVENT_DARK_BLUE:    return new Color(Display.getDefault(),  51,   0, 102);
-			case COLOR_EVENT_LIGHT_YELLOW: return new Color(Display.getDefault(), 255, 255, 204);
-			case COLOR_EVENT_LIGHT_ORANGE: return new Color(Display.getDefault(), 255, 204, 102);
-			case COLOR_EVENT_CORAL:        return new Color(Display.getDefault(), 255, 127,  80);
-			case COLOR_EVENT_FUCHSIA:      return new Color(Display.getDefault(), 255,   0, 255);
-			case COLOR_EVENT_LIGHT_GREEN:  return new Color(Display.getDefault(), 102, 255, 102);
-			case COLOR_EVENT_PINK:         return new Color(Display.getDefault(), 255, 102, 204);
-			case COLOR_EVENT_LIGHT_BLUE:   return new Color(Display.getDefault(),   0, 204, 255);
-			case COLOR_EVENT_DARK_PURPLE:  return new Color(Display.getDefault(), 102,   0, 153);
-			case COLOR_EVENT_PALE_PURPLE:  return new Color(Display.getDefault(), 255, 204, 255);
+		case COLOR_EVENT_RED:          return new Color(Display.getDefault(), 255,   0,   0);
+		case COLOR_EVENT_BLUE:         return new Color(Display.getDefault(),   0,   0, 255);
+		case COLOR_EVENT_YELLOW:       return new Color(Display.getDefault(), 255, 255,   0);
+		case COLOR_EVENT_GREEN:        return new Color(Display.getDefault(),   0, 255,   0);
+		case COLOR_EVENT_ORANGE:       return new Color(Display.getDefault(), 255, 153,   0);
+		case COLOR_EVENT_LIME:         return new Color(Display.getDefault(), 204, 255,   0);
+		case COLOR_EVENT_DARK_BLUE:    return new Color(Display.getDefault(),  51,   0, 102);
+		case COLOR_EVENT_LIGHT_YELLOW: return new Color(Display.getDefault(), 255, 255, 204);
+		case COLOR_EVENT_LIGHT_ORANGE: return new Color(Display.getDefault(), 255, 204, 102);
+		case COLOR_EVENT_CORAL:        return new Color(Display.getDefault(), 255, 127,  80);
+		case COLOR_EVENT_FUCHSIA:      return new Color(Display.getDefault(), 255,   0, 255);
+		case COLOR_EVENT_LIGHT_GREEN:  return new Color(Display.getDefault(), 102, 255, 102);
+		case COLOR_EVENT_PINK:         return new Color(Display.getDefault(), 255, 102, 204);
+		case COLOR_EVENT_LIGHT_BLUE:   return new Color(Display.getDefault(),   0, 204, 255);
+		case COLOR_EVENT_DARK_PURPLE:  return new Color(Display.getDefault(), 102,   0, 153);
+		case COLOR_EVENT_PALE_PURPLE:  return new Color(Display.getDefault(), 255, 204, 255);
 
-			case COLOR_VERDICT_FAIL_ERROR: return new Color(Display.getDefault(), 255, 102, 102);
-			case COLOR_VERDICT_INCONC:     return new Color(Display.getDefault(), 232, 242, 254);
-			case COLOR_VERDICT_PASS:       return new Color(Display.getDefault(), 102, 204, 102);
-			case COLOR_VERDICT_NONE:       return new Color(Display.getDefault(), 200, 200, 200);
+		case COLOR_VERDICT_FAIL_ERROR: return new Color(Display.getDefault(), 255, 102, 102);
+		case COLOR_VERDICT_INCONC:     return new Color(Display.getDefault(), 232, 242, 254);
+		case COLOR_VERDICT_PASS:       return new Color(Display.getDefault(), 102, 204, 102);
+		case COLOR_VERDICT_NONE:       return new Color(Display.getDefault(), 200, 200, 200);
 
-			// Fonts
-			case FONT_DEFAULT:            return new Font(Display.getDefault(),
-					Display.getDefault().getSystemFont().getFontData()[0].getName(),
-					Display.getDefault().getSystemFont().getFontData()[0].getHeight(),
-					SWT.NORMAL);
-			case FONT_BOLD:               return new Font(Display.getDefault(),
-					Display.getDefault().getSystemFont().getFontData()[0].getName(),
-					Display.getDefault().getSystemFont().getFontData()[0].getHeight(),
-					SWT.BOLD);
-			default: break;
+		// Fonts
+		case FONT_DEFAULT:            return new Font(Display.getDefault(),
+				Display.getDefault().getSystemFont().getFontData()[0].getName(),
+				Display.getDefault().getSystemFont().getFontData()[0].getHeight(),
+				SWT.NORMAL);
+		case FONT_BOLD:               return new Font(Display.getDefault(),
+				Display.getDefault().getSystemFont().getFontData()[0].getName(),
+				Display.getDefault().getSystemFont().getFontData()[0].getHeight(),
+				SWT.BOLD);
+		default: break;
 		}
 		return resource;
 	}

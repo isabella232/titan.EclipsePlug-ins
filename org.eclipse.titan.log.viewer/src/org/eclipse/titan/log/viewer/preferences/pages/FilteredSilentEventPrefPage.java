@@ -29,21 +29,21 @@ import org.eclipse.ui.IWorkbench;
  * be accessed directly via the preference store.
  */
 public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
-	
+
 	private CheckBoxTreeEditor checkBoxTreeEditor;
-	
+
 	public FilteredSilentEventPrefPage() {
 		super(GRID, true);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("FilteredSilentEventTypes.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
 		this.checkBoxTreeEditor = new CheckBoxTreeEditor(PreferenceConstants.PREF_SILENT_EVENTS_CATEGORIES,
-													"", //$NON-NLS-1$
-													Constants.EVENT_CATEGORIES, 
-													getFieldEditorParent());
+				"", //$NON-NLS-1$
+				Constants.EVENT_CATEGORIES,
+				getFieldEditorParent());
 		this.checkBoxTreeEditor.setPreferenceStore(getPreferenceStore());
 		addField(this.checkBoxTreeEditor);
 	}
@@ -52,19 +52,19 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 	public void init(final IWorkbench workbench) {
 		// Do nothing
 	}
-	
+
 	@Override
 	protected void performSelectAll() {
 		this.checkBoxTreeEditor.selectAll();
 		super.performSelectAll();
 	}
-	
+
 	@Override
 	protected void performDeselectAll() {
 		this.checkBoxTreeEditor.deselectAll();
 		super.performDeselectAll();
 	}
-	
+
 	@Override
 	protected String getPageId() {
 		return PreferenceConstants.PAGE_ID_FILTERED_SILENTEVENT_PAGE;
@@ -80,7 +80,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 				ImportExportUtils.arrayToString(this.checkBoxTreeEditor.getElements(), PreferenceConstants.PREFERENCE_DELIMITER));
 		return currentPrefs;
 	}
-	
+
 	/**
 	 * Method for getting the current preferences in the preference store
 	 * @return map of the preferences
@@ -90,7 +90,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 		currentPrefs.put(this.checkBoxTreeEditor.getPreferenceName(), this.checkBoxTreeEditor.getElements());
 		return currentPrefs;
 	}
-	
+
 	@Override
 	protected void exportPreferences() {
 		ImportExportUtils.exportSettings(getPageId(), getCurrentPreferencesSeparated(), true);
@@ -118,7 +118,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 	protected void updatePage() {
 		this.checkBoxTreeEditor.load();
 	}
-	
+
 	private void convertOldSilentEventsToNew(final Map<String, String> prop) {
 		// Get default values
 		String defaultPrefValue = getPreferenceStore().getDefaultString(this.checkBoxTreeEditor.getPreferenceName());
@@ -141,7 +141,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 				builder.append(currKey).append(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM).append(prefValues.get(currKey));
 			} else {
 				builder.append(PreferenceConstants.PREFERENCE_DELIMITER)
-						.append(currKey).append(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM).append(prefValues.get(currKey));
+				.append(currKey).append(PreferenceConstants.SILENT_EVENTS_KEY_VALUE_DELIM).append(prefValues.get(currKey));
 			}
 		}
 		// And set new value
@@ -235,7 +235,7 @@ public class FilteredSilentEventPrefPage extends LogViewerPreferenceRootPage {
 
 	/**
 	 * Updates the sub categories with the given value
-	 * 
+	 *
 	 * @param prefs the HashMap containing the preferences
 	 * @param category the category which contains sub categories
 	 * @param value the value to set

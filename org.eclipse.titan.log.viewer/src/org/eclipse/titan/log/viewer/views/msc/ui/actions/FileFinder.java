@@ -31,7 +31,7 @@ public class FileFinder implements IResourceVisitor {
 
 	/**
 	 * Visits the provided resource and all of it's children to find the specified file.
-	 * 
+	 *
 	 * @param resource the resource to start searching at
 	 * */
 	@Override

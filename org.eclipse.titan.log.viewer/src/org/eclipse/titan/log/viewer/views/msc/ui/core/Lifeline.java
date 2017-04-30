@@ -14,23 +14,23 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 
 /**
  * Lifeline represents the graphical representation of the life line of a component.
- * 
+ *
  */
 public final class Lifeline extends MSCNode {
-	
+
 	// 0 reserved for time stamp
 	private int indexInFrame = 1;
-	
+
 	/**
 	 * The frame where the lifeline is drawn
 	 */
 	private Frame frame	= null;
-	
+
 	/**
 	 * The current event occurrence created in the lifeline
 	 */
 	private int eventOccurrence = 0;
-	
+
 	private ComponentCreation start = null;
 	private ComponentTermination stop = null;
 
@@ -65,7 +65,7 @@ public final class Lifeline extends MSCNode {
 
 		return 0;
 	}
-	
+
 	/**
 	 * Set the frame on which this lifeline must be drawn
 	 * @param parentFrame
@@ -76,15 +76,15 @@ public final class Lifeline extends MSCNode {
 			this.frame.setMaxEventOccurrence(getEventOccurrence() + 1);
 		}
 	}
-	
+
 	/**
-	 * Sets the start 
+	 * Sets the start
 	 * @param start
 	 */
 	public void setStart(final ComponentCreation start) {
 		this.start = start;
 	}
-	
+
 	public void setStop(final ComponentTermination stop) {
 		this.stop = stop;
 	}
@@ -100,7 +100,7 @@ public final class Lifeline extends MSCNode {
 	protected Frame getFrame() {
 		return this.frame;
 	}
-	
+
 	/**
 	 * Set the lifeline position index in the containing frame
 	 * @param index the lifeline X position
@@ -108,7 +108,7 @@ public final class Lifeline extends MSCNode {
 	protected void setIndex(final int index) {
 		this.indexInFrame = index;
 	}
-	
+
 	/**
 	 * Returns the lifeline position in de the containing frame
 	 * @return the X position
@@ -116,10 +116,10 @@ public final class Lifeline extends MSCNode {
 	public int getIndex() {
 		return this.indexInFrame;
 	}
-	
+
 	/**
 	 * Set the lifeline event occurrence to the value given in parameter
-	 * This only change the current event occurrence, greater event 
+	 * This only change the current event occurrence, greater event
 	 * created on this lifeline are still valid and usable.
 	 * This also need to inform the frame of the operation mostly to store in the frame the greater
 	 * event found in the diagram (used to determine the frame height)
@@ -131,7 +131,7 @@ public final class Lifeline extends MSCNode {
 		}
 		this.eventOccurrence = eventOcc;
 	}
-	
+
 	/**
 	 * Returns the last created event occurrence along the lifeline.
 	 * @return the current event occurrence
@@ -139,7 +139,7 @@ public final class Lifeline extends MSCNode {
 	public int getEventOccurrence()	{
 		return this.eventOccurrence;
 	}
-	
+
 	/**
 	 * Creates a new event occurrence along the lifeline.
 	 * @return the new created event occurrence
@@ -148,7 +148,7 @@ public final class Lifeline extends MSCNode {
 		setCurrentEventOccurrence(this.eventOccurrence + 1);
 		return this.eventOccurrence;
 	}
-	
+
 	@Override
 	public boolean contains(final int x, final int y) {
 		if (this.frame == null) {
@@ -156,7 +156,7 @@ public final class Lifeline extends MSCNode {
 		}
 		return MSCNode.contains(getX(), getY(), getWidth(), getHeight(), x, y);
 	}
-	
+
 	/**
 	 * Force the lifeline to be drawn at the given coordinate
 	 * @param context - the context to draw into
@@ -164,44 +164,44 @@ public final class Lifeline extends MSCNode {
 	 * @param y - the y coordinate
 	 */
 	public void draw(final IGC context, final int x, final int y) {
- 		int visYStart = this.frame.getVisibleAreaY();
- 		int visYStop = visYStart + this.frame.getVisibleAreaHeight();
- 		int yStart;
- 		if (start == null) {
- 			yStart = visYStart;
- 		} else {
- 			yStart = this.start.getY() + this.start.getHeight();
- 	 		if (visYStart > yStart) {
- 	 			yStart = visYStart;
- 	 		}
- 		}
+		int visYStart = this.frame.getVisibleAreaY();
+		int visYStop = visYStart + this.frame.getVisibleAreaHeight();
+		int yStart;
+		if (start == null) {
+			yStart = visYStart;
+		} else {
+			yStart = this.start.getY() + this.start.getHeight();
+			if (visYStart > yStart) {
+				yStart = visYStart;
+			}
+		}
 
- 		int yStop;
- 		if (stop == null) {
- 			yStop = visYStop;
- 		} else {
- 			yStop = this.stop.getY();
- 	 		if (visYStop < yStop) {
- 	 			yStop = visYStop; 
- 	 		}
- 		}
+		int yStop;
+		if (stop == null) {
+			yStop = visYStop;
+		} else {
+			yStop = this.stop.getY();
+			if (visYStop < yStop) {
+				yStop = visYStop;
+			}
+		}
 
- 		
+
 		// Set line style and width
 		context.setLineStyle(context.getLineSolidStyle());
 		context.setLineWidth(MSCConstants.NORMAL_LINE_WIDTH);
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.LIFELIFE_LINE_COLOR));
 		context.drawLine(x, yStart, x, yStop);
-		
+
 	}
-	
+
 	@Override
 	public void draw(final IGC context) {
 		draw(context, getX(), getY());
 	}
-	
 
-	
+
+
 	@Override
 	public Type getType() {
 		return Type.LIFE_LINE;

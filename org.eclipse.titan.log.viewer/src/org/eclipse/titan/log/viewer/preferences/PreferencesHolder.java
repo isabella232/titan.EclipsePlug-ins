@@ -45,7 +45,7 @@ public class PreferencesHolder {
 	private boolean filteredMappingPorts;
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param verbosePrintouts a flag indicating if verbose printouts should be used
 	 * @param selectedValueContentType the way values should be displayed (as tree or as text)
 	 * @param sutName the name of SUT
@@ -107,7 +107,7 @@ public class PreferencesHolder {
 		this.filteredConnectingPorts = filteredConnectingPorts;
 		this.filteredMappingPorts = filteredMappingPorts;
 	}
-	
+
 	/**
 	 * Sets a flag indicating if verbose printouts should be used
 	 * NOTE: this method is only intended for PreferencesHandler
@@ -116,7 +116,7 @@ public class PreferencesHolder {
 	protected void setVerbosePrintoutsEnabled(final boolean verbosePrintouts) {
 		this.verbosePrintouts = verbosePrintouts;
 	}
-	
+
 	/**
 	 * Returns a flag indicating if verbose printouts should be used
 	 * @return the verbosePrintouts
@@ -133,7 +133,7 @@ public class PreferencesHolder {
 	protected void setSelectedValueContentType(final String selectedValueContentType) {
 		this.selectedValueContentType = selectedValueContentType;
 	}
-	
+
 	/**
 	 * Returns the way values should be displayed (as tree or as text)
 	 * @return the selectedValueContentType
@@ -150,7 +150,7 @@ public class PreferencesHolder {
 	protected void setSutName(final String sutName) {
 		this.sutName = sutName;
 	}
-	
+
 	/**
 	 * Returns the name of SUT
 	 * @return the sutName
@@ -158,7 +158,7 @@ public class PreferencesHolder {
 	public String getSutName() {
 		return this.sutName;
 	}
-	
+
 	/**
 	 * Sets a list of ignored components
 	 * NOTE: this method is only intended for PreferencesHandler
@@ -167,7 +167,7 @@ public class PreferencesHolder {
 	protected void setIgnoredComponents(final Map<String, Integer> ignoredComponents) {
 		this.ignoredComponents = ignoredComponents;
 	}
-	
+
 	/**
 	 * Returns a list of ignored components
 	 * @return the ignoredComponents
@@ -175,7 +175,7 @@ public class PreferencesHolder {
 	public Map<String, Integer> getIgnoredComponents() {
 		return this.ignoredComponents;
 	}
-	
+
 	/**
 	 * Sets a list of ignored signals
 	 * NOTE: this method is only intended for PreferencesHandler
@@ -184,7 +184,7 @@ public class PreferencesHolder {
 	protected void setIgnoredSignals(final Map<String, Integer> ignoredSignals) {
 		this.ignoredSignals = ignoredSignals;
 	}
-	
+
 	/**
 	 * Returns a list of ignored signals
 	 * @return the ignoredSignals
@@ -192,7 +192,7 @@ public class PreferencesHolder {
 	public Map<String, Integer> getIgnoredSignals() {
 		return this.ignoredSignals;
 	}
-	
+
 	/**
 	 * Sets a list of ignored functions
 	 * NOTE: this method is only intended for PreferencesHandler
@@ -201,7 +201,7 @@ public class PreferencesHolder {
 	protected void setIgnoredFunctions(final Map<String, Integer> ignoredFunctions) {
 		this.ignoredFunctions = ignoredFunctions;
 	}
-	
+
 	/**
 	 * Returns a list of ignored functions
 	 * @return the ignoredFunctions
@@ -209,9 +209,9 @@ public class PreferencesHolder {
 	public Map<String, Integer> getIgnoredFunctions() {
 		return this.ignoredFunctions;
 	}
-	
+
 	/**
-	 * Sets a list of the preferred visual order of components 
+	 * Sets a list of the preferred visual order of components
 	 * NOTE: this method is only intended for PreferencesHandler
 	 * @param visualOrderComponents the visualOrderComponents to set
 	 */
@@ -220,7 +220,7 @@ public class PreferencesHolder {
 	}
 
 	/**
-	 * Returns a list of the preferred visual order of components 
+	 * Returns a list of the preferred visual order of components
 	 * @return the visualOrderComponents
 	 */
 	public List<String> getVisualOrderComponents() {
@@ -235,7 +235,7 @@ public class PreferencesHolder {
 	protected void setFilteredSilentEvents(final Map<String, Boolean> filteredSilentEvents) {
 		this.filteredSilentEvents = filteredSilentEvents;
 	}
-	
+
 	/**
 	 * Returns an hash map indicating which silent events that should be filtered
 	 * @return an hash map indicating which silent events that should be filtered
@@ -252,7 +252,7 @@ public class PreferencesHolder {
 	protected void setReplaceCompVisOrder(final boolean replaceCompVisOrder) {
 		this.replaceCompVisOrder = replaceCompVisOrder;
 	}
-	
+
 	/**
 	 * Returns a flag indicating if the components visual order should be replaced with extracted components
 	 * @return a flag indicating if the components visual order should be replaced with extracted components
@@ -260,7 +260,7 @@ public class PreferencesHolder {
 	public boolean getReplaceCompVisOrder() {
 		return this.replaceCompVisOrder;
 	}
-	
+
 	/**
 	 * Sets a flag indicating if the project properties should be opened after extracting components
 	 * NOTE: this method is only intended for PreferencesHandler
@@ -269,7 +269,7 @@ public class PreferencesHolder {
 	protected void setOpenPropAfterCompExt(final boolean openPropAfterCompExt) {
 		this.openPropAfterCompExt = openPropAfterCompExt;
 	}
-	
+
 	/**
 	 * Returns a flag indicating if the project properties should be opened after extracting components
 	 * @return a flag indicating if the project properties should be opened after extracting components

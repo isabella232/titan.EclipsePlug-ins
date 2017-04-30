@@ -23,16 +23,16 @@ public class StringListEditor extends TitanListEditor {
 	private IInputValidator inputValidator;
 
 	/**
-	 * Creates a new path field editor 
+	 * Creates a new path field editor
 	 */
 	protected StringListEditor() {
 	}
 
-	
+
 	/**
 	 * Creates a path field editor.
-	 * 
-	 * 
+	 *
+	 *
 	 * @param name the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param parent the parent of the field editor's control
@@ -41,11 +41,11 @@ public class StringListEditor extends TitanListEditor {
 	public StringListEditor(final String name, final String labelText, final Composite parent, final boolean showUpAndDown) {
 		super(name, labelText, parent, showUpAndDown);
 	}
-	
+
 	public StringListEditor(final String name, final String labelText, final Composite parent, final boolean showUpAndDown, final boolean hideColor) {
 		super(name, labelText, parent, showUpAndDown, hideColor);
 	}
-	
+
 	@Override
 	protected void init(final String name, final String text) {
 		super.init(name, text);
@@ -60,7 +60,7 @@ public class StringListEditor extends TitanListEditor {
 				if (Constants.SUT.equals(tempText)) {
 					return Messages.getString("StringListEditor.5"); //$NON-NLS-1$
 				}
-				if (tempText.length() > Constants.MAX_COMP_NAME) { 
+				if (tempText.length() > Constants.MAX_COMP_NAME) {
 					return Messages.getString("StringListEditor.3"); //$NON-NLS-1$
 				}
 				if ("".equals(tempText)) { //$NON-NLS-1$
@@ -73,7 +73,7 @@ public class StringListEditor extends TitanListEditor {
 					}
 				}
 				return null;
-			}	
+			}
 		};
 	}
 

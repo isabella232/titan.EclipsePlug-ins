@@ -32,13 +32,13 @@ public class CloseAllConnectedViewMenuAction extends AbstractHandler implements 
 
 	private IStructuredSelection selection;
 	private IFile logFile;
-	
+
 	/**
 	 * Constructor
 	 */
 	public CloseAllConnectedViewMenuAction() {
 	}
-	
+
 	@Override
 	public void run(final IAction action) {
 		run(selection);
@@ -69,21 +69,21 @@ public class CloseAllConnectedViewMenuAction extends AbstractHandler implements 
 		if (this.logFile == null) {
 			return;
 		}
-		
+
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		IViewReference[] viewReferences = activePage.getViewReferences();
 		ActionUtils.closeAssociatedViews(activePage, viewReferences, logFile);
 	}
-	
+
 	@Override
 	public void selectionChanged(final IAction action, final ISelection selection) {
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}
-		
+
 		this.selection = (IStructuredSelection) selection;
 		setEnabled(SelectionUtils.isSelectionALogFile(selection));
 	}
-	
+
 }
 

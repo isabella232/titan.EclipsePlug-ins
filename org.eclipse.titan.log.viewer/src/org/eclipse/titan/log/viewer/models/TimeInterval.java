@@ -13,35 +13,35 @@ public class TimeInterval {
 	private String start;
 	private String end;
 	private String timestampFormat;
-	
+
 	public TimeInterval(final String start, final String end, final String timestampFormat) {
 		this.start = start;
 		this.end = end;
 		this.timestampFormat = timestampFormat;
 	}
-	
+
 	public TimeInterval(final TimeInterval timeInterval) {
 		start = timeInterval.start;
 		end = timeInterval.end;
 		timestampFormat = timeInterval.timestampFormat;
 	}
-	
+
 	public String getStart() {
 		return start;
 	}
-	
+
 	public void setStart(final String start) {
 		this.start = start;
 	}
-	
+
 	public String getEnd() {
 		return end;
 	}
-	
+
 	public void setEnd(final String end) {
 		this.end = end;
 	}
-	
+
 	public String getTimeStampFormat() {
 		return timestampFormat;
 	}
@@ -59,7 +59,7 @@ public class TimeInterval {
 
 		return start.compareTo(timestamp) <= 0 && end.compareTo(timestamp) >= 0;
 	}
-	
+
 	@Override
 	public boolean equals(final Object o) {
 		if (o == this) {
@@ -68,13 +68,13 @@ public class TimeInterval {
 		if (o == null || o.getClass() != this.getClass()) {
 			return false;
 		}
-		
+
 		TimeInterval rhs = (TimeInterval) o;
 		return ObjectUtils.equals(timestampFormat, rhs.timestampFormat)
 				&& ObjectUtils.equals(start, rhs.start)
 				&& ObjectUtils.equals(end, rhs.end);
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return ObjectUtils.hash(start, end, timestampFormat);

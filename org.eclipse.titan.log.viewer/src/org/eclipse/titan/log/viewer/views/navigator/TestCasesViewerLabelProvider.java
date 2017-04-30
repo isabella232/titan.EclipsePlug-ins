@@ -16,7 +16,7 @@ import org.eclipse.ui.model.WorkbenchLabelProvider;
 
 /**
  * Label provider for the test cases in the project explorer
- * 
+ *
  */
 public class TestCasesViewerLabelProvider extends LabelProvider {
 

@@ -69,10 +69,10 @@ public final class LogFileCacheHandler {
 	private LogFileCacheHandler() {
 		// Do nothing
 	}
-	
+
 	/**
 	 * Checks if the log file cache is up to date
-	 * 
+	 *
 	 * @param logFile the log file to cache
 	 * @return true if the log file has changed, false if not
 	 */
@@ -95,7 +95,7 @@ public final class LogFileCacheHandler {
 		if (!indexFile.exists()) {
 			return true;
 		}
-		
+
 		// Check if log record index file exists
 		File logRecordIndexFile = getLogRecordIndexFileForLogFile(logFile);
 		if (!logRecordIndexFile.exists()) {
@@ -126,39 +126,39 @@ public final class LogFileCacheHandler {
 
 	/**
 	 * Deletes the log file cache for the given log file, is it exist
-	 * 
+	 *
 	 * @param logFile the log file
 	 */
 	private static void clearLogFilePropertyFile(final IFile logFile) {
-		File propertyFile = getPropertyFileForLogFile(logFile); 
+		File propertyFile = getPropertyFileForLogFile(logFile);
 		if (propertyFile.exists()) {
 			propertyFile.delete();
 		}
 	}
-	
+
 	/**
 	 * Deletes the index file for the given log file, is it exist
-	 * 
+	 *
 	 * @param logFile the log file
 	 */
 	private static void clearLogFileIndexFile(final IFile logFile) {
 		File indexFile = getIndexFileForLogFile(logFile);
 		FileUtils.deleteQuietly(indexFile);
 	}
-	
+
 	/**
 	 * Deletes the log record index file for the given log file, is it exist
-	 * 
+	 *
 	 * @param logFile the log file
 	 */
 	private static void clearLogFileLogRecordIndexFile(final IFile logFile) {
 		File indexFile = getLogRecordIndexFileForLogFile(logFile);
 		FileUtils.deleteQuietly(indexFile);
 	}
-	
+
 	/**
 	 * Deletes the index file for the given log file, is it exist and all files in folder
-	 * 
+	 *
 	 * @param logFile the log file
 	 */
 	public static void clearLogFolderCache(final IFolder logFolder) {
@@ -166,7 +166,7 @@ public final class LogFileCacheHandler {
 		if (!indexFile.exists()) {
 			return;
 		}
- 
+
 		if (indexFile.isDirectory()) {
 			File[] filesInFolder = indexFile.listFiles();
 			if (filesInFolder != null) {
@@ -177,10 +177,10 @@ public final class LogFileCacheHandler {
 			FileUtils.deleteQuietly(indexFile);
 		}
 	}
-	
+
 	/**
 	 * Creates an index file for with the given test case vector
-	 * 
+	 *
 	 * @param indexFile the index file to write
 	 * @param testCaseVector the test case vector
 	 * @throws IOException if index file can not be written
@@ -188,26 +188,26 @@ public final class LogFileCacheHandler {
 	private static void createIndexFile(final File indexFile, final List<TestCase> testCaseVector) throws IOException {
 		ObjectOutputStream objectFile = null;
 		try {
-		// Delete file if it already exist, path already created when creating property file
-		if (indexFile.exists()) {
-			try {
-				indexFile.delete();
-			} catch (SecurityException e) {
-				ErrorReporter.logExceptionStackTrace(e);
-				throw new IOException(Messages.getString("LogFileCacheHandler.0")); //$NON-NLS-1$
+			// Delete file if it already exist, path already created when creating property file
+			if (indexFile.exists()) {
+				try {
+					indexFile.delete();
+				} catch (SecurityException e) {
+					ErrorReporter.logExceptionStackTrace(e);
+					throw new IOException(Messages.getString("LogFileCacheHandler.0")); //$NON-NLS-1$
+				}
 			}
-		}
-		// Create new file
-		indexFile.createNewFile();
-		// Write test case vector to file
-		objectFile = new ObjectOutputStream(new FileOutputStream(indexFile));
-		objectFile.writeObject(testCaseVector);
-		
+			// Create new file
+			indexFile.createNewFile();
+			// Write test case vector to file
+			objectFile = new ObjectOutputStream(new FileOutputStream(indexFile));
+			objectFile.writeObject(testCaseVector);
+
 		} finally {
 			IOUtils.closeQuietly(objectFile);
 		}
 	}
-	
+
 	/**
 	 * @param logFile the log file
 	 * @return a file which represents the cache file for the given log file
@@ -228,21 +228,21 @@ public final class LogFileCacheHandler {
 
 		return cacheFolder.getFile(propertyFileName);
 	}
-	
+
 
 	/**
 	 * Gets the cache file for a given IFile
-	 * 
+	 *
 	 * @param logFile the log file to get the index file for
 	 * @return File the index file, which may or may not exist
 	 */
 	public static File getIndexFileForLogFile(final IFile logFile) {
 		return new File(getIndexIFileForLogFile(logFile).getLocationURI());
 	}
-	
+
 	/**
 	 * Gets the cache file for a given IFile
-	 * 
+	 *
 	 * @param logFile the log file to get the index file for
 	 * @return File the index file, which may or may not exist
 	 */
@@ -255,17 +255,17 @@ public final class LogFileCacheHandler {
 
 	/**
 	 * Gets the log record cache file for a given IFile
-	 * 
+	 *
 	 * @param logFile the log file
 	 * @return File the log record index file, which may or may not exist
 	 */
 	public static File getLogRecordIndexFileForLogFile(final IFile logFile) {
 		return new File(getLogRecordIndexIFileForLogFile(logFile).getLocationURI());
 	}
-	
+
 	/**
 	 * Gets the log record cache file for a given IFile
-	 * 
+	 *
 	 * @param logFile the log file
 	 * @return File the log record index file, which may or may not exist
 	 */
@@ -290,7 +290,7 @@ public final class LogFileCacheHandler {
 	}
 
 	/**
-	 * 
+	 *
 	 * @param logFile The logFile
 	 * @return The cache folder for the given file
 	 *         this folder may or may not exists
@@ -306,7 +306,7 @@ public final class LogFileCacheHandler {
 	/**
 	 * @param logFile the log file
 	 * @param propertyFile the property of the log file
-	 * @return true if log file cache needs to be updated, otherwise false 
+	 * @return true if log file cache needs to be updated, otherwise false
 	 */
 	private static boolean updateNeeded(final File logFile, final File propertyFile) {
 		// Check if cache file is up to date
@@ -324,7 +324,7 @@ public final class LogFileCacheHandler {
 				|| storedData.getLastModified() != logFile.lastModified();
 
 	}
-	
+
 	/**
 	 * @param logFile the log file
 	 * @param propertyFile the property file to create
@@ -366,7 +366,7 @@ public final class LogFileCacheHandler {
 			IOUtils.closeQuietly(stream, objectFile);
 		}
 	}
-	
+
 	/**
 	 * @param propertyFile property file to read from
 	 * @return Log file meta data
@@ -389,16 +389,16 @@ public final class LogFileCacheHandler {
 		}
 		return logFileMetaData;
 	}
-	
+
 	/**
 	 * Reads log records from an index file
-	 * 
+	 *
 	 * @param indexFile the index file
-	 * @param startRecordIndex the log record index to start from 
+	 * @param startRecordIndex the log record index to start from
 	 * @param numberOfRecords the number of log records indexes to be read
 	 * @return an array with the read log record indexes
 	 * @throws FileNotFoundException if the index file is not found
-	 * @throws IOException if i/o errors occurs 
+	 * @throws IOException if i/o errors occurs
 	 */
 	public static LogRecordIndex[] readLogRecordIndexFile(final File indexFile, final int startRecordIndex, final int numberOfRecords) throws IOException {
 		int bytesToRead = numberOfRecords * LOG_RECORD_INDEX_SIZE;
@@ -424,7 +424,7 @@ public final class LogFileCacheHandler {
 
 	/**
 	 * Writes the log record index file
-	 * 
+	 *
 	 * @param indexFile the index file to write to
 	 * @param logRecordIndexes an array with the log record indexes to be written
 	 * @throws FileNotFoundException if the index file is not found
@@ -458,7 +458,7 @@ public final class LogFileCacheHandler {
 			IOUtils.closeQuietly(file, fileOutputStream);
 		}
 	}
-	
+
 	/**
 	 * Gets the number of records in an index file
 	 * @param indexFile the index file
@@ -484,7 +484,7 @@ public final class LogFileCacheHandler {
 	 * <li>property file</li>
 	 * <li>test case index file</li>
 	 * <li>log record index file</li>
-	 * 
+	 *
 	 * @param logFile The log file
 	 */
 	public static void clearCache(final IFile logFile) {
@@ -492,7 +492,7 @@ public final class LogFileCacheHandler {
 		LogFileCacheHandler.clearLogFileLogRecordIndexFile(logFile);
 		LogFileCacheHandler.clearLogFilePropertyFile(logFile);
 	}
-	
+
 	/**
 	 * Should be called when a log file has changed. Closes the associated views. Shows a <code>MessageBox</code> where the user can decide if he/she wants to process
 	 * the log file or just close the views. If the user choose yes, the processing will start in a new <code>WorkspaceJob</code>.
@@ -514,7 +514,7 @@ public final class LogFileCacheHandler {
 				}
 			}
 		});
-		
+
 		MessageBox mb = new MessageBox(activePage.getActivePart().getSite().getShell(), SWT.ICON_ERROR | SWT.OK | SWT.CANCEL);
 		mb.setText("The log file has been modified.");
 		mb.setMessage("The log file has been modified. Click on OK to extract the test cases"
@@ -533,7 +533,7 @@ public final class LogFileCacheHandler {
 			job.schedule();
 		}
 	}
-	
+
 	/**
 	 * Processes the given LogFile if it has changed. The property file, index file, and log record index file will be created.
 	 * Does nothing if the log file has not changed, or test case extraction is already running on the file.
@@ -544,14 +544,14 @@ public final class LogFileCacheHandler {
 	 */
 	public static boolean processLogFile(final IFile logFile, final IProgressMonitor pMonitor, final boolean quietMode) {
 		IProgressMonitor monitor = pMonitor == null ? new NullProgressMonitor() : pMonitor;
-		
+
 		if (!logFile.exists()) {
 			if (!quietMode) {
 				TitanLogExceptionHandler.handleException(new UserException("The log file does not exist: " + logFile.getName())); //$NON-NLS-1$
 			}
 			return false;
 		}
-		
+
 		try {
 			Object temp = logFile.getSessionProperty(Constants.EXTRACTION_RUNNING);
 			if (temp != null && (Boolean) temp) {
@@ -565,7 +565,7 @@ public final class LogFileCacheHandler {
 			TitanLogExceptionHandler.handleException(new UserException(e.getMessage()));
 			return false;
 		}
-		
+
 		if (!LogFileCacheHandler.hasLogFileChanged(logFile)) {
 			return true;
 		}
@@ -584,14 +584,14 @@ public final class LogFileCacheHandler {
 
 			final TestCaseExtractor testCaseExtractor = new TestCaseExtractor();
 			testCaseExtractor.extractTestCasesFromLogFile(logFileMetaData, monitor);
-			
+
 			if (monitor.isCanceled()) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
 						final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 						IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
-						
+
 						if (view instanceof CommonNavigator) {
 							CommonNavigator navigator = (CommonNavigator) view;
 							navigator.getCommonViewer().update(logFile, null);
@@ -601,7 +601,7 @@ public final class LogFileCacheHandler {
 				});
 				return false;
 			}
-			
+
 			fillCache(logFile, logFileMetaData, testCaseExtractor.getTestCases(), testCaseExtractor.getLogRecordIndexes());
 
 			Display.getDefault().asyncExec(new Runnable() {
@@ -609,7 +609,7 @@ public final class LogFileCacheHandler {
 				public void run() {
 					final IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 					IViewPart view = activePage.findView("org.eclipse.ui.navigator.ProjectExplorer");
-					
+
 					if (view instanceof CommonNavigator) {
 						CommonNavigator navigator = (CommonNavigator) view;
 						navigator.getCommonViewer().refresh(logFile, true);
@@ -617,7 +617,7 @@ public final class LogFileCacheHandler {
 					}
 				}
 			});
-			
+
 			if (testCaseExtractor.failedDuringExtraction()) {
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
@@ -629,9 +629,9 @@ public final class LogFileCacheHandler {
 				});
 				return false;
 			}
-			
-			
-			
+
+
+
 		} catch (IOException e) {
 			if (!quietMode) {
 				ErrorReporter.logExceptionStackTrace(e);
@@ -657,7 +657,7 @@ public final class LogFileCacheHandler {
 
 	/**
 	 * Returns a scheduling rule for the given log file. This rule contains the log file, the property file and the two index files.
-	 * 
+	 *
 	 * @param logFile
 	 * @return The created MultiRule
 	 */

@@ -58,13 +58,13 @@ public class LogSearchResultPage extends AbstractTextSearchViewPage {
 
 	@Override
 	protected void configureTreeViewer(final TreeViewer viewer) {
-		treeViewer = viewer;	
+		treeViewer = viewer;
 		contentProvider = new TreeContentProvider(this);
-		
+
 		viewer.setContentProvider(contentProvider);
 		viewer.setLabelProvider(new SearchLabelProvider());
 		viewer.setInput(ResourcesPlugin.getWorkspace().getRoot());
-		
+
 		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
@@ -72,7 +72,7 @@ public class LogSearchResultPage extends AbstractTextSearchViewPage {
 					Object selectedElement = ((TreeSelection) event.getSelection()).getFirstElement();
 					if (selectedElement instanceof Match) {
 						showMatch((Match) selectedElement, 0, 0, true);
-						
+
 						return;
 					}
 				} catch (PartInitException e) {
@@ -91,29 +91,29 @@ public class LogSearchResultPage extends AbstractTextSearchViewPage {
 	public StructuredViewer getViewer() {
 		return treeViewer;
 	}
-	
+
 	@Override
 	protected void showMatch(final Match match, final int currentOffset, final int currentLength, final boolean activate) throws PartInitException {
 		IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection();
 		if (!selection.toList().contains(match)) {
 			treeViewer.setSelection(new StructuredSelection(match));
 		}
-		
+
 		IFile logFile = (IFile) match.getElement();
 		IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
-		
+
 		TextTableView openedView;
 		IViewReference viewReference = activePage.findViewReference(Constants.TEXT_TABLE_VIEW_ID, logFile.getFullPath().toOSString());
 		if (viewReference == null) {
 			openTextTableView(logFile, match.getOffset());
 			return;
 		}
-		
+
 		TextTableView view = (TextTableView) viewReference.getView(false);
 		if (view != null && view.isFiltered() && !view.contains(match.getOffset())) {
 			MessageBox mb = new MessageBox(this.getSite().getShell(), SWT.ICON_QUESTION | SWT.YES | SWT.NO);
 			mb.setText("Filtered match");
-			mb.setMessage("The selected record can not be displayed in the opened TextTableView." 
+			mb.setMessage("The selected record can not be displayed in the opened TextTableView."
 					+ " Would you like to open a new view? (The old one will be closed)");
 			switch(mb.open()) {
 			case SWT.YES:
@@ -129,11 +129,11 @@ public class LogSearchResultPage extends AbstractTextSearchViewPage {
 		}
 
 		openedView = (TextTableView) activePage.showView(Constants.TEXT_TABLE_VIEW_ID,
-																		logFile.getFullPath().toOSString(),
-																		org.eclipse.ui.IWorkbenchPage.VIEW_VISIBLE);
+				logFile.getFullPath().toOSString(),
+				org.eclipse.ui.IWorkbenchPage.VIEW_VISIBLE);
 		openedView.setSelectedRecord(match.getOffset());
 	}
-	
+
 	private TextTableView openTextTableView(final IFile logFile, final int recordToSelect) {
 		try {
 			TextTableView part = (TextTableView) PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(Constants.TEXT_TABLE_VIEW_ID, logFile.getFullPath().toOSString(), IWorkbenchPage.VIEW_VISIBLE);

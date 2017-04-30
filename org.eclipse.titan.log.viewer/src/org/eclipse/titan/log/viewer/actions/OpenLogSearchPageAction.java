@@ -20,7 +20,7 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 public class OpenLogSearchPageAction extends Action implements IWorkbenchWindowActionDelegate {
 
 	private IWorkbenchWindow window;
-	
+
 	@Override
 	public void run(final IAction action) {
 		if (window == null || window.getActivePage() == null) {

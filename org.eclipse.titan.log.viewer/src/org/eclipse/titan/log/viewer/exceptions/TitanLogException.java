@@ -22,7 +22,7 @@ public class TitanLogException extends Exception {
 	public TitanLogException(final Throwable t) {
 		super(t);
 	}
-	
+
 	/**
 	 * Constructor for messages
 	 * @param msg the message

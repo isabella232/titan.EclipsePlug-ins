@@ -69,7 +69,7 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 	private static final String WILDCARDS_TEXT = " * = any string, ? = any character, \\ = escape for literals: *?\\ ";
 	private static final Image INFORMATION_ICON;
 	private static final Image INVALID_DATA_ICON;
-	
+
 	private Combo searchString;
 	private Button caseSensitive;
 	private Button regularExpression;
@@ -86,12 +86,12 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 
 	private ISearchPageContainer container;
 
-	
+
 	static {
-		INFORMATION_ICON = Activator.getDefault().getIcon(Constants.ICONS_INFORMATION); 
-		INVALID_DATA_ICON = Activator.getDefault().getIcon(Constants.ICONS_INVALID_DATA); 
+		INFORMATION_ICON = Activator.getDefault().getIcon(Constants.ICONS_INFORMATION);
+		INVALID_DATA_ICON = Activator.getDefault().getIcon(Constants.ICONS_INVALID_DATA);
 	}
-	
+
 	public LogSearchPage() {
 		previousSearchPatterns = new ArrayList<SearchPattern>();
 	}
@@ -148,14 +148,14 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 				getContainer().setPerformActionEnabled(isValidSearchPattern());
 			}
 		});
-		
+
 		caseSensitive = new Button(result, SWT.CHECK);
 		caseSensitive.setText("Case sensitive");
-		
+
 		wildcards = new CLabel(result, SWT.LEFT);
 		wildcards.setText(WILDCARDS_TEXT);
 		wildcards.setImage(INFORMATION_ICON);
-		
+
 		regularExpression = new Button(result, SWT.CHECK);
 		regularExpression.setText("Regular expression");
 		regularExpression.addListener(SWT.Selection, new Listener() {
@@ -164,7 +164,7 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 				getContainer().setPerformActionEnabled(isValidSearchPattern());
 			}
 		});
-		
+
 		return result;
 	}
 
@@ -187,7 +187,7 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 					getContainer().setPerformActionEnabled(isValidSearchPattern());
 					searchFor[searchFor.length - 1].setSelection(false);
 					searchFor[searchFor.length - 2].setSelection(false);
-					
+
 				}
 			});
 			searchFor[i] = tmp;
@@ -369,8 +369,8 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 			limitToMap.put(Field.valueOf(aLimitTo.getData().toString()), aLimitTo.getSelection());
 		}
 
-		match = new SearchPattern(string, caseSensitive.getSelection(), regularExpression.getSelection(), events, limitToMap, 
-									getContainer().getSelectedScope(), getContainer().getSelectedWorkingSets());
+		match = new SearchPattern(string, caseSensitive.getSelection(), regularExpression.getSelection(), events, limitToMap,
+				getContainer().getSelectedScope(), getContainer().getSelectedWorkingSets());
 		previousSearchPatterns.add(0, match);
 		return match;
 	}
@@ -392,7 +392,7 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 		} catch (NumberFormatException e) {
 			historySize = HISTORY_SIZE;
 		}
-		
+
 		try {
 			for (int i = 0; i < historySize; ++i) {
 				IDialogSettings histSettings = settings.getSection("history" + i);
@@ -424,7 +424,7 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 
 	/**
 	 * Returns the settings of the page
-	 * 
+	 *
 	 * @return the page settings
 	 */
 	private IDialogSettings getDialogSettings() {
@@ -458,9 +458,9 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 			wildcards.setForeground(null);
 			wildcards.setImage(INFORMATION_ICON);
 			return false;
-		} 
-		
-		
+		}
+
+
 		if (regularExpression.getSelection()) {
 			try {
 				Pattern.compile(searchString.getText());
@@ -470,12 +470,12 @@ public class LogSearchPage extends DialogPage implements ISearchPage {
 				wildcards.setImage(INVALID_DATA_ICON);
 				return false;
 			}
-		} 
-		
+		}
+
 		wildcards.setText(WILDCARDS_TEXT);
 		wildcards.setForeground(null);
 		wildcards.setImage(INFORMATION_ICON);
-		
+
 		for (int i = 0; i < searchFor.length - ALL_NONE_BUTTONS; ++i) {
 			if (searchFor[i].getSelection()) {
 				return true;

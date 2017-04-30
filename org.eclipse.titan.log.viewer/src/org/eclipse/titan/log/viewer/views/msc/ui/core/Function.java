@@ -29,12 +29,12 @@ public class Function extends FunctionNode {
 		if (direction == RIGHT) {
 			tempX = x - MSCConstants.MESSAGE_SYMBOL_SIZE;
 		}
-		
+
 		// Draw the square
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillRectangle(tempX,
-							  y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-							  MSCConstants.MESSAGE_SYMBOL_SIZE, 
-							  MSCConstants.MESSAGE_SYMBOL_SIZE);
+				y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
 	}
 }

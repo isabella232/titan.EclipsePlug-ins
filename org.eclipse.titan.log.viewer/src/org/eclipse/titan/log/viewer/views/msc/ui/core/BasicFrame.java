@@ -17,7 +17,7 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 public abstract class BasicFrame {
 
 	/**
-	 * The greater event occurrence created 
+	 * The greater event occurrence created
 	 * on graph nodes drawn in this Frame
 	 * This directly impact the Frame height
 	 */
@@ -39,15 +39,15 @@ public abstract class BasicFrame {
 	private int visibleAreaHeight;
 
 	/**
-	 * 
-	 * Returns the greater event occurrence 
+	 *
+	 * Returns the greater event occurrence
 	 * known by the Frame
 	 * @return the greater event occurrence
-	 */	
+	 */
 	protected int getMaxEventOccurrence() {
 		return this.verticalIndex;
 	}
-	
+
 	/**
 	 * Set the greater event occurrence created
 	 * in GraphNodes included in the frame
@@ -56,7 +56,7 @@ public abstract class BasicFrame {
 	protected void setMaxEventOccurrence(final int eventOccurrence) {
 		this.verticalIndex = eventOccurrence;
 	}
-	
+
 	/**
 	 * This method increase the lifeline place holder
 	 * The return value is usually assign to a lifeline. This can be used to set the lifelines drawing order.
@@ -67,7 +67,7 @@ public abstract class BasicFrame {
 	protected int getNewHorizontalIndex() {
 		return this.horizontalIndex++;
 	}
-	
+
 	/**
 	 * Returns the current horizontal index
 	 * @return the current horizontal index
@@ -84,7 +84,7 @@ public abstract class BasicFrame {
 	public int getX() {
 		return MSCConstants.TOP_MARGIN;
 	}
-	
+
 	/**
 	 * Returns the y coordinate of the frame
 	 * @return the y coordinate
@@ -100,7 +100,7 @@ public abstract class BasicFrame {
 	public int getWidth() {
 		return this.horizontalIndex * MSCConstants.COLUMN_WIDTH + MSCConstants.LEFT_MARGIN + MSCConstants.RIGHT_MARGIN;
 	}
-	
+
 	/**
 	 * Returns the frame's height
 	 * @return the frame's height
@@ -114,13 +114,13 @@ public abstract class BasicFrame {
 	 * for the given graph node list and starting the iteration at the given index<br>
 	 * WARNING: Only graph nodes with smaller coordinates
 	 * than the current visible area can be returned.<br>
-	 * 
+	 *
 	 * @param x the x coordinate of the point to test
 	 * @param y the y coordinate of the point to test
 	 * @param list the list to search in
 	 * @param fromIndex list browsing starting point
 	 * @return the graph node containing the point given in parameter, null otherwise
-	 */ 
+	 */
 	protected MSCNode getNodeFromListAt(final int x, final int y, final List<MSCNode> list, final int fromIndex) {
 		if (list == null) {
 			return null;
@@ -129,7 +129,7 @@ public abstract class BasicFrame {
 			MSCNode node = list.get(i);
 			// Only lifeline list is x ordered
 			// Stop browsing the list if the node is outside the visible area
-			// All others nodes will not be visible			
+			// All others nodes will not be visible
 			if ((node instanceof Lifeline)
 					&& (node.getX() > this.visibleAreaX + this.visibleAreaWidth)
 					|| node.getHeight() < 0
@@ -148,13 +148,13 @@ public abstract class BasicFrame {
 	 * for the given header graph node list and starting the iteration at the given index<br>
 	 * WARNING: Only header graph nodes with smaller coordinates
 	 * than the current visible area can be returned.<br>
-	 * 
+	 *
 	 * @param x the x coordinate of the point to test
 	 * @param y the y coordinate of the point to test
 	 * @param list the list to search in
 	 * @param fromIndex list browsing starting point
 	 * @return the graph node containing the point given in parameter, null otherwise
-	 */ 
+	 */
 	protected MSCNode getHeaderNodeFromListAt(final int x, final int y, final List<LifelineHeader> list, final int fromIndex) {
 		if (list == null) {
 			return null;
@@ -179,7 +179,7 @@ public abstract class BasicFrame {
 	public int getVisibleAreaX() {
 		return this.visibleAreaX;
 	}
-	
+
 	/**
 	 * Return the frame visible area width
 	 * @return the frame visible area width
@@ -187,7 +187,7 @@ public abstract class BasicFrame {
 	public int getVisibleAreaWidth() {
 		return this.visibleAreaWidth;
 	}
-	
+
 	/**
 	 * Return the frame visible area height
 	 * @return the frame visible area height
@@ -195,7 +195,7 @@ public abstract class BasicFrame {
 	public int getVisibleAreaHeight() {
 		return this.visibleAreaHeight;
 	}
-	
+
 	/**
 	 * Return the Y coordinate of the frame visible area
 	 * @return the Y coordinate of the frame visible area

@@ -34,7 +34,7 @@ public final class PreferenceConstants {
 	public static final String PREF_PROJECTTAB_DEFAULT = "org.eclipse.titan.log.viewer_projecttab_default"; //$NON-NLS-1$
 	public static final String PREF_HIGHLIGHT_KEYWORD_ID = "org.eclipse.titan.log.viewer_highlight_keyword_id"; //$NON-NLS-1$
 	public static final String PREF_USE_HIGHLIGHT_ID = "org.eclipse.titan.log.viewer_use_highlight_id"; //$NON-NLS-1$
-	
+
 	public static final String PREF_SETVERDICT_ERROR_ID = "org.eclipse.titan.log.setverdict_error_id"; //$NON-NLS-1$
 	public static final String PREF_SETVERDICT_FAIL_ID = "org.eclipse.titan.log.setverdict_fail_id"; //$NON-NLS-1$
 	public static final String PREF_SETVERDICT_INCONC_ID = "org.eclipse.titan.log.setverdict_inconc_id"; //$NON-NLS-1$
@@ -45,7 +45,7 @@ public final class PreferenceConstants {
 	public static final String PREF_CONNECTING_PORTS_ID = "org.eclipse.titan.log.connecting_ports_id"; //$NON-NLS-1$
 	public static final String PREF_MAPPING_PORTS_ID = "org.eclipse.titan.log.mapping_ports_id"; //$NON-NLS-1$
 
-	
+
 	// Silent Events
 	public static final String PREF_SILENT_EVENTS_CATEGORIES = "org.eclipse.titan.log.viewer_filter_silent_event_categories"; //$NON-NLS-1$
 	public static final String SILENT_EVENTS_DEFAULT_CATEGORIES = "ACTION=false;ACTION_UNQUALIFIED=false;" +
@@ -71,7 +71,7 @@ public final class PreferenceConstants {
 
 	public static final String SILENT_EVENTS_KEY_VALUE_DELIM = "="; //$NON-NLS-1$
 	public static final String SILENT_EVENTS_UNDERSCORE = "_"; //$NON-NLS-1$
-	
+
 	// Old silent events
 	public static final String PREF_FILTER_SILENTEVENT_0 = "org.eclipse.titan.log.viewer_filter_silentevent_error"; //$NON-NLS-1$
 	public static final String PREF_FILTER_SILENTEVENT_1 = "org.eclipse.titan.log.viewer_filter_silentevent_function"; //$NON-NLS-1$
@@ -89,26 +89,26 @@ public final class PreferenceConstants {
 	public static final String PREF_FILTER_SILENTEVENT_13 = "org.eclipse.titan.log.viewer_filter_silentevent_parallel"; //$NON-NLS-1$
 	public static final String PREF_FILTER_SILENTEVENT_14 = "org.eclipse.titan.log.viewer_filter_silentevent_matching"; //$NON-NLS-1$
 	public static final String PREF_FILTER_SILENTEVENT_15 = "org.eclipse.titan.log.viewer_filter_silentevent_debug"; //$NON-NLS-1$
-	
+
 	// Default values
 	public static final String SUT_DEFAULT = ""; //$NON-NLS-1$
 	public static final String SUT_DESCRIPTION = "System Under Test"; //$NON-NLS-1$
 	public static final String MTC_DESCRIPTION = "Main Test Component"; //$NON-NLS-1$
 	public static final String MTC_NAME = "mtc"; //$NON-NLS-1$
 	public static final String COMP_ORDER_DEFAULT = MTC_DESCRIPTION + File.pathSeparator + SUT_DESCRIPTION + File.pathSeparator;
-	
+
 	// Date and time formats
 	public static final String DATETIME_FORMAT = "yyyy/MMM/dd HH:mm:ss.SSSSSS"; //$NON-NLS-1$
 	public static final String TIME_FORMAT = "HH:mm:ss.SSSSSS"; //$NON-NLS-1$
 	public static final String SECONDS_FORMAT = "s.SSSSSS"; //$NON-NLS-1$
 	public static final int TIME_STAMP_OFFSET = 0;
-	
+
 	// FieldEditors (Add File and Add Folder)
-	public static final String PREF_ADD_LOG_FILE_LAST_DIR = "org.eclipse.titan.log.viewer_log_file_last_dir_id"; //$NON-NLS-1$	
+	public static final String PREF_ADD_LOG_FILE_LAST_DIR = "org.eclipse.titan.log.viewer_log_file_last_dir_id"; //$NON-NLS-1$
 	public static final String PREF_ADD_LOG_FOLDER_LAST_DIR = "org.eclipse.titan.log.viewer_log_folder_last_dir_id"; //$NON-NLS-1$
 	public static final String PREF_ASN1_TREEVIEW = "org.eclipse.titan.log.viewer_asn1_treeview"; //$NON-NLS-1$
 	public static final String PREF_ASN1_TEXTVIEW = "org.eclipse.titan.log.viewer_asn1_textview"; //$NON-NLS-1$
-	
+
 	//The display start of the MSCView
 	public static final String PREF_MSCVIEW_TOP = "org.eclipse.titan.log.viewer_mscview_top"; //$NON-NLS-1$
 	public static final String PREF_MSCVIEW_BOTTOM = "org.eclipse.titan.log.viewer_mscview_bottom"; //$NON-NLS-1$
@@ -116,8 +116,8 @@ public final class PreferenceConstants {
 	public static final int MSCVIEW_TOP = 0;
 	public static final int MSCVIEW_BOTTOM = 1;
 	public static final int MSCVIEW_FIRST_VERDICT = 2;
-	
-	// default behavior 
+
+	// default behavior
 	public static final String PREF_MSCVIEW_DEFAULT_TEXT = "org.eclipse.titan.log.viewer_mscview_default_text";
 	public static final String PREF_MSCVIEW_DEFAULT_VALUEVIEW = "org.eclipse.titan.log.viewer_mscview_default_valueview";
 	public static final String PREF_TESTCASETAB_DEFAULT_TEXT = "org.eclipse.titan.log.viewer_testcasetab_default_text";
@@ -129,24 +129,24 @@ public final class PreferenceConstants {
 	public static final int TESTCASETAB_DEFAULT_OPEN_MSCVIEW = 2;
 	public static final int PROJECTTAB_DEFAULT_EXTRACT_TESTCASES = 3;
 
-	
+
 	// Last directory for import/export
-	public static final String PREF_IMPORT_LAST_DIR = "org.eclipse.titan.log.viewer_log_import_last_dir_id"; //$NON-NLS-1$ 
-	public static final String PREF_EXPORT_LAST_DIR = "org.eclipse.titan.log.viewer_log_export_last_dir_id"; //$NON-NLS-1$	
-	
+	public static final String PREF_IMPORT_LAST_DIR = "org.eclipse.titan.log.viewer_log_import_last_dir_id"; //$NON-NLS-1$
+	public static final String PREF_EXPORT_LAST_DIR = "org.eclipse.titan.log.viewer_log_export_last_dir_id"; //$NON-NLS-1$
+
 	public static final String ASN1_TREEVIEW = "tree"; //$NON-NLS-1$
 	public static final String ASN1_TEXTVIEW = "text"; //$NON-NLS-1$
-	
+
 	public static final String TRUE = "true"; //$NON-NLS-1$
 	public static final String FALSE = "false"; //$NON-NLS-1$
-	
+
 	public static final String PREF_ADD_COMP_TO_VIS_ORDER_REPLACE = "org.eclipse.titan.log.viewer_add_to_comp_replace"; //$NON-NLS-1$
 	public static final String PREF_ADD_COMP_TO_VIS_ORDER_APPEND = "org.eclipse.titan.log.viewer_add_to_comp_append"; //$NON-NLS-1$
-	
+
 	// Preference/Properties pages ID:s
 	public static final String PAGE_ID_GENERAL_PAGE = "org.eclipse.titan.log.viewer.properties.GeneralPage"; //$NON-NLS-1$
 	public static final String PAGE_ID_COMP_VIS_ORDER_PAGE = "org.eclipse.titan.log.viewer.properties.CompVisOrderPage"; //$NON-NLS-1$
-	public static final String PAGE_ID_FILTERED_COMP_PAGE = "org.eclipse.titan.log.viewer.properties.FilteredCompPage"; //$NON-NLS-1$	
+	public static final String PAGE_ID_FILTERED_COMP_PAGE = "org.eclipse.titan.log.viewer.properties.FilteredCompPage"; //$NON-NLS-1$
 	public static final String PAGE_ID_FILTERED_SIGNALS_PAGE = "org.eclipse.titan.log.viewer.properties.FilteredSignalsPage"; //$NON-NLS-1$
 	public static final String PAGE_ID_FILTERED_FUNCTIONS_PAGE = "org.eclipse.titan.log.viewer.properties.FilteredFunctionsPage"; //$NON-NLS-1$
 	public static final String PAGE_ID_FILTERED_SILENTEVENT_PAGE = "org.eclipse.titan.log.viewer.properties.FilteredSilentEventsPage"; //$NON-NLS-1$
@@ -162,23 +162,23 @@ public final class PreferenceConstants {
 	public static final int FILTER_START_WITH = 1;
 	public static final int FILTER_END_WITH = 2;
 	public static final int FILTER_CONTAINS = 3;
-	
+
 	//Default values setverdict
-	
+
 	public static final String SETVERDICT_ERROR_DEFAULT = "Dynamic test case error" + File.pathSeparator; //$NON-NLS-1$
-	public static final String SETVERDICT_FAIL_DEFAULT = 
-		"check failed" + File.pathSeparator + //$NON-NLS-1$
-		"problems" + File.pathSeparator + //$NON-NLS-1$
-		"nothing received (fail)" + File.pathSeparator + //$NON-NLS-1$
-		"failed VP" + File.pathSeparator + //$NON-NLS-1$
-		"is done." + File.pathSeparator + //$NON-NLS-1$
-		"does not match" + File.pathSeparator + //$NON-NLS-1$
-		"Setting verdict to fail" + File.pathSeparator + //$NON-NLS-1$
-		"Incorrect result checking " + File.pathSeparator + //$NON-NLS-1$
-		"mismatch" + File.pathSeparator + //$NON-NLS-1$
-		"No match" + File.pathSeparator + //$NON-NLS-1$
-		"unmatched" + File.pathSeparator; //$NON-NLS-1$
-	
+	public static final String SETVERDICT_FAIL_DEFAULT =
+			"check failed" + File.pathSeparator + //$NON-NLS-1$
+			"problems" + File.pathSeparator + //$NON-NLS-1$
+			"nothing received (fail)" + File.pathSeparator + //$NON-NLS-1$
+			"failed VP" + File.pathSeparator + //$NON-NLS-1$
+			"is done." + File.pathSeparator + //$NON-NLS-1$
+			"does not match" + File.pathSeparator + //$NON-NLS-1$
+			"Setting verdict to fail" + File.pathSeparator + //$NON-NLS-1$
+			"Incorrect result checking " + File.pathSeparator + //$NON-NLS-1$
+			"mismatch" + File.pathSeparator + //$NON-NLS-1$
+			"No match" + File.pathSeparator + //$NON-NLS-1$
+			"unmatched" + File.pathSeparator; //$NON-NLS-1$
+
 	public static final String KEYWORD_COLOR_SEPARATOR = "#"; //$NON-NLS-1$
 	public static final String RGB_COLOR_SEPARATOR = ","; //$NON-NLS-1$
 

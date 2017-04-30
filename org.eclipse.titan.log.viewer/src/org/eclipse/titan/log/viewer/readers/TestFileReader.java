@@ -27,13 +27,13 @@ import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 //FIXME make faster with caches.
 public class TestFileReader implements Closeable {
 
-	private RandomAccessFile randomAccessFile; 
+	private RandomAccessFile randomAccessFile;
 	private LogRecordIndex[] logRecordIndexes;
 	private int currentRecord;
- 
+
 	/**
 	 * Reads records from a given start offset to a given end offset in a log file
-	 * 
+	 *
 	 * @param fileURI the URI of the log file
 	 * @param logRecordIndexes the array with the log record indexes
 	 * @throws IOException in case of file read/seek errors
@@ -73,13 +73,13 @@ public class TestFileReader implements Closeable {
 
 	/**
 	 * Reads a record
-	 * 
-	 * REQUIRES that hasNextRecord() is true 
-	 * 
+	 *
+	 * REQUIRES that hasNextRecord() is true
+	 *
 	 * @return a record or null
 	 * @throws IOException
 	 * @throws ParseException
-	 */ 
+	 */
 	public LogRecord getNextRecord() throws IOException, ParseException {
 		String logData = readNextRecord();
 		LogRecord aRecord;
@@ -98,7 +98,7 @@ public class TestFileReader implements Closeable {
 		}
 		return aRecord;
 	}
-	
+
 	/**
 	 * Cleanup, use clean
 	 * @throws IOException
@@ -107,12 +107,12 @@ public class TestFileReader implements Closeable {
 	public void close() throws IOException {
 		clean();
 	}
-	
+
 	/**
 	 * Reads next record
 	 * @return a record or null
 	 * @throws IOException
-	 */ 
+	 */
 	private String readNextRecord() throws IOException {
 		String s = new String(getNextRecordFromFile());
 		return s.trim();

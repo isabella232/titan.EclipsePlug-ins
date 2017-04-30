@@ -24,15 +24,15 @@ import org.eclipse.titan.log.viewer.preferences.PreferenceConstants;
 import org.eclipse.titan.log.viewer.utils.ImportExportUtils;
 
 public class CheckBoxTreeEditor extends FieldEditor {
-	
+
 	// Variables
 	private Tree checkTree;
 	private String prefName;
 	private int numberOfNodes = 0;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param prefName the preference store key name
 	 * @param labelText the label text
 	 * @param treeContent the tree content (2 levels)
@@ -44,31 +44,31 @@ public class CheckBoxTreeEditor extends FieldEditor {
 		createControl(parent);
 		setTreeContent(treeContent);
 	}
-	
+
 	@Override
 	protected void createControl(final Composite parent) {
-        GridLayout layout = new GridLayout();
-        layout.numColumns = getNumberOfControls();
-        layout.marginWidth = 0;
-        layout.marginHeight = 0;
-        layout.horizontalSpacing = HORIZONTAL_GAP;
-        parent.setLayout(layout);
-        doFillIntoGrid(parent, layout.numColumns);
-    }
+		GridLayout layout = new GridLayout();
+		layout.numColumns = getNumberOfControls();
+		layout.marginWidth = 0;
+		layout.marginHeight = 0;
+		layout.horizontalSpacing = HORIZONTAL_GAP;
+		parent.setLayout(layout);
+		doFillIntoGrid(parent, layout.numColumns);
+	}
 
 	@Override
 	protected void adjustForNumColumns(final int numColumns) {
-        Control control = getLabelControl();
-        ((GridData) control.getLayoutData()).horizontalSpan = numColumns;
-        ((GridData) this.checkTree.getLayoutData()).horizontalSpan = numColumns - 1;
+		Control control = getLabelControl();
+		((GridData) control.getLayoutData()).horizontalSpan = numColumns;
+		((GridData) this.checkTree.getLayoutData()).horizontalSpan = numColumns - 1;
 	}
 
 	@Override
 	protected void doFillIntoGrid(final Composite parent, final int numColumns) {
-        Control control = getLabelControl(parent);
-        GridData gd = new GridData();
-        gd.horizontalSpan = numColumns;
-        control.setLayoutData(gd);
+		Control control = getLabelControl(parent);
+		GridData gd = new GridData();
+		gd.horizontalSpan = numColumns;
+		control.setLayoutData(gd);
 
 		this.checkTree = new Tree(parent, SWT.CHECK | SWT.BORDER);
 		this.checkTree.setLayoutData(new GridData(GridData.FILL_BOTH));
@@ -118,8 +118,8 @@ public class CheckBoxTreeEditor extends FieldEditor {
 				}
 			}
 		});
-        
-        GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = numColumns;
 		gridData.horizontalAlignment = GridData.FILL;
 		gridData.grabExcessHorizontalSpace = true;
@@ -133,7 +133,7 @@ public class CheckBoxTreeEditor extends FieldEditor {
 	 * @param treeContent the tree content
 	 */
 	private void setTreeContent(final SortedMap<String, String[]> treeContent) {
-	    // Turn off drawing to avoid flicker
+		// Turn off drawing to avoid flicker
 		this.checkTree.setRedraw(false);
 		Set<String> parents = treeContent.keySet();
 		int index = 0;
@@ -154,14 +154,14 @@ public class CheckBoxTreeEditor extends FieldEditor {
 		}
 		this.numberOfNodes = tmpNumberOfNodes;
 		// Turn drawing back on!
-	    this.checkTree.setRedraw(true);
+		this.checkTree.setRedraw(true);
 	}
-	
-    private void valueChanged() {
-        TreeItem[] newItems = this.checkTree.getItems();
-       	fireValueChanged(VALUE, null, newItems);
-    }
-	
+
+	private void valueChanged() {
+		TreeItem[] newItems = this.checkTree.getItems();
+		fireValueChanged(VALUE, null, newItems);
+	}
+
 	/**
 	 * Deselects all tree items (parents and children)
 	 */
@@ -176,7 +176,7 @@ public class CheckBoxTreeEditor extends FieldEditor {
 			setChecked(children, false);
 		}
 	}
-	
+
 	/**
 	 * Selects all tree items (parents and children)
 	 */
@@ -214,8 +214,8 @@ public class CheckBoxTreeEditor extends FieldEditor {
 
 	/**
 	 * Updates the setChecked state of all tree items (parents and children)
-	 * 
-	 * @param prefValues the preference store value for which 
+	 *
+	 * @param prefValues the preference store value for which
 	 * tree items that should be checked
 	 */
 	private void updateCheckedState(final String prefValues) {
@@ -240,10 +240,10 @@ public class CheckBoxTreeEditor extends FieldEditor {
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the setGrayed state of the parents
-	 * A parent is grayed if one or more, but not all of the children is checked  
+	 * A parent is grayed if one or more, but not all of the children is checked
 	 */
 	private void updateGrayedState() {
 		TreeItem[] parents = this.checkTree.getItems();
@@ -268,7 +268,7 @@ public class CheckBoxTreeEditor extends FieldEditor {
 	public int getNumberOfControls() {
 		return 1;
 	}
-	
+
 	@Override
 	public void setEnabled(final boolean enabled, final Composite parent) {
 		this.checkTree.setEnabled(enabled);
@@ -276,8 +276,8 @@ public class CheckBoxTreeEditor extends FieldEditor {
 	}
 
 	/**
-	 * Getter for elements 
-	 *  
+	 * Getter for elements
+	 *
 	 * @return the elements as a string array
 	 */
 	public String[] getElements() {

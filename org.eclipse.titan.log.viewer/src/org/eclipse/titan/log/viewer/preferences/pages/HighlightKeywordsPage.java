@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
-package org.eclipse.titan.log.viewer.preferences.pages; 
+package org.eclipse.titan.log.viewer.preferences.pages;
 
 import java.io.File;
 import java.util.HashMap;
@@ -35,21 +35,21 @@ public class HighlightKeywordsPage extends LogViewerPreferenceRootPage {
 
 	private StringListEditor highLightEditor;
 	private BooleanFieldEditor useHighLight;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public HighlightKeywordsPage() {
 		super(GRID, false);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("HighlightKeywordsPage.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
-		
+
 		new Label(getFieldEditorParent(), SWT.NONE);
-		
+
 		this.useHighLight = new BooleanFieldEditor(
 				PreferenceConstants.PREF_USE_HIGHLIGHT_ID,
 				Messages.getString("HighlightKeywordsPage.1"), //$NON-NLS-1$
@@ -57,13 +57,13 @@ public class HighlightKeywordsPage extends LogViewerPreferenceRootPage {
 		addField(this.useHighLight);
 
 		this.highLightEditor = new StringListEditor(PreferenceConstants.PREF_HIGHLIGHT_KEYWORD_ID,
-									  "", //$NON-NLS-1$
-									  getFieldEditorParent(),
-									  false,
-									  false);
-		
+				"", //$NON-NLS-1$
+				getFieldEditorParent(),
+				false,
+				false);
+
 		addField(this.highLightEditor);
-	
+
 	}
 
 	@Override
@@ -101,13 +101,13 @@ public class HighlightKeywordsPage extends LogViewerPreferenceRootPage {
 		String[] listItems = this.highLightEditor.getElements();
 		Map<String, RGB> colors = this.highLightEditor.getColors();
 		KeywordColor[] values = new KeywordColor[this.highLightEditor.getElements().length];
-		
+
 		for (int i = 0; i < listItems.length; i++) {
 			String item = listItems[i];
 			RGB color = colors.get(item);
 			KeywordColor keywordColor = new KeywordColor(item, color);
 			values[i] = keywordColor;
-			
+
 		}
 		currentPrefs.put(this.highLightEditor.getPreferenceName(), values);
 		return currentPrefs;
@@ -116,7 +116,7 @@ public class HighlightKeywordsPage extends LogViewerPreferenceRootPage {
 	@Override
 	protected void exportPreferences() {
 		ImportExportUtils.exportColorSettings(getPageId(), getCurrentPreferencesSeparated(), true);
-		
+
 	}
 
 	@Override

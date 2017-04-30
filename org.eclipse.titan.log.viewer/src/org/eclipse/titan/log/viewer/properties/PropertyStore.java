@@ -27,7 +27,7 @@ public class PropertyStore extends PreferenceStore {
 	private IPreferenceStore workbenchStore;
 	private String pageId;
 	private boolean inserting = false;
-	
+
 	/**
 	 * Constructor
 	 * @param resource the resource

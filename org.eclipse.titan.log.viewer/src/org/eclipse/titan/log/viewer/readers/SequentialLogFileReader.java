@@ -26,12 +26,12 @@ public class SequentialLogFileReader implements Closeable {
 	private DataInputStream inputStream;
 	private LogRecordIndex[] logRecordIndexes;
 	private RecordParser recordParser;
- 
+
 	private int currentRecord = -1;
 
 	/**
 	 * Reads records from a given start offset to a given end offset in a log file
-	 * 
+	 *
 	 * @param fileURI the log file URI
 	 * @param logRecordIndexes the array with the log record indexes
 	 * @throws IOException in case of file read/seek errors
@@ -46,7 +46,7 @@ public class SequentialLogFileReader implements Closeable {
 		recordParser = new RecordParser();
 		currentRecord = -1;
 	}
-	
+
 	public int size() {
 		return this.logRecordIndexes.length;
 	}
@@ -55,7 +55,7 @@ public class SequentialLogFileReader implements Closeable {
 	public void close() {
 		IOUtils.closeQuietly(inputStream);
 	}
-	
+
 	/**
 	 * Reads a record
 	 * @return The record
@@ -68,11 +68,11 @@ public class SequentialLogFileReader implements Closeable {
 		String result = new String(buffer);
 		return result.trim();
 	}
-	
+
 	public boolean hasNext() {
 		return currentRecord < logRecordIndexes.length - 1;
 	}
-	
+
 	/**
 	 * Returns the next log record or null if the reader is at the end of the file.
 	 * @return The parsed log record
@@ -83,7 +83,7 @@ public class SequentialLogFileReader implements Closeable {
 		if (!hasNext()) {
 			return null;
 		}
-		
+
 		currentRecord++;
 		LogRecord result = recordParser.parse(readRecord());
 		result.setRecordOffset(logRecordIndexes[currentRecord].getFileOffset());

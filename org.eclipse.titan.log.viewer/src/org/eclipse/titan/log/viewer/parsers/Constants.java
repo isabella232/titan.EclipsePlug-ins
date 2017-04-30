@@ -22,7 +22,7 @@ public final class Constants {
 
 	static final String[] COMPONENT_REFERENCES = new String[]{"hc", "mc", "mtc"};
 	static final char[] WS = " \n\t\r".toCharArray(); //$NON-NLS-1$
-	
+
 	public static final String TTCN_FILE_EXT = ".ttcn"; //$NON-NLS-1$
 	public static final String THREEMP_FILE_EXT = ".3mp"; //$NON-NLS-1$
 

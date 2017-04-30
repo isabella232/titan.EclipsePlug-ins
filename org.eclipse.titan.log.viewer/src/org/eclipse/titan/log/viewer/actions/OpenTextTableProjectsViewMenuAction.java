@@ -69,7 +69,7 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 		if (selection == null) {
 			return;
 		}
-		
+
 		int logRecordToSelect = 0;
 		if (SelectionUtils.isSelectionALogFile(this.selection)) {
 			this.logFile = SelectionUtils.selectionToIFile(this.selection);
@@ -80,11 +80,11 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 		} else {
 			return;
 		}
-		
+
 		if (this.logFile == null) {
 			return;
 		}
-		
+
 		final String projectName = logFile.getProject().getName();
 		final String projectRelativePath = File.separator + projectName + File.separator + this.logFile.getProjectRelativePath().toOSString();
 		if (LogFileCacheHandler.hasLogFileChanged(logFile) && !LogFileCacheHandler.processLogFile(logFile, new NullProgressMonitor(), false)) {
@@ -106,7 +106,7 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 		boolean isSelectionATestCase = this.selection.getFirstElement() instanceof TestCase;
 		setEnabled(isSelectionATestCase || SelectionUtils.isSelectionALogFile(selection));
 	}
-	
+
 	@Override
 	public void update(final Observable observable, final Object event) {
 		if (event instanceof TestCaseEvent) {
@@ -115,5 +115,5 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 			this.lastWorked = worked;
 		}
 	}
-	
+
 }

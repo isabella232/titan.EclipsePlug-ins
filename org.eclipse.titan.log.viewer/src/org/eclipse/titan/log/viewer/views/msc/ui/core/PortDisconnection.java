@@ -42,15 +42,15 @@ public class PortDisconnection extends PortEventNode {
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillOval(tempX,
-						 y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-						 MSCConstants.MESSAGE_SYMBOL_SIZE);
-		
+				y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
+
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
 		context.fillOval(tempX + 2,
-				 		 y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4, 
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
+				y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
 
 		// Draw circle of other end
 		tempX = tempX - getWidth();
@@ -61,16 +61,16 @@ public class PortDisconnection extends PortEventNode {
 		}
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillOval(tempX,
-						 y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-						 MSCConstants.MESSAGE_SYMBOL_SIZE);
-		
+				y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
+
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
 		context.fillOval(tempX + 2,
-				 		 y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4, 
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
-		
+				y - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
+
 		// Prepare text
 		if (this.sourcePort.contentEquals(this.targetPort)) {
 			setName(this.sourcePort);
@@ -80,7 +80,7 @@ public class PortDisconnection extends PortEventNode {
 			setName(this.targetPort + MSCConstants.ARROW_LEFT + this.sourcePort);
 		}
 	}
-	
+
 	@Override
 	public void drawSymbol(final IGC context, final int xLeft, final int xRight, final int yTop, final int yBottom, final int direction) {
 		int tempXLeft = xLeft;
@@ -91,29 +91,29 @@ public class PortDisconnection extends PortEventNode {
 		context.setForeground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillOval(tempXLeft,
-						 yBottom - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-						 MSCConstants.MESSAGE_SYMBOL_SIZE);
-		
+				yBottom - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
+
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
 		context.fillOval(tempXLeft + 2,
-				 		 yBottom - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4, 
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
+				yBottom - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
 
-		//Draw symbol at top 
+		//Draw symbol at top
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.MESSAGE_LINE_COLOR));
 		context.fillOval(tempXLeft,
-						 yTop - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
-						 MSCConstants.MESSAGE_SYMBOL_SIZE, 
-						 MSCConstants.MESSAGE_SYMBOL_SIZE);
-		
+				yTop - MSCConstants.MESSAGE_SYMBOL_SIZE / 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE,
+				MSCConstants.MESSAGE_SYMBOL_SIZE);
+
 		context.setBackground((Color) Activator.getDefault().getCachedResource(MSCConstants.DEFAULT_BACKGROUND_COLOR));
 		context.fillOval(tempXLeft + 2,
-				 		 yTop - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4, 
-				 		 MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
-		
+				yTop - MSCConstants.MESSAGE_SYMBOL_SIZE / 2 + 2,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4,
+				MSCConstants.MESSAGE_SYMBOL_SIZE - 4);
+
 		// Prepare text
 		if (this.sourcePort.contentEquals(this.targetPort)) {
 			setName(this.sourcePort);

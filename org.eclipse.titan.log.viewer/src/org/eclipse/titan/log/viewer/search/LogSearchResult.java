@@ -18,9 +18,9 @@ import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.utils.Constants;
 import org.eclipse.ui.IEditorPart;
 
-public class LogSearchResult extends AbstractTextSearchResult 
-	implements IFileMatchAdapter, IEditorMatchAdapter {
-	
+public class LogSearchResult extends AbstractTextSearchResult
+implements IFileMatchAdapter, IEditorMatchAdapter {
+
 	private LogSearchQuery query;
 
 	public LogSearchResult(final LogSearchQuery query) {
@@ -73,7 +73,7 @@ public class LogSearchResult extends AbstractTextSearchResult
 		}
 		return null;
 	}
-	
+
 	@Override
 	public Match[] getMatches(final Object element) {
 		if (element instanceof Match) {
@@ -81,7 +81,7 @@ public class LogSearchResult extends AbstractTextSearchResult
 		}
 		return super.getMatches(element);
 	}
-	
+
 	@Override
 	public int getMatchCount(final Object element) {
 		if (element instanceof Match) {

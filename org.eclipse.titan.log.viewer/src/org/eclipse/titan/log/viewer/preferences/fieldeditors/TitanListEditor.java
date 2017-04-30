@@ -97,7 +97,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Creates a list field editor.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the preference this field editor works on
 	 * @param labelText
@@ -117,7 +117,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Creates a list field editor.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the preference this field editor works on
 	 * @param labelText
@@ -212,7 +212,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Creates the Add, Remove, Up, and Down button in the given button box.
-	 * 
+	 *
 	 * @param box
 	 *            the box for the buttons
 	 */
@@ -221,12 +221,12 @@ public abstract class TitanListEditor extends FieldEditor {
 		this.addButton.setText(Messages.getString("TitanListEditor.3")); //$NON-NLS-1$
 		this.removeButton = createPushButton(box, "ListEditor.remove"); //$NON-NLS-1$
 		this.upButton = createPushButton(box, "ListEditor.up"); //$NON-NLS-1$
-		this.downButton = createPushButton(box, "ListEditor.down"); //$NON-NLS-1$   
+		this.downButton = createPushButton(box, "ListEditor.down"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Creates a Color field editor, e.g color button in the given button box.
-	 * 
+	 *
 	 * @param box
 	 *            the box for the buttons
 	 */
@@ -242,7 +242,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	 * <p>
 	 * Subclasses must implement this method.
 	 * </p>
-	 * 
+	 *
 	 * @param items the list of items
 	 * @return the combined string
 	 * @see #parseString
@@ -251,7 +251,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Helper method to create a push button.
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @param key the resource name used to supply the button's label text
 	 * @return Button
@@ -420,7 +420,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	/**
 	 * Returns this field editor's button box containing the Add, Remove, Up,
 	 * and Down button.
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @return the button box
 	 */
@@ -453,7 +453,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Returns this field editor's list control.
-	 * 
+	 *
 	 * @param parent the parent control
 	 * @return the list control
 	 */
@@ -482,7 +482,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	 * <p>
 	 * Subclasses must implement this method.
 	 * </p>
-	 * 
+	 *
 	 * @return a new item
 	 */
 	protected abstract String getNewInputObject();
@@ -495,7 +495,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	/**
 	 * Returns this field editor's selection listener. The listener is created
 	 * if required.
-	 * 
+	 *
 	 * @return the selection listener
 	 */
 	private SelectionListener getSelectionListener() {
@@ -511,7 +511,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	 * This method is internal to the framework; subclassers should not call
 	 * this method.
 	 * </p>
-	 * 
+	 *
 	 * @return the shell
 	 */
 	protected Shell getShell() {
@@ -527,7 +527,7 @@ public abstract class TitanListEditor extends FieldEditor {
 	 * <p>
 	 * Subclasses must implement this method.
 	 * </p>
-	 * 
+	 *
 	 * @param stringList the string
 	 * @return an array of <code>String</code>
 	 * @see #createList
@@ -593,7 +593,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Moves the currently selected item up or down.
-	 * 
+	 *
 	 * @param up
 	 *            <code>true</code> if the item should move up, and
 	 *            <code>false</code> if it should move down
@@ -651,7 +651,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Adds a value to the list
-	 * 
+	 *
 	 * @param value
 	 *            the value to add to the list
 	 */
@@ -661,7 +661,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Returns the elements in the list
-	 * 
+	 *
 	 * @return the elements in the list
 	 */
 	public String[] getElements() {
@@ -698,7 +698,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Getter for colors
-	 * 
+	 *
 	 * @return the colors
 	 */
 	public Map<String, RGB> getColors() {
@@ -707,7 +707,7 @@ public abstract class TitanListEditor extends FieldEditor {
 
 	/**
 	 * Setter for the colors
-	 * 
+	 *
 	 * @param colors the colors
 	 */
 	public void setColors(final Map<String, RGB> colors) {

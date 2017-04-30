@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * This is the TreeParent class 
- *  
+ * This is the TreeParent class
+ *
  */
 public class TreeParent extends TreeObject {
 	private final List<TreeObject> children;
@@ -35,7 +35,7 @@ public class TreeParent extends TreeObject {
 	}
 
 	/**
-	 * Remove TreeObject child 
+	 * Remove TreeObject child
 	 * @param child
 	 */
 	public void removeChild(final TreeObject child) {

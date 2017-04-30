@@ -101,7 +101,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	private List<ISelectionChangedListener> registeredListeners;
 	private TestCase testcaseSelection = null;
 	private ISelection eventSelection;
-	
+
 	private FormToolkit toolkit;
 	private ScrolledForm form;
 	private ExpandableComposite ecError;
@@ -110,7 +110,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 
 	private Map<String, Section> cachedSections;
 	private List<StatisticalData> statisticalDataVector;
-	
+
 	/**
 	 * The constructor.
 	 */
@@ -140,7 +140,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 				StatisticalData statisticData = this.statisticalDataVector.get(i);
 				LogFileMetaData logFileMetaData =  statisticData.getLogFileMetaData();
 				viewAttribute.putString("projectName", logFileMetaData.getProjectName()); //$NON-NLS-1$
-	
+
 				// save state about log file
 				Path filePath = new Path(logFileMetaData.getProjectRelativePath());
 				IFile logFile = ResourcesPlugin.getWorkspace().getRoot().getFile(filePath);
@@ -159,7 +159,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	}
 
 	/**
-	 * Set data for Statistical View 
+	 * Set data for Statistical View
 	 * @param statisticalDataVector the new data
 	 */
 	public void setData(final List<StatisticalData> statisticalDataVector) {
@@ -214,48 +214,48 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 				String stop = record.getTimestamp();
 				Image image;
 				switch (tc.getVerdict()) {
-					case Constants.VERDICT_PASS:
-						image = Activator.getDefault().getIcon(Constants.ICONS_PASS);
-						noOfPass++;
-						break;
-					case Constants.VERDICT_ERROR:
-						image = Activator.getDefault().getIcon(Constants.ICONS_ERROR);
-						TableItem tcErrorItem = new TableItem(this.errorTestCasesTable, SWT.BORDER);
-						tcErrorItem.setImage(1, image);
-						tcErrorItem.setText(2, tc.getTestCaseName());
-						tcErrorItem.setText(3, start);
-						tcErrorItem.setText(4, stop);
-						tcErrorItem.setData(tc);
-						noOfError++;
-						break;
-					case Constants.VERDICT_FAIL:
-						image = Activator.getDefault().getIcon(Constants.ICONS_FAIL);
-						TableItem tcFailItem = new TableItem(this.failTestCasesTable, SWT.BORDER);
-						tcFailItem.setImage(1, image);
-						tcFailItem.setText(2, tc.getTestCaseName());
-						tcFailItem.setText(3, start);
-						tcFailItem.setText(4, stop);
-						tcFailItem.setData(tc);
+				case Constants.VERDICT_PASS:
+					image = Activator.getDefault().getIcon(Constants.ICONS_PASS);
+					noOfPass++;
+					break;
+				case Constants.VERDICT_ERROR:
+					image = Activator.getDefault().getIcon(Constants.ICONS_ERROR);
+					TableItem tcErrorItem = new TableItem(this.errorTestCasesTable, SWT.BORDER);
+					tcErrorItem.setImage(1, image);
+					tcErrorItem.setText(2, tc.getTestCaseName());
+					tcErrorItem.setText(3, start);
+					tcErrorItem.setText(4, stop);
+					tcErrorItem.setData(tc);
+					noOfError++;
+					break;
+				case Constants.VERDICT_FAIL:
+					image = Activator.getDefault().getIcon(Constants.ICONS_FAIL);
+					TableItem tcFailItem = new TableItem(this.failTestCasesTable, SWT.BORDER);
+					tcFailItem.setImage(1, image);
+					tcFailItem.setText(2, tc.getTestCaseName());
+					tcFailItem.setText(3, start);
+					tcFailItem.setText(4, stop);
+					tcFailItem.setData(tc);
 
-						noOfFail++;
-						break;
-					case Constants.VERDICT_INCONCLUSIVE:
-						image = Activator.getDefault().getIcon(Constants.ICONS_INCONCLUSIVE);
-						noOfInconc++;
-						break;
-					case Constants.VERDICT_NONE:
-						image = Activator.getDefault().getIcon(Constants.ICONS_NONE);
-						noOfNone++;
-						break;
-					case Constants.VERDICT_CRASHED:
-						image = Activator.getDefault().getIcon(Constants.ICONS_CRASHED);
-						noOfCrash++;
-						break;
+					noOfFail++;
+					break;
+				case Constants.VERDICT_INCONCLUSIVE:
+					image = Activator.getDefault().getIcon(Constants.ICONS_INCONCLUSIVE);
+					noOfInconc++;
+					break;
+				case Constants.VERDICT_NONE:
+					image = Activator.getDefault().getIcon(Constants.ICONS_NONE);
+					noOfNone++;
+					break;
+				case Constants.VERDICT_CRASHED:
+					image = Activator.getDefault().getIcon(Constants.ICONS_CRASHED);
+					noOfCrash++;
+					break;
 
-					default:
-						// Could not find image return null
-						image = null;
-						break;
+				default:
+					// Could not find image return null
+					image = null;
+					break;
 				}
 
 				tcItem.setImage(1, image);
@@ -294,7 +294,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			item.setText(6, String.valueOf(noOfCrash + getPercent(noOfCrash, noTotal)));
 
 		}
-		
+
 		if (statisticalDataVector.size() > 1) {
 			setPartName("Statistics"); //$NON-NLS-1$
 			setContentDescription(""); //$NON-NLS-1$
@@ -305,7 +305,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			setPartName(fileName);
 			setContentDescription(this.logFileMetaData.getProjectRelativePath());
 		}
-		
+
 		// Finally redraw form
 		form.reflow(true);
 		form.setRedraw(true);
@@ -318,11 +318,11 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		super.dispose();
 	}
 
-	
+
 	/**
 	 * Called in the view life-cycle restore chain
 	 * Reads back all view data if memento has been set
-	 * 
+	 *
 	 * The restore is very restricted an checks that the
 	 * <li> Project still exists and is open
 	 * <li> The file is within the project
@@ -436,14 +436,14 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		}
 		return logRecord;
 	}
-	
+
 	private void createStatisticalViewContextMenuActions() {
 
 		this.openMSCViewAction = new OpenMSCViewAction();
 		this.openMSCViewAction.setEnabled(false);
 		this.openMSCViewAction.setImageDescriptor(Activator.getDefault().getCachedImageDescriptor(Constants.ICONS_MSC_VIEW));
 		this.addSelectionChangedListener(openMSCViewAction);
-		
+
 		this.openTextTableStatisticalViewMenuAction = new OpenTextTableStatisticalViewMenuAction(this);
 		this.openTextTableStatisticalViewMenuAction.setEnabled(false);
 		this.openTextTableStatisticalViewMenuAction.setImageDescriptor(Activator.getDefault().getCachedImageDescriptor(Constants.ICONS_TEXT_TABLE_VIEW));
@@ -458,16 +458,16 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		menuMgr.addMenuListener(new ProjectsViewerMenuListener() {
 			@Override
 			public void menuAboutToShow(final IMenuManager menuManager) {
-					StatisticalView.this.fillStatisticalViewContextMenu(menuManager);
+				StatisticalView.this.fillStatisticalViewContextMenu(menuManager);
 			}
 		});
 		return menuMgr.createContextMenu(control);
 	}
-	
-	
+
+
 	protected void fillStatisticalViewContextMenu(final IMenuManager menuManager) {
 		// MB_ADDITIONS must be added to the menuMgr or platform will
-		// throw a part initialize exception, this will fix this	
+		// throw a part initialize exception, this will fix this
 		menuManager.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
 		menuManager.add(this.openMSCViewAction);
 		menuManager.add(this.openTextTableStatisticalViewMenuAction);
@@ -496,7 +496,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	public void setSelection(final ISelection selection) {
 		this.eventSelection = selection;
 	}
-	
+
 	private void fireSelectionChangeEvent() {
 		for (ISelectionChangedListener listener : this.registeredListeners) {
 			listener.selectionChanged(new SelectionChangedEvent(this, new StructuredSelection(this.testcaseSelection)));
@@ -507,10 +507,10 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	 * Create a close all action in the tool bar
 	 */
 	private void createToolbar() {
-		
+
 		IActionBars actionBars = getViewSite().getActionBars();
 		IToolBarManager mgr = actionBars.getToolBarManager();
-		
+
 		IAction closeAllAction = new Action() {
 			@Override
 			public void run() {
@@ -533,7 +533,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		};
 
 		closeAllAction.setImageDescriptor(ImageDescriptor.createFromImage(Activator.getDefault().getIcon(
-						Constants.ICONS_MSC_DELETE)));
+				Constants.ICONS_MSC_DELETE)));
 		closeAllAction.setId(Messages.getString("StatisticalView.27")); //$NON-NLS-1$
 		closeAllAction.setToolTipText(Messages.getString("StatisticalView.26")); //$NON-NLS-1$
 		closeAllAction.setEnabled(true);
@@ -549,10 +549,10 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	@Override
 	public void createPartControl(final Composite parent) {
 		List<StatisticalData> statisticalData = restoreState();
-		
+
 		createToolbar();
 		createStatisticalViewContextMenuActions();
-		
+
 		toolkit = new FormToolkit(parent.getDisplay());
 		form = toolkit.createScrolledForm(parent);
 		form.setText("Statistics"); //$NON-NLS-1$
@@ -560,7 +560,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		form.getBody().setLayout(layout);
 		TableWrapData td = new TableWrapData();
 		td.colspan = 2;
-		
+
 		layout.numColumns = 2;
 
 		toolkit.paintBordersFor(form.getBody());
@@ -569,7 +569,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			setData(statisticalData);
 		}
 	}
-	
+
 	/**
 	 * Passing the focus request to the form.
 	 */
@@ -577,7 +577,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	public void setFocus() {
 		form.setFocus();
 	}
-		
+
 	private Section createSection() {
 		Section section = toolkit.createSection(form.getBody(), Section.DESCRIPTION
 				| ExpandableComposite.TWISTIE | ExpandableComposite.TITLE_BAR | ExpandableComposite.EXPANDED);
@@ -590,7 +590,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 				form.reflow(true);
 			}
 		});
-		
+
 		File file = new File(this.logFileMetaData.getFilePath());
 		Date date = new Date(file.lastModified());
 		section.setText(file.getName());
@@ -599,7 +599,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		Composite sectionClient = toolkit.createComposite(section);
 		sectionClient.setLayout(new GridLayout());
 		createAmountTable(sectionClient);
-		
+
 		this.ecError = toolkit.createExpandableComposite(sectionClient, ExpandableComposite.TREE_NODE | ExpandableComposite.CLIENT_INDENT);
 		ecError.setText("Error test cases"); //$NON-NLS-1$
 		this.errorTestCasesTable = createTestCaseTable(ecError);
@@ -610,19 +610,19 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 				form.reflow(true);
 			}
 		});
-		
+
 		this.ecFail = toolkit.createExpandableComposite(sectionClient, ExpandableComposite.TREE_NODE | ExpandableComposite.CLIENT_INDENT);
 		ecFail.setText("Fail test cases"); //$NON-NLS-1$
 		this.failTestCasesTable = createTestCaseTable(ecFail);
 		ecFail.setClient(this.failTestCasesTable);
-		
+
 		ecFail.addExpansionListener(new ExpansionAdapter() {
 			@Override
 			public void expansionStateChanged(final ExpansionEvent e) {
 				form.reflow(true);
 			}
 		});
-		
+
 		this.ecTestCases = toolkit.createExpandableComposite(sectionClient, ExpandableComposite.TREE_NODE | ExpandableComposite.CLIENT_INDENT);
 		ecTestCases.setText("Test cases"); //$NON-NLS-1$
 		this.testCases = createTestCaseTable(ecTestCases);
@@ -634,11 +634,11 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 			}
 		});
 		section.setClient(sectionClient);
-		
+
 		cachedSections.put(this.logFileMetaData.getProjectRelativePath(), section);
-		
+
 		return section;
-		
+
 	}
 
 	private Table createAmountTable(final Composite composite) {
@@ -646,7 +646,7 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		amountTable.setBackgroundMode(SWT.INHERIT_DEFAULT);
 
 		this.amountTable.setHeaderVisible(true);
-		
+
 		this.amountTable.setLinesVisible(true);
 
 		createAmountColumn(Messages.getString("StatisticalView.1"));
@@ -676,22 +676,22 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 		testCasesTable.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-					if (e.getSource() instanceof Table) {
-						Table table = (Table) e.getSource();
-							
-						TableItem tableItem = table.getItem(table.getSelectionIndex());
-						Object data = tableItem.getData();
-						if (data instanceof TestCase) {
-							StatisticalView.this.testcaseSelection = (TestCase) data;
-						} else {
-							StatisticalView.this.testcaseSelection = null;
-						}
-						fireSelectionChangeEvent();
+				if (e.getSource() instanceof Table) {
+					Table table = (Table) e.getSource();
+
+					TableItem tableItem = table.getItem(table.getSelectionIndex());
+					Object data = tableItem.getData();
+					if (data instanceof TestCase) {
+						StatisticalView.this.testcaseSelection = (TestCase) data;
+					} else {
+						StatisticalView.this.testcaseSelection = null;
 					}
+					fireSelectionChangeEvent();
 				}
+			}
 		});
 		testCasesTable.setMenu(hookStatisticalViewTableContextMenu(testCasesTable));
-		
+
 		new TableColumn(testCasesTable, SWT.BORDER);
 		createTestCasesColumn(testCasesTable, Messages.getString("StatisticalView.9"), DEFAULT_COLUMN_WIDTH);
 		createTestCasesColumn(testCasesTable, Messages.getString("StatisticalView.10"), 5 * DEFAULT_COLUMN_WIDTH);
@@ -718,5 +718,5 @@ public class StatisticalView extends ViewPart implements ISelectionProvider, ILo
 	public String getName() {
 		return "Statistical View";
 	}
-	
+
 }

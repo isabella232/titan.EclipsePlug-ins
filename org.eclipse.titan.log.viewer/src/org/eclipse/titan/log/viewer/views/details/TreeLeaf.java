@@ -10,20 +10,20 @@ package org.eclipse.titan.log.viewer.views.details;
 public class TreeLeaf extends TreeObject {
 
 	private String value;
-	
+
 	public TreeLeaf(final String name, final String value) {
 		super(name);
 		this.value = value;
 	}
-	
+
 	public String getValue() {
 		return value;
 	}
-	
-	
+
+
 	@Override
 	public String toString() {
 		return getName() + " := " + value;
 	}
-	
+
 }

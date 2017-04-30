@@ -31,7 +31,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 	private class SearchResultListener implements ISearchResultListener {
 		@Override
 		public void searchResultChanged(final SearchResultEvent e) {
-			
+
 			if (e instanceof MatchEvent) {
 				MatchEvent event = (MatchEvent) e;
 				if (event.getKind() == MatchEvent.ADDED) {
@@ -43,7 +43,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 				}
 				return;
 			}
-				
+
 			if (e instanceof RemoveAllEvent) {
 				tree.clear();
 			}
@@ -73,9 +73,9 @@ public class TreeContentProvider implements ITreeContentProvider {
 			for (Match match : event.getMatches()) {
 				Object child = match.getElement();
 				for (Object parent = getParent(child); parent != null; child = parent, parent = getParent(parent)) {
-					 if (!addTreeElement((IResource) parent, (IResource) child)) {
-						 break;
-					 }
+					if (!addTreeElement((IResource) parent, (IResource) child)) {
+						break;
+					}
 				}
 			}
 		}
@@ -84,10 +84,10 @@ public class TreeContentProvider implements ITreeContentProvider {
 	private LogSearchResult result;
 	private LogSearchResultPage page;
 	private SearchResultListener searchResultListener;
-	
+
 	private Map<IResource, List<IResource>> tree;
-	
-	
+
+
 	public TreeContentProvider(final LogSearchResultPage page) {
 		tree = new HashMap<IResource, List<IResource>>();
 		searchResultListener = new SearchResultListener();
@@ -96,7 +96,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 			setResult((LogSearchResult) page.getInput());
 		}
 	}
-	
+
 	@Override
 	public void dispose() {
 		// Do nothig
@@ -108,25 +108,25 @@ public class TreeContentProvider implements ITreeContentProvider {
 		if (newInput instanceof LogSearchResult) {
 			setResult((LogSearchResult) newInput);
 		}
-		
+
 		if (newInput instanceof LogSearchResultPage) {
 			page = ((LogSearchResultPage) newInput);
 		}
 	}
-	
+
 	protected void setResult(final LogSearchResult result) {
 		tree = new HashMap<IResource, List<IResource>>();
 		this.result = result;
 		for (Object child : result.getElements()) {
 			for (Object parent = getParent(child); parent != null; child = parent, parent = getParent(parent)) {
-				 if (!addTreeElement((IResource) parent, (IResource) child)) { 
-					 break;
-				 }
+				if (!addTreeElement((IResource) parent, (IResource) child)) {
+					break;
+				}
 			}
 		}
 		result.addListener(searchResultListener);
 	}
-	
+
 	protected LogSearchResultPage getPage() {
 		return page;
 	}
@@ -135,7 +135,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 	public Object[] getElements(final Object inputElement) {
 		return getChildren(inputElement);
 	}
-	
+
 	public List<IProject> getProjects() {
 		List<IProject> result = new ArrayList<IProject>();
 		for (IResource resource : tree.keySet()) {
@@ -145,35 +145,35 @@ public class TreeContentProvider implements ITreeContentProvider {
 		}
 		return result;
 	}
-	
+
 	@Override
 	public Object[] getChildren(final Object parentElement) {
-		
+
 		if (parentElement instanceof LogSearchResult) {
 			return getProjects().toArray();
 		}
-		
+
 		if (parentElement instanceof IFile) {
 			return result.getMatches(parentElement);
 		}
-		
+
 		if (parentElement instanceof IResource) {
 			List<IResource> result = tree.get(parentElement);
-			return result == null ? new Object[0] : result.toArray();  
+			return result == null ? new Object[0] : result.toArray();
 		}
-		
+
 		return new Object[0];
 	}
- 
+
 	@Override
 	public Object getParent(final Object element) {
 		if (element instanceof IResource) {
 			return ((IResource) element).getParent();
 		}
-		
+
 		if (element instanceof Match) {
 			((Match) element).getElement();
-		}	
+		}
 		return ResourcesPlugin.getWorkspace().getRoot();
 	}
 
@@ -182,7 +182,7 @@ public class TreeContentProvider implements ITreeContentProvider {
 		if (element instanceof IFile) {
 			return result.getMatchCount(element) > 0;
 		}
-		
+
 		return tree.get(element) != null;
 	}
 
@@ -190,11 +190,11 @@ public class TreeContentProvider implements ITreeContentProvider {
 	public synchronized void elementsChanged(final Object[] updatedElements) {
 		getPage().getViewer().refresh();
 	}
-	
+
 	public void removeAll() {
 		result.removeAll();
 	}
-	
+
 	private boolean addTreeElement(final IResource parent, final IResource child) {
 		List<IResource> children = tree.get(parent);
 		if (children == null) {
@@ -203,12 +203,12 @@ public class TreeContentProvider implements ITreeContentProvider {
 			tree.put(parent, children);
 			return true;
 		}
-		
+
 		if (!children.contains(child)) {
 			children.add(child);
 			return true;
 		}
-		
+
 		return false;
 	}
 }

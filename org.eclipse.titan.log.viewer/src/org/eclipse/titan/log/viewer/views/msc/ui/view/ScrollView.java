@@ -41,10 +41,10 @@ import org.eclipse.titan.log.viewer.utils.Messages;
 
 /**
  * ScrollView widget provides a scrolling area with on-demand scroll bars.
- * 
+ *
  */
 public class ScrollView extends Composite {
-	
+
 	// Scroll bar modes, default is AUTO
 	public static final int AUTO = 0;
 	public static final int ALWAYS_OFF = 2;
@@ -86,7 +86,7 @@ public class ScrollView extends Composite {
 	 * @param mouseWheel force scrollView to handles mouse wheel
 	 */
 	public ScrollView(final Composite c, final int style, final boolean mouseWheel) {
-		super(c, SWT.NONE);  
+		super(c, SWT.NONE);
 
 		this.horzsb = new Canvas(this, SWT.H_SCROLL | SWT.DOUBLE_BUFFERED);
 		if (mouseWheel) {
@@ -116,13 +116,13 @@ public class ScrollView extends Composite {
 		Control cc = b;
 		b.setToolTipText(Messages.getString("ScrollView.0"));  //$NON-NLS-1$
 		setCornerControl(cc);
-		
+
 		// Create all listeners
 		initListerners();
 	}
 
 	/**
-	 * Initialize all listeners 
+	 * Initialize all listeners
 	 */
 	private void initListerners() {
 		PaintListener localPaintListener = new PaintListener() {
@@ -135,7 +135,7 @@ public class ScrollView extends Composite {
 				drawContents(event.gc, cx, cy, r.width, r.height);
 			}
 		};
-		
+
 		this.viewcontrol.addPaintListener(localPaintListener);
 
 		MouseMoveListener localMouseMoveListener = new MouseMoveListener() {
@@ -151,7 +151,7 @@ public class ScrollView extends Composite {
 		};
 
 		this.viewcontrol.addMouseMoveListener(localMouseMoveListener);
-		
+
 		this.viewcontrol.getVerticalBar().addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -247,7 +247,7 @@ public class ScrollView extends Composite {
 		};
 
 		this.viewcontrol.addKeyListener(localKeyListener);
-		
+
 		getVerticalBar().addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -286,20 +286,20 @@ public class ScrollView extends Composite {
 		});
 		if (this.viewcontrol.getHorizontalBar() != null) {
 			this.viewcontrol.getHorizontalBar().addSelectionListener(
-				new SelectionAdapter() {
-					@Override
-					public void widgetSelected(final SelectionEvent e) {
-						ScrollBar b = ScrollView.this.viewcontrol
-								.getHorizontalBar();
-						setContentsPos(b.getSelection(),
-								ScrollView.this.contentsY);
-						//change "real" vertical bar selection too
-						getHorizontalBar().setSelection(b.getSelection());
-					}
-				});
+					new SelectionAdapter() {
+						@Override
+						public void widgetSelected(final SelectionEvent e) {
+							ScrollBar b = ScrollView.this.viewcontrol
+									.getHorizontalBar();
+							setContentsPos(b.getSelection(),
+									ScrollView.this.contentsY);
+							//change "real" vertical bar selection too
+							getHorizontalBar().setSelection(b.getSelection());
+						}
+					});
 		}
 	}
-	
+
 	/**
 	 * Only for override use to be able to fetch scroll events
 	 * @param e the event
@@ -366,7 +366,7 @@ public class ScrollView extends Composite {
 		this.viewcontrol.setToolTipText(text);
 	}
 
-	/** 
+	/**
 	 * Draw overview area, @see setOverviewEnabled.
 	 * By default draw a rectangle corresponding to the visible area
 	 * of scrollview.
@@ -402,7 +402,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Access method for the contentsHeight property.
-	 * 
+	 *
 	 * @return  the current value of the contentsHeight property
 	 */
 	public int getContentsHeight() {
@@ -411,7 +411,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Access method for the contentsWidth property.
-	 * 
+	 *
 	 * @return   the current value of the contentsWidth property
 	 */
 	public int getContentsWidth() {
@@ -420,7 +420,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Access method for the contentsX property.
-	 * 
+	 *
 	 * @return   the current value of the contentsX property
 	 */
 	public int getContentsX() {
@@ -429,7 +429,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Access method for the contentsY property.
-	 * 
+	 *
 	 * @return   the current value of the contentsY property
 	 */
 	public int getContentsY() {
@@ -438,7 +438,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Determines if the dragAutoScroll property is true.
-	 * 
+	 *
 	 * @return <code>true<code> if the dragAutoScroll property is true
 	 */
 	public boolean getDragAutoScroll() {
@@ -447,7 +447,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Sets the value of the dragAutoScroll property.
-	 * 
+	 *
 	 * @param aDragAutoScroll the new value of the dragAutoScroll property
 	 */
 	public void setDragAutoScroll(final boolean aDragAutoScroll) {
@@ -475,7 +475,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Access method for the hScrollBarMode property.
-	 * 
+	 *
 	 * @return   the current value of the hScrollBarMode property
 	 */
 	public int getHScrollBarMode() {
@@ -484,7 +484,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Sets the value of the hScrollBarMode property.
-	 * 
+	 *
 	 * @param aHScrollBarMode the new value of the hScrollBarMode property
 	 */
 	public void setHScrollBarMode(final int aHScrollBarMode) {
@@ -493,7 +493,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Access method for the vScrollBarMode property.
-	 * 
+	 *
 	 * @return   the current value of the vScrollBarMode property
 	 */
 	public int getVScrollBarMode() {
@@ -502,7 +502,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Sets the value of the vScrollBarMode property.
-	 * 
+	 *
 	 * @param aVScrollBarMode the new value of the vScrollBarMode property
 	 */
 	public void setVScrollBarMode(final int aVScrollBarMode) {
@@ -678,7 +678,7 @@ public class ScrollView extends Composite {
 	 * @param event
 	 */
 	protected void contentsMouseUpEvent(final MouseEvent event) {
-		//reset auto scroll if it's engaged  
+		//reset auto scroll if it's engaged
 		if (this.autoScroll != null) {
 			this.autoScroll.cancel();
 			this.autoScroll = null;
@@ -950,7 +950,7 @@ public class ScrollView extends Composite {
 		int rr = x + w, rb = y + h;
 		int nl = Math.max(x, getContentsX()), nt = Math
 				.max(y, getContentsY()), nr = Math.min(rr, vr), nb = Math.min(
-				rb, vb);
+						rb, vb);
 		return new Rectangle(nl, nt, nr - nl, nb - nt);
 	}
 
@@ -1033,12 +1033,12 @@ public class ScrollView extends Composite {
 				vis = VBAR;
 				//v bar size is already in for_width.
 				if (!currVVis) {
-//					for_width -= getVerticalBarWidth();
+					//					for_width -= getVerticalBarWidth();
 				}
 			}
 			break;
-			default:
-				break;
+		default:
+			break;
 		}
 		switch (this.hScrollbarMode) {
 		case ALWAYS_OFF:
@@ -1096,7 +1096,7 @@ public class ScrollView extends Composite {
 
 	/**
 	 * Setup scroll bar using contents, visible and scroll bar mode properties.
-	 * 
+	 *
 	 */
 	private void updateScrollBarsValues() {
 		/* update vertical scrollbar */
@@ -1259,7 +1259,7 @@ public class ScrollView extends Composite {
 			notifyListeners(SWT.KeyDown, event);
 			break;
 		default:
-			break;	
+			break;
 		}
 	}
 
@@ -1284,7 +1284,7 @@ public class ScrollView extends Composite {
 		return bw + 1;
 	}
 
-	/** 
+	/**
 	 * @return horizontal bar height even if bar isn't visible
 	 */
 	public int getHorizontalBarHeight() {
@@ -1405,14 +1405,14 @@ public class ScrollView extends Composite {
 	}
 
 	/**
-	 * Called when up arrow is pressed 
+	 * Called when up arrow is pressed
 	 */
 	protected void upArrowPressed() {
 		// Do nothing
 	}
-	
+
 	/**
-	 * Called when down arrow is pressed 
+	 * Called when down arrow is pressed
 	 */
 	protected void downArrowPressed() {
 		// Do nothing

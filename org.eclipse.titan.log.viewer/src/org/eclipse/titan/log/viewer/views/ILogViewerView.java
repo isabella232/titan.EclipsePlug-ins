@@ -13,14 +13,14 @@ public interface ILogViewerView {
 
 	/**
 	 * Returns the log file meta data
-	 * 
+	 *
 	 * @return the log file meta data
 	 */
 	LogFileMetaData getLogFileMetaData();
 
 	/**
 	 * Returns the name of this view.
-	 * 
+	 *
 	 * @return the name
 	 */
 	String getName();

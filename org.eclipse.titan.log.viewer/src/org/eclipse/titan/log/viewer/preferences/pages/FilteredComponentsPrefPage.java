@@ -28,22 +28,22 @@ import org.eclipse.ui.IWorkbench;
 public class FilteredComponentsPrefPage	extends LogViewerPreferenceRootPage {
 
 	private StringListEditor filterComponentsEditor;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public FilteredComponentsPrefPage() {
 		super(GRID, false);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
 		setDescription(Messages.getString("FilteredComponentsPrefPage.0")); //$NON-NLS-1$
 	}
-	
+
 	@Override
 	public void createFieldEditors() {
 		this.filterComponentsEditor = new StringListEditor(PreferenceConstants.PREF_FILTER_COMPONENT_ID,
-													  "", //$NON-NLS-1$
-													  getFieldEditorParent(),
-													  false);
+				"", //$NON-NLS-1$
+				getFieldEditorParent(),
+				false);
 		this.filterComponentsEditor.setPreferenceStore(getPreferenceStore());
 		addField(this.filterComponentsEditor);
 	}
@@ -72,7 +72,7 @@ public class FilteredComponentsPrefPage	extends LogViewerPreferenceRootPage {
 		currentPrefs.put(this.filterComponentsEditor.getPreferenceName(), signalFilter);
 		return currentPrefs;
 	}
-	
+
 	/**
 	 * Method for getting the current preferences in the preference store
 	 * @return map of the preferences
@@ -87,7 +87,7 @@ public class FilteredComponentsPrefPage	extends LogViewerPreferenceRootPage {
 	protected void exportPreferences() {
 		ImportExportUtils.exportSettings(getPageId(), getCurrentPreferencesSeparated(), true);
 	}
-	
+
 	@Override
 	protected void importPreferences() {
 		Map<String, String> prop = ImportExportUtils.importSettings(PreferenceConstants.PAGE_ID_FILTERED_COMP_PAGE);

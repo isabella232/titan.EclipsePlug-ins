@@ -151,21 +151,21 @@ public class RefreshMSCViewAction extends Action {
 	private int getFirstRow(ExecutionModel model, PreferencesHolder preferences) {
 		final int firstRow;
 		switch (preferences.getMscViewOpen()) {
-			case PreferenceConstants.MSCVIEW_TOP:
+		case PreferenceConstants.MSCVIEW_TOP:
+			firstRow = 0;
+			break;
+		case PreferenceConstants.MSCVIEW_BOTTOM:
+			firstRow = model.getNumberOfEvents() - 1;
+			break;
+		case PreferenceConstants.MSCVIEW_FIRST_VERDICT:
+			if (model.getSetverdict().length > 0) {
+				firstRow = model.getSetverdict()[0];
+			} else {
 				firstRow = 0;
-				break;
-			case PreferenceConstants.MSCVIEW_BOTTOM:
-				firstRow = model.getNumberOfEvents() - 1;
-				break;
-			case PreferenceConstants.MSCVIEW_FIRST_VERDICT:
-				if (model.getSetverdict().length > 0) {
-					firstRow = model.getSetverdict()[0];
-				} else {
-					firstRow = 0;
-				}
-				break;
-			default:
-				firstRow = 0;
+			}
+			break;
+		default:
+			firstRow = 0;
 		}
 		return firstRow;
 	}

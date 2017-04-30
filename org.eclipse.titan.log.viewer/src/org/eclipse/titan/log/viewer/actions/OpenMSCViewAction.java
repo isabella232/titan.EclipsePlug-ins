@@ -17,7 +17,7 @@ public class OpenMSCViewAction extends Action implements IActionDelegate, ISelec
 	private IStructuredSelection selection;
 	private LogFileMetaData logFileMetaData;
 	private int recordToSelect = -1;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -43,7 +43,7 @@ public class OpenMSCViewAction extends Action implements IActionDelegate, ISelec
 			setEnabled(false);
 			return;
 		}
-		
+
 		this.selection = (IStructuredSelection) selection;
 		if (this.selection.size() != 1 || !(this.selection.getFirstElement() instanceof TestCase)) {
 			setEnabled(false);
@@ -56,7 +56,7 @@ public class OpenMSCViewAction extends Action implements IActionDelegate, ISelec
 	public void selectionChanged(final SelectionChangedEvent event) {
 		selectionChanged(null, event.getSelection());
 	}
-	
+
 	/**
 	 * The given record will be selected in the opening MSC view.
 	 * @param recordNumber the recordNumber of the record

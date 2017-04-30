@@ -17,20 +17,20 @@ public class EventSelection implements ISelection {
 
 	private EventObject eventObject = null;
 	private String currTestCase = null;
-	
+
 	/**
-	 * Constructor 
+	 * Constructor
 	 */
 	public EventSelection(final EventObject eventObject, final String currTestCase) {
 		this.eventObject = eventObject;
 		this.currTestCase = currTestCase;
 	}
-	
+
 	@Override
 	public boolean isEmpty() {
 		return this.eventObject == null;
 	}
-	
+
 	/**
 	 * Returns the event object
 	 * @return the event object (which can be null)
@@ -38,7 +38,7 @@ public class EventSelection implements ISelection {
 	public EventObject getEventObject() {
 		return this.eventObject;
 	}
-	
+
 	/**
 	 * Returns the test case name
 	 * @return the test case name
