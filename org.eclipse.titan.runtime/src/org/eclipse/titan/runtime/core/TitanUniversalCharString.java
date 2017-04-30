@@ -250,7 +250,7 @@ public class TitanUniversalCharString extends Base_Type {
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.cstr ) );
 				return ret_val;
 			} else {
-				if (other_value.val_ptr.size() == 0)
+				if (other_value.val_ptr.isEmpty())
 					return this;
 				final List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < cstr.length(); i++) {
@@ -273,7 +273,7 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 				return ret_val;
 			} else {
-				if (val_ptr.size() == 0) return other_value;
+				if (val_ptr.isEmpty()) return other_value;
 				if (other_value.val_ptr.size() == 0) return this;
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 				ret_val.getValue().addAll( other_value.val_ptr );
