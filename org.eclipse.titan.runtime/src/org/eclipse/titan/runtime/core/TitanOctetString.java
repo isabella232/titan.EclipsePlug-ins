@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class TitanOctetString extends Base_Type {
 
 	// originally octetstring_value_match
-	private Pattern OCTETSTRING_VALUE_PATTERN = Pattern.compile( "^(([0-9A-Fa-f]{2})+).*$" );
+	private static final Pattern OCTETSTRING_VALUE_PATTERN = Pattern.compile( "^(([0-9A-Fa-f]{2})+).*$" );
 
 	private static final String HEX_DIGITS = "0123456789ABCDEF";
 
