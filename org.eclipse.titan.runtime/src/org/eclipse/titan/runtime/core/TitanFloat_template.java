@@ -122,7 +122,7 @@ public class TitanFloat_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanFloat_template>(otherValue.value_list.size());
 			for(int i = 0; i < otherValue.value_list.size(); i++) {
-				TitanFloat_template temp = new TitanFloat_template(otherValue.value_list.get(i));
+				final TitanFloat_template temp = new TitanFloat_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
 			break;

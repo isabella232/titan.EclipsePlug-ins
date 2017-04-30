@@ -154,7 +154,7 @@ public class TitanVerdictType_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanVerdictType_template>(otherValue.value_list.size());
 			for(int i = 0; i < otherValue.value_list.size(); i++) {
-				TitanVerdictType_template temp = new TitanVerdictType_template(otherValue.value_list.get(i));
+				final TitanVerdictType_template temp = new TitanVerdictType_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
 			break;
@@ -319,7 +319,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 */
 	void check_restriction(final template_res t_res, final String t_name, final boolean legacy ) {
 		if ( templateSelection == template_sel.UNINITIALIZED_TEMPLATE ) return;
-		template_res res = ( t_name != null && ( t_res == template_res.TR_VALUE ) ) ? template_res.TR_OMIT : t_res;
+		final template_res res = ( t_name != null && ( t_res == template_res.TR_VALUE ) ) ? template_res.TR_OMIT : t_res;
 		switch ( res ) {
 		case TR_VALUE:
 			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) return;

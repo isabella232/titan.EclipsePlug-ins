@@ -122,7 +122,7 @@ public class TitanInteger_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanInteger_template>(otherValue.value_list.size());
 			for(int i = 0; i < otherValue.value_list.size(); i++) {
-				TitanInteger_template temp = new TitanInteger_template(otherValue.value_list.get(i));
+				final TitanInteger_template temp = new TitanInteger_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
 			break;

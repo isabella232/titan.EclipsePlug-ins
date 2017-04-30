@@ -135,7 +135,7 @@ public class TitanCharString extends Base_Type {
 				throw new TtcnError("Accessing an charstring element using a negative index (" + index_value + ").");
 			}
 
-			int n_nibbles = val_ptr.length();
+			final int n_nibbles = val_ptr.length();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a charstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " characters.");

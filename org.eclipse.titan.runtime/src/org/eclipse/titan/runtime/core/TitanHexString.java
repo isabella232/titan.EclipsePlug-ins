@@ -133,7 +133,7 @@ public class TitanHexString extends Base_Type {
 				throw new TtcnError("Accessing an hexstring element using a negative index (" + index_value + ").");
 			}
 
-			int n_nibbles = nibbles_ptr.size();
+			final int n_nibbles = nibbles_ptr.size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a hexstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " hexadecimal digits.");

@@ -71,8 +71,8 @@ public class TitanOctetString_Element {
 		mustBound("Unbound left operand of octetstring element concatenation.");
 		other_value.mustBound("Unbound right operand of octetstring concatenation.");
 		final List<Character> src_ptr = other_value.getValue();
-		int n_nibbles = src_ptr.size();
-		TitanOctetString ret_val = new TitanOctetString();
+		final int n_nibbles = src_ptr.size();
+		final TitanOctetString ret_val = new TitanOctetString();
 		final List<Character> dest_ptr = ret_val.getValue();
 		dest_ptr.set(0, str_val.get_nibble(nibble_pos) );
 		// chars in the result minus 1
@@ -92,7 +92,7 @@ public class TitanOctetString_Element {
 	//originally operator~
 	TitanOctetString operatorBitwiseNot()	{
 		mustBound("Unbound octetstring element operand of operator not4b.");
-		char result = (char) (~str_val.get_nibble(nibble_pos) & 0x0F);
+		final char result = (char) (~str_val.get_nibble(nibble_pos) & 0x0F);
 		return new TitanOctetString( result );
 	}
 
@@ -103,7 +103,7 @@ public class TitanOctetString_Element {
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError("The octetstring operands of operator and4b must have the same length.");
 		}
-		char result = (char) (str_val.get_nibble(nibble_pos) & other_value.get_nibble(0));
+		final char result = (char) (str_val.get_nibble(nibble_pos) & other_value.get_nibble(0));
 		return new TitanOctetString( result );
 	}
 
@@ -111,7 +111,7 @@ public class TitanOctetString_Element {
 	TitanOctetString operatorBitwiseAnd(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound octetstring element.");
-		char result = (char) (str_val.get_nibble(nibble_pos) & other_value.str_val.get_nibble(other_value.nibble_pos));
+		final char result = (char) (str_val.get_nibble(nibble_pos) & other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanOctetString( result );
 	}
 
@@ -122,7 +122,7 @@ public class TitanOctetString_Element {
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError("The octetstring operands of operator or4b must have the same length.");
 		}
-		char result = (char) (str_val.get_nibble(nibble_pos) | other_value.get_nibble(0));
+		final char result = (char) (str_val.get_nibble(nibble_pos) | other_value.get_nibble(0));
 		return new TitanOctetString( result );
 	}
 
@@ -130,7 +130,7 @@ public class TitanOctetString_Element {
 	TitanOctetString operatorBitwiseOr(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator or4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound octetstring element.");
-		char result = (char) (str_val.get_nibble(nibble_pos) | other_value.str_val.get_nibble(other_value.nibble_pos));
+		final char result = (char) (str_val.get_nibble(nibble_pos) | other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanOctetString( result );
 	}
 
@@ -141,7 +141,7 @@ public class TitanOctetString_Element {
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError("The octetstring operands of operator xor4b must have the same length.");
 		}
-		char result = (char) (str_val.get_nibble(nibble_pos) ^ other_value.get_nibble(0));
+		final char result = (char) (str_val.get_nibble(nibble_pos) ^ other_value.get_nibble(0));
 		return new TitanOctetString( result );
 	}
 
@@ -149,7 +149,7 @@ public class TitanOctetString_Element {
 	TitanOctetString operatorBitwiseXor(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator xor4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound octetstring element.");
-		char result = (char) (str_val.get_nibble(nibble_pos) ^ other_value.str_val.get_nibble(other_value.nibble_pos));
+		final char result = (char) (str_val.get_nibble(nibble_pos) ^ other_value.str_val.get_nibble(other_value.nibble_pos));
 		return new TitanOctetString( result );
 	}
 

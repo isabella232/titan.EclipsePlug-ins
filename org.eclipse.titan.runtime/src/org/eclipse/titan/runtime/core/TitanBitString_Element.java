@@ -71,8 +71,8 @@ public class TitanBitString_Element {
 		mustBound("Unbound left operand of bitstring element concatenation.");
 		other_value.mustBound("Unbound right operand of bitstring concatenation.");
 		final List<Byte> src_ptr = other_value.getValue();
-		int n_nibbles = src_ptr.size();
-		TitanBitString ret_val = new TitanBitString();
+		final int n_nibbles = src_ptr.size();
+		final TitanBitString ret_val = new TitanBitString();
 		final List<Byte> dest_ptr = ret_val.getValue();
 		dest_ptr.set(0, str_val.getBit(nibble_pos) );
 		// chars in the result minus 1
@@ -92,7 +92,7 @@ public class TitanBitString_Element {
 	//originally operator~
 	TitanBitString operatorBitwiseNot()	{
 		mustBound("Unbound bitstring element operand of operator not4b.");
-		byte result = (byte) (~str_val.getBit(nibble_pos) & 0x0F);
+		final byte result = (byte) (~str_val.getBit(nibble_pos) & 0x0F);
 		return new TitanBitString( result );
 	}
 
@@ -103,7 +103,7 @@ public class TitanBitString_Element {
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError("The bitstring operands of operator and4b must have the same length.");
 		}
-		byte result = (byte) (str_val.getBit(nibble_pos) & other_value.getBit(0));
+		final byte result = (byte) (str_val.getBit(nibble_pos) & other_value.getBit(0));
 		return new TitanBitString( result );
 	}
 
@@ -111,7 +111,7 @@ public class TitanBitString_Element {
 	TitanBitString operatorBitwiseAnd(final TitanBitString_Element other_value) {
 		mustBound("Left operand of operator and4b is an unbound bitstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound bitstring element.");
-		byte result = (byte) (str_val.getBit(nibble_pos) & other_value.str_val.getBit(other_value.nibble_pos));
+		final byte result = (byte) (str_val.getBit(nibble_pos) & other_value.str_val.getBit(other_value.nibble_pos));
 		return new TitanBitString( result );
 	}
 
@@ -122,7 +122,7 @@ public class TitanBitString_Element {
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError("The bitstring operands of operator or4b must have the same length.");
 		}
-		byte result = (byte) (str_val.getBit(nibble_pos) | other_value.getBit(0));
+		final byte result = (byte) (str_val.getBit(nibble_pos) | other_value.getBit(0));
 		return new TitanBitString( result );
 	}
 
@@ -130,7 +130,7 @@ public class TitanBitString_Element {
 	TitanBitString operatorBitwiseOr(final TitanBitString_Element other_value) {
 		mustBound("Left operand of operator or4b is an unbound bitstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound bitstring element.");
-		byte result = (byte) (str_val.getBit(nibble_pos) | other_value.str_val.getBit(other_value.nibble_pos));
+		final byte result = (byte) (str_val.getBit(nibble_pos) | other_value.str_val.getBit(other_value.nibble_pos));
 		return new TitanBitString( result );
 	}
 
@@ -141,7 +141,7 @@ public class TitanBitString_Element {
 		if (other_value.getValue().size() != 1) {
 			throw new TtcnError("The bitstring operands of operator xor4b must have the same length.");
 		}
-		byte result = (byte) (str_val.getBit(nibble_pos) ^ other_value.getBit(0));
+		final byte result = (byte) (str_val.getBit(nibble_pos) ^ other_value.getBit(0));
 		return new TitanBitString( result );
 	}
 
@@ -149,7 +149,7 @@ public class TitanBitString_Element {
 	TitanBitString operatorBitwiseXor(final TitanBitString_Element other_value) {
 		mustBound("Left operand of operator xor4b is an unbound bitstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound bitstring element.");
-		byte result = (byte) (str_val.getBit(nibble_pos) ^ other_value.str_val.getBit(other_value.nibble_pos));
+		final byte result = (byte) (str_val.getBit(nibble_pos) ^ other_value.str_val.getBit(other_value.nibble_pos));
 		return new TitanBitString( result );
 	}
 

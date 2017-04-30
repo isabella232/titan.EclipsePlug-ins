@@ -133,18 +133,18 @@ public class TitanInteger extends Base_Type {
 
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
-				long temp = nativeInt + otherValue.nativeInt;
+				final long temp = nativeInt + otherValue.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 					return new TitanInteger((int)temp);
 				}
 				return new TitanInteger(BigInteger.valueOf(temp));
 			} else {
-				BigInteger this_int = BigInteger.valueOf(nativeInt);
+				final BigInteger this_int = BigInteger.valueOf(nativeInt);
 				return new TitanInteger(this_int.add(otherValue.openSSL));
 			}
 		} else {
 			if(otherValue.nativeFlag) {
-				BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
 				return new TitanInteger(openSSL.add(other_int));
 			} else {
 				return new TitanInteger(openSSL.add(otherValue.openSSL));
@@ -159,7 +159,7 @@ public class TitanInteger extends Base_Type {
 			return nativeInt == otherValue;
 		}
 
-		BigInteger other_int = BigInteger.valueOf(otherValue);
+		final BigInteger other_int = BigInteger.valueOf(otherValue);
 		return openSSL.equals(other_int);
 	}
 	
@@ -172,12 +172,12 @@ public class TitanInteger extends Base_Type {
 			if(otherValue.nativeFlag) {
 				return nativeInt == otherValue.nativeInt;
 			} else {
-				BigInteger this_int = BigInteger.valueOf(nativeInt);
+				final BigInteger this_int = BigInteger.valueOf(nativeInt);
 				return this_int.equals(otherValue.openSSL);
 			}
 		} else {
 			if(otherValue.nativeFlag) {
-				BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
 				return openSSL.equals(other_int);
 			} else {
 				return openSSL.equals(otherValue.openSSL);
@@ -205,7 +205,7 @@ public class TitanInteger extends Base_Type {
 		if (nativeFlag) {
 			return nativeInt < otherValue;
 		} else {
-			BigInteger other_int = BigInteger.valueOf(otherValue);
+			final BigInteger other_int = BigInteger.valueOf(otherValue);
 			return -1 == openSSL.compareTo(other_int);
 		}
 	}
@@ -218,12 +218,12 @@ public class TitanInteger extends Base_Type {
 			if(otherValue.nativeFlag) {
 				return nativeInt < otherValue.nativeInt;
 			} else {
-				BigInteger this_int = BigInteger.valueOf(nativeInt);
+				final BigInteger this_int = BigInteger.valueOf(nativeInt);
 				return -1 == this_int.compareTo(otherValue.openSSL);
 			}
 		} else {
 			if(otherValue.nativeFlag) {
-				BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
 				return -1 == openSSL.compareTo(other_int);
 			} else {
 				return -1 == openSSL.compareTo(otherValue.openSSL);
@@ -237,7 +237,7 @@ public class TitanInteger extends Base_Type {
 		if (nativeFlag) {
 			return nativeInt > otherValue;
 		} else {
-			BigInteger other_int = BigInteger.valueOf(otherValue);
+			final BigInteger other_int = BigInteger.valueOf(otherValue);
 			return 1 == openSSL.compareTo(other_int);
 
 		}
@@ -251,12 +251,12 @@ public class TitanInteger extends Base_Type {
 			if(otherValue.nativeFlag) {
 				return nativeInt > otherValue.nativeInt;
 			} else {
-				BigInteger this_int = BigInteger.valueOf(nativeInt);
+				final BigInteger this_int = BigInteger.valueOf(nativeInt);
 				return 1 == this_int.compareTo(otherValue.openSSL);
 			}
 		} else {
 			if(otherValue.nativeFlag) {
-				BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
 				return 1 == openSSL.compareTo(other_int);
 			} else {
 				return 1 == openSSL.compareTo(otherValue.openSSL);

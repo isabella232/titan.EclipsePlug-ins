@@ -123,7 +123,7 @@ public class TitanHexString_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanHexString_template>(otherValue.value_list.size());
 			for(int i = 0; i < otherValue.value_list.size(); i++) {
-				TitanHexString_template temp = new TitanHexString_template(otherValue.value_list.get(i));
+				final TitanHexString_template temp = new TitanHexString_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
 			break;

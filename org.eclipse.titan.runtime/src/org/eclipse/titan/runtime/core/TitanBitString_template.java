@@ -124,7 +124,7 @@ public class TitanBitString_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanBitString_template>(otherValue.value_list.size());
 			for(int i = 0; i < otherValue.value_list.size(); i++) {
-				TitanBitString_template temp = new TitanBitString_template(otherValue.value_list.get(i));
+				final TitanBitString_template temp = new TitanBitString_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
 			break;

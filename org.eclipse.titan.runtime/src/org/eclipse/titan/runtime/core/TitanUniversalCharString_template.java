@@ -123,7 +123,7 @@ public class TitanUniversalCharString_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanUniversalCharString_template>(otherValue.value_list.size());
 			for(int i = 0; i < otherValue.value_list.size(); i++) {
-				TitanUniversalCharString_template temp = new TitanUniversalCharString_template(otherValue.value_list.get(i));
+				final TitanUniversalCharString_template temp = new TitanUniversalCharString_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
 			break;

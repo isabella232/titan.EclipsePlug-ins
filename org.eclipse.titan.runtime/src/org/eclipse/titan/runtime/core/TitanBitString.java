@@ -53,13 +53,13 @@ public class TitanBitString extends Base_Type {
 	 * calculate number of bits from list data, leading zeros should not be counted
 	 */
 	private void calculateNoBits() {
-		int size = bits_ptr.size();
+		final int size = bits_ptr.size();
 		if ( size == 0 ) {
 			n_bits = 0;
 			return;
 		}
 		int bits = size * 8;
-		byte last = bits_ptr.get( size - 1 );
+		final byte last = bits_ptr.get( size - 1 );
 		for ( int i = 7; i >= 0 && ( last & ( 1 << i ) ) == 0; i-- ) {
 			bits--;
 		}
@@ -79,7 +79,7 @@ public class TitanBitString extends Base_Type {
 
 	//TODO: remove if not needed
 	private void clear_unused_bits() {
-		int listIndex = (n_bits - 1) / 8;
+		final int listIndex = (n_bits - 1) / 8;
 		byte bytevalue = bits_ptr.get( listIndex );
 		if (n_bits % 8 != 0) {
 			bytevalue &= 0xFF >> (7 - (n_bits - 1) % 8);
@@ -97,9 +97,9 @@ public class TitanBitString extends Base_Type {
 	}
 
 	public void setBit( final int aBitIndex, final byte aNewValue ) {
-		int mask = 1 << ( aBitIndex % 8 );
+		final int mask = 1 << ( aBitIndex % 8 );
 		// the index of the actual byte, where the modification is made
-		int listIndex = aBitIndex / 8;
+		final int listIndex = aBitIndex / 8;
 		byte bytevalue = bits_ptr.get( listIndex );
 		if ( aNewValue != 0 ) {
 			bytevalue |= mask;
@@ -190,7 +190,7 @@ public class TitanBitString extends Base_Type {
 				throw new TtcnError("Accessing an bitstring element using a negative index (" + index_value + ").");
 			}
 
-			int n_nibbles = bits_ptr.size();
+			final int n_nibbles = bits_ptr.size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a bitstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " hexadecimal digits.");

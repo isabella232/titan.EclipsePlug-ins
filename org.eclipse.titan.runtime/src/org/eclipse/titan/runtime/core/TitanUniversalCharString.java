@@ -81,7 +81,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( uList == null ) {
 			return null;
 		}
-		List<TitanUniversalChar> clonedList = new ArrayList<TitanUniversalChar>( uList.size() );
+		final List<TitanUniversalChar> clonedList = new ArrayList<TitanUniversalChar>( uList.size() );
 		for (TitanUniversalChar uc : uList) {
 			clonedList.add( new TitanUniversalChar( uc ) );
 		}
@@ -166,22 +166,22 @@ public class TitanUniversalCharString extends Base_Type {
 		mustBound( "The left operand of concatenation is an unbound universal charstring value." );
 		if (charstring) {
 			if (other_value.is_char()) {
-				TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.getUc_cell() ) );
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.getUc_cell() ) );
 				return ret_val;
 			} else {
-				List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < cstr.length(); ++i) {
-					TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, cstr.charAt( i ) );
+					final TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, cstr.charAt( i ) );
 					ulist.add( uc );
 				}
 				ulist.add( other_value );
-				TitanUniversalCharString ret_val = new TitanUniversalCharString();
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString();
 				ret_val.setValue( ulist );
 				return ret_val;
 			}
 		}
 
-		TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
+		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 		ret_val.val_ptr.add( other_value );
 		return ret_val;
 	}
@@ -199,9 +199,9 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( charstring ) {
 			return new TitanUniversalCharString( cstr.append( other_value ) );
 		}
-		TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
+		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 		for (int i = 0; i < other_len; i++) {
-			TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, other_value.charAt( i ));
+			final TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, other_value.charAt( i ));
 			ret_val.append( uc );
 		}
 		return ret_val;
@@ -227,8 +227,8 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( charstring ) {
 			return new TitanUniversalCharString( cstr.append( other_value.get_char() ) );
 		}
-		TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
-		TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, other_value.get_char());
+		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
+		final TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, other_value.get_char());
 		ret_val.append( uc );
 		return ret_val;
 	}
@@ -247,35 +247,35 @@ public class TitanUniversalCharString extends Base_Type {
 			if (other_value.charstring) {
 				if (other_value.cstr.length() == 0)
 					return this;
-				TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.cstr ) );
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.cstr ) );
 				return ret_val;
 			} else {
 				if (other_value.val_ptr.size() == 0)
 					return this;
-				List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < cstr.length(); i++) {
-					TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, cstr.charAt( i ) );
+					final TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, cstr.charAt( i ) );
 					ulist.add( uc );
 				}
 				ulist.addAll( other_value.val_ptr );
-				TitanUniversalCharString ret_val = new TitanUniversalCharString();
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString();
 				ret_val.setValue( ulist );
 				return ret_val;
 			}
 		} else {
 			if (other_value.charstring) {
-				TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
-				StringBuilder cs = other_value.cstr;
-				int cslen = cs.length();
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
+				final StringBuilder cs = other_value.cstr;
+				final int cslen = cs.length();
 				for (int i = 0; i < cslen; i++) {
-					TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, cs.charAt( i ) );
+					final TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, cs.charAt( i ) );
 					ret_val.getValue().add( uc );
 				}
 				return ret_val;
 			} else {
 				if (val_ptr.size() == 0) return other_value;
 				if (other_value.val_ptr.size() == 0) return this;
-				TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 				ret_val.getValue().addAll( other_value.val_ptr );
 				return ret_val;
 			}
@@ -292,7 +292,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( charstring ) {
 			return new TitanUniversalCharString( cstr.append( other_value.get_char() ) );
 		}
-		TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
+		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 		ret_val.append( other_value.get_char() );
 		return ret_val;
 	}
@@ -324,7 +324,7 @@ public class TitanUniversalCharString extends Base_Type {
 				throw new TtcnError("Accessing an universal charstring element using a negative index (" + index_value + ").");
 			}
 
-			int n_nibbles = size();
+			final int n_nibbles = size();
 			if (index_value > n_nibbles) {
 				throw new TtcnError("Index overflow when accessing a universal charstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " characters.");

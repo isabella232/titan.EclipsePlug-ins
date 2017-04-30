@@ -114,7 +114,7 @@ public class TitanBoolean_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanBoolean_template>(otherValue.value_list.size());
 			for(int i = 0; i < otherValue.value_list.size(); i++) {
-				TitanBoolean_template temp = new TitanBoolean_template(otherValue.value_list.get(i));
+				final TitanBoolean_template temp = new TitanBoolean_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
 			break;
