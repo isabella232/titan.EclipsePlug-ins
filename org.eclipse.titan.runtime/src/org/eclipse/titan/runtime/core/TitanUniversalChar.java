@@ -10,7 +10,7 @@ package org.eclipse.titan.runtime.core;
 /**
  * originally universal_char
  * Represents UTF-32 character
- * 
+ *
  * @author Arpad Lovassy
  */
 public class TitanUniversalChar {
@@ -40,9 +40,9 @@ public class TitanUniversalChar {
 	//originally boolean operator==(const universal_char& left_value, const universal_char& right_value)
 	public static boolean operatorEquals( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
 		return left_value.getUc_group() == right_value.getUc_group() &&
-			   left_value.getUc_plane() == right_value.getUc_plane() &&
-			   left_value.getUc_row() == right_value.getUc_row() &&
-			   left_value.getUc_cell() == right_value.getUc_cell();
+				left_value.getUc_plane() == right_value.getUc_plane() &&
+				left_value.getUc_row() == right_value.getUc_row() &&
+				left_value.getUc_cell() == right_value.getUc_cell();
 	}
 
 	public boolean operatorEquals( final TitanUniversalChar right_value ) {
@@ -51,17 +51,29 @@ public class TitanUniversalChar {
 
 	//originally boolean operator<(const universal_char& left_value, const universal_char& right_value)
 	public static boolean lessThan( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
-		if (left_value.getUc_group() < right_value.getUc_group()) return true;
-		else if (left_value.getUc_group() == right_value.getUc_group()) {
-			if (left_value.getUc_plane() < right_value.getUc_plane()) return true;
-			else if (left_value.getUc_plane() == right_value.getUc_plane()) {
-				if (left_value.getUc_row() < right_value.getUc_row()) return true;
-				else if (left_value.getUc_row() == right_value.getUc_row()) {
-					if (left_value.getUc_cell() < right_value.getUc_cell()) return true;
-					else return false;
-				} else return false;
-			} else return false;
-		} else return false;
+		if (left_value.getUc_group() < right_value.getUc_group()) {
+			return true;
+		} else if (left_value.getUc_group() == right_value.getUc_group()) {
+			if (left_value.getUc_plane() < right_value.getUc_plane()) {
+				return true;
+			} else if (left_value.getUc_plane() == right_value.getUc_plane()) {
+				if (left_value.getUc_row() < right_value.getUc_row()) {
+					return true;
+				} else if (left_value.getUc_row() == right_value.getUc_row()) {
+					if (left_value.getUc_cell() < right_value.getUc_cell()) {
+						return true;
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
 	}
 
 	public boolean lessThan( final TitanUniversalChar right_value ) {

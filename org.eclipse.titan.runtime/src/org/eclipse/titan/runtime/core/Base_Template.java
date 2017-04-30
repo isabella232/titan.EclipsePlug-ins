@@ -27,27 +27,27 @@ public class Base_Template {
 
 	template_sel templateSelection;
 	boolean is_ifPresent;
-	
+
 	protected Base_Template() {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 		is_ifPresent = false;
 	}
-	
+
 	protected Base_Template(final template_sel otherValue) {
 		templateSelection = otherValue;
 		is_ifPresent = false;
 	}
-	
+
 	protected void setSelection(final template_sel otherValue) {
 		templateSelection = otherValue;
 		is_ifPresent = false;
 	}
-	
+
 	protected void setSelection(final Base_Template otherValue) {
 		templateSelection = otherValue.templateSelection;
 		is_ifPresent = otherValue.is_ifPresent;
 	}
-	
+
 	public template_sel getSelection() {
 		return templateSelection;
 	}
@@ -66,7 +66,7 @@ public class Base_Template {
 			throw new TtcnError("Initialization of a template with an invalid selection.");
 		}
 	}
-	
+
 	protected static String getResName(final template_res tr) {
 		switch (tr) {
 		case TR_VALUE: return "value";
@@ -98,7 +98,9 @@ public class Base_Template {
 	}
 
 	protected void log_ifpresent() {
-		if (is_ifPresent) TtcnLogger.log_event_str(" ifpresent");
+		if (is_ifPresent) {
+			TtcnLogger.log_event_str(" ifpresent");
+		}
 	}
 
 }

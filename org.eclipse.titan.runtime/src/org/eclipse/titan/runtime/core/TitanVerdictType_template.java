@@ -198,7 +198,9 @@ public class TitanVerdictType_template extends Base_Template {
 
 	//originally boolean VERDICTTYPE_template::match(const VERDICTTYPE& other_value, boolean legacy) const
 	public boolean match( final TitanVerdictType other_value, final boolean legacy ) {
-		if (!other_value.isBound()) return false;
+		if (!other_value.isBound()) {
+			return false;
+		}
 		return match(other_value.getValue(), legacy);
 	}
 
@@ -257,7 +259,9 @@ public class TitanVerdictType_template extends Base_Template {
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
-				if (i > 0) TtcnLogger.log_event_str(", ");
+				if (i > 0) {
+					TtcnLogger.log_event_str(", ");
+				}
 				value_list.get(i).log();
 			}
 			TtcnLogger.log_char(')');
@@ -269,17 +273,19 @@ public class TitanVerdictType_template extends Base_Template {
 		log_ifpresent();
 	}
 
-//TODO: implement VERDICTTYPE_template::log_match()
-//TODO: implement VERDICTTYPE_template::set_param()
-//TODO: implement VERDICTTYPE_template::encode_text()
-//TODO: implement VERDICTTYPE_template::decode_text()
+	//TODO: implement VERDICTTYPE_template::log_match()
+	//TODO: implement VERDICTTYPE_template::set_param()
+	//TODO: implement VERDICTTYPE_template::encode_text()
+	//TODO: implement VERDICTTYPE_template::decode_text()
 
 	public boolean is_present() {
 		return is_present( false );
 	}
 
 	public boolean is_present(final boolean legacy ) {
-		if ( templateSelection==template_sel.UNINITIALIZED_TEMPLATE ) return false;
+		if ( templateSelection==template_sel.UNINITIALIZED_TEMPLATE ) {
+			return false;
+		}
 		return !match_omit(legacy);
 	}
 
@@ -287,8 +293,10 @@ public class TitanVerdictType_template extends Base_Template {
 		return match_omit( false );
 	}
 
-	boolean match_omit(final boolean legacy ) {
-		if (is_ifPresent) return true;
+	boolean match_omit(final boolean legacy) {
+		if (is_ifPresent) {
+			return true;
+		}
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
@@ -296,11 +304,14 @@ public class TitanVerdictType_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
-				// legacy behavior: 'omit' can appear in the value/complement list
-				for (int i=0; i<value_list.size(); i++)
-					if (value_list.get( i ).match_omit())
-						return templateSelection==template_sel.VALUE_LIST;
-				return templateSelection==template_sel.COMPLEMENTED_LIST;
+				// legacy behavior: 'omit' can appear in the
+				// value/complement list
+				for (int i = 0; i < value_list.size(); i++) {
+					if (value_list.get(i).match_omit()) {
+						return templateSelection == template_sel.VALUE_LIST;
+					}
+				}
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
 			// else fall through
 		default:
@@ -318,18 +329,26 @@ public class TitanVerdictType_template extends Base_Template {
 	 * void VERDICTTYPE_template::check_restriction(template_res t_res, const char* t_name, boolean legacy = FALSE ) const
 	 */
 	void check_restriction(final template_res t_res, final String t_name, final boolean legacy ) {
-		if ( templateSelection == template_sel.UNINITIALIZED_TEMPLATE ) return;
+		if ( templateSelection == template_sel.UNINITIALIZED_TEMPLATE ) {
+			return;
+		}
 		final template_res res = ( t_name != null && ( t_res == template_res.TR_VALUE ) ) ? template_res.TR_OMIT : t_res;
 		switch ( res ) {
 		case TR_VALUE:
-			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) return;
+			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
+				return;
+			}
 			break;
 		case TR_OMIT:
 			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE ||
-			templateSelection == template_sel.SPECIFIC_VALUE)) return;
+			templateSelection == template_sel.SPECIFIC_VALUE)) {
+				return;
+			}
 			break;
 		case TR_PRESENT:
-			if (!match_omit(legacy)) return;
+			if (!match_omit(legacy)) {
+				return;
+			}
 			break;
 		default:
 			return;
