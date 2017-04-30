@@ -34,7 +34,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * tool.
  * <li>Other operating system's paths seems to be OK
  * </ul>
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -50,7 +50,7 @@ public final class PathConverter {
 
 	/**
 	 * Converts a win32 path into a cygwin one.
-	 * 
+	 *
 	 * @param path
 	 *                the path as win32 reports it
 	 * @param reportDebugInformation
@@ -66,7 +66,7 @@ public final class PathConverter {
 			ErrorReporter.logWarning("The empty path could not be converted");
 			return path;
 		}
-		
+
 		if (!Platform.OS_WIN32.equals(Platform.getOS())) {
 			return path;
 		}
@@ -145,7 +145,7 @@ public final class PathConverter {
 	/**
 	 * Returns the operating system dependent absolute path of a file
 	 * relative to the position of a base file.
-	 * 
+	 *
 	 * @param baseFile
 	 *                the file to be used as the base of the full path
 	 * @param file
@@ -167,7 +167,7 @@ public final class PathConverter {
 	/**
 	 * Returns the project relative path of a file
 	 * which is given relative to the position of a base file.
-	 * 
+	 *
 	 * @param aBaseFile the file to be used as the base of the path<br>
 	 *         example value: L/hw/src/MyExample.cfg
 	 * @param aFile the file name, whose RELATIVE path we wish to find, this must be relative to the base<br>

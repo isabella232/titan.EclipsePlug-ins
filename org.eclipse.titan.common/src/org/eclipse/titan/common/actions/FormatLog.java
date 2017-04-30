@@ -137,7 +137,7 @@ public final class FormatLog extends AbstractHandler implements IWorkbenchWindow
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		/** This is needed because AbstractHandler does not deal with selection, and
 		 * selectionChanged is not called.
-		*/
+		 */
 		final IWorkbenchPage iwPage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 		final ISelection selection = iwPage.getSelection();
 

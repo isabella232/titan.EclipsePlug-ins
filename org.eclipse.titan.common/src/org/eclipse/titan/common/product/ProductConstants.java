@@ -15,9 +15,9 @@ public final class ProductConstants {
 	public static final String PRODUCT_ID_EXECUTOR = TITAN_PREFIX + ".executor";
 	public static final String PRODUCT_ID_LOGVIEWER = TITAN_PREFIX + ".log.viewer";
 	public static final String PRODUCT_ID_TITANIUM = "org.eclipse.titanium";
-	
+
 	/**
-	 * Global configuration flag for usage statistics sending, true if usage statistics is sent 
+	 * Global configuration flag for usage statistics sending, true if usage statistics is sent
 	 */
 	public static final boolean USAGE_STAT_SENDING = false;
 
@@ -27,7 +27,7 @@ public final class ProductConstants {
 	 *   false: TITAN works without TITAN license file
 	 */
 	public static final boolean LICENSE_NEEDED = false;
-	
+
 	private ProductConstants() {
 		// Do nothing
 	}

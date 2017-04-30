@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Simple class which stores the interval related data extracted from source files by the proper lexer/parser. Can be used to quickly find the
  * smallest enclosing interval of an offset.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class Interval {

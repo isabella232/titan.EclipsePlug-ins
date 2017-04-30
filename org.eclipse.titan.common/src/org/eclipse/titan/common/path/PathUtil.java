@@ -22,7 +22,7 @@ import org.eclipse.titan.common.utils.Joiner;
 /**
  * This is a small utility to create a relative pathname from a path and a base
  * location, to what the result should be relative to.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class PathUtil {
@@ -33,7 +33,7 @@ public final class PathUtil {
 
 	/**
 	 * Retrieves the path of a file as a list of Strings.
-	 * 
+	 *
 	 * @param file
 	 *                the file whose path we want to know.
 	 * @return the path converted to a list of Strings, holding the elements
@@ -73,9 +73,9 @@ public final class PathUtil {
 	 * <li>what is left from the target path, is added to the relative path,
 	 * because we must enter exactly those directories.
 	 * </ul>
-	 * 
+	 *
 	 * @see #getAbsolutePath(String, String)
-	 * 
+	 *
 	 * @param baseList
 	 *                the base path as a list of Strings.
 	 * @param relativeList
@@ -106,9 +106,9 @@ public final class PathUtil {
 
 	/**
 	 * Tries to create a absolute path.
-	 * 
+	 *
 	 * @see #calculateAbsolutePath(List, List)
-	 * 
+	 *
 	 * @param base
 	 *                the base file to which the path is relative to.
 	 * @param relative
@@ -153,9 +153,9 @@ public final class PathUtil {
 	 * <li>what is left from the target path, is added to the relative path,
 	 * because we must enter exactly those directories.
 	 * </ul>
-	 * 
+	 *
 	 * @see #getPathList(File)
-	 * 
+	 *
 	 * @param baseList
 	 *                the base path as a list of Strings.
 	 * @param whatList
@@ -192,9 +192,9 @@ public final class PathUtil {
 
 	/**
 	 * Tries to create a relative path.
-	 * 
+	 *
 	 * @see #calculateRelativePath(List, List)
-	 * 
+	 *
 	 * @param base
 	 *                the base file to which the result should be relative
 	 *                to.
@@ -212,9 +212,9 @@ public final class PathUtil {
 
 	/**
 	 * Tries to create a relative path.
-	 * 
+	 *
 	 * @see #calculateRelativePath(List, List)
-	 * 
+	 *
 	 * @param base
 	 *                the base path to which the result should be relative
 	 *                to.

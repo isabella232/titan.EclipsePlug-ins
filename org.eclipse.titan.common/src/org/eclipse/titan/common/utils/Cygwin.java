@@ -48,9 +48,9 @@ public final class Cygwin {
 			final Pattern errorPattern = Pattern.compile("ERROR.*");
 			final Matcher errorMatcher = errorPattern.matcher(regQueryOutput);
 			if (errorMatcher.matches()) {
-				return installed.booleanValue(); 
+				return installed.booleanValue();
 			}
-			installed = Boolean.TRUE;	
+			installed = Boolean.TRUE;
 		} catch (Exception e) {
 			ErrorReporter.logExceptionStackTrace("While checking if cygwin is installed",e);
 		}
@@ -58,19 +58,19 @@ public final class Cygwin {
 		return installed.booleanValue();
 	}
 	/**
-	 * Checks if there is a Win32 OS without installed cygwin. 
+	 * Checks if there is a Win32 OS without installed cygwin.
 	 * @return true if the OS is Win32 and there is no installed cygwin, otherwise returns false
 	 */
 	public static boolean isMissingInOSWin32() {
 		return Platform.OS_WIN32.equals(Platform.getOS()) && !Cygwin.isInstalled();
 	}
-	
+
 	/**
 	 * @return Returns the standard output if no exceptions and return code was 0, otherwise returns null
 	 */
 	private static String executeProgram(final String command) {
 		Process proc;
-		
+
 		try {
 			proc = Runtime.getRuntime().exec(command);
 		} catch (Exception e) {
@@ -83,7 +83,7 @@ public final class Cygwin {
 			final StringBuilder stringBuilder = new StringBuilder();
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				stringBuilder.append(line);  
+				stringBuilder.append(line);
 			}
 			if (proc.waitFor() != 0) {
 				return null;

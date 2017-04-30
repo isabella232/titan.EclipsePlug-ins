@@ -24,7 +24,7 @@ public final class SelectionUtils {
 
 	/**
 	 * Collects the accessible files from the given selection.
-	 * 
+	 *
 	 * @param selection
 	 *            the selection to process.
 	 * @return The selected files or an empty list if the selection is not a {@link IStructuredSelection} or there is no selected file.
@@ -44,45 +44,45 @@ public final class SelectionUtils {
 
 	/**
 	 * Collects the resources from the given selection.
-	 * 
+	 *
 	 * @param selection
 	 *            the selection to process.
 	 * @return The selected resources or an empty list if the selection is not a {@link IStructuredSelection} or there is no selected resource.
 	 */
 	public static List<IResource> getResourcesFromSelection(final ISelection selection) {
 		final List<IResource> result = new ArrayList<IResource>();
-	
+
 		for (final Object o : SelectionUtils.getObjectsFromSelection(selection)) {
 			if (o instanceof IResource) {
 				result.add((IResource) o);
 			}
 		}
-	
+
 		return result;
 	}
 
 	/**
 	 * Collects the projects from the given selection.
-	 * 
+	 *
 	 * @param selection
 	 *            the selection to process.
 	 * @return The selected projects or an empty list if the selection is not a {@link IStructuredSelection} or there is no selected project
 	 */
 	public static List<IProject> getProjectsFromSelection(final ISelection selection) {
 		final List<IProject> result = new ArrayList<IProject>();
-	
+
 		for (final Object o : SelectionUtils.getObjectsFromSelection(selection)) {
 			if (o instanceof IProject) {
 				result.add((IProject) o);
 			}
 		}
-	
+
 		return result;
 	}
 
 	/**
 	 * Converts the given selection to a list of objects.
-	 * 
+	 *
 	 * @param selection
 	 *            the selection
 	 * @return The selected objects or an empty list if the selection is not a {@link IStructuredSelection}

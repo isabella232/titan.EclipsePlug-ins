@@ -34,12 +34,12 @@ public class TokenNameResolver {
 	 * token name resolver for case 1
 	 */
 	private ILexerLogUtil mLexerLogUtil = null;
-	
+
 	/**
 	 * token name resolver for case 2
 	 */
 	private Lexer mLexer = null;
-	
+
 	/**
 	 * Default constructor, in this case no resolving is made, token index is displayed
 	 */
@@ -53,7 +53,7 @@ public class TokenNameResolver {
 	public TokenNameResolver( ILexerLogUtil aLexerLogUtil ) {
 		mLexerLogUtil = aLexerLogUtil;
 	}
-	
+
 	/**
 	 * Constructor for case 2
 	 * @param aLexerLogUtil token name resolver for case 2

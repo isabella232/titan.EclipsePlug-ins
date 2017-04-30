@@ -27,17 +27,17 @@ public final class CfgInterval extends Interval {
 		ORDERED_INCLUDE,
 		DEFINE,
 		PROFILER,
-		 // Error indicator.
+		// Error indicator.
 		UNKNOWN
 	}
 
 	private final section_type sectionType;
-	
+
 	public CfgInterval(final Interval parent, final interval_type type, final section_type sectionType) {
 		super(parent, type);
 		this.sectionType = sectionType;
 	}
-	
+
 	/**
 	 * Returns the section type for the interval.
 	 */

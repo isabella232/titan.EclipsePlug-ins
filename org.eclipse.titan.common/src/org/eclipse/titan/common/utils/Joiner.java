@@ -13,7 +13,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 
 /**
  * This class is able to join strings, with the specified delimiter
- * 
+ *
  * (Something like com.google.common.base.Joiner, but with limited functionality)
  *
  */

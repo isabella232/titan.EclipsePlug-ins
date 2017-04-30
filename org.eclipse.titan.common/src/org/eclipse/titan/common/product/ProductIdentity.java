@@ -14,7 +14,7 @@ import org.eclipse.titan.common.utils.ObjectUtils;
  * */
 public final class ProductIdentity implements Comparable<ProductIdentity> {
 	public static final String TITAN_PRODUCT_NUMBER = "CRL 113 200";
-	
+
 	private String productNumber = null;
 	private int productNumberSuffix = 1;
 	private int revisionDigit;
@@ -32,7 +32,7 @@ public final class ProductIdentity implements Comparable<ProductIdentity> {
 		this.verificationStep = verificationStep;
 		this.magicString = false;
 	}
-	
+
 	public ProductIdentity() {
 		this.magicString = true;
 	}
@@ -147,7 +147,7 @@ public final class ProductIdentity implements Comparable<ProductIdentity> {
 			}
 			builder.append(' ');
 		}
-		
+
 		builder.append('R').append(revisionDigit).append((char) (revisionLetter + 'A'));
 		if (verificationStep != 0) {
 			if (verificationStep < 10) {

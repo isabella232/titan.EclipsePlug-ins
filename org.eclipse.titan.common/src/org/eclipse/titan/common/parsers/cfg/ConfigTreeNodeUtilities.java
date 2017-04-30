@@ -26,21 +26,21 @@ import org.eclipse.titan.common.parsers.AddedParseTree;
  * @author Arpad Lovassy
  */
 public final class ConfigTreeNodeUtilities {
-	
+
 	private ConfigTreeNodeUtilities() {
 		// Disable constructor
 	}
 
 	/**
 	 * Returns the string value of the given AST subtree.
-	 * 
+	 *
 	 * @param aRoot the root of subtree
 	 * @return the String value of the AST
 	 */
 	public static String toString( final ParseTree aRoot ) {
 		return aRoot.getText();
 	}
-	
+
 	/**
 	 * Adds a child to a parse tree as last child
 	 * @param aParent parent node to add the child to
@@ -49,7 +49,7 @@ public final class ConfigTreeNodeUtilities {
 	public static void addChild( final ParseTree aParent, final ParseTree aChild ) {
 		addChild( aParent, aChild, -1 );
 	}
-	
+
 	/**
 	 * Adds a child to a parse tree
 	 * @param aParent parent node to add the child to
@@ -84,7 +84,7 @@ public final class ConfigTreeNodeUtilities {
 			ErrorReporter.INTERNAL_ERROR("ConfigTreeNodeUtilities.addChild(): only ParserRuleContext can have children");
 		}
 	}
-	
+
 	/**
 	 * Sets the parent of a child node
 	 * @param aChild child node to modify
@@ -102,7 +102,7 @@ public final class ConfigTreeNodeUtilities {
 		if ( aChild instanceof ParserRuleContext ) {
 			final ParserRuleContext rule = (ParserRuleContext)aChild;
 			rule.parent = aParent;
-			
+
 		} else if ( aChild instanceof TerminalNodeImpl ) {
 			final TerminalNodeImpl tn = (TerminalNodeImpl)aChild;
 			tn.parent = aParent;
@@ -113,7 +113,7 @@ public final class ConfigTreeNodeUtilities {
 			ErrorReporter.INTERNAL_ERROR("ConfigTreeNodeUtilities.setParent(): unhandled ParseTree class type");
 		}
 	}
-	
+
 	/**
 	 * Removes child from parent's list.
 	 * Parent is get from child data.
@@ -136,7 +136,7 @@ public final class ConfigTreeNodeUtilities {
 	public static void removeChild( final ParseTree aParent, final ParseTree aChild ) {
 		removeChild( aParent, aChild, true );
 	}
-	
+
 	/**
 	 * Removes child from parent's list
 	 * @param aParent parent node to remove the child from
@@ -200,9 +200,9 @@ public final class ConfigTreeNodeUtilities {
 	 *                    aStartIndex > 0 if rule contains some other parse tree nodes than normal list items
 	 */
 	public static void removeChildWithSeparator( final ParseTree aParent,
-												 final ParseTree aChild,
-												 final String aSeparator,
-												 final int aStartIndex ) {
+			final ParseTree aChild,
+			final String aSeparator,
+			final int aStartIndex ) {
 		if ( aParent == null ) {
 			ErrorReporter.INTERNAL_ERROR("ConfigTreeNodeUtilities.removeChildWithSeparator( ParseTree, ParseTree ): aParent == null");
 			return;
@@ -241,7 +241,7 @@ public final class ConfigTreeNodeUtilities {
 			ErrorReporter.INTERNAL_ERROR("ConfigTreeNodeUtilities.removeChild( ParseTree, ParseTree ): only ParserRuleContext can have children");
 		}
 	}
-	
+
 	/**
 	 * Changes the text of a parse tree
 	 * @param aParseTree parse tree to modify

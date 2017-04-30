@@ -12,13 +12,13 @@ import java.util.Map;
 /**
  * This class is able to create the string representation of a list of key-value pairs.
  * e.g. It can be used to convert a {@link Map} to {@link String}.
- * 
+ *
  */
 public class MapJoiner {
 
 	private final Joiner simpleJoiner;
 	private final String keyValueDelimiter;
-	
+
 	public MapJoiner(final String entryDelimiter, final String keyValueDelimiter) {
 		simpleJoiner = new Joiner(entryDelimiter);
 		this.keyValueDelimiter = keyValueDelimiter;
@@ -26,7 +26,7 @@ public class MapJoiner {
 
 	/**
 	 * Adds the given key and value pairs to the joiner.
-	 * 
+	 *
 	 * @param key
 	 *            The key. Can be <code>null</code>.
 	 * @param value
@@ -40,7 +40,7 @@ public class MapJoiner {
 
 	/**
 	 * Adds the elements of the map to the joiner one by one.
-	 * 
+	 *
 	 * @param mapToJoin
 	 *            the map to add.
 	 * @return a reference to this object

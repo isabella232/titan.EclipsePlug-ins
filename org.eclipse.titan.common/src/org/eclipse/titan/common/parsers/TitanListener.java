@@ -19,18 +19,18 @@ import org.antlr.v4.runtime.misc.Nullable;
 
 public class TitanListener extends BaseErrorListener {
 	protected List<SyntacticErrorStorage> errorsStored = null;
-	
+
 	public TitanListener() {
 		this.errorsStored = new ArrayList<SyntacticErrorStorage>();
 	}
 	public TitanListener(final List<SyntacticErrorStorage> storage) {
 		this.errorsStored = storage;
 	}
-	
+
 	public void reset() {
 		errorsStored.clear();
 	}
-	
+
 	@Override
 	public void syntaxError(@NotNull final Recognizer<?, ?> recognizer, @Nullable final Object offendingSymbol, final int line, final int charPositionInLine,
 			@NotNull final String msg, @Nullable final RecognitionException e) {
@@ -47,7 +47,7 @@ public class TitanListener extends BaseErrorListener {
 	public List<SyntacticErrorStorage> getErrorsStored() {
 		return errorsStored;
 	}
-	
+
 	public boolean addAll(final List<SyntacticErrorStorage> errorStore) {
 		return errorsStored.addAll(errorStore);
 	}

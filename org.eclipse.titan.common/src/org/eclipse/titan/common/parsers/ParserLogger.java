@@ -38,7 +38,7 @@ public final class ParserLogger {
 	private ParserLogger() {
 		// intentionally private to disable instantiation
 	}
-	
+
 	private static void setPrinter( final IPrinter aPrinter ) {
 		sPrinter = aPrinter;
 	}
@@ -57,10 +57,10 @@ public final class ParserLogger {
 	 * @param aDescription description of the parsing type, for the logging (for example: TTCN-3, Cfg, ASN.1)
 	 */
 	public static void log( final ParseTree aRoot,
-							final Parser aParser,
-							final TokenNameResolver aTokenNameResolver,
-							final IPrinter aPrinter,
-							final String aDescription ) {
+			final Parser aParser,
+			final TokenNameResolver aTokenNameResolver,
+			final IPrinter aPrinter,
+			final String aDescription ) {
 		if ( !aParser.getBuildParseTree() ) {
 			// Parse tree logging is not requested
 			return;
@@ -75,7 +75,7 @@ public final class ParserLogger {
 			aPrinter.println("ERROR: tokenStream is not CommonTokenStream");
 			return;
 		}
-		final CommonTokenStream commonTokenStream = (CommonTokenStream)tokenStream; 
+		final CommonTokenStream commonTokenStream = (CommonTokenStream)tokenStream;
 		final List<Token> tokens = commonTokenStream.getTokens();
 		log( aRoot, aParser, tokens, aTokenNameResolver );
 	}
@@ -84,13 +84,13 @@ public final class ParserLogger {
 	 * Logs a parse tree
 	 * @param aRoot parse tree
 	 * @param aParser parser to get rule names
-	 * @param aTokens token list to get tokens by index (for getting tokens of a rule) 
+	 * @param aTokens token list to get tokens by index (for getting tokens of a rule)
 	 * @param aLexerLogUtil resolver to get token name by method 1, see TokenNameResolver
 	 */
 	public static void log( final ParseTree aRoot,
-							final Parser aParser,
-							final List<Token> aTokens,
-							final ILexerLogUtil aLexerLogUtil ) {
+			final Parser aParser,
+			final List<Token> aTokens,
+			final ILexerLogUtil aLexerLogUtil ) {
 		log( aRoot, aParser, aTokens, new TokenNameResolver( aLexerLogUtil ) );
 	}
 
@@ -98,13 +98,13 @@ public final class ParserLogger {
 	 * Logs a parse tree
 	 * @param aRoot parse tree
 	 * @param aParser parser to get rule names
-	 * @param aTokens token list to get tokens by index (for getting tokens of a rule) 
+	 * @param aTokens token list to get tokens by index (for getting tokens of a rule)
 	 * @param aLexer resolver to get token name by method 2, see TokenNameResolver
 	 */
 	public static void log( final ParseTree aRoot,
-							final Parser aParser,
-							final List<Token> aTokens,
-							final Lexer aLexer ) {
+			final Parser aParser,
+			final List<Token> aTokens,
+			final Lexer aLexer ) {
 		log( aRoot, aParser, aTokens, new TokenNameResolver( aLexer ) );
 	}
 
@@ -112,11 +112,11 @@ public final class ParserLogger {
 	 * Logs a parse tree, token name is not resolved, only token type index is displayed
 	 * @param aRoot parse tree
 	 * @param aParser parser to get rule names
-	 * @param aTokens token list to get tokens by index (for getting tokens of a rule) 
+	 * @param aTokens token list to get tokens by index (for getting tokens of a rule)
 	 */
 	public static void log( final ParseTree aRoot,
-							final Parser aParser,
-							final List<Token> aTokens ) {
+			final Parser aParser,
+			final List<Token> aTokens ) {
 		log( aRoot, aParser, aTokens, new TokenNameResolver() );
 	}
 
@@ -124,13 +124,13 @@ public final class ParserLogger {
 	 * Logs a parse tree
 	 * @param aRoot parse tree
 	 * @param aParser parser to get rule names
-	 * @param aTokens token list to get tokens by index (for getting tokens of a rule) 
+	 * @param aTokens token list to get tokens by index (for getting tokens of a rule)
 	 * @param aTokenNameResolver resolver to get token name
 	 */
 	private static void log( final ParseTree aRoot,
-							 final Parser aParser,
-							 final List<Token> aTokens,
-							 final TokenNameResolver aTokenNameResolver ) {
+			final Parser aParser,
+			final List<Token> aTokens,
+			final TokenNameResolver aTokenNameResolver ) {
 		try {
 			log( aRoot, aParser, aTokens, aTokenNameResolver, new ArrayList<Boolean>(), false, false );
 		} catch( Exception e ) {
@@ -147,21 +147,21 @@ public final class ParserLogger {
 	 * RECURSIVE
 	 * @param aRoot parse tree
 	 * @param aParser parser to get rule name
-	 * @param aTokens token list to get tokens by index (for getting tokens of a rule) 
+	 * @param aTokens token list to get tokens by index (for getting tokens of a rule)
 	 * @param aTokenNameResolver resolver to get token name
 	 * @param aLevel a list, that tells, if tree section is drawn for that level (parent).
 	 *               If the parent of the given level is already the last child, tree sections are not drawn below.
-	 *               NOTE: indentation level is aLevel.size() 
+	 *               NOTE: indentation level is aLevel.size()
 	 * @param aParentOneChild parent has 1 child
 	 * @param aLastChild this node is the last child of its parent
 	 */
 	private static void log( final ParseTree aRoot,
-							 final Parser aParser,
-							 final List<Token> aTokens,
-							 final TokenNameResolver aTokenNameResolver,
-							 final List<Boolean> aLevel,
-							 final boolean aParentOneChild,
-							 final boolean aLastChild ) {
+			final Parser aParser,
+			final List<Token> aTokens,
+			final TokenNameResolver aTokenNameResolver,
+			final List<Boolean> aLevel,
+			final boolean aParentOneChild,
+			final boolean aLastChild ) {
 		if ( aRoot == null ) {
 			println( "ERROR: ParseTree root is null" );
 			return;
@@ -173,7 +173,7 @@ public final class ParserLogger {
 
 		if ( aRoot instanceof ParserRuleContext ) {
 			final ParserRuleContext rule = (ParserRuleContext)aRoot;
-			final String ruleInfo = getRuleInfo( rule, aParser, aTokenNameResolver ); 
+			final String ruleInfo = getRuleInfo( rule, aParser, aTokenNameResolver );
 			if ( aParentOneChild ) {
 				printArrow( ruleInfo );
 			} else {
@@ -258,7 +258,7 @@ public final class ParserLogger {
 	 * Rule info in string format for logging purpose
 	 * @param aRule rule
 	 * @param aParser parser to get rule name
-	 * @param aTokenNameResolver resolver to get token name (used only if rule is erroneous) 
+	 * @param aTokenNameResolver resolver to get token name (used only if rule is erroneous)
 	 * @return rule name and exception and some other info if rule is erroneous
 	 */
 	private static String getRuleInfo( final ParserRuleContext aRule, final Parser aParser, final TokenNameResolver aTokenNameResolver ) {
@@ -275,7 +275,7 @@ public final class ParserLogger {
 	 * @return escaped rule text
 	 */
 	private static String getEscapedRuleText( final ParserRuleContext aRule,
-											  final List<Token> aTokens ) {
+			final List<Token> aTokens ) {
 		final Token startToken = aRule.start;
 		if ( startToken == null ) {
 			println( "ERROR: ParseLogger.getEscapedRuleText() startToken == null" );
@@ -307,7 +307,7 @@ public final class ParserLogger {
 	 * @return rule text including hidden tokens. First and last tokens are non-hidden.
 	 */
 	public static String getRuleText( final ParserRuleContext aRule,
-									  final List<Token> aTokens ) {
+			final List<Token> aTokens ) {
 		final Token startToken = aRule.start;
 		if ( startToken == null ) {
 			println( "ERROR: ParseLogger.getEscapedRuleText() startToken == null" );
@@ -344,11 +344,11 @@ public final class ParserLogger {
 		final String tokenName = getTokenName( tokenType, aTokenNameResolver );
 		sb.append( tokenName );
 		sb.append( ": " );
-		
+
 		sb.append( "'" );
 		sb.append( getEscapedTokenText( aToken ) );
 		sb.append( "'" );
-		
+
 		sb.append( ", @" + aToken.getTokenIndex() );
 		sb.append( ", " + aToken.getLine() + ":" + aToken.getCharPositionInLine() );
 		if ( aToken.getChannel() > 0 ) {
@@ -394,11 +394,11 @@ public final class ParserLogger {
 		/*
 		TODO: use Vocabulary interface when ANTLR 4.5 is used
 		See https://github.com/antlr/antlr4/pull/712
-		
+
 		Vocabulary vocabulary = recognizer.getVocabulary();
 		final String symbolicName = vocabulary.getSymbolicName( aTokenType );
 		return symbolicName;
-		*/
+		 */
 		if ( aTokenNameResolver == null ) {
 			aTokenNameResolver = new TokenNameResolver();
 		}
@@ -475,7 +475,7 @@ public final class ParserLogger {
 	 * @param aMsg message
 	 * @param aLevel a list, that tells, if tree section is drawn for that level (parent).
 	 *               If the parent of the given level is already the last child, tree sections are not drawn below.
-	 *               NOTE: indentation level is aLevel.size() 
+	 *               NOTE: indentation level is aLevel.size()
 	 */
 	private static void printIndent( final String aMsg, final List<Boolean> aLevel ) {
 		final StringBuilder sb = new StringBuilder();
@@ -545,7 +545,7 @@ public final class ParserLogger {
 	private static void printStackTraceElement( final StringBuilder aSb, final StackTraceElement aSte ) {
 		final String className = aSte.getClassName();
 		final String shortClassName = className.substring( className.lastIndexOf('.') + 1 );
-		aSb.append( shortClassName ); 
+		aSb.append( shortClassName );
 		aSb.append( "." );
 		aSb.append( aSte.getMethodName() );
 		aSb.append( ":" );

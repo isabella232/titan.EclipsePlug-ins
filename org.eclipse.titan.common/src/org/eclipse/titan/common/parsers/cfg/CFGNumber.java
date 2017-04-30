@@ -18,7 +18,7 @@ public final class CFGNumber {
 	private boolean isFloatNumber;
 	private double floatNumber;
 	private BigInteger intNumber;
-	
+
 	/**
 	 * Constructor
 	 * @param text the string representation of the number. The constructor will decide if it will be stored as float or integer
@@ -141,7 +141,7 @@ public final class CFGNumber {
 			}
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		if (isFloatNumber) {
@@ -151,10 +151,10 @@ public final class CFGNumber {
 			}
 			return Double.toString(floatNumber);
 		}
-		
+
 		return intNumber.toString();
 	}
-	
+
 	/**
 	 * @return float value of the number
 	 */
@@ -165,7 +165,7 @@ public final class CFGNumber {
 			return intNumber.doubleValue();
 		}
 	}
-	
+
 	/**
 	 * @return integer value, or null if number is float
 	 */

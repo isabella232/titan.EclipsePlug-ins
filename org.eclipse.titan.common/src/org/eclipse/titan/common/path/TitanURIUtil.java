@@ -21,12 +21,12 @@ public final class TitanURIUtil {
 
 	/**
 	 * Checks whether the source URI is a prefix of the other URI.
-	 * 
+	 *
 	 * @param source
 	 *                the source URI to check
 	 * @param other
 	 *                the URI to check the source against
-	 * 
+	 *
 	 * @return true if the source is a prefix of the other URI, false
 	 *         otherwise
 	 * */

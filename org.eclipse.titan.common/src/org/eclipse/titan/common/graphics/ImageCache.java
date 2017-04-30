@@ -13,7 +13,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 
 /**
  * Generic class to cache images inside the Common plug-in.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ImageCache {

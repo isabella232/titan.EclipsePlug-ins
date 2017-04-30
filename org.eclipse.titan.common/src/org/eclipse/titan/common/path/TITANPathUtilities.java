@@ -21,7 +21,7 @@ import org.eclipse.ui.console.MessageConsole;
 
 /**
  * Utility class to resolve eclipse paths.
- * 
+ *
  * @author Kristof Szabados
  * @author Jeno Balasko
  */
@@ -40,7 +40,7 @@ public final class TITANPathUtilities {
 	 * form "[VAR]" will be replaced with "${VAR}. This way the return value of
 	 * this function always can be used to build a Makefile content. This last
 	 * feature is the extra related to resolvePathURI
-	 * 
+	 *
 	 * @param pathToBeResolved
 	 * @param basePath
 	 * @return the resolved string
@@ -60,13 +60,13 @@ public final class TITANPathUtilities {
 	/**
 	 * Resolves the provided uri relative to the provided base uri. Environment
 	 * variables and path variables will be resolved
-	 * 
+	 *
 	 * @param pathToBeResolved
 	 *            the path to be resolved.
 	 * @param basePath
 	 *            the full path to which the resolvable one might be relative
 	 *            to.
-	 * 
+	 *
 	 * @return the resolved uri.
 	 */
 	// TODO: call resolvePathURI, it is the same functionality!!!
@@ -104,13 +104,13 @@ public final class TITANPathUtilities {
 
 	/**
 	 * Resolves the provided path relative to the provided base path.
-	 * 
+	 *
 	 * @param pathToBeResolved
 	 *            the path to be resolved.
 	 * @param basePath
 	 *            the full path to which the resolvable one might be relative
 	 *            to.
-	 * 
+	 *
 	 * @return the resolved path.
 	 */
 	public static URI resolvePathURI(final String pathToBeResolved, final String basePath) {
@@ -131,13 +131,13 @@ public final class TITANPathUtilities {
 	 * Resolves the provided path relative to the provided base path. If the
 	 * pathToBeConverted is absolute or the basePath is null or empty string,
 	 * the basePath is not used
-	 * 
+	 *
 	 * @param pathToBeResolved
 	 *            the path to be resolved.
 	 * @param basePath
 	 *            the full path to which the resolvable one might be relative
 	 *            to.
-	 * 
+	 *
 	 * @return the resolved path.
 	 */
 	private static URI resolvePathURI(final String pathToBeResolved, final String basePath,
@@ -147,7 +147,7 @@ public final class TITANPathUtilities {
 		try {
 			final String tmp1 = EnvironmentVariableResolver.eclipseStyle().resolve(pathToBeResolved, envVariables);
 			tmp2 = EnvironmentVariableResolver.unixStyle().resolve(tmp1, envVariables); // In case of error,
-																						// it throws exception
+			// it throws exception
 		} catch (VariableNotFoundException e) {
 			ErrorReporter.logWarning("There was an error while resolving `" + pathToBeResolved + "'"); // this is a normal behavior
 			return null;

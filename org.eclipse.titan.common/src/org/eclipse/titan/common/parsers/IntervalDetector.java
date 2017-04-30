@@ -142,7 +142,7 @@ public class IntervalDetector {
 	 * @return the index of the first non-hidden token to the left
 	 */
 	private final int getNonHiddenTokensBefore( final int aIndex,
-												final List<Token> aTokens ) {
+			final List<Token> aTokens ) {
 		// 1st non hidden token to the left
 		int nonHiddenIndex = aIndex;
 		while ( CfgParseTreePrinter.isHiddenToken( nonHiddenIndex, aTokens ) ) {
@@ -150,7 +150,7 @@ public class IntervalDetector {
 		}
 		return nonHiddenIndex;
 	}
-	
+
 	/**
 	 * @return the root interval of this interval hierarchy tree.
 	 * */

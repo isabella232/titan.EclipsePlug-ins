@@ -21,14 +21,14 @@ public final class ModuleParameterSectionHandler {
 	public static class ModuleParameter {
 		private ParseTree root = null;
 		private ParseTree moduleName = null;
-		
+
 		/**
 		 * Separator between module and parameter names,
 		 * it is "." if module name is NOT empty,
 		 * "" if module name is empty
 		 */
 		private ParseTree mSeparator = null;
-		
+
 		private ParseTree parameterName = null;
 		private ParseTree value = null;
 

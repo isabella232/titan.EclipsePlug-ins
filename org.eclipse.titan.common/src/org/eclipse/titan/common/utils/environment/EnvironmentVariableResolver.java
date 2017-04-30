@@ -74,7 +74,7 @@ public class EnvironmentVariableResolver {
 	 * @return
 	 */
 	public String replaceEnvVarsWithUnixEnvVars(final String original) {
-		
+
 		final Matcher matcher = pattern.matcher(original);
 		final StringBuffer builder = new StringBuffer(original.length());
 		boolean result2 = matcher.find();

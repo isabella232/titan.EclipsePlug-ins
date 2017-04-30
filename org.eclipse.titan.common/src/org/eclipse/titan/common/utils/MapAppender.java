@@ -23,7 +23,7 @@ public class MapAppender {
 
 	/**
 	 * Create a new map appender object.
-	 * 
+	 *
 	 * @param appendable the internal appedable to append the elements to.
 	 * @param entryDelimiter the delimter text to be used to separate entries.
 	 * @param keyValueDelimiter the delimeter text to be used to separate the key and value parts an entry.
@@ -35,10 +35,10 @@ public class MapAppender {
 
 	/**
 	 * Append a key - value pair to the internally stored appendable.
-	 * 
+	 *
 	 * @param key the key to append.
 	 * @param value the value to append.
-	 * 
+	 *
 	 * @return the appender to be able to call this function in sequence.
 	 * */
 	public <K, V> MapAppender append(final K key, final V value) throws IOException {
@@ -48,9 +48,9 @@ public class MapAppender {
 
 	/**
 	 * Append a list of items to the internally stored appendable.
-	 * 
+	 *
 	 * @param items the items to append.
-	 * 
+	 *
 	 * @return the appender to be able to call this function in sequence.
 	 * */
 	public MapAppender append(final Object ... items) throws IOException {
@@ -62,9 +62,9 @@ public class MapAppender {
 
 	/**
 	 * Append a list of items to the internally stored appendable.
-	 * 
+	 *
 	 * @param iterable the items to append.
-	 * 
+	 *
 	 * @return the appender to be able to call this function in sequence.
 	 * */
 	public MapAppender append(final Iterable<? extends Entry<?, ?>> iterable) throws IOException {
@@ -74,12 +74,12 @@ public class MapAppender {
 
 		return this;
 	}
-	
+
 	/**
 	 * Append a map of items to the internally stored appendable.
-	 * 
+	 *
 	 * @param map the map to append.
-	 * 
+	 *
 	 * @return the appender to be able to call this function in sequence.
 	 * */
 	public MapAppender append(final Map<?,?> map) throws IOException {

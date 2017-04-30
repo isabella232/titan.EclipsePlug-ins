@@ -23,14 +23,14 @@ public class AddedParseTree implements ParseTree {
 
 	/** text of the parse tree node. It doesn't have to be 1 token, it can be any string. */
 	private String mText;
-	
+
 	/** parent rule */
 	private ParseTree mParent;
-	
+
 	public AddedParseTree( final String aText ) {
 		mText = aText;
 	}
-	
+
 	@Override
 	public Interval getSourceInterval() {
 		return null;
@@ -79,7 +79,7 @@ public class AddedParseTree implements ParseTree {
 	public void setText(String aText) {
 		mText = aText;
 	}
-	
+
 	public void setParent( final ParseTree aParent ) {
 		mParent = aParent;
 	}

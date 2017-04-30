@@ -52,7 +52,7 @@ public final class Activator extends AbstractUIPlugin {
 	/**
 	 * Sets the default singleton instance of this plug-in,
 	 * that later can be used to access plug-in specific preference settings.
-	 * 
+	 *
 	 * @param activator the single instance of this plug-in class.
 	 * */
 	private static void setDefault(final Activator activator) {

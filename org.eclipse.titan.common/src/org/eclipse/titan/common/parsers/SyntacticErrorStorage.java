@@ -15,7 +15,7 @@ import org.antlr.v4.runtime.FailedPredicateException;
 
 /**
  * @author Kristof Szabados
- * 
+ *
  */
 public class SyntacticErrorStorage {
 	public final int lineNumber;

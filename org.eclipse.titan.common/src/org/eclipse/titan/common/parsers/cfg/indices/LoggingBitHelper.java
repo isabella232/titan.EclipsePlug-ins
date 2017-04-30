@@ -15,13 +15,13 @@ import java.util.Set;
  * @author Kristof Szabados
  * */
 public final class LoggingBitHelper {
-	
+
 	private static final Map<LoggingBit, LoggingBit[]> CHILD_RELATION = new EnumMap<LoggingBit, LoggingBit[]>(LoggingBit.class);
 
 	private LoggingBitHelper() {
 		//Do nothing
 	}
-	
+
 	static {
 		CHILD_RELATION.put(LoggingBit.EXECUTOR, new LoggingBit[] { LoggingBit.EXECUTOR_COMPONENT, LoggingBit.EXECUTOR_CONFIGDATA,
 				LoggingBit.EXECUTOR_EXTCOMMAND, LoggingBit.EXECUTOR_LOGOPTIONS, LoggingBit.EXECUTOR_RUNTIME,
@@ -30,10 +30,10 @@ public final class LoggingBitHelper {
 		CHILD_RELATION.put(LoggingBit.WARNING, new LoggingBit[] { LoggingBit.WARNING_UNQUALIFIED });
 		CHILD_RELATION.put(LoggingBit.PORTEVENT,
 				new LoggingBit[] { LoggingBit.PORTEVENT_DUALRECV, LoggingBit.PORTEVENT_DUALSEND, LoggingBit.PORTEVENT_MCRECV,
-						LoggingBit.PORTEVENT_MCSEND, LoggingBit.PORTEVENT_MMRECV, LoggingBit.PORTEVENT_MMSEND,
-						LoggingBit.PORTEVENT_MQUEUE, LoggingBit.PORTEVENT_PCIN, LoggingBit.PORTEVENT_PCOUT,
-						LoggingBit.PORTEVENT_PMIN, LoggingBit.PORTEVENT_PMOUT, LoggingBit.PORTEVENT_PQUEUE,
-						LoggingBit.PORTEVENT_STATE, LoggingBit.PORTEVENT_UNQUALIFIED });
+				LoggingBit.PORTEVENT_MCSEND, LoggingBit.PORTEVENT_MMRECV, LoggingBit.PORTEVENT_MMSEND,
+				LoggingBit.PORTEVENT_MQUEUE, LoggingBit.PORTEVENT_PCIN, LoggingBit.PORTEVENT_PCOUT,
+				LoggingBit.PORTEVENT_PMIN, LoggingBit.PORTEVENT_PMOUT, LoggingBit.PORTEVENT_PQUEUE,
+				LoggingBit.PORTEVENT_STATE, LoggingBit.PORTEVENT_UNQUALIFIED });
 		CHILD_RELATION.put(LoggingBit.TIMEROP, new LoggingBit[] { LoggingBit.TIMEROP_GUARD, LoggingBit.TIMEROP_READ, LoggingBit.TIMEROP_START,
 				LoggingBit.TIMEROP_STOP, LoggingBit.TIMEROP_TIMEOUT, LoggingBit.TIMEROP_UNQUALIFIED });
 		CHILD_RELATION.put(LoggingBit.VERDICTOP, new LoggingBit[] { LoggingBit.VERDICTOP_FINAL, LoggingBit.VERDICTOP_GETVERDICT,
@@ -56,41 +56,41 @@ public final class LoggingBitHelper {
 		CHILD_RELATION.put(LoggingBit.DEBUG, new LoggingBit[] { LoggingBit.DEBUG_ENCDEC, LoggingBit.DEBUG_TESTPORT,
 				LoggingBit.DEBUG_UNQUALIFIED });
 	}
-	
+
 	public static boolean hasChildren(final LoggingBit bit){
 		return CHILD_RELATION.containsKey(bit);
 	}
-	
+
 	public static LoggingBit[] getChildren(final LoggingBit bit){
 		if(CHILD_RELATION.containsKey(bit)){
 			return CHILD_RELATION.get(bit);
 		}
-		
+
 		return new LoggingBit[]{};
 	}
-	
+
 	public static LoggingBit[] getFirstLevelNodes(){
 		final Set<LoggingBit> temp = CHILD_RELATION.keySet();
 		return temp.toArray(new LoggingBit[temp.size()]);
 	}
-	
+
 	public static LoggingBit[] getLogAllBits(){
 		return new LoggingBit[]{LoggingBit.ACTION, LoggingBit.DEFAULTOP, LoggingBit.ERROR, LoggingBit.EXECUTOR,
 				LoggingBit.FUNCTION, LoggingBit.PARALLEL, LoggingBit.PORTEVENT, LoggingBit.STATISTICS,
 				LoggingBit.TESTCASE, LoggingBit.TIMEROP, LoggingBit.USER, LoggingBit.VERDICTOP, LoggingBit.WARNING};
 	}
-	
+
 	public static LoggingBit getParent(final LoggingBit bit){
 		for(final LoggingBit parent: CHILD_RELATION.keySet()){
 			final LoggingBit[] children = CHILD_RELATION.get(parent);
-			
+
 			for(final LoggingBit temp: children){
 				if(bit.equals(temp)){
 					return parent;
 				}
 			}
 		}
-		
+
 		return null;
 	}
 }

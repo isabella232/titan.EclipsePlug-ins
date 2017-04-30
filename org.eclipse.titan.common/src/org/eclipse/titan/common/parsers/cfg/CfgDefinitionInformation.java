@@ -16,20 +16,20 @@ import java.util.List;
 public final class CfgDefinitionInformation {
 	private String value = null;
 	private List<CfgLocation> locations = null;
-	
+
 	public CfgDefinitionInformation(final String value, final List<CfgLocation> locations) {
 		this.value = value;
 		this.locations = locations;
 	}
-	
+
 	public String getValue() {
 		return value;
 	}
-	
+
 	public List<CfgLocation> getLocations() {
 		return locations;
 	}
-	
+
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();

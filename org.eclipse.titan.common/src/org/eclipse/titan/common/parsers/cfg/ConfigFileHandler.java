@@ -26,7 +26,7 @@ import org.eclipse.titan.common.path.PathConverter;
 /**
  * This class handles the parsing and resolving of configuration files,
  * and is extracting data from them required by the executors (actually the Main Controller)
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -55,74 +55,74 @@ public final class ConfigFileHandler {
 	private final Map<String , String[]> groups = new HashMap<String, String[]>();
 	private final Map<String, String> components = new HashMap<String, String>();
 	private final List<String> executeElements = new ArrayList<String>();
-	
+
 	private final List<Throwable> exceptions = new ArrayList<Throwable>();
 	private boolean processingErrorsDetected = false;
 
 	private List<Integer> disallowedNodes;
-	
+
 	private Map<String, String> environmentalVariables;
 
 	private boolean logFileNameDefined = false;
 
 	private String mLogFileName = null;
-	
+
 	public ConfigFileHandler(){
 		// Do nothing
 	}
 
-	/** 
+	/**
 	 * Returns true if the log file name was defined in the configuration file.
 	 * @return true if the log file name was defined in the configuration file.
 	 */
 	public boolean isLogFileNameDefined() {
 		return logFileNameDefined;
 	}
-	
+
 	public String getLogFileName() {
 		return mLogFileName;
 	}
-	
+
 	public int getTcpPort(){
 		return tcpPort;
 	}
-	
+
 	public String getLocalAddress(){
 		return localAddress;
-	} 
-	
+	}
+
 	public int getNumHCs(){
 		return numHCs;
 	}
-	
+
 	public boolean unixDomainSocketEnabled(){
 		return unixDomainSocket;
 	}
-	
+
 	public double getKillTimer(){
 		return killTimer;
 	}
-	
+
 	public Map<String , String[]> getGroups(){
 		return groups;
 	}
-	
+
 	public Map<String, String> getComponents(){
 		return components;
 	}
-	
+
 	public List<String> getExecuteElements(){
 		return executeElements;
 	}
-	
+
 	public void setEnvMap(final Map<String, String> envMap){
 		environmentalVariables = envMap;
 	}
-	
+
 	public boolean isErroneous() {
 		return processingErrorsDetected || !exceptions.isEmpty();
 	}
-	
+
 	public List<Throwable> parseExceptions(){
 		return exceptions;
 	}
@@ -182,7 +182,7 @@ public final class ConfigFileHandler {
 			processingErrorsDetected = true;
 		}
 	}
-	
+
 	/**
 	 * Processes the parsed tree structure of the configuration file, resolving expressions and extracting executor required data.
 	 * This parsed tree already contains all of the data that were found in the configuration file,
@@ -195,7 +195,7 @@ public final class ConfigFileHandler {
 	/**
 	 * Creates the String representation of the parsed tree of all of the parsed files.
 	 * Can be used to create a single configuration file instead of the hierarchy already existing.
-	 * 
+	 *
 	 * @see #print(ParseTree, StringBuilder)
 	 * @param disallowedNodes the list of nodes that should be left out of the process.
 	 */
@@ -203,7 +203,7 @@ public final class ConfigFileHandler {
 		final StringBuilder sb = new StringBuilder();
 		// Creates the String representation of the parsed tree starting from the provided root node.
 		CfgParseTreePrinter.printResolved( originalASTs, sb, disallowedNodes,
-										   ResolveMode.IN_ROW, definesMap, environmentalVariables );
+				ResolveMode.IN_ROW, definesMap, environmentalVariables );
 		return sb;
 	}
 
@@ -216,7 +216,7 @@ public final class ConfigFileHandler {
 			mLogFileName  = cfgParseResult.getLogFileName();
 			localAddress = cfgParseResult.getLocalAddress();
 		}
-		
+
 		if (cfgParseResult.getTcpPort() != null) {
 			tcpPort = cfgParseResult.getTcpPort();
 		}
@@ -232,7 +232,7 @@ public final class ConfigFileHandler {
 		if (cfgParseResult.isUnixDomainSocket() != null) {
 			unixDomainSocket = cfgParseResult.isUnixDomainSocket();
 		}
-		
+
 		final ParseTree rootNode = cfgParseResult.getParseTreeRoot();
 		if ( rootNode != null ) {
 			originalASTs.put( actualFile, cfgParseResult );
@@ -243,7 +243,7 @@ public final class ConfigFileHandler {
 				if ( filename != null ) {
 					final Path filePath = new Path( filename );
 					if ( !processedFiles.contains( filePath ) &&
-						 !toBeProcessedFiles.contains( filePath ) ) {
+							!toBeProcessedFiles.contains( filePath ) ) {
 						// make sure, that file is added only once
 						toBeProcessedFiles.add( filePath );
 					}

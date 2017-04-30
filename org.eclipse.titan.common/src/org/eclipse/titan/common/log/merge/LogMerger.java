@@ -163,10 +163,10 @@ public class LogMerger {
 	/**
 	 * Returns the mergeAble that occured earliest from the provided list of
 	 * mergeAbles
-	 * 
+	 *
 	 * @param mergeAbles
 	 *                the list of mergeAbles to be processed
-	 * 
+	 *
 	 * @return the mergeAble with the smallest timestamp in the list, or
 	 *         null if no mergeAbles are found to process.
 	 */
@@ -185,7 +185,7 @@ public class LogMerger {
 				}
 			}
 		}
-		
+
 		return smallestMergeable;
 	}
 }

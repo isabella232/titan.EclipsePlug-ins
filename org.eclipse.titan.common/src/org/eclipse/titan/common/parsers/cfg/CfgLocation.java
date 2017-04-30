@@ -14,7 +14,7 @@ import org.eclipse.core.resources.IFile;
  * The Location class represents a location in configuration files.  It was
  * stolen from "org.eclipse.titan.designer.AST.Location".  It stores only
  * location information.
- * 
+ *
  * @author eferkov
  * @author Arpad Lovassy
  */
@@ -35,7 +35,7 @@ public final class CfgLocation {
 	 */
 	public CfgLocation( final IFile aFile, final Token aStartToken, final Token aEndToken ) {
 		setLocation( aFile, aStartToken.getLine(), aStartToken.getStartIndex(),
-					 aEndToken.getStopIndex() + 1 );
+				aEndToken.getStopIndex() + 1 );
 	}
 
 	private final void setLocation(final IFile file, final int line, final int offset, final int endOffset) {

@@ -54,7 +54,7 @@ import org.eclipse.ui.progress.IProgressConstants;
 
 /**
  * This action is able to merge the selected log files into one, that the user will select.
- *   
+ *
  *   @author Kristof Szabados
  * */
 public final class MergeLog extends AbstractHandler implements IWorkbenchWindowActionDelegate {
@@ -210,7 +210,7 @@ public final class MergeLog extends AbstractHandler implements IWorkbenchWindowA
 	private void askUserToCreateOrOverwrite(final IPreferenceStore prefStore, final IFile originalFile) {
 		final String[] buttonLabels = new String[] {
 				"Create a new file",
-				"Overwrite" };
+		"Overwrite" };
 
 		final MessageDialogWithToggle msgDialog = new MessageDialogWithToggle(
 				null,
@@ -220,7 +220,7 @@ public final class MergeLog extends AbstractHandler implements IWorkbenchWindowA
 						+ outputFile.getName()
 						+ "' already exists. "
 						+ "Do you want to keep the original file and choose another location/name for the new one?",
-				MessageDialog.NONE, buttonLabels, SWT.DEFAULT, "Don't ask again", false);
+						MessageDialog.NONE, buttonLabels, SWT.DEFAULT, "Don't ask again", false);
 
 		msgDialog.setBlockOnOpen(true);
 
@@ -343,9 +343,9 @@ public final class MergeLog extends AbstractHandler implements IWorkbenchWindowA
 
 				if (isErroneous) {
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
-							"Merging of log files failed", 
+							"Merging of log files failed",
 							"There were some errors while merging the selected log files.\n"
-								+ "Please check the error log for more information.");
+									+ "Please check the error log for more information.");
 				}
 
 				final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();

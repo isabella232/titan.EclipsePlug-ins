@@ -17,8 +17,8 @@ import java.util.Map;
 import org.eclipse.titan.common.utils.MapJoiner;
 
 /**
-* This class can create HTTP POST requests with parameters
-*/
+ * This class can create HTTP POST requests with parameters
+ */
 public class HttpPoster {
 
 	private String host;
@@ -62,7 +62,7 @@ public class HttpPoster {
 			wr.writeBytes(urlParameters);
 			wr.flush();
 			wr.close();
-			
+
 			socket.close();
 			return;
 		} catch (final IOException e) {
@@ -70,7 +70,7 @@ public class HttpPoster {
 		} catch (final Exception e) {
 			//unable to connect, silently exit
 		}
-		
+
 		if( socket != null ) {
 			try {
 				socket.close();

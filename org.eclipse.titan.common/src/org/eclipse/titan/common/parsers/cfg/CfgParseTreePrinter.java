@@ -38,10 +38,10 @@ import org.eclipse.titan.common.path.PathConverter;
  * @author Arpad Lovassy
  */
 public class CfgParseTreePrinter {
-	
+
 	/** header for resolved included file contents in generated temp file */
 	private static final String INCLUDED_BEGIN = "//This part was originally found in file: ";
-	
+
 	/** last line of resolved included file contents in generated temp file */
 	private static final String INCLUDED_END = "//End of file: ";
 
@@ -50,7 +50,7 @@ public class CfgParseTreePrinter {
 
 	/** pattern for matching typed macro string, for example: ${a, float} */
 	private static final Pattern PATTERN_TYPED_MACRO = Pattern.compile("\\$\\s*\\{\\s*([A-Za-z][A-Za-z0-9_]*)\\s*,\\s*[A-Za-z][A-Za-z0-9_]*\\s*\\}");
-	
+
 	/**
 	 * Mode of resolving <br>
 	 * Resolving means:
@@ -61,17 +61,17 @@ public class CfgParseTreePrinter {
 	 * @author Arpad Lovassy
 	 */
 	public enum ResolveMode {
-		
+
 		/** default */
 		NO_RESOLVING,
-		
+
 		/** included file contents are copied after the main file after each other (used by [INCLUDE] section) */
 		IN_ROW,
-		
+
 		/** included file content is copied in the place if the included file name (used by [ORDERED_INCLUDE] section) */
 		NESTED
 	}
-	
+
 	/**
 	 * StringBuilder, where the text is written
 	 */
@@ -94,19 +94,19 @@ public class CfgParseTreePrinter {
 	 * it can be null, if no resolving is done
 	 */
 	final Map<String, CfgDefinitionInformation> mDefinitions;
-	
+
 	/**
 	 * environment variables.
 	 * it can be null, if no resolving is done
 	 */
 	final Map<String, String> mEnvVariables;
-	
+
 	/**
 	 * list of files to resolve, files, which are already resolved are removed from this list.
 	 * it can be null, if no resolving is done
 	 */
 	final List<Path> mFilesToResolve;
-	
+
 	/**
 	 * Constructor with all the functionalities
 	 * @param aSb (in/out) StringBuilder, where the text is written
@@ -121,11 +121,11 @@ public class CfgParseTreePrinter {
 	 *                        needed only if aResolveMode != NO_RESOLVING, otherwise it can be null
 	 */
 	public CfgParseTreePrinter( final StringBuilder aSb,
-								final List<Integer> aDisallowedNodes,
-								final Map<Path, CfgParseResult> aCfgParseResults,
-								final Map<String, CfgDefinitionInformation> aDefinitions,
-								final Map<String, String> aEnvVariables,
-								final List<Path> aFilesToResolve ) {
+			final List<Integer> aDisallowedNodes,
+			final Map<Path, CfgParseResult> aCfgParseResults,
+			final Map<String, CfgDefinitionInformation> aDefinitions,
+			final Map<String, String> aEnvVariables,
+			final List<Path> aFilesToResolve ) {
 		mSb = aSb;
 		mDisallowedNodes = aDisallowedNodes;
 		mCfgParseResults = aCfgParseResults;
@@ -133,17 +133,17 @@ public class CfgParseTreePrinter {
 		mEnvVariables = aEnvVariables;
 		mFilesToResolve = aFilesToResolve;
 	}
-	
+
 	/**
 	 * Constructor if no resolving is needed
 	 * @param aSb (in/out) StringBuilder, where the text is written
 	 * @param aDisallowedNodes token types, which are not printed (also their children), it can be null
 	 */
 	public CfgParseTreePrinter( final StringBuilder aSb,
-								final List<Integer> aDisallowedNodes ) {
+			final List<Integer> aDisallowedNodes ) {
 		this( aSb, aDisallowedNodes, null, null, null, null );
 	}
-	
+
 	/**
 	 * Constructor if no resolving is needed without disallowed nodes
 	 * @param aSb (in/out) StringBuilder, where the text is written
@@ -152,7 +152,7 @@ public class CfgParseTreePrinter {
 	public CfgParseTreePrinter( final StringBuilder aSb ) {
 		this( aSb, null );
 	}
-	
+
 	/**
 	 * Builds parse tree text including hidden tokens inside the parse tree
 	 * @param aParseTreeRoot root of the parse tree to print
@@ -162,8 +162,8 @@ public class CfgParseTreePrinter {
 	 * @return output parse tree text
 	 */
 	public static String toStringWithHidden( final ParseTree aParseTreeRoot,
-											 final List<Token> aTokens,
-											 final boolean aPrintHiddenBefore ) {
+			final List<Token> aTokens,
+			final boolean aPrintHiddenBefore ) {
 		final StringBuilder sb = new StringBuilder();
 		final CfgParseTreePrinter printer = new CfgParseTreePrinter( sb );
 		printer.print( aParseTreeRoot, aTokens, aPrintHiddenBefore, ResolveMode.NO_RESOLVING, null );
@@ -171,7 +171,7 @@ public class CfgParseTreePrinter {
 
 		return sb.toString();
 	}
-	
+
 	/**
 	 * Builds resolved parse tree text including hidden tokens (also before the rule)<br>
 	 * Resolving means:
@@ -190,43 +190,43 @@ public class CfgParseTreePrinter {
 	 * @return output parse tree text
 	 */
 	public static void printResolved( final Map<Path, CfgParseResult> aCfgParseResults,
-									  final StringBuilder aSb,
-									  final List<Integer> aDisallowedNodes,
-									  final ResolveMode aResolveMode,
-									  final Map<String, CfgDefinitionInformation> aDefinitions,
-									  final Map<String, String> aEnvVariables ) {
+			final StringBuilder aSb,
+			final List<Integer> aDisallowedNodes,
+			final ResolveMode aResolveMode,
+			final Map<String, CfgDefinitionInformation> aDefinitions,
+			final Map<String, String> aEnvVariables ) {
 		switch ( aResolveMode ) {
-			case IN_ROW:
-			{
-				// list of files to resolve, files, which are already resolved are removed from this list
-				final List<Path> filesToResolve = new ArrayList<Path>( aCfgParseResults.keySet() );
-				final CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
-							aCfgParseResults, aDefinitions, aEnvVariables, filesToResolve );
-				for ( Entry<Path, CfgParseResult> entry : aCfgParseResults.entrySet() ) {
-					printer.printResolved( entry.getKey(), entry.getValue().getParseTreeRoot(),
-							entry.getValue().getTokens(), aResolveMode );
-				}
-				break;
-			}
-			case NESTED:
-			{
-				// list of files to resolve, files, which are already resolved are removed from this list
-				final List<Path> filesToResolve = new ArrayList<Path>( aCfgParseResults.keySet() );
-				// run only the 1st, others will be nested in place
-				final Entry<Path, CfgParseResult> entry = aCfgParseResults.entrySet().iterator().next();
-				final CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
-						aCfgParseResults, aDefinitions, aEnvVariables, filesToResolve );
+		case IN_ROW:
+		{
+			// list of files to resolve, files, which are already resolved are removed from this list
+			final List<Path> filesToResolve = new ArrayList<Path>( aCfgParseResults.keySet() );
+			final CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
+					aCfgParseResults, aDefinitions, aEnvVariables, filesToResolve );
+			for ( Entry<Path, CfgParseResult> entry : aCfgParseResults.entrySet() ) {
 				printer.printResolved( entry.getKey(), entry.getValue().getParseTreeRoot(),
 						entry.getValue().getTokens(), aResolveMode );
-				break;
 			}
-			case NO_RESOLVING:
-			default:
-				// nothing to do
-				break;
+			break;
+		}
+		case NESTED:
+		{
+			// list of files to resolve, files, which are already resolved are removed from this list
+			final List<Path> filesToResolve = new ArrayList<Path>( aCfgParseResults.keySet() );
+			// run only the 1st, others will be nested in place
+			final Entry<Path, CfgParseResult> entry = aCfgParseResults.entrySet().iterator().next();
+			final CfgParseTreePrinter printer = new CfgParseTreePrinter( aSb, aDisallowedNodes,
+					aCfgParseResults, aDefinitions, aEnvVariables, filesToResolve );
+			printer.printResolved( entry.getKey(), entry.getValue().getParseTreeRoot(),
+					entry.getValue().getTokens(), aResolveMode );
+			break;
+		}
+		case NO_RESOLVING:
+		default:
+			// nothing to do
+			break;
 		}
 	}
-	
+
 	/**
 	 * Builds resolved parse tree text including hidden tokens (but not before the rule) <br>
 	 * Resolving means:
@@ -240,9 +240,9 @@ public class CfgParseTreePrinter {
 	 * @param aResolveMode mode of resolving
 	 */
 	private void printResolved( final Path aFile,
-								final ParseTree aParseTreeRoot,
-								final List<Token> aTokens,
-								final ResolveMode aResolveMode ) {
+			final ParseTree aParseTreeRoot,
+			final List<Token> aTokens,
+			final ResolveMode aResolveMode ) {
 		if ( mFilesToResolve.contains( aFile ) ) {
 			mSb.append( INCLUDED_BEGIN ).append( aFile.toOSString()).append('\n');
 			print( aParseTreeRoot, aTokens, true, aResolveMode, aFile );
@@ -250,7 +250,7 @@ public class CfgParseTreePrinter {
 			mFilesToResolve.remove( aFile );
 		}
 	}
-	
+
 	/**
 	 * RECURSIVE
 	 * Builds parse tree text including hidden tokens
@@ -263,10 +263,10 @@ public class CfgParseTreePrinter {
 	 *                        needed only if aResolveMode != NO_RESOLVING, in case of [ORDERED_INCLUDE]
 	 */
 	private void print( final ParseTree aParseTree,
-						final List<Token> aTokens,
-						final boolean aPrintHiddenBefore,
-						final ResolveMode aResolveMode,
-						final Path aFile ) {
+			final List<Token> aTokens,
+			final boolean aPrintHiddenBefore,
+			final ResolveMode aResolveMode,
+			final Path aFile ) {
 		if ( aParseTree == null ) {
 			ErrorReporter.logWarning("ConfigTreeNodeUtilities.print(): aParseTree == null");
 			return;
@@ -304,7 +304,7 @@ public class CfgParseTreePrinter {
 			}
 		}
 	}
-	
+
 	/**
 	 * Builds token text including hidden tokens before the token
 	 * @param aToken token to print
@@ -315,10 +315,10 @@ public class CfgParseTreePrinter {
 	 *                        needed only if aResolveMode != NO_RESOLVING, in case of [ORDERED_INCLUDE]
 	 */
 	private void printToken( final Token aToken,
-							 final List<Token> aTokens,
-							 final boolean aPrintHiddenBefore,
-							 final ResolveMode aResolveMode,
-							 final Path aFile ) {
+			final List<Token> aTokens,
+			final boolean aPrintHiddenBefore,
+			final ResolveMode aResolveMode,
+			final Path aFile ) {
 		final int tokenIndex = aToken.getTokenIndex();
 		if ( tokenIndex > -1 && aPrintHiddenBefore ) {
 			// Token has no index if tokenIndex == -1.
@@ -326,7 +326,7 @@ public class CfgParseTreePrinter {
 			// because token has no index in the token list.
 			printHiddenTokensBefore( aToken, aTokens );
 		}
-		
+
 		// the only non-hidden token
 		if ( aResolveMode != ResolveMode.NO_RESOLVING ) {
 			resolveToken( aToken, aResolveMode, aFile );
@@ -342,7 +342,7 @@ public class CfgParseTreePrinter {
 	 * @param aTokens token list from the lexer (all, hidden and not hidden also)
 	 */
 	private void printHiddenTokensBefore( final Token aToken,
-										  final List<Token> aTokens ) {
+			final List<Token> aTokens ) {
 		final int tokenIndex = aToken.getTokenIndex();
 		if ( tokenIndex == -1 ) {
 			// Token has no index.
@@ -384,10 +384,10 @@ public class CfgParseTreePrinter {
 			ErrorReporter.INTERNAL_ERROR("ConfigTreeNodeUtilities.isHiddenToken(): aTokens == null");
 			return false;
 		}
-		
+
 		return aIndex >= 0 && aIndex < aTokens.size() && aTokens.get( aIndex ).getChannel() > 0;
 	}
-	
+
 	/**
 	 * Resolves token if needed<br>
 	 * Resolving means:
@@ -401,8 +401,8 @@ public class CfgParseTreePrinter {
 	 *                        needed only if aResolveMode != NO_RESOLVING, in case of [ORDERED_INCLUDE]
 	 */
 	private void resolveToken( final Token aToken,
-							   final ResolveMode aResolveMode,
-							   final Path aFile ) {
+			final ResolveMode aResolveMode,
+			final Path aFile ) {
 		final int tokenType = aToken.getType();
 		if ( isMacro( tokenType ) ) {
 			final String macroValue = getMacroValue( aToken );
@@ -426,7 +426,7 @@ public class CfgParseTreePrinter {
 			mSb.append( tokenText != null ? tokenText : "" );
 		}
 	}
-	
+
 	/**
 	 * Include file is changed to its content
 	 * @param aToken token to resolve or print
@@ -435,8 +435,8 @@ public class CfgParseTreePrinter {
 	 *                        needed only if aResolveMode != NO_RESOLVING, in case of [ORDERED_INCLUDE]
 	 */
 	private void resolveTokenNestedInclude( final Token aToken,
-											final ResolveMode aResolveMode,
-											final Path aFile ) {
+			final ResolveMode aResolveMode,
+			final Path aFile ) {
 		// token text is the file name with quotes, which will be included in place
 		final String tokenText = aToken.getText();
 		// remove quotes
@@ -453,7 +453,7 @@ public class CfgParseTreePrinter {
 			ErrorReporter.INTERNAL_ERROR("ParseTreePrinter.resolveTokenNestedInclude(): cfgParseResult == null");
 		}
 	}
-	
+
 	/**
 	 * Converts relative filename to absolute path
 	 * @param aBaseFile the file to be used as the base of the full path
@@ -474,14 +474,14 @@ public class CfgParseTreePrinter {
 	 */
 	private static boolean isMacro( final int aTokenType ) {
 		return
-			    aTokenType == CfgLexer.MACRO1
-			 || aTokenType == CfgLexer.MACRO5
-			 || aTokenType == CfgLexer.MACRO6
-			 || aTokenType == CfgLexer.MACRO7
-			 || aTokenType == CfgLexer.MACRO9
-			 || aTokenType == CfgLexer.MACRO10
-			 || aTokenType == CfgLexer.MACRO11
-			 || aTokenType == CfgLexer.MACRO12;
+				aTokenType == CfgLexer.MACRO1
+				|| aTokenType == CfgLexer.MACRO5
+				|| aTokenType == CfgLexer.MACRO6
+				|| aTokenType == CfgLexer.MACRO7
+				|| aTokenType == CfgLexer.MACRO9
+				|| aTokenType == CfgLexer.MACRO10
+				|| aTokenType == CfgLexer.MACRO11
+				|| aTokenType == CfgLexer.MACRO12;
 	}
 
 	/**
@@ -490,40 +490,40 @@ public class CfgParseTreePrinter {
 	 */
 	private static boolean isTypedMacro( final int aTokenType ) {
 		return
-			    aTokenType == CfgLexer.MACRO_HOSTNAME1
-			 || aTokenType == CfgLexer.MACRO_INT1
-			 || aTokenType == CfgLexer.MACRO_EXP_CSTR1
-			 || aTokenType == CfgLexer.MACRO_FLOAT1 
-			 || aTokenType == CfgLexer.MACRO_ID5
-			 || aTokenType == CfgLexer.MACRO_INT5
-			 || aTokenType == CfgLexer.MACRO_BOOL5
-			 || aTokenType == CfgLexer.MACRO_FLOAT5
-			 || aTokenType == CfgLexer.MACRO_EXP_CSTR5 
-			 || aTokenType == CfgLexer.MACRO_BSTR5
-			 || aTokenType == CfgLexer.MACRO_HSTR5
-			 || aTokenType == CfgLexer.MACRO_OSTR5
-			 || aTokenType == CfgLexer.MACRO_BINARY5
-			 || aTokenType == CfgLexer.MACRO_HOSTNAME5
-			 || aTokenType == CfgLexer.MACRO_EXP_CSTR6
-			 || aTokenType == CfgLexer.MACRO_INT7
-			 || aTokenType == CfgLexer.MACRO_ID7
-			 || aTokenType == CfgLexer.MACRO_EXP_CSTR7
-			 || aTokenType == CfgLexer.MACRO_ID8
-			 || aTokenType == CfgLexer.MACRO_ID9
-			 || aTokenType == CfgLexer.MACRO_INT9
-			 || aTokenType == CfgLexer.MACRO_BOOL9
-			 || aTokenType == CfgLexer.MACRO_FLOAT9
-			 || aTokenType == CfgLexer.MACRO_EXP_CSTR9
-			 || aTokenType == CfgLexer.MACRO_BSTR9
-			 || aTokenType == CfgLexer.MACRO_HSTR9
-			 || aTokenType == CfgLexer.MACRO_OSTR9
-			 || aTokenType == CfgLexer.MACRO_BINARY9
-			 || aTokenType == CfgLexer.MACRO_ID10
-			 || aTokenType == CfgLexer.MACRO_HOSTNAME10
-			 || aTokenType == CfgLexer.MACRO_BOOL11
-			 || aTokenType == CfgLexer.MACRO_ID11
-			 || aTokenType == CfgLexer.MACRO_INT11
-			 || aTokenType == CfgLexer.MACRO_EXP_CSTR11;
+				aTokenType == CfgLexer.MACRO_HOSTNAME1
+				|| aTokenType == CfgLexer.MACRO_INT1
+				|| aTokenType == CfgLexer.MACRO_EXP_CSTR1
+				|| aTokenType == CfgLexer.MACRO_FLOAT1
+				|| aTokenType == CfgLexer.MACRO_ID5
+				|| aTokenType == CfgLexer.MACRO_INT5
+				|| aTokenType == CfgLexer.MACRO_BOOL5
+				|| aTokenType == CfgLexer.MACRO_FLOAT5
+				|| aTokenType == CfgLexer.MACRO_EXP_CSTR5
+				|| aTokenType == CfgLexer.MACRO_BSTR5
+				|| aTokenType == CfgLexer.MACRO_HSTR5
+				|| aTokenType == CfgLexer.MACRO_OSTR5
+				|| aTokenType == CfgLexer.MACRO_BINARY5
+				|| aTokenType == CfgLexer.MACRO_HOSTNAME5
+				|| aTokenType == CfgLexer.MACRO_EXP_CSTR6
+				|| aTokenType == CfgLexer.MACRO_INT7
+				|| aTokenType == CfgLexer.MACRO_ID7
+				|| aTokenType == CfgLexer.MACRO_EXP_CSTR7
+				|| aTokenType == CfgLexer.MACRO_ID8
+				|| aTokenType == CfgLexer.MACRO_ID9
+				|| aTokenType == CfgLexer.MACRO_INT9
+				|| aTokenType == CfgLexer.MACRO_BOOL9
+				|| aTokenType == CfgLexer.MACRO_FLOAT9
+				|| aTokenType == CfgLexer.MACRO_EXP_CSTR9
+				|| aTokenType == CfgLexer.MACRO_BSTR9
+				|| aTokenType == CfgLexer.MACRO_HSTR9
+				|| aTokenType == CfgLexer.MACRO_OSTR9
+				|| aTokenType == CfgLexer.MACRO_BINARY9
+				|| aTokenType == CfgLexer.MACRO_ID10
+				|| aTokenType == CfgLexer.MACRO_HOSTNAME10
+				|| aTokenType == CfgLexer.MACRO_BOOL11
+				|| aTokenType == CfgLexer.MACRO_ID11
+				|| aTokenType == CfgLexer.MACRO_INT11
+				|| aTokenType == CfgLexer.MACRO_EXP_CSTR11;
 	}
 
 	/**
@@ -540,7 +540,7 @@ public class CfgParseTreePrinter {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Extracts macro name from macro string
 	 * @param aMacroString macro string, for example: \$a, \${a}
@@ -554,7 +554,7 @@ public class CfgParseTreePrinter {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Extracts macro name from typed macro string
 	 * @param aMacroString macro string, for example: \${a, float}
@@ -568,7 +568,7 @@ public class CfgParseTreePrinter {
 			return null;
 		}
 	}
-		
+
 	/**
 	 * Gets the macro value string of a macro (without type)
 	 * @param aMacroToken the macro token
@@ -583,7 +583,7 @@ public class CfgParseTreePrinter {
 		}
 		return value;
 	}
-	
+
 	/**
 	 * Gets the macro value string of a macro (with type)
 	 * @param aMacroToken the macro token

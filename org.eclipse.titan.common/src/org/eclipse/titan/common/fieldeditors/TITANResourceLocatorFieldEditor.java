@@ -64,7 +64,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 
 	/**
 	 * Creates a string button field editor.
-	 * 
+	 *
 	 * @param name the name of the preference this field editor works on
 	 * @param labelText the label text of the field editor
 	 * @param parent the parent of the field editor's control
@@ -104,7 +104,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		super.doFillIntoGrid(parent, numColumns);
 
 		getTextControl().addModifyListener(new ModifyListener() {
-			
+
 			@Override
 			public void modifyText(final ModifyEvent e) {
 				target = getTextControl().getText();
@@ -139,7 +139,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 				handleVariablesButtonPressed();
 			}
 		});
-		
+
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_END;
 		pathButton.setLayoutData(gd);
@@ -167,7 +167,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 				handleBrowseButtonPressed();
 			}
 		});
-		
+
 		gd = new GridData();
 		gd.horizontalAlignment = GridData.HORIZONTAL_ALIGN_END;
 		browseButton.setLayoutData(gd);
@@ -182,7 +182,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 	}
 
 	/**
-	 * Displays a dialog that allows user to select native environment variables 
+	 * Displays a dialog that allows user to select native environment variables
 	 * to add to the table.
 	 */
 	private void handleEnvSelectButtonSelected() {
@@ -198,11 +198,11 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 
 				return super.getText(element);
 			}
-			
+
 		});
 		dialog.setTitle("Environmental variable selection");
 		dialog.setMessage("Select a variable to constrain your search.");
-		
+
 		final List<EnvironmentVariable> variables = new ArrayList<EnvironmentVariable>(envVariables.size());
 		for (final Iterator<?> i = envVariables.keySet().iterator(); i.hasNext();) {
 			final EnvironmentVariable variable = new EnvironmentVariable();
@@ -292,8 +292,8 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 			message = "Resolved location: cannot be calculated from " + target;
 		}
 		resolvedPathLabelText.setText(message);
-		
-		
+
+
 		if (path.equals(resolvedPath)) {
 			resolvedPathLabelText.setVisible(false);
 		} else {
@@ -307,7 +307,7 @@ public class TITANResourceLocatorFieldEditor extends StringFieldEditor {
 		if (isNullOrEmpty(target)) {
 			return isEmptyStringAllowed();
 		}
-		
+
 		final Map<?, ?> envVariables = DebugPlugin.getDefault().getLaunchManager().getNativeEnvironmentCasePreserved();
 
 		String result;

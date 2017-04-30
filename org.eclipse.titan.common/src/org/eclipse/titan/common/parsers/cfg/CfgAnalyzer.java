@@ -48,7 +48,7 @@ public final class CfgAnalyzer {
 	private CfgInterval rootInterval;
 	private TitanListener lexerListener = null;
 	private TitanListener parserListener = null;
-	
+
 	private ModuleParameterSectionHandler moduleParametersHandler = null;
 	private TestportParameterSectionHandler testportParametersHandler = null;
 	private ComponentSectionHandler componentSectionHandler = null;
@@ -63,11 +63,11 @@ public final class CfgAnalyzer {
 
 	/** result of the last parsing */
 	private CfgParseResult mCfgParseResult;
-	
+
 	public CfgParseResult getCfgParseResult() {
 		return mCfgParseResult;
 	}
-	
+
 	public CfgInterval getRootInterval(){
 		return rootInterval;
 	}
@@ -115,7 +115,7 @@ public final class CfgAnalyzer {
 	public LoggingSectionHandler getLoggingSectionHandler() {
 		return loggingSectionHandler;
 	}
-	
+
 	public List<SyntacticErrorStorage> getErrorStorage() {
 		if (lexerListener != null && parserListener != null) {
 			lexerListener.addAll(parserListener.getErrorsStored());
@@ -124,14 +124,14 @@ public final class CfgAnalyzer {
 			return new ArrayList<SyntacticErrorStorage>();
 		}
 	}
-	
-    /**
-     * Parses the provided elements.
-     * If the contents of an editor are to be parsed, than the file parameter is only used to report the errors to.
-     * 
-     * @param file the file to parse, and report the errors to
-     * @param code the contents of an editor, or null.
-     */
+
+	/**
+	 * Parses the provided elements.
+	 * If the contents of an editor are to be parsed, than the file parameter is only used to report the errors to.
+	 *
+	 * @param file the file to parse, and report the errors to
+	 * @param code the contents of an editor, or null.
+	 */
 	public void parse(final IFile file, final String code) {
 		String fileName = "<unknown file>";
 		if(file != null){
@@ -139,15 +139,15 @@ public final class CfgAnalyzer {
 		}
 		directParse(file, fileName, code);
 	}
-	
-    /**
-     * Parses the provided elements.
-     * If the contents of an editor are to be parsed, than the file parameter is only used to report the errors to.
-     * 
-     * @param file the file to parse
-     * @param fileName the name of the file, to refer to.
-     * @param code the contents of an editor, or null.
-     */
+
+	/**
+	 * Parses the provided elements.
+	 * If the contents of an editor are to be parsed, than the file parameter is only used to report the errors to.
+	 *
+	 * @param file the file to parse
+	 * @param fileName the name of the file, to refer to.
+	 * @param code the contents of an editor, or null.
+	 */
 	public void directParse(final IFile file, final String fileName, final String code) {
 		final Reader reader;
 		final int fileLength;
@@ -176,7 +176,7 @@ public final class CfgAnalyzer {
 		lexerListener = new TitanListener();
 		lexer.removeErrorListeners(); // remove ConsoleErrorListener
 		lexer.addErrorListener(lexerListener);
-		
+
 		// 1. Previously it was UnbufferedTokenStream(lexer), but it was changed to BufferedTokenStream, because UnbufferedTokenStream seems to be unusable. It is an ANTLR 4 bug.
 		// Read this: https://groups.google.com/forum/#!topic/antlr-discussion/gsAu-6d3pKU
 		// pr_PatternChunk[StringBuilder builder, boolean[] uni]:
@@ -190,13 +190,13 @@ public final class CfgAnalyzer {
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
 		parser.addErrorListener(parserListener);
 		final ParserRuleContext parseTreeRoot = parser.pr_ConfigFile();
-		
+
 		mCfgParseResult = parser.getCfgParseResult();
 		// manually add the result parse tree, and its corresponding token stream,
 		// because they logically belong to here
 		mCfgParseResult.setParseTreeRoot( parseTreeRoot );
 		mCfgParseResult.setTokens( tokenStream.getTokens() );
-		
+
 		// fill handlers
 		moduleParametersHandler = parser.getModuleParametersHandler();
 		testportParametersHandler = parser.getTestportParametersHandler();
@@ -209,9 +209,9 @@ public final class CfgAnalyzer {
 		orderedIncludeSectionHandler = parser.getOrderedIncludeSectionHandler();
 		defineSectionHandler = parser.getDefineSectionHandler();
 		loggingSectionHandler = parser.getLoggingSectionHandler();
-		
+
 		rootInterval = lexer.getRootInterval();
-		
+
 		try {
 			reader.close();
 		} catch (IOException e) {

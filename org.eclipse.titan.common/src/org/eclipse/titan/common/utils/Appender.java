@@ -20,7 +20,7 @@ public class Appender implements Appendable {
 
 	/**
 	 * Create an appender with "" as the delimeter.
-	 * 
+	 *
 	 * @param appendable the first appendable to add to the list.
 	 * */
 	public Appender(final Appendable appendable) {
@@ -29,7 +29,7 @@ public class Appender implements Appendable {
 
 	/**
 	 * Create an appender with the provided string as delimeter.
-	 * 
+	 *
 	 * @param appendable the appendable to be the first element of the list.
 	 * @param delimiter the string to be used the delimeter.
 	 * */
@@ -40,9 +40,9 @@ public class Appender implements Appendable {
 
 	/**
 	 * Append an item to the internally stored appendable.
-	 * 
+	 *
 	 * @param item the item to append.
-	 * 
+	 *
 	 * @return the appender to be able to call this function in sequence.
 	 * */
 	public <T> Appender append(final T item) throws IOException {
@@ -52,9 +52,9 @@ public class Appender implements Appendable {
 	/**
 	 * Append an item to the internally stored appendable.
 	 * Also taking care of not prefixing the first item inserted.
-	 * 
+	 *
 	 * @param item the item to append.
-	 * 
+	 *
 	 * @return the appender to be able to call this function in sequence.
 	 * */
 	private <T> Appender internalAppend(final T item) throws IOException {
@@ -69,9 +69,9 @@ public class Appender implements Appendable {
 
 	/**
 	 * Append a list of items to the internally stored appendable.
-	 * 
+	 *
 	 * @param items the items to append.
-	 * 
+	 *
 	 * @return the appender to be able to call this function in sequence.
 	 * */
 	public <T> Appender append(final Iterable<T> items) throws IOException {
@@ -101,7 +101,7 @@ public class Appender implements Appendable {
 	public Appendable append(final char c) throws IOException {
 		return internalAppend(c);
 	}
-	
+
 	protected Appendable getAppendable() {
 		return appendable;
 	}
