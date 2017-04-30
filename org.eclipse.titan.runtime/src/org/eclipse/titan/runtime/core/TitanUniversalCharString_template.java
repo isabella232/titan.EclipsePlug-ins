@@ -46,6 +46,7 @@ public class TitanUniversalCharString_template extends Base_Template {
 	public TitanUniversalCharString_template (final TitanUniversalCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound universal charstring value.");
+
 		single_value = new TitanUniversalCharString(otherValue);
 	}
 
@@ -93,6 +94,7 @@ public class TitanUniversalCharString_template extends Base_Template {
 	//originally operator=
 	public TitanUniversalCharString_template assign( final TitanUniversalCharString otherValue ) {
 		otherValue.mustBound("Assignment of an unbound universal charstring value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
@@ -160,11 +162,13 @@ public class TitanUniversalCharString_template extends Base_Template {
 		if(! otherValue.isBound()) {
 			return false;
 		}
+
 		final List<TitanUniversalChar> otherStr = otherValue.getValue();
 		final int otherLen = otherStr.size();
 		if ( !matchLength( otherValue ) ) {
 			return false;
 		}
+
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);

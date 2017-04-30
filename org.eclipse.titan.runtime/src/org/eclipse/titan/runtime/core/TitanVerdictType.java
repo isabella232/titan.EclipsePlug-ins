@@ -24,6 +24,7 @@ public class TitanVerdictType extends Base_Type {
 		if ( !isValid( other_value ) ) {
 			throw new TtcnError("Initializing a verdict variable with an invalid value (" + other_value + ").");
 		}
+
 		verdict_value = other_value;
 	}
 
@@ -31,6 +32,7 @@ public class TitanVerdictType extends Base_Type {
 		if ( !other_value.isBound() ) {
 			throw new TtcnError("Copying an unbound verdict value.");
 		}
+
 		verdict_value = other_value.verdict_value;
 	}
 
@@ -79,6 +81,7 @@ public class TitanVerdictType extends Base_Type {
 	// originally boolean VERDICTTYPE::operator==(verdicttype other_value) const
 	public boolean operatorEquals( final VerdictTypeEnum aOtherValue ) {
 		mustBound( "The left operand of comparison is an unbound verdict value." );
+
 		if (!isValid(aOtherValue)) {
 			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + aOtherValue + ")." );
 		}
@@ -89,6 +92,7 @@ public class TitanVerdictType extends Base_Type {
 	//originally operator=
 	public TitanVerdictType assign( final TitanVerdictType aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound verdict value." );
+
 		verdict_value = aOtherValue.verdict_value;
 		return this;
 	}
@@ -107,6 +111,7 @@ public class TitanVerdictType extends Base_Type {
 		if ( !isValid( other_value ) ) {
 			throw new TtcnError("Assignment of an invalid verdict value (" + other_value + ").");
 		}
+
 		verdict_value = other_value;
 		return this;
 	}

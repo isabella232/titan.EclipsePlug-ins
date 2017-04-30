@@ -39,6 +39,7 @@ public class TitanBitString extends Base_Type {
 
 	public TitanBitString( final TitanBitString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound bitstring value." );
+
 		bits_ptr = copyList( aOtherValue.bits_ptr );
 		n_bits = aOtherValue.n_bits;
 	}
@@ -58,6 +59,7 @@ public class TitanBitString extends Base_Type {
 			n_bits = 0;
 			return;
 		}
+
 		int bits = size * 8;
 		final byte last = bits_ptr.get( size - 1 );
 		for ( int i = 7; i >= 0 && ( last & ( 1 << i ) ) == 0; i-- ) {
@@ -70,6 +72,7 @@ public class TitanBitString extends Base_Type {
 		if ( srcList == null ) {
 			return null;
 		}
+
 		final List<Byte> newList = new ArrayList<Byte>( srcList.size() );
 		for (Byte uc : srcList) {
 			newList.add( Byte.valueOf( uc ) );
@@ -124,6 +127,7 @@ public class TitanBitString extends Base_Type {
 	//originally operator=
 	public TitanBitString assign( final TitanBitString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound bitstring value." );
+
 		bits_ptr = copyList( aOtherValue.bits_ptr );
 		n_bits = aOtherValue.n_bits;
 		return this;
@@ -186,6 +190,7 @@ public class TitanBitString extends Base_Type {
 			return new TitanBitString_Element(false, this, 0);
 		} else {
 			mustBound("Accessing an element of an unbound bitstring value.");
+
 			if (index_value < 0) {
 				throw new TtcnError("Accessing an bitstring element using a negative index (" + index_value + ").");
 			}
@@ -206,26 +211,31 @@ public class TitanBitString extends Base_Type {
 	//originally operator[](const INTEGER&)
 	public TitanBitString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
+
 		return getAt( index_value.getInt() );
 	}
 
 	//originally operator[](int) const
 	public final TitanBitString_Element constGetAt( final int index_value ) {
 		mustBound("Accessing an element of an unbound bitstring value.");
+
 		if (index_value < 0) {
 			throw new TtcnError("Accessing an bitstring element using a negative index (" + index_value + ").");
 		}
+
 		final int n_nibbles = bits_ptr.size();
 		if (index_value >= n_nibbles) {
 			throw new TtcnError("Index overflow when accessing a bitstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " hexadecimal digits.");
 		}
+
 		return new TitanBitString_Element(true, this, index_value);
 	}
 
 	//originally operator[](const INTEGER&) const
 	public final TitanBitString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
+
 		return constGetAt( index_value.getInt() );
 	}
 

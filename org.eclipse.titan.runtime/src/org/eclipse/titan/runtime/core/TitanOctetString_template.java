@@ -49,6 +49,7 @@ public class TitanOctetString_template extends Base_Template {
 	public TitanOctetString_template (final TitanOctetString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound octetstring value.");
+
 		single_value = new TitanOctetString(otherValue);
 	}
 
@@ -93,6 +94,7 @@ public class TitanOctetString_template extends Base_Template {
 	//originally operator=
 	public TitanOctetString_template assign( final TitanOctetString otherValue ) {
 		otherValue.mustBound("Assignment of an unbound octetstring value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue);
@@ -139,12 +141,14 @@ public class TitanOctetString_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a octetstring element of a non-specific octetstring template.");
 		}
+
 		return single_value.getAt( index_value );
 	}
 
 	//originally operator[](const INTEGER&)
 	public TitanOctetString_Element getAt( final TitanInteger index_value ) {
 		index_value.mustBound("Indexing a octetstring template with an unbound integer value.");
+
 		return getAt( index_value.getInt() );
 	}
 
@@ -153,12 +157,14 @@ public class TitanOctetString_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a octetstring element of a non-specific octetstring template.");
 		}
+
 		return single_value.constGetAt( index_value );
 	}
 
 	//originally operator[](const INTEGER&) const
 	public TitanOctetString_Element constGetAt( final TitanInteger index_value) {
 		index_value.mustBound("Indexing a octetstring template with an unbound integer value.");
+
 		return constGetAt( index_value.getInt() );
 	}
 
@@ -202,6 +208,7 @@ public class TitanOctetString_template extends Base_Template {
 		if ( pattern_value == null ) {
 			return "<unbound>";
 		}
+
 		final StringBuilder sb = new StringBuilder();
 		final int size = pattern_value.size();
 		for ( int i = 0; i < size; i++ ) {

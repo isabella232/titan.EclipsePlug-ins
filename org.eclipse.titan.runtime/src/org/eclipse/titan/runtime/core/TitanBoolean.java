@@ -32,6 +32,7 @@ public class TitanBoolean extends Base_Type {
 
 	public TitanBoolean( final TitanBoolean aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound boolean value." );
+
 		boolean_value = aOtherValue.boolean_value;
 	}
 
@@ -53,6 +54,7 @@ public class TitanBoolean extends Base_Type {
 	//originally operator=
 	public TitanBoolean assign( final TitanBoolean aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound boolean value." );
+
 		boolean_value = aOtherValue.boolean_value;
 
 		return this;

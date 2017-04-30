@@ -66,12 +66,14 @@ public class TitanUniversalCharString extends Base_Type {
 
 	public TitanUniversalCharString( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound charstring value." );
+
 		cstr = new StringBuilder( aOtherValue.getValue() );
 		charstring = true;
 	}
 
 	public TitanUniversalCharString( final TitanUniversalCharString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound universal charstring value." );
+
 		val_ptr = copyList( aOtherValue.val_ptr );
 		cstr = aOtherValue.cstr;
 		charstring = aOtherValue.charstring;
@@ -81,10 +83,12 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( uList == null ) {
 			return null;
 		}
+
 		final List<TitanUniversalChar> clonedList = new ArrayList<TitanUniversalChar>( uList.size() );
 		for (TitanUniversalChar uc : uList) {
 			clonedList.add( new TitanUniversalChar( uc ) );
 		}
+
 		return clonedList;
 	}
 
@@ -104,6 +108,7 @@ public class TitanUniversalCharString extends Base_Type {
 	//originally operator=
 	public TitanUniversalCharString assign( final TitanUniversalCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound universal charstring value." );
+
 		val_ptr = aOtherValue.val_ptr;
 
 		return this;
@@ -164,6 +169,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 */
 	public TitanUniversalCharString append( final TitanUniversalChar other_value ) {
 		mustBound( "The left operand of concatenation is an unbound universal charstring value." );
+
 		if (charstring) {
 			if (other_value.is_char()) {
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.getUc_cell() ) );
@@ -192,6 +198,7 @@ public class TitanUniversalCharString extends Base_Type {
 	 */
 	public TitanUniversalCharString append( final String other_value ) {
 		mustBound("The left operand of concatenation is an unbound universal charstring value.");
+
 		int other_len;
 		if (other_value == null) {
 			other_len = 0;
@@ -219,6 +226,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString append( final TitanCharString other_value ) {
 		mustBound("The left operand of concatenation is an unbound universal charstring value.");
 		other_value.mustBound("The right operand of concatenation is an unbound charstring value.");
+
 		return append( other_value.getValue().toString() );
 	}
 
@@ -229,9 +237,11 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString append( final TitanCharString_Element other_value ) {
 		mustBound("The left operand of concatenation is an unbound universal charstring value.");
 		other_value.mustBound("The right operand of concatenation is an unbound charstring element.");
+
 		if ( charstring ) {
 			return new TitanUniversalCharString( cstr.append( other_value.get_char() ) );
 		}
+
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 		final TitanUniversalChar uc = new TitanUniversalChar( (char)0, (char)0, (char)0, other_value.get_char());
 		ret_val.append( uc );
@@ -246,6 +256,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString append( final TitanUniversalCharString other_value ) {
 		mustBound("The left operand of concatenation is an unbound universal charstring value.");
 		other_value.mustBound("The right operand of concatenation is an unbound universal charstring value.");
+
 		if (charstring) {
 			if (cstr.length() == 0) {
 				return other_value;
@@ -301,9 +312,11 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString append( final TitanUniversalCharString_Element other_value ) {
 		mustBound("The left operand of concatenation is an unbound universal charstring value.");
 		other_value.mustBound("The right operand of concatenation is an unbound universal charstring element.");
+
 		if ( charstring ) {
 			return new TitanUniversalCharString( cstr.append( other_value.get_char() ) );
 		}
+
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 		ret_val.append( other_value.get_char() );
 		return ret_val;
@@ -332,6 +345,7 @@ public class TitanUniversalCharString extends Base_Type {
 			return new TitanUniversalCharString_Element(false, this, 0);
 		} else {
 			mustBound("Accessing an element of an unbound universal charstring value.");
+
 			if (index_value < 0) {
 				throw new TtcnError("Accessing an universal charstring element using a negative index (" + index_value + ").");
 			}
@@ -357,26 +371,31 @@ public class TitanUniversalCharString extends Base_Type {
 	//originally operator[](const INTEGER&)
 	public TitanUniversalCharString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a universal charstring value with an unbound integer value.");
+
 		return getAt( index_value.getInt() );
 	}
 
 	//originally operator[](int) const
 	public TitanUniversalCharString_Element constGetAt( final int index_value ) {
 		mustBound("Accessing an element of an unbound universal charstring value.");
+
 		if (index_value < 0) {
 			throw new TtcnError("Accessing an universal charstring element using a negative index (" + index_value + ").");
 		}
+
 		final int n_nibbles = val_ptr.size();
 		if (index_value >= n_nibbles) {
 			throw new TtcnError("Index overflow when accessing a universal charstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " characters.");
 		}
+
 		return new TitanUniversalCharString_Element(true, this, index_value);
 	}
 
 	//originally operator[](const INTEGER&) const
 	public TitanUniversalCharString_Element constGetAt( final TitanInteger index_value ) {
 		index_value.mustBound("Indexing a universal charstring value with an unbound integer value.");
+
 		return constGetAt( index_value.getInt() );
 	}
 
@@ -385,6 +404,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( !isBound() ) {
 			return "<unbound>";
 		}
+
 		if ( charstring ) {
 			return cstr.toString();
 		} else {

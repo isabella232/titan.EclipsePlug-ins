@@ -49,6 +49,7 @@ public class TitanHexString_template extends Base_Template {
 	public TitanHexString_template (final TitanHexString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound hexstring value.");
+
 		single_value = new TitanHexString(otherValue);
 	}
 
@@ -93,6 +94,7 @@ public class TitanHexString_template extends Base_Template {
 	//originally operator=
 	public TitanHexString_template assign( final TitanHexString otherValue ) {
 		otherValue.mustBound("Assignment of an unbound hexstring value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
@@ -139,12 +141,14 @@ public class TitanHexString_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
 		}
+
 		return single_value.getAt( index_value );
 	}
 
 	//originally operator[](const INTEGER&)
 	public TitanHexString_Element getAt( final TitanInteger index_value ) {
 		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
+
 		return getAt( index_value.getInt() );
 	}
 
@@ -153,12 +157,14 @@ public class TitanHexString_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
 		}
+
 		return single_value.constGetAt( index_value );
 	}
 
 	//originally operator[](const INTEGER&) const
 	public TitanHexString_Element constGetAt( final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
+
 		return constGetAt( index_value.getInt() );
 	}
 

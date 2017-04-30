@@ -42,6 +42,7 @@ public class TitanInteger extends Base_Type {
 
 	public TitanInteger( final TitanInteger otherValue ) {
 		otherValue.mustBound( "Copying an unbound integer value." );
+
 		boundFlag = true;
 		nativeFlag = otherValue.nativeFlag;
 		if(nativeFlag) {
@@ -54,6 +55,7 @@ public class TitanInteger extends Base_Type {
 	// originally int()
 	public int getInt() {
 		mustBound( "Using the value of an unbound integer variable." );
+
 		if(!nativeFlag) {
 			throw new TtcnError( "Invalid conversion of a large integer value." );
 		}
@@ -64,6 +66,7 @@ public class TitanInteger extends Base_Type {
 	// originally get_long_long_val
 	public BigInteger getBigInteger() {
 		mustBound( "Using the value of an unbound integer variable." );
+
 		if(nativeFlag) {
 			return BigInteger.valueOf(nativeInt);
 		}
@@ -84,6 +87,7 @@ public class TitanInteger extends Base_Type {
 	//originally operator=
 	public TitanInteger assign( final TitanInteger otherValue ) {
 		otherValue.mustBound( "Assignment of an unbound integer value." );
+
 		cleanUp();
 		boundFlag = true;
 		nativeFlag = otherValue.nativeFlag;
@@ -155,6 +159,7 @@ public class TitanInteger extends Base_Type {
 	//originally operator==
 	public boolean operatorEquals( final int otherValue ) {
 		mustBound("Unbound left operand of integer comparison.");
+
 		if(nativeFlag) {
 			return nativeInt == otherValue;
 		}
@@ -202,6 +207,7 @@ public class TitanInteger extends Base_Type {
 	//originally operator <
 	public boolean isLessThan(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
+
 		if (nativeFlag) {
 			return nativeInt < otherValue;
 		} else {
@@ -214,6 +220,7 @@ public class TitanInteger extends Base_Type {
 	public boolean isLessThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");
+
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
 				return nativeInt < otherValue.nativeInt;
@@ -234,6 +241,7 @@ public class TitanInteger extends Base_Type {
 	//originally operator >
 	public boolean isGreaterThan(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
+
 		if (nativeFlag) {
 			return nativeInt > otherValue;
 		} else {
@@ -247,6 +255,7 @@ public class TitanInteger extends Base_Type {
 	public boolean isGreaterThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");
+
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
 				return nativeInt > otherValue.nativeInt;

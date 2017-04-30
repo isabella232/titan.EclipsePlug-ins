@@ -34,6 +34,7 @@ public class TitanFloat extends Base_Type {
 
 	public TitanFloat( final TitanFloat aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound float value." );
+
 		float_value = aOtherValue.float_value;
 	}
 
@@ -44,6 +45,7 @@ public class TitanFloat extends Base_Type {
 	//originally operator=
 	public TitanFloat assign( final TitanFloat aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound float value." );
+
 		float_value = aOtherValue.float_value;
 
 		return this;
@@ -146,10 +148,12 @@ public class TitanFloat extends Base_Type {
 	public TitanFloat div( final TitanFloat aOtherValue ) {
 		mustBound( "Unbound left operand of float division." );
 		aOtherValue.mustBound( "Unbound right operand of float division." );
+
 		final double otherValue = aOtherValue.float_value.getValue();
 		if ( otherValue == 0.0 ) {
 			throw new TtcnError("Float division by zero.");
 		}
+
 		return new TitanFloat( float_value.mul( otherValue ) );
 	}
 
@@ -159,9 +163,11 @@ public class TitanFloat extends Base_Type {
 	 */
 	public TitanFloat div( final double aOtherValue ) {
 		mustBound( "Unbound left operand of float division." );
+
 		if ( aOtherValue == 0.0 ) {
 			throw new TtcnError("Float division by zero.");
 		}
+
 		return new TitanFloat( float_value.mul( aOtherValue ) );
 	}
 
@@ -191,6 +197,7 @@ public class TitanFloat extends Base_Type {
 	public boolean isLessThan(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 		otherValue.mustBound("Unbound right operand of float comparison.");
+
 		return float_value.isLessThan( otherValue.float_value.getValue() );
 	}
 
@@ -198,6 +205,7 @@ public class TitanFloat extends Base_Type {
 	public boolean isGreaterThan(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 		otherValue.mustBound("Unbound right operand of float comparison.");
+
 		return float_value.isGreaterThan( otherValue.float_value.getValue() );
 	}
 
@@ -220,6 +228,7 @@ public class TitanFloat extends Base_Type {
 		if ( float_value == null ) {
 			return "<unbound>";
 		}
+
 		return float_value.toString();
 	}
 }

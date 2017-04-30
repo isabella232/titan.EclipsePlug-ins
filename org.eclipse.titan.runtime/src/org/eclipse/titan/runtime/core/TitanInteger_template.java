@@ -45,6 +45,7 @@ public class TitanInteger_template extends Base_Template {
 	public TitanInteger_template (final TitanInteger otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound integer value.");
+
 		single_value = new TitanInteger(otherValue);
 	}
 
@@ -92,6 +93,7 @@ public class TitanInteger_template extends Base_Template {
 	//originally operator=
 	public TitanInteger_template assign( final TitanInteger otherValue ) {
 		otherValue.mustBound("Assignment of an unbound integer value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);

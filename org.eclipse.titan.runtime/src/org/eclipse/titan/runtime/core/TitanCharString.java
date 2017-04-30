@@ -35,12 +35,14 @@ public class TitanCharString extends Base_Type {
 
 	public TitanCharString( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound charstring value." );
+
 		val_ptr = aOtherValue.val_ptr;
 	}
 
 	//originally char*()
 	public StringBuilder getValue() {
 		mustBound("Getting an unbound charstring value as string.");
+
 		return val_ptr;
 	}
 
@@ -55,6 +57,7 @@ public class TitanCharString extends Base_Type {
 	//originally operator=
 	public TitanCharString assign( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound charstring value." );
+
 		copyValue( aOtherValue.val_ptr );
 
 		return this;
@@ -131,6 +134,7 @@ public class TitanCharString extends Base_Type {
 			return new TitanCharString_Element(false, this, 0);
 		} else {
 			mustBound("Accessing an element of an unbound charstring value.");
+
 			if (index_value < 0) {
 				throw new TtcnError("Accessing an charstring element using a negative index (" + index_value + ").");
 			}
@@ -152,26 +156,31 @@ public class TitanCharString extends Base_Type {
 	//originally operator[](const INTEGER&)
 	public TitanCharString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a charstring value with an unbound integer value.");
+
 		return getAt( index_value.getInt() );
 	}
 
 	//originally operator[](int) const
 	public TitanCharString_Element constGetAt( final int index_value ) {
 		mustBound("Accessing an element of an unbound charstring value.");
+
 		if (index_value < 0) {
 			throw new TtcnError("Accessing an charstring element using a negative index (" + index_value + ").");
 		}
+
 		final int n_nibbles = val_ptr.length();
 		if (index_value >= n_nibbles) {
 			throw new TtcnError("Index overflow when accessing a charstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " characters.");
 		}
+
 		return new TitanCharString_Element(true, this, index_value);
 	}
 
 	//originally operator[](const INTEGER&) const
 	public TitanCharString_Element constGetAt( final TitanInteger index_value ) {
 		index_value.mustBound("Indexing a charstring value with an unbound integer value.");
+
 		return constGetAt( index_value.getInt() );
 	}
 
@@ -180,6 +189,7 @@ public class TitanCharString extends Base_Type {
 		if ( val_ptr == null ) {
 			return "<unbound>";
 		}
+
 		return val_ptr.toString();
 	}
 }

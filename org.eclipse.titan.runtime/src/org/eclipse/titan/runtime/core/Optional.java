@@ -15,19 +15,19 @@ import java.text.MessageFormat;
  */
 public class Optional<TYPE extends Base_Type> extends Base_Type {
 	public enum optional_sel { OPTIONAL_UNBOUND, OPTIONAL_OMIT, OPTIONAL_PRESENT };
-	
+
 	private TYPE optionalValue;
-	
+
 	private optional_sel optionalSelection;
-	
+
 	private final Class<TYPE> clazz;
-	
+
 	public Optional(final Class<TYPE> clazz) {
 		optionalValue = null;
 		optionalSelection = optional_sel.OPTIONAL_UNBOUND;
 		this.clazz = clazz;
 	}
-	
+
 	public Optional(final Optional<TYPE> otherValue) {
 		//super(otherValue);
 		optionalValue = null;
@@ -43,7 +43,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			optionalValue.assign(otherValue.optionalValue);
 		}
 	}
-	
+
 	//originally clean_up
 	public void cleanUp() {
 		if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
@@ -51,7 +51,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 		optionalSelection = optional_sel.OPTIONAL_UNBOUND;
 	}
-	
+
 	//originally operator=
 	public Optional<TYPE> assign(final optional_sel otherValue) {
 		if (!optional_sel.OPTIONAL_OMIT.equals(otherValue)) {
@@ -60,14 +60,14 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		setToOmit();
 		return this;
 	}
-	
+
 	//originally operator=
 	public Optional<TYPE> assign(final Optional<TYPE> otherValue) {
 		switch(otherValue.optionalSelection) {
 		case OPTIONAL_PRESENT:
 			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 				optionalValue.assign(otherValue.optionalValue);
-				
+
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
@@ -86,18 +86,17 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			cleanUp();
 			break;
 		}
-		
+
 		return this;
 	}
-	
+
 	@Override
 	public Optional<TYPE> assign(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to optional", otherValue));
 		}
-		
+
 		final Optional<?> optionalOther = (Optional<?>)otherValue;
-		
 		switch(optionalOther.optionalSelection) {
 		case OPTIONAL_PRESENT:
 			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
@@ -120,10 +119,10 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			cleanUp();
 			break;
 		}
-		
+
 		return this;
 	}
-	
+
 	public void setToPresent() {
 		if (!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalSelection = optional_sel.OPTIONAL_PRESENT;
@@ -134,18 +133,18 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			}
 		}
 	}
-	
+
 	public void setToOmit() {
 		if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			optionalValue = null;
 		}
 		optionalSelection = optional_sel.OPTIONAL_OMIT;
 	}
-	
+
 	public optional_sel getSelection () {
 		return optionalSelection;
 	}
-	
+
 	public boolean isBound() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
@@ -158,17 +157,17 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			return false;
 		}
 	}
-	
+
 	//originally is_present
 	public boolean isPresent() {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection);
 	}
-	
+
 	/**
 	 * Note: this is not the TTCN-3 ispresent(), kept for backward compatibility
-	 *       with the runtime and existing testports which use this version where 
+	 *       with the runtime and existing testports which use this version where
 	 *       unbound errors are caught before causing more trouble
-	 * 
+	 *
 	 * originally ispresent
 	 * */
 	public boolean isPresentOld() {
@@ -186,26 +185,26 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)
 				&& optionalValue.isValue();
 	}
-	
+
 	public boolean isOptional() {
 		return true;
 	}
-	
+
 	//originally operator()
 	public TYPE get() {
 		setToPresent();
 		return optionalValue;
 	}
-	
+
 	// originally const operator()
 	public TYPE constGet() {
 		if (!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 			throw new TtcnError("Using the value of an optional field containing omit.");
 		}
-		
+
 		return optionalValue;
 	}
-	
+
 	//originally operator==
 	public boolean operatorEquals( final Optional<TYPE> otherValue ) {
 		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
@@ -256,6 +255,6 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			}
 		}
 	}
-	
-	
+
+
 }

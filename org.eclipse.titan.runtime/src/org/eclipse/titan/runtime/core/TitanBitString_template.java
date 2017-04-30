@@ -94,6 +94,7 @@ public class TitanBitString_template extends Base_Template {
 	//originally operator=
 	public TitanBitString_template assign( final TitanBitString otherValue ) {
 		otherValue.mustBound("Assignment of an unbound bitstring value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue);
@@ -140,12 +141,14 @@ public class TitanBitString_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a bitstring element of a non-specific bitstring template.");
 		}
+
 		return single_value.getAt( index_value );
 	}
 
 	//originally operator[](const INTEGER&)
 	public TitanBitString_Element getAt( final TitanInteger index_value ) {
 		index_value.mustBound("Indexing a bitstring template with an unbound integer value.");
+
 		return getAt( index_value.getInt() );
 	}
 
@@ -154,12 +157,14 @@ public class TitanBitString_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a bitstring element of a non-specific bitstring template.");
 		}
+
 		return single_value.constGetAt( index_value );
 	}
 
 	//originally operator[](const INTEGER&) const
 	public TitanBitString_Element constGetAt( final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring template with an unbound integer value.");
+
 		return constGetAt( index_value.getInt() );
 	}
 

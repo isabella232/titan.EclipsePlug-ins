@@ -46,6 +46,7 @@ public class TitanCharString_template extends Base_Template {
 	public TitanCharString_template (final TitanCharString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound charstring value.");
+
 		single_value = new TitanCharString(otherValue);
 	}
 
@@ -93,6 +94,7 @@ public class TitanCharString_template extends Base_Template {
 	//originally operator=
 	public TitanCharString_template assign( final TitanCharString otherValue ) {
 		otherValue.mustBound("Assignment of an unbound charstring value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);

@@ -39,6 +39,7 @@ public class TitanOctetString extends Base_Type {
 
 	public TitanOctetString( final TitanOctetString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound octetstring value." );
+
 		val_ptr = copyList( aOtherValue.val_ptr );
 	}
 
@@ -51,10 +52,12 @@ public class TitanOctetString extends Base_Type {
 		if ( aList == null ) {
 			return null;
 		}
+
 		final List<Character> clonedList = new ArrayList<Character>( aList.size() );
 		for (Character uc : aList) {
 			clonedList.add( new Character( uc ) );
 		}
+
 		return clonedList;
 	}
 
@@ -84,6 +87,7 @@ public class TitanOctetString extends Base_Type {
 	//originally operator=
 	public TitanOctetString assign( final TitanOctetString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound octetstring value." );
+
 		val_ptr = aOtherValue.val_ptr;
 
 		return this;
@@ -145,6 +149,7 @@ public class TitanOctetString extends Base_Type {
 			return new TitanOctetString_Element(false, this, 0);
 		} else {
 			mustBound("Accessing an element of an unbound octetstring value.");
+
 			if (index_value < 0) {
 				throw new TtcnError("Accessing an octetstring element using a negative index (" + index_value + ").");
 			}
@@ -165,15 +170,18 @@ public class TitanOctetString extends Base_Type {
 	//originally operator[](const INTEGER&)
 	public TitanOctetString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a octetstring value with an unbound integer value.");
+
 		return getAt( index_value.getInt() );
 	}
 
 	//originally operator[](int) const
 	public final TitanOctetString_Element constGetAt( final int index_value ) {
 		mustBound("Accessing an element of an unbound octetstring value.");
+
 		if (index_value < 0) {
 			throw new TtcnError("Accessing an octetstring element using a negative index (" + index_value + ").");
 		}
+
 		final int n_nibbles = val_ptr.size();
 		if (index_value >= n_nibbles) {
 			throw new TtcnError("Index overflow when accessing a octetstring element: The index is " + index_value +
@@ -185,6 +193,7 @@ public class TitanOctetString extends Base_Type {
 	//originally operator[](const INTEGER&) const
 	public final TitanOctetString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a octetstring value with an unbound integer value.");
+
 		return constGetAt( index_value.getInt() );
 	}
 
@@ -193,6 +202,7 @@ public class TitanOctetString extends Base_Type {
 		if ( val_ptr == null ) {
 			return "<unbound>";
 		}
+
 		final StringBuilder sb = new StringBuilder();
 		final int size = val_ptr.size();
 		for ( int i = 0; i < size; i++ ) {

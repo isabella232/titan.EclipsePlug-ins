@@ -40,6 +40,7 @@ public class TitanBoolean_template extends Base_Template {
 	public TitanBoolean_template (final TitanBoolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound boolean value.");
+
 		single_value = new TitanBoolean(otherValue);
 	}
 
@@ -84,6 +85,7 @@ public class TitanBoolean_template extends Base_Template {
 	//originally operator=
 	public TitanBoolean_template assign( final TitanBoolean otherValue ) {
 		otherValue.mustBound("Assignment of an unbound boolean value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
@@ -129,6 +131,7 @@ public class TitanBoolean_template extends Base_Template {
 		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
 			throw new TtcnError( "And operation of a non specific value template" );
 		}
+
 		return single_value.and( otherValue );
 	}
 
@@ -136,6 +139,7 @@ public class TitanBoolean_template extends Base_Template {
 		if ( otherTemplate.templateSelection != template_sel.SPECIFIC_VALUE ) {
 			throw new TtcnError( "And operation of a non specific value template argument" );
 		}
+
 		return and( otherTemplate.single_value );
 	}
 
@@ -143,6 +147,7 @@ public class TitanBoolean_template extends Base_Template {
 		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
 			throw new TtcnError( "Equals operation of a non specific value template" );
 		}
+
 		return single_value.equalsTo( otherValue );
 	}
 }

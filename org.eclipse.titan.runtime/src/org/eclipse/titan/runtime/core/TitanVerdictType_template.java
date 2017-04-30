@@ -36,6 +36,7 @@ public class TitanVerdictType_template extends Base_Template {
 		if (!TitanVerdictType.isValid(otherValue)) {
 			throw new TtcnError("Creating a template from an invalid verdict value ("+otherValue+").");
 		}
+
 		single_value = new TitanVerdictType(otherValue);
 	}
 
@@ -92,6 +93,7 @@ public class TitanVerdictType_template extends Base_Template {
 		if (!TitanVerdictType.isValid( otherValue ) ) {
 			throw new TtcnError("Assignment of an invalid verdict value ("+otherValue+") to a template.");
 		}
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanVerdictType(otherValue);
@@ -102,6 +104,7 @@ public class TitanVerdictType_template extends Base_Template {
 	//originally operator=
 	public TitanVerdictType_template assign( final TitanVerdictType otherValue ) {
 		otherValue.mustBound("Assignment of an unbound verdict value to a template.");
+
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		copyValue( otherValue );
@@ -137,6 +140,7 @@ public class TitanVerdictType_template extends Base_Template {
 
 	private void copyValue(final TitanVerdictType otherValue)	{
 		otherValue.mustBound("Creating a template from an unbound verdict value.");
+
 		single_value = new TitanVerdictType(otherValue);
 		setSelection(template_sel.SPECIFIC_VALUE);
 	}
@@ -175,6 +179,7 @@ public class TitanVerdictType_template extends Base_Template {
 		if ( !TitanVerdictType.isValid( otherValue ) ) {
 			throw new TtcnError("Matching a verdict template with an invalid value ("+otherValue+").");
 		}
+
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
@@ -201,6 +206,7 @@ public class TitanVerdictType_template extends Base_Template {
 		if (!other_value.isBound()) {
 			return false;
 		}
+
 		return match(other_value.getValue(), legacy);
 	}
 
@@ -209,7 +215,9 @@ public class TitanVerdictType_template extends Base_Template {
 		if (!TitanVerdictType.isValid( par_value )) {
 			throw new TtcnError("The left operand of comparison is an invalid verdict value ("+par_value+").");
 		}
+
 		other_value.mustBound( "The right operand of comparison is an unbound verdict value." );
+
 		return par_value == other_value.getValue();
 	}
 
@@ -297,6 +305,7 @@ public class TitanVerdictType_template extends Base_Template {
 		if (is_ifPresent) {
 			return true;
 		}
+
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
@@ -332,6 +341,7 @@ public class TitanVerdictType_template extends Base_Template {
 		if ( templateSelection == template_sel.UNINITIALIZED_TEMPLATE ) {
 			return;
 		}
+
 		final template_res res = ( t_name != null && ( t_res == template_res.TR_VALUE ) ) ? template_res.TR_OMIT : t_res;
 		switch ( res ) {
 		case TR_VALUE:
