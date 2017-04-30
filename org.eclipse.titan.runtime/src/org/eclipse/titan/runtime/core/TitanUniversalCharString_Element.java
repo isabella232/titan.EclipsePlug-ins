@@ -16,7 +16,7 @@ public class TitanUniversalCharString_Element {
 	TitanUniversalCharString str_val;
 	int char_pos;
 
-	public TitanUniversalCharString_Element( boolean par_bound_flag, TitanUniversalCharString par_str_val, int par_char_pos ) {
+	public TitanUniversalCharString_Element( final boolean par_bound_flag, final TitanUniversalCharString par_str_val, final int par_char_pos ) {
 		bound_flag = par_bound_flag;
 		str_val = par_str_val;
 		char_pos = par_char_pos;

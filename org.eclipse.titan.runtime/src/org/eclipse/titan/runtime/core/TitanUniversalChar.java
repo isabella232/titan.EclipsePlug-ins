@@ -19,14 +19,14 @@ public class TitanUniversalChar {
 	private char uc_row;
 	private char uc_cell;
 
-	public TitanUniversalChar( char uc_group, char uc_plane, char uc_row, char uc_cell ) {
+	public TitanUniversalChar( final char uc_group, final char uc_plane, final char uc_row, final char uc_cell ) {
 		this.uc_group = uc_group;
 		this.uc_plane = uc_plane;
 		this.uc_row = uc_row;
 		this.uc_cell = uc_cell;
 	}
 
-	public TitanUniversalChar( TitanUniversalChar uc ) {
+	public TitanUniversalChar( final TitanUniversalChar uc ) {
 		this.uc_group = uc.uc_group;
 		this.uc_plane = uc.uc_plane;
 		this.uc_row = uc.uc_row;

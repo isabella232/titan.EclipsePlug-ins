@@ -67,7 +67,7 @@ public class Base_Template {
 		}
 	}
 	
-	protected static String getResName(template_res tr) {
+	protected static String getResName(final template_res tr) {
 		switch (tr) {
 		case TR_VALUE: return "value";
 		case TR_OMIT: return "omit";

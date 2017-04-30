@@ -42,12 +42,12 @@ public class TitanOctetString extends Base_Type {
 		val_ptr = copyList( aOtherValue.val_ptr );
 	}
 
-	public TitanOctetString( char aValue ) {
+	public TitanOctetString( final char aValue ) {
 		val_ptr = new ArrayList<Character>();
 		val_ptr.add( aValue );
 	}
 
-	private static List<Character> copyList(List<Character> aList) {
+	private static List<Character> copyList(final List<Character> aList) {
 		if ( aList == null ) {
 			return null;
 		}
@@ -113,7 +113,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( TitanOctetString otherValue ) {
+	public boolean operatorEquals( final TitanOctetString otherValue ) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
@@ -139,7 +139,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	TitanOctetString_Element getAt(int index_value) {
+	TitanOctetString_Element getAt(final int index_value) {
 		if (val_ptr == null && index_value == 0) {
 			val_ptr = new ArrayList<Character>();
 			return new TitanOctetString_Element(false, this, 0);

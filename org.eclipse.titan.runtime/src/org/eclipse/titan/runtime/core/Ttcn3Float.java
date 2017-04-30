@@ -16,7 +16,7 @@ public class Ttcn3Float {
 	/** the floating-point value */
 	private double value;
 
-	public Ttcn3Float( double d ) {
+	public Ttcn3Float( final double d ) {
 		value = d;
 	}
 
@@ -27,27 +27,27 @@ public class Ttcn3Float {
 
 	// originally operator+
 	// this + d
-	Ttcn3Float add( double d ) {
+	Ttcn3Float add( final double d ) {
 		return new Ttcn3Float( value + d );
 	}
 
 	// originally operator-
-	Ttcn3Float sub( double d ) {
+	Ttcn3Float sub( final double d ) {
 		return new Ttcn3Float( value - d );
 	}
 
 	// originally operator*
-	Ttcn3Float mul( double d ) {
+	Ttcn3Float mul( final double d ) {
 		return new Ttcn3Float( value * d );
 	}
 
 	// originally operator/=
-	Ttcn3Float div( double d ) {
+	Ttcn3Float div( final double d ) {
 		return new Ttcn3Float( value / d );
 	}
 
 	// originally operator< 
-	boolean isLessThan( double d ) {
+	boolean isLessThan( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
@@ -60,7 +60,7 @@ public class Ttcn3Float {
 	}
 
 	// originally operator> 
-	boolean isGreaterThan( double d ) {
+	boolean isGreaterThan( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return !Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
@@ -73,7 +73,7 @@ public class Ttcn3Float {
 	}
 
 	// originally operator==
-	boolean equalsTo( double d ) {
+	boolean equalsTo( final double d ) {
 		if ( Double.isNaN( value ) ) {
 			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
@@ -86,7 +86,7 @@ public class Ttcn3Float {
 	}
 
 	// originally signbit
-	private boolean isNegativeZero( double d ) {
+	private boolean isNegativeZero( final double d ) {
 		// the original double signbit( double ) on the titan.core side
 		// returns the sign bit of the floating point number, which is 1 if negative, 0 if positive or exactly 0
 		// TTCN-3 handles 0.0 and 1.0 as one case, the only thing that matters is if the signum is negative or not.

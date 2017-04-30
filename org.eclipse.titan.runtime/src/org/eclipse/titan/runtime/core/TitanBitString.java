@@ -43,7 +43,7 @@ public class TitanBitString extends Base_Type {
 		n_bits = aOtherValue.n_bits;
 	}
 
-	public TitanBitString( byte aValue ) {
+	public TitanBitString( final byte aValue ) {
 		bits_ptr = new ArrayList<Byte>();
 		bits_ptr.add( aValue );
 		calculateNoBits();
@@ -153,7 +153,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( TitanBitString otherValue ) {
+	public boolean operatorEquals( final TitanBitString otherValue ) {
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring comparison.");
 
@@ -180,7 +180,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	TitanBitString_Element getAt(int index_value) {
+	TitanBitString_Element getAt(final int index_value) {
 		if (bits_ptr == null && index_value == 0) {
 			bits_ptr = new ArrayList<Byte>();
 			return new TitanBitString_Element(false, this, 0);

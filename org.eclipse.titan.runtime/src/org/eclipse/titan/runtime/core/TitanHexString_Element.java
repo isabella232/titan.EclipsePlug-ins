@@ -7,7 +7,7 @@ public class TitanHexString_Element {
 	TitanHexString str_val;
 	int nibble_pos;
 
-	public TitanHexString_Element( boolean par_bound_flag, TitanHexString par_str_val, int par_nibble_pos ) {
+	public TitanHexString_Element( final boolean par_bound_flag, final TitanHexString par_str_val, final int par_nibble_pos ) {
 		bound_flag = par_bound_flag;
 		str_val = par_str_val;
 		nibble_pos = par_nibble_pos;

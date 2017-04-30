@@ -6,17 +6,17 @@ package org.eclipse.titan.runtime.core;
  */
 public class TtcnLogger {
 
-	public static void log_event( String format, Object... args ) {
+	public static void log_event( final String format, final Object... args ) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public static void log_event_str( String string ) {
+	public static void log_event_str( final String string ) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public static void log_char( char c ) {
+	public static void log_char( final char c ) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -26,7 +26,7 @@ public class TtcnLogger {
 		
 	}
 
-	public static void log_hex( byte aHexDigit ) {
+	public static void log_hex( final byte aHexDigit ) {
 		// TODO Auto-generated method stub
 		
 	}
@@ -36,12 +36,12 @@ public class TtcnLogger {
 		
 	}
 
-	public static void log_octet( char aOctet ) {
+	public static void log_octet( final char aOctet ) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	public static void log_bit( byte aBit ) {
+	public static void log_bit( final byte aBit ) {
 		// TODO Auto-generated method stub
 		
 	}

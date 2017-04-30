@@ -20,7 +20,7 @@ public class TitanVerdictType extends Base_Type {
 		//do nothing
 	}
 
-	TitanVerdictType(VerdictTypeEnum other_value) {
+	TitanVerdictType(final VerdictTypeEnum other_value) {
 		if ( !isValid( other_value ) ) {
 			throw new TtcnError("Initializing a verdict variable with an invalid value (" + other_value + ").");
 		}
@@ -39,7 +39,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	//originally #define IS_VALID
-	public static boolean isValid( VerdictTypeEnum aVerdictValue ) {
+	public static boolean isValid( final VerdictTypeEnum aVerdictValue ) {
 		return aVerdictValue != null;
 	}
 
@@ -68,7 +68,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals( Base_Type otherValue ) {
+	public boolean operatorEquals( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanVerdictType) {
 			return operatorEquals((TitanVerdictType)otherValue);
 		}
@@ -132,7 +132,7 @@ public class TitanVerdictType extends Base_Type {
 //TODO: implement VERDICTTYPE::decode()
 //TODO: implement VERDICTTYPE::XER_encode()
 
-	VerdictTypeEnum str_to_verdict(String v, boolean silent) {
+	VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
 		for (VerdictTypeEnum i : VerdictTypeEnum.values()) {
 			if ( verdict_name[i.ordinal()].equals( v ) ) {
 				return i;

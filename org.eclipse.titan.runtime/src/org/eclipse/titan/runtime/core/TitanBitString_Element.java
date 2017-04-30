@@ -7,7 +7,7 @@ public class TitanBitString_Element {
 	TitanBitString str_val;
 	int nibble_pos;
 
-	public TitanBitString_Element( boolean par_bound_flag, TitanBitString par_str_val, int par_nibble_pos ) {
+	public TitanBitString_Element( final boolean par_bound_flag, final TitanBitString par_str_val, final int par_nibble_pos ) {
 		bound_flag = par_bound_flag;
 		str_val = par_str_val;
 		nibble_pos = par_nibble_pos;

@@ -77,7 +77,7 @@ public class TitanUniversalCharString extends Base_Type {
 		charstring = aOtherValue.charstring;
 	}
 
-	private static List<TitanUniversalChar> copyList(List<TitanUniversalChar> uList) {
+	private static List<TitanUniversalChar> copyList(final List<TitanUniversalChar> uList) {
 		if ( uList == null ) {
 			return null;
 		}
@@ -310,7 +310,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	public TitanUniversalCharString_Element getAt(int index_value) {
+	public TitanUniversalCharString_Element getAt(final int index_value) {
 		if ( !isBound() && index_value == 0 ) {
 			if ( charstring ) {
 				cstr = new StringBuilder();
@@ -380,12 +380,12 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	final TitanUniversalChar charAt( int i ) {
+	final TitanUniversalChar charAt( final int i ) {
 		//TODO, handle charstring case also if needed
 		return val_ptr.get( i );
 	}
 
-	final void setCharAt( int i, TitanUniversalChar c ) {
+	final void setCharAt( final int i, final TitanUniversalChar c ) {
 		//TODO, handle charstring case also if needed
 		val_ptr.set( i, c );
 	}

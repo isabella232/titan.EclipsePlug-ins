@@ -125,7 +125,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	public TitanCharString_Element getAt(int index_value) {
+	public TitanCharString_Element getAt(final int index_value) {
 		if (val_ptr == null && index_value == 0) {
 			val_ptr = new StringBuilder();
 			return new TitanCharString_Element(false, this, 0);

@@ -171,7 +171,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally boolean VERDICTTYPE_template::match(verdicttype other_value, boolean legacy ) const
-	public boolean match( final VerdictTypeEnum otherValue, boolean legacy ) {
+	public boolean match( final VerdictTypeEnum otherValue, final boolean legacy ) {
 		if ( !TitanVerdictType.isValid( otherValue ) ) {
 			throw new TtcnError("Matching a verdict template with an invalid value ("+otherValue+").");
 		}
@@ -197,13 +197,13 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally boolean VERDICTTYPE_template::match(const VERDICTTYPE& other_value, boolean legacy) const
-	public boolean match( final TitanVerdictType other_value, boolean legacy ) {
+	public boolean match( final TitanVerdictType other_value, final boolean legacy ) {
 		if (!other_value.isBound()) return false;
 		return match(other_value.getValue(), legacy);
 	}
 
 	//originally boolean operator==(verdicttype par_value, const VERDICTTYPE& other_value)
-	public boolean operatorEquals(VerdictTypeEnum par_value, TitanVerdictType other_value) {
+	public boolean operatorEquals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
 		if (!TitanVerdictType.isValid( par_value )) {
 			throw new TtcnError("The left operand of comparison is an invalid verdict value ("+par_value+").");
 		}
@@ -219,7 +219,7 @@ public class TitanVerdictType_template extends Base_Template {
 		return single_value.getValue();
 	}
 
-	public void set_type(template_sel template_type, int list_length) {
+	public void set_type(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Setting an invalid list type for a verdict template.");
 		}
@@ -229,7 +229,7 @@ public class TitanVerdictType_template extends Base_Template {
 		value_list = new ArrayList<TitanVerdictType_template>( list_length );
 	}
 
-	TitanVerdictType_template list_item( int list_index ) {
+	TitanVerdictType_template list_item( final int list_index ) {
 		if ( templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST ) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list verdict template.");
@@ -278,7 +278,7 @@ public class TitanVerdictType_template extends Base_Template {
 		return is_present( false );
 	}
 
-	public boolean is_present(boolean legacy ) {
+	public boolean is_present(final boolean legacy ) {
 		if ( templateSelection==template_sel.UNINITIALIZED_TEMPLATE ) return false;
 		return !match_omit(legacy);
 	}
@@ -287,7 +287,7 @@ public class TitanVerdictType_template extends Base_Template {
 		return match_omit( false );
 	}
 
-	boolean match_omit(boolean legacy ) {
+	boolean match_omit(final boolean legacy ) {
 		if (is_ifPresent) return true;
 		switch (templateSelection) {
 		case OMIT_VALUE:
@@ -308,7 +308,7 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 	}
 
-	void check_restriction( template_res t_res, String t_name ) {
+	void check_restriction( final template_res t_res, final String t_name ) {
 		check_restriction( t_res, t_name, false );
 	}
 
@@ -317,7 +317,7 @@ public class TitanVerdictType_template extends Base_Template {
 	 * #ifndef TITAN_RUNTIME_2
 	 * void VERDICTTYPE_template::check_restriction(template_res t_res, const char* t_name, boolean legacy = FALSE ) const
 	 */
-	void check_restriction(template_res t_res, String t_name, boolean legacy ) {
+	void check_restriction(final template_res t_res, final String t_name, final boolean legacy ) {
 		if ( templateSelection == template_sel.UNINITIALIZED_TEMPLATE ) return;
 		template_res res = ( t_name != null && ( t_res == template_res.TR_VALUE ) ) ? template_res.TR_OMIT : t_res;
 		switch ( res ) {

@@ -38,7 +38,7 @@ public class TitanHexString extends Base_Type {
 		nibbles_ptr = aOtherValue.nibbles_ptr;
 	}
 
-	public TitanHexString( byte aValue ) {
+	public TitanHexString( final byte aValue ) {
 		nibbles_ptr = new ArrayList<Byte>();
 		nibbles_ptr.add( aValue );
 	}
@@ -97,7 +97,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( TitanHexString otherValue ) {
+	public boolean operatorEquals( final TitanHexString otherValue ) {
 		mustBound("Unbound left operand of hexstring comparison.");
 		otherValue.mustBound("Unbound right operand of hexstring comparison.");
 
@@ -123,7 +123,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	//originally operator[](int)
-	TitanHexString_Element getAt(int index_value) {
+	TitanHexString_Element getAt(final int index_value) {
 		if (nibbles_ptr == null && index_value == 0) {
 			nibbles_ptr = new ArrayList<Byte>();
 			return new TitanHexString_Element(false, this, 0);
