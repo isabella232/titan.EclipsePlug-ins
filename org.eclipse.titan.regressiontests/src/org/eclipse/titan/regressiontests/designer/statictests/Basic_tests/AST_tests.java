@@ -2008,7 +2008,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> specificValue_template_tests_ttcn_initializer() {
 		//specificValue_template_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4643);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4626);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -2944,22 +2944,7 @@ public class AST_tests {
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 8;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 2", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		lineNum += 1;
-		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 2", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 1",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 0",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 0",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 2",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 0",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
+		lineNum += 24;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 4", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -2980,23 +2965,17 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@specific_template_tests.mySignature'", lineNum, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@specific_template_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field4' in template for signature `@specific_template_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 1",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@specific_template_tests.mySignature'", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@specific_template_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@specific_template_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@specific_template_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@specific_template_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@specific_template_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@specific_template_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@specific_template_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@specific_template_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `specific_template_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
@@ -3875,7 +3854,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(991);
@@ -5719,12 +5698,10 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
-	//template_assignment_tests_ttcn
-	
+
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4573);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4562);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6523,9 +6500,7 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Length restriction cannot be used in template of type `@template_assignment_tests.t_testcase'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 13;
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 2;
+		lineNum += 15;
 		markersToCheck.add(new MarkerToCheck("Field `Par3' is missing from signature value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `Par1' is missing from signature value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `Par3' is missing from signature value",  lineNum, IMarker.SEVERITY_ERROR));
@@ -6537,9 +6512,8 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 5",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 2",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 0",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicate parameter `Par3' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 3;
+		markersToCheck.add(new MarkerToCheck("Duplicate parameter `Par3' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Parameter `Par3' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 5",  lineNum, IMarker.SEVERITY_ERROR));
@@ -6548,25 +6522,18 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@template_assignment_tests.mySignature'", lineNum, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field4' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 1",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 0",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 3;
+		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too few elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
@@ -7447,7 +7414,6 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
 	private ArrayList<MarkerToCheck> template_formalparlist_tests_ttcn_initializer() {
 		//template_formalparlist_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(22);
