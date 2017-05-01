@@ -295,7 +295,7 @@ public class TitanUniversalCharString extends Base_Type {
 				if (val_ptr.isEmpty()) {
 					return other_value;
 				}
-				if (other_value.val_ptr.size() == 0) {
+				if (other_value.val_ptr.isEmpty()) {
 					return this;
 				}
 				final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
