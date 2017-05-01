@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class Parameter_Assignment extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	private final Reference reference;
 	private final Identifier identifier;
+	//FIXME add support for @decoded modifier
 
 	private Location location = NULL_Location.INSTANCE;
 
