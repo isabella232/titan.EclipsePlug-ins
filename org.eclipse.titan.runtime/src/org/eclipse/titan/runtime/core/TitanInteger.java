@@ -10,8 +10,6 @@ package org.eclipse.titan.runtime.core;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
-import org.eclipse.titan.runtime.core.TtcnError;
-
 /**
  * TTCN-3 integer
  * @author Arpad Lovassy
