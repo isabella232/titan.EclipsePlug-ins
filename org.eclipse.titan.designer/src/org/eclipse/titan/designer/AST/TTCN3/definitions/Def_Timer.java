@@ -48,7 +48,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * The Def_Timer class represents TTCN3 timer definitions.
  * <p>
  * Timers in TTCN3 does not have a type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_Timer extends Definition {
@@ -146,12 +146,12 @@ public final class Def_Timer extends Definition {
 	 * Returns false if it is sure that the timer referred by array indices
 	 * reference does not have a default duration. Otherwise it returns
 	 * true.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
 	 * @param reference
 	 *                might be NULL when examining a single timer.
-	 * 
+	 *
 	 * @return true if the timer has a default duration, false otherwise.
 	 * */
 	public boolean hasDefaultDuration(final CompilationTimeStamp timestamp, final Reference reference) {
@@ -193,7 +193,7 @@ public final class Def_Timer extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -235,8 +235,8 @@ public final class Def_Timer extends Definition {
 							final String message = MessageFormat.format(INFINITYDURATIONERROR,
 									real.createStringRepresentation());
 							defaultDuration.getLocation()
-									.reportSemanticError(message
-											);
+							.reportSemanticError(message
+									);
 						}
 					}
 					return;
@@ -353,7 +353,7 @@ public final class Def_Timer extends Definition {
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		final List<Integer> result = super.getPossibleExtensionStarterTokens();
-		
+
 		if (defaultDuration == null) {
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
 		}

@@ -245,12 +245,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		}
 
 		valueMap.clear();
-		
+
 		lastTimeChecked = timestamp;
-		
+
 		checkSubtypeRestrictions(timestamp);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -327,7 +327,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			final boolean isModified, final boolean implicitOmit) {
 		registerUsage(template);
 		template.setMyGovernor(this);
-		
+
 		if (!Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype()) ) {
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
 			template.setIsErroneous(true);
@@ -425,7 +425,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			items.addDeclaration(declarationCollector, i);
 		}
 	}
-	
+
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i, final Location commentLocation) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (i != 0 || subreferences.size() != 1 || declarationCollector.getReference().getModuleIdentifier() != null) {
@@ -434,10 +434,10 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 		final ISubReference subreference = subreferences.get(i);
 		if (Subreference_type.fieldSubReference.equals(subreference.getReferenceType()) && items != null) {
-			
+
 			if (commentLocation != null) {
 				items.addDeclaration(declarationCollector, i, commentLocation);
-			} 
+			}
 		}
 	}
 
@@ -481,7 +481,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			reparser.updateLocation(withAttributesPath.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
@@ -497,7 +497,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			}
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -506,7 +506,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			items.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

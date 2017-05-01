@@ -21,10 +21,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The Interleave_Statement class represents TTCN3 interleave statements.
- * 
+ *
  * @see AltGuards
  * @see AltGuard
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Interleave_Statement extends Statement {

@@ -56,7 +56,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_Function class represents TTCN3 function definitions.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_Function extends Definition implements IParameterisedAssignment {
@@ -271,7 +271,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -309,11 +309,11 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				}
 			}
 		}
-		
+
 		if(!canSkip) {
 			formalParList.reset();
 		}
-		
+
 		formalParList.check(timestamp, getAssignmentType());
 
 		if (returnType != null) {
@@ -355,8 +355,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					break;
 				case RS_MAYBE:
 					identifier.getLocation()
-							.reportSemanticError(
-									"The function has return type, but control might leave it without reaching a return statement");
+					.reportSemanticError(
+							"The function has return type, but control might leave it without reaching a return statement");
 					break;
 				default:
 					break;
@@ -381,12 +381,12 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	/**
 	 * Checks and returns whether the function is startable. Reports the
 	 * appropriate error messages.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * @param errorLocation
 	 *                the location to report the error to, if needed.
-	 * 
+	 *
 	 * @return true if startable, false otherwise
 	 * */
 	public boolean checkStartable(final CompilationTimeStamp timestamp, final Location errorLocation) {
@@ -416,7 +416,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	/**
 	 * Convert and check the encoding attributes applied to this function.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * */
@@ -469,7 +469,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 	/**
 	 * Checks the prototype attribute set for this function definition.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * */
@@ -487,17 +487,17 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					inputType = parameter.getType(timestamp);
 				} else {
 					parameter.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"The parameter must be an `in'' value parameter for attribute `prototype({0})'' instead of {1}",
-											prototype.getName(), parameter.getAssignmentName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"The parameter must be an `in'' value parameter for attribute `prototype({0})'' instead of {1}",
+									prototype.getName(), parameter.getAssignmentName()));
 				}
 			} else {
 				formalParList.getLocation()
-						.reportSemanticError(
-								MessageFormat.format(
-										"The function must have one parameter instead of {0} for attribute `prototype({1})''",
-										formalParList.getNofParameters(), prototype.getName()));
+				.reportSemanticError(
+						MessageFormat.format(
+								"The function must have one parameter instead of {0} for attribute `prototype({1})''",
+								formalParList.getNofParameters(), prototype.getName()));
 			}
 		} else if (formalParList.getNofParameters() == 2) {
 			final FormalParameter firstParameter = formalParList.getParameterByIndex(0);
@@ -515,19 +515,19 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 							break;
 						default:
 							firstParameter.getLocation()
-									.reportSemanticError(
-											MessageFormat.format(
-													"The type of the first parameter must be `octetstring'' or `charstring'' for attribute `prototype({0})''",
-													prototype.getName()));
+							.reportSemanticError(
+									MessageFormat.format(
+											"The type of the first parameter must be `octetstring'' or `charstring'' for attribute `prototype({0})''",
+											prototype.getName()));
 							break;
 						}
 					}
 				} else {
 					firstParameter.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"The first parameter must be an `inout'' value parameter for attribute `prototype({0})'' instead of {1}",
-											prototype.getName(), firstParameter.getAssignmentName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"The first parameter must be an `inout'' value parameter for attribute `prototype({0})'' instead of {1}",
+									prototype.getName(), firstParameter.getAssignmentName()));
 				}
 			} else {
 				final Assignment_type assignmentType = firstParameter.getRealAssignmentType();
@@ -535,10 +535,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					inputType = firstParameter.getType(timestamp);
 				} else {
 					firstParameter.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"The first parameter must be an `in'' value parameter for attribute `prototype({0})'' instead of {1}",
-											prototype.getName(), firstParameter.getAssignmentName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"The first parameter must be an `in'' value parameter for attribute `prototype({0})'' instead of {1}",
+									prototype.getName(), firstParameter.getAssignmentName()));
 				}
 			}
 
@@ -547,10 +547,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				outputType = secondParameter.getType(timestamp);
 			} else {
 				secondParameter.getLocation()
-						.reportSemanticError(
-								MessageFormat.format(
-										"The second parameter must be an `out'' value parameter for attribute `prototype({0})'' instead of {1}",
-										prototype.getName(), secondParameter.getAssignmentName()));
+				.reportSemanticError(
+						MessageFormat.format(
+								"The second parameter must be an `out'' value parameter for attribute `prototype({0})'' instead of {1}",
+								prototype.getName(), secondParameter.getAssignmentName()));
 			}
 		} else {
 			formalParList.getLocation().reportSemanticError(
@@ -572,10 +572,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			} else {
 				if (Assignment_type.A_FUNCTION_RTEMP.semanticallyEquals(assignmentType)) {
 					returnType.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"The function must return a value instead of a template for attribute `prototype({0})''",
-											prototype.getName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"The function must return a value instead of a template for attribute `prototype({0})''",
+									prototype.getName()));
 				}
 
 				if (EncodingPrototype_type.CONVERT.equals(prototype)) {
@@ -585,10 +585,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 					if (!last.getIsErroneous(timestamp) && !Type_type.TYPE_INTEGER.equals(last.getTypetypeTtcn3())) {
 						returnType.getLocation()
-								.reportSemanticError(
-										MessageFormat.format(
-												"The return type of the function must be `integer'' instead of `{0}'' for attribute `prototype({1})''",
-												returnType.getTypename(), prototype.getName()));
+						.reportSemanticError(
+								MessageFormat.format(
+										"The return type of the function must be `integer'' instead of `{0}'' for attribute `prototype({1})''",
+										returnType.getTypename(), prototype.getName()));
 					}
 				}
 			}
@@ -703,7 +703,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			lastTimeChecked = null;
-			
+
 			boolean enveloped = false;
 
 			final Location temporalIdentifier = identifier.getLocation();
@@ -893,7 +893,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
-		
+
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
@@ -901,10 +901,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		// return value
 		switch (assignmentType) {
-		case A_FUNCTION_RVAL: 
+		case A_FUNCTION_RVAL:
 			source.append( returnType.getGenNameValue( aData, source, getMyScope() ) );
 			break;
-		case A_FUNCTION_RTEMP: 
+		case A_FUNCTION_RTEMP:
 			source.append( returnType.getGenNameTemplate( aData, source, getMyScope() ) );
 			break;
 		case A_FUNCTION:
@@ -926,7 +926,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		}
 		source.append( ") {\n" );
 		block.generateJava(aData, source);
-		source.append( "\t}\n" );	
+		source.append( "\t}\n" );
 		sb.append(source);
 	}
 }

@@ -95,7 +95,7 @@ public final class Float_Type extends ASN1Type {
 	public String getOutlineIcon() {
 		return "float.gif";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -116,7 +116,7 @@ public final class Float_Type extends ASN1Type {
 		if (constraints != null) {
 			constraints.check(timestamp);
 		}
-		
+
 		checkSubtypeRestrictions(timestamp);
 	}
 

@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The base of what a Value is.
- * 
+ *
  * @author Kristof Szabados
  * */
 // TODO The ASN.1 values can not be incrementally updated.
@@ -134,13 +134,13 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		return type;
 	}
 
-	 /**
-	  * Returns true if the value is unknown at compile-time.
-	  *
-	  * @param timestamp the time stamp of the actual semantic check cycle.
-	  *
-	  * @return true if the value is unfoldable, false if it is foldable
-	  * */
+	/**
+	 * Returns true if the value is unknown at compile-time.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 *
+	 * @return true if the value is unfoldable, false if it is foldable
+	 * */
 	@Override
 	public final boolean isUnfoldable(final CompilationTimeStamp timestamp) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -150,28 +150,28 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		return result;
 	}
 
-	 /**
-	  * Returns true if the value is unknown at compile-time.
-	  *
-	  * @param timestamp the time stamp of the actual semantic check cycle.
-	  * @param referenceChain the reference chain to detect circular references.
-	  *
-	  * @return true if the value is unfoldable, false if it is foldable
-	  * */
+	/**
+	 * Returns true if the value is unknown at compile-time.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 * @param referenceChain the reference chain to detect circular references.
+	 *
+	 * @return true if the value is unfoldable, false if it is foldable
+	 * */
 	@Override
 	public final boolean isUnfoldable(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		return isUnfoldable(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
 	}
 
-	 /**
-	  * Returns true if the value is unknown at compile-time.
-	  *
-	  * @param timestamp the time stamp of the actual semantic check cycle.
-	  * @param expectedValue the kind of the value to be expected.
-	  * @param referenceChain the reference chain to detect circular references.
-	  *
-	  * @return true if the value is unfoldable, false if it is foldable
-	  * */
+	/**
+	 * Returns true if the value is unknown at compile-time.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 * @param expectedValue the kind of the value to be expected.
+	 * @param referenceChain the reference chain to detect circular references.
+	 *
+	 * @return true if the value is unfoldable, false if it is foldable
+	 * */
 	@Override
 	public abstract boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain);
@@ -390,7 +390,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * be eliminated in case of short-circuit evaluation of logical "and" and
 	 * "or" operations. This function is applied on the second (right) operand
 	 * of the expression.
-	 * 
+	 *
 	 * needs_short_circuit in the compiler
 	 * */
 	public boolean needsShortCircuit () {
@@ -401,7 +401,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	/**
 	 * Returns whether the value can be represented by an in-line Java
 	 *  expression.
-	 *  
+	 *
 	 *  has_single_expr in the compiler
 	 * */
 	public boolean canGenerateSingleExpression() {
@@ -409,13 +409,13 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		//TODO implement
 		return false;
 	}
-	
+
 	/**
 	 * Returns the equivalent Java expression.
 	 * It can be used only if canGenerateSingleExpression() returns true
-	 * 
+	 *
 	 * get_single_expr in the compiler
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
@@ -425,18 +425,18 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateSingleExpression() is not implemented!\n" );
-		
+
 		return source;
 	}
-	
+
 	/**
 	 * Generates a Java code sequence, which initializes the Java
 	 *  object named  name with the contents of the value. The code
 	 *  sequence is appended to argument source and the resulting
 	 *  string is returned.
-	 *  
+	 *
 	 *  generate_code_init in the compiler
-	 *  
+	 *
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param source the source to be updated
 	 *  @param name the name to be used for initialization
@@ -447,19 +447,19 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateJavaInit() is not implemented!\n" );
-		
+
 		return source;
 	}
-	
+
 	/**
 	 * Generates the equivalent Java code for the value. It is used
 	 *  when the value is part of a complex expression (e.g. as
 	 *  operand of a built-in operation, actual parameter, array
 	 *  index). The generated code fragments are appended to the
 	 *  fields of visitor expr.
-	 *  
+	 *
 	 *  generate_code_expr in the compiler
-	 *  
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression to generate source code into
 	 * */
@@ -468,12 +468,12 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			expression.expression.append(generateSingleExpression(aData));
 			return;
 		}
-		
+
 		expression.expression.append( "\t//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
 		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
 	}
-	
+
 	/**
 	 *  Generates a value for temporary use. Example:
 	 *
@@ -499,9 +499,9 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *    if(tmp_2
 	 *
 	 *  and also increments the blockcount because you have to close it...
-	 *  
+	 *
 	 *  generate_code_tmp in the compiler
-	 *  
+	 *
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param source the source to be updated
 	 *  @param prefix the string to be used as prefix of the value
@@ -510,7 +510,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final ChangeableInteger blockCount) {
 		StringBuilder s2 = new StringBuilder();
 		StringBuilder s1 = generateCodeTmp(aData, new StringBuilder(), s2);
-		
+
 		if(s2.length() > 0) {
 			if(blockCount.getValue() == 0) {
 				source.append("{\n");
@@ -518,25 +518,25 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			}
 			source.append(s2);
 		}
-		
+
 		source.append(prefix);
 		source.append(s1);
-		
+
 		return source;
 	}
-	
+
 	/**
-	 * as above 
+	 * as above
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param source the source code to be updated
 	 *  @param init is the content to be generated before the current value
 	 * */
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
 		ExpressionStruct expression = new ExpressionStruct();
-		
+
 		//TODO actually only the mandatory part is needed
 		generateCodeExpression(aData, expression);
-		
+
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			String tempId = aData.getTemporaryVariableName();
 			if(Type_type.TYPE_BOOL.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
@@ -547,7 +547,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			init.append(" ");
 			init.append(tempId);
 			init.append(";\n");
-			
+
 			if (expression.preamble.length() > 0) {
 				init.append(expression.preamble);
 			}
@@ -563,7 +563,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		} else {
 			source.append(expression.expression);
 		}
-		
+
 		return source;
 	}
 }

@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokens;
  * In ASN.1 most of the tokens inside blocks can not be analyzed directly in
  * parse time. For this reason we are collecting them in such blocks, and when
  * the semantics are, these blocks are processed.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -43,17 +43,17 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	 * fully, as it is used to report errors to.
 	 **/
 	private Location mLocation;
-	
+
 	/** the naming parent of the block. */
 	private WeakReference<INamedNode> mNameParent;
-	
+
 	/**
 	 * The list of the tokens contained inside the actual block. There might
 	 * be sub-blocks in this list, but it does not contain its own '{' '}'
 	 * enclosing tokens
 	 * */
 	private List<Token> tokenList;
-	
+
 	private int index = 0;
 
 	private Block( final Location aLocation ) {
@@ -75,12 +75,12 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 			tokenList = ((TokenWithIndexAndSubTokens) token).getSubTokens();
 		}
 	}
-	
+
 	/** @return the location of the block */
 	public Location getLocation() {
 		return mLocation;
 	}
-	
+
 	public void setLocation( final Location aLocation ) {
 		mLocation = aLocation;
 	}
@@ -134,7 +134,7 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	public int getTokenListSize() {
 		return tokenList.size();
 	}
-	
+
 	public List<Token> getTokenList() {
 		return tokenList;
 	}

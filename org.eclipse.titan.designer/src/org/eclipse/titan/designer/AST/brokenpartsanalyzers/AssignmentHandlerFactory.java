@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
- * 
+ *
  * @author Peter Olah
  */
 public final class AssignmentHandlerFactory {
@@ -25,21 +25,21 @@ public final class AssignmentHandlerFactory {
 	public static AssignmentHandler getDefinitionHandler(final Assignment assignment) {
 
 		switch (assignment.getAssignmentType()) {
-			case A_ALTSTEP:
-			case A_FUNCTION:
-			case A_FUNCTION_RTEMP:
-			case A_FUNCTION_RVAL:
-			case A_TESTCASE:
+		case A_ALTSTEP:
+		case A_FUNCTION:
+		case A_FUNCTION_RTEMP:
+		case A_FUNCTION_RVAL:
+		case A_TESTCASE:
+			return new AssignmentHandlerAFTRerences(assignment);
+		case A_TYPE:
+			final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
+			if (type instanceof Component_Type) {
+				return new AssignmentHandlerComponent(assignment);
+			} else {
 				return new AssignmentHandlerAFTRerences(assignment);
-			case A_TYPE:
-				final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
-				if (type instanceof Component_Type) {
-					return new AssignmentHandlerComponent(assignment);
-				} else {
-					return new AssignmentHandlerAFTRerences(assignment);
-				}
-			default:
-				return new AssignmentHandlerAFTRerences(assignment);
+			}
+		default:
+			return new AssignmentHandlerAFTRerences(assignment);
 		}
 	}
 }

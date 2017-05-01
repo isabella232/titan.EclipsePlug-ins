@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * <p>
  * Please note that because of the purpose of this class, none of its methods
  * does any real work.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class NULL_Location extends Location {

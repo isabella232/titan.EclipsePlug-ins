@@ -36,7 +36,7 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 
 	/**
 	 * Adds an attribute to the list.
-	 * 
+	 *
 	 * @param attribute
 	 *                the attribute to be added.
 	 * */
@@ -74,10 +74,10 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 
 	/**
 	 * Returns the attribute at the given index.
-	 * 
+	 *
 	 * @param index
 	 *                the index of the attribute to be returned.
-	 * 
+	 *
 	 * @return the attribute at the given index.
 	 * */
 	public SingleWithAttribute getAttribute(final int index) {
@@ -90,7 +90,7 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 
 	/**
 	 * Handles the incremental parsing of this attribute set.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

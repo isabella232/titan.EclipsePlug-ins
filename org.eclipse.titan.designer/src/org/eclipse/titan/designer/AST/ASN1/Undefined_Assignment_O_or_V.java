@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * An undefined assignment.
  * <p>
  * Can only be Object or Value assignment because of the syntax
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Undefined_Assignment_O_or_V extends Undefined_Assignment {
@@ -147,11 +147,11 @@ public final class Undefined_Assignment_O_or_V extends Undefined_Assignment {
 	protected ASN1Assignment internalNewInstance(final Identifier identifier) {
 		if (null != mBlock) {
 			return new Undefined_Assignment_O_or_V(identifier, null, reference.newInstance(), mBlock);
-		} 
+		}
 
 		return new Undefined_Assignment_O_or_V(identifier, null, reference.newInstance(), objectReference.newInstance());
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

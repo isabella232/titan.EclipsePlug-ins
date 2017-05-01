@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template that matches for not used elements.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class NotUsed_Template extends TTCN3Template {

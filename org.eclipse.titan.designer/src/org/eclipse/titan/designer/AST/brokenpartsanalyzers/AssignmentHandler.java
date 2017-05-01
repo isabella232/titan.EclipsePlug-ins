@@ -24,24 +24,24 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public abstract class AssignmentHandler extends ASTVisitor implements IAssignmentChecker {
 	// The assignment this definition is representing
 	protected Assignment assignment;
-	
+
 	/**
 	 * An infected assignment is an assignment that needs to be re-analyzed.
-	 * 
+	 *
 	 * It is important to note that some assignments can be infected without spreading it.
 	 */
 	private boolean isInfected;
 
 	/**
 	 * A contagious assignment is infected and all assignments referencing it need to be re-analyzed too.
-	 * 
+	 *
 	 * It is important to note that some assignments can be infected without spreading it.
 	 */
 	private boolean isContagious;
 
 	/**
 	 * The list of reasons an assignment needs to be re-analyzed.
-	 * 
+	 *
 	 * Servers debugging purpose.
 	 * */
 	private final List<String> reasons;

@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a function based type mapping target.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class FunctionTypeMappingTarget extends TypeMappingTarget {

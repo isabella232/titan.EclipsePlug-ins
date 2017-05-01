@@ -98,7 +98,7 @@ public final class EnumerationItems extends ASTNode implements IIncrementallyUpd
 			item.addDeclaration(declarationCollector, i);
 		}
 	}
-	
+
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i, final Location commentLocation) {
 		for (EnumItem item : items) {
 			item.addDeclaration(declarationCollector, i);
@@ -119,7 +119,7 @@ public final class EnumerationItems extends ASTNode implements IIncrementallyUpd
 			reparser.updateLocation(item.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {

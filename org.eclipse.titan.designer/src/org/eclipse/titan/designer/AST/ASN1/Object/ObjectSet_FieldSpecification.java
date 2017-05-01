@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent an ObjectSetFieldSpec.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectSet_FieldSpecification extends FieldSpecification {

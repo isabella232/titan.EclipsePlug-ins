@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * The Statement class represents a general TTCN3 statement.
  * <p>
  * This class is used a base class for all the specific TTCN3 statements.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Statement extends ASTNode implements ILocateableNode, IAppendableSyntax, IIncrementallyUpdateable {
@@ -242,7 +242,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Sets the statementblock in which this statement was be found.
-	 * 
+	 *
 	 * @param statementBlock
 	 *                the statementblock containing this statement.
 	 * @param index
@@ -259,7 +259,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Add the provided definition down to all statements.
-	 * 
+	 *
 	 * @param definition
 	 *                the definition the statement is located within.
 	 * */
@@ -269,7 +269,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	/**
 	 * Sets the altguards for the statement in which the statement actually
 	 * is.
-	 * 
+	 *
 	 * @param altGuards
 	 *                the altguards to which the statement belongs to.
 	 * */
@@ -281,10 +281,10 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * <p>
 	 * Infinite loops also have this potential as the only way to exit them
 	 * is to terminate the program.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return true if the statement can terminate the current statement
 	 *         block, false otherwise.
 	 * */
@@ -295,10 +295,10 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	/**
 	 * Checks whether the statement has a return statement, either directly
 	 * or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the statement.
 	 * */
 	public ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
@@ -311,7 +311,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Does the semantic checking of the statement.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -348,7 +348,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Handles the incremental parsing of this statement.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

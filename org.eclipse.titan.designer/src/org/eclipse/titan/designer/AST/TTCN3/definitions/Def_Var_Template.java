@@ -43,7 +43,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Represents a TTCN3 template variable.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -56,10 +56,10 @@ public final class Def_Var_Template extends Definition {
 	private static final String KIND = " template variable definition";
 
 	private final Type type;
-	
+
 	/**
 	 * Formal parameters.
-	 * NOTE: It is not yet supported, so semantic error must be marked if not null 
+	 * NOTE: It is not yet supported, so semantic error must be marked if not null
 	 */
 	private FormalParameterList mFormalParList;
 	private final TTCN3Template initialValue;
@@ -68,10 +68,10 @@ public final class Def_Var_Template extends Definition {
 	private boolean wasAssigned;
 
 	public Def_Var_Template( final TemplateRestriction.Restriction_type templateRestriction,
-							 final Identifier identifier,
-							 final Type type,
-							 final FormalParameterList aFormalParList,
-							 final TTCN3Template initialValue) {
+			final Identifier identifier,
+			final Type type,
+			final FormalParameterList aFormalParList,
+			final TTCN3Template initialValue) {
 		super(identifier);
 		this.templateRestriction = templateRestriction;
 		this.type = type;
@@ -164,7 +164,7 @@ public final class Def_Var_Template extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -235,7 +235,7 @@ public final class Def_Var_Template extends Definition {
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 							PreferenceConstants.REPORTREADONLY, GeneralConstants.WARNING, null),
-					MessageFormat.format("The {0} seems to be never written, maybe it could be a template", getDescription()));
+							MessageFormat.format("The {0} seems to be never written, maybe it could be a template", getDescription()));
 		}
 	}
 
@@ -277,10 +277,10 @@ public final class Def_Var_Template extends Definition {
 		if (initialValue != null) {
 			if (otherVariable.initialValue == null) {
 				initialValue.getLocation()
-						.reportSemanticWarning(
-								MessageFormat.format(
-										"Local template variable `{0}'' has initial value, but the template variable inherited from component type `{1}'' does not",
-										identifier.getDisplayName(), otherVariable.getMyScope().getFullName()));
+				.reportSemanticWarning(
+						MessageFormat.format(
+								"Local template variable `{0}'' has initial value, but the template variable inherited from component type `{1}'' does not",
+								identifier.getDisplayName(), otherVariable.getMyScope().getFullName()));
 			}
 		} else if (otherVariable.initialValue != null) {
 			location.reportSemanticWarning(MessageFormat
@@ -340,7 +340,7 @@ public final class Def_Var_Template extends Definition {
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		final List<Integer> result = super.getPossibleExtensionStarterTokens();
-		
+
 		if (initialValue == null) {
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
 		}
@@ -456,7 +456,7 @@ public final class Def_Var_Template extends Definition {
 	public boolean getWritten() {
 		return wasAssigned;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
@@ -482,7 +482,7 @@ public final class Def_Var_Template extends Definition {
 		}
 		sb.append(source);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
@@ -493,7 +493,7 @@ public final class Def_Var_Template extends Definition {
 		if (initialValue != null) {
 			initialValue.setGenNameRecursive(genName);
 		}
-		
+
 		// temporal code until generate_code_object and generateJavaInit is supported for templates
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
@@ -503,6 +503,6 @@ public final class Def_Var_Template extends Definition {
 		if ( initialValue != null ) {
 			initialValue.generateJavaInit( aData, source, genName );
 		}
-		
+
 	}
 }

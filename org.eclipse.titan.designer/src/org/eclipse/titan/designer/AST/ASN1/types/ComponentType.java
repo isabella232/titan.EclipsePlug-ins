@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.AST.Location;
  * ComponentType (abstract class).
  * <p>
  * Originally CT in TITAN
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ComponentType extends ExtensionAddition implements ILocateableNode {

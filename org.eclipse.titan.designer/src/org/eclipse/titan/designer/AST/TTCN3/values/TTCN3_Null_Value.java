@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a null value of which we could not yet determine the actual type.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class TTCN3_Null_Value extends Value {

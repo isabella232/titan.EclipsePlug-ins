@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * The RunsOnScope class represents the TTCN3 specific 'runs on' scope, which is
  * a link to the contents of the Component type used as 'runs on' component.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class RunsOnScope extends TTCN3Scope {
@@ -46,7 +46,7 @@ public final class RunsOnScope extends TTCN3Scope {
 
 	/**
 	 * Sets the component type for this runs on scope.
-	 * 
+	 *
 	 * @param componentType
 	 *                the component type creating this runs on clause.
 	 * */
@@ -84,11 +84,11 @@ public final class RunsOnScope extends TTCN3Scope {
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
-			if (componentDefinitions != null && componentDefinitions.hasLocalAssignmentWithId(reference.getId())) {
+		if (componentDefinitions != null && componentDefinitions.hasLocalAssignmentWithId(reference.getId())) {
 			return componentDefinitions.getLocalAssignmentById(reference.getId());
 		}
 		if (parentScope != null) {

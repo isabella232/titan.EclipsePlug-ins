@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * An undefined assignment.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Undefined_Assignment extends ASN1Assignment {
@@ -109,8 +109,8 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -155,7 +155,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 
 	/**
 	 * Classifies the actually unknown assignment.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
 	 * @param referenceChain

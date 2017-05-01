@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * Represents a single error behavior attribute (which can hold a list of error
  * behaviors) on an external function, used to tell the generator of the
  * external function how to handle errors.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ErrorBehaviorAttribute extends ExtensionAttribute implements IVisitableNode {
@@ -38,7 +38,7 @@ public final class ErrorBehaviorAttribute extends ExtensionAttribute implements 
 
 	/**
 	 * Does the semantic checking of the error behavior attribute.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

@@ -17,18 +17,18 @@ public class ASTtoXMLgeneratorVisitor extends ASTVisitor {
 
 	public ASTtoXMLgeneratorVisitor() {
 	}
-	
+
 	@Override
 	public int visit(final IVisitableNode node) {
 		sb.append("<li><b>").append(node.getClass().getSimpleName()).append("</b>");
-		
+
 		if (node instanceof Identifier) {
 			sb.append(" <u>").append(((Identifier)node).getDisplayName()).append("</u>");
 		} else
-		if (node instanceof INamedNode) {
-			sb.append(" <i>").append(((INamedNode)node).getFullName()).append("</i>");
-		}
-		
+			if (node instanceof INamedNode) {
+				sb.append(" <i>").append(((INamedNode)node).getFullName()).append("</i>");
+			}
+
 		sb.append("<ul>");
 		return V_CONTINUE;
 	}
@@ -37,7 +37,7 @@ public class ASTtoXMLgeneratorVisitor extends ASTVisitor {
 		sb.append("</ul></li>");
 		return V_CONTINUE;
 	}
-	
+
 	public void printXML() {
 		TITANDebugConsole.println(sb.toString());
 	}

@@ -38,7 +38,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * <p>
  * This value kind can not be parsed,
  * it is converted from a sequence when it is checked against an anytype type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Anytype_Value extends Value {

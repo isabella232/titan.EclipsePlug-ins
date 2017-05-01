@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 
 /**
  * Class to represent a literal element in an OCS.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectClassSyntax_literal extends ObjectClassSyntax_Node {

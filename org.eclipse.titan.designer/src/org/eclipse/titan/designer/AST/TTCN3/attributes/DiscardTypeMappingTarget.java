@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a discard mapping target.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class DiscardTypeMappingTarget extends TypeMappingTarget {

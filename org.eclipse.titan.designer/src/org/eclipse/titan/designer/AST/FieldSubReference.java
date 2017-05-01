@@ -17,13 +17,13 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The FieldSubReference class represents a part of a TTCN3 or ASN.1 reference, which was given in fieldreference notation ('.field1').
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class FieldSubReference implements ISubReference, ILocateableNode {
 	public static final String INVALIDSUBREFERENCE = "Invalid field reference `{0}'': type `{1}'' does not have fields.";
 	public static final String NONEXISTENTSUBREFERENCE = "Reference to a non-existent field `{0}'' in type `{1}''";
-//	public static final String INVALIDREFERENCE1 = "Type `{0}'' does not have fields.";
+	//	public static final String INVALIDREFERENCE1 = "Type `{0}'' does not have fields.";
 
 	private final Identifier fieldId;
 
@@ -108,7 +108,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 
 		reparser.updateLocation(fieldId.getLocation());
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -135,7 +135,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 
 	/**
 	 * Generates getter/setter name without "get"/"set" for TTCN-3 record fields,
-	 * which will be class member variables in java 
+	 * which will be class member variables in java
 	 * @return aTtcn3RecField TTCN-3 record field name
 	 */
 	public static String getJavaGetterName( final String aTtcn3RecField ) {

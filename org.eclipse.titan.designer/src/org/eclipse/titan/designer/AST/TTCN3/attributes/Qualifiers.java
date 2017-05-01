@@ -39,7 +39,7 @@ public final class Qualifiers implements IIncrementallyUpdateable, IIdentifierCo
 
 	/**
 	 * Adds a qualifier to the list of qualifiers.
-	 * 
+	 *
 	 * @param qualifier
 	 *                the qualifier to be added.
 	 * */
@@ -56,7 +56,7 @@ public final class Qualifiers implements IIncrementallyUpdateable, IIdentifierCo
 
 	/**
 	 * Returns the qualifier at the specified position.
-	 * 
+	 *
 	 * @param index
 	 *                the index of the element to return.
 	 * @return the qualifier at the given index.
@@ -67,7 +67,7 @@ public final class Qualifiers implements IIncrementallyUpdateable, IIdentifierCo
 
 	/**
 	 * Handles the incremental parsing of this list of qualifiers.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

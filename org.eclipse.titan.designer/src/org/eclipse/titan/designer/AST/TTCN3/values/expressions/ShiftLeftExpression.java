@@ -147,7 +147,7 @@ public final class ShiftLeftExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -294,12 +294,12 @@ public final class ShiftLeftExpression extends Expression_Value {
 
 	/**
 	 * Shifts the contents of the string left by the provided amount.
-	 * 
+	 *
 	 * @param string
 	 *                the string to be shifted
 	 * @param shiftSize
 	 *                the amount with which the shifting should be done
-	 * 
+	 *
 	 * @return the resulting shifted value.
 	 * */
 	public static String shiftLeft(final String string, final long shiftSize) {

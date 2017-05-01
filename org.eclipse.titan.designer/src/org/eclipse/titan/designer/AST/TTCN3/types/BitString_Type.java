@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * bitstring type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class BitString_Type extends Type {
@@ -84,7 +84,7 @@ public final class BitString_Type extends Type {
 	public String getOutlineIcon() {
 		return "bitstring.gif";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -105,7 +105,7 @@ public final class BitString_Type extends Type {
 		if (constraints != null) {
 			constraints.check(timestamp);
 		}
-		
+
 		checkSubtypeRestrictions(timestamp);
 	}
 

@@ -258,7 +258,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	 * <p>
 	 * The type referred last is identified, and the job of adding a
 	 * proposal is delegated to it.
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector to add the proposal to, and
 	 *                used to get more information
@@ -282,7 +282,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	 * <p>
 	 * The type referred last is identified, and the job of adding a
 	 * declaration is delegated to it.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector to add the declaration to,
 	 *                and used to get more information.

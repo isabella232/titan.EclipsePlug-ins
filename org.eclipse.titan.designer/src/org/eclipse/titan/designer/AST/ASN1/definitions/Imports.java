@@ -36,7 +36,7 @@ import org.eclipse.titan.designer.parsers.ProjectStructureDataCollector;
 
 /**
  * Imported modules.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Imports extends ASTNode implements IOutlineElement, ILocateableNode {
@@ -78,12 +78,12 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 		if (null != importedModule && null != importedModule.getIdentifier() && null != importedModule.getIdentifier().getName()) {
 			importedModule.setProject(project);
 			importedModules_v.add(importedModule);
-		} 
+		}
 	}
 
 	/**
 	 * Sets the parser of the project this module importation belongs to.
-	 * 
+	 *
 	 * @param project
 	 *                the project this module importation belongs to
 	 * */
@@ -108,7 +108,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 
 	/**
 	 * Sets the module of this importation list to be the provided module.
-	 * 
+	 *
 	 * @param module
 	 *                the module of this importations.
 	 * */
@@ -145,7 +145,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	/**
 	 * Checks the import hierarchies of this importation (and the ones in
 	 * the imported module recursively).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -226,7 +226,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 			importModule.setUnhandledChange(false);
 			LoadBalancingUtilities.astNodeChecked();
 		}
-		
+
 		for (ImportModule importModule : importedModules_v) {
 			// check the imports recursively
 			referenceChain.markState();
@@ -238,7 +238,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 
 	/**
 	 * checks the import statement itself.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 **/
@@ -253,7 +253,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 * <p>
 	 * Module importations that does not point to an existing module are
 	 * reported as null objects.
-	 * 
+	 *
 	 * @return the list of modules imported by the actual module.
 	 * */
 	public List<Module> getImportedModules() {
@@ -292,10 +292,10 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 
 	/**
 	 * Checks if a module with the provided id is imported in this module.
-	 * 
+	 *
 	 * @param id
 	 *                the identifier to use.
-	 * 
+	 *
 	 * @return true if a module with the provided name is imported, false
 	 *         otherwise.
 	 * */
@@ -306,10 +306,10 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 
 	/**
 	 * Checks if a module with the provided id is imports this module.
-	 * 
+	 *
 	 * @param id
 	 *                the identifier to use.
-	 * 
+	 *
 	 * @return true if a module with the provided name imports this module,
 	 *         false otherwise.
 	 * */
@@ -325,10 +325,10 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	/**
 	 * Checks if there is a symbol imported from anywhere with the provided
 	 * identifier.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier used to search for a symbol.
-	 * 
+	 *
 	 * @return true if a symbol with the provided name is imported, false
 	 *         otherwise.
 	 * */
@@ -340,7 +340,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 * Searches for elements that could complete the provided prefix, and if
 	 * found, they are added to the provided proposal collector.
 	 * <p>
-	 * 
+	 *
 	 * @see ProposalCollector
 	 * @param propCollector
 	 *                the proposal collector holding the prefix and
@@ -356,7 +356,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 * Searches for elements that could be referred to be the provided
 	 * reference, and if found, they are added to the declaration collector.
 	 * <p>
-	 * 
+	 *
 	 * @see DeclarationCollector
 	 * @param declarationCollector
 	 *                the declaration collector folding the reference and

@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * The Scope class represents general visibility scopes.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Scope implements INamedNode, IIdentifierContainer, IVisitableNode {
@@ -223,7 +223,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	 *                otherwise.
 	 *
 	 * @return the system or mtc component type, or null if it cannot be
-	 *         determined (outside testcase definitions - in functions and in altsteps ) 
+	 *         determined (outside testcase definitions - in functions and in altsteps )
 	 * */
 	public Component_Type getMtcSystemComponentType(final CompilationTimeStamp timestamp, final boolean isSystem) {
 		if (parentScope == null) {
@@ -597,7 +597,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 				sb.append(", ");
 			}
 			sb.append(subScopes.get(i).getClass().getName()).append(": LOC=[").append(subScopeLocations.get(i).getOffset()).append('-')
-					.append(subScopeLocations.get(i).getEndOffset()).append(']');
+			.append(subScopeLocations.get(i).getEndOffset()).append(']');
 		}
 		return sb.toString();
 	}
@@ -613,7 +613,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 				sb.append("\n    -> ");
 			}
 			sb.append('[').append(s.scopeName).append("]*[").append(s.getFullName()).append("]*[").append(s.getClass().getName())
-					.append("] SUBSCOPES: ").append(s.getSubScopeAndLocInfo());
+			.append("] SUBSCOPES: ").append(s.getSubScopeAndLocInfo());
 			s = s.parentScope;
 			first = false;
 		}

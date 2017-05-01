@@ -39,7 +39,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @see Alt_Statement
  * @see Interleave_Statement
  * @see Def_Altstep
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class AltGuards extends ASTNode implements IIncrementallyUpdateable {
@@ -213,7 +213,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				guard.getLocation().reportConfigurableSemanticProblem(
 						Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 								PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null),
-						SHADOWEDBYELSE);
+								SHADOWEDBYELSE);
 			}
 			if (altguard_type.AG_ELSE.equals(guard.getType())) {
 				unreachableFound = true;

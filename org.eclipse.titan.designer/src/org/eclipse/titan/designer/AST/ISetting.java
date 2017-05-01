@@ -46,13 +46,13 @@ public interface ISetting extends IASTNode, ILocateableNode {
 	Setting_type getSettingtype();
 
 	boolean isAsn();
-	
+
 	/**
 	 * Set the generated name for this setting,
 	 *  as a concatenation of a prefix, an underscore and a suffix,
 	 * unless the prefix already ends with, or the suffix already begins with
 	 * precisely one underscore.
-	 * 
+	 *
 	 * @param prefix the prefix to use
 	 * @param suffix the suffix to use.
 	 * */

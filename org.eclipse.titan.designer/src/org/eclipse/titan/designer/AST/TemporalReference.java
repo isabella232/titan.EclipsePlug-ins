@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * This a special reference kind which should only be used temporally, when the sub-references are backed by an other reference.
  * As such it is not setting scope information for the sub-references, to not alter the original information.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TemporalReference extends Reference {

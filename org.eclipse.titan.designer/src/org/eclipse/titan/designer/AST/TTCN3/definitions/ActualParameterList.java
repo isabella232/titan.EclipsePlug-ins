@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a list of actual parameters.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ActualParameterList extends ASTNode implements IIncrementallyUpdateable {
@@ -93,7 +93,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 
 	/**
 	 * Checks for circular references within the actual parameter list.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -112,7 +112,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 
 	/**
 	 * Handles the incremental parsing of this list of actual parameters.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -150,13 +150,13 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Generates the Java equivalent of the actual parameter list without
 	 * considering any aliasing between variables and 'in' parameters.
-	 * 
+	 *
 	 * generate_code_noalias in the compiler
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression used for code generation
 	 */
@@ -172,8 +172,8 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 			parameters.get(i).generateJava(aData, expression);
 		}
 	}
-	
-	//TODO re-implement 
+
+	//TODO re-implement
 	public void generateJavaAlias( final JavaGenData aData, final ExpressionStruct expression) {
 		generateJavaNoAlias(aData, expression);
 	}

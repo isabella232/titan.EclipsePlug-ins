@@ -24,7 +24,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a named actual parameter. For example in a function call.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class NamedParameter extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -88,7 +88,7 @@ public final class NamedParameter extends ASTNode implements ILocateableNode, II
 
 	/**
 	 * Handles the incremental parsing of this named parameter.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

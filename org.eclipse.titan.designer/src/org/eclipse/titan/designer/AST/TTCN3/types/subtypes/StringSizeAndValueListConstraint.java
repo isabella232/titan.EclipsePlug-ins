@@ -27,7 +27,7 @@ import java.util.TreeSet;
  * BITCNT is the number of bits needed to store one element, works for
  * BITCNT=1,4,8 for octetstrings one octet element is 2 chars long, for others
  * one element is one char, real size of string = elem.size()/ELEMSIZE
- * 
+ *
  * @author Adam Delic
  */
 public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
@@ -77,7 +77,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 		for (Entry<Integer, Integer> entry : valuesLengths.entrySet()) {
 			final int size = entry.getKey();
 			final int count = entry.getValue();
-			 // regarded as infinity in practice
+			// regarded as infinity in practice
 			int allValuesCount = Integer.MAX_VALUE;
 			if (type.bitCount() * size < 32) {
 				allValuesCount = (1 << (type.bitCount() * size));
@@ -198,7 +198,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 				}
 			}
 		} else { // intersection
-				// V1*V2 (intersection of has_values)
+			// V1*V2 (intersection of has_values)
 			returnValue.hasValues.addAll(hasValues);
 			returnValue.hasValues.retainAll(o.hasValues);
 			// S2*V1-N2

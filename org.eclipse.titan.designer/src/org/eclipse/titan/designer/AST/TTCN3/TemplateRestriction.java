@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Provides the data type to store the template restriction data
  * and helper functions used by the AST nodes of TTCN-3 definitions which contain restriction.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TemplateRestriction {

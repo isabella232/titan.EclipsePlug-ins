@@ -39,7 +39,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents a choice value.
  * <p>
  * This kind of value is not parsed, but always converted.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Choice_Value extends Value {
@@ -387,7 +387,7 @@ public final class Choice_Value extends Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void setGenNamePrefix(final String prefix) {
@@ -399,7 +399,7 @@ public final class Choice_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		StringBuilder embeddedName = new StringBuilder(parameterGenName);
 		embeddedName.append('.');
 		if(Type_type.TYPE_ANYTYPE.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {

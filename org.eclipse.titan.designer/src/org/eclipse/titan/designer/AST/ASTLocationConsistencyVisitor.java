@@ -17,19 +17,19 @@ import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 public class ASTLocationConsistencyVisitor extends ASTVisitor {
 	IDocument document;
 	boolean isTtcn;
-	
+
 	public ASTLocationConsistencyVisitor(final IDocument document, final boolean isTtcn) {
 		this.document = document;
 		this.isTtcn = isTtcn;
 	}
-	
+
 	@Override
 	public int visit(final IVisitableNode node) {
 		if (node instanceof Identifier) {
 			final Identifier id = (Identifier)node;
 			final String name = isTtcn ? id.getTtcnName() : id.getAsnName();
 			if (isTtcn && "anytype".equals(name)) {
-				// anytype hack in ttcn-3 
+				// anytype hack in ttcn-3
 				return V_CONTINUE;
 			}
 
@@ -38,10 +38,10 @@ public class ASTLocationConsistencyVisitor extends ASTVisitor {
 			final int length = loc.getEndOffset()-loc.getOffset();
 			try {
 				final String strAtLoc = document.get(offset, length);
-				if (!strAtLoc.equals(name)) {		
+				if (!strAtLoc.equals(name)) {
 					TITANDebugConsole.println("AST<->document inconsistency: id=["+name+"] at offset,length="+
 							offset+","+length+" doc.content=["+strAtLoc+"]");
-					
+
 				}
 			} catch (BadLocationException e) {
 				TITANDebugConsole.println("AST<->document inconsistency: id=["+name+"] at offset,length="+

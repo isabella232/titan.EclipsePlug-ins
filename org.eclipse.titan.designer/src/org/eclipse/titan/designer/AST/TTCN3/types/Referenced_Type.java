@@ -256,7 +256,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -611,7 +611,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		if(needsAlias()) {
 			source.append( "\tpublic static class " );
 			source.append( getGenNameOwn() );
-			final String className = getGenNameValue( aData, source, getMyScope() ); 
+			final String className = getGenNameValue( aData, source, getMyScope() );
 			source.append( " extends " );
 			source.append( className );
 			//TODO: implement: package of the imported class is unknown

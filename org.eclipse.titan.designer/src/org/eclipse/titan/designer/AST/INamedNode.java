@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST;
 /**
  * Provides an interface for nodes in the AST that can have names,
  * or can be part of a naming chain.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface INamedNode {

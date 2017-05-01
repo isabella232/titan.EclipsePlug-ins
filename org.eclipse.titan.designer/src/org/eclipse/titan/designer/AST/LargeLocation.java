@@ -16,14 +16,14 @@ import org.eclipse.core.resources.IResource;
  * @author Arpad Lovassy
  */
 public final class LargeLocation extends Location {
-	
+
 	private int endLine;
 
 	public LargeLocation(final IResource file, final int line, final int endline, final int offset, final int endOffset) {
 		super(file, line, offset, endOffset);
 		this.endLine = endline;
 	}
-	
+
 	/**
 	 * Constructor for ANTLR v4 tokens
 	 * @param aFile the parsed file
@@ -42,7 +42,7 @@ public final class LargeLocation extends Location {
 			endLine = aEndToken.getLine();
 		}
 	}
-	
+
 	public final int getEndLine() {
 		return endLine;
 	}

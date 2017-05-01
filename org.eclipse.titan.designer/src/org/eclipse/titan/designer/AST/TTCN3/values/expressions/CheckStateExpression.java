@@ -37,18 +37,18 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Arpad Lovassy
  */
 public final class CheckStateExpression extends Expression_Value {
-	
+
 	private static final String NOINCOMINGQUEUE = "Port type `{0}'' does not have incoming queue"
 			+ " because it has neither incoming messages nor incoming or outgoing signatues";
-	
+
 	private static final String OPERAND1_ERROR1 = "The operand of the `checkstate' operation should be a charstring";
-	
+
 	/** port reference */
 	private final Reference mPortReference;
 
 	/**
 	 * The parameter of the checkstate operation
-	 * 
+	 *
 	 * The parameter of the checkstate operation shall be of type charstring and shall have one of the
 	 * following values:
 	 * a) "Started"
@@ -56,7 +56,7 @@ public final class CheckStateExpression extends Expression_Value {
 	 * c) "Stopped"
 	 * d) "Connected"
 	 * e) "Mapped"
-	 * f) "Linked" 
+	 * f) "Linked"
 	 */
 	private final Value mValue;
 
@@ -67,7 +67,7 @@ public final class CheckStateExpression extends Expression_Value {
 		if (mPortReference != null) {
 			mPortReference.setFullNameParent(this);
 		}
-		
+
 		if (mValue != null) {
 			mValue.setFullNameParent(this);
 		}
@@ -132,7 +132,7 @@ public final class CheckStateExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -148,12 +148,12 @@ public final class CheckStateExpression extends Expression_Value {
 			mPortReference.getLocation().reportSemanticError(MessageFormat.format(NOINCOMINGQUEUE, portType.getTypename()));
 		}
 
-		
+
 		//check the operand (mValue)
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
 	}
 
-	/** 
+	/**
 	 * Checks the operand
 	 * in charstring (mandatory)
 	 * @param timestamp
@@ -164,8 +164,8 @@ public final class CheckStateExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (mValue == null) {
 			setIsErroneous(true);
 			return;
@@ -198,7 +198,7 @@ public final class CheckStateExpression extends Expression_Value {
 			break;
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,

@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * helper class, container
- * 
+ *
  * @author Adam Delic
  */
 class FieldErr_Type {
@@ -236,7 +236,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 						final String message = MessageFormat.format(
 								"Duplicate rule for omitting all fields before the specified field. "
 										+ "Used on field `{0}'' but previously already used on field `{1}''",
-								actualFieldErr.qualifier.getDisplayName(), omitBeforeQualifier.getDisplayName());
+										actualFieldErr.qualifier.getDisplayName(), omitBeforeQualifier.getDisplayName());
 						actualFieldErr.qualifier.getLocation().reportSemanticError(message);
 						continue;
 					}
@@ -273,7 +273,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 						final String message = MessageFormat.format(
 								"Duplicate rule for omitting all fields after the specified field. "
 										+ "Used on field `{0}'' but previously already used on field `{1}''",
-								actualFieldErr.qualifier.getDisplayName(), omitAfterQualifier.getDisplayName());
+										actualFieldErr.qualifier.getDisplayName(), omitAfterQualifier.getDisplayName());
 						actualFieldErr.qualifier.getLocation().reportSemanticError(message);
 						continue;
 					}
@@ -339,10 +339,10 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 				final boolean hasIndex = embeddedFieldArrayMap.containsKey(fieldIndex);
 				final List<FieldErr_Type> embeddedFieldArray = hasIndex ? embeddedFieldArrayMap.get(fieldIndex)
 						: new ArrayList<FieldErr_Type>(1);
-				embeddedFieldArray.add(actualFieldErr);
-				if (!hasIndex) {
-					embeddedFieldArrayMap.put(fieldIndex, embeddedFieldArray);
-				}
+						embeddedFieldArray.add(actualFieldErr);
+						if (!hasIndex) {
+							embeddedFieldArrayMap.put(fieldIndex, embeddedFieldArray);
+						}
 			}
 		}
 		// recursive calls to create embedded descriptors

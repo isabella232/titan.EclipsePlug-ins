@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST;
 /**
  * Our internal Boolean implementation.
  * Only used where the internal value of parameter can be changed.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ChangeableBoolean {

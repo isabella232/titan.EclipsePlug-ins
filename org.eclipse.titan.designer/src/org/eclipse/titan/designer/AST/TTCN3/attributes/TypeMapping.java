@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Represents a single type mapping, where a type is mapped to a list of mapping
  * targets.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TypeMapping extends ASTNode implements ILocateableNode {
@@ -99,7 +99,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 
 	/**
 	 * Does the semantic checking of the type mapping.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -123,7 +123,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 				case DISCARD:
 					if (hasSliding) {
 						target.getLocation().reportSemanticError(
-										"Mapping `discard' cannot be used if functions with `prototype(sliding)' are referred from the same source type");
+								"Mapping `discard' cannot be used if functions with `prototype(sliding)' are referred from the same source type");
 					} else if (i < nofTargets - 1) {
 						target.getLocation().reportSemanticError(
 								"Mapping `discard' must be the last target of the source type");

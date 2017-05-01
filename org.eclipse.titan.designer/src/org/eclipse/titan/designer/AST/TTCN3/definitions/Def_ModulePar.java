@@ -42,7 +42,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_ModulePar class represents TTCN3 module parameter definitions.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_ModulePar extends Definition {
@@ -78,11 +78,11 @@ public final class Def_ModulePar extends Definition {
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_MODULEPAR;
 	}
-	
+
 	public Value getDefaultValue() {
 		return defaultValue;
 	}
-	
+
 
 	@Override
 	/** {@inheritDoc} */
@@ -142,7 +142,7 @@ public final class Def_ModulePar extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -253,7 +253,7 @@ public final class Def_ModulePar extends Definition {
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		final List<Integer> result = super.getPossibleExtensionStarterTokens();
-		
+
 		if (defaultValue == null) {
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
 		}
@@ -366,7 +366,7 @@ public final class Def_ModulePar extends Definition {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
@@ -378,7 +378,7 @@ public final class Def_ModulePar extends Definition {
 			//defaultValue.setGenNamePrefix("modulepar_");//currently does not need the prefix
 			defaultValue.setGenNameRecursive(genName);
 		}
-		
+
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
@@ -396,10 +396,10 @@ public final class Def_ModulePar extends Definition {
 			defaultValue.generateJavaInit( aData, aData.getPreInit(), genName );
 		}
 		sb.append(source);
-		
+
 		//TODO remaining functionality: implicit omit, setting/logging module parameters
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {

@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
- * 
+ *
  * @author Peter Olah
  */
 public final class AssignmentHandlerAFTRerences extends ReferencesProcessor {
@@ -102,7 +102,7 @@ public final class AssignmentHandlerAFTRerences extends ReferencesProcessor {
 				setIsContagious(true);
 				return V_CONTINUE;
 			}
-			
+
 			final Assignment assignment = ((Reference) node).getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
 			if(assignment == null || assignment.getIdentifier() == null || !assignment.getIdentifier().equals(identifier)) {
 				setIsInfected(true);

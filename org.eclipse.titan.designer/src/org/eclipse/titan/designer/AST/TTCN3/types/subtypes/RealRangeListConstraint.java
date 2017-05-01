@@ -12,7 +12,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types.subtypes;
  * limit value) this is canonical only if two different Real values are never
  * considered to be adjacent which means that in theory for two different Real
  * values there are always infinite number of Real values that are between them
- * 
+ *
  * @author Adam Delic
  */
 public final class RealRangeListConstraint extends SubtypeConstraint {

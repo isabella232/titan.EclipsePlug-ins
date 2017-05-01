@@ -95,10 +95,10 @@ public final class Port_Utility {
 		if (source.getMyStatementBlock() != null && source.getMyStatementBlock().getMyDefinition() == null) {
 			source.getLocation().reportSemanticError(PORTINCONTROLPART);
 		}
-		
+
 		return checkPortReference(timestamp, portReference);
 	}
-	
+
 	/**
 	 * Checks a port reference.
 	 * Statement independent version.
@@ -274,7 +274,7 @@ public final class Port_Utility {
 				break;
 			case VALUEOF_OPERATION:
 				final IReferenceChain referenceChain = ReferenceChain.getInstance(
-								IReferenceChain.CIRCULARREFERENCE, true);
+						IReferenceChain.CIRCULARREFERENCE, true);
 				((ValueofExpression) expression).evaluateValue(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, referenceChain);
 				referenceChain.release();
 				break;
@@ -671,7 +671,7 @@ public final class Port_Utility {
 			redirectValue.getLocation().reportSemanticError(
 					MessageFormat.format(VALUEREDIRECTTYPEMISSMATCH, type.getTypename(), variableType.getTypename()));
 		}
-		
+
 		final Assignment assignment = redirectValue.getRefdAssignment(timestamp, true);
 		if (assignment != null) {
 			switch (assignment.getAssignmentType()) {

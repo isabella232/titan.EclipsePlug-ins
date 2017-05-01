@@ -21,23 +21,23 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
- * Represents  the BNF element "ListOfTemplates" 
+ * Represents  the BNF element "ListOfTemplates"
  * Ref: ttcn3 standard "ETSI ES 201 873-1 V4.6.1 (2014-06)"
  * A.1.6.1.3 Template definitions/125.
  *
  * Replaces the obsolete class Templates which had a field templates of a different type "TTCN3Template"
- * 
+ *
  * @author Jeno Balasko
  *
  */
 public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable, Iterable<ITemplateListItem>{
-	
+
 	private final List<ITemplateListItem> templates;
 
 	public ListOfTemplates() {
 		templates = new ArrayList<ITemplateListItem>();
 	}
-	
+
 	@Override
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
@@ -48,7 +48,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	}
 	/**
 	 * Adds a new template to the list.
-	 * 
+	 *
 	 * @param template
 	 *                the template to be added.
 	 * */
@@ -69,12 +69,12 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	public ITemplateListItem getTemplateByIndex(final int index) {
 		return templates.get(index);
 	}
-	
-	
+
+
 
 	/**
 	 * Handles the incremental parsing of this list of templates.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -105,9 +105,9 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 			template.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
-	
-	
-	
+
+
+
 	@Override
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (templates != null) {
@@ -119,7 +119,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 		}
 		return true;
 	}
-	
+
 	@Override
 	public Iterator<ITemplateListItem> iterator() {
 		return templates.iterator();

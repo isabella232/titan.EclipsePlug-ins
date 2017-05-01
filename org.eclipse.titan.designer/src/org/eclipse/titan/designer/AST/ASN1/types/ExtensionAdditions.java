@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ExtensionAdditionList.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ExtensionAdditions extends ASTNode {

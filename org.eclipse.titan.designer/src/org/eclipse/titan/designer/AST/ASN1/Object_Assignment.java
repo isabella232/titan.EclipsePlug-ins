@@ -25,9 +25,9 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * There is no support for Object Assignments in TITAN right now.
- * 
+ *
  * @author Kristof Szabados
- * 
+ *
  * */
 public final class Object_Assignment extends ASN1Assignment {
 	public static final String PARAMETERISEDOBJECT = "`{0}'' is a parameterized object assignment";
@@ -80,7 +80,7 @@ public final class Object_Assignment extends ASN1Assignment {
 
 	/**
 	 * Checks and returns the object of this object assignment.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @return the object if this object assignment.
@@ -106,7 +106,7 @@ public final class Object_Assignment extends ASN1Assignment {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {

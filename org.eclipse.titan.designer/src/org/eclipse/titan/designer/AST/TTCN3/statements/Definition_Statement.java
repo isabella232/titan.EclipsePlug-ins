@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * The Definition_Statement class represents the statements of TTCN3
  * definitions.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Definition_Statement extends Statement {
@@ -186,7 +186,7 @@ public final class Definition_Statement extends Statement {
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		if ( definition != null ) {
 			source.append( "\t\t" );
-			
+
 			definition.generateJavaString(aData, source);
 		}
 	}

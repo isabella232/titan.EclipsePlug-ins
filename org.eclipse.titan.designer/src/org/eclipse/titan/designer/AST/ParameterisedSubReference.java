@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * The ParameterisedSubReference class represents a part of a TTCN3 or ASN.1
  * reference, which was given in a parameterized notation ('name(value1,
  * value2)').
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ParameterisedSubReference extends ASTNode implements ISubReference, ILocateableNode {

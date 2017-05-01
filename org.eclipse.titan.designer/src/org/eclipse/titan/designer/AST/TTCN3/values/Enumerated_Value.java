@@ -38,7 +38,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents an ASN.1 enumerated value.
  * <p>
  * This value can not be parsed, but can only be converted from an undefined identifier
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Enumerated_Value extends Value implements IReferencingElement {

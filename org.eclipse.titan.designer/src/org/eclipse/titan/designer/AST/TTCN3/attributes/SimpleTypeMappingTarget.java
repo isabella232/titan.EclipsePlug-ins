@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents an simple type mapping target (source == target).
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SimpleTypeMappingTarget extends TypeMappingTarget {

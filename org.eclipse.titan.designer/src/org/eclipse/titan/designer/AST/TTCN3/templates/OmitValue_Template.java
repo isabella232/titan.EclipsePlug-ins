@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template that matches the omit value only.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class OmitValue_Template extends TTCN3Template {
@@ -147,7 +147,7 @@ public final class OmitValue_Template extends TTCN3Template {
 		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
@@ -173,7 +173,7 @@ public final class OmitValue_Template extends TTCN3Template {
 
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		result.append( "template_sel.OMIT_VALUE" );
-		
+
 		//TODO handle cast needed
 
 		return result;

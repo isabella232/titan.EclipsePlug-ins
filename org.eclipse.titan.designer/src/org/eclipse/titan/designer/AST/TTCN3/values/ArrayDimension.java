@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an array dimension description.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class ArrayDimension extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {

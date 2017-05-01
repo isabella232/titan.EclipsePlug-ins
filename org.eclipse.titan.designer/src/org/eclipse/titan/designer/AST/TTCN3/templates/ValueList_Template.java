@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents templates created from a list of values.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ValueList_Template extends CompositeTemplate {
@@ -83,9 +83,9 @@ public final class ValueList_Template extends CompositeTemplate {
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
 		if(type == null){
 			return;
-		}		
+		}
 		final boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
-		
+
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			final ITemplateListItem component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
@@ -97,13 +97,13 @@ public final class ValueList_Template extends CompositeTemplate {
 		if (!allowOmit && isIfpresent) {
 			if( location != null && !(location instanceof NULL_Location)) {
 				location.reportSemanticError("`ifpresent' is not allowed here");
-			} 
+			}
 		}
 		if (subCheck) {
 			type.checkThisTemplateSubtype(timestamp, this);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
@@ -127,7 +127,7 @@ public final class ValueList_Template extends CompositeTemplate {
 	protected String getNameForStringRep() {
 		return "";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
@@ -150,16 +150,16 @@ public final class ValueList_Template extends CompositeTemplate {
 	/** {@inheritDoc} */
 	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		
+
 		int nofTs = templates.getNofTemplates();
 		String typeName = myGovernor.getGenNameTemplate(aData, source, myScope);
 		//TODO: add support for all_from
-		
+
 		source.append(name);
 		source.append(".setType( template_sel.VALUE_LIST, ");
 		source.append(nofTs);
 		source.append( " );\n" );
-		
+
 		for (int i = 0 ; i < nofTs ; i++) {
 			ITemplateListItem template = templates.getTemplateByIndex(i);
 			// TODO: handle needs template reference
@@ -167,7 +167,7 @@ public final class ValueList_Template extends CompositeTemplate {
 			template.generateJavaInit(aData, source, embeddedName);
 		}
 		// TODO:  missing parts need to be completed
-		
+
 		if (isIfpresent) {
 			source.append(name);
 			source.append(".set_ifPresent();\n");

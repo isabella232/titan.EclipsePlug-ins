@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Abstract class to represent ASN.1 assignments.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ASN1Assignment extends Assignment {
@@ -75,7 +75,7 @@ public abstract class ASN1Assignment extends Assignment {
 	/**
 	 * Internal new instance creating function, will only be called for
 	 * parameterized assignments.
-	 * 
+	 *
 	 * @param identifier
 	 *                the name the new assignment instance shall have.
 	 * @return a copy of the assignment.
@@ -84,7 +84,7 @@ public abstract class ASN1Assignment extends Assignment {
 
 	/**
 	 * Sets the scope of the right side of the assignment.
-	 * 
+	 *
 	 * @param rightScope
 	 *                the scope to be set for the right side.
 	 * */
@@ -94,11 +94,11 @@ public abstract class ASN1Assignment extends Assignment {
 	 * Creates a new instance of a parameterized assignment and returns i.
 	 * In case of assignments which are not parameterized should return
 	 * null.
-	 * 
+	 *
 	 * @param module
 	 *                the module in which the new assignment should be
 	 *                created.
-	 * 
+	 *
 	 * @return the assignment created.
 	 * */
 	public final ASN1Assignment newInstance(final Module module) {
@@ -149,14 +149,14 @@ public abstract class ASN1Assignment extends Assignment {
 
 	/**
 	 * Checks whether the actual assignment is of a specified type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param assignmentType
 	 *                the type to check against.
 	 * @param referenceChain
 	 *                the reference chain to detect circular references
-	 * 
+	 *
 	 * @return true if the assignment is of the specified type, false
 	 *         otherwise
 	 * */
@@ -184,12 +184,12 @@ public abstract class ASN1Assignment extends Assignment {
 				nameBuilder.append('.');
 				nameBuilder.append(displayName);
 			}
-			
+
 			StringBuilder returnValue = new StringBuilder(Identifier.getTtcnNameFromAsnName(nameBuilder.toString()));
 			if(isParameterised) {
 				returnValue.append("_par_");
 			}
-			
+
 			return returnValue.toString();
 		}
 	}
@@ -213,7 +213,7 @@ public abstract class ASN1Assignment extends Assignment {
 	public boolean shouldMarkOccurrences() {
 		return markOccurrences;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

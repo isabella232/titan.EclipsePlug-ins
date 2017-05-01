@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 /**
  * Represents the minimum required version the TITAN which is needed to
  * correctly compile the file.
- * 
+ *
  * @author Csaba Raduly
  */
 public final class TitanVersionAttribute extends ModuleVersionAttribute {

@@ -18,7 +18,7 @@ import java.util.Stack;
  * Almost the same as ReferenceChain but specialised for module importations.
  *
  * @see ReferenceChain
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ModuleImportationChain {

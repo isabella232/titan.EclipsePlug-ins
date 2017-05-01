@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.AST.ASN1.Object.Referenced_ObjectSet;
 
 /**
  * ObjectSetElement visitor.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ObjectSetElement_Visitor extends ASTNode {

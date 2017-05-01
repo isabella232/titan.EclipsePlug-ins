@@ -46,7 +46,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The Def_Var class represents TTCN3 variable definitions.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -66,10 +66,10 @@ public final class Def_Var extends Definition {
 	/**
 	 * true, if and only if @lazy modifier is used before the definition
 	 * NOTE: currently there is no restriction of using @lazy modifier here,
-	 *       so no check is needed 
+	 *       so no check is needed
 	 */
 	private boolean mIsLazy;
-	
+
 	public Def_Var( final Identifier identifier, final Type type, final Value initialValue, final boolean aIsLazy ) {
 		super(identifier);
 		this.type = type;
@@ -176,7 +176,7 @@ public final class Def_Var extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -184,7 +184,7 @@ public final class Def_Var extends Definition {
 			return;
 		}
 		lastTimeChecked = timestamp;
-		
+
 		isUsed = false;
 		wasAssigned = false;
 
@@ -281,10 +281,10 @@ public final class Def_Var extends Definition {
 				}
 			} else {
 				initialValue.getLocation()
-						.reportSemanticWarning(
-								MessageFormat.format(
-										"Local variable `{0}'' has initial value, but the variable inherited from component type `{1}'' does not",
-										identifier.getDisplayName(), otherVariable.getMyScope().getFullName()));
+				.reportSemanticWarning(
+						MessageFormat.format(
+								"Local variable `{0}'' has initial value, but the variable inherited from component type `{1}'' does not",
+								identifier.getDisplayName(), otherVariable.getMyScope().getFullName()));
 			}
 		} else if (otherVariable.initialValue != null) {
 			location.reportSemanticWarning(MessageFormat
@@ -338,7 +338,7 @@ public final class Def_Var extends Definition {
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		final List<Integer> result = super.getPossibleExtensionStarterTokens();
-		
+
 		if (initialValue == null) {
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
 		}
@@ -439,7 +439,7 @@ public final class Def_Var extends Definition {
 	public boolean getWritten() {
 		return wasAssigned;
 	}
-	
+
 	/**
 	 * @return true, if and only if @lazy modifier is used before the definition
 	 */
@@ -476,7 +476,7 @@ public final class Def_Var extends Definition {
 
 		sb.append(source);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
@@ -487,7 +487,7 @@ public final class Def_Var extends Definition {
 		if (initialValue != null) {
 			initialValue.setGenNameRecursive(getGenName());
 		}
-		
+
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );

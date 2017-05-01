@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a generic type mapping target.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class TypeMappingTarget extends ASTNode implements ILocateableNode {
@@ -53,7 +53,7 @@ public abstract class TypeMappingTarget extends ASTNode implements ILocateableNo
 
 	/**
 	 * Does the semantic checking of the type mapping target.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

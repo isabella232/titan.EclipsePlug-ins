@@ -53,7 +53,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_Type class represents TTCN3 type definitions.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_Type extends Definition {
@@ -102,7 +102,7 @@ public final class Def_Type extends Definition {
 	/**
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the type defined by this type definition
 	 * */
 	@Override
@@ -166,7 +166,7 @@ public final class Def_Type extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -228,7 +228,7 @@ public final class Def_Type extends Definition {
 
 	/**
 	 * Convert and check the encoding attributes applied to this function.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * */
@@ -487,20 +487,20 @@ public final class Def_Type extends Definition {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-		
+
 		if (type == null) {
 			return;
 		}
 
 		type.setGenName(genName);
-		
+
 
 		final StringBuilder sb = aData.getCodeForType(genName);//aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		//TODO: make sure, that type is not null
 		type.generateJava( aData, source );
-		
+
 		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 			((Component_Type)type).getComponentBody().setGenName(genName + "_component_");
 			((Component_Type)type).getComponentBody().generateCode(aData, source);

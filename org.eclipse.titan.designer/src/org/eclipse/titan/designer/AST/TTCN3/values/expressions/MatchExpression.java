@@ -107,7 +107,7 @@ public final class MatchExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -129,7 +129,7 @@ public final class MatchExpression extends Expression_Value {
 
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
-		
+
 		IType localGovernor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		if (localGovernor == null) {
 			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);

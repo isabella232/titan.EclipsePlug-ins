@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST;
 
 /**
  * A set of governed stuff. ObjectSet or ValueSet.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class GovernedSet extends Governed {

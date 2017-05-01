@@ -28,10 +28,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * The If_Clauses class represents the clauses (branches) of a TTCN3 if
  * statement.
- * 
+ *
  * @see If_Clause
  * @see If_Statement
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class If_Clauses extends ASTNode implements IIncrementallyUpdateable {
@@ -97,12 +97,12 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	/**
 	 * Checks whether the if clauses have a return statement, either
 	 * directly or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param elseBlock
 	 *                the statement block of the if statement's else branch.
-	 * 
+	 *
 	 * @return the return status of the if clauses.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp, final StatementBlock elseBlock) {
@@ -160,13 +160,13 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * Does the semantic checking of the alt guard list.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param unreachable
 	 *                boolean parameter telling if this if statement was
 	 *                already found unreachable by previous clauses or not
-	 * 
+	 *
 	 * @return true if further branches should are no longer reachable.
 	 * */
 	public boolean check(final CompilationTimeStamp timestamp, final boolean unreachable) {
@@ -225,7 +225,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * A check to aid detection of single if without else code smell.
-	 * 
+	 *
 	 * @return true if there is exactly one if clause.
 	 */
 	public boolean isExactlyOne() {
@@ -234,7 +234,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * A check to aid detection of NegatedConditionInIf code smell.
-	 * 
+	 *
 	 * @return true if there is exactly one if clause, and that has a
 	 *         negated expression as condition.
 	 */

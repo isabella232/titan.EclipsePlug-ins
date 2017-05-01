@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * Base class of selection methods.
  * It is responsible for store input, result and other things.
- * 
+ *
  * @author Peter Olah
  */
 public abstract class SelectionMethodBase {
@@ -31,7 +31,7 @@ public abstract class SelectionMethodBase {
 	protected List<Module> allModules;
 	protected List<Module> modulesToCheck;
 	protected List<Module> modulesToSkip;
-	
+
 	protected List<String> semanticallyChecked;
 	protected long start;
 	protected long end;
@@ -41,7 +41,7 @@ public abstract class SelectionMethodBase {
 
 	protected String header;
 	protected String footer;
-	
+
 	public SelectionAlgorithm getSelectionAlgorithm(){
 		return selectionAlgorithm;
 	}
@@ -73,7 +73,7 @@ public abstract class SelectionMethodBase {
 			}
 		}
 	}
-	
+
 	protected void infoAfterExecute() {
 		TITANDebugConsole.println("**Selection time is:     " + (end * (1e-9)) + " seconds " + "(" + end + " nanoseconds).");
 		TITANDebugConsole.println("**Nr. of broken modules: " + modulesToCheck.size());

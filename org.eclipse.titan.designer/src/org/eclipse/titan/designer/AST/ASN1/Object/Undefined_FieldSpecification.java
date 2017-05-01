@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent an undefined FieldSpec.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Undefined_FieldSpecification extends FieldSpecification implements IReferenceChainElement {
@@ -40,7 +40,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	private final Defined_Reference governorReference;
 	private final Reference defaultSetting1;
 	private final Block mDefaultSetting;
-	
+
 	/** The classified field specification. */
 	private FieldSpecification fieldSpecification;
 
@@ -50,7 +50,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 		governorReference = reference;
 		defaultSetting1 = defaultSetting;
 		mDefaultSetting = null;
-		
+
 		if (null != governorReference) {
 			governorReference.setFullNameParent(this);
 		}
@@ -65,7 +65,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 		governorReference = reference;
 		defaultSetting1 = null;
 		mDefaultSetting = aDefaultSetting;
-		
+
 		if (null != governorReference) {
 			governorReference.setFullNameParent(this);
 		}

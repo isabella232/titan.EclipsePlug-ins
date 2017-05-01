@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an actual parameter that has a reference as its actual value.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Referenced_ActualParameter extends ActualParameter {
@@ -73,7 +73,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {

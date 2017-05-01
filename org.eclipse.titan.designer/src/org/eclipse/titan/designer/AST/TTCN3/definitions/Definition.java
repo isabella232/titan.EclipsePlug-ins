@@ -72,7 +72,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The definition class represents general TTCN3 definitions.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -85,18 +85,18 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	/** The visibility modifier of the definition */
 	private VisibilityModifier visibilityModifier;
 
-	protected String genName = new String(); 
-	
+	protected String genName = new String();
+
 	private Location commentLocation = null;
-	
+
 	/**
 	 * The cumulative location of a definition is the location of the definition if it is stand alone,
 	 *  or the whole short hand notation it is enclosed into.
-	 * 
+	 *
 	 * TTCN-3 allows to write some definitions with a shorthand notation.
 	 * for example: const integer a1:=1,a2:=2;
 	 * In these cases the locations of the definitions overlap, creating various problems.
-	 * 
+	 *
 	 * To make the situation clear cumulative location stores the location of the whole shorthand notation
 	 *  the definition is listed in.
 	 * This way it becomes easy to identify which definitions can be affected by a change in the file.
@@ -165,7 +165,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	/**
 	 * Sets the visibility modifier of this definition.
-	 * 
+	 *
 	 * @param modifier
 	 *                the modifier to be set
 	 * */
@@ -187,7 +187,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	/**
 	 * Sets the with attributes for this definition if it has any. Also
 	 * creates the with attribute path, to store the attributes in.
-	 * 
+	 *
 	 * @param attributes
 	 *                the attribute to be added.
 	 * */
@@ -216,17 +216,17 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * In TTCN-3 it is possible to use a short hand notation
 	 *  when defining several constants and variables of the same type.
 	 *  for example: const integer x :=5, j:=6;
-	 *  
+	 *
 	 * In these cases the location attributed to each definition is their own minimal location.
 	 * The ComulativeDefinitionLocation is the location of the whole set of same typed definition.
-	 * 
-	 * @return the location of the same typed definition list the definition is located in. 
+	 *
+	 * @return the location of the same typed definition list the definition is located in.
 	 * */
 	public Location getCumulativeDefinitionLocation() {
 		if (cumulativeDefinitionLocation != null) {
 			return cumulativeDefinitionLocation;
 		}
-		
+
 		return getLocation();
 	}
 
@@ -253,7 +253,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * Sets the parent path for the with attribute path element of this
 	 * definition. Also, creates the with attribute path node if it did not
 	 * exist before.
-	 * 
+	 *
 	 * @param parent
 	 *                the parent to be set.
 	 * */
@@ -267,10 +267,10 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	/**
 	 * Checks if this definition has an implicit omit attribute or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return true if it has an implicit omit attribute, false if no
 	 *         attribute is given or explicit omit is specified.
 	 * */
@@ -321,7 +321,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	/**
 	 * Sets the location of the comment that belongs to this definition.
-	 * 
+	 *
 	 * @param commentLocation
 	 *                the location of the comment
 	 * */
@@ -387,8 +387,8 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 								}
 								if (reference.refersToStringElement()) {
 									actualQualifier.getLocation()
-											.reportSemanticError(
-													"Reference to a string element cannot be used in this context");
+									.reportSemanticError(
+											"Reference to a string element cannot be used in this context");
 									fieldType = null;
 									subrefsArray = null;
 									typeArray = null;
@@ -434,12 +434,12 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * return value is false. The initial values (if applicable) may be
 	 * present/absent, different or un-foldable. The function must be
 	 * overridden to be used.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param definition
 	 *                the definition to compare against the actual one.
-	 * 
+	 *
 	 * @return true if they are (almost) identical, false otherwise.
 	 */
 	public boolean checkIdentical(final CompilationTimeStamp timestamp, final Definition definition) {
@@ -494,7 +494,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * <p>
 	 * Extending class only need to implement their
 	 * {@link #getProposalKind()} function
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param i
@@ -510,7 +510,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	/**
 	 * Adds the definition to the list declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param i
@@ -569,7 +569,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 	/**
 	 * Handles the incremental parsing of this definition.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -609,7 +609,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	public boolean shouldMarkOccurrences() {
 		return markOccurrences;
 	}
-	
+
 	private static ErroneousAttributeSpecification parseErrAttrSpecString(final AttributeSpecification aAttrSpec) {
 		String code = aAttrSpec.getSpecification();
 		if (code == null) {
@@ -639,7 +639,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		//   $builder.append($v.text); <-- exception is thrown here: java.lang.UnsupportedOperationException: interval 85..85 not in token buffer window: 86..341
 		// 2. Changed from BufferedTokenStream to CommonTokenStream, otherwise tokens with "-> channel(HIDDEN)" are not filtered out in lexer.
 		final CommonTokenStream tokenStream = new CommonTokenStream( lexer );
-		
+
 		final Ttcn3Reparser parser = new Ttcn3Reparser( tokenStream );
 		ParserUtilities.setBuildParseTree( parser );
 		final IFile file = (IFile) location.getFile();
@@ -650,11 +650,11 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		// remove ConsoleErrorListener
 		parser.removeErrorListeners();
 		parser.addErrorListener( parserListener );
-		
+
 		MarkerHandler.markMarkersForRemoval(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, location.getFile(), location.getOffset(),
 				location.getEndOffset());
 
-		final Pr_ErroneousAttributeSpecContext root = parser.pr_ErroneousAttributeSpec(); 
+		final Pr_ErroneousAttributeSpecContext root = parser.pr_ErroneousAttributeSpec();
 		ParserUtilities.logParseTree( root, parser );
 		ErroneousAttributeSpecification returnValue = root.errAttrSpec;
 		final List<SyntacticErrorStorage> errors = parser.getErrors();
@@ -696,12 +696,12 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * @param aData the generated java code with other info
 	 */
 	//public abstract void generateJava( final JavaGenData aData );
-	
+
 	/**
 	 * Generate Java code for definitions embedded in statementblocks.
-	 * 
+	 *
 	 * generate_code_str in the compiler
-	 * 
+	 *
 	 * @param @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
@@ -711,7 +711,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateJavaString() is not implemented!\n" );
 	}
-	
+
 	/**
 	 * Generates the Java initializer sequence for a definition of a component
 	 * type, appends to initComp.

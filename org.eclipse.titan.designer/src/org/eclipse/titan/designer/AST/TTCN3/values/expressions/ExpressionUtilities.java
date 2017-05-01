@@ -79,7 +79,7 @@ public final class ExpressionUtilities {
 	/**
 	 * Checks the compatibility of expression operands in cases where
 	 * operands are compared (and one or both of them can be enumerations).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expression
@@ -123,7 +123,7 @@ public final class ExpressionUtilities {
 	 * Checks the compatibility of expression operands in cases where
 	 * operands are compared (and one or both of them can be enumerations).
 	 * This function shall be used to test operands of match()
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expression
@@ -168,7 +168,7 @@ public final class ExpressionUtilities {
 	/**
 	 * Checks the compatibility of expression operands in cases where
 	 * operands are compared (and one or both of them can be enumerations).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expression
@@ -390,15 +390,15 @@ public final class ExpressionUtilities {
 						&& Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(((SpecificValue_Template) temp2)
 								.getSpecificValue().getValuetype())) {
 					temp2 = temp2.setLoweridToReference(timestamp);
-					
+
 					//To avoid infinite loop:
 					final TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
 							operand2.getDerivedReference(), (TTCN3Template) temp2);
-					
+
 					if (operand2 == tempTemplateInstance2) {
 						return;
 					}
-					
+
 					checkExpressionOperatorCompatibilityInternal(timestamp, expression, referenceChain, expectedValue, operand1,
 							tempTemplateInstance2);
 					return;
@@ -427,17 +427,17 @@ public final class ExpressionUtilities {
 					&& Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(((SpecificValue_Template) temp2).getSpecificValue()
 							.getValuetype()) && !Type_type.TYPE_TTCN3_ENUMERATED.equals(tempType1)) {
 				temp2 = temp2.setLoweridToReference(timestamp);
-				
+
 				//To avoid infinite loop:
 				final TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
 						operand2.getDerivedReference(), (TTCN3Template) temp2);
 				if (operand2 == tempTemplateInstance2) {
 					return;
 				}
-				
+
 				checkExpressionOperatorCompatibilityInternal(timestamp, expression, referenceChain, expectedValue, operand1, tempTemplateInstance2);
 				return;
-			} 
+			}
 		}
 
 		final IType type1 = operand1.getExpressionGovernor(timestamp, expectedValue);
@@ -477,10 +477,10 @@ public final class ExpressionUtilities {
 				if (Template_type.OMIT_VALUE.equals(temp2.getTemplatetype())
 						|| (Template_type.SPECIFIC_VALUE.equals(temp2.getTemplatetype())
 								&& Value_type.OMIT_VALUE.equals(((SpecificValue_Template) temp2).getSpecificValue()
-								.getValuetype()))) {
+										.getValuetype()))) {
 					operand1.checkExpressionOmitComparison(timestamp, expectedValue);
 				} else {
-					type1.checkThisTemplate(timestamp, (TTCN3Template) tempValue, false, false);
+					type1.checkThisTemplate(timestamp, tempValue, false, false);
 					final TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
 							operand2.getDerivedReference(), (TTCN3Template) tempValue);
 					if (operand2 == tempTemplateInstance2) {

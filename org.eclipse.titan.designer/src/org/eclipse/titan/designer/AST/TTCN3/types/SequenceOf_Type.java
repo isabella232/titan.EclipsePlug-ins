@@ -326,7 +326,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
@@ -335,7 +335,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		if (Type_type.TYPE_SEQUENCE_OF.equals(lastOtherType.getTypetype())) {
 			final IType oftOther = ((SequenceOf_Type) lastOtherType).getOfType();
 			final IType oft = getOfType().getTypeRefdLast(timestamp); // type of the
-																// fields 
+			// fields
 			if (oft != null && oftOther != null) {
 				// For basic types pre-generated seq/set of is applied in titan:
 				switch (oft.getTypetype()) {
@@ -484,13 +484,13 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				final IValue indexLast = index.getValueRefdLast(timestamp, referenceChain);
 				referenceChain.release();
-				
+
 				final IType tempType = TypeFactory.createType(Type_type.TYPE_INTEGER);
 				tempType.check(timestamp);
 				indexLast.setMyGovernor(tempType);
 				final IValue temporalValue = tempType.checkThisValueRef(timestamp, indexLast);
 				tempType.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
-					true, false, true, false, false));
+						true, false, true, false, false));
 
 				if (indexLast.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
 					checkHoles = false;
@@ -564,7 +564,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final int nofComponents = permutationTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = permutationTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
-				templateComponent.setMyGovernor(getOfType()); 
+				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
 				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
@@ -575,7 +575,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final int nofComponents = supersetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
-				templateComponent.setMyGovernor(getOfType()); 
+				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
 				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
@@ -586,7 +586,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final int nofComponents = subsetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
-				templateComponent.setMyGovernor(getOfType()); 
+				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
 				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
@@ -628,7 +628,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				case PERMUTATION_MATCH:
 				case SUPERSET_MATCH:
 				case SUBSET_MATCH:
-				//FIXME: for Complement??? case COMPLEMENTED_LIST: ???
+					//FIXME: for Complement??? case COMPLEMENTED_LIST: ???
 					// the elements of permutation has to be checked by u.seof.ofType
 					// the templates within the permutation always have to be complete
 					component.checkThisTemplateGeneric(timestamp, this, false, false, true, true, implicitOmit);
@@ -642,7 +642,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					break;
 				default:
 					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
-						|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
+					|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
 					component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit);
 					break;
 				}
@@ -660,13 +660,13 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				final IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
 				chain.release();
-				
+
 				final IType tempType = TypeFactory.createType(Type_type.TYPE_INTEGER);
 				tempType.check(timestamp);
 				lastValue.setMyGovernor(tempType);
 				final IValue temporalValue = tempType.checkThisValueRef(timestamp, lastValue);
 				tempType.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
-					true, false, true, false, false));
+						true, false, true, false, false));
 
 				if (!temporalValue.getIsErroneous(timestamp) && Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
 					final long index = ((Integer_Value) lastValue).getValue();

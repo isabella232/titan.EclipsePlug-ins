@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types.subtypes;
 
 /**
  * interface for all limit classes used by RangeListConstraint
- * 
+ *
  * @author Adam Delic
  */
 public abstract class LimitType implements Comparable<LimitType> {

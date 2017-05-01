@@ -277,7 +277,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 		if (null != referencedLast && this != referencedLast) {
 			final Expected_Value_type internalExpectation =
 					(expectedIndex == Expected_Value_type.EXPECTED_TEMPLATE) ? Expected_Value_type.EXPECTED_DYNAMIC_VALUE
-					: expectedIndex;
+							: expectedIndex;
 
 			return referencedLast.getFieldType(timestamp, reference, actualSubReference, internalExpectation, refChain,
 					interruptIfOptional);

@@ -483,9 +483,9 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		case SEQUENCEOF_VALUE:
 			if (((SequenceOf_Value) last).isIndexed()) {
 				value.getLocation().reportSemanticError(
-					MessageFormat.format(
-						"Indexed assignment notation cannot be used for SET type `{0}''",
-						getFullName()));
+						MessageFormat.format(
+								"Indexed assignment notation cannot be used for SET type `{0}''",
+								getFullName()));
 				value.setIsErroneous(true);
 			} else {
 				final SequenceOf_Value temporalValue = (SequenceOf_Value) last;
@@ -537,7 +537,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	 * <p>
 	 * Please note, that this function can only be called once we know for
 	 * sure that the value is of set type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param value
@@ -571,8 +571,8 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 							MessageFormat.format(isAsn ? DUPLICATEFIELDAGAINASN1 : DUPLICATEFIELDAGAINTTCN3,
 									valueId.getDisplayName()));
 					componentMap.get(valueId.getName()).getLocation().reportSingularSemanticError(
-						MessageFormat.format(isAsn ? DUPLICATEFIELDFIRSTASN1
-						: DUPLICATEFIELDFIRSTTTCN3, valueId.getDisplayName()));
+							MessageFormat.format(isAsn ? DUPLICATEFIELDFIRSTASN1
+									: DUPLICATEFIELDFIRSTTTCN3, valueId.getDisplayName()));
 				} else {
 					componentMap.put(valueId.getName(), namedValue);
 				}
@@ -651,7 +651,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	/**
 	 * Checks the provided named template list against this type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param templateList
@@ -715,7 +715,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 					} else {
 						templateList.getLocation().reportSemanticError(
 								MessageFormat.format(MISSINGTEMPLATEFIELD,
-								identifier.getDisplayName(), getTypename()));
+										identifier.getDisplayName(), getTypename()));
 					}
 				}
 			}
@@ -753,11 +753,11 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		components.setMyScope(getMyScope());
 		components.setMyType(this);
 	}
-	
+
 	/**
 	 * Check the components of member to reveal possible recursive
 	 * referencing.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the actual compilation cycle.
 	 * @param referenceChain

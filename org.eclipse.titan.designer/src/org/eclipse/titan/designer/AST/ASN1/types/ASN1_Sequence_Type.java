@@ -558,7 +558,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 	 * <p>
 	 * Please note, that this function can only be called once we know for
 	 * sure that the value is of sequence type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param value
@@ -627,7 +627,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 							namedValue.getLocation().reportSemanticError(
 									MessageFormat.format(isAsn ? WRONGFIELDORDERASN1 : WRONGFIELDORDERTTCN3,
 											valueId.getDisplayName(), lastCompField.getIdentifier()
-													.getDisplayName()));
+											.getDisplayName()));
 						}
 					} else {
 						CompField field2 = getComponentByIndex(sequenceIndex);
@@ -645,7 +645,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 							namedValue.getLocation().reportSemanticError(
 									MessageFormat.format(isAsn ? UNEXPECTEDFIELDASN1 : UNEXPECTEDFIELDTTCN3,
 											valueId.getDisplayName(), field2Original.getIdentifier()
-													.getDisplayName()));
+											.getDisplayName()));
 						}
 					}
 				}
@@ -803,8 +803,8 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 								.getDisplayName()), new OmitValue_Template(), false));
 					} else {
 						templateList.getLocation().reportSemanticError(
-							MessageFormat.format(MISSINGTEMPLATEFIELD,
-								identifier.getDisplayName(), getTypename()));
+								MessageFormat.format(MISSINGTEMPLATEFIELD,
+										identifier.getDisplayName(), getTypename()));
 					}
 				}
 			}
@@ -846,7 +846,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 	/**
 	 * Check the components of member to reveal possible recursive
 	 * referencing.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the actual compilation cycle.
 	 * @param referenceChain

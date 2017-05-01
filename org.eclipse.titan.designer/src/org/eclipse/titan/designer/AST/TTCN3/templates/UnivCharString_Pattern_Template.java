@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 //FIXME implement as soon as charstring pattern templates become handled
 /**
  * Represents a template that holds a charstring pattern.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class UnivCharString_Pattern_Template extends TTCN3Template {

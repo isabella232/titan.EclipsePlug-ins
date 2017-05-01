@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ObjectSetElement Visitor, object collector.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElement_Visitor {
@@ -58,7 +58,7 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 		}
 		final ObjectClass myClass = governor.getRefdLast(timestamp, null);
 		final ObjectClass refdClass = object.getMyGovernor().getRefdLast(timestamp, null);
-		
+
 		if (myClass != refdClass) {
 			if( location != NULL_Location.INSTANCE && refdClass!=null) {
 				location.reportSemanticError(MessageFormat.format(OBJECTOFCLASSEXPECTED, myClass.getFullName(), p.getFullName(), refdClass.getFullName()));
@@ -84,14 +84,14 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 		ObjectClass refdClass = null;
 		if (p instanceof Referenced_ObjectSet){
 			refdClass = ((Referenced_ObjectSet)p).getRefdObjectClass(timestamp);
-		} 
+		}
 
 		if(myClass != refdClass &&  myClass!=null && refdClass!=null) {
 			p.getLocation().reportSemanticError(
 					MessageFormat.format(OBJECTOFCLASSEXPECTED, myClass.getFullName(), p.getFullName(), refdClass.getFullName()));
 			return;
 		}
-		
+
 		final ObjectSet_definition os = p.getRefdLast(timestamp, null);
 		if (visitedElements.contains(os)) {
 			if (!force) {
@@ -100,22 +100,22 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 		} else {
 			visitedElements.add(os);
 		}
-		
+
 		//=== Visit objects =====
-		
+
 		//In case of Parameterised_Reference, the ObjectSet contains the parameters
 		// therefore its objects have different type
-		// E.g: Ericsson-MAP-ReturnError-v2 ::= ReturnError{{Errors {{Supported-Ericsson-MAP-Operations-v2}}}} 
+		// E.g: Ericsson-MAP-ReturnError-v2 ::= ReturnError{{Errors {{Supported-Ericsson-MAP-Operations-v2}}}}
 		//                                                   ^Par ref ^^^^^^ObjectSet
-		if(((Referenced_ObjectSet)p).isReferencedParameterisedReference()) { 
-			return; 
+		if(((Referenced_ObjectSet)p).isReferencedParameterisedReference()) {
+			return;
 		}
 		//In case of Defined_Reference, the ObjectSet contains...
 		//TODO: check this!
 		if(((Referenced_ObjectSet)p).isReferencedDefinedReference()){
 			return;
 		}
-		
+
 		final ASN1Objects otherObjects = os.getObjs();
 
 		otherObjects.trimToSize();

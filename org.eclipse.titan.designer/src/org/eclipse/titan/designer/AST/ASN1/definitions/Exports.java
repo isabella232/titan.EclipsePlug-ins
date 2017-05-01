@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents the exported symbols of a module.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Exports extends ASTNode implements ILocateableNode {
@@ -77,7 +77,7 @@ public final class Exports extends ASTNode implements ILocateableNode {
 
 	/**
 	 * Sets the module of this export list to be the provided module.
-	 * 
+	 *
 	 * @param module
 	 *                the module of this export list.
 	 * */
@@ -98,7 +98,7 @@ public final class Exports extends ASTNode implements ILocateableNode {
 
 	/**
 	 * Checks this export list.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

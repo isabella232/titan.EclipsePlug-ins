@@ -39,7 +39,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_Port class represents TTCN3 port definitions.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_Port extends Definition {
@@ -129,7 +129,7 @@ public final class Def_Port extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -348,7 +348,7 @@ public final class Def_Port extends Definition {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {

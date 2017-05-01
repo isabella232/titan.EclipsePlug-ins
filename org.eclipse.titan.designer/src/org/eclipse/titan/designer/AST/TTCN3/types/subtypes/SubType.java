@@ -60,7 +60,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The SubType class is the base class for TTCN-3 type restrictions.
- * 
+ *
  * @author Adam Delic
  * */
 public final class SubType implements IIncrementallyUpdateable {
@@ -286,10 +286,10 @@ public final class SubType implements IIncrementallyUpdateable {
 				}
 				if (!t.isIdentical(timestamp, myOwner)) {
 					value.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"Reference `{0}'' must refer to a type which has the same root type as this type",
-											ref.getDisplayName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"Reference `{0}'' must refer to a type which has the same root type as this type",
+									ref.getDisplayName()));
 					return false;
 				}
 				// check subtype of referenced type

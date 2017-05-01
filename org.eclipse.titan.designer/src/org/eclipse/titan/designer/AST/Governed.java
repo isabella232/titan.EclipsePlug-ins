@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST;
 
 /**
  * Things that have a governor. Object, Value...
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class Governed extends Setting implements IGoverned {

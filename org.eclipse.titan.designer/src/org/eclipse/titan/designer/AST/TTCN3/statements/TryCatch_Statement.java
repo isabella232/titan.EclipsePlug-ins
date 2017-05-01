@@ -26,12 +26,12 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The Statement class represents a try-catch statement.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
 public class TryCatch_Statement extends Statement {
-	
+
 	private static final String FULLNAMEPART1 = ".try";
 	private static final String FULLNAMEPART2 = ".catch";
 	private static final String STATEMENT_NAME = "try-catch";
@@ -39,9 +39,9 @@ public class TryCatch_Statement extends Statement {
 	private final StatementBlock tryBlock;
 	private final Identifier exceptionIdentifier;
 	private final StatementBlock catchBlock;
-	
+
 	private final StatementBlock catchSurroundingBlock;
-	
+
 	public TryCatch_Statement(final StatementBlock tryBlock, final Identifier exceptionIdentifier, final StatementBlock catchBlock) {
 		this.tryBlock = tryBlock;
 		this.exceptionIdentifier = exceptionIdentifier;
@@ -62,7 +62,7 @@ public class TryCatch_Statement extends Statement {
 
 		catchBlock.setFullNameParent(catchSurroundingBlock);
 	}
-	
+
 	@Override
 	public Statement_type getType() {
 		return Statement_type.S_TRY_CATCH;
@@ -72,7 +72,7 @@ public class TryCatch_Statement extends Statement {
 	public String getStatementName() {
 		return STATEMENT_NAME;
 	}
-	
+
 	@Override
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
@@ -91,7 +91,7 @@ public class TryCatch_Statement extends Statement {
 		super.setMyScope(scope);
 
 		tryBlock.setMyScope(scope);
-		
+
 		catchSurroundingBlock.setMyScope(scope);
 		catchBlock.setMyScope(catchSurroundingBlock);
 	}
@@ -140,29 +140,29 @@ public class TryCatch_Statement extends Statement {
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		final ReturnStatus_type tryReturn = tryBlock.hasReturn(timestamp);
 		final ReturnStatus_type catchReturn = catchBlock.hasReturn(timestamp);
-		
+
 		// if both branches has the try-catch has, if none of them has the try-catch also does not have.
 		if(tryReturn.equals(catchReturn)) {
 			return tryReturn;
 		}
-		
+
 		// if only the try or the catch branch had a return ... or one of them only might have a return.
 		return ReturnStatus_type.RS_MAYBE;
 	}
-	
+
 	@Override
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
-		
+
 		tryBlock.check(timestamp);
 		catchSurroundingBlock.check(timestamp);
 		catchBlock.check(timestamp);
-		
+
 		lastTimeChecked = timestamp;
 	}
-	
+
 	@Override
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {

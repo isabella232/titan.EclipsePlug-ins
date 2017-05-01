@@ -34,7 +34,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a real or float value.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Real_Value extends Value {
@@ -299,7 +299,7 @@ public final class Real_Value extends Value {
 			return Double.toString(value);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {

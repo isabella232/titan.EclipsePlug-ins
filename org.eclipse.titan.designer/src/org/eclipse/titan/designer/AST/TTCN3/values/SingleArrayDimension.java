@@ -139,7 +139,7 @@ public final class SingleArrayDimension extends ArrayDimension {
 			reparser.updateLocation(value.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {

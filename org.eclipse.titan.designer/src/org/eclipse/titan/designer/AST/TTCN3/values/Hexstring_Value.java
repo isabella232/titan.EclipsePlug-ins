@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a hexstring value.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Hexstring_Value extends Value {

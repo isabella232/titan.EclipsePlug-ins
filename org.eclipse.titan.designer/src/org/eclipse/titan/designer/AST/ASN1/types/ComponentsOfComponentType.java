@@ -26,7 +26,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * ComponentsOf.
  * <p>
  * originally CT_CompsOf
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ComponentsOfComponentType extends ComponentType {

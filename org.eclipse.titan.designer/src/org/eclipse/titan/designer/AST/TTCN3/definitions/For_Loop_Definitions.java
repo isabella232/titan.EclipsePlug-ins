@@ -52,7 +52,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * declaration matters, and the can hide higher level definitions. And still
  * they are not Definition_Statements, as there is no exact statement block they
  * could belong to.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class For_Loop_Definitions extends Assignments implements ILocateableNode, IIncrementallyUpdateable {
@@ -159,7 +159,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * Adds a definition to the list of definitions.
 	 * <p>
 	 * The scope of the newly added definition is set to this scope here.
-	 * 
+	 *
 	 * @param definition
 	 *                the definition to be added
 	 * */
@@ -176,7 +176,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * <p>
 	 * The scope of the newly added definitions is set to this scope scope
 	 * here.
-	 * 
+	 *
 	 * @param definitionList
 	 *                the definitions to be added
 	 * */
@@ -191,7 +191,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	/**
 	 * Checks the uniqueness of the definitions, and also builds a hashmap
 	 * of them to speed up further searches.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -313,15 +313,15 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
-			if (reference.getModuleIdentifier() != null) {
+		if (reference.getModuleIdentifier() != null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
 
-			final Identifier identifier = reference.getId();
+		final Identifier identifier = reference.getId();
 		if (identifier == null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
@@ -340,12 +340,12 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 
 	/**
 	 * Searches the definitions for one with a given Identifier.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param id
 	 *                the identifier used to find the definition
-	 * 
+	 *
 	 * @return the definition if found, or null otherwise
 	 * */
 	@Override
@@ -405,7 +405,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 
 	/**
 	 * Handles the incremental parsing of this list of definitions.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -565,7 +565,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 
 	/**
 	 * Destroy every element trapped inside the damage radius.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * */
@@ -641,7 +641,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 			}
 		};
 	}
-	
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData the structure to put imports into and get temporal variable names from.

@@ -156,7 +156,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue

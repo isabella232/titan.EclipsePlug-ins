@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * Represents an actual parameter that has the value of a default actual
  * parameter that was assigned to the formal parameter.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Default_ActualParameter extends ActualParameter {
@@ -68,7 +68,7 @@ public final class Default_ActualParameter extends ActualParameter {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final ExpressionStruct expression) {

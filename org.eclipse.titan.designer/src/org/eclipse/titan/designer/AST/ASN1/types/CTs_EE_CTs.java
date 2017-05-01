@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Component Type list + Extension and Exception + Component Type List.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class CTs_EE_CTs extends ASTNode {
@@ -122,7 +122,7 @@ public final class CTs_EE_CTs extends ASTNode {
 
 		return componentsMap.get(identifier.getName());
 	}
-	
+
 	public int indexOf(final CompField field) {
 		return components.indexOf(field);
 	}
@@ -242,7 +242,7 @@ public final class CTs_EE_CTs extends ASTNode {
 	/**
 	 * Returns a list of the components whose identifier starts with the
 	 * given prefix.
-	 * 
+	 *
 	 * @param prefix
 	 *                the prefix used to select the component fields.
 	 * @return the list of component fields which start with the provided
@@ -283,8 +283,8 @@ public final class CTs_EE_CTs extends ASTNode {
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		for (CompField field : components) {
 			if (field.getLocation().containsOffset(offset)
-			// TODO: remove the below line when the above line
-			// starts to work (location problem)
+					// TODO: remove the below line when the above line
+					// starts to work (location problem)
 					|| field.getIdentifier().getLocation().containsOffset(offset)) {
 				rf.type = myType;
 				rf.fieldId = field.getIdentifier();

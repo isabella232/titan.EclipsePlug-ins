@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a list of type mappings.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TypeMappings extends ASTNode implements ILocateableNode {
@@ -108,7 +108,7 @@ public final class TypeMappings extends ASTNode implements ILocateableNode {
 
 	/**
 	 * Copy over the mappings from the provided mapping list.
-	 * 
+	 *
 	 * @param otherMappings
 	 *                the other list of mappings.
 	 * */
@@ -123,7 +123,7 @@ public final class TypeMappings extends ASTNode implements ILocateableNode {
 
 	/**
 	 * Does the semantic checking of the type mapping.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

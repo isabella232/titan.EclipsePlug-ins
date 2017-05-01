@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent type FieldSettings.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class FieldSetting_Type extends FieldSetting {

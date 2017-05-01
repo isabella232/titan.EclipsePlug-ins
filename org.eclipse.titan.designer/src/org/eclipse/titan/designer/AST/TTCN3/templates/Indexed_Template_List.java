@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a list of templates given with indexed notation.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Indexed_Template_List extends TTCN3Template {
@@ -53,7 +53,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		indexedTemplates.setFullNameParent(this);
 		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
 			if (Template_type.PERMUTATION_MATCH.equals(indexedTemplates.getTemplateByIndex(i).getTemplate().getTemplatetype())) {
-				hasPermutation = true; 
+				hasPermutation = true;
 				break;
 			}
 		}
@@ -214,9 +214,9 @@ public final class Indexed_Template_List extends TTCN3Template {
 		}
 		default:
 			arrayIndex.getLocation()
-					.reportSemanticError(
-							MessageFormat.format("Invalid array element reference: type `{0}'' cannot be indexed",
-									tempType.getTypename()));
+			.reportSemanticError(
+					MessageFormat.format("Invalid array element reference: type `{0}'' cannot be indexed",
+							tempType.getTypename()));
 			return null;
 		}
 

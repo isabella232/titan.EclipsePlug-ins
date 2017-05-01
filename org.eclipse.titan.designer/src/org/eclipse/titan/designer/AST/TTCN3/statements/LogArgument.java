@@ -102,7 +102,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	/**
 	 * Does the semantic checking of the log argument. This is the main
 	 * entry point.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -158,7 +158,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	/**
 	 * Does the semantic checking of the log argument. Once it was
 	 * determined that it is a value.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param value
@@ -228,7 +228,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	/**
 	 * Does the semantic checking of the log argument. Once it was
 	 * determined that it is a reference.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param reference
@@ -358,7 +358,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	 * Checks whether this value is defining itself in a recursive way. This
 	 * can happen for example if a constant is using itself to determine its
 	 * initial value.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain

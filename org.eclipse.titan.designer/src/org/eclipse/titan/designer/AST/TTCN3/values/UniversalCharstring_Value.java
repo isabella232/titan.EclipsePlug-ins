@@ -33,7 +33,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a universal charstring value.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class UniversalCharstring_Value extends Value {

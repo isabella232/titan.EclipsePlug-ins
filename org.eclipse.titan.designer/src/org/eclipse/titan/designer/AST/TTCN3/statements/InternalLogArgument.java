@@ -32,7 +32,7 @@ public abstract class InternalLogArgument {
 	 * Checks whether this log argument is defining itself in a recursive
 	 * way. This can happen for example if a constant is using itself to
 	 * determine its initial value.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain

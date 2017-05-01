@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
  * Represent an error behavior setting in the codec API of the run-time
  * environment. The setting contains the error type identifier and the way of
  * error handling.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ErrorBehaviorSetting extends ASTNode {

@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 /**
  * An extension attribute representing the done attribute.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class DoneAttribute extends ExtensionAttribute {

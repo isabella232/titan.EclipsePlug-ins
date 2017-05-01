@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template that matches everything but the elements in a list.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ComplementedList_Template extends CompositeTemplate {
@@ -91,13 +91,13 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
-		
+
 		if(type == null){
 			return;
 		}
-		
+
 		final boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
-		
+
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			final ITemplateListItem component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
@@ -108,7 +108,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 				component.getLocation().reportSemanticWarning(ANYOROMITWARNING);
 			}
 		}
-		
+
 		checkLengthRestriction(timestamp, type);
 		if (!allowOmit && isIfpresent) {
 			location.reportSemanticError("`ifpresent' is not allowed here");
@@ -119,7 +119,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	}
 
 	/**
-	 * If ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY is switched on 
+	 * If ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY is switched on
 	 * and has AnyOrOmit (=AnyOrNone) or omit in the list then accepted, otherwise not
 	 */
 	@Override
@@ -131,11 +131,11 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			boolean hasAnyOrOmit = false;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 				final ITemplateListItem component = templates.getTemplateByIndex(i);
-				
+
 				// === if OMIT_VALUE then hasOmitValue=true and break ====
 				// componentType == ITTCN3Template.Template_type.OMIT_VALUE does not work
 				// TODO: put this if-block to a higher level
-				//TODO: avoid NPE (?) 
+				//TODO: avoid NPE (?)
 				if(component instanceof TemplateBody) {
 					final ITTCN3Template template = ((TemplateBody) component).getTemplate();
 					if(Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())){
@@ -167,7 +167,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	protected String getNameForStringRep() {
 		return "complement";
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
@@ -190,16 +190,16 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	/** {@inheritDoc} */
 	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		
+
 		int nofTs = templates.getNofTemplates();
 		String typeName = myGovernor.getGenNameTemplate(aData, source, myScope);
 		//TODO: add support for all_from
-		
+
 		source.append(name);
 		source.append(".setType( template_sel.COMPLEMENTED_LIST, ");
 		source.append(nofTs);
 		source.append( " );\n" );
-		
+
 		for (int i = 0 ; i < nofTs ; i++) {
 			ITemplateListItem template = templates.getTemplateByIndex(i);
 			// TODO: handle needs template reference
@@ -207,7 +207,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			template.generateJavaInit(aData, source, embeddedName);
 		}
 		// TODO:  missing parts need to be completed
-		
+
 		if (isIfpresent) {
 			source.append(name);
 			source.append(".set_ifPresent();\n");

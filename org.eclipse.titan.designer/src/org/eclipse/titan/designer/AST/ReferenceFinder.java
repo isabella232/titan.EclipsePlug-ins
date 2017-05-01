@@ -200,22 +200,22 @@ public final class ReferenceFinder {
 		if (localScope instanceof Assignments && localScope.getParentScope() == module) {
 			localScope = module;
 		} else
-		// component members might be seen in any testcase/function that
-		// runs on that component or a compatible or self
-		// treat it as global definition
-		if (localScope instanceof ComponentTypeBody) {
-			//FIXME this still does not make them global, that is something completely different.
-			localScope = module;
-		} else
-		// search for actual named parameters everywhere
-		if (localScope instanceof FormalParameterList || localScope instanceof RunsOnScope) {
-			localScope = module;
-		} else
-		// this special scope does not contain other parts of the
-		// For_Statement that must be searched
-		if (localScope instanceof For_Loop_Definitions) {
-			localScope = localScope.getParentScope();
-		}
+			// component members might be seen in any testcase/function that
+			// runs on that component or a compatible or self
+			// treat it as global definition
+			if (localScope instanceof ComponentTypeBody) {
+				//FIXME this still does not make them global, that is something completely different.
+				localScope = module;
+			} else
+				// search for actual named parameters everywhere
+				if (localScope instanceof FormalParameterList || localScope instanceof RunsOnScope) {
+					localScope = module;
+				} else
+					// this special scope does not contain other parts of the
+					// For_Statement that must be searched
+					if (localScope instanceof For_Loop_Definitions) {
+						localScope = localScope.getParentScope();
+					}
 
 		return localScope;
 	}
@@ -227,7 +227,7 @@ public final class ReferenceFinder {
 		final List<IProject> relatedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReferencingProjects();
 		relatedProjects.addAll(ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects());
 		relatedProjects.add(project);
-		
+
 		int size = 0;
 		for(IProject tempProject: relatedProjects) {
 			size += GlobalParser.getProjectSourceParser(tempProject).getModules().size();
@@ -248,7 +248,7 @@ public final class ReferenceFinder {
 		if (scope instanceof Module) {
 			for(IProject project2 : relatedProjects) {
 				final ProjectSourceParser projectSourceParser2 = GlobalParser.getProjectSourceParser(project2);
-				
+
 				for (Module module2 : projectSourceParser2.getModules()) {
 					if (monitor.isCanceled()) {
 						return foundIdsMap;

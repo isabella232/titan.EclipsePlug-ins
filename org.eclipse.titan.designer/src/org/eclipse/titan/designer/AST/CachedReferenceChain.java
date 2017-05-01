@@ -19,7 +19,7 @@ import java.util.Stack;
  * This class is able to mark a state, and later on return back to this state.
  * @see #markState()
  * @see #previousState()
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class CachedReferenceChain implements IReferenceChain {

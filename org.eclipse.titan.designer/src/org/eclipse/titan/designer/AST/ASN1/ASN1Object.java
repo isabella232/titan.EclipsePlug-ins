@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent an ASN.1 Object.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ASN1Object extends Governed implements IObjectSet_Element {
@@ -48,7 +48,7 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 
 	/**
 	 * Sets the governing ObjectClass of the Object.
-	 * 
+	 *
 	 * @param governor
 	 *                the governor of the Object.
 	 * */
@@ -81,7 +81,7 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	 * <p>
 	 * Extending class only need to implement their
 	 * {@link #getProposalKind()} function
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param i
@@ -92,7 +92,7 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 
 	/**
 	 * Adds the object to the list declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param i

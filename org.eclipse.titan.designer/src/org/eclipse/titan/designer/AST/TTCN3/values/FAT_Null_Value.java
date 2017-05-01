@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a null function / altstep / testcase reference.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class FAT_Null_Value extends Value {

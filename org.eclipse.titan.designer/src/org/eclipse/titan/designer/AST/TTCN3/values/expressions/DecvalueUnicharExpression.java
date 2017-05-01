@@ -53,9 +53,9 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	private static final String OPERAND2_ERROR1 = "The 2nd operand of the `decvalue_unichar' operation is unable to hold a decoded value";
 
 	private static final String OPERAND3_ERROR1 = "The 3rd operand of the `encvalue_unichar' operation should be a charstring value";
-	
+
 	private static final String OPERAND4_ERROR1 = "The 4th operand of the `decvalue_unichar' operation should be a universal charstring value";
-	
+
 	private final Reference reference1;
 	private final Reference reference2;
 	private final Value value3;
@@ -155,7 +155,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -164,8 +164,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperands( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain) {
 		//check reference1
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
 		//check reference2
@@ -176,7 +176,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		checkExpressionOperand4(timestamp, expectedValue, referenceChain);
 	}
 
-	/** 
+	/**
 	 * Checks the 1st operand
 	 * inout universal charstring
 	 * @param timestamp
@@ -187,8 +187,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (reference1 == null) {
 			setIsErroneous(true);
 			return;
@@ -244,7 +244,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			setIsErroneous(true);
 			return;
 		}
-		final Type_type type_type = temporalType.getTypeRefdLast(timestamp).getTypetype();  
+		final Type_type type_type = temporalType.getTypeRefdLast(timestamp).getTypetype();
 		if ( type_type != Type_type.TYPE_UCHARSTRING ) {
 			if (!isErroneous) {
 				location.reportSemanticError(OPERAND1_ERROR1);
@@ -253,8 +253,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			return;
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Checks the 2nd operand
 	 * out any_type
 	 * @param timestamp
@@ -265,8 +265,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand2( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (reference1 == null) {
 			setIsErroneous(true);
 			return;
@@ -305,8 +305,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Checks the 3rd operand
 	 * in charstring (optional)
 	 * @param timestamp
@@ -317,8 +317,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand3( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (value3 == null) {
 			return;
 		}
@@ -350,8 +350,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Checks the 4th operand
 	 * universal charstring (optional)
 	 * @param timestamp
@@ -362,8 +362,8 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand4( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (value4 == null) {
 			return;
 		}
@@ -386,7 +386,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
@@ -409,7 +409,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	/**
 	 * Helper function checking if a provided reference is in a recursive
 	 * reference chain or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param reference
@@ -503,7 +503,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			value3.updateSyntax(reparser, false);
 			reparser.updateLocation(value3.getLocation());
 		}
-		
+
 		if (value4 != null) {
 			value4.updateSyntax(reparser, false);
 			reparser.updateLocation(value4.getLocation());

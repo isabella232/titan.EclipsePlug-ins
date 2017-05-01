@@ -32,7 +32,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a single attribute qualifier.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Qualifier implements ILocateableNode, IIncrementallyUpdateable, IIdentifierContainer, IVisitableNode {
@@ -87,7 +87,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 
 	/**
 	 * Adds a subreference to the end of the list of stored subreferences.
-	 * 
+	 *
 	 * @param subReference
 	 *                the subreference to be added
 	 * */
@@ -100,7 +100,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	/**
 	 * Adds a subreference to the beginning of the list of stored
 	 * subreferences.
-	 * 
+	 *
 	 * @param subReference
 	 *                the subreference to be added
 	 * */
@@ -117,7 +117,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 
 	/**
 	 * Returns the subreference at the specified position.
-	 * 
+	 *
 	 * @param index
 	 *                the index of the subreference to return.
 	 * @return the subreference at the given index.
@@ -129,7 +129,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	/**
 	 * Creates a qualifier which is almost a copy of the actual one, but
 	 * does not have it's first subreference.
-	 * 
+	 *
 	 * @return the created qualifier
 	 * */
 	public Qualifier getQualifierWithoutFirstSubRef() {
@@ -143,7 +143,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 
 	/**
 	 * Handles the incremental parsing of this list of qualifiers.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

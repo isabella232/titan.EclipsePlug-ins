@@ -34,7 +34,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Referenced ObjectSet.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_Element, IReferenceChainElement {
@@ -132,19 +132,19 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 
 		return referencedLast;
 	}
-	
+
 	public boolean isReferencedInformationFromObj() {
 		return (reference instanceof InformationFromObj);
 	}
-	
+
 	public boolean isReferencedParameterisedReference() {
 		return (reference instanceof Parameterised_Reference);
 	}
-	
+
 	public boolean isReferencedDefinedReference(){
 		return (reference instanceof Defined_Reference);
 	}
-	
+
 	/**
 	 * Returns the referenced ObjectClass. The evaluation depends on the type of the reference
 	 * @param timestamp
@@ -180,7 +180,9 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 			}
 		} else if ( reference instanceof Parameterised_Reference){
 			Defined_Reference dref = ((Parameterised_Reference) reference).getRefDefdSimple();
-			if( dref == null ) return null;
+			if( dref == null ) {
+				return null;
+			}
 			Assignment ass = dref.getRefdAssignment(timestamp,false,null);
 			if (ass instanceof ObjectSet_Assignment){
 				ass.check(timestamp);
@@ -200,7 +202,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		}
 		return refdClass;
 	}
-	
+
 	public Identifier getId(){
 		return reference.getId();
 	}
@@ -217,7 +219,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		if (null == myGovernor) {
 			return;
 		}
-		
+
 		final ObjectClass myClass = myGovernor.getRefdLast(timestamp, null);
 		final ObjectClass refdClass = getRefdObjectClass(timestamp);
 		if (myClass != refdClass) {

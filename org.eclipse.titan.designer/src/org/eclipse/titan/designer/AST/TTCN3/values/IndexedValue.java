@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an IndexedValue.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class IndexedValue extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {

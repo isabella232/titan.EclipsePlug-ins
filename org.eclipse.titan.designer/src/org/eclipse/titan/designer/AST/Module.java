@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * This class represents general Modules, on which both the TTCN-3 and the ASN.1
  * modules are built.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Module extends Scope implements IOutlineElement, ILocateableNode, IReferencingElement {
@@ -106,7 +106,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 
 	/**
 	 * Returns the name of the module.
-	 * 
+	 *
 	 * @return the name of the module
 	 * */
 	public String getName() {
@@ -121,7 +121,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	 * Returns the timestamp of the last importation check.
 	 * <p>
 	 * The import hierarchy check is a pre step of real check.
-	 * 
+	 *
 	 * @return the timestamp of the last importation check.
 	 * */
 	public final CompilationTimeStamp getLastImportationCheckTimeStamp() {
@@ -134,7 +134,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	public final CompilationTimeStamp getLastCompilationTimeStamp() {
 		return lastCompilationTimeStamp;
 	}
-	
+
 	/** used by the incremental processing to signal if the module can be the root of a change */
 	private boolean canBeCheckRoot = true;
 
@@ -144,24 +144,24 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	public final boolean isCheckRoot() {
 		return canBeCheckRoot;
 	}
-	
+
 	/**
 	 * Signals that the assignment can serve as a change root for the incremental analysis.
 	 * */
 	public final void checkRoot() {
 		canBeCheckRoot = true;
 	}
-	
+
 	/**
 	 * Signals that the assignment can not serve as a change root for the incremental analysis.
 	 * */
 	public final void notCheckRoot() {
 		canBeCheckRoot = false;
 	}
-	
+
 	/**
 	 * Sets whether this module can be skipped from semantic checking.
-	 * 
+	 *
 	 * @param state
 	 *                the value telling if the module can be skipped from
 	 *                semantic checking
@@ -172,7 +172,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 
 	/**
 	 * Checks weather this module can be skipped from semantic checking.
-	 * 
+	 *
 	 * @return true if the semantic checking of the module can be skipped,
 	 *         false otherwise.
 	 * */
@@ -215,7 +215,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	 * <ul>
 	 * <li>the definitions of this module are checked one-by-one
 	 * </ul>
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
 	 * */
@@ -224,7 +224,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	/**
 	 * Checks the import hierarchies of this module (and the ones imported
 	 * here recursively).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -241,7 +241,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	 * Collects the imported modules into a list. The list shall always
 	 * exist even if being empty, and shall have a null object when
 	 * non-existing modules are imported.
-	 * 
+	 *
 	 * @return the list of modules imported.
 	 * */
 	public abstract List<Module> getImportedModules();
@@ -255,12 +255,12 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	/**
 	 * Checks if there is an assignment imported to the actual module with
 	 * the provided identifier.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param identifier
 	 *                the identifier to search for.
-	 * 
+	 *
 	 * @return true if there is an assignment imported with the provided
 	 *         name, false otherwise.
 	 * */
@@ -269,7 +269,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	/**
 	 * Checks whether an assignment exist in the actual module, whether it
 	 * is visible or not. If it exists and is visible it is returned.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param moduleId
@@ -277,7 +277,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	 *                should be imported into.
 	 * @param reference
 	 *                the reference of the assignment to import.
-	 * 
+	 *
 	 * @return the assignment, or null in case of errors.
 	 * */
 	public abstract Assignment importAssignment(final CompilationTimeStamp timestamp, final Identifier moduleId, final Reference reference);
@@ -286,7 +286,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	 * Checks whether the assignment in this module is visible in the
 	 * provided module or not. Used by declaration, and completion proposal
 	 * searching.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param moduleId
@@ -294,7 +294,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	 *                visibility of the assignment is checked.
 	 * @param assignment
 	 *                the assignment to check.
-	 * 
+	 *
 	 * @return true if it is visible, false otherwise.
 	 * */
 	public abstract boolean isVisible(final CompilationTimeStamp timestamp, final Identifier moduleId, final Assignment assignment);
@@ -328,7 +328,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	/**
 	 * Called by accept(), objects have to call accept() of their members in
 	 * this function
-	 * 
+	 *
 	 * @param v
 	 *                the visitor object
 	 * @return false to abort, will be returned by accept()

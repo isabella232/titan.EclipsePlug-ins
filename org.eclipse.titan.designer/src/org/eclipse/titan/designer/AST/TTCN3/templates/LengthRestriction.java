@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a range restriction.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class LengthRestriction extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -50,7 +50,7 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 	/**
 	 * Creates and returns a string representation if the length
 	 * restriction.
-	 * 
+	 *
 	 * @return the string representation of the length restriction.
 	 * */
 	public abstract String createStringRepresentation();
@@ -58,7 +58,7 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 	/**
 	 * Check that the length restriction is a correct value, and at is
 	 * allowed at a given location.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -68,7 +68,7 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 
 	/**
 	 * Checks if the length restriction is valid for the array type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param dimension
@@ -79,7 +79,7 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 	/**
 	 * Checks if the provided amount of elements can be valid or not
 	 * according to this length restriction.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param nofElements
@@ -100,7 +100,7 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 
 	/**
 	 * Handles the incremental parsing of this length restriction.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

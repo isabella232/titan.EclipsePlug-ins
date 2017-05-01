@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent a FixedTypeValueFieldSpec.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class FixedTypeValue_FieldSpecification extends FieldSpecification {

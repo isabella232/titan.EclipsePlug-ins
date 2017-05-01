@@ -26,7 +26,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the base class of expressions.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -328,7 +328,7 @@ public abstract class Expression_Value extends Value {
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			//fatal error
 		}
-		
+
 		return expression.mergeExpression(new StringBuilder());
 	}
 
@@ -339,16 +339,16 @@ public abstract class Expression_Value extends Value {
 			expression.expression.append(generateSingleExpression(aData));
 			return;
 		}
-		
+
 		generateCodeExpressionExpression(aData, expression);
 	}
-	
+
 	/**
 	 * Helper function for generateCodeExpression(). It is used when
-	*  the value is an expression.
-	*  
-	*  @param aData only used to update imports if needed
-	*  @param expression the expression for code generation
+	 *  the value is an expression.
+	 *
+	 *  @param aData only used to update imports if needed
+	 *  @param expression the expression for code generation
 	 * */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		expression.expression.append( "\t//TODO: " );

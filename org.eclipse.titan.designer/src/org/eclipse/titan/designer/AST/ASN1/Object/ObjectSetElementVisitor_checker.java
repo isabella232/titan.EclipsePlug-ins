@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ObjectSetElement Visitor, checker.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectSetElementVisitor_checker extends ObjectSetElement_Visitor {

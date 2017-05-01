@@ -48,7 +48,7 @@ import org.eclipse.ui.texteditor.MarkerAnnotation;
  * This way external tools should not be able to corrupt our internal data storage too much or for too long
  *  ... however as markers can be modified perfectly in parallel in the system slight differences between the cache and the real world can appear.
  *  Such differences should be removed by the next on-the-fly analysis.
- *  
+ *
  *  @author Kristof Szabados
  *  @author Jeno Attila Balasko
  * */
@@ -56,13 +56,13 @@ public final class MarkerHandler {
 	private static final String MARKER_HANDLING_ERROR = "Marker handling error";
 	/** The list of all the marker qualifiers, to decrease the code size. */
 	private static String[] allMarkerTypes = {
-			GeneralConstants.COMPILER_ERRORMARKER,
-			GeneralConstants.COMPILER_WARNINGMARKER,
-			GeneralConstants.COMPILER_INFOMARKER,
-			GeneralConstants.ONTHEFLY_SEMANTIC_MARKER,
-			GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER,
-			GeneralConstants.ONTHEFLY_TASK_MARKER,
-			GeneralConstants.ONTHEFLY_MIXED_MARKER // syntactic marker in semantic time...
+		GeneralConstants.COMPILER_ERRORMARKER,
+		GeneralConstants.COMPILER_WARNINGMARKER,
+		GeneralConstants.COMPILER_INFOMARKER,
+		GeneralConstants.ONTHEFLY_SEMANTIC_MARKER,
+		GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER,
+		GeneralConstants.ONTHEFLY_TASK_MARKER,
+		GeneralConstants.ONTHEFLY_MIXED_MARKER // syntactic marker in semantic time...
 	};
 
 	/**
@@ -114,14 +114,14 @@ public final class MarkerHandler {
 			markMarkersForRemoval(markerTypeID, loc.getFile(), loc.getOffset(), loc.getEndOffset());
 		}
 	}
-	
+
 	public static void markAllSemanticMarkersForRemoval(final Location loc) {
 		if(loc != null && loc!= NULL_Location.INSTANCE) {
 			markMarkersForRemoval(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, loc.getFile(), loc.getOffset(), loc.getEndOffset());
 			markMarkersForRemoval(GeneralConstants.ONTHEFLY_MIXED_MARKER, loc.getFile(), loc.getOffset(), loc.getEndOffset());
 		}
-	}	
-	
+	}
+
 	public static void markAllSemanticMarkersForRemoval(final ILocateableNode locatable) {
 		if(locatable == null) {
 			return;
@@ -808,10 +808,10 @@ public final class MarkerHandler {
 	 * @param endOffset the start of the interval in which the markers to be marked can be
 	 * */
 	public static void markAllOnTheFlyMarkersForRemoval(final IFile file, final int startOffset, final int endOffset) {
-			markMarkersForRemoval(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, file, startOffset, endOffset);
-			markMarkersForRemoval(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, file, startOffset, endOffset);
-			markMarkersForRemoval(GeneralConstants.ONTHEFLY_TASK_MARKER, file, startOffset, endOffset);
-			markMarkersForRemoval(GeneralConstants.ONTHEFLY_MIXED_MARKER, file,startOffset, endOffset);
+		markMarkersForRemoval(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, file, startOffset, endOffset);
+		markMarkersForRemoval(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, file, startOffset, endOffset);
+		markMarkersForRemoval(GeneralConstants.ONTHEFLY_TASK_MARKER, file, startOffset, endOffset);
+		markMarkersForRemoval(GeneralConstants.ONTHEFLY_MIXED_MARKER, file,startOffset, endOffset);
 	}
 
 	/**
@@ -857,7 +857,7 @@ public final class MarkerHandler {
 	 * @param file the file to work on.
 	 * @param startOffset the start of the interval.
 	 * @param endOffset the end of the interval.
-     *	
+	 *
 	 * */
 	public static void reEnableAllSemanticMarkers(final IFile file, final int startOffset, final int endOffset) {
 		//
@@ -978,10 +978,10 @@ public final class MarkerHandler {
 	}
 
 	public static void removeAllSemanticMarkedMarkers(final IResource resource) {
-		if( resource == null) { 
-			return; 
+		if( resource == null) {
+			return;
 		}
-		
+
 		final List<IResource> resources = new ArrayList<IResource>();
 		resources.add(resource);
 

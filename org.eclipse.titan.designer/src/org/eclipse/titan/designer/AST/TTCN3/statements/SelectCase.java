@@ -33,10 +33,10 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * The SelectCase class is helper class for the SelectCase_Statement class.
  * Represents a select case branch parsed from the source code.
- * 
+ *
  * @see SelectCase_Statement
  * @see SelectCases
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SelectCase extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -82,7 +82,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 
 	/**
 	 * Sets the scope of the select case branch.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to be set.
 	 * */
@@ -135,10 +135,10 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	/**
 	 * Checks whether the select case has a return statement, either
 	 * directly or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the select case.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
@@ -151,7 +151,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 
 	/**
 	 * Does the semantic checking of this select case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param governor
@@ -159,7 +159,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	 *                cases against.
 	 * @param unreachable
 	 *                tells if this case branch is still reachable or not.
-	 * 
+	 *
 	 * @return true if this case branch was found to be unreachable, false
 	 *         otherwise.
 	 * */

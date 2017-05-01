@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * An undefined assignment.
  * <p>
  * Can only be ObjectSet or ValueSet assignment because of the syntax
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -31,7 +31,7 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 
 	private final Reference reference;
 	private final Block mBlock;
-	
+
 	public Undefined_Assignment_OS_or_VS(final Identifier id, final Ass_pard assPard, final Reference reference, final Block aBlock) {
 		super(id, assPard);
 		this.reference = reference;
@@ -115,7 +115,7 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 			temporalReferenceChain.previousState();
 		}
 	}
-	
+
 	private ObjectSet_definition newObjectSetDefinitionInstance() {
 		return new ObjectSet_definition(mBlock);
 	}
@@ -123,7 +123,7 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 	private ValueSet_Assignment newValueSetAssignmentInstance( final Referenced_Type aType ) {
 		return new ValueSet_Assignment(identifier, assPard, aType, mBlock);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

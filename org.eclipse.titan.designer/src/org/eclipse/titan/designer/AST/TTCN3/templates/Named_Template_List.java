@@ -39,7 +39,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represent a list of named templates.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Named_Template_List extends TTCN3Template {
@@ -59,7 +59,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 	/**
 	 * function used to convert a template written without naming the fields into a template with all field names provided.
-	 * 
+	 *
 	 * @param timestamp the timestamp of the actual build cycle
 	 * @param other the template to be converted
 	 * */
@@ -144,7 +144,7 @@ public final class Named_Template_List extends TTCN3Template {
 			other.getLocation().reportSemanticWarning(MessageFormat.format(ALLARENOTUSED, lastType.getTypename()));
 			other.setIsErroneous(true);
 		}
-		
+
 		final Named_Template_List target = new Named_Template_List(namedTemplates);
 		target.copyGeneralProperties(other);
 
@@ -160,7 +160,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 	/**
 	 * Checks if there is a named template in the list, with a given name.
-	 * 
+	 *
 	 * @param name
 	 *                the name to search for.
 	 * @return true if the list has a template with the provided name, false
@@ -176,10 +176,10 @@ public final class Named_Template_List extends TTCN3Template {
 
 	/**
 	 * Returns the named template referred by the identifier.
-	 * 
+	 *
 	 * @param name
 	 *                the name to identify the namedTemplate
-	 * 
+	 *
 	 * @return the named template with the provided name, or null if there
 	 *         is none with that name.
 	 * */
@@ -261,7 +261,7 @@ public final class Named_Template_List extends TTCN3Template {
 	/**
 	 * @param index
 	 *                the index of the element to return.
-	 * 
+	 *
 	 * @return the template on the indexed position.
 	 * */
 	public NamedTemplate getTemplateByIndex(final int index) {
@@ -487,12 +487,12 @@ public final class Named_Template_List extends TTCN3Template {
 			namedTemplates.getTemplateByIndex(i).getTemplate().setGenNamePrefix(prefix);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if(myGovernor == null) {
 			return;
 		}

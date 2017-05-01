@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the verdict values.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Verdict_Value extends Value {

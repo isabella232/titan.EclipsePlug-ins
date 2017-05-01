@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * The assignment class represents TTCN3 or ASN.1 assignments.
  * <p>
  * All TTCN3 definitions extend this class.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Assignment extends ASTNode implements IOutlineElement, ILocateableNode, IReferenceChainElement, IReferencingElement {
@@ -96,7 +96,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 
 	/** Stores whether this assignment was found to be used in this semantic check cycle. */
 	protected boolean isUsed;
-	
+
 	/** used by the incremental processing to signal if the assignment can eb the root of a change */
 	private boolean canBeCheckRoot = true;
 
@@ -110,14 +110,14 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	public final CompilationTimeStamp getLastTimeChecked() {
 		return lastTimeChecked;
 	}
-	
+
 	/**
 	 * returns true if the assignment is the root of a change.
 	 * */
 	public final boolean isCheckRoot() {
 		return canBeCheckRoot;
 	}
-	
+
 	/**
 	 * Signals that the assignment can serve as a change root for the incremental analysis.
 	 * */
@@ -131,7 +131,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	public final void notCheckRoot() {
 		canBeCheckRoot = false;
 	}
-	
+
 	public final boolean getIsErroneous() {
 		return isErroneous;
 	}
@@ -140,7 +140,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	 * Returns a string containing the Java reference pointing to this assignment.
 	 * */
 	public abstract String getGenName();
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public final void setLocation(final Location location) {
@@ -170,7 +170,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	public boolean isUsed() {
 		return isUsed;
 	}
-	
+
 	/** @return whether the assignment is local or not */
 	public boolean isLocal() {
 		return false;
@@ -272,7 +272,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	public abstract void check(final CompilationTimeStamp timestamp);
 	public abstract void check(final CompilationTimeStamp timestamp, IReferenceChain refChain);
 
-	
+
 	/** Checks the properties of the assignment,
 	 * that can only be checked after the semantic check was completely run. */
 	public void postCheck() {
@@ -301,25 +301,25 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	 * or a assignment which might point us a step forward to the declaration.
 	 * */
 	public abstract void addDeclaration(DeclarationCollector declarationCollector, int i);
-	
+
 	/**
 	 * Returns true if the assignment should be marked according to the preference options.
 	 * @return true if the highlighting of this assignment is turned on
 	 */
 	public abstract boolean shouldMarkOccurrences();
-	
+
 	@Override
 	public Declaration getDeclaration() {
 		return Declaration.createInstance(this);
 	}
-	
+
 	/**
 	 * Returns a string containing the Java reference pointing to this
 	 * definition from the Java equivalent of scope \a p_scope.
 	 * The reference is a simple identifier qualified with a namespace when necessary.
 	 * If \a p_prefix is not NULL it is inserted before the string returned by
 	 * function \a get_genname().
-	 * 
+	 *
 	 * get_genname_from_scope in titan.core
 	 *
 	 * @param aData only used to update imports if needed
@@ -332,7 +332,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
 			return "FATAL_ERROR encountered";
 		}
-		
+
 		final StringBuilder returnValue = new StringBuilder();
 		final Module myModule = myScope.getModuleScope();//get_scope_mod_gen
 		// TODO also check for the special module once ASN.1 is needed
@@ -354,9 +354,9 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 
 	/**
 	 * Generate Java code for module level definitions/assignments.
-	 * 
+	 *
 	 * generate_code in the compiler
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param cleanUp generate cleanup call for the object generated
 	 */

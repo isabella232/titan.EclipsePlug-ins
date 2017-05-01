@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent FieldSpecs.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class FieldSpecifications extends ASTNode {
@@ -137,9 +137,9 @@ public final class FieldSpecifications extends ASTNode {
 			if (fieldSpecificationsMap.containsKey(name)) {
 				displayName = fieldSpecification.getIdentifier().getDisplayName();
 				fieldSpecificationsMap.get(name).getIdentifier().getLocation()
-						.reportSingularSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONFIRST, displayName));
+				.reportSingularSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONFIRST, displayName));
 				fieldSpecification.getIdentifier().getLocation()
-						.reportSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONREPEATED, displayName));
+				.reportSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONREPEATED, displayName));
 			} else {
 				fieldSpecificationsMap.put(name, fieldSpecification);
 			}

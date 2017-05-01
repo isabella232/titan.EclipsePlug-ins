@@ -44,7 +44,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * testcase type (TTCN-3).
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Testcase_Type extends Type {
@@ -182,7 +182,7 @@ public final class Testcase_Type extends Type {
 	public FormalParameterList getFormalParameters() {
 		return formalParList;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -222,7 +222,7 @@ public final class Testcase_Type extends Type {
 
 		formalParList.reset();
 		formalParList.check(timestamp, Assignment_type.A_TESTCASE);
-		
+
 		formalParList.checkNoLazyParams();
 
 		checkSubtypeRestrictions(timestamp);
@@ -410,7 +410,7 @@ public final class Testcase_Type extends Type {
 			reparser.updateLocation(withAttributesPath.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -425,7 +425,7 @@ public final class Testcase_Type extends Type {
 			systemRef.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

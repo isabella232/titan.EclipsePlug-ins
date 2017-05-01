@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ExtensionAdditionGroup.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ExtensionAdditionGroup extends ExtensionAddition {

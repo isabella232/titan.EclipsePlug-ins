@@ -45,7 +45,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * altstep type (TTCN-3).
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Altstep_Type extends Type {
@@ -218,10 +218,10 @@ public final class Altstep_Type extends Type {
 				}
 			}
 		}
-		
+
 		formalParList.reset();
 		formalParList.check(timestamp, Assignment_type.A_ALTSTEP);
-		
+
 		formalParList.checkNoLazyParams();
 
 		checkSubtypeRestrictions(timestamp);
@@ -300,8 +300,8 @@ public final class Altstep_Type extends Type {
 					if (!runsOnType.isCompatible(timestamp, componentType, null, null, null)) {
 						value.getLocation().reportSemanticError(MessageFormat.format(
 								"Runs on clause mismatch: type `{0}'' has a `runs on self'' clause and the current scope "
-								+ "expects component type `{1}'', but {2} runs on `{3}''",
-								getTypename(), componentType.getTypename(), altstep.getDescription(), temporalRunsOnType.getTypename()));
+										+ "expects component type `{1}'', but {2} runs on `{3}''",
+										getTypename(), componentType.getTypename(), altstep.getDescription(), temporalRunsOnType.getTypename()));
 					}
 				} else {
 					// does not have 'runs on' clause
@@ -312,13 +312,13 @@ public final class Altstep_Type extends Type {
 						if (!runsOnType.isCompatible(timestamp, body.getMyType(), null, null, null)) {
 							value.getLocation().reportSemanticError(MessageFormat.format(
 									"Runs on clause mismatch: type `{0}'' has a `runs on self'' "
-									+ "clause and the current component definition is of type `{1}'', but {2} runs on `{3}''",
-									getTypename(), body.getMyType().getTypename(), altstep.getDescription(), temporalRunsOnType.getTypename()));
+											+ "clause and the current component definition is of type `{1}'', but {2} runs on `{3}''",
+											getTypename(), body.getMyType().getTypename(), altstep.getDescription(), temporalRunsOnType.getTypename()));
 						}
 					} else {
 						value.getLocation().reportSemanticError(MessageFormat.format(
 								"Type `{0}'' has a `runs on self'' clause and the current scope does not have a `runs on'' clause,"
-								+ " but {1} runs on `{2}''", getTypename(), altstep.getDescription(), temporalRunsOnType.getTypename()));
+										+ " but {1} runs on `{2}''", getTypename(), altstep.getDescription(), temporalRunsOnType.getTypename()));
 					}
 				}
 			} else {
@@ -449,7 +449,7 @@ public final class Altstep_Type extends Type {
 			}
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

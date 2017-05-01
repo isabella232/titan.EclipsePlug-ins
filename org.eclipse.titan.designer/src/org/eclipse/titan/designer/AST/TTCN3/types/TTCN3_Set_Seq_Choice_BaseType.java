@@ -331,7 +331,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					final Identifier componentId = componentField.getIdentifier();
 
 					if (tempSubReference.getReferenceType() == Subreference_type.fieldSubReference
-						&& tempSubReference.getId().equals(componentId)) {
+							&& tempSubReference.getId().equals(componentId)) {
 						// Found a qualifier whose first identifier matches the component name
 						final Qualifiers calculatedQualifiers = new Qualifiers();
 						calculatedQualifiers.addQualifier(tempQualifier.getQualifierWithoutFirstSubRef());
@@ -603,7 +603,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		if (subreferences.get(localIndex) == lastSubreference) {
 			return Declaration.createInstance(getDefiningAssignment(), compField.getIdentifier());
 		}
-		
+
 		final IType compFieldType = compField.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (compFieldType instanceof IReferenceableElement) {
 			final Declaration decl = ((IReferenceableElement) compFieldType).resolveReference(reference, localIndex + 1, lastSubreference);

@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 /**
  * Represents an extension attribute that can be assigned to a port type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class PortTypeAttribute extends ExtensionAttribute {

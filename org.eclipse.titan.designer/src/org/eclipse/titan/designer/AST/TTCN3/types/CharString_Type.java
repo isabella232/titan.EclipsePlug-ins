@@ -36,7 +36,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * character string type (TTCN-3).
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -106,7 +106,7 @@ public final class CharString_Type extends Type {
 	public String getTypename() {
 		return CHARSTRING;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -127,7 +127,7 @@ public final class CharString_Type extends Type {
 		if (constraints != null) {
 			constraints.check(timestamp);
 		}
-		
+
 		checkSubtypeRestrictions(timestamp);
 	}
 

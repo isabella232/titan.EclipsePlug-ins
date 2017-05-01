@@ -127,12 +127,12 @@ public abstract class AbstractOfType extends ASN1Type {
 	 * <p>
 	 * In case of sequence/set/array this means that the number of their
 	 * fields fulfills the length restriction of the set of type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
 	 * @param other
 	 *                the type to check against.
-	 * 
+	 *
 	 * @return true if they are sub-type compatible, false otherwise.
 	 * */
 	public boolean isSubtypeCompatible(final CompilationTimeStamp timestamp, final IType other) {
@@ -365,7 +365,7 @@ public abstract class AbstractOfType extends ASN1Type {
 	 * <p>
 	 * Please note, that this function can only be called once we know for
 	 * sure that the value is of set-of type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param value
@@ -397,10 +397,10 @@ public abstract class AbstractOfType extends ASN1Type {
 					final BigInteger tempIndex = ((Integer_Value) indexLast).getValueValue();
 					if (tempIndex.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
 						index.getLocation()
-								.reportSemanticError(
-										MessageFormat.format(
-												"A integer value less than `{0}'' was expected for indexing type `{1}'' instead of `{2}''",
-												Integer.MAX_VALUE, getTypename(), tempIndex));
+						.reportSemanticError(
+								MessageFormat.format(
+										"A integer value less than `{0}'' was expected for indexing type `{1}'' instead of `{2}''",
+										Integer.MAX_VALUE, getTypename(), tempIndex));
 						checkHoles = false;
 					} else if (tempIndex.compareTo(BigInteger.ZERO) == -1) {
 						index.getLocation().reportSemanticError(MessageFormat.format(

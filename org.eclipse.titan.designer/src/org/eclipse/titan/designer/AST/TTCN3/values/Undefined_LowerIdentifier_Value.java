@@ -36,7 +36,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * Represents a value who's kind could not be identified yet. The semantic
  * checking must convert it to some other kind.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Undefined_LowerIdentifier_Value extends Value {
@@ -295,7 +295,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 		if (realValue != null) {
 			return realValue.canGenerateSingleExpression();
 		}
-		
+
 		// error
 		return false;
 	}
@@ -306,7 +306,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 		if (realValue != null) {
 			return realValue.generateSingleExpression(aData);
 		}
-		
+
 		return new StringBuilder("/* fatal error undefined lower identifier encountered */");
 	}
 
@@ -316,7 +316,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 		if (realValue != null) {
 			return realValue.generateJavaInit(aData, source, name);
 		}
-		
+
 		return new StringBuilder("/* fatal error undefined lower identifier encountered */");
 	}
 
@@ -327,9 +327,9 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 			realValue.generateCodeExpression(aData, expression);
 			return;
 		}
-		
+
 		expression.expression.append("/* fatal error undefined lower identifier encountered */");
 	}
-	
-	
+
+
 }

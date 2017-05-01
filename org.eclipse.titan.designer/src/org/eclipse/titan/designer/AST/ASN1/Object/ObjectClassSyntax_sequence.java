@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 /**
  * Class to represent a (perhaps optional) sequence of OCS_Nodes.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectClassSyntax_sequence extends ObjectClassSyntax_Node {

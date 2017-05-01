@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Class to represent a ReferencedObjectClass. It is a DefinedOC or OCFromObject
  * or ValueSetFromObjects.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectClass_refd extends ObjectClass implements IReferenceChainElement {
@@ -94,7 +94,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 
 		return newObjectClassDefinitionInstance();
 	}
-	
+
 	private ObjectClass_Definition newObjectClassDefinitionInstance() {
 		return new ObjectClass_Definition();
 	}

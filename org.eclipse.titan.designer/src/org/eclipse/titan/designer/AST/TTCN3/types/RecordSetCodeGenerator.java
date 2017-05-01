@@ -7,7 +7,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
  * Utility class for generating the value and template classes for record and set types.
- * 
+ *
  * The code generated for record and set types only differs in matching and encoding.
  * */
 public class RecordSetCodeGenerator {
@@ -22,7 +22,7 @@ public class RecordSetCodeGenerator {
 
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
-		
+
 		private boolean isOptional;
 
 		/** Field variable name in java getter/setter function names and parameters */
@@ -30,7 +30,7 @@ public class RecordSetCodeGenerator {
 
 		/** Java AST type name (for debug purposes) */
 		private String mTTCN3TypeName;
-		
+
 		/**
 		 * @param fieldType: the string representing the type of this field in the generated code.
 		 * @param fieldName: the string representing the name of this field in the generated code.
@@ -48,9 +48,9 @@ public class RecordSetCodeGenerator {
 
 	/**
 	 * This function can be used to generate the value class of record and set types
-	 * 
+	 *
 	 * defRecordClass in compilers/record.{h,c}
-	 * 
+	 *
 	 * @param aData: only used to update imports if needed.
 	 * @param source: where the source code is to be generated.
 	 * @param className: the name of the generated class representing the record/set type.
@@ -67,7 +67,7 @@ public class RecordSetCodeGenerator {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
 		}
-		
+
 		source.append( "\tpublic static class " );
 		source.append( className );
 		source.append(" extends Base_Type");
@@ -85,7 +85,7 @@ public class RecordSetCodeGenerator {
 		generateGettersSetters( source, fieldInfos );
 		source.append( "\t}\n" );
 	}
-	
+
 	/**
 	 * Generating declaration of the member variables
 	 * @param aData the generated java code with other info
@@ -120,7 +120,7 @@ public class RecordSetCodeGenerator {
 	 * @param aClassName the class name of the record class
 	 */
 	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
-											 final String aClassName ) {
+			final String aClassName ) {
 		aSb.append( "\n\t\tpublic " );
 		aSb.append( aClassName );
 		aSb.append( "() {\n" );
@@ -138,7 +138,7 @@ public class RecordSetCodeGenerator {
 				aSb.append( fi.mJavaTypeName );
 				aSb.append( "();\n" );
 			}
-			
+
 		}
 		aSb.append( "\t\t}\n" );
 	}
@@ -150,7 +150,7 @@ public class RecordSetCodeGenerator {
 	 * @param aClassName the class name of the record class
 	 */
 	private static void generateConstructorManyParams( final StringBuilder aSb, final List<FieldInfo> aNamesList,
-													   final String aClassName ) {
+			final String aClassName ) {
 		aSb.append( "\n\t\tpublic " );
 		aSb.append( aClassName );
 		aSb.append( "( " );
@@ -223,7 +223,7 @@ public class RecordSetCodeGenerator {
 	 * @param classReadableName the readable name of the class
 	 */
 	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
-						final String aClassName, final String classReadableName ) {
+			final String aClassName, final String classReadableName ) {
 		aData.addCommonLibraryImport( "TtcnError" );
 		source.append( "\n\t\tpublic " );
 		source.append( aClassName );
@@ -232,28 +232,28 @@ public class RecordSetCodeGenerator {
 		source.append( " aOtherValue ) {\n" );
 
 		source.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
-				   "\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
+				"\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
 		source.append( classReadableName );
 		source.append( "\" );\n" +
-				   "\t\t\t}\n" );
+				"\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( "\n\t\t\tif ( aOtherValue.get" );
 			source.append( fi.mJavaVarName );
 			source.append( "().isBound() ) {\n" +
-					   "\t\t\t\tthis." );
+					"\t\t\t\tthis." );
 			source.append( fi.mVarName );
 			source.append( ".assign( aOtherValue.get" );
 			source.append( fi.mJavaVarName );
 			source.append( "() );\n" +
-					   "\t\t\t} else {\n" +
-					   "\t\t\t\tthis." );
+					"\t\t\t} else {\n" +
+					"\t\t\t\tthis." );
 			source.append( fi.mVarName );
 			source.append( ".cleanUp();\n" +
-					   "\t\t\t}\n" );
+					"\t\t\t}\n" );
 		}
 		source.append( "\n\t\t\treturn this;\n" +
-				   "\t\t}\n" );
-		
+				"\t\t}\n" );
+
 		source.append("\n");
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic ").append( aClassName ).append(" assign(final Base_Type otherValue) {\n");
@@ -301,10 +301,10 @@ public class RecordSetCodeGenerator {
 				aSb.append( fi.mVarName );
 				aSb.append( ".isBound() ) return true;\n" );
 			}
-			
+
 		}
 		aSb.append( "\t\t\treturn false;\n" +
-					"\t\t}\n" );
+				"\t\t}\n" );
 	}
 
 	/**
@@ -339,7 +339,7 @@ public class RecordSetCodeGenerator {
 			}
 		}
 		aSb.append( "\t\t\treturn true;\n" +
-					"\t\t}\n" );
+				"\t\t}\n" );
 	}
 
 	/**
@@ -350,7 +350,7 @@ public class RecordSetCodeGenerator {
 	 * @param classReadableName the readable name of the class
 	 */
 	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
-							final String aClassName, final String classReadableName ) {
+			final String aClassName, final String classReadableName ) {
 		aSb.append( "\n\t\tpublic boolean operatorEquals( final " );
 		aSb.append( aClassName );
 		aSb.append( " aOtherValue ) {\n" );
@@ -362,8 +362,8 @@ public class RecordSetCodeGenerator {
 			aSb.append( " ) ) return false;\n" );
 		}
 		aSb.append( "\t\t\treturn true;\n" +
-					"\t\t}\n" );
-		
+				"\t\t}\n" );
+
 		aSb.append("\n");
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic boolean operatorEquals(final Base_Type otherValue) {\n");
@@ -392,10 +392,10 @@ public class RecordSetCodeGenerator {
 			aSb.append( " get" );
 			aSb.append( fi.mJavaVarName );
 			aSb.append( "() {\n" +
-						"\t\t\treturn " );
+					"\t\t\treturn " );
 			aSb.append( fi.mVarName );
 			aSb.append( ";\n" +
-						"\t\t}\n" );
+					"\t\t}\n" );
 
 			aSb.append( "\n\t\tpublic " );
 			if (fi.isOptional) {
@@ -408,30 +408,30 @@ public class RecordSetCodeGenerator {
 			aSb.append( " constGet" );
 			aSb.append( fi.mJavaVarName );
 			aSb.append( "() {\n" +
-						"\t\t\treturn " );
+					"\t\t\treturn " );
 			aSb.append( fi.mVarName );
 			aSb.append( ";\n" +
-						"\t\t}\n" );
+					"\t\t}\n" );
 
-//			aSb.append( "\n\t\tpublic void set" );
-//			aSb.append( fi.mJavaVarName );
-//			aSb.append( "( final " );
-//			if (fi.isOptional) {
-//				aSb.append("Optional<");
-//				aSb.append( fi.mJavaTypeName );
-//				aSb.append(">");
-//			} else {
-//				aSb.append( fi.mJavaTypeName );
-//			}
-//			aSb.append( " a" );
-//			aSb.append( fi.mJavaVarName );
-//			aSb.append( " ) {\n" +
-//						"\t\t\tthis." );
-//			aSb.append( fi.mVarName );
-//			aSb.append( " = a" );
-//			aSb.append( fi.mJavaVarName );
-//			aSb.append( ";\n" +
-//						"\t\t}\n" );
+			//			aSb.append( "\n\t\tpublic void set" );
+			//			aSb.append( fi.mJavaVarName );
+			//			aSb.append( "( final " );
+			//			if (fi.isOptional) {
+			//				aSb.append("Optional<");
+			//				aSb.append( fi.mJavaTypeName );
+			//				aSb.append(">");
+			//			} else {
+			//				aSb.append( fi.mJavaTypeName );
+			//			}
+			//			aSb.append( " a" );
+			//			aSb.append( fi.mJavaVarName );
+			//			aSb.append( " ) {\n" +
+			//						"\t\t\tthis." );
+			//			aSb.append( fi.mVarName );
+			//			aSb.append( " = a" );
+			//			aSb.append( fi.mJavaVarName );
+			//			aSb.append( ";\n" +
+			//						"\t\t}\n" );
 		}
 	}
 }

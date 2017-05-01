@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a template that matches a range of values.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Value_Range_Template extends TTCN3Template {
@@ -168,7 +168,7 @@ public final class Value_Range_Template extends TTCN3Template {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
@@ -191,14 +191,14 @@ public final class Value_Range_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		
+
 		if (valueRange != null) {
 			// TODO: add support for rearrange init
 			valueRange.generateJavaInit(aData, source, name);
 		}
 
 		// TODO:  missing parts need to be completed
-		
+
 		if (isIfpresent) {
 			source.append(name);
 			source.append(".set_ifPresent();\n");

@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Class to represent TemplateList.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Templates extends ASTNode implements IIncrementallyUpdateable, Iterable<TTCN3Template> {
@@ -46,7 +46,7 @@ public final class Templates extends ASTNode implements IIncrementallyUpdateable
 
 	/**
 	 * Adds a new template to the list.
-	 * 
+	 *
 	 * @param template
 	 *                the template to be added.
 	 * */
@@ -70,7 +70,7 @@ public final class Templates extends ASTNode implements IIncrementallyUpdateable
 
 	/**
 	 * Handles the incremental parsing of this list of templates.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

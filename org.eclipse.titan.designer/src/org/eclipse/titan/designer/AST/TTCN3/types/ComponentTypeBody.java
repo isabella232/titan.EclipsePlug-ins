@@ -60,7 +60,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the body of a component type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ComponentTypeBody extends TTCN3Scope implements IReferenceChainElement, ILocateableNode, IIncrementallyUpdateable {
@@ -76,7 +76,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	public static final String HIDINGSCOPEELEMENT = "The name of the inherited definition `{0}'' is not unique in the scope hierarchy";
 	public static final String HIDDENSCOPEELEMENT = "Previous definition with identifier `{0}'' in higher scope unit is here";
 	public static final String HIDINGMODULEIDENTIFIER = "Inherited definition with name `{0}'' hides a module identifier";
-	
+
 	public static final String MEMBERNOTVISIBLE = "The member definition `{0}'' in component type `{1}'' is not visible in this scope";
 
 	private Location location;
@@ -308,7 +308,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 						MEMBERNOTVISIBLE, identifier.getDisplayName(), this.identifier.getDisplayName()));
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -342,7 +342,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
@@ -387,7 +387,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 	/**
 	 * Collect all component type bodies that can be reached, recursively, via extends.
-	 * 
+	 *
 	 * @return the collected component type bodies.
 	 * */
 	private List<ComponentTypeBody> getExtendsInheritedComponentBodies() {
@@ -404,13 +404,13 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				}
 			}
 		}
-		
+
 		return result;
 	}
 
 	/**
 	 * Collect all component type bodies that can be reached, recursively, via extends attributes.
-	 * 
+	 *
 	 * @return the collected component type bodies.
 	 * */
 	private List<ComponentTypeBody> getAttributeExtendsInheritedComponentBodies() {
@@ -429,7 +429,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				}
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -932,7 +932,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		return true;
 	}
 
-	
+
 	/**
 	 * Add generated java code on this level.
 	 *
@@ -942,7 +942,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		StringBuilder init_comp = aData.getInitComp();
 		init_comp.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
-		
+
 		if (extendsReferences != null) {
 			boolean hasBaseComponents = false;
 			for (ComponentTypeBody cb : compatibleBodies) {
@@ -951,7 +951,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 						init_comp.append("if(init_base_comps) {\n");
 						hasBaseComponents = true;
 					}
-					
+
 					//TODO get_scope_mod_gen
 					if(getModuleScope().equals(cb.getModuleScope())) {
 						init_comp.append("init_comp_type(\"");
@@ -967,12 +967,12 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 					}
 				}
 			}
-		
+
 			if (hasBaseComponents) {
 				init_comp.append("}\n");
 			}
 		}
-		
+
 		for (Definition def : definitions) {
 			if(extendsGainedDefinitions.containsKey(def.getIdentifier().getName())) {
 				def.generateCodeInitComp(aData, init_comp, extendsGainedDefinitions.get(def.getIdentifier().getName()));
@@ -980,7 +980,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				def.generateJava(aData, true);
 			}
 		}
-		
+
 		init_comp.append("return true;\n");
 		init_comp.append("} else ");
 	}

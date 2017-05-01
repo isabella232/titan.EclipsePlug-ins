@@ -17,10 +17,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * A single attribute specification as read from the TTCN-3 by the TTCN-3
  * parser.
- * 
+ *
  * It needs to be parsed later by an attribute parser, to extract the semantic
  * data from it.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class AttributeSpecification implements ILocateableNode, IIncrementallyUpdateable {
@@ -57,7 +57,7 @@ public final class AttributeSpecification implements ILocateableNode, IIncrement
 
 	/**
 	 * Handles the incremental parsing of this attribute specification.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

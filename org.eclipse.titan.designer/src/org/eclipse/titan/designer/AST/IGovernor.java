@@ -17,14 +17,14 @@ public interface IGovernor extends ISetting {
 	/**
 	 * Does the semantic checking of the governor.
 	 * A short version, that does not take a reference chain as parameter.
-	 * 
+	 *
 	 * Should be used when the check is the first entry point.
 	 * And can not already be part of a recursive checking loop.
 	 *
 	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * */
 	void check(final CompilationTimeStamp timestamp);
-	
+
 	/**
 	 * Does the semantic checking of the governor.
 	 * This version should be used, when there is a chance for the check to recursively loop bask into itself.

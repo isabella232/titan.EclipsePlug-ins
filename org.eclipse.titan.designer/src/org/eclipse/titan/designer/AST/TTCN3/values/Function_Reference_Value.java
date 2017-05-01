@@ -34,7 +34,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents a function reference value.
  * <p>
  * Can not be parsed.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Function_Reference_Value extends Value {

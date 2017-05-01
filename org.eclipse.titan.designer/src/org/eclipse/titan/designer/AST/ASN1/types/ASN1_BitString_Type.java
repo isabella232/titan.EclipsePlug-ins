@@ -62,7 +62,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 
 	private final Block mBlock;
 	private NamedValues namedValues;
-	
+
 	public ASN1_BitString_Type(final Block aBlock) {
 		this.mBlock = aBlock;
 		if (null != aBlock) {
@@ -204,9 +204,9 @@ public final class ASN1_BitString_Type extends ASN1Type {
 					final Integer intValueObject = Integer.valueOf(intValue);
 					if (intValue < 0) {
 						value.getLocation().reportSemanticError(
-							MessageFormat.format(
-								"A non-negative INTEGER value was expected for named bit `{0}'' instead of {1}",
-								namedValue.getName().getDisplayName(), intValueObject));
+								MessageFormat.format(
+										"A non-negative INTEGER value was expected for named bit `{0}'' instead of {1}",
+										namedValue.getName().getDisplayName(), intValueObject));
 						value.setIsErroneous(true);
 						continue;
 					}
@@ -362,7 +362,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 				subType.checkThisValue(timestamp, last);
 			}
 		}
-		
+
 		value.setLastTimeChecked(timestamp);
 	}
 
@@ -409,7 +409,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 			namedValues.setMyScope(getMyScope());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,

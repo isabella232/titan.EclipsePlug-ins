@@ -48,7 +48,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_Const class represents TTCN3 constant definitions.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -167,17 +167,17 @@ public final class Def_Const extends Definition {
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
-		
+
 		lastTimeChecked = timestamp;
-		
+
 		isUsed = false;
 		if (getMyScope() instanceof ComponentTypeBody) {
 			NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_COMPONENT_CONSTANT, identifier, this);
@@ -208,7 +208,7 @@ public final class Def_Const extends Definition {
 
 		value.setMyGovernor(type);
 		final IValue temporalValue = type.checkThisValueRef(timestamp, value);
-		
+
 		final IType lastType = type.getTypeRefdLast(timestamp);
 		switch (lastType.getTypetype()) {
 		case TYPE_PORT:
@@ -479,7 +479,7 @@ public final class Def_Const extends Definition {
 		}
 		sb.append(source);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
@@ -491,7 +491,7 @@ public final class Def_Const extends Definition {
 			//value.setGenNamePrefix("const_");//currently does not need the prefix
 			value.setGenNameRecursive(genName);
 		}
-		
+
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );

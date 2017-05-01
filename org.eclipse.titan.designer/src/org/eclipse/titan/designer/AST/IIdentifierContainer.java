@@ -13,14 +13,14 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 
 /**
  * AST objects that can contain Identifier instances and these Identifiers can be found
- * 
+ *
  * @author Kristof Szabados
  */
 public interface IIdentifierContainer {
 
 	/**
 	 * Recursively find all references to a given language element (definition,field,etc.).
-	 * 
+	 *
 	 * @param referenceFinder contains all the required data needed for the search
 	 * @param foundIdentifiers contains the found references
 	 */

@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a list of template instances.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class TemplateInstances extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -90,7 +90,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 
 	/**
 	 * Adds a new template instance to the list.
-	 * 
+	 *
 	 * @param instance
 	 *                the template instance to add.
 	 * */
@@ -109,7 +109,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	/**
 	 * @param index
 	 *                the index of the element to return.
-	 * 
+	 *
 	 * @return the template instance on the indexed position.
 	 * */
 	public TemplateInstance getInstanceByIndex(final int index) {
@@ -118,7 +118,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 
 	/**
 	 * Handles the incremental parsing of this list of template instances.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

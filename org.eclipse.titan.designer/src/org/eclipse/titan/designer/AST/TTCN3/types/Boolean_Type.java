@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * boolean type.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -89,7 +89,7 @@ public final class Boolean_Type extends ASN1Type {
 
 		return Type_type.TYPE_BOOL.equals(temp.getTypetype());
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -110,7 +110,7 @@ public final class Boolean_Type extends ASN1Type {
 		if (constraints != null) {
 			constraints.check(timestamp);
 		}
-		
+
 		checkSubtypeRestrictions(timestamp);
 	}
 

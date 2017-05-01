@@ -76,7 +76,7 @@ public final class HostIdExpression extends Expression_Value {
 		if (value1 == child) {
 			return builder.append(OPERAND1);
 		}
-		
+
 		return builder;
 	}
 
@@ -96,7 +96,7 @@ public final class HostIdExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -105,13 +105,13 @@ public final class HostIdExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperands( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain) {
 		//check value1
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
 	}
 
-	/** 
+	/**
 	 * Checks the 1st operand
 	 * in charstring (optional)
 	 * @param timestamp
@@ -122,8 +122,8 @@ public final class HostIdExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (value1 == null) {
 			return;
 		}
@@ -155,7 +155,7 @@ public final class HostIdExpression extends Expression_Value {
 			break;
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,

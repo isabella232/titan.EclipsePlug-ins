@@ -44,7 +44,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	private static final String OPERAND2_ERROR1 = "The 2nd operand of the `encvalue_unichar' operation should be a charstring value";
 
 	private static final String OPERAND3_ERROR1 = "The 3rd operand of the `encvalue_unichar' operation should be a universal charstring value";
-	
+
 	private final TemplateInstance templateInstance1;
 	private final Value value2;
 	private final Value value3;
@@ -131,7 +131,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -140,8 +140,8 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperands( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain) {
 		//check template1
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
 		//check value2
@@ -150,7 +150,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		checkExpressionOperand3(timestamp, expectedValue, referenceChain);
 	}
 
-	/** 
+	/**
 	 * Checks the 1st operand
 	 * in template (value) any_type
 	 * @param timestamp
@@ -161,8 +161,8 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (templateInstance1 == null) {
 			setIsErroneous(true);
 			return;
@@ -213,8 +213,8 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Checks the 2nd operand
 	 * in charstring (optional)
 	 * @param timestamp
@@ -225,8 +225,8 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand2( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (value2 == null) {
 			return;
 		}
@@ -258,8 +258,8 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 	}
-	
-	/** 
+
+	/**
 	 * Checks the 3rd operand
 	 * in universal charstring (optional)
 	 * @param timestamp
@@ -270,8 +270,8 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand3( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (value3 == null) {
 			return;
 		}
@@ -294,7 +294,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,

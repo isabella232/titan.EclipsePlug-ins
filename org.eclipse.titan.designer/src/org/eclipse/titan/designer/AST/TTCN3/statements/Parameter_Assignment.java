@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a parameter assignment in a parameter redirection.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Parameter_Assignment extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {

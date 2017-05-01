@@ -32,7 +32,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a length restriction for a range.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class RangeLenghtRestriction extends LengthRestriction {
@@ -246,8 +246,8 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 							"An integer value less then `{0}'' was expected as the upper boundary of the length restriction instead of `{1}''",
 							Integer.MAX_VALUE, length);
 					upper.getLocation()
-							.reportSemanticError(message
-									);
+					.reportSemanticError(message
+							);
 					errorFlag = true;
 				} else if (length.compareTo(BigInteger.valueOf(arraySize)) == 1) {
 					final String message = MessageFormat

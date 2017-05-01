@@ -32,7 +32,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a list of templates.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Template_List extends CompositeTemplate {
@@ -46,11 +46,11 @@ public final class Template_List extends CompositeTemplate {
 	public Template_List(final ListOfTemplates templates) {
 		super(templates);
 
-//		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-//			if (Template_type.PERMUTATION_MATCH.equals(templates.getTemplateByIndex(i).getTemplatetype())) {
-//				hasPermutation = true;
-//			}
-//		}
+		//		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+		//			if (Template_type.PERMUTATION_MATCH.equals(templates.getTemplateByIndex(i).getTemplatetype())) {
+		//				hasPermutation = true;
+		//			}
+		//		}
 	}
 
 	@Override
@@ -258,7 +258,7 @@ public final class Template_List extends CompositeTemplate {
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_SEQUENCE_OF.equals(typeType) || Type_type.TYPE_SET_OF.equals(typeType)) {
 			final int nofTemplatesGood = getNofTemplatesNotAnyornone(timestamp); //at least !
-			
+
 			final boolean hasAnyOrNone = templateContainsAnyornone();
 
 			lengthRestriction.checkNofElements(timestamp, nofTemplatesGood, hasAnyOrNone, false, hasAnyOrNone, this);
@@ -324,7 +324,7 @@ public final class Template_List extends CompositeTemplate {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if(myGovernor == null) {
 			return;
 		}
@@ -347,7 +347,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
-		
+
 		//TODO generate code for missing parts
 		expression.expression.append( "\t" );
 		expression.expression.append( "//TODO: " );

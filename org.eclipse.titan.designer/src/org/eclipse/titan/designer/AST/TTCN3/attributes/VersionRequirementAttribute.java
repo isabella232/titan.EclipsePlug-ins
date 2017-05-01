@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 
 /**
  * Represents a version requirement on an imported module
- * 
+ *
  * @author Csaba Raduly
  */
 public final class VersionRequirementAttribute extends ModuleVersionAttribute {

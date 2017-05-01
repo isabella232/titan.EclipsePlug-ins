@@ -35,18 +35,18 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * TemplateBody and AllElementsFrom are thin wrapper classes of TTCN3Template
  * The only reason of this implementation is to handle in the same manner TemplateBody and AllElementFrom
  * and to give a context dependent property to the template
- * 
+ *
  * @author ethbaat
  *
  */
 public class TemplateBody implements ITemplateListItem {
-	
+
 	protected TTCN3Template template;
-	
+
 	public TemplateBody(){
 		template = null;
 	}
-	
+
 	public TemplateBody(final TTCN3Template t){
 		template = t;
 	}
@@ -68,7 +68,7 @@ public class TemplateBody implements ITemplateListItem {
 
 	@Override
 	public void setMyGovernor(final IType governor) {
-		template.setMyGovernor(governor);		
+		template.setMyGovernor(governor);
 	}
 
 	@Override
@@ -88,7 +88,7 @@ public class TemplateBody implements ITemplateListItem {
 
 	@Override
 	public void setLengthRestriction(final LengthRestriction lengthRestriction) {
-		template.setLengthRestriction(lengthRestriction);	
+		template.setLengthRestriction(lengthRestriction);
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class TemplateBody implements ITemplateListItem {
 
 	@Override
 	public void setBaseTemplate(final ITTCN3Template baseTemplate) {
-		template.setBaseTemplate(baseTemplate);		
+		template.setBaseTemplate(baseTemplate);
 	}
 
 	@Override
@@ -121,7 +121,7 @@ public class TemplateBody implements ITemplateListItem {
 	public Completeness_type getCompletenessConditionChoice(
 			final CompilationTimeStamp timestamp, final boolean incompleteAllowed,
 			final Identifier fieldName) {
-		 
+
 		return template.getCompletenessConditionChoice(timestamp, incompleteAllowed, fieldName);
 	}
 
@@ -134,7 +134,7 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public TTCN3Template getTemplateReferencedLast(
 			final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
-			return template.getTemplateReferencedLast(timestamp,referenceChain);
+		return template.getTemplateReferencedLast(timestamp,referenceChain);
 	}
 
 	@Override
@@ -158,7 +158,7 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public void checkRecursions(final CompilationTimeStamp timestamp,
 			final IReferenceChain referenceChain) {
-		template.checkRecursions(timestamp, referenceChain);	
+		template.checkRecursions(timestamp, referenceChain);
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName,
 			final Restriction_type templateRestriction, final Location usageLocation) {
-		template.checkRestrictionCommon(timestamp, definitionName, templateRestriction, usageLocation);	
+		template.checkRestrictionCommon(timestamp, definitionName, templateRestriction, usageLocation);
 	}
 
 	@Override
@@ -202,7 +202,7 @@ public class TemplateBody implements ITemplateListItem {
 	public boolean chkRestrictionNamedListBaseTemplate(
 			final CompilationTimeStamp timestamp, final String definitionName,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation) {
-			return template.chkRestrictionNamedListBaseTemplate(timestamp, definitionName, checkedNames, neededCheckedCnt, usageLocation);
+		return template.chkRestrictionNamedListBaseTemplate(timestamp, definitionName, checkedNames, neededCheckedCnt, usageLocation);
 	}
 
 	@Override
@@ -219,7 +219,7 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public void setIsErroneous(final boolean isErroneous) {
 		template.setIsErroneous(isErroneous);
-		
+
 	}
 
 	@Override
@@ -230,9 +230,9 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public void setLocation(final Location location) {
 		if(location !=null) {
-		  template.setLocation(location);
+			template.setLocation(location);
 		}
-		
+
 	}
 
 	@Override
@@ -252,7 +252,7 @@ public class TemplateBody implements ITemplateListItem {
 
 	@Override
 	public void setFullNameParent(final INamedNode nameParent) {
-		template.setFullNameParent(nameParent);	
+		template.setFullNameParent(nameParent);
 	}
 
 	@Override
@@ -279,7 +279,7 @@ public class TemplateBody implements ITemplateListItem {
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged)
 			throws ReParseException {
 		template.updateSyntax(reparser, isDamaged);
-		
+
 	}
 
 	@Override
@@ -291,11 +291,11 @@ public class TemplateBody implements ITemplateListItem {
 	public void findReferences(final ReferenceFinder referenceFinder,
 			final List<Hit> foundIdentifiers) {
 		template.findReferences(referenceFinder, foundIdentifiers);
-		
+
 	}
 
-	
-	
+
+
 	//@Override
 	public Template_type getTemplatetype() {
 		//return Template_type.TEMPLATEBODY;
@@ -305,7 +305,7 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		template.checkSpecificValue(timestamp, allowOmit);
-		
+
 	}
 
 	/**
@@ -314,7 +314,7 @@ public class TemplateBody implements ITemplateListItem {
 	 */
 	public void setTemplate(final TTCN3Template t) {
 		template = t;
-		
+
 	}
 
 	/**
@@ -347,6 +347,6 @@ public class TemplateBody implements ITemplateListItem {
 	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
 		template.generateJavaInit(aData, source, name);
 	}
-	
+
 
 }

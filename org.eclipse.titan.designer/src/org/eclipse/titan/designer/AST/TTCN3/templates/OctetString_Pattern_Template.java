@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template that holds a octetstring pattern.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class OctetString_Pattern_Template extends TTCN3Template {

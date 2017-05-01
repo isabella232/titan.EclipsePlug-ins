@@ -32,7 +32,6 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
-import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -43,10 +42,10 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * The If_Clause class represents a single clause (branch) of a TTCN3 if
  * statement.
- * 
+ *
  * @see If_Clauses
  * @see If_Statement
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class If_Clause extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -142,10 +141,10 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 	/**
 	 * Checks whether the if clause has a return statement, either directly
 	 * or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the if clause.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
@@ -158,13 +157,13 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 
 	/**
 	 * Does the semantic checking of this branch.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param unreachable
 	 *                boolean parameter telling if this if statement was
 	 *                already found unreachable by previous clauses or not
-	 * 
+	 *
 	 * @return true if following clauses are unreachable
 	 * */
 	public boolean check(final CompilationTimeStamp timestamp, final boolean unreachable) {
@@ -260,7 +259,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 
 	/**
 	 * Checks whether the condition is a negated expression.
-	 * 
+	 *
 	 * @return true if it is negated
 	 */
 	public boolean isNegatedCondition() {
@@ -295,7 +294,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 	 * @param blockCount the number of block already created
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
-	 * 
+	 *
 	 * TODO: if we can generate "else if" -s the blockCount is not needed
 	 */
 	public void generateJava( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
@@ -325,7 +324,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 			expression.generateCodeTmp(aData, source, "if (TitanBoolean.getNative(", blockCount);
 			aData.addBuiltinTypeImport( "TitanBoolean" );
 
-			source.append(") )"); 
+			source.append(") )");
 		}
 		eachFalse.setValue(false);
 		source.append("{\n");

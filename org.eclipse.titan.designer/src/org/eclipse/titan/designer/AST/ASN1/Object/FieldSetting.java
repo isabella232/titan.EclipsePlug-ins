@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent FieldSettings.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class FieldSetting extends ASTNode implements ILocateableNode {
@@ -73,7 +73,7 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 	 * <p>
 	 * Extending class only need to implement their
 	 * {@link #getProposalKind()} function
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param i
@@ -84,7 +84,7 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 
 	/**
 	 * Adds the field to the list declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param i

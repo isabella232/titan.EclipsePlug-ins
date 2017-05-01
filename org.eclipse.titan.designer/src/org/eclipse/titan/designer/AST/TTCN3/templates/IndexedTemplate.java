@@ -24,7 +24,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Class to represent an IndexedTemplate.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class IndexedTemplate extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -86,7 +86,7 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 
 	/**
 	 * Handles the incremental parsing of this indexed template.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

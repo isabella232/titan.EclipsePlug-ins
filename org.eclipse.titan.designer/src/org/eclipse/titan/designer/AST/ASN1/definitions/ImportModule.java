@@ -33,7 +33,7 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 /**
  * Import module.
  * Models an asn.1 module of the section IMPORTS in the parent asn1.module
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ImportModule extends ModuleImportation {
@@ -63,10 +63,10 @@ public final class ImportModule extends ModuleImportation {
 
 	/**
 	 * Checks if a given symbol is imported through this importation.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier to search for.
-	 * 
+	 *
 	 * @return true if a symbol with this identifier is imported, false
 	 *         otherwise.
 	 * */
@@ -84,7 +84,7 @@ public final class ImportModule extends ModuleImportation {
 
 		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(project);
 		if (null == parser || null == identifier) {
-			lastImportCheckTimeStamp = timestamp; 
+			lastImportCheckTimeStamp = timestamp;
 			//FIXME: is it correct? lastImportCheckTimeStamp will be set in extreme case only - very early running
 			referredModule = null;
 			return;
@@ -109,7 +109,7 @@ public final class ImportModule extends ModuleImportation {
 			if (!referenceChain.add(this)) {
 				moduleStack.remove(moduleStack.size() - 1);
 				lastImportCheckTimeStamp = timestamp;
-				return; 
+				return;
 			}
 
 			referredModule.checkImports(timestamp, referenceChain, moduleStack);
@@ -181,7 +181,7 @@ public final class ImportModule extends ModuleImportation {
 	/**
 	 * Adds the imported module or definitions contained in it, to the list
 	 * completion proposals.
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param targetModuleId
@@ -213,7 +213,7 @@ public final class ImportModule extends ModuleImportation {
 	/**
 	 * Adds the imported module or definitions contained in it, to the list
 	 * declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param targetModuleId

@@ -100,7 +100,7 @@ public final class RelativeObjectIdentifier_Value extends Value {
 	/**
 	 * Appends its own object identifier component parts to the provided
 	 * list.
-	 * 
+	 *
 	 * @param components
 	 *                the list to be extended
 	 * */

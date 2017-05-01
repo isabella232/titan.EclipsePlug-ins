@@ -26,10 +26,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The SelectCase_Statement class represents TTCN3 select statements.
- * 
+ *
  * @see SelectCases
  * @see SelectCase
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SelectCase_Statement extends Statement {
@@ -134,7 +134,7 @@ public final class SelectCase_Statement extends Statement {
 
 		temp = governor.checkThisValueRef(timestamp, expression);
 		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
-					true, false, false));
+				true, false, false));
 
 		selectcases.check(timestamp, governor);
 	}

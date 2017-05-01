@@ -89,12 +89,12 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 
 	/**
 	 * Check if two dimensions are (almost) identical.
-     *
-     * @param timestamp the timestamp of the actual semantic check cycle.
-     * @param dimensions the dimensions to compare against the actual one.
-     *
-     * @return true if they are (almost) identical, false otherwise.
-     */
+	 *
+	 * @param timestamp the timestamp of the actual semantic check cycle.
+	 * @param dimensions the dimensions to compare against the actual one.
+	 *
+	 * @return true if they are (almost) identical, false otherwise.
+	 */
 	public boolean isIdenticial(final CompilationTimeStamp timestamp, final ArrayDimensions other) {
 		if (dimensions.size() != other.dimensions.size()) {
 			return false;

@@ -40,99 +40,99 @@ public final class SpecialASN1Module {
 	private static final String NEWLINE = System.getProperty("line.separator");
 
 	private static final String EXTERNAL_ASSIGNMENT = " [UNIVERSAL 8] IMPLICIT SEQUENCE {" + NEWLINE
-	+ "  identification CHOICE {" + NEWLINE
-	+ "    syntaxes SEQUENCE {" + NEWLINE
-	+ "      abstract OBJECT IDENTIFIER, " + NEWLINE
-	+ "      transfer OBJECT IDENTIFIER " + NEWLINE
-	+ "    }, " + NEWLINE
-	+ "    syntax OBJECT IDENTIFIER, " + NEWLINE
-	+ "    presentation-context-id INTEGER, " + NEWLINE
-	+ "    context-negotiation SEQUENCE {" + NEWLINE
-	+ "      presentation-context-id INTEGER, " + NEWLINE
-	+ "      transfer-syntax OBJECT IDENTIFIER " + NEWLINE
-	+ "    }, " + NEWLINE
-	+ "    transfer-syntax OBJECT IDENTIFIER, " + NEWLINE
-	+ "    fixed NULL " + NEWLINE
-	+ "  }, " + NEWLINE
-	+ "  data-value-descriptor ObjectDescriptor OPTIONAL, " + NEWLINE
-	+ "  data-value OCTET STRING " + NEWLINE
-	+ "} (WITH COMPONENTS {" + NEWLINE
-	+ "  ..., " + NEWLINE
-	+ "  identification (WITH COMPONENTS {" + NEWLINE
-	+ "    ..., " + NEWLINE
-	+ "    syntaxes        ABSENT, " + NEWLINE
-	+ "    transfer-syntax ABSENT, " + NEWLINE
-	+ "    fixed           ABSENT " + NEWLINE
-	+ "  }) " + NEWLINE
-	+ "})";
+			+ "  identification CHOICE {" + NEWLINE
+			+ "    syntaxes SEQUENCE {" + NEWLINE
+			+ "      abstract OBJECT IDENTIFIER, " + NEWLINE
+			+ "      transfer OBJECT IDENTIFIER " + NEWLINE
+			+ "    }, " + NEWLINE
+			+ "    syntax OBJECT IDENTIFIER, " + NEWLINE
+			+ "    presentation-context-id INTEGER, " + NEWLINE
+			+ "    context-negotiation SEQUENCE {" + NEWLINE
+			+ "      presentation-context-id INTEGER, " + NEWLINE
+			+ "      transfer-syntax OBJECT IDENTIFIER " + NEWLINE
+			+ "    }, " + NEWLINE
+			+ "    transfer-syntax OBJECT IDENTIFIER, " + NEWLINE
+			+ "    fixed NULL " + NEWLINE
+			+ "  }, " + NEWLINE
+			+ "  data-value-descriptor ObjectDescriptor OPTIONAL, " + NEWLINE
+			+ "  data-value OCTET STRING " + NEWLINE
+			+ "} (WITH COMPONENTS {" + NEWLINE
+			+ "  ..., " + NEWLINE
+			+ "  identification (WITH COMPONENTS {" + NEWLINE
+			+ "    ..., " + NEWLINE
+			+ "    syntaxes        ABSENT, " + NEWLINE
+			+ "    transfer-syntax ABSENT, " + NEWLINE
+			+ "    fixed           ABSENT " + NEWLINE
+			+ "  }) " + NEWLINE
+			+ "})";
 
 	private static final String EMBEDDED_PDV_ASSIGNMENT = "[UNIVERSAL 11] IMPLICIT SEQUENCE {" + NEWLINE
-	+ "  identification CHOICE {" + NEWLINE
-	+ "    syntaxes SEQUENCE {" + NEWLINE
-	+ "      abstract OBJECT IDENTIFIER, " + NEWLINE
-	+ "      transfer OBJECT IDENTIFIER " + NEWLINE
-	+ "    }, " + NEWLINE
-	+ "    syntax OBJECT IDENTIFIER, " + NEWLINE
-	+ "    presentation-context-id INTEGER, " + NEWLINE
-	+ "    context-negotiation SEQUENCE {" + NEWLINE
-	+ "      presentation-context-id INTEGER, " + NEWLINE
-	+ "      transfer-syntax OBJECT IDENTIFIER " + NEWLINE
-	+ "    }, " + NEWLINE
-	+ "    transfer-syntax OBJECT IDENTIFIER, " + NEWLINE
-	+ "    fixed NULL " + NEWLINE
-	+ "  }, " + NEWLINE
-	+ "  data-value-descriptor ObjectDescriptor OPTIONAL, " + NEWLINE
-	+ "  data-value OCTET STRING " + NEWLINE
-	+ "} (WITH COMPONENTS {" + NEWLINE
-	+ "  ..., " + NEWLINE
-	+ "  data-value-descriptor ABSENT " + NEWLINE
-	+ "})";
+			+ "  identification CHOICE {" + NEWLINE
+			+ "    syntaxes SEQUENCE {" + NEWLINE
+			+ "      abstract OBJECT IDENTIFIER, " + NEWLINE
+			+ "      transfer OBJECT IDENTIFIER " + NEWLINE
+			+ "    }, " + NEWLINE
+			+ "    syntax OBJECT IDENTIFIER, " + NEWLINE
+			+ "    presentation-context-id INTEGER, " + NEWLINE
+			+ "    context-negotiation SEQUENCE {" + NEWLINE
+			+ "      presentation-context-id INTEGER, " + NEWLINE
+			+ "      transfer-syntax OBJECT IDENTIFIER " + NEWLINE
+			+ "    }, " + NEWLINE
+			+ "    transfer-syntax OBJECT IDENTIFIER, " + NEWLINE
+			+ "    fixed NULL " + NEWLINE
+			+ "  }, " + NEWLINE
+			+ "  data-value-descriptor ObjectDescriptor OPTIONAL, " + NEWLINE
+			+ "  data-value OCTET STRING " + NEWLINE
+			+ "} (WITH COMPONENTS {" + NEWLINE
+			+ "  ..., " + NEWLINE
+			+ "  data-value-descriptor ABSENT " + NEWLINE
+			+ "})";
 
 	private static final String CHARACTER_STRING_ASSIGNMENT = "[UNIVERSAL 29] IMPLICIT SEQUENCE {" + NEWLINE
-	+ "  identification CHOICE {" + NEWLINE
-	+ "    syntaxes SEQUENCE {" + NEWLINE
-	+ "      abstract OBJECT IDENTIFIER, " + NEWLINE
-	+ "      transfer OBJECT IDENTIFIER " + NEWLINE
-	+ "    }, " + NEWLINE
-	+ "    syntax OBJECT IDENTIFIER, " + NEWLINE
-	+ "    presentation-context-id INTEGER, " + NEWLINE
-	+ "    context-negotiation SEQUENCE {" + NEWLINE
-	+ "      presentation-context-id INTEGER, " + NEWLINE
-	+ "      transfer-syntax OBJECT IDENTIFIER " + NEWLINE
-	+ "    }, " + NEWLINE
-	+ "    transfer-syntax OBJECT IDENTIFIER, " + NEWLINE
-	+ "    fixed NULL " + NEWLINE
-	+ "  }, " + NEWLINE
-	+ "  data-value-descriptor ObjectDescriptor OPTIONAL, " + NEWLINE
-	+ "  string-value OCTET STRING " + NEWLINE
-	+ "} (WITH COMPONENTS {" + NEWLINE
-	+ "  ..., " + NEWLINE
-	+ "  data-value-descriptor ABSENT " + NEWLINE
-	+ "})";
+			+ "  identification CHOICE {" + NEWLINE
+			+ "    syntaxes SEQUENCE {" + NEWLINE
+			+ "      abstract OBJECT IDENTIFIER, " + NEWLINE
+			+ "      transfer OBJECT IDENTIFIER " + NEWLINE
+			+ "    }, " + NEWLINE
+			+ "    syntax OBJECT IDENTIFIER, " + NEWLINE
+			+ "    presentation-context-id INTEGER, " + NEWLINE
+			+ "    context-negotiation SEQUENCE {" + NEWLINE
+			+ "      presentation-context-id INTEGER, " + NEWLINE
+			+ "      transfer-syntax OBJECT IDENTIFIER " + NEWLINE
+			+ "    }, " + NEWLINE
+			+ "    transfer-syntax OBJECT IDENTIFIER, " + NEWLINE
+			+ "    fixed NULL " + NEWLINE
+			+ "  }, " + NEWLINE
+			+ "  data-value-descriptor ObjectDescriptor OPTIONAL, " + NEWLINE
+			+ "  string-value OCTET STRING " + NEWLINE
+			+ "} (WITH COMPONENTS {" + NEWLINE
+			+ "  ..., " + NEWLINE
+			+ "  data-value-descriptor ABSENT " + NEWLINE
+			+ "})";
 
 	private static final String REAL_ASSIGNMENT = "[UNIVERSAL 9] IMPLICIT SEQUENCE {" + NEWLINE
-	+ "  mantissa INTEGER, " + NEWLINE
-	+ "  base INTEGER (2|10), " + NEWLINE
-	+ "  exponent INTEGER " + NEWLINE
-	+ "}";
+			+ "  mantissa INTEGER, " + NEWLINE
+			+ "  base INTEGER (2|10), " + NEWLINE
+			+ "  exponent INTEGER " + NEWLINE
+			+ "}";
 
 	private static final String TYPE_IDENTIFIER_ASSIGNMENT = "CLASS " + NEWLINE
-	+ "{" + NEWLINE
-	+ "  &id OBJECT IDENTIFIER UNIQUE, " + NEWLINE
-	+ "  &Type " + NEWLINE
-	+ "} " + NEWLINE
-	+ "WITH SYNTAX {" + NEWLINE
-	+ "  &Type IDENTIFIED BY &id " + NEWLINE
-	+ "}";
+			+ "{" + NEWLINE
+			+ "  &id OBJECT IDENTIFIER UNIQUE, " + NEWLINE
+			+ "  &Type " + NEWLINE
+			+ "} " + NEWLINE
+			+ "WITH SYNTAX {" + NEWLINE
+			+ "  &Type IDENTIFIED BY &id " + NEWLINE
+			+ "}";
 
 	private static final String ABSTRACT_SYNTAX_ASSIGNMENT = "CLASS {" + NEWLINE
-	+ "  &id OBJECT IDENTIFIER UNIQUE, " + NEWLINE
-	+ "  &Type, " + NEWLINE
-	+ "  &property BIT STRING {handles-invalid-encodings(0)} DEFAULT {} " + NEWLINE
-	+ "} " + NEWLINE
-	+ "WITH SYNTAX {" + NEWLINE
-	+ "  &Type IDENTIFIED BY &id [HAS PROPERTY &property] " + NEWLINE
-	+ "}";
+			+ "  &id OBJECT IDENTIFIER UNIQUE, " + NEWLINE
+			+ "  &Type, " + NEWLINE
+			+ "  &property BIT STRING {handles-invalid-encodings(0)} DEFAULT {} " + NEWLINE
+			+ "} " + NEWLINE
+			+ "WITH SYNTAX {" + NEWLINE
+			+ "  &Type IDENTIFIED BY &id [HAS PROPERTY &property] " + NEWLINE
+			+ "}";
 
 	private static final String [][] INTERNAL_ASSIGNMENTS = {{"EXTERNAL", EXTERNAL_ASSIGNMENT},
 		{"EMBEDDED PDV", EMBEDDED_PDV_ASSIGNMENT},
@@ -154,7 +154,7 @@ public final class SpecialASN1Module {
 	/**
 	 * Creates the special assignments by parsing the strings as if they
 	 * were coming from an internal file and creating a module around them.
-	 * 
+	 *
 	 * @return the module of the special assignments created.
 	 */
 	private static ASN1Module createSpecAsss() {
@@ -196,7 +196,7 @@ public final class SpecialASN1Module {
 	/**
 	 * Checks whether the provided module is the module that contains the
 	 * special assignments.
-	 * 
+	 *
 	 * @param module
 	 *                the module to check
 	 * @return true if the provided module is the module of the special
@@ -209,12 +209,12 @@ public final class SpecialASN1Module {
 	/**
 	 * Parses the special internal assignments to build their semantic
 	 * representation.
-	 * 
+	 *
 	 * @param inputCode
 	 *                the code to parse.
 	 * @param identifier
 	 *                the identifier for the assignment to be created.
-	 * 
+	 *
 	 * @return the parsed assignment.
 	 */
 	public static ASN1Assignment parseSpecialInternalAssignment(final String inputCode, final Identifier identifier) {
@@ -232,7 +232,7 @@ public final class SpecialASN1Module {
 		tracker.discard(Asn1Lexer.MULTILINECOMMENT);
 		tracker.discard(Asn1Lexer.SINGLELINECOMMENT);
 		final Asn1Parser parser = new Asn1Parser(tracker);
-		parser.setBuildParseTree(false);		
+		parser.setBuildParseTree(false);
 		final ASN1Listener parserListener = new ASN1Listener(parser);
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
 		parser.addErrorListener(parserListener);

@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * default type (TTCN-3).
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Default_Type extends Type {

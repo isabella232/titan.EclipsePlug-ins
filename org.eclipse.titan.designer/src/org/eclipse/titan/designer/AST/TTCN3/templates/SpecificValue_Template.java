@@ -52,7 +52,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a template with a specific value.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SpecificValue_Template extends TTCN3Template {
@@ -276,7 +276,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		case OCTETSTRING_VALUE:
 			if (Type_type.TYPE_OCTETSTRING.equals(typeType)) {
 				lengthRestriction
-						.checkNofElements(timestamp, ((Octetstring_Value) value).getValueLength(), false, false, false, this);
+				.checkNofElements(timestamp, ((Octetstring_Value) value).getValueLength(), false, false, false, this);
 			}
 			break;
 		case CHARSTRING_VALUE:
@@ -350,7 +350,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 				location.reportSemanticError("`ifpresent' is not allowed here");
 			} else if(specificValue != null && !(specificValue.getLocation() instanceof NULL_Location)) {
 				specificValue.getLocation().reportSemanticError("`ifpresent' is not allowed here");
-			} 
+			}
 		}
 		if (subCheck) {
 			type.checkThisTemplateSubtype(timestamp, this);
@@ -364,7 +364,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return false;
 		}
 		final IValue templ = specificValue.setLoweridToReference(timestamp);
-				
+
 		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(templ.getValuetype())) {
 			final IType governor = ((Function_Reference_Value) templ).getExpressionGovernor(timestamp,
 					Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
@@ -400,12 +400,12 @@ public final class SpecificValue_Template extends TTCN3Template {
 			case A_TEMPLATE:
 			case A_PAR_TEMP_IN:
 			case A_PAR_TEMP_INOUT:
-			case A_FUNCTION_RTEMP:			
+			case A_FUNCTION_RTEMP:
 			case A_VAR_TEMPLATE:
 				boolean result = true;
 				final Restriction_type rt = ((Definition) assignment).getTemplateRestriction();
-				if ( TemplateRestriction.Restriction_type.TR_OMIT.equals(rt) || 
-					TemplateRestriction.Restriction_type.TR_PRESENT.equals(rt)) {
+				if ( TemplateRestriction.Restriction_type.TR_OMIT.equals(rt) ||
+						TemplateRestriction.Restriction_type.TR_PRESENT.equals(rt)) {
 					result = false;
 				}
 
@@ -449,7 +449,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	/**
 	 * Returns the reference that should be used where this template is used
 	 * as a referencing template.
-	 * 
+	 *
 	 * @return the reference.
 	 * */
 	public Reference getReference() {
@@ -559,12 +559,12 @@ public final class SpecificValue_Template extends TTCN3Template {
 	public void generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		//TODO handle post init rearrangement
 		specificValue.generateJavaInit( aData, source, name );
-		
+
 		if (isIfpresent) {
 			source.append(name);
 			source.append(".set_ifPresent();\n");
 		}
 	}
-	
-	
+
+
 }

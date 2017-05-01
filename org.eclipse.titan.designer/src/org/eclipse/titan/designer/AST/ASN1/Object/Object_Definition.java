@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent ObjectDefinition.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Object_Definition extends ASN1Object {
@@ -173,10 +173,10 @@ public final class Object_Definition extends ASN1Object {
 
 	/**
 	 * Checks if a fieldsetting with the provided name exists.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier holding the name to look for.
-	 * 
+	 *
 	 * @return true if it exists, false otherwise.
 	 * */
 	public boolean hasFieldSettingWithNameDefault(final Identifier identifier) {
@@ -199,7 +199,7 @@ public final class Object_Definition extends ASN1Object {
 
 		return false;
 	}
-	
+
 
 	public ISetting getSettingByNameDefault(final Identifier identifier) {
 		if (null == lastTimeChecked) {
@@ -223,7 +223,7 @@ public final class Object_Definition extends ASN1Object {
 
 		return null;
 	}
-	
+
 	//This function can get identifier with or without error reporting in case of not founding identifier
 	//It is cheaper than calling the function hasFieldSettingWithNameDefault and then the get function again
 	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier, boolean reportError) {
@@ -247,9 +247,9 @@ public final class Object_Definition extends ASN1Object {
 		}
 
 		return null;
-		
+
 	}
-	
+
 	//This function is always report error if identifier cannot be found
 	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier) {
 		return getFieldSettingWithNameDefault(identifier, true);
@@ -327,7 +327,7 @@ public final class Object_Definition extends ASN1Object {
 	protected void parseBlock(final CompilationTimeStamp timestamp) {
 		if (null == mBlock || null == myGovernor) {
 			return;
-		}		
+		}
 
 		ObjectClassSyntax_Parser parser = new ObjectClassSyntax_Parser(mBlock, this);
 		final ObjectClassSyntax_root root = myGovernor.getObjectClassSyntax(timestamp);

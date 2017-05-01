@@ -217,7 +217,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Sets the parent type of the actual type.
-	 * 
+	 *
 	 * @param type
 	 *                the type to set.
 	 * */
@@ -233,7 +233,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Sets the parent path for the with attribute path element of this
 	 * type. Also, creates the with attribute path node if it did not exist
 	 * before.
-	 * 
+	 *
 	 * @param parent
 	 *                the parent to be set.
 	 * */
@@ -248,7 +248,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Sets the with attributes for this type.
-	 * 
+	 *
 	 * @param attributes
 	 *                the attributes to set.
 	 * */
@@ -262,7 +262,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Add constraints to this type.
-	 * 
+	 *
 	 * @param constraints
 	 *                the constraints to be added.
 	 * */
@@ -281,7 +281,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Sets the type restrictions as they were parsed.
-	 * 
+	 *
 	 * @param parsedRestrictions
 	 *                the restrictions to set on this type.
 	 * */
@@ -290,10 +290,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Returns the type referred last in case of a referred type, or itself
 	 * in any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the actual or the last referred type
 	 * */
 	IType getTypeRefdLast(final CompilationTimeStamp timestamp);
@@ -301,7 +301,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Returns the referenced field type for structured types, or itself in
 	 * any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param reference
@@ -323,7 +323,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Returns the referenced field type for structured types, or itself in
 	 * any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param reference
@@ -349,7 +349,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * local indices in subrefsArray parameters. Must be used only after
 	 * getFieldType() was already successfully invoked. It can be used only
 	 * when all array indexes are foldable, otherwise it returns false.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param reference
@@ -372,7 +372,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Calculates the list of field types traversed. Does not check if the
 	 * index values are valid. Does not give error messages, it just returns
 	 * with false.
-	 * 
+	 *
 	 * @param reference
 	 *                the reference used to select the field.
 	 * @param actualSubReference
@@ -388,10 +388,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks if there is a variant attribute among the ones reaching to
 	 * this type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return true if there was a variant attribute found, false otherwise.
 	 * */
 	boolean hasVariantAttributes(final CompilationTimeStamp timestamp);
@@ -405,7 +405,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Parses the attributes assigned to this type, and creates the needed
 	 * semantic structures to store the gained data.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * */
@@ -414,7 +414,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same
 	 * as the name of the definition defining the type.
-	 * 
+	 *
 	 * @param definitionName
 	 *                the name of the definition.
 	 **/
@@ -429,7 +429,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Checks for circular references within embedded types.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -444,7 +444,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * outside of the component they were created in, they should not be
 	 * sent/received in ports or used in compref.start. All structured types
 	 * that may contain such internal types are also internal.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @return true if component internal, false otherwise.
@@ -455,7 +455,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Checks the types which should be component internal, if they have
 	 * left the component. Should be called only if is_component_internal()
 	 * returned true.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param typeSet
@@ -472,7 +472,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * (e.g. field of a structured type, parameter/return type/ exception of
 	 * a signature). Ports and Signatures are not allowed, Default only
 	 * within structured types.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param errorLocation
@@ -488,12 +488,12 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * If the value is an undefined lowerid, then this member decides
 	 * whether it is a reference or a lowerid value (e.g., enum, named
 	 * number).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param value
 	 *                the value to be checked
-	 * 
+	 *
 	 * @return the converted value so that it can replace the original, or
 	 *         the original if no conversion was needed
 	 * */
@@ -505,7 +505,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * The default / base implementation checks referenced, expression and
 	 * macro values, as they must be unfolded (if possible) before gaining
 	 * access to the real / final value and that values kind.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param value
@@ -519,12 +519,12 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks whether the provided template is a specific value and the
 	 * embedded value is a referenced one.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param template
 	 *                the template to check.
-	 * 
+	 *
 	 * @return the checked template, might be different from the one passed
 	 *         as parameter.
 	 * */
@@ -532,24 +532,24 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Checks whether the provided template is a specific value and the
-	 * embedded value is a referenced one. 
+	 * embedded value is a referenced one.
 	 * Additionally checks whether the template has the expected value type and avoids circular references.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param template
 	 *                the template to check.
-	 * 
+	 *
 	 * @return the checked template, might be different from the one passed
 	 *         as parameter.
-	 * */	
+	 * */
 	ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template template,
 			final Expected_Value_type expectedValue, final IReferenceChain referenceChain);
-	
+
 	/**
 	 * Does the semantic checking of the provided template according to the
 	 * a specific type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param template
@@ -566,7 +566,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Does the semantic checking of the provided template according to the
 	 * sub-type of the actual type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param template
@@ -580,7 +580,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * Note: The compatibility relation is asymmetric. The function returns
 	 * true if the set of possible values in type is a subset of possible
 	 * values in this.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param otherType
@@ -595,11 +595,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain);
-	
+
 	/**
 	 * Returns whether this type is strongly compatible with type that is exactly has the same type and they are both base types
 	 * <p>
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param otherType
@@ -624,7 +624,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Returns whether this type is identical to the parameter type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param type
@@ -635,10 +635,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Returns the name of this type for the user to identify the type.
-	 * 
+	 *
 	 * For simple primitive types (like integer, float, bitstring) this is their name.
 	 * For other types this is the full name of the definition of the type.
-	 * 
+	 *
 	 * @return the name of the type.
 	 * */
 	String getTypename();
@@ -660,7 +660,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * a valid one is found.
 	 * <p>
 	 * Simple types can not be used as declarations.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector to add the declaration to,
 	 *                and used to get more information.
@@ -675,7 +675,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * a valid one is found.
 	 * <p>
 	 * If this type is a simple type, it can never complete any proposals.
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector to add the proposal to, and
 	 *                used to get more information
@@ -689,10 +689,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Creates the description part of this type to be displayed, in the
 	 * code completion.
-	 * 
+	 *
 	 * @param the
 	 *                part of the description to be extended
-	 * 
+	 *
 	 * @return the description extended with this type's description.
 	 * */
 	StringBuilder getProposalDescription(final StringBuilder builder);
@@ -701,7 +701,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * This function is used by user interface functions to determine which
 	 * field of a type is enclosing the provided offset. For example this is
 	 * used to find all references to a field.
-	 * 
+	 *
 	 * @param offset
 	 *                the offset of the location in the file to search for.
 	 * @param rf
@@ -716,7 +716,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * The class is either pre-defined (written manually in the Base
 	 * Library) or generated by the compiler.
 	 * The reference is valid in the module that \a p_scope belongs to.
-	 * 
+	 *
 	 * get_genname_value in titan.core
 	 *
 	 * @param aData only used to update imports if needed
@@ -725,13 +725,13 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope);
-	
+
 	/**
 	 * Returns the name of the Java template class that represents this at runtime.
 	 * The class is either pre-defined (written manually in the Base
 	 * Library) or generated by the compiler.
 	 * The reference is valid in the module that \a p_scope belongs to.
-	 * 
+	 *
 	 * get_genname_template in titan.core
 	 *
 	 * @param aData only used to update imports if needed

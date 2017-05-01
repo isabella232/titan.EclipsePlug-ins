@@ -227,7 +227,7 @@ public final class ReplaceExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -338,26 +338,26 @@ public final class ReplaceExpression extends Expression_Value {
 		IValue value4 = null;
 		if (templateInstance4 != null) {
 			final ITTCN3Template temp = templateInstance4.getTemplateBody();
-			
+
 			switch( temp.getTemplatetype() ) {
 			case SPECIFIC_VALUE:
 				value4 = ((SpecificValue_Template) temp).getSpecificValue();
 				break;
-			case TEMPLATE_LIST:			
+			case TEMPLATE_LIST:
 				if( !((Template_List) temp).isValue(timestamp) ) {
-					location.reportSemanticError(OPERANDERROR6); 
+					location.reportSemanticError(OPERANDERROR6);
 					setIsErroneous(true);
 					return;
 				}
 			case NAMED_TEMPLATE_LIST:
 			case INDEXED_TEMPLATE_LIST:
-				return; 
+				return;
 			default:
 				location.reportSemanticError(OPERANDERROR6);
 				setIsErroneous(true);
 				return;
 			}
-					
+
 			value4.setLoweridToReference(timestamp);
 			tempType4 = value4.getExpressionReturntype(timestamp, internalExpectation);
 

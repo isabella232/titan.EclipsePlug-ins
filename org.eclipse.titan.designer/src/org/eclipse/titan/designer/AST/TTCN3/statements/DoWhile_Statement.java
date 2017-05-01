@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The DoWhile_Statement class represents a TTCN3 do{}while() statement.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class DoWhile_Statement extends Statement {

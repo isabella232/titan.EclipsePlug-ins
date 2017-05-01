@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference;
  * Represents a naming node, that is part of a naming chain,
  * but will not use the name prefix gathered from his naming parents.
  * But instead function as a new root in the naming hierarchy.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class NameReStarter implements INamedNode {

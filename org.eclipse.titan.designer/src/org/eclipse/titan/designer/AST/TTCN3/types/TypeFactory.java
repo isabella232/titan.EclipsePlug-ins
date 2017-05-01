@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.NULL_Type;
  * DO NOT USE, UNLESS THERE IS NO OTHER WAY TO TAKE HOLD OF A TYPE.
  * DO NOT STORE THE GAINED TYPE, AS NOT BEING CREATED FROM PARSED DATA IT
  * MIGHT POISON SEMANTIC CHECKS DONE LATER.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TypeFactory {

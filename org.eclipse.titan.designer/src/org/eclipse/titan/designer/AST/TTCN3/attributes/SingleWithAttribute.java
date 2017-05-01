@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Stores a single attribute.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class SingleWithAttribute implements ILocateableNode, IIncrementallyUpdateable, IIdentifierContainer, IVisitableNode {
@@ -100,7 +100,7 @@ public final class SingleWithAttribute implements ILocateableNode, IIncrementall
 
 	/**
 	 * Handles the incremental parsing of this attribute.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

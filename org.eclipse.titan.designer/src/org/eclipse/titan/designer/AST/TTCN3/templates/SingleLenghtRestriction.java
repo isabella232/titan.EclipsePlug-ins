@@ -32,7 +32,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a length restriction for a single length.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SingleLenghtRestriction extends LengthRestriction {
@@ -94,8 +94,8 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 		}
 		lastTimeChecked = timestamp;
 
-		if( value == null) { 
-			return; 
+		if( value == null) {
+			return;
 		}
 
 		final Integer_Type integer = new Integer_Type();

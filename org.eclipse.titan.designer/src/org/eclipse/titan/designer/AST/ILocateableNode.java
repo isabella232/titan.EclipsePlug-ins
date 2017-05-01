@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST;
 
 /**
  * This interface tells that the node has a location.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface ILocateableNode {

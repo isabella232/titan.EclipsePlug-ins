@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.BlockLevelTokenStreamTracke
 
 /**
  * Class to represent ObjectClassDefinition.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectClass_Definition extends ObjectClass {
@@ -118,7 +118,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 		}
 		//TODO: Check the opposite way: each element of objectDefinition should be found in fieldSpecifications
 	}
-	
+
 	private void parseBlockFieldSpecs() {
 		if (null == fieldSpecsBlock) {
 			return;
@@ -133,7 +133,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 		final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 		if (null != errors && !errors.isEmpty()) {
 			fieldSpecifications = null;
-		
+
 			for (int i = 0; i < errors.size(); i++) {
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) fieldSpecsBlock.getLocation().getFile(), errors.get(i),
 						IMarker.SEVERITY_ERROR);

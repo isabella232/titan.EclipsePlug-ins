@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.AST.ASN1.Object.FieldName;
 
 /**
  * Represent an ASN AtNotation
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class AtNotation extends ASTNode {

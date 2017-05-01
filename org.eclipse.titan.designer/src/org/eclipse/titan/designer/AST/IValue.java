@@ -377,7 +377,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 
 	/**
 	 * Try to find the definition in which this value was defined.
-	 * 
+	 *
 	 * @return the definition defining this value, or null
 	 * */
 	Definition getDefiningAssignment();
@@ -392,7 +392,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 * be eliminated in case of short-circuit evaluation of logical "and" and
 	 * "or" operations. This function is applied on the second (right) operand
 	 * of the expression.
-	 * 
+	 *
 	 * needs_short_circuit in the compiler
 	 * */
 	public boolean needsShortCircuit ();
@@ -400,49 +400,49 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	/**
 	 * Returns whether the value can be represented by an in-line Java
 	 *  expression.
-	 *  
+	 *
 	 *  has_single_expr in the compiler
 	 * */
 	public boolean canGenerateSingleExpression();
-	
+
 	/**
 	 * Returns the equivalent Java expression.
 	 * It can be used only if canGenerateSingleExpression() returns true
-	 * 
+	 *
 	 * get_single_expr in the compiler
-	 * 
+	 *
 	 * @param aData the generated java code
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData);
-	
+
 	/**
 	 * Generates a Java code sequence, which initializes the Java
 	 *  object named  name with the contents of the value. The code
 	 *  sequence is appended to argument source and the resulting
 	 *  string is returned.
-	 *  
+	 *
 	 *  generate_code_init in the compiler
-	 *  
+	 *
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param source the source code to be updated
 	 *  @param name the name which should be used to initialize
 	 * */
 	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name);
-	
+
 	/**
 	 * Generates the equivalent Java code for the value. It is used
 	 *  when the value is part of a complex expression (e.g. as
 	 *  operand of a built-in operation, actual parameter, array
 	 *  index). The generated code fragments are appended to the
 	 *  fields of visitor expr.
-	 *  
+	 *
 	 *  @param aData only used to update imports if needed
-	 *  
+	 *
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param expression the expression struct to be used to generate source code
 	 * */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression);
-	
+
 	/**
 	 *  Generates a value for temporary use. Example:
 	 *
@@ -468,18 +468,18 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 *    if(tmp_2
 	 *
 	 *  and also increments the blockcount because you have to close it...
-	 *  
+	 *
 	 *  generate_code_tmp in the compiler
-	 *  
+	 *
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param source the source code to be updated
 	 *  @param prefix the prefix to be generated before the actual value
 	 *  @param blockCount the block counter storing how many open blocks there are in the local area.
 	 */
 	StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final ChangeableInteger blockCount);
-	
+
 	/**
-	 * as above 
+	 * as above
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param source the source code to be updated
 	 *  @param init is the content to be generated before the current value

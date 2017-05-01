@@ -51,7 +51,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The Type class is the base class for types.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Type extends Governor implements IType, IIncrementallyUpdateable, IOutlineElement {
@@ -243,12 +243,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Returns the type referred last in case of a referred type, or itself
 	 * in any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
 	 *                the ReferenceChain used to detect circular references
-	 * 
+	 *
 	 * @return the actual or the last referred type
 	 * */
 	public IType getTypeRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
@@ -351,7 +351,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/**
 	 * Does the semantic checking of the type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * */
@@ -361,11 +361,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
-	if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
 
@@ -531,7 +531,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/**
 	 * Checks the provided referenced value.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param value
@@ -739,7 +739,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			value.setIsErroneous(true);
 			return;
 		}
-		
+
 		final TypeCompatibilityInfo info = new TypeCompatibilityInfo(this, governor, true);
 		info.setStr1Elem(strElem);
 		info.setStr2Elem(reference.refersToStringElement());
@@ -832,13 +832,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				t.setIsErroneous(true);
 				return t;
 			}
-				
+
 		case SPECIFIC_VALUE:
 			break; //cont below
 		default:
 			return t;
 		}
-				
+
 		//Case of specific value:
 
 		ITTCN3Template template = t;
@@ -911,7 +911,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					return template.setTemplatetype(timestamp, Template_type.TEMPLATE_REFD);
 				case A_CONST:
 					IType type1;
-					if( assignment instanceof Value_Assignment){						
+					if( assignment instanceof Value_Assignment){
 						type1 = ((Value_Assignment) assignment).getType(timestamp);
 					} else {
 						type1 = ((Def_Const) assignment).getType(timestamp);
@@ -992,11 +992,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		default:
 			break;
 		}
-		
+
 		return template;
-	
+
 	}
-	
+
 	//TODO: This function is obsolete, use the general function everywhere instead!
 	@Override
 	/** {@inheritDoc} */
@@ -1006,7 +1006,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/**
 	 * Register the usage of this type in the provided template.
-	 * 
+	 *
 	 * @param template
 	 *                the template to use.
 	 * */
@@ -1042,7 +1042,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** {@inheritDoc} */
 	public abstract boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain);
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
@@ -1076,7 +1076,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (!isCompatible(timestamp, type, info, leftChain, rightChain)) {
 			return CompatibilityLevel.INCOMPATIBLE_TYPE;
 		}
-		
+
 		// if there is noStructuredTypeCompatibility and isCompatible then it should be strong compatibility:
 		if( noStructuredTypeCompatibility ) {
 			return CompatibilityLevel.COMPATIBLE;
@@ -1142,10 +1142,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Creates and returns the description of this type, used to describe it
 	 * as a completion proposal.
-	 * 
+	 *
 	 * @param builder
 	 *                the StringBuilder used to create the description.
-	 * 
+	 *
 	 * @return the description of this type.
 	 * */
 	@Override
@@ -1179,7 +1179,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * a valid one is found.
 	 * <p>
 	 * If this type is a simple type, it can never complete any proposals.
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector to add the proposal to, and
 	 *                used to get more information
@@ -1198,7 +1198,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * a valid one is found.
 	 * <p>
 	 * Simple types can not be used as declarations.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector to add the declaration to,
 	 *                and used to get more information.
@@ -1218,7 +1218,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * Note: The compatibility relation is asymmetric. The function returns
 	 * true if the set of possible values in type is a subset of possible
 	 * values in this.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param typeType1
@@ -1229,7 +1229,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                true if the first type is from ASN.1
 	 * @param isAsn12
 	 *                true if the second type is from ASN.1
-	 * 
+	 *
 	 * @return true if the first type is compatible with the second,
 	 *         otherwise false.
 	 * */
@@ -1378,7 +1378,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/**
 	 * Handles the incremental parsing of this type.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -1490,16 +1490,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if(firstDot == -1 || name.indexOf('.', firstDot + 1) == -1) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Returns the name of the Java value class that represents this at runtime.
 	 * The class is either pre-defined (written manually in the Base
 	 * Library) or generated by the compiler.
 	 * The reference is valid in the module that \a p_scope belongs to.
-	 * 
+	 *
 	 * get_genname_value in titan.core
 	 *
 	 * @param aData only used to update imports if needed
@@ -1513,17 +1513,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".getGenNameValue() might not be implemented yet!\n" );
-		
+
 		//TODO temporary solution before creating the code for calculating the generated name
 		return getGenNameOwn(scope);
 	}
-	
+
 	/**
 	 * Returns the name of the Java template class that represents this at runtime.
 	 * The class is either pre-defined (written manually in the Base
 	 * Library) or generated by the compiler.
 	 * The reference is valid in the module that \a p_scope belongs to.
-	 * 
+	 *
 	 * get_genname_value in titan.core
 	 *
 	 * @param aData only used to update imports if needed
@@ -1532,7 +1532,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		
+
 		//TODO temporary solution before creating the code for calculating the generated name
 		return getGenNameValue(aData, source, scope) + "_template";
 	}

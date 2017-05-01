@@ -147,7 +147,7 @@ public final class ShiftRightExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -294,12 +294,12 @@ public final class ShiftRightExpression extends Expression_Value {
 
 	/**
 	 * Shifts the contents of the string right by the provided amount.
-	 * 
+	 *
 	 * @param string
 	 *                the string to be shifted
 	 * @param shiftSize
 	 *                the amount with which the shifting should be done
-	 * 
+	 *
 	 * @return the resulting shifted value.
 	 * */
 	public static String shiftRight(final String string, final long shiftSize) {

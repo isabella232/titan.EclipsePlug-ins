@@ -52,7 +52,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * Please note, that all instances of Open_Type type are always erroneous to
  * stop some error messages, which are produced as we are not yet able to fully
  * handle the constraints.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Open_Type extends ASN1Type {
@@ -265,7 +265,7 @@ public final class Open_Type extends ASN1Type {
 		default:
 			break;
 		}
-		
+
 		this.check(timestamp);
 
 		switch (last.getValuetype()) {
@@ -347,9 +347,9 @@ public final class Open_Type extends ASN1Type {
 
 				final CompField field = getComponentByName(name);
 				if (field == null) {
-					 namedTemplate.getLocation().reportSemanticError(MessageFormat.format(REFERENCETONONEXISTENTFIELD,
-					 name.getDisplayName(),
-					 getFullName()));
+					namedTemplate.getLocation().reportSemanticError(MessageFormat.format(REFERENCETONONEXISTENTFIELD,
+							name.getDisplayName(),
+							getFullName()));
 				} else {
 					final Type fieldType = field.getType();
 					if (fieldType != null && !fieldType.getIsErroneous(timestamp)) {
@@ -393,12 +393,12 @@ public final class Open_Type extends ASN1Type {
 			check(timestamp);
 			final Identifier id = subreference.getId();
 			final CompField compField = getComponentByName(id);
-			if (compField == null) { 
+			if (compField == null) {
 				if (compFieldMap.getComponentFieldMap(timestamp).isEmpty()) {
 					return null; //too early analysis
 				}
 				reference.getLocation().reportSemanticError(MessageFormat.format(FieldSubReference.NONEXISTENTSUBREFERENCE,
-				id.getDisplayName(), getFullName()));
+						id.getDisplayName(), getFullName()));
 				reference.setIsErroneous(true);
 				return this;
 			}

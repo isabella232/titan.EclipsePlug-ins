@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Defines the interface of TTCN3 or ASN.1 sub-references (reference parts).
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IIdentifierContainer, IVisitableNode {
@@ -74,7 +74,7 @@ public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IId
 	 * @param aData the generated java code with other info
 	 * @param expression the expression for code generation
 	 * @param isFirst is this the first parameter in the reference?
-	 * 
+	 *
 	 */
 	void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst );
 }

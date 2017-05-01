@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public abstract class Setting extends ASTNode implements ISetting {
 	/** indicates if this setting has already been found erroneous in the actual checking cycle. */
 	protected boolean isErroneous;
-	
+
 	/** the name of the setting to be used in the code generator */
 	protected String genName;
 
@@ -75,7 +75,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 
 	/**
 	 * Set the generated name for this setting.
-	 * 
+	 *
 	 * @param genName the name to set.
 	 * */
 	public void setGenName(final String genName) {
@@ -87,7 +87,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 	 *  as a concatenation of a prefix, an underscore and a suffix,
 	 * unless the prefix already ends with, or the suffix already begins with
 	 * precisely one underscore.
-	 * 
+	 *
 	 * @param prefix the prefix to use
 	 * @param suffix the suffix to use.
 	 * */
@@ -109,7 +109,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 
 	/**
 	 * Returns a Java reference that points to this setting from the local module.
-	 * 
+	 *
 	 * @return The name of the Java setting in the generated code.
 	 */
 	public String getGenNameOwn(){
@@ -125,7 +125,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 
 	/**
 	 * Returns a Java reference that points to this setting from the module of the parameter scope.
-	 * 
+	 *
 	 * @param scope the scope into which the name needs to be generated
 	 * @return The name of the Java setting in the generated code.
 	 */
@@ -144,7 +144,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 		}
 
 		returnValue.append( getGenNameOwn());
-		
+
 		return returnValue.toString();
 	}
 }

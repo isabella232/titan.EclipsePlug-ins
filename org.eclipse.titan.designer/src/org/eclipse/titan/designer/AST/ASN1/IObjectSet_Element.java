@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.AST.Scope;
 
 /**
  * Something that can be in an ObjectSet.
- * 
+ *
  * @author Kristof Szabados
  */
 public interface IObjectSet_Element {

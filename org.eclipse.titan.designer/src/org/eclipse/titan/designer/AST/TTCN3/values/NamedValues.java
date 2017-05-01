@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a list of named values.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class NamedValues extends ASTNode implements IIncrementallyUpdateable {

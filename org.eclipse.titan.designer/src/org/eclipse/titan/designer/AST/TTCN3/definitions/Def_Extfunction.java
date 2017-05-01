@@ -55,7 +55,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_ExtFunction class represents TTCN3 external function definitions.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_Extfunction extends Definition implements IParameterisedAssignment {
@@ -128,7 +128,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			return builder.append(FULLNAMEPART2);
 		} else if (errorBehaviorList == child) {
 			return builder.append(FULLNAMEPART3);
-		} 
+		}
 
 		return builder;
 	}
@@ -193,8 +193,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -243,7 +243,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	/**
 	 * Convert and check the encoding attributes applied to this external
 	 * function.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * */
@@ -350,7 +350,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	/**
 	 * Checks the prototype attribute set for this external function
 	 * definition.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -409,20 +409,20 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 					}
 				} else {
 					firstParameter.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"The first parameter must be an `inout'' value parameter for attribute `prototype({0})'' instead of {1}",
-											prototype.getName(), firstParameter.getAssignmentName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"The first parameter must be an `inout'' value parameter for attribute `prototype({0})'' instead of {1}",
+									prototype.getName(), firstParameter.getAssignmentName()));
 				}
 			} else {
 				if (Assignment_type.A_PAR_VAL_IN.semanticallyEquals(firstParameter.getRealAssignmentType())) {
 					inputType = firstParameter.getType(timestamp);
 				} else {
 					firstParameter.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"The first parameter must be an `in'' value parameter for attribute `prototype({0})'' instead of {1}",
-											prototype.getName(), firstParameter.getAssignmentName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"The first parameter must be an `in'' value parameter for attribute `prototype({0})'' instead of {1}",
+									prototype.getName(), firstParameter.getAssignmentName()));
 				}
 			}
 
@@ -431,10 +431,10 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				outputType = secondParameter.getType(timestamp);
 			} else {
 				secondParameter.getLocation()
-						.reportSemanticError(
-								MessageFormat.format(
-										"The second parameter must be an `out'' value parameter for attribute `prototype({0})'' instead of {1}",
-										prototype.getName(), secondParameter.getAssignmentName()));
+				.reportSemanticError(
+						MessageFormat.format(
+								"The second parameter must be an `out'' value parameter for attribute `prototype({0})'' instead of {1}",
+								prototype.getName(), secondParameter.getAssignmentName()));
 			}
 		} else {
 			formalParList.getLocation().reportSemanticError(
@@ -456,10 +456,10 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			} else {
 				if (Assignment_type.A_FUNCTION_RTEMP.semanticallyEquals(assignmentType)) {
 					returnType.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(
-											"The external function must return a value instead of a template for attribute `prototype({0})''",
-											prototype.getName()));
+					.reportSemanticError(
+							MessageFormat.format(
+									"The external function must return a value instead of a template for attribute `prototype({0})''",
+									prototype.getName()));
 				}
 
 				if (EncodingPrototype_type.CONVERT.equals(prototype)) {
@@ -469,10 +469,10 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 					if (!last.getIsErroneous(timestamp) && !Type_type.TYPE_INTEGER.equals(last.getTypetypeTtcn3())) {
 						returnType.getLocation()
-								.reportSemanticError(
-										MessageFormat.format(
-												"The return type of the function must be `integer'' instead of `{0}'' for attribute `prototype({1})''",
-												returnType.getTypename(), prototype.getName()));
+						.reportSemanticError(
+								MessageFormat.format(
+										"The return type of the function must be `integer'' instead of `{0}'' for attribute `prototype({1})''",
+										returnType.getTypename(), prototype.getName()));
 					}
 				}
 			}
@@ -483,7 +483,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	 * Checks that the encoding/decoding attributes set for this external
 	 * function definition are valid according to the encoding/decoding type
 	 * of the function.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -532,8 +532,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			// no other option possible
 			break;
 		}
-		
-		if (printingType != null && (functionEncodingType != ExternalFunctionEncodingType_type.ENCODE || 
+
+		if (printingType != null && (functionEncodingType != ExternalFunctionEncodingType_type.ENCODE ||
 				encodingType != Encoding_type.JSON)) {
 			location.reportSemanticError("Attribute `printing' is only allowed for JSON encoding functions");
 		}
@@ -742,6 +742,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		// TODO Auto-generated method stub
 		super.generateJava(aData, cleanUp);
 	}
-	
-	
+
+
 }

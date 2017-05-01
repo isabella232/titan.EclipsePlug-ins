@@ -176,7 +176,7 @@ public final class ErroneousAttributeSpecification implements ILocateableNode, I
 
 	/**
 	 * Handles the incremental parsing of this attribute specification.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

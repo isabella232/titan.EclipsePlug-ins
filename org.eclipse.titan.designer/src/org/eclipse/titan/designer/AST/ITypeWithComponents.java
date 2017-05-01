@@ -10,14 +10,14 @@ package org.eclipse.titan.designer.AST;
 /**
  * This interface represents a type which has components.
  * The component's identifiers can be accessed through their name.
- * 
+ *
  * @author Kristof Szabados
  */
 public interface ITypeWithComponents {
 
 	/**
 	 * Returns the element with the specified name.
-	 * 
+	 *
 	 * @param identifier the name of the element to return
 	 * @return The element which has the same name as the given Identifier.
 	 */

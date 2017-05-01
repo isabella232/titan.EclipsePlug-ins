@@ -11,13 +11,13 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * This interface represents a type that references an other type in some way.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface IReferencingType extends IReferenceChainElement {
 	String TYPEREFERENCEEXPECTED = "`{0}'' is not a reference to a type";
 	String INVALIDREFERENCETYPE = "invalid reference type";
-//	String CIRCULARTYPEREFERENCE = "circular type reference chain: `{0}''";
+	//	String CIRCULARTYPEREFERENCE = "circular type reference chain: `{0}''";
 
 	/**
 	 * Find and return the type referenced.

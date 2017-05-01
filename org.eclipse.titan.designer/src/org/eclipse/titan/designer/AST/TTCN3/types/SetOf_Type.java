@@ -253,7 +253,7 @@ public final class SetOf_Type extends AbstractOfType {
 			return false;
 		}
 	}
-	
+
 	@Override
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
@@ -262,7 +262,7 @@ public final class SetOf_Type extends AbstractOfType {
 		if (Type_type.TYPE_SET_OF.equals(lastOtherType.getTypetype())) {
 			final IType oftOther = ((SetOf_Type) lastOtherType).getOfType();
 			final IType oft = getOfType().getTypeRefdLast(timestamp); // type of the
-																// fields
+			// fields
 			if (oft != null && oftOther != null) {
 				// For basic types pre-generated seq/set of is applied in titan:
 				switch (oft.getTypetype()) {
@@ -472,7 +472,7 @@ public final class SetOf_Type extends AbstractOfType {
 					break;
 				default:
 					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
-							|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
+					|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
 					component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit);
 					break;
 				}

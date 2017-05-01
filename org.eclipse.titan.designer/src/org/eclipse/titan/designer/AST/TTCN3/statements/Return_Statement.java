@@ -123,14 +123,14 @@ public final class Return_Statement extends Statement {
 			// General:
 			template.setMyGovernor(returnType);
 			final ITTCN3Template temporalTemplate = returnType.checkThisTemplateRef(timestamp, template,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
-			temporalTemplate.checkThisTemplateGeneric(timestamp, returnType, 
+			temporalTemplate.checkThisTemplateGeneric(timestamp, returnType,
 					false, /* isModified */
 					false, /* allowOmit */
 					false, /* allowAnyOrOmit */
 					true, /* subCheck */
 					false /* implicitOmit */);
 			TemplateRestriction.check(timestamp, definition, temporalTemplate, null);
-			
+
 			switch (template.getTemplatetype()) {
 			case SPECIFIC_VALUE:
 				break; //error handling in Types.java

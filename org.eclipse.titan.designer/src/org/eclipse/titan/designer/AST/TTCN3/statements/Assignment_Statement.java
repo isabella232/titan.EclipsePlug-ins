@@ -147,7 +147,7 @@ public final class Assignment_Statement extends Statement {
 		if (template == null) {
 			return;
 		}
-		
+
 		switch (assignment.getAssignmentType()) {
 		case A_PAR_VAL_IN:
 			((FormalParameter) assignment).useAsLValue(reference);
@@ -156,8 +156,8 @@ public final class Assignment_Statement extends Statement {
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
-			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype()) 
-			  && ((ValueList_Template) template).getNofTemplates() == 1) {
+			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype())
+					&& ((ValueList_Template) template).getNofTemplates() == 1) {
 				//TODO: convert (x) to x to compilation!
 				break;
 			} else {
@@ -174,8 +174,8 @@ public final class Assignment_Statement extends Statement {
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
-			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype()) 
-			  && ((ValueList_Template) template).getNofTemplates() == 1) {
+			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype())
+					&& ((ValueList_Template) template).getNofTemplates() == 1) {
 				//TODO: convert (x) to x to compilation!
 				break;
 			} else {
@@ -183,7 +183,7 @@ public final class Assignment_Statement extends Statement {
 				template.setIsErroneous(true);
 				return;
 			}
-			//break 
+			//break
 		case A_VAR:
 			((Def_Var) assignment).setWritten();
 			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
@@ -195,8 +195,8 @@ public final class Assignment_Statement extends Statement {
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
 			} else if ( Template_type.VALUE_LIST.equals(template.getTemplatetype())
-				&& ((ValueList_Template) template).getNofTemplates() == 1) {
-					break;
+					&& ((ValueList_Template) template).getNofTemplates() == 1) {
+				break;
 			} else {
 				template.getLocation().reportSemanticError(TEMPLATEASSIGNMENTTOVALUE);
 				template.setIsErroneous(true);
@@ -393,7 +393,7 @@ public final class Assignment_Statement extends Statement {
 		}
 	}
 
-	private void checkTemplateAssignment(final CompilationTimeStamp timestamp, final Assignment assignment, 
+	private void checkTemplateAssignment(final CompilationTimeStamp timestamp, final Assignment assignment,
 			final Expected_Value_type expectedValue, final IReferenceChain referenceChain) {
 		IType type = getType(timestamp, assignment);
 
@@ -401,7 +401,7 @@ public final class Assignment_Statement extends Statement {
 			isErroneous = true;
 			return;
 		}
-		
+
 		type.check(timestamp); //temp
 
 		type = type.getFieldType(timestamp, reference, 1, expectedValue, false);
@@ -431,10 +431,10 @@ public final class Assignment_Statement extends Statement {
 
 	/**
 	 * Calculates the type of this assignment.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the type of the assignment if it has one, otherwise null
 	 * */
 	private IType getType(final CompilationTimeStamp timestamp, final Assignment assignment) {
@@ -544,18 +544,18 @@ public final class Assignment_Statement extends Statement {
 		default:
 			//TODO handle template
 		}
-		
-		
+
+
 		// TODO Assignment::generate_code
 		source.append( "\t\t" );
-		
+
 		ExpressionStruct expression = new ExpressionStruct();
 		reference.generateJava(aData, expression);
 		source.append(expression.preamble);
 		source.append(expression.expression);
-		
+
 		source.append( ".assign( " );
-		
+
 		expression = new ExpressionStruct();
 		template.generateJavaExpression( aData, expression);
 		source.append(expression.preamble);

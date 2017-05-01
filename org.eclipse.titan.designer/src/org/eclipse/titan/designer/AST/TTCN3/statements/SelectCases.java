@@ -26,10 +26,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * The SelectCases class is helper class for the SelectCase_Statement class.
  * Holds a list of the select cases that were parsed from the source code.
- * 
+ *
  * @see SelectCase_Statement {@link SelectCase_Statement}
  * @see SelectCase
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SelectCases extends ASTNode implements IIncrementallyUpdateable {
@@ -59,7 +59,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	 * Adds a select case branch.
 	 * <p>
 	 * The parameter can not be null, that case is handled in the parser.
-	 * 
+	 *
 	 * @param selectCase
 	 *                the select case to be added.
 	 * */
@@ -70,7 +70,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 
 	/**
 	 * Sets the scope of the contained select case branches.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to be set.
 	 * */
@@ -103,10 +103,10 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	/**
 	 * Checks whether the select cases have a return statement, either
 	 * directly or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the select cases.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
@@ -148,7 +148,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 
 	/**
 	 * Does the semantic checking of the select case list.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param governor

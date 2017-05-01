@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * This is a universal identifier class which can handle all
  * reserved keywords. It contains also the name mappings. It is
  * effective because of using reference counter.
- * 
+ *
  * @author Kristof Szabados
  */
 public class Identifier implements ILocateableNode, IVisitableNode {
@@ -767,16 +767,16 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 	public final int hashCode() {
 		return idData.getName().hashCode();
 	}
-	
+
 	public static boolean isValidInTtcn(final String id) {
 		return Pattern.matches("[A-Za-z][A-Za-z0-9_]*", id);
 	}
-	
+
 	// TODO: better check using context data (upper or lower or ...)
 	public static boolean isValidInAsn(final String id) {
 		return Pattern.matches("&?[A-Za-z]([\\-_]?[A-Za-z0-9]+)*", id);
 	}
-	
+
 	public static String getTtcnNameFromAsnName(final String asnName) {
 		String ttcnName = asnName;
 		if (ID_MAP_ASN.containsKey(asnName)) {
@@ -784,7 +784,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		}
 		return ttcnName.replace('-', '_');
 	}
-	
+
 	/**
 	 * Convert asn name to internal (unique) name
 	 * */
@@ -793,7 +793,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 			Identifier_Internal_Data data = ID_MAP_ASN.get(asnName);
 			return data.getName();
 		}
-		
+
 		String name = Identifier_Internal_Data.asnToName(asnName);
 		if(ID_MAP_NAME.containsKey(name)) {
 			Identifier_Internal_Data data = ID_MAP_NAME.get(name);

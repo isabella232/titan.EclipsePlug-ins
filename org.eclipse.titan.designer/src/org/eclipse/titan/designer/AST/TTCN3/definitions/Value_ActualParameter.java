@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an actual parameter that has a Value as its actual value.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Value_ActualParameter extends ActualParameter {
@@ -34,7 +34,7 @@ public final class Value_ActualParameter extends ActualParameter {
 	public IValue getValue() {
 		return value;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
@@ -80,7 +80,7 @@ public final class Value_ActualParameter extends ActualParameter {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final ExpressionStruct expression) {
@@ -105,11 +105,11 @@ public final class Value_ActualParameter extends ActualParameter {
 				expression.preamble.append("(");
 				expression.preamble.append(valueExpression.expression);
 				expression.preamble.append(")");
-				
+
 				expression.preamble.append(valueExpression.postamble);
 				expressionExpression.append(tempId);
 			}
-			
+
 			//TODO copy might be needed here
 			expression.expression.append(expressionExpression);
 		}

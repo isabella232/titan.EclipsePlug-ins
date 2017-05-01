@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template for the superset matching mechanism.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SupersetMatch_Template extends CompositeTemplate {

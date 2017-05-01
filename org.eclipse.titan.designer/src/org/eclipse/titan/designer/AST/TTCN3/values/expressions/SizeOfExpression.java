@@ -121,7 +121,7 @@ public final class SizeOfExpression extends Expression_Value {
 
 	/**
 	 * Helper function for checking the dimensions of time and port arrays.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param ref
@@ -166,14 +166,14 @@ public final class SizeOfExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
 	 *                the kind of value expected.
 	 * @param referenceChain
 	 *                a reference chain to detect cyclic references.
-	 * 
+	 *
 	 * @return the size of the expression, or -1 in case of error
 	 * */
 	private long checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
@@ -346,10 +346,10 @@ public final class SizeOfExpression extends Expression_Value {
 		case A_EXT_FUNCTION_RTEMP:
 			if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue)) {
 				templateInstance.getLocation()
-						.reportSemanticError(
-								MessageFormat.format(
-										"Reference to a value was expected instead of a call of {0}, which returns a template",
-										assignment.getDescription()));
+				.reportSemanticError(
+						MessageFormat.format(
+								"Reference to a value was expected instead of a call of {0}, which returns a template",
+								assignment.getDescription()));
 				setIsErroneous(true);
 				return -1;
 			}
@@ -360,9 +360,9 @@ public final class SizeOfExpression extends Expression_Value {
 		case A_PAR_TEMP_INOUT:
 			if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue)) {
 				templateInstance.getLocation()
-						.reportSemanticError(
-								MessageFormat.format(Type.REFTOVALUEEXPECTED,
-										assignment.getDescription()));
+				.reportSemanticError(
+						MessageFormat.format(Type.REFTOVALUEEXPECTED,
+								assignment.getDescription()));
 				setIsErroneous(true);
 				return -1;
 			}
@@ -375,7 +375,7 @@ public final class SizeOfExpression extends Expression_Value {
 
 	/**
 	 * Evaluates a checked value
-	 * 
+	 *
 	 * @param value
 	 *                The value to evaluate.
 	 * @return The folded value or -1 if the value is unfoldable.
@@ -434,7 +434,7 @@ public final class SizeOfExpression extends Expression_Value {
 
 	/**
 	 * Evaluates a checked template.
-	 * 
+	 *
 	 * @param template
 	 *                The template to evaluate
 	 * @param timestamp
@@ -449,8 +449,8 @@ public final class SizeOfExpression extends Expression_Value {
 				final LengthRestriction lengthRestriction = temp.getLengthRestriction();
 				if (lengthRestriction == null) {
 					templateInstance.getLocation()
-							.reportSemanticError(
-									"`sizeof' operation is not applicable for templates containing `*' without length restriction");
+					.reportSemanticError(
+							"`sizeof' operation is not applicable for templates containing `*' without length restriction");
 					setIsErroneous(true);
 					return -1;
 				}
@@ -459,8 +459,8 @@ public final class SizeOfExpression extends Expression_Value {
 					final IValue upper = ((RangeLenghtRestriction) lengthRestriction).getUpperValue(timestamp);
 					if (Value_type.REAL_VALUE.equals(upper.getValuetype()) && ((Real_Value) upper).isPositiveInfinity()) {
 						templateInstance.getLocation()
-								.reportSemanticError(
-										"`sizeof' operation is not applicable for templates containing `*' without upper boundary in the length restriction");
+						.reportSemanticError(
+								"`sizeof' operation is not applicable for templates containing `*' without upper boundary in the length restriction");
 						setIsErroneous(true);
 						return -1;
 					}

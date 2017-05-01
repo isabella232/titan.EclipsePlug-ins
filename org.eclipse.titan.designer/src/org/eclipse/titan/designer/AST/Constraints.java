@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents constraints.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Constraints extends ASTNode {
@@ -106,7 +106,7 @@ public final class Constraints extends ASTNode {
 			constraints.get(i).check(timestamp);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {

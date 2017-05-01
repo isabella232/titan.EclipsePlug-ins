@@ -34,7 +34,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The For_Statement class represents TTCN3 for statements.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class For_Statement extends Statement {

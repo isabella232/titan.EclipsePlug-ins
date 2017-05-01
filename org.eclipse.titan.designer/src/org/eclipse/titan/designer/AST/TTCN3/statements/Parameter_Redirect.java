@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents the parameter redirection of a getcall/getreply operation.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Parameter_Redirect extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -53,7 +53,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 * <p>
 	 * Does report errors, should only be called if there were errors found
 	 * before.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -62,7 +62,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	/**
 	 * Check whether the reference points to a variable of the provided
 	 * type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param reference
@@ -83,7 +83,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 			reference.getLocation().reportSemanticError(message);
 			return;
 		}
-		
+
 		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment != null) {
 			switch (assignment.getAssignmentType()) {
@@ -112,7 +112,7 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 * Does the semantic checking of the redirected parameter.
 	 * <p>
 	 * Does not report errors, that is done by check_erroneous.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param signature

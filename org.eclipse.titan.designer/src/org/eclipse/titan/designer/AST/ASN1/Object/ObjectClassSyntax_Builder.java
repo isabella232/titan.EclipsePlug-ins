@@ -26,7 +26,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokens;
 
 /**
  * OCS visitor to build the OCS. :) It's clear and simple, isn't it?
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -139,7 +139,7 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 		if (parameter.getIsBuilded()) {
 			return;
 		}
-		
+
 		final Asn1Parser parser = SyntaxLevelTokenStreamTracker.getASN1ParserForBlock(mBlock);
 		if (null == parser) {
 			return;
@@ -161,7 +161,7 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 		} else if (parameter.getIsOptional() && 0 == parameter.getNofNodes()) {
 			parameter.getLocation().reportSemanticError("Empty optional group is not allowed");
 		}
-		
+
 		parameter.setIsBuilded(true);
 		parameter.trimToSize();
 	}

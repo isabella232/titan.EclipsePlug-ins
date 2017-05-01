@@ -121,7 +121,7 @@ public final class IsValueExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -189,7 +189,7 @@ public final class IsValueExpression extends Expression_Value {
 	/**
 	 * Checks if the templateinstance parameter (which is a parameter of the
 	 * expression parameter) is actually a constant or static value or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expression
@@ -204,7 +204,7 @@ public final class IsValueExpression extends Expression_Value {
 	 *                the referencechain to detect circular references.
 	 * @param expectedValue
 	 *                the expected value of the template instance.
-	 * 
+	 *
 	 * */
 	public static void checkExpressionTemplateInstance(final CompilationTimeStamp timestamp, final Expression_Value expression,
 			final TemplateInstance instance, final IType type, final IReferenceChain referenceChain,

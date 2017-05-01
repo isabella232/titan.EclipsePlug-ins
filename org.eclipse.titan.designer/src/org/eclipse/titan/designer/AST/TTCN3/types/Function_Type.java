@@ -51,7 +51,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * function type (TTCN-3).
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Function_Type extends Type {
@@ -373,11 +373,11 @@ public final class Function_Type extends Type {
 			value.setIsErroneous(true);
 			return;
 		}
-		
+
 		// external functions do not have runs on clauses
 		if (assignment instanceof Def_Function) {
 			formalParList.checkCompatibility(timestamp, ((Def_Function) assignment).getFormalParameterList(), value.getLocation());
-			
+
 			final IType tempRunsOnType = ((Def_Function) assignment).getRunsOnType(timestamp);
 
 			if (tempRunsOnType != null) {
@@ -396,8 +396,8 @@ public final class Function_Type extends Type {
 						if (!tempRunsOnType.isCompatible(timestamp, componentType, null, null, null)) {
 							value.getLocation().reportSemanticError(MessageFormat.format(
 									"Runs on clause mismatch: type `{0}'' has a `runs on self'' clause and the current scope expects "
-									+ "component type `{1}'', but {2} runs on `{3}''",
-									getTypename(), componentType.getTypename(), assignment.getDescription(), tempRunsOnType.getTypename()));
+											+ "component type `{1}'', but {2} runs on `{3}''",
+											getTypename(), componentType.getTypename(), assignment.getDescription(), tempRunsOnType.getTypename()));
 						}
 					} else {
 						// does not have 'runs on' clause
@@ -408,8 +408,8 @@ public final class Function_Type extends Type {
 							if (!tempRunsOnType.isCompatible(timestamp, body.getMyType(), null, null, null)) {
 								value.getLocation().reportSemanticError(MessageFormat.format(
 										"Runs on clause mismatch: type `{0}'' has a `runs on self'' clause and the current component definition "
-										+ "is of type `{1}'', but {2} runs on `{3}''",
-										getTypename(), body.getMyType().getTypename(), assignment.getDescription(), tempRunsOnType.getTypename()));
+												+ "is of type `{1}'', but {2} runs on `{3}''",
+												getTypename(), body.getMyType().getTypename(), assignment.getDescription(), tempRunsOnType.getTypename()));
 							}
 						} else {
 							value.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' has a `runs on self'' "
@@ -448,18 +448,18 @@ public final class Function_Type extends Type {
 			if (!templateRestriction.equals(restriction)) {
 				value.getLocation().reportSemanticError(MessageFormat.format(
 						"Type `{0}'' expects a function or external function that returns a template with {1} restriction, "
-						+ "but {2} returns a template with {3} restriction",
-						getTypename(), Restriction_type.TR_NONE.equals(templateRestriction) ? "no" : templateRestriction.getDisplayName(),
-								assignment.getDescription(), Restriction_type.TR_NONE.equals(restriction) ? "no" : restriction.getDisplayName()));
+								+ "but {2} returns a template with {3} restriction",
+								getTypename(), Restriction_type.TR_NONE.equals(templateRestriction) ? "no" : templateRestriction.getDisplayName(),
+										assignment.getDescription(), Restriction_type.TR_NONE.equals(restriction) ? "no" : restriction.getDisplayName()));
 			}
 			if (returnType != null) {
 				final IType tempReturnType = assignment.getType(timestamp);
 				if (!returnType.isIdentical(timestamp, tempReturnType)) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Return type mismatch: type `{0}'' expects a function or external function that returns a {1} of type `{2}'', "
-							+ "but {3} returns a template of type `{3}''"
-							, getTypename(), returnsTemplate ? "template" : "value", returnType.getTypename(),
-									assignment.getDescription(), tempReturnType.getTypename()));
+									+ "but {3} returns a template of type `{3}''"
+									, getTypename(), returnsTemplate ? "template" : "value", returnType.getTypename(),
+											assignment.getDescription(), tempReturnType.getTypename()));
 				} else if (!returnsTemplate) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Type `{0}'' expects a function or external function that returns a value of type `{1}'', but {2} returns a template"
@@ -477,18 +477,18 @@ public final class Function_Type extends Type {
 			if (!templateRestriction.equals(restriction)) {
 				value.getLocation().reportSemanticError(MessageFormat.format(
 						"Type `{0}'' expects a function or external function that returns a template with {1} restriction, "
-						+ "but {2} returns a template with {3} restriction", getTypename(),
-						Restriction_type.TR_NONE.equals(templateRestriction) ? "no" : templateRestriction.getDisplayName(),
-								assignment.getDescription(), Restriction_type.TR_NONE.equals(restriction) ? "no" : restriction.getDisplayName()));
+								+ "but {2} returns a template with {3} restriction", getTypename(),
+								Restriction_type.TR_NONE.equals(templateRestriction) ? "no" : templateRestriction.getDisplayName(),
+										assignment.getDescription(), Restriction_type.TR_NONE.equals(restriction) ? "no" : restriction.getDisplayName()));
 			}
 			if (returnType != null) {
 				final IType tempReturnType = assignment.getType(timestamp);
 				if (!returnType.isIdentical(timestamp, tempReturnType)) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Return type mismatch: type `{0}'' expects a function or external function that returns a {1} of type `{2}'', "
-							+ "but {3} returns a template of type `{3}''"
-							, getTypename(), returnsTemplate ? "template" : "value", returnType.getTypename(),
-									assignment.getDescription(), tempReturnType.getTypename()));
+									+ "but {3} returns a template of type `{3}''"
+									, getTypename(), returnsTemplate ? "template" : "value", returnType.getTypename(),
+											assignment.getDescription(), tempReturnType.getTypename()));
 				} else if (!returnsTemplate) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Type `{0}'' expects a function or external function that returns a value of type `{1}'', but {2} returns a template"
@@ -508,9 +508,9 @@ public final class Function_Type extends Type {
 				if (!returnType.isIdentical(timestamp, tempReturnType)) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Return type mismatch: type `{0}'' expects a function or external function that returns a {1} of type `{2}'',"
-							+ " but {3} returns a value of type `{3}''"
-							, getTypename(), returnsTemplate ? "template" : "value", returnType.getTypename(),
-									assignment.getDescription(), tempReturnType.getTypename()));
+									+ " but {3} returns a value of type `{3}''"
+									, getTypename(), returnsTemplate ? "template" : "value", returnType.getTypename(),
+											assignment.getDescription(), tempReturnType.getTypename()));
 				} else if (returnsTemplate) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Type `{0}'' expects a function or external function that returns a template of type `{1}'', but {2} returns a value"

@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_ExternalConst class represents TTCN3 external constants.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_ExternalConst extends Definition {
@@ -104,15 +104,15 @@ public final class Def_ExternalConst extends Definition {
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
-		
+
 		lastTimeChecked = timestamp;
 		isUsed = false;
 
@@ -277,6 +277,6 @@ public final class Def_ExternalConst extends Definition {
 		// TODO Auto-generated method stub
 		super.generateJava(aData, cleanUp);
 	}
-	
-	
+
+
 }

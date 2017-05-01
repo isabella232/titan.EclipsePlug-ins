@@ -17,9 +17,9 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * The AltGuard class represents a TTCN3 altstep/alt/interleave branch.
- * 
+ *
  * @see AltGuards
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -75,17 +75,17 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 	/**
 	 * Checks whether the altguard has a return statement, either directly
 	 * or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the altguard.
 	 * */
 	public abstract StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp);
 
 	/**
 	 * Does the semantic checking of this branch.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

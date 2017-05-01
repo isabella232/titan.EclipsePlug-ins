@@ -39,7 +39,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents an invoke template. <br>
  * This kind of template is not parsed, but transformed from a single value
  * template
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Invoke_Template extends TTCN3Template {

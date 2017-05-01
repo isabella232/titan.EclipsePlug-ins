@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Class to report more detailed error messages on type
  * (in)compatibility.
- * 
+ *
  * @author Ferenc Kovacs
  */
 public final class TypeCompatibilityInfo {

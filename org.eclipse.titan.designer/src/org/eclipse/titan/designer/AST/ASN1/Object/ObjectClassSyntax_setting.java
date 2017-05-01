@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 
 /**
  * Class to represent a Setting in the OCS.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectClassSyntax_setting extends ObjectClassSyntax_Node {

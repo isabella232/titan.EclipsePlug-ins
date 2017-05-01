@@ -52,7 +52,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the templates of the TTCN-3 language.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class TTCN3Template extends GovernedSimple implements IReferenceChainElement, ITTCN3Template, IIncrementallyUpdateable {
@@ -97,7 +97,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * <p>
 	 * This function is used to help writing conversion function without
 	 * using a generic copy-constructor mechanism.
-	 * 
+	 *
 	 * @param original
 	 *                the original template, whose properties will be copied
 	 * */
@@ -119,7 +119,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Gets the governor type.
-	 * 
+	 *
 	 * @return the governor type.
 	 * */
 	@Override
@@ -130,7 +130,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Sets the governor type.
-	 * 
+	 *
 	 * @param governor
 	 *                the type to be set.
 	 * */
@@ -153,7 +153,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Creates and returns a string representation if the actual template.
-	 * 
+	 *
 	 * @return the string representation of the template.
 	 * */
 	@Override
@@ -163,10 +163,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * Creates template references from a template that is but a single
 	 * word. This can happen if it was not possible to categorize it while
 	 * parsing.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the reference that this lower identifier was converted to, or
 	 *         this template.
 	 * */
@@ -178,7 +178,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Sets the length restriction of the template.
-	 * 
+	 *
 	 * @param lengthRestriction
 	 *                the length restriction to set
 	 * */
@@ -208,7 +208,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Sets the base template.
-	 * 
+	 *
 	 * @param baseTemplate
 	 *                the template to set as the base template of this
 	 *                template.
@@ -221,13 +221,13 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks the condition for the completeness of template body which is a
 	 * 'record of' or 'set of' template.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param incompleteAllowed
 	 *                tells if incomplete list is allowed in the calling
 	 *                context or not.
-	 * 
+	 *
 	 * @return the type of completeness, that can be expected from this
 	 *         template in the actual context
 	 * */
@@ -280,7 +280,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks the condition for the completeness of template body which is a
 	 * 'record of' or 'set of' template.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param incompleteAllowed
@@ -288,7 +288,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                context or not.
 	 * @param fieldName
 	 *                the name of the field to check for.
-	 * 
+	 *
 	 * @return the type of completeness, that can be expected from this
 	 *         template in the actual context
 	 * */
@@ -330,10 +330,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Returns the template referred last in case of a referred template, or
 	 * itself in any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the actual or the last referred template
 	 * */
 	@Override
@@ -348,12 +348,12 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Returns the template referred last in case of a referred template, or
 	 * itself in any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
 	 *                the ReferenceChain used to detect circular references
-	 * 
+	 *
 	 * @return the actual or the last referred template
 	 * */
 	@Override
@@ -365,13 +365,13 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Creates a template of the provided type from the actual template if
 	 * it is possible.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param newType
 	 *                the new template_type the new template should belong
 	 *                to.
-	 * 
+	 *
 	 * @return the new template of the provided kind if the conversion is
 	 *         possible, or this template otherwise.
 	 * */
@@ -385,12 +385,12 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Calculates the return type of the template when used in an
 	 * expression.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param expectedValue
 	 *                the kind of the value to be expected.
-	 * 
+	 *
 	 * @return the Type_type of the template if it was used in an
 	 *         expression.
 	 * */
@@ -402,12 +402,12 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Calculates the governor of the template when used in an expression.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param expectedValue
 	 *                the kind of the value to be expected.
-	 * 
+	 *
 	 * @return the governor of the template if it was used in an expression.
 	 * */
 	@Override
@@ -422,7 +422,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Checks for circular references within embedded templates.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -436,7 +436,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * Checks whether the template (including embedded fields) contains no
 	 * matching symbols. Allow_omit is used because omit is allowed in only
 	 * in embedded fields.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param allowOmit
@@ -449,7 +449,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Helper function, for checking union typed templates whether field
 	 * access is allowed for a given template sub reference or not.
-	 * 
+	 *
 	 * @param fieldIdentifier
 	 *                the identifier of the field to search for.
 	 * @param reference
@@ -487,7 +487,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * Helper function, for checking set and sequence typed templates
 	 * whether field access is allowed for a given template sub reference or
 	 * not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param fieldIdentifier
@@ -527,7 +527,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Helper function, checks whether field access is allowed for a given
 	 * template sub reference or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param fieldIdentifier
@@ -651,7 +651,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks whether array indexing is allowed for a given template sub
 	 * reference or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param arrayIndex
@@ -670,9 +670,9 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		case SUPERSET_MATCH:
 		case SUBSET_MATCH:
 			arrayIndex.getLocation()
-					.reportSemanticError(
-							MessageFormat.format("Reference with index to an element of {0} `{1}''",
-									getTemplateTypeName(), getFullName()));
+			.reportSemanticError(
+					MessageFormat.format("Reference with index to an element of {0} `{1}''",
+							getTemplateTypeName(), getFullName()));
 			break;
 		default:
 			break;
@@ -774,10 +774,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 							indexValue, referenceChain);
 				}
 
-			return null;
-		}
+				return null;
+			}
 
-		return returnValue;
+			return returnValue;
 		} else {
 			return null;
 		}
@@ -786,7 +786,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Calculates the referenced sub template, and also checks the reference
 	 * itself.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param reference
@@ -835,10 +835,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Checks if the template is actually a value.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return true if the contents of the template can be handled as a
 	 *         value.
 	 * */
@@ -861,7 +861,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks that if there is a length restriction applied to this
 	 * template, it is semantically correct.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param type
@@ -914,7 +914,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Does the template specific part of checking the length restriction.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param typeType
@@ -929,7 +929,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks the generic properties of the template, and serves as starting
 	 * point for the more specific checks.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param type
@@ -951,16 +951,16 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/** {@inheritDoc} */
 	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
 			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
-		
-		if(type == null) { 
+
+		if(type == null) {
 			return;
 		}
-		
+
 		if (!getIsErroneous(timestamp)) {
-			
+
 			if( !(ITTCN3Template.Template_type.TEMPLATE_NOTUSED.equals(this.getTemplatetype())) ) {
-				  type.checkThisTemplate(timestamp, this, isModified, implicitOmit);
-			} 
+				type.checkThisTemplate(timestamp, this, isModified, implicitOmit);
+			}
 
 			if (getLengthRestriction() != null) {
 				checkLengthRestriction(timestamp, type);
@@ -977,7 +977,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks template restriction using common data members of this class,
 	 * every check_xxx_restriction() function must call this function.
-	 * 
+	 *
 	 * @param definitionName
 	 *                name for the error/warning message
 	 * @param templateRestriction
@@ -1015,7 +1015,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks if this template conforms to the restriction TR_OMIT or
 	 * TR_VALUE This is the default behavior, override for special cases.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param definitionName
@@ -1047,7 +1047,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Helper function for check_valueomit_restriction called by
 	 * Named_Template_List instances.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param definitionName
@@ -1058,7 +1058,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                the number of elements left to be checked.
 	 * @param usageLocation
 	 *                the location to be used for reporting errors
-	 * 
+	 *
 	 * @return true if a check at runtime is needed, false otherwise.
 	 */
 	@Override
@@ -1071,14 +1071,14 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Checks if this template conforms to the restriction TR_PRESENT. This
 	 * is the default behavior, override for special cases.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param definitionName
 	 *                name for the error/warning message
 	 * @param usageLocation
 	 *                the location to be used for reporting errors
-	 * 
+	 *
 	 * @return true if the template conforms to the restriction TR_PRESENT.
 	 */
 	@Override
@@ -1089,7 +1089,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 
 	/**
 	 * Handles the incremental parsing of this template.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -1162,7 +1162,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		expression.expression.append( getClass().getSimpleName() );
 		expression.expression.append( ".generateJava() is not implemented!\n" );
 	}
-	
+
 	/**
 	 * Returns whether the template can be represented by an in-line
 	 *  Java expression.
@@ -1178,7 +1178,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	/**
 	 * Returns the equivalent Java expression. It can be used only if
 	 *  \a has_single_expr() returns true.
-	 *  
+	 *
 	 *  @param aData the structure to put imports into and get temporal variable names from.
 	 *  @param castIsNeeded indicates whether the generic wildcards have to be explicitly
 	 *  converted to the appropriate type.
@@ -1190,7 +1190,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateSingleExpression() is not implemented!\n" );
-		
+
 		return source;
 	}
 

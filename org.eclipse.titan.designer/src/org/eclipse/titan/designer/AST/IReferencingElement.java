@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.declarationsearch.Declaration;
 /**
  * This interface represents an element which can be referenced from other parts of the source code.
  * TODO rename to something like reference -able
- * 
+ *
  * @author Szabolcs Beres
  */
 public interface IReferencingElement {

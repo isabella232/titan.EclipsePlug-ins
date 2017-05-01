@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 /**
  * Represents a provider port type attribute. This has to be used on the port
  * type with external interface in a dual-faced port setup.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ProviderPortTypeAttribute extends PortTypeAttribute {

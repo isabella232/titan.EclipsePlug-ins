@@ -221,7 +221,7 @@ public final class Port_Type extends Type {
 			reparser.updateLocation(withAttributesPath.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -230,7 +230,7 @@ public final class Port_Type extends Type {
 			body.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

@@ -104,13 +104,13 @@ public final class NamingConventionHelper {
 
 	/**
 	 * Tries to find out the pattern string to use.
-	 * 
+	 *
 	 * @param preference
 	 *                the preference key of the naming convention used for
 	 *                the check.
 	 * @param location
 	 *                the location to start searching from.
-	 * 
+	 *
 	 * @return the found pattern string or null if it can not be determined.
 	 * */
 	private static String getPatternText(final String preference, final Location location) {
@@ -163,7 +163,7 @@ public final class NamingConventionHelper {
 	/**
 	 * Report an error naming the location where the naming convention
 	 * regular expressions are coming from.
-	 * 
+	 *
 	 * @param location
 	 *                the location to start out searching from.
 	 * */
@@ -217,7 +217,7 @@ public final class NamingConventionHelper {
 
 	/**
 	 * Checks whether an identifier is breaking a naming convention rule.
-	 * 
+	 *
 	 * @param preference
 	 *                the preference key of the naming convention used for
 	 *                the check.
@@ -246,7 +246,7 @@ public final class NamingConventionHelper {
 
 	/**
 	 * Checks whether an identifier is breaking a naming convention rule.
-	 * 
+	 *
 	 * @param preference
 	 *                the preference key of the naming convention used for
 	 *                the check.
@@ -277,7 +277,7 @@ public final class NamingConventionHelper {
 
 	/**
 	 * Checks whether an identifier is breaking a naming convention rule.
-	 * 
+	 *
 	 * @param preference
 	 *                the preference key of the naming convention used for
 	 *                the check.
@@ -314,7 +314,7 @@ public final class NamingConventionHelper {
 	/**
 	 * Checks whether an identifier contains either the moduleID or a
 	 * visibility attribute.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier check.
 	 * @param moduleID

@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents the parameter redirection of a getcall/getreply operation.
  * <p>
  * Provided with assignment list notation.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect {
@@ -78,7 +78,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 				final Location otherLocation = parameterMap.get(name).getLocation();
 				otherLocation.reportSemanticWarning(MessageFormat.format(
 						"A variable entry for parameter `{0}'' is already given here", assignment.getIdentifier()
-								.getDisplayName()));
+						.getDisplayName()));
 			} else {
 				parameterMap.put(name, assignment);
 			}
@@ -113,7 +113,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 				final Location otherLocation = parameterMap.get(name).getLocation();
 				otherLocation.reportSemanticWarning(MessageFormat.format(
 						"A variable entry for parameter `{0}'' is already given here", assignment.getIdentifier()
-								.getDisplayName()));
+						.getDisplayName()));
 				errorFlag = true;
 			} else {
 				parameterMap.put(name, assignment);
@@ -125,7 +125,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 					if (SignatureFormalParameter.PARAM_IN == parameterTemplate.getDirection()) {
 						final String message = MessageFormat.format(
 								"Parameter `{0}'' of signature `{1}'' has `in'' direction", assignment
-										.getIdentifier().getDisplayName(), signature.getTypename());
+								.getIdentifier().getDisplayName(), signature.getTypename());
 						assignment.getLocation().reportSemanticError(message);
 						errorFlag = true;
 					}
@@ -133,7 +133,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 					if (SignatureFormalParameter.PARAM_OUT == parameterTemplate.getDirection()) {
 						final String message = MessageFormat.format(
 								"Parameter `{0}'' of signature `{1}'' has `out'' direction", assignment
-										.getIdentifier().getDisplayName(), signature.getTypename());
+								.getIdentifier().getDisplayName(), signature.getTypename());
 						assignment.getLocation().reportSemanticError(message);
 						errorFlag = true;
 					}

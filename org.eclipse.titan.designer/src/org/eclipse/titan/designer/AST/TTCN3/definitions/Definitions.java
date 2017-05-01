@@ -51,7 +51,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparse_M
 /**
  * The Definitions class represents the scope of module level definitions inside
  * Modules.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  * @author Jeno Attila Balasko
@@ -135,7 +135,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public Definition getAssignmentByIndex(final int i) {
 		return definitions.get(i);
 	}
-	
+
 	public CompilationTimeStamp getLastCompilationTimeStamp(){
 		return lastCompilationTimeStamp;
 	}
@@ -188,7 +188,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * Adds a definition to the list of definitions.
 	 * <p>
 	 * The scope of the newly added definition is set to this scope here.
-	 * 
+	 *
 	 * @param definition
 	 *                the definition to be added
 	 * */
@@ -206,7 +206,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * <p>
 	 * The scope of the newly added definitions is set to this scope scope
 	 * here.
-	 * 
+	 *
 	 * @param definitionList
 	 *                the definitions to be added
 	 * */
@@ -223,7 +223,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * Adds a group to the list of groups.
 	 * <p>
 	 * The scope of the newly added group is set to this scope here.
-	 * 
+	 *
 	 * @param group
 	 *                the group to be added
 	 */
@@ -238,11 +238,11 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	/**
 	 * Checks the uniqueness of the definitions, and also builds a hashmap
 	 * of them to speed up further searches.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
-	//checkUniquiness has been splitted into to parts because 
+	//checkUniquiness has been splitted into to parts because
 	//the check should be done at the beginning of the check but the reporting shall be done finally
 	protected void checkUniqueness(final CompilationTimeStamp timestamp) {
 		if (lastUniquenessCheckTimeStamp != null && !lastUniquenessCheckTimeStamp.isLess(timestamp)) {
@@ -258,11 +258,11 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			return;
 		}
 		lastUniquenessCheckTimeStamp = timestamp;
-		
+
 		if (doubleDefinitions != null) {
 			doubleDefinitions.clear();
 		}
-		
+
 		//(rebuild) definitionMap and doubleDefinitions from the updated field "definitions"
 		definitionMap = new HashMap<String, Definition>(definitions.size());
 		String definitionName;
@@ -310,7 +310,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	/**
 	 * Checks the uniqueness of the groups, and after that the groups
 	 * themselves..
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -346,13 +346,13 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			if (defs.containsKey(groupName)) {
 				group.getIdentifier().getLocation().reportSemanticError(MessageFormat.format(Group.GROUPCLASHGROUP, groupName));
 				defs.get(groupName).getIdentifier().getLocation()
-						.reportSingularSemanticError(MessageFormat.format(Group.GROUPCLASHDEFINITION, groupName));
+				.reportSingularSemanticError(MessageFormat.format(Group.GROUPCLASHDEFINITION, groupName));
 			}
 			if (groupMap.containsKey(groupName)) {
 				groupMap.get(groupName).getIdentifier().getLocation()
-						.reportSingularSemanticError(MessageFormat.format(Group.DUPLICATEGROUPFIRST, groupName));
+				.reportSingularSemanticError(MessageFormat.format(Group.DUPLICATEGROUPFIRST, groupName));
 				group.getIdentifier().getLocation()
-						.reportSemanticError(MessageFormat.format(Group.DUPLICATEGROUPREPEATED, groupName));
+				.reportSemanticError(MessageFormat.format(Group.DUPLICATEGROUPREPEATED, groupName));
 			} else {
 				groupMap.put(groupName, group);
 			}
@@ -372,25 +372,25 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		if (lastCompilationTimeStamp != null && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
 		}
-		
+
 		lastCompilationTimeStamp = timestamp;
-		
+
 		final Module module = getModuleScope();
 		if (module != null) {
 			if (module.getSkippedFromSemanticChecking()) {
 				return;
 			}
 		}
-		
+
 		//markers on imports cannot be removed, they are already refreshed
-		
+
 		//These offsets will be used to remove last comments within Definitions
 		int maxEndOffset = getLocation().getOffset();
 		int lastEndOffset = 0;
-		
+
 		for(Definition definition : definitions){
 			if (definition.getLastTimeChecked() == null || definition.getLastTimeChecked().isLess(timestamp) ){
-				MarkerHandler.markAllSemanticMarkersForRemoval(definition.getCommentLocation()); 
+				MarkerHandler.markAllSemanticMarkersForRemoval(definition.getCommentLocation());
 				MarkerHandler.markAllSemanticMarkersForRemoval(definition); //doubleDefinition report will be deleted!
 			}
 			lastEndOffset = definition.getLocation().getEndOffset();
@@ -409,16 +409,16 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			final Location loc = new Location(getLocation().getFile(), 0, maxEndOffset, defsEndOffset);
 			MarkerHandler.markAllSemanticMarkersForRemoval(loc);
 		}
-				
+
 		checkUniqueness(timestamp);
 		checkGroups(timestamp);
 		for( Definition definition: definitions){
 			definition.check(timestamp); //it calls definition.checkUniqueness!
 		}
-		
+
 		reportDoubleDefinitions(); //perhaps checkUniqueness() was executed earlier and their markers have been removed
 	}
-	
+
 	/**
 	 * Experimental method for BrokenPartsViaInvertedImports.
 	 * The only difference to check() that not all assignments will be rechecked, just the listed in "assignments"
@@ -432,27 +432,27 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			check(timestamp);
 			return;
 		}
-		
+
 		lastCompilationTimeStamp = timestamp;
-		
+
 		//markers on imports cannot be removed, the are already fresh
-		
+
 		for(Assignment assignment : assignments){
 			if(assignment.getLastTimeChecked() == null || assignment.getLastTimeChecked().isLess(timestamp)){
 				MarkerHandler.markAllSemanticMarkersForRemoval(assignment);
 			}
 		}
-		
+
 		int maxEndOffset = getLocation().getOffset();
 		int lastEndOffset = 0;
-		
+
 		for(Definition definition : definitions){
 			lastEndOffset = definition.getLocation().getEndOffset();
-			if (lastEndOffset > maxEndOffset) { 
+			if (lastEndOffset > maxEndOffset) {
 				maxEndOffset = lastEndOffset;
 			}
 		}
-		
+
 		for(Group group: groups){
 			group.markMarkersForRemoval(timestamp);
 		}
@@ -463,7 +463,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			final Location loc = new Location(getLocation().getFile(), 0, maxEndOffset, defsEndOffset);
 			MarkerHandler.markAllSemanticMarkersForRemoval(loc);
 		}
-		
+
 		checkUniqueness(timestamp);
 		checkGroups(timestamp);
 		for (Iterator<Assignment> iterator = assignments.iterator(); iterator.hasNext();) {
@@ -471,11 +471,11 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			assignmentFrom.check(timestamp);
 			LoadBalancingUtilities.astNodeChecked();
 		}
-		
+
 		reportDoubleDefinitions();//perhaps checkUniqueness() was executed earlier and their markers have been removed
 
 	}
-	
+
 
 	@Override
 	public void postCheck() {
@@ -496,7 +496,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
@@ -508,7 +508,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		if (identifier == null) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
-				
+
 		if (lastUniquenessCheckTimeStamp == null) {
 			createDefinitionMap(timestamp);
 		} //uniqueness shall be reported only after checking all the definitions
@@ -517,18 +517,18 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		if (result != null) {
 			return result;
 		}
-		
+
 		return getParentScope().getAssBySRef(timestamp, reference);
 	}
-	
+
 	/**
 	 * Searches the definitions for one with a given Identifier.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param id
 	 *                the identifier used to find the definition
-	 * 
+	 *
 	 * @return the definition if found, or null otherwise
 	 * */
 	@Override
@@ -595,7 +595,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 	/**
 	 * Handles the incremental parsing of this list of definitions.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param importedModules
@@ -746,7 +746,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				final Location tempCommentLocation = temp.getCommentLocation();
 				if (tempCommentLocation != null && reparser.isDamaged(tempCommentLocation)) {
 					nofDamaged++;
-					rightBoundary = tempLocation.getEndOffset(); 
+					rightBoundary = tempLocation.getEndOffset();
 				}
 			}
 		}
@@ -791,7 +791,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				lastUniquenessCheckTimeStamp = null;
 				lastCompilationTimeStamp = null;
 			}
-			
+
 			//extend damaged region till the neighbor definitions just here to avoid calculating something damaged or extended:
 			//Perhaps it should be moved even farther:
 			reparser.extendDamagedRegion(leftBoundary, rightBoundary);
@@ -1019,7 +1019,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				parser.setModule((TTCN3Module) parentScope);
 				final Pr_reparse_ModuleDefinitionsListContext root =
 						parser.pr_reparse_ModuleDefinitionsList( null, allDefinitions, localDefinitions, localGroups, allImports,
-																 localImports, allFriends, localFriends, controlParts );
+								localImports, allFriends, localFriends, controlParts );
 				ParserUtilities.logParseTree( root, parser );
 
 				if ( parser.isErrorListEmpty() ) {
@@ -1050,7 +1050,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 	/**
 	 * Destroy every element trapped inside the damage radius.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param importedModules
@@ -1169,7 +1169,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			definition.setGenName(prefix + definition.getIdentifier().getName());
 		}
 	}
-	
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData the generated java code with other info

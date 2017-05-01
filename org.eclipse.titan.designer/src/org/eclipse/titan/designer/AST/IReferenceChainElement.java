@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST;
 
 /**
  * This interface represents an element, that can be used, as a link of a reference chain, to detect circular references.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface IReferenceChainElement {

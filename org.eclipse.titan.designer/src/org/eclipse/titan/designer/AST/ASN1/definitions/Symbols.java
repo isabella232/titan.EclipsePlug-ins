@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * SymbolList. Used only while parsing a module (and building the AST).
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Symbols implements IVisitableNode {
@@ -51,7 +51,7 @@ public final class Symbols implements IVisitableNode {
 	/**
 	 * Returns the identifier of the symbol at the specified position in
 	 * this list.
-	 * 
+	 *
 	 * @param index
 	 *                index of the symbol to return
 	 * @return the identifier of the symbol at the specified position in
@@ -64,7 +64,7 @@ public final class Symbols implements IVisitableNode {
 	/**
 	 * Returns <tt>true</tt> if this list contains a symbol with the given
 	 * name.
-	 * 
+	 *
 	 * @param name
 	 *                The name of the symbol whose presence is to be tested
 	 * @return <tt>true</tt> if this list contains a symbol with the
@@ -81,7 +81,7 @@ public final class Symbols implements IVisitableNode {
 	/**
 	 * Checks the uniqueness of the symbols, and also builds a hashmap of
 	 * them to speed up further searches.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

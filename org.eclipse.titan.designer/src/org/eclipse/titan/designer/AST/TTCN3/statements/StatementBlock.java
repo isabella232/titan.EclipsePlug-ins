@@ -64,7 +64,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The StatementBlock class represents TTCN3 statement block (the scope unit).
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -221,7 +221,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	/**
 	 * Sets the definition in which this statement block resides.
-	 * 
+	 *
 	 * @param definition
 	 *                the definition to be set.
 	 * */
@@ -237,7 +237,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * <p>
 	 * The scope to be set will become the parent scope of scope of this
 	 * statementblock.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to be set.
 	 * */
@@ -276,7 +276,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * Statements of null value are not added to keep the semantic checks at
 	 * a relatively low complexity (such statements are syntactically
 	 * erroneous)
-	 * 
+	 *
 	 * @param statement
 	 *                the statement to be added.
 	 * */
@@ -297,7 +297,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	/**
 	 * Adds a list of new statements into the actual list of statement in an
 	 * ordered fashion.
-	 * 
+	 *
 	 * @param statements
 	 *                the new list of statements to be merged with the
 	 *                original.
@@ -378,7 +378,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	/**
 	 * Sets the statementblock in which this statement was found.
-	 * 
+	 *
 	 * @param statementBlock
 	 *                the statementblock containing this statement.
 	 * @param index
@@ -409,10 +409,10 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	/**
 	 * Checks whether the statementblock has a return statement, either
 	 * directly or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the statement block.
 	 * */
 	public ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
@@ -469,10 +469,10 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	/**
 	 * Registers a definition (for example new variable) into the list of
 	 * definitions available in this statement block.
-	 * 
+	 *
 	 * Please note, that this is done while the semantic check is happening,
 	 * as it must not be allowed to reach definitions not yet defined.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param definition
@@ -526,7 +526,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	/**
 	 * Does the semantic checking of the statement block.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -599,7 +599,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	/**
 	 * Pre-check the labels for duplicates and also sets them unused.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the actual semantic check cycle
 	 * */
@@ -628,7 +628,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 
 	/**
 	 * Post-checks the label for ones that were not used.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the actual semantic check cycle
 	 * */
@@ -657,10 +657,10 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	/**
 	 * Checks if this statement block or any of its parents has a label
 	 * declared with a name.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier of the label to search for
-	 * 
+	 *
 	 * @return true if a label with the given name exists, false otherwise
 	 * */
 	protected boolean hasLabel(final Identifier identifier) {
@@ -676,10 +676,10 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	/**
 	 * Checks if this statement block or any of its parents has a label
 	 * declared with a name.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier of the label to search for
-	 * 
+	 *
 	 * @return the {@link Label_Statement} having the provided name, or null
 	 *         if none was found.
 	 * */
@@ -747,7 +747,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
@@ -941,7 +941,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			}
 		}
 	}
-	
+
 	private int reparse( final TTCN3ReparseUpdater aReparser ) {
 		return aReparser.parse(new ITTCN3ReparseBase() {
 			@Override

@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.GeneralConstants;
  * <p>
  * This class is mainly used to: locate language elements, build structures based on their textual positions.
  * This class is also used to report some kind of warning or error to a given location.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -51,7 +51,7 @@ public class Location {
 	/**
 	 * Position after the last character of the location. -1 if undefined.
 	 * In other words: the start position of the last character + 1, because a character is 1 character long, so
-	 * end position of a character == start position of a character + 1 
+	 * end position of a character == start position of a character + 1
 	 * <p>
 	 * For example:
 	 * <pre>
@@ -106,7 +106,7 @@ public class Location {
 	 */
 	public Location( final IResource aFile, final Token aStartToken, final Token aEndToken ) {
 		setLocation( aFile, aStartToken.getLine(), aStartToken.getStartIndex(),
-					 aEndToken.getStopIndex() + 1 );
+				aEndToken.getStopIndex() + 1 );
 	}
 
 	/**
@@ -168,10 +168,10 @@ public class Location {
 		if (this == object) {
 			return true;
 		}
-		
+
 		if(object instanceof Location) {
 			final Location other = (Location) object;
-			
+
 			// this order of checking is more likely to fail fast
 			return line == other.line && offset == other.offset && endOffset == other.endOffset && file.equals(other.file);
 		}
@@ -274,7 +274,7 @@ public class Location {
 		}
 	}
 
-	
+
 	/**
 	 * Reports a syntactic error in semantic check's time to this location containing the supplied reason of error.
 	 * This is for extension attribute and ASN.1 parser
@@ -293,7 +293,7 @@ public class Location {
 		reportProblem(reason, IMarker.SEVERITY_WARNING, GeneralConstants.ONTHEFLY_MIXED_MARKER);
 	}
 
-	
+
 	/**
 	 * Checks if a marker with the same reason exist on the same location.
 	 *
@@ -340,7 +340,7 @@ public class Location {
 	protected void reportProblem(final String reason, final int severity, final String markerID) {
 		reportProblem(reason, severity, IMarker.PRIORITY_HIGH, markerID);
 	}
-	
+
 	protected void reportProblem(final String reason, final int severity, final int priority, final String markerID) {
 		final Map<String, Object> markerProperties = new HashMap<String, Object>();
 

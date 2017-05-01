@@ -51,7 +51,7 @@ public final class Undefined_Block_Value extends Value {
 	private Value realValue;
 
 	private Block mBlock;
-	
+
 	public Undefined_Block_Value(final Block aBlock) {
 		this.mBlock = aBlock;
 	}
@@ -321,7 +321,7 @@ public final class Undefined_Block_Value extends Value {
 		final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 		if (null != errors && !errors.isEmpty()) {
 			isErroneous = true;
-		
+
 			for (int i = 0; i < errors.size(); i++) {
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) mBlock.getLocation().getFile(), errors.get(i),
 						IMarker.SEVERITY_ERROR);
@@ -373,7 +373,7 @@ public final class Undefined_Block_Value extends Value {
 		final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 		if (null != errors && !errors.isEmpty()) {
 			isErroneous = true;
-		
+
 			for (int i = 0; i < errors.size(); i++) {
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) mBlock.getLocation().getFile(), errors.get(i),
 						IMarker.SEVERITY_ERROR);
@@ -432,7 +432,7 @@ public final class Undefined_Block_Value extends Value {
 
 		return value;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
@@ -471,7 +471,7 @@ public final class Undefined_Block_Value extends Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Location getLocation() {

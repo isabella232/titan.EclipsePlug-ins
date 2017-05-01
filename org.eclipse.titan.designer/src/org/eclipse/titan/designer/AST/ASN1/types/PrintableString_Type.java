@@ -198,7 +198,7 @@ public final class PrintableString_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
-		
+
 		if(needsAlias()) {
 			source.append( "\tpublic static class " );
 			source.append( getGenNameOwn() );

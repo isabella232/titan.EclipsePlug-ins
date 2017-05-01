@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeReferenceList;
 
 /**
- * 
+ *
  * @author Peter Olah
  */
 public final class AssignmentHandlerComponent extends ReferencesProcessor {
@@ -59,12 +59,12 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 	@Override
 	public Set<String> getNonContagiousReferences() {
 		final Set<String> result = super.getNonContagiousReferences();
-		
+
 		for (final Map.Entry<Definition, Set<String>> entry : componentDefinitions.entrySet()) {
 			final Set<String> references = entry.getValue();
 			result.addAll(references);
 		}
-		
+
 		return result;
 	}
 
@@ -87,7 +87,7 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 			addReason("It uses " + otherName + "@" + other.getAssignment().getMyScope().getModuleScope().getIdentifier().getDisplayName() + " which is infected.");
 			return;
 		}
-		
+
 		final Set<String> infectedFields = computeInfectedFields(otherName);
 		if (!infectedFields.isEmpty()) {
 			addContagiousReferences(infectedFields);
@@ -96,7 +96,7 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 			addReason("It uses " + otherName + "@" + other.getAssignment().getMyScope().getModuleScope().getIdentifier().getDisplayName() + " which is infected.");
 		}
 	}
-//TODO ez lehetne boolean ?
+	//TODO ez lehetne boolean ?
 	private Set<String> computeInfectedFields(final String definitionName) {
 		final Set<String> result = new HashSet<String>();
 		for (Map.Entry<Definition, Set<String>> entry : componentDefinitions.entrySet()) {

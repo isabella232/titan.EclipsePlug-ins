@@ -26,13 +26,13 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the actual parameters from the parser in "raw form".
- * 
+ *
  * Contains both positional and named parameters. There is not enough
  * information during parsing to construct a "full" ActualParameters object
  * (information about formal parameters is needed). This object holds the
  * available information until the ActualParameters object can be constructed
  * during semantic analysis.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ParsedActualParameters extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -123,7 +123,7 @@ public final class ParsedActualParameters extends ASTNode implements ILocateable
 	/**
 	 * Handles the incremental parsing of this list of parsed actual
 	 * parameters.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

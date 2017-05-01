@@ -41,11 +41,11 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	// when the definition based search for parts to be analyzed exceeds this limit we switch back to the import based method.
 	// 1 second in nanoseconds
 	private final static long TIMELIMIT = 10 * (long)1e+9;
-	
+
 	/**
 	 *  When the percentage of broken modules is bigger than this limit
 	 *   the module level selection shall be used.
-	 * 
+	 *
 	 * Otherwise the assignment level detection would take too long.
 	 */
 	private final static float BROKEN_MODULE_LIMIT = 10;
@@ -53,7 +53,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	private final CompilationTimeStamp timestamp;
 	private final Map<Module, List<Assignment>> moduleAndBrokenAssignments;
 	private boolean analyzeOnlyAssignments;
-	
+
 	public BrokenPartsViaReferences(final SelectionAlgorithm selectionAlgorithm, final CompilationTimeStamp timestamp) {
 		super(selectionAlgorithm);
 		moduleAndBrokenAssignments = new HashMap<Module, List<Assignment>>();
@@ -87,7 +87,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 			final IPreferencesService preferenceService = Platform.getPreferencesService();
 			final boolean useIncrementalParsing = preferenceService.getBoolean(
 					ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.USEINCREMENTALPARSING, false, null); 
+					PreferenceConstants.USEINCREMENTALPARSING, false, null);
 			final Map<Module, List<AssignmentHandler>> result = collectBrokenParts(startModules, invertedImports,useIncrementalParsing);
 			if (writeDebugInfo && !isTooSlow()) {
 				writeDebugInfo(result);
@@ -117,25 +117,25 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	}
 
 	/**
-	 * Sets the flag "analyzeOnlyAssignments" to true, if the size of the broken modules is not too high 
-	 * 
+	 * Sets the flag "analyzeOnlyAssignments" to true, if the size of the broken modules is not too high
+	 *
 	 * @param allModules
 	 * @param startModules - the broken modules
 	 */
 	public void computeAnalyzeOnlyDefinitionsFlag(final List<Module> allModules, final List<Module> startModules) {
 		final float brokenModulesRatio = (float) ((startModules.size() * 100.0) / allModules.size());
-		if (Float.compare(brokenModulesRatio, (float) BROKEN_MODULE_LIMIT) < 0) {
+		if (Float.compare(brokenModulesRatio, BROKEN_MODULE_LIMIT) < 0) {
 			analyzeOnlyAssignments = true;
 		}
 		analyzeOnlyAssignments = false;
 	}
-	
+
 	/**
 	 * Adds modules from allModules to a list  which
 	 * - have null CompilationTimestamp or
 	 * - canbeCheckRoot or
 	 * - have not been checked semantically
-	 * 
+	 *
 	 * @param allModules
 	 * @param startModules
 	 */
@@ -153,12 +153,12 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 
 	/**
 	 * It is build an inverted import structure and identify startmodules whose CompilationTimeStamp is null.
-	 * 
+	 *
 	 * @param allModules
 	 *            the list of modules to be check. Initially all modules.
 	 * @param startModules
 	 *            the list of modules to be check. Initially all modules, but the function will remove those that can be skipped.
-	 * 
+	 *
 	 * @return invertedImports contains the next:<br>
 	 *         - key: a module.<br>
 	 *         - values: in these modules the key module is used, so all values imported this module, it is an inverted "imported" connection.<br>
@@ -199,7 +199,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	}
 
 	protected List<Module> collectBrokenModulesViaInvertedImports(final List<Module> startModules, final Map<Module, List<Module>> invertedImports) {
-		
+
 		final List<Module> startModulesCopy = new ArrayList<Module>(startModules);
 
 		final List<Module> result = new ArrayList<Module>();
@@ -238,7 +238,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	}
 
 	protected Map<Module, List<AssignmentHandler>> collectBrokenParts(
-			final List<Module> startModules, 
+			final List<Module> startModules,
 			final Map<Module, List<Module>> invertedImports,
 			final boolean useIncrementalParsing) {
 
@@ -262,14 +262,14 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 			if (startAssignments.isEmpty()) {
 				continue;
 			}
-			
+
 			final List<Module> whereStartModuleUsed = invertedImports.get(startModule);
-			
+
 			// Incremental parsing: If lastCompilationTimestamp of definitions of startModule is null (=name changed)
 			// then all imported module shall be fully analyzed
-			// If not incremental parsing is used, also all importing modules shall be fully reanalyze			
-			if (!useIncrementalParsing || 
-					(startModule instanceof TTCN3Module &&  
+			// If not incremental parsing is used, also all importing modules shall be fully reanalyze
+			if (!useIncrementalParsing ||
+					(startModule instanceof TTCN3Module &&
 							((TTCN3Module) startModule).getDefinitions().getLastCompilationTimeStamp() == null)) {
 				for (int j = 0; j < whereStartModuleUsed.size(); ++j) {
 					final Module dependentModule = whereStartModuleUsed.get(j);
@@ -419,7 +419,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 			startModule.notCheckRoot();
 		}
 	}
-	
+
 	public List<AssignmentHandler> getAssignmentsFrom(final Module module) {
 		final List<AssignmentHandler> assignmentHandlers = new ArrayList<AssignmentHandler>();
 		final Assignments assignments = module.getAssignments();
@@ -447,17 +447,17 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 		if (brokens.isEmpty() || notBrokens.isEmpty()) {
 			return;
 		}
-		
+
 		final HashMap<String, AssignmentHandler> brokenMap = new HashMap<String, AssignmentHandler>(brokens.size() + notBrokens.size());
 		for(AssignmentHandler handler: brokens) {
 			brokenMap.put(handler.getAssignment().getIdentifier().getDisplayName(), handler);
 		}
-		
+
 		boolean proceed = true;
 		while (proceed) {
 			proceed = false;
-			
-			
+
+
 			for (int i = notBrokens.size() -1; i >=0; --i) {
 				final AssignmentHandler notBroken = notBrokens.get(i);
 				boolean found = false;
@@ -477,7 +477,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 						}
 					}
 				}
-				
+
 				if(found) {
 					proceed = true;
 					notBrokens.remove(i);
@@ -487,12 +487,12 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 			}
 		}
 	}
-	
+
 	// Returns true, if the time spent is over a time limit
 	// It is used to check if this kind of algorithm is too slow
 	// For debugging purposes you can set it for "false"
 	private boolean isTooSlow(){
-		return ((System.nanoTime()-start) > TIMELIMIT);	
+		return ((System.nanoTime()-start) > TIMELIMIT);
 	}
 
 	protected void writeDebugInfo(final Map<Module, List<AssignmentHandler>> moduleAndAssignments) {
@@ -534,9 +534,9 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 					public int compare(final Module o1, final Module o2) {
 						return o1.getName().compareTo(o2.getName());
 					}
-					
+
 				});
-				
+
 				for (Module module : modules) {
 					final String moduleName = module.getName();
 					TITANDebugConsole.println("    subgraph cluster_" + moduleName + " {");

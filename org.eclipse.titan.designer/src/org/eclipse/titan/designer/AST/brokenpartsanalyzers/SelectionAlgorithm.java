@@ -11,20 +11,20 @@ import org.eclipse.titan.designer.preferences.PreferenceConstantValues;
 
 /**
  * This is a helper class to map string of selection algorithm to enum value.
- * 
+ *
  * @author Peter Olah
  */
 public enum SelectionAlgorithm {
-	
+
 	MODULESELECTIONORIGINAL(PreferenceConstantValues.MODULESELECTIONORIGINAL),
 	BROKENREFERENCESINVERTED(PreferenceConstantValues.BROKENPARTSVIAREFERENCES);
-	
+
 	private String readableName;
-	
+
 	private SelectionAlgorithm(final String name) {
 		readableName = name;
 	}
-	
+
 	public static SelectionAlgorithm fromString(final String name) {
 		if (name != null) {
 			for (SelectionAlgorithm s : SelectionAlgorithm.values()) {
@@ -35,7 +35,7 @@ public enum SelectionAlgorithm {
 		}
 		return null;
 	}
-	
+
 	public static SelectionAlgorithm getDefaultValue() {
 		return SelectionAlgorithm.MODULESELECTIONORIGINAL;
 	}

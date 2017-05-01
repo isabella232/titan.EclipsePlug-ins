@@ -24,7 +24,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * ExtensionAndException.
  * <p>
  * originally ExtAndExc in TITAN
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ExtensionAndException extends ASTNode {
@@ -44,7 +44,7 @@ public final class ExtensionAndException extends ASTNode {
 	public ExceptionSpecification getExceptionSpecification(){
 		return exceptionSpecification;
 	}
-	
+
 	public void setExceptionSpecification(final ExceptionSpecification exceptionSpecification) {
 		this.exceptionSpecification = exceptionSpecification;
 

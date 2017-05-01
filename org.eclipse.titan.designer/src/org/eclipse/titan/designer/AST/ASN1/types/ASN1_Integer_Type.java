@@ -70,7 +70,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 	private final Block mBlock;
 	private NamedValues namedNumbers;
-	
+
 	private static enum BOUNDARY_TYPE {
 		LOWER, UPPER
 	}
@@ -86,7 +86,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 	public IASN1Type newInstance() {
 		return new ASN1_Integer_Type(mBlock);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Type_type getTypetype() {
@@ -281,7 +281,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		}
 
 		// already handled ones
-		switch (value.getValuetype()) {		
+		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
 			return;
@@ -331,7 +331,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 		value.setLastTimeChecked(timestamp);
 	}
-	
+
 	//this method accepts REAL_VALUE
 	public void checkThisValueLimit(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		super.checkThisValue(timestamp, value, valueCheckingOptions);
@@ -342,7 +342,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		}
 
 		// already handled ones
-		switch (value.getValuetype()) {		
+		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
 			return;
@@ -454,7 +454,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 				return null;
 			}
 		}
-		
+
 		switch (temp.getValuetype()) {
 		case INTEGER_VALUE:
 			break;
@@ -516,7 +516,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 						IMarker.SEVERITY_ERROR);
 			}
 		}
-		
+
 		if (namedNumbers != null) {
 			namedNumbers.setFullNameParent(this);
 			namedNumbers.setMyScope(getMyScope());

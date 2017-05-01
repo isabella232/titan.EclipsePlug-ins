@@ -484,15 +484,15 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					// check if all source types are present on the `in' list of the provider
 					for (int i = 0, size = inMappings.getNofMappings(); i < size; i++) {
 						final Type sourceType = inMappings.getMappingByIndex(i).getSourceType();
-//						if(sourceType == null) {
-//							inMappings.getMappingByIndex(i).getLocation().reportSemanticError(MessageFormat.format(
-//							"Source type of the `in'' mapping is unknown"
-//							 + " on the list of incoming messages in provider port type `{0}''", providerType.getTypename() ));
-//							continue;
-//						}
+						//						if(sourceType == null) {
+						//							inMappings.getMappingByIndex(i).getLocation().reportSemanticError(MessageFormat.format(
+						//							"Source type of the `in'' mapping is unknown"
+						//							 + " on the list of incoming messages in provider port type `{0}''", providerType.getTypename() ));
+						//							continue;
+						//						}
 						if (sourceType != null && !providerBody.inMessages.hasType(timestamp, sourceType)) {
 							sourceType.getLocation().reportSemanticError(MessageFormat.format(
-											"Source type `{0}'' of the `in'' mapping is not present "
+									"Source type `{0}'' of the `in'' mapping is not present "
 											+ "on the list of incoming messages in provider port type `{1}''",
 											sourceType.getTypename(), providerType.getTypename()));
 						}
@@ -569,8 +569,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						if (targetType != null && (providerBody.outMessages == null || !providerBody.outMessages.hasType(timestamp, targetType))) {
 							targetType.getLocation().reportSemanticError(MessageFormat.format(
 									"Target type `{0}'' of the `out'' mapping is not present "
-									+ "on the list of outgoing messages in provider port type `{1}''",
-									targetType.getTypename(), providerType.getTypename()));
+											+ "on the list of outgoing messages in provider port type `{1}''",
+											targetType.getTypename(), providerType.getTypename()));
 						}
 					}
 				}
@@ -595,8 +595,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						if (!lastSignature.isNonblocking() || lastSignature.getSignatureExceptions() != null) {
 							signatureType.getLocation().reportSemanticError(MessageFormat.format(
 									"Incoming signature `{0}'' of user port type `{1}'' is not present on the list "
-									+ "of incoming signatures in provider port type `{2}''",
-									signatureType.getTypename(), myType.getTypename(), providerType.getTypename()));
+											+ "of incoming signatures in provider port type `{2}''",
+											signatureType.getTypename(), myType.getTypename(), providerType.getTypename()));
 						}
 					}
 				}
@@ -608,8 +608,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				if (inSignatures == null || !inSignatures.hasType(timestamp, signatureType)) {
 					location.reportSemanticError(MessageFormat.format(
 							"Incoming signature `{0}'' of provider port type `{1}'' "
-							+ "is not present on the list of incoming signatures in user port type `{2}''",
-							signatureType.getTypename(), providerType.getTypename(), myType.getTypename()));
+									+ "is not present on the list of incoming signatures in user port type `{2}''",
+									signatureType.getTypename(), providerType.getTypename(), myType.getTypename()));
 				}
 			}
 		}
@@ -619,8 +619,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				if (providerBody.outSignatures == null || !providerBody.outSignatures.hasType(timestamp, signatureType)) {
 					signatureType.getLocation().reportSemanticError(MessageFormat.format(
 							"Outgoing signature `{0}'' of user port type `{1}'' is not present "
-							+ "on the list of outgoing signatures in provider port type `{2}''",
-							signatureType.getTypename(), myType.getTypename(), providerType.getTypename()));
+									+ "on the list of outgoing signatures in provider port type `{2}''",
+									signatureType.getTypename(), myType.getTypename(), providerType.getTypename()));
 				}
 			}
 		}
@@ -634,8 +634,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						if (!lastSignature.isNonblocking() || lastSignature.getSignatureExceptions() != null) {
 							location.reportSemanticError(MessageFormat.format(
 									"Outgoing signature `{0}'' of provider port type `{1}'' is not present "
-									+ "on the list of outgoing signatures in user port type `{2}''",
-									signatureType.getTypename(), providerType.getTypename(), myType.getTypename()));
+											+ "on the list of outgoing signatures in user port type `{2}''",
+											signatureType.getTypename(), providerType.getTypename(), myType.getTypename()));
 						}
 					}
 				}

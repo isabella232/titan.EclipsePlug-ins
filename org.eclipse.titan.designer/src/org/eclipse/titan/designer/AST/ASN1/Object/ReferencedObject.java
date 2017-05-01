@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Class to represent a ReferencedObject. It is a DefinedObject or
  * ObjectFromObject.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ReferencedObject extends ASN1Object implements IReferenceChainElement {
@@ -85,7 +85,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	public ASN1Object getRefd(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
-		
+
 		if (referenceChain.add(this)) {
 			if (objectReferenced != null && lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 				return objectReferenced;

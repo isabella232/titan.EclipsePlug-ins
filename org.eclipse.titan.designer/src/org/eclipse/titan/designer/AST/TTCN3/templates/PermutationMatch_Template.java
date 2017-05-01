@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template for permutation matching.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class PermutationMatch_Template extends CompositeTemplate {

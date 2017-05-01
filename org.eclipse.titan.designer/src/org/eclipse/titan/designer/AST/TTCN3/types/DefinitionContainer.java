@@ -77,7 +77,7 @@ public class DefinitionContainer implements Iterable<Definition> {
 
 	public void checkUniqueness() {
 		definitionMap.clear();
-		
+
 		for(Definition definition: definitions) {
 			final String definitionName = definition.getIdentifier().getName();
 			if (definitionMap.containsKey(definitionName)) {

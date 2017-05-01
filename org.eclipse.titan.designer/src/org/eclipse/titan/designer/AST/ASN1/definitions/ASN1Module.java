@@ -40,7 +40,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * Class to represent ASN-modules.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ASN1Module extends Module {
@@ -86,7 +86,7 @@ public final class ASN1Module extends Module {
 
 	/**
 	 * Sets the export list of the module.
-	 * 
+	 *
 	 * @param exports
 	 *                the exports to be set.
 	 * */
@@ -98,7 +98,7 @@ public final class ASN1Module extends Module {
 
 	/**
 	 * Sets the import list of the module.
-	 * 
+	 *
 	 * @param imports
 	 *                the imports to be set.
 	 * */
@@ -111,7 +111,7 @@ public final class ASN1Module extends Module {
 
 	/**
 	 * Sets the assignment list of the module.
-	 * 
+	 *
 	 * @param assignments
 	 *                the assignments to be set.
 	 * */
@@ -248,7 +248,7 @@ public final class ASN1Module extends Module {
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
@@ -424,7 +424,7 @@ public final class ASN1Module extends Module {
 		//TODO handle imports
 		//TODO handle coding attributes
 		//TODO module setup/teardown infrastructure
-		
+
 		final StringBuilder sb = aData.getSrc();
 		sb.append("// ASN.1 module are NOT supported by the Java code Generator!\n");
 		sb.append( "class " + name + " {\n" );

@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represent a general set of types.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TypeSet extends ASTNode {

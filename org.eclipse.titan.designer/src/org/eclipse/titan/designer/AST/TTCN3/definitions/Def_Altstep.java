@@ -43,7 +43,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_Altstep class represents TTCN3 altstep definitions.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Def_Altstep extends Definition implements IParameterisedAssignment {
@@ -194,7 +194,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -235,7 +235,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 				}
 			}
 		}
-		
+
 		if(!canSkip) {
 			formalParList.reset();
 		}
@@ -244,7 +244,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		if(canSkip) {
 			return;
 		}
-		
+
 
 		NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_ALTSTEP, identifier, this);
 		NamingConventionHelper.checkNameContents(identifier, getMyScope().getModuleScope().getIdentifier(), getDescription());
@@ -561,6 +561,6 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		// TODO Auto-generated method stub
 		super.generateJava(aData, cleanUp);
 	}
-	
-	
+
+
 }

@@ -38,7 +38,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokens;
  * <p>
  * Should be implementing Defined Reference, but there seems to be no reason for
  * that.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -58,7 +58,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 	private ASN1Assignments assignments;
 	private Defined_Reference finalReference;
 
-	private CompilationTimeStamp lastCheckTimeStamp;	
+	private CompilationTimeStamp lastCheckTimeStamp;
 
 	private NameReStarter newAssignmentNameStart;
 
@@ -191,7 +191,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 		}
 
 		addAssignments( assPard, compilationTimeStamp );
-		
+
 		// Add the assignments made from the formal and actual
 		// parameters to the actual module
 		assignments.setRightScope(myScope);
@@ -222,14 +222,14 @@ public final class Parameterised_Reference extends Defined_Reference {
 		finalReference.setMyScope(module);
 		return finalReference;
 	}
-	
+
 	/**
 	 * Fill the assignments according to the formal parameters
 	 * @param aAssPard (in) formal parameters for the conversion
 	 * @param aCompilationTimeStamp compilation timestamp
 	 */
 	private void addAssignments(final Ass_pard aAssPard, final CompilationTimeStamp aCompilationTimeStamp) {
-		final List<FormalParameter_Helper> formalParameters = ((Ass_pard)aAssPard).getFormalParameters(aCompilationTimeStamp);
+		final List<FormalParameter_Helper> formalParameters = aAssPard.getFormalParameters(aCompilationTimeStamp);
 
 		final int nofFormalParameters = formalParameters.size();
 		if (null != mBlock) {
@@ -260,7 +260,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 			if (nofActualParameters != nofFormalParameters) {
 				location.reportSemanticError(MessageFormat.format(DIFFERENTPARAMETERNUMBERS,
 						(nofActualParameters < nofFormalParameters) ? "few" : "many", nofFormalParameters,
-						nofActualParameters));
+								nofActualParameters));
 			}
 
 			assignments = new ASN1Assignments();

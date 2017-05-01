@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent a FieldSpec of an ObjectClass.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class FieldSpecification extends ASTNode implements ILocateableNode {
@@ -92,7 +92,7 @@ public abstract class FieldSpecification extends ASTNode implements ILocateableN
 
 	/**
 	 * Does the semantic checking of the type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * */
@@ -110,7 +110,7 @@ public abstract class FieldSpecification extends ASTNode implements ILocateableN
 	 * <p>
 	 * Extending class only need to implement their
 	 * {@link #getProposalKind()} function
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param i
@@ -121,7 +121,7 @@ public abstract class FieldSpecification extends ASTNode implements ILocateableN
 
 	/**
 	 * Adds the field to the list declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param i

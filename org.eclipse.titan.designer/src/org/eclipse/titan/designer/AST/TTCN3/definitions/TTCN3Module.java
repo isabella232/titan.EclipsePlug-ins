@@ -79,7 +79,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Represents a Module.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  * @author Jeno Attila Balasko
@@ -119,7 +119,7 @@ public final class TTCN3Module extends Module {
 
 		importedModules = new CopyOnWriteArrayList<ImportModule>();
 		friendModules = new CopyOnWriteArrayList<FriendModule>();
-		
+
 		definitions = new Definitions();
 		definitions.setParentScope(this);
 		definitions.setFullNameParent(this);
@@ -164,7 +164,7 @@ public final class TTCN3Module extends Module {
 
 	/**
 	 * Sets the location of this definition list.
-	 * 
+	 *
 	 * @param location
 	 *                the location to set.
 	 * */
@@ -174,7 +174,7 @@ public final class TTCN3Module extends Module {
 
 	/**
 	 * Sets the module's version information
-	 * 
+	 *
 	 * @param versionNumber
 	 *                the version number.
 	 */
@@ -193,7 +193,7 @@ public final class TTCN3Module extends Module {
 
 	/**
 	 * Sets the location of the comment that belongs to this definition.
-	 * 
+	 *
 	 * @param commentLocation
 	 *                the location of the comment
 	 * */
@@ -246,7 +246,7 @@ public final class TTCN3Module extends Module {
 	public Assignments getAssignments() {
 		return definitions;
 	}
-	
+
 	public Definitions getDefinitions(){
 		return definitions;
 	}
@@ -258,10 +258,10 @@ public final class TTCN3Module extends Module {
 
 	/**
 	 * Checks if there is an address type defined in the module.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
-	 * 
+	 *
 	 * @return a pointer to the TTCN-3 special address type that is defined
 	 *         in the TTCN-3 module. null is returned if the address type is
 	 *         not defined in this module.
@@ -298,7 +298,7 @@ public final class TTCN3Module extends Module {
 
 	/**
 	 * Adds the control part to this module.
-	 * 
+	 *
 	 * @param controlpart
 	 *                the controlpart to be added.
 	 * */
@@ -333,15 +333,15 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	public void checkImports(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain, final List<Module> moduleStack) {
-		
+
 		if (lastImportCheckTimeStamp != null && !lastImportCheckTimeStamp.isLess(timestamp)) {
 			return;
 		}
-			
+
 		for (ImportModule impmod : importedModules) {
 			impmod.setUsedForImportation(false);
 		}
-		
+
 		for (ImportModule impmod : importedModules) {
 			referenceChain.markState();
 			impmod.checkImports(timestamp, referenceChain, moduleStack);//This checks only existence, not "used or not used"
@@ -380,7 +380,7 @@ public final class TTCN3Module extends Module {
 	/**
 	 * Collects the module importations into a list. The list shall always
 	 * exist even if being empty.
-	 * 
+	 *
 	 * @return the list of modules imported.
 	 * */
 	public List<ImportModule> getImports() {
@@ -457,7 +457,7 @@ public final class TTCN3Module extends Module {
 			controlpart.check(timestamp);
 		}
 	}
-	
+
 	/**
 	 * Experimental method for BrokenPartsViaInvertedImports.
 	 */
@@ -465,7 +465,7 @@ public final class TTCN3Module extends Module {
 		if (lastCompilationTimeStamp != null && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
 		}
-        
+
 		T3Doc.check(this.getCommentLocation(), MODULE);
 
 		lastCompilationTimeStamp = timestamp;
@@ -495,9 +495,9 @@ public final class TTCN3Module extends Module {
 
 		//anytypeDefinition.check(timestamp);
 		//definitions.check(timestamp);
-		
+
 		definitions.checkWithDefinitions(timestamp, assignments);
-		
+
 		if (controlpart != null) {
 			controlpart.check(timestamp);
 		}
@@ -520,7 +520,7 @@ public final class TTCN3Module extends Module {
 
 	/**
 	 * Convert and check the version, requires and titan version extension attributes.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * */
@@ -693,7 +693,7 @@ public final class TTCN3Module extends Module {
 	/**
 	 * Checks whether the module importation in this module is visible in
 	 * the provided module or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param moduleId
@@ -701,7 +701,7 @@ public final class TTCN3Module extends Module {
 	 *                visibility of the assignment is checked.
 	 * @param impmod
 	 *                the module importation to check.
-	 * 
+	 *
 	 * @return true if it is visible, false otherwise.
 	 * */
 	public boolean isVisible(final CompilationTimeStamp timestamp, final Identifier moduleId, final ImportModule impmod) {
@@ -756,7 +756,7 @@ public final class TTCN3Module extends Module {
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
@@ -788,7 +788,7 @@ public final class TTCN3Module extends Module {
 							new ArrayList<ModuleImportation>());
 					if (tempResult != null
 							&& !tempResult.getMyScope().getModuleScope()
-									.isVisible(timestamp, this.getIdentifier(), tempResult)) {
+							.isVisible(timestamp, this.getIdentifier(), tempResult)) {
 						tempResult = null;
 					}
 					if (tempResult != null) {
@@ -810,7 +810,7 @@ public final class TTCN3Module extends Module {
 			}
 
 			referenceLocation
-					.reportSemanticError(MessageFormat.format(MISSINGREFERENCE, id.getDisplayName(), identifier.getDisplayName()));
+			.reportSemanticError(MessageFormat.format(MISSINGREFERENCE, id.getDisplayName(), identifier.getDisplayName()));
 
 			missingReferences.add(reference);
 		} else if (moduleId.getName().equals(name)) {
@@ -850,7 +850,7 @@ public final class TTCN3Module extends Module {
 			referenceLocation.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 							PreferenceConstants.REPORTMISSINGIMPORTEDMODULE, GeneralConstants.WARNING, null),
-					MessageFormat.format(ImportModule.MISSINGMODULE, moduleId.getDisplayName()));
+							MessageFormat.format(ImportModule.MISSINGMODULE, moduleId.getDisplayName()));
 			missingReferences.add(reference);
 		}
 		return temporalAssignment;
@@ -859,7 +859,7 @@ public final class TTCN3Module extends Module {
 	/**
 	 * Collects those references whose referred assignment could not be
 	 * found.
-	 * 
+	 *
 	 * @return the list of missing references.
 	 * */
 	public List<Reference> getMissingReferences() {
@@ -944,7 +944,7 @@ public final class TTCN3Module extends Module {
 	/**
 	 * Sets the with attributes for this module if it has any. Also creates
 	 * the with attribute path, to store the attributes in.
-	 * 
+	 *
 	 * @param attributes
 	 *                the attribute to be added.
 	 * */
@@ -1028,10 +1028,10 @@ public final class TTCN3Module extends Module {
 			}
 		});
 	}
-	
+
 	/**
 	 * Handles the incremental parsing of this definition.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param sourceParser
@@ -1240,13 +1240,13 @@ public final class TTCN3Module extends Module {
 		//TODO handle imports
 		//TODO handle coding attributes
 		//TODO module setup/teardown infrastructure
-		
+
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "class " + name + " {\n" );
 		if ( definitions != null ) {
 			definitions.generateJava( aData );
 		}
-		
+
 		//TODO handle anytype
 		//if (anytypeDefinition != null) {
 		//	anytypeDefinition.generateJava(aData);

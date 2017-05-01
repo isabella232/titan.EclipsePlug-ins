@@ -32,7 +32,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents a testcase reference value.
  * <p>
  * Can not be parsed.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Testcase_Reference_Value extends Value {

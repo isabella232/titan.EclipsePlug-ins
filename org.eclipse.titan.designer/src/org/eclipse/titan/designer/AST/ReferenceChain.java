@@ -23,7 +23,7 @@ import org.eclipse.titan.common.utils.Joiner;
  * This class is able to mark a state, and later on return back to this state.
  * @see #markState()
  * @see #previousState()
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ReferenceChain implements IReferenceChain {
@@ -171,7 +171,7 @@ public final class ReferenceChain implements IReferenceChain {
 		}
 
 		for (int i = markedStates.isEmpty() ? 0 : markedStates.peek();
-				i < chainLinks.size(); ++i) {
+		i < chainLinks.size(); ++i) {
 			result.add(chainLinks.get(i));
 		}
 

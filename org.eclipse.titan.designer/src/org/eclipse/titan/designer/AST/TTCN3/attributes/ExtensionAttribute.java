@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Represents a generic extension attribute. All real attributes are sub-classed
  * from this.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */

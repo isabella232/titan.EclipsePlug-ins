@@ -23,7 +23,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the system component.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SystemComponentExpression extends Expression_Value {
@@ -72,7 +72,7 @@ public final class SystemComponentExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param referenceChain

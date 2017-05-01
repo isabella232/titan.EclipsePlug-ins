@@ -36,7 +36,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * A member of an enumeration.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class EnumItem extends ASTNode implements ILocateableNode, IIncrementallyUpdateable, IReferencingElement {
@@ -51,7 +51,7 @@ public final class EnumItem extends ASTNode implements ILocateableNode, IIncreme
 	 * it is used to report errors to.
 	 **/
 	private Location location;
-	
+
 	private Location commentLocation = null;
 
 	public EnumItem(final Identifier identifier, final Value value) {
@@ -117,7 +117,7 @@ public final class EnumItem extends ASTNode implements ILocateableNode, IIncreme
 	public boolean isOriginal() {
 		return originalValue;
 	}
-	
+
 	/**
 	 * @return the value of this enumeration item
 	 * */
@@ -187,7 +187,7 @@ public final class EnumItem extends ASTNode implements ILocateableNode, IIncreme
 			reparser.updateLocation(value.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -217,7 +217,7 @@ public final class EnumItem extends ASTNode implements ILocateableNode, IIncreme
 		final Module module = getMyScope().getModuleScope();
 		final Assignment assignment = module.getEnclosingAssignment(getLocation().getOffset());
 		final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
-		
+
 		if(type instanceof ITypeWithComponents) {
 			final Identifier id = ((ITypeWithComponents) type).getComponentIdentifierByName(getId());
 			return Declaration.createInstance(assignment, id);

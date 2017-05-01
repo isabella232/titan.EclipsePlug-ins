@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.BlockLevelTokenStreamTracke
 
 /**
  * ObjectSet definition.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -61,7 +61,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 		mBlock = null;
 		this.objects = objects;
 	}
-	
+
 	//Two objectSet_definition is equivalent if their content is the same, i.e
 	//- the same reference or
 	//- location, objects, objectSetElements are the same
@@ -75,18 +75,18 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 		if (this.getObjectSetElements().size() != other.getObjectSetElements().size()) { return false; }
 		int n = this.getNofObjects();
 		for(int i=0;i<n;i++) {
-			if (this.getObjectByIndex(i) != other.getObjectByIndex(i)) { 
+			if (this.getObjectByIndex(i) != other.getObjectByIndex(i)) {
 				return false;
 			}
 		}
-		
+
 		n=this.getObjectSetElements().size();
 		for(int i=0;i<n;i++) {
 			if ( this.getObjectSetElements().get(i) != other.getObjectSetElements().get(i) ) {
 				return false;
 			}
 		}
-		return true; 
+		return true;
 		//TODO: why do two ObjectSet_definitions exist with the same content? Perhaps this is a programming error?
 	}
 
@@ -115,7 +115,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	public final void setObjectSetElements(final List<IObjectSet_Element> objectSetElements) {
 		this.objectSetElements = objectSetElements;
 	}
-	
+
 	@Override
 	public final String chainedDescription() {
 		return getFullName();
@@ -275,7 +275,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 
 		setMyScope(getMyScope());
 	}
-	
+
 	protected final void createObjects(final boolean force) {
 		if (null != objects && !force) {
 			return;

@@ -52,7 +52,7 @@ import org.eclipse.titan.designer.parsers.extensionattributeparser.ExtensionAttr
 
 /**
  * anytype type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Anytype_Type extends Type {
@@ -270,7 +270,7 @@ public final class Anytype_Type extends Type {
 
 	/**
 	 * Convert and check the anytype attributes applied to the module of this type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * */
@@ -394,7 +394,7 @@ public final class Anytype_Type extends Type {
 			value.getLocation().reportSemanticError(MessageFormat.format(ANYTYPEEXPECTED, getFullName()));
 			value.setIsErroneous(true);
 		}
-		
+
 		value.setLastTimeChecked(timestamp);
 	}
 

@@ -18,20 +18,20 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
- * 
+ *
  * This interface is the common abstraction of TemplateBody and AllElementsFrom used by ListOfTemplates
  * It replaces the TTCN3Template in Templates
  *
- * Represents the BNF element "TemplateListItem" 
+ * Represents the BNF element "TemplateListItem"
  * Ref: ttcn3 standard "ETSI ES 201 873-1 V4.6.1 (2014-06)"
  * A.1.6.1.3 Template definitions/126.
  * @author Jeno Balasko
  *
  */
 public interface ITemplateListItem extends ITTCN3Template {
-	
+
 	public void setTemplate(TTCN3Template t);
-	
+
 	public TTCN3Template getTemplate();
 
 	public boolean accept(final ASTVisitor v);

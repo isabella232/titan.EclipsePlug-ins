@@ -41,7 +41,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_Testcase class represents TTCN3 testcase definitions.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -224,7 +224,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -232,11 +232,11 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			return;
 		}
 		lastTimeChecked = timestamp;
-		
+
 		isUsed = false;
 		runsOnType = null;
 		systemType = null;
-		
+
 
 		T3Doc.check(this.getCommentLocation(), KIND);
 
@@ -272,7 +272,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 				}
 			}
 		}
-		
+
 		if(!canSkip) {
 			formalParList.reset();
 		}
@@ -574,7 +574,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("} catch (TtcnError error) {\n");
 		source.append("System.out.println(error);\n");
 		source.append("}\n");
-		source.append( "\t}\n" );	
+		source.append( "\t}\n" );
 		sb.append(source);
 	}
 }

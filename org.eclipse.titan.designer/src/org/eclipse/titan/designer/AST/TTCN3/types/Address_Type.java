@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * address type (TTCN-3).
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Address_Type extends Type implements IReferencingType {
@@ -260,7 +260,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("address");
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -269,7 +269,7 @@ public final class Address_Type extends Type implements IReferencingType {
 			address.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

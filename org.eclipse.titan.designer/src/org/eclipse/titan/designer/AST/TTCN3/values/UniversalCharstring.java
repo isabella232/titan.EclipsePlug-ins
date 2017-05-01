@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
  * Internal representation of a universal charstring.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -24,10 +24,10 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 
 	/** true, if TTCN-3 string contains error */
 	private boolean mErrorneous = false;
-	
+
 	/** the error message (if any) */
 	private String mErrorMessage;
-	
+
 	public UniversalCharstring() {
 		value = new ArrayList<UniversalChar>();
 	}
@@ -63,14 +63,14 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	public boolean isErrorneous() {
 		return mErrorneous;
 	}
-	
+
 	/**
 	 * @return the error message (if any)
 	 */
 	public String getErrorMessage() {
 		return mErrorMessage;
 	}
-	
+
 	public UniversalCharstring(final UniversalCharstring other) {
 		value = new ArrayList<UniversalChar>(other.value.size());
 		for (int i = 0; i < other.value.size(); i++) {
@@ -112,7 +112,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 				builder.append((char) tempChar.cell());
 			} else {
 				builder.append("char(").append(tempChar.group()).append(',').append(tempChar.plane()).append(',')
-					.append(tempChar.row()).append(',').append(tempChar.cell()).append(')');
+				.append(tempChar.row()).append(',').append(tempChar.cell()).append(')');
 			}
 		}
 
@@ -262,8 +262,8 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	 * Returns the hashcode for the Universal character string.
 	 * Useful in case it is stored in a hashmap.
 	 *
-     * @return  a hash code value for this universal character  string.
-     */
+	 * @return  a hash code value for this universal character  string.
+	 */
 	@Override
 	public int hashCode() {
 		int h = 0;
@@ -294,9 +294,9 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 
 	/**
 	 * Returns the Java expression to be used in the generated code.
-	 * 
+	 *
 	 * get_single_expr in the compiler
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {

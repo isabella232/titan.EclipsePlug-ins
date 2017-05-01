@@ -40,7 +40,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The Call_Statement class represents a TTCN3 port call operation statement.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Call_Statement extends Statement {
@@ -313,7 +313,7 @@ public final class Call_Statement extends Statement {
 
 	/**
 	 * Checks the response and exception handling part of a call operation.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle.
 	 * @param portType

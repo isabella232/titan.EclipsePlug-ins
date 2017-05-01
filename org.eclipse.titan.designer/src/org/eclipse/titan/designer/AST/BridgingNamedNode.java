@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference;
 /**
  * A node to work as a bridge between two naming nodes.
  * This is useful when we don't wish to store the child locally (and so it can not be compared)
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class BridgingNamedNode implements INamedNode {

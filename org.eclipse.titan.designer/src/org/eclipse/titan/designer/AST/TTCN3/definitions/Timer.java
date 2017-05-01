@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.graphics.ImageCache;
  * <p>
  * Timers in TTCN3 just look like types, but they are not ones. This was just
  * created to ease working with timers.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Timer {
@@ -49,7 +49,7 @@ public final class Timer {
 	 * <li>running
 	 * <li>timeout
 	 * </ul>
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param i

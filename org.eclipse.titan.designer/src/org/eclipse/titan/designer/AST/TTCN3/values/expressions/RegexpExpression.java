@@ -44,7 +44,7 @@ public final class RegexpExpression extends Expression_Value {
 	private final TemplateInstance templateInstance1;
 	private final TemplateInstance templateInstance2;
 	private final Value value3;
-	
+
 	/**
 	 * true,  if regexp is case insensitive
 	 * false, if regexp is case   sensitive
@@ -52,9 +52,9 @@ public final class RegexpExpression extends Expression_Value {
 	private final boolean noCase;
 
 	public RegexpExpression( final TemplateInstance templateInstance1,
-							 final TemplateInstance templateInstance2,
-							 final Value value3,
-							 final boolean noCase ) {
+			final TemplateInstance templateInstance2,
+			final Value value3,
+			final boolean noCase ) {
 		this.templateInstance1 = templateInstance1;
 		this.templateInstance2 = templateInstance2;
 		this.value3 = value3;
@@ -158,7 +158,7 @@ public final class RegexpExpression extends Expression_Value {
 		/*
 		 * if(value1 == null || value2 == null || value3 == null ||
 		 * get_is_erroneous(timestamp)){ return true; }
-		 * 
+		 *
 		 * return value1.is_unfoldable(timestamp, referenceChain) ||
 		 * value2.is_unfoldable(timestamp, referenceChain) ||
 		 * value3.is_unfoldable(timestamp, referenceChain);
@@ -184,7 +184,7 @@ public final class RegexpExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue

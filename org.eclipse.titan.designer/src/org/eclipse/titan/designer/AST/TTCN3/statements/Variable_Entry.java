@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represent a variable or a not used sign in port redirect "scope".
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Variable_Entry extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {

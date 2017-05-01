@@ -23,13 +23,13 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Represents a list of error behavior settings in the codec API of the run-time
  * environment.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ErrorBehaviorList extends ASTNode implements ILocateableNode {
 	private static final String[] VALID_TYPES = { "UNBOUND", "INCOMPL_ANY", "ENC_ENUM", "INCOMPL_MSG", "LEN_FORM", "INVAL_MSG", "REPR",
-			"CONSTRAINT", "TAG", "SUPERFL", "EXTENSION", "DEC_ENUM", "DEC_DUPFLD", "DEC_MISSFLD", "DEC_OPENTYPE", "DEC_UCSTR", "LEN_ERR",
-			"SIGN_ERR", "INCOMP_ORDER", "TOKEN_ERR", "LOG_MATCHING", "FLOAT_TR", "FLOAT_NAN", "OMITTED_TAG" };
+		"CONSTRAINT", "TAG", "SUPERFL", "EXTENSION", "DEC_ENUM", "DEC_DUPFLD", "DEC_MISSFLD", "DEC_OPENTYPE", "DEC_UCSTR", "LEN_ERR",
+		"SIGN_ERR", "INCOMP_ORDER", "TOKEN_ERR", "LOG_MATCHING", "FLOAT_TR", "FLOAT_NAN", "OMITTED_TAG" };
 	private static final String[] VALID_HANDLINGS = { "DEFAULT", "ERROR", "WARNING", "IGNORE" };
 
 	// TODO could be optimized using real-life data
@@ -110,7 +110,7 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode 
 
 	/**
 	 * Does the semantic checking of the error behavior list..
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

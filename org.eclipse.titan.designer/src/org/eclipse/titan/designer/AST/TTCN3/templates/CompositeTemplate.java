@@ -48,7 +48,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	/**
 	 * @param index
 	 *                the index of the element to return.
-	 * 
+	 *
 	 * @return the template on the indexed position.
 	 * */
 	public ITemplateListItem getTemplateByIndex(final int index) {  //???
@@ -78,7 +78,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			ITTCN3Template template = templates.getTemplateByIndex(i);
 			final Template_type ttype = template.getTemplatetype();
-			
+
 			switch (ttype) {
 			case ANY_OR_OMIT:
 				break;
@@ -102,7 +102,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 
 	/**
 	 * Checks if the list of templates has at least one any or none symbol.
-	 * 
+	 *
 	 * @return true if an any or none symbol was found, false otherwise.
 	 * */
 	public boolean templateContainsAnyornone() {
@@ -126,11 +126,11 @@ public abstract class CompositeTemplate extends TTCN3Template {
 
 		return false;
 	}
-	
+
 	/**
 	 * Checks if the list of templates has at least one any or none or permutation symbol
 	 * <p> It is prohibited after "all from"
-	 * 
+	 *
 	 * @return true if an any or none symbol was found, false otherwise.
 	 * */
 	public boolean containsAnyornoneOrPermutation() {
@@ -147,7 +147,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 
 		return false;
 	}
-	
+
 
 	@Override
 	/** {@inheritDoc} */
@@ -249,7 +249,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 		}
 		return true;
 	}
-	
+
 	/** Test if omit is allowed in a value list
 	 * <p>
 	 *  Uses TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY:
@@ -264,13 +264,13 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	 * @param allowOmit true if the field is optional field,
 	 *                  false if the field is mandatory.<p>
 	 *                  Of course in this case omit value and the ifpresent clause is prohibitied=> returns false<p>
-	 * @return 	 
-	 *   If allowOmit == false it returns false 
+	 * @return
+	 *   If allowOmit == false it returns false
 	 *   ( quick exit for mandatory fields).
 	 *	 If allowOmit == true it returns according to the
-	 *	 project property setting 
+	 *	 project property setting
 	 *   TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY
-	 */ 
+	 */
 	final protected boolean allowOmitInValueList(final boolean allowOmit) {
 		if( !allowOmit ) {
 			return false;

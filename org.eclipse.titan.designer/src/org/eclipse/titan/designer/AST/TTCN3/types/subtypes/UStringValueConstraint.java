@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 
 /**
  * contains a set of strings, cannot be complemented
- * 
+ *
  * @author Adam Delic
  * */
 public final class UStringValueConstraint extends SubtypeConstraint {

@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Things that can be the governor of something.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class Governor extends Setting implements IGovernor {
@@ -19,8 +19,8 @@ public abstract class Governor extends Setting implements IGovernor {
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
-	}		
-	
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {

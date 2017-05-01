@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
  * ObjectSet elements (flat container).
  * Warning: the objects are not owned by
  * Objects, it stores only the pointers...
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ASN1Objects extends ASTNode {

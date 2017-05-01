@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
 /**
  * Common bitstring utilities.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class BitstringUtilities {
@@ -21,10 +21,10 @@ public final class BitstringUtilities {
 
 	/**
 	 * Converts the provided character into a hexadecimal value.
-	 * 
+	 *
 	 * @param c
 	 *                the character to be converted
-	 * 
+	 *
 	 * @return the hexadecimal value.
 	 * */
 	public static int charToHexdigit(final byte c) {
@@ -39,10 +39,10 @@ public final class BitstringUtilities {
 
 	/**
 	 * Converts the provided hexadecimal value into a character.
-	 * 
+	 *
 	 * @param value
 	 *                the value to be converted
-	 * 
+	 *
 	 * @return the resulting character
 	 * */
 	public static byte hexdigitToChar(final int value) {

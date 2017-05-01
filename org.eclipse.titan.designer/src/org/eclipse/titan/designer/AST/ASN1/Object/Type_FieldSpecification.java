@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent a TypeFieldSpec.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Type_FieldSpecification extends FieldSpecification {

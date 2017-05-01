@@ -11,7 +11,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
  * Represents a single encdecvalue attribute on an external function, used to
  * automatically generate the encoding function, according to the encoding type
  * and options passed as parameters..
- * 
+ *
  * @author Arpad Lovassy
  */
 public final class EncDecValueAttribute extends ExtensionAttribute implements IInOutTypeMappingAttribute {
@@ -22,7 +22,7 @@ public final class EncDecValueAttribute extends ExtensionAttribute implements II
 	/** The out-mappings, can be null */
 	private TypeMappings mOutMappings;
 
-	
+
 	public EncDecValueAttribute() {
 	}
 

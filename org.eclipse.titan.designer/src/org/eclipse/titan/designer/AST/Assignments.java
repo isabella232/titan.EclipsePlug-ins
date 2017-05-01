@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to store assignments.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Assignments extends Scope implements IOutlineElement, Iterable<Assignment>{
@@ -81,11 +81,11 @@ public abstract class Assignments extends Scope implements IOutlineElement, Iter
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
-			if (null != reference.getModuleIdentifier() || null == reference.getId()) {
+		if (null != reference.getModuleIdentifier() || null == reference.getId()) {
 			return getModuleScope().getAssBySRef(timestamp, reference);
 		}
 

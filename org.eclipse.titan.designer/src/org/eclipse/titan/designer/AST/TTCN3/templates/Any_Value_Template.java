@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents the any template.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Any_Value_Template extends TTCN3Template {
@@ -120,7 +120,7 @@ public final class Any_Value_Template extends TTCN3Template {
 		result.append( "template_sel.ANY_VALUE" );
 
 		//TODO handle cast needed
-		
+
 		return result;
 	}
 
@@ -133,7 +133,7 @@ public final class Any_Value_Template extends TTCN3Template {
 		source.append(getSingleExpresion(aData, false));
 		source.append( " );\n" );
 		// TODO:  missing parts need to be completed
-		
+
 		if (isIfpresent) {
 			source.append(name);
 			source.append(".set_ifPresent();\n");

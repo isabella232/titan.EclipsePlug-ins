@@ -44,7 +44,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a referenced template.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Referenced_Template extends TTCN3Template {
@@ -210,7 +210,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return this;
 		}
 		ITTCN3Template template = null;
-		
+
 		switch(ass.getAssignmentType()) {
 		case A_TEMPLATE:
 			template = ((Def_Template) ass).getTemplate(timestamp);
@@ -226,11 +226,11 @@ public final class Referenced_Template extends TTCN3Template {
 			setIsErroneous(true);
 			return this;
 		}
-				
+
 		if ( template != null) {
 			template = template.getReferencedSubTemplate(timestamp, reference, referenceChain);
 		}
-		
+
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (template != null) {
 			return template;
@@ -264,7 +264,7 @@ public final class Referenced_Template extends TTCN3Template {
 		TTCN3Template template = this;
 		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 
-		if (ass != null) { 
+		if (ass != null) {
 			switch(ass.getAssignmentType()) {
 			case A_TEMPLATE:
 			case A_VAR_TEMPLATE:
@@ -273,7 +273,7 @@ public final class Referenced_Template extends TTCN3Template {
 			case A_PAR_TEMP_IN:
 			case A_PAR_TEMP_OUT:
 			case A_PAR_TEMP_INOUT:
-				
+
 				tempReferenceChain.markState();
 
 				if (tempReferenceChain.add(this)) {
@@ -411,7 +411,7 @@ public final class Referenced_Template extends TTCN3Template {
 		final TypeCompatibilityInfo info = new TypeCompatibilityInfo(type, governor, true);
 
 		if (!type.isCompatible(timestamp, governor, info, null, null)) {
-			final IType last = type.getTypeRefdLast(timestamp); 
+			final IType last = type.getTypeRefdLast(timestamp);
 
 			switch (last.getTypetype()) {
 			case TYPE_PORT:
@@ -455,7 +455,7 @@ public final class Referenced_Template extends TTCN3Template {
 				checkRestrictionCommon(timestamp, getTemplateTypeName(), TemplateRestriction.Restriction_type.TR_VALUE, usageLocation);
 			}
 		} else {
-		//if (reference != null):
+			//if (reference != null):
 			final Assignment ass = reference.getRefdAssignment(timestamp, true);
 			if (Assignment_type.A_TEMPLATE == ass.getAssignmentType()) {
 				final ITTCN3Template templateLast = getTemplateReferencedLast(timestamp);

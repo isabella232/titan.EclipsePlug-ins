@@ -68,7 +68,7 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 
 	/**
 	 * Does the semantic checking of the log arguments.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -83,7 +83,7 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 * Checks whether this value is defining itself in a recursive way. This
 	 * can happen for example if a constant is using itself to determine its
 	 * initial value.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain

@@ -12,9 +12,9 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
- * Represents the printing attribute on a JSON encoder external function, used to tell the 
+ * Represents the printing attribute on a JSON encoder external function, used to tell the
  * generator of the external function how JSON code should be printed.
- * 
+ *
  * @author Botond Baranyi
  * */
 public final class PrintingAttribute extends ExtensionAttribute implements IVisitableNode {
@@ -37,7 +37,7 @@ public final class PrintingAttribute extends ExtensionAttribute implements IVisi
 
 	/**
 	 * Does the semantic checking of the printing attribute.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * */

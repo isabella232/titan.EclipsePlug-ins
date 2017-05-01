@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent ObjectClass.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ObjectClass extends Governor {
@@ -36,7 +36,7 @@ public abstract class ObjectClass extends Governor {
 
 	/**
 	 * Does the semantic checking of the setting.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -45,7 +45,7 @@ public abstract class ObjectClass extends Governor {
 
 	/**
 	 * Does the semantic checking of the provided object with this setting.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param object
@@ -55,10 +55,10 @@ public abstract class ObjectClass extends Governor {
 
 	/**
 	 * Checks and returns the syntax of the object class.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the root of the syntax of this ObjectClass
 	 */
 	public abstract ObjectClassSyntax_root getObjectClassSyntax(final CompilationTimeStamp timestamp);
@@ -70,7 +70,7 @@ public abstract class ObjectClass extends Governor {
 	 * Adds the assignment to the list completion proposals, with some
 	 * description. Extending class only need to implement their
 	 * getProposalKind() function
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param i
@@ -81,7 +81,7 @@ public abstract class ObjectClass extends Governor {
 
 	/**
 	 * Adds the assignment to the list declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param i

@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the exception types of a signature.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SignatureExceptions extends ASTNode implements IIncrementallyUpdateable {
@@ -172,7 +172,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 				if (exceptionMap.containsKey(name)) {
 					type.getLocation().reportSemanticError("Duplicate type in exception list");
 					exceptionMap.get(name).getLocation()
-							.reportSingularSemanticError(MessageFormat.format("Type `{0}'' is already given here", name));
+					.reportSingularSemanticError(MessageFormat.format("Type `{0}'' is already given here", name));
 				} else {
 					exceptionMap.put(name, type);
 				}

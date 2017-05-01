@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Import module statement.
- * 
+ *
  * @author Kristof Szabados
  * @author Jeno Attila Balasko
  */
@@ -57,7 +57,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 
 	/**
 	 * Returns the referred module.
-	 * 
+	 *
 	 * @return the referred module, might be null.
 	 **/
 	public final Module getReferredModule() {
@@ -75,7 +75,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	/**
 	 * Sets whether the module referred to by this importation has changed to
 	 * an other one since the last importation check.
-	 * 
+	 *
 	 * @param value
 	 *                whether it has changed or not.
 	 * */
@@ -85,7 +85,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 
 	/**
 	 * Clears the previously accumulated information about this importation.
-	 * 
+	 *
 	 * This is usually done, when the referred module clears the references
 	 * pointing to itself. This happens usually when the module might become
 	 * semantically outdated/renamed.
@@ -97,7 +97,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 
 	/**
 	 * Sets the parser of the project this module importation belongs to.
-	 * 
+	 *
 	 * @param project
 	 *                the project this module importation belongs to
 	 * */
@@ -146,7 +146,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	public final void setUsedForImportation() {
 		usedForImportation = true;
 	}
-	
+
 	public final void setUsedForImportation(final boolean used) {
 		usedForImportation = used;
 	}
@@ -161,7 +161,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	/**
 	 * Checks the import hierarchies of this importation (and the ones in
 	 * the imported module recursively).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -176,7 +176,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 
 	/**
 	 * Converts the import statement itself.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 **/
@@ -196,12 +196,12 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	/**
 	 * Checks if there is an assignment that could be imported via this
 	 * importation with the provided identifier.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param identifier
 	 *                the identifier to search for.
-	 * 
+	 *
 	 * @return true if there is an assignment imported with the provided
 	 *         name, false otherwise.
 	 * */
@@ -209,7 +209,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 
 	/**
 	 * Tries to import an assignment from its referred module.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -223,7 +223,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	 * @param usedImports
 	 *                the list of importations reached when walking back
 	 *                after reaching a possibly good assignment
-	 * 
+	 *
 	 * @return the assignment, or null in case of errors.
 	 * */
 	public abstract Assignment importAssignment(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain,
@@ -232,7 +232,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	/**
 	 * Adds the imported module or definitions contained in it, to the list
 	 * completion proposals.
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param targetModuleId
@@ -245,7 +245,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	/**
 	 * Adds the imported module or definitions contained in it, to the list
 	 * declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param targetModuleId

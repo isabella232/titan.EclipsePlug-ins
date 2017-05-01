@@ -15,11 +15,11 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * This is a fake scope used to bridge the difference between two actual ones.
  * It should be used to fill in some space between two defined scope, to add some functionality.
- * 
+ *
  * For example to define the name the scope macro should be replaced with
  * (in this case neither the parent scope of the definition nor any of it's children have this data available,
  * And even though the definition itself has this information it is not a scope by default.)
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class NamedBridgeScope extends Scope {
@@ -29,21 +29,21 @@ public final class NamedBridgeScope extends Scope {
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
-			return getParentScope().getAssBySRef(timestamp, reference, refChain);
+		return getParentScope().getAssBySRef(timestamp, reference, refChain);
 	}
 
 	@Override
 	public Assignment getEnclosingAssignment(final int offset) {
-		return null; 
+		return null;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {	
+	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		//Do nothing
 	}
 

@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.Location;
 
 /**
  * ObjectClass Syntax. Class to build, manage, ... ObjectClass Syntax.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ObjectClassSyntax_Node implements ILocateableNode {

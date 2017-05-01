@@ -130,7 +130,7 @@ public final class MultiplyExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -262,7 +262,7 @@ public final class MultiplyExpression extends Expression_Value {
 				break;
 			case REAL_VALUE:
 				if (Double.compare(((Real_Value) last1).getValue(), 0) == 0
-						|| Double.compare(((Real_Value) last2).getValue(), 0) == 0) {
+				|| Double.compare(((Real_Value) last2).getValue(), 0) == 0) {
 					lastValue = new Real_Value(0);
 					lastValue.copyGeneralProperties(this);
 				}

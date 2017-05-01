@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 /**
  * The visibility modifier describing how TTCN-3 definitions importations and
  * groups are visible from other modules.
- * 
+ *
  * @author Kristof Szabados
  * */
 public enum VisibilityModifier {

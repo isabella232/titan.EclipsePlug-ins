@@ -97,7 +97,7 @@ public final class Any2UnistrExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -106,13 +106,13 @@ public final class Any2UnistrExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperands( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain) {
 		//check template1
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
 	}
 
-	/** 
+	/**
 	 * Checks the 1st operand
 	 * in template (value) any_type
 	 * @param timestamp
@@ -123,8 +123,8 @@ public final class Any2UnistrExpression extends Expression_Value {
 	 *                a reference chain to detect cyclic references.
 	 */
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
-										  final Expected_Value_type expectedValue,
-										  final IReferenceChain referenceChain ) {
+			final Expected_Value_type expectedValue,
+			final IReferenceChain referenceChain ) {
 		if (templateInstance1 == null) {
 			setIsErroneous(true);
 			return;
@@ -175,7 +175,7 @@ public final class Any2UnistrExpression extends Expression_Value {
 			break;
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,

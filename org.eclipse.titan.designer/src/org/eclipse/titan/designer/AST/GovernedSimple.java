@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST;
 /**
  * A governed thing that will be mapped to a C++ entity.
  * (e.g. Value, Template)
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class GovernedSimple extends Governed implements IGovernedSimple {
@@ -22,11 +22,11 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	 * limited access (file static), but `c1' is a global const reference
 	 * pointing to it.
 	 * Possible values: "const_", "modulepar_", "template_"
-	 * 
+	 *
 	 * TODO: check might not be needed in the Java code generator
 	 * */
 	private String genNamePrefix;
-	
+
 	public void setGenNamePrefix(final String prefix) {
 		genNamePrefix = prefix;
 	}

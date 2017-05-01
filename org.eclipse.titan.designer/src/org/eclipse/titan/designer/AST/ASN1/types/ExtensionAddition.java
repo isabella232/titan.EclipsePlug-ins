@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ExtensionAddition (abstract class).
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ExtensionAddition extends ASTNode {

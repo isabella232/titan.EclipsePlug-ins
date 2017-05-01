@@ -14,7 +14,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 
 /**
  * contains a set of strings, cannot be complemented
- * 
+ *
  * @author Adam Delic
  * */
 public final class StringValueConstraint extends SubtypeConstraint {

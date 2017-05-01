@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Signature parameter-list.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class SignatureFormalParameterList extends ASTNode implements IIncrementallyUpdateable {

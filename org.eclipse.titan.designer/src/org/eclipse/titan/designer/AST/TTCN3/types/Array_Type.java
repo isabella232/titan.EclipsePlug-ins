@@ -483,8 +483,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final int nofValues = lastValue.getNofComponents();
 
 		if (!dimension.getIsErroneous(timestamp) && dimension.getSize() < nofValues) {
-				originalValue.getLocation().reportSemanticError(MessageFormat.format(TOOMANYEXPECTED, dimension.getSize(), nofValues));
-				originalValue.setIsErroneous(true);
+			originalValue.getLocation().reportSemanticError(MessageFormat.format(TOOMANYEXPECTED, dimension.getSize(), nofValues));
+			originalValue.setIsErroneous(true);
 		}
 
 		if (lastValue.isIndexed()) {
@@ -819,7 +819,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			reparser.updateLocation(withAttributesPath.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
@@ -829,7 +829,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		elementType.getEnclosingField(offset, rf);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -841,7 +841,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			dimension.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {

@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the not used value (`-').
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Notused_Value extends Value {

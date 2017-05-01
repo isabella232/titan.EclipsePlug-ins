@@ -136,7 +136,7 @@ public final class And4bExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -292,12 +292,12 @@ public final class And4bExpression extends Expression_Value {
 
 	/**
 	 * Calculates the binary and -ing of two strings.
-	 * 
+	 *
 	 * @param str1
 	 *                the first original string.
 	 * @param str2
 	 *                the second original string.
-	 * 
+	 *
 	 * @return the and -ed value.
 	 * */
 	public static String and4b(final String str1, final String str2) {

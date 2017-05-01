@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ObjectClass assignment.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectClass_Assignment extends ASN1Assignment {
@@ -71,10 +71,10 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 
 	/**
 	 * Checks the object class and returns it.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the ObjectClass of this ObjectClass assignment
 	 */
 	public ObjectClass getObjectClass(final CompilationTimeStamp timestamp) {
@@ -97,8 +97,8 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {

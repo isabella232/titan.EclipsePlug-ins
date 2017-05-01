@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST.brokenpartsanalyzers;
 /**
  * Base interface of selection algorithm.
  * All algorithm have to implement this interface.
- * 
+ *
  * @author Peter Olah
  */
 public interface IBaseAnalyzer {

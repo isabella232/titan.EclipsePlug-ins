@@ -20,7 +20,6 @@ import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IIdentifierContainer;
 import org.eclipse.titan.designer.AST.IVisitableNode;
-import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -32,7 +31,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.FormalParameter_Helper;
 
 /**
  * Parameterized assignment.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -160,31 +159,31 @@ public final class Ass_pard implements IIdentifierContainer, IVisitableNode {
 						IMarker.SEVERITY_ERROR);
 			}
 		}
-		
+
 		if (null == mParameters) {
 			isErroneous = true;
 		} else {
 			mParameters.trimToSize();
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// TODO
-//		if (mParameters == null) {
-//			check( CompilationTimeStamp.getBaseTimestamp());
-//		}
-//		Identifier id = referenceFinder.getReferredIdentifier();
-//		if (id == null) { return; }
-//		int N = mParameters.size();
-//		for(int i=0;i<N;i++){
-//			if (id.getAsnName().equals( mParameters.get(i).identifier.getAsnName())) {
-//				foundIdentifiers.add( new Hit(mParameters.get(i).identifier ));
-////				foundIdentifiers.add(new Hit(id));
-//			}
-//		}
-//		
+		//		if (mParameters == null) {
+		//			check( CompilationTimeStamp.getBaseTimestamp());
+		//		}
+		//		Identifier id = referenceFinder.getReferredIdentifier();
+		//		if (id == null) { return; }
+		//		int N = mParameters.size();
+		//		for(int i=0;i<N;i++){
+		//			if (id.getAsnName().equals( mParameters.get(i).identifier.getAsnName())) {
+		//				foundIdentifiers.add( new Hit(mParameters.get(i).identifier ));
+		////				foundIdentifiers.add(new Hit(id));
+		//			}
+		//		}
+		//
 	}
 
 	@Override

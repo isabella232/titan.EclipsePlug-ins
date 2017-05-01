@@ -33,7 +33,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * Represent an arbitrary precision integer value. Most of the functions are
  * wrappers for BigInteger.
- * 
+ *
  * @author Kristof Szabados
  **/
 public final class Integer_Value extends Value implements Comparable<Integer_Value> {
@@ -270,18 +270,18 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 		StringBuilder result = new StringBuilder();
 
 		if (isNative()) {
-			
+
 			result.append( "new TitanInteger( " );
 			result.append(value);
 			result.append( " )" );
 		} else {
 			aData.addImport("java.math.BigInteger");
-			
+
 			result.append( "new TitanInteger( new BigInteger(\"" );
 			result.append( value.toString() );
 			result.append( "\") )" );
 		}
-		
+
 		return result;
 	}
 
@@ -303,6 +303,6 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 		source.append( " );\n" );
 		return source;
 	}
-	
-	
+
+
 }

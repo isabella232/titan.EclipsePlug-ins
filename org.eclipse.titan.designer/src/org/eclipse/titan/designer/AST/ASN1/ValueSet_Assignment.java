@@ -41,7 +41,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 		if (null != type) {
 			type.setFullNameParent(this);
 		}
-		
+
 		if (null != aBlock) {
 			aBlock.setFullNameParent(this);
 		}

@@ -72,7 +72,7 @@ public final class Def_ModulePar_Template extends Definition {
 		//FIXME: check() should be call ???
 		return defaultTemplate;
 	}
-	
+
 	public ITTCN3Template getRealTemplate(){
 		//FIXME: check() should be call ???
 		return realTemplate;
@@ -138,7 +138,7 @@ public final class Def_ModulePar_Template extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -163,7 +163,7 @@ public final class Def_ModulePar_Template extends Definition {
 		}
 
 		type.check(timestamp);
-		
+
 
 		final IType lastType = type.getTypeRefdLast(timestamp);
 		switch (lastType.getTypetype()) {
@@ -262,7 +262,7 @@ public final class Def_ModulePar_Template extends Definition {
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		final List<Integer> result = super.getPossibleExtensionStarterTokens();
-		
+
 		if (defaultTemplate == null) {
 			result.add(Ttcn3Lexer.ASSIGNMENTCHAR);
 		}
@@ -389,6 +389,6 @@ public final class Def_ModulePar_Template extends Definition {
 		// TODO Auto-generated method stub
 		super.generateJava(aData, cleanUp);
 	}
-	
-	
+
+
 }

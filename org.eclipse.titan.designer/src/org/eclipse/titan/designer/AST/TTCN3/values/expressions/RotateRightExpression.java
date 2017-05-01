@@ -176,7 +176,7 @@ public final class RotateRightExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -375,12 +375,12 @@ public final class RotateRightExpression extends Expression_Value {
 
 	/**
 	 * Rotates the contents of the string right by the provided amount.
-	 * 
+	 *
 	 * @param string
 	 *                the string to be rotated
 	 * @param rotateSize
 	 *                the amount with which the rotation should be done
-	 * 
+	 *
 	 * @return the resulting rotated value.
 	 * */
 	public static String rotateRight(final String string, final int rotateSize) {
@@ -402,12 +402,12 @@ public final class RotateRightExpression extends Expression_Value {
 
 	/**
 	 * Rotates the contents of the string right by the provided amount.
-	 * 
+	 *
 	 * @param string
 	 *                the string to be rotated
 	 * @param rotateSize
 	 *                the amount with which the rotation should be done
-	 * 
+	 *
 	 * @return the resulting rotated value.
 	 * */
 	public static UniversalCharstring rotateRight(final UniversalCharstring string, final int rotateSize) {

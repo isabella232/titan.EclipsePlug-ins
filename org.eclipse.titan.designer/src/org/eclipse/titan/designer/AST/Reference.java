@@ -47,7 +47,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * The Reference class represent a general reference used to refer to an element
  * in the source code.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class Reference extends ASTNode implements ILocateableNode, IIncrementallyUpdateable, IReferencingElement {
@@ -138,7 +138,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	/**
 	 * Sets the scope of the base reference without setting the scope of the
 	 * sub references.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to set.
 	 * */
@@ -203,7 +203,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	/**
 	 * Checks if the reference was evaluated to be erroneous in this time
 	 * frame.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @return true if the setting is erroneous, or false otherwise
@@ -218,7 +218,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Sets the erroneousness of the setting.
-	 * 
+	 *
 	 * @param isErroneous
 	 *                set the erroneousness property of the references.
 	 * */
@@ -257,7 +257,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Detects and returns the module identifier.
-	 * 
+	 *
 	 * @return the module identifier, might be null if the reference did not
 	 *         contain one.
 	 * */
@@ -272,7 +272,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * Before returning, the module identifier detection is run. After the
 	 * module identifier detection, the first sub-reference must be the
 	 * identifier of an assignment (if the sub-reference exists).
-	 * 
+	 *
 	 * @return the identifier contained in this reference
 	 * */
 	public Identifier getId() {
@@ -298,7 +298,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * <p>
 	 * It is important that the name of the reference is the first member of
 	 * the list.
-	 * 
+	 *
 	 * @param from
 	 *                the first index to include.
 	 * @param till
@@ -318,7 +318,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Adds a sub-reference to the and of the list of sub-references.
-	 * 
+	 *
 	 * @param subReference
 	 *                the sub-reference to be added.
 	 * */
@@ -329,7 +329,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Deletes and returns the last sub-reference.
-	 * 
+	 *
 	 * @return the last sub-reference before the deletion, or null if there
 	 *         was none.
 	 * */
@@ -423,7 +423,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * IDentifies and returns the referred setting.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @return the setting referenced or an Error_Setting instance in case
@@ -440,21 +440,21 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Detects and returns the referred assignment.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param checkParameterList
 	 *                whether the parameter list of the reference should be
 	 *                checked or not.
-	 * 
+	 *
 	 * @return the assignment referred by this reference, or null if not
 	 *         found.
 	 * */
 	public Assignment getRefdAssignment(final CompilationTimeStamp timestamp, final boolean checkParameterList) {
 		return getRefdAssignment(timestamp, checkParameterList, null);
 	}
-		
-	
+
+
 	public Assignment getRefdAssignment(final CompilationTimeStamp timestamp, final boolean checkParameterList, final IReferenceChain referenceChain) {
 		if (myScope == null || getId() == null) {
 			return null;
@@ -463,9 +463,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp) && !checkParameterList) {
 			return referredAssignment;
 		}
-		
+
 		lastTimeChecked = timestamp;
-		
+
 		final boolean newChain = null == referenceChain;
 		IReferenceChain tempReferenceChain;
 		if (newChain) {
@@ -539,7 +539,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * Returns the referenced declaration. Referenced by the given
 	 * sub-reference. If the parameter is null, the module declaration will
 	 * be returned.
-	 * 
+	 *
 	 * @param subReference
 	 * @return The referenced declaration
 	 */
@@ -577,10 +577,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * <p>
 	 * This is used to detect the type of "runs on" and "system" clause
 	 * elements. In any other case a semantic error will be reported.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the type of the referred component or null in case of
 	 *         problems.
 	 * */
@@ -617,10 +617,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * reference.
 	 * <p>
 	 * This is used to detect the type of value redirects.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the type of the referred variable or null in case of
 	 *         problems.
 	 * */
@@ -664,10 +664,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Checks whether this is a correct altstep activation reference.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return true if the altstep reference is correct, false otherwise.
 	 * */
 	public final boolean checkActivateArgument(final CompilationTimeStamp timestamp) {
@@ -702,10 +702,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Checks if the reference has unfoldable index sub-references.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return true if the reference contains unfoldable index
 	 *         sub-references, false otherwise.
 	 * */
@@ -729,14 +729,14 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	/**
 	 * Checks if the reference is actually refering to a setting of the
 	 * provided type, or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param settingType
 	 *                the setting type to check the reference against.
 	 * @param referenceChain
 	 *                a referencechain to detect cyclic references.
-	 * 
+	 *
 	 * @return true if the reference refers to a setting of the provided
 	 *         kind, false otherwise.
 	 * */
@@ -798,7 +798,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 	/**
 	 * Handles the incremental parsing of this reference.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -937,10 +937,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			//TODO add fuzzy handling
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 		}
-		
+
 		generateCode(aData, expression, isTemplate, false, referedGovernor);
 	}
-	
+
 	/**
 	 * originally has_single_expr
 	 * */
@@ -949,19 +949,19 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			//TODO: fatal error
 			return false;
 		}
-		
+
 		//TODO implement more precision
-		
+
 		return false;
-//		for (int i = 0; i < subReferences.size(); i++) {
-//			if(!subReferences.get(i).hasSingleExpression()) {
-//				return false;
-//			}
-//		}
-//
-//		return true;
+		//		for (int i = 0; i < subReferences.size(); i++) {
+		//			if(!subReferences.get(i).hasSingleExpression()) {
+		//				return false;
+		//			}
+		//		}
+		//
+		//		return true;
 	}
-	
+
 	public void generateConstRef(final JavaGenData aData, final ExpressionStruct expression) {
 		boolean isTemplate;
 		switch (referredAssignment.getAssignmentType()) {
@@ -989,7 +989,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			isTemplate = false;
 			break;
 		}
-		
+
 		IType referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
 
 		//ha parameterezett
@@ -1003,17 +1003,17 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			//TODO add fuzzy handling
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 		}
-		
+
 		generateCode(aData, expression, isTemplate, true, referedGovernor);
 	}
-	
+
 	// originally fieldOrArrayRefs
 	private void generateCode(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate, final boolean isConst, IType type) {
 		for ( int i = 1; i < subReferences.size(); i++) {
 			if (type != null) {
 				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			}
-			
+
 			ISubReference subreference = subReferences.get(i);
 			if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 				Identifier id = ((FieldSubReference) subreference).getId();
@@ -1058,7 +1058,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						//TODO fatal error:
 						return;
 					}
-					
+
 					if (compField != null && compField.isOptional() && !isTemplate) {
 						if (isConst) {
 							expression.expression.append(".constGet()");
@@ -1081,7 +1081,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				}
 				value.generateCodeExpression(aData, expression);
 				expression.expression.append(")");
-				
+
 				if(type != null) {
 					switch(type.getTypetype()) {
 					case TYPE_SEQUENCE_OF:

@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.Reference;
 /**
  * Represents "user" extension attribute. It is used on dual-faced ports to mark
  * the external interface of the port type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class UserPortTypeAttribute extends PortTypeAttribute implements IInOutTypeMappingAttribute {

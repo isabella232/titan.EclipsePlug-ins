@@ -104,14 +104,14 @@ public final class Function_Instance_Statement extends Statement {
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 							PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, GeneralConstants.WARNING, null),
-					MessageFormat.format(UNUSEDRETURN1, assignment.getFullName()));
+							MessageFormat.format(UNUSEDRETURN1, assignment.getFullName()));
 			break;
 		case A_FUNCTION_RTEMP:
 		case A_EXT_FUNCTION_RTEMP:
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 							PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, GeneralConstants.WARNING, null),
-					MessageFormat.format(UNUSEDRETURN2, assignment.getFullName()));
+							MessageFormat.format(UNUSEDRETURN2, assignment.getFullName()));
 			break;
 		default:
 			break;

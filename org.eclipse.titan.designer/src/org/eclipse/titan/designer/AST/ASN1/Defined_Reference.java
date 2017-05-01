@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.AST.Reference;
  * <p>
  * Plays the role of many references, for example: ASN1::Ref_defd,
  * ASN1::Ref_defd_simple
- * 
+ *
  * @author Kristof Szabados
  */
 public class Defined_Reference extends Reference {

@@ -416,7 +416,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		if (hasComponentWithName(definitionName)) {
 			final CompField field = getComponentByName(definitionName);
 			field.getIdentifier().getLocation()
-					.reportSemanticError(MessageFormat.format(UNSUPPERTED_FIELDNAME, field.getIdentifier().getDisplayName()));
+			.reportSemanticError(MessageFormat.format(UNSUPPERTED_FIELDNAME, field.getIdentifier().getDisplayName()));
 		}
 	}
 
@@ -522,7 +522,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * <p>
 	 * Please note, that this function can only be called once we know for
 	 * sure that the value is of sequence type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param value
@@ -593,7 +593,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 							namedValue.getLocation().reportSemanticError(
 									MessageFormat.format(isAsn ? WRONGFIELDORDERASN1 : WRONGFIELDORDERTTCN3,
 											valueId.getDisplayName(), lastCompField.getIdentifier()
-													.getDisplayName()));
+											.getDisplayName()));
 							inSnyc = false;
 						}
 					} else {
@@ -607,7 +607,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 							namedValue.getLocation().reportSemanticError(
 									MessageFormat.format(isAsn ? UNEXPECTEDFIELDASN1 : UNEXPECTEDFIELDTTCN3,
 											valueId.getDisplayName(), field2Original.getIdentifier()
-													.getDisplayName()));
+											.getDisplayName()));
 						}
 					}
 				}
@@ -677,7 +677,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	/**
 	 * Checks the provided named template list against this type.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param templateList
@@ -710,9 +710,9 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					namedTemplate.getLocation().reportSemanticError(
 							MessageFormat.format(DUPLICATETEMPLATEFIELDFIRST, identifier.getDisplayName()));
 					componentMap.get(templateName)
-							.getLocation()
-							.reportSemanticError(
-									MessageFormat.format(DUPLICATETEMPLATEFIELDAGAIN, identifier.getDisplayName()));
+					.getLocation()
+					.reportSemanticError(
+							MessageFormat.format(DUPLICATETEMPLATEFIELDAGAIN, identifier.getDisplayName()));
 				} else {
 					componentMap.put(templateName, namedTemplate);
 				}
@@ -783,9 +783,9 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 								.getDisplayName()), new OmitValue_Template(), false));
 					} else {
 						templateList.getLocation()
-								.reportSemanticError(
-										MessageFormat.format(MISSINGTEMPLATEFIELD,
-												identifier.getDisplayName(), getTypename()));
+						.reportSemanticError(
+								MessageFormat.format(MISSINGTEMPLATEFIELD,
+										identifier.getDisplayName(), getTypename()));
 					}
 				}
 			}
@@ -820,7 +820,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}
-		
+
 		for ( final CompField compField : compFieldMap.fields ) {
 			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
 			compField.getType().generateJava(aData, tempSource);

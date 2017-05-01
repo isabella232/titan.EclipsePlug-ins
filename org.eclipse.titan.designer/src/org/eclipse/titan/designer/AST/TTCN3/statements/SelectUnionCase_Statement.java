@@ -29,10 +29,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a TTCN-3 select union statement.
- * 
+ *
  * @see SelectUnionCases
  * @see SelectUnionCase
- * 
+ *
  * @author Arpad Lovassy
  */
 public final class SelectUnionCase_Statement extends Statement {

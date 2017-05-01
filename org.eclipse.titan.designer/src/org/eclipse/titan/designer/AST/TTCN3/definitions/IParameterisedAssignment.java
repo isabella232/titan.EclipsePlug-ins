@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 /**
  * This interface represents a parameterized assignment. One that has formal
  * parameters
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface IParameterisedAssignment {

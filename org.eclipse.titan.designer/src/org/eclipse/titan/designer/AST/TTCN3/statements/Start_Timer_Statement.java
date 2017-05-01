@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a timer starting statement.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Start_Timer_Statement extends Statement {

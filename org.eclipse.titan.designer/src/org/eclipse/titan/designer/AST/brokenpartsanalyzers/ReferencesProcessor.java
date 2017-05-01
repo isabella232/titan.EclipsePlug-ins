@@ -22,7 +22,7 @@ public abstract class ReferencesProcessor extends AssignmentHandler {
 	public ReferencesProcessor(final Assignment assignment) {
 		super(assignment);
 	}
-	
+
 	public Set<String> computeReferences(final Set<Reference> references) {
 		final Set<String> result = new HashSet<String>();
 		for (final Reference reference : references) {
@@ -43,19 +43,19 @@ public abstract class ReferencesProcessor extends AssignmentHandler {
 		}
 		return result;
 	}
-	
+
 	public boolean containsErroneousReference(final Set<Reference> references) {
 		for (Reference reference : references) {
 			if(reference.getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 				return true;
 			}
-			
+
 			final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
 			if(assignment == null) {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 }

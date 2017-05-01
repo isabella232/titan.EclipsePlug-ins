@@ -36,10 +36,10 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * Helper class for the SelectUnionCase_Statement class.
  * Represents a select union case branch parsed from the source code.
- * 
+ *
  * @see SelectUnionCase_Statement
  * @see SelectUnionCases
- * 
+ *
  * @author Arpad Lovassy
  */
 public final class SelectUnionCase extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -89,7 +89,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 	/**
 	 * Sets the scope of the select case branch.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to be set.
 	 */
@@ -139,10 +139,10 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	/**
 	 * Checks whether the select case has a return statement, either
 	 * directly or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the select case.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
@@ -155,7 +155,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 	/**
 	 * Does the semantic checking of this select case of union type.
-	 * 
+	 *
 	 * @param aTimestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param aUnionType
@@ -167,12 +167,12 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                union field names, which are not covered yet.
 	 *                If a field name is found, it is removed from the list.
 	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
-	 * 
+	 *
 	 * @return true if this case branch was found to be unreachable, false
 	 *         otherwise.
 	 */
 	public boolean check( final CompilationTimeStamp aTimestamp, final TTCN3_Choice_Type aUnionType, final boolean aUnreachable,
-						  final List<String> aFieldNames ) {
+			final List<String> aFieldNames ) {
 		if ( aUnreachable ) {
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
@@ -195,7 +195,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 	/**
 	 * Does the semantic checking of this select case of anytype type.
-	 * 
+	 *
 	 * @param aTimestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param aAnytypeType
@@ -203,12 +203,12 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                It can not be null.
 	 * @param aUnreachable
 	 *                tells if this case branch is still reachable or not.
-	 * 
+	 *
 	 * @return true if this case branch was found to be unreachable, false
 	 *         otherwise.
 	 */
 	public boolean check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final boolean aUnreachable,
-						  final List<String> aTypesCovered ) {
+			final List<String> aTypesCovered ) {
 		if ( aUnreachable ) {
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
@@ -311,7 +311,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		if ( mItems != null ) {
 			for ( Identifier item : mItems ) {
 				if ( item instanceof Identifier ) {
-					final Identifier identifier = (Identifier)item;
+					final Identifier identifier = item;
 					reparser.updateLocation( identifier.getLocation() );
 				} else {
 					//program error, this should not happen

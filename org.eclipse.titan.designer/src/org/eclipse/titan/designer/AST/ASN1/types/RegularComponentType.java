@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ComponentType/regular (Contains only a Component).
- * 
+ *
  * @author Kristof Szabados
  */
 public final class RegularComponentType extends ComponentType {

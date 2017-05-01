@@ -50,7 +50,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparser_
  * The ImportModule class represents a TTCN3 import statement. This class is
  * used to create a link between the actual mode containing the import statement
  * and the imported module.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -61,7 +61,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparser_
 // FIXME the normal import specification and import of imports specification
 // should be stored in lists.
 public final class ImportModule extends ModuleImportation implements ILocateableNode, IAppendableSyntax, IIncrementallyUpdateable,
-		IReferencingElement {
+IReferencingElement {
 	public static final String MISSINGMODULE = "There is no module with name `{0}''";
 
 	private WithAttributesPath withAttributesPath = null;
@@ -101,7 +101,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	/**
 	 * Sets the visibility modifier of this definition.
-	 * 
+	 *
 	 * @param modifier
 	 *                the modifier to be set
 	 * */
@@ -118,7 +118,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	/**
 	 * Returns the name of the module.
-	 * 
+	 *
 	 * @return the name of the module
 	 * */
 	public String getName() {
@@ -149,7 +149,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	/**
 	 * Sets the module in which this importation can be found.
-	 * 
+	 *
 	 * @param module
 	 *                the module containing this importation
 	 * */
@@ -159,7 +159,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	/**
 	 * Sets the module of the importation.
-	 * 
+	 *
 	 * @param myModule
 	 *                the module of the importation.
 	 * */
@@ -169,7 +169,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	/**
 	 * returns the module the importation is located in
-	 * 
+	 *
 	 * @return the module of the importation.
 	 * */
 	public TTCN3Module getMyModule() {
@@ -178,7 +178,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	/**
 	 * Sets the parent group of the importation.
-	 * 
+	 *
 	 * @param parentGroup
 	 *                the parent group to be set.
 	 * */
@@ -194,7 +194,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	/**
 	 * Returns the anytype definition contained in the module pointed to by
 	 * this importation.
-	 * 
+	 *
 	 * @return the anytype definition of the imported module
 	 * */
 	public Def_Type getAnytype() {
@@ -204,7 +204,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	/**
 	 * Sets the with attributes for this importation if it has any. Also
 	 * creates the with attribute path, to store the attributes in.
-	 * 
+	 *
 	 * @param attributes
 	 *                the attribute to be added.
 	 * */
@@ -233,7 +233,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 	 * Sets the parent path for the with attribute path element of this
 	 * importation. Also, creates the with attribute path node if it did not
 	 * exist before.
-	 * 
+	 *
 	 * @param parent
 	 *                the parent to be set.
 	 * */
@@ -305,8 +305,8 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 			// should be reset only once per semantic check cycle.
 			return;
 		}
-		
-		lastImportCheckTimeStamp = timestamp; 
+
+		lastImportCheckTimeStamp = timestamp;
 
 		if (referredModule != null) {
 			referredModule.check(timestamp);
@@ -348,7 +348,7 @@ public final class ImportModule extends ModuleImportation implements ILocateable
 
 	/**
 	 * Handles the incremental parsing of this module importation.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

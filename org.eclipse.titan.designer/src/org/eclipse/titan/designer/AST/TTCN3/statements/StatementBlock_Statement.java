@@ -24,7 +24,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * The StatementBlock_Statement class represents TTCN3 statement blocks.
  * <p>
  * This is a TITAN Extension.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class StatementBlock_Statement extends Statement {
@@ -183,14 +183,14 @@ public final class StatementBlock_Statement extends Statement {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		if (statementblock != null) {
 			source.append( "{\n" );
 			statementblock.generateJava(aData, source);
-			source.append( "\t}\n" );	
+			source.append( "\t}\n" );
 		}
 	}
 }

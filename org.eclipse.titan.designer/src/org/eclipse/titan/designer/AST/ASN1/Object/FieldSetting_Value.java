@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent value FieldSettings.
- * 
+ *
  * @author Kristof Szabados
  */
 // FIXME enhance when values become available

@@ -24,7 +24,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * A list of values provided either by value notation, or by indexed notation.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Values extends ASTNode implements IIncrementallyUpdateable {

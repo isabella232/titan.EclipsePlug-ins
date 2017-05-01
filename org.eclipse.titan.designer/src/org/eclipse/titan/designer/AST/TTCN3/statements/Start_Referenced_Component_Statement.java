@@ -142,8 +142,8 @@ public final class Start_Referenced_Component_Statement extends Statement {
 		case TTCN3_NULL_VALUE:
 		case FAT_NULL_VALUE:
 			dereferredValue.getLocation()
-					.reportSemanticError(
-							"A value of a function type was expected in the argument instead of a `null' value, which does not specify any function type.");
+			.reportSemanticError(
+					"A value of a function type was expected in the argument instead of a `null' value, which does not specify any function type.");
 			return;
 		default:
 			break;
@@ -215,10 +215,10 @@ public final class Start_Referenced_Component_Statement extends Statement {
 
 				if (!returnTypeCorrect) {
 					dereferredValue.getLocation()
-							.reportSemanticWarning(
-									MessageFormat.format(
-											"Return type of function type `{0}'' is `{1}'', which does not have the `done'' extension attibute."
-													+ " When the test component terminates the returnes value cannot be retrived with a `done'' operation",
+					.reportSemanticWarning(
+							MessageFormat.format(
+									"Return type of function type `{0}'' is `{1}'', which does not have the `done'' extension attibute."
+											+ " When the test component terminates the returnes value cannot be retrived with a `done'' operation",
 											functionType.getTypename(), returnType.getTypename()));
 				}
 			}

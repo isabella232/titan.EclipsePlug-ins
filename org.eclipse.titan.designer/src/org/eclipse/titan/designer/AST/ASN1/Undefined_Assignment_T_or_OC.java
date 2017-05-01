@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * An undefined assignment.
  * <p>
  * Can only be Type or ObjectClass assignment because of the syntax
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Undefined_Assignment_T_or_OC extends Undefined_Assignment {

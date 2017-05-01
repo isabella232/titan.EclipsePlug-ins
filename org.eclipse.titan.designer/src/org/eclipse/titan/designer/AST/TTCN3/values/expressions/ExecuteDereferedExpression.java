@@ -136,7 +136,7 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -170,10 +170,10 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 				}
 			} else {
 				value.getLocation()
-						.reportSemanticError(
-								MessageFormat.format(
-										"Reference to a value of type testcase was expected in the argument of `derefers()'' instead of `{0}''",
-										type.getTypename()));
+				.reportSemanticError(
+						MessageFormat.format(
+								"Reference to a value of type testcase was expected in the argument of `derefers()'' instead of `{0}''",
+								type.getTypename()));
 				setIsErroneous(true);
 			}
 		}

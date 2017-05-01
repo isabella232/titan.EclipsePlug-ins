@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Class to represent a TTCN-3 ValueRange objects.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ValueRange extends ASTNode implements IIncrementallyUpdateable {
@@ -39,7 +39,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	private final boolean minExclusive;
 	private final Value max;
 	private final boolean maxExclusive;
-	
+
 	private Type_type typeType;
 
 	public ValueRange(final Value min, final boolean minExclusive, final Value max, final boolean maxExclusive) {
@@ -93,7 +93,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * Creates and returns a string representation if the range.
-	 * 
+	 *
 	 * @return the string representation of the range.
 	 * */
 	public String createStringRepresentation() {
@@ -116,12 +116,12 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * Calculates the governor of this value range.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the actual semantic checking cycle
 	 * @param expectedValue
 	 *                the kind of the value to be expected.
-	 * 
+	 *
 	 * @return the governor of the value range
 	 * */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
@@ -144,12 +144,12 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * Calculates the returning type of this value range.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the actual semantic checking cycle
 	 * @param expectedValue
 	 *                the kind of the value to be expected.
-	 * 
+	 *
 	 * @return the returning type of the value range
 	 * */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
@@ -172,7 +172,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 
 	/**
 	 * Handles the incremental parsing of this value range.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -223,7 +223,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	public void setTypeType(final Type_type typeType) {
 		this.typeType = typeType;
 	}
-	
+
 	/**
 	 * Add generated java code for initializing a template
 	 *
@@ -233,7 +233,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	 */
 	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		
+
 		//TODO: add support for rearrange init
 		ExpressionStruct expression = new ExpressionStruct();
 		StringBuilder initStatement = new StringBuilder();
@@ -259,7 +259,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 				//fatal error
 			}
 		}
-		
+
 		if(max != null) {
 			expression.expression = new StringBuilder();
 			max.generateCodeExpression(aData, expression);
@@ -281,7 +281,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 				//fatal error
 			}
 		}
-		
+
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			source.append("{\n");
 			source.append(expression.preamble);

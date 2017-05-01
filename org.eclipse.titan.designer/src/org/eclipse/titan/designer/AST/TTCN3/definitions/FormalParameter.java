@@ -52,7 +52,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The FormalParameter class represents TTCN3 formal parameters.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class FormalParameter extends Definition {
@@ -335,7 +335,7 @@ public final class FormalParameter extends Definition {
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -1008,7 +1008,7 @@ public final class FormalParameter extends Definition {
 		default:
 			//TODO fatal error
 		}
-		
+
 		source.append( " " );
 		// parameter name
 		source.append( getGenName() );

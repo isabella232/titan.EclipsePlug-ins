@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a single value sub-type restriction as it was parsed.
- * 
+ *
  * @author Adam Delic
  * */
 public final class Single_ParsedSubType extends ParsedSubType {

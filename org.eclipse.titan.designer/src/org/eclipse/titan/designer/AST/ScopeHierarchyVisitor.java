@@ -62,7 +62,7 @@ class ScopeTreeNode {
 			sb.append("<ul>");
 			for (Assignment a : assignments) {
 				sb.append("<li><font color='blue'>").append(a.getClass().getSimpleName()).append(" : <u>").append(a.getIdentifier())
-						.append("</u></font></li>");
+				.append("</u></font></li>");
 			}
 			sb.append("</ul>");
 		}

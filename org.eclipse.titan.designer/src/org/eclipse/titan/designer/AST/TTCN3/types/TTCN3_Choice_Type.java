@@ -58,7 +58,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	public Type_type getTypetype() {
 		return Type_type.TYPE_TTCN3_CHOICE;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
@@ -108,8 +108,8 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					lChain.add(cfType);
 					rChain.add(tempTypeCompFieldType);
 					if (cfType.equals(tempTypeCompFieldType)
-						|| (lChain.hasRecursion() && rChain.hasRecursion())
-						|| cfType.isCompatible(timestamp, tempTypeCompFieldType, info, lChain, rChain)) {
+							|| (lChain.hasRecursion() && rChain.hasRecursion())
+							|| cfType.isCompatible(timestamp, tempTypeCompFieldType, info, lChain, rChain)) {
 						info.setNeedsConversion(true);
 						lChain.previousState();
 						rChain.previousState();
@@ -151,8 +151,8 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					lChain.add(cfType);
 					rChain.add(tempTypeCompFieldType);
 					if (cfType.equals(tempTypeCompFieldType)
-						|| (lChain.hasRecursion() && rChain.hasRecursion())
-						|| cfType.isCompatible(timestamp, tempTypeCompFieldType, info, lChain, rChain)) {
+							|| (lChain.hasRecursion() && rChain.hasRecursion())
+							|| cfType.isCompatible(timestamp, tempTypeCompFieldType, info, lChain, rChain)) {
 						info.setNeedsConversion(true);
 						lChain.previousState();
 						rChain.previousState();
@@ -253,7 +253,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				type.checkRecursions(timestamp, cachedChain);
 				cachedChain.previousState();
 			}
-			
+
 			if (cachedChain.getNofErrors() < i) {
 				break;
 			}

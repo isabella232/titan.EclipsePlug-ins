@@ -15,16 +15,16 @@ public class CharstringExtractor {
 
 	// Error messages
 	private static final String INVALID_ESCAPE_SEQUENCE = "Invalid escape sequence: ";
-	
+
 	/** true, if TTCN-3 string contains error */
 	private boolean mErrorneous = false;
-	
+
 	/** the value string of the TTCN-3 string */
 	private final String mExtractedString;
-	
+
 	/** the error message (if any) */
 	private String mErrorMessage;
-	
+
 	/**
 	 * Constructor
 	 * @param aTccnCharstring the TTCN-3 string with escapes to extract
@@ -32,12 +32,12 @@ public class CharstringExtractor {
 	public CharstringExtractor( final String aTccnCharstring ) {
 		mExtractedString = extractString( aTccnCharstring );
 	}
-	
+
 	/** @return the value string of the TTCN-3 string */
 	public String getExtractedString() {
 		return mExtractedString;
 	}
-	
+
 	/**
 	 * @return if TTCN-3 string contains error
 	 */
@@ -51,7 +51,7 @@ public class CharstringExtractor {
 	public String getErrorMessage() {
 		return mErrorMessage;
 	}
-	
+
 	/**
 	 * Converts string with special characters to normal displayable string
 	 * Special characters:
@@ -173,7 +173,7 @@ public class CharstringExtractor {
 	private static boolean isHexDigit( final char aChar ) {
 		return (aChar >= '0' && aChar <= '9') || (aChar >= 'a' && aChar <= 'f') || (aChar >= 'A' && aChar <= 'F');
 	}
-	
+
 	/**
 	 * @param aChar character to check
 	 * @return true if aChar is octal digit

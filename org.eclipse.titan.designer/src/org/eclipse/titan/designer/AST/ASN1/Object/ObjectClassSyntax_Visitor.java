@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1.Object;
 
 /**
  * Abstract class for OCS visitors.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ObjectClassSyntax_Visitor {

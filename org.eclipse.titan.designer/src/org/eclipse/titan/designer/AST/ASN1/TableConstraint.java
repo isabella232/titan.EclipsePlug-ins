@@ -59,7 +59,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.BlockLevelTokenStreamTracke
 /**
  * Represents a TableConstraint (SimpleTableConstraint and
  * ComponentRelationConstraint)
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -335,7 +335,7 @@ public final class TableConstraint extends Constraint {
 		}  //for loop
 
 		// well, the atnotations seems to be ok, let's produce the alternatives for the opentype
-		
+
 		if (objectSet instanceof Referenced_ObjectSet) {
 			final Identifier objectSetId = ((Referenced_ObjectSet) objectSet).getId();
 			collectTypesOfOpenType(timestamp, objectSet, openType, objectSetId);
@@ -346,7 +346,7 @@ public final class TableConstraint extends Constraint {
 	}
 
 	private void collectTypesOfOpenType(final CompilationTimeStamp aTimestamp, ObjectSet aObjectSet, final Open_Type aOpenType, final Identifier aObjectSetId) {
-		
+
 		if (aObjectSet instanceof Referenced_ObjectSet) {
 			if ( ((Referenced_ObjectSet) aObjectSet).isReferencedDefinedReference()){
 				aObjectSet = aObjectSet.getRefdLast(aTimestamp, null);
@@ -356,7 +356,7 @@ public final class TableConstraint extends Constraint {
 				return; //impossible, try it
 			}
 		}
-		
+
 		//now aObjectSet is instanceof ObjectSet_definition:
 		List<IObjectSet_Element> oses = ((ObjectSet_definition) aObjectSet).getObjectSetElements();
 		for( IObjectSet_Element ose : oses) {
@@ -383,7 +383,7 @@ public final class TableConstraint extends Constraint {
 					fs = od.getFieldSettingWithNameDefault(aObjectSetId,false);
 					if( fs == null) {
 						continue;
-					} 
+					}
 
 					if( fs instanceof FieldSetting_ObjectSet ) {
 						final ISetting objectSet1 = fs.getSetting();
@@ -404,7 +404,7 @@ public final class TableConstraint extends Constraint {
 			}
 		}//for
 		aOpenType.check(aTimestamp);
-}
+	}
 
 
 	//Original titan.core version: t_type->get_otaltname(is_strange);
@@ -445,7 +445,7 @@ public final class TableConstraint extends Constraint {
 		} else {
 			Identifier tmpId1 = new Identifier(Identifier_type.ID_NAME, type.getFullName());
 			String s = tmpId1.getDisplayName();
-			//module name will be cut off: 
+			//module name will be cut off:
 			if (s.startsWith("@") && s.indexOf('.') > 0) {
 				s = s.substring(s.indexOf('.') + 1);
 			}
@@ -528,6 +528,6 @@ public final class TableConstraint extends Constraint {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// TODO
 		return true;
-	} 
+	}
 
 }

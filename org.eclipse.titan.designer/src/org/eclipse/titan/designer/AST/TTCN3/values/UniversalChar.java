@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
  * Represents a single univerchar character.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class UniversalChar {
@@ -138,8 +138,8 @@ public final class UniversalChar {
 	 * Returns the hashcode for the Universal character.
 	 * Useful in case it is stored in a hashmap.
 	 *
-     * @return  a hash code value for this universal character.
-     */
+	 * @return  a hash code value for this universal character.
+	 */
 	@Override
 	public int hashCode() {
 		int h = group;
@@ -164,9 +164,9 @@ public final class UniversalChar {
 
 	/**
 	 * Returns the Java expression to be used in the generated code.
-	 * 
+	 *
 	 * get_single_expr in the compiler
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {

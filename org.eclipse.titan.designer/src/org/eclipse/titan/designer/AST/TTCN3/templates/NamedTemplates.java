@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Class to represent NamedTemplateList.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class NamedTemplates extends ASTNode implements IIncrementallyUpdateable {
@@ -75,7 +75,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 
 	/**
 	 * Adds a new template to the list.
-	 * 
+	 *
 	 * @param template
 	 *                the template to be added.
 	 * */
@@ -110,7 +110,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 	/**
 	 * @param index
 	 *                the index of the element to return.
-	 * 
+	 *
 	 * @return the template on the indexed position.
 	 * */
 	public NamedTemplate getTemplateByIndex(final int index) {
@@ -119,7 +119,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 
 	/**
 	 * Checks if there is a named template in the list, with a given name.
-	 * 
+	 *
 	 * @param id
 	 *                the name to search for.
 	 * @return true if the list has a template with the provided name, false
@@ -136,7 +136,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 	/**
 	 * Checks if there is a template with the provided name, and if found
 	 * returns it.
-	 * 
+	 *
 	 * @param id
 	 *                the name to search for.
 	 * @return the template with the provided name position if such exists,
@@ -156,7 +156,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 
 	/**
 	 * Checks the uniqueness of the named templates.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual build cycle
 	 * */
@@ -208,7 +208,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 
 	/**
 	 * Handles the incremental parsing of this list of named templates.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

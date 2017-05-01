@@ -13,16 +13,16 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template for the subset matching mechanism.
- * 
- * <p>Example 1: 
+ *
+ * <p>Example 1:
  * <p> type set    of integer SoI;
  * <p> template SoI t_1 := subset ( 1,2,? );
- * 
+ *
  * <p>Example 2:
  * <p>type set    of integer SoI;
  * <p>template SoI t_SoI1 := {1, 2, (6..9)};
  * <p>template subset(all from t_SOI1) length(2);
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SubsetMatch_Template extends CompositeTemplate {

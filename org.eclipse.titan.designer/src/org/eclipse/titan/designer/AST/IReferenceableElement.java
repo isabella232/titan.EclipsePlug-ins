@@ -16,7 +16,7 @@ public interface IReferenceableElement {
 
 	/**
 	 * Resolves the given reference with this type.
-	 * 
+	 *
 	 * @param reference The reference to resolve.
 	 * @param subRefIdx The index of the sub-reference which belongs to this type.
 	 * @param lastSubreference The last sub-reference to resolve.

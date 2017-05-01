@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Type assignment.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Type_Assignment extends ASN1Assignment {
@@ -96,8 +96,8 @@ public final class Type_Assignment extends ASN1Assignment {
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {

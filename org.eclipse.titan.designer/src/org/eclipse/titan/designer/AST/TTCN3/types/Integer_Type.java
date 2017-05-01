@@ -46,11 +46,11 @@ public final class Integer_Type extends Type {
 	private static final String INCORRECTBOUNDARIES = "The lower boundary is higher than the upper boundary";
 	private static final String INCORRECTLOWERBOUNDARY = "The lower boundary cannot be +infinity";
 	private static final String INCORRECTUPPERBOUNDARY = "The upper boundary cannot be -infinity";
-	
+
 	private static enum BOUNDARY_TYPE {
 		LOWER, UPPER
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Type_type getTypetype() {
@@ -227,7 +227,7 @@ public final class Integer_Type extends Type {
 			}
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
@@ -245,7 +245,7 @@ public final class Integer_Type extends Type {
 			final IValue lower = checkBoundary(timestamp, range.getMin(),BOUNDARY_TYPE.LOWER);
 			final IValue upper = checkBoundary(timestamp, range.getMax(),BOUNDARY_TYPE.UPPER);
 			range.setTypeType(getTypetypeTtcn3());
-			
+
 			// Template references are not checked.
 			if (lower != null && Value.Value_type.INTEGER_VALUE.equals(lower.getValuetype()) && upper != null
 					&& Value.Value_type.INTEGER_VALUE.equals(upper.getValuetype())) {
@@ -266,7 +266,7 @@ public final class Integer_Type extends Type {
 		case ANY_OR_OMIT:
 		case ANY_VALUE:
 			//Allowed
-		    break;
+			break;
 		default:
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
 			template.setIsErroneous(true);
@@ -287,7 +287,7 @@ public final class Integer_Type extends Type {
 		IValue temp = checkThisValueRef(timestamp, value);
 		checkThisValueLimit(timestamp, temp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, true, false);
 		temp = temp.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
-		
+
 		if(Value_type.REAL_VALUE.equals(temp.getValuetype())) {
 			if( ((Real_Value) temp).isNegativeInfinity() ) {
 				if( BOUNDARY_TYPE.UPPER.equals(btype)) {
@@ -307,7 +307,7 @@ public final class Integer_Type extends Type {
 				return null;
 			}
 		}
-		
+
 		switch (temp.getValuetype()) {
 		case INTEGER_VALUE:
 			break;

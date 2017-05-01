@@ -27,7 +27,7 @@ import org.eclipse.titan.designer.parsers.asn1parser.TokenWithIndexAndSubTokens;
 
 /**
  * OCS visitor to parse an object definition.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -124,7 +124,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 				final Token token = mBlock.getTokenList().get(internalIndex);
 				myObject.getLocation().reportSemanticError("Unexpected `" + token.getText() + "', it is a superfluous part");
 			}
-		} 
+		}
 
 		if (!success) {
 			myObject.getLocation().reportSemanticError("Check the syntax of objectclass");
@@ -166,7 +166,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 		}
 
 		int i;
-		
+
 		if (null != mBlock) {
 			Token token = mBlock.getTokenList().get(internalIndex);
 			if (parameter.getOptionalFirstComma() && myObject.getNofFieldSettings() > 0) {
@@ -205,7 +205,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 				}
 				i = 1;
 			}
-	
+
 			for (; i < parameter.getNofNodes(); i++) {
 				parameter.getNthNode(i).accept(this);
 				if (!previousSuccess) {
@@ -245,7 +245,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 				}
 			}
 		}
-		
+
 		return type;
 	}
 
@@ -266,7 +266,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 			}
 			return false;
 		}
-		
+
 		return false;
 	}
 
@@ -286,7 +286,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 				}
 			}
 		}
-		
+
 		return object;
 	}
 
@@ -306,7 +306,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 				}
 			}
 		}
-		
+
 		return objectSet;
 	}
 }

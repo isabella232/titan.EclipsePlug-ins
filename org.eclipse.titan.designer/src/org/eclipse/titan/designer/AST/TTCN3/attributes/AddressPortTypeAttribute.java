@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 /**
  * Represents the address attribute that can be assigned to port types, in order
  * to enable the support of the address type inside the port too.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class AddressPortTypeAttribute extends PortTypeAttribute {

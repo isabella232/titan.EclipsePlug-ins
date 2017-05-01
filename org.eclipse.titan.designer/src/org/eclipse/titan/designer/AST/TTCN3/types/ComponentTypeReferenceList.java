@@ -179,7 +179,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 			reparser.updateLocation(reference.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {

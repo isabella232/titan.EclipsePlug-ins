@@ -28,10 +28,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Helper class for the SelectUnionCase_Statement class.
  * Represent the body part of a select union.
  * Holds a list of the select union cases that were parsed from the source code.
- * 
+ *
  * @see SelectUnionCase_Statement
  * @see SelectUnionCase
- * 
+ *
  * @author Arpad Lovassy
  */
 public final class SelectUnionCases extends ASTNode implements IIncrementallyUpdateable {
@@ -61,7 +61,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 * Adds a select case branch.
 	 * <p>
 	 * The parameter can not be null, that case is handled in the parser.
-	 * 
+	 *
 	 * @param selectCase
 	 *                the select case to be added.
 	 * */
@@ -72,7 +72,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 
 	/**
 	 * Sets the scope of the contained select case branches.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to be set.
 	 * */
@@ -105,10 +105,10 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	/**
 	 * Checks whether the select cases have a return statement, either
 	 * directly or embedded.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the return status of the select cases.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
@@ -150,7 +150,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 
 	/**
 	 * Does the semantic checking of the select case list of union type
-	 * 
+	 *
 	 * @param aTimestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param aUnionType
@@ -170,7 +170,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 
 	/**
 	 * Does the semantic checking of the select case list of anytype type
-	 * 
+	 *
 	 * @param aTimestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param aAnytypeType

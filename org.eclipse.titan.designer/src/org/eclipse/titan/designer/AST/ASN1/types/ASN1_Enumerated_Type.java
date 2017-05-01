@@ -149,10 +149,10 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 	/**
 	 * Check if an enumeration item exists with the provided name.
-	 * 
+	 *
 	 * @param identifier
 	 *                the name to look for
-	 * 
+	 *
 	 * @return true it there is an item with that name, false otherwise.
 	 * */
 	public final boolean hasEnumItemWithName(final Identifier identifier) {
@@ -165,10 +165,10 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 
 	/**
 	 * Returns an enumeration item with the provided name.
-	 * 
+	 *
 	 * @param identifier
 	 *                the name to look for
-	 * 
+	 *
 	 * @return the enumeration item with the provided name, or null.
 	 * */
 	public final EnumItem getEnumItemWithName(final Identifier identifier) {
@@ -248,7 +248,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	 * name of the item is not a duplicate, and its value is in correct
 	 * order. Also for items after the ellipsis if the value is missing a
 	 * new one is assigned.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param item
@@ -264,9 +264,9 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		final Identifier itemID = item.getId();
 		if (nameMap.containsKey(itemID.getName())) {
 			nameMap.get(itemID.getName())
-					.getLocation()
-					.reportSingularSemanticError(
-							MessageFormat.format(Assignments.DUPLICATEDEFINITIONFIRST, itemID.getDisplayName()));
+			.getLocation()
+			.reportSingularSemanticError(
+					MessageFormat.format(Assignments.DUPLICATEDEFINITIONFIRST, itemID.getDisplayName()));
 			itemID.getLocation().reportSemanticError(MessageFormat.format(DUPLICATEENUMERATEDREPEATED, itemID.getDisplayName()));
 		} else {
 			nameMap.put(itemID.getName(), item);
@@ -330,9 +330,9 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				}
 			} else {
 				value.getLocation().reportSemanticError(
-					MessageFormat.format(
-						"ENUMERATED values shall be monotonically growing after the ellipsis: the value of `{0}'' must be at least {1} instead of {2}",
-										itemID.getDisplayName(), firstUnused, enumValue));
+						MessageFormat.format(
+								"ENUMERATED values shall be monotonically growing after the ellipsis: the value of `{0}'' must be at least {1} instead of {2}",
+								itemID.getDisplayName(), firstUnused, enumValue));
 				value.setIsErroneous(true);
 			}
 		} else {
@@ -498,7 +498,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			}
 		}
 	}
-	
+
 	@Override
 	public final void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();

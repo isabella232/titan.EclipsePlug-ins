@@ -11,7 +11,6 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferencingElement;
@@ -25,7 +24,6 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
-import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -33,7 +31,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a named value.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class NamedValue extends ASTNode implements ILocateableNode, IIncrementallyUpdateable, IReferencingElement {
@@ -133,7 +131,7 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 			throw new ReParseException();
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -173,7 +171,7 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 			return null;
 		}
 		type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		
+
 
 		if (type instanceof ITypeWithComponents) {
 			final Identifier id = ((ITypeWithComponents) type).getComponentIdentifierByName(getName());

@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1.definitions;
 
 /**
  * Enumeration to represent tags.
- * 
+ *
  * @author Kristof Szabados
  */
 public enum Tag_types {

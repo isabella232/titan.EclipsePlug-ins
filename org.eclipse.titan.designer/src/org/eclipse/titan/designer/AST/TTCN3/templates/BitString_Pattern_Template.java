@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template that holds a bitstring pattern.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class BitString_Pattern_Template extends TTCN3Template {

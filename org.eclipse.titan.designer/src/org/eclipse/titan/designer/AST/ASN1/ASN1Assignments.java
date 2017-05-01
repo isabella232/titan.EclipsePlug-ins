@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Class to store assignments. It also contains the ASN-related pre-defined
  * (so-called "useful") stuff.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ASN1Assignments extends Assignments implements ILocateableNode {
@@ -61,7 +61,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 
 	/**
 	 * Sets the scope of the right hand side of the assignments.
-	 * 
+	 *
 	 * @param right_scope
 	 *                the scope to be set.
 	 * */
@@ -125,7 +125,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 
 		return false;
 	}
-	
+
 	@Override
 	public Assignment getLocalAssignmentByID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (null == lastUniqueNessCheckTimeStamp) {
@@ -172,7 +172,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	 * <p>
 	 * The scope of the newly added assignment is set to this scope scope
 	 * here.
-	 * 
+	 *
 	 * @param assignment
 	 *                the assignment to be added
 	 * */
@@ -191,7 +191,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	 * Only assignments which were created dynamically during the semantic
 	 * check shall be added with this function. The scope of the newly added
 	 * assignment is set to this scope scope here.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param assignment
@@ -228,7 +228,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	/**
 	 * Checks the uniqueness of the definitions, and also builds a hashmap
 	 * of them to speed up further searches.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */

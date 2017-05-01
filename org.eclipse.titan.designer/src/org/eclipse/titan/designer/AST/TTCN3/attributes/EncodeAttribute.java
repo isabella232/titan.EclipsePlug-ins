@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.AST.IType.Encoding_type;
  * Represents a single encode attribute on an external function, used to
  * automatically generate the encoding function, according to the encoding type
  * and options passed as parameters..
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class EncodeAttribute extends ExtensionAttribute implements IVisitableNode {

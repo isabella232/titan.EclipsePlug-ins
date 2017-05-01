@@ -10,10 +10,10 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Special reference type used by map, unmap, connect, disconnect statements.
- * 
+ *
  * This reference is never part of the scope hierarchy,
  * but only references a port within a component type.
- * 
+ *
  * */
 public class PortReference extends Reference {
 	private static final String NOPORTWITHNAME = "Component type `{0}'' does not have a port with name `{1}''";
@@ -23,7 +23,7 @@ public class PortReference extends Reference {
 	public PortReference(final Reference reference) {
 		super(null, reference.getSubreferences());
 	}
-	
+
 	public void setComponent(final Component_Type componentType) {
 		this.componentType = componentType;
 	}
@@ -39,11 +39,11 @@ public class PortReference extends Reference {
 		if(myScope == null || componentType == null) {
 			return null;
 		}
-		
+
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return referredAssignment;
 		}
-		
+
 		super.getRefdAssignment(timestamp, checkParameterList);//just for error compatibility with...
 		final Identifier portIdentifier = getId();
 		final ComponentTypeBody componentBody = componentType.getComponentBody();
@@ -55,9 +55,9 @@ public class PortReference extends Reference {
 			lastTimeChecked = timestamp;
 			return null;
 		}
-		
+
 		referredAssignment = componentBody.getLocalAssignmentById(portIdentifier);
-		
+
 		if (referredAssignment != null) {
 			referredAssignment.check(timestamp);
 			referredAssignment.setUsed();
@@ -69,11 +69,11 @@ public class PortReference extends Reference {
 				}
 			}
 		}
-		
+
 		lastTimeChecked = timestamp;
 
 		return referredAssignment;
 	}
-	
-	
+
+
 }

@@ -178,7 +178,7 @@ public final class Receive_Port_Statement extends Statement {
 
 	/**
 	 * Checks a port receiving statement.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param origin

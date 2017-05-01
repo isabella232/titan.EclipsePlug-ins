@@ -121,7 +121,7 @@ public final class Not4bExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -210,10 +210,10 @@ public final class Not4bExpression extends Expression_Value {
 
 	/**
 	 * Calculates the negation of a binary string.
-	 * 
+	 *
 	 * @param input
 	 *                the original string.
-	 * 
+	 *
 	 * @return the converted value, where each bit is negated
 	 * */
 	public static String not4bBit(final String input) {
@@ -231,10 +231,10 @@ public final class Not4bExpression extends Expression_Value {
 
 	/**
 	 * Calculates the negation of a binary string.
-	 * 
+	 *
 	 * @param input
 	 *                the original string.
-	 * 
+	 *
 	 * @return the converted value, where each bit is negated
 	 * */
 	public static String not4bHex(final String input) {

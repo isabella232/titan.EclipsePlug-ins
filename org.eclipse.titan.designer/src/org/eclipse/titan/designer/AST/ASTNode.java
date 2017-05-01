@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Base class for AST-classes.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisitableNode {
@@ -99,23 +99,23 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 
 					String desc = null;
 					if (parentT3doc.getMembers() != null) {
-					  desc = parentT3doc.getMembers().get(st);
+						desc = parentT3doc.getMembers().get(st);
 					}
-					
+
 					if (parentT3doc.getParams() != null) {
-					  desc = parentT3doc.getParams().get(st);
+						desc = parentT3doc.getParams().get(st);
 					}
 
 					if (desc != null) {
 						return new T3Doc(desc);
 					}
 
-				} else if (assignment.getAssignmentType() == Assignment_type.A_FUNCTION 
-					||
-					assignment.getAssignmentType() == Assignment_type.A_FUNCTION_RTEMP 
-					||
-					assignment.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL) {
-					
+				} else if (assignment.getAssignmentType() == Assignment_type.A_FUNCTION
+						||
+						assignment.getAssignmentType() == Assignment_type.A_FUNCTION_RTEMP
+						||
+						assignment.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL) {
+
 					final String st1 = this.getFullName().toString();
 					final String st = st1.substring(st1.lastIndexOf('.') + 1);
 
@@ -170,14 +170,14 @@ public abstract class ASTNode implements IASTNode, IIdentifierContainer, IVisita
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 	}
-	
+
 	/**
 	 * Called by accept(), AST objects have to call accept() of their members in this function
 	 * @param v the visitor object
 	 * @return false to abort, will be returned by accept()
 	 */
 	protected abstract boolean memberAccept(final ASTVisitor v);
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean accept(final ASTVisitor v) {

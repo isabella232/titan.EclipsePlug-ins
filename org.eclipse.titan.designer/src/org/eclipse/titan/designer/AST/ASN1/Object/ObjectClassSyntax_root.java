@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1.Object;
 
 /**
  * Class to represent the root of an OCS.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectClassSyntax_root extends ObjectClassSyntax_Node {

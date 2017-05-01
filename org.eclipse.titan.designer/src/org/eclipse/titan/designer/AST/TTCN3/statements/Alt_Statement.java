@@ -21,9 +21,9 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * The Alt_Statement class represents TTCN3 alt statements.
- * 
+ *
  * @see AltGuards
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Alt_Statement extends Statement {

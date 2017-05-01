@@ -53,7 +53,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	public static final String INCOMPLETEPRESENTERROR = "Not used symbol `-' is not allowed in this context";
 	private static final String UNSUPPORTED_FIELDNAME =
 			"Sorry, but it is not supported for set types to have a field with a name (`{0}'') "
-			+ "which exactly matches the name of the type definition.";
+					+ "which exactly matches the name of the type definition.";
 	private static final String NONEMPTYEXPECTED = "A non-empty value was expected for type `{0}''";
 
 	private static final String VALUELISTNOTATIONERRORASN1 = "Value list notation cannot be used for SET type `{0}''";
@@ -180,8 +180,8 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				rChain.add(tempTypeCfType);
 				final TypeCompatibilityInfo infoTemp = new TypeCompatibilityInfo(cfType, tempTypeCfType, false);
 				if (!cfType.equals(tempTypeCfType)
-					&& !(lChain.hasRecursion() && rChain.hasRecursion())
-					&& !cfType.isCompatible(timestamp, tempTypeCfType, infoTemp, lChain, rChain)) {
+						&& !(lChain.hasRecursion() && rChain.hasRecursion())
+						&& !cfType.isCompatible(timestamp, tempTypeCfType, infoTemp, lChain, rChain)) {
 					final String cfName = cf.getIdentifier().getDisplayName();
 					final String tempTypeCfName = tempTypeCf.getIdentifier().getDisplayName();
 					info.appendOp1Ref("." + cfName + infoTemp.getOp1RefStr());
@@ -240,8 +240,8 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				lChain.add(cfType);
 				rChain.add(tempTypeCfType);
 				if (!cfType.equals(tempTypeCfType)
-					&& !(lChain.hasRecursion() && rChain.hasRecursion())
-					&& !cfType.isCompatible(timestamp, tempTypeCfType, infoTemp, lChain, rChain)) {
+						&& !(lChain.hasRecursion() && rChain.hasRecursion())
+						&& !cfType.isCompatible(timestamp, tempTypeCfType, infoTemp, lChain, rChain)) {
 					final String cfName = cf.getIdentifier().getDisplayName();
 					final String tempTypeCfName = tempTypeCf.getIdentifier().getDisplayName();
 					info.appendOp1Ref("." + cfName + infoTemp.getOp1RefStr());
@@ -290,8 +290,8 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				lChain.add(cfType);
 				rChain.add(tempTypeOfType);
 				if (!cfType.equals(tempTypeOfType)
-					&& !(lChain.hasRecursion() && rChain.hasRecursion())
-					&& !cfType.isCompatible(timestamp, tempTypeOfType, infoTemp, lChain, rChain)) {
+						&& !(lChain.hasRecursion() && rChain.hasRecursion())
+						&& !cfType.isCompatible(timestamp, tempTypeOfType, infoTemp, lChain, rChain)) {
 					info.appendOp1Ref("." + cf.getIdentifier().getDisplayName() + infoTemp.getOp1RefStr());
 					if (infoTemp.getOp2RefStr().length() > 0) {
 						info.appendOp2Ref("[]");
@@ -476,7 +476,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				subType.checkThisValue(timestamp, last);
 			}
 		}
-		
+
 		value.setLastTimeChecked(timestamp);
 	}
 
@@ -680,7 +680,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}
-		
+
 		for ( final CompField compField : compFieldMap.fields ) {
 			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
 			compField.getType().generateJava(aData, tempSource);

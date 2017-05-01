@@ -15,7 +15,7 @@ import org.eclipse.titan.designer.core.ProductIdentityHelper;
 
 /**
  * Represents module version information (i.e. the module's own version)
- * 
+ *
  * @author Csaba Raduly
  */
 public class ModuleVersionAttribute extends ExtensionAttribute {
@@ -29,7 +29,7 @@ public class ModuleVersionAttribute extends ExtensionAttribute {
 
 	/**
 	 * Constructor, just stores the data.
-	 * 
+	 *
 	 * @param id
 	 *                identifier representing the version info
 	 * @param template

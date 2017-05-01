@@ -36,7 +36,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents a refers expression.
  * <p>
  * In the compiler this is a direct value.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class RefersExpression extends Expression_Value {
@@ -98,7 +98,7 @@ public final class RefersExpression extends Expression_Value {
 		if (referredAssignment == null) {
 			evaluateValue(timestamp, expectedValue, null);
 		}
-		
+
 		if(referredAssignment == null) {
 			return Type_type.TYPE_UNDEFINED;
 		}
@@ -130,7 +130,7 @@ public final class RefersExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue

@@ -44,18 +44,18 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Component field.
  * <p>
  * Used to contain data about a field of a structured type.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class CompField extends ASTNode
-				implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUpdateable, IReferencingElement {
+implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUpdateable, IReferencingElement {
 	private static final String FULLNAMEPART = ".<defaultValue>";
 
 	private Identifier name;
 	private final Type type;
 	private final boolean optional;
 	private final Value defaultValue;
-	
+
 	private Location commentLocation = null;
 
 	/**
@@ -178,7 +178,7 @@ public final class CompField extends ASTNode
 	public Value getDefault() {
 		return defaultValue;
 	}
-	
+
 	/**
 	 * @return The location of the comment assigned to this definition.
 	 *  Or null if none.
@@ -226,7 +226,7 @@ public final class CompField extends ASTNode
 
 		type.check(timestamp);
 		type.checkEmbedded(timestamp, type.getLocation(), true, "embedded into another type");
-		
+
 		if (defaultValue == null) {
 			return;
 		}
@@ -323,7 +323,7 @@ public final class CompField extends ASTNode
 			reparser.updateLocation(defaultValue.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
@@ -368,7 +368,7 @@ public final class CompField extends ASTNode
 		if (tempType == null) {
 			return null;
 		}
-		
+
 		tempType = tempType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 		if (tempType instanceof ITypeWithComponents) {

@@ -142,7 +142,7 @@ public final class Unknown_Applied_Statement extends Statement {
 				location.reportConfigurableSemanticProblem(
 						Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 								PreferenceConstants.REPORTUNUSEDFUNCTIONRETURNVALUES, GeneralConstants.WARNING, null),
-						MessageFormat.format(UNUSEDRETURNVALUE, type.getTypename()));
+								MessageFormat.format(UNUSEDRETURNVALUE, type.getTypename()));
 			}
 
 			formalParameterList = ((Function_Type) type).getFormalParameters();

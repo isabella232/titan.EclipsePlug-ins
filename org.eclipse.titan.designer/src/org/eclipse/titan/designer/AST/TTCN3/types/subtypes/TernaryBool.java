@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types.subtypes;
 
 /**
  * http://en.wikipedia.org/wiki/Ternary_logic
- * 
+ *
  * @author Adam Delic
  */
 public enum TernaryBool {

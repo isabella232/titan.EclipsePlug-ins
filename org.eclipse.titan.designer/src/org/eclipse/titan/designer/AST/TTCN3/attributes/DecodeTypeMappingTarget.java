@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents an decoding type mapping target.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class DecodeTypeMappingTarget extends TypeMappingTarget {

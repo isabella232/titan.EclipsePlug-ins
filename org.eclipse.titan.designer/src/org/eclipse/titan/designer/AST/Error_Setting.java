@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.AST;
 
 /**
  * Ass_Error::get_Setting() returns this.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Error_Setting extends Setting {

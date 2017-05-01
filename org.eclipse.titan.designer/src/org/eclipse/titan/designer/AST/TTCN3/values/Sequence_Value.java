@@ -60,7 +60,7 @@ public final class Sequence_Value extends Value {
 
 	/**
 	 * function used to convert a value written without naming the fields into a template where all field names are provided.
-	 * 
+	 *
 	 * @param timestamp the timestamp of the actual build cycle
 	 * @param value the value to be converted
 	 * */
@@ -137,15 +137,15 @@ public final class Sequence_Value extends Value {
 			}
 		}
 
-		
+
 
 		if (allNotUsed && nofValues > 0) {
 			value.getLocation().reportSemanticWarning(MessageFormat.format(ALLARENOTUSED, t.getTypename()));
 		}
-		
+
 		final Sequence_Value target = new Sequence_Value(values);
 		target.copyGeneralProperties(value);
-		
+
 		return target;
 	}
 
@@ -741,11 +741,11 @@ public final class Sequence_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if (myGovernor == null) {
 			return;
 		}
-		
+
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if(Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
@@ -795,7 +795,7 @@ public final class Sequence_Value extends Value {
 		default:
 			//TODO fatal error
 		}
-		
+
 		CompField compField = null;
 		for (int i = 0; i < nofComps; i++) {
 			switch (type.getTypetype()) {
@@ -822,7 +822,7 @@ public final class Sequence_Value extends Value {
 			else {
 				continue;
 			}
-			
+
 			if (fieldValue != null) {
 				//TODO handle the case when temporary reference is needed
 				StringBuilder embeddedName = new StringBuilder();
@@ -839,7 +839,7 @@ public final class Sequence_Value extends Value {
 				// TODO: handle omit value
 			}
 		}
-		
+
 		return source;
 	}
 }

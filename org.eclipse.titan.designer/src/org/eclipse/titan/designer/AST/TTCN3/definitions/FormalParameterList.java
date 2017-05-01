@@ -65,7 +65,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * The FormalParameterList class represents the formal parameter lists found in
  * TTCN3.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class FormalParameterList extends TTCN3Scope implements ILocateableNode, IIncrementallyUpdateable {
@@ -212,7 +212,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	/**
 	 * Checks if a "-" was specified in the formal parameter list.
-	 * 
+	 *
 	 * @return true if one of the parameters has notused as default value.
 	 * */
 	public final boolean hasNotusedDefaultValue() {
@@ -229,7 +229,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * Checks whether the formal parameter list has only formal parameters
 	 * that have default values. In case of template, they can be called
 	 * without parenthesis.
-	 * 
+	 *
 	 * @return true if each formal parameter has a default value, false
 	 *         otherwise.
 	 * */
@@ -245,7 +245,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	/**
 	 * Sets the scope of the formal parameter list.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to be set
 	 * */
@@ -267,7 +267,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/**
 	 * Checks the uniqueness of the parameters, and also builds a hashmap of
 	 * them to speed up further searches.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -407,15 +407,15 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				final Location tempLocation = parameters.get(i).getLocation();
 				tempLocation.reportSemanticError(MessageFormat.format(
 						"Formal parameter `{0}'' cannot be @lazy, not supported in this case.", parameters.get(i)
-								.getAssignmentName()));
+						.getAssignmentName()));
 			}
 		}
 	}
 
 	/**
-	 * Read the parsed actual parameters, and collate the lazy and non-lazy actual parameters 
+	 * Read the parsed actual parameters, and collate the lazy and non-lazy actual parameters
 	 * according to their associated formal parameters.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param parsedParameters
@@ -427,18 +427,18 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 */
 	public final void collateLazyAndNonLazyActualParameters(final CompilationTimeStamp timestamp, final ParsedActualParameters parsedParameters,
 			final ActualParameterList actualLazyParameters,final ActualParameterList actualNonLazyParameters) {
-		
+
 		final TemplateInstances unnamed = parsedParameters.getInstances();
 		final NamedParameters named = parsedParameters.getNamedParameters();
 		int nofLocated = unnamed.getNofTis();
-		
+
 		final Map<FormalParameter, Integer> formalParameterMap = new HashMap<FormalParameter, Integer>();
 		for (int i = 0, size = parameters.size(); i < size; i++) {
 			formalParameterMap.put(parameters.get(i), Integer.valueOf(i));
 		}
-		
+
 		final TemplateInstances finalUnnamed = new TemplateInstances(unnamed);
-		
+
 		for (int i = 0, size = named.getNofParams(); i < size; i++) {
 			final NamedParameter namedParameter = named.getParamByIndex(i);
 			final FormalParameter formalParameter = parameterMap.get(namedParameter.getName().getName());
@@ -456,17 +456,17 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			finalUnnamed.addTemplateInstance(namedParameter.getInstance());
 			nofLocated++;
 		}
-		
+
 		finalUnnamed.setLocation(parsedParameters.getLocation());
-		
+
 		final int upperLimit = (finalUnnamed.getNofTis() < parameters.size()) ? finalUnnamed.getNofTis() : parameters.size();
-		
+
 		for (int i = 0; i < upperLimit; i++) {
 			final TemplateInstance instance = finalUnnamed.getInstanceByIndex(i);
 			final FormalParameter formalParameter = parameters.get(i);
 			if (instance.getType() == null && instance.getDerivedReference() == null
 					&& Template_type.TEMPLATE_NOTUSED.equals(instance.getTemplateBody().getTemplatetype())) {
-					
+
 				final ActualParameter defaultValue = formalParameter.getDefaultValue();
 				final Default_ActualParameter temp = new Default_ActualParameter(defaultValue);
 				if (defaultValue != null && !defaultValue.getIsErroneous()) {
@@ -502,11 +502,11 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			}
 		}
 	}
-	
+
 	/**
 	 * Check if a list of parsed actual parameters is semantically correct
 	 * according to a list of formal parameters (the called entity).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param parsedParameters
@@ -515,7 +515,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * @param actualParameters
 	 *                the list of actual parameters returned for later
 	 *                usage.
-	 * 
+	 *
 	 * @return true if a semantic error was found, false otherwise
 	 * */
 	public final boolean checkActualParameterList(final CompilationTimeStamp timestamp, final ParsedActualParameters parsedParameters,
@@ -612,7 +612,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/**
 	 * Check if a list of parsed actual parameters is semantically correct
 	 * according to a list of formal parameters (the called entity).
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param instances
@@ -622,7 +622,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * @param actualParameters
 	 *                the list of actual parameters returned for later
 	 *                usage.
-	 * 
+	 *
 	 * @return true if a semantic error was found, false otherwise
 	 * */
 	private boolean checkActualParameterList(final CompilationTimeStamp timestamp, final TemplateInstances instances,
@@ -634,7 +634,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				instances.getLocation().reportSemanticError(
 						MessageFormat.format("Too {0} parameters: {1} was expected instead of {2}",
 								(instances.getNofTis() < parameters.size()) ? "few" : "many", parameters.size(),
-								instances.getNofTis()));
+										instances.getNofTis()));
 				isErroneous = true;
 			}
 		} else {
@@ -718,7 +718,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * Check if a list of parsed actual parameters is semantically correct
 	 * according to a list of formal parameters in an activate
 	 * statement/operation.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param actualParameters
@@ -728,7 +728,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * @param description
 	 *                the description of the assignment to be used for
 	 *                reporting errors
-	 * 
+	 *
 	 * @return true if a semantic error was not found, false otherwise
 	 * */
 	public final boolean checkActivateArgument(final CompilationTimeStamp timestamp, final ActualParameterList actualParameters,
@@ -820,7 +820,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * Checks the parameter list for startability: reports error if the
 	 * owner function cannot be started on a PTC. Used by functions and
 	 * function types.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param what
@@ -851,7 +851,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 					final String errorString = MessageFormat.format(CANNOTBESTARTED, what, namedNode.getFullName(),
 							parameter.getDescription());
 					tempType.checkComponentInternal(timestamp, typeSet, errorString);
-			}
+				}
 				break;
 			}
 			default:
@@ -867,11 +867,11 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * Checks the compatibility of two formal parameter lists.
 	 * They are compatible if every parameter is compatible,
 	 *   has the same attribute, type, restriction and name.
-	 * 
+	 *
 	 * Please note that all errors will be reported to the location provided as the last parameter.
 	 * In themselves both formal parameter lists might be OK,
 	 *   so the error needs to be reported to the location where they are compared.
-	 * 
+	 *
 	 * @param timestamp the compilation timestamp
 	 * @param fpList the formal parameter list to be compared to the actual one.
 	 * @param callSite the location where errors should be reported to.
@@ -885,11 +885,11 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		for(int i = 0; i < upperLimit; i++) {
 			final FormalParameter typeParameter = parameters.get(i);
 			final FormalParameter functionParameter = fpList.getParameterByIndex(i);
-			
+
 			if (typeParameter.getIsErroneous() || functionParameter.getIsErroneous()) {
 				continue;
 			}
-			
+
 			if(!typeParameter.getAssignmentType().semanticallyEquals(functionParameter.getAssignmentType())) {
 				callSite.reportSemanticError(MessageFormat.format("The kind of the {0}th parameter is not the same: {1} was expected instead of {2}", i, typeParameter.getAssignmentName(), functionParameter.getAssignmentName()));
 			}
@@ -916,7 +916,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			}
 		}
 	}
-	
+
 	@Override
 	public final boolean hasAssignmentWithId(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (parameterMap != null && parameterMap.containsKey(identifier.getName())) {
@@ -933,11 +933,11 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
-			if (reference.getModuleIdentifier() != null || parameterMap == null) {
+		if (reference.getModuleIdentifier() != null || parameterMap == null) {
 			return getParentScope().getAssBySRef(timestamp, reference);
 		}
 
@@ -958,7 +958,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/**
 	 * Creates a representation of this formal parameter list for use as the
 	 * part of the description of a proposal.
-	 * 
+	 *
 	 * @param builder
 	 *                the StringBuilder to append the representation to.
 	 * @return the StringBuilder after appending the representation.
@@ -976,7 +976,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/**
 	 * Creates a representation of this formal parameter list for use as a
 	 * proposal part.
-	 * 
+	 *
 	 * @param builder
 	 *                the StringBuilder to append the representation to.
 	 * @return the StringBuilder after appending the representation.
@@ -1037,7 +1037,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	/**
 	 * Handles the incremental parsing of this list of formal parameters.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -1109,7 +1109,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			if (!Assignment_type.A_TIMER.equals(parameter.getAssignmentType())) {
 				parameter.getType(CompilationTimeStamp.getBaseTimestamp()).setGenName(prefix, parameterName);
 			}
-			
+
 			if (parameter.hasDefaultValue()) {
 				StringBuilder embeddedName = new StringBuilder(prefix);
 				embeddedName.append('_');

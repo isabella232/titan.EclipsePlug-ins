@@ -40,7 +40,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents an in-line template. Consists of: - an optional type - an optional
  * template reference with or without actual parameter list (in case of in-line
  * modified template) - a mandatory template body
- * 
+ *
  * @author Kristof Szabados
  */
 public final class TemplateInstance extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -197,7 +197,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 * */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		IType tempType = type;
-		
+
 		if(tempType == null) {
 			if (derivedReference != null) {
 				final IType result = checkDerivedReference(timestamp, null);
@@ -362,7 +362,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			case A_VAR_TEMPLATE:
 				needsRuntimeCheck = TemplateRestriction.check(timestamp, definition, templateBody, null);
 				break;
-			//case A_VAR_TEMPLATE:
+				//case A_VAR_TEMPLATE:
 			case A_EXT_FUNCTION_RTEMP:
 			case A_FUNCTION_RTEMP:
 			case A_PAR_TEMP_IN:
@@ -476,6 +476,6 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			templateBody.generateJavaExpression( aData, expression );
 			//TODO handle decoded redirect
 		}
-		
+
 	}
 }

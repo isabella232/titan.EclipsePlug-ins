@@ -45,7 +45,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * Class to represent pr_GroupDef nodes.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -106,7 +106,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		friendModules = new CopyOnWriteArrayList<FriendModule>();
 
 	}
-	
+
 	public final CompilationTimeStamp getLastTimeChecked() {
 		return lastCompilationTimeStamp;
 	}
@@ -392,7 +392,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			final String groupName = group.getIdentifier().getName();
 			if (groupMap.containsKey(groupName)) {
 				groupMap.get(groupName).getIdentifier().getLocation()
-						.reportSingularSemanticError(MessageFormat.format(DUPLICATEGROUPFIRST, groupName));
+				.reportSingularSemanticError(MessageFormat.format(DUPLICATEGROUPFIRST, groupName));
 				group.getIdentifier().getLocation().reportSemanticError(MessageFormat.format(DUPLICATEGROUPREPEATED, groupName));
 			} else {
 				groupMap.put(groupName, group);
@@ -400,19 +400,19 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			if (definitionMap.containsKey(groupName)) {
 				group.getIdentifier().getLocation().reportSemanticError(MessageFormat.format(GROUPCLASHGROUP, groupName));
 				definitionMap.get(groupName).getIdentifier().getLocation()
-						.reportSingularSemanticError(MessageFormat.format(GROUPCLASHDEFINITION, groupName));
+				.reportSingularSemanticError(MessageFormat.format(GROUPCLASHDEFINITION, groupName));
 			}
 		}
 
 		lastUniquenessCheckTimeStamp = timestamp;
 	}
-	
-	
+
+
 	public void markMarkersForRemoval(final CompilationTimeStamp timestamp){
 		if (lastCompilationTimeStamp != null && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
 		}
-		
+
 		//definitions are handled separately!
 		MarkerHandler.markAllSemanticMarkersForRemoval(this.getCommentLocation()); //for example t3doc markers
 		MarkerHandler.markAllSemanticMarkersForRemoval(this.getIdentifier());
@@ -433,7 +433,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			return;
 		}
 		lastCompilationTimeStamp = timestamp;
-		
+
 		T3Doc.check(this.getCommentLocation(), "group");
 
 		NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_GROUP, identifier, "group");
@@ -524,7 +524,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 				parser.setModule(temp);
 				final Pr_reparse_ModuleDefinitionsListContext root =
 						parser.pr_reparse_ModuleDefinitionsList( null, allDefinitions, localDefinitions, localGroups, allImports,
-																 localImports, allFriends, localFriends, null );
+								localImports, allFriends, localFriends, null );
 				ParserUtilities.logParseTree( root, parser );
 
 				if ( parser.isErrorListEmpty() ) {

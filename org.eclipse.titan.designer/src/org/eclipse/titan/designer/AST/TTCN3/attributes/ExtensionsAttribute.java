@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.IType;
 /**
  * An extension attribute representing the component types that a given
  * component type extends.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ExtensionsAttribute extends ExtensionAttribute {

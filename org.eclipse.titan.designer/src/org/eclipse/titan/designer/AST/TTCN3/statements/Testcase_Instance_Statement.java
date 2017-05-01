@@ -189,7 +189,7 @@ public final class Testcase_Instance_Statement extends Statement {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {

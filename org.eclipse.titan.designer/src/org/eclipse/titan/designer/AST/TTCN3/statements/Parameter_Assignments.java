@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the parameter assignments of a parameter redirection.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Parameter_Assignments extends ASTNode implements IIncrementallyUpdateable {

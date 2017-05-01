@@ -42,7 +42,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparser_
 
 /**
  * The ControlPart class represents the control parts of TTCN3 modules.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -73,7 +73,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 
 	/**
 	 * Sets the location of the comment that belongs to this definition.
-	 * 
+	 *
 	 * @param commentLocation
 	 *                the location of the comment
 	 * */
@@ -110,7 +110,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 
 	/**
 	 * Sets the scope of the control part.
-	 * 
+	 *
 	 * @param scope
 	 *                the scope to be set
 	 * */
@@ -129,7 +129,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	/**
 	 * Sets the with attributes for this control part if it has any. Also
 	 * creates the with attribute path, to store the attributes in.
-	 * 
+	 *
 	 * @param attributes
 	 *                the attribute to be added.
 	 * */
@@ -158,7 +158,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	 * Sets the parent path for the with attribute path element of this
 	 * control part. Also, creates the with attribute path node if it did
 	 * not exist before.
-	 * 
+	 *
 	 * @param parent
 	 *                the parent to be set.
 	 * */
@@ -172,7 +172,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 
 	/**
 	 * Does the semantic checking of the control part.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
@@ -180,10 +180,10 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
-		
+
 		MarkerHandler.markAllSemanticMarkersForRemoval(this);
 		lastTimeChecked = timestamp;
-		
+
 		T3Doc.check(this.getCommentLocation(), KIND);
 
 		statementblock.check(timestamp);
@@ -193,7 +193,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 			withAttributesPath.checkAttributes(timestamp);
 		}
 
-		
+
 	}
 
 	/**
@@ -214,11 +214,11 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference) {
 		return getAssBySRef(timestamp, reference, null);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Assignment getAssBySRef(final CompilationTimeStamp timestamp, final Reference reference, final IReferenceChain refChain) {
-			return getParentScope().getAssBySRef(timestamp, reference);
+		return getParentScope().getAssBySRef(timestamp, reference);
 	}
 
 	@Override
@@ -251,7 +251,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 
 	/**
 	 * Handles the incremental parsing of this control part.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @throws ReParseException
@@ -309,7 +309,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 			reparser.updateLocation(withAttributesPath.getLocation());
 		}
 	}
-	
+
 	private int reparse( final TTCN3ReparseUpdater aReparser ) {
 		return aReparser.parse(new ITTCN3ReparseBase() {
 			@Override

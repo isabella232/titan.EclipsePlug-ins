@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a template that holds a charstring pattern.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class CharString_Pattern_Template extends TTCN3Template {

@@ -619,7 +619,7 @@ public final class Referenced_Value extends Value {
 		if (last == this) {
 			return false;
 		}
-		
+
 		return last.canGenerateSingleExpression();
 	}
 
@@ -640,7 +640,7 @@ public final class Referenced_Value extends Value {
 		if (last == this) {
 			return new StringBuilder("/* fatal error during generating code for erroneous reference */");
 		}
-		
+
 		return last.generateSingleExpression(aData);
 	}
 
@@ -678,6 +678,6 @@ public final class Referenced_Value extends Value {
 		//TODO actually generate_code_const_ref
 		reference.generateConstRef(aData, expression);
 	}
-	
-	
+
+
 }

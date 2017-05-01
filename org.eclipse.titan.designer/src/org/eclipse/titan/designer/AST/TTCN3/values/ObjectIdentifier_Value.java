@@ -61,7 +61,7 @@ public final class ObjectIdentifier_Value extends Value {
 		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
 			component = objectIdComponents.get(i);
 			if (component == child) {
-						return builder.append(INamedNode.DOT).append(i + 1);
+				return builder.append(INamedNode.DOT).append(i + 1);
 			}
 		}
 

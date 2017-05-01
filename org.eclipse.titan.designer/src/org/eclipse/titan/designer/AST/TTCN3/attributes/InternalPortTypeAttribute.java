@@ -11,7 +11,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
  * Represents the internal attribute, that can be assigned to a port type. If
  * set, the code for the port type will be automatically generated. But than the
  * port can only be used for internal communication (between TTCN-3 components)
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class InternalPortTypeAttribute extends PortTypeAttribute {

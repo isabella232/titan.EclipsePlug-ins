@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.Type;
 /**
  * An extension attribute representing the rules that describe the contents of
  * the anytype of the module where such attributes are applied.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class AnytypeAttribute extends ExtensionAttribute {

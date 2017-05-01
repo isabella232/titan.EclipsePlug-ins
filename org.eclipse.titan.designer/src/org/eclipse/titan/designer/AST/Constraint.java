@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents a constraint.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class Constraint extends ASTNode {

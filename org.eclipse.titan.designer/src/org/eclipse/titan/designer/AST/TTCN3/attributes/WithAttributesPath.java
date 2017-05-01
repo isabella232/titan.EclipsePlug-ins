@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * Represents a with attribute path element. Using which the attributes can be
  * distributed in the whole system.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class WithAttributesPath implements ILocateableNode, IIncrementallyUpdateable, IIdentifierContainer, IVisitableNode {
@@ -59,7 +59,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 
 	/**
 	 * Set the attributes handled by this with attribute path element.
-	 * 
+	 *
 	 * @param attributes
 	 *                the attributes to be handled in this node.
 	 * */
@@ -78,7 +78,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 	/**
 	 * Sets the with attribute path element to be handled as the parent
 	 * element of this.
-	 * 
+	 *
 	 * @param parent
 	 *                the with attribute path to be set as the parent
 	 *                element.
@@ -121,7 +121,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 	 * attribute, but a "context". if there is a overriding
 	 * variant/display/extension than the followings from the same type
 	 * should be omitted.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 */
@@ -159,7 +159,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			case Encode_Attribute:
 				if (hasEncode) {
 					tempAttribute.getLocation()
-							.reportSemanticError("Only the last encode of the with statement will have effect");
+					.reportSemanticError("Only the last encode of the with statement will have effect");
 				} else {
 					hasEncode = true;
 				}
@@ -234,7 +234,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 
 	/**
 	 * Checks that only certain kind of types are assigned qualifiers.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param type
@@ -281,7 +281,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 	/**
 	 * Only types may have qualifiers, so this checks that there are no
 	 * qualifiers present.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 */
@@ -310,7 +310,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 	/**
 	 * Checks whether an encode attribute was stepped over in this attribute
 	 * path, the last time it got checked.
-	 * 
+	 *
 	 * @return true if an encode attribute was stepped over, false
 	 *         otherwise.
 	 * */
@@ -325,10 +325,10 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 	 * and itself.
 	 * <p>
 	 * This function is doing the actual calculations
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
-	 * 
+	 *
 	 * @return the list of attributes that are finally assigned to the
 	 *         element this path piece belongs to. Can not be null, and
 	 *         adding/removing elements will not change the original lists
@@ -518,10 +518,10 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 	 * the local attributes. Can be used to find out, what are the final
 	 * attributes on an element knowing the attributes set on its parents,
 	 * and itself.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
-	 * 
+	 *
 	 * @return the list of attributes that are finally assigned to the
 	 *         element this path piece belongs to. Can not be null, and
 	 *         adding/removing elements will not change the original lists
@@ -533,7 +533,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 
 	/**
 	 * Handles the incremental parsing of this attribute set.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged

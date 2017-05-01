@@ -53,7 +53,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * component type (TTCN-3).
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -63,10 +63,10 @@ public final class Component_Type extends Type {
 	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for type `{1}''";
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for type `{0}''";
 	private static final String INVALIDSUBREFERENCE = "Referencing fields of a component is not allowed";
-	
+
 
 	private static final String[] SIMPLE_COMPONENT_PROPOSALS = new String[] {"alive", "create;", "create alive;", "done", "kill;", "killed",
-			"running", "stop;" };
+		"running", "stop;" };
 	private static final String[] ANY_COMPONENT_PROPOSALS = new String[] {"running", "alive", "done", "killed" };
 	private static final String[] ALL_COMPONENT_PROPOSALS = new String[] {"running", "alive", "done", "killed", "stop;", "kill;" };
 
@@ -442,12 +442,12 @@ public final class Component_Type extends Type {
 					return;
 				}
 				type = type.getTypeRefdLast(timestamp);
-				
+
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
 					return; //don't let spread an earlier mistake
 				}
-				
+
 				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
@@ -507,12 +507,12 @@ public final class Component_Type extends Type {
 					return;
 				}
 				type = type.getTypeRefdLast(timestamp);
-				
+
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
 					return; //don't let spread an earlier mistake
 				}
-				
+
 				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
@@ -549,12 +549,12 @@ public final class Component_Type extends Type {
 					return;
 				}
 				type = type.getTypeRefdLast(timestamp);
-				
+
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
 					return; //don't let spread an earlier mistake
 				}
-				
+
 				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
@@ -571,12 +571,12 @@ public final class Component_Type extends Type {
 					return;
 				}
 				type = type.getTypeRefdLast(timestamp);
-				
+
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
 					return; //don't let spread an earlier mistake
 				}
-				
+
 				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
@@ -593,12 +593,12 @@ public final class Component_Type extends Type {
 					return;
 				}
 				type = type.getTypeRefdLast(timestamp);
-				
+
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
 					return; //don't let spread an earlier mistake
 				}
-				
+
 				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
@@ -618,7 +618,7 @@ public final class Component_Type extends Type {
 					return;
 				}
 				type = type.getTypeRefdLast(timestamp);
-				
+
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
 					return; //don't let spread an earlier mistake

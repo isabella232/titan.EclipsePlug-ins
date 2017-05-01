@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * originally CTs in TITAN.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ComponentTypeList extends ASTNode {

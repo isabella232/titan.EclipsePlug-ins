@@ -464,7 +464,7 @@ public final class Array_Value extends Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void setGenNamePrefix(final String prefix) {
@@ -484,7 +484,7 @@ public final class Array_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if (myGovernor == null) {
 			return;
 		}
@@ -493,7 +493,7 @@ public final class Array_Value extends Value {
 		if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
 			return;
 		}
-		
+
 		long offset = ((Array_Type) type).getDimension().getOffset();
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {

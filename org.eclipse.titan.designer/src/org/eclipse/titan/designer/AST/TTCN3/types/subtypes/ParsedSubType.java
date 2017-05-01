@@ -14,7 +14,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 
 /**
  * Represents a sub-type restriction as it was parsed.
- * 
+ *
  * @author Adam Delic
  * */
 public abstract class ParsedSubType implements IIncrementallyUpdateable, IIdentifierContainer, IVisitableNode {

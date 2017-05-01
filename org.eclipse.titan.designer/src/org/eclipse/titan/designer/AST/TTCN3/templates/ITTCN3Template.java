@@ -95,7 +95,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * <p>
 	 * This function is used to help writing conversion function without
 	 * using a generic copy-constructor mechanism.
-	 * 
+	 *
 	 * @param original
 	 *                the original template, whose properties will be copied
 	 * */
@@ -113,7 +113,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 
 	/**
 	 * Sets the governor type.
-	 * 
+	 *
 	 * @param governor
 	 *                the type to be set.
 	 * */
@@ -123,7 +123,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 
 	/**
 	 * Creates and returns a string representation if the actual template.
-	 * 
+	 *
 	 * @return the string representation of the template.
 	 * */
 	String createStringRepresentation();
@@ -132,10 +132,10 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * Creates template references from a template that is but a single
 	 * word. This can happen if it was not possible to categorize it while
 	 * parsing.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the reference that this lower identifier was converted to, or
 	 *         this template.
 	 * */
@@ -143,7 +143,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 
 	/**
 	 * Sets the length restriction of the template.
-	 * 
+	 *
 	 * @param lengthRestriction
 	 *                the length restriction to set
 	 * */
@@ -159,7 +159,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 
 	/**
 	 * Sets the base template.
-	 * 
+	 *
 	 * @param baseTemplate
 	 *                the template to set as the base template of this
 	 *                template.
@@ -169,13 +169,13 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Checks the condition for the completeness of template body which is a
 	 * 'record of' or 'set of' template.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param incompleteAllowed
 	 *                tells if incomplete list is allowed in the calling
 	 *                context or not.
-	 * 
+	 *
 	 * @return the type of completeness, that can be expected from this
 	 *         template in the actual context
 	 * */
@@ -184,7 +184,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Checks the condition for the completeness of template body which is a
 	 * 'record of' or 'set of' template.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param incompleteAllowed
@@ -192,7 +192,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 *                context or not.
 	 * @param fieldName
 	 *                the name of the field to check for.
-	 * 
+	 *
 	 * @return the type of completeness, that can be expected from this
 	 *         template in the actual context
 	 * */
@@ -202,10 +202,10 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Returns the template referred last in case of a referred template, or
 	 * itself in any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the actual or the last referred template
 	 * */
 	TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp);
@@ -213,12 +213,12 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Returns the template referred last in case of a referred template, or
 	 * itself in any other case.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
 	 *                the ReferenceChain used to detect circular references
-	 * 
+	 *
 	 * @return the actual or the last referred template
 	 * */
 	TTCN3Template getTemplateReferencedLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain);
@@ -226,13 +226,13 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Creates a template of the provided type from the actual template if
 	 * it is possible.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param newType
 	 *                the new template_type the new template should belong
 	 *                to.
-	 * 
+	 *
 	 * @return the new template of the provided kind if the conversion is
 	 *         possible, or this template otherwise.
 	 * */
@@ -241,12 +241,12 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Calculates the return type of the template when used in an
 	 * expression.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param expectedValue
 	 *                the kind of the value to be expected.
-	 * 
+	 *
 	 * @return the Type_type of the template if it was used in an
 	 *         expression.
 	 * */
@@ -254,19 +254,19 @@ public interface ITTCN3Template extends IGovernedSimple {
 
 	/**
 	 * Calculates the governor of the template when used in an expression.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param expectedValue
 	 *                the kind of the value to be expected.
-	 * 
+	 *
 	 * @return the governor of the template if it was used in an expression.
 	 * */
 	IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue);
 
 	/**
 	 * Checks for circular references within embedded templates.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -279,7 +279,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * Checks whether the template (including embedded fields) contains no
 	 * matching symbols. Allow_omit is used because omit is allowed in only
 	 * in embedded fields.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param allowOmit
@@ -291,7 +291,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Calculates the referenced sub template, and also checks the reference
 	 * itself.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param reference
@@ -304,10 +304,10 @@ public interface ITTCN3Template extends IGovernedSimple {
 
 	/**
 	 * Checks if the template is actually a value.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return true if the contents of the template can be handled as a
 	 *         value.
 	 * */
@@ -322,7 +322,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Checks the generic properties of the template, and serves as starting
 	 * point for the more specific checks.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param type
@@ -346,7 +346,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Checks template restriction using common data members of this class,
 	 * every check_xxx_restriction() function must call this function.
-	 * 
+	 *
 	 * @param definitionName
 	 *                name for the error/warning message
 	 * @param templateRestriction
@@ -359,7 +359,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Checks if this template conforms to the restriction TR_OMIT or
 	 * TR_VALUE This is the default behavior, override for special cases.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param definitionName
@@ -380,7 +380,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Helper function for check_valueomit_restriction called by
 	 * Named_Template_List instances.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param definitionName
@@ -391,7 +391,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 *                the number of elements left to be checked.
 	 * @param usageLocation
 	 *                the location to be used for reporting errors
-	 * 
+	 *
 	 * @return true if a check at runtime is needed, false otherwise.
 	 */
 	boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName,
@@ -400,14 +400,14 @@ public interface ITTCN3Template extends IGovernedSimple {
 	/**
 	 * Checks if this template conforms to the restriction TR_PRESENT. This
 	 * is the default behavior, override for special cases.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param definitionName
 	 *                name for the error/warning message
 	 * @param usageLocation
 	 *                the location to be used for reporting errors
-	 * 
+	 *
 	 * @return true if the template conforms to the restriction TR_PRESENT.
 	 */
 	boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation);
@@ -418,7 +418,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * @param expression the expression for code generated
 	 */
 	public void generateJavaExpression( final JavaGenData aData, final ExpressionStruct expression );
-	
+
 	/**
 	 * Add generated java code for initializing a template
 	 * @param aData the structure to put imports into and get temporal variable names from.

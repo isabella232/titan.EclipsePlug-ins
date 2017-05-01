@@ -127,36 +127,36 @@ public final class SetOf_Value extends Value {
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
 				final BigInteger index = ((Integer_Value) valueIndex).getValueValue();
 
-					if (index.compareTo(BigInteger.ZERO) == -1) {
-						arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NONNEGATIVEINDEXEXPECTED, index, type.getTypename()));
-						return null;
-					}
-
-					if (isIndexed()) {
-						for (int i = 0; i < values.getNofIndexedValues(); i++) {
-							IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
-							indexedValue = indexedValue.getValueRefdLast(timestamp, refChain);
-
-							if (Value_type.INTEGER_VALUE.equals(indexedValue.getValuetype())
-									&& ((Integer_Value) indexedValue).getValueValue().compareTo(index) == 0) {
-								return values.getIndexedValueByIndex(i).getValue().getReferencedSubValue(
-										timestamp, reference, actualSubReference + 1, refChain);
-							}
-						}
-
-						arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
-					} else if (index.compareTo(BigInteger.valueOf(values.getNofValues())) >= 0) {
-						arrayIndex.getLocation().reportSemanticError(
-								MessageFormat.format(INDEXOVERFLOW, type.getTypename(), index, values.getNofValues()));
-					} else {
-						return values.getValueByIndex(index.intValue()).getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
-					}
-
+				if (index.compareTo(BigInteger.ZERO) == -1) {
+					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NONNEGATIVEINDEXEXPECTED, index, type.getTypename()));
 					return null;
 				}
 
-				arrayIndex.getLocation().reportSemanticError(ArraySubReference.INTEGERINDEXEXPECTED);
+				if (isIndexed()) {
+					for (int i = 0; i < values.getNofIndexedValues(); i++) {
+						IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
+						indexedValue = indexedValue.getValueRefdLast(timestamp, refChain);
+
+						if (Value_type.INTEGER_VALUE.equals(indexedValue.getValuetype())
+								&& ((Integer_Value) indexedValue).getValueValue().compareTo(index) == 0) {
+							return values.getIndexedValueByIndex(i).getValue().getReferencedSubValue(
+									timestamp, reference, actualSubReference + 1, refChain);
+						}
+					}
+
+					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
+				} else if (index.compareTo(BigInteger.valueOf(values.getNofValues())) >= 0) {
+					arrayIndex.getLocation().reportSemanticError(
+							MessageFormat.format(INDEXOVERFLOW, type.getTypename(), index, values.getNofValues()));
+				} else {
+					return values.getValueByIndex(index.intValue()).getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
+				}
+
 				return null;
+			}
+
+			arrayIndex.getLocation().reportSemanticError(ArraySubReference.INTEGERINDEXEXPECTED);
+			return null;
 		case fieldSubReference:
 			subreference.getLocation().reportSemanticError(
 					MessageFormat.format(FieldSubReference.INVALIDSUBREFERENCE,
@@ -425,32 +425,32 @@ public final class SetOf_Value extends Value {
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
 				final int index = ((Integer_Value) valueIndex).intValue();
 
-					if (index < 0) {
-						return false;
-					}
-
-					if (isIndexed()) {
-						for (int i = 0; i < values.getNofIndexedValues(); i++) {
-							IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
-							referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-							indexedValue = indexedValue.getValueRefdLast(timestamp, referenceChain);
-							referenceChain.release();
-
-							if (Value_type.INTEGER_VALUE.equals(indexedValue.getValuetype())
-									&& ((Integer_Value) indexedValue).intValue() == index) {
-								return values.getIndexedValueByIndex(i).getValue().evaluateIsbound(timestamp, reference, actualSubReference + 1);
-							}
-						}
-
-						arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
-					} else if (index >= values.getNofValues()) {
-						arrayIndex.getLocation().reportSemanticError(MessageFormat.format(INDEXOVERFLOW, type.getTypename(), index, values.getNofValues()));
-					} else {
-						return values.getValueByIndex(index).evaluateIsbound(timestamp, reference, actualSubReference + 1);
-					}
-
+				if (index < 0) {
 					return false;
 				}
+
+				if (isIndexed()) {
+					for (int i = 0; i < values.getNofIndexedValues(); i++) {
+						IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
+						referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+						indexedValue = indexedValue.getValueRefdLast(timestamp, referenceChain);
+						referenceChain.release();
+
+						if (Value_type.INTEGER_VALUE.equals(indexedValue.getValuetype())
+								&& ((Integer_Value) indexedValue).intValue() == index) {
+							return values.getIndexedValueByIndex(i).getValue().evaluateIsbound(timestamp, reference, actualSubReference + 1);
+						}
+					}
+
+					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
+				} else if (index >= values.getNofValues()) {
+					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(INDEXOVERFLOW, type.getTypename(), index, values.getNofValues()));
+				} else {
+					return values.getValueByIndex(index).evaluateIsbound(timestamp, reference, actualSubReference + 1);
+				}
+
+				return false;
+			}
 
 			return false;
 		case fieldSubReference:
@@ -489,32 +489,32 @@ public final class SetOf_Value extends Value {
 			if (Value_type.INTEGER_VALUE.equals(valueIndex.getValuetype())) {
 				final int index = ((Integer_Value) valueIndex).intValue();
 
-					if (index < 0) {
-						return false;
-					}
-
-					if (isIndexed()) {
-						for (int i = 0; i < values.getNofIndexedValues(); i++) {
-							IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
-							referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-							indexedValue = indexedValue.getValueRefdLast(timestamp, referenceChain);
-							referenceChain.release();
-
-							if (Value_type.INTEGER_VALUE.equals(indexedValue.getValuetype())
-									&& ((Integer_Value) indexedValue).intValue() == index) {
-								return values.getIndexedValueByIndex(i).getValue().evaluateIspresent(timestamp, reference, actualSubReference + 1);
-							}
-						}
-
-						arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
-					} else if (index >= values.getNofValues()) {
-						arrayIndex.getLocation().reportSemanticError(MessageFormat.format(INDEXOVERFLOW, type.getTypename(), index, values.getNofValues()));
-					} else {
-						return values.getValueByIndex(index).evaluateIspresent(timestamp, reference, actualSubReference + 1);
-					}
-
+				if (index < 0) {
 					return false;
 				}
+
+				if (isIndexed()) {
+					for (int i = 0; i < values.getNofIndexedValues(); i++) {
+						IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
+						referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+						indexedValue = indexedValue.getValueRefdLast(timestamp, referenceChain);
+						referenceChain.release();
+
+						if (Value_type.INTEGER_VALUE.equals(indexedValue.getValuetype())
+								&& ((Integer_Value) indexedValue).intValue() == index) {
+							return values.getIndexedValueByIndex(i).getValue().evaluateIspresent(timestamp, reference, actualSubReference + 1);
+						}
+					}
+
+					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
+				} else if (index >= values.getNofValues()) {
+					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(INDEXOVERFLOW, type.getTypename(), index, values.getNofValues()));
+				} else {
+					return values.getValueByIndex(index).evaluateIspresent(timestamp, reference, actualSubReference + 1);
+				}
+
+				return false;
+			}
 
 			return false;
 		case fieldSubReference:
@@ -544,7 +544,7 @@ public final class SetOf_Value extends Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void setGenNamePrefix(final String prefix) {
@@ -559,12 +559,12 @@ public final class SetOf_Value extends Value {
 			}
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
 				StringBuilder embeddedName = new StringBuilder(parameterGenName);

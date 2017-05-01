@@ -47,7 +47,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	/**
 	 * Returns the element with the specified name.
-	 * 
+	 *
 	 * @param identifier
 	 *                the name of the element to return
 	 * @return the element with the specified name in this list, or null if
@@ -72,7 +72,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	/**
 	 * Returns whether an element is stored with the specified name.
-	 * 
+	 *
 	 * @param identifier
 	 *                the name of the element to return
 	 * @return true if an element with the provided name exists in the list,
@@ -88,7 +88,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	/**
 	 * Returns the element at the specified position.
-	 * 
+	 *
 	 * @param index
 	 *                index of the element to return
 	 * @return the element at the specified position in this list
@@ -99,7 +99,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	/**
 	 * Returns the identifier of the element at the specified position.
-	 * 
+	 *
 	 * @param index
 	 *                index of the element to return
 	 * @return the identifier of the element at the specified position in
@@ -198,7 +198,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	 * <p>
 	 * In case of structural types, the member fields are checked if they
 	 * could be the declaration searched for.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector to add the declaration to,
 	 *                and used to get more information.
@@ -253,7 +253,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	 * <p>
 	 * In case of structural types, the member fields are checked if they
 	 * could complete the proposal.
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector to add the proposal to, and
 	 *                used to get more information

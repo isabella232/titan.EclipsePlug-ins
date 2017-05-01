@@ -33,7 +33,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * Represents the BNF element "AllElementsFrom" Ref: ttcn3 standard
  * "ETSI ES 201 873-1 V4.6.1 (2014-06)" A.1.6.1.3 Template definitions/127.
- * 
+ *
  * @author Jeno Balasko
  *
  */
@@ -47,7 +47,7 @@ public class AllElementsFrom extends TemplateBody {
 	/**
 	 * myGovernor is the governor of AllElementsFrom. It is the type/governor of
 	 * the elements/items of its templates which shall be a sequence.
-	 * 
+	 *
 	 */
 	private IType myGovernor;
 
@@ -183,11 +183,11 @@ public class AllElementsFrom extends TemplateBody {
 		}
 
 		//it is too complex to analyse anyoromit. Perhaps it can be omit
-		
+
 		if (body != null) {
-			
+
 			switch (body.getTemplatetype()) {
-			case TEMPLATE_LIST: 
+			case TEMPLATE_LIST:
 				//TODO: if "all from" is in a permutation list it anyoromit and any is permitted
 				if (!allowAnyOrOmit && ((Template_List) body).containsAnyornoneOrPermutation()) {
 					template.getLocation().reportSemanticError(ANYOROMITANDPERMUTATIONPRHOHIBITED);
@@ -199,18 +199,18 @@ public class AllElementsFrom extends TemplateBody {
 				break;
 			case SPECIFIC_VALUE:
 				break;
-			default:				
+			default:
 				template.getLocation().reportSemanticError(LISTEXPECTED);
 				template.setIsErroneous(true);
 				return;
 			}
-			
+
 		}
 
-//		if (value != null) {
-//			// TODO
-//			return;
-//		}
+		//		if (value != null) {
+		//			// TODO
+		//			return;
+		//		}
 
 	}
 

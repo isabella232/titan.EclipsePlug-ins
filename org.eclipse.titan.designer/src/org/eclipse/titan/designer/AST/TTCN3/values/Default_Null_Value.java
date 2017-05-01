@@ -29,7 +29,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a null default value.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Default_Null_Value extends Value {

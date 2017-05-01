@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPro
  * Represents an encoding/decoding prototype that is set on a function or
  * external function. Using this attribute the compiler will be able to use the
  * function/external function it was assigned to as a type mapping component.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class PrototypeAttribute extends ExtensionAttribute {

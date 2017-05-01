@@ -92,7 +92,7 @@ public final class UndefRunningExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -147,10 +147,10 @@ public final class UndefRunningExpression extends Expression_Value {
 		}
 		default:
 			reference.getLocation()
-					.reportSemanticError(
-							MessageFormat.format(
-									"First operand of operation `<timer or component> running'' should be timer or component reference instead of {0}",
-									assignment.getDescription()));
+			.reportSemanticError(
+					MessageFormat.format(
+							"First operand of operation `<timer or component> running'' should be timer or component reference instead of {0}",
+							assignment.getDescription()));
 			setIsErroneous(true);
 			break;
 		}

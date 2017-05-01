@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 /**
  * Class to represent FieldName.
  * FieldName is a sequence of PrimitiveFieldNames.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class FieldName extends ASTNode {

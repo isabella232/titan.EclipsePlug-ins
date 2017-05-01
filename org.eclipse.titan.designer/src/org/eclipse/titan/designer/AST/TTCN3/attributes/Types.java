@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.AST.Type;
 
 /**
  * Type list used in port types to store attributes.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Types extends ASTNode {

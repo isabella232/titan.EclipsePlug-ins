@@ -32,13 +32,13 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a macro value.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Macro_Value extends Value {
 	private static final String TESCASEIDINCONTROLPART =
 			"Macro %testcaseId cannot be used in the control part. "
-			+ "It is allowed only within the statement blocks of function, altsteps and testcases";
+					+ "It is allowed only within the statement blocks of function, altsteps and testcases";
 	private static final String TESTCASEIDNOTALLOWED =
 			"Usage of macro %testcaseId is allowed only within the statement blocks of function, altsteps and testcases";
 	private static final String UNDETERMINABLEPATH = "The path can not be determined";

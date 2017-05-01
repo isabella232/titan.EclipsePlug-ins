@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The While_Statement class represents TTCN3 while statements.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class While_Statement extends Statement {
@@ -97,7 +97,7 @@ public final class While_Statement extends Statement {
 	public Value getExpression() {
 		return expression;
 	}
-	
+
 	public StatementBlock getStatementBlock() {
 		return statementblock;
 	}

@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 /**
  * Represents the list of type mapping targets provided in a single type
  * mapping.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TypeMappingTargets extends ASTNode {

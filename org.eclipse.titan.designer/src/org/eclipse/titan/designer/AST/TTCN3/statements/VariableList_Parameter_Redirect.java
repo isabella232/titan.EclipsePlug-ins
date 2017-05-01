@@ -26,7 +26,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents the parameter redirection of a getcall/getreply operation.
  * <p>
  * Provided with variable list notation
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
@@ -87,7 +87,7 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 			checkErroneous(timestamp);
 			return;
 		}
-		
+
 		final int nofVariableEntries = entries.getNofEntries();
 		final int nofParameters = isOut ? parameterList.getNofOutParameters() : parameterList.getNofInParameters();
 		if (nofVariableEntries != nofParameters) {
@@ -95,7 +95,7 @@ public final class VariableList_Parameter_Redirect extends Parameter_Redirect {
 					MessageFormat.format(
 							"Too {0} variable entries compared to the number of {1}/inout parameters in signature `{2}'': {3} was expected instead of {4}",
 							(nofVariableEntries > nofParameters) ? "many" : "few", isOut ? "out" : "in",
-							signature.getTypename(), nofParameters, nofVariableEntries));
+									signature.getTypename(), nofParameters, nofVariableEntries));
 		}
 
 		for (int i = 0; i < nofVariableEntries; i++) {

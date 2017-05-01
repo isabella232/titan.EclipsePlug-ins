@@ -36,7 +36,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent InformationFromObjects.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -93,7 +93,7 @@ public final class InformationFromObj extends Reference {
 	public Location getLocation() {
 		return location;
 	}
-	
+
 	public FieldName getFieldName(){
 		return fieldName;
 	}
@@ -197,12 +197,12 @@ public final class InformationFromObj extends Reference {
 					final Object_FieldSpecification temporalFieldspec = (Object_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
 				}
-					break;
+				break;
 				case FS_OS: {
 					final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
 				}
-					break;
+				break;
 				case FS_ERROR:
 					setIsErroneous(true);
 					return new Error_Setting();
@@ -237,7 +237,7 @@ public final class InformationFromObj extends Reference {
 					fromObjectSet.setLocation(location);
 					fromObjectSet.setMyGovernor(objectClass);
 				}
-					break;
+				break;
 				case FS_OS: {
 					final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 					objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
@@ -261,7 +261,7 @@ public final class InformationFromObj extends Reference {
 					fromObjectSet.setLocation(location);
 					fromObjectSet.setMyGovernor(objectClass);
 				}
-					break;
+				break;
 				case FS_ERROR:
 					setIsErroneous(true);
 					return new Error_Setting();
@@ -279,7 +279,7 @@ public final class InformationFromObj extends Reference {
 					temporalSetting = object.getSettingByNameDefault(currentFieldName);
 					object = ((Object_Definition) temporalSetting).getRefdLast(timestamp, null);
 				}
-					break;
+				break;
 				case FS_OS: {
 					currentState = SettingDetectionState.ObjectSet;
 					final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
@@ -303,7 +303,7 @@ public final class InformationFromObj extends Reference {
 					fromObjectSet.setLocation(location);
 					fromObjectSet.setMyGovernor(objectClass);
 				}
-					break;
+				break;
 				case FS_ERROR:
 					setIsErroneous(true);
 					return new Error_Setting();
@@ -332,7 +332,7 @@ public final class InformationFromObj extends Reference {
 				type.setLocation(location);
 				temporalSetting = type;
 			}
-				break;
+			break;
 			case FS_V_FT: {
 				final FixedTypeValue_FieldSpecification temporalFielspecification = (FixedTypeValue_FieldSpecification) currentFieldSpecification;
 				final ObjectClassField_Type type = new ObjectClassField_Type(temporalFielspecification.getType(), objectClass,
@@ -340,7 +340,7 @@ public final class InformationFromObj extends Reference {
 				type.setLocation(location);
 				temporalSetting = type;
 			}
-				break;
+			break;
 			case FS_V_VT:
 			case FS_VS_FT:
 			case FS_VS_VT:
@@ -382,7 +382,7 @@ public final class InformationFromObj extends Reference {
 				fromObjectSet.setMyScope(myScope);
 				temporalSetting = fromObjectSet;
 			}
-				break;
+			break;
 			case FS_OS: {
 				final ObjectSet_FieldSpecification temporalFieldspec = (ObjectSet_FieldSpecification) currentFieldSpecification;
 				objectClass = temporalFieldspec.getObjectClass().getRefdLast(timestamp, null);
@@ -408,7 +408,7 @@ public final class InformationFromObj extends Reference {
 				fromObjectSet.setMyScope(myScope);
 				temporalSetting = fromObjectSet;
 			}
-				break;
+			break;
 			case FS_V_FT:
 			case FS_VS_FT:
 				location.reportSemanticError(VALUESETFROMOBJECTS_NOT_SUPPORTED);
@@ -453,14 +453,14 @@ public final class InformationFromObj extends Reference {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * @return ObjectSet_definition
 	 */
 	protected ObjectSet_definition newObjectSetDefinitionInstance() {
 		return new ObjectSet_definition();
 	}
-	
+
 	/**
 	 * @return ObjectSet_definition
 	 */

@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * ObjectSet assignment.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ObjectSet_Assignment extends ASN1Assignment {
@@ -80,10 +80,10 @@ public final class ObjectSet_Assignment extends ASN1Assignment {
 
 	/**
 	 * Checks the object set.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the object set of this object set assignment,
 	 * */
 	public ObjectSet getObjectSet(final CompilationTimeStamp timestamp) {
@@ -106,8 +106,8 @@ public final class ObjectSet_Assignment extends ASN1Assignment {
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
-		}
-		
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {

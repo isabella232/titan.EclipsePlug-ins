@@ -331,7 +331,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		if (!hasComponentWithName(name)) {
 			if (value.isAsn()) {
 				value.getLocation()
-						.reportSemanticError(MessageFormat.format(NONEXISTENTCHOICE, name.getDisplayName(), getFullName()));
+				.reportSemanticError(MessageFormat.format(NONEXISTENTCHOICE, name.getDisplayName(), getFullName()));
 				value.setIsErroneous(true);
 			} else {
 				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, name.getDisplayName(), getFullName()));
@@ -441,7 +441,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		components.setMyScope(getMyScope());
 		components.setMyType(this);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,

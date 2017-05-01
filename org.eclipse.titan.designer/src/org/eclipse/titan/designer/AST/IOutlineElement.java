@@ -28,16 +28,16 @@ public interface IOutlineElement {
 	Object[] getOutlineChildren();
 
 	/**
-     * Returns the category of this element. The category is a
-     * number used to allocate elements to bins; the bins are arranged
-     * in ascending numeric order. The elements within a bin are arranged
-     * via a second level sort criterion.
-     * <p>
-     * By default this method should return <code>0</code> if no category can be defined.
-     * Subclasses may reimplement this method to provide non-trivial categorization.
-     * </p>
-     *
-     * @return the category
-     */
+	 * Returns the category of this element. The category is a
+	 * number used to allocate elements to bins; the bins are arranged
+	 * in ascending numeric order. The elements within a bin are arranged
+	 * via a second level sort criterion.
+	 * <p>
+	 * By default this method should return <code>0</code> if no category can be defined.
+	 * Subclasses may reimplement this method to provide non-trivial categorization.
+	 * </p>
+	 *
+	 * @return the category
+	 */
 	int category();
 }

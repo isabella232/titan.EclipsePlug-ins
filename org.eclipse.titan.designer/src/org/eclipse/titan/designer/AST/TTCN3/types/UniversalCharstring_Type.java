@@ -361,7 +361,7 @@ public final class UniversalCharstring_Type extends Type {
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
-		
+
 		if(needsAlias()) {
 			source.append( "\tpublic static class " );
 			source.append( getGenNameOwn() );

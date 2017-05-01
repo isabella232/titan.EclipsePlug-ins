@@ -565,16 +565,16 @@ public final class Set_Value extends Value {
 			values.getNamedValueByIndex(i).getValue().setGenNamePrefix(prefix);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if (myGovernor == null) {
 			return;
 		}
-		
+
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if(Type_type.TYPE_TTCN3_SET.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {

@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Represents the printing type for a JSON encoder function.
- * 
+ *
  * @author Botond Baranyi
  */
 public final class PrintingType extends ASTNode implements ILocateableNode {
@@ -68,7 +68,7 @@ public final class PrintingType extends ASTNode implements ILocateableNode {
 
 	/**
 	 * Does the semantic checking of the printing type..
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * */

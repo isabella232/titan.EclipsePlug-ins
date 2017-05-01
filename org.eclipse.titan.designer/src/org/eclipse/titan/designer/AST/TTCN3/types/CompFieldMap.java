@@ -42,7 +42,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_reparse_S
  * Map of component fields.
  * <p>
  * This class is used to represent the fields of a structured type.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -108,7 +108,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			field.setFullNameParent(this);
 			lastCompilationTimeStamp = null;
 			lastUniquenessCheck = null;
-		} 
+		}
 	}
 
 	/**
@@ -196,9 +196,9 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		if(fields.size()==0) {
 			return; //too early check
 		}
-		
+
 		lastUniquenessCheck = timestamp;
-		
+
 		for (int i = 0, size = fields.size(); i < size; i++) {
 			final CompField field = fields.get(i);
 
@@ -239,10 +239,10 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 						MessageFormat.format(DUPLICATEFIELDNAMEREPEATED, fieldIdentifier.getDisplayName()));
 			}
 		}
-		
+
 	}
 	/**
-	 * Checks if the member 'fields' is empty 
+	 * Checks if the member 'fields' is empty
 	 * @return
 	 */
 	public boolean isEmpty() {
@@ -285,7 +285,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns the component identified by the given name. The list of
 	 * components is also checked if it was not before.
@@ -314,7 +314,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	 *         prefix.
 	 * */
 	public List<CompField> getComponentsWithPrefix(final String prefix) {
-		
+
 		checkUniqueness(CompilationTimeStamp.getBaseTimestamp());
 
 		final List<CompField> compFields = new ArrayList<CompField>();
@@ -489,7 +489,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 	}
-	
+
 	private int reparse(final TTCN3ReparseUpdater aReparser) {
 		return aReparser.parse(new ITTCN3ReparseBase() {
 			@Override
@@ -517,7 +517,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 	}
-	
+
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		for (CompField field : fields) {
 			if (field.getLocation().containsOffset(offset)) {
@@ -528,7 +528,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {

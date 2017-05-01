@@ -46,7 +46,7 @@ public final class PatternString implements IVisitableNode {
 
 	/**
 	 * Checks for circular references within embedded templates.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain

@@ -11,7 +11,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Factory class to create instance of IBaseAnalyzer.
- * 
+ *
  * @author Peter Olah
  */
 public final class AnalyzerFactory {

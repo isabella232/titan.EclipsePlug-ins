@@ -590,7 +590,7 @@ public final class SequenceOf_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
 				StringBuilder embeddedName = new StringBuilder(parameterGenName);
@@ -612,11 +612,11 @@ public final class SequenceOf_Value extends Value {
 		if (convertedValue != null) {
 			return convertedValue.canGenerateSingleExpression();
 		}
-		
+
 		if (values == null) {
 			return false;
 		}
-		
+
 		if (values.isIndexed()) {
 			return values.getNofIndexedValues() == 0;
 		}
@@ -641,14 +641,14 @@ public final class SequenceOf_Value extends Value {
 		if (convertedValue != null) {
 			return convertedValue.generateJavaInit(aData, source, name);
 		}
-		
+
 		//default implementation
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateJava() is not implemented!\n" );
-				
+
 		return source;
 	}
-	
-	
+
+
 }

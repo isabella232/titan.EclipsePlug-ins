@@ -34,10 +34,10 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * The If_Statement class represents TTCN3 if statements.
- * 
+ *
  * @see If_Clauses
  * @see If_Clause
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class If_Statement extends Statement {
@@ -198,7 +198,7 @@ public final class If_Statement extends Statement {
 				statementblock.getLocation().reportConfigurableSemanticProblem(
 						Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 								PreferenceConstants.REPORTUNNECESSARYCONTROLS, GeneralConstants.WARNING, null),
-						NEVERREACH);
+								NEVERREACH);
 			}
 			statementblock.check(timestamp);
 		} else {
@@ -288,7 +288,7 @@ public final class If_Statement extends Statement {
 		ChangeableInteger blockCount = new ChangeableInteger(0);
 		ChangeableBoolean unReachable = new ChangeableBoolean(false);
 		ChangeableBoolean eachFalse = new ChangeableBoolean(true);
-		
+
 		ifClauses.generateJava(aData, source, blockCount, unReachable, eachFalse);
 		if (statementblock != null && !unReachable.getValue()) {
 			if(!eachFalse.getValue()) {
@@ -299,11 +299,11 @@ public final class If_Statement extends Statement {
 			blockCount.setValue(blockCount.getValue() + 1);
 			statementblock.generateJava(aData, source);
 		}
-		
+
 		for(int i = 0 ; i < blockCount.getValue(); i++) {
 			source.append("}\n");
 		}
-		
+
 		if(eachFalse.getValue()) {
 			source.append("/* never occurs */;\n");
 		}

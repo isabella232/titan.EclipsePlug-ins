@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * The ArraySubReference class represents a part of a TTCN3 or ASN.1 reference, which was given in array notation ('[index]').
  * <p>
  * This is the only sub-reference type which does not have an identifier associated to it.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ArraySubReference extends ASTNode implements ISubReference, ILocateableNode {
@@ -116,7 +116,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 			reparser.updateLocation(value.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {

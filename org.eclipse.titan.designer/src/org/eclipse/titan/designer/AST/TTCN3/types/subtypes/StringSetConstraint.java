@@ -18,7 +18,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	public enum ConstraintType {
 		// RangeListConstraint ( using SizeLimit )
 		SIZE_CONSTRAINT,
-		// RangeListConstraint ( using CharLimit or UCharLimit ) 
+		// RangeListConstraint ( using CharLimit or UCharLimit )
 		ALPHABET_CONSTRAINT,
 		// StringValueConstraint or UStringValueConstraint
 		VALUE_CONSTRAINT,

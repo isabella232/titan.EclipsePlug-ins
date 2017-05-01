@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * Class to represent ObjectSet.
- * 
+ *
  * @author Kristof Szabados
  */
 public abstract class ObjectSet extends GovernedSet {
@@ -39,7 +39,7 @@ public abstract class ObjectSet extends GovernedSet {
 
 	/**
 	 * Sets the ObjectClass of the object set.
-	 * 
+	 *
 	 * @param governor
 	 *                the object class to set as governor.
 	 * */
@@ -63,7 +63,7 @@ public abstract class ObjectSet extends GovernedSet {
 	 * <p>
 	 * Extending class only need to implement their
 	 * {@link #getProposalKind()} function
-	 * 
+	 *
 	 * @param propCollector
 	 *                the proposal collector.
 	 * @param i
@@ -74,7 +74,7 @@ public abstract class ObjectSet extends GovernedSet {
 
 	/**
 	 * Adds the object set to the list declaration proposals.
-	 * 
+	 *
 	 * @param declarationCollector
 	 *                the declaration collector.
 	 * @param i

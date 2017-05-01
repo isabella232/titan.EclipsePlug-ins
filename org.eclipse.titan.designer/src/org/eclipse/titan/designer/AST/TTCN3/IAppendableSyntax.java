@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.AST.Location;
  * In this case an already correct AST node might be extended by a change directly following itself.
  *
  * This interface should only be used by the incremental parser.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface IAppendableSyntax {

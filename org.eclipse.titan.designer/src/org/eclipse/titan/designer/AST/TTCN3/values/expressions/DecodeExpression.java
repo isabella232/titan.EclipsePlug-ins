@@ -107,8 +107,8 @@ public final class DecodeExpression extends Expression_Value {
 			final IReferenceChain referenceChain) {
 		return true;
 	}
-	
-	
+
+
 	private void checkFirstExpressionOperand(final CompilationTimeStamp timestamp){
 		final Assignment temporalAssignment = reference1.getRefdAssignment(timestamp, true);
 
@@ -172,7 +172,7 @@ public final class DecodeExpression extends Expression_Value {
 			return;
 		}
 	}
-	
+
 	private void checkSecondExpressionOperand(final CompilationTimeStamp timestamp){
 		final Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
 
@@ -212,7 +212,7 @@ public final class DecodeExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -246,7 +246,7 @@ public final class DecodeExpression extends Expression_Value {
 	/**
 	 * Helper function checking if a provided reference is in a recursive
 	 * reference chain or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param reference

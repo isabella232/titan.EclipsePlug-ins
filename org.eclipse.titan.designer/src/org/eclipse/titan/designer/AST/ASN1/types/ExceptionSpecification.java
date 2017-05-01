@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 
 /**
  * ExceptionSpecification.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ExceptionSpecification extends ASTNode {

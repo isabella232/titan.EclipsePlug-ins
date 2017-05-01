@@ -19,9 +19,9 @@ public final class VerdicttypeListConstraint extends SubtypeConstraint {
 
 	public enum ConstraintValue {
 		NONE(0x01), PASS(0x02), INCONC(0x04), FAIL(0x08), ERROR(0x10), ALL(0x1F); // all
-												// values,
-												// full
-												// set
+		// values,
+		// full
+		// set
 		private final int value;
 
 		ConstraintValue(final int v) {

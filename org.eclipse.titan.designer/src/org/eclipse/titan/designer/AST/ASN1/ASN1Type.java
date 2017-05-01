@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.Type;
 
 /**
  * This class represents those types which can be reached/used in ASN.1 .
- * 
+ *
  * @author Kristof Szabados
  * */
 // TODO shouldn't this be an interface?

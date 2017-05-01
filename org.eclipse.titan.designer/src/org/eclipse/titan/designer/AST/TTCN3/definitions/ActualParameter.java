@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * class to represent an actual parameter.
- * 
+ *
  * @author Kristof Szabados
  * */
 public abstract class ActualParameter extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -55,7 +55,7 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 
 	/**
 	 * Checks for circular references within the actual parameter.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param referenceChain
@@ -66,7 +66,7 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 
 	/**
 	 * Handles the incremental parsing of this actual parameter.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -75,7 +75,7 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 	 * */
 	@Override
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
-	
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData the structure to put imports into and get temporal variable names from.

@@ -48,7 +48,7 @@ public final class Charstring_Value extends Value {
 
 	/**
 	 * function used to convert a universal charstring value into a charstring value if possible.
-	 * 
+	 *
 	 * @param timestamp the timestamp of the actual build cycle
 	 * @param original the value to be converted
 	 * */

@@ -44,7 +44,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 /**
  * The FriendModule class represents a TTCN-3 module friendship declaration.
  * This is call is used to store the identifier of a friend of a module.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -70,7 +70,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Sets the parser of the project this module friendship belongs to.
-	 * 
+	 *
 	 * @param project
 	 *                the project this module friendship belongs to
 	 * */
@@ -92,7 +92,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Sets the parent group of the assignment.
-	 * 
+	 *
 	 * @param parentGroup
 	 *                the parent group to be set.
 	 * */
@@ -108,7 +108,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	/**
 	 * Sets the with attributes for this friend module if it has any. Also
 	 * creates the with attribute path, to store the attributes in.
-	 * 
+	 *
 	 * @param attributes
 	 *                the attribute to be added.
 	 * */
@@ -137,7 +137,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 	 * Sets the parent path for the with attribute path element of this
 	 * friend module. Also, creates the with attribute path node if it did
 	 * not exist before.
-	 * 
+	 *
 	 * @param parent
 	 *                the parent to be set.
 	 * */
@@ -151,7 +151,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Does the semantic checking of this friend ship.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
 	 * */
@@ -172,7 +172,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 			identifier.getLocation().reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
 							PreferenceConstants.REPORTMISSINGFRIENDMODULE, GeneralConstants.WARNING, null),
-					MessageFormat.format(MISSINGMODULE, identifier.getDisplayName()));
+							MessageFormat.format(MISSINGMODULE, identifier.getDisplayName()));
 		} else if (!module_type.TTCN3_MODULE.equals(referredModule.getModuletype())) {
 			identifier.getLocation().reportSemanticError(
 					MessageFormat.format("The friend module `{0}'' must be a TTCN-3 module", identifier.getDisplayName()));
@@ -201,7 +201,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 
 	/**
 	 * Handles the incremental parsing of this friend module declaration.
-	 * 
+	 *
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
 	 * @param isDamaged
@@ -259,7 +259,7 @@ public final class FriendModule extends ASTNode implements ILocateableNode, IApp
 		return aReparser.parse(new ITTCN3ReparseBase() {
 			@Override
 			public void reparse(final Ttcn3Reparser parser) {
-				final Pr_reparser_optionalWithStatementContext root = parser.pr_reparser_optionalWithStatement(); 
+				final Pr_reparser_optionalWithStatementContext root = parser.pr_reparser_optionalWithStatement();
 				ParserUtilities.logParseTree( root, parser );
 				final MultipleWithAttributes attributes = root.attributes;
 

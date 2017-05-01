@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an actual parameter that has a Template as its actual value.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class Template_ActualParameter extends ActualParameter {
@@ -93,7 +93,7 @@ public final class Template_ActualParameter extends ActualParameter {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJava( final JavaGenData aData, final ExpressionStruct expression) {
@@ -118,11 +118,11 @@ public final class Template_ActualParameter extends ActualParameter {
 				expression.preamble.append("(");
 				expression.preamble.append(tempExpression.expression);
 				expression.preamble.append(")");
-				
+
 				expression.preamble.append(tempExpression.postamble);
 				expressionExpression.append(tempId);
 			}
-			
+
 			//TODO copy might be needed here
 			expression.expression.append(expressionExpression);
 		}

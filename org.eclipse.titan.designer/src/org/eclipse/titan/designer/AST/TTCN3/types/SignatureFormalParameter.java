@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Signature parameter.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class SignatureFormalParameter extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
@@ -112,7 +112,7 @@ public final class SignatureFormalParameter extends ASTNode implements ILocateab
 			reparser.updateLocation(type.getLocation());
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {

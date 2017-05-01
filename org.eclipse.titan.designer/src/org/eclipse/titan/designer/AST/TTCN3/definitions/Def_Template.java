@@ -45,7 +45,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * The Def_Template class represents TTCN3 template definitions.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -117,21 +117,21 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	 */
 	private CompilationTimeStamp recursiveDerivationChecked;
 	private NamedBridgeScope bridgeScope = null;
-	
+
 	/**
 	 * true, if and only if @lazy modifier is used before the definition
 	 * NOTE: currently there is no restriction of using @lazy modifier here,
-	 *       so no check is needed 
+	 *       so no check is needed
 	 */
 	private boolean mIsLazy;
 
 	public Def_Template( final TemplateRestriction.Restriction_type templateRestriction,
-						 final Identifier identifier,
-						 final Type type,
-						 final FormalParameterList formalParList,
-						 final Reference derivedReference,
-						 final TTCN3Template body,
-						 final boolean aIsLazy ) {
+			final Identifier identifier,
+			final Type type,
+			final FormalParameterList formalParList,
+			final Reference derivedReference,
+			final TTCN3Template body,
+			final boolean aIsLazy ) {
 		super(identifier);
 		this.templateRestriction = templateRestriction;
 		this.type = type;
@@ -267,7 +267,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/**
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * 
+	 *
 	 * @return the template if it exists, otherwise null
 	 * */
 	public ITTCN3Template getTemplate(final CompilationTimeStamp timestamp) {
@@ -321,7 +321,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	public void check(final CompilationTimeStamp timestamp) {
 		check(timestamp, null);
 	}
-		
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
@@ -494,7 +494,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/**
 	 * Checks the correctness of the modification of this template done to
 	 * the modified one if it has any.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
 	 * */
@@ -555,7 +555,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	/**
 	 * Checks if the derivation chain of the templates is recursive or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle
 	 * */
@@ -846,7 +846,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 		return true;
 	}
-	
+
 	/**
 	 * @return true, if and only if @lazy modifier is used before the definition
 	 */
@@ -880,7 +880,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		source.append( " " );
 		source.append( genName );
 		source.append( " = new " ). append(typeName).append("();\n");
-		
+
 		if (formalParList == null && baseTemplate == null) {
 			if ( body != null ) {
 				//TODO can optimize for single expressions;
@@ -897,7 +897,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		source.append( ";\n" );
 		sb.append(source);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
@@ -912,13 +912,13 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			//body.setGenNamePrefix("template_");//currently does not need the prefix
 			body.setGenNameRecursive(genName);
 		}
-		
+
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
 		source.append( " " );
 		source.append( genName );
 		source.append( " = new " ). append(typeName).append("();\n");
-		
+
 		if (formalParList == null && baseTemplate == null) {
 			if ( body != null ) {
 				//TODO can optimize for single expressions;

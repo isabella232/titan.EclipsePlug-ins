@@ -129,7 +129,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	/**
 	 * Checks the parameters of the expression and if they are valid in
 	 * their position in the expression or not.
-	 * 
+	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param expectedValue
@@ -162,7 +162,7 @@ public final class IsChoosenExpression extends Expression_Value {
 			setIsErroneous(true);
 			return;
 		}
-		
+
 		final Assignment assignment = tempReference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			setIsErroneous(true);
