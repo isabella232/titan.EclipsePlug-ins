@@ -36,7 +36,7 @@ public final class DeclarationCollector {
 
 	/**
 	 * Returns the reference whose assignments we are searching for.
-	 * 
+	 *
 	 * @return the Reference to be identified
 	 * */
 	public Reference getReference() {

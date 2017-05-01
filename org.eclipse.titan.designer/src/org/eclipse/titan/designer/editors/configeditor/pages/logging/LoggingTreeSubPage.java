@@ -208,7 +208,7 @@ public final class LoggingTreeSubPage {
 						removeLoggingComponents(lpe);
 						removeFromPluginList(tempComponentName, plugin);
 					}
-					
+
 					LogParamEntry lpe = loggingSectionHandler.componentPlugin(tempComponentName, null);
 					removeLoggingComponents(lpe);
 					removeFromPluginList(tempComponentName, null);
@@ -269,7 +269,7 @@ public final class LoggingTreeSubPage {
 	 * Adds a new logging plugin to the list of logging plugins available
 	 * for a given component. If necessary also creates the list of logging
 	 * plugins.
-	 * 
+	 *
 	 * @param componentName
 	 *                the name of the component to add the plugin to.
 	 * @param pluginName
@@ -301,14 +301,14 @@ public final class LoggingTreeSubPage {
 			entry = new LoggingSectionHandler.LoggerPluginsEntry();
 			loggingSectionHandler.getLoggerPluginsTree().put(componentName, entry);
 			final ParseTree loggerPluginsRoot = new ParserRuleContext();
-			ConfigTreeNodeUtilities.addChild( loggingSectionHandler.getLastSectionRoot(), loggerPluginsRoot ); 
+			ConfigTreeNodeUtilities.addChild( loggingSectionHandler.getLastSectionRoot(), loggerPluginsRoot );
 			entry.setLoggerPluginsRoot( loggerPluginsRoot );
-			
+
 			final StringBuilder builder = new StringBuilder();
 			builder.append("\n").append(componentName).append(".LoggerPlugins := ");
-			ConfigTreeNodeUtilities.addChild( loggerPluginsRoot, new AddedParseTree( builder.toString() ) ); 
+			ConfigTreeNodeUtilities.addChild( loggerPluginsRoot, new AddedParseTree( builder.toString() ) );
 			ConfigTreeNodeUtilities.addChild( loggerPluginsRoot, new AddedParseTree("{") );
-			
+
 			final ParseTree loggerPluginsListRoot = new ParserRuleContext();
 			entry.setLoggerPluginsListRoot( loggerPluginsListRoot );
 
@@ -321,7 +321,7 @@ public final class LoggingTreeSubPage {
 			entry.setPluginRoots(new HashMap<String, LoggingSectionHandler.LoggerPluginEntry>(1));
 			entry.getPluginRoots().put(pluginName, pluginEntry);
 			ConfigTreeNodeUtilities.addChild( loggerPluginsListRoot, pluginRoot );
-			
+
 			ConfigTreeNodeUtilities.addChild( loggerPluginsRoot, loggerPluginsListRoot );
 			ConfigTreeNodeUtilities.addChild( loggerPluginsRoot, new AddedParseTree("}") );
 			return;
@@ -334,7 +334,7 @@ public final class LoggingTreeSubPage {
 	/**
 	 * Removes a plugin from the list of plugins active on a given
 	 * component. If necessary removes the whole list too.
-	 * 
+	 *
 	 * @param componentName
 	 *                the name of the component where the plugin should be
 	 *                deleted.
@@ -387,7 +387,7 @@ public final class LoggingTreeSubPage {
 	 * Remove the provided log entry (containing information on a logging
 	 * component) from the tree built of the configuration file, so that
 	 * once we write back the tree its nodes will be missing.
-	 * 
+	 *
 	 * @param logentry
 	 *                the entry to be removed.
 	 * */

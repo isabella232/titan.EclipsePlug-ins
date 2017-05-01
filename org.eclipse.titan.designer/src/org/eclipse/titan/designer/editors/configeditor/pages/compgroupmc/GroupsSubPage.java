@@ -463,7 +463,7 @@ public final class GroupsSubPage {
 		newGroup.setGroupName( groupName );
 		newGroup.setGroupItems( new ArrayList<GroupItem>() );
 		newGroup.getGroupItems().add(new GroupSectionHandler.GroupItem(item));
-		
+
 		ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( "\n" ) );
 		ConfigTreeNodeUtilities.addChild( root, groupName );
 		ConfigTreeNodeUtilities.addChild( root, new AddedParseTree(" := ") );
@@ -515,7 +515,7 @@ public final class GroupsSubPage {
 					// Each group must have at least one item.
 					return;
 				}
-				
+
 				final ParseTree selected = item.getItem();
 				final ParseTree parent = selectedGroup.getRoot();
 				// items are separated by ","

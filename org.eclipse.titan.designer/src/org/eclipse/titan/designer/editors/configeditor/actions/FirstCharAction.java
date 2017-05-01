@@ -26,7 +26,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 /**
  * Jumps to the beginning of the actual line, or to the start of the text in
  * that line.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class FirstCharAction extends AbstractHandler implements IEditorActionDelegate {
@@ -34,7 +34,7 @@ public final class FirstCharAction extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Perform the jump.
-	 * 
+	 *
 	 * @param action
 	 *                the action proxy that would handle the presentation
 	 *                portion of the action. Not used.
@@ -77,7 +77,7 @@ public final class FirstCharAction extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Sets the active editor.
-	 * 
+	 *
 	 * @param action
 	 *                the action (not used)
 	 * @param targetEditor
@@ -92,7 +92,7 @@ public final class FirstCharAction extends AbstractHandler implements IEditorAct
 	 * Selection change notification.
 	 * <p>
 	 * Not used.
-	 * 
+	 *
 	 * @param action
 	 *                the action proxy that handles presentation portion of
 	 *                the action
@@ -107,7 +107,7 @@ public final class FirstCharAction extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Locates and returns the first visible character in the given region.
-	 * 
+	 *
 	 * @param doc
 	 *                the document to search
 	 * @param lineRegion

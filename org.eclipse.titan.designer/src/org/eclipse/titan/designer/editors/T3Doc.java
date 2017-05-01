@@ -67,27 +67,27 @@ public final class T3Doc {
 	private static final String NEWLINE = System.getProperty("line.separator");
 
 	private static final String[][] PARAGRAPHS = {
-			{ "@author", "Author:" },
-			{ "@config", "Configuration:" },
-			{ "@desc", "Description:" },
-			{ "@exception", "Exception:" },
-			// these are not needed in new structure, just to know
-			// that they are present
-			// {"@member", "Member:"},
-			// {"@param", "Parameter:"},
-			{ "@purpose", "Purpose:" }, { "@remark", "Remark:" }, { "@return", "Return:" }, { "@see", "See:" }, { "@since", "Since:" },
-			{ "@status", "Status:" }, { "@remark", "Remark:" }, { "@url", "Url:" }, { "@verdict", "Verdict:" },
-			{ "@version", "Version:" }, { "@priority", "Priority:" }, { "@requirement", "Requirement:" }, { "@reference", "Reference:" } };
+		{ "@author", "Author:" },
+		{ "@config", "Configuration:" },
+		{ "@desc", "Description:" },
+		{ "@exception", "Exception:" },
+		// these are not needed in new structure, just to know
+		// that they are present
+		// {"@member", "Member:"},
+		// {"@param", "Parameter:"},
+		{ "@purpose", "Purpose:" }, { "@remark", "Remark:" }, { "@return", "Return:" }, { "@see", "See:" }, { "@since", "Since:" },
+		{ "@status", "Status:" }, { "@remark", "Remark:" }, { "@url", "Url:" }, { "@verdict", "Verdict:" },
+		{ "@version", "Version:" }, { "@priority", "Priority:" }, { "@requirement", "Requirement:" }, { "@reference", "Reference:" } };
 
 	private static final String[] TEST_CASE = { "@exception", "@member", "@return" };
 
 	private static final String[] PORT = { "@config", "@exception", "@param", "@priority", "@purpose", "@requirement", "@return", "@verdict" };
 
 	private static final String[] CONSTANT = { "@config", "@exception", "@member", "@param", "@priority", "@purpose", "@requirement", "@return",
-			"@verdict" };
+	"@verdict" };
 
 	private static final String[] CONSTANT_MEMBER_CAPABLE = { "@config", "@exception", "@param", "@priority", "@purpose", "@requirement",
-			"@return", "@verdict" };
+		"@return", "@verdict" };
 
 	private static final String[] TEMPLATE = { "@config", "@exception", "@priority", "@purpose", "@requirement", "@return", "@verdict" };
 
@@ -100,16 +100,16 @@ public final class T3Doc {
 	private static final String[] MODULE = { "@config", "@exception", "@member", "@param", "@priority", "@return" };
 
 	private static final String[] GROUP = { "@config", "@exception", "@member", "@param", "@priority", "@purpose", "@requirement", "@return",
-			"@verdict" };
+	"@verdict" };
 
 	private static final String[] TTCN3_SEQUENCE = { "@config", "@exception", "@param", "@priority", "@purpose", "@requirement", "@return",
-			"@verdict" };
+	"@verdict" };
 
 	private static final String[] TTCN3_SEQUENCE_OF = { "@config", "@exception", "@member", "@param", "@priority", "@purpose", "@requirement",
-			"@return", "@verdict" };
+		"@return", "@verdict" };
 
 	private static final String[] TTCN3_MEMBER_CAPABLE = { Type_type.TYPE_TTCN3_CHOICE.toString(), Type_type.TYPE_TTCN3_ENUMERATED.toString(),
-			Type_type.TYPE_TTCN3_SET.toString(), Type_type.TYPE_TTCN3_SEQUENCE.toString(), Type_type.TYPE_REFERENCED.toString() };
+		Type_type.TYPE_TTCN3_SET.toString(), Type_type.TYPE_TTCN3_SEQUENCE.toString(), Type_type.TYPE_REFERENCED.toString() };
 
 	private static boolean documentationEnabled;
 
@@ -327,9 +327,9 @@ public final class T3Doc {
 				if (Def_Testcase.getKind().equals(type)) {
 					temp = TEST_CASE;
 				} else if (
-				// "port definition"
-				Def_Port.getKind().equals(type) ||
-				// " module parameter"
+						// "port definition"
+						Def_Port.getKind().equals(type) ||
+						// " module parameter"
 						Def_ModulePar.getKind().equals(type) ||
 						// "constant "
 						Def_Const.getKind().equals(type)) {

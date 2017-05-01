@@ -378,7 +378,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 
 	/**
 	 * Sets the reconciling strategy for this editor.
-	 * 
+	 *
 	 * @param strategy
 	 *                the strategy to be set.
 	 * */
@@ -388,7 +388,7 @@ public final class ASN1Editor extends AbstractDecoratedTextEditor implements ISe
 
 	/**
 	 * Finds a ASN.1 editor in the provided workbench
-	 * 
+	 *
 	 * @param workbench
 	 *                the workbench to search for an open editor.
 	 * @return the editor found, or null

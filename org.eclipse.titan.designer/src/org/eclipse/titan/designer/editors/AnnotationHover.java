@@ -57,9 +57,9 @@ public final class AnnotationHover implements IAnnotationHover {
 
 	/**
 	 * Helper function for {@link #getHoverInfo(ISourceViewer, int)}.
-	 * 
+	 *
 	 * @see #getHoverInfo(ISourceViewer, int)
-	 * 
+	 *
 	 * @param sourceViewer
 	 *                The viewer whose annotation we wish to find.
 	 * @param lineNumber

@@ -182,7 +182,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 
 	private void fullReconciliation(final boolean isInitial) {
 		actualCode = new StringBuilder(document.get());
-		
+
 		GlobalIntervalHandler.putInterval(document, null);
 		IPreferencesService prefs = Platform.getPreferencesService();
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, true, null)) {
@@ -235,7 +235,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 							if (!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, editedFile)) {
 								getEditor().updateOutlinePage();
 							}
-							
+
 							Module module = projectSourceParser.containedModule(editedFile);
 							if(module != null && module instanceof TTCN3Module) {
 								final List<Location> icList = ((TTCN3Module)module).getInactiveCodeLocations();

@@ -279,7 +279,7 @@ public final class TTCNPPEditor extends AbstractDecoratedTextEditor implements I
 		if (sourceViewer == null) {
 			return null;
 		}
-		
+
 		return sourceViewer.getDocument();
 	}
 
@@ -374,7 +374,7 @@ public final class TTCNPPEditor extends AbstractDecoratedTextEditor implements I
 	 * Works as a temporary call, that receives the positions of the new
 	 * foldable positions, and adds the annotationmodell and old foldable
 	 * positioans of the actual editor
-	 * 
+	 *
 	 * @param positions
 	 *                The new folding regions
 	 */
@@ -389,7 +389,7 @@ public final class TTCNPPEditor extends AbstractDecoratedTextEditor implements I
 	 * <p>
 	 * This function practically enables the onthefly parser to redraw the
 	 * texts, according to the information it has collected
-	 * 
+	 *
 	 * TODO check if we will need to create specialised versions to decrease
 	 * the computational level
 	 * */
@@ -418,7 +418,7 @@ public final class TTCNPPEditor extends AbstractDecoratedTextEditor implements I
 	 * <p>
 	 * The reason for the strange name is, that Eclipse 3.3 will have a
 	 * updateIndentPrefixes function.
-	 * 
+	 *
 	 */
 	protected void updateTITANIndentPrefixes() {
 		SourceViewerConfiguration configuration = getSourceViewerConfiguration();
@@ -437,7 +437,7 @@ public final class TTCNPPEditor extends AbstractDecoratedTextEditor implements I
 	 * <p>
 	 * This and {@link #getReconciler()} shall only be used to lift the
 	 * incrementality of the reconciler while doing indentation.
-	 * 
+	 *
 	 * @param reconciler
 	 *                the new reconciler for this editor.
 	 * */

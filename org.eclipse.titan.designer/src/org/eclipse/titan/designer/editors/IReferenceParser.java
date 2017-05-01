@@ -13,7 +13,7 @@ import org.eclipse.titan.designer.AST.Reference;
 
 /**
  * Provides a general interface for reference parsers.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface IReferenceParser {

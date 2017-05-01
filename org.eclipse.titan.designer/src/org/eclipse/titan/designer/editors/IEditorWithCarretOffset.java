@@ -11,7 +11,7 @@ import org.eclipse.ui.texteditor.ITextEditor;
 
 /**
  * Interface for a text editor that use a carret, whose offset can be retrieved.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface IEditorWithCarretOffset extends ITextEditor {

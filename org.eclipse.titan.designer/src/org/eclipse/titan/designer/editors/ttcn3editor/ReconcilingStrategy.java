@@ -104,7 +104,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 	/**
 	 * Activates incremental reconciling of the syntax of the specified
 	 * dirty region.
-	 * 
+	 *
 	 * @param dirtyRegion
 	 *                the document region which has been changed
 	 */
@@ -360,12 +360,12 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 	/**
 	 * Calculates the lines breaks in the provided text, using the legal
 	 * line delimeters of the document.
-	 * 
+	 *
 	 * @param text
 	 *                the text to be analyzed.
 	 * @param legalLineDelimiters
 	 *                the line delimiters legal in the actual document.
-	 * 
+	 *
 	 * @return the number of linebreaks in the text.
 	 * */
 	public static int calculateLineBreaks(final String text, final String[] legalLineDelimiters) {

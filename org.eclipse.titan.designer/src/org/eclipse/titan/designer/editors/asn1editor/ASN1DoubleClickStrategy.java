@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.editors.GeneralPairMatcher;
 
 /**
  * Our double click strategy selects the word under the cursor.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ASN1DoubleClickStrategy implements ITextDoubleClickStrategy {
@@ -49,7 +49,7 @@ public final class ASN1DoubleClickStrategy implements ITextDoubleClickStrategy {
 
 	/**
 	 * Searches for the actual selection range, and sets it.
-	 * 
+	 *
 	 * @see #doubleClicked(ITextViewer)
 	 * @param caretPos
 	 *                The position of the mouse cursor.

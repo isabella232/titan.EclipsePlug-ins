@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * Handles the insertion of closing brackets.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class BracketCompletionAutoEditStrategy implements IAutoEditStrategy {
@@ -76,7 +76,7 @@ public final class BracketCompletionAutoEditStrategy implements IAutoEditStrateg
 
 	/**
 	 * Inserts one character and steps over the character (make sense?).
-	 * 
+	 *
 	 * @param docCommand
 	 *                - the doc command to work upon
 	 * @param newChar
@@ -109,7 +109,7 @@ public final class BracketCompletionAutoEditStrategy implements IAutoEditStrateg
 	 * quotes then it inserts a closing quote after the opened quote and
 	 * does not move the caret. If the user is closing some quotes it steps
 	 * through the existing quote.
-	 * 
+	 *
 	 * @param doc
 	 *                - The document that the command is being performed in
 	 * @param docCommand
@@ -166,7 +166,7 @@ public final class BracketCompletionAutoEditStrategy implements IAutoEditStrateg
 
 	/**
 	 * Steps through a number of characters.
-	 * 
+	 *
 	 * @param docCommand
 	 *                - the doc command to work upon
 	 * @param chars2StepThru

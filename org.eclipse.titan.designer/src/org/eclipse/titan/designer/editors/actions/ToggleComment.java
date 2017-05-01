@@ -79,8 +79,8 @@ public class ToggleComment extends TextEditorAction {
 			display = shell.getDisplay();
 		}
 
-		
-		
+
+
 		BusyIndicator.showWhile(display, new Runnable() {
 			@Override
 			public void run() {
@@ -95,7 +95,7 @@ public class ToggleComment extends TextEditorAction {
 
 	/**
 	 * Is the given selection single-line commented?
-	 * 
+	 *
 	 * @param selection
 	 *                Selection to check
 	 * @return <code>true</code> if all selected lines are commented
@@ -153,7 +153,7 @@ public class ToggleComment extends TextEditorAction {
 	/**
 	 * Creates a region describing the text block (something that starts at
 	 * the beginning of a line) completely containing the current selection.
-	 * 
+	 *
 	 * @param selection
 	 *                The selection to use
 	 * @param document
@@ -179,7 +179,7 @@ public class ToggleComment extends TextEditorAction {
 	/**
 	 * Returns the index of the first line whose start offset is in the
 	 * given text range.
-	 * 
+	 *
 	 * @param region
 	 *                the text range in characters where to find the line
 	 * @param document
@@ -212,7 +212,7 @@ public class ToggleComment extends TextEditorAction {
 
 	/**
 	 * Determines whether each line is prefixed by one of the prefixes.
-	 * 
+	 *
 	 * @param startLine
 	 *                Start line in document
 	 * @param endLine

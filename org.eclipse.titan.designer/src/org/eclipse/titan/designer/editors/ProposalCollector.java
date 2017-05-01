@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 /**
  * A proposal collector is class that is collecting the proposals for a
  * reference's code completion
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ProposalCollector {
@@ -81,7 +81,7 @@ public final class ProposalCollector {
 	/**
 	 * Simple constructor initializing the reference and the offset of the
 	 * reference.
-	 * 
+	 *
 	 * @param targetIdentifierType
 	 *                the type identifiers should use to display their
 	 *                content
@@ -99,7 +99,7 @@ public final class ProposalCollector {
 	/**
 	 * Simple constructor initializing the reference and the offset of the
 	 * reference.
-	 * 
+	 *
 	 * @param targetIdentifierType
 	 *                the type identifiers should use to display their
 	 *                content
@@ -124,7 +124,7 @@ public final class ProposalCollector {
 	/**
 	 * Simple constructor initializing the reference and the offset of the
 	 * reference.
-	 * 
+	 *
 	 * @param targetIdentifierType
 	 *                the type identifiers should use to display their
 	 *                content
@@ -172,7 +172,7 @@ public final class ProposalCollector {
 	 * Overwrites the currently set ProjectParser for this object. Should
 	 * only be used when the ProjectParser could not be decided at the time
 	 * when this object was created.
-	 * 
+	 *
 	 * @param projectSourceParser
 	 *                the ProjectParser to be used to reach imported modules
 	 * */
@@ -182,7 +182,7 @@ public final class ProposalCollector {
 
 	/**
 	 * Returns the ProjectParser associated with this proposal collector.
-	 * 
+	 *
 	 * @return the ProjectParser of the actual project
 	 * */
 	public ProjectSourceParser getProjectParser() {
@@ -192,7 +192,7 @@ public final class ProposalCollector {
 	/**
 	 * Returns the context identifier from where the proposals will be
 	 * inserted.
-	 * 
+	 *
 	 * @return The context identifier from where the proposals will be
 	 *         inserted
 	 * */
@@ -203,7 +203,7 @@ public final class ProposalCollector {
 	/**
 	 * Return the collected completion proposals sorted by the string they
 	 * display to the user.
-	 * 
+	 *
 	 * @return the collected completion proposals
 	 * */
 	public ICompletionProposal[] getCompletitions() {
@@ -216,7 +216,7 @@ public final class ProposalCollector {
 	 * This is not the offset of the reference, for example if the reference
 	 * has 2 elements, than the replacement offset is the reference's offset
 	 * + the reference's first part's length +1
-	 * 
+	 *
 	 * @return the replacement offset
 	 * */
 	public int getReplacementOffset() {
@@ -225,7 +225,7 @@ public final class ProposalCollector {
 
 	/**
 	 * Returns the reference the proposals are checked against.
-	 * 
+	 *
 	 * @return the Reference to be extended
 	 * */
 	public Reference getReference() {
@@ -262,7 +262,7 @@ public final class ProposalCollector {
 
 	/**
 	 * Adds a proposal to the list of completion proposals.
-	 * 
+	 *
 	 * @param proposal
 	 *                the completion proposal to be added
 	 * */
@@ -276,7 +276,7 @@ public final class ProposalCollector {
 	 * <p>
 	 * Used to decide if an element might be the extended version of the
 	 * reference known.
-	 * 
+	 *
 	 * @param string
 	 *                the string to check.
 	 * @return the length of the parameter string, or -1 if the reference is
@@ -306,7 +306,7 @@ public final class ProposalCollector {
 	/**
 	 * Creates a new completion proposal. All fields are initialized based
 	 * on the provided information.
-	 * 
+	 *
 	 * @param candidate
 	 *                the candidate for completion
 	 * @param visibleString
@@ -321,7 +321,7 @@ public final class ProposalCollector {
 	/**
 	 * Creates a new completion proposal. All fields are initialized based
 	 * on the provided information.
-	 * 
+	 *
 	 * @param candidate
 	 *                the candidate for completion
 	 * @param visibleString
@@ -343,7 +343,7 @@ public final class ProposalCollector {
 	/**
 	 * Creates a new completion proposal. All fields are initialized based
 	 * on the provided information.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier that will be the candidate for
 	 *                completion
@@ -359,7 +359,7 @@ public final class ProposalCollector {
 	/**
 	 * Creates a new completion proposal. All fields are initialized based
 	 * on the provided information.
-	 * 
+	 *
 	 * @param identifier
 	 *                the identifier that will be the candidate for
 	 *                completion
@@ -398,7 +398,7 @@ public final class ProposalCollector {
 	/**
 	 * Creates completion proposals. All fields are initialized based on the
 	 * provided information.
-	 * 
+	 *
 	 * @param candidates
 	 *                the array of candidates to be added
 	 * @param image
@@ -421,7 +421,7 @@ public final class ProposalCollector {
 	/**
 	 * Creates a new completion proposal. All fields are initialized based
 	 * on the provided information.
-	 * 
+	 *
 	 * @param prefixString
 	 *                the prefix of the completion candidate, used to decide
 	 *                if it is a valid candidate or not.
@@ -452,7 +452,7 @@ public final class ProposalCollector {
 
 	/**
 	 * Adds a new TemplateProposal to the ones already know.
-	 * 
+	 *
 	 * @param prefixString
 	 *                the prefix of TemplateProposal, using which we can
 	 *                decide if the proposal is valid in the given context.

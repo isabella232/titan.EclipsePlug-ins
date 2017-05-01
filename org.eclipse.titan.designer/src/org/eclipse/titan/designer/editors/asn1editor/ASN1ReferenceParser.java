@@ -211,7 +211,7 @@ public final class ASN1ReferenceParser implements IReferenceParser {
 		reference = parser.pr_parseReference().reference;
 		return reference;
 	}
-	
+
 	private ASN1ReferenceParser newInstance() {
 		return new ASN1ReferenceParser();
 	}

@@ -87,7 +87,7 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 
 	/**
 	 * Helper to decide if the character can separate words in a reference.
-	 * 
+	 *
 	 * @param c
 	 *                the character to check.
 	 * */
@@ -106,12 +106,12 @@ public final class ContentAssistProcessor implements IContentAssistProcessor {
 
 	/**
 	 * Finds the start of the reference like thing that should be completed.
-	 * 
+	 *
 	 * @param offset
 	 *                the offset from where it has to search backwards.
 	 * @param document
 	 *                the document in which the search must take place
-	 * 
+	 *
 	 * @return the starting offset of the found reference like thing.
 	 * */
 	private int findWordStart(final int offset, final IDocument document) {

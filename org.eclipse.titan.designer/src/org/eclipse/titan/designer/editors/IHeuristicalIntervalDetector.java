@@ -17,7 +17,7 @@ public interface IHeuristicalIntervalDetector {
 	/**
 	 * The method determines if the given offset is within a string in the
 	 * document.
-	 * 
+	 *
 	 * @param document
 	 *                the document being parsed
 	 * @param offset

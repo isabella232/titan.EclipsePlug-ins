@@ -78,7 +78,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 
 	/**
 	 * The function really doing the pair matching work.
-	 * 
+	 *
 	 * @return wheather it could find a matching bracket or not.
 	 */
 	public final boolean matchPairs() {
@@ -123,7 +123,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 
 	/**
 	 * Finds the starting part of a bracket pair.
-	 * 
+	 *
 	 * @param pair
 	 *                the pair to search for, where the ending position is
 	 *                already filled out.
@@ -161,7 +161,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 
 	/**
 	 * Finds the ending part of a bracket pair.
-	 * 
+	 *
 	 * @param pair
 	 *                the pair to search for, where the ending position is
 	 *                already filled out.
@@ -196,7 +196,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 
 	/**
 	 * Tells if is inside a comment area or not.
-	 * 
+	 *
 	 * @param offset
 	 *                the offset to decide on
 	 * @return true if it is in a comment area,false otherwise.
@@ -208,7 +208,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 	/**
 	 * Returns the end of a partition region created by the partition
 	 * manager.
-	 * 
+	 *
 	 * @param offset
 	 *                the location whose partition we want to find
 	 * @return the end of the found region
@@ -225,7 +225,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 	/**
 	 * Returns the starting offset of a partition region created by the
 	 * partition manager.
-	 * 
+	 *
 	 * @param offset
 	 *                the location whose partition we want to find
 	 * @return the starting offset of the found region
@@ -241,7 +241,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 
 	/**
 	 * Returns the end of a string.
-	 * 
+	 *
 	 * @param theDoc
 	 *                the document in which we work
 	 * @param currentPosition
@@ -265,7 +265,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 
 	/**
 	 * Returns the start offset of a string.
-	 * 
+	 *
 	 * @param theDoc
 	 *                the document in which we work
 	 * @param currentPosition

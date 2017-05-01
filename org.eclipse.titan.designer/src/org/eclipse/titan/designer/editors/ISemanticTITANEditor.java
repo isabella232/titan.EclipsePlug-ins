@@ -19,7 +19,7 @@ import org.eclipse.ui.IEditorInput;
  * <p>
  * Implementors of this interface should expect the supported functions to be
  * called when a semantic checking operation ends (which can be about any time).
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface ISemanticTITANEditor {
@@ -27,7 +27,7 @@ public interface ISemanticTITANEditor {
 
 	/**
 	 * Returns the editor input used by the editor.
-	 * 
+	 *
 	 * @return the editorinput
 	 * */
 	public IEditorInput getEditorInput();
@@ -38,7 +38,7 @@ public interface ISemanticTITANEditor {
 	 * Works as a temporary call, that receives the positions of the new
 	 * foldable positions, and adds the annotationmodell and old foldable
 	 * positions of the actual editor
-	 * 
+	 *
 	 * @param positions
 	 *                The new folding regions
 	 */

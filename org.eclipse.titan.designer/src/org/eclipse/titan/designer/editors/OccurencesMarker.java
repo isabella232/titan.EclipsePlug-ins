@@ -148,7 +148,7 @@ public abstract class OccurencesMarker {
 	/**
 	 * Displays the error message on the debug console if the
 	 * "report debug information" switch is on
-	 * 
+	 *
 	 * @param document
 	 *                The document currently opened in the editor.
 	 * @param offset
@@ -282,7 +282,7 @@ public abstract class OccurencesMarker {
 	/**
 	 * Finds the occurrences of the element located on the given offset.
 	 * This search is based on the {@link ASTLocationChainVisitor}.
-	 * 
+	 *
 	 * @param module
 	 *                The module to search the occurrences in
 	 * @param offset
@@ -306,7 +306,7 @@ public abstract class OccurencesMarker {
 	 * Finds the occurrences of the element located on the given offset.
 	 * This solution can be used, when the locations are not correct. (e.g.
 	 * in case of an ASN.1 file)
-	 * 
+	 *
 	 * @param document
 	 * @param reference
 	 * @param module
@@ -407,7 +407,7 @@ public abstract class OccurencesMarker {
 
 	/**
 	 * Removes the occurrence annotations of this OccurrenceMarker.
-	 * 
+	 *
 	 * @param force
 	 *                The annotations will be removed even if the keepMarks
 	 *                flag is set.
@@ -439,7 +439,7 @@ public abstract class OccurencesMarker {
 	/**
 	 * Returns the annotationModel of the editor or null if it can not be
 	 * found
-	 * 
+	 *
 	 * @return the annotationModel
 	 */
 	private IAnnotationModel getAnnotationModel() {
@@ -478,7 +478,7 @@ public abstract class OccurencesMarker {
 
 	/**
 	 * Returns a reference parser according to the editor.
-	 * 
+	 *
 	 * @return the reference parser
 	 */
 	protected abstract IReferenceParser getReferenceParser();

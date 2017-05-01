@@ -30,7 +30,7 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.filebuffers.IDocumentSetupParticipant#setup(org.
 	 * eclipse.jface.text.IDocument)

@@ -41,9 +41,9 @@ import org.eclipse.ui.part.FileEditorInput;
  * @author Arpad Lovassy
  */
 public final class ConfigEditor extends FormEditor implements IResourceChangeListener {
-	
+
 	private static final boolean CONFIG_EDITOR_TABS_VISIBLE = true;
-	
+
 	private ConfigTextEditor editor;
 
 	private int editorPageIndex;
@@ -59,7 +59,7 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 
 	private ParserRuleContext mParseTreeRoot;
 	private List<Token> mTokens;
-	
+
 	public ConfigEditor() {
 		editor = new ConfigTextEditor(this);
 		ResourcesPlugin.getWorkspace().addResourceChangeListener(this);
@@ -126,7 +126,7 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 	public ConfigTextEditor getEditor() {
 		return editor;
 	}
-	
+
 	public void refresh(final CfgAnalyzer cfgAnalyzer) {
 		if ( !CONFIG_EDITOR_TABS_VISIBLE ) {
 			return;
@@ -137,10 +137,10 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 				mModuleParameterSectionEditor.refreshData( cfgAnalyzer.getModuleParametersHandler() );
 				mTestportParameterSectionEditor.refreshData( cfgAnalyzer.getTestportParametersHandler() );
 				mComponentGroupMCSectionEditor.refreshData( cfgAnalyzer.getComponentSectionHandler(),
-														   cfgAnalyzer.getGroupSectionHandler(),
-														   cfgAnalyzer.getMcSectionHandler() );
+						cfgAnalyzer.getGroupSectionHandler(),
+						cfgAnalyzer.getMcSectionHandler() );
 				mExecuteExternalCommandsEditor.refreshData( cfgAnalyzer.getExternalCommandsSectionHandler(),
-														   cfgAnalyzer.getExecuteSectionHandler() );
+						cfgAnalyzer.getExecuteSectionHandler() );
 				mIncludeDefineEditor.refreshData( cfgAnalyzer.getIncludeSectionHandler(), cfgAnalyzer.getDefineSectionHandler() );
 				mLoggingEditor.refreshData( cfgAnalyzer.getLoggingSectionHandler() );
 			}
@@ -165,7 +165,7 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 			}
 		});
 	}
-	
+
 	@Override
 	protected void addPages() {
 		if ( CONFIG_EDITOR_TABS_VISIBLE ) {
@@ -192,13 +192,13 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 
 		setPartName(getEditorInput().getName());
 	}
-	
+
 	@Override
 	public void doSave(final IProgressMonitor monitor) {
 		if (isDirty) {
 			updateTextualPage();
 		}
-		
+
 		editor.doSave(monitor);
 		isDirty = false;
 		firePropertyChange(PROP_DIRTY);
@@ -209,7 +209,7 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 		if (isDirty) {
 			updateTextualPage();
 		}
-		
+
 		editor.doSaveAs();
 		setPageText(editorPageIndex, editor.getTitle());
 		setInput(editor.getEditorInput());

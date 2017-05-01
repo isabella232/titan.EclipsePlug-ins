@@ -11,7 +11,7 @@ import org.eclipse.jface.text.templates.Template;
 
 /**
  * Helper class, used to ease working with TemplateProposals.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class SkeletonTemplateProposal {

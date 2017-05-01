@@ -21,7 +21,7 @@ import org.eclipse.swt.graphics.Point;
  * The default class for a single completion proposal.
  * <p>
  * For skeleton like proposals the templatecompletion should be used.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class CompletionProposal implements ICompletionProposal, ICompletionProposalExtension3 {
@@ -47,7 +47,7 @@ public final class CompletionProposal implements ICompletionProposal, ICompletio
 	 * Creates a new completion proposal based on the provided information.
 	 * The replacement string is considered being the display string too.
 	 * All remaining fields are set to <code>null</code>.
-	 * 
+	 *
 	 * @param replacementString
 	 *                the actual string to be inserted into the document
 	 * @param replacementOffset
@@ -65,7 +65,7 @@ public final class CompletionProposal implements ICompletionProposal, ICompletio
 	/**
 	 * Creates a new completion proposal. All fields are initialized based
 	 * on the provided information.
-	 * 
+	 *
 	 * @param replacementString
 	 *                the actual string to be inserted into the document
 	 * @param replacementOffset

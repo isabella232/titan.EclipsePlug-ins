@@ -120,7 +120,7 @@ public final class IncludeSubPage {
 				// a new line before every item
 				ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( "\n" ) );
 				ConfigTreeNodeUtilities.addChild( root, newItem );
-				
+
 				includeSectionHandler.getFiles().add( newItem );
 
 				internalRefresh();

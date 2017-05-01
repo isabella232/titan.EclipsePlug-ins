@@ -92,7 +92,7 @@ public final class ExecuteSectionDropTargetListener implements DropTargetListene
 					for (int i = 0; i < items.length - 1; i++) {
 						executeSectionHandler.getExecuteitems().add(++baseindex, items[i]);
 					}
-					
+
 					executeSectionHandler.getExecuteitems().add(++baseindex, items[items.length - 1]);
 				}
 

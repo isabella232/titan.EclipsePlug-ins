@@ -296,7 +296,7 @@ public final class DefineSubPage {
 		final ParseTree value = new AddedParseTree("definition_value");
 		item.setDefinitionName( name );
 		item.setDefinitionValue( value );
-		
+
 		ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( "\n" ) );
 		ConfigTreeNodeUtilities.addChild( root, name );
 		ConfigTreeNodeUtilities.addChild( root, new AddedParseTree(" := ") );

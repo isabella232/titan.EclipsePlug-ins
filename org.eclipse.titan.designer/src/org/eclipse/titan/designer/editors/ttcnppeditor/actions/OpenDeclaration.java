@@ -61,7 +61,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	/**
 	 * Opens an editor for the provided declaration, and in this editor the
 	 * location of the declaration is revealed and selected.
-	 * 
+	 *
 	 * @param declaration
 	 *                the declaration to reveal
 	 * */

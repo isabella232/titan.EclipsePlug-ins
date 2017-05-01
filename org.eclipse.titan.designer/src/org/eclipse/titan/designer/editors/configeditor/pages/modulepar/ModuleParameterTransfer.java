@@ -95,32 +95,32 @@ public final class ModuleParameterTransfer extends ConfigItemTransferBase {
 				newModuleParameter.setModuleName( new AddedParseTree( moduleName ) );
 				ConfigTreeNodeUtilities.addChild( root, new AddedParseTree( hiddenBeforeSeparator ) );
 				ConfigTreeNodeUtilities.addChild( root, newModuleParameter.getModuleName() );
-				
+
 				final boolean isModuleNameEmpty = moduleName == null || moduleName.isEmpty();
-				
+
 				newModuleParameter.setSeparator( new AddedParseTree( isModuleNameEmpty ? "" : ".") );
 				ConfigTreeNodeUtilities.addChild( root, newModuleParameter.getSeparator() );
 
 				// parameter name part
 				final String hiddenBeforeParameterName = in.readUTF();
 				final String parameterName = in.readUTF();
-				
+
 				ConfigTreeNodeUtilities.addChild( root, new AddedParseTree( hiddenBeforeParameterName ) );
 				newModuleParameter.setParameterName( new AddedParseTree( parameterName ) );
 				ConfigTreeNodeUtilities.addChild( root, newModuleParameter.getParameterName() );
-				
+
 				// the := sign and the hidden stuff before it
 				final String hiddenBeforeOperator = in.readUTF();
 				ConfigTreeNodeUtilities.addChild( root, new AddedParseTree( hiddenBeforeOperator ) );
 				ConfigTreeNodeUtilities.addChild( root, new AddedParseTree(" := ") );
-				
+
 				// the value part
 				final String hiddenBeforeValue = in.readUTF();
 				final String value = in.readUTF();
 				ConfigTreeNodeUtilities.addChild( root, new AddedParseTree( hiddenBeforeValue ) );
 				newModuleParameter.setValue( new AddedParseTree( value ) );
 				ConfigTreeNodeUtilities.addChild( root, newModuleParameter.getValue() );
-				
+
 				// put it under the root node
 				items[i] = newModuleParameter;
 			}

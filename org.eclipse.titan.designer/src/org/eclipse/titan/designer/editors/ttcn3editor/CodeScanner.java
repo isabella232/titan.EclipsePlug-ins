@@ -28,28 +28,28 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 public final class CodeScanner extends RuleBasedScanner {
 
 	public static final String[] KEYWORDS = new String[] { "activate", "address", "alive", "all", "alt", "altstep", "and", "and4b", "any",
-			"break", "case", "component", "const", "continue", "control", "deactivate", "display", "do", "else", "encode", "enumerated",
-			"except", "exception", "execute", "extends", "extension", "external", "for", "from", "function", "goto", "group", "if",
-			"import", "in", "infinity", "inout", "interleave", "label", "language", "length", "log", "match", "message", "mixed", "mod",
-			"modifies", "module", "modulepar", "mtc", "noblock", "not", "not4b", "nowait", "of", "omit", "on", "optional", "or", "or4b", "out",
-			"override", "param", "pattern", "port", "present", "procedure", "record", "recursive", "rem", "repeat", "return", "runs", "select",
-			"self", "sender", "set", "signature", "system", "template", "testcase", "to", "type", "union", "value", "valueof", "var",
-			"variant", "while", "with", "xor", "xor4b" };
+		"break", "case", "component", "const", "continue", "control", "deactivate", "display", "do", "else", "encode", "enumerated",
+		"except", "exception", "execute", "extends", "extension", "external", "for", "from", "function", "goto", "group", "if",
+		"import", "in", "infinity", "inout", "interleave", "label", "language", "length", "log", "match", "message", "mixed", "mod",
+		"modifies", "module", "modulepar", "mtc", "noblock", "not", "not4b", "nowait", "of", "omit", "on", "optional", "or", "or4b", "out",
+		"override", "param", "pattern", "port", "present", "procedure", "record", "recursive", "rem", "repeat", "return", "runs", "select",
+		"self", "sender", "set", "signature", "system", "template", "testcase", "to", "type", "union", "value", "valueof", "var",
+		"variant", "while", "with", "xor", "xor4b" };
 
 	public static final String[] TITANSPECIFICKEYWORDS = new String[] { "@try", "@catch" };
 
 	public static final String[] TEMPLATE_MATCH = new String[] { "complement", "ifpresent", "subset", "superset", "permutation" };
 
 	public static final String[] TYPES = new String[] { "anytype", "bitstring", "boolean", "char", "charstring", "default", "float", "hexstring",
-			"integer", "objid", "octetstring", "universal", "verdicttype", "timer" };
+		"integer", "objid", "octetstring", "universal", "verdicttype", "timer" };
 
 	public static final String[] TIMER_OPERATIONS = new String[] { "start", "stop", "timeout", "read", "running" };
 
 	public static final String[] PORT_OPERATIONS = new String[] { "call", "catch", "check", "clear", "getcall", "getreply", "halt", "raise",
-			"receive", "reply", "send", "trigger" };
+		"receive", "reply", "send", "trigger" };
 
 	public static final String[] CONFIGURATION_OPERATIONS = new String[] { "create", "connect", "disconnect", "done", "kill", "killed", "map",
-			"unmap" };
+	"unmap" };
 
 	public static final String[] VERDICT_OPERATIONS = new String[] { "getverdict", "setverdict" };
 
@@ -58,11 +58,11 @@ public final class CodeScanner extends RuleBasedScanner {
 	public static final String[] FUNCTION_OPERATIONS = new String[] { "apply", "derefers", "refers" };
 
 	public static final String[] PREDEFINED_OPERATIONS = new String[] { "bit2hex", "bit2int", "bit2oct", "bit2str", "char2int", "char2oct",
-			"encvalue", "decomp", "decvalue", "float2int", "float2str", "hex2bit", "hex2int", "hex2oct", "hex2str", "int2bit",
-			"int2char", "int2float", "int2hex", "int2oct", "int2str", "int2unichar", "isbound", "ischosen", "ispresent", "isvalue",
-			"lengthof", "log2str", "oct2bit", "oct2char", "oct2hex", "oct2int", "oct2str", "regexp", "replace", "rnd", "sizeof",
-			"str2bit", "str2float", "str2hex", "str2int", "str2oct", "substr", "unichar2int", "unichar2char", "enum2int",
-			"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64" };
+		"encvalue", "decomp", "decvalue", "float2int", "float2str", "hex2bit", "hex2int", "hex2oct", "hex2str", "int2bit",
+		"int2char", "int2float", "int2hex", "int2oct", "int2str", "int2unichar", "isbound", "ischosen", "ispresent", "isvalue",
+		"lengthof", "log2str", "oct2bit", "oct2char", "oct2hex", "oct2int", "oct2str", "regexp", "replace", "rnd", "sizeof",
+		"str2bit", "str2float", "str2hex", "str2int", "str2oct", "substr", "unichar2int", "unichar2char", "enum2int",
+		"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64" };
 
 	public static final String[] BOOLEAN_CONSTANTS = new String[] { "true", "false" };
 
@@ -71,7 +71,7 @@ public final class CodeScanner extends RuleBasedScanner {
 	public static final String[] OTHER_CONSTANT = new String[] { "null", "NULL" };
 
 	public static final String[] MACROS = new String[] { "%moduleId", "%definitionId", "%testcaseId", "%fileName", "%lineNumber", "__MODULE__",
-			"__FILE__", "__BFILE__", "__LINE__", "__SCOPE__", "__TESTCASE__" };
+		"__FILE__", "__BFILE__", "__LINE__", "__SCOPE__", "__TESTCASE__" };
 
 	public static final String[] VISIBILITY_MODIFIERS = new String[] { "public", "private", "friend" };
 

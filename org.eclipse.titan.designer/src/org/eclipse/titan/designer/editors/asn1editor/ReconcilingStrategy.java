@@ -85,7 +85,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 					editor.updateFoldingStructure(positions);
 					final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 					if (!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, file) ||
-						!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, file)) {
+							!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, file)) {
 						getEditor().updateOutlinePage();
 					}
 				}
@@ -103,7 +103,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		if (project == null) {
 			return;
 		}
-		
+
 		WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
@@ -114,7 +114,7 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 						List<Position> positions = (new ASN1FoldingSupport()).calculatePositions(document);
 						getEditor().updateFoldingStructure(positions);
 						if (!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, editedFile) ||
-							!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, editedFile)	) {
+								!MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, editedFile)	) {
 							getEditor().updateOutlinePage();
 						}
 					}

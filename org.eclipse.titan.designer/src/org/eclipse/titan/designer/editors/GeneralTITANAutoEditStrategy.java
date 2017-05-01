@@ -40,7 +40,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 
 	/**
 	 * Initializes the root interval for this auto edit strategy.
-	 * 
+	 *
 	 * @param document
 	 *                the document to use when initializing the interval.
 	 * */
@@ -59,7 +59,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	/**
 	 * Determines if the given string parameter ends with a legal line
 	 * delimiter of document d.
-	 * 
+	 *
 	 * @param d
 	 *                - the document with the certain line delimiters we are
 	 *                concerned with
@@ -90,7 +90,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	/**
 	 * The method determines if the given offset is within a multy line
 	 * comment in the document.
-	 * 
+	 *
 	 * @param offset
 	 *                the position where parsing starts from
 	 * @return Whether offset is within a comment.
@@ -105,7 +105,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 
 	/**
 	 * Returns the whitespace characters at the end of the given line.
-	 * 
+	 *
 	 * @param document
 	 *                - the document being parsed
 	 * @param line
@@ -141,7 +141,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	/**
 	 * Returns the offset of the first non-whitespace character in the
 	 * examined document region.
-	 * 
+	 *
 	 * @param document
 	 *                - the document to be searched for non-whitespace
 	 *                characters
@@ -167,7 +167,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 
 	/**
 	 * Returns the line number of the next bracket after end.
-	 * 
+	 *
 	 * @returns the line number of the next matching bracket after end
 	 * @param document
 	 *                - the document being parsed
@@ -187,12 +187,12 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	/**
 	 * Returns the whether there is an interval starting within the
 	 * specified range, but ending outside it.
-	 * 
+	 *
 	 * @param start
 	 *                the beginning of the range
 	 * @param end
 	 *                the end of the range
-	 * 
+	 *
 	 * @return whether there is such an interval or not.
 	 * */
 	protected final boolean containsUnclosedInterval(final int start, final int end) {
@@ -207,12 +207,12 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	/**
 	 * Returns the whether there is an interval ending within the specified
 	 * range, but starting outside it.
-	 * 
+	 *
 	 * @param start
 	 *                the beginning of the range
 	 * @param end
 	 *                the end of the range
-	 * 
+	 *
 	 * @return whether there is such an interval or not.
 	 * */
 	protected final boolean containsUnopenedInterval(final int start, final int end) {
@@ -228,7 +228,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	 * This method determines whether the offset position given in the
 	 * second parameter could be within a statement block that is not closed
 	 * by a closing curly bracket.
-	 * 
+	 *
 	 * @param document
 	 *                the document being parsed
 	 * @param start
@@ -256,7 +256,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	/**
 	 * The method determines if the given offset is within a string in the
 	 * document.
-	 * 
+	 *
 	 * @param document
 	 *                the document being parsed
 	 * @param offset

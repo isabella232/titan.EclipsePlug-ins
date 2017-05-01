@@ -85,7 +85,7 @@ public abstract class BaseTextHover implements ITextHover, ITextHoverExtension2 
 			}
 		}
 		ErrorReporter.parallelDisplayInStatusLine(getTargetEditor(),null);
-		
+
 		DeclarationCollector declarationCollector = OpenDeclarationHelper.findVisibleDeclarations(getTargetEditor(), getReferenceParser(),
 				textViewer.getDocument(), hoverRegion.getOffset(), false);
 

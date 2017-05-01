@@ -150,18 +150,18 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 			FileSaveTracker.fileBeingSaved(file);
 		}
 		super.doSave(progressMonitor);
-		
+
 		analyzeOpenedFile("Reconciliation on save", file);
 	}
-	
+
 	/**
-	 * Analyze or reanalyze the file opened in the current editor in case of semantic check is delayed. 
+	 * Analyze or reanalyze the file opened in the current editor in case of semantic check is delayed.
 	 * <p>
 	 * It is necessary if
 	 * <p> - if the file is just saved OR
 	 * <p> - if the file is just opened and therefore it contain just partial semantic check information
 	 *   (This is the case when functionality "minimized memory usage" is switched on)
-	 *   
+	 *
 	 * @param jobname The name of the workspace job
 	 * @param file the file being saved
 	 * @author Kristof Szabados

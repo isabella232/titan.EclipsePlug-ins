@@ -91,7 +91,7 @@ public final class IncludeSectionDropTargetListener implements DropTargetListene
 					for (int i = 0; i < items.length - 1; i++) {
 						includeSectionHandler.getFiles().add(++baseindex, items[i]);
 					}
-					
+
 					includeSectionHandler.getFiles().add(++baseindex, items[items.length - 1]);
 				}
 

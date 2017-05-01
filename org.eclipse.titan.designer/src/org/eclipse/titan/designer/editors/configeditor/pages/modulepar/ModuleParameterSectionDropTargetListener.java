@@ -92,7 +92,7 @@ public final class ModuleParameterSectionDropTargetListener implements DropTarge
 					for (int i = 0; i < items.length - 1; i++) {
 						moduleParameterSectionHandler.getModuleParameters().add(++baseindex, items[i]);
 					}
-					
+
 					moduleParameterSectionHandler.getModuleParameters().add(++baseindex, items[items.length - 1]);
 				}
 

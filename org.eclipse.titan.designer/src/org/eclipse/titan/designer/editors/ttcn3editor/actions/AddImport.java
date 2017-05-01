@@ -150,7 +150,7 @@ public final class AddImport implements IEditorActionDelegate {
 			Module newModule = projectSourceParser.containedModule(newfile);
 			if (newModule == null) {
 				targetEditor.getEditorSite().getActionBars().getStatusLineManager()
-						.setErrorMessage("Could not identify the module in file " + newfile.getName());
+				.setErrorMessage("Could not identify the module in file " + newfile.getName());
 				return;
 			}
 
@@ -176,8 +176,8 @@ public final class AddImport implements IEditorActionDelegate {
 			if (reportDebugInformation) {
 				for (DeclarationCollectionHelper foundDeclaration : collected) {
 					TITANDebugConsole.println("declaration:" + foundDeclaration.location.getFile() + ": "
-									+ foundDeclaration.location.getOffset() + " - "
-									+ foundDeclaration.location.getEndOffset() + " is available");
+							+ foundDeclaration.location.getOffset() + " - "
+							+ foundDeclaration.location.getEndOffset() + " is available");
 				}
 			}
 		}

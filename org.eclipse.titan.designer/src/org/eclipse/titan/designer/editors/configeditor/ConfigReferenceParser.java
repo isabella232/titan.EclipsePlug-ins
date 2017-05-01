@@ -111,7 +111,7 @@ public final class ConfigReferenceParser implements IReferenceParser {
 					if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true,
 							null)) {
 						TITANDebugConsole.println("Module: " + exactModuleName);
-						
+
 					}
 				}
 				parameter = selected.substring(dotIndex + 1);

@@ -230,7 +230,7 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	 * Works as a temporary call, that receives the positions of the new
 	 * foldable positions, and adds the annotationmodel and old foldable
 	 * positions of the actual editor
-	 * 
+	 *
 	 * @param positions
 	 *                The new folding regions
 	 */
@@ -260,7 +260,7 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	 * <p>
 	 * The reason for the strange name is, that Eclipse 3.3 will have a
 	 * updateIndentPrefixes function.
-	 * 
+	 *
 	 */
 	protected void updateTITANIndentPrefixes() {
 		SourceViewerConfiguration configuration = getSourceViewerConfiguration();
@@ -292,7 +292,7 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 
 	/**
 	 * Finds a CFG editor in the provided workbench
-	 * 
+	 *
 	 * @param workbench
 	 *                the workbench to search for an open editor.
 	 * @return the editor found, or null

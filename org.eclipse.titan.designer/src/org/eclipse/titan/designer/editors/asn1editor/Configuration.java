@@ -143,7 +143,7 @@ public final class Configuration extends TextSourceViewerConfiguration {
 	 * creating information controls for the given source viewer. This
 	 * implementation always returns a creator for
 	 * <code>JavaInformationControl</code> instances.
-	 * 
+	 *
 	 * @param sourceViewer
 	 *                the source viewer to be configured by this
 	 *                configuration

@@ -17,7 +17,7 @@ import org.eclipse.titan.common.parsers.Interval.interval_type;
 /**
  * This class can be used to build an interval hierarchy from file types, for
  * which the needed lexers are not yet developed.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class HeuristicalIntervalDetector extends IntervalDetector implements IHeuristicalIntervalDetector {
@@ -26,10 +26,10 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 	 * This function builds an interval hierarchy from its input.
 	 * <p>
 	 * This not a fully fledged lexer, on some heuristics are used.
-	 * 
+	 *
 	 * @param document
 	 *                the document to be used as the input
-	 * 
+	 *
 	 * @return the root of the interval tree.
 	 * */
 	public synchronized Interval buildIntervals(final IDocument document) {
@@ -167,7 +167,7 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 	/**
 	 * The method determines if the given offset is within a string in the
 	 * document.
-	 * 
+	 *
 	 * @param document
 	 *                the document being parsed
 	 * @param offset

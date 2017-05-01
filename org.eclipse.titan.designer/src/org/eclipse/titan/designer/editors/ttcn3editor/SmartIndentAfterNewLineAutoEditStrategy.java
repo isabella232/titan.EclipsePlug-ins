@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * Automatic indentation strategy.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class SmartIndentAfterNewLineAutoEditStrategy extends GeneralTITANAutoEditStrategy {

@@ -41,7 +41,7 @@ public final class NonRuleBasedDamagerRepairer implements IPresentationDamager, 
 	/**
 	 * Helper function for
 	 * {@link #getDamageRegion(ITypedRegion, DocumentEvent, boolean)}.
-	 * 
+	 *
 	 * @param offset
 	 *                The point on which we are in the document.
 	 * @return The next line ending relative to the offset parameter.
@@ -92,7 +92,7 @@ public final class NonRuleBasedDamagerRepairer implements IPresentationDamager, 
 	/**
 	 * Helper function for
 	 * {@link #createPresentation(TextPresentation, ITypedRegion)}.
-	 * 
+	 *
 	 * @see #createPresentation(TextPresentation, ITypedRegion)
 	 * @param presentation
 	 *                The presentation to add a region to.

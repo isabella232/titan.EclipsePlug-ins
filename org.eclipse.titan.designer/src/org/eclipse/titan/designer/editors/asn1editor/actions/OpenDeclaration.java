@@ -44,7 +44,7 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
  * org.eclipse.titan.designer.editors.ttcn3editor.OpenDeclaration
  * org.eclipse.titan.designer.editors.asn1editor.OpenDeclaration
  * org.eclipse.titan.designer.editors.asn1editor.OpenDeclaration
- * 
+ *
  * @author Kristof Szabados
  */
 public final class OpenDeclaration extends AbstractHandler implements IEditorActionDelegate {
@@ -62,11 +62,11 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	public void run(final IAction action) {
 		doOpenDeclaration();
 	}
-	
+
 	/**
 	 * Opens an editor for the provided declaration, and in this editor the
 	 * location of the declaration is revealed and selected.
-	 * 
+	 *
 	 * @param declaration
 	 *                the declaration to reveal
 	 * */
@@ -141,7 +141,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		if (!selection.isEmpty() && selection instanceof TextSelection && !"".equals(((TextSelection) selection).getText())) {
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
-				
+
 			}
 			TextSelection tSelection = (TextSelection) selection;
 			offset = tSelection.getOffset() + tSelection.getLength();

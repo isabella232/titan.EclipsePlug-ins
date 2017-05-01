@@ -21,9 +21,9 @@ import org.eclipse.jface.text.rules.Token;
  * Modified version of the <code>PatternRule</code> class. Is capable of
  * detecting a pattern which begins with a given start sequence and ends with a
  * given set of end sequences.
- * 
+ *
  * @see PatternRule
- * 
+ *
  * @author Kristof Szabados
  */
 public final class StringDetectionPatternRule implements IPredicateRule {
@@ -77,7 +77,7 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 
 	/**
 	 * @see PatternRule#PatternRule(String, String, IToken, char, boolean)
-	 * 
+	 *
 	 * @param startSequence
 	 *                the pattern's start sequence
 	 * @param endSequence
@@ -107,7 +107,7 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 	/**
 	 * @see PatternRule#PatternRule(String, String, IToken, char, boolean,
 	 *      boolean)
-	 * 
+	 *
 	 * @param startSequence
 	 *                the pattern's start sequence
 	 * @param endSequence
@@ -133,7 +133,7 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 	/**
 	 * @see PatternRule#PatternRule(String, String, IToken, char, boolean,
 	 *      boolean, boolean)
-	 * 
+	 *
 	 * @param startSequence
 	 *                the pattern's start sequence
 	 * @param endSequence
@@ -167,10 +167,10 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 	 * only be returned if the pattern is detected starting at the specified
 	 * column. If the column is smaller then 0, the column constraint is
 	 * considered removed.
-	 * 
+	 *
 	 * @param column
 	 *                the column in which the pattern starts
-	 * 
+	 *
 	 * @see PatternRule#setColumnConstraint(int)
 	 */
 	public void setColumnConstraint(final int column) {
@@ -183,11 +183,11 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 
 	/**
 	 * Evaluates this rules without considering any column constraints.
-	 * 
+	 *
 	 * @param scanner
 	 *                the character scanner to be used
 	 * @return the token resulting from this evaluation
-	 * 
+	 *
 	 * @see PatternRule#evaluate(ICharacterScanner)
 	 */
 	protected IToken doEvaluate(final ICharacterScanner scanner) {
@@ -198,14 +198,14 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 	 * Evaluates this rules without considering any column constraints.
 	 * Resumes detection, i.e. look sonly for the end sequence required by
 	 * this rule if the <code>resume</code> flag is set.
-	 * 
+	 *
 	 * @param scanner
 	 *                the character scanner to be used
 	 * @param resume
 	 *                <code>true</code> if detection should be resumed,
 	 *                <code>false</code> otherwise
 	 * @return the token resulting from this evaluation
-	 * 
+	 *
 	 * @see PatternRule#evaluate(ICharacterScanner, boolean)
 	 */
 	protected IToken doEvaluate(final ICharacterScanner scanner, final boolean resume) {
@@ -241,7 +241,7 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 	 * considered ended by a line delimiter, the result of this method is
 	 * <code>true</code> if the rule breaks on the end of the line, or if
 	 * the EOF character is read.
-	 * 
+	 *
 	 * @param scanner
 	 *                the character scanner to be used
 	 * @return <code>true</code> if the end sequence has been detected
@@ -318,7 +318,7 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 	 * scanner are an exact match with the given sequence. No escape
 	 * characters are allowed within the sequence. If specified the sequence
 	 * is considered to be found when reading the EOF character.
-	 * 
+	 *
 	 * @param scanner
 	 *                the character scanner to be used
 	 * @param sequence

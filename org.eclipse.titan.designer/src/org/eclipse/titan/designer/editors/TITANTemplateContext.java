@@ -34,7 +34,7 @@ import org.eclipse.titan.designer.editors.actions.FirstCharAction;
 /**
  * The TITANTemplateContext class represents a context for templates, where they
  * can be transformed according to the rules of TITAN.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class TITANTemplateContext extends DocumentTemplateContext {
@@ -93,7 +93,7 @@ public final class TITANTemplateContext extends DocumentTemplateContext {
 			IRegion region = adapter.find(startOffset, delimeterZero, true, false, false, false);
 			while (region != null) {
 				edit.addChild(new ReplaceEdit(region.getOffset(), region.getLength(), delimeter));
-				
+
 				startOffset = region.getOffset() + region.getLength();
 				region = adapter.find(startOffset, delimeterZero, true, false, false, false);
 			}

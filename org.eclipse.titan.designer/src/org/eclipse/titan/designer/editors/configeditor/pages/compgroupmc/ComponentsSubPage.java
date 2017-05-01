@@ -278,7 +278,7 @@ public final class ComponentsSubPage {
 		final ParseTree hostName = new AddedParseTree("host_name");
 		newcomponent.setComponentName( componentName );
 		newcomponent.setHostName( hostName );
-		
+
 		ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( "\n" ) );
 		ConfigTreeNodeUtilities.addChild( root, componentName );
 		ConfigTreeNodeUtilities.addChild( root, new AddedParseTree(" := ") );

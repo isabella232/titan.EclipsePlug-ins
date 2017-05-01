@@ -40,7 +40,7 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.core.filebuffers.IDocumentSetupParticipant#setup(org.
 	 * eclipse.jface.text.IDocument)
@@ -76,10 +76,10 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 			}
 
 		});
-		
+
 		analyze(document, true);
 	}
-	
+
 	void analyze(final IDocument document, final boolean isInitial) {
 		final IFile editedFile = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 		if (editedFile == null || ResourceExclusionHelper.isExcluded(editedFile)) {

@@ -26,7 +26,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * This class enables support for folding for every text based file.
- * 
+ *
  * @author Kristof Szabados
  */
 public class FoldingSupport {
@@ -38,7 +38,7 @@ public class FoldingSupport {
 
 	/**
 	 * Calculates the list of folding intervals.
-	 * 
+	 *
 	 * @param document
 	 *                The document where the search for folding regions
 	 *                should take place.
@@ -119,13 +119,13 @@ public class FoldingSupport {
 	 * <li>If a region disappeared, then it is removed.
 	 * <li>If a new region appeared, then it is added.
 	 * </ul>
-	 * 
+	 *
 	 * The algorithm extensively uses the fact the the new positions are
 	 * always sort ascending by their starting offset. The algorithm also
 	 * uses the fact that the old annotations array is ALMOST sorted. It is
 	 * not fully sorted, but as each batch added is sorted ascending, it is
 	 * safe and efficient to use methods that assume it is sorted.
-	 * 
+	 *
 	 * @param annotationModel
 	 *                the annotation model to be updated
 	 * @param oldAnnotations

@@ -66,14 +66,14 @@ public abstract class AbstractIndentAction extends AbstractHandler implements IE
 
 	/**
 	 * Indents a line with a given indentation level.
-	 * 
+	 *
 	 * @param document
 	 *                the document being processed.
 	 * @param lineStart
 	 *                the offset at which the target line starts
 	 * @param indentationLevel
 	 *                the indentation level to use
-	 * 
+	 *
 	 * @exception BadLocationException
 	 *                    if the offset is invalid in this document
 	 * */
@@ -101,7 +101,7 @@ public abstract class AbstractIndentAction extends AbstractHandler implements IE
 	/**
 	 * Returns whether the provided text contains non-whitespace characters
 	 * or not.
-	 * 
+	 *
 	 * @param text
 	 *                the text to check
 	 * @return true, if the text contains non-whitespace characters.
@@ -124,7 +124,7 @@ public abstract class AbstractIndentAction extends AbstractHandler implements IE
 	/**
 	 * Returns the offset of the first character on the line, or the
 	 * beginning of the line if none found.
-	 * 
+	 *
 	 * @param document
 	 *                the document being processed.
 	 * @param startOffset
@@ -230,10 +230,10 @@ public abstract class AbstractIndentAction extends AbstractHandler implements IE
 
 	/**
 	 * Perform the calculated text modification in the actual editor.
-	 * 
+	 *
 	 * @param processor
 	 *                the processor responsible to do the changes.
-	 * 
+	 *
 	 * @throws BadLocationException
 	 *                 Is thrown if one of the edits in the tree can't be
 	 *                 executed. The state of the document is undefined if

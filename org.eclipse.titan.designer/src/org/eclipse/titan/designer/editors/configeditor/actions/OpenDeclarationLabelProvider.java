@@ -20,7 +20,7 @@ public final class OpenDeclarationLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IBaseLabelProvider#addListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)
@@ -32,7 +32,7 @@ public final class OpenDeclarationLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.jface.viewers.IBaseLabelProvider#dispose()
 	 */
 	@Override
@@ -42,7 +42,7 @@ public final class OpenDeclarationLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ILabelProvider#getImage(java.lang.Object)
 	 */
@@ -53,7 +53,7 @@ public final class OpenDeclarationLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.ILabelProvider#getText(java.lang.Object)
 	 */
@@ -72,7 +72,7 @@ public final class OpenDeclarationLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IBaseLabelProvider#isLabelProperty(java
 	 * .lang.Object, java.lang.String)
@@ -84,7 +84,7 @@ public final class OpenDeclarationLabelProvider implements ILabelProvider {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.jface.viewers.IBaseLabelProvider#removeListener(org.eclipse
 	 * .jface.viewers.ILabelProviderListener)

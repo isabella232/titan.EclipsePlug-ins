@@ -45,7 +45,7 @@ import org.eclipse.ui.texteditor.AbstractTextEditor;
  * org.eclipse.titan.designer.editors.ttcn3editor.OpenDeclaration
  * org.eclipse.titan.designer.editors.asn1editor.OpenDeclaration
  * org.eclipse.titan.designer.editors.asn1editor.OpenDeclaration
- * 
+ *
  * @author Kristof Szabados
  */
 public final class OpenDeclaration extends AbstractHandler implements IEditorActionDelegate {
@@ -64,7 +64,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	/**
 	 * Opens an editor for the provided declaration, and in this editor the
 	 * location of the declaration is revealed and selected.
-	 * 
+	 *
 	 * @param declaration
 	 *                the declaration to reveal
 	 * */

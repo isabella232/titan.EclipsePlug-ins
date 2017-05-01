@@ -24,7 +24,7 @@ public final class FormColorCache {
 	/**
 	 * Returns the form colors class used to set up the colors in the
 	 * designer plug-in on the Form pages.
-	 * 
+	 *
 	 * @param display
 	 *                the display for which the colors should be common.
 	 * @return the common formColors instance

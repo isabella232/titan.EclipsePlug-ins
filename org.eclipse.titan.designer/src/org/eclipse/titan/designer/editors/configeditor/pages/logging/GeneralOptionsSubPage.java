@@ -635,19 +635,19 @@ public final class GeneralOptionsSubPage {
 
 		valueChanged = false;
 	}
-	
+
 	private void createNode( final LoggingSectionHandler.LoggerTreeElement aLte,
-							 final LogParamEntry aLogEntry,
-							 final String aValue,
-							 final String aNodeText,
-							 final ParseTree aRoot,
-							 final ParseTree aData ) {
+			final LogParamEntry aLogEntry,
+			final String aValue,
+			final String aNodeText,
+			final ParseTree aRoot,
+			final ParseTree aData ) {
 		ConfigTreeNodeUtilities.addChild( loggingSectionHandler.getLastSectionRoot(), aRoot );
 
 		final StringBuilder name = new StringBuilder();
 		aLte.writeNamePrefix(name);
 		name.append( aNodeText + " := ");
-		
+
 		ConfigTreeNodeUtilities.addChild( aRoot, new AddedParseTree( "\n" ) );
 		ConfigTreeNodeUtilities.addChild( aRoot, new AddedParseTree( name.toString() ) );
 		ConfigTreeNodeUtilities.addChild( aRoot, aData );

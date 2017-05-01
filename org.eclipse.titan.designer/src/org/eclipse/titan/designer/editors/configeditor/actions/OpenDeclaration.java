@@ -128,7 +128,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	/**
 	 * Opens an editor for the provided declaration, and in this editor the
 	 * location of the declaration is revealed and highlighted.
-	 * 
+	 *
 	 * @param file
 	 *                The file to open.
 	 * @param offset
@@ -152,7 +152,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		try {
 			IWorkbenchPage page = targetEditor.getSite().getPage();
 			IEditorPart editorPart = page.openEditor(new FileEditorInput(file), desc.getId());
-			
+
 			if (editorPart != null) {
 				// Check the editor instance. It's usually a
 				// ConfigEditor and
@@ -181,7 +181,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	/**
 	 * Display a list of items in a dialog and return the selected item as
 	 * an object.
-	 * 
+	 *
 	 * @param collected
 	 *                The list of items to be displayed in the dialog.
 	 * @return The object selected from the dialog.
@@ -200,7 +200,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Display a list of assignments in a dialog and return the selected assignment.
-	 * 
+	 *
 	 * @param collected
 	 *                The list of assignments to be displayed in the dialog.
 	 * @return The assignment selected from the dialog.
@@ -219,7 +219,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Provides position dependent section information.
-	 * 
+	 *
 	 * @param document
 	 *                The document where the check takes place.
 	 * @param offset
@@ -247,7 +247,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Opens the included configuration file selected by the user.
-	 * 
+	 *
 	 * @param file
 	 *                The current file.
 	 * @param offset
@@ -267,7 +267,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		IFile fileToOpen = file.getProject().getFile(include);
 		if (fileToOpen == null || !fileToOpen.exists()) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager()
-					.setErrorMessage(MessageFormat.format(FILENOTFOUND, include));
+			.setErrorMessage(MessageFormat.format(FILENOTFOUND, include));
 			return;
 		}
 
@@ -276,7 +276,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Selects and reveals the selected module parameter.
-	 * 
+	 *
 	 * @param file
 	 *                The current file.
 	 * @param offset
@@ -295,7 +295,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 			ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 			String exactModuleName = refParser.getExactModuleName();
-			
+
 			ArrayList<Assignment> foundAssignments = new ArrayList<Assignment>();
 
 			if (exactModuleName != null) {
@@ -329,8 +329,8 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 				return false;
 			}
 
-//			List<DeclarationCollectionHelper> collected = declarationCollector.getCollected();
-//			DeclarationCollectionHelper declaration = null;
+			//			List<DeclarationCollectionHelper> collected = declarationCollector.getCollected();
+			//			DeclarationCollectionHelper declaration = null;
 			Assignment assignment = null;
 
 			if (foundAssignments.size() == 1) {
@@ -346,8 +346,8 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 				for (Assignment tempAssignment : foundAssignments) {
 					Location location = tempAssignment.getLocation();
 					TITANDebugConsole.println("Module parameter: " + location.getFile() + ":"
-									+ location.getOffset() + "-"
-									+ location.getEndOffset());
+							+ location.getOffset() + "-"
+							+ location.getEndOffset());
 				}
 			}
 
@@ -364,7 +364,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 	/**
 	 * Jumps to the definition of the constant selected by the user.
-	 * 
+	 *
 	 * @param file
 	 *                The current file.
 	 * @param offset

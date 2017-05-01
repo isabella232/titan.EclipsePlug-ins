@@ -47,7 +47,7 @@ public class TextHoverControl extends AbstractInformationControl {
 
 	/**
 	 * Creates a TextHoverControl with the given shell as parent.
-	 * 
+	 *
 	 * @param parent
 	 *                the parent shell
 	 */

@@ -32,27 +32,27 @@ public final class CodeScanner extends RuleBasedScanner {
 	public static final String[] VERBS = new String[] { "ACTIONS", "ADD", "GET", "NOTIFICATIONS", "REPLACE", "REMOVE" };
 
 	public static final String[] COMPARE_TYPES = new String[] { "OPTIONAL", "DEFAULT", "MANAGED", "MODULE-TYPE", "MODULE_IDENTITY",
-			"MODULE-COMPLIANCE", "OBJECT-TYPE", "OBJECT-IDENTITY", "OBJECT-COMPLIANCE", "MODE", "CONFIRMED", "CONDITIONAL",
-			"SUBORDINATE", "SUPERIOR", "CLASS", "TRUE", "FALSE", "NULL", "TEXTUAL-CONVENTION" };
+		"MODULE-COMPLIANCE", "OBJECT-TYPE", "OBJECT-IDENTITY", "OBJECT-COMPLIANCE", "MODE", "CONFIRMED", "CONDITIONAL",
+		"SUBORDINATE", "SUPERIOR", "CLASS", "TRUE", "FALSE", "NULL", "TEXTUAL-CONVENTION" };
 
 	public static final String[] STATUS_TYPE = new String[] { "current", "deprecated", "mandatory", "obsolete" };
 
 	public static final String[] KEYWORDS = new String[] { "DEFINITIONS", "OBJECTS", "IF", "DERIVED", "INFORMATION", "ACTION", "REPLY", "ANY",
-			"NAMED", "CHARACTERIZED", "BEHAVIOUR", "REGISTERED", "WITH", "AS", "IDENTIFIED", "CONSTRAINED", "BY", "PRESENT", "BEGIN",
-			"IMPORTS", "FROM", "UNITS", "SYNTAX", "MIN-ACCESS", "MAX-ACCESS", "MINACCESS", "MAXACCESS", "REVISION", "STATUS",
-			"DESCRIPTION", "SEQUENCE", "SET", "COMPONENTS", "OF", "CHOICE", "DistinguishedName", "ENUMERATED", "SIZE", "OBJECT-TYPE",
-			"MODULE", "END", "INDEX", "AUGMENTS", "EXTENSIBILITY", "IMPLIED", "EXPORTS" };
+		"NAMED", "CHARACTERIZED", "BEHAVIOUR", "REGISTERED", "WITH", "AS", "IDENTIFIED", "CONSTRAINED", "BY", "PRESENT", "BEGIN",
+		"IMPORTS", "FROM", "UNITS", "SYNTAX", "MIN-ACCESS", "MAX-ACCESS", "MINACCESS", "MAXACCESS", "REVISION", "STATUS",
+		"DESCRIPTION", "SEQUENCE", "SET", "COMPONENTS", "OF", "CHOICE", "DistinguishedName", "ENUMERATED", "SIZE", "OBJECT-TYPE",
+		"MODULE", "END", "INDEX", "AUGMENTS", "EXTENSIBILITY", "IMPLIED", "EXPORTS" };
 
 	public static final String[] TAGS = new String[] { "APPLICATION", "AUTOMATIC", "EXPLICIT", "IMPLICIT", "PRIVATE", "TAGS", "UNIVERSAL", };
 
 	public static final String[] STORAGE = new String[] { "BOOLEAN", "INTEGER", "InterfaceIndex", "IANAifType", "CMIP-Attribute", "REAL",
-			"PACKAGE", "PACKAGES", "IpAddress", "PhysAddress", "NetworkAddress", "BITS", "BMPString", "TimeStamp", "TimeTicks",
-			"TruthValue", "RowStatus", "DisplayString", "GeneralString", "GraphicString", "IA5String", "NumericString",
-			"PrintableString", "SnmpAdminAtring", "TeletexString", "UTF8String", "VideotexString", "VisibleString", "ISO646String",
-			"T61String", "UniversalString", "Unsigned32", "Integer32", "Gauge", "Gauge32", "Counter", "Counter32", "Counter64" };
+		"PACKAGE", "PACKAGES", "IpAddress", "PhysAddress", "NetworkAddress", "BITS", "BMPString", "TimeStamp", "TimeTicks",
+		"TruthValue", "RowStatus", "DisplayString", "GeneralString", "GraphicString", "IA5String", "NumericString",
+		"PrintableString", "SnmpAdminAtring", "TeletexString", "UTF8String", "VideotexString", "VisibleString", "ISO646String",
+		"T61String", "UniversalString", "Unsigned32", "Integer32", "Gauge", "Gauge32", "Counter", "Counter32", "Counter64" };
 
 	public static final String[] MODIFIER = new String[] { "ATTRIBUTE", "ATTRIBUTES", "MANDATORY-GROUP", "MANDATORY-GROUPS", "GROUP", "GROUPS",
-			"ELEMENTS", "EQUALITY", "ORDERING", "SUBSTRINGS", "DEFINED" };
+		"ELEMENTS", "EQUALITY", "ORDERING", "SUBSTRINGS", "DEFINED" };
 
 	public static final String[] ACCESS_TYPE = new String[] { "not-accessible", "accessible-for-notify", "read-only", "read-create", "read-write" };
 

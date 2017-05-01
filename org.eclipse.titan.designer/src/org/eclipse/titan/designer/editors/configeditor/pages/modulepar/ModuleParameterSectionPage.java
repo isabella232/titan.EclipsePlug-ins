@@ -407,8 +407,8 @@ public final class ModuleParameterSectionPage extends FormPage {
 	}
 
 	public static ModuleParameter createNewParameter( final String aModuleName,
-													  final String aParameterName,
-													  final String aValue ) {
+			final String aParameterName,
+			final String aValue ) {
 		ModuleParameter newModuleParameter = new ModuleParameterSectionHandler.ModuleParameter();
 		final ParseTree root = new ParserRuleContext();
 		newModuleParameter.setRoot( root );
@@ -416,9 +416,9 @@ public final class ModuleParameterSectionPage extends FormPage {
 		ConfigTreeNodeUtilities.addChild( root, new AddedParseTree("\n") );
 		newModuleParameter.setModuleName( new AddedParseTree( aModuleName ) );
 		ConfigTreeNodeUtilities.addChild( root, newModuleParameter.getModuleName() );
-		
+
 		final boolean isModuleNameEmpty = aModuleName == null || aModuleName.isEmpty();
-		
+
 		newModuleParameter.setSeparator( new AddedParseTree( isModuleNameEmpty ? "" : ".") );
 		ConfigTreeNodeUtilities.addChild( root, newModuleParameter.getSeparator() );
 

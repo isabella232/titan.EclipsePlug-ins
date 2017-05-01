@@ -87,7 +87,7 @@ public final class ComponentItemTransfer extends ConfigItemTransferBase {
 
 				final ParseTree root = new ParserRuleContext();
 				items[i].setRoot( root );
-				
+
 				hiddenBefore = in.readUTF();
 				ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( hiddenBefore ) );
 				componentName = in.readUTF();

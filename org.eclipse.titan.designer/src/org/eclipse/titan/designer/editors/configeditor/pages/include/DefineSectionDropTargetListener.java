@@ -92,7 +92,7 @@ public final class DefineSectionDropTargetListener implements DropTargetListener
 					for (int i = 0; i < items.length - 1; i++) {
 						defineSectionHandler.getDefinitions().add(++baseindex, items[i]);
 					}
-					
+
 					defineSectionHandler.getDefinitions().add(++baseindex, items[items.length - 1]);
 				}
 

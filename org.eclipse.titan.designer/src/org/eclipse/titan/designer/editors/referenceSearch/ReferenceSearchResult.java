@@ -33,7 +33,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.search.ui.ISearchResult#getLabel()
 	 */
 	@Override
@@ -46,7 +46,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.search.ui.ISearchResult#getImageDescriptor()
 	 */
 	@Override
@@ -56,7 +56,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.search.ui.text.IEditorMatchAdapter
 	 * #isShownInEditor(org.eclipse.search.ui.text.Match,
 	 * org.eclipse.ui.IEditorPart)
@@ -72,7 +72,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.search.ui.text.IEditorMatchAdapter
 	 * #computeContainedMatches
 	 * (org.eclipse.search.ui.text.AbstractTextSearchResult,
@@ -86,7 +86,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.search.ui.text.IFileMatchAdapter#computeContainedMatches
 	 * (org.eclipse.search.ui.text.AbstractTextSearchResult,
@@ -99,7 +99,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.search.ui.ISearchResult#getTooltip()
 	 */
 	@Override
@@ -109,7 +109,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.search.ui.text.IFileMatchAdapter#getFile(java.lang.Object
 	 * )
@@ -124,7 +124,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.search.ui.ISearchResult#getQuery()
 	 */
 	@Override

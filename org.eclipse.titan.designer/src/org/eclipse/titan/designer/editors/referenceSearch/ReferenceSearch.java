@@ -78,14 +78,14 @@ public final class ReferenceSearch {
 		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 		if (ResourceExclusionHelper.isExcluded(file)) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager()
-					.setErrorMessage(MessageFormat.format(EXCLUDEDFROMBUILD, file.getFullPath()));
+			.setErrorMessage(MessageFormat.format(EXCLUDEDFROMBUILD, file.getFullPath()));
 			return;
 		}
 
 		final Module module = projectSourceParser.containedModule(file);
 		if (module == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager()
-					.setErrorMessage(MessageFormat.format(NOTFOUNDMODULE, file.getName()));
+			.setErrorMessage(MessageFormat.format(NOTFOUNDMODULE, file.getName()));
 			return;
 		}
 

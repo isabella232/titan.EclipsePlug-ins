@@ -306,12 +306,12 @@ public final class ExecuteSubPage {
 		final ParseTree testcaseName = new AddedParseTree("testcase_name");
 		item.setModuleName( moduleName );
 		item.setTestcaseName( testcaseName );
-		
+
 		ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( "\n" ) );
 		ConfigTreeNodeUtilities.addChild( root, moduleName );
 		ConfigTreeNodeUtilities.addChild( root, new AddedParseTree(".") );
 		ConfigTreeNodeUtilities.addChild( root, testcaseName );
-		
+
 		return item;
 	}
 

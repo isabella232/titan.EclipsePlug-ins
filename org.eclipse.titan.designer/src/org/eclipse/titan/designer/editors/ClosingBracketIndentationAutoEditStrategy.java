@@ -45,7 +45,7 @@ public final class ClosingBracketIndentationAutoEditStrategy extends GeneralTITA
 	/**
 	 * Set the indent of a bracket based on the command provided in the
 	 * supplied document.
-	 * 
+	 *
 	 * @param document
 	 *                - the document being parsed
 	 * @param command

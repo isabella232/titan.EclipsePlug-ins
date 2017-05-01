@@ -15,10 +15,10 @@ import org.eclipse.titan.common.parsers.Interval;
 
 /**
  * Single class used to store and access the interval lists related to documents.
- * 
+ *
  * Usually parsers detect the interval hierarchy.
  * And they are used by folding in the editors.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class GlobalIntervalHandler {
@@ -38,7 +38,7 @@ public final class GlobalIntervalHandler {
 	 * Puts in the root of an interval tree into the map of known intervals.
 	 * This must be here as it is impossible to find out which project an
 	 * IDocument object belongs to.
-	 * 
+	 *
 	 * @param doc
 	 *                the document from which the interval tree was
 	 *                extracted
@@ -52,7 +52,7 @@ public final class GlobalIntervalHandler {
 	/**
 	 * Returns the root of the interval tree which was extracted from the
 	 * provided IDocument instance.
-	 * 
+	 *
 	 * @param doc
 	 *                the document
 	 * @return the root of the extracted interval tree

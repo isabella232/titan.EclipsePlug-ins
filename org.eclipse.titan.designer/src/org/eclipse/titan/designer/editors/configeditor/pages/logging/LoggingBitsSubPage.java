@@ -255,7 +255,7 @@ public final class LoggingBitsSubPage {
 
 		ParseTree node = new AddedParseTree(name.toString());
 		ConfigTreeNodeUtilities.addChild( consoleMaskRoot, node );
-		
+
 		ParseTree consoleMask = new ParserRuleContext();
 		logentry.setConsoleMask( consoleMask );
 		ConfigTreeNodeUtilities.addChild( consoleMaskRoot, consoleMask );
@@ -273,7 +273,7 @@ public final class LoggingBitsSubPage {
 
 		ParseTree node = new AddedParseTree(name.toString());
 		ConfigTreeNodeUtilities.addChild( fileMaskRoot, node );
-		
+
 		ParseTree fileMask = new ParserRuleContext();
 		logentry.setFileMask( fileMask );
 		ConfigTreeNodeUtilities.addChild( fileMaskRoot, fileMask );

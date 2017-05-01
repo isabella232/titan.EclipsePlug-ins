@@ -9,7 +9,7 @@ package org.eclipse.titan.designer.editors;
 
 /**
  * Helper class, used by the matching brackets functionality.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Pair {

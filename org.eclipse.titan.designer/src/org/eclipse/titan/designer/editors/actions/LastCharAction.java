@@ -23,7 +23,7 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * Jumps to the end of the actual line, or to the end of the text in that line.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class LastCharAction extends AbstractHandler implements IEditorActionDelegate {
@@ -31,7 +31,7 @@ public final class LastCharAction extends AbstractHandler implements IEditorActi
 
 	/**
 	 * Perform the jump.
-	 * 
+	 *
 	 * @param action
 	 *                the action proxy that would handle the presentation
 	 *                portion of the action. Not used.
@@ -67,7 +67,7 @@ public final class LastCharAction extends AbstractHandler implements IEditorActi
 
 	/**
 	 * Sets the active editor.
-	 * 
+	 *
 	 * @param action
 	 *                the action (not used)
 	 * @param targetEditor
@@ -82,7 +82,7 @@ public final class LastCharAction extends AbstractHandler implements IEditorActi
 	 * Selection change notification.
 	 * <p>
 	 * Not used.
-	 * 
+	 *
 	 * @param action
 	 *                the action proxy that handles presentation portion of
 	 *                the action
@@ -97,7 +97,7 @@ public final class LastCharAction extends AbstractHandler implements IEditorActi
 
 	/**
 	 * Locates and returns the last visible character in the given region.
-	 * 
+	 *
 	 * @param doc
 	 *                the document to search
 	 * @param lineRegion

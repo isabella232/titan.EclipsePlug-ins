@@ -114,7 +114,7 @@ public final class Configuration extends TextSourceViewerConfiguration {
 	/**
 	 * Returns the auto indentation strategy ready to be used with the given
 	 * source viewer when manipulating text of the given content type..
-	 * 
+	 *
 	 * @param sourceViewer
 	 *                the source viewer to be configured by this
 	 *                configuration
@@ -136,7 +136,7 @@ public final class Configuration extends TextSourceViewerConfiguration {
 
 	/**
 	 * Returns the prefixes to be used by the line-shift operation.
-	 * 
+	 *
 	 * @param sourceViewer
 	 *                the source viewer to be configured by this
 	 *                configuration
@@ -155,7 +155,7 @@ public final class Configuration extends TextSourceViewerConfiguration {
 	 * in the given source viewer for text of the given content type. This
 	 * implementation always returns the prefix of the single line
 	 * commenting ("//").
-	 * 
+	 *
 	 * @param sourceViewer
 	 *                the source viewer to be configured by this
 	 *                configuration
@@ -173,7 +173,7 @@ public final class Configuration extends TextSourceViewerConfiguration {
 	 * creating information controls for the given source viewer. This
 	 * implementation always returns a creator for
 	 * <code>JavaInformationControl</code> instances.
-	 * 
+	 *
 	 * @param sourceViewer
 	 *                the source viewer to be configured by this
 	 *                configuration

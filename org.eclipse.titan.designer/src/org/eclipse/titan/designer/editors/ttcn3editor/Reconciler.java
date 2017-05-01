@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Tuned version of the MonoReconciler.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class Reconciler implements IReconciler {
@@ -153,7 +153,7 @@ public class Reconciler implements IReconciler {
 				}
 
 				List<DirtyRegion> oldRegions = new ArrayList<DirtyRegion>();
-				
+
 				while(region != null) {
 					oldRegions.add(region);
 					region = dirtyRegionQueue.poll();
@@ -298,7 +298,7 @@ public class Reconciler implements IReconciler {
 			if (this != MAP.get(document).getFirst()) {
 				return;
 			}
-			
+
 			if (!backgroundThread.isDirty() && backgroundThread.isAlive()) {
 				if (!isAllowedToModifyDocument && Thread.currentThread() == backgroundThread) {
 					throw new UnsupportedOperationException("The reconciler thread is not allowed to modify the document");
@@ -342,13 +342,13 @@ public class Reconciler implements IReconciler {
 			if (newInput == null) {
 				return;
 			}
-			
+
 			if(!MAP.containsKey(newInput)) {
 				LinkedList<Reconciler.Listener> temp = new LinkedList<Reconciler.Listener>();
 				MAP.putIfAbsent(newInput, temp);
 			}
 			MAP.get(newInput).add(this);
-			
+
 			newInput.addDocumentListener(this);
 			reconcilerDocumentChanged(newInput);
 
@@ -396,7 +396,7 @@ public class Reconciler implements IReconciler {
 	private BackgroundThread backgroundThread;
 	/** Internal document and text input listener. */
 	private Listener changeListener;
-	
+
 	/**
 	 * true, if incremental reconciling is allowed.
 	 * Incremental reconciling is used if this variable is true AND
@@ -507,7 +507,7 @@ public class Reconciler implements IReconciler {
 		IPreferencesService prefs = Platform.getPreferencesService();
 		// incremental reconcile is set in preferences
 		return mIsIncrementalReconcilerAllowed && prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
-				PreferenceConstants.USEINCREMENTALPARSING, false, null); 
+				PreferenceConstants.USEINCREMENTALPARSING, false, null);
 	}
 
 	/**
@@ -723,9 +723,9 @@ public class Reconciler implements IReconciler {
 	protected final boolean isRunningInReconcilerThread() {
 		return Thread.currentThread() == backgroundThread;
 	}
-	
+
 	/**
-	 * Gets the reconciler timeout, or in other words the background thread delay. 
+	 * Gets the reconciler timeout, or in other words the background thread delay.
 	 * This is effective only if DELAYSEMANTICCHECKINGTILLSAVE is off,
 	 * otherwise value is read, but ignored.
 	 * @return the timeout value in milliseconds

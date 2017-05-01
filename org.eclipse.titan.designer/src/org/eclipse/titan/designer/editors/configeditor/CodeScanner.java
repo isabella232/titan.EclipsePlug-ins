@@ -30,43 +30,43 @@ public final class CodeScanner extends RuleBasedScanner {
 	private static final String[] STRING_PIECES = new String[] { "\"", "#", "'", "'B", "'H", "'O" };
 
 	public static final String[] SECTION_TITLES = new String[] { "[LOGGING]", "[EXECUTE]", "[TESTPORT_PARAMETERS]", "[MODULE_PARAMETERS]",
-			"[MAIN_CONTROLLER]", "[EXTERNAL_COMMANDS]", "[GROUPS]", "[COMPONENTS]", "[INCLUDE]", "[ORDERED_INCLUDE]", "[DEFINE]", "[PROFILER]" };
+		"[MAIN_CONTROLLER]", "[EXTERNAL_COMMANDS]", "[GROUPS]", "[COMPONENTS]", "[INCLUDE]", "[ORDERED_INCLUDE]", "[DEFINE]", "[PROFILER]" };
 
 	public static final String[] KEYWORDS = new String[] { "LogFile", "FileMask", "ConsoleMask", "AppendFile", "TimeStampFormat",
-			"LogEventTypes", "SourceInfoFormat", "LogEntityName", "LogSourceInfo", "DiskFullAction", "LogFileNumber", "LogFileSize",
-			"MatchingHints", "Detailed", "Compact", "SubCategories", "Stack", "Single", "None", "Seconds", "DateTime", "Time", "Stop",
-			"Error", "Retry", "Delete", "TCPPort", "KillTimer", "NumHCs", "UnixSocketsEnabled", "LocalAddress",
-			"ConsoleTimeStampFormat", "LoggerPlugins","EmergencyLogging","EmergencyLoggingBehaviour","EmergencyLoggingMask",
-			"DisableProfiler", "DisableCoverage", "DatabaseFile", "AggregateData", "StatisticsFile", "DisableStatistics",
-			"StatisticsFilter", "StartAutomatically", "NetLineTimes", "NetFunctionTimes" };
+		"LogEventTypes", "SourceInfoFormat", "LogEntityName", "LogSourceInfo", "DiskFullAction", "LogFileNumber", "LogFileSize",
+		"MatchingHints", "Detailed", "Compact", "SubCategories", "Stack", "Single", "None", "Seconds", "DateTime", "Time", "Stop",
+		"Error", "Retry", "Delete", "TCPPort", "KillTimer", "NumHCs", "UnixSocketsEnabled", "LocalAddress",
+		"ConsoleTimeStampFormat", "LoggerPlugins","EmergencyLogging","EmergencyLoggingBehaviour","EmergencyLoggingMask",
+		"DisableProfiler", "DisableCoverage", "DatabaseFile", "AggregateData", "StatisticsFile", "DisableStatistics",
+		"StatisticsFilter", "StartAutomatically", "NetLineTimes", "NetFunctionTimes" };
 
 	public static final String[] MASK_OPTIONS = new String[] { "TTCN_EXECUTOR", "TTCN_ERROR", "TTCN_WARNING", "TTCN_PORTEVENT", "TTCN_TIMEROP",
-			"TTCN_VERDICTOP", "TTCN_DEFAULTOP", "TTCN_TESTCASE", "TTCN_ACTION", "TTCN_USER", "TTCN_FUNCTION", "TTCN_STATISTICS",
-			"TTCN_PARALLEL", "TTCN_MATCHING", "TTCN_DEBUG", "EXECUTOR", "ERROR", "WARNING", "PORTEVENT", "TIMEROP", "VERDICTOP",
-			"DEFAULTOP", "TESTCASE", "ACTION", "USER", "FUNCTION", "STATISTICS", "PARALLEL", "MATCHING", "DEBUG", "LOG_ALL",
-			"LOG_NOTHING",
+		"TTCN_VERDICTOP", "TTCN_DEFAULTOP", "TTCN_TESTCASE", "TTCN_ACTION", "TTCN_USER", "TTCN_FUNCTION", "TTCN_STATISTICS",
+		"TTCN_PARALLEL", "TTCN_MATCHING", "TTCN_DEBUG", "EXECUTOR", "ERROR", "WARNING", "PORTEVENT", "TIMEROP", "VERDICTOP",
+		"DEFAULTOP", "TESTCASE", "ACTION", "USER", "FUNCTION", "STATISTICS", "PARALLEL", "MATCHING", "DEBUG", "LOG_ALL",
+		"LOG_NOTHING",
 
-			"ACTION_UNQUALIFIED", "DEBUG_ENCDEC", "DEBUG_TESTPORT", "DEBUG_UNQUALIFIED", "DEFAULTOP_ACTIVATE", "DEFAULTOP_DEACTIVATE",
-			"DEFAULTOP_EXIT", "DEFAULTOP_UNQUALIFIED", "ERROR_UNQUALIFIED", "EXECUTOR_COMPONENT", "EXECUTOR_CONFIGDATA",
-			"EXECUTOR_EXTCOMMAND", "EXECUTOR_LOGOPTIONS", "EXECUTOR_RUNTIME", "EXECUTOR_UNQUALIFIED", "FUNCTION_RND",
-			"FUNCTION_UNQUALIFIED", "MATCHING_DONE", "MATCHING_MCSUCCESS", "MATCHING_MCUNSUCC", "MATCHING_MMSUCCESS",
-			"MATCHING_MMUNSUCC", "MATCHING_PCSUCCESS", "MATCHING_PCUNSUCC", "MATCHING_PMSUCCESS", "MATCHING_PMUNSUCC",
-			"MATCHING_PROBLEM", "MATCHING_TIMEOUT", "MATCHING_UNQUALIFIED", "PARALLEL_PORTCONN", "PARALLEL_PORTMAP", "PARALLEL_PTC",
-			"PARALLEL_UNQUALIFIED", "PORTEVENT_DUALRECV", "PORTEVENT_DUALSEND", "PORTEVENT_MCRECV", "PORTEVENT_MCSEND",
-			"PORTEVENT_MMRECV", "PORTEVENT_MMSEND", "PORTEVENT_MQUEUE", "PORTEVENT_PCIN", "PORTEVENT_PCOUT", "PORTEVENT_PMIN",
-			"PORTEVENT_PMOUT", "PORTEVENT_PQUEUE", "PORTEVENT_STATE", "PORTEVENT_UNQUALIFIED", "STATISTICS_UNQUALIFIED",
-			"STATISTICS_VERDICT", "TESTCASE_FINISH", "TESTCASE_START", "TESTCASE_UNQUALIFIED", "TIMEROP_GUARD", "TIMEROP_READ",
-			"TIMEROP_START", "TIMEROP_STOP", "TIMEROP_TIMEOUT", "TIMEROP_UNQUALIFIED", "USER_UNQUALIFIED", "VERDICTOP_FINAL",
-			"VERDICTOP_GETVERDICT", "VERDICTOP_SETVERDICT", "VERDICTOP_UNQUALIFIED", "WARNING_UNQUALIFIED",
-			
-			"NumberOfLines", "LineDataRaw", "FuncDataRaw", "LineAvgRaw", "FuncAvgRaw", "LineTimesSortedByMod",
-			"FuncTimesSortedByMod", "LineTimesSortedTotal", "FuncTimesSortedTotal", "LineCountSortedByMod",
-			"FuncCountSortedByMod", "LineCountSortedTotal", "FuncCountSortedTotal", "LineAvgSortedByMod",
-			"FuncAvgSortedByMod", "LineAvgSortedTotal", "FuncAvgSortedTotal", "Top10LineTimes", "Top10FuncTimes",
-			"Top10LineCount", "Top10FuncCount", "Top10LineAvg", "Top10FuncAvg", "UnusedLines", "UnusedFunc",
-			"AllRawData", "LineDataSortedByMod", "FuncDataSortedByMod", "LineDataSortedTotal", "FuncDataSortedTotal",
-			"LineDataSorted", "FuncDataSorted", "AllDataSorted", "Top10LineData", "Top10FuncData",
-			"Top10AllData", "UnusedData", "All" };
+		"ACTION_UNQUALIFIED", "DEBUG_ENCDEC", "DEBUG_TESTPORT", "DEBUG_UNQUALIFIED", "DEFAULTOP_ACTIVATE", "DEFAULTOP_DEACTIVATE",
+		"DEFAULTOP_EXIT", "DEFAULTOP_UNQUALIFIED", "ERROR_UNQUALIFIED", "EXECUTOR_COMPONENT", "EXECUTOR_CONFIGDATA",
+		"EXECUTOR_EXTCOMMAND", "EXECUTOR_LOGOPTIONS", "EXECUTOR_RUNTIME", "EXECUTOR_UNQUALIFIED", "FUNCTION_RND",
+		"FUNCTION_UNQUALIFIED", "MATCHING_DONE", "MATCHING_MCSUCCESS", "MATCHING_MCUNSUCC", "MATCHING_MMSUCCESS",
+		"MATCHING_MMUNSUCC", "MATCHING_PCSUCCESS", "MATCHING_PCUNSUCC", "MATCHING_PMSUCCESS", "MATCHING_PMUNSUCC",
+		"MATCHING_PROBLEM", "MATCHING_TIMEOUT", "MATCHING_UNQUALIFIED", "PARALLEL_PORTCONN", "PARALLEL_PORTMAP", "PARALLEL_PTC",
+		"PARALLEL_UNQUALIFIED", "PORTEVENT_DUALRECV", "PORTEVENT_DUALSEND", "PORTEVENT_MCRECV", "PORTEVENT_MCSEND",
+		"PORTEVENT_MMRECV", "PORTEVENT_MMSEND", "PORTEVENT_MQUEUE", "PORTEVENT_PCIN", "PORTEVENT_PCOUT", "PORTEVENT_PMIN",
+		"PORTEVENT_PMOUT", "PORTEVENT_PQUEUE", "PORTEVENT_STATE", "PORTEVENT_UNQUALIFIED", "STATISTICS_UNQUALIFIED",
+		"STATISTICS_VERDICT", "TESTCASE_FINISH", "TESTCASE_START", "TESTCASE_UNQUALIFIED", "TIMEROP_GUARD", "TIMEROP_READ",
+		"TIMEROP_START", "TIMEROP_STOP", "TIMEROP_TIMEOUT", "TIMEROP_UNQUALIFIED", "USER_UNQUALIFIED", "VERDICTOP_FINAL",
+		"VERDICTOP_GETVERDICT", "VERDICTOP_SETVERDICT", "VERDICTOP_UNQUALIFIED", "WARNING_UNQUALIFIED",
+
+		"NumberOfLines", "LineDataRaw", "FuncDataRaw", "LineAvgRaw", "FuncAvgRaw", "LineTimesSortedByMod",
+		"FuncTimesSortedByMod", "LineTimesSortedTotal", "FuncTimesSortedTotal", "LineCountSortedByMod",
+		"FuncCountSortedByMod", "LineCountSortedTotal", "FuncCountSortedTotal", "LineAvgSortedByMod",
+		"FuncAvgSortedByMod", "LineAvgSortedTotal", "FuncAvgSortedTotal", "Top10LineTimes", "Top10FuncTimes",
+		"Top10LineCount", "Top10FuncCount", "Top10LineAvg", "Top10FuncAvg", "UnusedLines", "UnusedFunc",
+		"AllRawData", "LineDataSortedByMod", "FuncDataSortedByMod", "LineDataSortedTotal", "FuncDataSortedTotal",
+		"LineDataSorted", "FuncDataSorted", "AllDataSorted", "Top10LineData", "Top10FuncData",
+		"Top10AllData", "UnusedData", "All" };
 
 	public static final String[] EXTERNAL_COMMAND_TYPES = new String[] { "BeginControlPart", "EndControlPart", "BeginTestCase", "EndTestCase" };
 

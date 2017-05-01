@@ -88,7 +88,7 @@ public final class DefineItemTransfer extends ConfigItemTransferBase {
 
 				final ParseTree root = new ParserRuleContext();
 				items[i].setRoot( root );
-				
+
 				hiddenBefore = in.readUTF();
 				ConfigTreeNodeUtilities.addChild( root, ConfigTreeNodeUtilities.createHiddenTokenNode( hiddenBefore ) );
 				name = in.readUTF();

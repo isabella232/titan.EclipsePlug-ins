@@ -24,7 +24,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 /**
  * This class manages the Color resources, so that we can reach them by provided
  * attributes.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ColorManager {
@@ -33,7 +33,7 @@ public final class ColorManager {
 
 	/**
 	 * Gets foreground color associated with a color preference name.
-	 * 
+	 *
 	 * @param aName
 	 *                The name of the preference.
 	 * @return The background color associated with a color preference name,
@@ -57,7 +57,7 @@ public final class ColorManager {
 
 	/**
 	 * Gets background color associated with a color preference name.
-	 * 
+	 *
 	 * @param aName
 	 *                The name of the preference.
 	 * @return The background color associated with a color preference name,
@@ -83,12 +83,12 @@ public final class ColorManager {
 	 * <p>
 	 * Actually 3 preference names are use which are postfixed to get the
 	 * actual ones needed.
-	 * 
+	 *
 	 * @see #getBackgroundColor(String)
 	 * @see #getForegroundColor(String)
 	 * @see #createTokenFromPreference(String)
 	 * @see PreferenceConstants
-	 * 
+	 *
 	 * @param key
 	 *                The 'preference group' 's name.
 	 * @return The TextAttribute created.
@@ -107,9 +107,9 @@ public final class ColorManager {
 
 	/**
 	 * Creates a Token out of a 'preference group' 's name.
-	 * 
+	 *
 	 * @see #createAttributeFromPreference(String)
-	 * 
+	 *
 	 * @param key
 	 *                The 'preference group' 's name.
 	 * @return The Token created.
@@ -128,7 +128,7 @@ public final class ColorManager {
 	 * Updates the Token that handles the data related to the provided key.
 	 * It does this by, removing the previously defined attributes from the
 	 * related Token, and recalculates them.
-	 * 
+	 *
 	 * @param key
 	 *                the PreferenceConstant element, who's attributes are
 	 *                to be re-evaluated

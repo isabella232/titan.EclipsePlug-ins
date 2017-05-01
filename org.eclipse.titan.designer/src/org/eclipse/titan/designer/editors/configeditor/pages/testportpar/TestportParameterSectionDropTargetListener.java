@@ -92,7 +92,7 @@ public final class TestportParameterSectionDropTargetListener implements DropTar
 					for (int i = 0; i < items.length - 1; i++) {
 						testportParameterSectionHandler.getTestportParameters().add(++baseindex, items[i]);
 					}
-					
+
 					testportParameterSectionHandler.getTestportParameters().add(++baseindex, items[items.length - 1]);
 				}
 

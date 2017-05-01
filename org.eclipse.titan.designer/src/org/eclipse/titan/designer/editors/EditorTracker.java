@@ -21,7 +21,7 @@ import org.eclipse.core.resources.IFile;
  * a given time.
  * <p>
  * The same file can be open in several editors at the same time.
- * 
+ *
  * @author Kristof Szabados
  * */
 // TODO check out workbench.getEditorRegistry()
@@ -40,7 +40,7 @@ public final class EditorTracker {
 
 	/**
 	 * Returns whether the file is opened in an editor.
-	 * 
+	 *
 	 * @param file
 	 *                the file to search for
 	 * @return true if the file is opened in a supported editor.
@@ -52,7 +52,7 @@ public final class EditorTracker {
 	/**
 	 * Returns one of the editors the file is opened in right now, or null
 	 * if none.
-	 * 
+	 *
 	 * @param file
 	 *                the file to search for
 	 * @return the editor in which the provided file is opened or null if
@@ -85,7 +85,7 @@ public final class EditorTracker {
 
 	/**
 	 * Associates the specified file with the specified editor.
-	 * 
+	 *
 	 * @param file
 	 *                the file that was just opened.
 	 * @param editor
@@ -106,7 +106,7 @@ public final class EditorTracker {
 
 	/**
 	 * Removes the specified file - editor association.
-	 * 
+	 *
 	 * @param file
 	 *                the file that was just closed.
 	 * @param editor
@@ -127,7 +127,7 @@ public final class EditorTracker {
 
 	/**
 	 * Removes and editor from the list of known editors.
-	 * 
+	 *
 	 * @param editor the editor to be removed.
 	 * */
 	public static void remove(final ISemanticTITANEditor editor) {
@@ -136,10 +136,10 @@ public final class EditorTracker {
 			editors.remove(editor);
 		}
 	}
-	
+
 	/**
 	 * Collects and returns a set of the files that are handled here.
-	 * 
+	 *
 	 * @return the set of files collected.
 	 * */
 	public static Set<IFile> keyset() {

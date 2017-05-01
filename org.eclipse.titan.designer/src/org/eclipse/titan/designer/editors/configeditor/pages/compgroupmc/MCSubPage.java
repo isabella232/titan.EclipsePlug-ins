@@ -106,7 +106,7 @@ public final class MCSubPage {
 
 					ParseTree localAddressRoot = new ParserRuleContext();
 					mcSectionHandler.setLocalAddressRoot( localAddressRoot );
-					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), localAddressRoot ); 
+					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), localAddressRoot );
 					ConfigTreeNodeUtilities.addChild( localAddressRoot, new AddedParseTree("\nlocalAddress := ") );
 					ParseTree localAddress = new AddedParseTree( temp.trim() );
 					mcSectionHandler.setLocalAddress( localAddress );
@@ -151,7 +151,7 @@ public final class MCSubPage {
 
 					ParseTree tcpPortRoot = new ParserRuleContext();
 					mcSectionHandler.setTcpPortRoot( tcpPortRoot );
-					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), tcpPortRoot ); 
+					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), tcpPortRoot );
 					ConfigTreeNodeUtilities.addChild( tcpPortRoot, new AddedParseTree("\nTCPPort := ") );
 					ParseTree tcpPort = new AddedParseTree( temp.trim() );
 					mcSectionHandler.setTcpPort( tcpPort );
@@ -196,7 +196,7 @@ public final class MCSubPage {
 
 					ParseTree killTimerRoot = new ParserRuleContext();
 					mcSectionHandler.setKillTimerRoot( killTimerRoot );
-					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), killTimerRoot ); 
+					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), killTimerRoot );
 					ConfigTreeNodeUtilities.addChild( killTimerRoot, new AddedParseTree("\nkillTimer := ") );
 					ParseTree killTimer = new AddedParseTree( temp.trim() );
 					mcSectionHandler.setTcpPort( killTimer );
@@ -241,7 +241,7 @@ public final class MCSubPage {
 
 					ParseTree numHCsTextRoot = new ParserRuleContext();
 					mcSectionHandler.setKillTimerRoot( numHCsTextRoot );
-					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), numHCsTextRoot ); 
+					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), numHCsTextRoot );
 					ConfigTreeNodeUtilities.addChild( numHCsTextRoot, new AddedParseTree("\nnumHCs := ") );
 					ParseTree numHCsText = new AddedParseTree( temp.trim() );
 					mcSectionHandler.setNumHCsText( numHCsText );
@@ -288,7 +288,7 @@ public final class MCSubPage {
 
 					ParseTree unixDomainSocketRoot = new ParserRuleContext();
 					mcSectionHandler.setUnixDomainSocketRoot( unixDomainSocketRoot );
-					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), unixDomainSocketRoot ); 
+					ConfigTreeNodeUtilities.addChild( mcSectionHandler.getLastSectionRoot(), unixDomainSocketRoot );
 					ConfigTreeNodeUtilities.addChild( unixDomainSocketRoot, new AddedParseTree("\nUnixSocketsEnabled := ") );
 					ParseTree unixDomainSocket = new AddedParseTree( temp.trim() );
 					mcSectionHandler.setUnixDomainSocket( unixDomainSocket );

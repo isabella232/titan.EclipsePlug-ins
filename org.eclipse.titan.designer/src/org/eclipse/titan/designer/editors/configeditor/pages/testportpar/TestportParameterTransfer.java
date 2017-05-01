@@ -89,9 +89,9 @@ public final class TestportParameterTransfer extends ConfigItemTransferBase {
 			for (int i = 0; i < n; i++) {
 				TestportParameter item = new TestportParameterSectionHandler.TestportParameter();
 
-				final ParseTree root = new ParserRuleContext(); 
+				final ParseTree root = new ParserRuleContext();
 				item.setRoot( root );
-				
+
 				// component name part
 				hiddenBefore1 = in.readUTF();
 				componentName = in.readUTF();

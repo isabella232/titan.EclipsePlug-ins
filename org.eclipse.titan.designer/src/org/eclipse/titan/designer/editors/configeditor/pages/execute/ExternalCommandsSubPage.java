@@ -107,7 +107,7 @@ public final class ExternalCommandsSubPage {
 
 					ParseTree beginControlPartRoot = new ParserRuleContext();
 					executeCommandSectionHandler.setBeginControlPartRoot( beginControlPartRoot );
-					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), beginControlPartRoot ); 
+					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), beginControlPartRoot );
 					ConfigTreeNodeUtilities.addChild( beginControlPartRoot, new AddedParseTree("\nbeginControlPart := ") );
 					ParseTree beginControlPart = new AddedParseTree( temp.trim() );
 					executeCommandSectionHandler.setBeginControlPart( beginControlPart );
@@ -154,7 +154,7 @@ public final class ExternalCommandsSubPage {
 
 					ParseTree beginTestcaseRoot = new ParserRuleContext();
 					executeCommandSectionHandler.setBeginTestcaseRoot( beginTestcaseRoot );
-					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), beginTestcaseRoot ); 
+					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), beginTestcaseRoot );
 					ConfigTreeNodeUtilities.addChild( beginTestcaseRoot, new AddedParseTree("\nbeginTestcase := ") );
 					ParseTree beginTestcase = new AddedParseTree( temp.trim() );
 					executeCommandSectionHandler.setBeginTestcase( beginTestcase );
@@ -201,7 +201,7 @@ public final class ExternalCommandsSubPage {
 
 					ParseTree endControlPartRoot = new ParserRuleContext();
 					executeCommandSectionHandler.setEndControlPartRoot( endControlPartRoot );
-					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), endControlPartRoot ); 
+					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), endControlPartRoot );
 					ConfigTreeNodeUtilities.addChild( endControlPartRoot, new AddedParseTree("\nendControlPart := ") );
 					ParseTree endControlPart = new AddedParseTree( temp.trim() );
 					executeCommandSectionHandler.setEndControlPart( endControlPart );
@@ -248,7 +248,7 @@ public final class ExternalCommandsSubPage {
 
 					ParseTree endTestcaseRoot = new ParserRuleContext();
 					executeCommandSectionHandler.setEndTestcaseRoot( endTestcaseRoot );
-					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), endTestcaseRoot ); 
+					ConfigTreeNodeUtilities.addChild( executeCommandSectionHandler.getLastSectionRoot(), endTestcaseRoot );
 					ConfigTreeNodeUtilities.addChild( endTestcaseRoot, new AddedParseTree("\nendTestcase := ") );
 					ParseTree endTestcase = new AddedParseTree( temp.trim() );
 					executeCommandSectionHandler.setEndTestcase( endTestcase );

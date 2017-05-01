@@ -11,7 +11,7 @@ import org.eclipse.jface.text.IDocument;
  * a given time.
  * <p>
  * We assume that one file can be open in one document only at a time.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class DocumentTracker {
@@ -25,7 +25,7 @@ public class DocumentTracker {
 
 	/**
 	 * Stores the information that the provided file is opened in the provided document.
-	 * 
+	 *
 	 * @param file the provided file
 	 * @param document the provided document
 	 * */
@@ -35,7 +35,7 @@ public class DocumentTracker {
 
 	/**
 	 * Checks if the provided file is open in a document and returns the document.
-	 * 
+	 *
 	 * @param file the file to check for
 	 * @return the document the file is open in, or null if none
 	 * */
