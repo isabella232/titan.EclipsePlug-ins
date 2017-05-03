@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -32,6 +33,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class UndefRunningExpression extends Expression_Value {
 	private final Reference reference;
+	
+	private Expression_Value realExpression;
 
 	public UndefRunningExpression(final Reference reference) {
 		this.reference = reference;
@@ -117,7 +120,7 @@ public final class UndefRunningExpression extends Expression_Value {
 		switch (assignment.getAssignmentType()) {
 		case A_TIMER:
 		case A_PAR_TIMER: {
-			final TimerRunningExpression realExpression = new TimerRunningExpression(reference);
+			realExpression = new TimerRunningExpression(reference);
 			realExpression.setMyScope(getMyScope());
 			realExpression.setFullNameParent(this);
 			realExpression.setLocation(getLocation());
@@ -138,7 +141,7 @@ public final class UndefRunningExpression extends Expression_Value {
 			value.setMyScope(getMyScope());
 			value.setFullNameParent(this);
 			value.getValueRefdLast(timestamp, referenceChain);
-			final ComponentRunnningExpression realExpression = new ComponentRunnningExpression(value);
+			realExpression = new ComponentRunnningExpression(value);
 			realExpression.setMyScope(getMyScope());
 			realExpression.setFullNameParent(this);
 			realExpression.setLocation(getLocation());
@@ -207,5 +210,33 @@ public final class UndefRunningExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		if (realExpression != null) {
+			return realExpression.canGenerateSingleExpression();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(JavaGenData aData) {
+		if (realExpression != null) {
+			return realExpression.generateSingleExpression(aData);
+		}
+
+		return new StringBuilder();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (realExpression != null) {
+			realExpression.generateCodeExpressionExpression(aData, expression);
+		}
 	}
 }
