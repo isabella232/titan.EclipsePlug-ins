@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -442,7 +443,137 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
+	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
+		//FIXME global timer ????
+		final String genName = getGenName();
+		final StringBuilder sb = aData.getSrc();
+		//TODO temporary code to adapt to the starting code
+		StringBuilder source = new StringBuilder();
+		aData.addBuiltinTypeImport( "TitanTimer" );
+
+		if(dimensions == null) {
+			// single timer instance
+			if (defaultDuration == null) {
+				source.append("TitanTimer ");
+				source.append(genName);
+				source.append(" = new TitanTimer(\"");
+				source.append(identifier.getDisplayName());
+				source.append("\");\n");
+			} else {
+				if (defaultDuration.canGenerateSingleExpression()) {
+					//known in compile time
+					source.append("TitanTimer ");
+					source.append(genName);
+					source.append(" = new TitanTimer(\"");
+					source.append(identifier.getDisplayName());
+					source.append("\", ");
+					source.append(defaultDuration.generateSingleExpression(aData));
+					source.append(");\n");
+				} else {
+					source.append("TitanTimer ");
+					source.append(genName);
+					source.append(" = new TitanTimer(\"");
+					source.append(identifier.getDisplayName());
+					source.append("\");\n");
+
+					final ExpressionStruct expression = new ExpressionStruct();
+					expression.expression.append(genName);
+					expression.expression.append(".set_default_duration(");
+
+					defaultDuration.generateCodeExpression(aData, expression);
+
+					expression.expression.append(')');
+					expression.mergeExpression(aData.getPostInit());
+				}
+			}
+		} else {
+			//FIXME implement timer arrays
+		}
+
+		sb.append(source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenName();
+		aData.addBuiltinTypeImport( "TitanTimer" );
+
+		if(dimensions == null) {
+			// single timer instance
+			if (defaultDuration == null) {
+				source.append("TitanTimer ");
+				source.append(genName);
+				source.append(" = new TitanTimer(\"");
+				source.append(identifier.getDisplayName());
+				source.append("\");\n");
+			} else {
+				if (defaultDuration.canGenerateSingleExpression()) {
+					//known in compile time
+					source.append("TitanTimer ");
+					source.append(genName);
+					source.append(" = new TitanTimer(\"");
+					source.append(identifier.getDisplayName());
+					source.append("\", ");
+					source.append(defaultDuration.generateSingleExpression(aData));
+					source.append(");\n");
+				} else {
+					source.append("TitanTimer ");
+					source.append(genName);
+					source.append(" = new TitanTimer(\"");
+					source.append(identifier.getDisplayName());
+					source.append("\");\n");
+
+					final ExpressionStruct expression = new ExpressionStruct();
+					expression.expression.append(genName);
+					expression.expression.append(".set_default_duration(");
+
+					defaultDuration.generateCodeExpression(aData, expression);
+
+					expression.expression.append(')');
+					expression.mergeExpression(source);
+				}
+			}
+		} else {
+			//FIXME implement timer arrays
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
-		//TODO implement
+		if (defaultDuration == null) {
+			return;
+		}
+
+		if (!(definition instanceof Def_Timer)) {
+			//FATAL ERROR
+			return;
+		}
+
+		final Def_Timer baseTimerDefinition = (Def_Timer) definition;
+		if (baseTimerDefinition.defaultDuration == null) {
+			//FATAL ERROR
+			return;
+		}
+
+		// initializer is not needed if the default durations are the same
+		// constants in both timers
+		if (defaultDuration.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())
+				|| baseTimerDefinition.defaultDuration.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())
+				|| defaultDuration.checkEquality(CompilationTimeStamp.getBaseTimestamp(), baseTimerDefinition.defaultDuration)) {
+			if (dimensions == null) {
+				final ExpressionStruct expression = new ExpressionStruct();
+				expression.expression.append(baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""));
+				expression.expression.append(".set_default_duration(");
+
+				defaultDuration.generateCodeExpression(aData, expression);
+
+				expression.expression.append(')');
+				expression.mergeExpression(initComp);
+			} else {
+				//FIXME implement array
+			}
+		}
 	}
 }

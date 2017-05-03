@@ -239,20 +239,6 @@ public final class MatchExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
-		ExpressionStruct expression = new ExpressionStruct();
-		expression.expression.append(name);
-		expression.expression.append(".assign(");
-		generateCodeExpressionExpression(aData, expression);
-		expression.expression.append(")");
-
-		expression.mergeExpression(source);
-
-		return source;
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
 		//TODO actually a bit more complicated
 		templateInstance.generateJava(aData, expression);

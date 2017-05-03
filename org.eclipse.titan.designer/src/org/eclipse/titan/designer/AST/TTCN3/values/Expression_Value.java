@@ -329,7 +329,21 @@ public abstract class Expression_Value extends Value {
 			//fatal error
 		}
 
-		return expression.mergeExpression(new StringBuilder());
+		return new StringBuilder(expression.expression);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(" = ");
+
+		generateCodeExpressionExpression(aData, expression);
+
+		expression.mergeExpression(source);
+
+		return source;
 	}
 
 	@Override
