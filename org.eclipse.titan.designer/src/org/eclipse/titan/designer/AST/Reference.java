@@ -950,16 +950,17 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			return false;
 		}
 
-		//TODO implement more precision
+		for (int i = 0; i < subReferences.size(); i++) {
+			final ISubReference temp = subReferences.get(i);
+			if(temp instanceof ArraySubReference) {
+				final Value tempValue = ((ArraySubReference)temp).getValue();
+				if (tempValue == null || !tempValue.canGenerateSingleExpression()) {
+					return false;
+				}
+			}
+		}
 
-		return false;
-		//		for (int i = 0; i < subReferences.size(); i++) {
-		//			if(!subReferences.get(i).hasSingleExpression()) {
-		//				return false;
-		//			}
-		//		}
-		//
-		//		return true;
+		return true;
 	}
 
 	public void generateConstRef(final JavaGenData aData, final ExpressionStruct expression) {
