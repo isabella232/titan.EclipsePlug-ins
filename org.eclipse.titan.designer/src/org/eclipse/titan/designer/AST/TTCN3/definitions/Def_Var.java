@@ -463,7 +463,7 @@ public final class Def_Var extends Definition {
 		source.append( typeGeneratedName );
 		source.append( " " );
 		source.append( genName );
-		source.append("= new ");
+		source.append(" = new ");
 		source.append(typeGeneratedName);
 		source.append("();\n");
 		if ( initialValue != null ) {
@@ -493,13 +493,13 @@ public final class Def_Var extends Definition {
 		source.append( " " );
 		source.append( genName );
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
-			source.append("= new ");
+			source.append(" = new ");
 			source.append(typeGeneratedName);
 			source.append("(");
 			source.append(initialValue.generateSingleExpression(aData));
 			source.append(");\n");
 		} else {
-			source.append("= new ");
+			source.append(" = new ");
 			source.append(typeGeneratedName);
 			source.append("();\n");
 			if (initialValue != null) {
