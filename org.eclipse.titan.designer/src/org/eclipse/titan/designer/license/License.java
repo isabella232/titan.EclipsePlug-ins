@@ -304,9 +304,14 @@ public final class License {
 			return false;
 		}
 
+		// find the true length of the dsa signature, without the trailing zeros.
+		int length = 48;
+		while (length > 0 && dsaSignature[length-1] == 0) {
+			length--;
+		}
 		try {
 			dsa.update(message);
-			result = dsa.verify(dsaSignature);
+			result = dsa.verify(dsaSignature, 0, length);
 		} catch (SignatureException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
