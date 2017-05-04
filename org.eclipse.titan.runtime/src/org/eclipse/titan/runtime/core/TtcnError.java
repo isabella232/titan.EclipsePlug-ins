@@ -18,5 +18,6 @@ public class TtcnError extends Error {
 	// Till then similarity with the old structure rules.
 	public static void TtcnWarning(final String aWarningMessage) {
 		//FIXME implement logging of warnings
+		System.out.println("warning: " + aWarningMessage);
 	}
 }
