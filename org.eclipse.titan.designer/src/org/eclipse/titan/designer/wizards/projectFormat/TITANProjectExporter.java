@@ -492,19 +492,23 @@ public final class TITANProjectExporter {
 		for (IFolder folder : folders.values()) {
 			final Element folderRoot = document.createElement(ProjectFormatConstants.FOLDER_NODE);
 			foldersRoot.appendChild(folderRoot);
-
 			folderRoot.setAttribute(ProjectFormatConstants.FOLDER_ECLIPSE_LOCATION_NODE, folder.getProjectRelativePath().toString());
+
 			URI rawURI = folder.getRawLocationURI();
-			URI expandedURI = folder.getLocationURI();
-			if (rawURI.equals(expandedURI)) {
-				if (folder.getLocation() != null) {
-					URI result = org.eclipse.core.runtime.URIUtil.makeRelative(expandedURI, projectFileURI);
-					folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RELATIVE_LOCATION, result.toString());
+			if( rawURI != null) {
+				URI expandedURI = folder.getLocationURI();
+				if (rawURI.equals(expandedURI)) {
+					if (folder.getLocation() != null) {
+						URI result = org.eclipse.core.runtime.URIUtil.makeRelative(expandedURI, projectFileURI);
+						folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RELATIVE_LOCATION, result.toString());
+					} else {
+						folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RAW_LOCATION, expandedURI.toString());
+					}
 				} else {
-					folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RAW_LOCATION, folder.getLocationURI().toString());
+					folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RAW_LOCATION, rawURI.toString());
 				}
 			} else {
-				folderRoot.setAttribute(ProjectFormatConstants.FOLDER_RAW_LOCATION, folder.getRawLocationURI().toString());
+				ErrorReporter.logError("The folder " + folder.toString() + " cannot be resolved to rawURI, it cannot be saved");
 			}
 		}
 	}
