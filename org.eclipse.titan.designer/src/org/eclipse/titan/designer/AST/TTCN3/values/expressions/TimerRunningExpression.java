@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Timer;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -195,5 +196,19 @@ public final class TimerRunningExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		//TODO if r2 return false
+		return reference != null && reference.hasSingleExpression();
+	}
+
+	@Override
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		reference.generateJava(aData, expression);
+		expression.expression.append(".running()");
+		//TODO: handle index redirection
 	}
 }

@@ -144,4 +144,10 @@ public class TitanTimer {
 		//TODO log
 		return returnValue;
 	}
+
+	// originally running(Index_Redirect*) 
+	public boolean running() {
+		//FIXME handle redirection
+		return isStarted && (System.currentTimeMillis() / 1000) < timeExpires;
+	}
 }
