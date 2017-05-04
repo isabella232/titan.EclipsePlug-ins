@@ -15,6 +15,8 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -110,5 +112,22 @@ public final class Timeout_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	// originally generate_code_expr_timeout
+	//FIXME needs expression parameter
+	public void generateJava(JavaGenData aData, StringBuilder source) {
+		if (timerReference == null) {
+			source.append("Timer.anyTimeout();\n");
+		} else {
+			final ExpressionStruct expression = new ExpressionStruct();
+			timerReference.generateJava(aData, expression);
+			expression.expression.append(".timeout()");
+			//TODO handle index redirection
+
+			expression.mergeExpression(source);
+		}
 	}
 }

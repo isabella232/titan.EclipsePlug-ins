@@ -164,4 +164,27 @@ public class TitanTimer {
 		//FIXME handle redirection
 		return isStarted && (System.currentTimeMillis() / 1000) < timeExpires;
 	}
+
+	// originally timeout(Index_Redirect*)
+	public TitanAlt_Status timeout() {
+		if (isStarted) {
+			// FIXME TTCN_SNAPSHOT::get_alt_begin
+			if (System.currentTimeMillis() / 1000 < timeExpires) {
+				return TitanAlt_Status.ALT_MAYBE;
+			}
+
+			isStarted = false;
+			if (this != testcaseTimer) {
+				// TODO log + remove_from_list
+			}
+
+			return TitanAlt_Status.ALT_YES;
+		} else {
+			if (this != testcaseTimer) {
+				// TODO log
+			}
+
+			return TitanAlt_Status.ALT_NO;
+		}
+	}
 }
