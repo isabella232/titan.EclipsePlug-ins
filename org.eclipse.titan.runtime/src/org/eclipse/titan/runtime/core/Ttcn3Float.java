@@ -98,7 +98,7 @@ public class Ttcn3Float {
 			return Double.toString(value);
 		} else if (Double.isNaN(value)){
 			return "Double.NaN";
-		} else if (Double.isInfinite(value) && Double.compare(value,0)>0) {
+		} else if (Double.isInfinite(value)) {
 			if( Double.compare(value,0)>0) {
 				return "Double.POSITIVE_INFINITY";
 			} else {
@@ -118,7 +118,7 @@ public class Ttcn3Float {
 			return Double.toString(value);
 		} else if (Double.isNaN(value)){
 			return "not_a_number";
-		} else if (Double.isInfinite(value) && Double.compare(value,0)>0) {
+		} else if (Double.isInfinite(value)) {
 			if( Double.compare(value,0)>0) {
 				return "+infinity";
 			} else {
