@@ -8,6 +8,7 @@ import java.text.MessageFormat;
  * @author Kristof Szabados
  */
 public class TitanTimer {
+	public static final TitanTimer testcaseTimer = new TitanTimer("<testcase guard timer>");
 
 	private String timerName;
 	private boolean hasDefault;
@@ -67,5 +68,60 @@ public class TitanTimer {
 		defaultValue.mustBound(MessageFormat.format("Setting the default duration of timer {0} to an unbound float value.", timerName));
 
 		setDefaultDuration(defaultValue.getValue());
+	}
+
+	// originally start
+	public void start() {
+		if (!hasDefault) {
+			throw new TtcnError(MessageFormat.format("Timer {0} does not have default duration. It can only be started with a given duration.",
+					timerName));
+		}
+
+		start(defaultValue);
+	}
+
+	// originally start(double start_val)
+	public void start(final double startValue) {
+		if (this != testcaseTimer) {
+			if (startValue < 0.0) {
+				throw new TtcnError(MessageFormat.format("Starting timer {0} with a negative duration ({1}).",
+						timerName, startValue));
+			}
+			if (Double.isNaN(startValue) || Double.isInfinite(startValue)) {
+				throw new TtcnError(MessageFormat.format("Starting timer {0} with a non-numeric float value ({1}).",
+						timerName, startValue));
+			}
+			if(isStarted) {
+				TtcnError.TtcnWarning(MessageFormat.format("Re-starting timer {0}, which is already active (running or expired).",
+						timerName));
+				// TODO remove from list
+			} else {
+				isStarted = true;
+			}
+			// TODO add to list and logging
+		} else {
+			if (startValue < 0.0) {
+				throw new TtcnError(MessageFormat.format("Using a negative duration ({0}) for the guard timer of the test case.",
+						startValue));
+			}
+			if (Double.isNaN(startValue) || Double.isInfinite(startValue)) {
+				throw new TtcnError(MessageFormat.format("Using a non-numeric float value ({0}) for the guard timer of the test case.",
+						startValue));
+			}
+
+			isStarted = true;
+			//TODO logging
+		}
+
+		// FIXME TTCN_Snapshot::time_now
+		timeStarted = System.currentTimeMillis() / 1000;
+		timeExpires = timeStarted + startValue;
+	}
+
+	// originally start(const FLOAT& start_val)
+	public void start(final TitanFloat startValue) {
+		startValue.mustBound(MessageFormat.format("Starting timer {0} with an unbound float value as duration.", timerName));
+
+		start(startValue.getValue());
 	}
 }

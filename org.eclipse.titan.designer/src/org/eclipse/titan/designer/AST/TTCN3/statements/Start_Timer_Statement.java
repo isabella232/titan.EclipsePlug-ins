@@ -25,6 +25,8 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Timer;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -219,5 +221,19 @@ public final class Start_Timer_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava(JavaGenData aData, StringBuilder source) {
+		final ExpressionStruct expression = new ExpressionStruct();
+		timerReference.generateJava(aData, expression);
+		expression.expression.append(".start(");
+		if (timerValue != null) {
+			timerValue.generateCodeExpression(aData, expression);
+		}
+		expression.expression.append(")");
+
+		expression.mergeExpression(source);
 	}
 }
