@@ -43,6 +43,13 @@ public class TitanFloat extends Base_Type {
 	}
 
 	//originally operator=
+	public TitanFloat assign( final double aOtherValue ) {
+		float_value = new Ttcn3Float( aOtherValue );
+
+		return this;
+	}
+
+	//originally operator=
 	public TitanFloat assign( final TitanFloat aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound float value." );
 
