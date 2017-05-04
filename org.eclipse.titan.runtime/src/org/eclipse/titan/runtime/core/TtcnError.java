@@ -13,4 +13,10 @@ public class TtcnError extends Error {
 		super( aErrorMessage );
 	}
 
+	// FIXME this function is not ok here.
+	// As soon as we have implemented all functions from the old core it should be moved.
+	// Till then similarity with the old structure rules.
+	public static void TtcnWarning(final String aWarningMessage) {
+		//FIXME implement logging of warnings
+	}
 }
