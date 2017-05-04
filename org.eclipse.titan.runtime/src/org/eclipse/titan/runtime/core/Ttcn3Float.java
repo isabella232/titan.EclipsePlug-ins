@@ -94,9 +94,7 @@ public class Ttcn3Float {
 	}
 
 	public String createJavaStringRepresentation() {
-		if(Double.isFinite(value)) {
-			return Double.toString(value);
-		} else if (Double.isNaN(value)){
+		if (Double.isNaN(value)){
 			return "Double.NaN";
 		} else if (Double.isInfinite(value)) {
 			if( Double.compare(value,0)>0) {
@@ -114,9 +112,7 @@ public class Ttcn3Float {
 	 * @return the converted string
 	 */
 	public String createTtcn3StringRepresentation() {
-		if(Double.isFinite(value)) {
-			return Double.toString(value);
-		} else if (Double.isNaN(value)){
+		if (Double.isNaN(value)){
 			return "not_a_number";
 		} else if (Double.isInfinite(value)) {
 			if( Double.compare(value,0)>0) {
