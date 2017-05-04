@@ -124,4 +124,24 @@ public class TitanTimer {
 
 		start(startValue.getValue());
 	}
+
+	// originally read
+	public double read() {
+		double returnValue;
+
+		if (isStarted) {
+			// FIXME TTCN_Snapshot::time_now
+			double currentTime = System.currentTimeMillis() / 1000;
+			if (currentTime >= timeExpires) {
+				returnValue = 0.0;
+			} else {
+				returnValue = currentTime - timeStarted;
+			}
+		} else {
+			returnValue = 0.0;
+		}
+
+		//TODO log
+		return returnValue;
+	}
 }
