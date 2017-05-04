@@ -125,6 +125,20 @@ public class TitanTimer {
 		start(startValue.getValue());
 	}
 
+	// originally stop()
+	public void stop() {
+		if (this != testcaseTimer) {
+			if (isStarted) {
+				isStarted = false;
+				// TODO log + remove_from_list
+			} else {
+				TtcnError.TtcnWarning(MessageFormat.format("Stopping inactive timer {0}.", timerName));
+			}
+		} else {
+			isStarted = false;
+		}
+	}
+
 	// originally read
 	public double read() {
 		double returnValue;

@@ -15,6 +15,8 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -109,5 +111,19 @@ public final class Stop_Timer_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava(JavaGenData aData, StringBuilder source) {
+		if (timerReference == null) {
+			source.append("TitanTimer.allStop();\n");
+		} else {
+			final ExpressionStruct expression = new ExpressionStruct();
+			timerReference.generateJava(aData, expression);
+			expression.expression.append(".stop()");
+	
+			expression.mergeExpression(source);
+		}
 	}
 }
