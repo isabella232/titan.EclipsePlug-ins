@@ -56,7 +56,7 @@ class FieldDeclaration extends Declaration {
 	@Override
 	public ReferenceFinder getReferenceFinder(Module module) {
 		try {
-			return new ReferenceFinder(ass);
+			return new ReferenceFinder(ass,fieldId);
 		} catch (final IllegalArgumentException e) {
 			return null;
 		}

@@ -74,7 +74,27 @@ public final class ReferenceFinder {
 	 *                 if the type of the assignment can not be determined
 	 */
 	public ReferenceFinder(final Assignment assignment) {
+		init(assignment, null);
+	}
+	
+	/**
+	 * Creates and configures a new ReferenceFinder
+	 *
+	 * @param aAssignment
+	 *                The assignment
+	 * @param aFieldId 
+	 *                The field identifier
+	 * 
+	 * @throws IllegalArgumentException
+	 *                 if the type of the assignment can not be determined
+	 */
+	public ReferenceFinder(final Assignment aAssignment, final Identifier aFieldId) {
+		init(aAssignment, aFieldId);
+	}
+	
+	private void init(final Assignment assignment, final Identifier aFieldId ) {
 		this.assignment = assignment;
+		this.fieldId = aFieldId;
 		this.scope = detectSmallestScope(assignment);
 
 		// in ASN.1 the parsed stuff is undefined, get the real
