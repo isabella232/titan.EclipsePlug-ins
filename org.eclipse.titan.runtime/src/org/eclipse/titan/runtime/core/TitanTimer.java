@@ -252,4 +252,36 @@ public class TitanTimer {
 
 		return false;
 	}
+
+	/**
+	 * Return the alt status.
+	 *
+	 * @return ALT_NO if no timer is running.
+	 * @return ALT_MAYBE if there is at least one timer that is started
+	 *         and the snapshot was taken before it's expiration time
+	 * @return ALT_YES if there is at least one time that is started
+	 *         and the snapshot is past it's expiration time
+	 *
+	 *         originally timeout(Index_Redirect*)
+	 * */
+	public static TitanAlt_Status anyTimeout() {
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanTimer timer : TIMERS) {
+			switch(timer.timeout()) {
+			case ALT_YES:
+				//TODO log
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Timer {0} returned unexpected status code while evaluating `any timer.timeout'.",
+						timer.timerName));
+			}
+		}
+
+		//TODO log
+
+		return returnValue;
+	}
 }
