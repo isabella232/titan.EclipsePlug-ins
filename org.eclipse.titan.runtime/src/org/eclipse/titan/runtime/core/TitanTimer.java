@@ -139,7 +139,11 @@ public class TitanTimer {
 		}
 	}
 
-	// originally read
+	/**
+	 * originally read
+	 * 
+	 * @return the number of seconds until the timer expires.
+	 * */
 	public double read() {
 		double returnValue;
 
@@ -159,13 +163,27 @@ public class TitanTimer {
 		return returnValue;
 	}
 
-	// originally running(Index_Redirect*) 
+	/**
+	 * @return true if is_started and not yet expired, false otherwise.
+	 *
+	 * originally running(Index_Redirect*) 
+	 */
 	public boolean running() {
 		//FIXME handle redirection
 		return isStarted && (System.currentTimeMillis() / 1000) < timeExpires;
 	}
 
-	// originally timeout(Index_Redirect*)
+	/**
+	 * Return the alt status.
+	 *
+	 * @return ALT_NO if the timer is not started.
+	 * @return ALT_MAYBE if it's started and the snapshot was taken before
+	 *         the expiration time
+	 * @return ALT_YES if it's started and the snapshot is past the
+	 *         expiration time
+	 *
+	 *         originally timeout(Index_Redirect*)
+	 * */
 	public TitanAlt_Status timeout() {
 		if (isStarted) {
 			// FIXME TTCN_SNAPSHOT::get_alt_begin
