@@ -1,14 +1,20 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.LinkedList;
 
 /**
  * TTCN-3 timer
+ * 
+ * TODO: the destructor can be a problem.
  * 
  * @author Kristof Szabados
  */
 public class TitanTimer {
 	public static final TitanTimer testcaseTimer = new TitanTimer("<testcase guard timer>");
+
+	// linked list of running timers
+	private static final LinkedList<TitanTimer> TIMERS = new LinkedList<TitanTimer>();
 
 	private String timerName;
 	private boolean hasDefault;
@@ -46,6 +52,24 @@ public class TitanTimer {
 		timerName = name;
 		setDefaultDuration(defaultValue);
 		isStarted = false;
+	}
+
+	/**
+	 * Add the current timer instance to the end of the running timers list.
+	 * */
+	private void addToList() {
+		if (TIMERS.contains(this)) {
+			return;
+		}
+
+		TIMERS.addLast(this);
+	}
+
+	/**
+	 * Remove the current timer from the list of running timers
+	 * */
+	private void removeFromList() {
+		TIMERS.remove(this);
 	}
 
 	// originally set_default_duration
@@ -94,11 +118,12 @@ public class TitanTimer {
 			if(isStarted) {
 				TtcnError.TtcnWarning(MessageFormat.format("Re-starting timer {0}, which is already active (running or expired).",
 						timerName));
-				// TODO remove from list
+				removeFromList();
 			} else {
 				isStarted = true;
 			}
-			// TODO add to list and logging
+			// TODO logging
+			addToList();
 		} else {
 			if (startValue < 0.0) {
 				throw new TtcnError(MessageFormat.format("Using a negative duration ({0}) for the guard timer of the test case.",
@@ -129,7 +154,8 @@ public class TitanTimer {
 		if (this != testcaseTimer) {
 			if (isStarted) {
 				isStarted = false;
-				// TODO log + remove_from_list
+				// TODO log
+				removeFromList();
 			} else {
 				TtcnError.TtcnWarning(MessageFormat.format("Stopping inactive timer {0}.", timerName));
 			}
@@ -190,7 +216,8 @@ public class TitanTimer {
 
 			isStarted = false;
 			if (this != testcaseTimer) {
-				// TODO log + remove_from_list
+				// TODO log
+				removeFromList();
 			}
 
 			return TitanAlt_Status.ALT_YES;
