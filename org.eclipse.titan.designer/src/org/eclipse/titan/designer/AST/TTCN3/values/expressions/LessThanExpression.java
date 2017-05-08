@@ -305,7 +305,7 @@ public final class LessThanExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpression(aData, expression);
 		expression.expression.append( ".isLessThan( " );
-		value1.generateCodeExpression(aData, expression);
+		value2.generateCodeExpression(aData, expression);
 		expression.expression.append( " )" );
 	}
 }

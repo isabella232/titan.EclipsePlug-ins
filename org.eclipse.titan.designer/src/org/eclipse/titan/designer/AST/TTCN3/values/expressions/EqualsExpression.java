@@ -237,7 +237,7 @@ public final class EqualsExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpression(aData, expression);
 		expression.expression.append( ".equalsTo( " );
-		value1.generateCodeExpression(aData, expression);
+		value2.generateCodeExpression(aData, expression);
 		expression.expression.append( " )" );
 	}
 }
