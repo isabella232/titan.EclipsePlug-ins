@@ -231,6 +231,16 @@ public class TitanTimer {
 	}
 
 	/**
+	 * stop all running timers.
+	 * (empty the list)
+	 * */
+	public static void allStop() {
+		for (TitanTimer timer : TIMERS) {
+			timer.stop();
+		}
+	}
+
+	/**
 	 * @return true if there is a running timer.
 	 * */
 	public static boolean anyRunning() {
