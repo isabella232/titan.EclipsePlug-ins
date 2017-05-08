@@ -120,7 +120,7 @@ public final class Timeout_Statement extends Statement {
 	//FIXME needs expression parameter
 	public void generateJava(JavaGenData aData, StringBuilder source) {
 		if (timerReference == null) {
-			source.append("Timer.anyTimeout();\n");
+			source.append("TitanTimer.anyTimeout();\n");
 		} else {
 			final ExpressionStruct expression = new ExpressionStruct();
 			timerReference.generateJava(aData, expression);
