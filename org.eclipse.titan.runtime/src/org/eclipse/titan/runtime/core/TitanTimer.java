@@ -229,4 +229,17 @@ public class TitanTimer {
 			return TitanAlt_Status.ALT_NO;
 		}
 	}
+
+	/**
+	 * @return true if there is a running timer.
+	 * */
+	public static boolean anyRunning() {
+		for (TitanTimer timer : TIMERS) {
+			if (timer.running()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
