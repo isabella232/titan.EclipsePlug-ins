@@ -113,8 +113,7 @@ public class TitanTimer {
 			//TODO logging
 		}
 
-		// FIXME TTCN_Snapshot::time_now
-		timeStarted = System.currentTimeMillis() / 1000;
+		timeStarted = TTCN_Snapshot.timeNow();
 		timeExpires = timeStarted + startValue;
 	}
 
@@ -148,8 +147,7 @@ public class TitanTimer {
 		double returnValue;
 
 		if (isStarted) {
-			// FIXME TTCN_Snapshot::time_now
-			double currentTime = System.currentTimeMillis() / 1000;
+			double currentTime = TTCN_Snapshot.timeNow();
 			if (currentTime >= timeExpires) {
 				returnValue = 0.0;
 			} else {
@@ -170,7 +168,7 @@ public class TitanTimer {
 	 */
 	public boolean running() {
 		//FIXME handle redirection
-		return isStarted && (System.currentTimeMillis() / 1000) < timeExpires;
+		return isStarted && TTCN_Snapshot.timeNow() < timeExpires;
 	}
 
 	/**
@@ -186,8 +184,7 @@ public class TitanTimer {
 	 * */
 	public TitanAlt_Status timeout() {
 		if (isStarted) {
-			// FIXME TTCN_SNAPSHOT::get_alt_begin
-			if (System.currentTimeMillis() / 1000 < timeExpires) {
+			if (TTCN_Snapshot.getAltBegin() < timeExpires) {
 				return TitanAlt_Status.ALT_MAYBE;
 			}
 
