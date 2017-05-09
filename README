@@ -10,6 +10,7 @@
 1. VERSION REQUIREMENTS
 
 Java 1.6 or higher, recommended: 1.7
+  To compile Titanium Java 1.8 is required
 ANTLR 4 SDK 0.3.5
 ANTLR Runtime 4.3 or higher, recommended: 4.3, available at Eclipse Orbit
 Ant 1.9.2 or higher 
@@ -65,11 +66,12 @@ It modifies the source, you need to rebuild org.eclipse.titan.common plug-in pro
 4. BUILDING AND INSTALLING TITAN PLUG-INS FROM COMMAND LINE WITH ANT
 
 4.1. EXTERNAL JAR DEPENDENCIES
-
-  antlr-4.3-complete.jar 
+  ANTLR 4.3 SDK 0.3.5
     available at Eclipse Orbit
     http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/
     NOTE: The drop version changes very often.
+  antlr-4.3-complete.jar 
+    available at: http://www.antlr.org/download/antlr-4.3-complete.jar
   junit.jar (JUnit4)
 
   These jars are needed by help.plugin to create pdf documentation
@@ -78,15 +80,16 @@ It modifies the source, you need to rebuild org.eclipse.titan.common plug-in pro
       For Ericsson users only: Download the plugin from http://ttcn.ericsson.se/download/third_party/ OR write to any contact person at Project Titan
 
   These jars are needed by titanium.plugin
-    org.apache.commons.collections15/collections-generic-4.01.jar
-      Download Commons-Collections from http://commons.apache.org/proper/commons-collections/
-      OR for Ericsson users only: Download the Jung plugin from  http://ttcn.ericsson.se/download/third_party/commons.collections.zip 
-      OR for users outside Ericsson: Write to any contact person on site https://projects.eclipse.org/projects/tools.titan and ask the commons.collections.zip .
-    edu.uci.ics.jung/jung-graph-impl-2.0.1.jar
-    edu.uci.ics.jung/jung-visualization-2.0.1.jar
-    edu.uci.ics.jung/jung-algorithms-2.0.1.jar
-    edu.uci.ics.jung/jung-io-2.0.1.jar
-      For Ericsson users only: Download the Jung plugin from http://ttcn.ericsson.se/download/third_party/edu.uci.ics.jung.zip 
+    Google Guava 21.0 (com.google.guava)
+      available at Eclipse Orbit
+      http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/
+      NOTE: The drop version changes very often.
+    edu.uci.ics.jung/jung-graph-impl-2.1.jar
+    edu.uci.ics.jung/jung-visualization-2.1.jar
+    edu.uci.ics.jung/jung-algorithms-2.1.jar
+    edu.uci.ics.jung/jung-io-2.1.jar
+      For Ericsson users only: Download the all-in-one package of Titan that contains it
+        https://www.eclipse.org/downloads/download.php?file=/titan/TITAN_Designer_and_Executor_plugin-6.1.pl0.zip
       OR for users outside Ericsson: Write to any contact person on site https://projects.eclipse.org/projects/tools.titan and ask the jung.zip  
     org.apache.poi_3.9.0.v201405241750.jar
       available at Eclipse Orbit
@@ -149,11 +152,11 @@ ant \
 -Dantlr4.jar.location=${LIB_DIR_LOCAL}/antlr-4.3-complete.jar \
 -Ddoc2pdf.jar=${LIB_DIR_GIT}/doc2pdf.jar \
 -Djava6=$HOME/jdk/bin/java \
--lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-graph-impl-2.0.1.jar \
--lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-visualization-2.0.1.jar \
--lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-algorithms-2.0.1.jar \
--lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-io-2.0.1.jar \
--lib ${LIB_DIR_GIT}/org.apache.commons.collections15/collections-generic-4.01.jar \
+-lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-graph-impl-2.1.jar \
+-lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-visualization-2.1.jar \
+-lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-algorithms-2.1.jar \
+-lib ${LIB_DIR_GIT}/edu.uci.ics.jung/jung-io-2.1.jar \
+-lib ${LIB_DIR_GIT}/com.google.guava_21.0.0.v20170206-1425.jar \
 -lib ${LIB_DIR_LOCAL}/org.apache.poi_3.9.0.v201405241750.jar \
 -lib ${LIB_DIR_GIT}/org.junit_4.11.0.v201303080030/junit.jar \
 -Dupdatesite.release.location=result/update_site \
@@ -161,7 +164,7 @@ ant \
 -Dupdatesite.experimental.location=result/experimental_update_site \
 -Dupdatesite.testing.location=result/testing_update_site \
 -Dupdatesites.tmp.location=result/eclipse_automatic_build/tmp_update_sites \
--Dzip.dir=result/zips/4.2.0.CRL_113_200_4_R2A \
+-Dzip.dir=result/zips/6.1.0.CRL_113_200_6_R1A \
 zip
 
 4.2.2. A working example with minimal requirements, with a target with few dependencies
@@ -184,13 +187,12 @@ Copy these *.jar files to $ECLIPSE_HOME/plugins/ directory.
 5.1. Prerequisites:
   5.1.1. org.eclipse.titan.titanium plug-in is built
   5.1.2. The following plug-ins are present in eclipse/plugins directory in this structure
-           edu.uci.ics.jung/
-             jung-graph-impl-2.0.1.jar
-             jung-visualization-2.0.1.jar
-             jung-algorithms-2.0.1.jar
-             jung-io-2.0.1.jar
-           org.apache.commons.collections15/
-             collections-generic-4.01.jar
+           edu.uci.ics.jung_2.1.0.20170405-1030/
+             jung-graph-impl-2.1.jar
+             jung-visualization-2.1.jar
+             jung-algorithms-2.1.jar
+             jung-io-2.1.jar
+           com.google.guava_21.0.0.v20170206-1425.jar
            org.antlr.runtime_4.3.0.v201502022030.jar
            org.apache.poi_3.9.0.v201405241750.jar
   5.1.3. Titan jars are also copied to eclipse/plugins
