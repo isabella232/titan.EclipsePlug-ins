@@ -10,11 +10,11 @@
 <feature
       id="TITAN_Executor"
       label="TITAN_Executor_Feature"
-      version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+      version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
       provider-name="Eclipse Titan Project">
 
    <description url="https://www.eclipse.org/downloads/download.php?file=/titan/TitanDocuments.tgz">
-      CRL 113 200/6 R1A (6.1.pl0) version of the TITAN Executor plug-in.
+      CRL 113 200/6 R2A (6.2.pl0) version of the TITAN Executor plug-in.
    </description>
 
    <copyright>
@@ -164,28 +164,28 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.titan.executor"
          download-size="720"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="10546"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="532"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.designer"
          download-size="0"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
          unpack="false"/>
 
 </feature>

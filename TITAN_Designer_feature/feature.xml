@@ -10,11 +10,11 @@
 <feature
       id="TITAN_Designer"
       label="TITAN_Designer_Feature"
-      version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+      version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
       provider-name="Eclipse Titan Project">
 
    <description url="https://www.eclipse.org/downloads/download.php?file=/titan/TitanDocuments.tgz">
-      CRL 113 200/6 R1A (6.1.pl0) version of the TITAN Designer plug-in.
+      CRL 113 200/6 R2A (6.2.pl0) version of the TITAN Designer plug-in.
    </description>
 
    <copyright>
@@ -33,27 +33,23 @@ and implementation
 *     Akos Cserveni (Ericsson) - Basic AST in compiler, semantic
 checking
 *     Gabor Szalai (Ericsson) – RAW and TEXT codecs
-*     Matyas Forstner (Ericsson) - ASN.1 extension of the compiler
-and BER/CER/DER codecs
-*     Kristof Szabados  (Ericsson) - Eclipse Designer, Executor,
-Titanium UIs
+*     Matyas Forstner (Ericsson) - ASN.1 extension of the compiler and BER/CER/DER codecs
+*     Kristof Szabados  (Ericsson) - Eclipse Designer, Executor, Titanium UIs
 *     Szabolcs Beres (Ericsson) - Eclipse LogViewer
-*     Ferenc Kovacs (Ericsson) – log interfaces, big number support,
-subtype checking
+*     Ferenc Kovacs (Ericsson) – log interfaces, big number support, subtype checking
 *     Csaba Raduly (Ericsson) – ASN.1 additions, XML encoder/decoder
-*     Adam Delic (Ericsson) – template restrictions, try and
-catch, support of pre-processor directives in Eclipse
+*     Adam Delic (Ericsson) – template restrictions, try and catch, support of pre-processor directives in Eclipse
 *     Krisztian Pandi (Ericsson) – import of imports
 *     Peter Dimitrov (Ericsson)- maintenance
 *     Balazs Andor Zalanyi (Ericsson) – code splitting
 *     Gabor Szalai (Ericsson) – RAW encoding/decoding
-*     Jeno Attila Balasko (Ericsson) – tests, maintenance
+*     Jeno Attila Balasko (Ericsson) – test, maintenance
 *     Csaba Feher (Ericsson) – epoll support
 *     Tamas Buti (Ericsson)- maintenance
 *     Szabolcs Beres (Ericsson) - Eclipse LogViever
 *     Matyas Ormandi (Ericsson) - maintenance 
 *     Botond Baranyi (Ericsson) - JSON encoder
-*     Arpad Lovassy (Ericsson) - Java Executor API
+*     Arpad Lovassy (Ericsson) - Java Executor API, parser, config file editor
 *     Laszlo Baji (Ericsson) - maintenance
 *     Marton Godar (Ericsson) - xsd2ttcn converter
 *******************************************************************************/
@@ -162,21 +158,21 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.titan.designer"
          download-size="3841"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="10546"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="532"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
          unpack="false"/>
 
 </feature>
