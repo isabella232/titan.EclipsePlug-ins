@@ -283,7 +283,7 @@ public final class AndExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(final JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (value2.needsShortCircuit()) {
 			String tempId = aData.getTemporaryVariableName();
 			expression.preamble.append("TitanBoolean ");

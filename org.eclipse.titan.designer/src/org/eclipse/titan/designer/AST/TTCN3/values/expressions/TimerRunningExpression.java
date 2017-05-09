@@ -206,7 +206,7 @@ public final class TimerRunningExpression extends Expression_Value {
 	}
 
 	@Override
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		reference.generateJava(aData, expression);
 		expression.expression.append(".running()");
 		//TODO: handle index redirection

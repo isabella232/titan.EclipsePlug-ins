@@ -234,7 +234,7 @@ public final class UndefRunningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (realExpression != null) {
 			realExpression.generateCodeExpressionExpression(aData, expression);
 		}
