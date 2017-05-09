@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard.altguard_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -318,5 +319,19 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Generate code for an alt
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 */
+	public void generateCodeAlt( final JavaGenData aData, final StringBuilder source ) {
+		//default implementation
+		source.append( "\t\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateJava() is not implemented!\n" );
 	}
 }
