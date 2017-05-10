@@ -188,12 +188,14 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (isIndexed) {
-			for (IndexedValue iv : indexedValues) {
-				iv.findReferences(referenceFinder, foundIdentifiers);
+			for (int i = 0, size = indexedValues.size(); i < size; i++) {
+				final IndexedValue indexedValue = indexedValues.get(i);
+				indexedValue.findReferences(referenceFinder, foundIdentifiers);
 			}
 		} else {
-			for (IValue v : values) {
-				v.findReferences(referenceFinder, foundIdentifiers);
+			for (int i = 0, size = values.size(); i < size; i++) {
+				final IValue value = values.get(i);
+				value.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
 	}
@@ -202,14 +204,16 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (isIndexed) {
-			for (IndexedValue iv : indexedValues) {
-				if (!iv.accept(v)) {
+			for (int i = 0, size = indexedValues.size(); i < size; i++) {
+				final IndexedValue indexedValue = indexedValues.get(i);
+				if (!indexedValue.accept(v)) {
 					return false;
 				}
 			}
 		} else {
-			for (IValue iv : values) {
-				if (!iv.accept(v)) {
+			for (int i = 0, size = values.size(); i < size; i++) {
+				final IValue value = values.get(i);
+				if (!value.accept(v)) {
 					return false;
 				}
 			}
