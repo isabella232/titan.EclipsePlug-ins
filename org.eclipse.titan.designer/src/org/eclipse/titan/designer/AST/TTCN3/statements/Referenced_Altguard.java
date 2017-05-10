@@ -73,6 +73,10 @@ public final class Referenced_Altguard extends AltGuard {
 		return builder;
 	}
 
+	public IValue getGuardExpression() {
+		return expression;
+	}
+
 	public Reference getGuardReference() {
 		return reference;
 	}

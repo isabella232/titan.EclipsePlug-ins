@@ -54,6 +54,8 @@ public final class Repeat_Statement extends Statement {
 
 		if (myAltGuards == null) {
 			location.reportSemanticError(INCORRECTUSAGE);
+		} else {
+			myAltGuards.repeatFound();
 		}
 
 		lastTimeChecked = timestamp;

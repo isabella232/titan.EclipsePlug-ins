@@ -87,6 +87,10 @@ public final class Operation_Altguard extends AltGuard {
 		return statement;
 	}
 
+	public IValue getGuardExpression() {
+		return expression;
+	}
+
 	@Override
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		if (statement != null) {

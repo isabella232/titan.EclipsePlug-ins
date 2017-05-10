@@ -102,6 +102,10 @@ public final class Invoke_Altguard extends AltGuard {
 		}
 	}
 
+	public IValue getGuardExpression() {
+		return expression;
+	}
+
 	@Override
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		if (statementblock != null) {
