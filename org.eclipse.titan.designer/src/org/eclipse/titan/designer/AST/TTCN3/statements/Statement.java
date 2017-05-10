@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -386,5 +387,18 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateJava() is not implemented!\n" );
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate the source to
+	 */
+	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression) {
+		//default implementation
+		expression.expression.append( "\t\t" );
+		expression.expression.append( "//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
 	}
 }

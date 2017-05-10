@@ -136,4 +136,16 @@ public final class Timeout_Statement extends Statement {
 			expression.mergeExpression(source);
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (timerReference == null) {
+			expression.expression.append("TitanTimer.anyTimeout();\n");
+		} else {
+			timerReference.generateJava(aData, expression);
+			expression.expression.append(".timeout()");
+			//TODO handle index redirection
+		}
+	}
 }
