@@ -71,6 +71,12 @@ public final class Killed_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canRepeat() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;

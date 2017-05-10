@@ -72,6 +72,12 @@ public final class Timeout_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canRepeat() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;

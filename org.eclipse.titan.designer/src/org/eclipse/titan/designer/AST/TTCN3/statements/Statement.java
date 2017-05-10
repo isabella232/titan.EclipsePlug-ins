@@ -310,6 +310,15 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	}
 
 	/**
+	 * Indicates whether the C++ equivalent of the statement can
+	 *  return ALT_REPEAT. Applicable to receiving statements only.
+	 * */
+	public boolean canRepeat() {
+		//FIXME fatal error
+		return false;
+	}
+
+	/**
 	 * Does the semantic checking of the statement.
 	 *
 	 * @param timestamp
