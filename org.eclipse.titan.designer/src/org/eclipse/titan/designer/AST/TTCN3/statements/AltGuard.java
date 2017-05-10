@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -27,7 +28,7 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 		AG_OP, AG_REF, AG_INVOKE, AG_ELSE
 	}
 
-	private final altguard_type altguardType;
+	public final altguard_type altguardType;
 
 	protected final StatementBlock statementblock;
 
@@ -48,6 +49,10 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 
 	public final altguard_type getType() {
 		return altguardType;
+	}
+
+	public IValue getGuardExpression() {
+		return null;
 	}
 
 	public final StatementBlock getStatementBlock() {
