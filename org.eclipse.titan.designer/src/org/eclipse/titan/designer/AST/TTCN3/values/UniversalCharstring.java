@@ -137,8 +137,10 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	public UniversalCharstring append(final UniversalCharstring other) {
-		for (int i = 0; i < other.value.size(); i++) {
-			value.add(other.value.get(i));
+		if( other != null) {
+			for (int i = 0; i < other.value.size(); i++) {
+				value.add(other.value.get(i));
+			}
 		}
 
 		return this;
