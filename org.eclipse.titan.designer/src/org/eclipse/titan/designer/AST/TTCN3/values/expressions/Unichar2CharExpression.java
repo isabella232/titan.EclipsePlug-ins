@@ -120,9 +120,9 @@ public final class Unichar2CharExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_UCHARSTRING:
-			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			UniversalCharstring string;
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);		
 			if (!last.isUnfoldable(timestamp)) {
+				UniversalCharstring string;
 				if( last instanceof Charstring_Value) {
 					string = new UniversalCharstring( ((Charstring_Value) last).getValue());
 				} else if( last instanceof UniversalCharstring_Value ) {
