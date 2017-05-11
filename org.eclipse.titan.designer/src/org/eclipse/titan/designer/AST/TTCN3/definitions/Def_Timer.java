@@ -449,6 +449,10 @@ public final class Def_Timer extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
+		if ( !isLocal() ) {
+			source.append( "\tpublic static " );
+		}
+
 		aData.addBuiltinTypeImport( "TitanTimer" );
 
 		if(dimensions == null) {
