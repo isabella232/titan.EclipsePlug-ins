@@ -134,6 +134,8 @@ public final class Unichar2CharExpression extends Expression_Value {
 			}
 
 			return;
+		case TYPE_CHARSTRING:
+			break;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);
 			break;
@@ -180,6 +182,10 @@ public final class Unichar2CharExpression extends Expression_Value {
 			final UniversalChar uchar = string.get(0);
 			final byte[] bytes = new byte[] { (byte) uchar.cell() };
 			lastValue = new Charstring_Value(new String(bytes));
+			break;
+		}
+		case CHARSTRING_VALUE : {
+			lastValue = new Charstring_Value(((Charstring_Value) last).getValue());
 			break;
 		}
 		default:
