@@ -345,8 +345,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 			returnValue.append(prefix);
 		}
 
-		//TODO implement the calculation of generated name, this is just temporary
-		returnValue.append(identifier.getName());
+		returnValue.append(getGenName());
 		//TODO add support for not normal formal parameter evaluations
 
 		return returnValue.toString();
