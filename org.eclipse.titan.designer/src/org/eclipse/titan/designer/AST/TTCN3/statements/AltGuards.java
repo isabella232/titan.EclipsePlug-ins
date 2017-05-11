@@ -388,7 +388,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				break;
 			}
 
-			source.append("TitanAlt_Status ").append(label).append("_alt_flag_").append(i).append(" = ");
+			source.append(MessageFormat.format("TitanAlt_Status {0}_alt_flag_{1} = ", label, i));
 			if(altGuard.getGuardExpression() == null) {
 				source.append("TitanAlt_Status.ALT_MAYBE");
 			} else {
@@ -397,7 +397,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			source.append(";\n");
 		}
 		if (!hasElseBranch) {
-			source.append("TitanAlt_Status ").append(label).append("_default_flag = TitanAlt_Status.ALT_MAYBE;\n");
+			source.append(MessageFormat.format("TitanAlt_Status {0}_default_flag = TitanAlt_Status.ALT_MAYBE;\n", label));
 		}
 
 		// the first snapshot is taken in non-blocking mode
@@ -417,10 +417,10 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					//FIXME implement
 				}
 
-				source.append("if (").append(label).append("_alt_flag_").append(i).append(" == TitanAlt_Status.ALT_MAYBE) {\n");
+				source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_MAYBE) '{'\n", label, i));
 				boolean canRepeat = false;
 				ExpressionStruct expression = new ExpressionStruct();
-				expression.expression.append(label).append("_alt_flag_").append(i).append(" = ");
+				expression.expression.append(MessageFormat.format("{0}_alt_flag_{1} = ", label, i));
 				switch(altGuardType) {
 				case AG_OP: {
 					//FIXME implement
