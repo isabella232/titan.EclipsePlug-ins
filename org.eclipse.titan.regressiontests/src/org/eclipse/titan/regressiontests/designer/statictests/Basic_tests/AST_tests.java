@@ -378,7 +378,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1514);
@@ -1569,7 +1569,7 @@ public class AST_tests {
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `unichar2char' operation should consist of characters within the range char(0,0,0,0)..char(0,0,0,127)", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 13;
+		lineNum += 17;
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("The first operand of the `int2bit' operation should be an integer value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -1905,7 +1905,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
+	
 	private ArrayList<MarkerToCheck> negativeTesting_ttcn_initializer() {
 		//negativeTesting.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(73);

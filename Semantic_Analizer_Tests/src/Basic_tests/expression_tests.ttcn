@@ -2382,6 +2382,10 @@ function f_unichar2charOperationTests()
   {var charstring 	vl_i := unichar2char(char(0,1,0,0));}
   {var charstring 	vl_i := unichar2char(char(0,0,1,0));}
   {var charstring 	vl_i := unichar2char(char(0,0,0,128));}
+  {
+    const universal charstring cl_unichar   := "5.0";
+  	var charstring vl_return1 := unichar2char(cl_unichar);
+  }
 }
 
 function f_int2bitOperationTests()

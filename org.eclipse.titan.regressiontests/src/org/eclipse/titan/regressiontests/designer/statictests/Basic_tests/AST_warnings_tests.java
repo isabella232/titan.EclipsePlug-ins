@@ -500,7 +500,7 @@ public class AST_warnings_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(468);
@@ -904,7 +904,7 @@ public class AST_warnings_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 30;
+		lineNum += 34;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
