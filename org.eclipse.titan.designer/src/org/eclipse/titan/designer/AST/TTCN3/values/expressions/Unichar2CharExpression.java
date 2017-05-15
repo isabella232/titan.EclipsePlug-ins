@@ -124,7 +124,7 @@ public final class Unichar2CharExpression extends Expression_Value {
 			if (!last.isUnfoldable(timestamp)) {
 				UniversalCharstring string;
 				if( last instanceof Charstring_Value) {
-					string = new UniversalCharstring( ((Charstring_Value) last).getValue());
+					return; //check not necessary, trivial case
 				} else if( last instanceof UniversalCharstring_Value ) {
 					string = ((UniversalCharstring_Value) last).getValue();
 				} else {
