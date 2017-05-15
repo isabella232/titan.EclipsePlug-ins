@@ -10,11 +10,17 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -115,5 +121,24 @@ public final class Activate_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava(JavaGenData aData, StringBuilder source) {
+		ExpressionStruct expression = new ExpressionStruct();
+		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+		expression.expression.append(assignment.getGenNameFromScope(aData, source, myStatementBlock, "activate_"));
+		expression.expression.append('(');
+
+		if (!reference.getSubreferences().isEmpty()) {
+			ISubReference subReference = reference.getSubreferences().get(0);
+			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
+				((ParameterisedSubReference) subReference).getActualParameters().generateJavaNoAlias(aData, expression);
+			}
+		}
+		expression.expression.append(')');
+		expression.mergeExpression(source);
 	}
 }

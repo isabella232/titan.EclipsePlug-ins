@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
@@ -496,5 +497,110 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");
+	}
+
+	/**
+	 * Generate code for an altstep
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 */
+	public void generateCodeAltstep(final JavaGenData aData, final StringBuilder source ) {
+		boolean hasElse = hasElse();
+		if (!hasElse) {
+			source.append("TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;\n");
+		}
+
+		for (int i = 0; i < altGuards.size(); i++) {
+			AltGuard altGuard = altGuards.get(i);
+			altguard_type altGuardType = altGuard.getType();
+			if (altGuardType.equals(altguard_type.AG_ELSE)) {
+				source.append("TTCN_Snapshot.elseBranchReached();\n");
+				StatementBlock block = altGuard.getStatementBlock();
+				if (block.getSize() > 0) {
+					source.append("{\n");
+					//TODO debugger
+					block.generateJava(aData, source);
+					source.append("}\n");
+				}
+				if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
+					source.append("return TitanAlt_Status.ALT_YES;\n");
+				}
+			} else {
+				ChangeableInteger blockCount = new ChangeableInteger(0);
+				IValue guardExpression = altGuard.getGuardExpression();
+				if (guardExpression != null) {
+					//FIXME implement location update
+					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
+					source.append(") {\n");
+					blockCount.setValue(blockCount.getValue() + 1);
+				}
+
+				boolean canRepeat = false;
+				ExpressionStruct expression = new ExpressionStruct();
+				switch(altGuardType) {
+				case AG_OP: {
+					Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
+					//TODO update location
+					statement.generateCodeExpression(aData, expression);
+					canRepeat = statement.canRepeat();
+					}
+					break;
+				//FIXME implement rest
+				}
+				if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+					if (blockCount.getValue() == 0) {
+						source.append("{\n");
+						blockCount.setValue(blockCount.getValue() + 1);
+					}
+					String tempId = aData.getTemporaryVariableName();
+					source.append(MessageFormat.format("TitanAlt_Status {0};\n", tempId));
+					source.append("{\n");
+					source.append(expression.preamble);
+					source.append(MessageFormat.format("{0}.assign({1});\n", tempId, expression.expression));
+					source.append(expression.postamble);
+					source.append("}\n");
+					source.append(MessageFormat.format("switch ({0}) {\n", tempId));
+				} else {
+					source.append(MessageFormat.format("switch ({0}) '{'\n", expression.expression));
+				}
+
+				source.append("case ALT_YES:\n");
+				StatementBlock block = altGuard.getStatementBlock();
+				if (block != null && block.getSize() > 0) {
+					source.append("{\n");
+					//TODO handle debugger
+					block.generateJava(aData, source);
+					source.append("}\n");
+				}
+				if (block == null || block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
+					source.append("return TitanAlt_Status.ALT_YES;\n");
+				}
+				if (canRepeat) {
+					source.append("case ALT_REPEAT:\n");
+					source.append("return TitanAlt_Status.ALT_REPEAT;\n");
+				}
+				if (altGuardType == altguard_type.AG_REF || altGuardType == altguard_type.AG_INVOKE) {
+					source.append("case ALT_BREAK:\n");
+					source.append("return TitanAlt_Status.ALT_BREAK;\n");
+				}
+				if (!hasElse) {
+					source.append("case ALT_MAYBE:\n");
+					source.append("returnValue = TitanAlt_Status.ALT_MAYBE;\n");
+				}
+				source.append("default:\n");
+				source.append("break;\n");
+				source.append("}\n");
+
+				// closing statement blocks
+				for(int j = 0 ; j < blockCount.getValue(); j++) {
+					source.append("}\n");
+				}
+			}
+		}
+
+		if (!hasElse) {
+			source.append("return returnValue;\n");
+		}
 	}
 }

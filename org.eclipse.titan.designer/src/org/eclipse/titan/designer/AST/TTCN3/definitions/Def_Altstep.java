@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jface.text.templates.Template;
@@ -554,13 +555,88 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	@Override
 	public void generateJava(JavaGenData aData, final boolean cleanUp) {
+		final StringBuilder source =aData.getSrc();
+
 		final String genName = getGenName();
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
-		// TODO Auto-generated method stub
-		super.generateJava(aData, cleanUp);
+		
+		//FIXME handle location object
+
+		StringBuilder body = new StringBuilder();
+		block.generateJava(aData, body);
+		altGuards.generateCodeAltstep(aData, body);
+		
+		StringBuilder formalParListCode = new StringBuilder();
+		formalParList.generateJava(aData, formalParListCode);
+		// FIXME generate code defval and shadow objects
+
+		source.append(MessageFormat.format("private static TitanAlt_Status {0}_instance({1})\n", genName, formalParListCode));
+		source.append("{\n");
+		source.append(body);
+		source.append("}\n\n");
+
+		StringBuilder actualParameterList = formalParList.generateCodeActualParlist("");
+
+		StringBuilder fullParamaterList = formalParList.generateCode(aData);
+
+		source.append(MessageFormat.format("void {0}({1})\n", genName, fullParamaterList));
+		source.append("{\n");
+		source.append("altstep_begin: for( ; ; ) {\n");
+		source.append("boolean block_flag = false;\n");
+		source.append("TitanAlt_Status altstep_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("for( ; ; ) {\n");
+		source.append("TTCN_Snapshot.takeNew(block_flag);\n");
+		source.append("if (altstep_flag != TitanAlt_Status.ALT_NO) {\n");
+		source.append(MessageFormat.format("altstep_flag = {0}_instance({1});\n", genName, actualParameterList));
+		source.append("if (altstep_flag == TitanAlt_Status.ALT_YES || altstep_flag == TitanAlt_Status.ALT_BREAK) {\n");
+		source.append("return;\n");
+		source.append("} else if (altstep_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+		source.append("continue altstep_begin;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
+		source.append("default_flag = TTCN_Default.tryAltsteps();\n");
+		source.append("if (default_flag == TitanAlt_Status.ALT_YES || default_flag == TitanAlt_Status.ALT_BREAK) {\n");
+		source.append("return;\n");
+		source.append("} else if (default_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+		source.append("continue altstep_begin;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (altstep_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"None of the branches can be chosen in altstep {0}\");\n", identifier.getDisplayName()));
+		source.append("} else {\n");
+		source.append("block_flag = true;\n");
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("}\n");
+		source.append("}\n\n");
+
+		// class for keeping the altstep in the default context
+		// the class is for internal use
+		aData.addBuiltinTypeImport("Default_Base");
+		source.append(MessageFormat.format("static class {0}_Default extends Default_Base '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_Default({1}) '{'\n", genName, fullParamaterList));
+		source.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
+		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
+			String FormalParName = formalParList.getParameterByIndex(i).getIdentifier().getName();
+			source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+		}
+		source.append("}\n\n");
+
+		StringBuilder prefixedActualParameterList = formalParList.generateCodeActualParlist("par_");
+		source.append("@Override\n");
+		source.append("public TitanAlt_Status call_altstep() {\n");
+		source.append(MessageFormat.format("return {0}_instance({1});\n", genName, prefixedActualParameterList));
+		source.append("}\n\n");
+
+		source.append("}\n\n");//closing for the _Default class
+
+		source.append(MessageFormat.format("private static Default_Base activate_{0}({1}) '{'\n", genName, fullParamaterList));
+		source.append(MessageFormat.format("return new {0}_Default({1});\n", genName, actualParameterList));
+		source.append("}\n\n");
 	}
-
-
 }

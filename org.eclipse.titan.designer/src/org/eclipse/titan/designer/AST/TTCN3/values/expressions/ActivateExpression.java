@@ -10,16 +10,21 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -162,5 +167,36 @@ public final class ActivateExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(".assign(");
+
+		generateCodeExpressionExpression(aData, expression);
+
+		expression.expression.append(')');
+		expression.mergeExpression(source);
+
+		return source;
+	}
+
+	@Override
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+		expression.expression.append(assignment.getGenNameFromScope(aData, aData.getSrc(), myScope, "activate_"));
+		expression.expression.append('(');
+
+		if (!reference.getSubreferences().isEmpty()) {
+			ISubReference subReference = reference.getSubreferences().get(0);
+			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
+				((ParameterisedSubReference) subReference).getActualParameters().generateJavaNoAlias(aData, expression);
+			}
+		}
+		expression.expression.append(')');
 	}
 }

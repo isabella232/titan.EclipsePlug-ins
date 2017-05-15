@@ -18,10 +18,12 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados
@@ -142,5 +144,21 @@ public final class Deactivate_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateJava(JavaGenData aData, StringBuilder source) {
+		aData.addCommonLibraryImport("TTCN_Default");
+		if (deactivate == null) {
+			source.append("TTCN_Default.deactivateAll();\n");
+			return;
+		}
+
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append("TTCN_Default.deactivate(");
+		deactivate.generateCodeExpression(aData, expression);
+		expression.expression.append(");\n");
+		expression.mergeExpression(source);
 	}
 }

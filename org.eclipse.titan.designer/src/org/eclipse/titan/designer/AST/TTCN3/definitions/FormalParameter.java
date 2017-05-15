@@ -1015,4 +1015,39 @@ public final class FormalParameter extends Definition {
 
 		//TODO: implement: handle default value
 	}
+
+	/**
+	 * Generates the formal parameter.
+	 * 
+	 * @param aData only used to update imports if needed
+	 *
+	 * originally generate_code_fpar and had a boolean parameter,
+	 *  but in java we can not omit the name of the parameter
+	 * */
+	public StringBuilder generateCodeFpar(final JavaGenData aData) {
+		StringBuilder result = new StringBuilder();
+		switch (assignmentType) {
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_OUT:
+		case A_PAR_VAL_INOUT:
+		case A_PAR_PORT:
+			//TODO handle lazy evaluation
+			result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), getMyScope())));
+			break;
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_OUT:
+		case A_PAR_TEMP_INOUT:
+			//TODO handle lazy evaluation
+			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope())));
+			break;
+		case A_PAR_TIMER:
+			result.append(MessageFormat.format("TitanTimer ", identifier.getName()));
+			break;
+		default:
+			break;
+		}
+
+		return result;
+	}
 }
