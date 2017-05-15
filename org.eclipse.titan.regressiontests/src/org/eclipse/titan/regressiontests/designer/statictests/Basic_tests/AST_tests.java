@@ -381,7 +381,7 @@ public class AST_tests {
 	
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1516);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1514);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1553,14 +1553,19 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The operand of the `unichar2str' operation should be of length 1", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 13;
-		for (i = 0; i < 6; i++) {
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("The operand of the `unichar2char' operation should be a universal charstring value", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		lineNum += 1;
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `unichar2char' operation should be a universal charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx1' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
-		for (i = 0; i < 7; i++) {
+		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `unichar2char' operation should be a universal charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
+		lineNum += 1;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `unichar2char' operation should consist of characters within the range char(0,0,0,0)..char(0,0,0,127)", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -1900,7 +1905,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> negativeTesting_ttcn_initializer() {
 		//negativeTesting.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(73);
