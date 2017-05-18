@@ -734,13 +734,13 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
-	public void generateJava(JavaGenData aData, final boolean cleanUp) {
+	public void generateCode(JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
 		// TODO Auto-generated method stub
-		super.generateJava(aData, cleanUp);
+		super.generateCode(aData, cleanUp);
 	}
 
 

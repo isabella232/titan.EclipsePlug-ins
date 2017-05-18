@@ -1146,7 +1146,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			if ( i > 0 ) {
 				source.append( ", " );
 			}
-			parameter.generateJavaString( aData, source );
+			parameter.generateCodeString( aData, source );
 		}
 		source.append( " " );
 	}

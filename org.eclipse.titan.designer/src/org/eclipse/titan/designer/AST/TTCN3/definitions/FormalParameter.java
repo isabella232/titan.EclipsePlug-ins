@@ -989,7 +989,7 @@ public final class FormalParameter extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		//TODO: implement: based on access type the code needs to be more refined
 		//TODO for timers too!
 		//TODO actually formal parameters are generated in generate_code ... with sub function

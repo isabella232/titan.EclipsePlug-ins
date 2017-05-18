@@ -459,7 +459,7 @@ public final class Def_Var_Template extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		//TODO this should handle only the global case
 		//TODO there are no Global variable templates
@@ -485,7 +485,7 @@ public final class Def_Var_Template extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);

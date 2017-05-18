@@ -705,7 +705,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * @param @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
-	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		//default implementation
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );

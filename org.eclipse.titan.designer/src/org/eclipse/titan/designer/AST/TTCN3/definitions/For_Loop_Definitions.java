@@ -650,7 +650,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
 		if ( definitions != null ) {
 			for ( Definition definition : definitions ) {
-				definition.generateJavaString( aData, source );
+				definition.generateCodeString( aData, source );
 				source.append( "\n" );
 			}
 		}

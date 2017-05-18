@@ -485,7 +485,7 @@ public final class Def_Type extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 
 		if (type == null) {

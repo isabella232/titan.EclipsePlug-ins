@@ -856,7 +856,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);
@@ -900,7 +900,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
 		if (type != null) {
 			type.setGenName("_T_", genName);

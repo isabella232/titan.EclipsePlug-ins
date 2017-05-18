@@ -443,7 +443,7 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		//FIXME global timer ????
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
@@ -499,7 +499,7 @@ public final class Def_Timer extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJavaString(final JavaGenData aData, final StringBuilder source) {
+	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
 		aData.addBuiltinTypeImport( "TitanTimer" );
 
