@@ -977,7 +977,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			if(extendsGainedDefinitions.containsKey(def.getIdentifier().getName())) {
 				def.generateCodeInitComp(aData, init_comp, extendsGainedDefinitions.get(def.getIdentifier().getName()));
 			} else {
-				def.generateJava(aData, true);
+				def.generateCode(aData, true);
 			}
 		}
 

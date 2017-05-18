@@ -359,7 +359,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param cleanUp generate cleanup call for the object generated
 	 */
-	public void generateJava( final JavaGenData aData, final boolean cleanUp ) {
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		//default implementation
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t//TODO: " );

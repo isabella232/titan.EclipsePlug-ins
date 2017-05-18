@@ -412,7 +412,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	public void generateJava( final JavaGenData aData ) {
 		if ( assignments != null ) {
 			for ( ASN1Assignment assignment : assignments ) {
-				assignment.generateJava( aData, false );
+				assignment.generateCode( aData, false );
 			}
 		}
 	}

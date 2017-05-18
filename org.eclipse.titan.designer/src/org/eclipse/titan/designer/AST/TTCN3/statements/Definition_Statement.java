@@ -187,7 +187,7 @@ public final class Definition_Statement extends Statement {
 		if ( definition != null ) {
 			source.append( "\t\t" );
 
-			definition.generateJavaString(aData, source);
+			definition.generateCodeString(aData, source);
 		}
 	}
 }
