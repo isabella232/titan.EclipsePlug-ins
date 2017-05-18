@@ -637,15 +637,15 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
 		if (convertedValue != null) {
-			return convertedValue.generateJavaInit(aData, source, name);
+			return convertedValue.generateCodeInit(aData, source, name);
 		}
 
 		//default implementation
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJava() is not implemented!\n" );
+		source.append( ".generateCode() is not implemented!\n" );
 
 		return source;
 	}

@@ -1460,7 +1460,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * Add generated java code on this level
 	 * @param aData the generated java code with other info
 	 */
-	//public abstract void generateJava( final JavaGenData aData );
+	//public abstract void generateCode( final JavaGenData aData );
 
 	//TODO: remove
 	/**
@@ -1468,12 +1468,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//default implementation
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJava() is not implemented!\n" );
+		source.append( ".generateCode() is not implemented!\n" );
 	}
 
 	/**

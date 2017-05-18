@@ -383,7 +383,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * Add generated java code on this level
 	 * @param aData the generated java code with other info
 	 */
-	//public abstract void generateJava( final JavaGenData aData );
+	//public abstract void generateCode( final JavaGenData aData );
 
 	/**
 	 * Returns whether the evaluation of this value has side-effects that shall
@@ -441,12 +441,12 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *  @param source the source to be updated
 	 *  @param name the name to be used for initialization
 	 * */
-	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		//default implementation
 		//TODO this is a good location to check for the need of conversion
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJavaInit() is not implemented!\n" );
+		source.append( ".generateCodeInit() is not implemented!\n" );
 
 		return source;
 	}

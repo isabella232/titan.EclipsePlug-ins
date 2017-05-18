@@ -96,12 +96,12 @@ public final class Template_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO not complete implementation pl. copye_needed missing
 		if (template != null ) {
 			StringBuilder expressionExpression = new StringBuilder();
 			ExpressionStruct tempExpression = new ExpressionStruct();
-			template.generateJava(aData, tempExpression);
+			template.generateCode(aData, tempExpression);
 			if(tempExpression.preamble.length() > 0) {
 				expression.preamble.append(tempExpression.preamble);
 			}

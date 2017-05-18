@@ -448,7 +448,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				if (block != null && block.getSize() > 0) {
 					source.append("{\n");
 					//TODO handle debugger
-					block.generateJava(aData, source);
+					block.generateCode(aData, source);
 					if (!ReturnStatus_type.RS_YES.equals(block.hasReturn(CompilationTimeStamp.getBaseTimestamp()))) {
 						source.append("break;\n");
 					}
@@ -492,7 +492,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		source.append( "\t\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJava() is not implemented!\n" );
+		source.append( ".generateCodeAlt() is not fully implemented!\n" );
 
 		source.append("}\n");
 		source.append("break;\n");
@@ -520,7 +520,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				if (block.getSize() > 0) {
 					source.append("{\n");
 					//TODO debugger
-					block.generateJava(aData, source);
+					block.generateCode(aData, source);
 					source.append("}\n");
 				}
 				if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
@@ -570,7 +570,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				if (block != null && block.getSize() > 0) {
 					source.append("{\n");
 					//TODO handle debugger
-					block.generateJava(aData, source);
+					block.generateCode(aData, source);
 					source.append("}\n");
 				}
 				if (block == null || block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {

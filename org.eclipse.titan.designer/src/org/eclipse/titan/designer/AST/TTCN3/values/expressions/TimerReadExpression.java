@@ -207,7 +207,7 @@ public final class TimerReadExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		reference.generateJava(aData, expression);
+		reference.generateCode(aData, expression);
 		expression.expression.append(".read()");
 	}
 }

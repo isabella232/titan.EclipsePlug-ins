@@ -126,7 +126,7 @@ public final class Any_Value_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		source.append(name);
 		source.append(".assign( ");

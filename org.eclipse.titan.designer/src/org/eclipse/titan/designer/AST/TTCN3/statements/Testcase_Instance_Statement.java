@@ -192,7 +192,7 @@ public final class Testcase_Instance_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\t" );
 		//TODO this is actually more complicated
 		ExpressionStruct expression = new ExpressionStruct();

@@ -499,7 +499,7 @@ public final class Def_Type extends Definition {
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		//TODO: make sure, that type is not null
-		type.generateJava( aData, source );
+		type.generateCode( aData, source );
 
 		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
 			((Component_Type)type).getComponentBody().setGenName(genName + "_component_");

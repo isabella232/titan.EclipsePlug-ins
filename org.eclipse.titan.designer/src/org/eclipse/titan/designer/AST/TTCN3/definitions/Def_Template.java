@@ -884,7 +884,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		if (formalParList == null && baseTemplate == null) {
 			if ( body != null ) {
 				//TODO can optimize for single expressions;
-				body.generateJavaInit( aData, aData.getPostInit(), genName );
+				body.generateCodeInit( aData, aData.getPostInit(), genName );
 				sb.append(source);
 				return;
 			}
@@ -893,7 +893,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJava() body is not implemented!\n" );
+		source.append( ".generateCode() body is not implemented!\n" );
 		source.append( ";\n" );
 		sb.append(source);
 	}
@@ -922,7 +922,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		if (formalParList == null && baseTemplate == null) {
 			if ( body != null ) {
 				//TODO can optimize for single expressions;
-				body.generateJavaInit( aData, source, genName );
+				body.generateCodeInit( aData, source, genName );
 				return;
 			}
 		}
@@ -930,7 +930,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJava() body is not implemented!\n" );
+		source.append( ".generateCode() body is not implemented!\n" );
 		source.append( ";\n" );
 	}
 

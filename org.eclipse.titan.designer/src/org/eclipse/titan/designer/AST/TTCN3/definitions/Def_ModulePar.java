@@ -393,7 +393,7 @@ public final class Def_ModulePar extends Definition {
 		source.append( typeGeneratedName );
 		source.append( "();\n" );
 		if ( defaultValue != null ) {
-			defaultValue.generateJavaInit( aData, aData.getPreInit(), genName );
+			defaultValue.generateCodeInit( aData, aData.getPreInit(), genName );
 		}
 		sb.append(source);
 

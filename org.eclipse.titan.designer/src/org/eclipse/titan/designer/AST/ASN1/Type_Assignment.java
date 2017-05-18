@@ -222,7 +222,7 @@ public final class Type_Assignment extends ASN1Assignment {
 			final StringBuilder sb = aData.getCodeForType(genName);
 			//TODO temporary code to adapt to the starting code
 			StringBuilder source = new StringBuilder();
-			type.generateJava( aData, source );
+			type.generateCode( aData, source );
 			sb.append(source);
 		}
 	}

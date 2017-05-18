@@ -174,7 +174,7 @@ public final class Alt_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava(JavaGenData aData, StringBuilder source) {
+	public void generateCode(JavaGenData aData, StringBuilder source) {
 		if (altGuards != null) {
 			altGuards.generateCodeAlt(aData, source);
 		}

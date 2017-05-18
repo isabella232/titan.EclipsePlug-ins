@@ -364,6 +364,6 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t//TODO: " );
 		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+		sb.append( ".generateCode() is not implemented!\n" );
 	}
 }

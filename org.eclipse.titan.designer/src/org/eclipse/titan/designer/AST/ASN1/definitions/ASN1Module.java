@@ -420,7 +420,7 @@ public final class ASN1Module extends Module {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateCode( final JavaGenData aData ) {
 		//TODO handle imports
 		//TODO handle coding attributes
 		//TODO module setup/teardown infrastructure
@@ -429,7 +429,7 @@ public final class ASN1Module extends Module {
 		sb.append("// ASN.1 module are NOT supported by the Java code Generator!\n");
 		sb.append( "class " + name + " {\n" );
 		if ( assignments != null ) {
-			assignments.generateJava( aData );
+			assignments.generateCode( aData );
 		}
 	}
 }

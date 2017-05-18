@@ -76,5 +76,5 @@ public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IId
 	 * @param isFirst is this the first parameter in the reference?
 	 *
 	 */
-	void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst );
+	void generateCode( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst );
 }

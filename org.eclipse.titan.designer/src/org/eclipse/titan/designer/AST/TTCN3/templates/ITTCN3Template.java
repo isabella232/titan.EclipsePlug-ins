@@ -417,7 +417,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression for code generated
 	 */
-	public void generateJavaExpression( final JavaGenData aData, final ExpressionStruct expression );
+	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression );
 
 	/**
 	 * Add generated java code for initializing a template
@@ -425,5 +425,5 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * @param source the source for code generated
 	 * @param name the name to init
 	 */
-	public void generateJavaInit( final JavaGenData aData, final StringBuilder source, final String name );
+	public void generateCodeInit( final JavaGenData aData, final StringBuilder source, final String name );
 }

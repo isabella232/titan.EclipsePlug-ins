@@ -114,11 +114,11 @@ public final class Log_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\t" );
 		source.append( "//TODO this is only temporal implementation!\n" );
 		source.append( "System.out.println(" );
-		logArguments.generateJava( aData, source );
+		logArguments.generateCode( aData, source );
 		source.append( ");\n" );
 	}
 }

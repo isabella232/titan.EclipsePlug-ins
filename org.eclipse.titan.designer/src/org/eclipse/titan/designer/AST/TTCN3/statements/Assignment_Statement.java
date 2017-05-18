@@ -531,7 +531,7 @@ public final class Assignment_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//TODO this is actually much more complicated
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 		switch (assignment.getAssignmentType()) {
@@ -550,14 +550,14 @@ public final class Assignment_Statement extends Statement {
 		source.append( "\t\t" );
 
 		ExpressionStruct expression = new ExpressionStruct();
-		reference.generateJava(aData, expression);
+		reference.generateCode(aData, expression);
 		source.append(expression.preamble);
 		source.append(expression.expression);
 
 		source.append( ".assign( " );
 
 		expression = new ExpressionStruct();
-		template.generateJavaExpression( aData, expression);
+		template.generateCodeExpression( aData, expression);
 		source.append(expression.preamble);
 		source.append(expression.expression);
 

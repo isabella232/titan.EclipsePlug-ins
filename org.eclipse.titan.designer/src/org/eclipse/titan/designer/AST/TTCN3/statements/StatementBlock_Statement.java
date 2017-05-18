@@ -186,10 +186,10 @@ public final class StatementBlock_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (statementblock != null) {
 			source.append( "{\n" );
-			statementblock.generateJava(aData, source);
+			statementblock.generateCode(aData, source);
 			source.append( "\t}\n" );
 		}
 	}

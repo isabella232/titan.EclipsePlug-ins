@@ -156,7 +156,7 @@ public final class Function_Instance_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\t" );
 		ExpressionStruct expression = new ExpressionStruct();
 		reference.generateConstRef( aData, expression );

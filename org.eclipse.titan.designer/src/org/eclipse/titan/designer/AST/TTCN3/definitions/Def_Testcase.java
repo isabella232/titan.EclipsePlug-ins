@@ -566,11 +566,11 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		// arguments
 		source.append( "(" );
 		if ( formalParList != null ) {
-			formalParList.generateJava( aData, source );
+			formalParList.generateCode( aData, source );
 		}
 		source.append( ") {\n" );
 		source.append("try{\n");
-		block.generateJava(aData, source);
+		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
 		source.append("System.out.println(error);\n");
 		source.append("}\n");

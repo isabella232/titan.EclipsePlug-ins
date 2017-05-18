@@ -268,7 +268,7 @@ public final class Value_Assignment extends ASN1Assignment {
 		source.append( typeGeneratedName );
 		source.append( "();\n" );
 		if ( value != null ) {
-			value.generateJavaInit( aData, aData.getPreInit(), genName );
+			value.generateCodeInit( aData, aData.getPreInit(), genName );
 		}
 		sb.append(source);
 	}

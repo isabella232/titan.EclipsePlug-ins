@@ -695,7 +695,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * Add generated java code on Type level
 	 * @param aData the generated java code with other info
 	 */
-	//public abstract void generateJava( final JavaGenData aData );
+	//public abstract void generateCode( final JavaGenData aData );
 
 	/**
 	 * Generate Java code for definitions embedded in statementblocks.
@@ -709,7 +709,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		//default implementation
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJavaString() is not implemented!\n" );
+		source.append( ".generateCodeString() is not implemented!\n" );
 	}
 
 	/**

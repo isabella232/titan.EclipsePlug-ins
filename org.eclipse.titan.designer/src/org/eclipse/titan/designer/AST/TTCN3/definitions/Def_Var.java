@@ -467,7 +467,7 @@ public final class Def_Var extends Definition {
 		source.append(typeGeneratedName);
 		source.append("();\n");
 		if ( initialValue != null ) {
-			initialValue.generateJavaInit(aData, source, genName );
+			initialValue.generateCodeInit(aData, source, genName );
 		} else if (cleanUp) {
 			StringBuilder initComp = aData.getInitComp();
 			initComp.append(genName);
@@ -503,7 +503,7 @@ public final class Def_Var extends Definition {
 			source.append(typeGeneratedName);
 			source.append("();\n");
 			if (initialValue != null) {
-				initialValue.generateJavaInit(aData, source, genName );
+				initialValue.generateCodeInit(aData, source, genName );
 			}
 		}
 	}
@@ -512,7 +512,7 @@ public final class Def_Var extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
 		if (initialValue != null) {
-			initialValue.generateJavaInit(aData, initComp, definition.getGenNameFromScope(aData, initComp, myScope, ""));
+			initialValue.generateCodeInit(aData, initComp, definition.getGenNameFromScope(aData, initComp, myScope, ""));
 		}
 	}
 }

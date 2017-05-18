@@ -273,7 +273,7 @@ public final class ValueofExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (templateInstance != null) {
-			templateInstance.generateJava(aData, expression);
+			templateInstance.generateCode(aData, expression);
 			expression.expression.append( ".valueof()" );
 		}
 	}

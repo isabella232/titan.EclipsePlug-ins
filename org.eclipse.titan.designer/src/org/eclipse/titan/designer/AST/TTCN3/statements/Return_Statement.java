@@ -230,12 +230,12 @@ public final class Return_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\treturn " );
 		if (template != null) {
 			//TODO more nuanced code generation
 			ExpressionStruct expression = new ExpressionStruct();
-			template.generateJavaExpression( aData, expression );
+			template.generateCodeExpression( aData, expression );
 			expression.mergeExpression(source);
 		}
 	}

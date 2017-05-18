@@ -171,7 +171,7 @@ public final class ActivateExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
 		ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
 		expression.expression.append(".assign(");
@@ -194,7 +194,7 @@ public final class ActivateExpression extends Expression_Value {
 		if (!reference.getSubreferences().isEmpty()) {
 			ISubReference subReference = reference.getSubreferences().get(0);
 			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
-				((ParameterisedSubReference) subReference).getActualParameters().generateJavaNoAlias(aData, expression);
+				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
 			}
 		}
 		expression.expression.append(')');

@@ -334,7 +334,7 @@ public abstract class Expression_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
 		ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
 		expression.expression.append(" = ");
@@ -367,6 +367,6 @@ public abstract class Expression_Value extends Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		expression.expression.append( "\t//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateJava() is not implemented!\n" );
+		expression.expression.append( ".generateCode() is not implemented!\n" );
 	}
 }

@@ -140,10 +140,10 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst ) {
 		expression.expression.append( "\t" );
 		expression.expression.append( "//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateJava() is not implemented!\n" );
+		expression.expression.append( ".generateCode() is not implemented!\n" );
 	}
 }

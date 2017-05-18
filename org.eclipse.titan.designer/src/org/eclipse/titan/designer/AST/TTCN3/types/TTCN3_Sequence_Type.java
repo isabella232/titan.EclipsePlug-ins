@@ -806,7 +806,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String className = getGenNameOwn();
 		final String classReadableName = getFullName();
 
@@ -823,7 +823,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		for ( final CompField compField : compFieldMap.fields ) {
 			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
-			compField.getType().generateJava(aData, tempSource);
+			compField.getType().generateCode(aData, tempSource);
 		}
 
 		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false);

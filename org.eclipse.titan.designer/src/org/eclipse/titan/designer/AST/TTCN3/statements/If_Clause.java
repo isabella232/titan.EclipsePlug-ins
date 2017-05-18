@@ -297,7 +297,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 	 *
 	 * TODO: if we can generate "else if" -s the blockCount is not needed
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
 		if (unReachable.getValue()) {
 			return;
 		}
@@ -328,7 +328,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 		}
 		eachFalse.setValue(false);
 		source.append("{\n");
-		statementblock.generateJava(aData, source);
+		statementblock.generateCode(aData, source);
 		source.append("}\n");
 	}
 }

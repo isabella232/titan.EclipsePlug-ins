@@ -782,7 +782,7 @@ public final class Sequence_Value extends Value {
 	/** {@inheritDoc}
 	 * generate_code_init_se in the compiler
 	 * */
-	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		int nofComps = 0;
 		switch (type.getTypetype()) {
@@ -834,7 +834,7 @@ public final class Sequence_Value extends Value {
 					embeddedName.append(".get()");
 				}
 				//TODO add extra handling for optional fields
-				fieldValue.generateJavaInit(aData, source, embeddedName.toString());
+				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
 				// TODO: handle omit value
 			}

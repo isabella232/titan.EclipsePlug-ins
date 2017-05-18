@@ -267,13 +267,13 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
 		for (int i = 0; i < ifclauses.size(); i++) {
 			if (unReachable.getValue()) {
 				return;
 			}
 
-			ifclauses.get(i).generateJava(aData, source, blockCount, unReachable, eachFalse);
+			ifclauses.get(i).generateCode(aData, source, blockCount, unReachable, eachFalse);
 		}
 	}
 }

@@ -125,7 +125,7 @@ public final class Activate_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava(JavaGenData aData, StringBuilder source) {
+	public void generateCode(JavaGenData aData, StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
@@ -135,7 +135,7 @@ public final class Activate_Statement extends Statement {
 		if (!reference.getSubreferences().isEmpty()) {
 			ISubReference subReference = reference.getSubreferences().get(0);
 			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
-				((ParameterisedSubReference) subReference).getActualParameters().generateJavaNoAlias(aData, expression);
+				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
 			}
 		}
 		expression.expression.append(')');

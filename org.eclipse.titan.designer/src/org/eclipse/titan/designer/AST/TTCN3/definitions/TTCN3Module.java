@@ -1236,7 +1236,7 @@ public final class TTCN3Module extends Module {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateCode( final JavaGenData aData ) {
 		//TODO handle imports
 		//TODO handle coding attributes
 		//TODO module setup/teardown infrastructure
@@ -1244,15 +1244,15 @@ public final class TTCN3Module extends Module {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "class " + name + " {\n" );
 		if ( definitions != null ) {
-			definitions.generateJava( aData );
+			definitions.generateCode( aData );
 		}
 
 		//TODO handle anytype
 		//if (anytypeDefinition != null) {
-		//	anytypeDefinition.generateJava(aData);
+		//	anytypeDefinition.generateCode(aData);
 		//}
 		if ( controlpart != null ) {
-			controlpart.generateJava( aData );
+			controlpart.generateCode( aData );
 		}
 	}
 }

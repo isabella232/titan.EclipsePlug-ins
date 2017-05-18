@@ -175,7 +175,7 @@ public final class Boolean_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
 		source.append(name);
 		source.append(".assign(");

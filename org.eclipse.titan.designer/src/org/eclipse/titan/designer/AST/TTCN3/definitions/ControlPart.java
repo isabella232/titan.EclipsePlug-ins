@@ -378,7 +378,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	 * Add generated java code on this level.
 	 * @param aData the generated java code with other info
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateCode( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\tpublic static void main( String[] args ) {\n" );
 		sb.append( "//TODO this is only temporal implementation!\n" );
@@ -388,7 +388,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 		final int size = statementblock.getSize();
 		for ( int i = 0; i < size; i++ ) {
 			final Statement statement = statementblock.getStatementByIndex( i );
-			statement.generateJava( aData, body );
+			statement.generateCode( aData, body );
 		}
 		sb.append(body);
 		sb.append( "\t}\n" );

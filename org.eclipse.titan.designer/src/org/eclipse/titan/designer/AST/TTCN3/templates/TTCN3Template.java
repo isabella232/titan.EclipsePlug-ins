@@ -1147,7 +1147,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * Add generated java code on this level
 	 * @param aData the generated java code with other info
 	 */
-	//public abstract void generateJava( final JavaGenData aData );
+	//public abstract void generateCode( final JavaGenData aData );
 
 	//TODO: remove
 	/**
@@ -1155,12 +1155,12 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression for code generated
 	 */
-	public void generateJavaExpression( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression ) {
 		//default implementation
 		expression.expression.append( "\t" );
 		expression.expression.append( "//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateJava() is not implemented!\n" );
+		expression.expression.append( ".generateCode() is not implemented!\n" );
 	}
 
 	/**
@@ -1201,11 +1201,11 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @param source the source for code generated
 	 * @param name the name to init
 	 */
-	public void generateJavaInit( final JavaGenData aData, final StringBuilder source, final String name ) {
+	public void generateCodeInit( final JavaGenData aData, final StringBuilder source, final String name ) {
 		//default implementation
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJava() is not implemented!\n" );
+		source.append( ".generateCode() is not implemented!\n" );
 	}
 }

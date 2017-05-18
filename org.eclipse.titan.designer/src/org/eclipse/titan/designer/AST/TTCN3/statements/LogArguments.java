@@ -141,7 +141,7 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if ( arguments == null ) {
 			return;
 		}
@@ -152,7 +152,7 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 				if ( i > 0 ) {
 					source.append( ", " );
 				}
-				arguments.get( i ).generateJava( aData, source );
+				arguments.get( i ).generateCode( aData, source );
 			}
 			source.append( " " );
 		}

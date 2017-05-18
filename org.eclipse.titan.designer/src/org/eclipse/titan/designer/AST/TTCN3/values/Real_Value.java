@@ -302,7 +302,7 @@ public final class Real_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		source.append(name);
 		source.append(".assign( ");
 		source.append(generateSingleExpression(aData));

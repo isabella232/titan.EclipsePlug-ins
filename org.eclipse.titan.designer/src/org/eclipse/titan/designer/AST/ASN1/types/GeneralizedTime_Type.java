@@ -200,7 +200,7 @@ public final class GeneralizedTime_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		aData.addBuiltinTypeImport( "TitanCharString" );
 
 		if(needsAlias()) {

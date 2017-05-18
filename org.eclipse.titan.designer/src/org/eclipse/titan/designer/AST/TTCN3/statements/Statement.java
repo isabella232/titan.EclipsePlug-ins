@@ -373,7 +373,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * Add generated java code on this level
 	 * @param aData the generated java code with other info
 	 */
-	//public abstract void generateJava( final JavaGenData aData );
+	//public abstract void generateCode( final JavaGenData aData );
 
 	//TODO: remove
 	/**
@@ -381,12 +381,12 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//default implementation
 		source.append( "\t\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateJava() is not implemented!\n" );
+		source.append( ".generateCode() is not implemented!\n" );
 	}
 
 	/**

@@ -225,9 +225,9 @@ public final class Start_Timer_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava(JavaGenData aData, StringBuilder source) {
+	public void generateCode(JavaGenData aData, StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
-		timerReference.generateJava(aData, expression);
+		timerReference.generateCode(aData, expression);
 		expression.expression.append(".start(");
 		if (timerValue != null) {
 			timerValue.generateCodeExpression(aData, expression);

@@ -1174,7 +1174,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 * Add generated java code on this level.
 	 * @param aData the generated java code with other info
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateCode( final JavaGenData aData ) {
 		if ( definitions != null ) {
 			for ( Definition definition : definitions ) {
 				definition.generateCode( aData, false );

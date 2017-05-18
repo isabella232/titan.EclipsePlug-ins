@@ -647,7 +647,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if ( definitions != null ) {
 			for ( Definition definition : definitions ) {
 				definition.generateCodeString( aData, source );

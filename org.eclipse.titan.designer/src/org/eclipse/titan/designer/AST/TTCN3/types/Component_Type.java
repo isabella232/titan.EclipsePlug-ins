@@ -668,12 +668,12 @@ public final class Component_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\tpublic static class " );
 		source.append( getGenNameOwn() );
 		source.append( " {\n" );
 		//TODO: implement
-		source.append( "\t\t//TODO: Component_Type.generateJava() is not fully implemented!\n" );
+		source.append( "\t\t//TODO: Component_Type.generateCode() is not fully implemented!\n" );
 		source.append( "\t}\n" );
 	}
 }

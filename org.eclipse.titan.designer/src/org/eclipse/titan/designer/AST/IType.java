@@ -746,5 +746,5 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source );
+	public void generateCode( final JavaGenData aData, final StringBuilder source );
 }

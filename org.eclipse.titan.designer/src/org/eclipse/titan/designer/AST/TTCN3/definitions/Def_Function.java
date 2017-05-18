@@ -922,10 +922,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		// arguments
 		source.append( "(" );
 		if ( formalParList != null ) {
-			formalParList.generateJava( aData, source );
+			formalParList.generateCode( aData, source );
 		}
 		source.append( ") {\n" );
-		block.generateJava(aData, source);
+		block.generateCode(aData, source);
 		source.append( "\t}\n" );
 		sb.append(source);
 	}

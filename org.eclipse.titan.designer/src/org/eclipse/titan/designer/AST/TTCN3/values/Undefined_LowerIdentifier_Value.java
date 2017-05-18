@@ -312,9 +312,9 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
 		if (realValue != null) {
-			return realValue.generateJavaInit(aData, source, name);
+			return realValue.generateCodeInit(aData, source, name);
 		}
 
 		return new StringBuilder("/* fatal error undefined lower identifier encountered */");

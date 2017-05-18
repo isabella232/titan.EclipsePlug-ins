@@ -339,13 +339,13 @@ public class TemplateBody implements ITemplateListItem {
 	}
 
 	@Override
-	public void generateJavaExpression(JavaGenData aData, ExpressionStruct expression) {
-		template.generateJavaExpression(aData, expression);
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		template.generateCodeExpression(aData, expression);
 	}
 
 	@Override
-	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
-		template.generateJavaInit(aData, source, name);
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		template.generateCodeInit(aData, source, name);
 	}
 
 

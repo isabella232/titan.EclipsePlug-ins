@@ -409,9 +409,9 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		ExpressionStruct expression = new ExpressionStruct();
-		templateInstance.generateJava( aData, expression );
+		templateInstance.generateCode( aData, expression );
 		source.append(expression.preamble);
 		source.append(expression.expression);
 	}

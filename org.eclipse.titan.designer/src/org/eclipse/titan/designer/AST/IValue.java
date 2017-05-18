@@ -427,7 +427,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 *  @param source the source code to be updated
 	 *  @param name the name which should be used to initialize
 	 * */
-	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name);
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name);
 
 	/**
 	 * Generates the equivalent Java code for the value. It is used

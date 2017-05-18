@@ -431,12 +431,12 @@ public final class For_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append("\t\t{\n");
 		if(definitions != null) {
-			definitions.generateJava(aData, source);
+			definitions.generateCode(aData, source);
 		} else if (initialAssignment != null) {
-			initialAssignment.generateJava(aData, source);
+			initialAssignment.generateCode(aData, source);
 		}
 		source.append("\t\t\tfor( ; ; ) {\n");
 
@@ -449,8 +449,8 @@ public final class For_Statement extends Statement {
 			source.append("}\n");
 		}
 
-		statementblock.generateJava(aData, source);
-		stepAssignment.generateJava(aData, source);
+		statementblock.generateCode(aData, source);
+		stepAssignment.generateCode(aData, source);
 		source.append( "\t\t\t}\n" );
 		source.append( "\t\t}\n" );
 	}

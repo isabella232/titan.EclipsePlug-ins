@@ -346,13 +346,13 @@ public final class Template_List extends CompositeTemplate {
 		return "";
 	}
 
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 
 		//TODO generate code for missing parts
 		expression.expression.append( "\t" );
 		expression.expression.append( "//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateJava() is not implemented!\n" );
+		expression.expression.append( ".generateCode() is not implemented!\n" );
 
 		return;
 	}

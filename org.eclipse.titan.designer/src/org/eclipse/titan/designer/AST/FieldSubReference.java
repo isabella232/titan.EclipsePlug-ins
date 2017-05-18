@@ -150,7 +150,7 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst ) {
 		//TODO actually there should be several ways to generate a reference
 		// for example left and right side usage in an assignment
 		if (fieldId != null) {

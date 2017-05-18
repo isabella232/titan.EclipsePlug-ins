@@ -189,12 +189,12 @@ public final class Value_Range_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		if (valueRange != null) {
 			// TODO: add support for rearrange init
-			valueRange.generateJavaInit(aData, source, name);
+			valueRange.generateCodeInit(aData, source, name);
 		}
 
 		// TODO:  missing parts need to be completed

@@ -474,7 +474,7 @@ public final class Def_Var_Template extends Definition {
 		//TODO this actually belongs to the module initialization
 		if ( initialValue != null ) {
 			//TODO use ::get_lhs_name instead of generic getGennameOwn
-			initialValue.generateJavaInit( aData, source, initialValue.getGenNameOwn(myScope) );
+			initialValue.generateCodeInit( aData, source, initialValue.getGenNameOwn(myScope) );
 		} else if (cleanUp) {
 			StringBuilder initComp = aData.getInitComp();
 			initComp.append(genName);
@@ -494,14 +494,14 @@ public final class Def_Var_Template extends Definition {
 			initialValue.setGenNameRecursive(genName);
 		}
 
-		// temporal code until generate_code_object and generateJavaInit is supported for templates
+		// temporal code until generate_code_object and generateCodeInit is supported for templates
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append( typeName );
 		source.append( " " );
 		source.append( genName );
 		source.append( " = new " ). append(typeName).append("();\n");
 		if ( initialValue != null ) {
-			initialValue.generateJavaInit( aData, source, genName );
+			initialValue.generateCodeInit( aData, source, genName );
 		}
 
 	}

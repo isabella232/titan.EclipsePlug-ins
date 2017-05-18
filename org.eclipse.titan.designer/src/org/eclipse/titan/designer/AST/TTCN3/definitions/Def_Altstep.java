@@ -565,11 +565,11 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		//FIXME handle location object
 
 		StringBuilder body = new StringBuilder();
-		block.generateJava(aData, body);
+		block.generateCode(aData, body);
 		altGuards.generateCodeAltstep(aData, body);
 		
 		StringBuilder formalParListCode = new StringBuilder();
-		formalParList.generateJava(aData, formalParListCode);
+		formalParList.generateCode(aData, formalParListCode);
 		// FIXME generate code defval and shadow objects
 
 		source.append(MessageFormat.format("private static TitanAlt_Status {0}_instance({1})\n", genName, formalParListCode));

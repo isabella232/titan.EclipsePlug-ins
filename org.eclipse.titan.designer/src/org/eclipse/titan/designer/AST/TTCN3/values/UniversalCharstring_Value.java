@@ -227,7 +227,7 @@ public final class UniversalCharstring_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateJavaInit(final JavaGenData aData, final StringBuilder source, final String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
 		source.append(name);

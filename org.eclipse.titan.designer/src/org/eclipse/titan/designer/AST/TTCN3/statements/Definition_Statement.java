@@ -183,7 +183,7 @@ public final class Definition_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if ( definition != null ) {
 			source.append( "\t\t" );
 

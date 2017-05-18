@@ -188,7 +188,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJavaInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		int nofTs = templates.getNofTemplates();
@@ -204,7 +204,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			ITemplateListItem template = templates.getTemplateByIndex(i);
 			// TODO: handle needs template reference
 			String embeddedName = name + ".listItem(" + i + ")";
-			template.generateJavaInit(aData, source, embeddedName);
+			template.generateCodeInit(aData, source, embeddedName);
 		}
 		// TODO:  missing parts need to be completed
 

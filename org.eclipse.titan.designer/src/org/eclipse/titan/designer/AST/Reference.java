@@ -895,7 +895,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * @param aData only used to update imports if needed
 	 * @param expression the expression for code generated
 	 */
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		boolean isTemplate;
 		IType referedGovernor;
 		switch (referredAssignment.getAssignmentType()) {
@@ -931,7 +931,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 			expression.expression.append("( ");
 			ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
-			temp.getActualParameters().generateJavaAlias(aData, expression);
+			temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
 			//TODO add fuzzy handling
@@ -998,7 +998,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 			expression.expression.append("( ");
 			ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
-			temp.getActualParameters().generateJavaAlias(aData, expression);
+			temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
 			//TODO add fuzzy handling

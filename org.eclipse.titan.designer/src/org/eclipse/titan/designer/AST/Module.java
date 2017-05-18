@@ -368,17 +368,17 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	 * Add generated java code on this level
 	 * @param aData the generated java code with other info
 	 */
-	//public abstract void generateJava( final JavaGenData aData );
+	//public abstract void generateCode( final JavaGenData aData );
 
 	/**
 	 * Add generated java code on this level.
 	 * @param aData the generated java code with other info
 	 */
-	public void generateJava( final JavaGenData aData ) {
+	public void generateCode( final JavaGenData aData ) {
 		//default implementation
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t//TODO: " );
 		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateJava() is not implemented!\n" );
+		sb.append( ".generateCode() is not implemented!\n" );
 	}
 }

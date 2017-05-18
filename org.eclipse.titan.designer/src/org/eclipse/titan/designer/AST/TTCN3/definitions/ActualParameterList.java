@@ -160,7 +160,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression used for code generation
 	 */
-	public void generateJavaNoAlias( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCodeNoAlias( final JavaGenData aData, final ExpressionStruct expression ) {
 		if ( parameters == null ) {
 			return;
 		}
@@ -169,12 +169,12 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 			if (i > 0) {
 				expression.expression.append(", ");
 			}
-			parameters.get(i).generateJava(aData, expression);
+			parameters.get(i).generateCode(aData, expression);
 		}
 	}
 
 	//TODO re-implement
-	public void generateJavaAlias( final JavaGenData aData, final ExpressionStruct expression) {
-		generateJavaNoAlias(aData, expression);
+	public void generateCodeAlias( final JavaGenData aData, final ExpressionStruct expression) {
+		generateCodeNoAlias(aData, expression);
 	}
 }

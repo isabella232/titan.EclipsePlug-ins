@@ -283,13 +283,13 @@ public final class If_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//TODO this is just a simplified version to enable early performance testing
 		ChangeableInteger blockCount = new ChangeableInteger(0);
 		ChangeableBoolean unReachable = new ChangeableBoolean(false);
 		ChangeableBoolean eachFalse = new ChangeableBoolean(true);
 
-		ifClauses.generateJava(aData, source, blockCount, unReachable, eachFalse);
+		ifClauses.generateCode(aData, source, blockCount, unReachable, eachFalse);
 		if (statementblock != null && !unReachable.getValue()) {
 			if(!eachFalse.getValue()) {
 				source.append("else ");
@@ -297,7 +297,7 @@ public final class If_Statement extends Statement {
 			eachFalse.setValue(false);
 			source.append("{\n");
 			blockCount.setValue(blockCount.getValue() + 1);
-			statementblock.generateJava(aData, source);
+			statementblock.generateCode(aData, source);
 		}
 
 		for(int i = 0 ; i < blockCount.getValue(); i++) {

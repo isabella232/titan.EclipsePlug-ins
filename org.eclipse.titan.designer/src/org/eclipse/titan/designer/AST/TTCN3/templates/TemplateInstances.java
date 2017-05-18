@@ -181,7 +181,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression for code generated
 	 */
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		if ( instances == null ) {
 			return;
 		}
@@ -192,7 +192,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 				if ( i > 0 ) {
 					expression.expression.append( ", " );
 				}
-				instances.get( i ).generateJava( aData, expression );
+				instances.get( i ).generateCode( aData, expression );
 			}
 			expression.expression.append( " " );
 		}

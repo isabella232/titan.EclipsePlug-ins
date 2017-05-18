@@ -76,10 +76,10 @@ public final class Referenced_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		if (reference != null) {
 			// TODO implement properly
-			reference.generateJava(aData, expression);
+			reference.generateCode(aData, expression);
 		}
 	}
 }

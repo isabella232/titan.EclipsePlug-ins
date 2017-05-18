@@ -83,7 +83,7 @@ public final class Value_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateJava( final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO not complete implementation pl. copy_needed, formal parameter missing
 		if (value != null ) {
 			StringBuilder expressionExpression = new StringBuilder();
