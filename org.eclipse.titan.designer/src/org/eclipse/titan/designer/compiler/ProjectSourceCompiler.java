@@ -47,7 +47,7 @@ public class ProjectSourceCompiler {
 		
 		JavaGenData data = new JavaGenData();
 		data.setDebug( aDebug );
-		aModule.generateJava( data );
+		aModule.generateCode( data );
 
 		//write imports
 		StringBuilder headerSb = new StringBuilder();
