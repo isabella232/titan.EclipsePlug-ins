@@ -734,11 +734,14 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
+		//TODO the external function will have to be implemented in a base class of the code generated for the module
+
 		// TODO Auto-generated method stub
 		super.generateCode(aData, cleanUp);
 	}
