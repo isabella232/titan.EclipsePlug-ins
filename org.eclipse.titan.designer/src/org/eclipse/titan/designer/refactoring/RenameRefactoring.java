@@ -9,8 +9,11 @@ package org.eclipse.titan.designer.refactoring;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
@@ -20,7 +23,10 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.action.IStatusLineManager;
 import org.eclipse.jface.text.TextSelection;
@@ -60,12 +66,14 @@ import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.declarationsearch.IdentifierFinderVisitor;
 import org.eclipse.titan.designer.editors.IEditorWithCarretOffset;
+import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.ui.IEditorPart;
+import org.eclipse.ui.progress.IProgressConstants;
 
 /**
  * FIXME component variables are not handled correctly
@@ -129,7 +137,7 @@ public class RenameRefactoring extends Refactoring {
 		RefactoringStatus result = new RefactoringStatus();
 		try {
 			pm.beginTask("Checking preconditions...", 2);
-			
+
 			final IPreferencesService prefs = Platform.getPreferencesService();//PreferenceConstants.USEONTHEFLYPARSING
 			if (! prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.USEONTHEFLYPARSING, false, null)) {
 				result.addFatalError(ONTHEFLYANALAYSISDISABLED);
@@ -362,7 +370,7 @@ public class RenameRefactoring extends Refactoring {
 		}
 
 		// run semantic analysis to have up-to-date AST
-		// FIXME: this doesn't work if Delay semantic .... is checked
+		// FIXME: it does not work for incremental parsing
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 		final WorkspaceJob job = projectSourceParser.analyzeAll();
 		if (job == null) {
@@ -407,15 +415,81 @@ public class RenameRefactoring extends Refactoring {
 			operation.run(targetEditor.getEditorSite().getShell(), "");
 		} catch (InterruptedException irex) {
 			// operation was canceled
+			TITANDebugConsole.getConsole().newMessageStream().println("Rename refactoring has been cancelled");
 		} finally {
+
+			//===================================
+			//=== Re-analysis after renaming ====
+			//===================================
 			Map<Module, List<Hit>> changed = rf.findAllReferences(module, file.getProject(), null, reportDebugInformation);
-			for(Module tempModule : changed.keySet()) {
-				ProjectSourceParser tempSourceParser = GlobalParser.getProjectSourceParser(tempModule.getProject());
-				tempSourceParser.reportOutdating((IFile)tempModule.getLocation().getFile());
-			}
-			projectSourceParser.reportOutdating(file);
-			projectSourceParser.analyzeAll();
+
+			final Set<Module> modules = new HashSet<Module>();
+			modules.add(module);
+			modules.addAll(changed.keySet());
+
+			reanalyseAstAfterRefactoring(file.getProject(), modules );
 		}
+
+	}
+
+	/**
+	 * Re-analyzes AST after a rename-refactoring finished
+	 * At first reports outdating for the projects containing file has been refactored.
+	 * Then analyzes the project where the reanalysis started from (and its dependencies)
+	 * @param project  The project where the renaming started from
+	 * @param modules The modules containing renaming
+	 */
+	public static void reanalyseAstAfterRefactoring(IProject project, final Set<Module> modules ){
+
+		
+		final ConcurrentLinkedQueue<WorkspaceJob> reportOutdatingJobs = new ConcurrentLinkedQueue<WorkspaceJob>();
+		for(Module tempModule : modules) {
+			IFile f = (IFile)tempModule.getLocation().getFile();
+			final WorkspaceJob op = new WorkspaceJob("Reports outdating for file: " + f.getName()) {
+				@Override
+				public IStatus runInWorkspace(final IProgressMonitor monitor) {
+					IProject proj = f.getProject();
+					reportOutdatingJobs.add(GlobalParser.getProjectSourceParser(proj).reportOutdating(f));
+					return Status.OK_STATUS;
+				}
+			};
+			op.setPriority(Job.LONG);
+			op.setSystem(true);
+			op.setUser(false);
+			op.setRule(f); //waiting for f to be released
+			op.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
+			reportOutdatingJobs.add(op);
+			op.schedule();
+		}
+		
+		//Waits for finishing update then analyzes all projects related to this change
+		final WorkspaceJob op = new WorkspaceJob("Analyzes all projects related to this change") {
+			@Override
+			public IStatus runInWorkspace(final IProgressMonitor monitor) {
+				while (!reportOutdatingJobs.isEmpty()) {
+					WorkspaceJob job = reportOutdatingJobs.poll();
+					try {
+						if (job != null) {
+							job.join();
+						}
+					} catch (InterruptedException e) {
+						ErrorReporter.logExceptionStackTrace(e);
+					}
+				}
+
+				//Now everything is released and reported outdated, so the analysis can start:
+				final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+				projectSourceParser.analyzeAll();
+
+				return Status.OK_STATUS;
+			}
+		};
+		op.setPriority(Job.LONG);
+		op.setSystem(true);
+		op.setUser(false);
+//		op.setRule(file); //waiting for file to be released << Don't apply, it will wait forever!!!
+		op.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
+		op.schedule();
 	}
 
 	/**
@@ -431,7 +505,7 @@ public class RenameRefactoring extends Refactoring {
 	protected static ReferenceFinder findOccurrencesLocationBased(final Module module, final int offset) {
 		final IdentifierFinderVisitor visitor = new IdentifierFinderVisitor(offset);
 		module.accept(visitor);
-		//FIXME the thing to be refactored might be a field ... not a definition
+		//It works for fields as well
 		final Declaration def = visitor.getReferencedDeclaration();
 
 		if (def == null || !def.shouldMarkOccurrences()) {
