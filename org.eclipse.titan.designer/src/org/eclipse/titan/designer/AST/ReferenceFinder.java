@@ -246,7 +246,9 @@ public final class ReferenceFinder {
 
 		final List<IProject> relatedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReferencingProjects();
 		relatedProjects.addAll(ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects());
-		relatedProjects.add(project);
+		if( !relatedProjects.contains(project)) {
+			relatedProjects.add(project);
+		}
 
 		int size = 0;
 		for(IProject tempProject: relatedProjects) {
