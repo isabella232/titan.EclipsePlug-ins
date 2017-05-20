@@ -22,15 +22,15 @@ import edu.uci.ics.jung.graph.Graph;
  * @param <E>
  *            edge type
  */
-public class CheckDependentNodes<V, E> {
-	protected Graph<V, E> graph;
-	
+public final class CheckDependentNodes<V, E> {
+	private Graph<V, E> graph;
+
 	public CheckDependentNodes(final Graph<V, E> graph) {
 		this.graph = graph;
 	}
-	
+
 	public boolean isDependent(final V node, final List<V> neighbors) {
-		Collection<E> inEdges = graph.getInEdges(node);
+		final Collection<E> inEdges = graph.getInEdges(node);
 		for (E edge : inEdges) {
 			V source = graph.getSource(edge);
 			if (!neighbors.contains(source)) {
@@ -39,5 +39,4 @@ public class CheckDependentNodes<V, E> {
 		}
 		return true;
 	}
-	
 }

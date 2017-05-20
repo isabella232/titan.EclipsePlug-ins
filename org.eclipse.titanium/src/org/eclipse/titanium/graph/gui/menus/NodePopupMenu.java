@@ -130,19 +130,20 @@ public class NodePopupMenu extends JPopupMenu {
 				searchJob.schedule();
 			}
 		});
-		
+
 		getDependentNodes.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
 				final VisualizationViewer<NodeDescriptor, EdgeDescriptor> actVisualisator = thisPopUpMenu.handler.getVisualizator();
-				
 				if (actVisualisator == null) {
 					return;
 				}
+
 				final Layout<NodeDescriptor, EdgeDescriptor> tmpLayout = actVisualisator.getGraphLayout();
 				if (tmpLayout == null) {
 					return;
 				}
+
 				final Graph<NodeDescriptor, EdgeDescriptor> graph = tmpLayout.getGraph();
 				if (graph == null) {
 					return;
@@ -155,20 +156,19 @@ public class NodePopupMenu extends JPopupMenu {
 				actVisualisator.getPickedVertexState().clear();
 				actVisualisator.getPickedVertexState().pick(node, true);
 				actVisualisator.getPickedEdgeState().clear();
-				
+
 				final CheckDependentNodes<NodeDescriptor, EdgeDescriptor> cdn = new CheckDependentNodes<NodeDescriptor, EdgeDescriptor>(graph);
-				
-				List<NodeDescriptor> neighbors = new ArrayList<NodeDescriptor>();
-				List<NodeDescriptor> dependentNodes = new ArrayList<NodeDescriptor>();
+				final List<NodeDescriptor> neighbors = new ArrayList<NodeDescriptor>();
+				final List<NodeDescriptor> dependentNodes = new ArrayList<NodeDescriptor>();
 				neighbors.add(node);
 				dependentNodes.add(node);
-				
+
 				while(!neighbors.isEmpty()) {
-					NodeDescriptor neighbor = neighbors.get(0);
-					List<EdgeDescriptor> edges2 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
+					final NodeDescriptor neighbor = neighbors.get(0);
+					final List<EdgeDescriptor> edges2 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
 
 					for (EdgeDescriptor edge : edges2) {
-						NodeDescriptor vertex = graph.getDest(edge);
+						final NodeDescriptor vertex = graph.getDest(edge);
 						if (!dependentNodes.contains(vertex)) {
 							neighbors.add(vertex);
 							dependentNodes.add(vertex);
@@ -176,14 +176,14 @@ public class NodePopupMenu extends JPopupMenu {
 					}
 					neighbors.remove(0);
 				}
-				
+
 				int index = dependentNodes.size() -1;
 				boolean changed = true;
 				while(changed) {
 					changed = false;
 					index = dependentNodes.size() - 1;
 					while(index >= 0) {
-						NodeDescriptor neighbor = dependentNodes.get(index);
+						final NodeDescriptor neighbor = dependentNodes.get(index);
 						if (!cdn.isDependent(neighbor, dependentNodes) && !neighbor.equals(node)) { 
 							changed = true;
 							dependentNodes.remove(index);
@@ -191,18 +191,18 @@ public class NodePopupMenu extends JPopupMenu {
 						index--;						
 					}
 				}
-				
+
 				index = dependentNodes.size() - 1;
 				while(index >= 0) {
-					NodeDescriptor neighbor = dependentNodes.get(index);
+					final NodeDescriptor neighbor = dependentNodes.get(index);
 					if (cdn.isDependent(neighbor, dependentNodes) && !neighbor.equals(node)) {
 						actVisualisator.getPickedVertexState().pick(neighbor, true);
-						List<EdgeDescriptor> edges3 = new ArrayList<EdgeDescriptor>(graph.getInEdges(neighbor));
+						final List<EdgeDescriptor> edges3 = new ArrayList<EdgeDescriptor>(graph.getInEdges(neighbor));
 						for (final EdgeDescriptor edge : edges3) {
 							actVisualisator.getPickedEdgeState().pick(edge, true);
 						}
 						
-						List<EdgeDescriptor> edges4 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
+						final List<EdgeDescriptor> edges4 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
 						for (final EdgeDescriptor edge : edges4) {
 							if (dependentNodes.contains(graph.getDest(edge))) {
 								actVisualisator.getPickedEdgeState().pick(edge, true);
