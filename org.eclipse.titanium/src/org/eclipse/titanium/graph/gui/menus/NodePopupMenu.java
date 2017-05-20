@@ -9,8 +9,9 @@ package org.eclipse.titanium.graph.gui.menus;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Deque;
-
+import java.util.List;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
@@ -25,6 +26,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titanium.graph.components.EdgeDescriptor;
 import org.eclipse.titanium.graph.components.NodeColours;
 import org.eclipse.titanium.graph.components.NodeDescriptor;
+import org.eclipse.titanium.graph.utils.CheckDependentNodes;
 import org.eclipse.titanium.graph.utils.CheckParallelPaths;
 import org.eclipse.titanium.graph.visualization.GraphHandler;
 import org.eclipse.titanium.utils.LocationHighlighter;
@@ -38,6 +40,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
  * mouse button
  * 
  * @author Gabor Jenei
+ * @author Bianka Bekefi
  */
 public class NodePopupMenu extends JPopupMenu {
 	private static final long serialVersionUID = 1L;
@@ -55,9 +58,11 @@ public class NodePopupMenu extends JPopupMenu {
 		node = null;
 		final JMenuItem selectNode = new JMenuItem("Select node");
 		final JMenuItem getParalellPaths = new JMenuItem("Search paralell paths");
+		final JMenuItem getDependentNodes = new JMenuItem("Show dependent nodes");
+		final NodePopupMenu thisPopUpMenu = this;
+
 		this.handler = handler;
 
-		final NodePopupMenu thisPopUpMenu = this;
 		selectNode.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(final ActionEvent e) {
@@ -69,7 +74,7 @@ public class NodePopupMenu extends JPopupMenu {
 				if (tmpLayout == null) {
 					return;
 				}
-				final Graph<NodeDescriptor, EdgeDescriptor> g = actVisualisator.getGraphLayout().getGraph();
+				final Graph<NodeDescriptor, EdgeDescriptor> g = tmpLayout.getGraph(); //actVisualisator.getGraphLayout().getGraph();
 				if (g == null) {
 					return;
 				}
@@ -105,7 +110,7 @@ public class NodePopupMenu extends JPopupMenu {
 					return;
 				}
 
-				final Graph<NodeDescriptor, EdgeDescriptor> g = actVisualisator.getGraphLayout().getGraph();
+				final Graph<NodeDescriptor, EdgeDescriptor> g = tmpLayout.getGraph(); //actVisualisator.getGraphLayout().getGraph();
 				final Job searchJob = new Job("Searching for parallel paths...") {
 					@Override
 					protected IStatus run(final IProgressMonitor monitor) {
@@ -125,8 +130,92 @@ public class NodePopupMenu extends JPopupMenu {
 				searchJob.schedule();
 			}
 		});
+		
+		getDependentNodes.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(final ActionEvent e) {
+				final VisualizationViewer<NodeDescriptor, EdgeDescriptor> actVisualisator = thisPopUpMenu.handler.getVisualizator();
+				
+				if (actVisualisator == null) {
+					return;
+				}
+				final Layout<NodeDescriptor, EdgeDescriptor> tmpLayout = actVisualisator.getGraphLayout();
+				if (tmpLayout == null) {
+					return;
+				}
+				final Graph<NodeDescriptor, EdgeDescriptor> graph = tmpLayout.getGraph();
+				if (graph == null) {
+					return;
+				}
+				if (node == null) {
+					ErrorReporter.logError("null node attribute for NodePopupMenu");
+					return;
+				}
+
+				actVisualisator.getPickedVertexState().clear();
+				actVisualisator.getPickedVertexState().pick(node, true);
+				actVisualisator.getPickedEdgeState().clear();
+				
+				final CheckDependentNodes<NodeDescriptor, EdgeDescriptor> cdn = new CheckDependentNodes<NodeDescriptor, EdgeDescriptor>(graph);
+				
+				List<NodeDescriptor> neighbors = new ArrayList<NodeDescriptor>();
+				List<NodeDescriptor> dependentNodes = new ArrayList<NodeDescriptor>();
+				neighbors.add(node);
+				dependentNodes.add(node);
+				
+				while(!neighbors.isEmpty()) {
+					NodeDescriptor neighbor = neighbors.get(0);
+					List<EdgeDescriptor> edges2 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
+
+					for (EdgeDescriptor edge : edges2) {
+						NodeDescriptor vertex = graph.getDest(edge);
+						if (!dependentNodes.contains(vertex)) {
+							neighbors.add(vertex);
+							dependentNodes.add(vertex);
+						}
+					}
+					neighbors.remove(0);
+				}
+				
+				int index = dependentNodes.size() -1;
+				boolean changed = true;
+				while(changed) {
+					changed = false;
+					index = dependentNodes.size() - 1;
+					while(index >= 0) {
+						NodeDescriptor neighbor = dependentNodes.get(index);
+						if (!cdn.isDependent(neighbor, dependentNodes) && !neighbor.equals(node)) { 
+							changed = true;
+							dependentNodes.remove(index);
+						}
+						index--;						
+					}
+				}
+				
+				index = dependentNodes.size() - 1;
+				while(index >= 0) {
+					NodeDescriptor neighbor = dependentNodes.get(index);
+					if (cdn.isDependent(neighbor, dependentNodes) && !neighbor.equals(node)) {
+						actVisualisator.getPickedVertexState().pick(neighbor, true);
+						List<EdgeDescriptor> edges3 = new ArrayList<EdgeDescriptor>(graph.getInEdges(neighbor));
+						for (final EdgeDescriptor edge : edges3) {
+							actVisualisator.getPickedEdgeState().pick(edge, true);
+						}
+						
+						List<EdgeDescriptor> edges4 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
+						for (final EdgeDescriptor edge : edges4) {
+							if (dependentNodes.contains(graph.getDest(edge))) {
+								actVisualisator.getPickedEdgeState().pick(edge, true);
+							}
+						}
+					}
+					index--;
+				}
+			}
+		});
 		add(selectNode);
 		add(getParalellPaths);
+		add(getDependentNodes);
 
 		goToDefinition.addActionListener(new ActionListener() {
 			@Override
