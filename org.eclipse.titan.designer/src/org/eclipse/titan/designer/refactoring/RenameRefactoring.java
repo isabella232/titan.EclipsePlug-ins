@@ -439,12 +439,12 @@ public class RenameRefactoring extends Refactoring {
 	 * @param project  The project where the renaming started from
 	 * @param modules The modules containing renaming
 	 */
-	public static void reanalyseAstAfterRefactoring(IProject project, final Set<Module> modules ){
+	public static void reanalyseAstAfterRefactoring(final IProject project, final Set<Module> modules ){
 
 		
 		final ConcurrentLinkedQueue<WorkspaceJob> reportOutdatingJobs = new ConcurrentLinkedQueue<WorkspaceJob>();
 		for(Module tempModule : modules) {
-			IFile f = (IFile)tempModule.getLocation().getFile();
+			final IFile f = (IFile)tempModule.getLocation().getFile();
 			final WorkspaceJob op = new WorkspaceJob("Reports outdating for file: " + f.getName()) {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
