@@ -75,6 +75,16 @@
           name="MinimizeVisibilityProject">
     </command>
     <command
+          defaultHandler="org.eclipse.titanium.refactoring.organize.OrganizeImportsFromEditor"
+          id="org.eclipse.titanium.commands.OrganizeImportModule"
+          name="OrganizeImportModule">
+    </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.organize.OrganizeImportsFromBrowser"
+          id="org.eclipse.titanium.commands.OrganizeImportProject"
+          name="OrganizeImportProject">
+    </command>
+    <command
           defaultHandler="org.eclipse.titanium.refactoring.expandvaluelistnotation.ExpandFieldNamesActionFromEditor"
           id="org.eclipse.titanium.commands.ExpandFieldNamesModule"
           name="ExpandFieldNamesModule">
@@ -170,6 +180,12 @@
                  id="org.eclipse.titanium.commands.MinimizeScopeFromEditor"
                  label="Minimize scope of local variables in function">
            </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.OrganizeImportModule"
+                 icon="resources/icons/titan.gif"
+                 id="org.eclipse.titanium.commands.OrganizeImportModule"
+                 label="Organize imports">
+           </command>
         </menu>
      </menuContribution>
   </extension>
@@ -252,6 +268,18 @@
                      </with>
                    </visibleWhen>
            </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.OrganizeImportProject"
+                 label="Organize imports">
+                 <visibleWhen checkEnabled="false">
+                     <with variable="selection">  
+                        <iterate operator="and">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                           </adapt>  
+                        </iterate>
+                     </with>
+                   </visibleWhen>
+           </command>
         </menu>
      </menuContribution>
   </extension>
@@ -277,6 +305,18 @@
 	            <command
 	                  commandId="org.eclipse.titanium.commands.MinimizeVisibilityProject"
 	                  label="Minimize visibility modifiers">
+	                  <visibleWhen checkEnabled="false">
+                        <with variable="selection">  
+                           <iterate operator="and">
+                              <adapt type="org.eclipse.core.resources.IResource">
+                              </adapt>  
+                           </iterate>
+                        </with>
+                      </visibleWhen>
+	            </command>
+	            <command
+	                  commandId="org.eclipse.titanium.commands.OrganizeImportProject"
+	                  label="Organize imports">
 	                  <visibleWhen checkEnabled="false">
                         <with variable="selection">  
                            <iterate operator="and">
