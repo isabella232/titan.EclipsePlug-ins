@@ -13,7 +13,9 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
@@ -22,6 +24,7 @@ import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -194,9 +197,27 @@ public final class Testcase_Instance_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\t" );
-		//TODO this is actually more complicated
 		ExpressionStruct expression = new ExpressionStruct();
-		testcaseReference.generateConstRef( aData, expression );
+		Assignment testcase = testcaseReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, source, myScope, "testcase_")));
+
+		List<ISubReference> subReferences = testcaseReference.getSubreferences();
+		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {
+			ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
+			if (actualParList.getNofParameters() > 0) {
+				actualParList.generateCodeAlias(aData, expression);
+				expression.expression.append(", ");
+			}
+		}
+
+		if (timerValue != null) {
+			expression.expression.append("true, ");
+			timerValue.generateCodeExpression(aData, expression);
+			expression.expression.append(')');
+		} else {
+			expression.expression.append("false, new TitanFloat( new Ttcn3Float( 0.0 ) ))");
+		}
+
 		expression.mergeExpression(source);
 	}
 }

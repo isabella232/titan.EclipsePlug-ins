@@ -70,6 +70,8 @@ public class TTCN_Snapshot {
 		// not requested and there is no [else] branch in the test suite
 		alt_begin = timeNow();
 
-		//FIXME implement
+		if (TitanAlt_Status.ALT_YES == TitanTimer.testcaseTimer.timeout()) {
+			throw new TtcnError("Guard timer has expired. Execution of current test case will be interrupted.");
+		}
 	}
 }
