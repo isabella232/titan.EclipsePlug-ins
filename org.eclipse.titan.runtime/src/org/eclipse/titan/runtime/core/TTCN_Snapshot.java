@@ -41,6 +41,20 @@ public class TTCN_Snapshot {
 	public static void takeNew(final boolean blockExecution) {
 		//FIXME implement
 
+		if (blockExecution) {
+			//FIXME this is way more complex
+			Changeable_Double timerTimeout = new Changeable_Double(0.0);
+			boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
+			if (isTimerTimeout) {
+				double blockTime = timerTimeout.getValue() - timeNow();
+				try {
+					Thread.sleep((long)Math.floor(blockTime * 1000));
+				} catch (InterruptedException exception) {
+					throw new TtcnError("Interrupted while taking snapshot.");
+				}
+			}
+		}
+
 		// just update the time and check the testcase guard timer if blocking was
 		// not requested and there is no [else] branch in the test suite
 		alt_begin = timeNow();

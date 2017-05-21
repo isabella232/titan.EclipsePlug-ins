@@ -284,4 +284,34 @@ public class TitanTimer {
 
 		return returnValue;
 	}
+
+	/**
+	 * Get the earliest expiration time for the running timers.
+	 * Includes the testcase's guard timer.
+	 * 
+	 * @param minValue will return the expiration time if one is found.
+	 * @return true if an active timer was found, false otherwise.
+	 * */
+	public static boolean getMinExpiration(final Changeable_Double minValue) {
+		boolean minFlag = false;
+		double altBegin = TTCN_Snapshot.getAltBegin();
+
+		if (testcaseTimer.isStarted && testcaseTimer.timeExpires > altBegin) {
+			minValue.setValue(testcaseTimer.timeExpires);
+			minFlag = true;
+		}
+
+		for (TitanTimer timer : TIMERS) {
+			if (timer.timeExpires < altBegin) {
+				//ignore timers that expired before the snapshot
+				continue;
+			} else if (!minFlag || timer.timeExpires < minValue.getValue()){
+				minValue.setValue(timer.timeExpires);
+				minFlag = true;
+			}
+		}
+
+
+		return minFlag;
+	}
 }
