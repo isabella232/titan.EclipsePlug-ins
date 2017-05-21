@@ -38,6 +38,17 @@ public class TTCN_Snapshot {
 		return alt_begin;
 	}
 
+	/**
+	 * Take a new snapshot:
+	 * - if in blocking mode and no data arriving through ports,
+	 *    sleep will be called to the nearest timer timeout point in time.
+	 * Otherwise checks the timer and ports for data available for processing.
+	 * Saves the actual time as the last time a snapshot was taken into alt_begin.
+	 *
+	 * @param blockExecution true if the function should block execution if there is nothing to process and timers need some time to timeout.
+	 *
+	 * originally take_new
+	 * */
 	public static void takeNew(final boolean blockExecution) {
 		//FIXME implement
 
