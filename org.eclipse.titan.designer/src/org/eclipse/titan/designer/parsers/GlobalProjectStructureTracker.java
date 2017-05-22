@@ -15,7 +15,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 
 /**
- * This class tries weather a project underwent such changes between 2 build
+ * This class tries whether a project underwent such changes between 2 build
  * operations that might require a dependency update or not.
  * 
  * @author Kristof Szabados
