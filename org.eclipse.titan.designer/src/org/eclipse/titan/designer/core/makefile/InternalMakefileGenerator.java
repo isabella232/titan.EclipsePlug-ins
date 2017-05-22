@@ -1142,7 +1142,7 @@ public final class InternalMakefileGenerator {
 		    // If GNU make and split to slices code splitting set, then if we would
 		    // use the .cc=.hh then the _part_i.hh header files would be printed into
 		    // the makefile that would cause weird behavior.
-			if (getSplittingMode().equals(GeneralConstants.NUMBER)) {
+			if (getSplittingMode().equals(GeneralConstants.NUMBER) || getSplittingMode().equals(GeneralConstants.TYPE)) {
 				if (ttcn3ModulesRegular) {
 					contents.append(" $(TTCN3_MODULES:.ttcn=.hh)");
 					if (preprocess) {
@@ -1264,7 +1264,7 @@ public final class InternalMakefileGenerator {
 			    // If GNU make and split to slices code splitting set, then if we would
 			    // use the .cc=.hh then the _part_i.hh header files would be printed into
 			    // the makefile that would cause weird behavior.
-				if (getSplittingMode().equals(GeneralConstants.NUMBER)) {
+				if (getSplittingMode().equals(GeneralConstants.NUMBER) || getSplittingMode().equals(GeneralConstants.TYPE)) {
 					if (ttcn3ModulesRegular) {
 						contents.append(" $(BASE_TTCN3_MODULES:.ttcn=.hh)");
 						if (preprocess) {
