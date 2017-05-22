@@ -1,5 +1,8 @@
 package org.eclipse.titan.runtime.core;
 
+import java.io.IOException;
+import java.nio.channels.Selector;
+
 /**
  * Utility class to help working with snapshots
  * 
@@ -59,8 +62,8 @@ public class TTCN_Snapshot {
 			if (isTimerTimeout) {
 				double blockTime = timerTimeout.getValue() - timeNow();
 				try {
-					Thread.sleep((long)Math.floor(blockTime * 1000));
-				} catch (InterruptedException exception) {
+					Selector.open().select((long)Math.floor(blockTime * 1000));
+				} catch (IOException exception) {
 					throw new TtcnError("Interrupted while taking snapshot.");
 				}
 			}
