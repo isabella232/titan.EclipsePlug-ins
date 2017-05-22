@@ -352,7 +352,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	}
 
 	/**
-	 * Generate Java code for module level definitions/assignments.
+	 * Generate Java code for module and component level definitions/assignments.
 	 *
 	 * generate_code in the compiler
 	 *
