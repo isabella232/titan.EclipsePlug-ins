@@ -553,28 +553,32 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		aData.addBuiltinTypeImport( "TtcnError" );
+		aData.addCommonLibraryImport("TTCN_Runtime");
 		source.append( "\tpublic static " );
 
 		// return value
-		source.append( "void" );
-
-		source.append( " " );
+		source.append( "void testcase_" );
 
 		// function name
 		source.append( genName );
 
 		// arguments
 		source.append( "(" );
-		if ( formalParList != null ) {
+		if ( formalParList != null && formalParList.getNofParameters() > 0) {
 			formalParList.generateCode( aData, source );
+			source.append(", ");
 		}
-		source.append( ") {\n" );
+		source.append( "final boolean has_timer, final TitanFloat timer_value) {\n" );
 		source.append("try{\n");
+		//TODO add extra parameters too
+		source.append("TTCN_Runtime.begin_testcase(has_timer, timer_value);\n");
 		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
 		source.append("System.out.println(error);\n");
 		source.append("}\n");
-		source.append( "\t}\n" );
+		//FIXME return verdittype
+		source.append("TTCN_Runtime.end_testcase();\n");
+		source.append( "}\n" );
 		sb.append(source);
 	}
 }
