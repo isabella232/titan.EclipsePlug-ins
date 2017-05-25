@@ -85,6 +85,7 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.TitanListener;
@@ -1433,6 +1434,26 @@ pr_PortKeyword:
 	PORT
 ;
 
+pr_PortMap returns [ List<Reference> outerPortTypeRefs ]
+@init {
+	$outerPortTypeRefs = new ArrayList<Reference>();
+}:
+	pr_MapKeyword
+	pr_ToKeyword
+	outerPortTypeRef = pr_PortType
+		{	if ( $outerPortTypeRef.reference != null ) {
+				$outerPortTypeRefs.add( $outerPortTypeRef.reference );
+			}
+		}
+	(	pr_Comma
+		outerPortTypeRef = pr_PortType
+			{	if ( $outerPortTypeRef.reference != null ) {
+					$outerPortTypeRefs.add( $outerPortTypeRef.reference );
+				}
+			}
+	)*
+;
+
 pr_PortDefAttribs returns[PortTypeBody body]
 @init {
 	$body = null;
@@ -1452,6 +1473,12 @@ pr_MessageAttribs returns[PortTypeBody body]
 	$body = null;
 }:
 (	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message); }
+	(	opt = pr_PortMap
+		{	final List<Reference> outerPortTypeRefs = $opt.outerPortTypeRefs;
+			//TODO: fill data
+			//$body.addProviderReferenceList( outerPortTypeRefs );
+		}
+	)?
 	pr_BeginChar
 	(	pr_MessageList[$body]
 		pr_SemiColon?
@@ -1460,10 +1487,98 @@ pr_MessageAttribs returns[PortTypeBody body]
 );
 
 pr_MessageList[PortTypeBody body]:
-(  IN		t = pr_AllOrTypeList{ $body.addInTypes($t.types); }
-|  OUT		t = pr_AllOrTypeList{ $body.addOutTypes($t.types); }
-|  INOUT	t = pr_AllOrTypeList{ $body.addInoutTypes($t.types); }
+(	IN
+	pr_MessageListIn[body]
+	(	pr_Comma
+		pr_MessageListIn[body]
+	)*
+|	OUT
+	pr_MessageListOut[body]
+	(	pr_Comma
+		pr_MessageListOut[body]
+	)*
+|	INOUT
+	pr_MessageListInOut[body]
+	(	pr_Comma
+		pr_MessageListInOut[body]
+	)*
 );
+
+pr_MessageListIn[PortTypeBody body]:
+	t = pr_AllOrTypeList{ $body.addInTypes($t.types); }
+	(	pr_FromKeyword
+		mtl = pr_MessageListFromAttributeList
+		{	for ( final IType type : $t.types ) {
+				if ( type instanceof Type ) {
+					//TODO: fill data
+					//$body.addInMapping( new TypeMapping( (Type)type, $mtl.mappingTargetList ) );
+				} else {
+					ErrorReporter.INTERNAL_ERROR();
+				}
+			}
+		}
+	)?
+;
+
+pr_MessageListOut[PortTypeBody body]:
+	t = pr_AllOrTypeList{ $body.addOutTypes($t.types); }
+	(	pr_ToKeyword
+		mtl = pr_MessageListToAttributeList
+		{	for ( final IType type : $t.types ) {
+				if ( type instanceof Type ) {
+					//TODO: fill data
+					//$body.addOutMapping( new TypeMapping( (Type)type, $mtl.mappingTargetList ) );
+				} else {
+					ErrorReporter.INTERNAL_ERROR();
+				}
+			}
+		}
+	)?
+;
+
+pr_MessageListInOut[PortTypeBody body]:
+	t = pr_AllOrTypeList{ $body.addInoutTypes($t.types); }
+;
+
+pr_MessageListFromAttributeList returns[TypeMappingTargets mappingTargetList]
+@init {
+	$mappingTargetList = new TypeMappingTargets();
+}:
+	mt = pr_MessageListFromAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+	(	pr_Colon
+		mt = pr_MessageListFromAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+	)*
+;
+
+//in function mapping
+pr_MessageListFromAttribute returns[TypeMappingTarget mappingTarget]:
+	outerInType = pr_Type
+	WITH
+	inFunction = pr_FunctionRef
+	pr_LParen
+	pr_RParen
+{	$mappingTarget = new FunctionTypeMappingTarget( $outerInType.type, $inFunction.reference );
+};
+
+pr_MessageListToAttributeList returns[TypeMappingTargets mappingTargetList]
+@init {
+	$mappingTargetList = new TypeMappingTargets();
+}:
+	mt = pr_MessageListToAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+	(	pr_Colon
+		mt = pr_MessageListToAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+	)*
+;
+
+//out function mapping
+pr_MessageListToAttribute returns[TypeMappingTarget mappingTarget]:
+	outerOutType = pr_Type
+	WITH
+	outFunction = pr_FunctionRef
+	pr_LParen
+	pr_RParen
+{	$mappingTarget = new FunctionTypeMappingTarget( $outerOutType.type, $outFunction.reference );
+};
 
 pr_MessageKeyword:
 	MESSAGE
