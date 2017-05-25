@@ -106,7 +106,7 @@ public class TitanCharString extends Base_Type {
 		mustBound("Unbound left operand of charstring comparison.");
 		aOtherValue.mustBound("Unbound right operand of charstring comparison.");
 
-		return val_ptr.equals(aOtherValue.val_ptr);
+		return val_ptr.toString().equals(aOtherValue.val_ptr.toString());
 	}
 
 	@Override

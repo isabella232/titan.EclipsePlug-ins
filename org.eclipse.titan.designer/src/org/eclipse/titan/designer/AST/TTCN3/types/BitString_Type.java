@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
@@ -25,6 +26,7 @@ import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -220,5 +222,32 @@ public final class BitString_Type extends Type {
 				declarationCollector.addDeclaration("bitstring", location, this);
 			}
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		aData.addBuiltinTypeImport( "TitanBitString" );
+
+		if(needsAlias()) {
+			source.append( "\tpublic static class " );
+			source.append( getGenNameOwn() );
+			source.append( " extends TitanBitString {}\n" );
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "TitanBitString" );
+
+		return "TitanBitString";
+	}
+
+	@Override
+	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+		aData.addBuiltinTypeImport( "TitanBitString_template" );
+
+		return "TitanBitString_template";
 	}
 }
