@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
@@ -26,6 +27,7 @@ import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -257,5 +259,32 @@ public final class OctetString_Type extends ASN1Type {
 				declarationCollector.addDeclaration("octetstring", location, this);
 			}
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		aData.addBuiltinTypeImport( "TitanOctetString" );
+
+		if(needsAlias()) {
+			source.append( "\tpublic static class " );
+			source.append( getGenNameOwn() );
+			source.append( " extends TitanOctetString {}\n" );
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "TitanOctetString" );
+
+		return "TitanOctetString";
+	}
+
+	@Override
+	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+		aData.addBuiltinTypeImport( "TitanOctetString_template" );
+
+		return "TitanOctetString_template";
 	}
 }
