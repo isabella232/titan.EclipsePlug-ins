@@ -351,7 +351,32 @@ public final class Def_Port extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
+		final String genName = getGenName();
+		final StringBuilder sb = aData.getSrc();
+		//TODO temporary code to adapt to the starting code
+		StringBuilder source = new StringBuilder();
+		if ( !isLocal() ) {
+			source.append( "\tpublic static " );
+		}
+
+		aData.addBuiltinTypeImport( "TitanPort" );
+
+		if(dimensions == null) {
+			source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameValue(aData, source, myScope), genName, identifier.getDisplayName()));
+		} else {
+			//FIXME implement port arrays
+		}
+
+		sb.append(source);
+
+		aData.getInitComp().append(MessageFormat.format("{0}.activatePort(false);\n", genName));
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
-		//TODO implement
+		initComp.append(definition.getGenNameFromScope(aData, initComp, myScope, ""));
+		initComp.append(".activatePort(false);\n");
 	}
 }

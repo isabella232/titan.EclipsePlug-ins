@@ -20,15 +20,20 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados
@@ -257,4 +262,34 @@ public final class Send_Statement extends Statement {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		ExpressionStruct expression = new ExpressionStruct();
+		portReference.generateCode(aData, expression);
+		expression.expression.append(".send(");
+
+		TTCN3Template templateBody = parameter.getTemplateBody();
+		if (parameter.getDerivedReference() == null &&
+				Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
+			//optimize for value
+			IValue value = ((SpecificValue_Template) templateBody).getValue();
+			//FIXME check if casting is needed
+			//FIXME use generate_code_expr_mandatory function to generate the code
+			value.generateCodeExpression(aData, expression);
+		} else {
+			//real template, can not be optimized
+			parameter.generateCode(aData, expression);
+		}
+
+		if (toClause != null) {
+			expression.expression.append(", ");
+			toClause.generateCodeExpression(aData, expression);
+		}
+		expression.expression.append(");\n");
+		expression.mergeExpression(source);
+	}
+
+	
 }
