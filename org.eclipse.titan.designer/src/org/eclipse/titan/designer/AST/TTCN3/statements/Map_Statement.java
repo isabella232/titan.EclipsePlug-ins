@@ -24,6 +24,8 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -294,5 +296,25 @@ public final class Map_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		//FIXME this is actually more complex
+		ExpressionStruct expression = new ExpressionStruct();
+
+		expression.expression.append("TTCN_Runtime.mapPort(");
+		//FIXME generate component references too
+		//FIXME actually _portref
+		portReference1.generateCode(aData, expression);
+		expression.expression.append(".getName(), ");
+
+		//FIXME actually _portref
+		portReference2.generateCode(aData, expression);
+		expression.expression.append(".getName()");
+		expression.expression.append(")");
+
+		expression.mergeExpression(source);
 	}
 }

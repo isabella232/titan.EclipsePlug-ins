@@ -24,6 +24,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -392,4 +394,35 @@ public final class Receive_Port_Statement extends Statement {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		// TODO Auto-generated method stub
+		super.generateCode(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (portReference == null) {
+			aData.addBuiltinTypeImport("TitanPort");
+			expression.expression.append("TitanPort.any_receive(");
+		} else {
+			portReference.generateCode(aData, expression);
+			expression.expression.append(".receive(");
+			if (receiveParameter != null) {
+				//TODO handle redirection
+				expression.expression.append( "/* TODO: " );
+				expression.expression.append( "port redirection is not yet handled!*/\n" );
+				receiveParameter.generateCode(aData, expression);
+			}
+		}
+		//FIXME handle from
+		expression.expression.append( "/* TODO: " );
+		expression.expression.append( "from clause and sender redirect is not yet handled!*/\n" );
+
+		expression.expression.append( ')' );
+	}
+	
 }

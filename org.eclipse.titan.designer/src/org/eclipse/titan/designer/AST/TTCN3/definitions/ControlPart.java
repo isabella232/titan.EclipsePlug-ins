@@ -380,8 +380,10 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	 */
 	public void generateCode( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
+		aData.addCommonLibraryImport("TTCN_Snapshot");
 		sb.append( "\tpublic static void main( String[] args ) {\n" );
 		sb.append( "//TODO this is only temporal implementation!\n" );
+		sb.append("TTCN_Snapshot.initialize();\n");
 		sb.append( "pre_init_module();\n" );
 		sb.append( "post_init_module();\n" );
 		StringBuilder body = new StringBuilder();

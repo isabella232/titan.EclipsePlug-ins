@@ -45,6 +45,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -82,14 +83,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	}
 
 	public enum TestPortAPI_type {
-		/* regular test port API */								TP_REGULAR,
+		/* regular test port API */			TP_REGULAR,
 		/* no test port (only connection allowed)*/	TP_INTERNAL,
 		/* usage of the address type is supported*/	TP_ADDRESS
 	}
 
 	public enum PortType_type {
-		/* regular port type*/																		PT_REGULAR,
-		/* provides the external interface for other port types*/				PT_PROVIDER,
+		/* regular port type*/							PT_REGULAR,
+		/* provides the external interface for other port types*/		PT_PROVIDER,
 		/* the port type uses another port type as external interface */	PT_USER
 	}
 
@@ -1537,5 +1538,107 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * 
+	 * FIXME the implementation only serves as a minimal testing setup
+	 */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		aData.addImport("java.util.LinkedList");
+
+		final String className = myType.getGenNameOwn();
+
+		//default implementation
+		source.append( "\t" );
+		source.append( "//TODO: " );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateCode() is not implemented!\n" );
+		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
+			IType inType = inMessages.getTypeByIndex(i);
+			aData.addBuiltinTypeImport(inType.getGenNameValue(aData, source, myScope));
+			aData.addBuiltinTypeImport(inType.getGenNameTemplate(aData, source, myScope));
+		}
+		for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
+			IType outType = outMessages.getTypeByIndex(i);
+			aData.addBuiltinTypeImport(outType.getGenNameValue(aData, source, myScope));
+			aData.addBuiltinTypeImport(outType.getGenNameTemplate(aData, source, myScope));
+		}
+
+		source.append(MessageFormat.format("public static abstract class {0}_BASE extends TitanPort '{'\n", className));
+		source.append("private LinkedList<Base_Type> message_queue = new LinkedList<>();\n\n");
+
+		source.append(MessageFormat.format("public {0}_BASE( final String portName) '{'\n", className));
+		source.append("super(portName);\n");
+		source.append("}\n\n");
+
+		source.append("private void remove_msg_queue_head() {\n");
+		source.append("message_queue.removeFirst();\n");
+		source.append("}\n\n");
+
+		for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
+			IType outType = outMessages.getTypeByIndex(i);
+
+			source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.getGenNameValue(aData, source, myScope)));
+			source.append("outgoing_send(send_par);\n");
+			source.append("}\n\n");
+		}
+
+		// outgoing send functions
+		for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
+			IType outType = outMessages.getTypeByIndex(i);
+
+			source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par);\n\n", outType.getGenNameValue(aData, source, myScope)));
+		}
+
+		// generic and simplified receive for experimentation
+		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
+			IType inType = inMessages.getTypeByIndex(i);
+			String inGeneratedName = inType.getGenNameValue(aData, source, myScope);
+
+			//FIXME there are actually more parameters
+			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0}_template value_template) '{'\n", inGeneratedName));
+			source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
+			source.append("throw new TtcnError(\"Receive operation using '*' as matching template\");\n");
+			source.append("}\n");
+			source.append("if (message_queue.isEmpty()) {\n");
+			source.append("if (is_started) {\n");
+			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+			source.append("}\n");
+			source.append("//FIXME implement + sender_template branch\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n\n");
+			source.append("Base_Type my_head = message_queue.getFirst();\n");
+			source.append("if (!(my_head instanceof TitanCharString)) {\n");
+			source.append("//FIXME report error \n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n\n");
+			//TODO more complicated
+			source.append("TitanCharString actual_message = (TitanCharString) my_head;\n");
+			source.append("if (!value_template.match(actual_message)) {\n");
+			source.append("//FIXME implement\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append(" } else {");
+			source.append("//FIXME implement, right now we just assume perfect match\n");
+			source.append("remove_msg_queue_head();\n");
+			source.append("return TitanAlt_Status.ALT_YES;\n");
+			//source.append("outgoing_send(sendPar);\n");
+			source.append("}\n\n");
+			source.append("}\n\n");
+
+			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0} value_template) '{'\n", inGeneratedName));
+			source.append(MessageFormat.format("return receive(new {0}_template(value_template));\n", inGeneratedName));
+			source.append("}\n\n");
+
+			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", inGeneratedName));
+			source.append("//fixme is started and logging\n");
+			source.append(MessageFormat.format("message_queue.addLast(new {0}(incoming_par));\n", inGeneratedName));
+			source.append("}\n\n");
+		}
+
+		source.append("}\n\n");
 	}
 }

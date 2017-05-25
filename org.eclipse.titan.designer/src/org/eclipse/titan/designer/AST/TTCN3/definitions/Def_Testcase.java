@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.jface.text.templates.Template;
@@ -572,6 +573,8 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("try{\n");
 		//TODO add extra parameters too
 		source.append("TTCN_Runtime.begin_testcase(has_timer, timer_value);\n");
+		source.append(MessageFormat.format("init_comp_type(\"{0}\", true);//FIXME move to system internals\n", runsOnType.getComponentBody().getIdentifier().getDisplayName()));
+		source.append("TitanPort.all_start();//FIXME move to system internals\n");
 		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
 		source.append("System.out.println(error);\n");
