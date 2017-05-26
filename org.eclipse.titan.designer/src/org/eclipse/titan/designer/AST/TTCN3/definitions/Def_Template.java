@@ -872,7 +872,12 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			source.append( "\tpublic static " );
+			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+				source.append( "private" );
+			} else {
+				source.append( "public" );
+			}
+			source.append( " static " );
 		}
 
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );

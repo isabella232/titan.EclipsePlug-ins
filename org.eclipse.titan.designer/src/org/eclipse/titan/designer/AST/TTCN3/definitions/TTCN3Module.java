@@ -1242,7 +1242,7 @@ public final class TTCN3Module extends Module {
 		//TODO module setup/teardown infrastructure
 
 		final StringBuilder sb = aData.getSrc();
-		sb.append( "class " + name + " {\n" );
+		sb.append( "public final class " + name + " {\n" );
 		if ( definitions != null ) {
 			definitions.generateCode( aData );
 		}

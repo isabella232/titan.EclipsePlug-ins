@@ -572,7 +572,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		formalParList.generateCode(aData, formalParListCode);
 		// FIXME generate code defval and shadow objects
 
-		source.append(MessageFormat.format("private static TitanAlt_Status {0}_instance({1})\n", genName, formalParListCode));
+		source.append(MessageFormat.format("private static final TitanAlt_Status {0}_instance({1})\n", genName, formalParListCode));
 		source.append("{\n");
 		source.append(body);
 		source.append("}\n\n");
@@ -581,7 +581,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		StringBuilder fullParamaterList = formalParList.generateCode(aData);
 
-		source.append(MessageFormat.format("void {0}({1})\n", genName, fullParamaterList));
+		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+			source.append( "private" );
+		} else {
+			source.append( "public" );
+		}
+		source.append(MessageFormat.format(" static final void {0}({1})\n", genName, fullParamaterList));
 		source.append("{\n");
 		source.append("altstep_begin: for( ; ; ) {\n");
 		source.append("boolean block_flag = false;\n");
@@ -618,7 +623,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		// class for keeping the altstep in the default context
 		// the class is for internal use
 		aData.addBuiltinTypeImport("Default_Base");
-		source.append(MessageFormat.format("static class {0}_Default extends Default_Base '{'\n", genName));
+		source.append(MessageFormat.format("static final class {0}_Default extends Default_Base '{'\n", genName));
 		source.append(MessageFormat.format("public {0}_Default({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
@@ -629,13 +634,13 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		StringBuilder prefixedActualParameterList = formalParList.generateCodeActualParlist("par_");
 		source.append("@Override\n");
-		source.append("public TitanAlt_Status call_altstep() {\n");
+		source.append("public final TitanAlt_Status call_altstep() {\n");
 		source.append(MessageFormat.format("return {0}_instance({1});\n", genName, prefixedActualParameterList));
 		source.append("}\n\n");
 
 		source.append("}\n\n");//closing for the _Default class
 
-		source.append(MessageFormat.format("private static Default_Base activate_{0}({1}) '{'\n", genName, fullParamaterList));
+		source.append(MessageFormat.format("private static final Default_Base activate_{0}({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("return new {0}_Default({1});\n", genName, actualParameterList));
 		source.append("}\n\n");
 	}

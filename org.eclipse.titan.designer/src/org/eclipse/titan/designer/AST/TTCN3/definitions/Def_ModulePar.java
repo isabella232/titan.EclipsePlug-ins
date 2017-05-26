@@ -382,7 +382,12 @@ public final class Def_ModulePar extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			source.append( "\tpublic static " );
+			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+				source.append( "private" );
+			} else {
+				source.append( "public" );
+			}
+			source.append( " static " );
 		}
 		source.append( "final " );
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );

@@ -555,7 +555,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		StringBuilder source = new StringBuilder();
 		aData.addBuiltinTypeImport( "TtcnError" );
 		aData.addCommonLibraryImport("TTCN_Runtime");
-		source.append( "\tpublic static " );
+		source.append( "\tpublic static final " );
 
 		// return value
 		source.append( "void testcase_" );

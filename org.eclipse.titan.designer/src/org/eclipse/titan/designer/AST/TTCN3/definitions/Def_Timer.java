@@ -450,7 +450,12 @@ public final class Def_Timer extends Definition {
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			source.append( "\tpublic static " );
+			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+				source.append( "private" );
+			} else {
+				source.append( "public" );
+			}
+			source.append( " static " );
 		}
 
 		aData.addBuiltinTypeImport( "TitanTimer" );

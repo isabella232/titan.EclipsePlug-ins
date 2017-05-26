@@ -464,9 +464,13 @@ public final class Def_Const extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			source.append( "\tpublic static " );
+			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+				source.append( "private" );
+			} else {
+				source.append( "public" );
+			}
 		}
-		source.append( "final " );
+		source.append( " static final " );
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
