@@ -67,20 +67,10 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 	private static final String CREATION_FAILED = "Project creation failed";
 	private static final String TRUE = "true";
 
-	private boolean wasAutoBuilding;
 	private boolean isCreated;
 	private IConfigurationElement config;
 
 	public NewTITANProjectWizard() {
-		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
-		wasAutoBuilding = description.isAutoBuilding();
-		description.setAutoBuilding(false);
-		try {
-			ResourcesPlugin.getWorkspace().setDescription(description);
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-		}
-		Activator.getDefault().pauseHandlingResourceChanges();
 		isCreated = false;
 	}
 
@@ -235,24 +225,9 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 		}
 
 		if (newProject == null) {
-			final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
-			if (description.isAutoBuilding() != wasAutoBuilding) {
-				description.setAutoBuilding(wasAutoBuilding);
-				try {
-					ResourcesPlugin.getWorkspace().setDescription(description);
-				} catch (CoreException e) {
-					ErrorReporter.logExceptionStackTrace(e);
-				}
-			}
-			Activator.getDefault().resumeHandlingResourceChanges();
 			return false;
 		}
 
-		try {
-			TITANNature.addTITANBuilderToProject(newProject);
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-		}
 		try {
 			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), optionsPage.getWorkingFolder());
@@ -281,17 +256,13 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-
-		final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
-		if (description.isAutoBuilding() != wasAutoBuilding) {
-			description.setAutoBuilding(wasAutoBuilding);
-			try {
-				ResourcesPlugin.getWorkspace().setDescription(description);
-			} catch (CoreException e) {
-				ErrorReporter.logExceptionStackTrace(e);
-			}
+		
+		try {
+			TITANNature.addTITANBuilderToProject(newProject);
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
 		}
-		Activator.getDefault().resumeHandlingResourceChanges();
+		
 		BasicNewProjectResourceWizard.updatePerspective(config);
 		selectAndReveal(newProject);
 
@@ -303,17 +274,6 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 				if (dialog != null) {
 					dialog.open();
 				}
-
-				final IWorkspaceDescription description = ResourcesPlugin.getWorkspace().getDescription();
-				if (description.isAutoBuilding() != wasAutoBuilding) {
-					description.setAutoBuilding(wasAutoBuilding);
-					try {
-						ResourcesPlugin.getWorkspace().setDescription(description);
-					} catch (CoreException e) {
-						ErrorReporter.logExceptionStackTrace(e);
-					}
-				}
-				Activator.getDefault().resumeHandlingResourceChanges();
 			}
 		});
 
