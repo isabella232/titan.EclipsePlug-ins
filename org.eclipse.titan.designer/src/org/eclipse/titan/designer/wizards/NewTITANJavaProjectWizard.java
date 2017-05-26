@@ -48,6 +48,8 @@ import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 */
 
+
+
 /**
  * This is temporal/experimental code for a new project wizard for a new feature.
  * It is INTENTIONALLY COMMENTED OUT:
@@ -226,9 +228,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 		try {
 			newProject.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), "Java_src");
-
-			final IProjectDescription description = newProject.getDescription();
+					MakeAttributesData.TEMPORAL_WORKINGDIRECTORY_PROPERTY), "java_src");
 
 			final IJavaProject javaProject = JavaCore.create(newProject);
 			final List<IClasspathEntry> classpathEntries = new ArrayList<IClasspathEntry>();
@@ -240,21 +240,6 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 			
 			createBuildProperties();
 			createManifest();
-			
-			final ICommand titanCommand = description.newCommand();
-			titanCommand.setBuilderName(ProductConstants.PRODUCT_ID_DESIGNER + ".core.TITANJavaBuilder");
-
-			final ICommand javaCommand = description.newCommand();
-			javaCommand.setBuilderName(JavaCore.BUILDER_ID);
-
-			final ICommand manifestCommand = description.newCommand();
-			manifestCommand.setBuilderName("org.eclipse.pde.ManifestBuilder");
-			
-			final ICommand schemaCommand = description.newCommand();
-			schemaCommand.setBuilderName("org.eclipse.pde.SchemaBuilder");
-
-			description.setBuildSpec(new ICommand[]{titanCommand, javaCommand, manifestCommand, schemaCommand});
-			newProject.setDescription(description, null);
 		} catch (CoreException exception) {
 			ErrorReporter.logExceptionStackTrace(exception);
 			return false;
@@ -272,6 +257,21 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		}
 
 		try {
+			final IProjectDescription description = newProject.getDescription();
+			final ICommand titanCommand = description.newCommand();
+			titanCommand.setBuilderName(ProductConstants.PRODUCT_ID_DESIGNER + ".core.TITANJavaBuilder");
+
+			final ICommand javaCommand = description.newCommand();
+			javaCommand.setBuilderName(JavaCore.BUILDER_ID);
+
+			final ICommand manifestCommand = description.newCommand();
+			manifestCommand.setBuilderName("org.eclipse.pde.ManifestBuilder");
+			
+			final ICommand schemaCommand = description.newCommand();
+			schemaCommand.setBuilderName("org.eclipse.pde.SchemaBuilder");
+
+			description.setBuildSpec(new ICommand[]{titanCommand, javaCommand, manifestCommand, schemaCommand});
+			newProject.setDescription(description, null);
 			newProject.refreshLocal(IResource.DEPTH_INFINITE, null);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
