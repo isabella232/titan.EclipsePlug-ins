@@ -374,8 +374,10 @@ public class RenameRefactoring extends Refactoring {
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 		final WorkspaceJob job = projectSourceParser.analyzeAll();
 		if (job == null) {
-			TITANDebugConsole.getConsole().newMessageStream()
-					.println("Rename refactoring: WorkspaceJob to analyze project could not be created.");
+			if (reportDebugInformation) {
+				TITANDebugConsole.getConsole().newMessageStream()
+				.println("Rename refactoring: WorkspaceJob to analyze project could not be created.");
+			}
 			return;
 		}
 		try {
@@ -415,7 +417,9 @@ public class RenameRefactoring extends Refactoring {
 			operation.run(targetEditor.getEditorSite().getShell(), "");
 		} catch (InterruptedException irex) {
 			// operation was canceled
-			TITANDebugConsole.getConsole().newMessageStream().println("Rename refactoring has been cancelled");
+			if (reportDebugInformation) {
+				TITANDebugConsole.getConsole().newMessageStream().println("Rename refactoring has been cancelled");
+			}
 		} finally {
 
 			//===================================
