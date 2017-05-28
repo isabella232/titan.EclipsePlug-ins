@@ -34,6 +34,7 @@ public class TitanPort {
 		return portName;
 	}
 
+	//originally PORT::add_to_list
 	private void addToList(final boolean system) {
 		if (system) {
 			for (TitanPort port : SYSTEM_PORTS) {
@@ -60,6 +61,7 @@ public class TitanPort {
 		}
 	}
 
+	//originally PORT::remove_from_list
 	private void removeFromList(final boolean system) {
 		if (system) {
 			SYSTEM_PORTS.remove(this);
@@ -68,6 +70,7 @@ public class TitanPort {
 		}
 	}
 
+	//originally PORT::lookup_by_name
 	private static TitanPort lookupByName(final String parameterPortName, final boolean system) {
 		if (system) {
 			for (TitanPort port : SYSTEM_PORTS) {
@@ -86,19 +89,31 @@ public class TitanPort {
 		return null;
 	}
 
+	//originally PORT::activate_port
 	public void activatePort(final boolean system) {
 		if (!is_active) {
 			addToList(system);
 			is_active = true;
-		//FIXME implement
+			//FIXME implement
 		}
 	}
 
+	//originally PORT::deactivate_port
 	public void deActivatePort(final boolean system) {
 		if (is_active) {
-		//FIXME implement
+			//FIXME implement
 			removeFromList(system);
 			is_active = false;
+		}
+	}
+
+	// originally PORT::deactivate_all
+	public static void deactivateAll() {
+		for (TitanPort port : PORTS) {
+			port.deActivatePort(false);
+		}
+		for (TitanPort port : SYSTEM_PORTS) {
+			port.deActivatePort(true);
 		}
 	}
 
