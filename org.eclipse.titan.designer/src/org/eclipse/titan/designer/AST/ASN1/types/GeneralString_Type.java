@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
@@ -25,6 +26,7 @@ import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -202,5 +204,32 @@ public final class GeneralString_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("general string");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+
+		if(needsAlias()) {
+			source.append( "\tpublic static class " );
+			source.append( getGenNameOwn() );
+			source.append( " extends TitanUniversalCharString {}\n" );
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+
+		return "TitanUniversalCharString";
+	}
+
+	@Override
+	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
+
+		return "TitanUniversalCharString_template";
 	}
 }

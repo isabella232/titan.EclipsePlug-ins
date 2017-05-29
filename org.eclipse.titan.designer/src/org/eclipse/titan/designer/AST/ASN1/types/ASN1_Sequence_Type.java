@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.ASN1.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.Block;
@@ -45,12 +47,15 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.OmitValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
+import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.Omit_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Sequence_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 import org.eclipse.titan.designer.parsers.asn1parser.Asn1Parser;
@@ -969,5 +974,38 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return false;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
+		return getGenNameOwn(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		final String className = getGenNameOwn();
+		final String classReadableName = getFullName();
+
+		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
+		boolean hasOptional = false;
+		for ( int i = 0; i < components.getNofComps(); i++) {
+			final CompField compField = components.getCompByIndex(i);
+			compField.getType().setGenName(getGenNameOwn(), compField.getIdentifier().getName());
+			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
+					compField.getIdentifier().getName(), compField.isOptional(),
+					compField.getType().getClass().getSimpleName());
+			hasOptional |= compField.isOptional();
+			namesList.add( fi );
+		}
+
+		for ( int i = 0; i < components.getNofComps(); i++) {
+			final CompField compField = components.getCompByIndex(i);
+			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			compField.getType().generateCode(aData, tempSource);
+		}
+
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true);
 	}
 }
