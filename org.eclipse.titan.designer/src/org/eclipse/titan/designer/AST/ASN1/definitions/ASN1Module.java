@@ -426,6 +426,9 @@ public final class ASN1Module extends Module {
 		//TODO module setup/teardown infrastructure
 
 		final StringBuilder sb = aData.getSrc();
+
+		imports.generateCode(aData);
+
 		sb.append("// ASN.1 module are NOT supported by the Java code Generator!\n");
 		sb.append( "class " + name + " {\n" );
 		if ( assignments != null ) {
