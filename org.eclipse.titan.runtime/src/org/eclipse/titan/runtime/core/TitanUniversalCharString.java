@@ -114,10 +114,22 @@ public class TitanUniversalCharString extends Base_Type {
 		return this;
 	}
 
+	//originally operator=
+	public TitanUniversalCharString assign( final TitanCharString aOtherValue ) {
+		aOtherValue.mustBound( "Assignment of an unbound universal charstring value." );
+
+		cstr = new StringBuilder( aOtherValue.getValue() );
+		charstring = true;
+
+		return this;
+	}
+
 	@Override
 	public TitanUniversalCharString assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanUniversalCharString) {
 			return assign((TitanUniversalCharString)otherValue);
+		} else if (otherValue instanceof TitanCharString) {
+			return assign((TitanCharString)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universal charstring", otherValue));
