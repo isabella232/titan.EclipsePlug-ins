@@ -337,10 +337,11 @@ public abstract class Expression_Value extends Value {
 	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
 		ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
-		expression.expression.append(" = ");
+		expression.expression.append(".assign(");
 
 		generateCodeExpressionExpression(aData, expression);
 
+		expression.expression.append(')');
 		expression.mergeExpression(source);
 
 		return source;
