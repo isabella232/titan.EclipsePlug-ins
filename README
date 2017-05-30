@@ -15,7 +15,7 @@ ANTLR 4 SDK 0.3.5
 ANTLR Runtime 4.3 or higher, recommended: 4.3, available at Eclipse Orbit
 Ant 1.9.2 or higher 
   NOTE: Build will not work below 1.8 for sure!
-Eclipse Standard or Java 3.6 (Helios) or higher, recommended: 4.4 (Luna)
+Eclipse Standard or Java 3.6 (Helios) or higher, recommended: 4.6.3 (Neon)
 
 ----------------------
 2. SETTING UP ECLIPSE FOR TITAN DEVELOPMENT
@@ -82,14 +82,15 @@ It modifies the source, you need to rebuild org.eclipse.titan.common plug-in pro
   These jars are needed by titanium.plugin
     Google Guava 21.0 (com.google.guava)
       available at Eclipse Orbit
-      http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/
+      http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository
+      
       NOTE: The drop version changes very often.
     edu.uci.ics.jung/jung-graph-impl-2.1.jar
     edu.uci.ics.jung/jung-visualization-2.1.jar
     edu.uci.ics.jung/jung-algorithms-2.1.jar
     edu.uci.ics.jung/jung-io-2.1.jar
       For Ericsson users only: Download the all-in-one package of Titan that contains it
-        https://www.eclipse.org/downloads/download.php?file=/titan/TITAN_Designer_and_Executor_plugin-6.1.pl0.zip
+        https://www.eclipse.org/downloads/download.php?file=/titan/TITAN_Designer_and_Executor_plugin-6.2.pl0.zip
       OR for users outside Ericsson: Write to any contact person on site https://projects.eclipse.org/projects/tools.titan and ask the jung.zip  
     org.apache.poi_3.9.0.v201405241750.jar
       available at Eclipse Orbit
