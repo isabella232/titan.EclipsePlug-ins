@@ -56,7 +56,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		progress.worked(1);
 
 		IProgressMonitor codeGeneratorMonitor = progress.newChild(1);
-		codeGeneratorMonitor.beginTask("Checking prerequisites", sourceParser.getModules().size());
+		codeGeneratorMonitor.beginTask("Checking prerequisites", sourceParser.getModules().size() + 1);
 		for(Module module : sourceParser.getModules()) {
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");
 			try {
@@ -67,6 +67,14 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 			codeGeneratorMonitor.worked(1);
 		}
+		TITANDebugConsole.println("Generating code for single main");
+		try {
+			ProjectSourceCompiler.generateMain( project,sourceParser.getModules(), reportDebugInformation );
+		} catch ( CoreException e ) {
+			ErrorReporter.logExceptionStackTrace("While generating Java code for main module ", e);
+		}
+
+		codeGeneratorMonitor.worked(1);
 		codeGeneratorMonitor.done();
 		
 		return null;

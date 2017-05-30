@@ -10,7 +10,10 @@ import java.util.LinkedList;
 public class TTCN_Default {
 	// TODO check why does this never decrease
 	private static int defaultCount = 0;
+	private static int backupCount = 0;
 	private static final LinkedList<Default_Base> DEFAULTS = new LinkedList<Default_Base>();
+	private static final LinkedList<Default_Base> BACKUP_DEFAULTS = new LinkedList<Default_Base>();
+	private static boolean controlDefaultsSaved = false;
 
 	private TTCN_Default() {
 		//intentionally empty to disable instantiation
@@ -69,5 +72,47 @@ public class TTCN_Default {
 		}
 
 		return returnValue;
+	}
+
+	// originally TTCN_Default::save_control_defaults
+	public static void save_control_defaults() {
+		if (controlDefaultsSaved) {
+			throw new TtcnError("Internal error: Control part defaults are already saved.");
+		}
+
+		BACKUP_DEFAULTS.addAll(DEFAULTS);
+		DEFAULTS.clear();
+		backupCount = defaultCount;
+		defaultCount = 0;
+		controlDefaultsSaved = true;
+	}
+
+	// originally TTCN_Default::restore_control_defaults
+	public static void restoreControlDefaults() {
+		if (!controlDefaultsSaved) {
+			throw new TtcnError("Internal error: Control part defaults are not saved.");
+		}
+
+		if (DEFAULTS.size() > 0) {
+			throw new TtcnError("Internal Error: There are defaults. Control part defaults can not be restored.");
+		}
+
+		DEFAULTS.addAll(BACKUP_DEFAULTS);
+		BACKUP_DEFAULTS.clear();
+		defaultCount = backupCount;
+		backupCount = 0;
+		controlDefaultsSaved = false;
+	}
+
+	// originally TTCN_Default::reset_counter
+	public static void resetCounter() {
+		if (controlDefaultsSaved) {
+			throw new TtcnError("Internal error: Default counter cannot be reset when the control part defaults are saved.");
+		}
+		if (DEFAULTS.size() > 0) {
+			throw new TtcnError("Internal error: Default counter cannot be reset when there are active defaults.");
+		}
+
+		defaultCount = 0;
 	}
 }

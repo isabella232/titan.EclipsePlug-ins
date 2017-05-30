@@ -555,7 +555,6 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		StringBuilder source = new StringBuilder();
 		aData.addBuiltinTypeImport( "TtcnError" );
 		aData.addCommonLibraryImport("TTCN_Runtime");
-		aData.addCommonLibraryImport("TitanPort");
 		source.append( "\tpublic static final " );
 
 		// return value
@@ -573,9 +572,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append( "final boolean has_timer, final TitanFloat timer_value) {\n" );
 		source.append("try{\n");
 		//TODO add extra parameters too
-		source.append("TTCN_Runtime.begin_testcase(has_timer, timer_value);\n");
-		source.append(MessageFormat.format("init_comp_type(\"{0}\", true);//FIXME move to system internals\n", runsOnType.getComponentBody().getIdentifier().getDisplayName()));
-		source.append("TitanPort.all_start();//FIXME move to system internals\n");
+		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", has_timer, timer_value);\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
 		source.append("System.out.println(error);\n");
