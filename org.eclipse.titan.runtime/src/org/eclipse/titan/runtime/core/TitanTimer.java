@@ -15,6 +15,7 @@ public class TitanTimer {
 
 	// linked list of running timers
 	private static final LinkedList<TitanTimer> TIMERS = new LinkedList<TitanTimer>();
+	private static final LinkedList<TitanTimer> BACKUP_TIMERS = new LinkedList<TitanTimer>();
 
 	private String timerName;
 	private boolean hasDefault;
@@ -22,6 +23,7 @@ public class TitanTimer {
 	private double defaultValue;
 	private double timeStarted;
 	private double timeExpires;
+	private static boolean controlTimerSaved = false;
 
 	public TitanTimer(final String name) {
 		if (name == null) {
@@ -313,5 +315,31 @@ public class TitanTimer {
 
 
 		return minFlag;
+	}
+
+	// originally TIMER::save_control_timers
+	public static void saveControlTimers() {
+		if (controlTimerSaved) {
+			throw new TtcnError("Internal error: Control part timers are already saved.");
+		}
+
+		BACKUP_TIMERS.addAll(TIMERS);
+		TIMERS.clear();
+		controlTimerSaved = true;
+	}
+
+	//originally TIMER::restore_control_timers
+	public static void restore_control_timers() {
+		if (!controlTimerSaved) {
+			throw new TtcnError("Internal error: Control part timers are not saved.");
+		}
+
+		if (TIMERS.size() > 0) {
+			throw new TtcnError("Internal error: There are active timers. Control part timers cannot be restored.");
+		}
+
+		TIMERS.addAll(BACKUP_TIMERS);
+		BACKUP_TIMERS.clear();
+		controlTimerSaved = false;
 	}
 }

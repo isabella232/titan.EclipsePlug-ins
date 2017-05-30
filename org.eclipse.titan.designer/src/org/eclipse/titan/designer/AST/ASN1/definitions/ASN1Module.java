@@ -425,11 +425,17 @@ public final class ASN1Module extends Module {
 		//TODO module setup/teardown infrastructure
 
 		final StringBuilder sb = aData.getSrc();
+		aData.addBuiltinTypeImport("TTCN_Module");
 
 		imports.generateCode(aData);
 
 		sb.append("// ASN.1 module are NOT supported by the Java code Generator!\n");
-		sb.append( "class " + name + " {\n" );
+		sb.append( "class " + name + " extends TTCN_Module {\n" );
+
+		sb.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
+		sb.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
+		sb.append("}\n\n");
+
 		if ( assignments != null ) {
 			assignments.generateCode( aData );
 		}

@@ -1241,16 +1241,21 @@ public final class TTCN3Module extends Module {
 		//TODO module setup/teardown infrastructure
 
 		final StringBuilder sb = aData.getSrc();
+		aData.addBuiltinTypeImport("TTCN_Module");
 
 		for (ImportModule importModule : importedModules) {
 			importModule.generateCode(aData);
 		}
 
-		sb.append( "public final class " + name + " {\n" );
+		sb.append( "public final class " + name + " extends TTCN_Module {\n" );
 		if ( definitions != null ) {
 			definitions.generateCode( aData );
 		}
 
+		sb.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
+		sb.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
+		sb.append("}\n\n");
+		
 		//TODO handle anytype
 		//if (anytypeDefinition != null) {
 		//	anytypeDefinition.generateCode(aData);
