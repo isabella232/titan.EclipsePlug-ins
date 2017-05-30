@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.text.MessageFormat;
 
+import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
@@ -120,7 +122,10 @@ public class ProjectSourceCompiler {
 	 */
 	private static void createDir( IFolder aFolder ) throws CoreException {
 		if (!aFolder.exists()) {
-			createDir( (IFolder) aFolder.getParent() );
+			IContainer parent = aFolder.getParent();
+			if (parent instanceof IFolder) {
+				createDir( (IFolder) parent );
+			}
 			aFolder.create( true, true, new NullProgressMonitor() );
 		}
 	}
@@ -162,6 +167,10 @@ public class ProjectSourceCompiler {
 			aSb.append( "." );
 			aSb.append( importName );
 			aSb.append( ";\n" );
+		}
+
+		for (String importName : aData.getInterModuleImports()) {
+			aSb.append(MessageFormat.format("import {0}.{1}.*;\n", PACKAGE_GENERATED_ROOT, importName));
 		}
 
 		for ( String importName : aData.getImports() ) {

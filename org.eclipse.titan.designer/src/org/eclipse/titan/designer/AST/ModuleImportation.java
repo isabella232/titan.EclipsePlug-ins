@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -253,4 +254,15 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	 *                should be inserted into.
 	 * */
 	public abstract void addDeclaration(final DeclarationCollector declarationCollector, final Identifier targetModuleId);
+
+	/**
+	 * Generate code for importing from other modules.
+	 *
+	 * @param aData the generated java code with other info
+	 */
+	public void generateCode( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+
+		aData.addInterModuleImport(identifier.getName());
+	}
 }

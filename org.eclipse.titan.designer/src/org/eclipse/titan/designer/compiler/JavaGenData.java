@@ -28,7 +28,10 @@ public class JavaGenData {
 	
 	/** The imports with short class names */
 	private Set<String> mInternalImports;
-	
+
+	/** The imports with short class names */
+	private Set<String> mInterModuleImports;
+
 	private HashMap<String, StringBuilder> types;
 
 	/**
@@ -50,6 +53,7 @@ public class JavaGenData {
 		// TreeSet keeps elements in natural order (alphabetical)
 		mImports = new TreeSet<String>();
 		mInternalImports = new TreeSet<String>();
+		mInterModuleImports = new TreeSet<String>();
 		mDebug = false;
 		types = new HashMap<String, StringBuilder>();
 	}
@@ -112,7 +116,15 @@ public class JavaGenData {
 	public void addCommonLibraryImport( final String aNewImport ) {
 		mInternalImports.add( aNewImport );
 	}
-	
+
+	/**
+	 * Adds a new import
+	 * @param aNewImport the new import with short class name. It is ignored in case of duplicate.
+	 */
+	public void addInterModuleImport( final String aNewImport ) {
+		mInterModuleImports.add( aNewImport );
+	}
+
 	/**
 	 * @return the imports with short class names in alphabetical order
 	 */
@@ -131,7 +143,13 @@ public class JavaGenData {
 		return mInternalImports;
 	}
 
-	
+	/**
+	 * @return the internal imports with short class names in alphabetical order
+	 */
+	public Set<String> getInterModuleImports() {
+		return mInterModuleImports;
+	}
+
 	public boolean isDebug() {
 		return mDebug;
 	}

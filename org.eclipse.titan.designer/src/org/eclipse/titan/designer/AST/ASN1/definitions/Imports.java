@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ModuleImportationChain;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -395,5 +396,20 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Generate code for importing from other modules.
+	 *
+	 * @param aData the generated java code with other info
+	 */
+	public void generateCode( final JavaGenData aData ) {
+		final StringBuilder sb = aData.getSrc();
+
+		if (importedModules_v != null) {
+			for (ImportModule im : importedModules_v) {
+				aData.addInterModuleImport(im.getIdentifier().getName());
+			}
+		}
 	}
 }
