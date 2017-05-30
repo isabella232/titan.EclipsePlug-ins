@@ -29,12 +29,13 @@ public class TitanBitString extends Base_Type {
 
 	public TitanBitString() {
 		bits_ptr = new ArrayList<Byte>();
-		calculateNoBits();
+		n_bits = 0;
 	}
 
-	public TitanBitString( final List<Byte> aOtherValue ) {
+	public TitanBitString( final List<Byte> aOtherValue, final int aNoBits ) {
 		bits_ptr = copyList( aOtherValue );
-		calculateNoBits();
+		n_bits = aNoBits;
+		clear_unused_bits();
 	}
 
 	public TitanBitString( final TitanBitString aOtherValue ) {
@@ -47,25 +48,51 @@ public class TitanBitString extends Base_Type {
 	public TitanBitString( final byte aValue ) {
 		bits_ptr = new ArrayList<Byte>();
 		bits_ptr.add( aValue );
-		calculateNoBits();
+		n_bits = 8;
 	}
 
 	/**
-	 * calculate number of bits from list data, leading zeros should not be counted
+	 * Constructor
+	 * @param aValue string representation of a bitstring value, without ''B, it contains only '0' and '1' characters.
+	 * NOTE: this is the way bitstring value is stored in Bitstring_Value
 	 */
-	private void calculateNoBits() {
-		final int size = bits_ptr.size();
-		if ( size == 0 ) {
-			n_bits = 0;
-			return;
+	public TitanBitString( final String aValue ) {
+		bits_ptr = bitstr2bytelist( aValue );
+		n_bits = aValue.length();
+	}
+
+	/**
+	 * Converts a string representation of a bitstring to a list of bytes
+	 * @param aBitString string representation of bitstring
+	 * @return value list of the bitstring, groupped in bytes
+	 */
+	private static List<Byte> bitstr2bytelist(final String aBitString) {
+		final List<Byte> result = new ArrayList<Byte>();
+		final int len = aBitString.length();
+		for ( int i = 0; i < len; i += 8 ) {
+			final String byteStr = aBitString.substring( i, i < len ? i + 8 : len );
+			final byte[] byteArray = byteStr.getBytes();
+			final Byte byteValue = bitstr2byte( byteArray );
+			result.add( byteValue );
 		}
 
-		int bits = size * 8;
-		final byte last = bits_ptr.get( size - 1 );
-		for ( int i = 7; i >= 0 && ( last & ( 1 << i ) ) == 0; i-- ) {
-			bits--;
+		return result;
+	}
+
+	/**
+	 * Converts a string representation of a short bitstring (max length 8) to a byte
+	 * @param aBitString8 string representation of bitstring as byte array, maximum length is 8, byte values are '0' or '1'
+	 * @return value of the bitstring
+	 */
+	private static byte bitstr2byte(final byte[] aBitString8 ) {
+		byte result = 0;
+		byte digit = 1;
+		for ( int i = aBitString8.length - 1; i >= 0 ; i--, digit *= 2 ) {
+			if ( aBitString8[i] == '1' ) {
+				result += digit;
+			}
 		}
-		n_bits = bits;
+		return result;
 	}
 
 	public final List<Byte> copyList( final List<Byte> srcList ) {
@@ -80,7 +107,9 @@ public class TitanBitString extends Base_Type {
 		return newList;
 	}
 
-	//TODO: remove if not needed
+	/**
+	 * Sets unused bits to 0
+	 */
 	private void clear_unused_bits() {
 		final int listIndex = (n_bits - 1) / 8;
 		byte bytevalue = bits_ptr.get( listIndex );
@@ -110,7 +139,6 @@ public class TitanBitString extends Base_Type {
 			bytevalue &= ~mask;
 		}
 		bits_ptr.set( listIndex, bytevalue );
-		calculateNoBits();
 	}
 
 	//originally char*()
@@ -119,9 +147,10 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//takes ownership of aOtherValue
-	public void setValue( final List<Byte> aOtherValue ) {
+	public void setValue( final List<Byte> aOtherValue, final int aNoBits ) {
 		bits_ptr = aOtherValue;
-		calculateNoBits();
+		this.n_bits = aNoBits;
+		clear_unused_bits();
 	}
 
 	//originally operator=

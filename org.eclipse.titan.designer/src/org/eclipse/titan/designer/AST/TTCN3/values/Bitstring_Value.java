@@ -25,7 +25,9 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.BitString_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2BitExpression;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -193,4 +195,31 @@ public final class Bitstring_Value extends Value {
 		// no members
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport( "TitanBitString" );
+		source.append(name);
+		source.append(".assign( ");
+
+		source.append( "new TitanBitString( \"" );
+		source.append( value );
+		source.append( "\" ) );\n" );
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, ExpressionStruct expression) {
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+
+		expression.expression.append( "new TitanBitString( \"" );
+		expression.expression.append( value );
+		expression.expression.append( "\" )" );
+	}
+
 }
