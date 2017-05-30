@@ -42,9 +42,9 @@ public class TitanBitString_template extends Base_Template {
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanBitString_template (final List<Byte> otherValue) {
+	public TitanBitString_template (final List<Byte> otherValue, final int aNoBits) {
 		super(template_sel.SPECIFIC_VALUE);
-		single_value = new TitanBitString(otherValue);
+		single_value = new TitanBitString(otherValue, aNoBits);
 	}
 
 	public TitanBitString_template (final TitanBitString otherValue) {
@@ -83,10 +83,10 @@ public class TitanBitString_template extends Base_Template {
 	}
 
 	//originally operator=
-	public TitanBitString_template assign( final List<Byte> otherValue ) {
+	public TitanBitString_template assign( final List<Byte> otherValue, final int aNoBits ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
-		single_value = new TitanBitString(otherValue);
+		single_value = new TitanBitString(otherValue, aNoBits);
 
 		return this;
 	}
