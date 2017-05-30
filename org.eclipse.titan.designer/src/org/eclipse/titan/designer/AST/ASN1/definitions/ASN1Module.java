@@ -421,7 +421,6 @@ public final class ASN1Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
-		//TODO handle imports
 		//TODO handle coding attributes
 		//TODO module setup/teardown infrastructure
 
