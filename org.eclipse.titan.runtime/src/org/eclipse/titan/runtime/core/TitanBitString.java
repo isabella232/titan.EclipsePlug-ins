@@ -70,7 +70,7 @@ public class TitanBitString extends Base_Type {
 		final List<Byte> result = new ArrayList<Byte>();
 		final int len = aBitString.length();
 		for ( int i = 0; i < len; i += 8 ) {
-			final String byteStr = aBitString.substring( i, i < len ? i + 8 : len );
+			final String byteStr = aBitString.substring( i, i + 8 < len ? i + 8 : len );
 			final byte[] byteArray = byteStr.getBytes();
 			final Byte byteValue = bitstr2byte( byteArray );
 			result.add( byteValue );
