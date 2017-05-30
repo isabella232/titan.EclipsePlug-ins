@@ -554,6 +554,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		aData.addBuiltinTypeImport( "TtcnError" );
+		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		source.append( "\tpublic static final " );
 
