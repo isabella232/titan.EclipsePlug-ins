@@ -191,7 +191,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			break;
 		}
 
-		final IType governor = temp.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		final IType governor = temp.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		if (governor == null) {
 			getLocation().reportSemanticError("Cannot determine the type of the argument");
 			isErroneous = true;
@@ -200,7 +200,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 
 		//TODO: Is the next part necessary ???
 		temp.setMyGovernor(governor);
-		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, true, true, true, false));//TODO:WHY
+		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, true, true, true, true, false));//TODO:WHY
 
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		if (ArgumentType.Value.equals(internalLogArgument.getArgumentType()) && !temp.isUnfoldable(timestamp)) {
