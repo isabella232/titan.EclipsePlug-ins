@@ -160,13 +160,13 @@ public final class OmitValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder getSingleExpresion(JavaGenData aData, boolean castIsNeeded) {
+	public StringBuilder getSingleExpression(JavaGenData aData, boolean castIsNeeded) {
 		StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
 			result.append( "\t//TODO: fatal error while generating " );
 			result.append( getClass().getSimpleName() );
-			result.append( ".generateSingleExpression() !\n" );
+			result.append( ".getSingleExpression() !\n" );
 			//fatal error
 			return result;
 		}
@@ -185,7 +185,7 @@ public final class OmitValue_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		source.append(name);
 		source.append(".assign( ");
-		source.append(getSingleExpresion(aData, false));
+		source.append(getSingleExpression(aData, false));
 		source.append( " );\n" );
 		//TODO missing parts need to be completed
 

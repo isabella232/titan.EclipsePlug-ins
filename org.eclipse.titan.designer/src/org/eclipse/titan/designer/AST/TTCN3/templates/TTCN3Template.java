@@ -1183,7 +1183,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *  @param castIsNeeded indicates whether the generic wildcards have to be explicitly
 	 *  converted to the appropriate type.
 	 * */
-	public StringBuilder getSingleExpresion(final JavaGenData aData, final boolean castIsNeeded) {
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		StringBuilder source = new StringBuilder();
 		//default implementation
 		//TODO this might be a good location to check for the need of conversion
@@ -1206,6 +1206,6 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() is not implemented!\n" );
+		source.append( ".generateCodeInit() is not implemented!\n" );
 	}
 }

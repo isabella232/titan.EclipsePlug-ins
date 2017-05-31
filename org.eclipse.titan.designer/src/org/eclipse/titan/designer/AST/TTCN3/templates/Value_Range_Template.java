@@ -177,12 +177,12 @@ public final class Value_Range_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder getSingleExpresion(JavaGenData aData, boolean castIsNeeded) {
+	public StringBuilder getSingleExpression(JavaGenData aData, boolean castIsNeeded) {
 		StringBuilder result = new StringBuilder();
 
 		result.append( "\t//TODO: fatal error while generating " );
 		result.append( getClass().getSimpleName() );
-		result.append( ".generateSingleExpression() !\n" );
+		result.append( ".getSingleExpression() !\n" );
 		// TODO: fatal error
 		return result;
 	}
