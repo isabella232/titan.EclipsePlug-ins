@@ -534,6 +534,10 @@ public final class Assignment_Statement extends Statement {
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//TODO this is actually much more complicated
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+		if ( assignment == null ) {
+			//TODO: handle null
+			return;
+		}
 		switch (assignment.getAssignmentType()) {
 		case A_PAR_VAL_IN:
 		case A_PAR_VAL_OUT:

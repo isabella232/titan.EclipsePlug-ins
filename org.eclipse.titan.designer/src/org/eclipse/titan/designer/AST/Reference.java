@@ -964,6 +964,11 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	public void generateConstRef(final JavaGenData aData, final ExpressionStruct expression) {
+		if ( referredAssignment == null ) {
+			//TODO: handle null
+			return;
+		}
+
 		boolean isTemplate;
 		switch (referredAssignment.getAssignmentType()) {
 		case A_CONST:
