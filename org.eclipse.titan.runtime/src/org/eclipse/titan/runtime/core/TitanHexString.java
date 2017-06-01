@@ -30,18 +30,76 @@ public class TitanHexString extends Base_Type {
 	}
 
 	public TitanHexString( final List<Byte> aOtherValue ) {
-		nibbles_ptr = aOtherValue;
+		nibbles_ptr = copyList( aOtherValue );
 	}
 
 	public TitanHexString( final TitanHexString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound hexstring value." );
 
-		nibbles_ptr = aOtherValue.nibbles_ptr;
+		nibbles_ptr = copyList( aOtherValue.nibbles_ptr );
 	}
 
 	public TitanHexString( final byte aValue ) {
 		nibbles_ptr = new ArrayList<Byte>();
 		nibbles_ptr.add( aValue );
+	}
+
+	/**
+	 * Constructor
+	 * @param aValue string representation of a hexstring value, without ''B, it contains only [0-9A-F] characters.
+	 * NOTE: this is the way hexstring value is stored in Hexstring_Value
+	 */
+	public TitanHexString( final String aValue ) {
+		nibbles_ptr = hexstr2bytelist( aValue );
+	}
+
+	public final List<Byte> copyList( final List<Byte> srcList ) {
+		if ( srcList == null ) {
+			return null;
+		}
+
+		final List<Byte> newList = new ArrayList<Byte>( srcList.size() );
+		for (Byte uc : srcList) {
+			newList.add( Byte.valueOf( uc ) );
+		}
+		return newList;
+	}
+
+	/**
+	 * Converts a string representation of a hexstring to a list of bytes
+	 * @param aHexString string representation of hexstring
+	 * @return value list of the hexstring, groupped in bytes
+	 */
+	private static List<Byte> hexstr2bytelist(final String aHexString) {
+		final List<Byte> result = new ArrayList<Byte>();
+		final int len = aHexString.length();
+		for ( int i = 0; i < len; i++ ) {
+			final char hexDigit = aHexString.charAt( i );
+			final Byte byteValue = hexdigit2byte( hexDigit );
+			result.add( byteValue );
+		}
+
+		return result;
+	}
+
+	/**
+	 * Converts a string representation of a hexadecimal digit to a byte
+	 * @param aHexDigit string representation of hex digit, possible value: [0-9A-F] characters
+	 * @return value of the hex digit
+	 */
+	static byte hexdigit2byte( final char aHexDigit ) {
+		byte result;
+		if ( '0' <= aHexDigit && aHexDigit <= '9' ) {
+			result = (byte) (aHexDigit - '0');
+		} else if ( 'A' <= aHexDigit && aHexDigit <= 'F' ) {
+			result = (byte) (aHexDigit - 'A' + 10 );
+		} else if ( 'a' <= aHexDigit && aHexDigit <= 'f' ) {
+			result = (byte) (aHexDigit - 'a' + 10 );
+		} else {
+			//TODO: handle error
+			result = 0;
+		}
+		return result;
 	}
 
 	/** Return the nibble at index i
@@ -198,5 +256,17 @@ public class TitanHexString extends Base_Type {
 	@Override
 	public boolean isPresent() {
 		return isBound();
+	}
+
+	/**
+	 * this + otherValue (concatenation)
+	 * originally operator+
+	 */
+	public TitanHexString add( final TitanHexString otherValue ) {
+		mustBound( "Unbound left operand of hexstring concatenation." );
+		otherValue.mustBound( "Unbound right operand of hexstring concatenation." );
+		TitanHexString result = new TitanHexString( nibbles_ptr );
+		result.nibbles_ptr.addAll( copyList( otherValue.nibbles_ptr ) );
+		return result;
 	}
 }
