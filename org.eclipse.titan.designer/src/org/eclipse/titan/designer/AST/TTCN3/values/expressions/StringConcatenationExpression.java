@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -386,4 +387,16 @@ public final class StringConcatenationExpression extends Expression_Value {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		value1.generateCodeExpression(aData, expression);
+		// originally operatior+ is used for string concatenation
+		expression.expression.append( ".add( " );
+		value2.generateCodeExpression(aData, expression);
+		expression.expression.append( " )" );
+	}
+
 }
