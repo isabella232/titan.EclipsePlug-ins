@@ -26,7 +26,9 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.OctetString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2OctExpression;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2OctExpression;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -185,5 +187,31 @@ public final class Octetstring_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport( "TitanOctetString" );
+		source.append(name);
+		source.append(".assign( ");
+
+		source.append( "new TitanOctetString( \"" );
+		source.append( value );
+		source.append( "\" ) );\n" );
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, ExpressionStruct expression) {
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+
+		expression.expression.append( "new TitanOctetString( \"" );
+		expression.expression.append( value );
+		expression.expression.append( "\" )" );
 	}
 }

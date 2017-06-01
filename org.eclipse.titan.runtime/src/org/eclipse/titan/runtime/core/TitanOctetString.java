@@ -48,6 +48,44 @@ public class TitanOctetString extends Base_Type {
 		val_ptr.add( aValue );
 	}
 
+	/**
+	 * Constructor
+	 * @param aValue string representation of a octetstring value, without ''B, it contains only [0-9A-F] characters.
+	 * NOTE: this is the way octetstring value is stored in Octetstring_Value
+	 */
+	public TitanOctetString( final String aValue ) {
+		val_ptr = octetstr2bytelist( aValue );
+	}
+
+	/**
+	 * Converts a string representation of a octetstring to a list of Character
+	 * @param aHexString string representation of octetstring, it contains exatcly even number of hex digits
+	 * @return value list of the octetstring, groupped in 2 bytes (java Character)
+	 */
+	private static List<Character> octetstr2bytelist(final String aHexString) {
+		final List<Character> result = new ArrayList<Character>();
+		final int len = aHexString.length();
+		for ( int i = 0; i < len; i += 2 ) {
+			final char hexDigit1 = aHexString.charAt( i );
+			final char hexDigit2 = aHexString.charAt( i + 1 );
+			final char value = octet2value( hexDigit1, hexDigit2 );
+			result.add( value );
+		}
+
+		return result;
+	}
+
+	/**
+	 * Converts a string representation of an octet to a value
+	 * @param aHexDigit1 1st digit of an octet, string representation of hex digit, possible value: [0-9A-F] characters
+	 * @param aHexDigit2 2nd digit of an octet, string representation of hex digit, possible value: [0-9A-F] characters
+	 * @return value of the octet
+	 */
+	private static char octet2value( final char aHexDigit1, final char aHexDigit2 ) {
+		final char result = (char) ( 256 * TitanHexString.hexdigit2byte( aHexDigit1 ) + TitanHexString.hexdigit2byte( aHexDigit2 ));
+		return result;
+	}
+
 	private static List<Character> copyList(final List<Character> aList) {
 		if ( aList == null ) {
 			return null;
@@ -222,5 +260,17 @@ public class TitanOctetString extends Base_Type {
 	@Override
 	public boolean isPresent() {
 		return isBound();
+	}
+
+	/**
+	 * this + otherValue (concatenation)
+	 * originally operator+
+	 */
+	public TitanOctetString add( final TitanOctetString otherValue ) {
+		mustBound( "Unbound left operand of octetstring concatenation." );
+		otherValue.mustBound( "Unbound right operand of octetstring concatenation." );
+		TitanOctetString result = new TitanOctetString( val_ptr );
+		result.val_ptr.addAll( copyList( otherValue.val_ptr ) );
+		return result;
 	}
 }
