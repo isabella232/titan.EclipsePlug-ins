@@ -18,9 +18,14 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.ASN1.Value_Assignment;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
@@ -34,7 +39,12 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateBody;
+import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
+import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
@@ -290,6 +300,91 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (subreferences.size() <= actualSubReference) {
 			return true;
 		}
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean fieldIsOptional(final List<ISubReference> subReferences) {
+		//TODO there must be a better implementation
+		if (subReferences == null) {
+			return false;
+		}
+
+		if (subReferences.isEmpty()) {
+			return false;
+		}
+
+		ISubReference lastSubReference = subReferences.get(subReferences.size() - 1);
+		if (!(lastSubReference instanceof FieldSubReference)) {
+			return false;
+		}
+
+		IType type = this;
+		CompField compField = null;
+		for ( int i = 1; i < subReferences.size(); i++) {
+			if (type != null) {
+				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			}
+
+			ISubReference subreference = subReferences.get(i);
+			if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
+				Identifier id = ((FieldSubReference) subreference).getId();
+				if (type != null) {
+					switch(type.getTypetype()) {
+					case TYPE_TTCN3_CHOICE:
+					case TYPE_TTCN3_SEQUENCE:
+					case TYPE_TTCN3_SET:
+						compField = ((TTCN3_Set_Seq_Choice_BaseType)type).getComponentByName(id.getName());
+						break;
+					case TYPE_ANYTYPE:
+						compField = ((Anytype_Type)type).getComponentByName(id.getName());
+						break;
+					case TYPE_OPENTYPE:
+						compField = ((Open_Type)type).getComponentByName(id);
+						break;
+					case TYPE_ASN1_SEQUENCE:
+						((ASN1_Sequence_Type)type).parseBlockSequence();
+						compField = ((ASN1_Sequence_Type)type).getComponentByName(id);
+						break;
+					case TYPE_ASN1_SET:
+						((ASN1_Set_Type)type).parseBlockSet();
+						compField = ((ASN1_Set_Type)type).getComponentByName(id);
+						break;
+					case TYPE_ASN1_CHOICE:
+						((ASN1_Choice_Type)type).parseBlockChoice();
+						compField = ((ASN1_Choice_Type)type).getComponentByName(id);
+						break;
+					default:
+						//TODO fatal error:
+						return false;
+					}
+				}
+			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
+				Value value = ((ArraySubReference)subreference).getValue();
+				//TODO actually should get the last governor
+				IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+				if(type != null) {
+					switch(type.getTypetype()) {
+					case TYPE_SEQUENCE_OF:
+					case TYPE_SET_OF:
+						type = ((AbstractOfType) type).getOfType();
+						break;
+					case TYPE_ARRAY:
+						type = ((Array_Type) type).getElementType();
+						break;
+					default:
+						type = null;
+						return false;
+					}
+				}
+			}
+		}
+
+		if (compField != null && compField.isOptional()) {
+			return true;
+		}
+
 		return false;
 	}
 

@@ -369,6 +369,17 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 			List<Integer> subrefsArray, List<IType> typeArray);
 
 	/**
+	 * Returns whether the last field referenced by subReferences is an optional
+	 * record/SEQUENCE or set/SET field.
+	 * It can be used only after a successful
+	 * semantic check (e.g. during code generation) or the behaviour will be
+	 * unpredictable.
+	 * 
+	 * @param subReferences the subreferences to walk
+	 * */
+	boolean fieldIsOptional(final List<ISubReference> subReferences);
+
+	/**
 	 * Calculates the list of field types traversed. Does not check if the
 	 * index values are valid. Does not give error messages, it just returns
 	 * with false.

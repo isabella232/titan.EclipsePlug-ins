@@ -444,6 +444,18 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression);
 
 	/**
+	 * Generates the Java equivalent of this into expression and adds a "get()"
+	 * to expression.expression if this is referenced value that points to an optional
+	 * field of a record/set value.
+	 *
+	 * generate_code_expr_mandatory in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * */
+	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression);
+
+	/**
 	 *  Generates a value for temporary use. Example:
 	 *
 	 *  str: // empty

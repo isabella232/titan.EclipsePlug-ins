@@ -679,5 +679,11 @@ public final class Referenced_Value extends Value {
 		reference.generateConstRef(aData, expression);
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression) {
+		generateCodeExpression(aData, expression);
 
+		generateCodeExpressionOptionalFieldReference(aData, expression, reference);
+	}
 }

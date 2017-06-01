@@ -475,6 +475,20 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
+	 * Generates the Java equivalent of this into expression and adds a "get()"
+	 * to expression.expression if this is referenced value that points to an optional
+	 * field of a record/set value.
+	 *
+	 * generate_code_expr_mandatory in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * */
+	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression) {
+		generateCodeExpression(aData, expression);
+	}
+
+	/**
 	 *  Generates a value for temporary use. Example:
 	 *
 	 *  str: // empty
@@ -534,15 +548,15 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
 		ExpressionStruct expression = new ExpressionStruct();
 
-		//TODO actually only the mandatory part is needed
-		generateCodeExpression(aData, expression);
+		generateCodeExpressionMandatory(aData, expression);
 
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			String tempId = aData.getTemporaryVariableName();
 			if(Type_type.TYPE_BOOL.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
 				init.append("boolean");
 			} else {
-				myGovernor.getGenNameValue(aData, init, myScope);
+				String typeName = myGovernor.getGenNameValue(aData, init, myScope);
+				init.append(typeName);
 			}
 			init.append(" ");
 			init.append(tempId);
@@ -565,5 +579,39 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		}
 
 		return source;
+	}
+
+	/**
+	 * Adds the character sequence "get()" to expression->expression if reference points to
+	 * an optional field of a record/set value.
+	 *
+	 * generate_code_expr_optional_field_ref in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * @param reference the reference to check
+	 * */
+	public void generateCodeExpressionOptionalFieldReference(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {
+		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+		switch (assignment.getAssignmentType()) {
+		case A_CONST:
+		case A_EXT_CONST:
+		case A_MODULEPAR:
+		case A_VAR:
+		case A_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RVAL:
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_OUT:
+		case A_PAR_VAL_INOUT:
+			//only these are mapped to value objects
+			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+				expression.expression.append(".get()");
+			}
+			break;
+		default:
+			break;
+		}
 	}
 }
