@@ -666,7 +666,7 @@ public final class Referenced_Value extends Value {
 		//TODO Value.cc:generate_code_init_refd
 		source.append(name);
 		source.append(".assign(");
-		source.append("TEMPORARY_NAME");//TODO needs last.getGennameOwn
+		source.append( last.getGenNameOwn() ); 
 		source.append(");\n");
 		return source;
 	}

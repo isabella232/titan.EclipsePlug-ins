@@ -485,4 +485,11 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 *  @param init is the content to be generated before the current value
 	 * */
 	StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init);
+
+	/**
+	 * Returns a Java reference that points to this setting from the local module.
+	 *
+	 * @return The name of the Java setting in the generated code.
+	 */
+	String getGenNameOwn();
 }
