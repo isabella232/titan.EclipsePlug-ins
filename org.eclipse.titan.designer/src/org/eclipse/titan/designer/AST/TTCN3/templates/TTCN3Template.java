@@ -1189,7 +1189,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		//TODO this might be a good location to check for the need of conversion
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateSingleExpression() is not implemented!\n" );
+		source.append( ".getSingleExpression() is not implemented!\n" );
 
 		return source;
 	}
