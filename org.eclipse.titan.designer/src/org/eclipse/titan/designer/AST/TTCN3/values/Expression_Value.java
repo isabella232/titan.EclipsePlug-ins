@@ -368,6 +368,6 @@ public abstract class Expression_Value extends Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		expression.expression.append( "\t//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCode() is not implemented!\n" );
+		expression.expression.append( ".generateCodeExpressionExpression() is not implemented!\n" );
 	}
 }
