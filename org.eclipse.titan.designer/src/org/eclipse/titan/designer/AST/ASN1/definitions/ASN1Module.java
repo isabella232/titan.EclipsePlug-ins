@@ -433,7 +433,7 @@ public final class ASN1Module extends Module {
 		sb.append( "class " + name + " extends TTCN_Module {\n" );
 
 		sb.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
-		sb.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
+		sb.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.ASN1_MODULE);\n", identifier.getDisplayName()));
 		sb.append("}\n\n");
 
 		if ( assignments != null ) {

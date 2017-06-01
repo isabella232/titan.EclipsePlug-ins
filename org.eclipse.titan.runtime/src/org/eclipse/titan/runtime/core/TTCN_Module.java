@@ -8,10 +8,15 @@ package org.eclipse.titan.runtime.core;
  * @author Kristof Szabados
  */
 public class TTCN_Module {
+	//originally module_type_enum
+	public static enum moduleTypeEnum {TTCN3_MODULE, ASN1_MODULE};
+
+	private final moduleTypeEnum moduleType;
 	public final String name;
 
-	public TTCN_Module(final String name) {
+	public TTCN_Module(final String name, final moduleTypeEnum moduleType) {
 		this.name = name;
+		this.moduleType = moduleType;
 	}
 
 	public void pre_init_module() {
