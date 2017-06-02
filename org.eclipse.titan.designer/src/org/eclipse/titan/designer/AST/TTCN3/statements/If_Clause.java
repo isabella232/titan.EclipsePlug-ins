@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
@@ -176,7 +177,6 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 		boolean unreachable2 = unreachable;
 		if (expression != null) {
 			final IValue last = expression.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
-
 			final Type_type temporalType = last.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (!last.getIsErroneous(timestamp) && !Type_type.TYPE_UNDEFINED.equals(temporalType)) {
 				if (!Type_type.TYPE_BOOL.equals(temporalType)) {
@@ -199,6 +199,10 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 										PreferenceConstants.REPORTUNNECESSARYCONTROLS,
 										GeneralConstants.WARNING, null), NEVERREACH2);
 					}
+				}
+
+				if(expression.getMyGovernor() == null) {
+					expression.setMyGovernor(new Boolean_Type());
 				}
 			}
 		}

@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -184,6 +185,10 @@ public final class While_Statement extends Statement {
 										PreferenceConstants.REPORTINFINITELOOPS, GeneralConstants.WARNING,
 										null), INFINITELOOP);
 					}
+				}
+
+				if(expression.getMyGovernor() == null) {
+					expression.setMyGovernor(new Boolean_Type());
 				}
 			}
 		}

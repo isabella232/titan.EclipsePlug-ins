@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -141,6 +142,10 @@ public final class Referenced_Altguard extends AltGuard {
 			if (!last.getIsErroneous(timestamp) && !Type_type.TYPE_BOOL.equals(temporalType)) {
 				last.getLocation().reportSemanticError(BOOLEANEXPECTED);
 				expression.setIsErroneous(true);
+			}
+
+			if(expression.getMyGovernor() == null) {
+				expression.setMyGovernor(new Boolean_Type());
 			}
 		}
 

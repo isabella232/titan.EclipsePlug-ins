@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.For_Loop_Definitions;
+import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -254,6 +255,10 @@ public final class For_Statement extends Statement {
 				location.reportSemanticError(OPERANDERROR);
 				finalExpression.setIsErroneous(true);
 				break;
+			}
+
+			if(finalExpression.getMyGovernor() == null) {
+				finalExpression.setMyGovernor(new Boolean_Type());
 			}
 		}
 		if (stepAssignment != null) {
