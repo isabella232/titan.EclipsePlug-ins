@@ -336,6 +336,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 
 		IType localGovernor = checkType(timestamp, governor);
 		localGovernor = checkDerivedReference(timestamp, localGovernor);
+		templateBody.setMyGovernor(localGovernor);
 		final ITTCN3Template temporalBody = localGovernor.checkThisTemplateRef(timestamp, templateBody);
 		temporalBody.checkThisTemplateGeneric(timestamp, localGovernor, derivedReference != null, true, true, true, false);//TODO: too much automatic true (baat)
 
