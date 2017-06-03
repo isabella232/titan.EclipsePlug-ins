@@ -130,7 +130,10 @@ public final class MatchExpression extends Expression_Value {
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 
-		IType localGovernor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		IType localGovernor = value.getExpressionGovernor(timestamp, expectedValue);
+		if (localGovernor == null) {
+			localGovernor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		}
 		if (localGovernor == null) {
 			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
 			localGovernor = template.getExpressionGovernor(timestamp, internalExpectation);
@@ -139,6 +142,10 @@ public final class MatchExpression extends Expression_Value {
 			setIsErroneous(true);
 			return;
 		}
+
+		value.setMyGovernor(localGovernor);
+		
+		//FIXME check value against governor
 
 		templateInstance.getTemplateBody().checkThisTemplateGeneric(timestamp, localGovernor, false, false, false, true, false);
 
@@ -156,6 +163,7 @@ public final class MatchExpression extends Expression_Value {
 
 		value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 		templateInstance.getTemplateBody().getTemplateReferencedLast(timestamp, referenceChain);
+		templateInstance.check(timestamp, localGovernor);
 	}
 
 	@Override
