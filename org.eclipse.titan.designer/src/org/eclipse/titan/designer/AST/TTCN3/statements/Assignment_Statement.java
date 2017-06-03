@@ -41,6 +41,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueList_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
@@ -561,7 +562,12 @@ public final class Assignment_Statement extends Statement {
 		source.append( ".assign( " );
 
 		expression = new ExpressionStruct();
-		template.generateCodeExpression( aData, expression);
+		if (template.isValue(CompilationTimeStamp.getBaseTimestamp())) {
+			IValue value = ((SpecificValue_Template) template).getValue();
+			value.generateCodeExpression(aData, expression);
+		} else {
+			template.generateCodeExpression( aData, expression);
+		}
 		source.append(expression.preamble);
 		source.append(expression.expression);
 

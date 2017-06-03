@@ -11,7 +11,9 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -21,6 +23,8 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueList_Template;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -231,9 +235,20 @@ public final class Return_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		//TODO more nuanced code generation
+		if (template == null) {
+			return;
+		}
+
 		source.append( "\t\treturn " );
-		if (template != null) {
-			//TODO more nuanced code generation
+
+		Definition definition = myStatementBlock.getMyDefinition();
+		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
+			IValue value = ((SpecificValue_Template) template).getValue();
+			ExpressionStruct expression = new ExpressionStruct();
+			value.generateCodeExpression( aData, expression );
+			expression.mergeExpression(source);
+		} else {
 			ExpressionStruct expression = new ExpressionStruct();
 			template.generateCodeExpression( aData, expression );
 			expression.mergeExpression(source);
