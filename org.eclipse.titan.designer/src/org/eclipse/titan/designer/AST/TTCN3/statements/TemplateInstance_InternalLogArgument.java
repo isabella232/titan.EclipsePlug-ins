@@ -9,6 +9,8 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * @author Kristof Szabados
@@ -33,5 +35,15 @@ public final class TemplateInstance_InternalLogArgument extends InternalLogArgum
 		}
 
 		templateInstance.checkRecursions(timestamp, referenceChain);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+		//FIXME somewhat more complicated
+		if (templateInstance != null) {
+			templateInstance.generateCode(aData, expression);
+			//TODO need to be appended with ".log"
+		}
 	}
 }

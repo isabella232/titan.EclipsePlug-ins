@@ -7,7 +7,11 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 /**
  * @author Kristof Szabados
@@ -24,5 +28,14 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// Do nothing
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+		//FIXME somewhat more complicated
+		if (argument != null) {
+			expression.expression.append(MessageFormat.format("\"{0}\"", argument));
+		}
 	}
 }

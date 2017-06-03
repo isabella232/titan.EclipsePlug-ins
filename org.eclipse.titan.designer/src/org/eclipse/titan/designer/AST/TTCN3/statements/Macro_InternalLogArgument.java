@@ -9,6 +9,8 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.TTCN3.values.Macro_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -34,5 +36,14 @@ public final class Macro_InternalLogArgument extends InternalLogArgument {
 		}
 
 		value.checkRecursions(timestamp, referenceChain);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+		//FIXME somewhat more complicated
+		if (value != null) {
+			value.generateCodeExpression(aData, expression);
+		}
 	}
 }

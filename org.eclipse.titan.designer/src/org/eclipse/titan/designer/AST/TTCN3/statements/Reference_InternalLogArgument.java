@@ -10,6 +10,8 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -39,6 +41,16 @@ public final class Reference_InternalLogArgument extends InternalLogArgument {
 			referenceChain.markState();
 			referenceChain.add(assignment);
 			referenceChain.previousState();
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+		//FIXME somewhat more complicated
+		if (reference != null) {
+			reference.generateConstRef(aData, expression);
+			//FIXME extend with .log
 		}
 	}
 }

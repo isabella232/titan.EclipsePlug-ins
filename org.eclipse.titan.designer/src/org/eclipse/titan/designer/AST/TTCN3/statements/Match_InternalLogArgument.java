@@ -8,7 +8,9 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.MatchExpression;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -34,5 +36,15 @@ public final class Match_InternalLogArgument extends InternalLogArgument {
 		}
 
 		matchExpression.checkRecursions(timestamp, referenceChain);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+		//default implementation
+		expression.expression.append( "\t\t" );
+		expression.expression.append( "//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateCode() is not implemented!\n" );
 	}
 }

@@ -8,6 +8,8 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -39,4 +41,11 @@ public abstract class InternalLogArgument {
 	 *                the ReferenceChain used to detect circular references.
 	 * */
 	public abstract void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain);
+	
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression code generated
+	 */
+	public abstract void generateCode( final JavaGenData aData, final ExpressionStruct expression );
 }
