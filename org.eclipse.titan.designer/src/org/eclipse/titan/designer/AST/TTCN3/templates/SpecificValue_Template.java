@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -551,7 +552,14 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (myGovernor == null) {
+			return;
+		}
+		String genName = myGovernor.getGenNameTemplate(aData, expression.expression, myScope);
+
+		expression.expression.append(MessageFormat.format("new {0}(", genName) );
 		specificValue.generateCodeExpression( aData, expression );
+		expression.expression.append(')');
 	}
 
 	@Override
