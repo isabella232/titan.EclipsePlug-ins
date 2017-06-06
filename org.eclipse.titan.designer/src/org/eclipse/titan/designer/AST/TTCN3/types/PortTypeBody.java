@@ -1549,7 +1549,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		aData.addImport("java.util.LinkedList");
-
+		aData.addBuiltinTypeImport( "TitanPort" );
+		aData.addBuiltinTypeImport( "TitanAlt_Status" );
+		aData.addBuiltinTypeImport( "Base_Type" );
 		final String className = myType.getGenNameOwn();
 
 		//default implementation
