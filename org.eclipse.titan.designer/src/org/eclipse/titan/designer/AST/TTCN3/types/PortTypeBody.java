@@ -1559,6 +1559,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateCode() is not implemented!\n" );
+		
+//		if( TestPortAPI_type.TP_ADDRESS.equals(testportType) ) {
+//			String tmp_addres = getAddressType(lastTimeChecked).getGenNameValue(aData, source, myScope);//TODO: add address_name
+//		}
 		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 			IType inType = inMessages.getTypeByIndex(i);
 			aData.addBuiltinTypeImport(inType.getGenNameValue(aData, source, myScope));
@@ -1614,12 +1618,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n\n");
 			source.append("Base_Type my_head = message_queue.getFirst();\n");
-			source.append("if (!(my_head instanceof TitanCharString)) {\n");
+			source.append(MessageFormat.format("if (!(my_head instanceof {0})) '{'\n", inGeneratedName));
 			source.append("//FIXME report error \n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n\n");
 			//TODO more complicated
-			source.append("TitanCharString actual_message = (TitanCharString) my_head;\n");
+			source.append(MessageFormat.format("{0} actual_message = ({1}) my_head;\n",inGeneratedName,inGeneratedName));
 			source.append("if (!value_template.match(actual_message)) {\n");
 			source.append("//FIXME implement\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
