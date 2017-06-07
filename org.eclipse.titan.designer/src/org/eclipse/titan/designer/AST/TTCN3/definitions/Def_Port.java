@@ -366,6 +366,8 @@ public final class Def_Port extends Definition {
 		}
 
 		aData.addBuiltinTypeImport( "TitanPort" );
+		aData.addBuiltinTypeImport("Base_Template.template_sel");
+		aData.addBuiltinTypeImport("TtcnError");
 
 		if(dimensions == null) {
 			source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameValue(aData, source, myScope), genName, identifier.getDisplayName()));
