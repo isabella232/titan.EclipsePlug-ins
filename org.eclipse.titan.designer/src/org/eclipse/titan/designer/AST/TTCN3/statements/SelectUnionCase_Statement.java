@@ -154,6 +154,9 @@ public final class SelectUnionCase_Statement extends Statement {
 			checkAnytypeType( timestamp, anytypeType );
 		} else {
 			expression.getLocation().reportSemanticError( TYPE_MUST_BE_UNION_OR_ANYTYPE );
+			for(int i=0; i< mSelectUnionCases.getSize();i++) {
+				mSelectUnionCases.getSelectUnionCase(i).checkStatementBlock(timestamp);
+			}
 			return;
 		}
 	}

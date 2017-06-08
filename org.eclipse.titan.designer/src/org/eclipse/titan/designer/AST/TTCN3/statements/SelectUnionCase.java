@@ -192,6 +192,12 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 		return unreachable2;
 	}
+	
+	void checkStatementBlock( final CompilationTimeStamp aTimestamp) {
+		if( mStatementBlock !=null ) {
+			mStatementBlock.check( aTimestamp );
+		}
+	}
 
 	/**
 	 * Does the semantic checking of this select case of anytype type.

@@ -32,10 +32,14 @@ public class SelectUnionTest {
 	
 	private ArrayList<MarkerToCheck> SelectUnionNegativeTest_ttcn_initializer() {
 		//SelectUnionNegativeTest.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(7);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(9);
 		int lineNum = 21;
 		markersToCheck.add(new MarkerToCheck("The type of the expression must be union or anytype",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 26;
+		lineNum += 3;
+		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 18;
 		markersToCheck.add(new MarkerToCheck("Union `@SelectUnionNegativeTest.Message' has no field `msgBAD'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 24;
@@ -57,7 +61,7 @@ public class SelectUnionTest {
 	private ArrayList<MarkerToCheck> SelectUnionNegativeTest_ttcn_initializer_w() {
 		//SelectUnionNegativeTest.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(9);
-		int lineNum = 43;
+		int lineNum = 45;
 		markersToCheck.add(new MarkerToCheck("Cases not covered for the following fields: msg2",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 43;
 		markersToCheck.add(new MarkerToCheck("Cases not covered for the following fields: msg2",  lineNum, IMarker.SEVERITY_WARNING));
