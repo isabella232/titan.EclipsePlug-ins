@@ -12,27 +12,28 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
-import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
-import org.eclipse.titan.designer.AST.IType.Type_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -591,5 +592,70 @@ public final class Set_Value extends Value {
 				}
 			}
 		}
+	}
+
+	@Override
+	/** {@inheritDoc}
+	 * generate_code_init_se in the compiler
+	 * */
+	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		int nofComps = 0;
+		switch (type.getTypetype()) {
+		case TYPE_TTCN3_SET:
+			nofComps = ((TTCN3_Set_Type) type).getNofComponents();
+			break;
+		case TYPE_ASN1_SET:
+			nofComps = ((ASN1_Set_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
+			break;
+		default:
+			//TODO fatal error
+		}
+
+		CompField compField = null;
+		for (int i = 0; i < nofComps; i++) {
+			switch (type.getTypetype()) {
+			case TYPE_TTCN3_SET:
+				compField = ((TTCN3_Set_Type) type).getComponentByIndex(i);
+				break;
+			case TYPE_ASN1_SET:
+				compField = ((ASN1_Set_Type) type).getComponentByIndex(i);
+				break;
+			default:
+				// TODO fatal error
+			}
+			final Identifier fieldName = compField.getIdentifier();
+
+			IValue fieldValue;
+			if (hasComponentWithName(fieldName)) {
+				fieldValue = getComponentByName(fieldName).getValue();
+				if(Value_type.NOTUSED_VALUE.equals(fieldValue.getValuetype())) {
+					continue;
+				} else if (Value_type.OMIT_VALUE.equals(fieldValue.getValuetype())) {
+					fieldValue = null;
+				}
+			}//TODO add support for asn default values when needed
+			else {
+				continue;
+			}
+
+			if (fieldValue != null) {
+				//TODO handle the case when temporary reference is needed
+				StringBuilder embeddedName = new StringBuilder();
+				embeddedName.append(name);
+				embeddedName.append(".get");
+				embeddedName.append(FieldSubReference.getJavaGetterName(fieldName.getName()));
+				embeddedName.append("()");
+				if(compField.isOptional() /*&& fieldValue.isCompound() */) {
+					embeddedName.append(".get()");
+				}
+				//TODO add extra handling for optional fields
+				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
+			} else {
+				// TODO: handle omit value
+			}
+		}
+
+		return source;
 	}
 }
