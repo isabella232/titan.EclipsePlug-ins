@@ -154,6 +154,13 @@ public class TitanOctetString extends Base_Type {
 		}
 	}
 
+	//originally lengthof
+	public int lengthOf() {
+		mustBound("Performing lengthof operation on an unbound octetstring value.");
+
+		return val_ptr.size();
+	}
+
 	//originally operator==
 	public boolean operatorEquals( final TitanOctetString otherValue ) {
 		mustBound("Unbound left operand of octetstring comparison.");

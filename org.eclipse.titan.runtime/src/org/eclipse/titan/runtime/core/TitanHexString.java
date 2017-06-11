@@ -156,6 +156,13 @@ public class TitanHexString extends Base_Type {
 		}
 	}
 
+	//originally lengthof
+	public int lengthOf() {
+		mustBound("Performing lengthof operation on an unbound charstring value.");
+
+		return nibbles_ptr.size();
+	}
+
 	//originally operator==
 	public boolean operatorEquals( final TitanHexString otherValue ) {
 		mustBound("Unbound left operand of hexstring comparison.");

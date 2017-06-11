@@ -185,6 +185,13 @@ public class TitanBitString extends Base_Type {
 		}
 	}
 
+	//originally lengthof
+	public int lengthOf() {
+		mustBound("Performing lengthof operation on an unbound bitstring value.");
+
+		return n_bits;
+	}
+
 	//originally operator==
 	public boolean operatorEquals( final TitanBitString otherValue ) {
 		mustBound("Unbound left operand of bitstring comparison.");

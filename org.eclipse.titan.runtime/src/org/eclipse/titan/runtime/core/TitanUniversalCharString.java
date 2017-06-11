@@ -153,6 +153,17 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
+	//originally lengthof
+	public int lengthOf() {
+		mustBound("Performing lengthof operation on an unbound universal charstring value.");
+
+		if (charstring) {
+			return cstr.length();
+		}
+
+		return val_ptr.size();
+	}
+
 	//originally operator==
 	public boolean operatorEquals( final TitanUniversalCharString aOtherValue ) {
 		mustBound("Unbound left operand of universal charstring comparison.");
