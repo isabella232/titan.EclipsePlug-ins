@@ -783,6 +783,10 @@ public final class Sequence_Value extends Value {
 	 * generate_code_init_se in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+		if (convertedValue != null) {
+			return convertedValue.generateCodeInit(aData, source, name);
+		}
+
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		int nofComps = 0;
 		switch (type.getTypetype()) {
