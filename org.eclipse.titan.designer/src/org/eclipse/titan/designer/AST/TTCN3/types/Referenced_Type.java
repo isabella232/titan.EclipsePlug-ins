@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISetting;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
@@ -38,6 +39,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -617,5 +619,18 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			//TODO: implement: package of the imported class is unknown
 			source.append( " {}\n" );
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
+			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+		if (this == refdLast || refdLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.expression.append("FATAL_ERROR encountered");
+			return;
+		}
+
+		refdLast.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex, globalId, externalId, isTemplate, isBound);
 	}
 }

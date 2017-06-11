@@ -49,6 +49,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -1630,5 +1631,40 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		//TODO temporary solution before creating the code for calculating the generated name
 		return getGenNameValue(aData, source, scope) + "_template";
+	}
+
+	/**
+	 * Generates type specific call for the reference used in isbound call
+	 * into argument expression. Argument \a subrefs holds the reference path
+	 * that needs to be checked. Argument \a module is the actual module of
+	 * the reference and is used to gain access to temporal identifiers.
+	 *
+	 * generate_code_ispresentbound in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param expression the expression for code generation
+	 * @param subreferences the subreference to process
+	 * @param subReferenceIndex the index telling which part of the subreference to process
+	 * @param globalId is the name of the bool variable where the result
+	 * of the isbound check is calculated.
+	 * @param externalId is the name
+	 * of the assignment where the call chain starts.
+	 * @param isTemplate is_template tells if the assignment is a template or not.
+	 * @param isBound tells if the function is isbound or ispresent.
+	 * */
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return;
+		}
+
+		if (subReferenceIndex >= subreferences.size()) {
+			return;
+		}
+
+		//FIXME implement
+		expression.expression.append( "//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
+
 	}
 }

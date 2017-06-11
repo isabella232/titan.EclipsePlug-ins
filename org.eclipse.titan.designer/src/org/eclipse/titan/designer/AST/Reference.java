@@ -1104,4 +1104,41 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			}
 		}
 	}
+
+	/**
+	 * Generates code for checking if the reference
+	 * and the referred objects are bound or not.
+	 *
+	 * generate_code_ispresentbound in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param expression the expression for code generated
+	 * @param isTemplate if the reference is pointing to a template
+	 * @param isBound true to generate code for isbound, false otherwise
+	 * */
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate, final boolean isBound) {
+		Assignment assignment = getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		String ass_id = assignment.getGenNameFromScope(aData, expression.expression, myScope, null);
+
+		//FIXME handle parameterized case
+		String ass_id2 = ass_id;
+		
+		if (subReferences.size() > 1) {
+			String tempGeneralId = aData.getTemporaryVariableName();
+			ExpressionStruct isboundExpression = new ExpressionStruct();
+			
+			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound();\n", tempGeneralId, ass_id));
+
+			IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
+			type.generateCodeIspresentBound(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, isBound);
+
+			expression.preamble.append(isboundExpression.preamble);
+			expression.preamble.append(isboundExpression.expression);
+			expression.expression.append(tempGeneralId);
+		} else {
+			//FIXME handle omit_in_value_list
+			expression.expression.append(MessageFormat.format("{0}.{1}({2})", ass_id2, isBound ? "isBound" : "IsPresent",""));
+		}
+		
+	}
 }

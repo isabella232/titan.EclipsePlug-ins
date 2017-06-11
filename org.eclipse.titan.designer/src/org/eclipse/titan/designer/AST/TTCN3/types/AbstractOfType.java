@@ -23,30 +23,30 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SingleLenghtRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.Length_ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
@@ -54,6 +54,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
@@ -692,5 +694,63 @@ public abstract class AbstractOfType extends ASN1Type {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
+			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return;
+		}
+
+		if (subReferenceIndex >= subreferences.size()) {
+			return;
+		}
+
+		//FIXME handle template
+
+		ISubReference subReference = subreferences.get(subReferenceIndex);
+		if (!(subReference instanceof ArraySubReference)) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.expression.append("FATAL_ERROR encountered");
+			return;
+		}
+
+		IType nextType = ofType;
+		Value indexValue = ((ArraySubReference) subReference).getValue();
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = indexValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+
+		String temporalIndexId = aData.getTemporaryVariableName();
+		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
+		last.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(";\n");
+		expression.expression.append(MessageFormat.format("{0} = ({1}.isGreaterThanOrEqual(0)) && ({1}.isLessThan({2}.{3}));\n",
+				globalId, temporalIndexId, externalId, isTemplate?"nofElements()":"sizeOf()"));
+
+		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+
+		String temporalId = aData.getTemporaryVariableName();
+		if (isTemplate) {
+			expression.expression.append(MessageFormat.format("{0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameTemplate(aData, expression.expression, myScope),
+					temporalId, externalId, temporalIndexId));
+		} else {
+			expression.expression.append(MessageFormat.format("{0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameValue(aData, expression.expression, myScope),
+					temporalId, externalId, temporalIndexId));
+		}
+
+		boolean isLast = subReferenceIndex == (subreferences.size() - 1);
+		//FIXME handle omit_in_value_list
+		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId,
+				isBound|(!isLast)?"isBound":"isPresent",
+				(!(isBound|!isLast))&&isTemplate?"true":""));
+
+		nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
+
+		expression.expression.append("}\n}\n");
 	}
 }
