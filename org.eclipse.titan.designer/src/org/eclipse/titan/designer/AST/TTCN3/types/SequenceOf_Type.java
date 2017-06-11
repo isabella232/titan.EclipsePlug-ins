@@ -784,7 +784,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		}
 
 		final IType refdLastOfType = getOfType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		if (refdLastOfType instanceof IReferenceableElement) {
+		if (refdLastOfType != this && refdLastOfType instanceof IReferenceableElement) {
 			return ((IReferenceableElement) refdLastOfType).resolveReference(reference, subRefIdx + 1, lastSubreference);
 		}
 
