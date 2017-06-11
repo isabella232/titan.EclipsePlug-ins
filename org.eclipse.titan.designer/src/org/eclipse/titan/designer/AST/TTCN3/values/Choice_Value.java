@@ -17,20 +17,21 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
-import org.eclipse.titan.designer.AST.IType.Type_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -408,5 +409,23 @@ public final class Choice_Value extends Value {
 		embeddedName.append(name.getName());
 		embeddedName.append("()");
 		value.setGenNameRecursive(embeddedName.toString());
+	}
+
+	@Override
+	/** {@inheritDoc}
+	 * generate_code_init_choice in the compiler
+	 * */
+	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+		String altName = this.name.getName();
+
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		String altPrefix = "";
+		if (Type_type.TYPE_ANYTYPE.equals(type.getTypetype())) {
+			altPrefix = "AT_";
+		}
+
+		//TODO handle the case when temporary reference is needed
+		String embeddedName = MessageFormat.format("{0}.get{1}{2}()", name, altPrefix, FieldSubReference.getJavaGetterName(altName));
+		return value.generateCodeInit(aData, source, embeddedName);
 	}
 }
