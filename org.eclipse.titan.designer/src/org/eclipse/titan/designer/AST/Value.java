@@ -561,6 +561,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 				typeName = myGovernor.getGenNameValue(aData, init, myScope);
 			}
 			init.append(MessageFormat.format("{0} {1};\n", typeName, tempId));
+			init.append("{\n");
 
 			if (expression.preamble.length() > 0) {
 				init.append(expression.preamble);
