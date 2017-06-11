@@ -90,6 +90,13 @@ public class TitanCharString extends Base_Type {
 		}
 	}
 
+	//originally lengthof
+	public int lengthOf() {
+		mustBound("Performing lengthof operation on an unbound charstring value.");
+
+		return val_ptr.length();
+	}
+
 	/**
 	 * this + aOtherValue
 	 * originally operator&
