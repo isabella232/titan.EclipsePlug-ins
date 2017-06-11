@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -551,24 +553,21 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		generateCodeExpressionMandatory(aData, expression);
 
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			String typeName;
 			String tempId = aData.getTemporaryVariableName();
 			if(Type_type.TYPE_BOOL.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
-				init.append("boolean");
+				typeName = "boolean";
 			} else {
-				String typeName = myGovernor.getGenNameValue(aData, init, myScope);
-				init.append(typeName);
+				typeName = myGovernor.getGenNameValue(aData, init, myScope);
 			}
-			init.append(" ");
-			init.append(tempId);
-			init.append(";\n");
+			init.append(MessageFormat.format("{0} {1};\n", typeName, tempId));
 
 			if (expression.preamble.length() > 0) {
 				init.append(expression.preamble);
 			}
-			init.append(tempId);
-			init.append(" = ");
-			init.append(expression.expression);
-			init.append(";\n");
+
+			init.append(MessageFormat.format("{0} = {1};\n", tempId, expression.expression));
+
 			if(expression.postamble.length() > 0) {
 				init.append(expression.postamble);
 			}
