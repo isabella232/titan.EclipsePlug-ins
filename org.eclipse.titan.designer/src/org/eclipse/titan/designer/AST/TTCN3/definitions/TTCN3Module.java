@@ -1255,11 +1255,11 @@ public final class TTCN3Module extends Module {
 		sb.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
 		sb.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.TTCN3_MODULE);\n", identifier.getDisplayName()));
 		sb.append("}\n\n");
-		
-		//TODO handle anytype
-		//if (anytypeDefinition != null) {
-		//	anytypeDefinition.generateCode(aData);
-		//}
+
+		if (anytypeDefinition != null) {
+			anytypeDefinition.generateCode(aData, false);
+		}
+
 		if ( controlpart != null ) {
 			controlpart.generateCode( aData );
 		}
