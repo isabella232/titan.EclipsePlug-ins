@@ -1,25 +1,31 @@
 package org.eclipse.titanium.refactoring.fieldordering;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.NavigableSet;
 import java.util.TreeSet;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
-import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
@@ -62,6 +68,7 @@ class ChangeCreator {
 		if (selectedFile == null) {
 			return;
 		}
+
 		change = createFileChange(selectedFile);
 	}
 
@@ -89,12 +96,18 @@ class ChangeCreator {
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		tfc.setEdit(rootEdit);
 
+		if (nodes.isEmpty()) {
+			return tfc;
+		}
+
+		final String fileContents = loadFileContent(toVisit);
+
 		for (ILocateableNode node : nodes) {
 			
 			if (node instanceof Sequence_Value) {
-				orderSequence_Value((Sequence_Value) node, rootEdit);
+				orderSequence_Value(fileContents, (Sequence_Value) node, rootEdit);
 			} else if (node instanceof SequenceOf_Value) {
-				orderSequenceOf_Value((SequenceOf_Value) node, rootEdit);
+				orderSequenceOf_Value(fileContents, (SequenceOf_Value) node, rootEdit);
 			}
 				
 		}
@@ -107,7 +120,7 @@ class ChangeCreator {
 	}
 	
 
-	private static void orderSequence_Value(Sequence_Value sequence_Value, MultiTextEdit rootEdit) {
+	private static void orderSequence_Value(final String fileContents, final Sequence_Value sequence_Value, final MultiTextEdit rootEdit) {
 		
 		IType type = sequence_Value.getMyGovernor();
 		if (!(type instanceof Referenced_Type)) {
@@ -128,7 +141,7 @@ class ChangeCreator {
 		if (sequence_Value.getSeqValueByIndex(0) == null) { // record with unnamed fields
 			return;
 		}
-		
+
 		StringBuilder builder = new StringBuilder();
 		boolean isFirst = true;
 		for (int i = 0; i < setType.getNofComponents(); ++i) {
@@ -145,18 +158,19 @@ class ChangeCreator {
 			} else {
 				builder.append(", ");
 			}
-	
-			builder.append(identifier.getDisplayName()).append(" := ").append(componentByName.getValue());
 
+			IValue value = componentByName.getValue();
+			int start = value.getLocation().getOffset();
+			int end = value.getLocation().getEndOffset();
+			builder.append(identifier.getDisplayName()).append(" := ").append(fileContents.substring(start, end));
 		}
 				
 		int seqStartOffset = sequence_Value.getSeqValueByIndex(0).getLocation().getOffset();
 		int seqEndOffset = sequence_Value.getSeqValueByIndex(sequence_Value.getNofComponents()-1).getLocation().getEndOffset();
-		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));		
-
+		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
 	}
 	
-	private static void orderSequenceOf_Value(SequenceOf_Value sequenceOf_Value, MultiTextEdit rootEdit) {
+	private static void orderSequenceOf_Value(final String fileContents, final SequenceOf_Value sequenceOf_Value, final MultiTextEdit rootEdit) {
 
 		if (!sequenceOf_Value.isIndexed()) { // ordered
 			return;
@@ -188,7 +202,9 @@ class ChangeCreator {
 				builder.append("[");
 			}
 
-			builder.append(realIndex).append("] := ").append(indexedValueByRealIndex);
+			int start = indexedValueByRealIndex.getLocation().getOffset();
+			int end = indexedValueByRealIndex.getLocation().getEndOffset();
+			builder.append(realIndex).append("] := ").append(fileContents.substring(start, end));
 
 		}
 
@@ -269,4 +285,25 @@ class ChangeCreator {
 
 	}
 
+	private static String loadFileContent(final IFile toLoad) {
+		StringBuilder fileContents;
+		try {
+			final InputStream is = toLoad.getContents();
+			final BufferedReader br = new BufferedReader(new InputStreamReader(is));
+			fileContents = new StringBuilder();
+			final char[] buff = new char[1024];
+			while (br.ready()) {
+				final int len = br.read(buff);
+				fileContents.append(buff, 0, len);
+			}
+			br.close();
+		} catch (IOException e) {
+			ErrorReporter.logError("ChangeCreator.loadFileContent(): Unable to get file contents (IOException) for file: " + toLoad.getName());
+			return null;
+		} catch (CoreException ce) {
+			ErrorReporter.logError("ChangeCreator.loadFileContent(): Unable to get file contents (CoreException) for file: " + toLoad.getName());
+			return null;
+		}
+		return fileContents.toString();
+	}
 }
