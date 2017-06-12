@@ -156,7 +156,7 @@ class ChangeCreator {
 			if (isFirst) { // we don't always have 0-indexed element
 				isFirst = false;
 			} else {
-				builder.append(", ");
+				builder.append(",\n");
 			}
 
 			IValue value = componentByName.getValue();
@@ -198,7 +198,7 @@ class ChangeCreator {
 			if (isFirst) { // we don't always have 0-indexed element
 				isFirst = false;
 			} else {
-				builder.append(", ");
+				builder.append(",\n");
 				builder.append("[");
 			}
 
