@@ -1561,7 +1561,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		source.append( ".generateCode() is not implemented!\n" );
 		
 //		if( TestPortAPI_type.TP_ADDRESS.equals(testportType) ) {
-//			String tmp_addres = getAddressType(lastTimeChecked).getGenNameValue(aData, source, myScope);//TODO: add address_name
+//			String tmp_address = getAddressType(lastTimeChecked).getGenNameValue(aData, source, myScope);//TODO: add address_name
 //		}
 		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 			IType inType = inMessages.getTypeByIndex(i);
