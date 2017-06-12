@@ -7,10 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.ASN1.types;
 
+import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
@@ -20,11 +23,14 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -327,5 +333,95 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		default:
 			return false;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
+			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return;
+		}
+
+		if (subReferenceIndex >= subreferences.size()) {
+			return;
+		}
+
+		//FIXME handle template
+
+		ISubReference subReference = subreferences.get(subReferenceIndex);
+		if (!(subReference instanceof FieldSubReference)) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.expression.append("FATAL_ERROR encountered");
+			return;
+		}
+
+		StringBuilder closingBrackets = new StringBuilder();
+		Identifier fieldId = ((FieldSubReference) subReference).getId();
+		CompField compField = getComponentByName(fieldId);
+		Type nextType = compField.getType();
+		boolean nextOptional = !isTemplate && compField.isOptional();
+		if (nextOptional) {
+			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+			closingBrackets.append("}\n");
+			String temporalId = aData.getTemporaryVariableName();
+			expression.expression.append(MessageFormat.format("Optional<{0}{1}> {2} = {3}.get{4}();\n",
+					nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
+
+			if (subReferenceIndex == subreferences.size()-1) {
+				expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", temporalId));
+				expression.expression.append("case OPTIONAL_UNBOUND:\n");
+				expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
+				expression.expression.append("break;\n");
+				expression.expression.append("case OPTIONAL_OMIT:\n");
+				expression.expression.append(MessageFormat.format("{0} = {1};\n", globalId, isBound?"true":"false"));
+				expression.expression.append("break;\n");
+				expression.expression.append("default:\n");
+				expression.expression.append("{\n");
+
+				String temporalId2 = aData.getTemporaryVariableName();
+				expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId));
+				//FIXME handle omit_in_value_list
+				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, isBound?"isBound":"isPresent", (!isBound && isTemplate)?"true":""));
+
+				expression.expression.append("break;}\n");
+				expression.expression.append("}\n");
+				//at the end of the reference chain
+
+				nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, isBound);
+			} else {
+				//still more to go
+				expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", temporalId));
+				expression.expression.append("case OPTIONAL_UNBOUND:\n");
+				expression.expression.append("case OPTIONAL_OMIT:\n");
+				expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
+				expression.expression.append("break;\n");
+				expression.expression.append("default:\n");
+				expression.expression.append("break;\n");
+				expression.expression.append("}\n");
+
+				expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+				closingBrackets.append("}\n");
+				String temporalId2 = aData.getTemporaryVariableName();
+				expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId));
+				expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
+
+				nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, isBound);
+			}
+		} else {
+			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+			closingBrackets.append("}\n");
+
+			String temporalId = aData.getTemporaryVariableName();
+			String temporalId2 = aData.getTemporaryVariableName();
+			expression.expression.append(MessageFormat.format("{0}{1} {2} = {3};\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
+			expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
+			//FIXME handle omit_in_value_list
+			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, isBound|| (subReferenceIndex!=subreferences.size()-1)?"isBound":"isPresent", (!(isBound || (subReferenceIndex!=subreferences.size()-1)) && isTemplate)?"true":""));
+
+			nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, isBound);
+		}
+
+		expression.expression.append(closingBrackets);
 	}
 }
