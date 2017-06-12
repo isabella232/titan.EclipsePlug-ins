@@ -1667,4 +1667,67 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
 
 	}
+
+	/**
+	 * Generates type specific call for the reference used in isbound call
+	 * into argument expression. Argument \a subrefs holds the reference path
+	 * that needs to be checked. Argument \a module is the actual module of
+	 * the reference and is used to gain access to temporal identifiers.
+	 *
+	 * This version should only be called from string types.
+	 * It only serves to save from copy-paste -ing the same code to every string type class.
+	 * generate_code_ispresentbound in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param expression the expression for code generation
+	 * @param subreferences the subreference to process
+	 * @param subReferenceIndex the index telling which part of the subreference to process
+	 * @param globalId is the name of the bool variable where the result
+	 * of the isbound check is calculated.
+	 * @param externalId is the name
+	 * of the assignment where the call chain starts.
+	 * @param isTemplate is_template tells if the assignment is a template or not.
+	 * @param isBound tells if the function is isbound or ispresent.
+	 * */
+	protected void generateCodeIspresentBound_forStrings(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return;
+		}
+
+		if (subReferenceIndex >= subreferences.size()) {
+			return;
+		}
+
+		ISubReference subReference = subreferences.get(subReferenceIndex);
+		if (!(subReference instanceof ArraySubReference)) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.expression.append("FATAL_ERROR encountered");
+			return;
+		}
+
+		Value indexValue = ((ArraySubReference) subReference).getValue();
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = indexValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		String temporalIndexId = aData.getTemporaryVariableName();
+		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
+		last.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(";\n");
+		expression.expression.append(MessageFormat.format("{0} = ({1}.isGreaterThanOrEqual(0)) && ({1}.isLessThan({2}.lengthOf()));\n",
+				globalId, temporalIndexId, externalId));
+
+		String temporalId = aData.getTemporaryVariableName();
+		boolean isLast = subReferenceIndex == (subreferences.size() - 1);
+		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+		//FIXME handle omit_in_value_list
+		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
+				globalId, externalId, temporalIndexId, isBound|(!isLast)?"isBound":"isPresent", !(isBound|(!isLast)) && isTemplate?"true":""));
+
+		generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
+
+		expression.expression.append("}\n}\n");
+
+	}
 }

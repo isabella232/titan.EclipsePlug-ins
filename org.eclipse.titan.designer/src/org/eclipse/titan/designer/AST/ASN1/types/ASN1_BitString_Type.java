@@ -47,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValues;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
@@ -492,5 +493,12 @@ public final class ASN1_BitString_Type extends ASN1Type {
 		aData.addBuiltinTypeImport( "TitanBitString_template" );
 
 		return "TitanBitString_template";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
+			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+		generateCodeIspresentBound_forStrings(aData, expression, subreferences, subReferenceIndex, globalId, externalId, isTemplate, isBound);
 	}
 }

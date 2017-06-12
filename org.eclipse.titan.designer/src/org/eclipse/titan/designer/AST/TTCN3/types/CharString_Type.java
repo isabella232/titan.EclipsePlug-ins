@@ -10,22 +10,20 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
-import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueRange;
@@ -344,46 +342,6 @@ public final class CharString_Type extends Type {
 	/** {@inheritDoc} */
 	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
 			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
-		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
-			return;
-		}
-
-		if (subReferenceIndex >= subreferences.size()) {
-			return;
-		}
-
-		ISubReference subReference = subreferences.get(subReferenceIndex);
-		if (!(subReference instanceof ArraySubReference)) {
-			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
-			return;
-		}
-
-		IType nextType = this;
-		Value indexValue = ((ArraySubReference) subReference).getValue();
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = indexValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-		referenceChain.release();
-
-		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-
-		String temporalIndexId = aData.getTemporaryVariableName();
-		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
-		last.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = ({1}.isGreaterThanOrEqual(0)) && ({1}.isLessThan({2}.lengthOf()));\n",
-				globalId, temporalIndexId, externalId));
-
-		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-
-		String temporalId = aData.getTemporaryVariableName();
-		boolean isLast = subReferenceIndex == (subreferences.size() - 1);
-		//FIXME handle omit_in_value_list
-		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
-				globalId, externalId, temporalIndexId, isBound|(!isLast)?"isBound":"isPresent", !(isBound|(!isLast)) && isTemplate?"true":""));
-
-		nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
-
-		expression.expression.append("}\n}\n");
+		generateCodeIspresentBound_forStrings(aData, expression, subreferences, subReferenceIndex, globalId, externalId, isTemplate, isBound);
 	}
 }
