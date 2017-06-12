@@ -192,7 +192,13 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 		return unreachable2;
 	}
-	
+
+	/**
+	 * Does the semantic checking of this select case's statement block.
+	 *
+	 * Please note, that this function is only to be used when the select statement expression was found erroneous.
+	 * As it bypasses the checking of the case fields, in other cases this could cause problems.
+	 */
 	void checkStatementBlock( final CompilationTimeStamp aTimestamp) {
 		if( mStatementBlock !=null ) {
 			mStatementBlock.check( aTimestamp );
