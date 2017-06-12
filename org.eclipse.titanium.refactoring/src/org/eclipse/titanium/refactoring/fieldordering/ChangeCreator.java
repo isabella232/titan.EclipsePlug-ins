@@ -254,13 +254,78 @@ class ChangeCreator {
 		public int visit(final IVisitableNode node) {
 						
 			if (node instanceof Sequence_Value) {
-				locations.add((Sequence_Value) node);
+				if (needsOrdering((Sequence_Value) node)) {
+					locations.add((Sequence_Value) node);
+				}
 			} else if (node instanceof SequenceOf_Value) {
-				locations.add((SequenceOf_Value) node);
+				if (needsOrdering((SequenceOf_Value) node)) {
+					locations.add((SequenceOf_Value) node);
+				}
 			}
 		
 			
 			return V_CONTINUE;
+		}
+
+		/**
+		 * @return true if the value can and needs to be ordered, false otherwise
+		 * */
+		private boolean needsOrdering(final Sequence_Value sequence_Value) {
+			IType type = sequence_Value.getMyGovernor();
+			if (!(type instanceof Referenced_Type)) {
+				return false;
+			}
+			
+			IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			if (!(refType instanceof TTCN3_Set_Type)) {
+				return false;
+			}
+			
+			TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
+			
+			if (sequence_Value.getNofComponents() == 0) {
+				return false;
+			}
+			
+			if (sequence_Value.getSeqValueByIndex(0) == null) { // record with unnamed fields
+				return false;
+			}
+			//check if already in order
+			boolean inOrder = true;
+			for (int i = 0; i < setType.getNofComponents() && inOrder; ++i) {
+				Identifier identifier = setType.getComponentIdentifierByIndex(i);
+				NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+				inOrder = identifier.equals(namedValue.getName());
+			}
+			return !inOrder;
+		}
+
+		/**
+		 * @return true if the value can and needs to be ordered, false otherwise
+		 * */
+		private boolean needsOrdering(final SequenceOf_Value sequenceOf_Value) {
+			if (!sequenceOf_Value.isIndexed()) { // ordered
+				return false;
+			}
+
+			if (sequenceOf_Value.getNofComponents() == 0) {
+				return false;
+			}
+
+			int lastIndex = -1;
+			for (int i = 0; i < sequenceOf_Value.getNofComponents(); i++) {
+				IValue index = sequenceOf_Value.getIndexByIndex(i);
+				if (!(index instanceof Integer_Value)) {
+					return false;
+				}
+				if (((Integer_Value)index).intValue() > lastIndex) {
+					lastIndex = ((Integer_Value)index).intValue();
+				} else {
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 
