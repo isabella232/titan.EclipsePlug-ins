@@ -165,8 +165,8 @@ class ChangeCreator {
 			builder.append(identifier.getDisplayName()).append(" := ").append(fileContents.substring(start, end));
 		}
 				
-		int seqStartOffset = sequence_Value.getSeqValueByIndex(0).getLocation().getOffset();
-		int seqEndOffset = sequence_Value.getSeqValueByIndex(sequence_Value.getNofComponents()-1).getLocation().getEndOffset();
+		int seqStartOffset = sequence_Value.getLocation().getOffset() + 1;
+		int seqEndOffset = sequence_Value.getLocation().getEndOffset() - 1;
 		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
 	}
 	
@@ -198,19 +198,17 @@ class ChangeCreator {
 			if (isFirst) { // we don't always have 0-indexed element
 				isFirst = false;
 			} else {
-				builder.append(",\n");
-				builder.append("[");
+				builder.append(", ");
 			}
 
 			int start = indexedValueByRealIndex.getLocation().getOffset();
 			int end = indexedValueByRealIndex.getLocation().getEndOffset();
-			builder.append(realIndex).append("] := ").append(fileContents.substring(start, end));
+			builder.append('[').append(realIndex).append("] := ").append(fileContents.substring(start, end));
 
 		}
 
-		int seqStartOffset = sequenceOf_Value.getIndexByIndex(0).getLocation().getOffset();
-		int seqEndOffset = sequenceOf_Value.getValueByIndex(sequenceOf_Value.getNofComponents() - 1).getLocation()
-				.getEndOffset();
+		int seqStartOffset = sequenceOf_Value.getLocation().getOffset() + 1;
+		int seqEndOffset = sequenceOf_Value.getLocation().getEndOffset() - 1;
 		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
 	}
 	
