@@ -1698,6 +1698,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return;
 		}
 
+		if(isTemplate) {
+			//FIXME handle template
+			expression.expression.append( "//TODO: template handling in" );
+			expression.expression.append( getClass().getSimpleName() );
+			expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
+		}
+
 		ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");

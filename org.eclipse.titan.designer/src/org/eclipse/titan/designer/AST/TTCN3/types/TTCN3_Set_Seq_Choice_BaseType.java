@@ -628,7 +628,12 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			return;
 		}
 
-		//FIXME handle template
+		if(isTemplate) {
+			//FIXME handle template
+			expression.expression.append( "//TODO: template handling in" );
+			expression.expression.append( getClass().getSimpleName() );
+			expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
+		}
 
 		ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof FieldSubReference)) {

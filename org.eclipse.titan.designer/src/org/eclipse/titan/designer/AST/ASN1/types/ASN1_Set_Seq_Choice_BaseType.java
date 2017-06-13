@@ -347,7 +347,12 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 			return;
 		}
 
-		//FIXME handle template
+		if(isTemplate) {
+			//FIXME handle template
+			expression.expression.append( "//TODO: template handling in" );
+			expression.expression.append( getClass().getSimpleName() );
+			expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
+		}
 
 		ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof FieldSubReference)) {
