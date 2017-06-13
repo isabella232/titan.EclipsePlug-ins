@@ -15,22 +15,23 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -403,5 +404,34 @@ public final class IsPresentExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		TTCN3Template template = templateInstance.getTemplateBody();
+		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
+			IValue value = ((SpecificValue_Template) template).getSpecificValue();
+			if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
+				Reference reference = ((Referenced_Value) value).getReference();
+				if (reference != null) {
+					reference.generateCodeIspresentBound(aData, expression, false, false);
+					return;
+				}
+			} else {
+				//FIXME cast_needed case
+				value.generateCodeExpressionMandatory(aData, expression);
+			}
+		} else if (Template_type.TEMPLATE_REFD.equals(template.getTemplatetype())) {
+			Reference reference = ((Referenced_Template) template).getReference();
+			if (reference != null) {
+				reference.generateCodeIspresentBound(aData, expression, true, false);
+				return;
+			}
+		} else {
+			templateInstance.generateCode(aData, expression);
+		}
+
+		expression.expression.append(".isPresent()");
 	}
 }
