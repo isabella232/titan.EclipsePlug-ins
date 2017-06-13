@@ -38,6 +38,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Choice_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -190,6 +191,7 @@ public final class IsChoosenExpression extends Expression_Value {
 			if (governor == null) {
 				setIsErroneous(true);
 			} else {
+				value.setMyGovernor(governor);
 				final IValue tempValue2 = governor.checkThisValueRef(timestamp, value);
 				if (tempValue2.getIsErroneous(timestamp)) {
 					setIsErroneous(true);
@@ -219,6 +221,7 @@ public final class IsChoosenExpression extends Expression_Value {
 			if (governor == null) {
 				setIsErroneous(true);
 			} else {
+				template.setMyGovernor(governor);
 				final TTCN3Template last = template.getTemplateReferencedLast(timestamp, referenceChain);
 				if (last.getIsErroneous(timestamp)) {
 					setIsErroneous(true);
@@ -383,5 +386,26 @@ public final class IsChoosenExpression extends Expression_Value {
 		}
 
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (value != null) {
+			value.generateCodeExpressionMandatory(aData, expression);
+			String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+			expression.expression.append(MessageFormat.format(".isChosen({0}.ALT_{1}/* TODO: name not yet fixed*/)", genNameValue, identifier.getName()));
+		}
+		if (template != null) {
+			template.generateCodeExpression(aData, expression);
+			String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+			expression.expression.append(MessageFormat.format(".isChosen({0}.ALT_{1}/* TODO: name not yet fixed*/)", genNameValue, identifier.getName()));
+		}
 	}
 }
