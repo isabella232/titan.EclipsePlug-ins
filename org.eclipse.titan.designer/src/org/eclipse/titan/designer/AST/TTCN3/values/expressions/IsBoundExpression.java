@@ -439,6 +439,4 @@ public final class IsBoundExpression extends Expression_Value {
 
 		expression.expression.append(".isBound()");
 	}
-
-	
 }
