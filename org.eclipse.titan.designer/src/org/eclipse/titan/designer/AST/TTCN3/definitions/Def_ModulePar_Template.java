@@ -162,6 +162,7 @@ public final class Def_ModulePar_Template extends Definition {
 			return;
 		}
 
+		type.setGenName("_T_", getGenName());
 		type.check(timestamp);
 
 
@@ -379,9 +380,7 @@ public final class Def_ModulePar_Template extends Definition {
 	@Override
 	public void generateCode(JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
+
 		if (defaultTemplate != null) {
 			//defaultTemplate.setGenNamePrefix("modulepar_");//currently does not need the prefix
 			defaultTemplate.setGenNameRecursive(genName);

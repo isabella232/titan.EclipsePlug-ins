@@ -166,6 +166,7 @@ public final class Def_ModulePar extends Definition {
 			return;
 		}
 
+		type.setGenName("_T_", getGenName());
 		type.check(timestamp);
 
 		final IType lastType = type.getTypeRefdLast(timestamp);
@@ -371,9 +372,7 @@ public final class Def_ModulePar extends Definition {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
+
 		if (defaultValue != null) {
 			//defaultValue.setGenNamePrefix("modulepar_");//currently does not need the prefix
 			defaultValue.setGenNameRecursive(genName);

@@ -183,6 +183,7 @@ public final class Def_Var_Template extends Definition {
 			return;
 		}
 
+		type.setGenName("_T_", getGenName());
 		type.check(timestamp);
 
 		if (initialValue == null) {
@@ -487,9 +488,7 @@ public final class Def_Var_Template extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
+
 		if (initialValue != null) {
 			initialValue.setGenNameRecursive(genName);
 		}

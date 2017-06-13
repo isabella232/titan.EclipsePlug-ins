@@ -215,6 +215,7 @@ public final class CTs_EE_CTs extends ASTNode {
 		IType type;
 		for (CompField componentField : components) {
 			type = componentField.getType();
+			type.setGenName(myType.getGenNameOwn(), componentField.getIdentifier().getName());
 			type.setParentType(myType);
 			componentField.check(timestamp);
 		}

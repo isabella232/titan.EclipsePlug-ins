@@ -187,6 +187,7 @@ public final class Def_Type extends Definition {
 
 		T3Doc.check(this.getCommentLocation(), type.getTypetypeTtcn3().toString());
 
+		type.setGenName(getGenName());
 		type.check(timestamp);
 		type.checkConstructorName(identifier.getName());
 		if ("ADDRESS".equals(identifier.getTtcnName())) {
@@ -491,9 +492,6 @@ public final class Def_Type extends Definition {
 		if (type == null) {
 			return;
 		}
-
-		type.setGenName(genName);
-
 
 		final StringBuilder sb = aData.getCodeForType(genName);//aData.getSrc();
 		//TODO temporary code to adapt to the starting code

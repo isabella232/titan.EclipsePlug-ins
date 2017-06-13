@@ -344,6 +344,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			return;
 		}
 
+		type.setGenName("_T_", getGenName());
 		type.check(timestamp, refChain);
 
 		if (withAttributesPath != null) {
@@ -858,9 +859,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
+
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}

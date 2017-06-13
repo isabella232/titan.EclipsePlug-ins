@@ -673,7 +673,6 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
-			compField.getType().setGenName(getGenNameOwn(), compField.getIdentifier().getName());
 			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
 					compField.getIdentifier().getName(), compField.isOptional(),
 					compField.getType().getClass().getSimpleName());

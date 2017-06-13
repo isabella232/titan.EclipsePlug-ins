@@ -123,6 +123,7 @@ public final class Def_ExternalConst extends Definition {
 			return;
 		}
 
+		type.setGenName("_T_", getGenName());
 		type.check(timestamp);
 
 		final IType astType = type.getTypeRefdLast(timestamp);
@@ -270,10 +271,6 @@ public final class Def_ExternalConst extends Definition {
 
 	@Override
 	public void generateCode(JavaGenData aData, final boolean cleanUp) {
-		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
 		// TODO Auto-generated method stub
 		super.generateCode(aData, cleanUp);
 	}
