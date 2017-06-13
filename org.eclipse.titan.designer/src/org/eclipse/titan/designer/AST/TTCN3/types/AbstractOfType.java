@@ -708,11 +708,29 @@ public abstract class AbstractOfType extends ASN1Type {
 			return;
 		}
 
+		StringBuilder closingBrackets = new StringBuilder();
 		if(isTemplate) {
-			//FIXME handle template
-			expression.expression.append( "//TODO: template handling in" );
-			expression.expression.append( getClass().getSimpleName() );
-			expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
+			boolean anyvalueReturnValue = true;
+			if (!isBound) {
+				anyvalueReturnValue = isPresentAnyvalueEmbeddedField(expression, subreferences, subReferenceIndex);
+			}
+
+			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+			expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", externalId));
+			expression.expression.append("case UNINITIALIZED_TEMPLATE:\n");
+			expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
+			expression.expression.append("break;\n");
+			expression.expression.append("case ANY_VALUE:\n");
+			expression.expression.append(MessageFormat.format("{0} = {1};\n", globalId, anyvalueReturnValue?"true":"false"));
+			expression.expression.append("break;\n");
+			expression.expression.append("case SPECIFIC_VALUE:{\n");
+
+			closingBrackets.append("break;}\n");
+			closingBrackets.append("default:\n");
+			closingBrackets.append(MessageFormat.format("{0} = false;\n", globalId));
+			closingBrackets.append("break;\n");
+			closingBrackets.append("}\n");
+			closingBrackets.append("}\n");
 		}
 
 		ISubReference subReference = subreferences.get(subReferenceIndex);
@@ -729,6 +747,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		referenceChain.release();
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+		closingBrackets.append("}\n");
 
 		String temporalIndexId = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
@@ -738,6 +757,7 @@ public abstract class AbstractOfType extends ASN1Type {
 				globalId, temporalIndexId, externalId, isTemplate?"nofElements()":"sizeOf()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+		closingBrackets.append("}\n");
 
 		String temporalId = aData.getTemporaryVariableName();
 		if (isTemplate) {
@@ -756,6 +776,12 @@ public abstract class AbstractOfType extends ASN1Type {
 
 		nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
 
-		expression.expression.append("}\n}\n");
+		expression.expression.append(closingBrackets);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+		return false;
 	}
 }

@@ -258,4 +258,10 @@ public final class BitString_Type extends Type {
 			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
 		generateCodeIspresentBound_forStrings(aData, expression, subreferences, subReferenceIndex, globalId, externalId, isTemplate, isBound);
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+		return true;
+	}
 }

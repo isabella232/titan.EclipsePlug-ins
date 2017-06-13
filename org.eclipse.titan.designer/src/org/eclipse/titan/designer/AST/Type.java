@@ -1665,7 +1665,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		expression.expression.append( "//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
 		expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
-
 	}
 
 	/**
@@ -1735,6 +1734,29 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
 
 		expression.expression.append("}\n}\n");
+	}
 
+	/**
+	 * Helper function used in generateCodeIspresentbound() for the
+	 * ispresent() function in case of template parameter.
+	 * 
+	 * @return true if the referenced field which is embedded into a "?" is always present,
+	 * otherwise returns false.
+	 * */
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return false;
+		}
+
+		if (beginIndex >= subreferences.size()) {
+			return false;
+		}
+
+		//FIXME implement
+		expression.expression.append( "//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
+
+		return false;
 	}
 }

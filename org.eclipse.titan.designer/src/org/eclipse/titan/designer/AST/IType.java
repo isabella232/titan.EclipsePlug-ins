@@ -780,4 +780,13 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param isBound tells if the function is isbound or ispresent.
 	 * */
 	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound);
+
+	/**
+	 * Helper function used in generateCodeIspresentbound() for the
+	 * ispresent() function in case of template parameter.
+	 * 
+	 * @return true if the referenced field which is embedded into a "?" is always present,
+	 * otherwise returns false.
+	 * */
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex);
 }

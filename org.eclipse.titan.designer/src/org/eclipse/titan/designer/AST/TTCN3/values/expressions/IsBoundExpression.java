@@ -420,6 +420,23 @@ public final class IsBoundExpression extends Expression_Value {
 			if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
 				Reference reference = ((Referenced_Value) value).getReference();
 				if (reference != null) {
+					Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					if (assignment != null) {
+						switch(assignment.getAssignmentType()) {
+						case A_TEMPLATE:
+						case A_VAR_TEMPLATE:
+						case A_MODULEPAR_TEMPLATE:
+						case A_EXT_FUNCTION_RTEMP:
+						case A_FUNCTION_RTEMP:
+						case A_PAR_TEMP_IN:
+						case A_PAR_TEMP_OUT:
+						case A_PAR_TEMP_INOUT:
+							reference.generateCodeIspresentBound(aData, expression, true, true);
+							return;
+						default:
+							break;
+						}
+					}
 					reference.generateCodeIspresentBound(aData, expression, false, true);
 					return;
 				}

@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.AST.ArraySubReference;
@@ -54,6 +55,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.Omit_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Set_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
@@ -909,5 +911,32 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 
 		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return false;
+		}
+
+		if (beginIndex >= subreferences.size()) {
+			return false;
+		}
+
+		ISubReference subReference = subreferences.get(beginIndex);
+		if (!(subReference instanceof FieldSubReference)) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.expression.append("FATAL_ERROR encountered");
+			return false;
+		}
+
+		Identifier fieldId = ((FieldSubReference) subReference).getId();
+		CompField compField = getComponentByName(fieldId);
+		if (compField.isOptional()) {
+			return false;
+		}
+
+		return compField.getType().isPresentAnyvalueEmbeddedField(expression, subreferences, beginIndex + 1);
 	}
 }

@@ -633,4 +633,17 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		refdLast.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex, globalId, externalId, isTemplate, isBound);
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+		if (this == refdLast || refdLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.expression.append("FATAL_ERROR encountered");
+			return false;
+		}
+
+		return refdLast.isPresentAnyvalueEmbeddedField(expression, subreferences, beginIndex);
+	}
+	
 }
