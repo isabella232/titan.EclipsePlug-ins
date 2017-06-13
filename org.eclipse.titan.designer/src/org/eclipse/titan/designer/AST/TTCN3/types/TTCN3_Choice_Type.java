@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
@@ -411,6 +412,12 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("union");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
+		return getGenNameOwn(scope);
 	}
 
 	@Override
