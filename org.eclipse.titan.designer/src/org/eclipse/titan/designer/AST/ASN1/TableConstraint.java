@@ -424,6 +424,9 @@ public final class TableConstraint extends Constraint {
 					sb.append(id.getName());
 				} else {
 					Assignment as = t_ref.getRefdAssignment(timestamp, true);
+					if( as == null) {
+						return null;
+					}
 					Scope assScope = as.getMyScope();
 					if (assScope.getParentScope() == assScope.getModuleScope()) {
 						sb.append(id.getName());

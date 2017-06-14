@@ -63,7 +63,7 @@ public final class NULL_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public Type_type getTypetypeTtcn3() {
-		return Type_type.TYPE_UNDEFINED;
+		return Type_type.TYPE_NULL;
 	}
 
 	@Override
