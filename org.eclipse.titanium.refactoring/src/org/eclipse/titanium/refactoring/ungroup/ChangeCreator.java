@@ -53,10 +53,10 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
  */
 public class ChangeCreator {
 
-	//in
+	// in
 	private final IFile selectedFile;
 
-	//out
+	// out
 	private Change change;
 
 	ChangeCreator(final IFile selectedFile) {
@@ -75,6 +75,7 @@ public class ChangeCreator {
 		if (selectedFile == null) {
 			return;
 		}
+
 		change = createFileChange(selectedFile);
 	}
 
@@ -82,20 +83,22 @@ public class ChangeCreator {
 		if (toVisit == null) {
 			return null;
 		}
+
 		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(toVisit.getProject());
 		final Module module = sourceParser.containedModule(toVisit);
-		if(module == null) {
+		if (module == null) {
 			return null;
 		}
-		//find all locations in the module that should be edited
+
+		// find all locations in the module that should be edited
 		final DefinitionVisitor vis = new DefinitionVisitor();
 		module.accept(vis);
 		final NavigableSet<Def_ModulePar> nodes = vis.getLocations();
-
 		if (nodes.isEmpty()) {
 			return null;
 		}
-		//calculate edit locations
+
+		// calculate edit locations
 		final List<Def_ModulePar> locations = new ArrayList<Def_ModulePar>();
 		try {
 			final WorkspaceJob job1 = calculateEditLocations(nodes, toVisit, locations);
@@ -110,83 +113,80 @@ public class ChangeCreator {
 		if (locations.isEmpty()) {
 			return null;
 		}
-		
-		//create a change for each edit location
+
+		// create a change for each edit location
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
 		final MultiTextEdit rootEdit = new MultiTextEdit();
 		tfc.setEdit(rootEdit);
-				
-	
+
 		int precedeOffset = -1;
 		final String fileContents = loadFileContent(toVisit);
-		
-		for (Def_ModulePar node: locations) {
-				
-			final Location l =  node.getCumulativeDefinitionLocation();				
+
+		for (Def_ModulePar node : locations) {
+
+			final Location l = node.getCumulativeDefinitionLocation();
 			final Location typeLocation = node.getType(CompilationTimeStamp.getBaseTimestamp()).getLocation();
-			final Location identifierLocation = node.getIdentifier().getLocation();																					
-			
-			if(precedeOffset != l.getOffset()) {
+			final Location identifierLocation = node.getIdentifier().getLocation();
+
+			if (precedeOffset != l.getOffset()) {
 				precedeOffset = l.getOffset();
-				final int len = l.getEndOffset()-l.getOffset();	
-				rootEdit.addChild(new DeleteEdit(l.getOffset(),len+1));									
-				
+				final int len = l.getEndOffset() - l.getOffset();
+				rootEdit.addChild(new DeleteEdit(l.getOffset(), len + 1));
+
 			}
-			
-			String newModulePar = "modulepar " + fileContents.substring(typeLocation.getOffset(),typeLocation.getEndOffset()).trim(); 
-			newModulePar += " " + fileContents.substring(identifierLocation.getOffset(),identifierLocation.getEndOffset()).trim();
-			if(node.getDefaultValue() != null) {
+
+			String newModulePar = "modulepar " + fileContents.substring(typeLocation.getOffset(), typeLocation.getEndOffset()).trim();
+			newModulePar += " " + fileContents.substring(identifierLocation.getOffset(), identifierLocation.getEndOffset()).trim();
+			if (node.getDefaultValue() != null) {
 				final Location valueLocation = node.getDefaultValue().getLocation();
-				newModulePar +=  " := " + fileContents.substring(valueLocation.getOffset(),valueLocation.getEndOffset()).trim();
+				newModulePar += " := " + fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
 			}
-			newModulePar += ";\n"; 
+			newModulePar += ";\n";
 			rootEdit.addChild(new InsertEdit(l.getOffset(), newModulePar));
-			
-		}			
-	
-		
+
+		}
+
 		return tfc;
 	}
 
-	private WorkspaceJob calculateEditLocations(final NavigableSet<Def_ModulePar> nodes, final IFile file
-			, final List<Def_ModulePar> locations_out) throws CoreException {
+	private WorkspaceJob calculateEditLocations(final NavigableSet<Def_ModulePar> nodes, final IFile file, final List<Def_ModulePar> locations_out)
+			throws CoreException {
 		final WorkspaceJob job = new WorkspaceJob("UngroupModuleparRefactoring: calculate edit locations") {
 
 			@Override
-			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {		
+			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
 				int precedeOffset = -1;
 				Def_ModulePar precedeNode = null;
-				
-				for (Def_ModulePar node: nodes) {					
-					
-					if(node.getCumulativeDefinitionLocation().getOffset() == precedeOffset) {
-						locations_out.add(precedeNode);							
-					}
-					else {
-						if (locations_out.size() != 0 ) {							
-							final Def_ModulePar lastInserted = locations_out.get(locations_out.size()-1);
-							
-							if(precedeNode.getCumulativeDefinitionLocation().getOffset() 
-								== lastInserted.getCumulativeDefinitionLocation().getOffset()) {
-								locations_out.add(precedeNode);							
+
+				for (Def_ModulePar node : nodes) {
+
+					if (node.getCumulativeDefinitionLocation().getOffset() == precedeOffset) {
+						locations_out.add(precedeNode);
+					} else {
+						if (locations_out.size() != 0) {
+							final Def_ModulePar lastInserted = locations_out.get(locations_out.size() - 1);
+
+							if (precedeNode.getCumulativeDefinitionLocation().getOffset() == lastInserted
+									.getCumulativeDefinitionLocation().getOffset()) {
+								locations_out.add(precedeNode);
 							}
 						}
 					}
-					
+
 					precedeOffset = node.getCumulativeDefinitionLocation().getOffset();
 					precedeNode = node;
-											
+
 				}
 				if (locations_out.size() != 0) {
 					final Def_ModulePar lastnode = nodes.last();
-					final Def_ModulePar lastInserted = locations_out.get(locations_out.size()-1);
-					
-					if(lastnode.getCumulativeDefinitionLocation().getOffset() 
-						== lastInserted.getCumulativeDefinitionLocation().getOffset()) {
-						locations_out.add(nodes.last());							
+					final Def_ModulePar lastInserted = locations_out.get(locations_out.size() - 1);
+
+					if (lastnode.getCumulativeDefinitionLocation().getOffset() == lastInserted.getCumulativeDefinitionLocation()
+							.getOffset()) {
+						locations_out.add(nodes.last());
 					}
 				}
-				
+
 				return Status.OK_STATUS;
 			}
 		};
@@ -196,7 +196,7 @@ public class ChangeCreator {
 	}
 
 	/**
-	 * Collects the locations of all the modulepar definitions in a module. 
+	 * Collects the locations of all the modulepar definitions in a module.
 	 * <p>
 	 * Call on modules.
 	 * */
@@ -214,18 +214,17 @@ public class ChangeCreator {
 
 		@Override
 		public int visit(final IVisitableNode node) {
-			
-			if (node instanceof Def_ModulePar ) {				
-				final Def_ModulePar d = (Def_ModulePar)node;				
-				if(d.getCumulativeDefinitionLocation()!= null) {
-					if (hasValidLocation(d)) {			
-						locations.add(d);					
+
+			if (node instanceof Def_ModulePar) {
+				final Def_ModulePar d = (Def_ModulePar) node;
+				if (d.getCumulativeDefinitionLocation() != null) {
+					if (hasValidLocation(d)) {
+						locations.add(d);
 					}
 				}
 			}
 			return V_CONTINUE;
 		}
-
 
 		private boolean hasValidLocation(final Definition def) {
 			final Location location = def.getLocation();
@@ -249,25 +248,24 @@ public class ChangeCreator {
 			}
 			final int o0 = arg0.getLocation().getOffset();
 			final int o1 = arg1.getLocation().getOffset();
-			
+
 			// When getLocation will implement correctly this part of code not needed (the full if-else statements)
 			// and the commented code (under this statement) will be suitable.
-			if(o0 == o1) {
-				
+			if (o0 == o1) {
+
 				if (arg0 instanceof Def_ModulePar && arg1 instanceof Def_ModulePar) {
 					final String s0 = ((Def_ModulePar) arg0).getIdentifier().getDisplayName();
 					final String s1 = ((Def_ModulePar) arg1).getIdentifier().getDisplayName();
-					
+
 					return s0.compareTo(s1);
 				}
-				 return 0;
-			}
-			else {
+				return 0;
+			} else {
 				return (o0 < o1) ? -1 : 1;
 			}
-				
+
 			//return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);//TODO update with Java 1.7 to Integer.compare
-			///////
+			// /////
 		}
 
 	}
