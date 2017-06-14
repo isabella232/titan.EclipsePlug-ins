@@ -134,6 +134,16 @@
           id="org.eclipse.titanium.commands.MinimizeScopeFromBrowser"
           name="MinimizeScopeFromBrowser">
     </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.ungroup.UngroupModuleparActionFromBrowser"
+          id="org.eclipse.titanium.commands.UngroupModuleparFromBrowser"
+          name="UngroupModuleparFromBrowser">
+    </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.ungroup.UngroupModuleparActionFromEditor"
+          id="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
+          name="UngroupModuleparFromEditor">
+    </command>
   </extension>
   <extension
         point="org.eclipse.ui.menus">
@@ -201,6 +211,12 @@
                  icon="resources/icons/titan.gif"
                  id="org.eclipse.titanium.commands.OrganizeImportModule"
                  label="Organize imports">
+           </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
+                 icon="resources/icons/titan.gif"
+                 id="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
+                 label="Ungroup module parameters in module">
            </command>
         </menu>
      </menuContribution>
@@ -307,6 +323,13 @@
                         </iterate>
                      </with>
                    </visibleWhen>
+           </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.UngroupModuleparFromBrowser"
+                 label="Ungroup module parameters">
+              <visibleWhen
+                    checkEnabled="false">
+              </visibleWhen>
            </command>
         </menu>
      </menuContribution>
