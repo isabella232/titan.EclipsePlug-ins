@@ -37,6 +37,7 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
@@ -93,13 +94,13 @@ public class ChangeCreator {
 		// find all locations in the module that should be edited
 		final DefinitionVisitor vis = new DefinitionVisitor();
 		module.accept(vis);
-		final NavigableSet<Def_ModulePar> nodes = vis.getLocations();
+		final NavigableSet<Definition> nodes = vis.getLocations();
 		if (nodes.isEmpty()) {
 			return null;
 		}
 
 		// calculate edit locations
-		final List<Def_ModulePar> locations = new ArrayList<Def_ModulePar>();
+		final List<Definition> locations = new ArrayList<Definition>();
 		try {
 			final WorkspaceJob job1 = calculateEditLocations(nodes, toVisit, locations);
 			job1.join();
@@ -122,7 +123,7 @@ public class ChangeCreator {
 		int precedeOffset = -1;
 		final String fileContents = loadFileContent(toVisit);
 
-		for (Def_ModulePar node : locations) {
+		for (Definition node : locations) {
 
 			final Location l = node.getCumulativeDefinitionLocation();
 			final Location typeLocation = node.getType(CompilationTimeStamp.getBaseTimestamp()).getLocation();
@@ -135,13 +136,30 @@ public class ChangeCreator {
 
 			}
 
-			String newModulePar = "modulepar " + fileContents.substring(typeLocation.getOffset(), typeLocation.getEndOffset()).trim();
-			newModulePar += " " + fileContents.substring(identifierLocation.getOffset(), identifierLocation.getEndOffset()).trim();
-			if (node.getDefaultValue() != null) {
-				final Location valueLocation = node.getDefaultValue().getLocation();
-				newModulePar += " := " + fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
+			String typeText = fileContents.substring(typeLocation.getOffset(), typeLocation.getEndOffset()).trim();
+			String name = fileContents.substring(identifierLocation.getOffset(), identifierLocation.getEndOffset()).trim();
+			String newModulePar = "";
+			if (node instanceof Def_ModulePar) {
+				Def_ModulePar modulePar = (Def_ModulePar) node;
+				if (modulePar.getDefaultValue() != null) {
+					final Location valueLocation = modulePar.getDefaultValue().getLocation();
+					String valueText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
+					newModulePar = "modulepar " + typeText + " " + name + " := " + valueText + ";\n";
+				} else {
+					newModulePar = "modulepar " + typeText + " "  + name + ";\n";
+				}
+				
+			} else if (node instanceof Def_ModulePar_Template) {
+				Def_ModulePar_Template modulePar = (Def_ModulePar_Template) node;
+				if (modulePar.getDefaultTemplate() != null) {
+					final Location valueLocation = modulePar.getDefaultTemplate().getLocation();
+					String temlateText = fileContents.substring(valueLocation.getOffset(), valueLocation.getEndOffset()).trim();
+					newModulePar = "modulepar template " + typeText + " "  + name + " := " + temlateText + ";\n";
+				} else {
+					newModulePar = "modulepar template " + typeText + " "  + name + ";\n";
+				}
 			}
-			newModulePar += ";\n";
+
 			rootEdit.addChild(new InsertEdit(l.getOffset(), newModulePar));
 
 		}
@@ -149,22 +167,22 @@ public class ChangeCreator {
 		return tfc;
 	}
 
-	private WorkspaceJob calculateEditLocations(final NavigableSet<Def_ModulePar> nodes, final IFile file, final List<Def_ModulePar> locations_out)
+	private WorkspaceJob calculateEditLocations(final NavigableSet<Definition> nodes, final IFile file, final List<Definition> locations_out)
 			throws CoreException {
 		final WorkspaceJob job = new WorkspaceJob("UngroupModuleparRefactoring: calculate edit locations") {
 
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
 				int precedeOffset = -1;
-				Def_ModulePar precedeNode = null;
+				Definition precedeNode = null;
 
-				for (Def_ModulePar node : nodes) {
+				for (Definition node : nodes) {
 
 					if (node.getCumulativeDefinitionLocation().getOffset() == precedeOffset) {
 						locations_out.add(precedeNode);
 					} else {
 						if (locations_out.size() != 0) {
-							final Def_ModulePar lastInserted = locations_out.get(locations_out.size() - 1);
+							final Definition lastInserted = locations_out.get(locations_out.size() - 1);
 
 							if (precedeNode.getCumulativeDefinitionLocation().getOffset() == lastInserted
 									.getCumulativeDefinitionLocation().getOffset()) {
@@ -178,8 +196,8 @@ public class ChangeCreator {
 
 				}
 				if (locations_out.size() != 0) {
-					final Def_ModulePar lastnode = nodes.last();
-					final Def_ModulePar lastInserted = locations_out.get(locations_out.size() - 1);
+					final Definition lastnode = nodes.last();
+					final Definition lastInserted = locations_out.get(locations_out.size() - 1);
 
 					if (lastnode.getCumulativeDefinitionLocation().getOffset() == lastInserted.getCumulativeDefinitionLocation()
 							.getOffset()) {
@@ -202,13 +220,13 @@ public class ChangeCreator {
 	 * */
 	private static class DefinitionVisitor extends ASTVisitor {
 
-		private final NavigableSet<Def_ModulePar> locations;
+		private final NavigableSet<Definition> locations;
 
 		DefinitionVisitor() {
-			locations = new TreeSet<Def_ModulePar>(new LocationComparator());
+			locations = new TreeSet<Definition>(new LocationComparator());
 		}
 
-		private NavigableSet<Def_ModulePar> getLocations() {
+		private NavigableSet<Definition> getLocations() {
 			return locations;
 		}
 
@@ -222,7 +240,15 @@ public class ChangeCreator {
 						locations.add(d);
 					}
 				}
+			} else if (node instanceof Def_ModulePar_Template) {
+				final Def_ModulePar_Template d = (Def_ModulePar_Template) node;
+				if (d.getCumulativeDefinitionLocation() != null) {
+					if (hasValidLocation(d)) {
+						locations.add(d);
+					}
+				}
 			}
+
 			return V_CONTINUE;
 		}
 
@@ -237,10 +263,10 @@ public class ChangeCreator {
 	 * Compares {@link Def_ModulePar}s by comparing the file paths as strings.
 	 * If the paths are equal, the two offset integers are compared.
 	 * */
-	private static class LocationComparator implements Comparator<ILocateableNode> {
+	private static class LocationComparator implements Comparator<Definition> {
 
 		@Override
-		public int compare(final ILocateableNode arg0, final ILocateableNode arg1) {
+		public int compare(final Definition arg0, final Definition arg1) {
 			final IResource f0 = arg0.getLocation().getFile();
 			final IResource f1 = arg1.getLocation().getFile();
 			if (!f0.equals(f1)) {
@@ -258,7 +284,13 @@ public class ChangeCreator {
 					final String s1 = ((Def_ModulePar) arg1).getIdentifier().getDisplayName();
 
 					return s0.compareTo(s1);
+				} else if (arg0 instanceof Def_ModulePar_Template && arg1 instanceof Def_ModulePar_Template) {
+					final String s0 = ((Def_ModulePar_Template) arg0).getIdentifier().getDisplayName();
+					final String s1 = ((Def_ModulePar_Template) arg1).getIdentifier().getDisplayName();
+
+					return s0.compareTo(s1);
 				}
+
 				return 0;
 			} else {
 				return (o0 < o1) ? -1 : 1;
