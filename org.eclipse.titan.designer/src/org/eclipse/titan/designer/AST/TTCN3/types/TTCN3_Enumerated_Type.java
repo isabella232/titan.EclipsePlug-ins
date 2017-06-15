@@ -198,7 +198,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 				} else {
 					final Integer_Value enumValue = (Integer_Value) value;
 					if (!enumValue.isNative()) {
-						enumValue.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, value));
+						enumValue.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, enumValue.getValueValue()));
 						setIsErroneous(true);
 					} else {
 						final Long enumLong = enumValue.getValue();
