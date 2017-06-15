@@ -173,12 +173,12 @@ public final class Int2OctExpression extends Expression_Value {
 					} else if (last1 != null && !last1.isUnfoldable(timestamp)
 							&& Value.Value_type.INTEGER_VALUE.equals(last1.getValuetype())) {
 						if ((i1.shiftRight((int) i2 * 8)).signum() > 0) {
-							location.reportSemanticError(MessageFormat.format(OPERANDERROR5, i1, i2));
+							location.reportSemanticError(MessageFormat.format(OPERANDERROR5, ((Integer_Value) last1).intValue(), i2));
 							setIsErroneous(true);
 						}
 					}
 				} else {
-					value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR6, last2));
+					value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR6, ((Integer_Value) last2).getValueValue()));
 					setIsErroneous(true);
 				}
 			}

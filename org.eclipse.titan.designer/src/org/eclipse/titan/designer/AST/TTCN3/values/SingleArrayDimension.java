@@ -110,7 +110,7 @@ public final class SingleArrayDimension extends ArrayDimension {
 				setIsErroneous(true);
 			} else if (Value.Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
 				if (!((Integer_Value) last).isNative()) {
-					value.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, last));
+					value.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, ((Integer_Value) last).getValueValue()));
 					setIsErroneous(true);
 				} else {
 					size = ((Integer_Value) last).getValue();

@@ -163,7 +163,7 @@ public final class Int2StrExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case INTEGER_VALUE:
-			lastValue = new Charstring_Value(((Integer_Value) last).toString());
+			lastValue = new Charstring_Value(((Integer_Value) last).getValueValue().toString());
 			lastValue.copyGeneralProperties(this);
 			break;
 		default:

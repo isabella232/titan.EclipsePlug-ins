@@ -727,11 +727,11 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 						if (lastInteger.isNative()) {
 							final long temp = lastInteger.getValue();
 							if (temp < 0) {
-								indexValue.getLocation().reportSemanticError(MessageFormat.format(NONNEGATIVINDEXEXPECTED, last));
+								indexValue.getLocation().reportSemanticError(MessageFormat.format(NONNEGATIVINDEXEXPECTED, temp));
 								indexValue.setIsErroneous(true);
 							}
 						} else {
-							indexValue.getLocation().reportSemanticError(MessageFormat.format(TOOBIGINDEX, indexValue, getTypename()));
+							indexValue.getLocation().reportSemanticError(MessageFormat.format(TOOBIGINDEX, lastInteger.getValueValue(), getTypename()));
 							indexValue.setIsErroneous(true);
 						}
 					}

@@ -259,7 +259,7 @@ public final class SubstrExpression extends Expression_Value {
 							setIsErroneous(true);
 						}
 					} else {
-						value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR9, last2));
+						value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR9, ((Integer_Value) last2).getValueValue()));
 						setIsErroneous(true);
 					}
 				}
@@ -289,7 +289,7 @@ public final class SubstrExpression extends Expression_Value {
 							setIsErroneous(true);
 						}
 					} else {
-						value3.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR10, last3));
+						value3.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR10, ((Integer_Value) last3).getValueValue()));
 						setIsErroneous(true);
 					}
 				}

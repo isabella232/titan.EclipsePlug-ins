@@ -525,12 +525,12 @@ public abstract class AbstractOfType extends ASN1Type {
 							final long temp = lastInteger.getValue();
 							if (temp < 0) {
 								indexValue.getLocation().reportSemanticError(
-										MessageFormat.format(SequenceOf_Type.NONNEGATIVINDEXEXPECTED, last));
+										MessageFormat.format(SequenceOf_Type.NONNEGATIVINDEXEXPECTED, temp));
 								indexValue.setIsErroneous(true);
 							}
 						} else {
 							indexValue.getLocation().reportSemanticError(
-									MessageFormat.format(SequenceOf_Type.TOOBIGINDEX, indexValue, getTypename()));
+									MessageFormat.format(SequenceOf_Type.TOOBIGINDEX, lastInteger.getValueValue(), getTypename()));
 							indexValue.setIsErroneous(true);
 						}
 					}

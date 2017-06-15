@@ -209,11 +209,6 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	@Override
-	public String toString() {
-		return value.toString();
-	}
-
-	@Override
 	public boolean equals(final Object x) {
 		if (this == x) {
 			return true;

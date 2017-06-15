@@ -280,7 +280,7 @@ public final class RegexpExpression extends Expression_Value {
 							setIsErroneous(true);
 						}
 					} else {
-						value3.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR5, last3));
+						value3.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR5, ((Integer_Value) last3).getValueValue()));
 						setIsErroneous(true);
 					}
 				}
