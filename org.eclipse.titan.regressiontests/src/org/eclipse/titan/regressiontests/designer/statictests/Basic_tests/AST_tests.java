@@ -828,7 +828,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The first operand of the `<@' operation should be a string, `record of', `set of' or an array value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `<@' operation should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of the `<@' operation should be a string, `record of', `set of' or an array value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (9999999999999) as the second operand of the `<@' operation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (9,999,999,999,999) as the second operand of the `<@' operation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 56;
 		markersToCheck.add(new MarkerToCheck("The first operand of the `@>' operation should be a string, `record of', `set of' or an array  value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
@@ -853,7 +853,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The first operand of the `@>' operation should be a string, `record of', `set of' or an array  value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `@>' operation should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of the `@>' operation should be a string, `record of', `set of' or an array  value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (9999999999999) as the second operand of the `@>' operation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (9,999,999,999,999) as the second operand of the `@>' operation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 31;
 		markersToCheck.add(new MarkerToCheck("The first operand of operation `substr' should be a string, `record of', or a `set of' value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Incompatible value: `bitstring' was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -867,8 +867,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The second operand of operation `substr' (6) is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The third operand of operation `substr' (6) is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (2) and third operand (6) of operation `substr' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (99999999999999999999999) as the second operand of operation `substr' is not allowed",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (99999999999999999999999) as the third operand of operation `substr' is not allowed",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (99,999,999,999,999,999,999,999) as the second operand of operation `substr' is not allowed",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (99,999,999,999,999,999,999,999) as the third operand of operation `substr' is not allowed",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (6) and third operand (1) of operation `substr' is greater than the length of the first operand (6)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (2) and third operand (6) of operation `substr' is greater than the length of the first operand (6)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of second operand (6) and third operand (1) of operation `substr' is greater than the length of the first operand (1)",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -1630,8 +1630,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The second operand of operation `replace' (6) is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The third operand of operation `replace' (6) is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (2) and the third operand (6) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (99999999999999999999999) as the second operand of operation `replace' is not allowed",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (99999999999999999999999) as the third operand of operation `replace' is not allowed",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (99,999,999,999,999,999,999,999) as the second operand of operation `replace' is not allowed",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (99,999,999,999,999,999,999,999) as the third operand of operation `replace' is not allowed",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (6) and the third operand (1) of operation `replace' is greater than the length of the first operand (6)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (2) and the third operand (6) of operation `replace' is greater than the length of the first operand (6)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (6) and the third operand (1) of operation `replace' is greater than the length of the first operand (1)",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -10516,7 +10516,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("A positive integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (999999999999999) as an array dimension is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (999,999,999,999,999) as an array dimension is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A positive integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in the array value: 0 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
@@ -10526,8 +10526,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Too many elements in the array value: 0 was expected instead of 1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("An integer value was expected as upper boundary",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("An integer value was expected as lower boundary",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (999999999999999) as the upper boundary of an array dimension is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Using a large integer value (999999999999999) as the lower boundary of an array dimension is not supported",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (999,999,999,999,999) as the upper boundary of an array dimension is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Using a large integer value (999,999,999,999,999) as the lower boundary of an array dimension is not supported",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The lower boundary is greater than the upper boundary",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in the array value: 0 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("An integer value was expected as upper boundary",  lineNum, IMarker.SEVERITY_ERROR));

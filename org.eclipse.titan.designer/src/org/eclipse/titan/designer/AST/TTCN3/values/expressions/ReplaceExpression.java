@@ -289,7 +289,7 @@ public final class ReplaceExpression extends Expression_Value {
 							setIsErroneous(true);
 						}
 					} else {
-						value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR11, value2));
+						value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR11, ((Integer_Value) last2).getValueValue()));
 						setIsErroneous(true);
 					}
 				}
@@ -319,7 +319,7 @@ public final class ReplaceExpression extends Expression_Value {
 							setIsErroneous(true);
 						}
 					} else {
-						value3.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR12, last3));
+						value3.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR12, ((Integer_Value) last3).getValueValue()));
 						setIsErroneous(true);
 					}
 				}

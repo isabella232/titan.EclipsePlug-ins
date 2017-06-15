@@ -206,7 +206,7 @@ public final class ShiftRightExpression extends Expression_Value {
 				if (Value_type.INTEGER_VALUE.equals(tempValue.getValuetype()) && !getIsErroneous(timestamp)) {
 					if (!((Integer_Value) tempValue).isNative()) {
 						value2.getLocation().reportSemanticError(
-								MessageFormat.format(LARGEINTEGERSECONDOPERANDERROR, tempValue));
+								MessageFormat.format(LARGEINTEGERSECONDOPERANDERROR, ((Integer_Value) tempValue).getValueValue()));
 						setIsErroneous(true);
 						break;
 					}

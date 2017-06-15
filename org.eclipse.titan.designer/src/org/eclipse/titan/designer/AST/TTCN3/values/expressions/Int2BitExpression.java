@@ -173,12 +173,12 @@ public final class Int2BitExpression extends Expression_Value {
 							&& Value.Value_type.INTEGER_VALUE.equals(last1.getValuetype())) {
 						final Integer_Value i1 = (Integer_Value) last1;
 						if ((i1.shiftRight(i2).compareTo(new Integer_Value(0))) > 0) {
-							location.reportSemanticError(MessageFormat.format(OPERANDERROR5, i1.toString(), i2));
+							location.reportSemanticError(MessageFormat.format(OPERANDERROR5, i1.intValue(), i2));
 							setIsErroneous(true);
 						}
 					}
 				} else {
-					value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR6, last2));
+					value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR6, ((Integer_Value) last2).getValueValue()));
 					setIsErroneous(true);
 				}
 			}

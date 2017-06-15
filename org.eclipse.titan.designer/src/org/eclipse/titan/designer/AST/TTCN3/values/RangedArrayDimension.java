@@ -149,7 +149,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 				setIsErroneous(true);
 			} else if (Value.Value_type.INTEGER_VALUE.equals(lowerLast.getValuetype())) {
 				if (!((Integer_Value) lowerLast).isNative()) {
-					lower.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR4, lowerLast));
+					lower.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR4, ((Integer_Value) lowerLast).getValueValue()));
 					setIsErroneous(true);
 				} else {
 					lowerLimit = ((Integer_Value) lowerLast).getValue();
@@ -174,7 +174,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 				setIsErroneous(true);
 			} else if (Value.Value_type.INTEGER_VALUE.equals(upperLast.getValuetype())) {
 				if (!((Integer_Value) upperLast).isNative()) {
-					upper.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR5, upperLast));
+					upper.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR5, ((Integer_Value) upperLast).getValueValue()));
 					setIsErroneous(true);
 				} else {
 					upperLimit = ((Integer_Value) upperLast).getValue();

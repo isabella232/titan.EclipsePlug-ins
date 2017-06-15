@@ -172,12 +172,12 @@ public final class Int2HexExpression extends Expression_Value {
 							&& Value.Value_type.INTEGER_VALUE.equals(last1.getValuetype())) {
 						if ((((Integer_Value) last1).shiftRight((int) i2 * 4)).signum() > 0) {
 							location.reportSemanticError(MessageFormat.format(OPERANDERROR5,
-									((Integer_Value) last1).toString(), i2));
+									((Integer_Value) last1).intValue(), i2));
 							setIsErroneous(true);
 						}
 					}
 				} else {
-					value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR6, last2));
+					value2.getLocation().reportSemanticError(MessageFormat.format(OPERANDERROR6, ((Integer_Value) last2).getValueValue()));
 					setIsErroneous(true);
 				}
 			}
