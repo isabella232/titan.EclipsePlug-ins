@@ -669,11 +669,23 @@ public final class Component_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		source.append( "\tpublic static class " );
-		source.append( getGenNameOwn() );
-		source.append( " {\n" );
-		//TODO: implement
-		source.append( "\t\t//TODO: Component_Type.generateCode() is not fully implemented!\n" );
-		source.append( "\t}\n" );
+		if(needsAlias()) {
+			final String ownName = getGenNameOwn();
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
+		aData.addBuiltinTypeImport( "TitanComponent" );
+		return "TitanComponent";
+	}
+
+	@Override
+	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+		aData.addBuiltinTypeImport( "TitanComponent_template" );
+		return "TitanComponent_template";
 	}
 }

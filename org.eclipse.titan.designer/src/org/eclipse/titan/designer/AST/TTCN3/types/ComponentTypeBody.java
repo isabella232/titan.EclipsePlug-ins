@@ -47,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.VisibilityModifier;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.SkeletonTemplateProposal;
@@ -983,5 +984,15 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		init_comp.append("return true;\n");
 		init_comp.append("} else ");
+	}
+
+	//originally generate_code_comptype_name
+	public void generateCodeComponentTypeName(final ExpressionStruct expression) {
+		if (identifier == null) {
+			//TODO fatal error
+			return;
+		}
+
+		expression.expression.append(MessageFormat.format("\"{0}\", \"{1}\"", parentScope.getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
 	}
 }

@@ -88,4 +88,11 @@ public class TTCN_Runtime {
 		//FIXME implement
 		TitanPort.unmapPort(sourePort, destinationPort);
 	}
+
+	//originally create_component
+	public static int createComponent(final String createdComponentTypeModule, final String createdComponentTypeName,
+			final String createdComponentName, final String createdComponentLocation, final boolean createdComponentAlive) {
+		//FIXME implement
+		throw new TtcnError("Creating component is not yet supported!");
+	}
 }

@@ -12,22 +12,25 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
-import org.eclipse.titan.designer.AST.IType.Type_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -323,5 +326,75 @@ public final class ComponentCreateExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public boolean canGenerateSingleExpression() {
+		return (name == null || name.canGenerateSingleExpression()) &&
+				(location == null || location.canGenerateSingleExpression());
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+
+		expression.expression.append("TTCN_Runtime.createComponent(");
+
+		// the type of the component (module name and identifier)
+		Assignment assignment = componentReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (assignment == null || !Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
+			//TODO FATAL error
+			return;
+		}
+
+		IType componentType = assignment.getType(CompilationTimeStamp.getBaseTimestamp()).getFieldType(CompilationTimeStamp.getBaseTimestamp(), componentReference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+		if (componentType == null) {
+			//TODO fatal error
+			return;
+		}
+		componentType = componentType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if (!Type_type.TYPE_COMPONENT.equals(componentType.getTypetype())) {
+			//TODO fatal error
+			return;
+		}
+		((Component_Type) componentType).getComponentBody().generateCodeComponentTypeName(expression);
+		expression.expression.append(", ");
+
+		//third argument: component name
+		if (name != null) {
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = name.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+			referenceChain.release();
+
+			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
+				//TODO check why translate
+				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
+			} else {
+				name.generateCodeExpressionMandatory(aData, expression);
+			}
+		} else {
+			expression.expression.append("null");
+		}
+		expression.expression.append(", ");
+
+		//fourth argument location
+		if (location != null) {
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = location.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+			referenceChain.release();
+
+			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
+				//TODO check why translate
+				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
+			} else {
+				location.generateCodeExpressionMandatory(aData, expression);
+			}
+		} else {
+			expression.expression.append("null");
+		}
+
+		//fifth argument: alive flag
+		expression.expression.append(MessageFormat.format(", {0})", isAlive?"true":"false"));
 	}
 }
