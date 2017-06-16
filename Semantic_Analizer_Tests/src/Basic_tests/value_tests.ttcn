@@ -23,6 +23,8 @@ type enumerated enumeration
     item3(3)
 };
 
+type enumerated MyEnum1 { first(2), second(5), third(9999999999) }
+
 //FIXME add tests for ispresent, ischoosen, valueof
 
 type enumerated myenum1 {xx1,xx2,xx3};
