@@ -202,12 +202,10 @@ public final class NumericString_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
-
 		if(needsAlias()) {
-			source.append( "\tpublic static class " );
-			source.append( getGenNameOwn() );
-			source.append( " extends TitanCharString {}\n" );
+			final String ownName = getGenNameOwn();
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
 		}
 	}
 
