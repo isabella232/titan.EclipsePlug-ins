@@ -20,6 +20,8 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -207,5 +209,29 @@ public final class Connect_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		//FIXME this is actually more complex
+		ExpressionStruct expression = new ExpressionStruct();
+
+		//FIXME generate code for translation
+		expression.expression.append("TTCN_Runtime.connectPort(");
+		componentReference1.generateCodeExpression(aData, expression);
+		expression.expression.append(", ");
+		//FIXME actually _portref and based on component type
+		portReference1.generateCode(aData, expression);
+		expression.expression.append(".getName(), ");
+
+		componentReference2.generateCodeExpression(aData, expression);
+		expression.expression.append(", ");
+		//FIXME actually _portref and based on component type
+		portReference2.generateCode(aData, expression);
+		expression.expression.append(".getName()");
+		expression.expression.append(")");
+
+		expression.mergeExpression(source);
 	}
 }

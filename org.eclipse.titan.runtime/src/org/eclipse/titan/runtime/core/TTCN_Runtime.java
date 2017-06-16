@@ -89,6 +89,16 @@ public class TTCN_Runtime {
 		TitanPort.unmapPort(sourePort, destinationPort);
 	}
 
+	public static void connectPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+		//FIXME implement
+		throw new TtcnError("Connecting components is not yet supported!");
+	}
+
+	public static void disconnetPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+		//FIXME implement
+		throw new TtcnError("Disconnecting components is not yet supported!");
+	}
+
 	//originally create_component
 	public static int createComponent(final String createdComponentTypeModule, final String createdComponentTypeName,
 			final String createdComponentName, final String createdComponentLocation, final boolean createdComponentAlive) {
