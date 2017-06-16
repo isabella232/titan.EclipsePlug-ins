@@ -304,13 +304,17 @@ public final class Map_Statement extends Statement {
 		//FIXME this is actually more complex
 		ExpressionStruct expression = new ExpressionStruct();
 
+		//FIXME generate code for translation
 		expression.expression.append("TTCN_Runtime.mapPort(");
-		//FIXME generate component references too
-		//FIXME actually _portref
+		componentReference1.generateCodeExpression(aData, expression);
+		expression.expression.append(", ");
+		//FIXME actually _portref and based on component type
 		portReference1.generateCode(aData, expression);
 		expression.expression.append(".getName(), ");
 
-		//FIXME actually _portref
+		componentReference2.generateCodeExpression(aData, expression);
+		expression.expression.append(", ");
+		//FIXME actually _portref and based on component type
 		portReference2.generateCode(aData, expression);
 		expression.expression.append(".getName()");
 		expression.expression.append(")");

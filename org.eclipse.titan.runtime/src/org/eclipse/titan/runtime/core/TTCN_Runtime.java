@@ -79,12 +79,12 @@ public class TTCN_Runtime {
 		component_type_name = par_component_type_name;
 	}
 
-	public static void mapPort(final String sourePort, final String destinationPort) {
+	public static void mapPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
 		//FIXME implement
 		TitanPort.mapPort(sourePort, destinationPort);
 	}
 
-	public static void unmapPort(final String sourePort, final String destinationPort) {
+	public static void unmapPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
 		//FIXME implement
 		TitanPort.unmapPort(sourePort, destinationPort);
 	}
