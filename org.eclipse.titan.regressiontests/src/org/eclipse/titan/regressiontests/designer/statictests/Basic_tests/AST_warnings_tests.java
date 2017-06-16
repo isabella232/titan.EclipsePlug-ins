@@ -1393,7 +1393,7 @@ public class AST_warnings_tests {
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(56);
-		int lineNum = 198;
+		int lineNum = 200;
 		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
@@ -1477,5 +1477,4 @@ public class AST_warnings_tests {
 
 		return markersToCheck;
 	}
-
 }
