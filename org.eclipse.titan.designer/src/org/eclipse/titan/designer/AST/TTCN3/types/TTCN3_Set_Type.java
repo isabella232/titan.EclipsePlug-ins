@@ -690,6 +690,10 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true);
+
+		source.append( "//TODO: generating template set in" );
+		source.append( getClass().getSimpleName() );
+		source.append( ".generateCode() is not implemented!\n" );
 	}
 
 	@Override
