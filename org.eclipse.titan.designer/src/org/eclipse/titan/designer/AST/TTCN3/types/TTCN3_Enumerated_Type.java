@@ -38,6 +38,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -523,5 +524,72 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	public Identifier getComponentIdentifierByName(final Identifier identifier) {
 		final EnumItem enumItem = getEnumItemWithName(identifier);
 		return enumItem == null ? null : enumItem.getId();
+	}
+
+	//=== Code generation ===
+
+	private void generateIsPresent(final StringBuilder source){
+		source.append("\t\tpublic boolean isPresent(){ return true; } //TODO: implement! \n");
+	}
+
+	private void generateIsBound(final StringBuilder source){
+		source.append("\t\tpublic boolean isBound(){ return true; } //TODO: implement! \n");
+	}
+
+	private void generateOperatorEquals(final StringBuilder source) {
+		source.append("\t\tpublic boolean operatorEquals(final Base_Type otherValue){ return true; } //TODO: implement! \n");
+	}
+
+	private void generateAssign(final StringBuilder source) {
+		source.append("\t\tpublic Base_Type assign(final Base_Type otherValue){ return this; } //TODO: implement! \n");
+	}
+	
+	private void generateTemplateSetType(final StringBuilder source){ 
+		source.append("\t\tpublic void setType(template_sel valueList, int i) {\n");
+		source.append("\t\t\t//TODO: setType is not implemented yet\n");
+		source.append("\t\t}\n");
+	}
+
+	//TODO: implement it!
+	/**
+	 * Add generated java code on this level.
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 */
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if(needsAlias()) {
+			aData.addBuiltinTypeImport( "Base_Type" );
+			aData.addBuiltinTypeImport( "Base_Template" );
+			final String ownName = getGenNameOwn();
+			source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{' \n", ownName, getGenNameValue(aData, source, myScope)));
+			//Perhaps: Base_Type -> Enum_Type would be more elegant but slower
+			generateIsPresent(source);
+			generateIsBound(source);
+			generateOperatorEquals(source);
+			generateAssign(source); 
+
+			source.append("\t}\n");
+			
+			
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+			//TODO: generate this, and others:
+			generateTemplateSetType(source);
+			source.append("\t}\n");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
+		//TODO: ???
+		return getGenNameOwn(scope);
+	}
+
+	@Override
+	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+
+		return  getGenNameOwn(scope).concat("_template");
 	}
 }
