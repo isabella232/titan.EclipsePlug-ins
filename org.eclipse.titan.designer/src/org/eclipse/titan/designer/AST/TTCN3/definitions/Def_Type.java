@@ -494,9 +494,7 @@ public final class Def_Type extends Definition {
 		}
 
 		final StringBuilder sb = aData.getCodeForType(genName);//aData.getSrc();
-		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
-		//TODO: make sure, that type is not null
 		type.generateCode( aData, source );
 
 		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
