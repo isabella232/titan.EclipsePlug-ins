@@ -15,6 +15,21 @@ public class TTCN_Runtime {
 	private static String component_type_module = null;
 	private static String component_type_name = null;
 
+	private static VerdictTypeEnum localVerdict = VerdictTypeEnum.NONE;
+	private static String verdictReason = "";
+
+	//originally in_controlpart
+	private static boolean inControlPart() {
+		//FIXME implement
+		return false;
+	}
+
+	//originally verdict_enabled
+	private static boolean verdictEnabled() {
+		//FIXME implement
+		return true;
+	}
+
 	//originally TTCN_Runtime::check_begin_testcase
 	public static void check_begin_testcase(final boolean hasTimer, final TitanFloat timerValue) {
 		//FIXME missing checks
@@ -180,5 +195,61 @@ public class TTCN_Runtime {
 			final String createdComponentName, final String createdComponentLocation, final boolean createdComponentAlive) {
 		//FIXME implement
 		throw new TtcnError("Creating component is not yet supported!");
+	}
+
+	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue) {
+		setverdict(newValue, "");
+	}
+
+	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue, final String reason) {
+		if (verdictEnabled()) {
+			if (VerdictTypeEnum.ERROR.equals(newValue)) {
+				throw new TtcnError("Error verdict cannot be set explicitly.");
+			}
+
+			setverdictInternal(newValue, reason);
+		} else if (inControlPart()) {
+			throw new TtcnError("Verdict cannot be set in the control part.");
+		} else {
+			throw new TtcnError("Internal error: Setting the verdict in invalid state.");
+		}
+	}
+
+	public static void setverdict(final TitanVerdictType newValue) {
+		setverdict(newValue, "");
+	}
+
+	public static void setverdict(final TitanVerdictType newValue, final String reason) {
+		if (!newValue.isBound()) {
+			throw new TtcnError("The argument of setverdict operation is an unbound verdict value.");
+		}
+
+		setverdict(newValue.getValue(), reason);
+	}
+
+	//originally set_error_verdict
+	public static void setErrorVerdict() {
+		if (verdictEnabled()) {
+			setverdictInternal(VerdictTypeEnum.ERROR, "");
+		}
+		//FIXME implement else
+	}
+
+	//originally setverdict_internal
+	private static void setverdictInternal(final TitanVerdictType.VerdictTypeEnum newValue, final String reason) {
+		if (newValue.getValue() < VerdictTypeEnum.NONE.getValue() || newValue.getValue() > VerdictTypeEnum.ERROR.getValue()) {
+			throw new TtcnError(MessageFormat.format("Internal error: setting an invalid verdict value ({0}).", newValue.getValue()));
+		}
+
+		VerdictTypeEnum oldVerdict = localVerdict;
+		if (localVerdict.getValue() < newValue.getValue()) {
+			verdictReason = reason;
+			localVerdict = newValue;
+			//FIXME implement logging
+		} else if (localVerdict.getValue() == newValue.getValue()) {
+			//FIXME implement logging
+		}
+
+		//FIXME handle debugger breakpoints
 	}
 }

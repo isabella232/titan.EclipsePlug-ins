@@ -10,7 +10,18 @@ import java.text.MessageFormat;
 public class TitanVerdictType extends Base_Type {
 
 	//originally Types.hh/verdicttype
-	public enum VerdictTypeEnum { NONE, PASS, INCONC, FAIL, ERROR };
+	public enum VerdictTypeEnum {
+		NONE(0), PASS(1), INCONC(2), FAIL(3), ERROR(4);
+		
+		private int index;
+		VerdictTypeEnum(final int index) {
+			this.index = index;
+		}
+
+		public int getValue() {
+			return index;
+		}
+	};
 
 	public static final String verdict_name[] = { "none", "pass", "inconc", "fail", "error" };
 
@@ -20,7 +31,7 @@ public class TitanVerdictType extends Base_Type {
 		//do nothing
 	}
 
-	TitanVerdictType(final VerdictTypeEnum other_value) {
+	public TitanVerdictType(final VerdictTypeEnum other_value) {
 		if ( !isValid( other_value ) ) {
 			throw new TtcnError("Initializing a verdict variable with an invalid value (" + other_value + ").");
 		}
@@ -28,7 +39,7 @@ public class TitanVerdictType extends Base_Type {
 		verdict_value = other_value;
 	}
 
-	TitanVerdictType( final TitanVerdictType other_value ) {
+	public TitanVerdictType( final TitanVerdictType other_value ) {
 		if ( !other_value.isBound() ) {
 			throw new TtcnError("Copying an unbound verdict value.");
 		}

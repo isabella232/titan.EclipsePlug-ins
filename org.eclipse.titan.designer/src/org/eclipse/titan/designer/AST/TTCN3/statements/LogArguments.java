@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -156,5 +157,28 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 			}
 			source.append( " " );
 		}
+	}
+
+	/**
+	 * Generates the equivalent Java code for the log argument into an expression
+	 *
+	 *  generate_code_expr in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if ( arguments == null ) {
+			return;
+		}
+		//FIXME begin logging
+		final int size = arguments.size();
+		for ( int i = 0; i < size; i++ ) {
+			if ( i > 0 ) {
+				expression.expression.append( ", " );
+			}
+			arguments.get( i ).generateCodeExpression(aData, expression);
+		}
+		//FIXME end logging
 	}
 }

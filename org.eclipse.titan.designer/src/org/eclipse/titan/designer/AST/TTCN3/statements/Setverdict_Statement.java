@@ -28,6 +28,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Verdict_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Verdict_Value.Verdict_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -214,5 +216,28 @@ public final class Setverdict_Statement extends Statement {
 
 	public LogArguments getVerdictReason() {
 		return verdictReason;
+	}
+
+	@Override
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		ExpressionStruct expression = new ExpressionStruct();
+
+		aData.addCommonLibraryImport("TTCN_Runtime");
+		expression.expression.append("TTCN_Runtime.setverdict(");
+		verdictValue.generateCodeExpression(aData, expression);
+		if (verdictReason != null) {
+			expression.expression.append(", ");
+			ExpressionStruct reason = new ExpressionStruct();
+			verdictReason.generateCodeExpression(aData, reason);
+			if (reason.preamble.length() > 0) {
+				expression.preamble.append(reason.preamble).append(";\n");
+			}
+			if (reason.postamble.length() > 0) {
+				expression.postamble.append(reason.postamble).append(";\n");
+			}
+			expression.expression.append(reason.expression);
+		}
+		expression.expression.append(')');
+		expression.mergeExpression(source);
 	}
 }

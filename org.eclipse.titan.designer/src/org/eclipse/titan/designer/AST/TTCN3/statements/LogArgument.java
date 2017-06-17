@@ -418,4 +418,18 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 		source.append(expression.preamble);
 		source.append(expression.expression);
 	}
+
+	/**
+	 * Generates the equivalent Java code for the log argument into an expression
+	 *
+	 *  generate_code_expr in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (internalLogArgument != null) {
+			internalLogArgument.generateCode(aData, expression);
+		}
+	}
 }
