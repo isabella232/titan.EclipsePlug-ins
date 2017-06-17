@@ -448,6 +448,45 @@ public final class MarkerHandler {
 	}
 
 	/**
+	 * Checks if a resource has a marker of the provided type and with the provided severity.
+	 * Used in code generation to check if there are semantic errors reported for a file.
+	 *
+	 * @param markerTypeID the id of the marker type
+	 * @param file the file whose markers should be marked for removal
+	 * @param severity the expected severity of the marker
+	 *
+	 * @return true if there is at least one marker fitting the requirements, false otherwise
+	 * */
+	public static boolean hasMarker(final String markerTypeID, final IResource file, final int severity) {
+		if (!MARKERS.containsKey(markerTypeID)) {
+			return false;
+		}
+
+		synchronized (MARKERS) {
+			final Map<IResource, List<InternalMarker>> typeSpecificMarkers = MARKERS.get(markerTypeID);
+
+			if (!typeSpecificMarkers.containsKey(file)) {
+				return false;
+			}
+
+			final List<InternalMarker> fileSpecificMarkers = typeSpecificMarkers.get(file);
+
+			for (InternalMarker internalMarker : fileSpecificMarkers) {
+				try {
+					final IMarker externalMarker = file.findMarker(internalMarker.markerID);
+					if (externalMarker != null && severity == externalMarker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
+						return true;
+					}
+				} catch (CoreException e) {
+					ErrorReporter.logExceptionStackTrace(e);
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Updates the stored markers, should be run only by incremental syntax checking.
 	 * As such it needs to know where the change started in the file, and how much has it shifted the contents.
 	 *

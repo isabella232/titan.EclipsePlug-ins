@@ -12,6 +12,7 @@ import java.util.Collection;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -43,7 +44,8 @@ public class ProjectSourceCompiler {
 	public static void compile( final Module aModule, final boolean aDebug ) throws CoreException {
 		IResource sourceFile = aModule.getLocation().getFile();
 		if(MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, sourceFile)
-				|| MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, sourceFile)) {
+				|| MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, sourceFile)
+				|| MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, sourceFile, IMarker.SEVERITY_ERROR)) {
 			// if there are syntactic errors in the module don't generate code for it
 			// TODO semantic errors need to be checked for severity
 			return;
