@@ -22,6 +22,7 @@ public class TitanComponent extends Base_Type {
 	//Pseudo-component for logging when the MTC is executing a controlpart
 	public static final int CONTROL_COMPREF = -4;
 
+	public static TitanComponent self = new TitanComponent();
 
 	private class ComponentNameStruct {
 		public int componentReference;
@@ -106,6 +107,15 @@ public class TitanComponent extends Base_Type {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
 
+	}
+
+	// originally component cast operator
+	public int getComponent() {
+		if (componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError("Using the value of an unbound component reference.");
+		}
+
+		return componentValue;
 	}
 
 	//originally operator=

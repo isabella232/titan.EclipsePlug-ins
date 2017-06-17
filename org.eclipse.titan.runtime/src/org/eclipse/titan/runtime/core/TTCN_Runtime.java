@@ -79,14 +79,90 @@ public class TTCN_Runtime {
 		component_type_name = par_component_type_name;
 	}
 
-	public static void mapPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+	//originally map_port
+	public static void mapPort(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
 		//FIXME implement
-		TitanPort.mapPort(sourePort, destinationPort);
+		if (!sourceComponentRef.isBound()) {
+			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
+		}
+
+		TitanComponent sourceComponent = sourceComponentRef;
+		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("The first argument of map operation contains the null component reference.");
+		}
+
+		if (!destinationComponentRef.isBound()) {
+			throw new TtcnError("The second argument of map operation contains an unbound component reference.");
+		}
+
+		TitanComponent destinationComponent = destinationComponentRef;
+		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("The second argument of map operation contains the null component reference.");
+		}
+
+		TitanComponent componentReference;
+		String componentPort;
+		String systemPort;
+		if (sourceComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+			if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+				throw new TtcnError("Both arguments of map operation refer to system ports.");
+			}
+			componentReference = destinationComponent;
+			componentPort = destinationPort;
+			systemPort = sourePort;
+		} else if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+			componentReference = sourceComponent;
+			componentPort = sourePort;
+			systemPort = destinationPort;
+		} else {
+			throw new TtcnError("Both arguments of map operation refer to test component ports.");
+		}
+
+		//FIXME implement
+		TitanPort.mapPort(componentPort, systemPort, false);
 	}
 
-	public static void unmapPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+	//originally unmap_port
+	public static void unmapPort(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
 		//FIXME implement
-		TitanPort.unmapPort(sourePort, destinationPort);
+		if (!sourceComponentRef.isBound()) {
+			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
+		}
+
+		TitanComponent sourceComponent = sourceComponentRef;
+		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("The first argument of unmap operation contains the null component reference.");
+		}
+
+		if (!destinationComponentRef.isBound()) {
+			throw new TtcnError("The second argument of unmap operation contains an unbound component reference.");
+		}
+
+		TitanComponent destinationComponent = destinationComponentRef;
+		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("The second argument of unmap operation contains the null component reference.");
+		}
+
+		TitanComponent componentReference;
+		String componentPort;
+		String systemPort;
+		if (sourceComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+			if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+				throw new TtcnError("Both arguments of unmap operation refer to system ports.");
+			}
+			componentReference = destinationComponent;
+			componentPort = destinationPort;
+			systemPort = sourePort;
+		} else if (destinationComponent.getComponent() == TitanComponent.SYSTEM_COMPREF) {
+			componentReference = sourceComponent;
+			componentPort = sourePort;
+			systemPort = destinationPort;
+		} else {
+			throw new TtcnError("Both arguments of unmap operation refer to test component ports.");
+		}
+
+		//FIXME implement
+		TitanPort.unmapPort(componentPort, systemPort, false);
 	}
 
 	public static void connectPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
@@ -94,7 +170,7 @@ public class TTCN_Runtime {
 		throw new TtcnError("Connecting components is not yet supported!");
 	}
 
-	public static void disconnetPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+	public static void disconnectPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
 		//FIXME implement
 		throw new TtcnError("Disconnecting components is not yet supported!");
 	}

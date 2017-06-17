@@ -212,21 +212,23 @@ public class TitanPort {
 		// FIXME implement
 	}
 
-	public static void mapPort(final String componentPort, final String systemPort) {
+	public static void mapPort(final String componentPort, final String systemPort, final boolean translation) {
 		//FIXME this is actually more complex
 		TitanPort port = lookupByName(componentPort, false);
 		if (port == null) {
 			throw new TtcnError(MessageFormat.format("Map operation refers to non-existent port {0}.", componentPort));
 		}
+		//FIXME add support for translation and single mode check
 		port.map(componentPort);
 	}
 
-	public static void unmapPort(final String componentPort, final String systemPort) {
+	public static void unmapPort(final String componentPort, final String systemPort, final boolean translation) {
 		//FIXME this is actually more complex
 		TitanPort port = lookupByName(componentPort, false);
 		if (port == null) {
 			throw new TtcnError(MessageFormat.format("Unmap operation refers to non-existent port {0}.", componentPort));
 		}
+		//FIXME add support for translation and single mode check
 		port.unmap(componentPort);
 	}
 }
