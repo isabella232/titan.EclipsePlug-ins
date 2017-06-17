@@ -10,7 +10,10 @@ package org.eclipse.titan.runtime.core;
 public class TtcnError extends Error {
 
 	public TtcnError( final String aErrorMessage ) {
+		//FIXME implement
 		super( aErrorMessage );
+
+		TTCN_Runtime.setErrorVerdict();
 	}
 
 	// FIXME this function is not ok here.
