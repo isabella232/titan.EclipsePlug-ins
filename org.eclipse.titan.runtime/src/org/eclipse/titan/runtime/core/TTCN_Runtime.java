@@ -16,6 +16,8 @@ public class TTCN_Runtime {
 	private static String component_type_name = null;
 
 	private static VerdictTypeEnum localVerdict = VerdictTypeEnum.NONE;
+	private static int verdictCount[] = new int[] {0,0,0,0,0};
+	private static int controlErrorCount = 0;
 	private static String verdictReason = "";
 
 	//originally in_controlpart
@@ -56,15 +58,17 @@ public class TTCN_Runtime {
 
 	//originally TTCN_Runtime::end_testcase
 	// FIXME this is more complex
-	public static TitanVerdictType end_testcase() {
+	public static VerdictTypeEnum end_testcase() {
 		TitanTimer.testcaseTimer.stop();
 		terminate_component_type();
+
+		verdictCount[localVerdict.getValue()]++;
 
 		TTCN_Default.restoreControlDefaults();
 		TitanTimer.restore_control_timers();
 
 		//FIXME this is more complex
-		return new TitanVerdictType(VerdictTypeEnum.NONE);
+		return localVerdict;
 	}
 
 	//originally TTCN_Runtime::set_component_type
@@ -73,6 +77,9 @@ public class TTCN_Runtime {
 
 		//FIXME port set parameters
 		TitanPort.all_start();
+
+		localVerdict = VerdictTypeEnum.NONE;
+		verdictReason = "";
 	}
 
 	//originally TTCN_Runtime::terminate_component_type
@@ -251,5 +258,41 @@ public class TTCN_Runtime {
 		}
 
 		//FIXME handle debugger breakpoints
+	}
+
+	//originially log_verdict_statistics
+	public static void logVerdictStatistics() {
+		int totalTestcases = verdictCount[VerdictTypeEnum.NONE.getValue()] + verdictCount[VerdictTypeEnum.PASS.getValue()]
+				+ verdictCount[VerdictTypeEnum.INCONC.getValue()] + verdictCount[VerdictTypeEnum.FAIL.getValue()]
+						+ verdictCount[VerdictTypeEnum.ERROR.getValue()];
+
+		VerdictTypeEnum overallVerdict;
+		if (controlErrorCount > 0 || verdictCount[VerdictTypeEnum.ERROR.getValue()] >0 ) {
+			overallVerdict = VerdictTypeEnum.ERROR;
+		} else if (verdictCount[VerdictTypeEnum.FAIL.getValue()] > 0) {
+			overallVerdict = VerdictTypeEnum.FAIL;
+		} else if (verdictCount[VerdictTypeEnum.INCONC.getValue()] > 0) {
+			overallVerdict = VerdictTypeEnum.INCONC;
+		} else if (verdictCount[VerdictTypeEnum.PASS.getValue()] > 0) {
+			overallVerdict = VerdictTypeEnum.PASS;
+		} else {
+			overallVerdict = VerdictTypeEnum.NONE;
+		}
+
+		//FIXME implement logging
+		System.out.println(MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
+				verdictCount[VerdictTypeEnum.NONE.getValue()], (100.0 * verdictCount[VerdictTypeEnum.NONE.getValue()])/ totalTestcases,
+				verdictCount[VerdictTypeEnum.PASS.getValue()], (100.0 * verdictCount[VerdictTypeEnum.PASS.getValue()])/ totalTestcases,
+				verdictCount[VerdictTypeEnum.INCONC.getValue()], (100.0 * verdictCount[VerdictTypeEnum.INCONC.getValue()])/ totalTestcases,
+				verdictCount[VerdictTypeEnum.FAIL.getValue()], (100.0 * verdictCount[VerdictTypeEnum.FAIL.getValue()])/ totalTestcases,
+				verdictCount[VerdictTypeEnum.ERROR.getValue()], (100.0 * verdictCount[VerdictTypeEnum.ERROR.getValue()])/ totalTestcases));
+		System.out.println(MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were":" was", overallVerdict.getName()));
+		
+		verdictCount[VerdictTypeEnum.NONE.getValue()] = 0;
+		verdictCount[VerdictTypeEnum.PASS.getValue()] = 0;
+		verdictCount[VerdictTypeEnum.INCONC.getValue()] = 0;
+		verdictCount[VerdictTypeEnum.FAIL.getValue()] = 0;
+		verdictCount[VerdictTypeEnum.ERROR.getValue()] = 0;
+		controlErrorCount = 0;
 	}
 }

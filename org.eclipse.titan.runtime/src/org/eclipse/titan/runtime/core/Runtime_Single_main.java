@@ -22,5 +22,7 @@ public class Runtime_Single_main {
 		for (TTCN_Module module : Module_List.modules) {
 			module.control();
 		}
+
+		TTCN_Runtime.logVerdictStatistics();
 	}
 }
