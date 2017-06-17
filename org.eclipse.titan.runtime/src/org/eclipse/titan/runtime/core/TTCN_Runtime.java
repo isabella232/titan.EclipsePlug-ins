@@ -15,6 +15,10 @@ public class TTCN_Runtime {
 	private static String component_type_module = null;
 	private static String component_type_name = null;
 
+	//originally testcase_name
+	private static String testcaseModuleName;
+	private static String testcaseDefinitionName;
+
 	private static VerdictTypeEnum localVerdict = VerdictTypeEnum.NONE;
 	private static int verdictCount[] = new int[] {0,0,0,0,0};
 	private static int controlErrorCount = 0;
@@ -43,11 +47,13 @@ public class TTCN_Runtime {
 
 	// originally TTCN_Runtime::begin_testcase
 	//FIXME this is more complex
-	public static void begin_testcase(final String moduleName, final String componentName, final boolean hasTimer, final TitanFloat timerValue) {
+	public static void begin_testcase(final String moduleName, final String testcaseName, final String componentName, final boolean hasTimer, final TitanFloat timerValue) {
 		TitanTimer.saveControlTimers();
 		TTCN_Default.save_control_defaults();
+		setTestcaseName(moduleName, testcaseName);
 		//FIXME this is much more complex
 
+		System.out.println(MessageFormat.format("Test case {0} started.", testcaseName));
 		if (hasTimer) {
 			TitanTimer.testcaseTimer.start(timerValue.getValue());
 		}
@@ -62,7 +68,12 @@ public class TTCN_Runtime {
 		TitanTimer.testcaseTimer.stop();
 		terminate_component_type();
 
+		System.out.println(MessageFormat.format("Test case {0} finished. Verdict {1}", testcaseDefinitionName, localVerdict.getName()));
+
 		verdictCount[localVerdict.getValue()]++;
+
+		testcaseModuleName = null;
+		testcaseDefinitionName = null;
 
 		TTCN_Default.restoreControlDefaults();
 		TitanTimer.restore_control_timers();
@@ -99,6 +110,21 @@ public class TTCN_Runtime {
 		//FIXME add checks
 		component_type_module = par_component_type_module;
 		component_type_name = par_component_type_name;
+	}
+
+	//originally set_testcase_name
+	private static void setTestcaseName(final String parModuleName, final String parTestcaseName) {
+		if (parModuleName == null || parModuleName.length() == 0 ||
+				parTestcaseName == null || parTestcaseName.length() == 0) {
+			throw new TtcnError("Internal error: TTCN_Runtime::set_testcase_name: Trying to set an invalid testcase name.");
+		}
+
+		if (testcaseModuleName != null || testcaseDefinitionName != null) {
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::set_testcase_name: Trying to set testcase name {0}.{1} while another one is active.", parModuleName, parTestcaseName));
+		}
+
+		testcaseModuleName = parModuleName;
+		testcaseDefinitionName = parTestcaseName;
 	}
 
 	//originally map_port

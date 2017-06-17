@@ -17,6 +17,7 @@ public class TitanVerdictType extends Base_Type {
 		private String name;
 		VerdictTypeEnum(final int index, final String name) {
 			this.index = index;
+			this.name = name;
 		}
 
 		public int getValue() {
