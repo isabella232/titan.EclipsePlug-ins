@@ -533,6 +533,10 @@ public final class Assignment_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (reference == null || template == null) {
+			return;
+		}
+
 		//TODO this is actually much more complicated
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 		if ( assignment == null ) {
@@ -562,7 +566,7 @@ public final class Assignment_Statement extends Statement {
 		source.append( ".assign( " );
 
 		expression = new ExpressionStruct();
-		if (template.isValue(CompilationTimeStamp.getBaseTimestamp())) {
+		if (template instanceof SpecificValue_Template) {
 			IValue value = ((SpecificValue_Template) template).getValue();
 			value.generateCodeExpression(aData, expression);
 		} else {
