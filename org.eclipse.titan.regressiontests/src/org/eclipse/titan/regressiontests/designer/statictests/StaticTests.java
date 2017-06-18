@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.regressiontests.designer.Designer_plugin_tests;
 import org.eclipse.titan.regressiontests.designer.statictests.Basic_tests.Basic_tests;
 import org.eclipse.titan.regressiontests.designer.statictests.Unstructured_tests.Unstructured_tests;
+import org.eclipse.titan.regressiontests.designer.statictests.cfgFile.cfgFile;
 import org.eclipse.titan.regressiontests.library.ProjectHandlingLibrary;
 import org.eclipse.titan.regressiontests.library.WorkspaceHandlingLibrary;
 import org.junit.BeforeClass;
@@ -25,7 +26,8 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({
 	Basic_tests.class, 
-	Unstructured_tests.class
+	Unstructured_tests.class,
+	cfgFile.class
 	})
 public final class StaticTests {
 

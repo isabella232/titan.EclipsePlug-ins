@@ -71,11 +71,6 @@ public class AST_warnings_tests {
 	}
 
 	@org.junit.Test
-	public void ttcnpp_test_main_ttcnpp() throws Exception {
-		Designer_plugin_tests.checkSyntaxMarkersOnFile(ttcnpp_test_main_ttcnpp_initializer(), "src/Basic_tests/preprocessor_test/ttcnpp_test_main.ttcnpp");
-	}
-
-	@org.junit.Test
 	public void template_assignment_tests_ttcn() throws Exception {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(template_assignment_tests_ttcn_initializer(), "src/Basic_tests/template_assignment_tests.ttcn");
 	}
@@ -1256,17 +1251,6 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("The subtype of type `integer' is a full set, it does not constrain the root type.",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 1040;
 		markersToCheck.add(new MarkerToCheck("The subtype of type `float' is a full set, it does not constrain the root type.",  lineNum, IMarker.SEVERITY_WARNING));
-
-		return markersToCheck;
-	}
-
-	private ArrayList<MarkerToCheck> ttcnpp_test_main_ttcnpp_initializer() {
-		//ttcnpp_test_main.ttcnpp
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(2);
-		int lineNum = 15;
-		markersToCheck.add(new MarkerToCheck("Preprocessor directive #line is ignored",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("Preprocessor directive #line is ignored",  lineNum, IMarker.SEVERITY_WARNING));
 
 		return markersToCheck;
 	}

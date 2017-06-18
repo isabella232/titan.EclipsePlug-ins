@@ -1588,7 +1588,7 @@ pr_AllOrTypeList returns[List<IType> types]
 @init {
 	$types = null;
 }:
-(	pr_AllKeyword
+(	a = pr_AllKeyword {reportWarning( "Using all in port type definitions is deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $a.start, $a.stop );}
 |	t = pr_TypeList { $types = $t.types; }
 );
 
@@ -4022,7 +4022,10 @@ pr_ExtConstDef returns[List<Definition> definitions]
 				}
 			}
 	)*
-);
+)
+{
+reportWarning( "External constants are deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $i.start, $i.stop );
+};
 
 //------------------------------------------------------
 //   Module parameter definitions    1.6.1.12
@@ -4037,7 +4040,7 @@ pr_ModuleParDef returns [List<Definition> parameters]
 (	col = pr_ModuleParKeyword
 	(	p1 = pr_ModulePar { $parameters = $p1.parameters; endcol = $p1.stop; }
 	|	p2 = pr_TemplateModulePar { $parameters = $p2.parameters; endcol = $p2.stop; }
-	|	(	pr_BeginChar
+	|	(	a = pr_BeginChar
 			(	(	p31 = pr_ModulePar { multitypedModulePar = $p31.parameters; }
 				|	p32 = pr_TemplateModulePar { multitypedModulePar = $p32.parameters; }
 				)
@@ -4050,7 +4053,8 @@ pr_ModuleParDef returns [List<Definition> parameters]
 					}
 				pr_SemiColon?
 			)+
-			b = pr_EndChar{ endcol = $b.stop; }
+			b = pr_EndChar{ endcol = $b.stop;
+					reportWarning( "Group style definition of module parameters is deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $a.start, $b.stop );}
 		)
 	)
 )
@@ -7811,6 +7815,7 @@ pr_SelectCase returns[SelectCase selectCase]
 @init {
 	$selectCase = null;
 	TemplateInstances templateInstances = null;
+	boolean elseFound = false;
 }:
 (	CASE
 	(	a = pr_LParen	{ templateInstances = new TemplateInstances(); }
@@ -7818,8 +7823,9 @@ pr_SelectCase returns[SelectCase selectCase]
 		(	pr_Comma
 			t = pr_TemplateInstance	{ if($t.templateInstance != null) { templateInstances.addTemplateInstance($t.templateInstance); } }
 		)*
-		b = pr_RParen  {templateInstances.setLocation( getLocation( $a.start, $b.stop));}
-	|	ELSE
+		b = pr_RParen  {templateInstances.setLocation( getLocation( $a.start, $b.stop));
+						if(elseFound){reportWarning( "Mixing case and else branches in select statements is deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $a.start, $b.stop );}}
+	|	ELSE {elseFound = true;}
 	)
 	s = pr_StatementBlock
 	pr_SemiColon?
@@ -7863,6 +7869,7 @@ pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 @init {
 	$selectUnionCase = null;
 	List<Identifier> items = null;
+	boolean elseFound = false;
 }:
 (	CASE
 	(	a = pr_LParen	{ items = new ArrayList<Identifier>(); }
@@ -7870,8 +7877,8 @@ pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 		(	pr_Comma
 			pr_SelectUnionCaseHeader[ items ]
 		)*
-		b = pr_RParen
-	|	ELSE
+		b = pr_RParen {if(elseFound){reportWarning( "Mixing case and else branches in select statements is deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $a.start, $b.stop );}}
+	|	ELSE {elseFound = true;}
 	)
 	s = pr_StatementBlock
 )

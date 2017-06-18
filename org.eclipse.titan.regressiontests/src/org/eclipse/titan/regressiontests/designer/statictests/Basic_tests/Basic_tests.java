@@ -14,8 +14,9 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ 
+	AST_Syntax_warning_tests.class,
 	AST_warnings_tests.class, 
-	AST_tests.class, 
+	AST_tests.class,
 	TemplateTestSuite.class, 
 	LazyTryCatchTest.class,
 	SelectUnionTest.class,
