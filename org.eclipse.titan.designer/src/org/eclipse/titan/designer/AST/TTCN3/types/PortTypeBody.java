@@ -1553,6 +1553,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "Base_Type" );
 		final String className = myType.getGenNameOwn();
+		final Scope myScope = myType.getMyScope(); 
 
 		//default implementation
 		source.append( "\t" );
