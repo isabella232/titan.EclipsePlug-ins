@@ -224,7 +224,7 @@ public final class UndefRunningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateSingleExpression(JavaGenData aData) {
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		if (realExpression != null) {
 			return realExpression.generateSingleExpression(aData);
 		}

@@ -134,7 +134,7 @@ public final class SystemComponentExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanComponent");
 
 		expression.expression.append("new TitanComponent(TitanComponent.SYSTEM_COMPREF)");

@@ -105,7 +105,7 @@ public final class AnyTimerRunningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateSingleExpression(JavaGenData aData) {
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		return new StringBuilder("TitanTimer.anyRunning()");
 	}
 
