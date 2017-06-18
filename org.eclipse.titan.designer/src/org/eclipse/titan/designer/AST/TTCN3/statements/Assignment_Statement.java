@@ -558,23 +558,22 @@ public final class Assignment_Statement extends Statement {
 		// TODO Assignment::generate_code
 		source.append( "\t\t" );
 
-		ExpressionStruct expression = new ExpressionStruct();
-		reference.generateCode(aData, expression);
-		source.append(expression.preamble);
-		source.append(expression.expression);
+		ExpressionStruct leftExpression = new ExpressionStruct();
+		reference.generateCode(aData, leftExpression);
+		source.append(leftExpression.preamble);
 
-		source.append( ".assign( " );
-
-		expression = new ExpressionStruct();
+		ExpressionStruct rightExpression = new ExpressionStruct();
 		if (template instanceof SpecificValue_Template) {
 			IValue value = ((SpecificValue_Template) template).getValue();
-			value.generateCodeExpression(aData, expression);
+			value.generateCodeExpression(aData, rightExpression);
 		} else {
-			template.generateCodeExpression( aData, expression);
+			template.generateCodeExpression( aData, rightExpression);
 		}
-		source.append(expression.preamble);
-		source.append(expression.expression);
+		source.append(rightExpression.preamble);
 
+		source.append(leftExpression.expression);
+		source.append( ".assign( " );
+		source.append(rightExpression.expression);
 		source.append( " );\n" );
 	}
 }
