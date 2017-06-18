@@ -61,7 +61,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");
 			try {
 				ProjectSourceCompiler.compile( module, reportDebugInformation );
-			} catch ( CoreException e ) {
+			} catch ( Exception e ) {
 				ErrorReporter.logExceptionStackTrace("While generating Java code for module " + module.getIdentifier().getDisplayName(), e);
 			}
 
