@@ -155,41 +155,41 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final int otherValue ) {
+	public TitanBoolean operatorEquals( final int otherValue ) {
 		mustBound("Unbound left operand of integer comparison.");
 
 		if(nativeFlag) {
-			return nativeInt == otherValue;
+			return new TitanBoolean(nativeInt == otherValue);
 		}
 
 		final BigInteger other_int = BigInteger.valueOf(otherValue);
-		return openSSL.equals(other_int);
+		return new TitanBoolean(openSSL.equals(other_int));
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanInteger otherValue ) {
+	public TitanBoolean operatorEquals( final TitanInteger otherValue ) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
-				return nativeInt == otherValue.nativeInt;
+				return new TitanBoolean(nativeInt == otherValue.nativeInt);
 			} else {
 				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return this_int.equals(otherValue.openSSL);
+				return new TitanBoolean(this_int.equals(otherValue.openSSL));
 			}
 		} else {
 			if(otherValue.nativeFlag) {
 				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
-				return openSSL.equals(other_int);
+				return new TitanBoolean(openSSL.equals(other_int));
 			} else {
-				return openSSL.equals(otherValue.openSSL);
+				return new TitanBoolean(openSSL.equals(otherValue.openSSL));
 			}
 		}
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanInteger) {
 			return operatorEquals((TitanInteger)otherValue);
 		}
@@ -198,97 +198,97 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//originally operator!=
-	public boolean operatorNotEquals( final TitanInteger otherValue ) {
-		return !operatorEquals( otherValue );
+	public TitanBoolean operatorNotEquals( final TitanInteger otherValue ) {
+		return operatorEquals( otherValue ).not();
 	}
 
 	//originally operator <
-	public boolean isLessThan(final int otherValue) {
+	public TitanBoolean isLessThan(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
-			return nativeInt < otherValue;
+			return new TitanBoolean(nativeInt < otherValue);
 		} else {
 			final BigInteger other_int = BigInteger.valueOf(otherValue);
-			return -1 == openSSL.compareTo(other_int);
+			return new TitanBoolean(-1 == openSSL.compareTo(other_int));
 		}
 	}
 
 	//originally operator <
-	public boolean isLessThan(final TitanInteger otherValue) {
+	public TitanBoolean isLessThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
-				return nativeInt < otherValue.nativeInt;
+				return new TitanBoolean(nativeInt < otherValue.nativeInt);
 			} else {
 				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return -1 == this_int.compareTo(otherValue.openSSL);
+				return new TitanBoolean(-1 == this_int.compareTo(otherValue.openSSL));
 			}
 		} else {
 			if(otherValue.nativeFlag) {
 				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
-				return -1 == openSSL.compareTo(other_int);
+				return new TitanBoolean(-1 == openSSL.compareTo(other_int));
 			} else {
-				return -1 == openSSL.compareTo(otherValue.openSSL);
+				return new TitanBoolean(-1 == openSSL.compareTo(otherValue.openSSL));
 			}
 		}
 	}
 
 	//originally operator >
-	public boolean isGreaterThan(final int otherValue) {
+	public TitanBoolean isGreaterThan(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 
 		if (nativeFlag) {
-			return nativeInt > otherValue;
+			return new TitanBoolean(nativeInt > otherValue);
 		} else {
 			final BigInteger other_int = BigInteger.valueOf(otherValue);
-			return 1 == openSSL.compareTo(other_int);
+			return new TitanBoolean(1 == openSSL.compareTo(other_int));
 
 		}
 	}
 
 	//originally operator >
-	public boolean isGreaterThan(final TitanInteger otherValue) {
+	public TitanBoolean isGreaterThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");
 
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
-				return nativeInt > otherValue.nativeInt;
+				return new TitanBoolean(nativeInt > otherValue.nativeInt);
 			} else {
 				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return 1 == this_int.compareTo(otherValue.openSSL);
+				return new TitanBoolean(1 == this_int.compareTo(otherValue.openSSL));
 			}
 		} else {
 			if(otherValue.nativeFlag) {
 				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
-				return 1 == openSSL.compareTo(other_int);
+				return new TitanBoolean(1 == openSSL.compareTo(other_int));
 			} else {
-				return 1 == openSSL.compareTo(otherValue.openSSL);
+				return new TitanBoolean(1 == openSSL.compareTo(otherValue.openSSL));
 			}
 		}
 	}
 
 	//originally operator <=
-	public boolean isLessThanOrEqual(final int otherValue) {
-		return !isGreaterThan(otherValue);
+	public TitanBoolean isLessThanOrEqual(final int otherValue) {
+		return isGreaterThan(otherValue).not();
 	}
 
 	//originally operator <=
-	public boolean isLessThanOrEqual(final TitanInteger otherValue) {
-		return !isGreaterThan(otherValue);
+	public TitanBoolean isLessThanOrEqual(final TitanInteger otherValue) {
+		return isGreaterThan(otherValue).not();
 	}
 
 	//originally operator >=
-	public boolean isGreaterThanOrEqual(final int otherValue) {
-		return !isGreaterThan(otherValue);
+	public TitanBoolean isGreaterThanOrEqual(final int otherValue) {
+		return isGreaterThan(otherValue).not();
 	}
 
 	//originally operator >=
-	public boolean isGreaterThanOrEqual(final TitanInteger otherValue) {
-		return !isGreaterThan(otherValue);
+	public TitanBoolean isGreaterThanOrEqual(final TitanInteger otherValue) {
+		return isGreaterThan(otherValue).not();
 	}
 
 	//originally clean_up

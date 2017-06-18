@@ -182,15 +182,15 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanBoolean aOtherValue ) {
+	public TitanBoolean operatorEquals( final TitanBoolean aOtherValue ) {
 		mustBound("Unbound left operand of boolean comparison.");
 		aOtherValue.mustBound("Unbound right operand of boolean comparison.");
 
-		return boolean_value.equals(aOtherValue.boolean_value);
+		return new TitanBoolean(boolean_value.equals(aOtherValue.boolean_value));
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBoolean) {
 			return operatorEquals((TitanBoolean)otherValue);
 		}
@@ -199,8 +199,8 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	//originally operator!=
-	public boolean operatorNotEquals( final TitanBoolean aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public TitanBoolean operatorNotEquals( final TitanBoolean aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
 	}
 
 	public void cleanUp() {

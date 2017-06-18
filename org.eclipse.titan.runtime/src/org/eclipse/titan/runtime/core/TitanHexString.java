@@ -164,15 +164,15 @@ public class TitanHexString extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanHexString otherValue ) {
+	public TitanBoolean operatorEquals( final TitanHexString otherValue ) {
 		mustBound("Unbound left operand of hexstring comparison.");
 		otherValue.mustBound("Unbound right operand of hexstring comparison.");
 
-		return nibbles_ptr.equals( otherValue.nibbles_ptr );
+		return new TitanBoolean(nibbles_ptr.equals( otherValue.nibbles_ptr ));
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanHexString) {
 			return operatorEquals((TitanHexString)otherValue);
 		}
@@ -181,8 +181,8 @@ public class TitanHexString extends Base_Type {
 	}
 
 	//originally operator!=
-	public boolean operatorNotEquals( final TitanHexString aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public TitanBoolean operatorNotEquals( final TitanHexString aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
 	}
 
 	public void cleanUp() {

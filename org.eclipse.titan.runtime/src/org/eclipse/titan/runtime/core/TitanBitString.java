@@ -193,15 +193,15 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanBitString otherValue ) {
+	public TitanBoolean operatorEquals( final TitanBitString otherValue ) {
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring comparison.");
 
-		return n_bits == otherValue.n_bits && bits_ptr.equals( otherValue.bits_ptr );
+		return new TitanBoolean(n_bits == otherValue.n_bits && bits_ptr.equals( otherValue.bits_ptr ));
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBitString) {
 			return operatorEquals((TitanBitString)otherValue);
 		}
@@ -210,8 +210,8 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator!=
-	public boolean operatorNotEquals( final TitanBitString aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public TitanBoolean operatorNotEquals( final TitanBitString aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
 	}
 
 	public void cleanUp() {

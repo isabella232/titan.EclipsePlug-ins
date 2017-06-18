@@ -46,15 +46,15 @@ public class TitanDefault extends Base_Type {
 		return default_ptr != UNBOUND_DEFAULT;
 	}
 
-	public boolean operatorEquals(final Default_Base otherValue) {
+	public TitanBoolean operatorEquals(final Default_Base otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
 		}
 
-		return default_ptr == otherValue;
+		return new TitanBoolean(default_ptr == otherValue);
 	}
 	
-	public boolean operatorEquals(final TitanDefault otherValue) {
+	public TitanBoolean operatorEquals(final TitanDefault otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
 		}
@@ -62,11 +62,11 @@ public class TitanDefault extends Base_Type {
 			throw new TtcnError( "The right operand of comparison is an unbound default reference." );
 		}
 
-		return default_ptr == otherValue.default_ptr;
+		return new TitanBoolean(default_ptr == otherValue.default_ptr);
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanDefault) {
 			return operatorEquals((TitanDefault)otherValue);
 		}

@@ -148,50 +148,50 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	// originally match
-	public boolean match(final TitanInteger otherValue) {
+	public TitanBoolean match(final TitanInteger otherValue) {
 		return match(otherValue, false);
 	}
 
 	// originally match
-	public boolean match(final TitanInteger otherValue, final boolean legacy) {
+	public TitanBoolean match(final TitanInteger otherValue, final boolean legacy) {
 		if(! otherValue.isBound()) {
-			return false;
+			return new TitanBoolean(false);
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
-			return false;
+			return new TitanBoolean(false);
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return true;
+			return new TitanBoolean(true);
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+				if(value_list.get(i).match(otherValue, legacy).getValue()) {
+					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 		case VALUE_RANGE:{
 			boolean lowerMissMatch = true;
 			boolean upperMissMatch = true;
 			if(min_is_present) {
 				if(min_is_exclusive) {
-					lowerMissMatch = min_value.isLessThanOrEqual(otherValue);
+					lowerMissMatch = min_value.isLessThanOrEqual(otherValue).getValue();
 				} else {
-					lowerMissMatch = min_value.isLessThan(otherValue);
+					lowerMissMatch = min_value.isLessThan(otherValue).getValue();
 				}
 			}
 			if(max_is_present) {
 				if (max_is_exclusive) {
-					upperMissMatch = min_value.isGreaterThanOrEqual(otherValue);
+					upperMissMatch = min_value.isGreaterThanOrEqual(otherValue).getValue();
 				} else {
-					upperMissMatch = min_value.isGreaterThan(otherValue);
+					upperMissMatch = min_value.isGreaterThan(otherValue).getValue();
 				}
 			}
-			return lowerMissMatch && upperMissMatch;
+			return new TitanBoolean(lowerMissMatch && upperMissMatch);
 		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported integer template.");
@@ -248,7 +248,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (max_is_present) {
-			if (!max_value.isGreaterThanOrEqual(otherMinValue)) {
+			if (!max_value.isGreaterThanOrEqual(otherMinValue).getValue()) {
 				throw new TtcnError("The lower limit of the range is greater than the upper limit in an integer template.");
 			}
 		}
@@ -267,7 +267,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (max_is_present) {
-			if (!max_value.isGreaterThanOrEqual(otherMinValue)) {
+			if (!max_value.isGreaterThanOrEqual(otherMinValue).getValue()) {
 				throw new TtcnError("The lower limit of the range is greater than the upper limit in an integer template.");
 			}
 		}
@@ -289,7 +289,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (min_is_present) {
-			if (min_value.isGreaterThan(otherMaxValue)) {
+			if (min_value.isGreaterThan(otherMaxValue).getValue()) {
 				throw new TtcnError("The upper limit of the range is smaller than the lower limit in an integer template.");
 			}
 		}
@@ -308,7 +308,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		if (max_is_present) {
-			if (!max_value.isGreaterThan(otherMaxValue)) {
+			if (!max_value.isGreaterThan(otherMaxValue).getValue()) {
 				throw new TtcnError("TThe upper limit of the range is smaller than the lower limit in an integer template.");
 			}
 		}

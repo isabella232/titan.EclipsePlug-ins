@@ -76,7 +76,7 @@ public class TitanComponent extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals(final int otherValue) {
+	public TitanBoolean operatorEquals(final int otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an unbound component reference.");
 		}
@@ -84,11 +84,11 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("The right operand of comparison is an unbound component reference.");
 		}
 
-		return componentValue == otherValue;
+		return new TitanBoolean(componentValue == otherValue);
 	}
 
 	//originally operator==
-	public boolean operatorEquals(final TitanComponent otherValue) {
+	public TitanBoolean operatorEquals(final TitanComponent otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an unbound component reference.");
 		}
@@ -96,11 +96,11 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("The right operand of comparison is an unbound component reference.");
 		}
 
-		return componentValue == otherValue.componentValue;
+		return new TitanBoolean(componentValue == otherValue.componentValue);
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
 			return operatorEquals((TitanComponent)otherValue);
 		}

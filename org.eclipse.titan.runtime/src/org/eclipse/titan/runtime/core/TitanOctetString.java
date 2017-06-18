@@ -162,15 +162,15 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanOctetString otherValue ) {
+	public TitanBoolean operatorEquals( final TitanOctetString otherValue ) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
-		return val_ptr.equals( otherValue.val_ptr );
+		return new TitanBoolean(val_ptr.equals( otherValue.val_ptr ));
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanOctetString) {
 			return operatorEquals((TitanOctetString)otherValue);
 		}
@@ -179,8 +179,8 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	//originally operator!=
-	public boolean operatorNotEquals( final TitanOctetString aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public TitanBoolean operatorNotEquals( final TitanOctetString aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
 	}
 
 	public void cleanUp() {

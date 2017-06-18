@@ -170,12 +170,12 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	// originally match
-	public boolean match(final TitanVerdictType otherValue) {
+	public TitanBoolean match(final TitanVerdictType otherValue) {
 		return match(otherValue, false);
 	}
 
 	//originally boolean VERDICTTYPE_template::match(verdicttype other_value, boolean legacy ) const
-	public boolean match( final VerdictTypeEnum otherValue, final boolean legacy ) {
+	public TitanBoolean match( final VerdictTypeEnum otherValue, final boolean legacy ) {
 		if ( !TitanVerdictType.isValid( otherValue ) ) {
 			throw new TtcnError("Matching a verdict template with an invalid value ("+otherValue+").");
 		}
@@ -184,41 +184,41 @@ public class TitanVerdictType_template extends Base_Template {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
-			return false;
+			return new TitanBoolean(false);
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return true;
+			return new TitanBoolean(true);
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+				if(value_list.get(i).match(otherValue, legacy).getValue()) {
+					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported verdict template.");
 		}
 	}
 
 	//originally boolean VERDICTTYPE_template::match(const VERDICTTYPE& other_value, boolean legacy) const
-	public boolean match( final TitanVerdictType other_value, final boolean legacy ) {
+	public TitanBoolean match( final TitanVerdictType other_value, final boolean legacy ) {
 		if (!other_value.isBound()) {
-			return false;
+			return new TitanBoolean(false);
 		}
 
 		return match(other_value.getValue(), legacy);
 	}
 
 	//originally boolean operator==(verdicttype par_value, const VERDICTTYPE& other_value)
-	public boolean operatorEquals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
+	public TitanBoolean operatorEquals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
 		if (!TitanVerdictType.isValid( par_value )) {
 			throw new TtcnError("The left operand of comparison is an invalid verdict value ("+par_value+").");
 		}
 
 		other_value.mustBound( "The right operand of comparison is an unbound verdict value." );
 
-		return par_value == other_value.getValue();
+		return new TitanBoolean(par_value == other_value.getValue());
 	}
 
 	public VerdictTypeEnum valueof() {

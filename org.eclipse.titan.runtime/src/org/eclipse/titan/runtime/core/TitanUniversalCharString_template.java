@@ -149,42 +149,42 @@ public class TitanUniversalCharString_template extends Base_Template {
 	}
 
 	// originally match
-	public boolean match(final TitanUniversalCharString otherValue) {
+	public TitanBoolean match(final TitanUniversalCharString otherValue) {
 		return match(otherValue, false);
 	}
 
-	private boolean matchLength( final TitanUniversalCharString otherValue ) {
-		return value_list.size() == otherValue.getValue().size();
+	private TitanBoolean matchLength( final TitanUniversalCharString otherValue ) {
+		return new TitanBoolean(value_list.size() == otherValue.getValue().size());
 	}
 
 	// originally match
-	public boolean match(final TitanUniversalCharString otherValue, final boolean legacy) {
+	public TitanBoolean match(final TitanUniversalCharString otherValue, final boolean legacy) {
 		if(! otherValue.isBound()) {
-			return false;
+			return new TitanBoolean(false);
 		}
 
 		final List<TitanUniversalChar> otherStr = otherValue.getValue();
 		final int otherLen = otherStr.size();
-		if ( !matchLength( otherValue ) ) {
-			return false;
+		if ( !matchLength( otherValue ).getValue() ) {
+			return new TitanBoolean(false);
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
-			return false;
+			return new TitanBoolean(false);
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return true;
+			return new TitanBoolean(true);
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
-					return templateSelection == template_sel.VALUE_LIST;
+				if(value_list.get(i).match(otherValue, legacy).getValue()) {
+					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 				}
 			}
-			return templateSelection == template_sel.COMPLEMENTED_LIST;
+			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 		case VALUE_RANGE:{
 			if (!min_is_set) {
 				throw new TtcnError("The lower bound is not set when " +
@@ -197,12 +197,12 @@ public class TitanUniversalCharString_template extends Base_Template {
 			for (int i = 0; i < otherLen; i++) {
 				final TitanUniversalChar uc = otherStr.get( i );
 				if ( uc.lessThan( min_value ) || max_value.lessThan( uc ) ) {
-					return false;
+					return new TitanBoolean(false);
 				} else if ( ( min_is_exclusive && uc.operatorEquals( min_value ) ) || ( max_is_exclusive && uc.operatorEquals( max_value ) ) ) {
-					return false;
+					return new TitanBoolean(false);
 				}
 			}
-			return true;
+			return new TitanBoolean(true);
 		}
 		case STRING_PATTERN:{
 			//TODO: implement

@@ -206,10 +206,10 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final Optional<TYPE> otherValue ) {
+	public TitanBoolean operatorEquals( final Optional<TYPE> otherValue ) {
 		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if(optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
-				return true;
+				return new TitanBoolean(true);
 			} else {
 				throw new TtcnError("The left operand of comparison is an unbound optional value.");
 			}
@@ -218,18 +218,18 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				throw new TtcnError("The right operand of comparison is an unbound optional value.");
 			} else {
 				if(optionalSelection == otherValue.optionalSelection) {
-					return false;
+					return new TitanBoolean(false);
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 					return optionalValue.operatorEquals(otherValue.optionalValue);
 				} else {
-					return true;
+					return new TitanBoolean(true);
 				}
 			}
 		}
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to an optional value", otherValue));
 		}
@@ -237,7 +237,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		final Optional<?> optionalOther = (Optional<?>) otherValue;
 		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
-				return true;
+				return new TitanBoolean(true);
 			} else {
 				throw new TtcnError("The left operand of comparison is an unbound optional value.");
 			}
@@ -246,11 +246,11 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				throw new TtcnError("The right operand of comparison is an unbound optional value.");
 			} else {
 				if(optionalSelection == optionalOther.optionalSelection) {
-					return false;
+					return new TitanBoolean(false);
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 					return optionalValue.operatorEquals(optionalOther.optionalValue);
 				} else {
-					return true;
+					return new TitanBoolean(true);
 				}
 			}
 		}

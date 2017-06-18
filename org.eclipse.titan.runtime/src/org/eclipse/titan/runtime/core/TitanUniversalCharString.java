@@ -165,15 +165,15 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanUniversalCharString aOtherValue ) {
+	public TitanBoolean operatorEquals( final TitanUniversalCharString aOtherValue ) {
 		mustBound("Unbound left operand of universal charstring comparison.");
 		aOtherValue.mustBound("Unbound right operand of universal charstring comparison.");
 
-		return val_ptr.equals(aOtherValue.val_ptr);
+		return new TitanBoolean(val_ptr.equals(aOtherValue.val_ptr));
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanUniversalCharString) {
 			return operatorEquals((TitanUniversalCharString)otherValue);
 		}
@@ -182,8 +182,8 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	//originally operator!=
-	public boolean operatorNotEquals( final TitanUniversalCharString aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public TitanBoolean operatorNotEquals( final TitanUniversalCharString aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
 	}
 
 	/**

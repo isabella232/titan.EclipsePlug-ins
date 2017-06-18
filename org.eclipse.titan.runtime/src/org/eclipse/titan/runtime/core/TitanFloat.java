@@ -179,15 +179,15 @@ public class TitanFloat extends Base_Type {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanFloat aOtherValue ) {
+	public TitanBoolean operatorEquals( final TitanFloat aOtherValue ) {
 		mustBound("Unbound left operand of float comparison.");
 		aOtherValue.mustBound("Unbound right operand of float comparison.");
 
-		return float_value.equalsTo( aOtherValue.float_value.getValue() );
+		return new TitanBoolean(float_value.equalsTo( aOtherValue.float_value.getValue() ));
 	}
 
 	@Override
-	public boolean operatorEquals(final Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanFloat) {
 			return operatorEquals((TitanFloat)otherValue);
 		}
@@ -196,34 +196,34 @@ public class TitanFloat extends Base_Type {
 	}
 
 	//originally operator!=
-	public boolean operatorNotEquals( final TitanFloat aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public TitanBoolean operatorNotEquals( final TitanFloat aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
 	}
 
 	//originally operator <
-	public boolean isLessThan(final TitanFloat otherValue) {
+	public TitanBoolean isLessThan(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 		otherValue.mustBound("Unbound right operand of float comparison.");
 
-		return float_value.isLessThan( otherValue.float_value.getValue() );
+		return new TitanBoolean(float_value.isLessThan( otherValue.float_value.getValue() ));
 	}
 
 	//originally operator >
-	public boolean isGreaterThan(final TitanFloat otherValue) {
+	public TitanBoolean isGreaterThan(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 		otherValue.mustBound("Unbound right operand of float comparison.");
 
-		return float_value.isGreaterThan( otherValue.float_value.getValue() );
+		return new TitanBoolean(float_value.isGreaterThan( otherValue.float_value.getValue() ));
 	}
 
 	//originally operator <=
-	public boolean isLessThanOrEqual(final TitanFloat otherValue) {
-		return !isGreaterThan(otherValue);
+	public TitanBoolean isLessThanOrEqual(final TitanFloat otherValue) {
+		return isGreaterThan(otherValue).not();
 	}
 
 	//originally operator >=
-	public boolean isGreaterThanOrEqual(final TitanFloat otherValue) {
-		return !isGreaterThan(otherValue);
+	public TitanBoolean isGreaterThanOrEqual(final TitanFloat otherValue) {
+		return isGreaterThan(otherValue).not();
 	}
 
 	public void cleanUp() {
