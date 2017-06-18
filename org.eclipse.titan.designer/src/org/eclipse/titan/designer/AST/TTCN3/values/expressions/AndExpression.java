@@ -285,7 +285,7 @@ public final class AndExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (value2.needsShortCircuit()) {
-			String tempId = aData.getTemporaryVariableName();
+			final String tempId = aData.getTemporaryVariableName();
 			expression.preamble.append("TitanBoolean ");
 			aData.addBuiltinTypeImport( "TitanBoolean" );
 			expression.preamble.append(tempId);
@@ -322,7 +322,7 @@ public final class AndExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 
 		//TODO actually only the mandatory part is needed
 		generateCodeExpression(aData, expression);

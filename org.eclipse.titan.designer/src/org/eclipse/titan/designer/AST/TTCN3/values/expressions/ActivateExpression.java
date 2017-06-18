@@ -172,7 +172,7 @@ public final class ActivateExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
 		expression.expression.append(".assign(");
 
@@ -186,13 +186,13 @@ public final class ActivateExpression extends Expression_Value {
 
 	@Override
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 		expression.expression.append(assignment.getGenNameFromScope(aData, aData.getSrc(), myScope, "activate_"));
 		expression.expression.append('(');
 
 		if (!reference.getSubreferences().isEmpty()) {
-			ISubReference subReference = reference.getSubreferences().get(0);
+			final ISubReference subReference = reference.getSubreferences().get(0);
 			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
 				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
 			}

@@ -409,13 +409,13 @@ public final class IsPresentExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		TTCN3Template template = templateInstance.getTemplateBody();
+		final TTCN3Template template = templateInstance.getTemplateBody();
 		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
-			IValue value = ((SpecificValue_Template) template).getSpecificValue();
+			final IValue value = ((SpecificValue_Template) template).getSpecificValue();
 			if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
-				Reference reference = ((Referenced_Value) value).getReference();
+				final Reference reference = ((Referenced_Value) value).getReference();
 				if (reference != null) {
-					Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 					if (assignment != null) {
 						switch(assignment.getAssignmentType()) {
 						case A_TEMPLATE:
@@ -440,7 +440,7 @@ public final class IsPresentExpression extends Expression_Value {
 				value.generateCodeExpressionMandatory(aData, expression);
 			}
 		} else if (Template_type.TEMPLATE_REFD.equals(template.getTemplatetype())) {
-			Reference reference = ((Referenced_Template) template).getReference();
+			final Reference reference = ((Referenced_Template) template).getReference();
 			if (reference != null) {
 				reference.generateCodeIspresentBound(aData, expression, true, false);
 				return;

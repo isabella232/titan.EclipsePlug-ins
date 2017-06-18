@@ -399,12 +399,12 @@ public final class IsChoosenExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (value != null) {
 			value.generateCodeExpressionMandatory(aData, expression);
-			String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+			final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
 			expression.expression.append(MessageFormat.format(".isChosen({0}.ALT_{1}/* TODO: name not yet fixed*/)", genNameValue, identifier.getName()));
 		}
 		if (template != null) {
 			template.generateCodeExpression(aData, expression);
-			String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+			final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
 			expression.expression.append(MessageFormat.format(".isChosen({0}.ALT_{1}/* TODO: name not yet fixed*/)", genNameValue, identifier.getName()));
 		}
 	}

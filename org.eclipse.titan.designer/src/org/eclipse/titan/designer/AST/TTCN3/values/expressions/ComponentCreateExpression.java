@@ -342,7 +342,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 		expression.expression.append("TTCN_Runtime.createComponent(");
 
 		// the type of the component (module name and identifier)
-		Assignment assignment = componentReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final Assignment assignment = componentReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		if (assignment == null || !Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
 			//TODO FATAL error
 			return;

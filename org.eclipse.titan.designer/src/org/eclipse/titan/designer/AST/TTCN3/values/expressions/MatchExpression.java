@@ -248,7 +248,7 @@ public final class MatchExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
 		expression.expression.append(".assign(");
 		generateCodeExpressionExpression(aData, expression);
