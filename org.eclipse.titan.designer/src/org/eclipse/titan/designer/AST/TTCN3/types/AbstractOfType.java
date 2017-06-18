@@ -753,7 +753,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = ({1}.isGreaterThanOrEqual(0)) && ({1}.isLessThan({2}.{3}));\n",
+		expression.expression.append(MessageFormat.format("{0} = TitanBoolean.getNative({1}.isGreaterThanOrEqual(0)) && TitanBoolean.getNative({1}.isLessThan({2}.{3}));\n",
 				globalId, temporalIndexId, externalId, isTemplate?"nofElements()":"sizeOf()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));

@@ -351,7 +351,7 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
-		aSb.append( "\n\t\tpublic boolean operatorEquals( final " );
+		aSb.append( "\n\t\tpublic TitanBoolean operatorEquals( final " );
 		aSb.append( aClassName );
 		aSb.append( " aOtherValue ) {\n" );
 		for ( final FieldInfo fi : aNamesList ) {
@@ -359,14 +359,14 @@ public class RecordSetCodeGenerator {
 			aSb.append( fi.mVarName );
 			aSb.append( ".operatorEquals( aOtherValue." );
 			aSb.append( fi.mVarName );
-			aSb.append( " ) ) return false;\n" );
+			aSb.append( " ).getValue() ) return new TitanBoolean(false);\n" );
 		}
-		aSb.append( "\t\t\treturn true;\n" +
+		aSb.append( "\t\t\treturn new TitanBoolean(true);\n" +
 				"\t\t}\n" );
 
 		aSb.append("\n");
 		aSb.append("\t\t@Override\n");
-		aSb.append("\t\tpublic boolean operatorEquals(final Base_Type otherValue) {\n");
+		aSb.append("\t\tpublic TitanBoolean operatorEquals(final Base_Type otherValue) {\n");
 		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
 		aSb.append("\t\t\t\treturn operatorEquals((").append( aClassName ).append(") otherValue);\n");
 		aSb.append("\t\t\t}\n\n");
