@@ -232,7 +232,7 @@ public final class NotequalesExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpression(aData, expression);
-		expression.expression.append( ".equalsTo( " );
+		expression.expression.append( ".operatorEquals( " );
 		value2.generateCodeExpression(aData, expression);
 		expression.expression.append( " ).not()" );
 	}
