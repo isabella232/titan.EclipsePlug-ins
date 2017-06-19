@@ -1588,7 +1588,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		source.append("private class MessageQueueItem {\n");
 		source.append("message_selection item_selection;\n");
 		source.append("Base_Type message;\n");
-		source.append("TitanComponent sender_component;\n");
+		source.append("int sender_component;\n");
 		source.append("}\n");
 
 		source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<>();\n\n");
@@ -1668,15 +1668,19 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 //			source.append(MessageFormat.format("return receive(new {0}_template(value_template));\n", inGeneratedName));
 //			source.append("}\n\n");
 
-			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", inGeneratedName));
+			source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component) '{'\n", inGeneratedName));
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", getName()));\n");
 			source.append("}\n");
 			source.append("MessageQueueItem new_item = new MessageQueueItem();\n");
 			source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", i));
 			source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", inGeneratedName));
-			source.append("//FIXME add sender component\n");
+			source.append("new_item.sender_component = sender_component;\n");
 			source.append("message_queue.addLast(new_item);\n");
+			source.append("}\n\n");
+
+			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", inGeneratedName));
+			source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
 			source.append("}\n\n");
 		}
 
