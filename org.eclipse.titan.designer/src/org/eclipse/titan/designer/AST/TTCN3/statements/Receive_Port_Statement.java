@@ -417,9 +417,40 @@ public final class Receive_Port_Statement extends Statement {
 				expression.expression.append( "port redirection is not yet handled!*/\n" );
 				//TODO this is good reason to optimize for
 				receiveParameter.generateCode(aData, expression);
+//				expression.expression.append(", ");
+//				if (redirectValue == null) {
+//					expression.expression.append("null");
+//				} else {
+//					//FIXME handle redirection
+//				}
+				expression.expression.append(", ");
 			}
+			
 		}
-		//FIXME handle from
+		
+		if (fromClause != null) {
+			fromClause.generateCode(aData, expression);
+		} else if (redirectSender != null) {
+			IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+			if (varType == null) {
+				//fatal error
+			}
+			if (varType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()==Type_type.TYPE_COMPONENT) {
+				expression.expression.append("TitanComponent_template.any_compref");
+			} else {
+				//FIXME what is ANY_VALUE?
+				expression.expression.append(MessageFormat.format("new {0}(ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+			}
+		} else {
+			expression.expression.append("TitanComponent_template.any_compref");
+		}
+
+		//FIXME handle sender redirect
+		if (portReference != null) {
+			expression.expression.append(", ");
+			//FIXME handle redirection
+			expression.expression.append("null");
+		}
 		expression.expression.append( "/* TODO: " );
 		expression.expression.append( "from clause and sender redirect is not yet handled!*/\n" );
 

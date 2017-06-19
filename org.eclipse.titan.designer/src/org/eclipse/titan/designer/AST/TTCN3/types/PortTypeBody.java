@@ -1622,7 +1622,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			String inGeneratedName = inType.getGenNameValue(aData, source, myScope);
 
 			//FIXME there are actually more parameters
-			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0}_template value_template) '{'\n", inGeneratedName));
+			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0}_template value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", inGeneratedName));
 			source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
 			source.append("throw new TtcnError(\"Receive operation using '*' as matching template\");\n");
 			source.append("}\n");
@@ -1641,8 +1641,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
-			source.append("}//FIXME handle sender template\n");
-			source.append(MessageFormat.format("else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", i));
+			source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", i));
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", inGeneratedName));
@@ -1662,9 +1664,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("}\n\n");
 			source.append("}\n\n");
 
-			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0} value_template) '{'\n", inGeneratedName));
-			source.append(MessageFormat.format("return receive(new {0}_template(value_template));\n", inGeneratedName));
-			source.append("}\n\n");
+//			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0} value_template) '{'\n", inGeneratedName));
+//			source.append(MessageFormat.format("return receive(new {0}_template(value_template));\n", inGeneratedName));
+//			source.append("}\n\n");
 
 			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", inGeneratedName));
 			source.append("if (!is_started) {\n");
