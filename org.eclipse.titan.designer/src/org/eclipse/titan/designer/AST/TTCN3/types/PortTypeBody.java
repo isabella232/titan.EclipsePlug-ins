@@ -1576,8 +1576,22 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 
 		source.append(MessageFormat.format("public static abstract class {0}_BASE extends TitanPort '{'\n", className));
-		source.append("//FIXME only temporary implementation as it would not be able to handle synonym types.\n\n");
-		source.append("private LinkedList<Base_Type> message_queue = new LinkedList<>();\n\n");
+		source.append("enum message_selection { ");
+		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
+			if (i > 0) {
+				source.append(", ");
+			}
+			source.append(MessageFormat.format("MESSAGE_{0}", i));
+		}
+		source.append("};\n");
+
+		source.append("private class MessageQueueItem {\n");
+		source.append("message_selection item_selection;\n");
+		source.append("Base_Type message;\n");
+		source.append("TitanComponent sender_component;\n");
+		source.append("}\n");
+
+		source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<>();\n\n");
 
 		source.append(MessageFormat.format("public {0}_BASE( final String portName) '{'\n", className));
 		source.append("super(portName);\n");
@@ -1619,13 +1633,24 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("//FIXME implement + sender_template branch\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n\n");
-			source.append("Base_Type my_head = message_queue.getFirst();\n");
-			source.append(MessageFormat.format("if (!(my_head instanceof {0})) '{'\n", inGeneratedName));
+			source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
+			source.append("if (my_head == null) {\n");
+			source.append("if (is_started) {\n");
+			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+			source.append("} else {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n");
+			source.append("}//FIXME handle sender template\n");
+			source.append(MessageFormat.format("else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", i));
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", inGeneratedName));
 			source.append("//FIXME report error \n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n\n");
 			//TODO more complicated
-			source.append(MessageFormat.format("{0} actual_message = ({1}) my_head;\n",inGeneratedName,inGeneratedName));
+			source.append(MessageFormat.format("{0} actual_message = ({1}) my_head.message;\n",inGeneratedName,inGeneratedName));
 			source.append("if (!value_template.match(actual_message).getValue()) {\n");
 			source.append("//FIXME implement\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
@@ -1642,8 +1667,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("}\n\n");
 
 			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", inGeneratedName));
-			source.append("//fixme is started and logging\n");
-			source.append(MessageFormat.format("message_queue.addLast(new {0}(incoming_par));\n", inGeneratedName));
+			source.append("if (!is_started) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", getName()));\n");
+			source.append("}\n");
+			source.append("MessageQueueItem new_item = new MessageQueueItem();\n");
+			source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", i));
+			source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", inGeneratedName));
+			source.append("//FIXME add sender component\n");
+			source.append("message_queue.addLast(new_item);\n");
 			source.append("}\n\n");
 		}
 
