@@ -415,6 +415,7 @@ public final class Receive_Port_Statement extends Statement {
 				//TODO handle redirection
 				expression.expression.append( "/* TODO: " );
 				expression.expression.append( "port redirection is not yet handled!*/\n" );
+				//TODO this is good reason to optimize for
 				receiveParameter.generateCode(aData, expression);
 			}
 		}

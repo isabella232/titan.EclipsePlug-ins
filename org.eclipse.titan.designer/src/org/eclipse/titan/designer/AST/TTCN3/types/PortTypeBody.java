@@ -1576,6 +1576,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 
 		source.append(MessageFormat.format("public static abstract class {0}_BASE extends TitanPort '{'\n", className));
+		source.append("//FIXME only temporary implementation as it would not be able to handle synonym types.\n\n");
 		source.append("private LinkedList<Base_Type> message_queue = new LinkedList<>();\n\n");
 
 		source.append(MessageFormat.format("public {0}_BASE( final String portName) '{'\n", className));
