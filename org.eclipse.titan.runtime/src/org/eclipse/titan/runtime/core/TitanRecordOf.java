@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * "record of" type
+ * "record of" type for runtime 2
  * Originally Basetype.hh/Record_Of_Type, Basetype2.cc/Record_Of_Type
  * @author Arpad Lovassy
  */
