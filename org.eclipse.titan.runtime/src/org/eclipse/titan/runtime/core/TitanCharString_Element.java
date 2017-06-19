@@ -62,7 +62,7 @@ public class TitanCharString_Element {
 	}
 
 	//originally operator==
-	public boolean equalsTo( final TitanCharString_Element other_value ) {
+	public boolean operatorEquals( final TitanCharString_Element other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring comparison.");
 
@@ -70,7 +70,7 @@ public class TitanCharString_Element {
 	}
 
 	//originally operator==
-	public boolean equalsTo( final TitanCharString other_value ) {
+	public boolean operatorEquals( final TitanCharString other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring element comparison.");
 

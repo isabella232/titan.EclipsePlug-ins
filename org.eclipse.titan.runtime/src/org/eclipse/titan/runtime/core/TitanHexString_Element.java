@@ -53,7 +53,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator==
-	public boolean equalsTo( final TitanHexString_Element other_value ) {
+	public boolean operatorEquals( final TitanHexString_Element other_value ) {
 		mustBound("Unbound left operand of hexstring element comparison.");
 		other_value.mustBound("Unbound right operand of hexstring comparison.");
 
@@ -61,7 +61,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator==
-	public boolean equalsTo( final TitanHexString other_value ) {
+	public boolean operatorEquals( final TitanHexString other_value ) {
 		mustBound("Unbound left operand of hexstring element comparison.");
 		other_value.mustBound("Unbound right operand of hexstring element comparison.");
 

@@ -183,7 +183,7 @@ public class TitanFloat extends Base_Type {
 		mustBound("Unbound left operand of float comparison.");
 		aOtherValue.mustBound("Unbound right operand of float comparison.");
 
-		return new TitanBoolean(float_value.equalsTo( aOtherValue.float_value.getValue() ));
+		return new TitanBoolean(float_value.operatorEquals( aOtherValue.float_value.getValue() ));
 	}
 
 	@Override

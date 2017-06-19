@@ -143,11 +143,11 @@ public class TitanBoolean_template extends Base_Template {
 		return and( otherTemplate.single_value );
 	}
 
-	public TitanBoolean equalsTo( final TitanBoolean otherValue ) {
+	public TitanBoolean operatorEquals( final TitanBoolean otherValue ) {
 		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
 			throw new TtcnError( "Equals operation of a non specific value template" );
 		}
 
-		return single_value.equalsTo( otherValue );
+		return single_value.operatorEquals( otherValue );
 	}
 }

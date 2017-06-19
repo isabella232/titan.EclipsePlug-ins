@@ -151,27 +151,6 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	/**
-	 * this == aOtherValue
-	 * originally operator ==
-	 */
-	public TitanBoolean equalsTo( final boolean aOtherValue ) {
-		mustBound( "Unbound left operand of boolean equals operation." );
-
-		return new TitanBoolean( boolean_value == aOtherValue );
-	}
-
-	/**
-	 * this == aOtherValue
-	 * originally operator ==
-	 */
-	public TitanBoolean equalsTo( final TitanBoolean aOtherValue ) {
-		mustBound( "Unbound left operand of boolean equals operation." );
-		aOtherValue.mustBound( "Unbound right operand of boolean equals operation." );
-
-		return new TitanBoolean( boolean_value == aOtherValue.boolean_value );
-	}
-
-	/**
 	 * not this
 	 * originally operator not
 	 */

@@ -53,7 +53,7 @@ public class TitanOctetString_Element {
 	}
 	
 	//originally operator==
-	public boolean equalsTo( final TitanOctetString_Element other_value ) {
+	public boolean operatorEquals( final TitanOctetString_Element other_value ) {
 		mustBound("Unbound left operand of octetstring element comparison.");
 		other_value.mustBound("Unbound right operand of octetstring comparison.");
 
@@ -61,7 +61,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator==
-	public boolean equalsTo( final TitanOctetString other_value ) {
+	public boolean operatorEquals( final TitanOctetString other_value ) {
 		mustBound("Unbound left operand of octetstring element comparison.");
 		other_value.mustBound("Unbound right operand of octetstring element comparison.");
 
