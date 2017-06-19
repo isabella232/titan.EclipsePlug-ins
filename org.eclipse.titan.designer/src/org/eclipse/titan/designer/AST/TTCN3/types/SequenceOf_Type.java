@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
@@ -42,6 +43,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -789,5 +791,33 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		}
 
 		return null;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		aData.addBuiltinTypeImport( "TitanRecordOf" );
+
+		if(needsAlias()) {
+			final String className = getGenNameOwn(); 
+			final String ofClassName = getOfType().getGenNameValue(aData, source, myScope);
+			source.append( "\tpublic static class " );
+			source.append( className );
+			source.append( " extends TitanRecordOf {\n" );
+			source.append( "\t\tpublic " );
+			source.append( className );
+			source.append( "() {\n" );
+			source.append( "\t\t\tsuper( " );
+			source.append( ofClassName );
+			source.append( ".class );\n" );
+			source.append( "\t\t}\n" );
+			source.append( "\t}\n" );
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
+		return getGenNameOwn();
 	}
 }

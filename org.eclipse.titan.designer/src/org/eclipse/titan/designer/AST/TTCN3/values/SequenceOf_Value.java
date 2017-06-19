@@ -642,13 +642,34 @@ public final class SequenceOf_Value extends Value {
 			return convertedValue.generateCodeInit(aData, source, name);
 		}
 
-		//default implementation
-		source.append( "\t//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() is not implemented!\n" );
+		aData.addBuiltinTypeImport( "TitanRecordOf" );
+		
+		if (isIndexed()) {
+			for (int i = 0; i < values.getNofIndexedValues(); i++) {
+				final IValue value = values.getIndexedValueByIndex(i).getValue();
+				generateCodeInitListElement( aData, source, name, value);
+			}
+		} else {
+			for (int i = 0; i < values.getNofValues(); i++) {
+				final IValue value = values.getValueByIndex(i);
+				generateCodeInitListElement( aData, source, name, value);
+			}
+		}
 
 		return source;
 	}
 
-
+	/**
+	 * Adds a list element to the record of
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source generated source code
+	 * @param name "record of" variable name
+	 */
+	private void generateCodeInitListElement( final JavaGenData aData, StringBuilder source, String name, IValue value ) {
+		source.append( "\t\t");
+		source.append( name );
+		source.append( ".add( ");
+		source.append( value.generateSingleExpression(aData) );
+		source.append( " );\n" );
+	}
 }
