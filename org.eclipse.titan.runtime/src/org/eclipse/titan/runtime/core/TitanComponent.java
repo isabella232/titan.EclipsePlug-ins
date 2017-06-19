@@ -32,7 +32,7 @@ public class TitanComponent extends Base_Type {
 	private static int numberOfComponentNames = 0;
 	private static final ArrayList<ComponentNameStruct> componentNames = new ArrayList<TitanComponent.ComponentNameStruct>();
 
-	private int componentValue;
+	int componentValue;
 
 	public TitanComponent() {
 		componentValue = UNBOUND_COMPREF;

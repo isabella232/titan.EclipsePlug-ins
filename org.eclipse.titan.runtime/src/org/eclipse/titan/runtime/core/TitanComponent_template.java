@@ -23,8 +23,11 @@ public class TitanComponent_template extends Base_Template {
 
 	// originally match
 	public TitanBoolean match(final TitanComponent otherValue, final boolean legacy) {
-		//FIXME not yet implemented
-		return new TitanBoolean(false);
+		if (otherValue.componentValue == TitanComponent.UNBOUND_COMPREF) {
+			throw new TtcnError("Matching an unbound component reference with a template.");
+		}
+
+		return match(otherValue.componentValue, legacy);
 	}
 
 	// originally match
