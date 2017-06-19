@@ -207,7 +207,7 @@ public class TitanRecordOf extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Adding a {0} type variable to a record of {1}", getOfTypeName( aElement.getClass() ), getOfTypeName()));
 		}
 		if ( valueElements == null ) {
-			valueElements = new ArrayList<>();
+			valueElements = new ArrayList<Base_Type>();
 		}
 		valueElements.add( aElement );
 	}
