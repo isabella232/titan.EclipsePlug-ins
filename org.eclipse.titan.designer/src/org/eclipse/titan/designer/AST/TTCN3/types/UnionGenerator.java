@@ -76,8 +76,7 @@ public class UnionGenerator {
 		generateOperatorEquals(source, genName, displayName, fieldInfos);
 		generateGetterSetters(source, genName, displayName, fieldInfos);
 
-		//TODO: implement
-		source.append( "\t\t//TODO: TTCN3_Choice_Type.generateCode() is not fully implemented!\n" );
+		//FIXME implement rest
 		source.append("}\n");
 	}
 
