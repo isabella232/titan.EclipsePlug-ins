@@ -44,6 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completenes
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
+import org.eclipse.titan.designer.AST.TTCN3.types.UnionGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.values.Anytype_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -692,6 +693,38 @@ public final class Anytype_Type extends Type {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
+		return getGenNameOwn(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		final String genName = getGenNameOwn();
+		final String displayName = getFullName();
+
+		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
+		boolean hasOptional = false;
+		for ( final CompField compField : compFieldMap.fields ) {
+			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
+					compField.getIdentifier().getName(), compField.isOptional(),
+					compField.getType().getClass().getSimpleName());
+			hasOptional |= compField.isOptional();
+			fieldInfos.add( fi );
+		}
+
+		for ( final CompField compField : compFieldMap.fields ) {
+			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			compField.getType().generateCode(aData, tempSource);
+		}
+
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+		//TODO: implement
+		source.append( "\t\t//TODO: Anytype_Type.generateCode() is not fully implemented!\n" );
 	}
 
 	@Override

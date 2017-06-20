@@ -1024,9 +1024,6 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 				Identifier id = ((FieldSubReference) subreference).getId();
 				expression.expression.append(".");
-				if(type != null && Type_type.TYPE_ANYTYPE.equals(type.getTypetype())) {
-					expression.expression.append("AT_");
-				}
 				if (isConst) {
 					expression.expression.append("constGet");
 				} else {
