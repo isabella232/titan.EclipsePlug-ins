@@ -331,6 +331,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		if (ofType == null) {
 			setIsErroneous(true);
 		} else {
+			ofType.setGenName(getGenNameOwn(), "0");
 			ofType.setParentType(this);
 			ofType.check(timestamp);
 			if (!isAsn()) {

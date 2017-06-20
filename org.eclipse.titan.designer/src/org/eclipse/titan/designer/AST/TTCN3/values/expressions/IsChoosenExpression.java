@@ -400,12 +400,12 @@ public final class IsChoosenExpression extends Expression_Value {
 		if (value != null) {
 			value.generateCodeExpressionMandatory(aData, expression);
 			final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
-			expression.expression.append(MessageFormat.format(".isChosen({0}.ALT_{1}/* TODO: name not yet fixed*/)", genNameValue, identifier.getName()));
+			expression.expression.append(MessageFormat.format(".isChosen({0}.union_selection_type.ALT_{1})", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName())));
 		}
 		if (template != null) {
 			template.generateCodeExpression(aData, expression);
 			final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
-			expression.expression.append(MessageFormat.format(".isChosen({0}.ALT_{1}/* TODO: name not yet fixed*/)", genNameValue, identifier.getName()));
+			expression.expression.append(MessageFormat.format(".isChosen({0}.union_selection_type.ALT_{1})", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName())));
 		}
 	}
 }

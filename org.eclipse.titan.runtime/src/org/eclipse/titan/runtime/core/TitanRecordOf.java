@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * "record of" type
+ * "record of" type for runtime 2
  * Originally Basetype.hh/Record_Of_Type, Basetype2.cc/Record_Of_Type
  * @author Arpad Lovassy
  */
@@ -207,7 +207,7 @@ public class TitanRecordOf extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Adding a {0} type variable to a record of {1}", getOfTypeName( aElement.getClass() ), getOfTypeName()));
 		}
 		if ( valueElements == null ) {
-			valueElements = new ArrayList<>();
+			valueElements = new ArrayList<Base_Type>();
 		}
 		valueElements.add( aElement );
 	}
