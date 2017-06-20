@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.titan.designer.AST.CachedReferenceChain;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
@@ -426,12 +427,170 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		source.append( "\tpublic static class " );
-		source.append( getGenNameOwn() );
-		source.append( " {\n" );
+		final String genName = getGenNameOwn();
+		final String displayName = getFullName();
+		aData.addBuiltinTypeImport("Base_Type");
+
+		for ( final CompField compField : compFieldMap.fields ) {
+			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			compField.getType().generateCode(aData, tempSource);
+		}
+
+		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
+		source.append("public enum union_selection_type { UNBOUND_VALUE, ");
+		for (int i = 0 ; i < compFieldMap.fields.size(); i++) {
+			if (i > 0) {
+				source.append(", ");
+			}
+			String tempFieldName = compFieldMap.fields.get(i).getIdentifier().getName();
+			String fieldName = FieldSubReference.getJavaGetterName( tempFieldName );
+			source.append(MessageFormat.format("ALT_{0}", FieldSubReference.getJavaGetterName( fieldName )));
+		}
+		source.append("};\n");
+		source.append("private union_selection_type union_selection;\n");
+		source.append("//originally a union which can not be mapped to Java\n");
+		source.append("private Base_Type field;\n");
+
+		source.append(MessageFormat.format("public {0}() '{'\n", genName));
+		source.append("union_selection = union_selection_type.UNBOUND_VALUE;\n");
+		source.append("};\n");
+		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", genName));
+		source.append("copy_value(otherValue);\n");
+		source.append("};\n");
+
+		source.append(MessageFormat.format("private void copy_value(final {0} otherValue) '{'\n", genName));
+		source.append("switch(otherValue.union_selection){\n");
+		for (int i = 0 ; i < compFieldMap.fields.size(); i++) {
+			CompField field = compFieldMap.fields.get(i);
+			String tempFieldName = field.getIdentifier().getName();
+			String fieldName = FieldSubReference.getJavaGetterName( tempFieldName );
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldName));
+			source.append(MessageFormat.format("field = new {0}(({0})otherValue.field);\n", field.getType().getGenNameValue(aData, source, myScope)));
+		}
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound union value of type {0}.\");", displayName));
+		source.append("}\n");
+		source.append("union_selection = otherValue.union_selection;\n");
+		source.append("}\n");
+
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", genName));
+		source.append("if(otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {\n");
+		source.append(MessageFormat.format("throw new TtcnError( \"Assignment of an unbound {0} value.\" );\n", displayName));
+		source.append("}\n");
+		source.append("cleanUp();\n");
+		source.append("copy_value(otherValue);\n");
+		source.append("return this;\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0} assign( final Base_Type otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("return assign(({0})otherValue);\n", genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+			
+		source.append("}\n");
+		source.append("//originally clean_up\n");
+		source.append("public void cleanUp() {\n");
+		source.append("field = null;\n");
+		source.append("union_selection = union_selection_type.UNBOUND_VALUE;\n");
+		source.append("}\n");
+
+		source.append("public boolean isChosen(final union_selection_type checked_selection) {\n");
+		source.append("if(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("if (union_selection == checked_selection) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Performing ischosen() operation on an unbound value of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("return union_selection == checked_selection;\n");
+
+		source.append("}\n");
+		source.append("public boolean isBound() {\n");
+		source.append("return union_selection != union_selection_type.UNBOUND_VALUE;\n");
+		source.append("}\n");	
+		source.append("public boolean isValue() {\n");
+		source.append("switch(union_selection) {\n");
+		for (int i = 0 ; i < compFieldMap.fields.size(); i++) {
+			CompField field = compFieldMap.fields.get(i);
+			String tempFieldName = field.getIdentifier().getName();
+			String fieldName = FieldSubReference.getJavaGetterName( tempFieldName );
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldName));
+		}
+
+		source.append("return field.isValue();\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(\"Invalid selection in union is_bound\");\n");
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("public boolean isPresent() {\n");
+		source.append("return isBound();\n");
+		source.append("}\n");
+
+		
+		source.append("//originally operator==\n");
+		source.append(MessageFormat.format("public TitanBoolean operatorEquals( final {0} otherValue ) '{'\n", genName));
+		source.append("if (union_selection == union_selection_type.UNBOUND_VALUE) {\n");
+		source.append(MessageFormat.format("throw new TtcnError( \"The left operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
+		source.append("}\n");
+		source.append("if (otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {\n");
+		source.append(MessageFormat.format("throw new TtcnError( \"The right operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
+		source.append("}\n");
+		source.append("if (union_selection != otherValue.union_selection) {\n");
+		source.append("return new TitanBoolean(false);\n");
+
+		source.append("}\n");
+		source.append("switch(union_selection) {\n");
+		for (int i = 0 ; i < compFieldMap.fields.size(); i++) {
+			CompField field = compFieldMap.fields.get(i);
+			String tempFieldName = field.getIdentifier().getName();
+			String fieldName = FieldSubReference.getJavaGetterName( tempFieldName );
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldName));
+			source.append(MessageFormat.format("return (({0})field).operatorEquals(({0})otherValue.field);\n", field.getType().getGenNameValue(aData, source, myScope)));
+		}
+
+
+		source.append("default:\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public TitanBoolean operatorEquals( final Base_Type otherValue ) {\n");
+		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("}\n");
+
+		for (int i = 0 ; i < compFieldMap.fields.size(); i++) {
+			CompField field = compFieldMap.fields.get(i);
+			String tempFieldName = field.getIdentifier().getName();
+			String fieldName = FieldSubReference.getJavaGetterName( tempFieldName );
+			String typeName = field.getType().getGenNameValue(aData, source, myScope);
+			source.append(MessageFormat.format("public {0} get{1}() '{'\n", typeName, fieldName));
+			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldName));
+			source.append("cleanUp();\n");
+			source.append(MessageFormat.format("field = new {0}();\n", typeName));
+			source.append(MessageFormat.format("union_selection = union_selection_type.ALT_{0};\n", fieldName));
+			source.append("}\n");
+			source.append(MessageFormat.format("return ({0})field;\n", typeName));
+			source.append("}\n");
+
+			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", typeName, fieldName));
+			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldName));
+			source.append(MessageFormat.format("throw new TtcnError(\"Using non-selected field field1 in a value of union type {0}.\");\n", displayName));
+			source.append("}\n");
+			source.append(MessageFormat.format("return ({0})field;\n", typeName));
+			source.append("}\n");
+		}
+		
 		//TODO: implement
 		source.append( "\t\t//TODO: TTCN3_Choice_Type.generateCode() is not fully implemented!\n" );
-		source.append( "\t}\n" );
+		source.append("}\n");
 	}
 
 	@Override
