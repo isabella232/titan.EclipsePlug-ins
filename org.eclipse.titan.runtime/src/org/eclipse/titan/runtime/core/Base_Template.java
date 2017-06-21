@@ -56,6 +56,20 @@ public class Base_Template {
 		is_ifPresent = true;
 	}
 
+	//originally isBound
+	public boolean isBound() {
+		return templateSelection != template_sel.UNINITIALIZED_TEMPLATE;
+	}
+	//originally is_value
+	public boolean isValue() {
+		return !is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE;
+	}
+
+	//originally clean_up
+	public void cleanUp() {
+		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
 	//originally check_single_selection
 	protected static void checkSingleSelection(final template_sel otherValue) {
 		switch (otherValue) {
