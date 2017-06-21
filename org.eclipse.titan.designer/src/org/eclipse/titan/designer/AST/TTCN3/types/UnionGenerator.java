@@ -62,6 +62,7 @@ public class UnionGenerator {
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
 		aData.addBuiltinTypeImport("Base_Type");
+		aData.addBuiltinTypeImport("TitanBoolean");
 
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
@@ -95,6 +96,7 @@ public class UnionGenerator {
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
 		aData.addBuiltinTypeImport("Base_Template");
+		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addImport("java.util.ArrayList");
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", genName));
@@ -532,7 +534,7 @@ public class UnionGenerator {
 		source.append("return single_value_union_selection == checked_selection;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("if (value_list.size() < 1) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");\n", displayName));
 		source.append("}\n");
 		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
 		source.append("if(!value_list.get(i).isChosen(checked_selection)) {\n");
