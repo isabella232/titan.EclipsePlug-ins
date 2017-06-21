@@ -447,6 +447,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 		//TODO: implement
 		source.append( "\t\t//TODO: TTCN3_Choice_Type.generateCode() is not fully implemented!\n" );
 	}

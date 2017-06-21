@@ -518,6 +518,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		}
 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 		//TODO: implement
 		source.append( "\t\t//TODO: ASN1_Choice_Type.generateCode() is not fully implemented!\n" );
 	}
