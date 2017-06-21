@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
@@ -58,8 +60,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for enumerated type";
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for enumerated type";
 	private static final String LARGEINTEGERERROR = "Using a large integer value ({0}) as an ENUMERATED/enumerated value is not supported";
-
+	
+	private static final String UNKNOWN_VALUE = "UNKNOWN_VALUE";
+	private static final String UNBOUND_VALUE ="UNBOUND_VALUE";
 	private final EnumerationItems items;
+	private Long firstUnused = -1L;  //first unused value for thsi enum type
+	private Long secondUnused = -1L; //second unused value for thsi enum type
 
 	// minor cache
 	private Map<String, EnumItem> nameMap;
@@ -527,30 +533,155 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	//=== Code generation ===
+	
+	private void generateValueClass(final JavaGenData aData, final StringBuilder source, final String ownName) {
+		if(needsAlias()) {
+			aData.addBuiltinTypeImport( "Base_Type" );
+			aData.addBuiltinTypeImport( "TitanBoolean" );
+			aData.addBuiltinTypeImport( "Base_Template" );
+			source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{' \n", ownName));
+			//== enum_type ==
+			source.append("\t\tpublic enum enum_type {\n");
+			
+			DecimalFormat formatter = new DecimalFormat("#");
+			int size = items.getItems().size();
+			EnumItem item = null;
+			for( int i=0; i<size; i++){
+				item = items.getItems().get(i);
+				source.append(MessageFormat.format("\t\t\t{0}", item.getId().getTtcnName()));
+				if(item.getValue() instanceof Integer_Value) {
+					String valueWithoutCommas = formatter.format( ((Integer_Value) item.getValue()).getValue());
+					source.append(MessageFormat.format("({0}),\n", valueWithoutCommas));
+				} else {
+					//TODO: impossible ?
+				}
+			};
+			calculateFirstAndSecondUnusedValues();
+			source.append(MessageFormat.format("\t\t\t{0}({1}),\n",UNKNOWN_VALUE,firstUnused));
+			source.append(MessageFormat.format("\t\t\t{0}({1});\n",UNBOUND_VALUE,secondUnused));
 
-	private void generateIsPresent(final StringBuilder source){
-		source.append("\t\tpublic boolean isPresent(){ return true; } //TODO: implement! \n");
-	}
+			source.append("\n\t\t\tprivate int enum_num;\n");
+			//== constructors for enum_type ==
+			
+			source.append("\t\t\tenum_type(int num) {\n");
+			source.append("\t\t\t\tthis.enum_num = num;\n");
+			source.append("\t\t\t}\n");
+			
+			source.append("\t\t\tprivate int getInt(){\n");
+			source.append("\t\t\t\treturn enum_num;\n");
+			source.append("\t\t\t}\n");
+			
+			source.append("\t\t}\n");
+			// end of enum_type
+			
+			//== enum_value ==
+			source.append("\t\tpublic enum_type enum_value;\n");
+			
+			//== Constructors ==
+			
+			source.append(MessageFormat.format("\t\t{0}()'{'\n",ownName));
+			source.append(MessageFormat.format("\t\t\tenum_value = enum_type.{0};\n", UNBOUND_VALUE));
+			source.append("\t\t};\n");
+			
+			source.append(MessageFormat.format("\t\t{0}( {0} other_value)'{'\n", ownName));
+			source.append(MessageFormat.format("\t\t\tenum_value = other_value.enum_value;\n",ownName));
+			source.append("\t\t};\n");
 
-	private void generateIsBound(final StringBuilder source){
-		source.append("\t\tpublic boolean isBound(){ return true; } //TODO: implement! \n");
-	}
-
-	private void generateOperatorEquals(final StringBuilder source) {
-		source.append("\t\tpublic boolean operatorEquals(final Base_Type otherValue){ return true; } //TODO: implement! \n");
-	}
-
-	private void generateAssign(final StringBuilder source) {
-		source.append("\t\tpublic Base_Type assign(final Base_Type otherValue){ return this; } //TODO: implement! \n");
+			//== functions ==
+			generateValueIsPresent(source);
+			generateValueIsBound(source);
+			generateValueOperatorEquals(source, ownName);
+			generateValueAssign(source, ownName); 
+			source.append("\t}\n");
+		}
 	}
 	
-	private void generateTemplateSetType(final StringBuilder source){ 
+	private void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final String ownName){
+		source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+		
+		//TODO: generate this, and others:
+		generateTemplateSetType(source);
+		source.append("\t}\n");
+	}
+	
+	//===
+
+	private void generateValueIsPresent(final StringBuilder source){
+		source.append("\t\tpublic boolean isPresent(){ return isBound(); }\n");
+	}
+
+	private void generateValueIsBound(final StringBuilder source){
+		source.append("\t\tpublic boolean isBound(){\n");
+		source.append("\t\t\treturn (enum_value != enum_type.UNBOUND_VALUE);\n");
+		source.append("\t\t}\n");
+	}
+
+	private void generateValueOperatorEquals(final StringBuilder source,final String ownName) {
+		//Arg: Base_Type
+		source.append("\t\tpublic TitanBoolean operatorEquals(final Base_Type other_value){\n");
+		source.append(MessageFormat.format("\t\t\tif( other_value instanceof {0} ) '{'\n", ownName));
+		source.append(MessageFormat.format("\t\t\t\treturn (new TitanBoolean( enum_value == (({0}) other_value).enum_value));\n", ownName)); 
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t//TODO:TtcnError message\n");
+		source.append("\t\t\treturn (new TitanBoolean(false));\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		//Arg: enum_type
+		source.append(MessageFormat.format("\t\tpublic TitanBoolean operatorEquals(final {0}.enum_type other_value)'{'\n",ownName));
+		source.append(MessageFormat.format("\t\t\t\treturn (new TitanBoolean( enum_value == other_value));\n", ownName)); 
+		source.append("\t\t}\n");
+	}
+
+	private void generateValueAssign(final StringBuilder source, final String ownName) {
+		
+		//Arg: Base_Type
+		source.append("\t\tpublic Base_Type assign(final Base_Type other_value){\n");
+		source.append(MessageFormat.format("\t\t\tif( other_value instanceof {0} ) '{'\n", ownName));
+		source.append(MessageFormat.format("\t\t\t\tthis.enum_value = (({0}) other_value).enum_value;\n", ownName));
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t//TODO:TtcnError message\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n");
+		//Arg: enum_type
+		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0}.enum_type other_value)'{'\n",ownName));
+		source.append(MessageFormat.format("\t\t\tthis.enum_value = other_value;\n", ownName));
+		source.append("\t\t\treturn this;\n");
+		source.append("\t\t}\n");
+	}
+	
+	private void generateTemplateSetType(final StringBuilder source){
 		source.append("\t\tpublic void setType(template_sel valueList, int i) {\n");
 		source.append("\t\t\t//TODO: setType is not implemented yet\n");
 		source.append("\t\t}\n");
 	}
+	
+	//This function supposes that the enum class is alredy checked and error free
+	private void calculateFirstAndSecondUnusedValues() {
+		if( firstUnused != -1 ) {
+			return; //function already have been called
+		}
+		final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.getItems().size());
+		final List<EnumItem> enumItems = items.getItems();
+		for( int i = 0, size = enumItems.size(); i < size; i++) {
+			final EnumItem item = enumItems.get(i);
+			valueMap.put( ((Integer_Value) item.getValue()).getValue(), item);
+		}
 
-	//TODO: implement it!
+		Long firstUnused = Long.valueOf(0);
+		while (valueMap.containsKey(firstUnused)) {
+			firstUnused++;
+		}
+		
+		this.firstUnused = firstUnused;
+		firstUnused++;
+		while (valueMap.containsKey(firstUnused)) {
+			firstUnused++;
+		}
+		secondUnused = firstUnused;
+		valueMap.clear();
+	}
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
@@ -559,25 +690,9 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		if(needsAlias()) {
-			aData.addBuiltinTypeImport( "Base_Type" );
-			aData.addBuiltinTypeImport( "Base_Template" );
-			final String ownName = getGenNameOwn();
-			source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{' \n", ownName, getGenNameValue(aData, source, myScope)));
-			//Perhaps: Base_Type -> Enum_Type would be more elegant but slower
-			generateIsPresent(source);
-			generateIsBound(source);
-			generateOperatorEquals(source);
-			generateAssign(source); 
-
-			source.append("\t}\n");
-			
-			
-			source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", ownName, getGenNameTemplate(aData, source, myScope)));
-			//TODO: generate this, and others:
-			generateTemplateSetType(source);
-			source.append("\t}\n");
-		}
+		final String ownName = getGenNameOwn();
+		generateValueClass(aData,source,ownName);
+		generateTemplateClass(aData, source,ownName);
 	}
 
 	@Override
