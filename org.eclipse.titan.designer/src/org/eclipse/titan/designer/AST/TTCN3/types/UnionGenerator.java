@@ -165,8 +165,8 @@ public class UnionGenerator {
 			FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("field = new {0}(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
+			source.append("break;\n");
 		}
-		source.append("break;\n");
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound union value of type {0}.\");", displayName));
 		source.append("}\n");
@@ -257,9 +257,9 @@ public class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append("return field.isValue();\n");
 		}
 
-		source.append("return field.isValue();\n");
 		source.append("default:\n");
 		source.append("throw new TtcnError(\"Invalid selection in union is_bound\");\n");
 		source.append("}\n");
