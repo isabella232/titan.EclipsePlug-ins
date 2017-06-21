@@ -53,6 +53,9 @@ public class TitanBitString_template extends Base_Template {
 		single_value = new TitanBitString(otherValue);
 	}
 
+	//TODO: implement constructor with bitstring element
+	//TODO: implement constructor with optional element
+	
 	public TitanBitString_template (final TitanBitString_template otherValue) {
 		copyTemplate(otherValue);
 	}
@@ -101,6 +104,9 @@ public class TitanBitString_template extends Base_Template {
 
 		return this;
 	}
+
+	//TODO: implement BITSTRING_template::assign for bitstring element
+	//TODO: implement BITSTRING_template::assign for optional
 
 	//originally operator=
 	public TitanBitString_template assign( final TitanBitString_template otherValue ) {
@@ -202,4 +208,10 @@ public class TitanBitString_template extends Base_Template {
 			throw new TtcnError("Matching with an uninitialized/unsupported bitstring template.");
 		}
 	}
+
+	//TODO: implement BITSTRING_template::lengthof
+	//TODO: implement BITSTRING_template::list_item
+	//TODO: implement BITSTRING_template::ispresent
+	//TODO: implement BITSTRING_template::match_omit
+
 }

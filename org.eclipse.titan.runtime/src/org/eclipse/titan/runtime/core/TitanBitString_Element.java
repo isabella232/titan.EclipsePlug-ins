@@ -72,6 +72,8 @@ public class TitanBitString_Element {
 		return str_val.getBit(nibble_pos) == other_value.getBit(0);
 	}
 
+	//TODO: implement BITSTRING_ELEMENT::operator!= (NotEquals)
+
 	//originally operator+
 	public TitanBitString append( final TitanBitString other_value ) {
 		mustBound("Unbound left operand of bitstring element concatenation.");
