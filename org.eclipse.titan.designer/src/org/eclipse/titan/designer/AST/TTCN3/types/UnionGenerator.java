@@ -384,7 +384,7 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template(final {0}_template other_value) '{'\n", genName));
 		source.append("copy_template(other_value);\n");
-		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	/**
@@ -452,6 +452,7 @@ public class UnionGenerator {
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
 	private static void generateTemplateCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
 		source.append("public void cleanUp() {\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
@@ -559,6 +560,7 @@ public class UnionGenerator {
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
 	private static void generateTemplateIsValue(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
 		source.append("public boolean isValue() {\n");
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("return false;\n");
