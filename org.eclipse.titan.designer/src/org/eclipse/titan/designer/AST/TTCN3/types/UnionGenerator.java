@@ -123,14 +123,12 @@ public class UnionGenerator {
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
 	private static void generateValueDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
-		source.append("public enum union_selection_type { UNBOUND_VALUE, ");
+		source.append("public enum union_selection_type { UNBOUND_VALUE");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			if (i > 0) {
-				source.append(", ");
-			}
-			source.append(MessageFormat.format("ALT_{0}", fieldInfos.get(i).mJavaVarName));
+			source.append(", ");
+			source.append(MessageFormat.format(" ALT_{0}", fieldInfos.get(i).mJavaVarName));
 		}
-		source.append("};\n");
+		source.append(" };\n");
 		source.append("private union_selection_type union_selection;\n");
 		source.append("//originally a union which can not be mapped to Java\n");
 		source.append("private Base_Type field;\n");
@@ -162,16 +160,18 @@ public class UnionGenerator {
 	 * */
 	private static void generateValueCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} otherValue) '{'\n", genName));
-		source.append("switch(otherValue.union_selection){\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("field = new {0}(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
-			source.append("break;\n");
+		if (fieldInfos.size() > 0) {
+			source.append("switch(otherValue.union_selection){\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("field = new {0}(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound union value of type {0}.\");\n", displayName));
+			source.append("}\n");
 		}
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound union value of type {0}.\");", displayName));
-		source.append("}\n");
 		source.append("union_selection = otherValue.union_selection;\n");
 		source.append("}\n\n");
 	}
@@ -400,16 +400,18 @@ public class UnionGenerator {
 	private static void generatetemplateCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} other_value) '{'\n", genName));
 		source.append("single_value_union_selection = other_value.union_selection;\n");
-		source.append("switch (other_value.union_selection) {\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("single_value = new {0}_template(({0})other_value.field);\n", fieldInfo.mJavaTypeName));
-			source.append("break;\n");
+		if (fieldInfos.size() > 0) {
+			source.append("switch (other_value.union_selection) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("single_value = new {0}_template(({0})other_value.field);\n", fieldInfo.mJavaTypeName));
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"Initializing a template with an unbound value of type {0}.\");\n", displayName));	
+			source.append("}\n");
 		}
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Initializing a template with an unbound value of type {0}.\");", displayName));	
-		source.append("}\n");
 		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("}\n");
 
@@ -417,16 +419,18 @@ public class UnionGenerator {
 		source.append("switch (other_value.templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value_union_selection = other_value.single_value_union_selection;\n");
-		source.append("switch (single_value_union_selection) {\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("single_value = new {0}_template(other_value.get{1}());\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
-			source.append("break;\n");
+		if (fieldInfos.size() > 0) {
+			source.append("switch (single_value_union_selection) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("single_value = new {0}_template(other_value.get{1}());\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid union selector in a specific value when copying a template of type {0}.\");\n", displayName));	
+			source.append("}\n");	
 		}
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid union selector in a specific value when copying a template of type {0}.\");", displayName));	
-		source.append("}\n");		
 		source.append("break;\n");	
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
@@ -441,7 +445,7 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized template of union type {0}.\");", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("setSelection(other_value);\n");
 		source.append("}\n\n");
@@ -458,16 +462,18 @@ public class UnionGenerator {
 		source.append("public void cleanUp() {\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append("switch(single_value_union_selection) {\n");
-		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("(({0}_template)single_value).cleanUp();\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+		if (fieldInfos.size() > 0 ) {
+			source.append("switch(single_value_union_selection) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("(({0}_template)single_value).cleanUp();\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+				source.append("break;\n");
+			}
+			source.append("default:\n");
 			source.append("break;\n");
+			source.append("}\n");
 		}
-		source.append("default:\n");
-		source.append("break;\n");
-		source.append("}\n");
 		source.append("single_value = null;\n");
 		source.append("break;\n");
 		source.append("case VALUE_LIST:\n");
@@ -524,12 +530,12 @@ public class UnionGenerator {
 	private static void generateTemplateIsChosen(final StringBuilder source, final String genName, final String displayName) {
 		source.append(MessageFormat.format("public boolean isChosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
 		source.append(MessageFormat.format("if(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append(MessageFormat.format("if (single_value_union_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("return single_value_union_selection == checked_selection;\n");
 		source.append("case VALUE_LIST:\n");
@@ -547,9 +553,9 @@ public class UnionGenerator {
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Performing ischosen() operation on a template of union type {0}, which does not determine unambiguously the chosen field of the matching values.\");", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(\"Performing ischosen() operation on a template of union type {0}, which does not determine unambiguously the chosen field of the matching values.\");\n", displayName));
 		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Performing ischosen() operation on an uninitialized template of union type {0}.\");", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(\"Performing ischosen() operation on an uninitialized template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("}\n\n");
 	}
@@ -574,7 +580,7 @@ public class UnionGenerator {
 			source.append(MessageFormat.format("return (({0}_template)single_value).isValue();\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 		}
 		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type {0}.\");", displayName));
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("}\n\n");
 	}
@@ -652,10 +658,10 @@ public class UnionGenerator {
 
 			source.append(MessageFormat.format("public {0}_template constGet{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append("if (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field field1 in a non-specific template of union type {0}.\");", displayName));
+			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field field1 in a non-specific template of union type {0}.\");\n", displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("if (single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("throw new TtcnError(\"Accessing non-selected field field1 in a template of union type {0}.\");", displayName));
+			source.append(MessageFormat.format("throw new TtcnError(\"Accessing non-selected field field1 in a template of union type {0}.\");\n", displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("return ({0}_template)single_value;\n", fieldInfo.mJavaTypeName));
 			source.append("}\n\n");
