@@ -63,9 +63,11 @@ public class TitanInteger_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			value_list.clear();
 			value_list = null;
+			break;
 		case VALUE_RANGE:
 			min_value = null;
 			max_value = null;
+			break;
 		default:
 			break;
 		}
