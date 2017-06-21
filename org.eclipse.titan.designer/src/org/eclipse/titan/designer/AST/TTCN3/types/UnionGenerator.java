@@ -63,7 +63,7 @@ public class UnionGenerator {
 			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("TitanBoolean");
-
+		aData.addBuiltinTypeImport("TtcnError");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
 		generateValueConstructors(source, genName, fieldInfos);
@@ -101,7 +101,7 @@ public class UnionGenerator {
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", genName));
 		generateTemplateDeclaration(source, genName);
-		generatetemplateCopyValue(source, genName, displayName, fieldInfos);
+		generatetemplateCopyValue(aData, source, genName, displayName, fieldInfos);
 		generateTemplateConstructors(source, genName);
 		generateTemplateCleanup(source, fieldInfos);
 		generateTemplateAssign(source, genName);
@@ -392,18 +392,20 @@ public class UnionGenerator {
 	/**
 	 * Generate the copy_value and copy_template functions
 	 *
+	 * @param aData: only used to update imports if needed.
 	 * @param source: where the source code is to be generated.
 	 * @param genName: the name of the generated class representing the union/choice type.
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generatetemplateCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} other_value) '{'\n", genName));
 		source.append("single_value_union_selection = other_value.union_selection;\n");
 		if (fieldInfos.size() > 0) {
 			source.append("switch (other_value.union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
+				aData.addBuiltinTypeImport(MessageFormat.format("{0}_template",fieldInfo.mJavaTypeName));
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append(MessageFormat.format("single_value = new {0}_template(({0})other_value.field);\n", fieldInfo.mJavaTypeName));
 				source.append("break;\n");
