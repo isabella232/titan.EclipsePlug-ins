@@ -56,7 +56,8 @@ public class Base_Template {
 		is_ifPresent = true;
 	}
 
-	protected void checkSingleSelection(final template_sel otherValue) {
+	//originally check_single_selection
+	protected static void checkSingleSelection(final template_sel otherValue) {
 		switch (otherValue) {
 		case ANY_VALUE:
 		case OMIT_VALUE:
