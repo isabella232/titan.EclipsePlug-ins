@@ -98,7 +98,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator~
-	public TitanHexString operatorBitwiseNot() {
+	public TitanHexString operatorNot4b() {
 		mustBound("Unbound hexstring element operand of operator not4b.");
 
 		final byte result = (byte) (~str_val.get_nibble(nibble_pos) & 0x0F);
@@ -106,7 +106,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator&
-	public TitanHexString operatorBitwiseAnd(final TitanHexString other_value) {
+	public TitanHexString operatorAnd4b(final TitanHexString other_value) {
 		mustBound("Left operand of operator and4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound hexstring value.");
 
@@ -119,7 +119,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator&
-	public TitanHexString operatorBitwiseAnd(final TitanHexString_Element other_value) {
+	public TitanHexString operatorAnd4b(final TitanHexString_Element other_value) {
 		mustBound("Left operand of operator and4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound hexstring element.");
 
@@ -128,7 +128,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator|
-	public TitanHexString operatorBitwiseOr(final TitanHexString other_value) {
+	public TitanHexString operatorOr4b(final TitanHexString other_value) {
 		mustBound("Left operand of operator or4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound hexstring value.");
 
@@ -141,7 +141,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator|
-	public TitanHexString operatorBitwiseOr(final TitanHexString_Element other_value) {
+	public TitanHexString operatorOr4b(final TitanHexString_Element other_value) {
 		mustBound("Left operand of operator or4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound hexstring element.");
 
@@ -150,7 +150,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator^
-	public TitanHexString operatorBitwiseXor(final TitanHexString other_value) {
+	public TitanHexString operatorXor4b(final TitanHexString other_value) {
 		mustBound("Left operand of operator xor4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound hexstring value.");
 
@@ -163,7 +163,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator^
-	public TitanHexString operatorBitwiseXor(final TitanHexString_Element other_value) {
+	public TitanHexString operatorXor4b(final TitanHexString_Element other_value) {
 		mustBound("Left operand of operator xor4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound hexstring element.");
 
