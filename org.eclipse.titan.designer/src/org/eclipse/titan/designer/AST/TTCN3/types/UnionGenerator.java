@@ -64,17 +64,17 @@ public class UnionGenerator {
 		aData.addBuiltinTypeImport("Base_Type");
 
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
-		generateDeclaration(source, genName, fieldInfos);
-		generateConstructors(source, genName, fieldInfos);
-		generateCopyValue(source, genName, displayName, fieldInfos);
-		generateAssign(source, genName, displayName, fieldInfos);
-		generateCleanup(source);
-		generateIsChosen(source, displayName);
-		generateIsBound(source);
-		generateIsValue(source, fieldInfos);
-		generateIsPresent(source);
-		generateOperatorEquals(source, genName, displayName, fieldInfos);
-		generateGetterSetters(source, genName, displayName, fieldInfos);
+		generateValueDeclaration(source, genName, fieldInfos);
+		generateValueConstructors(source, genName, fieldInfos);
+		generateValueCopyValue(source, genName, displayName, fieldInfos);
+		generateValueAssign(source, genName, displayName, fieldInfos);
+		generateValueCleanup(source);
+		generateValueIsChosen(source, displayName);
+		generateValueIsBound(source);
+		generateValueIsValue(source, fieldInfos);
+		generateValueIsPresent(source);
+		generateValueOperatorEquals(source, genName, displayName, fieldInfos);
+		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 
 		//FIXME implement rest
 		source.append("}\n");
@@ -87,7 +87,7 @@ public class UnionGenerator {
 	 * @param genName: the name of the generated class representing the union/choice type.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generateDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
+	private static void generateValueDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
 		source.append("public enum union_selection_type { UNBOUND_VALUE, ");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			if (i > 0) {
@@ -108,7 +108,7 @@ public class UnionGenerator {
 	 * @param genName: the name of the generated class representing the union/choice type.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generateConstructors( final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos){
+	private static void generateValueConstructors( final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos){
 		source.append(MessageFormat.format("public {0}() '{'\n", genName));
 		source.append("union_selection = union_selection_type.UNBOUND_VALUE;\n");
 		source.append("};\n");
@@ -125,7 +125,7 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generateCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+	private static void generateValueCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} otherValue) '{'\n", genName));
 		source.append("switch(otherValue.union_selection){\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -149,7 +149,7 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generateAssign(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+	private static void generateValueAssign(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", genName));
 		source.append("if(otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {\n");
@@ -175,7 +175,7 @@ public class UnionGenerator {
 	 *
 	 * @param source: where the source code is to be generated.
 	 * */
-	private static void generateCleanup(final StringBuilder source) {
+	private static void generateValueCleanup(final StringBuilder source) {
 		source.append("//originally clean_up\n");
 		source.append("public void cleanUp() {\n");
 		source.append("field = null;\n");
@@ -189,7 +189,7 @@ public class UnionGenerator {
 	 * @param source: where the source code is to be generated.
 	 * @param displayName: the user readable name of the type to be generated.
 	 * */
-	private static void generateIsChosen(final StringBuilder source, final String displayName) {
+	private static void generateValueIsChosen(final StringBuilder source, final String displayName) {
 		source.append("public boolean isChosen(final union_selection_type checked_selection) {\n");
 		source.append("if(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
@@ -206,7 +206,7 @@ public class UnionGenerator {
 	 *
 	 * @param source: where the source code is to be generated.
 	 * */
-	private static void generateIsBound(final StringBuilder source) {
+	private static void generateValueIsBound(final StringBuilder source) {
 		source.append("public boolean isBound() {\n");
 		source.append("return union_selection != union_selection_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");	
@@ -218,7 +218,7 @@ public class UnionGenerator {
 	 * @param source: where the source code is to be generated.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generateIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
+	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("public boolean isValue() {\n");
 		source.append("switch(union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -238,7 +238,7 @@ public class UnionGenerator {
 	 *
 	 * @param source: where the source code is to be generated.
 	 * */
-	private static void generateIsPresent(final StringBuilder source) {
+	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
@@ -252,7 +252,7 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generateOperatorEquals(final StringBuilder source, final String genName, final String displayName,
+	private static void generateValueOperatorEquals(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		source.append("//originally operator==\n");
 		source.append(MessageFormat.format("public TitanBoolean operatorEquals( final {0} otherValue ) '{'\n", genName));
@@ -296,7 +296,7 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
-	private static void generateGetterSetters(final StringBuilder source, final String genName, final String displayName,
+	private static void generateValueGetterSetters(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			FieldInfo fieldInfo = fieldInfos.get(i);
