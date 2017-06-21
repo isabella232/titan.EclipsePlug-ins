@@ -24,26 +24,17 @@ public class UnionGenerator {
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
 
-		private boolean isOptional;
-
 		/** Field variable name in java getter/setter function names and parameters */
 		private String mJavaVarName;
-
-		/** Java AST type name (for debug purposes) */
-		private String mTTCN3TypeName;
 
 		/**
 		 * @param fieldType: the string representing the type of this field in the generated code.
 		 * @param fieldName: the string representing the name of this field in the generated code.
-		 * @param isOptional: true if the field is optional.
-		 * @param debugName: additional text printed out in a comment after the generated local variables.
 		 * */
-		public FieldInfo(final String fieldType, final String fieldName, final boolean isOptional, final String debugName) {
+		public FieldInfo(final String fieldType, final String fieldName) {
 			mJavaTypeName = fieldType;
 			mVarName = fieldName;
 			mJavaVarName  = FieldSubReference.getJavaGetterName( mVarName );
-			this.isOptional = isOptional;
-			mTTCN3TypeName = debugName;
 		}
 	}
 
