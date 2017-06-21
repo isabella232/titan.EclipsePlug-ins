@@ -21,6 +21,8 @@ public class UnionGenerator {
 		/** Java type name of the field */
 		private String mJavaTypeName;
 
+		private String mJavaTemplateName;
+
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
 
@@ -28,11 +30,13 @@ public class UnionGenerator {
 		private String mJavaVarName;
 
 		/**
-		 * @param fieldType: the string representing the type of this field in the generated code.
+		 * @param fieldType: the string representing the value type of this field in the generated code.
+		 * @param fieldTemplate: the string representing the template type of this field in the generated code.
 		 * @param fieldName: the string representing the name of this field in the generated code.
 		 * */
-		public FieldInfo(final String fieldType, final String fieldName) {
+		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName) {
 			mJavaTypeName = fieldType;
+			mJavaTemplateName = fieldTemplate;
 			mVarName = fieldName;
 			mJavaVarName  = FieldSubReference.getJavaGetterName( mVarName );
 		}
@@ -396,9 +400,8 @@ public class UnionGenerator {
 			source.append("switch (other_value.union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
-				aData.addBuiltinTypeImport(MessageFormat.format("{0}_template",fieldInfo.mJavaTypeName));
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}_template(({0})other_value.field);\n", fieldInfo.mJavaTypeName));
+				source.append(MessageFormat.format("single_value = new {0}(({1})other_value.field);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaTypeName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -417,7 +420,7 @@ public class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}_template(other_value.get{1}());\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("single_value = new {0}(other_value.get{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -460,7 +463,7 @@ public class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("(({0}_template)single_value).cleanUp();\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("(({0})single_value).cleanUp();\n", fieldInfo.mJavaTemplateName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -570,7 +573,7 @@ public class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("return (({0}_template)single_value).isValue();\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("return (({0})single_value).isValue();\n", fieldInfo.mJavaTemplateName));
 		}
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type {0}.\");\n", displayName));
@@ -635,28 +638,28 @@ public class UnionGenerator {
 			final List<FieldInfo> fieldInfos) {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			FieldInfo fieldInfo = fieldInfos.get(i);
-			source.append(MessageFormat.format("public {0}_template get{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
 			source.append("template_sel old_selection = templateSelection;\n");
 			source.append("cleanUp();\n");
 			source.append("if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
-			source.append(MessageFormat.format("single_value = new {0}_template(template_sel.ANY_VALUE);\n", fieldInfo.mJavaTypeName));
+			source.append(MessageFormat.format("single_value = new {0}(template_sel.ANY_VALUE);\n", fieldInfo.mJavaTemplateName));
 			source.append("} else {\n");
 			source.append(MessageFormat.format("single_value_union_selection = {0}.union_selection_type.ALT_{1};\n", genName, fieldInfo.mJavaVarName));
 			source.append("}\n");
 			source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
 			source.append("}\n");
-			source.append(MessageFormat.format("return ({0}_template)single_value;\n", fieldInfo.mJavaTypeName));
+			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
 			source.append("}\n\n");
 
-			source.append(MessageFormat.format("public {0}_template constGet{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append("if (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field field1 in a non-specific template of union type {0}.\");\n", displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("if (single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("throw new TtcnError(\"Accessing non-selected field field1 in a template of union type {0}.\");\n", displayName));
 			source.append("}\n");
-			source.append(MessageFormat.format("return ({0}_template)single_value;\n", fieldInfo.mJavaTypeName));
+			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
 			source.append("}\n\n");
 		}
 	}

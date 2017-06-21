@@ -711,6 +711,7 @@ public final class Anytype_Type extends Type {
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
+					compField.getType().getGenNameTemplate(aData, source, getMyScope()),
 					compField.getIdentifier().getName());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
