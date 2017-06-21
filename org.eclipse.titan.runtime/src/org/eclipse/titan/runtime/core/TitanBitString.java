@@ -147,18 +147,24 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//takes ownership of aOtherValue
-	public void setValue( final List<Byte> aOtherValue, final int aNoBits ) {
-		bits_ptr = aOtherValue;
-		this.n_bits = aNoBits;
-		clear_unused_bits();
-	}
+	//runtime 2 only
+//	public void setValue( final List<Byte> aOtherValue, final int aNoBits ) {
+//		bits_ptr = aOtherValue;
+//		this.n_bits = aNoBits;
+//		clear_unused_bits();
+//	}
+
+	//TODO: implement BITSTRING::assign for bitstring element
 
 	//originally operator=
 	public TitanBitString assign( final TitanBitString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound bitstring value." );
 
-		bits_ptr = copyList( aOtherValue.bits_ptr );
-		n_bits = aOtherValue.n_bits;
+		if (aOtherValue != this) {
+			cleanUp();
+			bits_ptr = copyList( aOtherValue.bits_ptr );
+			n_bits = aOtherValue.n_bits;
+		}
 		return this;
 	}
 
@@ -200,6 +206,8 @@ public class TitanBitString extends Base_Type {
 		return new TitanBoolean(n_bits == otherValue.n_bits && bits_ptr.equals( otherValue.bits_ptr ));
 	}
 
+	//TODO: implement BITSTRING::operatorEquals for bitstring element
+
 	@Override
 	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBitString) {
@@ -214,10 +222,22 @@ public class TitanBitString extends Base_Type {
 		return operatorEquals( aOtherValue ).not();
 	}
 
+	//TODO: implement BITSTRING::operatorNotEquals for bitstring element
+
 	public void cleanUp() {
 		n_bits = 0;
 		bits_ptr = null;
 	}
+
+	//TODO: implement BITSTRING::operator+ (add/concatenation)
+	//TODO: implement BITSTRING::operator~ (not4b)
+	//TODO: implement BITSTRING::operator& (and4b)
+	//TODO: implement BITSTRING::operator| (or4b)
+	//TODO: implement BITSTRING::operator^ (xor4b)
+	//TODO: implement BITSTRING::operator<< (shiftLeft)
+	//TODO: implement BITSTRING::operator>> (shiftRight)
+	//TODO: implement BITSTRING::operator<<= (rotateLeft)
+	//TODO: implement BITSTRING::operator>>= (rotateRight)
 
 	//originally operator[](int)
 	public TitanBitString_Element getAt(final int index_value) {
@@ -279,4 +299,11 @@ public class TitanBitString extends Base_Type {
 	public boolean isPresent() {
 		return isBound();
 	}
+
+	//TODO: implement BITSTRING::int2bit as static
+	//TODO: implement BITSTRING::hex2bit as static
+	//TODO: implement BITSTRING::oct2bit as static
+	//TODO: implement BITSTRING::str2bit as static
+	//TODO: implement BITSTRING::substr as static
+	//TODO: implement BITSTRING::replace as static
 }

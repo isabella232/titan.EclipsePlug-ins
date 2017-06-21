@@ -53,7 +53,7 @@ public class TitanBitString_Element {
 	}
 
 	//originally operator==
-	public boolean equalsTo( final TitanBitString_Element other_value ) {
+	public boolean operatorEquals( final TitanBitString_Element other_value ) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		other_value.mustBound("Unbound right operand of bitstring comparison.");
 
@@ -61,7 +61,7 @@ public class TitanBitString_Element {
 	}
 
 	//originally operator==
-	public boolean equalsTo( final TitanBitString other_value ) {
+	public boolean operatorEquals( final TitanBitString other_value ) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		other_value.mustBound("Unbound right operand of bitstring element comparison.");
 
@@ -71,6 +71,8 @@ public class TitanBitString_Element {
 
 		return str_val.getBit(nibble_pos) == other_value.getBit(0);
 	}
+
+	//TODO: implement BITSTRING_ELEMENT::operator!= (NotEquals)
 
 	//originally operator+
 	public TitanBitString append( final TitanBitString other_value ) {
