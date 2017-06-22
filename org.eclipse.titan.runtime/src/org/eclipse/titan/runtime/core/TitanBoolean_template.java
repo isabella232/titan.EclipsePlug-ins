@@ -127,6 +127,9 @@ public class TitanBoolean_template extends Base_Template {
 		setSelection(otherValue);
 	}
 
+	//TODO: implement match
+	//TODO: implement valueof
+
 	public TitanBoolean and( final TitanBoolean otherValue ) {
 		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
 			throw new TtcnError( "And operation of a non specific value template" );

@@ -177,6 +177,8 @@ public class TitanBoolean extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
+	//TODO: implement operatorNotEquals native
+	
 	//originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanBoolean aOtherValue ) {
 		return operatorEquals( aOtherValue ).not();
@@ -201,4 +203,10 @@ public class TitanBoolean extends Base_Type {
 	public static boolean getNative(final TitanBoolean otherValue) {
 		return otherValue.getValue();
 	}
+
+	//TODO: implement static and
+	//TODO: implement static or
+	//TODO: implement static xor
+	//TODO: implement static equals
+	//TODO: implement static notEquals
 }

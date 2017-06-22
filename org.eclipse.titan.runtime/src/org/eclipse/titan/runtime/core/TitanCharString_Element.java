@@ -38,6 +38,8 @@ public class TitanCharString_Element {
 		}
 	}
 
+	//TODO: implement assign for String
+
 	//originally operator=
 	public TitanCharString_Element assign( final TitanCharString_Element other_value ) {
 		other_value.mustBound("Assignment of an unbound charstring element.");
@@ -61,6 +63,10 @@ public class TitanCharString_Element {
 		return this;
 	}
 
+	//TODO: implement operatorEquals for String
+	//TODO: implement operatorEquals for universalcharstring
+	//TODO: implement operatorEquals for universalcharstring_element
+
 	//originally operator==
 	public boolean operatorEquals( final TitanCharString_Element other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
@@ -81,8 +87,17 @@ public class TitanCharString_Element {
 		return get_char() == other_value.getValue().charAt(0);
 	}
 
+	//TODO: implement operatorNotEquals for String
+	//TODO: implement operatorNotEquals for charstring
+	//TODO: implement operatorNotEquals for charstring_element
+
+	//TODO: implement append for String
+	//TODO: implement append for charstring
+	//TODO: implement append for charstring_element
+	//TODO: implement append for universalcharstring
+	//TODO: implement append for universalcharstring_element
+
 	public char get_char() {
 		return str_val.getValue().charAt( char_pos );
 	}
-
 }

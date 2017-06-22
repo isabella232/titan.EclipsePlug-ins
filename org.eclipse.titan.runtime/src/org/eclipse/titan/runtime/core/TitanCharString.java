@@ -54,6 +54,10 @@ public class TitanCharString extends Base_Type {
 		val_ptr = new StringBuilder( aOtherValue );
 	}
 
+	//TODO: implement assign for String
+	//TODO: implement assign for charstring_element
+	//TODO: implement assign for universal charstring
+	
 	//originally operator=
 	public TitanCharString assign( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound charstring value." );
@@ -97,6 +101,10 @@ public class TitanCharString extends Base_Type {
 		return val_ptr.length();
 	}
 
+	//TODO: implement append for String
+	//TODO: implement append for charstring_element
+	//TODO: implement append for universal charstring
+
 	/**
 	 * this + aOtherValue
 	 * originally operator&
@@ -107,6 +115,10 @@ public class TitanCharString extends Base_Type {
 
 		return new TitanCharString( val_ptr.append( aOtherValue.val_ptr ) );
 	}
+
+	//TODO: implement operatorEquals for String
+	//TODO: implement operatorEquals for charstring_element
+	//TODO: implement operatorEquals for universal charstring
 
 	//originally operator==
 	public TitanBoolean operatorEquals( final TitanCharString aOtherValue ) {
@@ -125,6 +137,9 @@ public class TitanCharString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
+	//TODO: implement operatorNotEquals for String
+	//TODO: implement operatorNotEquals for charstring_element
+
 	//originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanCharString aOtherValue ) {
 		return operatorEquals( aOtherValue ).not();
@@ -134,6 +149,11 @@ public class TitanCharString extends Base_Type {
 		val_ptr = null;
 	}
 
+	//TODO: implement rotateLeft for String
+	//TODO: implement rotateLeft for TitanInteger
+	//TODO: implement rotateRight for String
+	//TODO: implement rotateRight for TitanInteger
+	
 	//originally operator[](int)
 	public TitanCharString_Element getAt(final int index_value) {
 		if (val_ptr == null && index_value == 0) {
@@ -199,4 +219,12 @@ public class TitanCharString extends Base_Type {
 
 		return val_ptr.toString();
 	}
+
+	//TODO: implement static operatorEquals
+	//TODO: implement static append
+	//TODO: implement static bit2str
+	//TODO: implement static hex2str
+	//TODO: implement static oct2str
+	//TODO: implement static unichar2str
+	//TODO: implement static replace
 }

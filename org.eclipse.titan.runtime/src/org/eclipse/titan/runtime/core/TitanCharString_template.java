@@ -148,6 +148,9 @@ public class TitanCharString_template extends Base_Template {
 		setSelection(otherValue);
 	}
 
+	//TODO: implement getAt
+	//TODO: implement constGetAt
+
 	// originally match
 	public TitanBoolean match(final TitanCharString otherValue) {
 		return match(otherValue, false);
@@ -216,4 +219,13 @@ public class TitanCharString_template extends Base_Template {
 			throw new TtcnError("Matching with an uninitialized/unsupported charstring template.");
 		}
 	}
+
+	//TODO: implement lengthof
+	//TODO: implement setType
+	//TODO: implement setMin
+	//TODO: implement setMax
+	//TODO: implement setMinExclusive
+	//TODO: implement setMaxExclusive
+	//TODO: implement isPresent
+	//TODO: implement match_omit
 }
