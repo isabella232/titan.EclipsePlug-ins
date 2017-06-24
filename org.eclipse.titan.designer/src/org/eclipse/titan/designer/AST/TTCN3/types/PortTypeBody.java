@@ -45,6 +45,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.messageTypeInfo;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
@@ -1548,299 +1549,25 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * FIXME the implementation only serves as a minimal testing setup
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		aData.addImport("java.util.LinkedList");
-		aData.addImport("java.text.MessageFormat");
-		aData.addBuiltinTypeImport( "TitanPort" );
-		aData.addBuiltinTypeImport( "TitanAlt_Status" );
-		aData.addBuiltinTypeImport( "Base_Type" );
-		final String className = myType.getGenNameOwn();
-		final Scope myScope = myType.getMyScope(); 
-
-		//default implementation
-		source.append( "\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() is not implemented!\n" );
+		final String genName = myType.getGenNameOwn();
+		final Scope myScope = myType.getMyScope();
 		
-//		if( TestPortAPI_type.TP_ADDRESS.equals(testportType) ) {
-//			String tmp_address = getAddressType(lastTimeChecked).getGenNameValue(aData, source, myScope);//TODO: add address_name
-//		}
+		ArrayList<messageTypeInfo> inMessagesToGenerate = new ArrayList<PortGenerator.messageTypeInfo>();
 		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 			IType inType = inMessages.getTypeByIndex(i);
-			aData.addBuiltinTypeImport(inType.getGenNameValue(aData, source, myScope));
-			aData.addBuiltinTypeImport(inType.getGenNameTemplate(aData, source, myScope));
-		}
-		for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
-			IType outType = outMessages.getTypeByIndex(i);
-			aData.addBuiltinTypeImport(outType.getGenNameValue(aData, source, myScope));
-			aData.addBuiltinTypeImport(outType.getGenNameTemplate(aData, source, myScope));
+
+			messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
+			inMessagesToGenerate.add(info);
 		}
 
-		source.append(MessageFormat.format("public static abstract class {0}_BASE extends TitanPort '{'\n", className));
-		source.append("enum message_selection { ");
-		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
-			if (i > 0) {
-				source.append(", ");
-			}
-			source.append(MessageFormat.format("MESSAGE_{0}", i));
-		}
-		source.append("};\n");
-
-		source.append("private class MessageQueueItem {\n");
-		source.append("message_selection item_selection;\n");
-		source.append("Base_Type message;\n");
-		source.append("int sender_component;\n");
-		source.append("}\n");
-
-		source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<>();\n\n");
-
-		source.append(MessageFormat.format("public {0}_BASE( final String portName) '{'\n", className));
-		source.append("super(portName);\n");
-		source.append("}\n\n");
-
-		source.append("private void remove_msg_queue_head() {\n");
-		source.append("message_queue.removeFirst();\n");
-		source.append("}\n\n");
-
+		ArrayList<messageTypeInfo> outMessagesToGenerate = new ArrayList<PortGenerator.messageTypeInfo>();
 		for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
 			IType outType = outMessages.getTypeByIndex(i);
 
-			source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.getGenNameValue(aData, source, myScope)));
-			source.append("outgoing_send(send_par);\n");
-			source.append("}\n\n");
+			messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
+			outMessagesToGenerate.add(info);
 		}
 
-		// outgoing send functions
-		for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
-			IType outType = outMessages.getTypeByIndex(i);
-
-			source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par);\n\n", outType.getGenNameValue(aData, source, myScope)));
-		}
-
-		source.append("public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
-		source.append("if (message_queue.isEmpty()) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("}\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-
-		source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-		source.append("if (my_head == null) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append(" } else {");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(" } else {\n");
-		source.append("//FIXME logging\n");
-		source.append("remove_msg_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_YES;\n");
-		source.append("}\n");
-		source.append("}\n\n");
-
-		source.append("public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
-		source.append("if (message_queue.isEmpty()) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("}\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-
-		source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-		source.append("if (my_head == null) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append(" } else {");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(" } else {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_YES;\n");
-		source.append("}\n");
-		source.append("}\n\n");
-
-		source.append("public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
-		source.append("if (message_queue.isEmpty()) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("}\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-
-		source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-		source.append("if (my_head == null) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append(" } else {");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
-		source.append("//FIXME logging\n");
-		source.append("remove_msg_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-		source.append(" } else {\n");
-		source.append("//FIXME logging\n");
-		source.append("remove_msg_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_YES;\n");
-		source.append("}\n");
-		source.append("}\n\n");
-
-		// generic and simplified receive for experimentation
-		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
-			IType inType = inMessages.getTypeByIndex(i);
-			String inGeneratedName = inType.getGenNameValue(aData, source, myScope);
-
-			//FIXME there are actually more parameters
-			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0}_template value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", inGeneratedName));
-			source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
-			source.append("throw new TtcnError(\"Receive operation using '*' as matching template\");\n");
-			source.append("}\n");
-			source.append("if (message_queue.isEmpty()) {\n");
-			source.append("if (is_started) {\n");
-			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-			source.append("}\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}\n\n");
-			source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-			source.append("if (my_head == null) {\n");
-			source.append("if (is_started) {\n");
-			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-			source.append("} else {\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}\n");
-			source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", i));
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", inGeneratedName));
-			source.append("//FIXME report error \n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", inGeneratedName));
-			source.append("//FIXME implement\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(" } else {\n");
-			source.append("//FIXME implement, right now we just assume perfect match\n");
-			source.append("remove_msg_queue_head();\n");
-			source.append("return TitanAlt_Status.ALT_YES;\n");
-			//source.append("outgoing_send(sendPar);\n");
-			source.append("}\n");
-			source.append("}\n\n");
-
-			//FIXME there are actually more parameters
-			source.append(MessageFormat.format("public TitanAlt_Status check_receive(final {0}_template value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", inGeneratedName));
-			source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
-			source.append("throw new TtcnError(\"Check-receive operation using '*' as matching template\");\n");
-			source.append("}\n");
-			source.append("if (message_queue.isEmpty()) {\n");
-			source.append("if (is_started) {\n");
-			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-			source.append("}\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}\n\n");
-			source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-			source.append("if (my_head == null) {\n");
-			source.append("if (is_started) {\n");
-			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-			source.append("} else {\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}\n");
-			source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", i));
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", inGeneratedName));
-			source.append("//FIXME report error \n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", inGeneratedName));
-			source.append("//FIXME implement\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(" } else {\n");
-			source.append("//FIXME implement, right now we just assume perfect match\n");
-			source.append("return TitanAlt_Status.ALT_YES;\n");
-			//source.append("outgoing_send(sendPar);\n");
-			source.append("}\n");
-			source.append("}\n\n");
-
-			source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0}_template value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", inGeneratedName));
-			source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
-			source.append("throw new TtcnError(\"Trigger operation using '*' as matching template\");\n");
-			source.append("}\n");
-			source.append("if (message_queue.isEmpty()) {\n");
-			source.append("if (is_started) {\n");
-			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-			source.append("}\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}\n\n");
-			source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-			source.append("if (my_head == null) {\n");
-			source.append("if (is_started) {\n");
-			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-			source.append("} else {\n");
-			source.append("//FIXME logging\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}\n");
-			source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
-			source.append("//FIXME logging\n");
-			source.append("remove_msg_queue_head();\n");
-			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-			source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", i));
-			source.append("//FIXME logging\n");
-			source.append("remove_msg_queue_head();\n");
-			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-			source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", inGeneratedName));
-			source.append("//FIXME logging\n");
-			source.append("remove_msg_queue_head();\n");
-			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-			source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", inGeneratedName));
-			source.append("//FIXME logging\n");
-			source.append("remove_msg_queue_head();\n");
-			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-			source.append(" } else {\n");
-			source.append("//FIXME implement, right now we just assume perfect match\n");
-			source.append("remove_msg_queue_head();\n");
-			source.append("return TitanAlt_Status.ALT_YES;\n");
-			//source.append("outgoing_send(sendPar);\n");
-			source.append("}\n");
-			source.append("}\n\n");
-
-			source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component) '{'\n", inGeneratedName));
-			source.append("if (!is_started) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", getName()));\n");
-			source.append("}\n");
-			source.append("MessageQueueItem new_item = new MessageQueueItem();\n");
-			source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", i));
-			source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", inGeneratedName));
-			source.append("new_item.sender_component = sender_component;\n");
-			source.append("message_queue.addLast(new_item);\n");
-			source.append("}\n\n");
-
-			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", inGeneratedName));
-			source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
-			source.append("}\n\n");
-		}
-
-		source.append("}\n\n");
+		PortGenerator.generateClass(aData, source, genName, inMessagesToGenerate, outMessagesToGenerate);
 	}
 }
