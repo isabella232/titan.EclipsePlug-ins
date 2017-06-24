@@ -200,6 +200,30 @@ public abstract class TitanPort {
 
 	public abstract TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer);
 
+	//originally any_receive
+	public static TitanAlt_Status any_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.receive(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Receive operation returned unexpected status code on port {0} while evaluating `any port.receive'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
 	//FIXME also translation handling
 	private final void map(final String systemPort) {
 		// FIXME implement
