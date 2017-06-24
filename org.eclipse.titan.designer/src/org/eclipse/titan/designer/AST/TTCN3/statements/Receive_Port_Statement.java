@@ -445,12 +445,18 @@ public final class Receive_Port_Statement extends Statement {
 			expression.expression.append("TitanComponent_template.any_compref");
 		}
 
-		//FIXME handle sender redirect
-		if (portReference != null) {
-			expression.expression.append(", ");
-			//FIXME handle redirection
+		expression.expression.append(", ");
+		if (redirectSender == null) {
 			expression.expression.append("null");
+		}else {
+			redirectSender.generateCode(aData, expression);
 		}
+
+		//FIXME handle index redirection
+//		if (portReference != null) {
+//			expression.expression.append(", ");
+//			expression.expression.append("null");
+//		}
 		expression.expression.append( "/* TODO: " );
 		expression.expression.append( "from clause and sender redirect is not yet handled!*/\n" );
 
