@@ -1622,7 +1622,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
 		source.append("}\n");
-		source.append("//FIXME implement + sender_template branch\n");
+		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 
@@ -1658,7 +1658,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("if (is_started) {\n");
 			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
 			source.append("}\n");
-			source.append("//FIXME implement + sender_template branch\n");
+			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n\n");
 			source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
