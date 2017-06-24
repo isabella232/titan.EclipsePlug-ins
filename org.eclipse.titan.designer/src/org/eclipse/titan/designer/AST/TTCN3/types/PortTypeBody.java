@@ -1617,6 +1617,33 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par);\n\n", outType.getGenNameValue(aData, source, myScope)));
 		}
 
+		source.append("public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
+		source.append("if (message_queue.isEmpty()) {\n");
+		source.append("if (is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("}\n");
+		source.append("//FIXME implement + sender_template branch\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+
+		source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
+		source.append("if (my_head == null) {\n");
+		source.append("if (is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append(" } else {");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(" } else {");
+		source.append("//FIXME logging\n");
+		source.append("remove_msg_queue_head();\n");
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
 		// generic and simplified receive for experimentation
 		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 			IType inType = inMessages.getTypeByIndex(i);
@@ -1657,17 +1684,13 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("if (!value_template.match(actual_message).getValue()) {\n");
 			source.append("//FIXME implement\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append(" } else {");
+			source.append(" } else {\n");
 			source.append("//FIXME implement, right now we just assume perfect match\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_YES;\n");
 			//source.append("outgoing_send(sendPar);\n");
 			source.append("}\n\n");
 			source.append("}\n\n");
-
-//			source.append(MessageFormat.format("public TitanAlt_Status receive(final {0} value_template) '{'\n", inGeneratedName));
-//			source.append(MessageFormat.format("return receive(new {0}_template(value_template));\n", inGeneratedName));
-//			source.append("}\n\n");
 
 			source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component) '{'\n", inGeneratedName));
 			source.append("if (!is_started) {\n");
