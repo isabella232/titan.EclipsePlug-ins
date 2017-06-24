@@ -197,4 +197,15 @@ public class TitanFloat_template extends Base_Template {
 			throw new TtcnError("Matching with an uninitialized/unsupported float template.");
 		}
 	}
+
+	//TODO: implement set_type
+	//TODO: implement list_item
+	//TODO: implement setMin
+	//TODO: implement setMax
+	//TODO: implement setMinExclusive
+	//TODO: implement setMaxExclusive
+	//TODO: implement valueOf
+	//TODO: implement isPresent
+	//TODO: implement match_omit
+	
 }

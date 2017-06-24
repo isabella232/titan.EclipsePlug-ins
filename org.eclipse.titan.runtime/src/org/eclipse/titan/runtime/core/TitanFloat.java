@@ -14,7 +14,7 @@ import java.text.MessageFormat;
  * @author Arpad Lovassy
  */
 public class TitanFloat extends Base_Type {
-
+	//TODO: implement static members PLUS_INFINITY, MINUS_INFINITY, NOT_A_NUMBER
 	/**
 	 * float value.
 	 */
@@ -85,6 +85,8 @@ public class TitanFloat extends Base_Type {
 		}
 	}
 
+	//TODO: implement isspecial
+	
 	/**
 	 * this + aOtherValue
 	 * originally operator+
@@ -178,6 +180,8 @@ public class TitanFloat extends Base_Type {
 		return new TitanFloat( float_value.mul( aOtherValue ) );
 	}
 
+	//TODO: implement operatorEquals native
+
 	//originally operator==
 	public TitanBoolean operatorEquals( final TitanFloat aOtherValue ) {
 		mustBound("Unbound left operand of float comparison.");
@@ -194,6 +198,8 @@ public class TitanFloat extends Base_Type {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
+
+	//TODO: implement operatorNotEquals native
 
 	//originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanFloat aOtherValue ) {
@@ -238,4 +244,15 @@ public class TitanFloat extends Base_Type {
 
 		return float_value.toString();
 	}
+
+	//TODO: implement static add
+	//TODO: implement static sub
+	//TODO: implement static mul
+	//TODO: implement static div
+	//TODO: implement static operatorEquals
+	//TODO: implement static operatorNotEquals
+	//TODO: implement static isLess
+	//TODO: implement static isGreater
+	//TODO: implement static isLessThanOrEqual
+	//TODO: implement static isGreaterThanOrEqual
 }
