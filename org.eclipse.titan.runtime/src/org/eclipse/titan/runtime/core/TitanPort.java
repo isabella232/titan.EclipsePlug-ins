@@ -16,7 +16,7 @@ import java.util.Set;
  * 
  * @author Kristof Szabados
  */
-public abstract class TitanPort {
+public class TitanPort {
 	private static LinkedList<TitanPort> PORTS = new LinkedList<TitanPort>();
 	private static LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
 
@@ -198,7 +198,10 @@ public abstract class TitanPort {
 		//default implementation is empty
 	}
 
-	public abstract TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer);
+	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		// FIXME logging
+		return TitanAlt_Status.ALT_NO;
+	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
@@ -224,7 +227,10 @@ public abstract class TitanPort {
 		return returnValue;
 	}
 
-	public abstract TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer);
+	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		// FIXME logging
+		return TitanAlt_Status.ALT_NO;
+	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
