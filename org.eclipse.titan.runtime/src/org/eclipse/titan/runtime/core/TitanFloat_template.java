@@ -37,7 +37,7 @@ public class TitanFloat_template extends Base_Template {
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanFloat_template (final int otherValue) {
+	public TitanFloat_template (final double otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 	}
