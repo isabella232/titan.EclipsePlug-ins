@@ -462,5 +462,4 @@ public final class Receive_Port_Statement extends Statement {
 
 		expression.expression.append( ')' );
 	}
-	
 }

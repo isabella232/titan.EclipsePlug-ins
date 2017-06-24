@@ -7,16 +7,21 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -246,5 +251,73 @@ public final class Check_Receive_Port_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		// TODO Auto-generated method stub
+		super.generateCode(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (portReference == null) {
+			aData.addBuiltinTypeImport("TitanPort");
+			expression.expression.append("TitanPort.any_check_receive(");
+		} else {
+			portReference.generateCode(aData, expression);
+			expression.expression.append(".check_receive(");
+			if (receiveParameter != null) {
+				//TODO handle redirection
+				expression.expression.append( "/* TODO: " );
+				expression.expression.append( "port redirection is not yet handled!*/\n" );
+				//TODO this is good reason to optimize for
+				receiveParameter.generateCode(aData, expression);
+//				expression.expression.append(", ");
+//				if (redirectValue == null) {
+//					expression.expression.append("null");
+//				} else {
+//					//FIXME handle redirection
+//				}
+				expression.expression.append(", ");
+			}
+			
+		}
+		
+		if (fromClause != null) {
+			fromClause.generateCode(aData, expression);
+		} else if (redirectSender != null) {
+			IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+			if (varType == null) {
+				//fatal error
+			}
+			if (varType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()==Type_type.TYPE_COMPONENT) {
+				expression.expression.append("TitanComponent_template.any_compref");
+			} else {
+				//FIXME what is ANY_VALUE?
+				expression.expression.append(MessageFormat.format("new {0}(ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+			}
+		} else {
+			expression.expression.append("TitanComponent_template.any_compref");
+		}
+
+		expression.expression.append(", ");
+		if (redirectSender == null) {
+			expression.expression.append("null");
+		}else {
+			redirectSender.generateCode(aData, expression);
+		}
+
+		//FIXME handle index redirection
+//		if (portReference != null) {
+//			expression.expression.append(", ");
+//			expression.expression.append("null");
+//		}
+		expression.expression.append( "/* TODO: " );
+		expression.expression.append( "from clause and sender redirect is not yet handled!*/\n" );
+
+		expression.expression.append( ')' );
 	}
 }

@@ -1644,6 +1644,32 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		source.append("}\n");
 		source.append("}\n\n");
 
+		source.append("public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
+		source.append("if (message_queue.isEmpty()) {\n");
+		source.append("if (is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("}\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+
+		source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
+		source.append("if (my_head == null) {\n");
+		source.append("if (is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append(" } else {");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(" } else {");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
 		// generic and simplified receive for experimentation
 		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 			IType inType = inMessages.getTypeByIndex(i);
@@ -1686,7 +1712,46 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_YES;\n");
 			//source.append("outgoing_send(sendPar);\n");
+			source.append("}\n");
 			source.append("}\n\n");
+
+			//FIXME there are actually more parameters
+			source.append(MessageFormat.format("public TitanAlt_Status check_receive(final {0}_template value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", inGeneratedName));
+			source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
+			source.append("throw new TtcnError(\"Receive operation using '*' as matching template\");\n");
+			source.append("}\n");
+			source.append("if (message_queue.isEmpty()) {\n");
+			source.append("if (is_started) {\n");
+			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+			source.append("}\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n\n");
+			source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
+			source.append("if (my_head == null) {\n");
+			source.append("if (is_started) {\n");
+			source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+			source.append("} else {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n");
+			source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", i));
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", inGeneratedName));
+			source.append("//FIXME report error \n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", inGeneratedName));
+			source.append("//FIXME implement\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append(" } else {\n");
+			source.append("//FIXME implement, right now we just assume perfect match\n");
+			source.append("return TitanAlt_Status.ALT_YES;\n");
+			//source.append("outgoing_send(sendPar);\n");
+			source.append("}\n");
 			source.append("}\n\n");
 
 			source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component) '{'\n", inGeneratedName));
