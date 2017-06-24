@@ -1678,10 +1678,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", inGeneratedName));
 			source.append("//FIXME report error \n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}\n\n");
-			//TODO more complicated
-			source.append(MessageFormat.format("{0} actual_message = ({1}) my_head.message;\n",inGeneratedName,inGeneratedName));
-			source.append("if (!value_template.match(actual_message).getValue()) {\n");
+			source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", inGeneratedName));
 			source.append("//FIXME implement\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append(" } else {\n");
