@@ -16,7 +16,7 @@ import java.util.Set;
  * 
  * @author Kristof Szabados
  */
-public class TitanPort {
+public abstract class TitanPort {
 	private static LinkedList<TitanPort> PORTS = new LinkedList<TitanPort>();
 	private static LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
 
@@ -197,6 +197,8 @@ public class TitanPort {
 	protected void userStop() {
 		//default implementation is empty
 	}
+
+	public abstract TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer);
 
 	//FIXME also translation handling
 	private final void map(final String systemPort) {
