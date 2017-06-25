@@ -252,14 +252,14 @@ public final class Trigger_Port_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		// TODO Auto-generated method stub
 		super.generateCode(aData, source);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (portReference == null) {
 			aData.addBuiltinTypeImport("TitanPort");
 			expression.expression.append("TitanPort.any_trigger(");

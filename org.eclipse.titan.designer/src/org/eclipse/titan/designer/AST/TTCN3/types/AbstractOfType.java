@@ -699,8 +699,8 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
-			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -782,7 +782,7 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		return false;
 	}
 }

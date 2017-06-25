@@ -194,7 +194,7 @@ public final class Hexstring_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanHexString" );
 		source.append(name);
 		source.append(".assign( ");
@@ -218,7 +218,7 @@ public final class Hexstring_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (canGenerateSingleExpression()) {
 			expression.expression.append(generateSingleExpression(aData));
 			return;

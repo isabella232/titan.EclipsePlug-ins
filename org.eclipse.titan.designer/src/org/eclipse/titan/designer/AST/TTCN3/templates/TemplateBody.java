@@ -334,17 +334,17 @@ public class TemplateBody implements ITemplateListItem {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenName(String prefix, String suffix) {
+	public void setGenName(final String prefix, final String suffix) {
 		template.setGenName(prefix, suffix);
 	}
 
 	@Override
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		template.generateCodeExpression(aData, expression);
 	}
 
 	@Override
-	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		template.generateCodeInit(aData, source, name);
 	}
 

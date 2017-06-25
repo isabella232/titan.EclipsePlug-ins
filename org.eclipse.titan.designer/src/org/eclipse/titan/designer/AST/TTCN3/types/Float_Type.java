@@ -301,13 +301,13 @@ public final class Float_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final StringBuilder source , final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		return "TitanFloat";
 	}
 
 	@Override
-	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanFloat_template" );
 		return "TitanFloat_template";
 	}

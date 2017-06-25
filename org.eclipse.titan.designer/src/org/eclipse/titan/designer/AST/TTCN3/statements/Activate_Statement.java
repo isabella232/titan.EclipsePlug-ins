@@ -125,7 +125,7 @@ public final class Activate_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 

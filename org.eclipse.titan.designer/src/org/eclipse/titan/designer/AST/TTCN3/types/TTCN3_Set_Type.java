@@ -664,7 +664,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return getGenNameOwn(scope);
 	}
 
@@ -698,7 +698,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return false;
 		}

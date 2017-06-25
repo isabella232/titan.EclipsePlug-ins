@@ -265,7 +265,7 @@ public final class Send_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 		portReference.generateCode(aData, expression);
 		expression.expression.append(".send(");

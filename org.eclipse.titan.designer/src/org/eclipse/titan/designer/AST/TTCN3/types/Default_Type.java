@@ -204,13 +204,13 @@ public final class Default_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final StringBuilder source , final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanDefault" );
 		return "TitanDefault";
 	}
 
 	@Override
-	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanDefault_template" );
 		return "TitanDefault_template";
 	}

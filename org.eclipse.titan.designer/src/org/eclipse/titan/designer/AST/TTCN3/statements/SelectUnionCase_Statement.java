@@ -167,7 +167,7 @@ public final class SelectUnionCase_Statement extends Statement {
 	 * @param aTimestamp the timestamp of the actual semantic check cycle.
 	 * @param aUnionType referenced union type to check
 	 */
-	private void checkUnionType( final CompilationTimeStamp aTimestamp, TTCN3_Choice_Type aUnionType ) {
+	private void checkUnionType( final CompilationTimeStamp aTimestamp, final TTCN3_Choice_Type aUnionType ) {
 		// list of union field names. Names of processed field names are removed from the list
 		final List<String> fieldNames = new ArrayList<String>();
 		for ( int i = 0; i < aUnionType.getNofComponents(); i++ ) {
@@ -194,7 +194,7 @@ public final class SelectUnionCase_Statement extends Statement {
 	 * @param aTimestamp the timestamp of the actual semantic check cycle.
 	 * @param aAnytypeType referenced anytype type to check
 	 */
-	private void checkAnytypeType( final CompilationTimeStamp aTimestamp, Anytype_Type aAnytypeType ) {
+	private void checkAnytypeType( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType ) {
 		// list of types, which are already covered
 		final List<String> typesCovered = new ArrayList<String>();
 		for ( int i = 0; i < aAnytypeType.getNofComponents(); i++ ) {

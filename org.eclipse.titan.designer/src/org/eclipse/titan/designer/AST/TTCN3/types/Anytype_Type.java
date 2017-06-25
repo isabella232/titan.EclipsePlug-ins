@@ -697,7 +697,7 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return getGenNameOwn(scope);
 	}
 
@@ -730,8 +730,8 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
-			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -842,7 +842,7 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		return false;
 	}
 }

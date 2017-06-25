@@ -322,7 +322,7 @@ public final class Template_List extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameRecursive(String parameterGenName) {
+	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
 		if(myGovernor == null) {

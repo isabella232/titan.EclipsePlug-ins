@@ -378,7 +378,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, final boolean cleanUp) {
+	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 
 		if (defaultTemplate != null) {

@@ -115,7 +115,7 @@ public final class Stop_Timer_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (timerReference == null) {
 			source.append("TitanTimer.allStop();\n");
 		} else {

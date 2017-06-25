@@ -569,7 +569,7 @@ public final class Set_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameRecursive(String parameterGenName) {
+	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
 		if (myGovernor == null) {
@@ -598,7 +598,7 @@ public final class Set_Value extends Value {
 	/** {@inheritDoc}
 	 * generate_code_init_se in the compiler
 	 * */
-	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		int nofComps = 0;
 		switch (type.getTypetype()) {

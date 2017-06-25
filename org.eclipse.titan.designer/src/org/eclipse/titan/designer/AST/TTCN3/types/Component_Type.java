@@ -684,7 +684,7 @@ public final class Component_Type extends Type {
 	}
 
 	@Override
-	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanComponent_template" );
 		return "TitanComponent_template";
 	}

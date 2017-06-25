@@ -148,7 +148,7 @@ public final class Deactivate_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Default");
 		if (deactivate == null) {
 			source.append("TTCN_Default.deactivateAll();\n");

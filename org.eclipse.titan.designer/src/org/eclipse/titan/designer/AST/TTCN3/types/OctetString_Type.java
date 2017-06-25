@@ -274,14 +274,14 @@ public final class OctetString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanOctetString" );
 
 		return "TitanOctetString";
 	}
 
 	@Override
-	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanOctetString_template" );
 
 		return "TitanOctetString_template";
@@ -289,14 +289,14 @@ public final class OctetString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
-			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
 		generateCodeIspresentBound_forStrings(aData, expression, subreferences, subReferenceIndex, globalId, externalId, isTemplate, isBound);
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		return true;
 	}
 }

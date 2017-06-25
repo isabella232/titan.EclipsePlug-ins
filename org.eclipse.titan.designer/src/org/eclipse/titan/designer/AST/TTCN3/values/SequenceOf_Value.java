@@ -637,7 +637,7 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (convertedValue != null) {
 			return convertedValue.generateCodeInit(aData, source, name);
 		}
@@ -665,7 +665,7 @@ public final class SequenceOf_Value extends Value {
 	 * @param source generated source code
 	 * @param name "record of" variable name
 	 */
-	private void generateCodeInitListElement( final JavaGenData aData, StringBuilder source, String name, IValue value ) {
+	private void generateCodeInitListElement( final JavaGenData aData, final StringBuilder source, final String name, final IValue value ) {
 		source.append( "\t\t");
 		source.append( name );
 		source.append( ".add( ");

@@ -231,7 +231,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	 * @param source the source for code generated
 	 * @param name the name to init
 	 */
-	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		//TODO: add support for rearrange init

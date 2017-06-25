@@ -300,7 +300,7 @@ public final class Map_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		//FIXME this is actually more complex
 		ExpressionStruct expression = new ExpressionStruct();
 

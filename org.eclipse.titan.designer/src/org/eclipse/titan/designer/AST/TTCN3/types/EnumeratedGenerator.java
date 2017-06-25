@@ -23,7 +23,7 @@ public class EnumeratedGenerator {
 		private Long firstUnused = -1L;  //first unused value for thsi enum type
 		private Long secondUnused = -1L; //second unused value for thsi enum type
 		
-		public Enum_Defs(final EnumerationItems aItems, String aName, String aDisplayName, String aTemplateName){
+		public Enum_Defs(final EnumerationItems aItems, final String aName, final String aDisplayName, final String aTemplateName){
 			items = aItems;
 			name = aName;
 			displayName = aDisplayName;
@@ -58,7 +58,7 @@ public class EnumeratedGenerator {
 		}
 	}
 	
-	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, Enum_Defs e_defs ) {
+	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
 //		if(needsAlias()) { ???
 			source.append(MessageFormat.format("\tpublic static class {0} extends Base_Type '{' \n", e_defs.name));
 			//== enum_type ==

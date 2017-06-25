@@ -587,7 +587,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			return "FATAL_ERROR encountered";
@@ -623,8 +623,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
-			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");
@@ -636,7 +636,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");

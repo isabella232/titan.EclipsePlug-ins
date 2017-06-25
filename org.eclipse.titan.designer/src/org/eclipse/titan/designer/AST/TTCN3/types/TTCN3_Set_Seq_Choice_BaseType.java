@@ -618,8 +618,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeIspresentBound(JavaGenData aData, ExpressionStruct expression, List<ISubReference> subreferences,
-			int subReferenceIndex, String globalId, String externalId, boolean isTemplate, boolean isBound) {
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}

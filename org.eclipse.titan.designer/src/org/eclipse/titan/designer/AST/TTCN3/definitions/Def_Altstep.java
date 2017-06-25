@@ -554,7 +554,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, final boolean cleanUp) {
+	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		final StringBuilder source =aData.getSrc();
 
 		final String genName = getGenName();

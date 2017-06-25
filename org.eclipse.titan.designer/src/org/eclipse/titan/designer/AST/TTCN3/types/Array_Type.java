@@ -876,7 +876,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean isPresentAnyvalueEmbeddedField(ExpressionStruct expression, List<ISubReference> subreferences, int beginIndex) {
+	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return false;
 		}

@@ -490,7 +490,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameRecursive(String parameterGenName) {
+	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
 		if(myGovernor == null) {

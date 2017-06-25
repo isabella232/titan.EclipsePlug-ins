@@ -270,7 +270,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, final boolean cleanUp) {
+	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		// TODO Auto-generated method stub
 		super.generateCode(aData, cleanUp);
 	}

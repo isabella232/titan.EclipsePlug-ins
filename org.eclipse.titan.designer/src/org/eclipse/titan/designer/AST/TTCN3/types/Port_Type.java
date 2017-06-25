@@ -261,7 +261,7 @@ public final class Port_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		body.generateCode(aData, source);
 	}
 }

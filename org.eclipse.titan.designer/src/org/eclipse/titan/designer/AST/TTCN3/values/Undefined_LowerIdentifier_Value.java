@@ -312,7 +312,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (realValue != null) {
 			return realValue.generateCodeInit(aData, source, name);
 		}
@@ -322,7 +322,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (realValue != null) {
 			realValue.generateCodeExpression(aData, expression);
 			return;

@@ -177,7 +177,7 @@ public final class Value_Range_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder getSingleExpression(JavaGenData aData, boolean castIsNeeded) {
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		StringBuilder result = new StringBuilder();
 
 		result.append( "\t//TODO: fatal error while generating " );
@@ -189,7 +189,7 @@ public final class Value_Range_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		if (valueRange != null) {

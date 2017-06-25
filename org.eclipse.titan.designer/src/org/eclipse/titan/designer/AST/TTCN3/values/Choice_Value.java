@@ -398,7 +398,7 @@ public final class Choice_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameRecursive(String parameterGenName) {
+	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
 		StringBuilder embeddedName = new StringBuilder(parameterGenName);
@@ -415,7 +415,7 @@ public final class Choice_Value extends Value {
 	/** {@inheritDoc}
 	 * generate_code_init_choice in the compiler
 	 * */
-	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		String altName = this.name.getName();
 
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());

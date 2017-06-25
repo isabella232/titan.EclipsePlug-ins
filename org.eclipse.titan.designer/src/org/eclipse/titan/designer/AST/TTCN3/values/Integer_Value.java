@@ -282,7 +282,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanInteger" );
 		source.append(name);
 		source.append(".assign( ");

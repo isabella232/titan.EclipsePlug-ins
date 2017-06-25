@@ -562,7 +562,7 @@ public final class SetOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameRecursive(String parameterGenName) {
+	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
 		if (isIndexed()) {
