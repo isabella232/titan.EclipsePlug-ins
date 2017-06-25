@@ -70,6 +70,11 @@ public class PortGenerator {
 			source.append("throw new TtcnError(MessageFormat.format(\"Sending messages on port {0}, is not yet supported.\", getName()));\n");
 			source.append("}\n");
 			source.append("}\n\n");
+
+			source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTemplateName));
+			source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
+			source.append("send(send_par_value, destination_component);\n");
+			source.append("}\n\n");
 		}
 
 		// outgoing send functions
