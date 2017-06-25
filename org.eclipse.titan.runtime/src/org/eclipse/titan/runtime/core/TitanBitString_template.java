@@ -209,6 +209,7 @@ public class TitanBitString_template extends Base_Template {
 		}
 	}
 
+	//TODO: implement BITSTRING_template::valueof
 	//TODO: implement BITSTRING_template::lengthof
 	//TODO: implement BITSTRING_template::list_item
 	//TODO: implement BITSTRING_template::ispresent
