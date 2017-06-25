@@ -125,6 +125,11 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
+	//TODO: implement add for int
+	//TODO: implement sub
+	//TODO: implement mul
+	//TODO: implement div
+
 	/**
 	 * this + otherValue
 	 * originally operator+
@@ -197,6 +202,8 @@ public class TitanInteger extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
+	//TODO: implement != for int
+	
 	//originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanInteger otherValue ) {
 		return operatorEquals( otherValue ).not();
@@ -306,4 +313,17 @@ public class TitanInteger extends Base_Type {
 		}
 		return getBigInteger().toString();
 	}
+
+	//TODO: implement static add
+	//TODO: implement static sub
+	//TODO: implement static mul
+	//TODO: implement static div
+	//TODO: implement static rem
+	//TODO: implement static mod
+	//TODO: implement static equals
+	//TODO: implement static notEquals
+	//TODO: implement static isLessThan
+	//TODO: implement static isGreaterThan
+	//TODO: implement static isLEssThanOrEqual
+	//TODO: implement static isGreaterThanOrEqual
 }
