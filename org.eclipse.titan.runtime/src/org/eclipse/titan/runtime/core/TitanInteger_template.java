@@ -200,6 +200,14 @@ public class TitanInteger_template extends Base_Template {
 		}
 	}
 
+	public TitanInteger valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific integer template.");
+		}
+
+		return new TitanInteger(single_value);
+	}
+
 	// originally set_type
 	public void setType(final template_sel templateType) {
 		setType(templateType, 0);

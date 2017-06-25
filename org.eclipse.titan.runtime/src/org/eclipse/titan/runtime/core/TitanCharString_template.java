@@ -220,6 +220,14 @@ public class TitanCharString_template extends Base_Template {
 		}
 	}
 
+	public TitanCharString valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific charstring template.");
+		}
+
+		return new TitanCharString(single_value);
+	}
+
 	//TODO: implement lengthof
 	//TODO: implement setType
 	//TODO: implement setMin
