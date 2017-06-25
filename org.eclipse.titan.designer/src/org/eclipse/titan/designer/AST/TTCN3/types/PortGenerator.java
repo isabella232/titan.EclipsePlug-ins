@@ -54,8 +54,21 @@ public class PortGenerator {
 		for (int i = 0 ; i < outMessages.size(); i++) {
 			messageTypeInfo outType = outMessages.get(i);
 
-			source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTypeName));
+			source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
+			source.append("if (!is_started) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", getName()));\n");
+			source.append("}\n");
+			source.append("if (!destination_component.isBound()) {\n");
+			source.append("throw new TtcnError(\"Unbound component reference in the to clause of send operation.\");\n");
+			source.append("}\n");
+			source.append("//FIXME logging\n");
+			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+			source.append("//FIXME get_default_destination\n");
 			source.append("outgoing_send(send_par);\n");
+			source.append("} else {\n");
+			source.append("//FIXME implement\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Sending messages on port {0}, is not yet supported.\", getName()));\n");
+			source.append("}\n");
 			source.append("}\n\n");
 		}
 
