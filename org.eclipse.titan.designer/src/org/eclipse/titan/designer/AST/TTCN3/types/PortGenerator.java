@@ -6,18 +6,39 @@ import java.util.ArrayList;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 public class PortGenerator {
+	/**
+	 * Structure to describe in and out messages.
+	 * 
+	 * originally port_msg_type_tag is something like this
+	 * */
 	public static class messageTypeInfo {
-		/** Java type name of the field */
+		/** Java type name of the message */
 		private String mJavaTypeName;
-		
+
+		/** Java template name of the message */
 		private String mJavaTemplateName;
 
+		/**
+		 * @param messageType: the string representing the value type of this message in the generated code.
+		 * @param messageTemplate: the string representing the template type of this message in the generated code.
+		 * */
 		public messageTypeInfo(final String messageType, final String messageTemplate) {
 			mJavaTypeName = messageType;
 			mJavaTemplateName = messageTemplate;
 		}
 	}
 
+	/**
+	 * This function can be used to generate the class of port types
+	 *
+	 * defPortClass in compiler2/port.{h,c}
+	 *
+	 * @param aData: only used to update imports if needed.
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the port type.
+	 * @param inMessages: the list of information about the incoming messages.
+	 * @param outMessages: the list of information about the outgoing messages.
+	 * */
 	public static void generateClass(final JavaGenData aData, final StringBuilder source, final String genName, final ArrayList<messageTypeInfo> inMessages, final ArrayList<messageTypeInfo> outMessages) {
 		aData.addImport("java.util.LinkedList");
 		aData.addImport("java.text.MessageFormat");
