@@ -294,7 +294,7 @@ public final class AndExpression extends Expression_Value {
 			ExpressionStruct expression2 = new ExpressionStruct();
 			expression2.expression.append(tempId);
 			expression2.expression.append(".assign(");
-			value1.generateCodeExpression(aData, expression2);
+			value1.generateCodeExpressionMandatory(aData, expression2);
 			expression2.expression.append(")");
 			expression2.mergeExpression(expression.preamble);
 
@@ -305,16 +305,16 @@ public final class AndExpression extends Expression_Value {
 			expression2 = new ExpressionStruct();
 			expression2.expression.append(tempId);
 			expression2.expression.append(".assign(");
-			value2.generateCodeExpression(aData, expression2);
+			value2.generateCodeExpressionMandatory(aData, expression2);
 			expression2.expression.append(")");
 			expression2.mergeExpression(expression.preamble);
 
 			expression.expression.append(tempId);
 		} else {
 			//TODO actually a bit more complicated
-			value1.generateCodeExpression(aData, expression);
+			value1.generateCodeExpressionMandatory(aData, expression);
 			expression.expression.append( ".and( " );
-			value2.generateCodeExpression(aData, expression);
+			value2.generateCodeExpressionMandatory(aData, expression);
 			expression.expression.append( " )" );
 		}
 	}

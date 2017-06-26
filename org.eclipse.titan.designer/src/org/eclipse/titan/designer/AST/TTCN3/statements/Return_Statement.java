@@ -246,7 +246,7 @@ public final class Return_Statement extends Statement {
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
 			IValue value = ((SpecificValue_Template) template).getValue();
 			ExpressionStruct expression = new ExpressionStruct();
-			value.generateCodeExpression( aData, expression );
+			value.generateCodeExpressionMandatory(aData, expression);
 			expression.mergeExpression(source);
 		} else {
 			ExpressionStruct expression = new ExpressionStruct();

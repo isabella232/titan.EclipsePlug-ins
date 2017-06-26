@@ -221,7 +221,7 @@ public final class NotExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
-		value.generateCodeExpression(aData, expression);
+		value.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append( ".not()" );
 	}
 }

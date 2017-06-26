@@ -464,6 +464,8 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression to generate source code into
+	 * 
+	 * TODO check in compiler where this function is called if it should actually be the mandatory version.
 	 * */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (canGenerateSingleExpression()) {
