@@ -86,6 +86,7 @@ class ChangeCreator {
 		if (module == null) {
 			return null;
 		}
+
 		// find all locations in the module that should be edited
 		final DefinitionVisitor vis = new DefinitionVisitor();
 		module.accept(vis);
@@ -107,13 +108,11 @@ class ChangeCreator {
 		final String fileContents = loadFileContent(toVisit);
 
 		for (ILocateableNode node : nodes) {
-			
 			if (node instanceof Sequence_Value) {
 				orderSequence_Value(fileContents, (Sequence_Value) node, rootEdit);
 			} else if (node instanceof SequenceOf_Value) {
 				orderSequenceOf_Value(fileContents, (SequenceOf_Value) node, rootEdit);
 			}
-				
 		}
 
 		if (!rootEdit.hasChildren()) {
@@ -128,7 +127,7 @@ class ChangeCreator {
 		if (sequence_Value.getNofComponents() == 0) {
 			return;
 		}
-		
+
 		if (sequence_Value.getSeqValueByIndex(0) == null) { // record with unnamed fields
 			return;
 		}
@@ -178,11 +177,11 @@ class ChangeCreator {
 		for (int i = 0; i < fieldNamesOrdered.size() ; i++) {
 			Identifier identifier = fieldNamesOrdered.get(i);
 			NamedValue componentByName = sequence_Value.getComponentByName(identifier);
-			
+
 			if (componentByName == null) { // no value defined
 				continue;
 			}
-			
+
 			if (isFirst) { // we don't always have 0-indexed element
 				isFirst = false;
 			} else {
@@ -216,6 +215,7 @@ class ChangeCreator {
 		if (maxIndex == null) {
 			return;
 		}
+
 		for (long i = 0; i < maxIndex; ++i) {
 
 			long realIndex = i + 1;
@@ -245,17 +245,17 @@ class ChangeCreator {
 	private static Long getIndexUpperBound(SequenceOf_Value sequenceOf_Value) {
 		long result = 0;
 		for (int i = 0; i < sequenceOf_Value.getNofComponents(); i++) {
-			
 			IValue indexByIndex = sequenceOf_Value.getIndexByIndex(i);
 			if (indexByIndex.getValuetype() != Value_type.INTEGER_VALUE) {
 				return null;
 			}
-			
+
 			long value = ((Integer_Value)indexByIndex).getValue();
 			if (value > result) {
 				result = value;
 			}
 		}
+
 		return result;
 	}
 	
@@ -280,7 +280,6 @@ class ChangeCreator {
 
 		@Override
 		public int visit(final IVisitableNode node) {
-						
 			if (node instanceof Sequence_Value) {
 				if (needsOrdering((Sequence_Value) node)) {
 					locations.add((Sequence_Value) node);
@@ -290,8 +289,7 @@ class ChangeCreator {
 					locations.add((SequenceOf_Value) node);
 				}
 			}
-		
-			
+
 			return V_CONTINUE;
 		}
 
@@ -303,11 +301,11 @@ class ChangeCreator {
 			if (!(type instanceof Referenced_Type)) {
 				return false;
 			}
-			
+
 			if (sequence_Value.getNofComponents() == 0) {
 				return false;
 			}
-			
+
 			if (sequence_Value.getSeqValueByIndex(0) == null) { // record with unnamed fields
 				return false;
 			}
