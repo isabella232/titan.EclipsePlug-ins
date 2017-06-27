@@ -152,7 +152,6 @@ public final class Assignment_Statement extends Statement {
 		switch (assignment.getAssignmentType()) {
 		case A_PAR_VAL_IN:
 			((FormalParameter) assignment).useAsLValue(reference);
-			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
 			if (template.isValue(timestamp)) { //TODO: isValue should be checked within the previous line! This is double check!
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
@@ -170,7 +169,6 @@ public final class Assignment_Statement extends Statement {
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL:
 			((FormalParameter) assignment).setWritten();
-			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
 			if (template.isValue(timestamp)) { //TODO: isValue should be checked within the previous line! This is double check!
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
@@ -187,7 +185,6 @@ public final class Assignment_Statement extends Statement {
 			//break
 		case A_VAR:
 			((Def_Var) assignment).setWritten();
-			checkTemplateAssignment(timestamp, assignment,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
 			if (template.getIsErroneous(timestamp) ) {
 				return;
 			}
