@@ -267,12 +267,6 @@ public final class Referenced_Template extends TTCN3Template {
 		if (ass != null) {
 			switch(ass.getAssignmentType()) {
 			case A_TEMPLATE:
-			case A_VAR_TEMPLATE:
-			case A_FUNCTION_RTEMP:
-			case A_MODULEPAR_TEMPLATE:
-			case A_PAR_TEMP_IN:
-			case A_PAR_TEMP_OUT:
-			case A_PAR_TEMP_INOUT:
 
 				tempReferenceChain.markState();
 
@@ -287,6 +281,13 @@ public final class Referenced_Template extends TTCN3Template {
 
 				tempReferenceChain.previousState();
 				break;
+			case A_VAR_TEMPLATE:
+			case A_FUNCTION_RTEMP:
+			case A_MODULEPAR_TEMPLATE:
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_OUT:
+			case A_PAR_TEMP_INOUT:
+				return this;
 			default:
 				setIsErroneous(true);
 			}
