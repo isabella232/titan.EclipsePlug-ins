@@ -108,11 +108,6 @@ public class AST_tests {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(assignment_ttcn_initializer(), "cfgFile/module_parameters/assignment/assignment.ttcn");
 	}
 
-	@Test
-	public void sapc_ttcn() throws Exception {
-		Designer_plugin_tests.checkSemanticMarkersOnFile(sapc_ttcn_initializer(), "src/Basic_tests/templates/all_from/positive/sapc.ttcn");
-	}
-	
 	private ArrayList<MarkerToCheck> ASNValues_asn_initializer() {
 		//ASNValues.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(3);
@@ -381,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1514);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(10471);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1716,7 +1711,6 @@ public class AST_tests {
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The first operand of the `regexp' operation should be a (universal) charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("The second operand of the `regexp' operation should be a charstring value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The third operand of the `regexp' operation should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of the `regexp' operation should be a (universal) charstring value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `regexp' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -1726,10 +1720,10 @@ public class AST_tests {
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The first operand of the `regexp' operation should be a (universal) charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("The third operand of the `regexp' operation should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The second operand of the `regexp' operation should be a charstring value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The third operand of the `regexp' operation should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 14;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("The third operand of the `regexp' operation should be an integer value", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		lineNum += 13;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -5706,7 +5700,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4562);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>();
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5857,8 +5851,7 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_bitstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `bitstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 26;
 		markersToCheck.add(new MarkerToCheck("hexstring value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `hexstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5895,8 +5888,7 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_hexstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `hexstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 27;
 		markersToCheck.add(new MarkerToCheck("octetstring value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `octetstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5933,8 +5925,7 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_octetstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `octetstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 15;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep' in module `template_assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6081,8 +6072,7 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_charstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `charstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 24;
 		markersToCheck.add(new MarkerToCheck("Universal character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `universal charstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6124,8 +6114,7 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There are more ( 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Accessing an element with index of omit value `@template_assignment_tests.f_universalcharstringValueTests.<statement_block>.statement_2.def.<initial_value>'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid array element reference: type `universal charstring' cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to template variable `vt_i' can not be indexed",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 16;
 		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@template_assignment_tests.mycomponent'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7641,11 +7630,9 @@ public class AST_tests {
 		return markersToCheck;
 	}
 
-	//value_assignment_tests_ttcn
-	
 	private ArrayList<MarkerToCheck> value_assignment_tests_ttcn_initializer() {
 		//value_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4595);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>();
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7658,17 +7645,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The function has a return type, but it does not have any return statement",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 22;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `integer'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `integer'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		int i = 0;
-		for (i = 0; i < 10; i++) {
-			markersToCheck.add(new MarkerToCheck("integer value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `integer'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 63; i++) {
+		for (i = 0; i < 77; i++) {
 			markersToCheck.add(new MarkerToCheck("integer value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7694,17 +7673,7 @@ public class AST_tests {
 		lineNum += 24;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("float value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `float'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `float'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 12; i++) {
-			markersToCheck.add(new MarkerToCheck("float value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `float'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 74; i++) {
+		for (i = 0; i < 88; i++) {
 			markersToCheck.add(new MarkerToCheck("float value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 14; i++) {
@@ -7724,17 +7693,7 @@ public class AST_tests {
 		lineNum += 29;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("boolean value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `boolean'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `boolean'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 10; i++) {
-			markersToCheck.add(new MarkerToCheck("boolean value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `boolean'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 64; i++) {
+		for (i = 0; i < 76; i++) {
 			markersToCheck.add(new MarkerToCheck("boolean value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7760,17 +7719,7 @@ public class AST_tests {
 		lineNum += 21;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("bitstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `bitstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `bitstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 12; i++) {
-			markersToCheck.add(new MarkerToCheck("bitstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `bitstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 60; i++) {
+		for (i = 0; i < 74; i++) {
 			markersToCheck.add(new MarkerToCheck("bitstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7798,17 +7747,7 @@ public class AST_tests {
 		lineNum += 23;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("hexstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `hexstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `hexstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 12; i++) {
-			markersToCheck.add(new MarkerToCheck("hexstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `hexstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 59; i++) {
+		for (i = 0; i < 73; i++) {
 			markersToCheck.add(new MarkerToCheck("hexstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7836,17 +7775,7 @@ public class AST_tests {
 		lineNum += 24;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("octetstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `octetstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `octetstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 12; i++) {
-			markersToCheck.add(new MarkerToCheck("octetstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `octetstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 58; i++) {
+		for (i = 0; i < 72; i++) {
 			markersToCheck.add(new MarkerToCheck("octetstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7876,15 +7805,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Verdict value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `verdict'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Verdict value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `verdict'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 10; i++) {
-			markersToCheck.add(new MarkerToCheck("Verdict value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `verdict'",  lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 64; i++) {
+		lineNum += 1;
+		for (i = 0; i < 76; i++) {
 			markersToCheck.add(new MarkerToCheck("Verdict value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7905,17 +7827,13 @@ public class AST_tests {
 		}
 		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Enumerated value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for enumerated type",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for enumerated type",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 9; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Enumerated value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for enumerated type",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 63; i++) {
+		for (i = 0; i < 73; i++) {
 			markersToCheck.add(new MarkerToCheck("Enumerated value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7943,18 +7861,13 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Default value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `default'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `default'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Default value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Default value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `default'",  --lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 63; i++) {
+		for (i = 0; i < 73; i++) {
 			markersToCheck.add(new MarkerToCheck("Default value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -7976,20 +7889,12 @@ public class AST_tests {
 		lineNum += 24;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `charstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `charstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 8; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `charstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 53; i++) {
+		for (i = 0; i < 61; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -8017,20 +7922,12 @@ public class AST_tests {
 		lineNum += 21;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Universal character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `universal charstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `universal charstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Universal character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 8; i++) {
-			markersToCheck.add(new MarkerToCheck("Universal character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `universal charstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 58; i++) {
 			markersToCheck.add(new MarkerToCheck("Universal character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8063,18 +7960,13 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("A string element cannot be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 14;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Component value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.mycomponent'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.mycomponent'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Component value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 10; i++) {
+		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Component value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.mycomponent'",  --lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 63; i++) {
+		for (i = 0; i < 73; i++) {
 			markersToCheck.add(new MarkerToCheck("Component value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -8105,7 +7997,7 @@ public class AST_tests {
 		for (i = 0; i < 8; i++) {
 			markersToCheck.add(new MarkerToCheck("integer value was expected", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for recordof type `@assignment_tests.myrecordofType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("record of value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -8142,7 +8034,7 @@ public class AST_tests {
 		for (i = 0; i < 8; i++) {
 			markersToCheck.add(new MarkerToCheck("integer value was expected", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for setof type `@assignment_tests.mysetofType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("set of value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -8175,27 +8067,20 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("A non-empty value was expected for type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
 		markersToCheck.add(new MarkerToCheck("Assignment of `omit' to mandatory field `field1' of type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for set type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from set value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for set type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Field `field1' is missing from set value", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from set value",  --lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `field3' in set value for type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in set template for type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicated set field `field1'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Duplicated set field `field1'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value list notation cannot be used for set type `@assignment_tests.mysetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Value list notation is not allowed for set type `@assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
@@ -8229,63 +8114,41 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Assignment of `omit' to mandatory field `field1' of type `@assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@assignment_tests.myrecordType': 3 was expected instead of 5",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `field4' in record value for type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field4' in record template for type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicated record field `field1'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Duplicated record field `field1'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field1' in record template, expecting `field2'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context", lineNum, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' cannot appear after field `field2' in record value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -8316,34 +8179,18 @@ public class AST_tests {
 		}
 		lineNum += 13;
 		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `field4' in union value for type `@assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existent field `field4' in union template for type `@assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Only one field was expected in union value instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context", lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 3; i++) {
+			markersToCheck.add(new MarkerToCheck("Only one field was expected in union value instead of 2", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Only one field was expected in union value instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Only one field was expected in union value instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@assignment_tests.myunionType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 3; i++) {
+			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'", lineNum++, IMarker.SEVERITY_ERROR));
+		}
 		markersToCheck.add(new MarkerToCheck("Only one field was expected in union value instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -8373,30 +8220,10 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@assignment_tests.myunionType'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 12;
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_function'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_function'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 11; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_function'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_function'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_function'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_function'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a function or external function was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 72; i++) {
@@ -8424,30 +8251,10 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("Type `@assignment_tests.t_function' does not have a `runs on' clause, but function runs on `@assignment_tests.mycomponent'.",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 12;
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_altstep'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_altstep'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_altstep'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_altstep'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_altstep'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_altstep'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_altstep'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 11; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_altstep'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_altstep'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_altstep'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_altstep'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 72; i++) {
@@ -8474,30 +8281,10 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("Reference to an altstep was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 10;
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_testcase'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_testcase'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_testcase'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_testcase'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_testcase'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_testcase'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_testcase'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 11; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_testcase'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_testcase'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `@assignment_tests.t_testcase'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `@assignment_tests.t_testcase'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 72; i++) {
@@ -8530,24 +8317,16 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Incompatible value: `NULL' was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("NULL value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `NULL'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `NULL'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("NULL value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("NULL value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("NULL value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `NULL'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 54; i++) {
+		for (i = 0; i < 59; i++) {
 			markersToCheck.add(new MarkerToCheck("NULL value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -8573,24 +8352,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("BMP string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `BMPString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `BMPString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("BMP string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("BMP string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("BMP string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `BMPString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("BMP string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8620,24 +8391,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("General string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `GeneralString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `GeneralString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("General string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("General string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `GeneralString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("General string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8667,24 +8430,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Graphicl string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `GraphicString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `GraphicString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Graphicl string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Graphicl string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Graphicl string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `GraphicString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Graphicl string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8714,24 +8469,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `IA5String'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `IA5String'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `IA5String'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8761,24 +8508,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `NumericString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `NumericString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `NumericString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8808,21 +8547,11 @@ public class AST_tests {
 		lineNum += 23;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("octetstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `octetstring'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `octetstring'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("octetstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		lineNum += 1;
 		for (i = 0; i < 7; i++) {
 			markersToCheck.add(new MarkerToCheck("octetstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `octetstring'",  --lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 58; i++) {
+		for (i = 0; i < 65; i++) {
 			markersToCheck.add(new MarkerToCheck("octetstring value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 2; i++) {
@@ -8848,24 +8577,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `VisibleString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `VisibleString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `VisibleString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8895,24 +8616,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `TeletexString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `TeletexString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Teletex string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `TeletexString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8942,24 +8655,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `PrintableString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `PrintableString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `PrintableString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -8989,24 +8694,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `TeletexString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `TeletexString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Teletex string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `TeletexString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Teletex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -9036,24 +8733,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Universal string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `UniversalString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `UniversalString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Universal string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Universal string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Universal string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `UniversalString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Universal string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -9083,24 +8772,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("UTF8 string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `UTF8String'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `UTF8String'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("UTF8 string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("UTF8 string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("UTF8 string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `UTF8String'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("UTF8 string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -9129,22 +8810,17 @@ public class AST_tests {
 		}
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Videotex string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `VideotexString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Videotex string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `VideotexString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Videotex string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
+		for (i = 0; i < 3; i++) {
+			markersToCheck.add(new MarkerToCheck("Videotex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Videotex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 4; i++) {
-			markersToCheck.add(new MarkerToCheck("Videotex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `VideotexString'",  lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 51; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Videotex string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -9174,24 +8850,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `VisibleString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `VisibleString'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `VisibleString'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -9221,24 +8889,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `GeneralizedTime'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `GeneralizedTime'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `GeneralizedTime'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -9268,24 +8928,16 @@ public class AST_tests {
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `UTCTime'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `UTCTime'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `UTCTime'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 50; i++) {
+		for (i = 0; i < 55; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 1;
@@ -9314,27 +8966,18 @@ public class AST_tests {
 		}
 		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("A non-empty set template was expected for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A non-empty value was expected for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from set value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from set value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `field3' in set value for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicated set field `field1'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Duplicated set field `field1'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value list notation cannot be used for set type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Value list notation is not allowed for set type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
@@ -9370,43 +9013,30 @@ public class AST_tests {
 		}
 		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `field3' in record value for type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@ASNTypes.ASNSequenceType': 2 was expected instead of 5",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `field4' in record value for type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field4' in record template for type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicated record field `field1'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Duplicated record field `field1'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context", lineNum, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Field `field1' cannot appear after field `field2' in record value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@ASNTypes.ASNSequenceType': 2 was expected instead of 3",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from record value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
@@ -9442,26 +9072,18 @@ public class AST_tests {
 		}
 		lineNum += 10;
 		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@ASNTypes.ASNChoiceType'", lineNum++, IMarker.SEVERITY_ERROR));
+			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@ASNTypes.ASNChoiceType'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `field4' in union value for type `@ASNTypes.ASNChoiceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existent field `field4' in union template for type `@ASNTypes.ASNChoiceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context", lineNum, IMarker.SEVERITY_ERROR));
-		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field", lineNum++, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 3; i++) {
+			markersToCheck.add(new MarkerToCheck("Only one field was expected in union value instead of 2", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		for (i = 0; i < 3; i++) {
-			markersToCheck.add(new MarkerToCheck("value list notation cannot be used for union type `@ASNTypes.ASNChoiceType'", lineNum++, IMarker.SEVERITY_ERROR));
+			markersToCheck.add(new MarkerToCheck("Union value was expected for type `@ASNTypes.ASNChoiceType'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("A template for union type must contain exactly one selected field",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Only one field was expected in union value instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Union value was expected for type `@ASNTypes.ASNChoiceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -9504,10 +9126,8 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The value of second OBJECT IDENTIFIER component must be between 0 and 39 instead of 39", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Omit value can only be assigned to an optional field of a record or set value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("objid value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("value list notation cannot be used for type `objid'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("assignment notation cannot be used for type `objid'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 2; i++) {
+		lineNum += 1;
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("objid value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -9536,13 +9156,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Incompatible value: `objid' was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `temp_altstep_pointer' in module `assignment_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
-		for (i = 0; i < 4; i++) {
+		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("objid value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("indexed assignment notation cannot be used for type `objid'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("objid value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("indexed assignment notation cannot be used for type `objid'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("objid value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 
 		return markersToCheck;
 	}
@@ -12062,17 +11678,6 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 29;
 		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
-
-		return markersToCheck;
-	}
-	
-	//sapc_ttcn
-	
-	private ArrayList<MarkerToCheck> sapc_ttcn_initializer() {
-		//sapc.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
-		int lineNum = 63;
-		markersToCheck.add(new MarkerToCheck("Index overflow in a template of `sequence of' type `@types.CreateSAPCSubscription.pcBlacklistService_list': the index is 3, but the template has only 3 elements",  lineNum, IMarker.SEVERITY_ERROR));
 
 		return markersToCheck;
 	}
