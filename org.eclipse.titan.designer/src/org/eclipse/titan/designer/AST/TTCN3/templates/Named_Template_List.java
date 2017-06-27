@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -33,6 +34,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValues;
 import org.eclipse.titan.designer.AST.TTCN3.values.Sequence_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -509,4 +512,48 @@ public final class Named_Template_List extends TTCN3Template {
 			namedTemplates.getTemplateByIndex(i).getTemplate().getTemplate().setGenNameRecursive(embeddedName.toString());
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		//TODO if it has no fields and we have that in the runtime it could be
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (myGovernor == null) {
+			return;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		String genName = myGovernor.getGenNameTemplate(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("{0} {1};\n", genName, tempId));
+		setGenNameRecursive(genName);
+		generateCodeInit(aData, expression.preamble, tempId);
+		//FIXME generate restriction check
+		expression.expression.append(tempId);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (myGovernor == null) {
+			return;
+		}
+
+		//FIXME actually a bit more complex
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
+			NamedTemplate namedTamplate = namedTemplates.getTemplateByIndex(i);
+			//FIXME handle needs_temp_ref case
+
+			String fieldName = FieldSubReference.getJavaGetterName(namedTamplate.getName().getName());
+			String embeddedName = MessageFormat.format("{0}.get{1}()", name, fieldName); 
+			namedTamplate.getTemplate().generateCodeInit(aData, source, embeddedName);
+		}
+	}
+
+	
 }
