@@ -748,7 +748,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		referenceChain.release();
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		closingBrackets.append("}\n");
+		closingBrackets.insert(0, "}\n");
 
 		String temporalIndexId = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
@@ -758,7 +758,7 @@ public abstract class AbstractOfType extends ASN1Type {
 				globalId, temporalIndexId, externalId, isTemplate?"nofElements()":"sizeOf()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		closingBrackets.append("}\n");
+		closingBrackets.insert(0, "}\n");
 
 		String temporalId = aData.getTemporaryVariableName();
 		if (isTemplate) {

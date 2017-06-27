@@ -666,7 +666,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		boolean nextOptional = !isTemplate && compField.isOptional();
 		if (nextOptional) {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-			closingBrackets.append("}\n");
+			closingBrackets.insert(0, "}\n");
 			String temporalId = aData.getTemporaryVariableName();
 			expression.expression.append(MessageFormat.format("Optional<{0}{1}> {2} = {3}.get{4}();\n",
 					nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
@@ -704,7 +704,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				expression.expression.append("}\n");
 
 				expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-				closingBrackets.append("}\n");
+				closingBrackets.insert(0, "}\n");
 				String temporalId2 = aData.getTemporaryVariableName();
 				expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId));
 				expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
@@ -713,7 +713,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			}
 		} else {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-			closingBrackets.append("}\n");
+			closingBrackets.insert(0, "}\n");
 
 			String temporalId = aData.getTemporaryVariableName();
 			String temporalId2 = aData.getTemporaryVariableName();
