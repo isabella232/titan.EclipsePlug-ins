@@ -254,6 +254,7 @@ public final class RegexpExpression extends Expression_Value {
 
 			switch (governor2.getTypeRefdLast(timestamp).getTypetype()) {
 			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
 				break;
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
