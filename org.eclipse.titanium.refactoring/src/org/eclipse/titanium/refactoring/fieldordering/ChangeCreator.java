@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.NavigableSet;
 import java.util.TreeSet;
@@ -26,7 +27,10 @@ import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
@@ -121,19 +125,6 @@ class ChangeCreator {
 	
 
 	private static void orderSequence_Value(final String fileContents, final Sequence_Value sequence_Value, final MultiTextEdit rootEdit) {
-		
-		IType type = sequence_Value.getMyGovernor();
-		if (!(type instanceof Referenced_Type)) {
-			return;
-		}
-		
-		IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		if (!(refType instanceof TTCN3_Set_Type)) {
-			return;
-		}
-		
-		TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
-		
 		if (sequence_Value.getNofComponents() == 0) {
 			return;
 		}
@@ -142,11 +133,50 @@ class ChangeCreator {
 			return;
 		}
 
+		IType type = sequence_Value.getMyGovernor();
+		if (!(type instanceof Referenced_Type)) {
+			return;
+		}
+
+		IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		StringBuilder builder = new StringBuilder();
+		ArrayList<Identifier> fieldNamesOrdered = new ArrayList<Identifier>();
+		if (refType instanceof TTCN3_Set_Type) {
+			TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
+
+			for (int i = 0; i < setType.getNofComponents(); ++i) {
+				
+				Identifier identifier = setType.getComponentIdentifierByIndex(i);
+				fieldNamesOrdered.add(identifier);
+			}
+		} else if (refType instanceof TTCN3_Sequence_Type) {
+			TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
+
+			for (int i = 0; i < sequenceType.getNofComponents(); ++i) {
+				
+				Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+				fieldNamesOrdered.add(identifier);
+			}
+		} else if (refType instanceof ASN1_Set_Type) {
+			ASN1_Set_Type setType = (ASN1_Set_Type) refType;
+
+			for (int i = 0; i < setType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); ++i) {
+				
+				Identifier identifier = setType.getComponentIdentifierByIndex(i);
+				fieldNamesOrdered.add(identifier);
+			}
+		} else if (refType instanceof ASN1_Sequence_Type) {
+			ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
+			for (int i = 0; i < sequenceType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()); ++i) {
+				
+				Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+				fieldNamesOrdered.add(identifier);
+			}
+		}
+
 		boolean isFirst = true;
-		for (int i = 0; i < setType.getNofComponents(); ++i) {
-			
-			Identifier identifier = setType.getComponentIdentifierByIndex(i);
+		for (int i = 0; i < fieldNamesOrdered.size() ; i++) {
+			Identifier identifier = fieldNamesOrdered.get(i);
 			NamedValue componentByName = sequence_Value.getComponentByName(identifier);
 			
 			if (componentByName == null) { // no value defined
@@ -164,7 +194,7 @@ class ChangeCreator {
 			int end = value.getLocation().getEndOffset();
 			builder.append(identifier.getDisplayName()).append(" := ").append(fileContents.substring(start, end));
 		}
-				
+
 		int seqStartOffset = sequence_Value.getLocation().getOffset() + 1;
 		int seqEndOffset = sequence_Value.getLocation().getEndOffset() - 1;
 		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
@@ -274,13 +304,6 @@ class ChangeCreator {
 				return false;
 			}
 			
-			IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-			if (!(refType instanceof TTCN3_Set_Type)) {
-				return false;
-			}
-			
-			TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
-			
 			if (sequence_Value.getNofComponents() == 0) {
 				return false;
 			}
@@ -288,14 +311,51 @@ class ChangeCreator {
 			if (sequence_Value.getSeqValueByIndex(0) == null) { // record with unnamed fields
 				return false;
 			}
-			//check if already in order
-			boolean inOrder = true;
-			for (int i = 0; i < setType.getNofComponents() && inOrder; ++i) {
-				Identifier identifier = setType.getComponentIdentifierByIndex(i);
-				NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
-				inOrder = identifier.equals(namedValue.getName());
+
+			IType refType = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			if (refType instanceof TTCN3_Set_Type) {
+				TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
+				//check if already in order
+				boolean inOrder = true;
+				for (int i = 0; i < setType.getNofComponents() && inOrder; ++i) {
+					Identifier identifier = setType.getComponentIdentifierByIndex(i);
+					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					inOrder = identifier.equals(namedValue.getName());
+				}
+				return !inOrder;
+			} else if (refType instanceof TTCN3_Sequence_Type) {
+				TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
+				//check if already in order
+				boolean inOrder = true;
+				for (int i = 0; i < sequenceType.getNofComponents() && inOrder; ++i) {
+					Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					inOrder = identifier.equals(namedValue.getName());
+				}
+				return !inOrder;
+			} else if (refType instanceof ASN1_Set_Type) {
+				ASN1_Set_Type setType = (ASN1_Set_Type) refType;
+				//check if already in order
+				boolean inOrder = true;
+				for (int i = 0; i < setType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()) && inOrder; ++i) {
+					Identifier identifier = setType.getComponentIdentifierByIndex(i);
+					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					inOrder = identifier.equals(namedValue.getName());
+				}
+				return !inOrder;
+			} else if (refType instanceof ASN1_Sequence_Type) {
+				ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
+				//check if already in order
+				boolean inOrder = true;
+				for (int i = 0; i < sequenceType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()) && inOrder; ++i) {
+					Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
+					inOrder = identifier.equals(namedValue.getName());
+				}
+				return !inOrder;
 			}
-			return !inOrder;
+
+			return false;
 		}
 
 		/**
