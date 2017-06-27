@@ -1160,7 +1160,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		expression.expression.append( "\t" );
 		expression.expression.append( "//TODO: " );
 		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCode() is not implemented!\n" );
+		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
 	}
 
 	/**
