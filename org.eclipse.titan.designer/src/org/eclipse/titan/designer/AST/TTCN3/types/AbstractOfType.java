@@ -434,8 +434,10 @@ public abstract class AbstractOfType extends ASN1Type {
 			for (int i = 0, size = value.getNofComponents(); i < size; i++) {
 				final IValue component = value.getValueByIndex(i);
 				component.setMyGovernor(getOfType());
-				if (Value_type.NOTUSED_VALUE.equals(component.getValuetype()) && !incompleteAllowed) {
-					component.getLocation().reportSemanticError(INCOMPLETEPRESENTERROR);
+				if (Value_type.NOTUSED_VALUE.equals(component.getValuetype())) {
+					if (!incompleteAllowed) {
+						component.getLocation().reportSemanticError(INCOMPLETEPRESENTERROR);
+					}
 				} else {
 					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
 					getOfType().checkThisValue(timestamp, tempValue2,
