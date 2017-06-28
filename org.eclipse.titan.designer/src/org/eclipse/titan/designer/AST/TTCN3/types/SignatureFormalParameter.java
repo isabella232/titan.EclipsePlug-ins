@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class SignatureFormalParameter extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	private static final String FULLNAMEPART = ".<type>";
 
+	//TODO this should be an enum
 	public static final int PARAM_IN = 0;
 	public static final int PARAM_OUT = 1;
 	public static final int PARAM_INOUT = 2;
