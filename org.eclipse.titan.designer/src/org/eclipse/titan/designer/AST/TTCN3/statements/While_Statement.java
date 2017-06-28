@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -24,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -280,5 +282,42 @@ public final class While_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		boolean condition_always_true = false;
+		boolean condition_always_false = false;
+		final IValue last = expression.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+		if (!last.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			if (((Boolean_Value) expression).getValue()) {
+				condition_always_true = true;
+			} else {
+				condition_always_false = true;
+			}
+		}
+
+		//TODO this could be merged before
+		if (condition_always_false) {
+			source.append("/* never occurs */;\n");
+		} else {
+			source.append("for ( ; ; ) {\n");
+			//FIXME implement loop label if needed
+
+			// do not generate the exit condition for infinite loops
+			if (!condition_always_true) {
+				ChangeableInteger blockCount = new ChangeableInteger(0);
+				last.generateCodeTmp(aData, source, "if (!", blockCount);
+				source.append(") break;\n");
+				for(int i = 0 ; i < blockCount.getValue(); i++) {
+					source.append("}\n");
+				}
+			}
+			//FIXME add debugger support
+
+			statementblock.generateCode(aData, source);
+			source.append("}\n");
+		}
 	}
 }
