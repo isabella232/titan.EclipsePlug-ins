@@ -1553,19 +1553,23 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		final Scope myScope = myType.getMyScope();
 		
 		ArrayList<messageTypeInfo> inMessagesToGenerate = new ArrayList<PortGenerator.messageTypeInfo>();
-		for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
-			IType inType = inMessages.getTypeByIndex(i);
-
-			messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
-			inMessagesToGenerate.add(info);
+		if (inMessages != null) {
+			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
+				IType inType = inMessages.getTypeByIndex(i);
+	
+				messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
+				inMessagesToGenerate.add(info);
+			}
 		}
 
 		ArrayList<messageTypeInfo> outMessagesToGenerate = new ArrayList<PortGenerator.messageTypeInfo>();
-		for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
-			IType outType = outMessages.getTypeByIndex(i);
-
-			messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
-			outMessagesToGenerate.add(info);
+		if (outMessages != null) {
+			for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
+				IType outType = outMessages.getTypeByIndex(i);
+	
+				messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
+				outMessagesToGenerate.add(info);
+			}
 		}
 
 		PortGenerator.generateClass(aData, source, genName, inMessagesToGenerate, outMessagesToGenerate);
