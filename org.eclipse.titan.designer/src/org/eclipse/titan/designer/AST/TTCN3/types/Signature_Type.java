@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,6 +38,11 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureReturnType;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureDefinition;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureException;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureParameter;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.signatureParamaterDirection;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.Sequence_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -697,348 +703,41 @@ public final class Signature_Type extends Type {
 		
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TitanBoolean_template");
+		ArrayList<SignatureParameter> parameters = new ArrayList<SignatureParameter>();
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
 			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
 			Type type = formalPar.getType();
 
-			type.getGenNameValue(aData, source, myScope);
-			type.getGenNameTemplate(aData, source, myScope);
+			SignatureGenerator.signatureParamaterDirection direction;
+			switch(formalPar.getDirection()) {
+			case SignatureFormalParameter.PARAM_OUT:
+				direction = signatureParamaterDirection.PAR_OUT;
+				break;
+			case SignatureFormalParameter.PARAM_INOUT:
+				direction = signatureParamaterDirection.PAR_INOUT;
+				break;
+			default:
+				direction = signatureParamaterDirection.PAR_IN;
+				break;
+			}
+			SignatureParameter temp = new SignatureParameter(direction, type.getGenNameValue(aData, source, myScope), type.getGenNameTemplate(aData, source, myScope), formalPar.getIdentifier().getName());
+			parameters.add(temp);
 		}
+		SignatureReturnType signatueReturnType = null;
 		if (returnType != null) {
-			returnType.getGenNameValue(aData, source, myScope);
-			returnType.getGenNameTemplate(aData, source, myScope);
+			signatueReturnType = new SignatureReturnType(returnType.getGenNameValue(aData, source, myScope), returnType.getGenNameTemplate(aData, source, myScope));
 		}
+		ArrayList<SignatureException> signatureExceptions = new ArrayList<SignatureGenerator.SignatureException>();
 		if (exceptions != null) {
 			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
 				Type exceptionType = exceptions.getExceptionByIndex(i);
-				exceptionType.getGenNameValue(aData, source, myScope);
-				exceptionType.getGenNameTemplate(aData, source, myScope);
+
+				SignatureException temp = new SignatureException(exceptionType.getGenNameValue(aData, source, myScope), exceptionType.getGenNameTemplate(aData, source, myScope));
+				signatureExceptions.add(temp);
 			}
 		}
 
-		source.append(MessageFormat.format("public static class {0}_call '{'\n", genName));
-		source.append("// in and inout parameters\n");
-		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-
-			if(formalPar.getDirection() != SignatureFormalParameter.PARAM_OUT) {
-				String fieldName = formalPar.getIdentifier().getName();
-				String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format("private {0} param_{1};\n", typeName, fieldName));
-			}
-		}
-
-		source.append(MessageFormat.format("public {0}_call() '{'\n", genName));
-		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-
-			if(formalPar.getDirection() != SignatureFormalParameter.PARAM_OUT) {
-				String fieldName = formalPar.getIdentifier().getName();
-				String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format("param_{0} = new {1}();\n", fieldName, typeName));
-			}
-		}
-		source.append("}\n");
-
-		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-
-			if(formalPar.getDirection() != SignatureFormalParameter.PARAM_OUT) {
-				String fieldName = formalPar.getIdentifier().getName();
-				String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format("public {0} get{1}() '{'\n", typeName, fieldName));
-				source.append(MessageFormat.format("return param_{0};\n", fieldName));
-				source.append("}\n");
-
-				source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", typeName, fieldName));
-				source.append(MessageFormat.format("return param_{0};\n", fieldName));
-				source.append("}\n");
-			}
-		}
-
-
-		source.append("// FIXME implement encode_text\n");
-		source.append("// FIXME implement decode_text\n");
-		source.append("// FIXME implement log\n");
-		source.append("}\n");
-
-		// FIXME implement MyProc_redirect
-
-		if(!noBlock) {
-			source.append(MessageFormat.format("public static class {0}_reply '{'\n", genName));
-			source.append("// out parameters\n");
-			for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-				SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-	
-				if(formalPar.getDirection() != SignatureFormalParameter.PARAM_IN) {
-					String fieldName = formalPar.getIdentifier().getName();
-					String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("private {0} param_{1};\n", typeName, fieldName));
-				}
-			}
-			if (returnType != null) {
-				source.append("// the reply value of the signature\n");
-				source.append("private TitanBoolean reply_value;\n");
-			}
-	
-			source.append(MessageFormat.format("public {0}_reply() '{'\n", genName));
-			for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-				SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-	
-				if(formalPar.getDirection() != SignatureFormalParameter.PARAM_IN) {
-					String fieldName = formalPar.getIdentifier().getName();
-					String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("param_{0} = new {1}();\n", fieldName, typeName));
-				}
-			}
-	
-			source.append("reply_value = new TitanBoolean();\n");
-			source.append("}\n");
-	
-			for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-				SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-	
-				if(formalPar.getDirection() != SignatureFormalParameter.PARAM_IN) {
-					String fieldName = formalPar.getIdentifier().getName();
-					String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("public {0} get{1}() '{'\n", typeName, fieldName));
-					source.append(MessageFormat.format("return param_{0};\n", fieldName));
-					source.append("}\n");
-	
-					source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", typeName, fieldName));
-					source.append(MessageFormat.format("return param_{0};\n", fieldName));
-					source.append("}\n");
-				}
-			}
-	
-			if (returnType != null) {
-				source.append("public TitanBoolean getreturn_value() {\n");
-				source.append("return reply_value;\n");
-				source.append("}\n");
-	
-				source.append("public TitanBoolean constGetreturn_value() {\n");
-				source.append("return reply_value;\n");
-				source.append("}\n");
-			}
-	
-			source.append("// FIXME implement encode_text\n");
-			source.append("// FIXME implement decode_text\n");
-			source.append("// FIXME implement log\n");
-			source.append("}\n");
-		}
-		// FIXME implement MyProc_reply_redirect
-
-		if (exceptions != null) {
-			source.append(MessageFormat.format("public static class {0}_exception '{'\n", genName));
-			source.append("public enum exception_selection_type {");
-			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
-				Type exceptionType = exceptions.getExceptionByIndex(i);
-				String typeName = exceptionType.getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format(" ALT_{0},", typeName));
-			}
-			source.append(" UNBOUND_VALUE };\n");
-				
-			source.append("private exception_selection_type exception_selection;\n");
-			source.append("//originally a union which can not be mapped to Java\n");
-			source.append("private Base_Type field;\n");
-				
-			source.append("//originally clean_up\n");
-			source.append("public void cleanUp() {\n");
-			source.append("field = null;\n");
-			source.append("exception_selection = exception_selection_type.UNBOUND_VALUE;\n");
-			source.append("}\n");
-	
-			source.append(MessageFormat.format("private void copy_value(final {0}_exception otherValue) '{'\n", genName));
-			source.append("switch(otherValue.exception_selection){\n");
-			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
-				Type exceptionType = exceptions.getExceptionByIndex(i);
-				String typeName = exceptionType.getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format("case ALT_{0}:\n", typeName));
-				source.append(MessageFormat.format("field = new {0}(({0})otherValue.field);\n", typeName));
-				source.append("break;\n");
-			}
-				source.append("default:\n");
-				source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized exception of signature {0}.\");\n", getFullName()));
-				source.append("}\n");
-				source.append("exception_selection = otherValue.exception_selection;\n");
-			source.append("}\n");
-	
-			source.append(MessageFormat.format("public {0}_exception() '{'\n", genName));
-			source.append("exception_selection = exception_selection_type.UNBOUND_VALUE;\n");
-			source.append("}\n");
-	
-			source.append(MessageFormat.format("public {0}_exception(final {0}_exception otherValue)  '{'\n", genName));
-			source.append("copy_value(otherValue);\n");
-			source.append("}\n");
-	
-			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
-				Type exceptionType = exceptions.getExceptionByIndex(i);
-				String typeName = exceptionType.getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format("public {0}_exception( final {1} otherValue) '{'\n", genName, typeName));
-				source.append(MessageFormat.format("field = new {0}(otherValue);\n", typeName));
-				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", typeName));
-				source.append("}\n");
-	
-				source.append(MessageFormat.format("public {0}_exception( final {1}_template otherValue) '{'\n", genName, typeName));
-				source.append(MessageFormat.format("field = new {0}(otherValue.valueOf());\n", typeName));
-				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", typeName));
-				source.append("}\n");
-			}
-	
-			source.append("//originally operator=\n");
-			source.append(MessageFormat.format("public {0}_exception assign( final {0}_exception otherValue ) '{'\n", genName));
-			source.append("if(this != otherValue) {\n");
-			source.append("cleanUp();\n");
-			source.append("copy_value(otherValue);\n");
-			source.append("}\n");
-			source.append("return this;\n");
-			source.append("}\n");
-	
-			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
-				Type exceptionType = exceptions.getExceptionByIndex(i);
-				String typeName = exceptionType.getGenNameValue(aData, source, myScope);
-	
-				source.append("//originally {0}_field\n");
-				source.append(MessageFormat.format("public {0} get{0}() '{'\n", typeName));
-				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", typeName));
-				source.append("cleanUp();\n");
-				source.append(MessageFormat.format("field = new {0}();\n", typeName));
-				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", typeName));
-				source.append("}\n");
-				source.append(MessageFormat.format("return ({0})field;\n", typeName));
-				source.append("}\n");
-	
-				source.append("//originally const {0}_field\n");
-				source.append(MessageFormat.format("public {0} constGet{0}() '{'\n", typeName));
-				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", typeName));
-	
-				source.append(MessageFormat.format("throw new TtcnError(\"Referencing to non-selected type integer in an exception of signature {0}.\");\n", getFullName()));
-				source.append("}\n");
-				source.append(MessageFormat.format("return ({0})field;\n", typeName));
-				source.append("}\n");
-			}
-	
-			source.append("public exception_selection_type get_selection() {\n");
-			source.append("return exception_selection;\n");
-			source.append("}\n");
-	
-			source.append("// FIXME implement encode_text\n");
-			source.append("// FIXME implement decode_text\n");
-			source.append("// FIXME implement log\n");
-			source.append("}\n");
-	
-			source.append(MessageFormat.format("public static class {0}_exception_template '{'\n", genName));
-			source.append(MessageFormat.format("private {0}_exception.exception_selection_type exception_selection;\n", genName));
-			source.append("//originally a union which can not be mapped to Java\n");
-			source.append("private Base_Template field;\n");
-	
-			source.append("//FIXME add support for redirection\n");
-			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
-				Type exceptionType = exceptions.getExceptionByIndex(i);
-				String typeName = exceptionType.getGenNameValue(aData, source, myScope);
-	
-				source.append(MessageFormat.format("public {0}_exception_template(final {1}_template init_template) '{'\n", genName, typeName));
-				source.append(MessageFormat.format("exception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", genName, typeName));
-				source.append(MessageFormat.format("field = new {0}_template(init_template);\n", typeName));
-				source.append("}\n");
-			}
-	
-			source.append("// FIXME implement match\n");
-			source.append("// FIXME implement log_match\n");
-			source.append("// FIXME implement set_value\n");
-			source.append("// FIXME implement is_any_or_omit\n");
-			source.append("}\n");
-		}
-
-		source.append(MessageFormat.format("public static class {0}_template '{'\n", genName));
-		source.append("// all the parameters\n");
-		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-			String fieldName = formalPar.getIdentifier().getName();
-			String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-
-			source.append(MessageFormat.format("private {0}_template param_{1};\n", typeName, fieldName));
-		}
-		if (returnType != null) {
-			source.append("private TitanBoolean_template reply_value;\n");
-		}
-
-		source.append(MessageFormat.format("public {0}_template() '{'\n", genName));
-		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-			String fieldName = formalPar.getIdentifier().getName();
-			String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-
-			source.append(MessageFormat.format("param_{0} = new {1}_template(template_sel.ANY_VALUE);\n", fieldName, typeName));
-		}
-		source.append("}\n");
-
-		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-			String fieldName = formalPar.getIdentifier().getName();
-			String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-
-			source.append(MessageFormat.format("public {0}_template get{1}() '{'\n", typeName, fieldName ));
-			source.append(MessageFormat.format("return param_{0};\n", fieldName ));
-			source.append("}\n");
-
-			source.append(MessageFormat.format("public {0}_template constGet{1}() '{'\n", typeName, fieldName ));
-			source.append(MessageFormat.format("return param_{0};\n", fieldName ));
-			source.append("}\n");
-		}
-
-		if (returnType != null) {
-			source.append("public TitanBoolean_template return_value() {\n");
-			source.append("return reply_value;\n");
-			source.append("}\n");
-		}
-
-		source.append(MessageFormat.format("public {0}_call create_call() '{'\n", genName));
-		source.append(MessageFormat.format("{0}_call return_value = new {0}_call();\n", genName));
-		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-			
-			if(formalPar.getDirection() != SignatureFormalParameter.PARAM_OUT) {
-				String fieldName = formalPar.getIdentifier().getName();
-				String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-	
-				source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueOf());\n", fieldName ));
-			}
-		}
-		source.append("return return_value;\n");
-		source.append("}\n");
-
-		if(!noBlock) {
-			source.append(MessageFormat.format("public {0}_reply create_reply() '{'\n", genName));
-			source.append(MessageFormat.format("{0}_reply return_value = new {0}_reply();\n", genName));
-			for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-				SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-	
-				if(formalPar.getDirection() != SignatureFormalParameter.PARAM_IN) {
-					String fieldName = formalPar.getIdentifier().getName();
-					String typeName = formalPar.getType().getGenNameValue(aData, source, myScope);
-	
-					source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueOf());\n", fieldName ));
-				}
-			}
-			source.append("return return_value;\n");
-			source.append("}\n");
-		}
-
-		source.append("//FIXME implement match_call\n");
-		source.append("//FIXME implement match_reply\n");
-		source.append(MessageFormat.format("public {0}_template set_value_template(final TitanBoolean_template new_template) '{'\n", genName));
-		source.append("reply_value = new_template;\n");
-		source.append("return this;\n");
-		source.append("}\n");
-
-		source.append("// FIXME implement encode_text\n");
-		source.append("// FIXME implement decode_text\n");
-		source.append("// FIXME implement log\n");
-		source.append("// FIXME implement log_match_call\n");
-		source.append("// FIXME implement log_match_reply\n");
-		source.append("}\n");
-		//TODO: implement
-		source.append( "\t\t//TODO: Signature_Type.generateCode() is not fully implemented!\n" );
+		SignatureDefinition def = new SignatureDefinition(genName, getFullName(), parameters, signatueReturnType, noBlock, signatureExceptions);
+		SignatureGenerator.generateClasses(aData, source, def);
 	}
 }
