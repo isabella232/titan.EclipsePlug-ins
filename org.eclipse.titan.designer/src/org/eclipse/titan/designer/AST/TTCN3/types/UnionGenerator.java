@@ -10,6 +10,8 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * Utility class for generating the value and template classes for union/choice types.
  *
  * The code generated for union/choice types only differs in matching and encoding.
+ * 
+ * @author Kristof Szabados
  * */
 public class UnionGenerator {
 	/**
