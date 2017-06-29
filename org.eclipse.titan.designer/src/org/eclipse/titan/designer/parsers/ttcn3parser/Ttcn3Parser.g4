@@ -102,6 +102,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.*;
 import org.eclipse.titan.designer.AST.TTCN3.statements.*;
 import org.eclipse.titan.designer.AST.TTCN3.types.*;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter.ParamaterDirection;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.*;
 import org.eclipse.titan.designer.AST.TTCN3.templates.*;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
@@ -3071,11 +3072,11 @@ pr_SignatureFormalPar returns[SignatureFormalParameter parameter]
 @init {
 	$parameter = null;
 	Token startcol = null;
-	int parameterType = SignatureFormalParameter.PARAM_IN;
+	SignatureFormalParameter.ParamaterDirection parameterType = ParamaterDirection.PARAM_IN;
 }:
-(	(	cola = IN { startcol = $cola; parameterType = SignatureFormalParameter.PARAM_IN; }
-	|	colb = INOUT { startcol = $colb; parameterType = SignatureFormalParameter.PARAM_INOUT; }
-	|	colc = OUT { startcol = $colc; parameterType = SignatureFormalParameter.PARAM_OUT; }
+(	(	cola = IN { startcol = $cola; parameterType = ParamaterDirection.PARAM_IN; }
+	|	colb = INOUT { startcol = $colb; parameterType = ParamaterDirection.PARAM_INOUT; }
+	|	colc = OUT { startcol = $colc; parameterType = ParamaterDirection.PARAM_OUT; }
 	)?
 	t = pr_Type { if( startcol == null) { startcol = $t.start; }}
 	i = pr_Identifier
