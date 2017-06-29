@@ -462,7 +462,7 @@ public final class Signature_Type extends Type {
 			for (int i = 0; i < formalParList.getNofInParameters(); i++) {
 				final SignatureFormalParameter formalParameter = formalParList.getInParameterByIndex(i);
 				final Identifier identifier = formalParameter.getIdentifier();
-				if (!componentMap.containsKey(identifier.getName()) && SignatureFormalParameter.PARAM_OUT != formalParameter.getDirection()) {
+				if (!componentMap.containsKey(identifier.getName()) && SignatureFormalParameter.ParamaterDirection.PARAM_OUT != formalParameter.getDirection()) {
 					value.getLocation().reportSemanticError(MessageFormat.format(
 							"Field `{0}'' is missing from signature value", identifier.getDisplayName()));
 				}
@@ -563,12 +563,12 @@ public final class Signature_Type extends Type {
 				if (!componentMap.containsKey(identifier.getName())
 						|| Template_type.TEMPLATE_NOTUSED.equals(componentMap.get(identifier.getName()).getTemplate().getTemplatetype())) {
 					switch (parameter.getDirection()) {
-					case SignatureFormalParameter.PARAM_IN:
+					case PARAM_IN:
 						if (firstUndefIn == null) {
 							firstUndefIn = parameter;
 						}
 						break;
-					case SignatureFormalParameter.PARAM_OUT:
+					case PARAM_OUT:
 						if (firstUndefOut == null) {
 							firstUndefOut = parameter;
 						}
@@ -710,10 +710,10 @@ public final class Signature_Type extends Type {
 
 			SignatureGenerator.signatureParamaterDirection direction;
 			switch(formalPar.getDirection()) {
-			case SignatureFormalParameter.PARAM_OUT:
+			case PARAM_OUT:
 				direction = signatureParamaterDirection.PAR_OUT;
 				break;
-			case SignatureFormalParameter.PARAM_INOUT:
+			case PARAM_INOUT:
 				direction = signatureParamaterDirection.PAR_INOUT;
 				break;
 			default:

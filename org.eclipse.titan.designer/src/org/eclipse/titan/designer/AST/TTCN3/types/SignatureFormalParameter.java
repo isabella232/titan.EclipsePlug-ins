@@ -31,12 +31,9 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class SignatureFormalParameter extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	private static final String FULLNAMEPART = ".<type>";
 
-	//TODO this should be an enum
-	public static final int PARAM_IN = 0;
-	public static final int PARAM_OUT = 1;
-	public static final int PARAM_INOUT = 2;
+	public enum ParamaterDirection {PARAM_IN, PARAM_OUT, PARAM_INOUT};
 
-	private final int parameterDirection;
+	private final ParamaterDirection parameterDirection;
 	private final Identifier identifier;
 	private final Type type;
 
@@ -46,7 +43,7 @@ public final class SignatureFormalParameter extends ASTNode implements ILocateab
 	 **/
 	private Location location;
 
-	public SignatureFormalParameter(final int parameterDirection, final Type type, final Identifier identifier) {
+	public SignatureFormalParameter(final ParamaterDirection parameterDirection, final Type type, final Identifier identifier) {
 		this.parameterDirection = parameterDirection;
 		this.type = type;
 		this.identifier = identifier;
@@ -96,7 +93,7 @@ public final class SignatureFormalParameter extends ASTNode implements ILocateab
 		return type;
 	}
 
-	public int getDirection() {
+	public ParamaterDirection getDirection() {
 		return parameterDirection;
 	}
 

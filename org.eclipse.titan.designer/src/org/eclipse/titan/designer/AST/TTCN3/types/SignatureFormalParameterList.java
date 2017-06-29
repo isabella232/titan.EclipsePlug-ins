@@ -255,14 +255,14 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 
 		final boolean isNonblock = signature.isNonblocking();
 		for (SignatureFormalParameter parameter : parameters) {
-			if (parameter.getDirection() == SignatureFormalParameter.PARAM_IN) {
+			if (parameter.getDirection() == SignatureFormalParameter.ParamaterDirection.PARAM_IN) {
 				inParameters.add(parameter);
-			} else if (parameter.getDirection() == SignatureFormalParameter.PARAM_OUT) {
+			} else if (parameter.getDirection() == SignatureFormalParameter.ParamaterDirection.PARAM_OUT) {
 				if (isNonblock) {
 					parameter.getLocation().reportSemanticError("A non-blocking signature cannot have `out' parameter");
 				}
 				outParameters.add(parameter);
-			} else if (parameter.getDirection() == SignatureFormalParameter.PARAM_INOUT) {
+			} else if (parameter.getDirection() == SignatureFormalParameter.ParamaterDirection.PARAM_INOUT) {
 				if (isNonblock) {
 					parameter.getLocation().reportSemanticError("A non-blocking signature cannot have `out' parameter");
 				}

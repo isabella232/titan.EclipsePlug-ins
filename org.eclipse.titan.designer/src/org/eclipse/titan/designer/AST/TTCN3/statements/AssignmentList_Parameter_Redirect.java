@@ -122,7 +122,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 			if (parameterList.hasParameterWithName(name)) {
 				final SignatureFormalParameter parameterTemplate = parameterList.getParameterByName(name);
 				if (isOut) {
-					if (SignatureFormalParameter.PARAM_IN == parameterTemplate.getDirection()) {
+					if (SignatureFormalParameter.ParamaterDirection.PARAM_IN == parameterTemplate.getDirection()) {
 						final String message = MessageFormat.format(
 								"Parameter `{0}'' of signature `{1}'' has `in'' direction", assignment
 								.getIdentifier().getDisplayName(), signature.getTypename());
@@ -130,7 +130,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 						errorFlag = true;
 					}
 				} else {
-					if (SignatureFormalParameter.PARAM_OUT == parameterTemplate.getDirection()) {
+					if (SignatureFormalParameter.ParamaterDirection.PARAM_OUT == parameterTemplate.getDirection()) {
 						final String message = MessageFormat.format(
 								"Parameter `{0}'' of signature `{1}'' has `out'' direction", assignment
 								.getIdentifier().getDisplayName(), signature.getTypename());
