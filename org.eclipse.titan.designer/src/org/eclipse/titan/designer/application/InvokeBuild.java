@@ -15,7 +15,7 @@ import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.titan.designer.core.TITANBuilder;
 
 /**
- * Externally callable application, that takes exactly one argument: the name of the project it should build.
+ * Externallyy callable application, that takes exactly one argument: the name of the project it should build.
  * 
  * @author Kristof Szabados
  * */
