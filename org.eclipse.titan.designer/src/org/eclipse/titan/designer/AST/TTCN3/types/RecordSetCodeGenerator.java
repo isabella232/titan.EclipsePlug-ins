@@ -355,11 +355,11 @@ public class RecordSetCodeGenerator {
 		aSb.append( aClassName );
 		aSb.append( " aOtherValue ) {\n" );
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\tif ( ! this." );
+			aSb.append( "\t\t\tif ( !TitanBoolean.getNative( this." );
 			aSb.append( fi.mVarName );
 			aSb.append( ".operatorEquals( aOtherValue." );
 			aSb.append( fi.mVarName );
-			aSb.append( " ).getValue() ) return new TitanBoolean(false);\n" );
+			aSb.append( " )) ) return new TitanBoolean(false);\n" );
 		}
 		aSb.append( "\t\t\treturn new TitanBoolean(true);\n" +
 				"\t\t}\n" );

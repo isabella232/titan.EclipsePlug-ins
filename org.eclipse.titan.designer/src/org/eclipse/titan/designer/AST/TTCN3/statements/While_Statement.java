@@ -308,8 +308,8 @@ public final class While_Statement extends Statement {
 			// do not generate the exit condition for infinite loops
 			if (!condition_always_true) {
 				ChangeableInteger blockCount = new ChangeableInteger(0);
-				last.generateCodeTmp(aData, source, "if (!", blockCount);
-				source.append(") break;\n");
+				last.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
+				source.append(")) break;\n");
 				for(int i = 0 ; i < blockCount.getValue(); i++) {
 					source.append("}\n");
 				}

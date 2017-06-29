@@ -162,7 +162,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
@@ -196,7 +196,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
@@ -229,7 +229,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
@@ -272,7 +272,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));
@@ -281,7 +281,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
 		source.append("//FIXME report error \n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", typeValueName));
+		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(value_template.match(({0}) my_head.message))) '{'\n", typeValueName));
 		source.append("//FIXME implement\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
@@ -323,7 +323,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));
@@ -332,7 +332,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
 		source.append("//FIXME report error \n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", typeValueName));
+		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(value_template.match(({0}) my_head.message))) '{'\n", typeValueName));
 		source.append("//FIXME implement\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
@@ -373,7 +373,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!sender_template.match(my_head.sender_component, false).getValue()) {\n");
+		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
@@ -385,7 +385,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message).getValue()) '{'\n", typeValueName));
+		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(value_template.match(({0}) my_head.message))) '{'\n", typeValueName));
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");

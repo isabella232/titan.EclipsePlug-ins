@@ -289,9 +289,9 @@ public final class OrExpression extends Expression_Value {
 			expression2.expression.append(")");
 			expression2.mergeExpression(expression.preamble);
 
-			expression.preamble.append("if (!");
+			expression.preamble.append("if (!TitanBoolean.getNative(");
 			expression.preamble.append(tempId);
-			expression.preamble.append(".getValue()) ");
+			expression.preamble.append(")) ");
 
 			expression2 = new ExpressionStruct();
 			expression2.expression.append(tempId);
