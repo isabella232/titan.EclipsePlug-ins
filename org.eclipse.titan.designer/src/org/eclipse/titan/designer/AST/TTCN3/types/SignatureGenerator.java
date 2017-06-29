@@ -79,7 +79,38 @@ public class SignatureGenerator {
 		}
 	}
 
+	/**
+	 * This function can be used to generate the class of signature types
+	 *
+	 * defSignatureClasses in compiler2/ttcn3/signature.{h,c}
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param def the signature definition to generate code for.
+	 * */
 	public static void generateClasses(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
+		generateCallClass(aData, source, def);
+
+		// FIXME implement MyProc_redirect
+
+		generateReplyClass(aData, source, def);
+		// FIXME implement MyProc_reply_redirect
+
+		generateExceptionClass(aData, source, def);
+		generateTemplateClass(aData, source, def);
+
+		//TODO: implement
+		source.append( "\t\t//TODO: Signature_Type.generateCode() is not fully implemented!\n" );
+	}
+
+	/**
+	 * This function can be used to generate for signature types that class that handles calls.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param def the signature definition to generate code for.
+	 * */
+	private static void generateCallClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_call '{'\n", def.genName));
 		source.append("// in and inout parameters\n");
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
@@ -119,9 +150,16 @@ public class SignatureGenerator {
 		source.append("// FIXME implement decode_text\n");
 		source.append("// FIXME implement log\n");
 		source.append("}\n");
+	}
 
-		// FIXME implement MyProc_redirect
-
+	/**
+	 * This function can be used to generate for signature types that class that handles replies.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param def the signature definition to generate code for.
+	 * */
+	private static void generateReplyClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if(!def.isNoBlock) {
 			source.append(MessageFormat.format("public static class {0}_reply '{'\n", def.genName));
 			source.append("// out parameters\n");
@@ -180,8 +218,16 @@ public class SignatureGenerator {
 			source.append("// FIXME implement log\n");
 			source.append("}\n");
 		}
-		// FIXME implement MyProc_reply_redirect
+	}
 
+	/**
+	 * This function can be used to generate for signature types that class that handles exceptions.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param def the signature definition to generate code for.
+	 * */
+	private static void generateExceptionClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		if (!def.signatureExceptions.isEmpty()) {
 			source.append(MessageFormat.format("public static class {0}_exception '{'\n", def.genName));
 			source.append("public enum exception_selection_type {");
@@ -298,7 +344,16 @@ public class SignatureGenerator {
 			source.append("// FIXME implement is_any_or_omit\n");
 			source.append("}\n");
 		}
+	}
 
+	/**
+	 * This function can be used to generate for signature types the template class.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param def the signature definition to generate code for.
+	 * */
+	private static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
 		source.append(MessageFormat.format("public static class {0}_template '{'\n", def.genName));
 		source.append("// all the parameters\n");
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
@@ -377,7 +432,5 @@ public class SignatureGenerator {
 		source.append("// FIXME implement log_match_call\n");
 		source.append("// FIXME implement log_match_reply\n");
 		source.append("}\n");
-		//TODO: implement
-		source.append( "\t\t//TODO: Signature_Type.generateCode() is not fully implemented!\n" );
 	}
 }
