@@ -20,6 +20,9 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
@@ -27,6 +30,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureExceptions;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -300,5 +305,35 @@ public final class Raise_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		ExpressionStruct expression = new ExpressionStruct();
+
+		portReference.generateCode(aData, expression);
+		expression.expression.append(".raise( new ");
+		signatureReference.generateCode(aData, expression);
+		expression.expression.append("_exception(");
+
+		TTCN3Template templateBody = parameter.getTemplateBody();
+		if (parameter.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
+			// the exception is a value: optimization is possible
+			IValue value = ((SpecificValue_Template) templateBody).getSpecificValue();
+			//FIXME implement the case where cast is needed (if really needed)
+			value.generateCodeExpressionMandatory(aData, expression);
+		} else {
+			parameter.generateCode(aData, expression);
+		}
+
+		expression.expression.append(')');
+		if (toClause != null) {
+			expression.expression.append(", ");
+			toClause.generateCodeExpression(aData, expression);
+		}
+		expression.expression.append(" )");
+
+		expression.mergeExpression(source);
 	}
 }
