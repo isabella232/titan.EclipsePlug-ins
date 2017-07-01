@@ -33,33 +33,58 @@ public class PortGenerator {
 	}
 
 	/**
+	 * Structure describing all data needed to generate the port.
+	 * 
+	 * originally port_def
+	 * */
+	public static class PortDefinition {
+		/** Java type name of the port */
+		public String javaName;
+
+		/** The original name in the TTCN-3 code */
+		public String displayName;
+
+		/** The list of incoming messages */
+		public ArrayList<messageTypeInfo> inMessages = new ArrayList<PortGenerator.messageTypeInfo>();
+
+		/** The list of outgoing messages */
+		public ArrayList<messageTypeInfo> outMessages = new ArrayList<PortGenerator.messageTypeInfo>();
+
+		/** The type of the testport */
+		public TestportType testportType;
+
+		public PortDefinition(final String genName, final String displayName) {
+			javaName = genName;
+			this.displayName = displayName;
+		}
+	}
+
+	/**
 	 * This function can be used to generate the class of port types
 	 *
 	 * defPortClass in compiler2/port.{h,c}
 	 *
-	 * @param aData: only used to update imports if needed.
-	 * @param source: where the source code is to be generated.
-	 * @param genName: the name of the generated class representing the port type.
-	 * @param inMessages: the list of information about the incoming messages.
-	 * @param outMessages: the list of information about the outgoing messages.
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
 	 * */
-	public static void generateClass(final JavaGenData aData, final StringBuilder source, final String genName, final ArrayList<messageTypeInfo> inMessages, final ArrayList<messageTypeInfo> outMessages, final TestportType testportType) {
+	public static void generateClass(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		aData.addImport("java.util.LinkedList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport( "TitanPort" );
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "Base_Type" );
 
-		generateDeclaration(source, genName, inMessages, testportType);
+		generateDeclaration(source, portDefinition);
 
 		source.append("private void remove_msg_queue_head() {\n");
 		source.append("message_queue.removeFirst();\n");
 		source.append("}\n\n");
 
-		for (int i = 0 ; i < outMessages.size(); i++) {
-			messageTypeInfo outType = outMessages.get(i);
+		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
+			messageTypeInfo outType = portDefinition.outMessages.get(i);
 
-			generateSend(source, outType, testportType);
+			generateSend(source, outType, portDefinition.testportType);
 		}
 
 		generateGenericReceive(source);
@@ -67,13 +92,13 @@ public class PortGenerator {
 		generateGenericTrigger(source);
 
 		// generic and simplified receive for experimentation
-		for (int i = 0 ; i < inMessages.size(); i++) {
-			messageTypeInfo inType = inMessages.get(i);
+		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+			messageTypeInfo inType = portDefinition.inMessages.get(i);
 
 			generateTypedReceive(source, i, inType);
 			generateTypedCheckReceive(source, i, inType);
 			generateTypeTrigger(source, i, inType);
-			generateTypedIncomminMessage(source, i, inType, testportType);
+			generateTypedIncomminMessage(source, i, inType, portDefinition.testportType);
 		}
 
 		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
@@ -84,24 +109,27 @@ public class PortGenerator {
 	/**
 	 * This function generates the declaration of the generated port type class.
 	 *
-	 * @param source: where the source code is to be generated.
-	 * @param inMessages: the list of information about the incoming messages.
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateDeclaration(final StringBuilder source, final String genName, final ArrayList<messageTypeInfo> inMessages, final TestportType testportType) {
+	private static void generateDeclaration(final StringBuilder source, final PortDefinition portDefinition) {
 		String className;
 		String baseClassName;
-		if (testportType == TestportType.INTERNAL) {
-			className = genName;
+		String abstractNess;
+		if (portDefinition.testportType == TestportType.INTERNAL) {
+			abstractNess = "abstract";
+			className = portDefinition.javaName;
 			baseClassName = "TitanPort";
 		} else {
 			// FIXME more complicated
-			className = genName + "_BASE";
+			abstractNess = "";
+			className = portDefinition.javaName + "_BASE";
 			baseClassName = "TitanPort";
 		}
-		source.append(MessageFormat.format("public static class {0} extends {1} '{'\n", className, baseClassName));
+		source.append(MessageFormat.format("public static {0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
 		source.append("enum message_selection { ");
-		for (int i = 0 ; i < inMessages.size(); i++) {
+		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 			if (i > 0) {
 				source.append(", ");
 			}
@@ -122,7 +150,7 @@ public class PortGenerator {
 		source.append("}\n\n");
 
 		//FIXME more complicated conditional
-		if (testportType == TestportType.INTERNAL) {
+		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append(MessageFormat.format("public {0}( ) '{'\n", className));
 			source.append(MessageFormat.format("this((String)null);\n", className));
 			source.append("}\n\n");
@@ -132,8 +160,9 @@ public class PortGenerator {
 	/**
 	 * This function generates the sending functions.
 	 *
-	 * @param source: where the source code is to be generated.
-	 * @param outType: the information about the outgoing message.
+	 * @param source where the source code is to be generated.
+	 * @param outType the information about the outgoing message.
+	 * @param testportType the type of the testport.
 	 * */
 	private static void generateSend(final StringBuilder source, final messageTypeInfo outType, final TestportType testportType) {
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
@@ -171,7 +200,7 @@ public class PortGenerator {
 	/**
 	 * This function generates the generic receive function.
 	 *
-	 * @param source: where the source code is to be generated.
+	 * @param source where the source code is to be generated.
 	 * */
 	private static void generateGenericReceive(final StringBuilder source) {
 		source.append("public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
@@ -205,7 +234,7 @@ public class PortGenerator {
 	/**
 	 * This function generates the generic check_receive or in TTCN-3 check(receive) function.
 	 *
-	 * @param source: where the source code is to be generated.
+	 * @param source where the source code is to be generated.
 	 * */
 	private static void generateGenericCheckReceive(final StringBuilder source) {
 		source.append("public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
@@ -238,7 +267,7 @@ public class PortGenerator {
 	/**
 	 * This function generates the generic trigger function.
 	 *
-	 * @param source: where the source code is to be generated.
+	 * @param source where the source code is to be generated.
 	 * */
 	private static void generateGenericTrigger(final StringBuilder source) {
 		source.append("public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
@@ -273,9 +302,9 @@ public class PortGenerator {
 	/**
 	 * This function generates the receive function for a type
 	 *
-	 * @param source: where the source code is to be generated.
-	 * @param index: the index this message type has in the declaration the port type.
-	 * @param inType: the information about the incoming message.
+	 * @param source where the source code is to be generated.
+	 * @param index the index this message type has in the declaration the port type.
+	 * @param inType the information about the incoming message.
 	 * */
 	private static void generateTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType) {
 		String typeValueName = inType.mJavaTypeName;
@@ -324,9 +353,9 @@ public class PortGenerator {
 	/**
 	 * This function generates the check_receive or in TTCN-3 check(receive) function for a type
 	 *
-	 * @param source: where the source code is to be generated.
-	 * @param index: the index this message type has in the declaration the port type.
-	 * @param inType: the information about the incoming message.
+	 * @param source where the source code is to be generated.
+	 * @param index the index this message type has in the declaration the port type.
+	 * @param inType the information about the incoming message.
 	 * */
 	private static void generateTypedCheckReceive(final StringBuilder source, final int index, final messageTypeInfo inType) {
 		String typeValueName = inType.mJavaTypeName;
@@ -374,9 +403,9 @@ public class PortGenerator {
 	/**
 	 * This function generates the trigger function for a type
 	 *
-	 * @param source: where the source code is to be generated.
-	 * @param index: the index this message type has in the declaration the port type.
-	 * @param inType: the information about the incoming message.
+	 * @param source where the source code is to be generated.
+	 * @param index the index this message type has in the declaration the port type.
+	 * @param inType the information about the incoming message.
 	 * */
 	private static void generateTypeTrigger(final StringBuilder source, final int index, final messageTypeInfo inType) {
 		String typeValueName = inType.mJavaTypeName;
@@ -429,9 +458,10 @@ public class PortGenerator {
 	/**
 	 * This function generates the incoming_message function for a type
 	 *
-	 * @param source: where the source code is to be generated.
-	 * @param index: the index this message type has in the declaration the port type.
-	 * @param inType: the information about the incoming message.
+	 * @param source where the source code is to be generated.
+	 * @param index the index this message type has in the declaration the port type.
+	 * @param inType the information about the incoming message.
+	 * @param testportType the type of the testport.
 	 * */
 	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType, final TestportType testportType) {
 		String typeValueName = inType.mJavaTypeName;

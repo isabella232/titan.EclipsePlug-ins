@@ -45,6 +45,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.PortDefinition;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.TestportType;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.messageTypeInfo;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -1552,43 +1553,41 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String genName = myType.getGenNameOwn();
 		final Scope myScope = myType.getMyScope();
-		
-		ArrayList<messageTypeInfo> inMessagesToGenerate = new ArrayList<PortGenerator.messageTypeInfo>();
+
+		PortDefinition portDefinition = new PortDefinition(genName, getFullName());
 		if (inMessages != null) {
 			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 				IType inType = inMessages.getTypeByIndex(i);
 	
 				messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
-				inMessagesToGenerate.add(info);
+				portDefinition.inMessages.add(info);
 			}
 		}
 
-		ArrayList<messageTypeInfo> outMessagesToGenerate = new ArrayList<PortGenerator.messageTypeInfo>();
 		if (outMessages != null) {
 			for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
 				IType outType = outMessages.getTypeByIndex(i);
 	
 				messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
-				outMessagesToGenerate.add(info);
+				portDefinition.outMessages.add(info);
 			}
 		}
 
-		TestportType type;
 		switch (testportType) {
 		case TP_REGULAR:
-			type = TestportType.NORMAL;
+			portDefinition.testportType = TestportType.NORMAL;
 			break;
 		case TP_INTERNAL:
-			type = TestportType.INTERNAL;
+			portDefinition.testportType = TestportType.INTERNAL;
 			break;
 		case TP_ADDRESS:
-			type = TestportType.ADDRESS;
+			portDefinition.testportType = TestportType.ADDRESS;
 			break;
 		default:
-			type = TestportType.NORMAL;
+			portDefinition.testportType = TestportType.NORMAL;
 			//FIXME fatal error
 		}
 
-		PortGenerator.generateClass(aData, source, genName, inMessagesToGenerate, outMessagesToGenerate, type);
+		PortGenerator.generateClass(aData, source, portDefinition);
 	}
 }
