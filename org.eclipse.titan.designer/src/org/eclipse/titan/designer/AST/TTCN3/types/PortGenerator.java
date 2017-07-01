@@ -117,12 +117,12 @@ public class PortGenerator {
 		String baseClassName;
 		String abstractNess;
 		if (portDefinition.testportType == TestportType.INTERNAL) {
-			abstractNess = "abstract";
+			abstractNess = "";
 			className = portDefinition.javaName;
 			baseClassName = "TitanPort";
 		} else {
 			// FIXME more complicated
-			abstractNess = "";
+			abstractNess = "abstract";
 			className = portDefinition.javaName + "_BASE";
 			baseClassName = "TitanPort";
 		}
