@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 public class PortGenerator {
+
+	// The kind of the testport
+	public enum TestportType {NORMAL, INTERNAL, ADDRESS};
+
 	/**
 	 * Structure to describe in and out messages.
 	 * 
@@ -39,19 +43,14 @@ public class PortGenerator {
 	 * @param inMessages: the list of information about the incoming messages.
 	 * @param outMessages: the list of information about the outgoing messages.
 	 * */
-	public static void generateClass(final JavaGenData aData, final StringBuilder source, final String genName, final ArrayList<messageTypeInfo> inMessages, final ArrayList<messageTypeInfo> outMessages) {
+	public static void generateClass(final JavaGenData aData, final StringBuilder source, final String genName, final ArrayList<messageTypeInfo> inMessages, final ArrayList<messageTypeInfo> outMessages, final TestportType testportType) {
 		aData.addImport("java.util.LinkedList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport( "TitanPort" );
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "Base_Type" );
 
-		source.append(MessageFormat.format("public static abstract class {0}_BASE extends TitanPort '{'\n", genName));
-		generateDeclaration(source, inMessages);
-
-		source.append(MessageFormat.format("public {0}_BASE( final String portName) '{'\n", genName));
-		source.append("super(portName);\n");
-		source.append("}\n\n");
+		generateDeclaration(source, genName, inMessages, testportType);
 
 		source.append("private void remove_msg_queue_head() {\n");
 		source.append("message_queue.removeFirst();\n");
@@ -60,7 +59,7 @@ public class PortGenerator {
 		for (int i = 0 ; i < outMessages.size(); i++) {
 			messageTypeInfo outType = outMessages.get(i);
 
-			generateSend(source, outType);
+			generateSend(source, outType, testportType);
 		}
 
 		generateGenericReceive(source);
@@ -74,7 +73,7 @@ public class PortGenerator {
 			generateTypedReceive(source, i, inType);
 			generateTypedCheckReceive(source, i, inType);
 			generateTypeTrigger(source, i, inType);
-			generateTypedIncomminMessage(source, i, inType);
+			generateTypedIncomminMessage(source, i, inType, testportType);
 		}
 
 		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
@@ -88,7 +87,19 @@ public class PortGenerator {
 	 * @param source: where the source code is to be generated.
 	 * @param inMessages: the list of information about the incoming messages.
 	 * */
-	private static void generateDeclaration(final StringBuilder source, final ArrayList<messageTypeInfo> inMessages) {
+	private static void generateDeclaration(final StringBuilder source, final String genName, final ArrayList<messageTypeInfo> inMessages, final TestportType testportType) {
+		String className;
+		String baseClassName;
+		if (testportType == TestportType.INTERNAL) {
+			className = genName;
+			baseClassName = "TitanPort";
+		} else {
+			// FIXME more complicated
+			className = genName + "_BASE";
+			baseClassName = "TitanPort";
+		}
+		source.append(MessageFormat.format("public static class {0} extends {1} '{'\n", className, baseClassName));
+
 		source.append("enum message_selection { ");
 		for (int i = 0 ; i < inMessages.size(); i++) {
 			if (i > 0) {
@@ -105,6 +116,17 @@ public class PortGenerator {
 		source.append("}\n");
 
 		source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<>();\n\n");
+
+		source.append(MessageFormat.format("public {0}( final String portName) '{'\n", className));
+		source.append("super(portName);\n");
+		source.append("}\n\n");
+
+		//FIXME more complicated conditional
+		if (testportType == TestportType.INTERNAL) {
+			source.append(MessageFormat.format("public {0}( ) '{'\n", className));
+			source.append(MessageFormat.format("this((String)null);\n", className));
+			source.append("}\n\n");
+		}
 	}
 
 	/**
@@ -113,7 +135,7 @@ public class PortGenerator {
 	 * @param source: where the source code is to be generated.
 	 * @param outType: the information about the outgoing message.
 	 * */
-	private static void generateSend(final StringBuilder source, final messageTypeInfo outType) {
+	private static void generateSend(final StringBuilder source, final messageTypeInfo outType, final TestportType testportType) {
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", getName()));\n");
@@ -123,8 +145,12 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("//FIXME logging\n");
 		source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
-		source.append("//FIXME get_default_destination\n");
-		source.append("outgoing_send(send_par);\n");
+		if (testportType == TestportType.INTERNAL) {
+			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", getName()));\n");
+		} else {
+			source.append("//FIXME get_default_destination\n");
+			source.append("outgoing_send(send_par);\n");
+		}
 		source.append("} else {\n");
 		source.append("//FIXME implement\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending messages on port {0}, is not yet supported.\", getName()));\n");
@@ -136,7 +162,10 @@ public class PortGenerator {
 		source.append("send(send_par_value, destination_component);\n");
 		source.append("}\n\n");
 
-		source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par);\n\n", outType.mJavaTypeName));
+		// FIXME a bit more complex expression
+		if (testportType != TestportType.INTERNAL) {
+			source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par);\n\n", outType.mJavaTypeName));
+		}
 	}
 
 	/**
@@ -404,7 +433,7 @@ public class PortGenerator {
 	 * @param index: the index this message type has in the declaration the port type.
 	 * @param inType: the information about the incoming message.
 	 * */
-	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType) {
+	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType, final TestportType testportType) {
 		String typeValueName = inType.mJavaTypeName;
 
 		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component) '{'\n", typeValueName));
@@ -418,8 +447,10 @@ public class PortGenerator {
 		source.append("message_queue.addLast(new_item);\n");
 		source.append("}\n\n");
 
-		source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-		source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
-		source.append("}\n\n");
+		if (testportType != TestportType.INTERNAL) {
+			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
+			source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
+			source.append("}\n\n");
+		}
 	}
 }

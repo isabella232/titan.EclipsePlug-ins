@@ -45,6 +45,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.TestportType;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.messageTypeInfo;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -1572,6 +1573,22 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 
-		PortGenerator.generateClass(aData, source, genName, inMessagesToGenerate, outMessagesToGenerate);
+		TestportType type;
+		switch (testportType) {
+		case TP_REGULAR:
+			type = TestportType.NORMAL;
+			break;
+		case TP_INTERNAL:
+			type = TestportType.INTERNAL;
+			break;
+		case TP_ADDRESS:
+			type = TestportType.ADDRESS;
+			break;
+		default:
+			type = TestportType.NORMAL;
+			//FIXME fatal error
+		}
+
+		PortGenerator.generateClass(aData, source, genName, inMessagesToGenerate, outMessagesToGenerate, type);
 	}
 }
