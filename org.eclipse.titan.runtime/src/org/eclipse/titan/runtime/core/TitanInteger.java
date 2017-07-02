@@ -125,9 +125,8 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-		
-	
-
+	//TODO: implement mul
+	//TODO: implement div
 
 	/**
 	 * this + otherValue
@@ -158,8 +157,8 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 	//TODO: implement div
-	
-	
+
+
 
 	//originally operator==
 	public TitanBoolean operatorEquals( final int otherValue ) {
@@ -205,8 +204,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//TODO: implement != for int
-	
-	
+
 	//originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanInteger otherValue ) {
 		return operatorEquals( otherValue ).not();
@@ -316,92 +314,89 @@ public class TitanInteger extends Base_Type {
 		}
 		return getBigInteger().toString();
 	}
-	
+
 	//TODO: check mustBound need
-		//originally operator+
-		public TitanInteger add(final int otherValue){
-			return this.add(new TitanInteger(otherValue));
-		}
-		
-		//originally operator-
-		public TitanInteger sub(final TitanInteger otherValue){
-			this.mustBound("Unbound left operand of integer addition. ");
-			otherValue.mustBound("Unbound right operand of integer addition. ");
-			if(nativeFlag){
-				if(otherValue.nativeFlag){
-						final long temp = this.nativeInt - otherValue.nativeInt;
-						if(Integer.MIN_VALUE < temp && Integer.MAX_VALUE > temp ){
-							return new TitanInteger((int) temp);
-						}
-						return new TitanInteger(BigInteger.valueOf(temp));
-					} else {
-						final BigInteger this_int = BigInteger.valueOf(this.nativeInt);
-						return new TitanInteger(this_int.subtract(otherValue.openSSL));
+	//originally operator+
+	public TitanInteger add(final int otherValue){
+		return this.add(new TitanInteger(otherValue));
+	}
+
+	//originally operator-
+	public TitanInteger sub(final TitanInteger otherValue){
+		this.mustBound("Unbound left operand of integer addition. ");
+		otherValue.mustBound("Unbound right operand of integer addition. ");
+
+		if(nativeFlag){
+			if(otherValue.nativeFlag){
+				final long temp = this.nativeInt - otherValue.nativeInt;
+				if(temp > Integer.MIN_VALUE  && temp < Integer.MAX_VALUE ){
+					return new TitanInteger((int) temp);
 				}
+				return new TitanInteger(BigInteger.valueOf(temp));
 			} else {
-				if(otherValue.nativeFlag){
-					final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
-					return new TitanInteger(openSSL.subtract(other_int));
-				} else {
-					return new TitanInteger(openSSL.subtract(otherValue.openSSL));
-				}
+				final BigInteger this_int = BigInteger.valueOf(this.nativeInt);
+				return new TitanInteger(this_int.subtract(otherValue.openSSL));
+			}
+		} else {
+			if(otherValue.nativeFlag){
+				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
+				return new TitanInteger(openSSL.subtract(other_int));
+			} else {
+				return new TitanInteger(openSSL.subtract(otherValue.openSSL));
 			}
 		}
-		
-		
-		//originally operator-
-		public TitanInteger sub(final int otherValue){
-			return this.sub(new TitanInteger(otherValue));
+	}
+
+
+	//originally operator-
+	public TitanInteger sub(final int otherValue){
+		return this.sub(new TitanInteger(otherValue));
+	}
+
+	//originally operator-
+	public TitanInteger sub(){
+		mustBound("Unbound integer operand of unary - operator (negation).");
+
+		if(nativeFlag){
+			final long temp = nativeInt * -1;
+			if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
+				return new TitanInteger((int) temp);
+			} else {
+				return new TitanInteger(BigInteger.valueOf(temp));
+			}
+		} else {
+			return new TitanInteger(openSSL.negate());
 		}
-		
-		//originally operator-
-		public TitanInteger sub(){
-			mustBound("Unbound integer operand of unary - operator (negation).");
-			if(nativeFlag){
-				final long temp = nativeInt * -1;
+	}
+
+	//TODO: first param is native
+	//static sub
+	public static TitanInteger sub(final TitanInteger firstValue, final TitanInteger secondValue){
+		firstValue.mustBound("Unbound left operand of integer addition. ");
+		secondValue.mustBound("Unbound right operand of integer addition. ");
+
+		if(firstValue.nativeFlag){
+			if(secondValue.nativeFlag){
+				final long temp = firstValue.nativeInt - secondValue.nativeInt;
 				if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
 					return new TitanInteger((int) temp);
 				} else {
 					return new TitanInteger(BigInteger.valueOf(temp));
 				}
-		} else {
-			return new TitanInteger(openSSL.negate());
-			}
-		}
-		//TODO: first param is native
-		//static sub
-		public static TitanInteger sub(final TitanInteger firstValue, final TitanInteger secondValue){
-			firstValue.mustBound("Unbound left operand of integer addition. ");
-			secondValue.mustBound("Unbound right operand of integer addition. ");
-			if(firstValue.nativeFlag){
-				if(secondValue.nativeFlag){
-					final long temp = firstValue.nativeInt - secondValue.nativeInt;
-					if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
-						return new TitanInteger((int) temp);
-					} else {
-						return new TitanInteger(BigInteger.valueOf(temp));
-					}
-				} else {
-					final BigInteger first_int = BigInteger.valueOf(firstValue.nativeInt);
-					return new TitanInteger(first_int.subtract(secondValue.openSSL));
-				}
 			} else {
-				if(secondValue.nativeFlag){
-					final BigInteger second_int = BigInteger.valueOf(secondValue.nativeInt);
-					return new TitanInteger(firstValue.openSSL.subtract(second_int));
-				} else {
-					return new TitanInteger(firstValue.openSSL.subtract(secondValue.openSSL));
-				}
+				final BigInteger first_int = BigInteger.valueOf(firstValue.nativeInt);
+				return new TitanInteger(first_int.subtract(secondValue.openSSL));
 			}
-			
+		} else {
+			if(secondValue.nativeFlag){
+				final BigInteger second_int = BigInteger.valueOf(secondValue.nativeInt);
+				return new TitanInteger(firstValue.openSSL.subtract(second_int));
+			} else {
+				return new TitanInteger(firstValue.openSSL.subtract(secondValue.openSSL));
+			}
 		}
-		
-		//originally operator !=
-		public TitanBoolean operatorNotEquals(final int otherValue){
-			mustBound("");
-		}
-		
-		
+
+	}
 	//TODO: implement static add
 	//TODO: implement static mul
 	//TODO: implement static div
