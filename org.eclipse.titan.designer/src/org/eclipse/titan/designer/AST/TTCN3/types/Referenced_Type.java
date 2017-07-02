@@ -611,13 +611,28 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if(needsAlias()) {
-			source.append( "\tpublic static class " );
-			source.append( getGenNameOwn() );
-			final String className = getGenNameValue( aData, source, getMyScope() );
-			source.append( " extends " );
-			source.append( className );
+			final String ownName = getGenNameOwn();
+			IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			switch (last.getTypetype()) {
+			case TYPE_PORT:
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+				break;
+			case TYPE_SIGNATURE:
+				source.append(MessageFormat.format("\tpublic static class {0}_call extends {1}_call '{' '}'\n", genName, getGenNameValue(aData, source, myScope)));
+				if (!((Signature_Type) last).isNonblocking()) {
+					source.append(MessageFormat.format("\tpublic static class {0}_reply extends {1}_reply '{' '}'\n", genName, getGenNameValue(aData, source, myScope)));
+				}
+				if (((Signature_Type) last).getSignatureExceptions() != null) {
+					source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", genName, getGenNameTemplate(aData, source, myScope)));
+				}
+				//FIXME *-redirect -s are missing
+				break;
+			default:
+				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+			}
+
 			//TODO: implement: package of the imported class is unknown
-			source.append( " {}\n" );
 		}
 	}
 
