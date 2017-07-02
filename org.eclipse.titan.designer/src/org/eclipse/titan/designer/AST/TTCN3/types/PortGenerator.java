@@ -139,6 +139,16 @@ public class PortGenerator {
 
 		source.append("private class MessageQueueItem {\n");
 		source.append("message_selection item_selection;\n");
+		source.append("// base type could be: ");
+		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+			messageTypeInfo inType = portDefinition.inMessages.get(i);
+
+			if (i > 0) {
+				source.append(", ");
+			}
+			source.append(inType.mJavaTypeName);
+		}
+		source.append("\n");
 		source.append("Base_Type message;\n");
 		source.append("int sender_component;\n");
 		source.append("}\n");
