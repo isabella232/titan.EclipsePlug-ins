@@ -74,6 +74,7 @@ public class UnionGenerator {
 		generateValueOperatorEquals(source, genName, displayName, fieldInfos);
 
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
+		generateValueGetSelection(source);
 
 		//FIXME implement rest
 		source.append("}\n");
@@ -103,6 +104,7 @@ public class UnionGenerator {
 		generateTemplateConstructors(source, genName);
 		generateTemplateCleanup(source, fieldInfos);
 		generateTemplateAssign(source, genName);
+		generateTemplateMatch(source, genName, displayName, fieldInfos);
 		generateTemplateIsChosen(source, genName, displayName);
 		generateTemplateIsValue(source, displayName, fieldInfos);
 		generateTemplateIsPresent(source);
@@ -352,6 +354,17 @@ public class UnionGenerator {
 	}
 
 	/**
+	 * Generate the get_selection function
+	 *
+	 * @param source: where the source code is to be generated.
+	 * */
+	private static void generateValueGetSelection(final StringBuilder source) {
+		source.append("public union_selection_type get_selection() {\n");
+		source.append("return union_selection;\n");
+		source.append("}\n");
+	}
+
+	/**
 	 * Generate member variables
 	 *
 	 * @param source: where the source code is to be generated.
@@ -517,6 +530,66 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
+
+		//FIXME implement optional parameter version
+	}
+
+	/**
+	 * Generate the match function
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * */
+	private static void generateTemplateMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("// originally match\n");
+		source.append(MessageFormat.format("public TitanBoolean match(final {0} other_value) '{'\n", genName));
+		source.append("return match(other_value, false);\n");
+		source.append("}\n\n");
+
+		source.append("// originally match\n");
+		source.append(MessageFormat.format("public TitanBoolean match(final {0} other_value, final boolean legacy) '{'\n", genName));
+		source.append("if(!other_value.isBound()) {\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+
+		source.append("switch (templateSelection) {\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("return new TitanBoolean(true);\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append(MessageFormat.format("{0}.union_selection_type value_selection = other_value.get_selection();\n", genName));
+		source.append(MessageFormat.format("if (value_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append("if (value_selection != single_value_union_selection) {\n");
+		source.append("new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append("switch(value_selection) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			FieldInfo fieldInfo = fieldInfos.get(i);
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("return (({0})single_value).match(other_value.get{1}(), legacy);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+		}
+
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when matching a template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("if(value_list.get(i).match(other_value, legacy).getValue()) {\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
+		source.append("}\n");
+		source.append("}\n");
 	}
 
 	/**
