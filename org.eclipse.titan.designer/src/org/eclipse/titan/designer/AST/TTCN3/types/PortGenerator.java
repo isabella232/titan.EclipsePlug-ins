@@ -121,6 +121,22 @@ public class PortGenerator {
 			generateTypedIncomminMessage(source, i, inType, portDefinition.testportType);
 		}
 
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			generateCallFunction(source, info, portDefinition.testportType);
+		}
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			generateReplyFunction(source, info, portDefinition.testportType);
+		}
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			generateRaiseFunction(source, info, portDefinition.testportType);
+		}
+
 		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
 
 		source.append("}\n\n");
@@ -250,6 +266,7 @@ public class PortGenerator {
 	
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
+			//FIXME add logging
 			source.append("}\n\n");
 		}
 
@@ -589,6 +606,118 @@ public class PortGenerator {
 			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
 			source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
 			source.append("}\n\n");
+		}
+	}
+
+	/**
+	 * This function generates the call function for a signature
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param info information about the signature type.
+	 * @param testportType the type of the testport.
+	 * */
+	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final TestportType testportType) {
+		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+		source.append("if (!is_started) {\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", getName()));\n");
+		source.append("}\n");
+		source.append("if (!destination_component.isBound()) {\n");
+		source.append("throw new TtcnError(\"Unbound component reference in the to clause of call operation.\");\n");
+		source.append("}\n");
+
+		source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
+		source.append("//FIXME add logging\n");
+		source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+		if (testportType == TestportType.INTERNAL) {
+			source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot send call to system.\", getName()));\n");
+		} else {
+			source.append("//FIXME get_default_destination\n");
+			source.append("outgoing_call(call_temp);\n");
+		}
+		
+		source.append("} else {\n");
+		source.append("//FIXME implement\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, is not yet supported.\", getName()));\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public void call(final {0}_template call_template) '{'\n", info.mJavaTypeName));
+		source.append("//FIXME implement\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * This function generates the reply function for a signature
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param info information about the signature type.
+	 * @param testportType the type of the testport.
+	 * */
+	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final TestportType testportType) {
+		if (!info.isNoBlock) {
+			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+			source.append("if (!is_started) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", getName()));\n");
+			source.append("}\n");
+			source.append("if (!destination_component.isBound()) {\n");
+			source.append("throw new TtcnError(\"Unbound component reference in the to clause of reply operation.\");\n");
+			source.append("}\n");
+
+			source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
+			source.append("//FIXME add logging\n");
+			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+			if (testportType == TestportType.INTERNAL) {
+				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot reply to system.\", getName()));\n");
+			} else {
+				source.append("//FIXME get_default_destination\n");
+				source.append("outgoing_reply(reply_temp);\n");
+			}
+			source.append("} else {\n");
+			source.append("//FIXME implement\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, is not yet supported.\", getName()));\n");
+			source.append("}\n");
+			source.append("}\n");
+
+			source.append(MessageFormat.format("public void reply(final {0}_template reply_template) '{'\n", info.mJavaTypeName));
+			source.append("//FIXME implement\n");
+			source.append("}\n");
+		}
+	}
+
+	/**
+	 * This function generates the raise function for a signature
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param info information about the signature type.
+	 * @param testportType the type of the testport.
+	 * */
+	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final TestportType testportType) {
+		if (info.hasExceptions) {
+			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
+
+			source.append("if (!is_started) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", getName()));\n");
+			source.append("}\n");
+			source.append("if (!destination_component.isBound()) {\n");
+			source.append("throw new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
+			source.append("}\n");
+
+			source.append("//FIXME add logging\n");
+			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+			if (testportType == TestportType.INTERNAL) {
+				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot raise an exception to system.\", getName()));\n");
+			} else {
+				source.append("//FIXME get_default_destination\n");
+				source.append("outgoing_raise(raise_exception);\n");
+			}
+			source.append("} else {\n");
+			source.append("//FIXME implement\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, is not yet supported.\", getName()));\n");
+			source.append("}\n");
+			source.append("}\n");
+
+			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception) '{'\n", info.mJavaTypeName));
+			source.append("//FIXME implement\n");
+			source.append("}\n");
 		}
 	}
 }
