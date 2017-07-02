@@ -13,7 +13,7 @@ public class PortGenerator {
 	/**
 	 * Structure to describe in and out messages.
 	 * 
-	 * originally port_msg_type_tag is something like this
+	 * originally port_msg_type is something like this
 	 * */
 	public static class messageTypeInfo {
 		/** Java type name of the message */
@@ -29,6 +29,23 @@ public class PortGenerator {
 		public messageTypeInfo(final String messageType, final String messageTemplate) {
 			mJavaTypeName = messageType;
 			mJavaTemplateName = messageTemplate;
+		}
+	}
+
+	//FIXME comment
+	public static final class procedureSignatureInfo {
+		private String mJavaTypeName;
+		private String mDisplayName;
+		private boolean isNoBlock;
+		private boolean hasExceptions;
+		private boolean hasReturnValue;
+
+		public procedureSignatureInfo(final String procedureType, final String displayName, final boolean isNoBlock, final boolean hasExceptions, final boolean hasReturnValue) {
+			this.mJavaTypeName = procedureType;
+			this.mDisplayName = displayName;
+			this.isNoBlock = isNoBlock;
+			this.hasExceptions = hasExceptions;
+			this.hasReturnValue = hasReturnValue;
 		}
 	}
 
@@ -49,6 +66,11 @@ public class PortGenerator {
 
 		/** The list of outgoing messages */
 		public ArrayList<messageTypeInfo> outMessages = new ArrayList<PortGenerator.messageTypeInfo>();
+
+		public ArrayList<procedureSignatureInfo> inProcedures = new ArrayList<PortGenerator.procedureSignatureInfo>();
+
+		public ArrayList<procedureSignatureInfo> outProcedures = new ArrayList<PortGenerator.procedureSignatureInfo>();
+
 
 		/** The type of the testport */
 		public TestportType testportType;
@@ -77,19 +99,17 @@ public class PortGenerator {
 
 		generateDeclaration(source, portDefinition);
 
-		source.append("private void remove_msg_queue_head() {\n");
-		source.append("message_queue.removeFirst();\n");
-		source.append("}\n\n");
-
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 			messageTypeInfo outType = portDefinition.outMessages.get(i);
 
 			generateSend(source, outType, portDefinition.testportType);
 		}
 
-		generateGenericReceive(source);
-		generateGenericCheckReceive(source);
-		generateGenericTrigger(source);
+		if (portDefinition.inMessages.size() > 0) {
+			generateGenericReceive(source);
+			generateGenericCheckReceive(source);
+			generateGenericTrigger(source);
+		}
 
 		// generic and simplified receive for experimentation
 		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
@@ -128,32 +148,110 @@ public class PortGenerator {
 		}
 		source.append(MessageFormat.format("public static {0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
-		source.append("enum message_selection { ");
-		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
-			if (i > 0) {
-				source.append(", ");
+		if(portDefinition.inMessages.size() > 0) {
+			source.append("enum message_selection { ");
+			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+				if (i > 0) {
+					source.append(", ");
+				}
+				source.append(MessageFormat.format("MESSAGE_{0}", i));
 			}
-			source.append(MessageFormat.format("MESSAGE_{0}", i));
-		}
-		source.append("};\n");
-
-		source.append("private class MessageQueueItem {\n");
-		source.append("message_selection item_selection;\n");
-		source.append("// base type could be: ");
-		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
-			messageTypeInfo inType = portDefinition.inMessages.get(i);
-
-			if (i > 0) {
-				source.append(", ");
+			source.append("};\n");
+	
+			source.append("private class MessageQueueItem {\n");
+			source.append("message_selection item_selection;\n");
+			source.append("// base type could be: ");
+			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+				messageTypeInfo inType = portDefinition.inMessages.get(i);
+	
+				if (i > 0) {
+					source.append(", ");
+				}
+				source.append(inType.mJavaTypeName);
 			}
-			source.append(inType.mJavaTypeName);
-		}
-		source.append("\n");
-		source.append("Base_Type message;\n");
-		source.append("int sender_component;\n");
-		source.append("}\n");
+			source.append("\n");
+			source.append("Base_Type message;\n");
+			source.append("int sender_component;\n");
+			source.append("}\n");
+	
+			source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<MessageQueueItem>();\n\n");
 
-		source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<>();\n\n");
+			source.append("private void remove_msg_queue_head() {\n");
+			source.append("message_queue.removeFirst();\n");
+			source.append("}\n\n");
+		}
+
+		boolean hasIncomingCall = portDefinition.inProcedures.size() > 0;
+		boolean hasIncomingReply = false;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			if (!portDefinition.outProcedures.get(i).isNoBlock) {
+				hasIncomingReply = true;
+			}
+		}
+		boolean hasIncomingException = false;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			if (portDefinition.outProcedures.get(i).hasExceptions) {
+				hasIncomingException = true;
+			}
+		}
+
+		boolean hasProcedureQueue = hasIncomingCall || hasIncomingReply || hasIncomingException;
+		if (hasProcedureQueue) {
+			source.append("enum proc_selection { ");
+			boolean isFirst = true;
+			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+				if (!isFirst) {
+					source.append(", ");
+				}
+				isFirst = false;
+				source.append(MessageFormat.format("CALL_{0}", i));
+			}
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				if (!portDefinition.outProcedures.get(i).isNoBlock) {
+					if (!isFirst) {
+						source.append(", ");
+					}
+					isFirst = false;
+					source.append(MessageFormat.format("REPLY_{0}", i));
+				}
+			}
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				if (portDefinition.outProcedures.get(i).hasExceptions) {
+					if (!isFirst) {
+						source.append(", ");
+					}
+					isFirst = false;
+					source.append(MessageFormat.format("EXCEPTION_{0}", i));
+				}
+			}
+			source.append("};\n");
+	
+			source.append("private class ProcedureQueueItem {\n");
+			source.append("proc_selection item_selection;\n");
+			source.append("// TODO check if an object would be enough \n");
+			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+				source.append(MessageFormat.format("{0}_call call_{1};\n", portDefinition.inProcedures.get(i).mJavaTypeName, i));
+			}
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+				if (!info.isNoBlock) {
+					source.append(MessageFormat.format("{0}_reply reply_{1};\n", info.mJavaTypeName, i));
+				}
+			}
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+				if (info.hasExceptions) {
+					source.append(MessageFormat.format("{0}_exception exception_{1};\n", info.mJavaTypeName, i));
+				}
+			}
+			source.append("int sender_component;\n");
+			source.append("}\n");
+			source.append("private LinkedList<ProcedureQueueItem> procedure_queue = new LinkedList<ProcedureQueueItem>();\n");
+	
+			source.append("private void remove_proc_queue_head() {\n");
+			source.append("procedure_queue.removeFirst();\n");
+			source.append("}\n\n");
+		}
 
 		source.append(MessageFormat.format("public {0}( final String portName) '{'\n", className));
 		source.append("super(portName);\n");

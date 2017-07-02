@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.PortDefinition;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.TestportType;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.messageTypeInfo;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.procedureSignatureInfo;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
@@ -1570,6 +1571,26 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	
 				messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
 				portDefinition.outMessages.add(info);
+			}
+		}
+
+		if (inSignatures != null) {
+			for (int i = 0 ; i < inSignatures.getNofTypes(); i++) {
+				IType outType = inSignatures.getTypeByIndex(i);
+				Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+	
+				procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, false);
+				portDefinition.inProcedures.add(info);
+			}
+		}
+
+		if (outSignatures != null) {
+			for (int i = 0 ; i < outSignatures.getNofTypes(); i++) {
+				IType outType = outSignatures.getTypeByIndex(i);
+				Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+	
+				procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, signature.getSignatureReturnType() != null);
+				portDefinition.outProcedures.add(info);
 			}
 		}
 
