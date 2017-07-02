@@ -72,7 +72,7 @@ public class UnionGenerator {
 		generateValueIsValue(source, fieldInfos);
 		generateValueIsPresent(source);
 		generateValueOperatorEquals(source, genName, displayName, fieldInfos);
-
+		GenerateValueNotEquals(source, genName);
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 		generateValueGetSelection(source);
 
@@ -320,6 +320,19 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate not equals operators (originally !=)
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * */
+	private static void GenerateValueNotEquals(final StringBuilder source, final String genName) {
+		source.append("//originally operator!=\n");
+		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals( final {0} otherValue ) '{'\n", genName));
+		source.append("return operatorEquals(otherValue).not();\n");
 		source.append("}\n\n");
 	}
 
