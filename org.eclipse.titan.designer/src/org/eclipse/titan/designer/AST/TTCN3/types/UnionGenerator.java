@@ -72,11 +72,14 @@ public class UnionGenerator {
 		generateValueIsValue(source, fieldInfos);
 		generateValueIsPresent(source);
 		generateValueOperatorEquals(source, genName, displayName, fieldInfos);
-		GenerateValueNotEquals(source, genName);
+		generateValueNotEquals(source, genName);
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 		generateValueGetSelection(source);
 
-		//FIXME implement rest
+		//FIXME implement log
+		//FIXME implement set_param
+		//FIXME implement encode
+		//FIXME implement decode
 		source.append("}\n");
 	}
 
@@ -111,7 +114,14 @@ public class UnionGenerator {
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
 
-		//FIXME implement rest
+		//FIXME implement valueOf
+		//FIXME implement list_item
+		//FIXME implement log
+		//FIXME implement log_match
+		//FIXME implement encode
+		//FIXME implement decode
+		//FIXME implement set_param
+		//FIXME implement check_restriction
 		source.append("}\n");	
 	}
 
@@ -329,7 +339,7 @@ public class UnionGenerator {
 	 * @param source: where the source code is to be generated.
 	 * @param genName: the name of the generated class representing the union/choice type.
 	 * */
-	private static void GenerateValueNotEquals(final StringBuilder source, final String genName) {
+	private static void generateValueNotEquals(final StringBuilder source, final String genName) {
 		source.append("//originally operator!=\n");
 		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals( final {0} otherValue ) '{'\n", genName));
 		source.append("return operatorEquals(otherValue).not();\n");
