@@ -17,7 +17,9 @@ import java.util.Set;
  * @author Kristof Szabados
  */
 public class TitanPort {
+	// originally the list stored in list_head list_tail
 	private static LinkedList<TitanPort> PORTS = new LinkedList<TitanPort>();
+	// originally the list stored in system_list_head and system_list_tail
 	private static LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
 
 	private String portName;
