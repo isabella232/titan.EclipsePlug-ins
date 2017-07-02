@@ -4,6 +4,8 @@ package org.eclipse.titan.runtime.core;
  * A class which behaves almost, but not quite, entirely unlike
  * a floating-point value.
  *
+ * TODO consider merging into TitanFloat later, to reduce complexity
+ *
  * @author Arpad Lovassy
  */
 public class Ttcn3Float {
