@@ -126,15 +126,50 @@ public class PortGenerator {
 
 			generateCallFunction(source, info, portDefinition.testportType);
 		}
-		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 			generateReplyFunction(source, info, portDefinition.testportType);
 		}
-		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 			generateRaiseFunction(source, info, portDefinition.testportType);
+		}
+
+		//FIXME more complicated conditional
+		if (portDefinition.testportType != TestportType.INTERNAL) {
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+				source.append(MessageFormat.format("public abstract void outgoing_call(final {0}_call call_par);\n", info.mJavaTypeName));
+			}
+			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+
+				if (!info.isNoBlock) {
+					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par);\n", info.mJavaTypeName));
+				}
+			}
+			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+
+				if (info.hasExceptions) {
+					source.append(MessageFormat.format("public abstract void outgoing_raise(final {0}_exception raise_exception);\n", info.mJavaTypeName));
+				}
+			}
+		}
+
+		if (portDefinition.inProcedures.size() > 0) {
+			generateGenericGetcall(source, portDefinition);
+			generateGenericCheckGetcall(source, portDefinition);
+
+			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+
+				generateTypedGetcall(source, i, info);
+				generateTypedCheckGetcall(source, i, info);
+			}
 		}
 
 		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
@@ -719,5 +754,151 @@ public class PortGenerator {
 			source.append("//FIXME implement\n");
 			source.append("}\n");
 		}
+	}
+
+	/**
+	 * This function generates the generic getcall function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * */
+	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("switch(head.item_selection) {\n");
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			source.append(MessageFormat.format("case CALL_{0}:\n", i));
+		}
+
+		source.append("{\n");
+		source.append("//FIXME logging\n");
+		source.append("remove_proc_queue_head();\n");
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the generic check_getcall function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * */
+	private static void generateGenericCheckGetcall(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("public TitanAlt_Status check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("switch(head.item_selection) {\n");
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			source.append(MessageFormat.format("case CALL_{0}:\n", i));
+		}
+
+		source.append("{\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the getcall function for a signature type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * */
+	private static void generateTypedGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info) {
+		source.append(MessageFormat.format("public TitanAlt_Status getcall(final {0}_template getcall_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", info.mJavaTypeName));
+
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getcall_template.match_call(head.call_{0}, true))) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("} else {\n");
+		source.append("//FIXME set param_ref and logging\n");
+		source.append("remove_proc_queue_head();\n");
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the check_getcall function for a signature type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * */
+	private static void generateTypedCheckGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info) {
+		source.append(MessageFormat.format("public TitanAlt_Status check_getcall(final {0}_template getcall_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", info.mJavaTypeName));
+
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getcall_template.match_call(head.call_{0}, true))) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("} else {\n");
+		source.append("//FIXME set param_ref and logging\n");
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("}\n\n");
 	}
 }
