@@ -72,6 +72,7 @@ public class UnionGenerator {
 		generateValueIsValue(source, fieldInfos);
 		generateValueIsPresent(source);
 		generateValueOperatorEquals(source, genName, displayName, fieldInfos);
+
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 
 		//FIXME implement rest
@@ -277,7 +278,7 @@ public class UnionGenerator {
 	}
 
 	/**
-	 * Generate assignment operators
+	 * Generate equals operators (originally ==)
 	 *
 	 * @param source: where the source code is to be generated.
 	 * @param genName: the name of the generated class representing the union/choice type.
