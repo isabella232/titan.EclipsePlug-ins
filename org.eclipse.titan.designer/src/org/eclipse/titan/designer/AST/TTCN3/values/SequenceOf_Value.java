@@ -642,34 +642,52 @@ public final class SequenceOf_Value extends Value {
 			return convertedValue.generateCodeInit(aData, source, name);
 		}
 
-		aData.addBuiltinTypeImport( "TitanRecordOf" );
-		
 		if (isIndexed()) {
-			for (int i = 0; i < values.getNofIndexedValues(); i++) {
-				final IValue value = values.getIndexedValueByIndex(i).getValue();
-				generateCodeInitListElement( aData, source, name, value);
+			final int nofIndexedValues = values.getNofIndexedValues();
+			if (nofIndexedValues == 0) {
+				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actuall NULL_VALUE
+			} else {
+				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
+				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
+				for (int i = 0; i < nofIndexedValues; i++) {
+					final IndexedValue indexedValue = values.getIndexedValueByIndex(i);
+					final String tempId1 = aData.getTemporaryVariableName();
+					source.append("{\n");
+					final Value index = indexedValue.getIndex().getValue();
+					if (index.getValuetype().equals(Value_type.INTEGER_VALUE)) {
+						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
+					} else {
+						final String tempId2 = aData.getTemporaryVariableName();
+						source.append(MessageFormat.format("int {0};\n", tempId2));
+						index.generateCodeInit(aData, source, tempId2);
+						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
+					}
+					indexedValue.getValue().generateCodeInit(aData, source, tempId1);
+					source.append("}\n");
+				}
 			}
 		} else {
-			for (int i = 0; i < values.getNofValues(); i++) {
-				final IValue value = values.getValueByIndex(i);
-				generateCodeInitListElement( aData, source, name, value);
+			final int nofValues = values.getNofValues();
+			if (nofValues == 0) {
+				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actuall NULL_VALUE
+			} else {
+				source.append(MessageFormat.format("{0}.setSize({1});\n", name, nofValues));
+				final IType ofType = values.getValueByIndex(0).getMyGovernor();
+				final String embeddedType = ofType.getGenNameValue(aData, source, myScope);
+				
+				for (int i = 0; i < nofValues; i++) {
+					final IValue value = values.getValueByIndex(i);
+					if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
+						continue;
+					} else //FIXME needs temporary reference branch (needs_temp_ref function missing)
+					{
+						final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, i);
+						value.generateCodeInit(aData, source, embeddedName);
+					}
+				}
 			}
 		}
 
 		return source;
-	}
-
-	/**
-	 * Adds a list element to the record of
-	 * @param aData the structure to put imports into and get temporal variable names from.
-	 * @param source generated source code
-	 * @param name "record of" variable name
-	 */
-	private void generateCodeInitListElement( final JavaGenData aData, final StringBuilder source, final String name, final IValue value ) {
-		source.append( "\t\t");
-		source.append( name );
-		source.append( ".add( ");
-		source.append( value.generateSingleExpression(aData) );
-		source.append( " );\n" );
 	}
 }
