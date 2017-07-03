@@ -16,7 +16,7 @@ public class RecordOfGenerator {
 	 * Generate "record of" class
 	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param genName the name of the generated class representing the "record of" type.
 	 * @param ofTypeName type name of the "record of" element 
 	 * @param ofType type of the "record of" element
 	 */
@@ -56,7 +56,7 @@ public class RecordOfGenerator {
 	 * Generate member variables
 	 *
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param genName the name of the generated class representing the "record of" type.
 	 * @param ofTypeName type name of the "record of" element 
 	 */
 	private static void generateValueDeclaration( final StringBuilder source, final String genName, final String ofTypeName ) {
@@ -68,7 +68,7 @@ public class RecordOfGenerator {
 	 * Generate constructors
 	 *
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param genName the name of the generated class representing the "record of" type.
 	 */
 	private static void generateValueConstructors( final StringBuilder source, final String genName ) {
 		source.append("\n");
@@ -140,7 +140,7 @@ public class RecordOfGenerator {
 	 * Generate assignment operators
 	 *
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param genName the name of the generated class representing the "record of" type.
 	 * @param ofTypeName type name of the "record of" element 
 	 */
 	private static void generateValueOperatorEquals( final StringBuilder source, final String genName, final String ofTypeName ) {
@@ -177,7 +177,7 @@ public class RecordOfGenerator {
 	 * Generate assign functions
 	 *
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param genName the name of the generated class representing the "record of" type.
 	 */
 	private static void generateValueAssign( final StringBuilder source, final String genName ) {
 		source.append("\n");
