@@ -221,7 +221,8 @@ public final class NotExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
+		expression.expression.append("new TitanBoolean(");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append( ".not()" );
+		expression.expression.append( ").not()" );
 	}
 }
