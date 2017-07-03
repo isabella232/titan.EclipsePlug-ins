@@ -534,7 +534,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 		String tempId = aData.getTemporaryVariableName();
 		String genName = myGovernor.getGenNameTemplate(aData, expression.expression, myScope);
-		expression.preamble.append(MessageFormat.format("{0} {1};\n", genName, tempId));
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
 		//FIXME generate restriction check
