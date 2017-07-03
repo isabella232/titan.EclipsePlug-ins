@@ -130,7 +130,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");	
 		source.append("\n");
 		source.append("\tpublic void mustBound( final String aErrorMessage ) {\n");
-		source.append("\t\tif ( isBound() ) {\n");
+		source.append("\t\tif ( !isBound() ) {\n");
 		source.append("\t\t\tthrow new TtcnError( aErrorMessage );\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");

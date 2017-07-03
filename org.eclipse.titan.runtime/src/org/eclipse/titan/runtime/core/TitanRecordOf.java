@@ -41,7 +41,7 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	public void mustBound( final String aErrorMessage ) {
-		if ( isBound() ) {
+		if ( !isBound() ) {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
