@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -776,6 +777,22 @@ public final class Sequence_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		// TODO actually empty could be
 		return new StringBuilder("/* generating code for empty record/set is not yet supported */");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (myGovernor == null) {
+			return;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		String genName = myGovernor.getGenNameValue(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		setGenNameRecursive(genName);
+		generateCodeInit(aData, expression.preamble, tempId);
+		//FIXME generate restriction check
+		expression.expression.append(tempId);
 	}
 
 	@Override
