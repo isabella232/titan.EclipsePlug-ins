@@ -189,7 +189,7 @@ public final class Assignment_Statement extends Statement {
 				return;
 			}
 			final IValue temporalValue = template.getValue();
-			if	(temporalValue != null) {
+			if (temporalValue != null) {
 				checkVarAssignment(timestamp, assignment, temporalValue);
 				break;
 			} else if ( Template_type.VALUE_LIST.equals(template.getTemplatetype())
