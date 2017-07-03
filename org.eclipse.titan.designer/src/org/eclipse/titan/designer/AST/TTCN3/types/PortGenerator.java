@@ -142,20 +142,20 @@ public class PortGenerator {
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
-				source.append(MessageFormat.format("public abstract void outgoing_call(final {0}_call call_par);\n", info.mJavaTypeName));
+				source.append(MessageFormat.format("public abstract void outgoing_call(final {0}_call call_par);\n\n", info.mJavaTypeName));
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (!info.isNoBlock) {
-					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par);\n", info.mJavaTypeName));
+					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par);\n\n", info.mJavaTypeName));
 				}
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (info.hasExceptions) {
-					source.append(MessageFormat.format("public abstract void outgoing_raise(final {0}_exception raise_exception);\n", info.mJavaTypeName));
+					source.append(MessageFormat.format("public abstract void outgoing_raise(final {0}_exception raise_exception);\n\n", info.mJavaTypeName));
 				}
 			}
 		}
@@ -172,6 +172,17 @@ public class PortGenerator {
 			}
 		}
 
+		//FIXME implement getreply
+		//FIXME implement check_getreply
+		//FIXME implement get_exception
+		//FIXME implement check_catch
+
+		//FIXME incoming_call
+		//FIXME incoming_reply
+		//FIXME incoming_exception
+		//FIXME process_call
+		//FIXME process_reply
+		//FIXME process_exception
 		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
 
 		source.append("}\n\n");
@@ -658,7 +669,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("if (!destination_component.isBound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of call operation.\");\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
 		source.append("//FIXME add logging\n");
@@ -677,7 +688,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append(MessageFormat.format("public void call(final {0}_template call_template) '{'\n", info.mJavaTypeName));
 		source.append("//FIXME implement\n");
-		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	/**
@@ -695,7 +706,7 @@ public class PortGenerator {
 			source.append("}\n");
 			source.append("if (!destination_component.isBound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of reply operation.\");\n");
-			source.append("}\n");
+			source.append("}\n\n");
 
 			source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
 			source.append("//FIXME add logging\n");
@@ -714,7 +725,7 @@ public class PortGenerator {
 
 			source.append(MessageFormat.format("public void reply(final {0}_template reply_template) '{'\n", info.mJavaTypeName));
 			source.append("//FIXME implement\n");
-			source.append("}\n");
+			source.append("}\n\n");
 		}
 	}
 
@@ -734,7 +745,7 @@ public class PortGenerator {
 			source.append("}\n");
 			source.append("if (!destination_component.isBound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
-			source.append("}\n");
+			source.append("}\n\n");
 
 			source.append("//FIXME add logging\n");
 			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
@@ -752,7 +763,7 @@ public class PortGenerator {
 
 			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception) '{'\n", info.mJavaTypeName));
 			source.append("//FIXME implement\n");
-			source.append("}\n");
+			source.append("}\n\n");
 		}
 	}
 
