@@ -49,7 +49,8 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class SequenceOf_Type extends AbstractOfType implements IReferenceableElement {
 	public static final String SEQOFVALUEEXPECTED = "SEQUENCE OF value was expected";
 	public static final String RECORDOFVALUEEXPECTED = "record of value was expected";
@@ -796,22 +797,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		aData.addBuiltinTypeImport( "TitanRecordOf" );
-
 		if(needsAlias()) {
-			final String className = getGenNameOwn(); 
-			final String ofClassName = getOfType().getGenNameValue(aData, source, myScope);
-			source.append( "\tpublic static class " );
-			source.append( className );
-			source.append( " extends TitanRecordOf {\n" );
-			source.append( "\t\tpublic " );
-			source.append( className );
-			source.append( "() {\n" );
-			source.append( "\t\t\tsuper( " );
-			source.append( ofClassName );
-			source.append( ".class );\n" );
-			source.append( "\t\t}\n" );
-			source.append( "\t}\n" );
+			RecordOfGenerator.generateValueClass( aData, source, this );
 		}
 	}
 
