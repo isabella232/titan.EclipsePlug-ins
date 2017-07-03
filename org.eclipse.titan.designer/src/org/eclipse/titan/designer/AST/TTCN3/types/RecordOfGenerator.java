@@ -182,7 +182,7 @@ public class RecordOfGenerator {
 	private static void generateValueAssign( final StringBuilder source, final String genName ) {
 		source.append("\n");
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0} assign(Base_Type otherValue) {\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} assign(Base_Type otherValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\treturn assign( ( {0} ) otherValue );\n", genName ) );
 		source.append("\t}\n");
 		source.append("\n");
