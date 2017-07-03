@@ -28,17 +28,17 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TtcnError");
-		source.append( MessageFormat.format( "public static class {0} extends Base_Type '{'\n", genName ) );
+		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName );
-		generateValueConstructors( source, genName, displayName );
+		generateValueConstructors( source, genName , displayName);
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
-		generateValueOperatorEquals( source, genName, ofTypeName );
-		generateValueAssign( source, genName );
+		generateValueOperatorEquals( source, genName, ofTypeName , displayName);
+		generateValueAssign( source, genName , displayName);
 		generateValueCleanup( source );
-		generateValueGetterSetters( source, ofTypeName );
+		generateValueGetterSetters( source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
 
 		source.append("}\n");
@@ -63,13 +63,13 @@ public class RecordOfGenerator {
 	 * @param genName the name of the generated class representing the "record of" type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueConstructors( final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateValueConstructors( final StringBuilder source, final String genName, final String displayName) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}() '{'\n", genName ) );
 		source.append("\t};\n");
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}( final {0} otherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"Copying an unbound {0} value.\");\n", displayName ) );
+		source.append( MessageFormat.format("\t\totherValue.mustBound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tvalueElements = copyList( otherValue.valueElements );\n");
 		source.append("\t};\n");
 	}
@@ -82,7 +82,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateValueCopyList( final StringBuilder source, final String ofTypeName ) {
 		source.append("\n");
-		source.append( MessageFormat.format( "\tpublic final List<{0}> copyList( final List<{0}> srcList ) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate final List<{0}> copyList( final List<{0}> srcList ) '{'\n", ofTypeName ) );
 		source.append("\t\tif ( srcList == null ) {\n");
 		source.append("\t\t\treturn null;\n");
 		source.append("\t\t}\n");
@@ -134,20 +134,24 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of" type.
-	 * @param ofTypeName type name of the "record of" element 
+	 * @param ofTypeName type name of the "record of" element
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueOperatorEquals( final StringBuilder source, final String genName, final String ofTypeName ) {
+	private static void generateValueOperatorEquals( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append("\n");
 		source.append("\t@Override\n");
 		source.append("\tpublic TitanBoolean operatorEquals(Base_Type otherValue) {\n");
 		source.append("\n");
-		source.append( MessageFormat.format( "\t\treturn operatorEquals( ( {0} ) otherValue );\n", genName ) );
+		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\treturn operatorEquals(({0})otherValue);\n", genName) );
+		source.append("\t}\n\n");
+		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n");
 		source.append("\n");
 		source.append("\t//originally operator==\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean operatorEquals( final {0} otherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\t\tmustBound(\"The left operand of comparison is an unbound value of type record of {0}.\");\n", ofTypeName ) );
-		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"The right operand of comparison is an unbound value of type {0}.\");\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\tmustBound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\n");
 		source.append("\t\tfinal int size = valueElements.size();\n"); 
 		source.append("\t\tif ( size != otherValue.valueElements.size() ) {\n");
@@ -171,17 +175,21 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of" type.
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueAssign( final StringBuilder source, final String genName ) {
+	private static void generateValueAssign( final StringBuilder source, final String genName, final String displayName ) {
 		source.append("\n");
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic {0} assign(Base_Type otherValue) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\t\treturn assign( ( {0} ) otherValue );\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} assign(final Base_Type otherValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\treturn assign(({0})otherValue);\n", genName) );
+		source.append("\t}\n\n");
+		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n");
 		source.append("\n");
 		source.append("\t//originally operator=\n");
 		source.append( MessageFormat.format( "\tpublic {0} assign( final {0} aOtherValue ) '{'\n", genName ) );
-		source.append("\t\taOtherValue.mustBound( \"Assignment of an unbound record of value.\" );\n");
+		source.append( MessageFormat.format("\t\taOtherValue.mustBound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
 		source.append("\n");
 		source.append("\t\tvalueElements = aOtherValue.valueElements;\n");
 		source.append("\t\treturn this;\n");
@@ -205,13 +213,14 @@ public class RecordOfGenerator {
 	 * Generate getter and setter functions 
 	 * @param source where the source code is to be generated.
 	 * @param ofTypeName type name of the "record of" element
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueGetterSetters(StringBuilder source, final String ofTypeName ) {
+	private static void generateValueGetterSetters(StringBuilder source, final String ofTypeName , final String displayName) {
 		source.append("\n");
 		source.append("\t//originally get_at(int)\n");
-		source.append( MessageFormat.format( "\tpublic {0} getAt( final int index_value ) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format("\tpublic {0} getAt( final int index_value ) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type record of {0} using a negative index: \"+index_value+\".\");\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
 		source.append("\t\tif (index_value >= valueElements.size() ) {\n");
@@ -230,23 +239,23 @@ public class RecordOfGenerator {
 
 		source.append("\n");
 		source.append("\t//originally get_at(const INTEGER&)\n");
-		source.append( MessageFormat.format( "\tpublic {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", ofTypeName ) );
+		source.append( MessageFormat.format("\tpublic {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
 		source.append("\t\treturn getAt( index_value.getInt() );\n");
 		source.append("\t}\n");
 
 		source.append("\n");
 		source.append("\t//originally get_at(int) const\n");
-		source.append( MessageFormat.format( "\tpublic {0} constGetAt( final int index_value ) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format("\tpublic {0} constGetAt( final int index_value ) '{'\n", ofTypeName ) );
 		source.append("\t\tif ( !isBound() ) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element in an unbound value of type record of {0}.\" );\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element in an unbound value of type {0}.\" );\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tif (index_value < 0) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type record of {0} using a negative index: \"+index_value+\".\");\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tfinal int nofElements = getNofElements();\n");
 		source.append("\t\tif ( index_value >= nofElements ) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Index overflow in a value of type record of {0}: The index is \"+index_value+\", but the value has only \"+nofElements+\" elements.\" );\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Index overflow in a value of type {0}: The index is \"+index_value+\", but the value has only \"+nofElements+\" elements.\" );\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
 		source.append( MessageFormat.format( "\t\tfinal {0} elem = valueElements.get( index_value );\n", ofTypeName ) );
@@ -256,7 +265,7 @@ public class RecordOfGenerator {
 		source.append("\n");
 		source.append("\t//originally get_at(const INTEGER&) const\n");
 		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", displayName ) );
 		source.append("\t\treturn constGetAt( index_value.getInt() );\n");
 		source.append("\t}\n");
 
@@ -267,7 +276,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueElements.size();\n");
 		source.append("\t}\n");
-		
+
 		//TODO: lengthOf: index of the last bound value + 1
 
 		source.append("\n");
@@ -281,7 +290,7 @@ public class RecordOfGenerator {
 
 	private static void generateValueGetUnboundElem(StringBuilder source, String ofTypeName) {
 		source.append("\n");
-		source.append( MessageFormat.format( "\tpublic {0} getUnboundElem() '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate {0} getUnboundElem() '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\treturn new {0}();\n", ofTypeName ) );
 		source.append("\t}\n");
 	}
