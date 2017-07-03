@@ -523,6 +523,11 @@ public final class Named_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (asValue != null) {
+			asValue.generateCodeExpression(aData, expression);
+			return;
+		}
+
 		if (myGovernor == null) {
 			return;
 		}
@@ -539,6 +544,11 @@ public final class Named_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (asValue != null) {
+			asValue.generateCodeInit(aData, source, name);
+			return;
+		}
+
 		if (myGovernor == null) {
 			return;
 		}
