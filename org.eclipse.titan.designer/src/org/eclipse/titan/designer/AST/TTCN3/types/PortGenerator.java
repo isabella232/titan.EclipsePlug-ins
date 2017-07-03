@@ -172,6 +172,17 @@ public class PortGenerator {
 			}
 		}
 
+		//FIXME implement getreply
+		//FIXME implement check_getreply
+		//FIXME implement get_exception
+		//FIXME implement check_catch
+
+		//FIXME incoming_call
+		//FIXME incoming_reply
+		//FIXME incoming_exception
+		//FIXME process_call
+		//FIXME process_reply
+		//FIXME process_exception
 		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
 
 		source.append("}\n\n");
