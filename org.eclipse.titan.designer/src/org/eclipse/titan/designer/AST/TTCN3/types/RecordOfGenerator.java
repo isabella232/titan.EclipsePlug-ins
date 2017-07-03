@@ -182,7 +182,7 @@ public class RecordOfGenerator {
 	private static void generateValueAssign( final StringBuilder source, final String genName ) {
 		source.append("\n");
 		source.append("\t@Override\n");
-		source.append("\tpublic Base_Type assign(Base_Type otherValue) {\n");
+		source.append( MessageFormat.format( "\tpublic {0} assign(Base_Type otherValue) {\n", genName ) );
 		source.append( MessageFormat.format( "\t\treturn assign( ( {0} ) otherValue );\n", genName ) );
 		source.append("\t}\n");
 		source.append("\n");
@@ -216,7 +216,7 @@ public class RecordOfGenerator {
 	private static void generateValueGetterSetters(StringBuilder source, final String ofTypeName ) {
 		source.append("\n");
 		source.append("\t//originally get_at(int)\n");
-		source.append("\tpublic Base_Type getAt( final int index_value ) {\n");
+		source.append( MessageFormat.format( "\tpublic {0} getAt( final int index_value ) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type record of {0} using a negative index: \"+index_value+\".\");\n", ofTypeName ) );
 		source.append("\t\t}\n");
@@ -237,14 +237,14 @@ public class RecordOfGenerator {
 
 		source.append("\n");
 		source.append("\t//originally get_at(const INTEGER&)\n");
-		source.append("\tpublic Base_Type getAt(final TitanInteger index_value) {\n");
+		source.append( MessageFormat.format( "\tpublic {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", ofTypeName ) );
 		source.append("\t\treturn getAt( index_value.getInt() );\n");
 		source.append("\t}\n");
 
 		source.append("\n");
 		source.append("\t//originally get_at(int) const\n");
-		source.append("\tpublic Base_Type constGetAt( final int index_value ) {\n");
+		source.append( MessageFormat.format( "\tpublic {0} constGetAt( final int index_value ) '{'\n", ofTypeName ) );
 		source.append("\t\tif ( !isBound() ) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element in an unbound value of type record of {0}.\" );\n", ofTypeName ) );
 		source.append("\t\t}\n");
@@ -256,13 +256,13 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Index overflow in a value of type record of {0}: The index is \"+index_value+\", but the value has only \"+nofElements+\" elements.\" );\n", ofTypeName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
-		source.append("\t\tfinal Base_Type elem = valueElements.get( index_value );\n");
+		source.append( MessageFormat.format( "\t\tfinal {0} elem = valueElements.get( index_value );\n", ofTypeName ) );
 		source.append("\t\treturn ( elem != null ) ? elem : getUnboundElem();\n");
 		source.append("\t}\n");
 
 		source.append("\n");
 		source.append("\t//originally get_at(const INTEGER&) const\n");
-		source.append("\tpublic Base_Type constGetAt(final TitanInteger index_value) {\n");
+		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\tindex_value.mustBound( \"Using an unbound integer value for indexing a value of type {0}.\" );\n", ofTypeName ) );
 		source.append("\t\treturn constGetAt( index_value.getInt() );\n");
 		source.append("\t}\n");
