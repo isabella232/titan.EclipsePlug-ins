@@ -557,7 +557,8 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			String typeName;
 			String tempId = aData.getTemporaryVariableName();
-			if(Type_type.TYPE_BOOL.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
+			IType lastType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype())) {
 				typeName = "boolean";
 			} else {
 				typeName = myGovernor.getGenNameValue(aData, init, myScope);
@@ -569,7 +570,12 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 				init.append(expression.preamble);
 			}
 
-			init.append(MessageFormat.format("{0} = {1};\n", tempId, expression.expression));
+			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype())) {
+				init.append(MessageFormat.format("{0} = TitanBoolean.getNative({1});\n", tempId, expression.expression));
+			} else {
+				init.append(MessageFormat.format("{0} = {1};\n", tempId, expression.expression));
+			}
+			
 
 			if(expression.postamble.length() > 0) {
 				init.append(expression.postamble);
