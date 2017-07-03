@@ -801,8 +801,9 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		final String displayName = getFullName();
 		final IType ofType = getOfType();
 		final String ofTypeName = ofType.getGenNameValue( aData, source, getMyScope() );
+		StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
+		ofType.generateCode(aData, tempSource);
 
-		ofType.generateCode(aData, source);
 		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName );
 	}
 
