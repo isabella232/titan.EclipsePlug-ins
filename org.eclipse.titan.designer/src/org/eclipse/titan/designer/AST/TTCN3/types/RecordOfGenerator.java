@@ -2,7 +2,6 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
 
-import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -17,29 +16,22 @@ public class RecordOfGenerator {
 	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of" type.
+	 * @param displayName the user readable name of the type to be generated.
 	 * @param ofTypeName type name of the "record of" element 
-	 * @param ofType type of the "record of" element
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
-										   final SequenceOf_Type seqOfType ) {
-		final String genName = seqOfType.getGenNameOwn();
-		final IType ofType = seqOfType.getOfType();
-		final String ofTypeName = ofType.getGenNameValue( aData, source, seqOfType.getMyScope() );
-
+										   final String genName,
+										   final String displayName,
+										   final String ofTypeName ) {
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TtcnError");
-		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
-
-		// nested class for multidimensional "record of"
-		if ( ofType instanceof SequenceOf_Type ) {
-			generateValueClass( aData, source, (SequenceOf_Type) ofType );
-		}
+		source.append( MessageFormat.format( "public static class {0} extends Base_Type '{'\n", genName ) );
 
 		generateValueDeclaration( source, genName, ofTypeName );
-		generateValueConstructors( source, genName );
+		generateValueConstructors( source, genName, displayName );
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
@@ -69,14 +61,15 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of" type.
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueConstructors( final StringBuilder source, final String genName ) {
+	private static void generateValueConstructors( final StringBuilder source, final String genName, final String displayName ) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}() '{'\n", genName ) );
 		source.append("\t};\n");
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}( final {0} otherValue ) '{'\n", genName ) );
-		source.append("\t\totherValue.mustBound(\"Copying an unbound record of/set of value.\");\n");
+		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"Copying an unbound {0} value.\");\n", displayName ) );
 		source.append("\t\tvalueElements = copyList( otherValue.valueElements );\n");
 		source.append("\t};\n");
 	}
@@ -274,6 +267,8 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueElements.size();\n");
 		source.append("\t}\n");
+		
+		//TODO: lengthOf: index of the last bound value + 1
 
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic void add( final {0} aElement ) '{'\n", ofTypeName ) );

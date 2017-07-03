@@ -797,9 +797,13 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		if(needsAlias()) {
-			RecordOfGenerator.generateValueClass( aData, source, this );
-		}
+		final String genName = getGenNameOwn();
+		final String displayName = getFullName();
+		final IType ofType = getOfType();
+		final String ofTypeName = ofType.getGenNameValue( aData, source, getMyScope() );
+
+		ofType.generateCode(aData, source);
+		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName );
 	}
 
 	@Override
