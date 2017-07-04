@@ -89,7 +89,10 @@ public class TitanDefault extends Base_Type {
 			throw new TtcnError( "Assignment of an unbound default reference." );
 		}
 
-		default_ptr = otherValue.default_ptr;
+		if (otherValue != this) {
+			default_ptr = otherValue.default_ptr;
+		}
+
 		return this;
 	}
 

@@ -165,6 +165,7 @@ public class TitanBitString extends Base_Type {
 			bits_ptr = copyList( aOtherValue.bits_ptr );
 			n_bits = aOtherValue.n_bits;
 		}
+
 		return this;
 	}
 

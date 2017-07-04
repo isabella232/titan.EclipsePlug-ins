@@ -62,7 +62,9 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString assign( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound charstring value." );
 
-		copyValue( aOtherValue.val_ptr );
+		if (aOtherValue != this) {
+			copyValue( aOtherValue.val_ptr );
+		}
 
 		return this;
 	}

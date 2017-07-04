@@ -126,7 +126,9 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString assign( final TitanOctetString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound octetstring value." );
 
-		val_ptr = aOtherValue.val_ptr;
+		if (aOtherValue != this) {
+			val_ptr = aOtherValue.val_ptr;
+		}
 
 		return this;
 	}

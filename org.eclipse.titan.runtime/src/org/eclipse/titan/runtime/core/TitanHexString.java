@@ -128,7 +128,9 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString assign( final TitanHexString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound hexstring value." );
 
-		nibbles_ptr = aOtherValue.nibbles_ptr;
+		if (aOtherValue != this) {
+			nibbles_ptr = aOtherValue.nibbles_ptr;
+		}
 
 		return this;
 	}

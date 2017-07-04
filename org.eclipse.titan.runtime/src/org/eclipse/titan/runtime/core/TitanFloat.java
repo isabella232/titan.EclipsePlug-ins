@@ -53,7 +53,9 @@ public class TitanFloat extends Base_Type {
 	public TitanFloat assign( final TitanFloat aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound float value." );
 
-		float_value = aOtherValue.float_value;
+		if (aOtherValue != this) {
+			float_value = aOtherValue.float_value;
+		}
 
 		return this;
 	}

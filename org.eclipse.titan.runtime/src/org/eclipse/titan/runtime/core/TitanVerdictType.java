@@ -110,7 +110,10 @@ public class TitanVerdictType extends Base_Type {
 	public TitanVerdictType assign( final TitanVerdictType aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound verdict value." );
 
-		verdict_value = aOtherValue.verdict_value;
+		if (aOtherValue != this) {
+			verdict_value = aOtherValue.verdict_value;
+		}
+
 		return this;
 	}
 

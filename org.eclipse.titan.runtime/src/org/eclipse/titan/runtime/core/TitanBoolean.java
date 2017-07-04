@@ -55,7 +55,9 @@ public class TitanBoolean extends Base_Type {
 	public TitanBoolean assign( final TitanBoolean aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound boolean value." );
 
-		boolean_value = aOtherValue.boolean_value;
+		if (aOtherValue != this) {
+			boolean_value = aOtherValue.boolean_value;
+		}
 
 		return this;
 	}

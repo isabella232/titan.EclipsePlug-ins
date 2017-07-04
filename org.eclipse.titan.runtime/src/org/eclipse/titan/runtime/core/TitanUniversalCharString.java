@@ -109,7 +109,9 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString assign( final TitanUniversalCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound universal charstring value." );
 
-		val_ptr = aOtherValue.val_ptr;
+		if (aOtherValue != this) {
+			val_ptr = aOtherValue.val_ptr;
+		}
 
 		return this;
 	}

@@ -86,13 +86,15 @@ public class TitanInteger extends Base_Type {
 	public TitanInteger assign( final TitanInteger otherValue ) {
 		otherValue.mustBound( "Assignment of an unbound integer value." );
 
-		cleanUp();
-		boundFlag = true;
-		nativeFlag = otherValue.nativeFlag;
-		if(nativeFlag) {
-			nativeInt = otherValue.nativeInt;
-		} else {
-			openSSL = otherValue.openSSL;
+		if (otherValue != this) {
+			cleanUp();
+			boundFlag = true;
+			nativeFlag = otherValue.nativeFlag;
+			if(nativeFlag) {
+				nativeInt = otherValue.nativeInt;
+			} else {
+				openSSL = otherValue.openSSL;
+			}
 		}
 
 		return this;

@@ -235,9 +235,10 @@ public class RecordSetCodeGenerator {
 				"\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
 		source.append( classReadableName );
 		source.append( "\" );\n" +
-				"\t\t\t}\n" );
+				"\t\t\t}\n\n" );
+		source.append("\t\tif (aOtherValue != this) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\n\t\t\tif ( aOtherValue.get" );
+			source.append( "\t\t\tif ( aOtherValue.get" );
 			source.append( fi.mJavaVarName );
 			source.append( "().isBound() ) {\n" +
 					"\t\t\t\tthis." );
@@ -251,6 +252,7 @@ public class RecordSetCodeGenerator {
 			source.append( ".cleanUp();\n" +
 					"\t\t\t}\n" );
 		}
+		source.append( "\t\t}\n\n" );
 		source.append( "\n\t\t\treturn this;\n" +
 				"\t\t}\n" );
 

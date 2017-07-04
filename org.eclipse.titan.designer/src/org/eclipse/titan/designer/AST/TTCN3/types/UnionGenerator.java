@@ -200,8 +200,10 @@ public class UnionGenerator {
 		source.append("if(otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("throw new TtcnError( \"Assignment of an unbound {0} value.\" );\n", displayName));
 		source.append("}\n");
+		source.append("if (aOtherValue != this) {\n");
 		source.append("cleanUp();\n");
 		source.append("copy_value(otherValue);\n");
+		source.append("}\n\n");
 		source.append("return this;\n");
 		source.append("}\n");
 
