@@ -128,7 +128,6 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//TODO: implement mul
-	//TODO: implement div
 
 	/**
 	 * this + otherValue
@@ -158,9 +157,6 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 	}
-	//TODO: implement div
-
-
 
 	//originally operator==
 	public TitanBoolean operatorEquals( final int otherValue ) {
@@ -205,7 +201,11 @@ public class TitanInteger extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
-	//TODO: implement != for int
+	//TODO: check the correction
+	//originally operator !=
+	public TitanBoolean operatorNotEquals(final int otherValue){
+		return operatorEquals(otherValue).not();
+	}
 
 	//originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanInteger otherValue ) {
@@ -322,6 +322,16 @@ public class TitanInteger extends Base_Type {
 	public TitanInteger add(final int otherValue){
 		return this.add(new TitanInteger(otherValue));
 	}
+	
+	//originally operator+ unary plus
+	public TitanInteger add(){
+		mustBound("Unbound integer operand of unary + operator.");
+		if(nativeFlag){
+			return new TitanInteger(nativeInt);
+		} else {
+			return new TitanInteger(openSSL);
+		}
+	}
 
 	//originally operator-
 	public TitanInteger sub(final TitanInteger otherValue){
@@ -370,42 +380,106 @@ public class TitanInteger extends Base_Type {
 			return new TitanInteger(openSSL.negate());
 		}
 	}
-
-	//TODO: first param is native
-	//static sub
-	public static TitanInteger sub(final TitanInteger firstValue, final TitanInteger secondValue){
-		firstValue.mustBound("Unbound left operand of integer addition. ");
-		secondValue.mustBound("Unbound right operand of integer addition. ");
-
-		if(firstValue.nativeFlag){
-			if(secondValue.nativeFlag){
-				final long temp = firstValue.nativeInt - secondValue.nativeInt;
+		
+	//originally operator/
+	public TitanInteger div(final TitanInteger otherValue){
+		mustBound("Unbound left operand of integer division.");
+		otherValue.mustBound("Unbound right operand of integer division.");
+		if(otherValue.operatorEquals(0).getValue()){
+			throw new TtcnError("Integer division by zero.");
+		}
+		if(nativeFlag && nativeInt == 0){
+			return new TitanInteger(0);
+		}
+		
+		if(nativeFlag){
+			if(otherValue.nativeFlag){
+				final long temp = nativeInt / otherValue.nativeInt;
 				if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
-					return new TitanInteger((int) temp);
+					return new TitanInteger(nativeInt / otherValue.nativeInt);
 				} else {
 					return new TitanInteger(BigInteger.valueOf(temp));
 				}
 			} else {
-				final BigInteger first_int = BigInteger.valueOf(firstValue.nativeInt);
-				return new TitanInteger(first_int.subtract(secondValue.openSSL));
+				BigInteger this_int = BigInteger.valueOf(nativeInt);
+				return new TitanInteger(this_int.divide(otherValue.openSSL));
 			}
 		} else {
-			if(secondValue.nativeFlag){
-				final BigInteger second_int = BigInteger.valueOf(secondValue.nativeInt);
-				return new TitanInteger(firstValue.openSSL.subtract(second_int));
+			if(otherValue.nativeFlag){
+				BigInteger other_value_int = BigInteger.valueOf(otherValue.nativeInt);
+				return new TitanInteger(openSSL.divide(other_value_int));
 			} else {
-				return new TitanInteger(firstValue.openSSL.subtract(secondValue.openSSL));
+				return new TitanInteger(openSSL.divide(otherValue.openSSL));
 			}
 		}
-
 	}
-	//TODO: implement static add
+	
+	//originally operator/
+	public TitanInteger div(final int otherValue){
+		mustBound("Unbound left operand of integer division.");
+		if(otherValue == 0){
+			throw new TtcnError("Integer division by zero.");
+		}
+		
+		return this.div(new TitanInteger(otherValue));
+	}
+	
+	//static operator+
+	public static TitanInteger add(final int intValue, final TitanInteger otherValue){
+		otherValue.mustBound("Unbound right operand of integer addition.");
+		if(otherValue.nativeFlag){
+			final long temp = intValue + otherValue.nativeInt;
+			if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
+				return new TitanInteger((int) temp);
+			} else {
+				return new TitanInteger(BigInteger.valueOf(temp));
+			}
+		} else {
+			final BigInteger first_int = BigInteger.valueOf(intValue);
+			return new TitanInteger(first_int.add(otherValue.openSSL));
+		}
+	}
+	
+	//static operator-
+	public static TitanInteger sub(final int intValue, final TitanInteger otherValue){
+		otherValue.mustBound("Unbound right operand of integer subtraction.");
+		if(otherValue.nativeFlag){
+			final long temp = intValue - otherValue.nativeInt;
+			if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
+				return new TitanInteger((int) temp);
+			} else {
+				return new TitanInteger(BigInteger.valueOf(temp));
+			}
+		} else {
+			final BigInteger first_int = BigInteger.valueOf(intValue);
+			return new TitanInteger(first_int.subtract(otherValue.openSSL));
+		}
+	}
+	
+	//static operator/
+	public static TitanInteger div(final int intValue, final TitanInteger otherValue){
+		otherValue.mustBound("Unbound right operand of integer division.");
+		if(otherValue.operatorEquals(0).getValue()){
+			throw new TtcnError("Integer division by zero.");
+		}
+		return new TitanInteger(intValue).div(otherValue);
+	}
+	
+	//static operator==
+	public static TitanBoolean operatorEquals(final int intValue, final TitanInteger otherValue){
+		otherValue.mustBound("Unbound right operand of integer comparison.");
+		return new TitanInteger(intValue).operatorEquals(otherValue);
+	}
+	
+	//static operator!=
+	public static TitanBoolean operatorNotEquals(final int intValue, final TitanInteger otherValue){
+		otherValue.mustBound("Unbound right operand of integer comparison.");
+		return new TitanInteger(intValue).operatorNotEquals(otherValue);
+	}
+	
 	//TODO: implement static mul
-	//TODO: implement static div
 	//TODO: implement static rem
 	//TODO: implement static mod
-	//TODO: implement static equals
-	//TODO: implement static notEquals
 	//TODO: implement static isLessThan
 	//TODO: implement static isGreaterThan
 	//TODO: implement static isLEssThanOrEqual
