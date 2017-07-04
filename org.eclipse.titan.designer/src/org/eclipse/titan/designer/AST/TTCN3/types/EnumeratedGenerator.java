@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
@@ -184,7 +183,7 @@ public class EnumeratedGenerator {
 		//Arg type: own type
 		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0} other_value)'{'\n", name));
 		source.append("\t\t\t\tother_value.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
-		source.append( "if (aOtherValue != this) {\n");
+		source.append( "if (other_value != this) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthis.enum_value = other_value.enum_value;\n",  name));
 		source.append("}\n\n");
 		source.append("\t\t\treturn this;\n");
