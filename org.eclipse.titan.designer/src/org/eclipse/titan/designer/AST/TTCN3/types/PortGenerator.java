@@ -106,8 +106,8 @@ public class PortGenerator {
 		}
 
 		if (portDefinition.inMessages.size() > 0) {
-			generateGenericReceive(source);
-			generateGenericCheckReceive(source);
+			generateGenericReceive(source, false);
+			generateGenericReceive(source, true);
 			generateGenericTrigger(source);
 		}
 
@@ -115,8 +115,8 @@ public class PortGenerator {
 		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 			messageTypeInfo inType = portDefinition.inMessages.get(i);
 
-			generateTypedReceive(source, i, inType);
-			generateTypedCheckReceive(source, i, inType);
+			generateTypedReceive(source, i, inType, false);
+			generateTypedReceive(source, i, inType, true);
 			generateTypeTrigger(source, i, inType);
 			generateTypedIncomminMessage(source, i, inType, portDefinition.testportType);
 		}
@@ -161,14 +161,14 @@ public class PortGenerator {
 		}
 
 		if (portDefinition.inProcedures.size() > 0) {
-			generateGenericGetcall(source, portDefinition);
-			generateGenericCheckGetcall(source, portDefinition);
+			generateGenericGetcall(source, portDefinition, false);
+			generateGenericGetcall(source, portDefinition, true);
 
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-				generateTypedGetcall(source, i, info);
-				generateTypedCheckGetcall(source, i, info);
+				generateTypedGetcall(source, i, info, false);
+				generateTypedGetcall(source, i, info, true);
 			}
 		}
 
@@ -369,12 +369,15 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic receive function.
+	 * This function generates the generic receive or check(receive) function.
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param isCheck generate the check or the non-checking version.
 	 * */
-	private static void generateGenericReceive(final StringBuilder source) {
-		source.append("public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
+	private static void generateGenericReceive(final StringBuilder source, final boolean isCheck) {
+		final String functionName = isCheck ? "check_receive" : "receive";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName ));
 		source.append("if (message_queue.isEmpty()) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -396,40 +399,9 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
 		source.append("//FIXME logging\n");
-		source.append("remove_msg_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_YES;\n");
-		source.append("}\n");
-		source.append("}\n\n");
-	}
-
-	/**
-	 * This function generates the generic check_receive or in TTCN-3 check(receive) function.
-	 *
-	 * @param source where the source code is to be generated.
-	 * */
-	private static void generateGenericCheckReceive(final StringBuilder source) {
-		source.append("public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
-		source.append("if (message_queue.isEmpty()) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("}\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-
-		source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-		source.append("if (my_head == null) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append(" } else {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(" } else {\n");
-		source.append("//FIXME logging\n");
+		if (!isCheck) {
+			source.append("remove_msg_queue_head();\n");
+		}
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -471,18 +443,20 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the receive function for a type
+	 * This function generates the receive or check(receive) function for a type
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param index the index this message type has in the declaration the port type.
 	 * @param inType the information about the incoming message.
+	 * @param isCheck generate the check or the non-checking version.
 	 * */
-	private static void generateTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType) {
+	private static void generateTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType, final boolean isCheck) {
 		String typeValueName = inType.mJavaTypeName;
 		String typeTemplateName = inType.mJavaTemplateName;
+		final String functionName = isCheck ? "check_receive" : "receive";
 
 		//FIXME there are actually more parameters
-		source.append(MessageFormat.format("public TitanAlt_Status receive(final {0} value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", typeTemplateName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName, typeTemplateName));
 		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Receive operation using '*' as matching template\");\n");
 		source.append("}\n");
@@ -515,57 +489,9 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
 		source.append("//FIXME implement, right now we just assume perfect match\n");
-		source.append("remove_msg_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_YES;\n");
-		source.append("}\n");
-		source.append("}\n\n");
-	}
-
-	/**
-	 * This function generates the check_receive or in TTCN-3 check(receive) function for a type
-	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this message type has in the declaration the port type.
-	 * @param inType the information about the incoming message.
-	 * */
-	private static void generateTypedCheckReceive(final StringBuilder source, final int index, final messageTypeInfo inType) {
-		String typeValueName = inType.mJavaTypeName;
-		String typeTemplateName = inType.mJavaTemplateName;
-
-		//FIXME there are actually more parameters
-		source.append(MessageFormat.format("public TitanAlt_Status check_receive(final {0} value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", typeTemplateName));
-		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
-		source.append("throw new TtcnError(\"Check-receive operation using '*' as matching template\");\n");
-		source.append("}\n");
-		source.append("if (message_queue.isEmpty()) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("}\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n\n");
-		source.append("MessageQueueItem my_head = message_queue.getFirst();\n");
-		source.append("if (my_head == null) {\n");
-		source.append("if (is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("} else {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
-		source.append("//FIXME report error \n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(value_template.match(({0}) my_head.message))) '{'\n", typeValueName));
-		source.append("//FIXME implement\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(" } else {\n");
-		source.append("//FIXME implement, right now we just assume perfect match\n");
+		if (!isCheck) {
+			source.append("remove_msg_queue_head();\n");
+		}
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -768,13 +694,16 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the generic getcall function.
+	 * This function generates the generic getcall or check(getcall) function.
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param portDefinition the definition of the port.
+	 * @param isCheck generate the check or the non-checking version.
 	 * */
-	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition) {
-		source.append("public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
+	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck) {
+		final String functionName = isCheck ? "check_getcall" : "getcall";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -795,44 +724,9 @@ public class PortGenerator {
 
 		source.append("{\n");
 		source.append("//FIXME logging\n");
-		source.append("remove_proc_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_YES;\n");
-		source.append("}\n");
-		source.append("default:\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("}\n\n");
-	}
-
-	/**
-	 * This function generates the generic check_getcall function.
-	 *
-	 * @param source where the source code is to be generated.
-	 * @param portDefinition the definition of the port.
-	 * */
-	private static void generateGenericCheckGetcall(final StringBuilder source, final PortDefinition portDefinition) {
-		source.append("public TitanAlt_Status check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
-		source.append("if (procedure_queue.size() == 0) {\n");
-		source.append("if(is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("} else {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("switch(head.item_selection) {\n");
-		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			source.append(MessageFormat.format("case CALL_{0}:\n", i));
+		if (!isCheck) {
+			source.append("remove_proc_queue_head();\n");
 		}
-
-		source.append("{\n");
-		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
 		source.append("default:\n");
@@ -843,15 +737,17 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the getcall function for a signature type
+	 * This function generates the getcall or check(getcall) function for a signature type
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
+	 * @param isCheck generate the check or the non-checking version.
 	 * */
-	private static void generateTypedGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info) {
-		source.append(MessageFormat.format("public TitanAlt_Status getcall(final {0}_template getcall_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", info.mJavaTypeName));
+	private static void generateTypedGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck) {
+		final String functionName = isCheck ? "check_getcall" : "getcall";
 
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName, info.mJavaTypeName));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -872,42 +768,9 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
 		source.append("//FIXME set param_ref and logging\n");
-		source.append("remove_proc_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_YES;\n");
-		source.append("}\n");
-		source.append("}\n\n");
-	}
-
-	/**
-	 * This function generates the check_getcall function for a signature type
-	 *
-	 * @param source where the source code is to be generated.
-	 * @param index the index this signature type has in the selector.
-	 * @param info the information about the signature.
-	 * */
-	private static void generateTypedCheckGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info) {
-		source.append(MessageFormat.format("public TitanAlt_Status check_getcall(final {0}_template getcall_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", info.mJavaTypeName));
-
-		source.append("if (procedure_queue.size() == 0) {\n");
-		source.append("if(is_started) {\n");
-		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
-		source.append("} else {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
-		source.append("}\n");
-		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getcall_template.match_call(head.call_{0}, true))) '{'\n", index));
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("} else {\n");
-		source.append("//FIXME set param_ref and logging\n");
+		if (!isCheck) {
+			source.append("remove_proc_queue_head();\n");
+		}
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
 		source.append("}\n\n");

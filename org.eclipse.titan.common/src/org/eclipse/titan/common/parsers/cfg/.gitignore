@@ -3,3 +3,4 @@
 /CfgLexerLogUtil.java
 /CfgParser.java
 /CfgParser.tokens
+/CfgParseResult.java

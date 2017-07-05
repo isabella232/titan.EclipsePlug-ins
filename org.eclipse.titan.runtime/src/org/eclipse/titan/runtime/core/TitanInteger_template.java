@@ -333,6 +333,11 @@ public class TitanInteger_template extends Base_Template {
 		max_is_exclusive = maxExclusive;
 	}
 
+	//originally is_present (with default parameter)
+	public boolean isPresent() {
+		return isPresent(false);
+	}
+
 	//originally is_present
 	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
@@ -340,6 +345,11 @@ public class TitanInteger_template extends Base_Template {
 		}
 
 		return !match_omit(legacy);
+	}
+
+	//originally match_omit (with default parameter)
+	public boolean match_omit() {
+		return match_omit(false);
 	}
 
 	public boolean match_omit(final boolean legacy) {

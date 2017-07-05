@@ -117,7 +117,7 @@ public class RecordSetCodeGenerator {
 	 * Generating constructor without parameter
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
+	 * @param aClassName the class name of the record/set class
 	 */
 	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
@@ -144,10 +144,11 @@ public class RecordSetCodeGenerator {
 	}
 
 	/**
-	 * Generating constructor with many parameters (one for each record field)
+	 * Generating constructor with many parameters (one for each record/set field)
+	 *
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
+	 * @param aClassName the class name of the record/set class
 	 */
 	private static void generateConstructorManyParams( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
@@ -201,7 +202,7 @@ public class RecordSetCodeGenerator {
 	/**
 	 * Generating constructor with 1 parameter (copy constructor)
 	 * @param aSb the output, where the java code is written
-	 * @param aClassName the class name of the record class
+	 * @param aClassName the class name of the record/set class
 	 */
 	private static void generateConstructorCopy( final StringBuilder aSb, final String aClassName ) {
 		aSb.append( "\n\t\tpublic " );
@@ -219,7 +220,7 @@ public class RecordSetCodeGenerator {
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
+	 * @param aClassName the class name of the record/set class
 	 * @param classReadableName the readable name of the class
 	 */
 	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
@@ -348,7 +349,7 @@ public class RecordSetCodeGenerator {
 	 * Generating operatorEquals() function
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
-	 * @param aClassName the class name of the record class
+	 * @param aClassName the class name of the record/set class
 	 * @param classReadableName the readable name of the class
 	 */
 	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
