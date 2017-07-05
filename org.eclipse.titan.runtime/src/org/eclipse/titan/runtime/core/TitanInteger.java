@@ -126,7 +126,6 @@ public class TitanInteger extends Base_Type {
 		return this.add(new TitanInteger(otherValue));
 	}
 
-
 	/**
 	 * this + otherValue
 	 * originally operator+
@@ -186,6 +185,8 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 	}
+
+	//TODO: implement mul
 
 	//originally operator/
 	public TitanInteger div(final int otherValue){
