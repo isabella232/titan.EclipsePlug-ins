@@ -301,9 +301,7 @@ public class RecordOfGenerator {
 
 		source.append("\n");
 		source.append("\tpublic int getNofElements() {\n");
-		source.append("\t\tif ( valueElements == null ) {\n");
-		source.append("\t\t\treturn 0;\n");
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\tmustBound(\"Performing sizeof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\treturn valueElements.size();\n");
 		source.append("\t}\n");
 
@@ -599,6 +597,8 @@ public class RecordOfGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateGetterSetters(StringBuilder source, final String ofTypeName , final String displayName) {
-		//TODOÉ implement
+		//TODO: implement
+		//TODO: n_elem()
+		
 	}
 }
