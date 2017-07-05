@@ -307,9 +307,7 @@ public class RecordOfGenerator {
 
 		source.append("\n");
 		source.append("\tpublic int lengthOf() {\n");
-		source.append("\t\tif ( valueElements == null ) {\n");
-		source.append("\t\t\treturn 0;\n");
-		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\tmustBound(\"Performing lengthof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tfor ( int i = valueElements.size() - 1; i >= 0; i-- ) {\n");
 		source.append( MessageFormat.format( "\t\t\t{0} elem = valueElements.get( i );\n", ofTypeName ) );
 		source.append("\t\t\tif ( elem != null && elem.isBound() ) {\n");
