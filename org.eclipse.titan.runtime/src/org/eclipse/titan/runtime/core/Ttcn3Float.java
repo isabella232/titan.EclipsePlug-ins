@@ -27,6 +27,8 @@ public class Ttcn3Float {
 		return value;
 	}
 
+	//FIXME implement assign (operator=)
+
 	// originally operator+
 	// this + d
 	Ttcn3Float add( final double d ) {
