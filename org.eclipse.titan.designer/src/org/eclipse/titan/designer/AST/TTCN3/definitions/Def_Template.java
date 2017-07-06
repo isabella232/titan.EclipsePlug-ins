@@ -880,18 +880,26 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
-		source.append( typeName );
-		source.append( " " );
-		source.append( genName );
-		source.append( " = new " ). append(typeName).append("();\n");
+		if (formalParList == null) {
+			source.append( typeName );
+			source.append( " " );
+			source.append( genName );
+			source.append( " = new " ). append(typeName).append("();\n");
 
-		if (formalParList == null && baseTemplate == null) {
-			if ( body != null ) {
-				//TODO can optimize for single expressions;
-				body.generateCodeInit( aData, aData.getPostInit(), genName );
-				sb.append(source);
-				return;
+			if (baseTemplate == null) {
+				if ( body != null ) {
+					//TODO can optimize for single expressions;
+					body.generateCodeInit( aData, aData.getPostInit(), genName );
+					sb.append(source);
+					return;
+				}
 			}
+		} else {
+			StringBuilder formalParameters = formalParList.generateCode(aData);
+			//FIXME also defaults
+			source.append(MessageFormat.format("{0} {1}({2}) '{'", typeName, genName, formalParameters));
+			//FIXME generate template body
+			source.append("}\n\n");
 		}
 		//TODO generate code for missing parts
 		source.append( "\t" );
