@@ -170,10 +170,11 @@ public class TitanBoolean extends Base_Type {
 
 		return new TitanBoolean(boolean_value.equals(aOtherValue.boolean_value));
 	}
-	
+
 	//originally operator==
 	public TitanBoolean operatorEquals(final boolean otherValue){
 		mustBound("The left operand of comparison is an unbound boolean value.");
+
 		return new TitanBoolean(boolean_value == otherValue);
 	}
 	
@@ -186,12 +187,12 @@ public class TitanBoolean extends Base_Type {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
-	
+
 	//originally operator !=
 	public TitanBoolean operatorNotEquals(final boolean otherValue){
 		mustBound("The left operand of comparison is an unbound boolean value.");
+
 		return operatorNotEquals(otherValue).not();
-		
 	}
 	
 	//originally operator!=
@@ -208,6 +209,7 @@ public class TitanBoolean extends Base_Type {
 		if ( boolean_value == null ) {
 			return "<unbound>";
 		}
+
 		return boolean_value.toString();
 	}
 
@@ -218,13 +220,14 @@ public class TitanBoolean extends Base_Type {
 	public static boolean getNative(final TitanBoolean otherValue) {
 		return otherValue.getValue();
 	}
-	
+
 	//static and
 	public static TitanBoolean and(final boolean boolValue, final TitanBoolean otherValue) {
 		if(!boolValue){
 			return new TitanBoolean(false);
 		}
 		otherValue.mustBound("The right operand of and operator is an unbound boolean value.");
+
 		return new TitanBoolean(otherValue.boolean_value);
 	}
 	
@@ -234,24 +237,28 @@ public class TitanBoolean extends Base_Type {
 			return new TitanBoolean(true);
 		}
 		otherValue.mustBound("The right operand of or operator is an unbound boolean value.");
+
 		return new TitanBoolean(otherValue.boolean_value);
 	}
 	
 	//static xor
 	public static TitanBoolean xor(final boolean boolValue, final TitanBoolean otherValue){
 		otherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
+
 		return new TitanBoolean(boolValue != otherValue.boolean_value);
 	}
 	
 	//static equals
 	public static TitanBoolean operatorEquals(final boolean boolValue, final TitanBoolean otherValue){
 		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
+
 		return new TitanBoolean(boolValue == otherValue.boolean_value);		
 	}
 	
 	//static notEquals
 	public static TitanBoolean opeatorNotEquals(final boolean boolValue, final TitanBoolean otherValue){
 		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
+
 		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
 	}
 }
