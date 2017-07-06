@@ -897,7 +897,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		} else {
 			StringBuilder formalParameters = formalParList.generateCode(aData);
 			//FIXME also defaults
-			source.append(MessageFormat.format("{0} {1}({2}) '{'", typeName, genName, formalParameters));
+			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
+			source.append( "\t" );
+			source.append( "//TODO: " );
+			source.append( getClass().getSimpleName() );
+			source.append( ".generateCode() body is not fully implemented!\n" );
 			//FIXME generate template body
 			source.append("}\n\n");
 		}
@@ -905,7 +909,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() body is not implemented!\n" );
+		source.append( ".generateCode() body is not fully implemented!\n" );
 		source.append( ";\n" );
 		sb.append(source);
 	}
