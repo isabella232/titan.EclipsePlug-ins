@@ -1134,7 +1134,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(tempGeneralId);
 		} else {
 			//FIXME handle omit_in_value_list
-			expression.expression.append(MessageFormat.format("{0}.{1}({2})", ass_id2, isBound ? "isBound" : "IsPresent",""));
+			expression.expression.append(MessageFormat.format("{0}.{1}({2})", ass_id2, isBound ? "isBound" : "isPresent",""));
 		}
 		
 	}
