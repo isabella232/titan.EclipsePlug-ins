@@ -221,7 +221,8 @@ public class TitanVerdictType_template extends Base_Template {
 		return new TitanBoolean(par_value == other_value.getValue());
 	}
 
-	public VerdictTypeEnum valueof() {
+	//originally valueof
+	public VerdictTypeEnum valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific verdict template.");
 		}
