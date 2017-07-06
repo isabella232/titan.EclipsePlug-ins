@@ -1033,13 +1033,13 @@ public final class FormalParameter extends Definition {
 		case A_PAR_VAL_INOUT:
 		case A_PAR_PORT:
 			//TODO handle lazy evaluation
-			result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), getMyScope())));
+			result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT:
 			//TODO handle lazy evaluation
-			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope())));
+			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TIMER:
 			result.append(MessageFormat.format("TitanTimer ", identifier.getName()));
