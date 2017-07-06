@@ -267,7 +267,7 @@ public final class TTCN3Module extends Module {
 	 *         not defined in this module.
 	 * */
 	public IType getAddressType(final CompilationTimeStamp timestamp) {
-		final Identifier addressIdentifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS");
+		final Identifier addressIdentifier = new Identifier(Identifier_type.ID_TTCN, "address");
 
 		if (!definitions.hasLocalAssignmentWithID(timestamp, addressIdentifier)) {
 			return null;

@@ -743,7 +743,7 @@ pr_StructDefBody[CompFieldMap compFieldMap] returns[Identifier identifier]
 }:
 (	(	i = pr_Identifier { $identifier = $i.identifier; }
 		pr_StructDefFormalParList?
-	|	ADDRESS  { $identifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS", getLocation( $ADDRESS)); }
+	|	ADDRESS  { $identifier = new Identifier(Identifier_type.ID_TTCN, "address", getLocation( $ADDRESS)); }
 	)
 	begin = pr_BeginChar
 	(	c = pr_StructFieldDef { compFieldMap.addComp($c.compField); }
@@ -1059,7 +1059,7 @@ pr_UnionDefBody[CompFieldMap compFieldMap] returns[Identifier identifier]
 }:
 (	(	i = pr_Identifier { $identifier = $i.identifier; }
 		pr_StructDefFormalParList?
-	|	ADDRESS { $identifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS", getLocation( $ADDRESS)); }
+	|	ADDRESS { $identifier = new Identifier(Identifier_type.ID_TTCN, "address", getLocation( $ADDRESS)); }
 	)
 	(	begin = pr_BeginChar
 		c = pr_UnionFieldDef { compFieldMap.addComp($c.compField); }
@@ -1170,7 +1170,7 @@ pr_StructOfDefBody returns[Type_Identifier_Helper helper]
 	)
 	
 	(	i = pr_Identifier { identifier = $i.identifier; }
-	|	ADDRESS { identifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS", getLocation( $ADDRESS)); }
+	|	ADDRESS { identifier = new Identifier(Identifier_type.ID_TTCN, "address", getLocation( $ADDRESS)); }
 	)
 	
 	( p = pr_SubTypeSpec { parsedSubTypes = $p.parsedSubTypes; } )?
@@ -1223,7 +1223,7 @@ pr_EnumDef returns[Def_Type def_type]
 }:
 (	col = pr_EnumKeyword
 	(	id = pr_Identifier { identifier = $id.identifier; }
-	|	ADDRESS { identifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS", getLocation( $ADDRESS)); }
+	|	ADDRESS { identifier = new Identifier(Identifier_type.ID_TTCN, "address", getLocation( $ADDRESS)); }
 	)
 	pr_BeginChar
 	e = pr_EnumerationList { items = $e.items; }
@@ -1284,7 +1284,7 @@ pr_SubTypeDef returns[Def_Type def_type]
 }:
 (	t = pr_Type
 	(	i = pr_Identifier { identifier = $i.identifier; }
-	|	ADDRESS	{ identifier = new Identifier(Identifier_type.ID_TTCN, "ADDRESS", getLocation( $ADDRESS)); }
+	|	ADDRESS	{ identifier = new Identifier(Identifier_type.ID_TTCN, "address", getLocation( $ADDRESS)); }
 	)
 	( a = pr_ArrayDef { dimensions = $a.dimensions; } )?
 	( s = pr_SubTypeSpec { parsedSubTypes = $s.parsedSubTypes; } )?
