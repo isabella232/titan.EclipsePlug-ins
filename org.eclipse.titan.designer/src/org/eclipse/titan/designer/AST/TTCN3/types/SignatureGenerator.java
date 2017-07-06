@@ -131,6 +131,16 @@ public class SignatureGenerator {
 		}
 		source.append("}\n");
 
+		source.append(MessageFormat.format("public {0}_call(final {0}_call otherValue) '{'\n", def.genName));
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("param_{0}.assign(otherValue.get{1}());\n", formalPar.mJavaName, formalPar.mJavaName));
+			}
+		}
+		source.append("}\n");
+
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			SignatureParameter formalPar = def.formalParameters.get(i);
 
@@ -183,9 +193,21 @@ public class SignatureGenerator {
 					source.append(MessageFormat.format("param_{0} = new {1}();\n", formalPar.mJavaName, formalPar.mJavaTypeName));
 				}
 			}
-
 			if (def.returnType != null) {
 				source.append(MessageFormat.format("reply_value = new {0}();\n", def.returnType.mJavaTypeName));
+			}
+			source.append("}\n");
+
+			source.append(MessageFormat.format("public {0}_reply(final {0}_reply other_value) '{'\n", def.genName));
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				SignatureParameter formalPar = def.formalParameters.get(i);
+	
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					source.append(MessageFormat.format("param_{0}.assign(other_value.get{1}());\n", formalPar.mJavaName, formalPar.mJavaName));
+				}
+			}
+			if (def.returnType != null) {
+				source.append("reply_value.assign(other_value.getreturn_value());\n");
 			}
 			source.append("}\n");
 	

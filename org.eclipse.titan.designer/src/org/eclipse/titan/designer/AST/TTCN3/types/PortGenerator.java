@@ -32,7 +32,11 @@ public class PortGenerator {
 		}
 	}
 
-	//FIXME comment
+	/**
+	 * Structure to describe in and out messages.
+	 * 
+	 * originally port_proc_signature is something like this
+	 * */
 	public static final class procedureSignatureInfo {
 		private String mJavaTypeName;
 		private String mDisplayName;
@@ -96,6 +100,24 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport( "TitanPort" );
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "Base_Type" );
+
+		boolean hasIncomingReply = false;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (!info.isNoBlock) {
+				hasIncomingReply = true;
+			}
+		}
+		boolean hasIncomingException = false;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (info.hasExceptions) {
+				hasIncomingException = true;
+			}
+		}
+
 
 		generateDeclaration(source, portDefinition);
 
@@ -172,7 +194,7 @@ public class PortGenerator {
 			}
 		}
 
-		if (portDefinition.outProcedures.size() > 0) {
+		if (hasIncomingReply) {
 			generateGenericGetreply(source, portDefinition, false);
 			generateGenericGetreply(source, portDefinition, true);
 
@@ -186,7 +208,7 @@ public class PortGenerator {
 			}
 		}
 
-		if (portDefinition.outProcedures.size() > 0) {
+		if (hasIncomingException) {
 			generateGenericGetexception(source, portDefinition, false);
 			generateGenericGetexception(source, portDefinition, true);
 
@@ -200,12 +222,38 @@ public class PortGenerator {
 			}
 		}
 
-		//FIXME incoming_call
-		//FIXME incoming_reply
-		//FIXME incoming_exception
-		//FIXME process_call
-		//FIXME process_reply
-		//FIXME process_exception
+		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+
+			generateTypedIcomingCall(source, i, info);
+		}
+
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (!info.isNoBlock) {
+				generateTypedIcomingReply(source, i, info);
+			}
+		}
+
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (info.hasExceptions) {
+				generateTypedIcomingException(source, i, info);
+			}
+		}
+
+		if (portDefinition.inProcedures.size() > 0) {
+			generateProcessCall(source, portDefinition);
+		}
+		if (hasIncomingReply) {
+			generateProcessReply(source, portDefinition);
+		}
+		if (hasIncomingException) {
+			generateProcessException(source, portDefinition);
+		}
+
 		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
 
 		source.append("}\n\n");
@@ -990,5 +1038,176 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
 		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the type incoming call function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * */
+	private static void generateTypedIcomingCall(final StringBuilder source, final int index, final procedureSignatureInfo info) {
+		source.append(MessageFormat.format("private void incoming_call(final {0}_call incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+		source.append("if (!is_started) {\n" );
+		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a call has arrived on it.\", getName()));\n");
+		source.append("}\n" );
+
+		source.append("//FIXME logging\n" );
+		source.append("ProcedureQueueItem newItem = new ProcedureQueueItem();\n" );
+		source.append(MessageFormat.format("newItem.item_selection = proc_selection.CALL_{0};\n", index));
+		source.append(MessageFormat.format("newItem.call_{0} = new {1}_call(incoming_par);\n", index, info.mJavaTypeName));
+		source.append("newItem.sender_component = sender_component;\n" );
+		source.append("procedure_queue.add(newItem);\n" );
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par) '{'\n", info.mJavaTypeName));
+		source.append("incoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the type incoming reply function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * */
+	private static void generateTypedIcomingReply(final StringBuilder source, final int index, final procedureSignatureInfo info) {
+		source.append(MessageFormat.format("private void incoming_reply(final {0}_reply incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+		source.append("if (!is_started) {\n" );
+		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a reply has arrived on it.\", getName()));\n");
+		source.append("}\n" );
+
+		source.append("//FIXME logging\n" );
+		source.append("ProcedureQueueItem newItem = new ProcedureQueueItem();\n" );
+		source.append(MessageFormat.format("newItem.item_selection = proc_selection.REPLY_{0};\n", index));
+		source.append(MessageFormat.format("newItem.reply_{0} = new {1}_reply(incoming_par);\n", index, info.mJavaTypeName));
+		source.append("newItem.sender_component = sender_component;\n" );
+		source.append("procedure_queue.add(newItem);\n" );
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par) '{'\n", info.mJavaTypeName));
+		source.append("incoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
+
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the type incoming exception function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * */
+	private static void generateTypedIcomingException(final StringBuilder source, final int index, final procedureSignatureInfo info) {
+		source.append(MessageFormat.format("private void incoming_exception(final {0}_exception incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+		source.append("if (!is_started) {\n" );
+		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but an exception has arrived on it.\", getName()));\n");
+		source.append("}\n" );
+
+		source.append("//FIXME logging\n" );
+		source.append("ProcedureQueueItem newItem = new ProcedureQueueItem();\n" );
+		source.append(MessageFormat.format("newItem.item_selection = proc_selection.EXCEPTION_{0};\n", index));
+		source.append(MessageFormat.format("newItem.exception_{0} = new {1}_exception(incoming_par);\n", index, info.mJavaTypeName));
+		source.append("newItem.sender_component = sender_component;\n" );
+		source.append("procedure_queue.add(newItem);\n" );
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par) '{'\n", info.mJavaTypeName));
+		source.append("incoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the process_call function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * */
+	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("protected boolean process_call(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
+		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+
+			if (i != 0) {
+				source.append(" } else ");
+			}
+			source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
+			source.append(MessageFormat.format("{0}_call incoming_par = new {0}_call();\n", info.mJavaTypeName));
+			source.append("//FIXME decode missing\n");
+			source.append("incoming_call(incoming_par);\n");
+			source.append("return true;\n");
+		}
+			
+				
+		source.append("} else {\n");
+		source.append("return false;\n");
+		source.append("}\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * This function generates the process_reply function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * */
+	private static void generateProcessReply(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("protected boolean process_reply(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
+		boolean isFirst = true;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (!info.isNoBlock) {
+				if (!isFirst) {
+					source.append(" } else ");
+				}
+				isFirst = false;
+				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
+				source.append(MessageFormat.format("{0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
+				source.append("//FIXME decode missing\n");
+				source.append("incoming_reply(incoming_par);\n");
+				source.append("return true;\n");
+			}
+		}
+			
+				
+		source.append("} else {\n");
+		source.append("return false;\n");
+		source.append("}\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * This function generates the process_exception function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * */
+	private static void generateProcessException(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("protected boolean process_exception(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
+		boolean isFirst = true;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (info.hasExceptions) {
+				if (!isFirst) {
+					source.append(" } else ");
+				}
+				isFirst = false;
+				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
+				source.append(MessageFormat.format("{0}_exception incoming_par = new {0}_exception();\n", info.mJavaTypeName));
+				source.append("//FIXME decode missing\n");
+				source.append("incoming_exception(incoming_par);\n");
+				source.append("return true;\n");
+			}
+		}
+			
+				
+		source.append("} else {\n");
+		source.append("return false;\n");
+		source.append("}\n");
+		source.append("}\n");
 	}
 }
