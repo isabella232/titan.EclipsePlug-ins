@@ -172,10 +172,33 @@ public class PortGenerator {
 			}
 		}
 
-		//FIXME implement getreply
-		//FIXME implement check_getreply
-		//FIXME implement get_exception
-		//FIXME implement check_catch
+		if (portDefinition.outProcedures.size() > 0) {
+			generateGenericGetreply(source, portDefinition, false);
+			generateGenericGetreply(source, portDefinition, true);
+
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+				if (!portDefinition.outProcedures.get(i).isNoBlock) {
+					generateTypedGetreply(source, i, info, false);
+					generateTypedGetreply(source, i, info, true);
+				}
+			}
+		}
+
+		if (portDefinition.outProcedures.size() > 0) {
+			generateGenericGetexception(source, portDefinition, false);
+			generateGenericGetexception(source, portDefinition, true);
+
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+				if (portDefinition.outProcedures.get(i).hasExceptions) {
+					generateTypedGetexception(source, i, info, false);
+					generateTypedGetexception(source, i, info, true);
+				}
+			}
+		}
 
 		//FIXME incoming_call
 		//FIXME incoming_reply
@@ -768,6 +791,199 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
 		source.append("//FIXME set param_ref and logging\n");
+		if (!isCheck) {
+			source.append("remove_proc_queue_head();\n");
+		}
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the generic getreply or check(getreply) function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param isCheck generate the check or the non-checking version.
+	 * */
+	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck) {
+		final String functionName = isCheck ? "check_reply" : "getreply";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName));
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("switch(head.item_selection) {\n");
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			if (!portDefinition.outProcedures.get(i).isNoBlock) {
+				source.append(MessageFormat.format("case CALL_{0}:\n", i));
+			}
+		}
+
+		source.append("{\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(head.sender_component);\n");
+		source.append("}\n");
+		source.append("//FIXME logging\n");
+		if (!isCheck) {
+			source.append("remove_proc_queue_head();\n");
+		}
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the getreply or check(getreply) function for a signature type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * @param isCheck generate the check or the non-checking version.
+	 * */
+	private static void generateTypedGetreply(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck) {
+		final String functionName = isCheck ? "check_getreply" : "getreply";
+		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName, info.mJavaTypeName));
+		if (info.hasReturnValue) {
+			source.append("if (getreply_template.return_value().getSelection() == template_sel.ANY_OR_OMIT) {\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '*' as return value matching template\");\n", printedFunctionName));
+			source.append("}\n");
+		}
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.REPLY_{0}) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getreply_template.match_reply(head.reply_{0}, true))) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("} else {\n");
+		source.append("//FIXME set param_ref and logging\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(head.sender_component);\n");
+		source.append("}\n");
+		if (!isCheck) {
+			source.append("remove_proc_queue_head();\n");
+		}
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the generic get_exception or check(catch) function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param isCheck generate the check or the non-checking version.
+	 * */
+	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck) {
+		final String functionName = isCheck ? "check_catch" : "get_exception";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName));
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("switch(head.item_selection) {\n");
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			if (portDefinition.outProcedures.get(i).hasExceptions) {
+				source.append(MessageFormat.format("case EXCEPTION_{0}:\n", i));
+			}
+		}
+
+		source.append("{\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(head.sender_component);\n");
+		source.append("}\n");
+		source.append("//FIXME logging\n");
+		if (!isCheck) {
+			source.append("remove_proc_queue_head();\n");
+		}
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function generates the get_exception or check(catch) function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * @param isCheck generate the check or the non-checking version.
+	 * */
+	private static void generateTypedGetexception(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck) {
+		final String functionName = isCheck ? "check_catch" : "get_exception";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName, info.mJavaTypeName));
+		if (info.hasReturnValue) {
+			source.append("if (catch_template.is_any_or_omit()) {\n");
+			source.append("throw new TtcnError(\"Catch operation using '*' as matching template\");\n");
+			source.append("}\n");
+		}
+		source.append("if (procedure_queue.size() == 0) {\n");
+		source.append("if(is_started) {\n");
+		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
+		source.append("} else {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
+		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(catch_template.match(head.exception_{0}, true))) '{'\n", index));
+		source.append("//FIXME logging\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("} else {\n");
+		source.append("//FIXME set param_ref and logging\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(head.sender_component);\n");
+		source.append("}\n");
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
 		}
