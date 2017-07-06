@@ -551,7 +551,7 @@ public class TitanInteger extends Base_Type {
 
 		return new TitanInteger(intValue).operatorNotEquals(otherValue);
 	}
-	//add rem and mod after that.
+	//add rem and mod after that..
 		
 		//static operator <
 		public static TitanBoolean isLessThan(final int intValue,final TitanInteger otherValue){
