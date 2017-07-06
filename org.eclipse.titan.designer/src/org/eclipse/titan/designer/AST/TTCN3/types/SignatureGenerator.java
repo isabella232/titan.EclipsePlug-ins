@@ -338,10 +338,41 @@ public class SignatureGenerator {
 				source.append("}\n");
 			}
 	
-			source.append("// FIXME implement match\n");
+			source.append(MessageFormat.format("public TitanBoolean match(final {0}_exception other_value, boolean legacy) '{'\n", def.genName));
+			source.append("if (exception_selection != other_value.get_selection()) {\n");
+			source.append("return new TitanBoolean(false);\n");
+			source.append("}\n");
+
+			source.append("switch (exception_selection) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("return (({0}) field).match(other_value.getTitanInteger(), legacy);\n", exception.mJavaTemplateName));
+			}
+			source.append("default:\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector when matching an exception of signature {0}.\");\n", def.displayName));
+			source.append("}\n");
+			source.append("}\n");
+
 			source.append("// FIXME implement log_match\n");
 			source.append("// FIXME implement set_value\n");
 			source.append("// FIXME implement is_any_or_omit\n");
+
+			source.append("public boolean is_any_or_omit() {\n");
+			source.append("switch(exception_selection) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("return (({0}) field).getSelection() == template_sel.ANY_OR_OMIT;\n", exception.mJavaTemplateName));
+			}
+			source.append("default:\n");
+			source.append("break;\n");
+			source.append("}\n");
+
+			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector when checking for '*' in an exception template of signature {0}.\");\n", def.displayName));
+			source.append("}\n");
 			source.append("}\n");
 		}
 	}
