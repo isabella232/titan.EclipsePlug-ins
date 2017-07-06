@@ -1116,7 +1116,6 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		Assignment assignment = getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		String ass_id = assignment.getGenNameFromScope(aData, expression.expression, myScope, null);
 
-		//FIXME handle parameterized case
 		String ass_id2 = ass_id;
 		if (subReferences.size() > 0 && subReferences.get(0) instanceof ParameterisedSubReference) {
 			ParameterisedSubReference subReference = (ParameterisedSubReference) subReferences.get(0);
