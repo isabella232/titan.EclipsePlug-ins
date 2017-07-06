@@ -15,7 +15,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.ISetting.Setting_type;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Assignment;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
@@ -1119,6 +1118,14 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		//FIXME handle parameterized case
 		String ass_id2 = ass_id;
+		if (subReferences.size() > 0 && subReferences.get(0) instanceof ParameterisedSubReference) {
+			ParameterisedSubReference subReference = (ParameterisedSubReference) subReferences.get(0);
+			ExpressionStruct tempExpression = new ExpressionStruct();
+			//FIXME should need the formal parameters and other options
+			subReference.getActualParameters().generateCodeAlias(aData, tempExpression);
+
+			ass_id2 = MessageFormat.format("{0}({1})", ass_id, tempExpression.expression);
+		}
 		
 		if (subReferences.size() > 1) {
 			String tempGeneralId = aData.getTemporaryVariableName();
