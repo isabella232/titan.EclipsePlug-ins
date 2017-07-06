@@ -487,9 +487,7 @@ public final class Def_Const extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
+
 		if (value != null) {
 			//value.setGenNamePrefix("const_");//currently does not need the prefix
 			value.setGenNameRecursive(genName);

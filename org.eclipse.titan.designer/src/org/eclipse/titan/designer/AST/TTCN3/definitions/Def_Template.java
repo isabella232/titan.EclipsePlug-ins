@@ -906,9 +906,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
+
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
