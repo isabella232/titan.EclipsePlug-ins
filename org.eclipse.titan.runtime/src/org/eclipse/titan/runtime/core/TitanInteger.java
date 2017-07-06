@@ -276,40 +276,103 @@ public class TitanInteger extends Base_Type {
 	}
 
 	
-	//TODO: mod
-	/*
+	// mod
+	public TitanInteger mod(int leftValue, int rightValue)
+	{
+		if(rightValue<0)
+		{
+			rightValue=rightValue*(-1);
+		}
+		else if (rightValue==0)
+		{
+			throw new TtcnError("The right operand of mod operator is zero.");
+		}
+		if(leftValue>0)
+		{
+			return rem(leftValue,rightValue);
+		}
+		else
+		{
+			int result = rem(leftValue,rightValue).nativeInt;
+			if(result==0) return new TitanInteger(0);
+			else return new TitanInteger(rightValue + result);
+		}
+	}
+	
 	public TitanInteger mod( final TitanInteger leftValue, final TitanInteger rightValue)
 	{
 		leftValue.mustBound("Unbound left operand of mod operator.");
 		rightValue.mustBound( "Unbound right operand of mod operator" );
-		
-		
 			
-			new TitanInteger Math.abs(rightValue); 
-			
-			return new TitanInteger((int)0);
-		
-		
-		if (nativeFlag) {
-			if(rightValue.nativeFlag) {
-				final long temp = nativeInt * otherValue.nativeInt;
-				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
-					return new TitanInteger((int)temp);
-				}
-				return new TitanInteger(BigInteger.valueOf(temp));
-			} else {
-				final BigInteger this_int = BigInteger.valueOf(nativeInt);
-				return new TitanInteger(this_int.multiply(otherValue.openSSL));
-			}
-		} else {
-			if(otherValue.nativeFlag) {
-				final BigInteger other_int = BigInteger.valueOf(otherValue.nativeInt);
-				return new TitanInteger(openSSL.multiply(other_int));
-			} else {
-				return new TitanInteger(openSSL.multiply(otherValue.openSSL));
-			}
+		TitanInteger rightValueAbs=new TitanInteger();
+		rightValueAbs=rightValue;
+		if(rightValueAbs.isLessThan(0).getValue())
+		{
+			rightValueAbs=rightValueAbs.mul(-1);
 		}
-	}*/
+		else if(rightValue.operatorEquals(0).getValue())
+		{
+			throw new TtcnError("The right operand of mod operator is zero");
+		}
+		if(leftValue.isGreaterThan(0).getValue())
+		{
+			return rem(leftValue,rightValue);
+		}
+		else
+		{
+			TitanInteger result = rem(leftValue,rightValueAbs);
+			if(result.equals(0))
+				return new TitanInteger(0);
+			else return new TitanInteger (rightValueAbs.add(result));
+		}
+
+	}
+	
+	//static mod 
+
+	public TitanInteger mod(final TitanInteger leftValue, int rightValue)
+	{
+		leftValue.mustBound("Unbound left operand of mod operator.");
+		return mod(leftValue, new TitanInteger (rightValue));
+	}
+	
+	public TitanInteger mod (int leftValue, final TitanInteger rightValue)
+	{
+		rightValue.mustBound("Unbound right operand of mod operator. ");
+		return mod(new TitanInteger(leftValue),rightValue);
+	}
+
+	//rem
+	
+	public static TitanInteger rem(final int leftValue, final int rightValue){
+        if(rightValue == 0){
+                        throw new TtcnError("The right operand of rem operator is zero.");
+        }
+        return new TitanInteger(leftValue - rightValue * (leftValue/rightValue));
+}
+    public static TitanInteger rem(final TitanInteger leftValue,final TitanInteger rightValue)
+    {
+    	leftValue.mustBound("Unbound left operand of rem operator ");
+    	rightValue.mustBound("Unbound right operand of rem operator");
+    	return leftValue.sub(rightValue.mul((leftValue.div(rightValue))));
+    	
+    }
+	
+
+	public static TitanInteger rem(final TitanInteger leftValue, final int rightValue)
+	{
+		leftValue.mustBound("Unbound right operator of rem");
+		return rem(new TitanInteger(leftValue), rightValue);
+	}	
+	
+	
+	public static TitanInteger rem(int leftValue, final TitanInteger rightValue)
+	{
+		rightValue.mustBound("Unbound right operator of rem");
+		return rem(new TitanInteger(leftValue), rightValue);
+	}
+
+
 
 	//originally operator==
 	public TitanBoolean operatorEquals( final TitanInteger otherValue ) {
