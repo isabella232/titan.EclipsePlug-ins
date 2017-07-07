@@ -64,7 +64,7 @@ public class PortGenerator {
 
 		/** The original name in the TTCN-3 code */
 		public String displayName;
-
+		
 		/** The list of incoming messages */
 		public ArrayList<messageTypeInfo> inMessages = new ArrayList<PortGenerator.messageTypeInfo>();
 
@@ -469,6 +469,9 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		source.append("}\n");
 		source.append("//FIXME logging\n");
 		if (!isCheck) {
 			source.append("remove_msg_queue_head();\n");
@@ -506,6 +509,9 @@ public class PortGenerator {
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(" } else {\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		source.append("}\n");
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
@@ -559,6 +565,9 @@ public class PortGenerator {
 		source.append("//FIXME implement\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		source.append("}\n");
 		source.append("//FIXME implement, right now we just assume perfect match\n");
 		if (!isCheck) {
 			source.append("remove_msg_queue_head();\n");
@@ -616,6 +625,9 @@ public class PortGenerator {
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(" } else {\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		source.append("}\n");
 		source.append("//FIXME implement, right now we just assume perfect match\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
@@ -794,6 +806,9 @@ public class PortGenerator {
 		}
 
 		source.append("{\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(head.sender_component);\n");
+		source.append("}\n");
 		source.append("//FIXME logging\n");
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
@@ -839,6 +854,9 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
 		source.append("//FIXME set param_ref and logging\n");
+		source.append("if (sender_pointer != null) {\n");
+		source.append("sender_pointer.assign(head.sender_component);\n");
+		source.append("}\n");
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
 		}
