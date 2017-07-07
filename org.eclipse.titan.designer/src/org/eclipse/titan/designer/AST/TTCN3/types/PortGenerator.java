@@ -65,6 +65,9 @@ public class PortGenerator {
 		/** The original name in the TTCN-3 code */
 		public String displayName;
 		
+		/** The name of address in the actual module */
+		public String addressName;
+
 		/** The list of incoming messages */
 		public ArrayList<messageTypeInfo> inMessages = new ArrayList<PortGenerator.messageTypeInfo>();
 
@@ -124,13 +127,19 @@ public class PortGenerator {
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 			messageTypeInfo outType = portDefinition.outMessages.get(i);
 
-			generateSend(source, outType, portDefinition.testportType);
+			generateSend(source, outType, portDefinition);
 		}
 
 		if (portDefinition.inMessages.size() > 0) {
-			generateGenericReceive(source, false);
-			generateGenericReceive(source, true);
-			generateGenericTrigger(source);
+			generateGenericReceive(source, false, false);
+			generateGenericReceive(source, true, false);
+			generateGenericTrigger(source, false);
+
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				generateGenericReceive(source, false, true);
+				generateGenericReceive(source, true, true);
+				generateGenericTrigger(source, true);
+			}
 		}
 
 		// generic and simplified receive for experimentation
@@ -140,7 +149,7 @@ public class PortGenerator {
 			generateTypedReceive(source, i, inType, false);
 			generateTypedReceive(source, i, inType, true);
 			generateTypeTrigger(source, i, inType);
-			generateTypedIncomminMessage(source, i, inType, portDefinition.testportType);
+			generateTypedIncomminMessage(source, i, inType, portDefinition);
 		}
 
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
@@ -305,6 +314,9 @@ public class PortGenerator {
 			source.append("\n");
 			source.append("Base_Type message;\n");
 			source.append("int sender_component;\n");
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
+			}
 			source.append("}\n");
 	
 			source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<MessageQueueItem>();\n\n");
@@ -378,6 +390,9 @@ public class PortGenerator {
 				}
 			}
 			source.append("int sender_component;\n");
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
+			}
 			source.append("}\n");
 			source.append("private LinkedList<ProcedureQueueItem> procedure_queue = new LinkedList<ProcedureQueueItem>();\n");
 	
@@ -404,9 +419,9 @@ public class PortGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param outType the information about the outgoing message.
-	 * @param testportType the type of the testport.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateSend(final StringBuilder source, final messageTypeInfo outType, final TestportType testportType) {
+	private static void generateSend(final StringBuilder source, final messageTypeInfo outType, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", getName()));\n");
@@ -416,11 +431,15 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("//FIXME logging\n");
 		source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
-		if (testportType == TestportType.INTERNAL) {
+		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", getName()));\n");
 		} else {
 			source.append("//FIXME get_default_destination\n");
-			source.append("outgoing_send(send_par);\n");
+			source.append("outgoing_send(send_par");
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(", null");
+			}
+			source.append(");\n");
 		}
 		source.append("} else {\n");
 		source.append("//FIXME implement\n");
@@ -428,14 +447,45 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n\n");
 
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address) '{'\n", outType.mJavaTypeName, portDefinition.addressName));
+			source.append("if (!is_started) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", getName()));\n");
+			source.append("}\n");
+			source.append("//FIXME logging\n");
+			source.append("//FIXME needs get_default_destination;\n");
+			source.append("outgoing_send(send_par, destination_address);\n");
+			source.append("}\n\n");
+		}
+
+		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTypeName));
+		source.append("//FIXME needs get_default_destination;\n");
+		source.append("}\n\n");
+
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTemplateName));
 		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
 		source.append("send(send_par_value, destination_component);\n");
 		source.append("}\n\n");
 
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format("public void send(final {0} send_par, final {1} destination_address) '{'\n", outType.mJavaTemplateName, portDefinition.addressName));
+			source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
+			source.append("send(send_par_value, destination_address);\n");
+			source.append("}\n\n");
+		}
+
+		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTemplateName));
+		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
+		source.append("//FIXME needs get_default_destination;\n");
+		source.append("}\n\n");
+
 		// FIXME a bit more complex expression
-		if (testportType != TestportType.INTERNAL) {
-			source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par);\n\n", outType.mJavaTypeName));
+		if (portDefinition.testportType != TestportType.INTERNAL) {
+			source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par", outType.mJavaTypeName));
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+			}
+			source.append(");\n\n");
 		}
 	}
 
@@ -444,11 +494,13 @@ public class PortGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateGenericReceive(final StringBuilder source, final boolean isCheck) {
+	private static void generateGenericReceive(final StringBuilder source, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_receive" : "receive";
+		final String senderType = isAddress ? "ADDRESS" : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName ));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -465,12 +517,33 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(" } else {\n");
+		source.append("}\n");
+
+		if (isAddress) {
+			source.append("if (my_head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (my_head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Receive operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		}
+		
+		source.append(" else {\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(my_head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(my_head.sender_component);\n");
+		}
 		source.append("}\n");
 		source.append("//FIXME logging\n");
 		if (!isCheck) {
@@ -485,9 +558,12 @@ public class PortGenerator {
 	 * This function generates the generic trigger function.
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateGenericTrigger(final StringBuilder source) {
-		source.append("public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {\n");
+	private static void generateGenericTrigger(final StringBuilder source, final boolean isAddress) {
+		final String senderType = isAddress ? "ADDRESS" : "TitanComponent";
+
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0}_template sender_template, final {0} sender_pointer) '{'\n", senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -504,13 +580,36 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("remove_msg_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-		source.append(" } else {\n");
+		source.append("}\n");
+
+		if (isAddress) {
+			source.append("if (my_head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("remove_msg_queue_head();\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (my_head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Trigger operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("remove_msg_queue_head();\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("remove_msg_queue_head();\n");
+			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
+			source.append("}");
+		}
+
+		source.append(" else {\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(my_head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(my_head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(my_head.sender_component);\n");
+		}
 		source.append("}\n");
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
@@ -641,12 +740,16 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param index the index this message type has in the declaration the port type.
 	 * @param inType the information about the incoming message.
-	 * @param testportType the type of the testport.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType, final TestportType testportType) {
+	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		String typeValueName = inType.mJavaTypeName;
 
-		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component) '{'\n", typeValueName));
+		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		source.append(") {\n");
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", getName()));\n");
 		source.append("}\n");
@@ -654,13 +757,28 @@ public class PortGenerator {
 		source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));
 		source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));
 		source.append("new_item.sender_component = sender_component;\n");
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("if (sender_address != null) {\n");
+			source.append("new_item.sender_address = new ADDRESS(sender_address);\n");
+			source.append("}\n");
+		}
 		source.append("message_queue.addLast(new_item);\n");
 		source.append("}\n\n");
 
-		if (testportType != TestportType.INTERNAL) {
-			source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-			source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
-			source.append("}\n\n");
+		if (portDefinition.testportType != TestportType.INTERNAL) {
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append("protected void incoming_message(final TitanInteger incoming_par, final ADDRESS sender_address) {\n");
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address);\n");
+				source.append("}\n");
+
+				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n");
+				source.append("}\n\n");
+			} else {
+				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
+				source.append("}\n\n");
+			}
 		}
 	}
 

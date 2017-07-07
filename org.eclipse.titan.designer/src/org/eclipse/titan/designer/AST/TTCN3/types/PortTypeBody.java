@@ -1603,6 +1603,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			break;
 		case TP_ADDRESS:
 			portDefinition.testportType = TestportType.ADDRESS;
+			portDefinition.addressName = "ADDRESS";
 			break;
 		default:
 			portDefinition.testportType = TestportType.NORMAL;
