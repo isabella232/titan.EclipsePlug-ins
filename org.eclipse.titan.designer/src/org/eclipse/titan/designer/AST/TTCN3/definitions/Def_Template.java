@@ -896,7 +896,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			}
 		} else {
 			StringBuilder formalParameters = formalParList.generateCode(aData);
-			//FIXME also defaults
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
 			source.append( "\t" );
 			source.append( "//TODO: " );
