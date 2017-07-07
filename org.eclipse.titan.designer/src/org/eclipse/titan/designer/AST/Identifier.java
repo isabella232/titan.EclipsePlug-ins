@@ -333,7 +333,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"stdout_", "stdout", "stdout"},
 		{"TTCN3_", "TTCN3", "TTCN3"},
 		/* built-in types */
-		{"ADDRESS", null, "address"},
+		{"TitanAddress", null, "address"},
 		{"ASN_NULL", "NULL", null},
 		{"TitanBitString", "BIT STRING", "bitstring"},
 		{"TitanBoolean", "BOOLEAN", "boolean"},
@@ -363,7 +363,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"VideotexString", "VideotexString", null},
 		{"VisibleString", "VisibleString", null},
 		/* reserved names of built-in types */
-		{"ADDRESS_", "ADDRESS", "ADDRESS"},
+		{"TitanAddress_", "TitanAddress", "TitanAddress"},
 		{"TitanBitString_", "TitanBitString", "TitanBitString"},
 		{"TitanBoolean_", null, "TitanBoolean"},
 		{"BMPString_", null, "BMPString"},

@@ -498,7 +498,7 @@ public class PortGenerator {
 	 * */
 	private static void generateGenericReceive(final StringBuilder source, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_receive" : "receive";
-		final String senderType = isAddress ? "ADDRESS" : "TitanComponent";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
@@ -561,7 +561,7 @@ public class PortGenerator {
 	 * @param isAddress generate for address or not?
 	 * */
 	private static void generateGenericTrigger(final StringBuilder source, final boolean isAddress) {
-		final String senderType = isAddress ? "ADDRESS" : "TitanComponent";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0}_template sender_template, final {0} sender_pointer) '{'\n", senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
@@ -759,7 +759,7 @@ public class PortGenerator {
 		source.append("new_item.sender_component = sender_component;\n");
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("if (sender_address != null) {\n");
-			source.append("new_item.sender_address = new ADDRESS(sender_address);\n");
+			source.append(MessageFormat.format("new_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
 			source.append("}\n");
 		}
 		source.append("message_queue.addLast(new_item);\n");
@@ -767,7 +767,7 @@ public class PortGenerator {
 
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append("protected void incoming_message(final TitanInteger incoming_par, final ADDRESS sender_address) {\n");
+				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
 				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address);\n");
 				source.append("}\n");
 
