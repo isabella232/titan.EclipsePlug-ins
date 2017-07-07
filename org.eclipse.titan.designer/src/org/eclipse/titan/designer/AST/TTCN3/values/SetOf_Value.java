@@ -28,13 +28,15 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class SetOf_Value extends Value {
 	private static final String NONNEGATIVEINDEXEXPECTED =
 			"A non-negative integer value was expected instead of {0} for indexing a value of `set of'' type `{1}''";
@@ -578,5 +580,78 @@ public final class SetOf_Value extends Value {
 				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
 			}
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		if (values == null) {
+			return false;
+		}
+
+		if (values.isIndexed()) {
+			return values.getNofIndexedValues() == 0;
+		}
+
+		return values.getNofValues() == 0;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		//TODO the empty record is so frequent that it is worth to handle in the library
+		return new StringBuilder("NULL_VALUE");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (isIndexed()) {
+			final int nofIndexedValues = values.getNofIndexedValues();
+			if (nofIndexedValues == 0) {
+				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actuall NULL_VALUE
+			} else {
+				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
+				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
+				for (int i = 0; i < nofIndexedValues; i++) {
+					final IndexedValue indexedValue = values.getIndexedValueByIndex(i);
+					final String tempId1 = aData.getTemporaryVariableName();
+					source.append("{\n");
+					final Value index = indexedValue.getIndex().getValue();
+					if (index.getValuetype().equals(Value_type.INTEGER_VALUE)) {
+						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
+					} else {
+						final String tempId2 = aData.getTemporaryVariableName();
+						source.append(MessageFormat.format("int {0};\n", tempId2));
+						index.generateCodeInit(aData, source, tempId2);
+						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
+					}
+					indexedValue.getValue().generateCodeInit(aData, source, tempId1);
+					source.append("}\n");
+				}
+			}
+		} else {
+			final int nofValues = values.getNofValues();
+			if (nofValues == 0) {
+				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actuall NULL_VALUE
+			} else {
+				source.append(MessageFormat.format("{0}.setSize({1});\n", name, nofValues));
+				final IType ofType = values.getValueByIndex(0).getMyGovernor();
+				final String embeddedType = ofType.getGenNameValue(aData, source, myScope);
+				
+				for (int i = 0; i < nofValues; i++) {
+					final IValue value = values.getValueByIndex(i);
+					if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
+						continue;
+					} else //FIXME needs temporary reference branch (needs_temp_ref function missing)
+					{
+						final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, i);
+						value.generateCodeInit(aData, source, embeddedName);
+					}
+				}
+			}
+		}
+
+		return source;
 	}
 }

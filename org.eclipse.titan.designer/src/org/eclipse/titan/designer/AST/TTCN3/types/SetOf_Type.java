@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
@@ -32,11 +33,13 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class SetOf_Type extends AbstractOfType {
 	public static final String SETOFVALUEEXPECTED1 = "SET OF value was expected";
 	public static final String SETOFVALUEEXPECTED2 = "set of value was expected";
@@ -538,5 +541,25 @@ public final class SetOf_Type extends AbstractOfType {
 			getOfType().getProposalDescription(builder);
 		}
 		return builder;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		final String genName = getGenNameOwn();
+		final String displayName = getFullName();
+		final IType ofType = getOfType();
+		final String ofTypeName = ofType.getGenNameValue( aData, source, getMyScope() );
+		StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
+		ofType.generateCode(aData, tempSource);
+
+		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName );
+		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTypeName );
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
+		return getGenNameOwn();
 	}
 }
