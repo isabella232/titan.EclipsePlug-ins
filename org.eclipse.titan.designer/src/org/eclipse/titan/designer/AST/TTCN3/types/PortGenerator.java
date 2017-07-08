@@ -155,17 +155,17 @@ public class PortGenerator {
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
-			generateCallFunction(source, info, portDefinition.testportType);
+			generateCallFunction(source, info, portDefinition);
 		}
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-			generateReplyFunction(source, info, portDefinition.testportType);
+			generateReplyFunction(source, info, portDefinition);
 		}
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-			generateRaiseFunction(source, info, portDefinition.testportType);
+			generateRaiseFunction(source, info, portDefinition);
 		}
 
 		//FIXME more complicated conditional
@@ -173,60 +173,96 @@ public class PortGenerator {
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
-				source.append(MessageFormat.format("public abstract void outgoing_call(final {0}_call call_par);\n\n", info.mJavaTypeName));
+				source.append(MessageFormat.format("public abstract void outgoing_call(final {0}_call call_par", info.mJavaTypeName));
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+				}
+				source.append(");\n");
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (!info.isNoBlock) {
-					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par);\n\n", info.mJavaTypeName));
+					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
+					if (portDefinition.testportType == TestportType.ADDRESS) {
+						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+					}
+					source.append(");\n");
 				}
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (info.hasExceptions) {
-					source.append(MessageFormat.format("public abstract void outgoing_raise(final {0}_exception raise_exception);\n\n", info.mJavaTypeName));
+					source.append(MessageFormat.format("public abstract void outgoing_raise(final {0}_exception raise_exception", info.mJavaTypeName));
+					if (portDefinition.testportType == TestportType.ADDRESS) {
+						source.append(MessageFormat.format(", final {0} destination_address", portDefinition.addressName));
+					}
+					source.append(");\n");
 				}
 			}
 		}
 
 		if (portDefinition.inProcedures.size() > 0) {
-			generateGenericGetcall(source, portDefinition, false);
-			generateGenericGetcall(source, portDefinition, true);
+			generateGenericGetcall(source, portDefinition, false, false);
+			generateGenericGetcall(source, portDefinition, true, false);
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				generateGenericGetcall(source, portDefinition, false, true);
+				generateGenericGetcall(source, portDefinition, true, true);
+			}
 
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-				generateTypedGetcall(source, i, info, false);
-				generateTypedGetcall(source, i, info, true);
+				generateTypedGetcall(source, i, info, false, false);
+				generateTypedGetcall(source, i, info, true, false);
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					generateTypedGetcall(source, i, info, false, true);
+					generateTypedGetcall(source, i, info, true, true);
+				}
 			}
 		}
 
 		if (hasIncomingReply) {
-			generateGenericGetreply(source, portDefinition, false);
-			generateGenericGetreply(source, portDefinition, true);
+			generateGenericGetreply(source, portDefinition, false, false);
+			generateGenericGetreply(source, portDefinition, true, false);
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				generateGenericGetreply(source, portDefinition, false, true);
+				generateGenericGetreply(source, portDefinition, true, true);
+			}
 
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (!portDefinition.outProcedures.get(i).isNoBlock) {
-					generateTypedGetreply(source, i, info, false);
-					generateTypedGetreply(source, i, info, true);
+					generateTypedGetreply(source, i, info, false, false);
+					generateTypedGetreply(source, i, info, true, false);
+					if (portDefinition.testportType == TestportType.ADDRESS) {
+						generateTypedGetreply(source, i, info, false, true);
+						generateTypedGetreply(source, i, info, true, true);
+					}
 				}
 			}
 		}
 
 		if (hasIncomingException) {
-			generateGenericGetexception(source, portDefinition, false);
-			generateGenericGetexception(source, portDefinition, true);
+			generateGenericGetexception(source, portDefinition, false, false);
+			generateGenericGetexception(source, portDefinition, true, false);
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				generateGenericGetexception(source, portDefinition, false, true);
+				generateGenericGetexception(source, portDefinition, true, true);
+			}
 
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (portDefinition.outProcedures.get(i).hasExceptions) {
-					generateTypedGetexception(source, i, info, false);
-					generateTypedGetexception(source, i, info, true);
+					generateTypedGetexception(source, i, info, false, false);
+					generateTypedGetexception(source, i, info, true, false);
+					if (portDefinition.testportType == TestportType.ADDRESS) {
+						generateTypedGetexception(source, i, info, false, true);
+						generateTypedGetexception(source, i, info, true, true);
+					}
 				}
 			}
 		}
@@ -234,14 +270,14 @@ public class PortGenerator {
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-			generateTypedIcomingCall(source, i, info);
+			generateTypedIcomingCall(source, i, info, portDefinition);
 		}
 
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (!info.isNoBlock) {
-				generateTypedIcomingReply(source, i, info);
+				generateTypedIcomingReply(source, i, info, portDefinition);
 			}
 		}
 
@@ -249,7 +285,7 @@ public class PortGenerator {
 			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (info.hasExceptions) {
-				generateTypedIcomingException(source, i, info);
+				generateTypedIcomingException(source, i, info, portDefinition);
 			}
 		}
 
@@ -787,9 +823,9 @@ public class PortGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param info information about the signature type.
-	 * @param testportType the type of the testport.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final TestportType testportType) {
+	private static void generateCallFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("public void call(final {0}_template call_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", getName()));\n");
@@ -801,10 +837,11 @@ public class PortGenerator {
 		source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
 		source.append("//FIXME add logging\n");
 		source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
-		if (testportType == TestportType.INTERNAL) {
+		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot send call to system.\", getName()));\n");
+		} else if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("outgoing_call(call_temp, null);\n");
 		} else {
-			source.append("//FIXME get_default_destination\n");
 			source.append("outgoing_call(call_temp);\n");
 		}
 		
@@ -812,9 +849,21 @@ public class PortGenerator {
 		source.append("//FIXME implement\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, is not yet supported.\", getName()));\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
+
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format("public void call(final {0}_template call_template, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+			source.append("if (!is_started) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", getName()));\n");
+			source.append("}\n");
+
+			source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
+			source.append("outgoing_call(call_temp, destination_address);\n");
+			source.append("}\n\n");
+		}
+
 		source.append(MessageFormat.format("public void call(final {0}_template call_template) '{'\n", info.mJavaTypeName));
-		source.append("//FIXME implement\n");
+		source.append("//FIXME get_default_destination\n");
 		source.append("}\n\n");
 	}
 
@@ -823,9 +872,9 @@ public class PortGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param info information about the signature type.
-	 * @param testportType the type of the testport.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final TestportType testportType) {
+	private static void generateReplyFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (!info.isNoBlock) {
 			source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
 			source.append("if (!is_started) {\n");
@@ -838,20 +887,32 @@ public class PortGenerator {
 			source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
 			source.append("//FIXME add logging\n");
 			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
-			if (testportType == TestportType.INTERNAL) {
+			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot reply to system.\", getName()));\n");
+			} else if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append("outgoing_reply(reply_temp, null);\n");
 			} else {
-				source.append("//FIXME get_default_destination\n");
 				source.append("outgoing_reply(reply_temp);\n");
 			}
 			source.append("} else {\n");
 			source.append("//FIXME implement\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, is not yet supported.\", getName()));\n");
 			source.append("}\n");
-			source.append("}\n");
+			source.append("}\n\n");
 
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(MessageFormat.format("public void reply(final {0}_template reply_template, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+				source.append("if (!is_started) {\n");
+				source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", getName()));\n");
+				source.append("}\n");
+
+				source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
+				source.append("outgoing_reply(reply_temp, destination_address);\n");
+				source.append("}\n\n");
+			}
+			
 			source.append(MessageFormat.format("public void reply(final {0}_template reply_template) '{'\n", info.mJavaTypeName));
-			source.append("//FIXME implement\n");
+			source.append("//FIXME get_default_destination\n");
 			source.append("}\n\n");
 		}
 	}
@@ -861,12 +922,11 @@ public class PortGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param info information about the signature type.
-	 * @param testportType the type of the testport.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final TestportType testportType) {
+	private static void generateRaiseFunction(final StringBuilder source, final procedureSignatureInfo info, final PortDefinition portDefinition) {
 		if (info.hasExceptions) {
 			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final TitanComponent destination_component) '{'\n", info.mJavaTypeName));
-
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", getName()));\n");
 			source.append("}\n");
@@ -876,20 +936,31 @@ public class PortGenerator {
 
 			source.append("//FIXME add logging\n");
 			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
-			if (testportType == TestportType.INTERNAL) {
+			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot raise an exception to system.\", getName()));\n");
+			} else if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append("outgoing_raise(raise_exception, null);\n");
 			} else {
-				source.append("//FIXME get_default_destination\n");
 				source.append("outgoing_raise(raise_exception);\n");
 			}
 			source.append("} else {\n");
 			source.append("//FIXME implement\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, is not yet supported.\", getName()));\n");
 			source.append("}\n");
-			source.append("}\n");
+			source.append("}\n\n");
+
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception, final {1} destination_address) '{'\n", info.mJavaTypeName, portDefinition.addressName));
+				source.append("if (!is_started) {\n");
+				source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", getName()));\n");
+				source.append("}\n");
+				source.append("//FIXME add logging\n");
+				source.append("outgoing_raise(raise_exception, destination_address);\n");
+				source.append("}\n\n");
+			}
 
 			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception) '{'\n", info.mJavaTypeName));
-			source.append("//FIXME implement\n");
+			source.append("//FIXME get_default_destination\n");
 			source.append("}\n\n");
 		}
 	}
@@ -900,11 +971,13 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param portDefinition the definition of the port.
 	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck) {
+	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -914,18 +987,35 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
+		if (isAddress) {
+			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Getcall operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n");
+		}
 		source.append("switch(head.item_selection) {\n");
-		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			source.append(MessageFormat.format("case CALL_{0}:\n", i));
 		}
 
 		source.append("{\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(head.sender_component);\n");
+		}
 		source.append("}\n");
 		source.append("//FIXME logging\n");
 		if (!isCheck) {
@@ -947,11 +1037,13 @@ public class PortGenerator {
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
 	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateTypedGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck) {
+	private static void generateTypedGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName, info.mJavaTypeName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -961,10 +1053,24 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
+		if (isAddress) {
+			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Getcall operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		}
+		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getcall_template.match_call(head.call_{0}, true))) '{'\n", index));
@@ -973,7 +1079,11 @@ public class PortGenerator {
 		source.append("} else {\n");
 		source.append("//FIXME set param_ref and logging\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(head.sender_component);\n");
+		}
 		source.append("}\n");
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
@@ -989,11 +1099,13 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param portDefinition the definition of the port.
 	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck) {
+	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_reply" : "getreply";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -1003,10 +1115,23 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
+		if (isAddress) {
+			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Getreply operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n");
+		}
 		source.append("switch(head.item_selection) {\n");
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			if (!portDefinition.outProcedures.get(i).isNoBlock) {
@@ -1016,7 +1141,11 @@ public class PortGenerator {
 
 		source.append("{\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(head.sender_component);\n");
+		}
 		source.append("}\n");
 		source.append("//FIXME logging\n");
 		if (!isCheck) {
@@ -1038,12 +1167,14 @@ public class PortGenerator {
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
 	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateTypedGetreply(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck) {
+	private static void generateTypedGetreply(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName, info.mJavaTypeName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("if (getreply_template.return_value().getSelection() == template_sel.ANY_OR_OMIT) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '*' as return value matching template\");\n", printedFunctionName));
@@ -1058,10 +1189,24 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.REPLY_{0}) '{'\n", index));
+		if (isAddress) {
+			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Getreply operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		}
+		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.REPLY_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getreply_template.match_reply(head.reply_{0}, true))) '{'\n", index));
@@ -1070,7 +1215,11 @@ public class PortGenerator {
 		source.append("} else {\n");
 		source.append("//FIXME set param_ref and logging\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(head.sender_component);\n");
+		}
 		source.append("}\n");
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
@@ -1086,11 +1235,13 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param portDefinition the definition of the port.
 	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck) {
+	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -1100,10 +1251,23 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append("}\n");
+		if (isAddress) {
+			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Getreply operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}\n");
+		}
 		source.append("switch(head.item_selection) {\n");
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			if (portDefinition.outProcedures.get(i).hasExceptions) {
@@ -1113,7 +1277,11 @@ public class PortGenerator {
 
 		source.append("{\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(head.sender_component);\n");
+		}
 		source.append("}\n");
 		source.append("//FIXME logging\n");
 		if (!isCheck) {
@@ -1135,11 +1303,13 @@ public class PortGenerator {
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
 	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateTypedGetexception(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck) {
+	private static void generateTypedGetexception(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
+		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", functionName, info.mJavaTypeName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("if (catch_template.is_any_or_omit()) {\n");
 			source.append("throw new TtcnError(\"Catch operation using '*' as matching template\");\n");
@@ -1154,10 +1324,24 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
-		source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
-		source.append("//FIXME logging\n");
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
+		if (isAddress) {
+			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (head.sender_address == null) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Catch operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		} else {
+			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("//FIXME logging\n");
+			source.append("return TitanAlt_Status.ALT_NO;\n");
+			source.append("}");
+		}
+		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(catch_template.match(head.exception_{0}, true))) '{'\n", index));
@@ -1166,7 +1350,11 @@ public class PortGenerator {
 		source.append("} else {\n");
 		source.append("//FIXME set param_ref and logging\n");
 		source.append("if (sender_pointer != null) {\n");
-		source.append("sender_pointer.assign(head.sender_component);\n");
+		if (isAddress) {
+			source.append("sender_pointer.assign(head.sender_address);\n");
+		} else {
+			source.append("sender_pointer.assign(head.sender_component);\n");
+		}
 		source.append("}\n");
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
@@ -1182,9 +1370,14 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateTypedIcomingCall(final StringBuilder source, final int index, final procedureSignatureInfo info) {
-		source.append(MessageFormat.format("private void incoming_call(final {0}_call incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+	private static void generateTypedIcomingCall(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
+		source.append(MessageFormat.format("private void incoming_call(final {0}_call incoming_par, final int sender_component", info.mJavaTypeName));
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		source.append(") {\n" );
 		source.append("if (!is_started) {\n" );
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a call has arrived on it.\", getName()));\n");
 		source.append("}\n" );
@@ -1194,8 +1387,21 @@ public class PortGenerator {
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.CALL_{0};\n", index));
 		source.append(MessageFormat.format("newItem.call_{0} = new {1}_call(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("if (sender_address != null) {\n" );
+			source.append(MessageFormat.format("newItem.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
+			source.append("} else {\n" );
+			source.append("newItem.sender_address = null;\n" );
+			source.append("}\n" );
+		}
 		source.append("procedure_queue.add(newItem);\n" );
 		source.append("}\n\n");
+
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+			source.append("incoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n" );
+			source.append("}\n\n");
+		}
 
 		source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par) '{'\n", info.mJavaTypeName));
 		source.append("incoming_call(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
@@ -1208,9 +1414,14 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateTypedIcomingReply(final StringBuilder source, final int index, final procedureSignatureInfo info) {
-		source.append(MessageFormat.format("private void incoming_reply(final {0}_reply incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+	private static void generateTypedIcomingReply(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
+		source.append(MessageFormat.format("private void incoming_reply(final {0}_reply incoming_par, final int sender_component", info.mJavaTypeName));
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		source.append(") {\n" );
 		source.append("if (!is_started) {\n" );
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a reply has arrived on it.\", getName()));\n");
 		source.append("}\n" );
@@ -1220,8 +1431,21 @@ public class PortGenerator {
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.REPLY_{0};\n", index));
 		source.append(MessageFormat.format("newItem.reply_{0} = new {1}_reply(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("if (sender_address != null) {\n" );
+			source.append(MessageFormat.format("newItem.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
+			source.append("} else {\n" );
+			source.append("newItem.sender_address = null;\n" );
+			source.append("}\n" );
+		}
 		source.append("procedure_queue.add(newItem);\n" );
 		source.append("}\n\n");
+
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+			source.append("incoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n" );
+			source.append("}\n\n");
+		}
 
 		source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par) '{'\n", info.mJavaTypeName));
 		source.append("incoming_reply(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
@@ -1235,9 +1459,14 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
+	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateTypedIcomingException(final StringBuilder source, final int index, final procedureSignatureInfo info) {
-		source.append(MessageFormat.format("private void incoming_exception(final {0}_exception incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+	private static void generateTypedIcomingException(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
+		source.append(MessageFormat.format("private void incoming_exception(final {0}_exception incoming_par, final int sender_component", info.mJavaTypeName));
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		source.append(") {\n" );
 		source.append("if (!is_started) {\n" );
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but an exception has arrived on it.\", getName()));\n");
 		source.append("}\n" );
@@ -1247,8 +1476,21 @@ public class PortGenerator {
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.EXCEPTION_{0};\n", index));
 		source.append(MessageFormat.format("newItem.exception_{0} = new {1}_exception(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("if (sender_address != null) {\n" );
+			source.append(MessageFormat.format("newItem.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
+			source.append("} else {\n" );
+			source.append("newItem.sender_address = null;\n" );
+			source.append("}\n" );
+		}
 		source.append("procedure_queue.add(newItem);\n" );
 		source.append("}\n\n");
+
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par, final int sender_component) '{'\n", info.mJavaTypeName));
+			source.append("incoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n" );
+			source.append("}\n\n");
+		}
 
 		source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par) '{'\n", info.mJavaTypeName));
 		source.append("incoming_exception(incoming_par, TitanComponent.SYSTEM_COMPREF);\n" );
