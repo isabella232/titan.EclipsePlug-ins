@@ -131,14 +131,14 @@ public class PortGenerator {
 		}
 
 		if (portDefinition.inMessages.size() > 0) {
-			generateGenericReceive(source, false, false);
-			generateGenericReceive(source, true, false);
-			generateGenericTrigger(source, false);
+			generateGenericReceive(source, portDefinition, false, false);
+			generateGenericReceive(source, portDefinition, true, false);
+			generateGenericTrigger(source, portDefinition, false);
 
 			if (portDefinition.testportType == TestportType.ADDRESS) {
-				generateGenericReceive(source, false, true);
-				generateGenericReceive(source, true, true);
-				generateGenericTrigger(source, true);
+				generateGenericReceive(source, portDefinition, false, true);
+				generateGenericReceive(source, portDefinition, true, true);
+				generateGenericTrigger(source, portDefinition, true);
 			}
 		}
 
@@ -214,11 +214,11 @@ public class PortGenerator {
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
-				generateTypedGetcall(source, i, info, false, false);
-				generateTypedGetcall(source, i, info, true, false);
+				generateTypedGetcall(source, portDefinition, i, info, false, false);
+				generateTypedGetcall(source, portDefinition, i, info, true, false);
 				if (portDefinition.testportType == TestportType.ADDRESS) {
-					generateTypedGetcall(source, i, info, false, true);
-					generateTypedGetcall(source, i, info, true, true);
+					generateTypedGetcall(source, portDefinition, i, info, false, true);
+					generateTypedGetcall(source, portDefinition, i, info, true, true);
 				}
 			}
 		}
@@ -235,11 +235,11 @@ public class PortGenerator {
 				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (!portDefinition.outProcedures.get(i).isNoBlock) {
-					generateTypedGetreply(source, i, info, false, false);
-					generateTypedGetreply(source, i, info, true, false);
+					generateTypedGetreply(source, portDefinition, i, info, false, false);
+					generateTypedGetreply(source, portDefinition, i, info, true, false);
 					if (portDefinition.testportType == TestportType.ADDRESS) {
-						generateTypedGetreply(source, i, info, false, true);
-						generateTypedGetreply(source, i, info, true, true);
+						generateTypedGetreply(source, portDefinition, i, info, false, true);
+						generateTypedGetreply(source, portDefinition, i, info, true, true);
 					}
 				}
 			}
@@ -257,11 +257,11 @@ public class PortGenerator {
 				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (portDefinition.outProcedures.get(i).hasExceptions) {
-					generateTypedGetexception(source, i, info, false, false);
-					generateTypedGetexception(source, i, info, true, false);
+					generateTypedGetexception(source, portDefinition, i, info, false, false);
+					generateTypedGetexception(source, portDefinition, i, info, true, false);
 					if (portDefinition.testportType == TestportType.ADDRESS) {
-						generateTypedGetexception(source, i, info, false, true);
-						generateTypedGetexception(source, i, info, true, true);
+						generateTypedGetexception(source, portDefinition, i, info, false, true);
+						generateTypedGetexception(source, portDefinition, i, info, true, true);
 					}
 				}
 			}
@@ -529,12 +529,14 @@ public class PortGenerator {
 	 * This function generates the generic receive or check(receive) function.
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
 	 * @param isCheck generate the check or the non-checking version.
 	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateGenericReceive(final StringBuilder source, final boolean isCheck, final boolean isAddress) {
+	private static void generateGenericReceive(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_receive" : "receive";
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
@@ -594,10 +596,12 @@ public class PortGenerator {
 	 * This function generates the generic trigger function.
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
 	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateGenericTrigger(final StringBuilder source, final boolean isAddress) {
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+	private static void generateGenericTrigger(final StringBuilder source, final PortDefinition portDefinition, final boolean isAddress) {
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0}_template sender_template, final {0} sender_pointer) '{'\n", senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
@@ -976,7 +980,7 @@ public class PortGenerator {
 	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
@@ -1035,15 +1039,17 @@ public class PortGenerator {
 	 * This function generates the getcall or check(getcall) function for a signature type
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
 	 * @param isCheck generate the check or the non-checking version.
 	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateTypedGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
+	private static void generateTypedGetcall(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
 		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
@@ -1106,7 +1112,7 @@ public class PortGenerator {
 	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_reply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
@@ -1167,15 +1173,17 @@ public class PortGenerator {
 	 * This function generates the getreply or check(getreply) function for a signature type
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
 	 * @param isCheck generate the check or the non-checking version.
 	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateTypedGetreply(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
+	private static void generateTypedGetreply(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
@@ -1243,7 +1251,7 @@ public class PortGenerator {
 	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
@@ -1304,15 +1312,17 @@ public class PortGenerator {
 	 * This function generates the get_exception or check(catch) function.
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
 	 * @param index the index this signature type has in the selector.
 	 * @param info the information about the signature.
 	 * @param isCheck generate the check or the non-checking version.
 	 * @param isAddress generate for address or not?
 	 * */
-	private static void generateTypedGetexception(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
+	private static void generateTypedGetexception(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
 		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
-		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
