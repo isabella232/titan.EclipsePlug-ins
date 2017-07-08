@@ -7,8 +7,12 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -60,5 +64,11 @@ public final class Stop_Execution_Statement extends Statement {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+		source.append("TTCN_Runtime.stopExecution();\n");
 	}
 }

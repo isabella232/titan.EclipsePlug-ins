@@ -230,6 +230,12 @@ public class TTCN_Runtime {
 		throw new TtcnError("Creating component is not yet supported!");
 	}
 
+	//originally stop_execution
+	public static void stopExecution() {
+		//FIXME implement
+		throw new TtcnError("Stoping execution is not yet supported!");
+	}
+
 	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue) {
 		setverdict(newValue, "");
 	}
