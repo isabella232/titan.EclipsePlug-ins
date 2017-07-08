@@ -424,7 +424,14 @@ public class SignatureGenerator {
 
 			source.append(MessageFormat.format("param_{0} = new {1}(template_sel.ANY_VALUE);\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
 		}
-		source.append("}\n");
+		source.append("}\n\n");
+		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", def.genName));
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			SignatureParameter formalPar = def.formalParameters.get(i);
+
+			source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get{0}());\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
+		}
+		source.append("}\n\n");
 
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			SignatureParameter formalPar = def.formalParameters.get(i);
