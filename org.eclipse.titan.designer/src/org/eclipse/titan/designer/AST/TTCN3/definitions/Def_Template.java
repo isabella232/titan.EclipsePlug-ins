@@ -881,35 +881,60 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		if (formalParList == null) {
-			source.append( typeName );
-			source.append( " " );
-			source.append( genName );
-			source.append( " = new " ). append(typeName).append("();\n");
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 
-			if (baseTemplate == null) {
-				if ( body != null ) {
-					//TODO can optimize for single expressions;
-					body.generateCodeInit( aData, aData.getPostInit(), genName );
-					sb.append(source);
-					return;
+			if (baseTemplate != null) {
+				//modified template
+				if (baseTemplate.myScope.getModuleScope() == myScope.getModuleScope()) {
+					// if the base template is in the same module its body has to be
+					// initialized first
+					baseTemplate.body.generateCodeInit(aData, aData.getPostInit(), body.get_lhs_name());
 				}
 			}
+
+			if ( body != null ) {
+				body.generateCodeInit( aData, aData.getPostInit(), body.get_lhs_name() );
+
+				if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
+					//TODO generate code for missing parts
+					source.append( "\t" );
+					source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+				}			}
 		} else {
 			StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
-			source.append( "\t" );
-			source.append( "//TODO: " );
-			source.append( getClass().getSimpleName() );
-			source.append( ".generateCode() body is not fully implemented!\n" );
-			//FIXME generate template body
+			if (baseTemplate == null) {
+				source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
+			} else {
+				//modified template
+				source.append(MessageFormat.format("{0} ret_val = new {0}({1}", typeName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
+				if (baseTemplate.formalParList != null) {
+					//the base is also parameterized
+					source.append('(');
+					for (int i = 0; i < baseTemplate.formalParList.getNofParameters(); i++) {
+						if (i > 0) {
+							source.append(", ");
+						}
+						source.append(formalParList.getParameterByIndex(i).getIdentifier().getName());
+					}
+					source.append(')');
+				}
+				source.append(");\n");
+			}
+			if ( body != null ) {
+				body.generateCodeInit( aData, source, "ret_val" );
+
+				if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
+					//TODO generate code for missing parts
+					source.append( "\t" );
+					source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+				}
+			}
+
+			source.append("return ret_val;\n");
 			source.append("}\n\n");
 		}
-		//TODO generate code for missing parts
-		source.append( "\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() body is not fully implemented!\n" );
-		source.append( ";\n" );
+
 		sb.append(source);
 	}
 
@@ -926,19 +951,27 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			body.setGenNameRecursive(genName);
 		}
 
-		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
-		source.append( typeName );
-		source.append( " " );
-		source.append( genName );
-		source.append( " = new " ). append(typeName).append("();\n");
+		if (formalParList == null) {
+			final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 
-		if (formalParList == null && baseTemplate == null) {
-			if ( body != null ) {
-				//TODO can optimize for single expressions;
-				body.generateCodeInit( aData, source, genName );
-				return;
+			if (baseTemplate == null) {
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+
+				if ( body != null ) {
+					//TODO can optimize for single expressions;
+					body.generateCodeInit( aData, source, genName );
+				}
+			} else {
+				source.append(MessageFormat.format("{0} {1} = new {0}({2}", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
+				if ( body != null ) {
+					body.generateCodeInit( aData, source, genName );
+				}
 			}
+			
+		} else {
+			source.append(MessageFormat.format("Code generation for parameterized local template `{0}' is not supported", identifier.getDisplayName()));
 		}
+
 		//TODO generate code for missing parts
 		source.append( "\t" );
 		source.append( "//TODO: " );
