@@ -87,7 +87,7 @@ public class TitanBitString extends Base_Type {
 	private static byte bitstr2byte(final byte[] aBitString8 ) {
 		byte result = 0;
 		byte digit = 1;
-		for ( int i = aBitString8.length - 1; i >= 0 ; i--, digit *= 2 ) {
+		for ( int i = 0; i < aBitString8.length ; i++, digit *= 2 ) {
 			if ( aBitString8[i] == '1' ) {
 				result += digit;
 			}
@@ -124,16 +124,16 @@ public class TitanBitString extends Base_Type {
 	 * @param aBitIndex
 	 * @return bit value ( 0 or 1 )
 	 */
-	public byte getBit( final int aBitIndex ) {
-		return (byte) ( bits_ptr.get( aBitIndex / 8 ) & ( 1 << ( aBitIndex % 8 ) ) );
+	public boolean getBit( final int aBitIndex ) {
+		return ( bits_ptr.get( aBitIndex / 8 ) & ( 1 << ( aBitIndex % 8 ) ) ) != 0;
 	}
 
-	public void setBit( final int aBitIndex, final byte aNewValue ) {
+	public void setBit( final int aBitIndex, final boolean aNewValue ) {
 		final int mask = 1 << ( aBitIndex % 8 );
 		// the index of the actual byte, where the modification is made
 		final int listIndex = aBitIndex / 8;
 		byte bytevalue = bits_ptr.get( listIndex );
-		if ( aNewValue != 0 ) {
+		if ( aNewValue) {
 			bytevalue |= mask;
 		} else {
 			bytevalue &= ~mask;
@@ -230,6 +230,58 @@ public class TitanBitString extends Base_Type {
 		bits_ptr = null;
 	}
 
+	//originally operator+
+	public TitanBitString add(final TitanBitString aOtherValue) {
+		mustBound("Unbound left operand of bitstring concatenation.");
+		aOtherValue.mustBound("Unbound right operand of bitstring element concatenation.");
+
+		if (n_bits == 0) {
+			return new TitanBitString(aOtherValue);
+		}
+		if (aOtherValue.n_bits == 0) {
+			return new TitanBitString(this);
+		}
+
+		// the length of result
+		int resultBits = n_bits + aOtherValue.n_bits;
+
+		// the number of bytes used
+		int left_n_bytes = (n_bits + 7) / 8;
+		int right_n_bytes = (aOtherValue.n_bits + 7) / 8;
+
+		// the number of bits used in the last incomplete octet of the left operand
+		int last_octet_bits = n_bits % 8;
+
+		ArrayList<Byte> dest_ptr = new ArrayList<Byte>((resultBits + 7) / 8);
+		dest_ptr.addAll(bits_ptr);
+
+		if (last_octet_bits != 0) {
+			// non-trivial case: the length of left fragment is not a multiply of 8
+			// the bytes used in the result
+			int n_bytes = (resultBits + 7) / 8;
+			// placing the bytes from the right fragment until the result is filled
+			for (int i = left_n_bytes; i < n_bytes; i++) {
+				Byte right_byte = aOtherValue.bits_ptr.get(i - left_n_bytes);
+				// finish filling the previous byte
+				int temp = dest_ptr.get(i-1) | right_byte << last_octet_bits;
+				dest_ptr.set(i-1, new Byte((byte)temp));
+				// start filling the actual byte
+				temp = right_byte >> (8 - last_octet_bits);
+				dest_ptr.add(new Byte((byte)temp));
+			}
+			if (left_n_bytes + right_n_bytes > n_bytes) {
+				// if the result data area is shorter than the two operands together
+				// the last bits of right fragment were not placed into the result
+				// in the previous for loop
+				int temp = dest_ptr.get(n_bytes-1) | aOtherValue.bits_ptr.get(right_n_bytes - 1) << last_octet_bits;
+				dest_ptr.set(n_bytes - 1, new Byte((byte) temp));
+			}
+		} else {
+			dest_ptr.addAll(aOtherValue.bits_ptr);
+		}
+
+		return new TitanBitString(dest_ptr, resultBits);
+	}
 	//TODO: implement BITSTRING::operator+ (add/concatenation)
 	//TODO: implement BITSTRING::operator~ (not4b)
 	//TODO: implement BITSTRING::operator& (and4b)
@@ -244,6 +296,7 @@ public class TitanBitString extends Base_Type {
 	public TitanBitString_Element getAt(final int index_value) {
 		if (bits_ptr == null && index_value == 0) {
 			bits_ptr = new ArrayList<Byte>();
+			n_bits = 1;
 			return new TitanBitString_Element(false, this, 0);
 		} else {
 			mustBound("Accessing an element of an unbound bitstring value.");
@@ -252,12 +305,12 @@ public class TitanBitString extends Base_Type {
 				throw new TtcnError("Accessing an bitstring element using a negative index (" + index_value + ").");
 			}
 
-			final int n_nibbles = bits_ptr.size();
-			if (index_value > n_nibbles) {
+			if (index_value > n_bits) {
 				throw new TtcnError("Index overflow when accessing a bitstring element: The index is " + index_value +
-						", but the string has only " + n_nibbles + " hexadecimal digits.");
+						", but the string has only " + n_bits + " bits.");
 			}
-			if (index_value == n_nibbles) {
+			if (index_value == n_bits) {
+				n_bits++;
 				return new TitanBitString_Element( false, this, index_value );
 			} else {
 				return new TitanBitString_Element( true, this, index_value );
@@ -280,10 +333,9 @@ public class TitanBitString extends Base_Type {
 			throw new TtcnError("Accessing an bitstring element using a negative index (" + index_value + ").");
 		}
 
-		final int n_nibbles = bits_ptr.size();
-		if (index_value >= n_nibbles) {
+		if (index_value >= n_bits) {
 			throw new TtcnError("Index overflow when accessing a bitstring element: The index is " + index_value +
-					", but the string has only " + n_nibbles + " hexadecimal digits.");
+					", but the string has only " + n_bits + " bits.");
 		}
 
 		return new TitanBitString_Element(true, this, index_value);
@@ -301,6 +353,19 @@ public class TitanBitString extends Base_Type {
 		return isBound();
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder result = new StringBuilder(n_bits + 2);
+		result.append('\'');
+		for (int i = 0; i < n_bits; i++) {
+			result.append(getBit(i) ? '1':'0');
+		}
+		result.append('\'');
+
+		return result.toString();
+	}
+
+	
 	//TODO: implement BITSTRING::int2bit as static
 	//TODO: implement BITSTRING::hex2bit as static
 	//TODO: implement BITSTRING::oct2bit as static
