@@ -102,6 +102,7 @@ public class PortGenerator {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport( "TitanPort" );
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
+		aData.addBuiltinTypeImport("TitanComponent");
 		aData.addBuiltinTypeImport( "Base_Type" );
 
 		boolean hasIncomingReply = false;
@@ -470,7 +471,7 @@ public class PortGenerator {
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", getName()));\n");
 		} else {
-			source.append("//FIXME get_default_destination\n");
+			source.append("getDefaultDestination();\n");
 			source.append("outgoing_send(send_par");
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(", null");
@@ -489,13 +490,13 @@ public class PortGenerator {
 			source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", getName()));\n");
 			source.append("}\n");
 			source.append("//FIXME logging\n");
-			source.append("//FIXME needs get_default_destination;\n");
+			source.append("getDefaultDestination();\n");
 			source.append("outgoing_send(send_par, destination_address);\n");
 			source.append("}\n\n");
 		}
 
 		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTypeName));
-		source.append("//FIXME needs get_default_destination;\n");
+		source.append("send(send_par, new TitanComponent(getDefaultDestination()));\n");
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTemplateName));
@@ -512,7 +513,7 @@ public class PortGenerator {
 
 		source.append(MessageFormat.format("public void send(final {0} send_par) '{'\n", outType.mJavaTemplateName));
 		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
-		source.append("//FIXME needs get_default_destination;\n");
+		source.append("send(send_par_value, new TitanComponent(getDefaultDestination()));\n");
 		source.append("}\n\n");
 
 		// FIXME a bit more complex expression
@@ -867,7 +868,7 @@ public class PortGenerator {
 		}
 
 		source.append(MessageFormat.format("public void call(final {0}_template call_template) '{'\n", info.mJavaTypeName));
-		source.append("//FIXME get_default_destination\n");
+		source.append("call(call_template, new TitanComponent(getDefaultDestination()));\n");
 		source.append("}\n\n");
 	}
 
@@ -916,7 +917,7 @@ public class PortGenerator {
 			}
 			
 			source.append(MessageFormat.format("public void reply(final {0}_template reply_template) '{'\n", info.mJavaTypeName));
-			source.append("//FIXME get_default_destination\n");
+			source.append("reply(reply_template, new TitanComponent(getDefaultDestination()));\n");
 			source.append("}\n\n");
 		}
 	}
@@ -964,7 +965,7 @@ public class PortGenerator {
 			}
 
 			source.append(MessageFormat.format("public void raise(final {0}_exception raise_exception) '{'\n", info.mJavaTypeName));
-			source.append("//FIXME get_default_destination\n");
+			source.append("raise(raise_exception, new TitanComponent(getDefaultDestination()));\n");
 			source.append("}\n\n");
 		}
 	}
