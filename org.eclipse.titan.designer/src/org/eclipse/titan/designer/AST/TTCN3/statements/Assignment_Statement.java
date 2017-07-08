@@ -562,7 +562,12 @@ public final class Assignment_Statement extends Statement {
 		ExpressionStruct rightExpression = new ExpressionStruct();
 		if (template instanceof SpecificValue_Template) {
 			IValue value = ((SpecificValue_Template) template).getValue();
-			value.generateCodeExpression(aData, rightExpression);
+
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+			referenceChain.release();
+
+			last.generateCodeExpression(aData, rightExpression);
 		} else {
 			template.generateCodeExpression( aData, rightExpression);
 		}
