@@ -474,14 +474,9 @@ public final class Def_Const extends Definition {
 				source.append( "public" );
 			}
 		}
-		source.append( " static final " );
+
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append( typeGeneratedName );
-		source.append( " " );
-		source.append( genName );
-		source.append( " = new " );
-		source.append( typeGeneratedName );
-		source.append( "();\n" );
+		source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		last.generateCodeInit( aData, aData.getPreInit(), genName );
 
 		sb.append(source);
@@ -502,20 +497,11 @@ public final class Def_Const extends Definition {
 		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append( typeGeneratedName );
-		source.append( " " );
-		source.append( genName );
+		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (last.canGenerateSingleExpression() ) {
-			source.append("= new ");
-			source.append(typeGeneratedName);
-			source.append("(");
-			source.append(last.generateSingleExpression(aData));
-			source.append(");\n");
+			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, last.generateSingleExpression(aData)));
 		} else {
-			source.append("= new ");
-			source.append(typeGeneratedName);
-			source.append("();\n");
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			last.generateCodeInit(aData, source, genName );
 		}
 	}

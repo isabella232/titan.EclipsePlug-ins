@@ -460,13 +460,9 @@ public final class Def_Var extends Definition {
 		if ( !isLocal() ) {
 			source.append( "\tpublic static " );
 		}
+
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append( typeGeneratedName );
-		source.append( " " );
-		source.append( genName );
-		source.append(" = new ");
-		source.append(typeGeneratedName);
-		source.append("();\n");
+		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit(aData, source, genName );
 		} else if (cleanUp) {
@@ -487,20 +483,11 @@ public final class Def_Var extends Definition {
 			initialValue.setGenNameRecursive(getGenName());
 		}
 
-		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append( typeGeneratedName );
-		source.append( " " );
-		source.append( genName );
+		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
-			source.append(" = new ");
-			source.append(typeGeneratedName);
-			source.append("(");
-			source.append(initialValue.generateSingleExpression(aData));
-			source.append(");\n");
+			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
 		} else {
-			source.append(" = new ");
-			source.append(typeGeneratedName);
-			source.append("();\n");
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			if (initialValue != null) {
 				initialValue.generateCodeInit(aData, source, genName );
 			}
