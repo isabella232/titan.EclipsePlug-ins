@@ -38,6 +38,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  **/
 public final class Integer_Value extends Value implements Comparable<Integer_Value> {
 	private static final BigInteger MAX_INTEGER = BigInteger.valueOf(Integer.MAX_VALUE);
+	private static final BigInteger MIN_INTEGER = BigInteger.valueOf(Integer.MIN_VALUE);
 
 	private BigInteger value;
 
@@ -135,7 +136,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	public boolean isNative() {
-		return value.compareTo(MAX_INTEGER) <= 0;
+		return value.compareTo(MAX_INTEGER) <= 0 && value.compareTo(MIN_INTEGER) >= 0;
 	}
 
 	public Integer_Value negate() {
