@@ -455,10 +455,15 @@ public final class Def_Const extends Definition {
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 
-		if (value != null) {
-			//value.setGenNamePrefix("const_");//currently does not need the prefix
-			value.setGenNameRecursive(genName);
+		if (type == null || value == null) {
+			return;
 		}
+
+		//value.setGenNamePrefix("const_");//currently does not need the prefix
+		value.setGenNameRecursive(genName);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
 
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
@@ -477,9 +482,8 @@ public final class Def_Const extends Definition {
 		source.append( " = new " );
 		source.append( typeGeneratedName );
 		source.append( "();\n" );
-		if ( value != null ) {
-			value.generateCodeInit( aData, aData.getPreInit(), genName );
-		}
+		last.generateCodeInit( aData, aData.getPreInit(), genName );
+
 		sb.append(source);
 	}
 
@@ -488,28 +492,31 @@ public final class Def_Const extends Definition {
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
 
-		if (value != null) {
-			//value.setGenNamePrefix("const_");//currently does not need the prefix
-			value.setGenNameRecursive(genName);
+		if (type == null || value == null) {
+			return;
 		}
+
+		//value.setGenNamePrefix("const_");//currently does not need the prefix
+		value.setGenNameRecursive(genName);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
 
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( " " );
 		source.append( genName );
-		if (value != null && value.canGenerateSingleExpression() ) {
+		if (last.canGenerateSingleExpression() ) {
 			source.append("= new ");
 			source.append(typeGeneratedName);
 			source.append("(");
-			source.append(value.generateSingleExpression(aData));
+			source.append(last.generateSingleExpression(aData));
 			source.append(");\n");
 		} else {
 			source.append("= new ");
 			source.append(typeGeneratedName);
 			source.append("();\n");
-			if (value != null) {
-				value.generateCodeInit(aData, source, genName );
-			}
+			last.generateCodeInit(aData, source, genName );
 		}
 	}
 
