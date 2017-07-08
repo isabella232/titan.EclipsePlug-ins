@@ -975,6 +975,7 @@ public class PortGenerator {
 	 * */
 	private static void generateGenericGetcall(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
+		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
 		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
@@ -992,7 +993,7 @@ public class PortGenerator {
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Getcall operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
@@ -1041,6 +1042,7 @@ public class PortGenerator {
 	 * */
 	private static void generateTypedGetcall(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_getcall" : "getcall";
+		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
 		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
@@ -1058,7 +1060,7 @@ public class PortGenerator {
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Getcall operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
@@ -1103,6 +1105,7 @@ public class PortGenerator {
 	 * */
 	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_reply" : "getreply";
+		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
 		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
@@ -1120,7 +1123,7 @@ public class PortGenerator {
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Getreply operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
@@ -1194,7 +1197,7 @@ public class PortGenerator {
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Getreply operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
@@ -1239,6 +1242,7 @@ public class PortGenerator {
 	 * */
 	private static void generateGenericGetexception(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
+		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
 		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer) '{'\n", functionName, senderType));
@@ -1256,7 +1260,7 @@ public class PortGenerator {
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Getreply operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
@@ -1307,6 +1311,7 @@ public class PortGenerator {
 	 * */
 	private static void generateTypedGetexception(final StringBuilder source, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_catch" : "get_exception";
+		final String printedFunctionName = isCheck ? "Check-catch" : "Catch";
 		final String senderType = isAddress ? "TitanAddress" : "TitanComponent";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer) '{'\n", functionName, info.mJavaTypeName, senderType));
@@ -1329,7 +1334,7 @@ public class PortGenerator {
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Catch operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
