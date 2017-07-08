@@ -541,7 +541,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// mod
-	public TitanInteger mod(int leftValue, int rightValue)
+	public static TitanInteger mod(int leftValue, int rightValue)
 	{
 		if (rightValue < 0) {
 			rightValue = rightValue * (-1);
@@ -560,7 +560,7 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 	
-	public TitanInteger mod(final TitanInteger leftValue, final TitanInteger rightValue) {
+	public static TitanInteger mod(final TitanInteger leftValue, final TitanInteger rightValue) {
 		leftValue.mustBound("Unbound left operand of mod operator.");
 		rightValue.mustBound("Unbound right operand of mod operator");
 
@@ -584,13 +584,13 @@ public class TitanInteger extends Base_Type {
 	}
 	
 	//static mod 
-	public TitanInteger mod(final TitanInteger leftValue, int rightValue) {
+	public static TitanInteger mod(final TitanInteger leftValue, int rightValue) {
 		leftValue.mustBound("Unbound left operand of mod operator.");
 
 		return mod(leftValue, new TitanInteger (rightValue));
 	}
 	
-	public TitanInteger mod (int leftValue, final TitanInteger rightValue) {
+	public static TitanInteger mod (int leftValue, final TitanInteger rightValue) {
 		rightValue.mustBound("Unbound right operand of mod operator. ");
 
 		return mod(new TitanInteger(leftValue),rightValue);
