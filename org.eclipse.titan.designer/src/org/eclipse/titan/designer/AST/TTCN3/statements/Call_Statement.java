@@ -33,6 +33,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -523,5 +525,35 @@ public final class Call_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		ExpressionStruct expression = new ExpressionStruct();
+		portReference.generateCode(aData, expression);
+		expression.expression.append(".call(");
+		parameter.generateCode(aData, expression);
+		if(toClause != null) {
+			expression.expression.append(", ");
+			toClause.generateCodeExpression(aData, expression);
+		}
+		expression.expression.append(')');
+		expression.mergeExpression(source);
+
+		if (altGuards != null) {
+			source.append("{\n");
+			if (timerValue != null) {
+				source.append("TitanTimer call_timer = new TitanTimer(null);\n");
+				expression = new ExpressionStruct();
+				expression.expression.append("call_timer.start(");
+				timerValue.generateCodeExpression(aData, expression);
+				expression.expression.append(')');
+				expression.mergeExpression(source);
+			}
+
+			//FIXME generate_code_call_body
+			source.append("//FIXME generating code for call body is not yet supported!\n");
+			source.append("}\n");
+		}
 	}
 }
