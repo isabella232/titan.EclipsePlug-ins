@@ -551,8 +551,7 @@ public final class Call_Statement extends Statement {
 				expression.mergeExpression(source);
 			}
 
-			//FIXME generate_code_call_body
-			source.append("//FIXME generating code for call body is not yet supported!\n");
+			altGuards.generateCodeCallBody(aData, source, aData.getTemporaryVariableName(), false);
 			source.append("}\n");
 		}
 	}

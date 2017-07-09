@@ -603,4 +603,105 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			source.append("return returnValue;\n");
 		}
 	}
+
+	/**
+	 * Generate code for an altstep (as the body of a call statement)
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * @param tempId temporary id used as prefix of local variables
+	 * @param inInterleave is it used in interleave?
+	 */
+	public void generateCodeCallBody(final JavaGenData aData, final StringBuilder source, final String tempId, final boolean inInterleave) {
+		if (hasRepeat) {
+			source.append(MessageFormat.format("{0}:", tempId));
+		}
+		// temporary variables used for caching of status codes
+		for (int i = 0; i < altGuards.size(); i++) {
+			AltGuard altGuard = altGuards.get(i);
+
+			source.append(MessageFormat.format("TitanAlt_Status {0}_alt_flag_{1} = ", tempId, i));
+			if(altGuard.getGuardExpression() == null) {
+				source.append("TitanAlt_Status.ALT_MAYBE");
+			} else {
+				source.append("TitanAlt_Status.ALT_UNCHECKED");
+			}
+			source.append(";\n");
+		}
+		// the first snapshot is taken in non-blocking mode
+		// and opening infinite for() loop
+		// the first snapshot is taken in non-blocking mode
+		aData.addCommonLibraryImport("TTCN_Snapshot");
+		source.append("TTCN_Snapshot.takeNew(false);\n");
+		// and opening infinite for() loop
+		source.append("for ( ; ; ) {\n");
+		for (int i = 0; i < altGuards.size(); i++) {
+			AltGuard altGuard = altGuards.get(i);
+			if (!(altGuard instanceof Operation_Altguard)) {
+				//FATAL ERROR
+				continue;
+			}
+			IValue guardExpression = altGuard.getGuardExpression();
+			if (guardExpression != null) {
+				source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", tempId, i));
+				ExpressionStruct expression = new ExpressionStruct();
+				guardExpression.generateCodeExpression(aData, expression);
+				source.append(expression.preamble);
+				source.append(MessageFormat.format("if ({0}) '{'\n", expression.expression));
+				source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_MAYBE;\n", tempId, i));
+				source.append("} else {\n");
+				source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_NO;\n", tempId, i));
+				source.append("}\n");
+				source.append(expression.postamble);
+				source.append("}\n");
+			}
+
+			// evaluation of guard operation
+			source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_MAYBE) '{'\n", tempId, i));
+			ExpressionStruct expression = new ExpressionStruct();
+			source.append(MessageFormat.format("{0}_alt_flag_{1} = ", tempId, i));
+			Statement statement = ((Operation_Altguard) altGuard).getGuardStatement();
+			statement.generateCodeExpression(aData, expression);
+			expression.mergeExpression(source);
+
+			// execution of statement block if the guard was successful
+			source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_YES) '{'\n", tempId, i));
+			StatementBlock block = ((Operation_Altguard) altGuard).getStatementBlock();
+			if (inInterleave) {
+				//FIXME implement
+				source.append("//FIXME generating code for call body is not yet supported!\n");
+			} else {
+				if (block != null && block.getSize() > 0) {
+					source.append("{\n");
+					block.generateCode(aData, source);
+					if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != StatementBlock.ReturnStatus_type.RS_YES) {
+						source.append("break;\n");
+					}
+					source.append("}\n");
+				}
+			}
+			source.append("}\n");
+			source.append("}\n");
+		}
+
+		// error handling and taking the next snapshot in blocking mode
+		source.append("if (");
+		for (int i = 0; i < altGuards.size(); i++) {
+			if (i > 0) {
+				source.append(" && ");
+			}
+			source.append(MessageFormat.format("{0}_alt_flag_{1} == TitanAlt_Status.ALT_NO", tempId, i));
+		}
+		source.append(") {\n");
+		source.append("throw new TtcnError(\"None of the branches can be chosen in the response and exception handling part of call statement in file");
+		//TODO translate_string
+		if(location != null && location.getFile() != null) {
+			source.append(MessageFormat.format("in file {0} at line {1}", location.getFile().getName(), location.getLine()));
+		}
+		source.append("\");\n");
+		source.append("}\n");
+
+		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("}\n");
+	}
 }
