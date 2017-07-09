@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.ASN1.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,8 +41,11 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completenes
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompFieldMap;
+import org.eclipse.titan.designer.AST.TTCN3.types.UnionGenerator;
+import org.eclipse.titan.designer.AST.TTCN3.types.UnionGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.values.Choice_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -567,6 +571,40 @@ public final class Open_Type extends ASN1Type {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(JavaGenData aData, StringBuilder source, Scope scope) {
+		return getGenNameOwn(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		final String genName = getGenNameOwn();
+		final String displayName = getFullName();
+
+		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
+		boolean hasOptional = false;
+		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
+		for ( final CompField compField : map.values() ) {
+			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
+					compField.getType().getGenNameTemplate(aData, source, getMyScope()),
+					compField.getIdentifier().getName());
+			hasOptional |= compField.isOptional();
+			fieldInfos.add( fi );
+		}
+
+		for ( final CompField compField : map.values() ) {
+			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			compField.getType().generateCode(aData, tempSource);
+		}
+
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+		//TODO: implement
+		source.append( "\t\t//TODO: Open_Type.generateCode() is not fully implemented!\n" );
 	}
 
 	@Override
