@@ -1107,7 +1107,10 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		for (FormalParameter parameter : parameters) {
 			String parameterName = parameter.getIdentifier().getName();
 			if (!Assignment_type.A_TIMER.equals(parameter.getAssignmentType())) {
-				parameter.getType(CompilationTimeStamp.getBaseTimestamp()).setGenName(prefix, parameterName);
+				Type parameterType = parameter.getType(CompilationTimeStamp.getBaseTimestamp());
+				if (parameterType != null) {
+					parameterType.setGenName(prefix, parameterName);
+				}
 			}
 
 			if (parameter.hasDefaultValue()) {

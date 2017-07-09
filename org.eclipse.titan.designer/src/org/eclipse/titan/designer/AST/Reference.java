@@ -895,6 +895,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * @param expression the expression for code generated
 	 */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+		if (referredAssignment == null) {
+			return;
+		}
+
 		boolean isTemplate;
 		IType referedGovernor;
 		switch (referredAssignment.getAssignmentType()) {
