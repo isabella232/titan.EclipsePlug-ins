@@ -330,6 +330,7 @@ public final class InformationFromObj extends Reference {
 			case FS_T: {
 				final Open_Type type = new Open_Type(objectClass, currentFieldName);
 				type.setLocation(location);
+				type.setMyScope(myScope);
 				temporalSetting = type;
 			}
 			break;
