@@ -48,6 +48,13 @@ public interface ISetting extends IASTNode, ILocateableNode {
 	boolean isAsn();
 
 	/**
+	 * Set the generated name for this setting.
+	 *
+	 * @param genName the name to set.
+	 * */
+	public void setGenName(final String genName);
+
+	/**
 	 * Set the generated name for this setting,
 	 *  as a concatenation of a prefix, an underscore and a suffix,
 	 * unless the prefix already ends with, or the suffix already begins with
