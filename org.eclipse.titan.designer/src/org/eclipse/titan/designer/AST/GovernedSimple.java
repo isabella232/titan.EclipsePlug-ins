@@ -30,4 +30,18 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	public void setGenNamePrefix(final String prefix) {
 		genNamePrefix = prefix;
 	}
+
+	/***
+	 * Returns the Java expression that refers to the object, which has to be
+	 * initialized.
+	 * */
+	public String get_lhs_name() {
+		String returnValue = new String();
+		if (genNamePrefix != null) {
+			returnValue = returnValue + genNamePrefix;
+		}
+		returnValue = returnValue + getGenNameOwn();
+
+		return returnValue;
+	}
 }
