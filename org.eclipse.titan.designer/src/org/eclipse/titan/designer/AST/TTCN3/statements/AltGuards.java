@@ -560,7 +560,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					source.append(MessageFormat.format("{0}.assign({1});\n", tempId, expression.expression));
 					source.append(expression.postamble);
 					source.append("}\n");
-					source.append(MessageFormat.format("switch ({0}) {\n", tempId));
+					source.append(MessageFormat.format("switch ({0}) '{'\n", tempId));
 				} else {
 					source.append(MessageFormat.format("switch ({0}) '{'\n", expression.expression));
 				}
