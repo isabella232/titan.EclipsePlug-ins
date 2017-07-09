@@ -148,6 +148,7 @@ public final class Value_Assignment extends ASN1Assignment {
 			return;
 		}
 
+		type.setGenName("_T_", getGenName());
 		type.check(timestamp);
 
 		if (null == value) {
@@ -246,9 +247,7 @@ public final class Value_Assignment extends ASN1Assignment {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-		if (type != null) {
-			type.setGenName("_T_", genName);
-		}
+
 		if (value != null) {
 			//value.setGenNamePrefix("const_");//currently does not need the prefix
 			value.setGenNameRecursive(genName);

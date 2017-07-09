@@ -128,6 +128,7 @@ public final class Object_Assignment extends ASN1Assignment {
 
 		if (null != object) {
 			object.setMyGovernor(objectClass);
+			object.setGenName(getGenName());
 			object.check(timestamp);
 		}
 

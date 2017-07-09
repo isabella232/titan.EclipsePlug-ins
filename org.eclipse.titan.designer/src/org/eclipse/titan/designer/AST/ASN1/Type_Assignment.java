@@ -114,6 +114,7 @@ public final class Type_Assignment extends ASN1Assignment {
 
 		checkTTCNIdentifier();
 		if (null != type) {
+			type.setGenName(getGenName());
 			type.check(timestamp);
 
 			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -216,6 +217,10 @@ public final class Type_Assignment extends ASN1Assignment {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
+		if ("ASN-Bitstring".equals(identifier.getDisplayName())) {
+			int i = 0;
+			i++;
+		}
 		final String genName = getGenName();
 
 		if (type != null) {

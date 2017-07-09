@@ -115,6 +115,7 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 		}
 
 		if (null != objectClass) {
+			objectClass.setGenName(getGenName());
 			objectClass.check(timestamp);
 		}
 	}
