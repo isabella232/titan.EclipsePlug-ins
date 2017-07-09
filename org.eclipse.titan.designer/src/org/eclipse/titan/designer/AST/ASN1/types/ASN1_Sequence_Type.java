@@ -987,6 +987,10 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (components == null) {
+			return;
+		}
+
 		final String className = getGenNameOwn();
 		final String classReadableName = getFullName();
 
