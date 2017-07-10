@@ -52,23 +52,23 @@ public class TitanBitString_Element {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanBitString_Element other_value ) {
+	public TitanBoolean operatorEquals( final TitanBitString_Element other_value ) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		other_value.mustBound("Unbound right operand of bitstring comparison.");
 
-		return str_val.getBit(bit_pos) == other_value.str_val.getBit( other_value.bit_pos );
+		return new TitanBoolean(str_val.getBit(bit_pos) == other_value.str_val.getBit( other_value.bit_pos ));
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanBitString other_value ) {
+	public TitanBoolean operatorEquals( final TitanBitString other_value ) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		other_value.mustBound("Unbound right operand of bitstring element comparison.");
 
 		if (other_value.lengthOf() != 1) {
-			return false;
+			return new TitanBoolean(false);
 		}
 
-		return str_val.getBit(bit_pos) == other_value.getBit(0);
+		return new TitanBoolean( str_val.getBit(bit_pos) == other_value.getBit(0));
 	}
 
 	//TODO: implement BITSTRING_ELEMENT::operator!= (NotEquals)
