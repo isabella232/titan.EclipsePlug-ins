@@ -207,7 +207,8 @@ public class TitanPort {
 	//originally get_default_destination
 	protected int getDefaultDestination() {
 		//FIXME implement
-		throw new TtcnError("Geting the default destination is not yet supported!");
+		System.out.println("Geting the default destination is not yet supported!");
+		return TitanComponent.SYSTEM_COMPREF;
 	}
 
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
