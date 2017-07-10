@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -266,5 +267,14 @@ public final class RemainderExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		value1.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append( ".rem( " );
+		value2.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append( " )" );
 	}
 }
