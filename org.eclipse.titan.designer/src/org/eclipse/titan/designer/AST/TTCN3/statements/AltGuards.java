@@ -415,7 +415,16 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			} else {
 				IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
-					//FIXME implement
+					source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", label, i));
+					ExpressionStruct expression = new ExpressionStruct();
+					guardExpression.generateCodeExpression(aData, expression);
+					source.append(expression.preamble);
+					source.append(MessageFormat.format("if(TitanBoolean.getNative({0})) '{'\n", expression.expression));
+					source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_MAYBE;\n", label, i));
+					source.append("} else {\n");
+					source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_NO;\n", label, i));
+					source.append("}\n");
+					source.append("}\n");
 				}
 
 				source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_MAYBE) '{'\n", label, i));
@@ -530,7 +539,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				ChangeableInteger blockCount = new ChangeableInteger(0);
 				IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
-					//FIXME implement location update
+
 					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
 					source.append(") {\n");
 					blockCount.setValue(blockCount.getValue() + 1);
@@ -647,7 +656,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				ExpressionStruct expression = new ExpressionStruct();
 				guardExpression.generateCodeExpression(aData, expression);
 				source.append(expression.preamble);
-				source.append(MessageFormat.format("if ({0}) '{'\n", expression.expression));
+				source.append(MessageFormat.format("if (TitanBoolean.getNative({0})) '{'\n", expression.expression));
 				source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_MAYBE;\n", tempId, i));
 				source.append("} else {\n");
 				source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_NO;\n", tempId, i));
