@@ -68,7 +68,11 @@ public class TTCN_Runtime {
 		TitanTimer.testcaseTimer.stop();
 		terminate_component_type();
 
-		System.out.println(MessageFormat.format("Test case {0} finished. Verdict {1}", testcaseDefinitionName, localVerdict.getName()));
+		if (verdictReason == null || verdictReason.length() == 0) {
+			System.out.println(MessageFormat.format("Test case {0} finished. Verdict {1}", testcaseDefinitionName, localVerdict.getName()));
+		} else {
+			System.out.println(MessageFormat.format("Test case {0} finished. Verdict {1}, reason: {2}", testcaseDefinitionName, localVerdict.getName(), verdictReason));
+		}
 
 		verdictCount[localVerdict.getValue()]++;
 
