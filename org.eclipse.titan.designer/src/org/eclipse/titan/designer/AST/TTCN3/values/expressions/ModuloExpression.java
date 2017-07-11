@@ -273,7 +273,7 @@ public final class ModuloExpression extends Expression_Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
