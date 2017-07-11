@@ -50,6 +50,7 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
+	
 	//originally clean_up
 	public void cleanUp() {
 		if(!nativeFlag) {
