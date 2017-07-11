@@ -136,7 +136,7 @@ public class TitanInteger extends Base_Type {
 
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
-				final long temp = nativeInt + otherValue.nativeInt;
+				final long temp = (long)nativeInt + (long)otherValue.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 					return new TitanInteger((int)temp);
 				}
@@ -167,13 +167,13 @@ public class TitanInteger extends Base_Type {
 
 		if(nativeFlag){
 			if(otherValue.nativeFlag) {
-				final long temp = this.nativeInt - otherValue.nativeInt;
+				final long temp = (long)nativeInt - (long)otherValue.nativeInt;
 				if(temp > Integer.MIN_VALUE  && temp < Integer.MAX_VALUE ) {
 					return new TitanInteger((int) temp);
 				}
 				return new TitanInteger(BigInteger.valueOf(temp));
 			} else {
-				final BigInteger this_int = BigInteger.valueOf(this.nativeInt);
+				final BigInteger this_int = BigInteger.valueOf(nativeInt);
 				return new TitanInteger(this_int.subtract(otherValue.openSSL));
 			}
 		} else {
@@ -202,7 +202,7 @@ public class TitanInteger extends Base_Type {
 
 		if (nativeFlag) {
 			if(otherValue.nativeFlag) {
-				final long temp = nativeInt * otherValue.nativeInt;
+				final long temp = (long)nativeInt * (long)otherValue.nativeInt;
 				if (temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 					return new TitanInteger((int)temp);
 				}
@@ -244,7 +244,7 @@ public class TitanInteger extends Base_Type {
 		
 		if(nativeFlag){
 			if(otherValue.nativeFlag){
-				final long temp = nativeInt / otherValue.nativeInt;
+				final long temp = (long)nativeInt / (long)otherValue.nativeInt;
 				if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
 					return new TitanInteger(nativeInt / otherValue.nativeInt);
 				} else {
@@ -478,7 +478,7 @@ public class TitanInteger extends Base_Type {
 		otherValue.mustBound("Unbound right operand of integer addition.");
 
 		if(otherValue.nativeFlag){
-			final long temp = intValue + otherValue.nativeInt;
+			final long temp = (long)intValue + (long)otherValue.nativeInt;
 			if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
 				return new TitanInteger((int) temp);
 			} else {
@@ -495,7 +495,7 @@ public class TitanInteger extends Base_Type {
 		otherValue.mustBound("Unbound right operand of integer subtraction.");
 
 		if(otherValue.nativeFlag){
-			final long temp = intValue - otherValue.nativeInt;
+			final long temp = (long)intValue - (long)otherValue.nativeInt;
 			if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE){
 				return new TitanInteger((int) temp);
 			} else {
