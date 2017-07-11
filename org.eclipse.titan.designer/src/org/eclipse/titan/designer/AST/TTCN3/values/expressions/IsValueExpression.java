@@ -23,10 +23,12 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -307,5 +309,21 @@ public final class IsValueExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		final TTCN3Template templateBody = templateInstance.getTemplateBody();
+		// FIXME actually a bit more complex
+		if (templateInstance.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
+			IValue value = ((SpecificValue_Template) templateBody).getValue();
+			// FIXME implement support for cast
+			value.generateCodeExpressionMandatory(aData, expression);
+		} else {
+			templateInstance.generateCode(aData, expression);
+		}
+
+		expression.expression.append(".isValue()");
 	}
 }
