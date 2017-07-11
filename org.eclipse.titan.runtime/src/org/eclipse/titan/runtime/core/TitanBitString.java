@@ -317,8 +317,47 @@ public class TitanBitString extends Base_Type {
 		return ret_val;
 	}
 	
-	//originally operator
-	//TODO: implement BITSTRING::operator~ (not4b)
+	//originally operator~
+	public TitanBitString not4b(){
+		mustBound("Unbound bitstring operand of operator not4b.");
+		int n_bytes = (n_bits + 7) /8;
+		if(n_bytes == 0){
+			return this;
+		}
+		List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
+		dest_ptr.addAll(bits_ptr);
+		for (int i = 0; i < n_bytes; i++) {
+			dest_ptr.set(i, (byte)~dest_ptr.get(i));
+		}
+		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+		ret_val.clear_unused_bits();
+		
+		return ret_val;
+	}
+	
+	//originally operator&
+	public TitanBitString and4b(final TitanBitString otherValue){
+		mustBound("Left operand of operator and4b is an unbound bitstring value.");
+		otherValue.mustBound("Right operand of operator and4b is an unbound bitstring value.");
+		
+		if(n_bits != otherValue.n_bits){
+			throw new TtcnError("The bitstring operands of operator and4b must have the same length.");
+		}
+		if(n_bits == 0){
+			return this;
+		}
+		int n_bytes = (n_bits + 7) /8;
+		List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
+		dest_ptr.addAll(bits_ptr);
+		for (int i = 0; i < n_bytes; i++) {
+			dest_ptr.set(i, (byte)(dest_ptr.get(i)&otherValue.bits_ptr.get(i)));
+		}
+		
+		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+		ret_val.clear_unused_bits();
+		
+		return ret_val;
+	}
 	//TODO: implement BITSTRING::operator& (and4b)
 	//TODO: implement BITSTRING::operator| (or4b)
 	//TODO: implement BITSTRING::operator^ (xor4b)

@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -287,4 +288,12 @@ public final class Not4bExpression extends Expression_Value {
 		}
 		return true;
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		value.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(".not4b()");
+	}
+	
 }
