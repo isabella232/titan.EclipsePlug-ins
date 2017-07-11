@@ -26,6 +26,8 @@ public class TitanPort {
 	protected boolean is_active;
 	protected boolean is_started;
 
+	private ArrayList<String> systemMappings = new ArrayList<String>();
+
 	public TitanPort(final String portName) {
 		this.portName = portName;
 		is_active = false;
@@ -96,7 +98,7 @@ public class TitanPort {
 		if (!is_active) {
 			addToList(system);
 			is_active = true;
-			//FIXME implement
+			//FIXME add translation port support
 		}
 	}
 
@@ -206,8 +208,13 @@ public class TitanPort {
 
 	//originally get_default_destination
 	protected int getDefaultDestination() {
-		//FIXME implement
-		System.out.println("Geting the default destination is not yet supported!");
+		//FIXME implement connection checks
+		if (systemMappings.size() > 1) {
+			throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", portName));
+		} else if (systemMappings.size() == 0) {
+			throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", portName));
+		}
+
 		return TitanComponent.SYSTEM_COMPREF;
 	}
 
@@ -298,17 +305,49 @@ public class TitanPort {
 		return returnValue;
 	}
 
-	//FIXME also translation handling
+	// FIXME handle translation ports
 	private final void map(final String systemPort) {
-		// FIXME implement
+		if (!is_active) {
+			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", portName));
+		}
+
+		for (int i = 0; i < systemMappings.size(); i++) {
+			if (systemPort.equals(systemMappings.get(i))) {
+				TtcnError.TtcnWarning(MessageFormat.format("Port {0} is already mapped to system:{1}.\n Map operation was ignored.",
+						portName, systemPort));
+				return;
+			}
+		}
+
 		userMap(systemPort);
-		// FIXME implement
+
+		// the mapping shall be registered in the table only if user_map() was successful
+		systemMappings.add(systemPort);
+		if (systemMappings.size() > 1) {
+			TtcnError.TtcnWarning(MessageFormat.format("Port {0} has now more than one mappings."
+					+ " Message cannot be sent on it to system even with explicit addressing.", portName));
+		}
 	}
 
-	//FIXME also translation handling
+	// FIXME handle translation ports
 	private final void unmap(final String systemPort) {
-		// FIXME implement
+		int deletionPosition;
+		for (deletionPosition = 0; deletionPosition < systemMappings.size(); deletionPosition++) {
+			if (systemPort.equals(systemMappings.get(deletionPosition))) {
+				break;
+			}
+		}
+
+		if (deletionPosition >= systemMappings.size()) {
+			TtcnError.TtcnWarning(MessageFormat.format("Port {0} is not mapped to system:{1}. " + "Unmap operation was ignored.",
+					portName, systemPort));
+			return;
+		}
+
+		systemMappings.remove(deletionPosition);
+
 		userUnmap(systemPort);
+
 		// FIXME implement
 	}
 
