@@ -153,8 +153,6 @@ public class TitanBitString extends Base_Type {
 //		this.n_bits = aNoBits;
 //		clear_unused_bits();
 //	}
-
-	//TODO: implement BITSTRING::assign for bitstring element
 	
 	//originally operator=
 	public TitanBitString assign(final TitanBitString_Element otherValue){
@@ -164,6 +162,7 @@ public class TitanBitString extends Base_Type {
 		n_bits = 1;
 		bits_ptr = new ArrayList<Byte>();
 		bits_ptr.add(0,(byte)(bitValue ? 1 : 0));
+		
 		return this;
 	}
 	
@@ -219,7 +218,16 @@ public class TitanBitString extends Base_Type {
 		return new TitanBoolean(n_bits == otherValue.n_bits && bits_ptr.equals( otherValue.bits_ptr ));
 	}
 
-	//TODO: implement BITSTRING::operatorEquals for bitstring element
+	//originally operator==
+	public TitanBoolean operatorEquals(final TitanBitString_Element otherValue){
+		mustBound("Unbound left operand of bitstring comparison.");
+		otherValue.mustBound("Unbound right operand of bitstring element comparison.");
+		if(n_bits != 1){
+			return new TitanBoolean(false);
+		}
+		
+		return new TitanBoolean(getBit(0) == otherValue.get_bit());
+	}
 
 	@Override
 	public TitanBoolean operatorEquals(final Base_Type otherValue) {
@@ -235,7 +243,11 @@ public class TitanBitString extends Base_Type {
 		return operatorEquals( aOtherValue ).not();
 	}
 
-	//TODO: implement BITSTRING::operatorNotEquals for bitstring element
+	//originally operator !=
+	public TitanBoolean operatorNotEquals(final TitanBitString_Element aOtherValue){
+		return operatorEquals(aOtherValue).not();
+	}
+	
 
 	public void cleanUp() {
 		n_bits = 0;
@@ -294,7 +306,18 @@ public class TitanBitString extends Base_Type {
 
 		return new TitanBitString(dest_ptr, resultBits);
 	}
-	//TODO: implement BITSTRING::operator+ (add/concatenation)
+	
+	//originally operator+
+	public TitanBitString add(final TitanBitString_Element otherValue){
+		mustBound("Unbound left operand of bitstring concatenation.");
+		otherValue.mustBound("Unbound right operand of bitstring element");
+		TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits+1);
+		ret_val.setBit(n_bits, otherValue.get_bit());
+		
+		return ret_val;
+	}
+	
+	//originally operator
 	//TODO: implement BITSTRING::operator~ (not4b)
 	//TODO: implement BITSTRING::operator& (and4b)
 	//TODO: implement BITSTRING::operator| (or4b)
