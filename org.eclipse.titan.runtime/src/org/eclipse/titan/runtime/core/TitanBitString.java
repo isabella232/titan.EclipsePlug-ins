@@ -153,8 +153,19 @@ public class TitanBitString extends Base_Type {
 //		this.n_bits = aNoBits;
 //		clear_unused_bits();
 //	}
-
-	//TODO: implement BITSTRING::assign for bitstring element
+	
+	//originally operator=
+	public TitanBitString assign(final TitanBitString_Element otherValue){
+		otherValue.mustBound("Assignment of an unbound bitstring element to a bitstring.");
+		boolean bitValue = otherValue.get_bit();
+		cleanUp();
+		n_bits = 1;
+		bits_ptr = new ArrayList<Byte>();
+		bits_ptr.add(0,(byte)(bitValue ? 1 : 0));
+		
+		return this;
+	}
+	
 
 	//originally operator=
 	public TitanBitString assign( final TitanBitString aOtherValue ) {
@@ -207,7 +218,16 @@ public class TitanBitString extends Base_Type {
 		return new TitanBoolean(n_bits == otherValue.n_bits && bits_ptr.equals( otherValue.bits_ptr ));
 	}
 
-	//TODO: implement BITSTRING::operatorEquals for bitstring element
+	//originally operator==
+	public TitanBoolean operatorEquals(final TitanBitString_Element otherValue){
+		mustBound("Unbound left operand of bitstring comparison.");
+		otherValue.mustBound("Unbound right operand of bitstring element comparison.");
+		if(n_bits != 1){
+			return new TitanBoolean(false);
+		}
+		
+		return new TitanBoolean(getBit(0) == otherValue.get_bit());
+	}
 
 	@Override
 	public TitanBoolean operatorEquals(final Base_Type otherValue) {
@@ -223,7 +243,11 @@ public class TitanBitString extends Base_Type {
 		return operatorEquals( aOtherValue ).not();
 	}
 
-	//TODO: implement BITSTRING::operatorNotEquals for bitstring element
+	//originally operator !=
+	public TitanBoolean operatorNotEquals(final TitanBitString_Element aOtherValue){
+		return operatorEquals(aOtherValue).not();
+	}
+	
 
 	public void cleanUp() {
 		n_bits = 0;
@@ -282,8 +306,58 @@ public class TitanBitString extends Base_Type {
 
 		return new TitanBitString(dest_ptr, resultBits);
 	}
-	//TODO: implement BITSTRING::operator+ (add/concatenation)
-	//TODO: implement BITSTRING::operator~ (not4b)
+	
+	//originally operator+
+	public TitanBitString add(final TitanBitString_Element otherValue){
+		mustBound("Unbound left operand of bitstring concatenation.");
+		otherValue.mustBound("Unbound right operand of bitstring element");
+		TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits+1);
+		ret_val.setBit(n_bits, otherValue.get_bit());
+		
+		return ret_val;
+	}
+	
+	//originally operator~
+	public TitanBitString not4b(){
+		mustBound("Unbound bitstring operand of operator not4b.");
+		int n_bytes = (n_bits + 7) /8;
+		if(n_bytes == 0){
+			return this;
+		}
+		List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
+		dest_ptr.addAll(bits_ptr);
+		for (int i = 0; i < n_bytes; i++) {
+			dest_ptr.set(i, (byte)~dest_ptr.get(i));
+		}
+		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+		ret_val.clear_unused_bits();
+		
+		return ret_val;
+	}
+	
+	//originally operator&
+	public TitanBitString and4b(final TitanBitString otherValue){
+		mustBound("Left operand of operator and4b is an unbound bitstring value.");
+		otherValue.mustBound("Right operand of operator and4b is an unbound bitstring value.");
+		
+		if(n_bits != otherValue.n_bits){
+			throw new TtcnError("The bitstring operands of operator and4b must have the same length.");
+		}
+		if(n_bits == 0){
+			return this;
+		}
+		int n_bytes = (n_bits + 7) /8;
+		List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
+		dest_ptr.addAll(bits_ptr);
+		for (int i = 0; i < n_bytes; i++) {
+			dest_ptr.set(i, (byte)(dest_ptr.get(i)&otherValue.bits_ptr.get(i)));
+		}
+		
+		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+		ret_val.clear_unused_bits();
+		
+		return ret_val;
+	}
 	//TODO: implement BITSTRING::operator& (and4b)
 	//TODO: implement BITSTRING::operator| (or4b)
 	//TODO: implement BITSTRING::operator^ (xor4b)
