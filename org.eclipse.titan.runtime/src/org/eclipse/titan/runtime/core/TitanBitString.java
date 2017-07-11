@@ -155,6 +155,18 @@ public class TitanBitString extends Base_Type {
 //	}
 
 	//TODO: implement BITSTRING::assign for bitstring element
+	
+	//originally operator=
+	public TitanBitString assign(final TitanBitString_Element otherValue){
+		otherValue.mustBound("Assignment of an unbound bitstring element to a bitstring.");
+		boolean bitValue = otherValue.get_bit();
+		cleanUp();
+		n_bits = 1;
+		bits_ptr = new ArrayList<Byte>();
+		bits_ptr.add(0,(byte)(bitValue ? 1 : 0));
+		return this;
+	}
+	
 
 	//originally operator=
 	public TitanBitString assign( final TitanBitString aOtherValue ) {
