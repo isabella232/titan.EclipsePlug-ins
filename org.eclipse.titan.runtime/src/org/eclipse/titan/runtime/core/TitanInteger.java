@@ -573,7 +573,7 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 	}
-	
+
 	public static TitanInteger mod(final TitanInteger leftValue, final TitanInteger rightValue) {
 		leftValue.mustBound("Unbound left operand of mod operator.");
 		rightValue.mustBound("Unbound right operand of mod operator");
@@ -595,14 +595,14 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 	}
-	
+
 	//static mod 
 	public static TitanInteger mod(final TitanInteger leftValue, int rightValue) {
 		leftValue.mustBound("Unbound left operand of mod operator.");
 
 		return mod(leftValue, new TitanInteger (rightValue));
 	}
-	
+
 	public static TitanInteger mod (int leftValue, final TitanInteger rightValue) {
 		rightValue.mustBound("Unbound right operand of mod operator. ");
 
@@ -633,7 +633,6 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// mod with one parameter - int
-
 	public TitanInteger mod(final int rightValue) {
 		mustBound("Unbound left operand of mod operator");
 
@@ -672,24 +671,28 @@ public class TitanInteger extends Base_Type {
 	//static operator <
 	public static TitanBoolean isLessThan(final int intValue,final TitanInteger otherValue){
 		otherValue.mustBound("Unbound right operand of integer comparison.");
+
 		return new TitanInteger(intValue).isLessThan(otherValue);
 	}
 
 	//static operator >
 	public static TitanBoolean isGreaterThan(final int intValue, final TitanInteger otherValue){
 		otherValue.mustBound("Unbound right operand of integer comparison.");
+
 		return new TitanInteger(intValue).isGreaterThan(otherValue);
 	}
 
 	//static operator <=
 	public static TitanBoolean isLessThanOrEqual(final int intValue, final TitanInteger otherValue){
 		otherValue.mustBound("Unbound right operand of integer comparison.");
+
 		return new TitanInteger(intValue).isLessThanOrEqual(otherValue);
 	}
 
 	//static operator >=
 	public static TitanBoolean isGreaterThanOrEqual(final int intValue, final TitanInteger otherValue){
 		otherValue.mustBound("Unbound right operand of integer comparison.");
+
 		return new TitanInteger(intValue).isGreaterThanOrEqual(otherValue);
 	}
 }
