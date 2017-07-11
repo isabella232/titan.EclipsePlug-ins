@@ -588,7 +588,7 @@ public class TitanInteger extends Base_Type {
 			return rem(leftValue, rightValue);
 		} else {
 			TitanInteger result = rem(leftValue, rightValueAbs);
-			if (result.equals(0)) {
+			if (result.operatorEquals(0).getValue()) {
 				return new TitanInteger(0);
 			} else {
 				return new TitanInteger(rightValueAbs.add(result));
@@ -624,7 +624,7 @@ public class TitanInteger extends Base_Type {
 			return rem(this, rightValue);
 		} else {
 			TitanInteger result = rem(this, rightValueAbs);
-			if (result.equals(0)) {
+			if (result.operatorEquals(0).getValue()) {
 				return new TitanInteger(0);
 			} else {
 				return new TitanInteger(rightValueAbs.add(result));
@@ -647,12 +647,12 @@ public class TitanInteger extends Base_Type {
 			return rem(this, rightValue);
 		} else {
 			TitanInteger result = rem(this, rightValueAbs);
-			if (result.equals(0))
+			if (result.operatorEquals(0).getValue()) {
 				return new TitanInteger(0);
-			else
+			} else {
 				return new TitanInteger(rightValueAbs.add(result));
+			}
 		}
-
 	}
 
 	//static operator==
