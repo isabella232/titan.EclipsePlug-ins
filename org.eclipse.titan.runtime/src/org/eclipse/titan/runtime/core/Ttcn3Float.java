@@ -28,6 +28,16 @@ public class Ttcn3Float {
 	}
 
 	//FIXME implement assign (operator=)
+	Ttcn3Float assign(final double d){
+		value = d;
+		return this;
+	}
+	
+	Ttcn3Float assign(final Ttcn3Float d){
+		this.value = d.value;
+		return this;
+	}
+	
 
 	// originally operator+
 	// this + d
