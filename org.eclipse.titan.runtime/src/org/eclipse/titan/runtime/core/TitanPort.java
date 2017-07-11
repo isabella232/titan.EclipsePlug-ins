@@ -46,7 +46,7 @@ public class TitanPort {
 					return;
 				}
 				if (port.portName.equals(portName)) {
-					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name %s.", portName));
+					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name {0}.", portName));
 				}
 			}
 
@@ -57,7 +57,7 @@ public class TitanPort {
 					return;
 				}
 				if (port.portName.equals(portName)) {
-					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name %s.", portName));
+					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name {0}.", portName));
 				}
 			}
 
