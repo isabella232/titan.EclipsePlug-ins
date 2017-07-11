@@ -416,12 +416,12 @@ public class TitanInteger extends Base_Type {
 
 	//originally operator >=
 	public TitanBoolean isGreaterThanOrEqual(final int otherValue) {
-		return isGreaterThan(otherValue).not();
+		return isLessThan(otherValue).not();
 	}
 
 	//originally operator >=
 	public TitanBoolean isGreaterThanOrEqual(final TitanInteger otherValue) {
-		return isGreaterThan(otherValue).not();
+		return isLessThan(otherValue).not();
 	}
 
 	public boolean isBound() {
