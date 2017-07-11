@@ -111,7 +111,7 @@ public class TitanInteger extends Base_Type {
 		mustBound("Unbound integer operand of unary - operator (negation).");
 
 		if(nativeFlag) {
-			final long temp = nativeInt * -1;
+			final long temp = (long)nativeInt * -1;
 			if(temp > Integer.MIN_VALUE && temp < Integer.MAX_VALUE) {
 				return new TitanInteger((int) temp);
 			} else {
