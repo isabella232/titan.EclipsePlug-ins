@@ -23,7 +23,7 @@ public class TitanFloat extends Base_Type {
 	public static final double PLUS_INFINITY = Double.POSITIVE_INFINITY;
 	public static final double MINUS_INFINITY = Double.NEGATIVE_INFINITY;
 	public static final double NOT_A_NUMBER = Double.NaN;
-	
+
 	public TitanFloat() {
 		super();
 	}
@@ -95,7 +95,7 @@ public class TitanFloat extends Base_Type {
 	public static TitanBoolean isSpecial(final double aOtherValue){
 		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || aOtherValue == NOT_A_NUMBER);
 	}
-	
+
 	/**
 	 * this + aOtherValue
 	 * originally operator+
@@ -264,67 +264,76 @@ public class TitanFloat extends Base_Type {
 	}
 
 	//static add
-	public static TitanFloat add(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanFloat add(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float addition.");
-		return new TitanFloat(otherValue.add(dubValue));
+
+		return new TitanFloat(otherValue.add(dubleValue));
 	}
-	
+
 	//static sub
-	public static TitanFloat sub(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanFloat sub(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float subtraction.");
-		return new TitanFloat(dubValue - otherValue.getValue());
+
+		return new TitanFloat(dubleValue - otherValue.getValue());
 	}
-	
+
 	//static mul
-	public static TitanFloat mul(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanFloat mul(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float multiplication.");
-		return new TitanFloat(otherValue.mul(dubValue));
+
+		return new TitanFloat(otherValue.mul(dubleValue));
 	}
-	
+
 	//static div
-	public static TitanFloat div(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanFloat div(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float division.");
-		
+
 		final double value = otherValue.float_value.getValue();
 		if ( value == 0.0 ) {
 			throw new TtcnError("Float division by zero.");
 		}	
-		return new TitanFloat(dubValue / otherValue.getValue());
+		return new TitanFloat(dubleValue / otherValue.getValue());
 	}
-	
-	
+
 	//static operatorEquals
-	public static TitanBoolean operatorEquals(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanBoolean operatorEquals(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return new TitanBoolean(otherValue.operatorEquals(dubValue));
+
+		return new TitanBoolean(otherValue.operatorEquals(dubleValue));
 	}
-	
+
 	//static operatorNotEquals
-	public static TitanBoolean operatorNotEquals(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanBoolean operatorNotEquals(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return new TitanBoolean(otherValue.operatorNotEquals(dubValue));
+
+		return new TitanBoolean(otherValue.operatorNotEquals(dubleValue));
 	}
-	
+
 	//static isLess
-	public static TitanBoolean isLessThan(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanBoolean isLessThan(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return new TitanBoolean(otherValue.isGreaterThan(new TitanFloat(dubValue)));
+
+		return new TitanBoolean(otherValue.isGreaterThan(new TitanFloat(dubleValue)));
 	}
-	
+
 	//static isGreaterThan
-	public static TitanBoolean isGreaterThan(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanBoolean isGreaterThan(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return new TitanBoolean(otherValue.isLessThan(new TitanFloat(dubValue)));
+
+		return new TitanBoolean(otherValue.isLessThan(new TitanFloat(dubleValue)));
 	}
-	
+
 	//static isLessThanOrEqual
-	public static TitanBoolean isLessThanOrEqual(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanBoolean isLessThanOrEqual(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return new TitanBoolean(otherValue.isGreaterThanOrEqual(new TitanFloat(dubValue)));
+
+		return new TitanBoolean(otherValue.isGreaterThanOrEqual(new TitanFloat(dubleValue)));
 	}
+
 	//static isGreaterThanOrEqual
-	public static TitanBoolean isGreaterThanOrEqual(final double dubValue, final TitanFloat  otherValue) {
+	public static TitanBoolean isGreaterThanOrEqual(final double dubleValue, final TitanFloat  otherValue) {
 		otherValue.mustBound("Unbound right operand of float comparison.");
-		return new TitanBoolean(otherValue.isLessThanOrEqual(new TitanFloat(dubValue)));
+
+		return new TitanBoolean(otherValue.isLessThanOrEqual(new TitanFloat(dubleValue)));
 	}
 }
