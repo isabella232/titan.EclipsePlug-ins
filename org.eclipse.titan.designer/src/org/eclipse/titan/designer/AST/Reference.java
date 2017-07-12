@@ -1065,7 +1065,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						return;
 					}
 
-					if (compField != null && compField.isOptional() && !isTemplate) {
+					if (i < subReferences.size() - 1 && compField != null && compField.isOptional() && !isTemplate) {
 						if (isConst) {
 							expression.expression.append(".constGet()");
 						} else {
