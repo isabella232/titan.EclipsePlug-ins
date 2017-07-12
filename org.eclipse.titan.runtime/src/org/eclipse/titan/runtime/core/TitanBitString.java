@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * TTCN-3 bitstring
  * @author Arpad Lovassy
+ * @author Gergo Ujhelyi
  */
 public class TitanBitString extends Base_Type {
 
@@ -347,7 +348,7 @@ public class TitanBitString extends Base_Type {
 			return this;
 		}
 		int n_bytes = (n_bits + 7) /8;
-		List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
+		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
 		dest_ptr.addAll(bits_ptr);
 		for (int i = 0; i < n_bytes; i++) {
 			dest_ptr.set(i, (byte)(dest_ptr.get(i)&otherValue.bits_ptr.get(i)));
@@ -358,9 +359,190 @@ public class TitanBitString extends Base_Type {
 		
 		return ret_val;
 	}
-	//TODO: implement BITSTRING::operator& (and4b)
-	//TODO: implement BITSTRING::operator| (or4b)
-	//TODO: implement BITSTRING::operator^ (xor4b)
+	
+	//originally operator&
+	public TitanBitString and4b(final TitanBitString_Element otherValue){
+		mustBound("Left operand of operator and4b is an unbound bitstring value.");
+		otherValue.mustBound("Right operand of operator and4b is an unbound bitstring element.");
+		
+		if(n_bits != 1){
+			throw new TtcnError("The bitstring operands of operator and4b must have the same length.");
+		}
+		List<Byte> result = new ArrayList<Byte>();
+		result.add((byte)(getBit(0) && otherValue.get_bit() ? 1 : 0));
+		
+		return new TitanBitString(result,1);
+	}
+	
+	//originally operator|
+	public TitanBitString or4b(final TitanBitString otherValue){
+		mustBound("Left operand of operator or4b is an unbound bitstring value.");
+		otherValue.mustBound("Right operand of operator or4b is an unbound bitstring value.");
+		
+		if(n_bits != otherValue.n_bits){
+			throw new TtcnError("The bitstring operands of operator or4b must have the same length.");
+		}
+		if(n_bits == 0){
+			return this;
+		}
+		int n_bytes = (n_bits + 7) / 8;
+		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
+		dest_ptr.addAll(bits_ptr);
+		for (int i = 0; i < n_bytes; i++) {
+			dest_ptr.set(i, (byte)(dest_ptr.get(i)|otherValue.bits_ptr.get(i)));
+		}
+		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+		ret_val.clear_unused_bits();
+		
+		return ret_val;
+	}
+	
+	//originally operator|
+	public TitanBitString or4b(final TitanBitString_Element otherValue){
+		mustBound("Left operand of operator or4b is an unbound bitstring value.");
+		otherValue.mustBound("Right operand of operator or4b is an unbound bitstring element.");
+		
+		if(n_bits != 1){
+			throw new TtcnError("The bitstring operands of operator or4b must have the same length.");
+		}	
+		List<Byte> result = new ArrayList<Byte>();
+		result.add((byte)(getBit(0) || otherValue.get_bit() ? 1 : 0));
+		
+		return new TitanBitString(result,1);
+	}
+	
+	//originally operator^
+	public TitanBitString xor4b(final TitanBitString otherValue){
+		mustBound("Left operand of operator xor4b is an unbound bitstring value.");
+		otherValue.mustBound("Right operand of operator xor4b is an unbound bitstring value.");
+		
+		if(n_bits != otherValue.n_bits){
+			throw new TtcnError("The bitstring operands of operator xor4b must have the same length.");
+		}
+		if(n_bits == 0){
+			return this;
+		}
+		int n_bytes = (n_bits + 7) / 8;
+		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
+		dest_ptr.addAll(bits_ptr);
+		for (int i = 0; i < n_bytes; i++) {
+			dest_ptr.set(i, (byte)(dest_ptr.get(i)^otherValue.bits_ptr.get(i)));
+		}
+		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+		ret_val.clear_unused_bits();
+		
+		return ret_val;
+	}
+	
+	//originally operator^
+	public TitanBitString xor4b(final TitanBitString_Element otherValue){
+		mustBound("Left operand of operator xor4b is an unbound bitstring value.");
+		otherValue.mustBound("Right operand of operator xor4b is an unbound bitstring element.");
+		
+		if(n_bits != 1){
+			throw new TtcnError("The bitstring operands of operator xor4b must have the same length.");
+		}
+		List<Byte> result = new ArrayList<Byte>();
+		result.add((byte)(getBit(0) ^ otherValue.get_bit() ? 1 : 0));
+		
+		return new TitanBitString(result,1);
+	}
+	
+	//originally operator<<
+	public TitanBitString shiftLeft(int shiftCount){
+		mustBound("Unbound bitstring operand of shift left operator.");
+		if(shiftCount > 0){
+			if(n_bits == 0){
+				return this;
+			}
+			int n_bytes = (n_bits + 7) / 8;
+			clear_unused_bits();
+			if(shiftCount > n_bits){
+				shiftCount = n_bits;
+			}
+			int shift_bytes = shiftCount / 8;
+			int shift_bits = shiftCount % 8;
+			List<Byte> result = new ArrayList<Byte>(n_bytes);
+			result.addAll(bits_ptr);
+			if(shift_bits != 0){
+				int byte_count = 0;
+				for( ; byte_count < n_bytes - shift_bytes - 1; byte_count++){
+					result.set(byte_count, (byte)((bits_ptr.get(byte_count+shift_bytes) >> shift_bits)|
+							(bits_ptr.get(byte_count+shift_bytes+1) <<
+									(8-shift_bits))));
+				}
+				result.set(n_bytes-shift_bytes-1, (byte)(bits_ptr.get(n_bytes-1) >> shift_bits));
+			} else {
+				for (int i = shift_bytes; i < n_bytes; i++) {
+					result.set(i-shift_bytes, bits_ptr.get(i));
+				}
+			}
+			for (int i = n_bytes-shift_bytes; i < n_bytes; i++) {
+				result.set(i, (byte)0);
+			}
+			TitanBitString ret_val = new TitanBitString(result,n_bits);
+			ret_val.clear_unused_bits();
+			return ret_val;
+		} else if(shiftCount == 0){
+			return this;
+		}
+		else return this.shiftRight(-shiftCount);
+	}
+	
+	//originally operator<<
+	//FIXME: temporally implement
+	public TitanBitString shiftLeft(TitanInteger otherValue){
+		mustBound("Unbound bitstring operand of shift left operator.");
+		return shiftLeft(otherValue.getInt());
+	}
+	
+	//originally operator>>
+	public TitanBitString shiftRight(int shiftCount){
+		mustBound("Unbound bitstring operand of shift right operator.");
+		
+		if(shiftCount > 0){
+			if(n_bits == 0){
+				return this;
+			}
+			int n_bytes = (n_bits + 7) / 8;
+			clear_unused_bits();
+			if(shiftCount > n_bits){
+				shiftCount = n_bits;
+			}
+			int shift_bytes = shiftCount / 8;
+			int shift_bits = shiftCount % 8;
+			List<Byte> result = new ArrayList<Byte>(n_bytes);
+			result.addAll(bits_ptr);
+			for(int i = 0; i < shift_bytes; i++){
+				result.set(i, (byte)0);
+			}
+			if(shift_bits != 0){
+				result.set(shift_bytes, (byte)(bits_ptr.get(0) << shift_bits));
+				for(int byte_count = shift_bytes + 1; byte_count < n_bytes; byte_count++){
+					result.set(byte_count, (byte)(((bits_ptr.get(byte_count-shift_bytes-1) >>(8-shift_bits)) 
+							|(bits_ptr.set(byte_count-shift_bytes, (byte)(bits_ptr.get(byte_count-shift_bytes) << shift_bits )))) ));
+				}
+			} else {
+				for (int i = shift_bytes; i < n_bytes; i++) {
+					result.set(i,(byte)(bits_ptr.get(i-shift_bytes)));
+				}
+			}
+			TitanBitString ret_val = new TitanBitString(result,n_bits);
+			ret_val.clear_unused_bits();
+			return ret_val;
+		} else if(shiftCount == 0){
+			return this;
+		}
+		else return this.shiftLeft(-shiftCount);
+	}
+	
+	//originally operator>>
+	//FIXME: temporally implement
+	public TitanBitString shiftRight(TitanInteger otherValue){
+		mustBound("Unbound bitstring operand of shift left operator.");
+		return shiftRight(otherValue.getInt());
+	}
+	
 	//TODO: implement BITSTRING::operator<< (shiftLeft)
 	//TODO: implement BITSTRING::operator>> (shiftRight)
 	//TODO: implement BITSTRING::operator<<= (rotateLeft)
