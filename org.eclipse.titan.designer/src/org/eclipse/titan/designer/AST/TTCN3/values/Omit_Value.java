@@ -134,6 +134,7 @@ public final class Omit_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+
 		StringBuilder result = new StringBuilder();
 
 		result.append( "template_sel.OMIT_VALUE" );
@@ -145,6 +146,7 @@ public final class Omit_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+
 		source.append(name);
 		source.append(".assign( template_sel.OMIT_VALUE );\n");
 		return source;
