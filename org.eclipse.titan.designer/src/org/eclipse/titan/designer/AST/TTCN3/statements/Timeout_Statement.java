@@ -141,7 +141,7 @@ public final class Timeout_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (timerReference == null) {
-			expression.expression.append("TitanTimer.anyTimeout();\n");
+			expression.expression.append("TitanTimer.anyTimeout()");
 		} else {
 			timerReference.generateCode(aData, expression);
 			expression.expression.append(".timeout()");
