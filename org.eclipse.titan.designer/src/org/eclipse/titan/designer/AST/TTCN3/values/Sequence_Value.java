@@ -817,6 +817,11 @@ public final class Sequence_Value extends Value {
 			//TODO fatal error
 		}
 
+		if (nofComps == 0) {
+			source.append(MessageFormat.format("{0}.assign(NULL_VALUE);\n", name));
+			return source;
+		}
+
 		CompField compField = null;
 		for (int i = 0; i < nofComps; i++) {
 			switch (type.getTypetype()) {
@@ -857,7 +862,7 @@ public final class Sequence_Value extends Value {
 				//TODO add extra handling for optional fields
 				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
-				// TODO: handle omit value
+				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, FieldSubReference.getJavaGetterName(fieldName.getName())));
 			}
 		}
 
