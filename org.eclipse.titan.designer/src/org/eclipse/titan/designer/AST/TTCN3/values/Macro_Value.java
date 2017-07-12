@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.runtime.IPath;
@@ -26,6 +27,8 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -49,6 +52,8 @@ public final class Macro_Value extends Value {
 	}
 
 	private final Macro_type value;
+
+	private IValue lastValue;
 
 	public Macro_Value(final Macro_type value) {
 		this.value = value;
@@ -147,7 +152,7 @@ public final class Macro_Value extends Value {
 	/** {@inheritDoc} */
 	public IValue getValueRefdLast(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		return evaluateMacro(expectedValue);
+		return evaluateMacro(timestamp, expectedValue);
 	}
 
 	/**
@@ -157,8 +162,13 @@ public final class Macro_Value extends Value {
 	 *
 	 * @return the actual or the evaluated value
 	 * */
-	private IValue evaluateMacro(final Expected_Value_type expectedValue) {
-		IValue lastValue = this;
+	private IValue evaluateMacro(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
+			return lastValue;
+		}
+
+		lastTimeChecked = timestamp;
+		lastValue = this;
 
 		switch (value) {
 		case MODULEID:
@@ -285,5 +295,35 @@ public final class Macro_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (Macro_type.TESTCASEID.equals(value)) {
+			aData.addCommonLibraryImport( "TTCN_Runtime" );
+
+			source.append(MessageFormat.format("// FIXME implement {0}.assign(TTCN_Runtime.get_testcase_id_macro());\n", name));
+			return source;
+		}
+		if (lastValue == null || lastValue == this) {
+			return source;
+		}
+
+		return lastValue.generateCodeInit(aData, source, name);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (Macro_type.TESTCASEID.equals(value)) {
+			aData.addCommonLibraryImport( "TTCN_Runtime" );
+
+			expression.expression.append("// FIXME implement TTCN_Runtime.get_testcase_id_macro()");
+		}
+		if (lastValue == null || lastValue == this) {
+			return;
+		}
+
+		lastValue.generateCodeExpression(aData, expression);
 	}
 }
