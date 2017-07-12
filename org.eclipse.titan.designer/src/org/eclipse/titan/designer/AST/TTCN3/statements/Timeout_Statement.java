@@ -125,6 +125,8 @@ public final class Timeout_Statement extends Statement {
 	// originally generate_code_expr_timeout
 	//FIXME needs expression parameter
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		aData.addBuiltinTypeImport("TitanTimer");
+
 		if (timerReference == null) {
 			source.append("TitanTimer.anyTimeout();\n");
 		} else {
@@ -140,6 +142,8 @@ public final class Timeout_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addBuiltinTypeImport("TitanTimer");
+
 		if (timerReference == null) {
 			expression.expression.append("TitanTimer.anyTimeout()");
 		} else {

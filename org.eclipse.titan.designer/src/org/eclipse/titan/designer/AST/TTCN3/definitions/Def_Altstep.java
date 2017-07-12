@@ -555,7 +555,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 	@Override
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
-		final StringBuilder source =aData.getSrc();
+		final StringBuilder source = aData.getSrc();
 
 		final String genName = getGenName();
 		if (formalParList != null) {
@@ -571,6 +571,10 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		StringBuilder formalParListCode = new StringBuilder();
 		formalParList.generateCode(aData, formalParListCode);
 		// FIXME generate code defval and shadow objects
+
+		aData.addBuiltinTypeImport("TitanAlt_Status");
+		aData.addBuiltinTypeImport("TTCN_Default");
+		aData.addCommonLibraryImport("TTCN_Snapshot");
 
 		source.append(MessageFormat.format("private static final TitanAlt_Status {0}_instance({1})\n", genName, formalParListCode));
 		source.append("{\n");
