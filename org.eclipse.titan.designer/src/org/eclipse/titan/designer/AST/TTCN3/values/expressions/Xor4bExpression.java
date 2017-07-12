@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -368,5 +369,13 @@ public final class Xor4bExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		value1.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(".xor4b( ");
+		value2.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(" )");
 	}
 }
