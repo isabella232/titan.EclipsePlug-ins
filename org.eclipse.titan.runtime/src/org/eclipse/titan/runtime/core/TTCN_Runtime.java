@@ -131,6 +131,29 @@ public class TTCN_Runtime {
 		testcaseDefinitionName = parTestcaseName;
 	}
 
+	//originally get_component_type
+	public static String getComponentType() {
+		return component_type_name;
+	}
+
+	//originally get_testcase_name
+	public static String getTestcaseName() {
+		return testcaseDefinitionName;
+	}
+
+	//originally get_testcase_id_macro
+	public static TitanCharString getTestcaseIdMacro() {
+		if (inControlPart()) {
+			throw new TtcnError("Macro %%testcaseId cannot be used from the control part outside test cases.");
+		}
+
+		if (testcaseDefinitionName == null || testcaseDefinitionName.length() == 0) {
+			throw new TtcnError("Internal error: Evaluating macro %%testcaseId, but the name of the current testcase is not set.");
+		}
+
+		return new TitanCharString(testcaseDefinitionName);
+	}
+
 	//originally map_port
 	public static void mapPort(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
 		//FIXME implement

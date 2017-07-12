@@ -302,7 +302,7 @@ public final class Macro_Value extends Value {
 		if (Macro_type.TESTCASEID.equals(value)) {
 			aData.addCommonLibraryImport( "TTCN_Runtime" );
 
-			source.append(MessageFormat.format("// FIXME implement {0}.assign(TTCN_Runtime.get_testcase_id_macro());\n", name));
+			source.append(MessageFormat.format("{0}.assign(TTCN_Runtime.getTestcaseIdMacro());\n", name));
 			return source;
 		}
 		if (lastValue == null || lastValue == this) {
@@ -318,7 +318,7 @@ public final class Macro_Value extends Value {
 		if (Macro_type.TESTCASEID.equals(value)) {
 			aData.addCommonLibraryImport( "TTCN_Runtime" );
 
-			expression.expression.append("// FIXME implement TTCN_Runtime.get_testcase_id_macro()");
+			expression.expression.append("TTCN_Runtime.getTestcaseIdMacro()");
 		}
 		if (lastValue == null || lastValue == this) {
 			return;
