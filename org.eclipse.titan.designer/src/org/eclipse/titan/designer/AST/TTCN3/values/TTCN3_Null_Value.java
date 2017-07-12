@@ -24,6 +24,8 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ComponentNullExpression;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -34,6 +36,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Kristof Szabados
  */
 public final class TTCN3_Null_Value extends Value {
+	private Value lastValue = null;
 
 	@Override
 	/** {@inheritDoc} */
@@ -50,16 +53,24 @@ public final class TTCN3_Null_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
+		lastValue = this;
+
 		switch (newType) {
 		case DEFAULT_NULL_VALUE:
-			return new Default_Null_Value(this);
+			lastValue = new Default_Null_Value(this);
+			break;
 		case FAT_NULL_VALUE:
-			return new FAT_Null_Value(this);
+			lastValue = new FAT_Null_Value(this);
+			break;
 		case EXPRESSION_VALUE:
-			return new ComponentNullExpression(this);
+			lastValue = new ComponentNullExpression(this);
+			break;
 		default:
-			return super.setValuetype(timestamp, newType);
+			lastValue = super.setValuetype(timestamp, newType);
+			break;
 		}
+
+		return lastValue;
 	}
 
 	@Override
@@ -132,5 +143,28 @@ public final class TTCN3_Null_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (lastValue == null || lastValue == this) {
+			//fatal error
+			source.append("//FATAL ERROR in TTCN3_Null_Value.generateCodeInit\n");
+			return source;
+		}
+
+		return lastValue.generateCodeInit(aData, source, name);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (lastValue == null || lastValue == this) {
+			//fatal error
+			expression.expression.append("//FATAL ERROR in TTCN3_Null_Value.generateCodeExpression\n");
+			return;
+		}
+
+		lastValue.generateCodeExpression(aData, expression);
 	}
 }

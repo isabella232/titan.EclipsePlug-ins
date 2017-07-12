@@ -23,6 +23,8 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -120,5 +122,23 @@ public final class Default_Null_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		aData.addBuiltinTypeImport("TitanComponent");
+
+		source.append(name);
+		source.append(".assign( TitanComponent.NULL_COMPREF );\n");
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		aData.addBuiltinTypeImport("TitanComponent");
+
+		expression.expression.append("TitanComponent.NULL_COMPREF");
 	}
 }
