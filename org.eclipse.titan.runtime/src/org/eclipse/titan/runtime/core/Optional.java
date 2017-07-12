@@ -9,6 +9,8 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+
 /**
  * TTCN-3 boolean
  * @author Kristof Szabados
@@ -53,8 +55,8 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	//originally operator=
-	public Optional<TYPE> assign(final optional_sel otherValue) {
-		if (!optional_sel.OPTIONAL_OMIT.equals(otherValue)) {
+	public Optional<TYPE> assign(final template_sel otherValue) {
+		if (!template_sel.OMIT_VALUE.equals(otherValue)) {
 			throw new TtcnError("Internal error: Setting an optional field to an invalid value.");
 		}
 		setToOmit();
@@ -206,6 +208,22 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	//originally operator==
+	public TitanBoolean operatorEquals( final template_sel otherValue ) {
+		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
+			if (template_sel.UNINITIALIZED_TEMPLATE.equals(otherValue)) {
+				return new TitanBoolean(true);
+			}
+			throw new TtcnError("The left operand of comparison is an unbound optional value.");
+		}
+
+		if (!template_sel.OMIT_VALUE.equals(otherValue)) {
+			throw new TtcnError("Internal error: The right operand of comparison is an invalid value.");
+		}
+
+		return new TitanBoolean(optional_sel.OPTIONAL_OMIT.equals(optionalSelection));
+	}
+
+	//originally operator==
 	public TitanBoolean operatorEquals( final Optional<TYPE> otherValue ) {
 		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if(optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
@@ -256,5 +274,13 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
+	//originally operator!=
+	public TitanBoolean operatorNotEquals( final template_sel otherValue ) {
+		return operatorEquals(otherValue).not();
+	}
 
+	//originally operator!=
+	public TitanBoolean operatorNotEquals( final Optional<TYPE> otherValue ) {
+		return operatorEquals(otherValue).not();
+	}
 }
