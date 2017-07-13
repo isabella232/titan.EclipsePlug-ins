@@ -1523,14 +1523,14 @@ pr_BuiltinValue_reg returns[Value value]
 			}
 		|	f11 = REALNUMBER	
 			{
-				$value = new Real_Value(Float.parseFloat( $f11.getText()));
+				$value = new Real_Value(Double.parseDouble( $f11.getText()));
 				$value.setLocation(getLocation($f11, $f11));
 			}
 		)
 	|	(	f12 = pr_Val_Number	{ $value = $f12.value; }
 		|	f13 = REALNUMBER
 			{
-				$value = new Real_Value(Float.parseFloat($f13.getText()));
+				$value = new Real_Value(Double.parseDouble($f13.getText()));
 				$value.setLocation(getLocation($f13, $f13));
 			}
 		)

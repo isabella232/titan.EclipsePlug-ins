@@ -5893,7 +5893,7 @@ pr_FloatValue returns[Real_Value value]
 @init {
 	$value = null;
 }:
-(   FLOATVALUE		{ $value = new Real_Value( Float.parseFloat( $FLOATVALUE.getText() ) ); }
+(   FLOATVALUE		{ $value = new Real_Value( Double.parseDouble( $FLOATVALUE.getText() ) ); }
 |   INFINITY		{ $value = new Real_Value( Float.POSITIVE_INFINITY ); }
 |   NOT_A_NUMBER	{ $value = new Real_Value( Float.NaN ); }
 )
