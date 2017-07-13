@@ -29,7 +29,7 @@ public class TitanBitString extends Base_Type {
 	private int n_bits;
 
 	public TitanBitString() {
-		bits_ptr = new ArrayList<Byte>();
+		bits_ptr = null;
 		n_bits = 0;
 	}
 
