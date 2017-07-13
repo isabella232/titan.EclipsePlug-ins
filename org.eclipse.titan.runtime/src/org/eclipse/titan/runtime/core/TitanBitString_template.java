@@ -76,7 +76,7 @@ public class TitanBitString_template extends Base_Template {
 	public TitanBitString_template (final TitanBitString_template otherValue) {
 		copyTemplate(otherValue);
 	}
-	
+
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -121,7 +121,7 @@ public class TitanBitString_template extends Base_Template {
 
 		return this;
 	}
-	
+
 	//originally operator=
 	public TitanBitString_template assign( final TitanBitString_Element otherValue ){
 		otherValue.mustBound("Assignment of an unbound bitstring element to a template.");

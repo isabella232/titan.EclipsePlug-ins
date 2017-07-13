@@ -24,32 +24,32 @@ public class TitanBoolean_template extends Base_Template {
 	// value_list part
 	private ArrayList<TitanBoolean_template> value_list;
 
-	public TitanBoolean_template () {
-		//do nothing
+	public TitanBoolean_template() {
+		// do nothing
 	}
 
-	public TitanBoolean_template (final template_sel otherValue) {
+	public TitanBoolean_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanBoolean_template (final boolean otherValue) {
+	public TitanBoolean_template(final boolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
 	}
 
-	public TitanBoolean_template (final TitanBoolean otherValue) {
+	public TitanBoolean_template(final TitanBoolean otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound boolean value.");
 
 		single_value = new TitanBoolean(otherValue);
 	}
 
-	public TitanBoolean_template (final TitanBoolean_template otherValue) {
+	public TitanBoolean_template(final TitanBoolean_template otherValue) {
 		copyTemplate(otherValue);
 	}
 
-	//originally clean_up
+	// originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
@@ -65,8 +65,8 @@ public class TitanBoolean_template extends Base_Template {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
-	//originally operator=
-	public TitanBoolean_template assign( final template_sel otherValue ) {
+	// originally operator=
+	public TitanBoolean_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -74,8 +74,8 @@ public class TitanBoolean_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanBoolean_template assign( final boolean otherValue ) {
+	// originally operator=
+	public TitanBoolean_template assign(final boolean otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
@@ -83,8 +83,8 @@ public class TitanBoolean_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanBoolean_template assign( final TitanBoolean otherValue ) {
+	// originally operator=
+	public TitanBoolean_template assign(final TitanBoolean otherValue) {
 		otherValue.mustBound("Assignment of an unbound boolean value to a template.");
 
 		cleanUp();
@@ -94,8 +94,8 @@ public class TitanBoolean_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanBoolean_template assign( final TitanBoolean_template otherValue ) {
+	// originally operator=
+	public TitanBoolean_template assign(final TitanBoolean_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -116,7 +116,7 @@ public class TitanBoolean_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanBoolean_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanBoolean_template temp = new TitanBoolean_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -128,28 +128,28 @@ public class TitanBoolean_template extends Base_Template {
 		setSelection(otherValue);
 	}
 
-	public TitanBoolean and( final TitanBoolean otherValue ) {
-		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
-			throw new TtcnError( "And operation of a non specific value template" );
+	public TitanBoolean and(final TitanBoolean otherValue) {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("And operation of a non specific value template");
 		}
 
-		return single_value.and( otherValue );
+		return single_value.and(otherValue);
 	}
 
-	public TitanBoolean and( final TitanBoolean_template otherTemplate ) {
-		if ( otherTemplate.templateSelection != template_sel.SPECIFIC_VALUE ) {
-			throw new TtcnError( "And operation of a non specific value template argument" );
+	public TitanBoolean and(final TitanBoolean_template otherTemplate) {
+		if (otherTemplate.templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("And operation of a non specific value template argument");
 		}
 
-		return and( otherTemplate.single_value );
+		return and(otherTemplate.single_value);
 	}
 
-	public TitanBoolean operatorEquals( final TitanBoolean otherValue ) {
-		if ( templateSelection != template_sel.SPECIFIC_VALUE ) {
-			throw new TtcnError( "Equals operation of a non specific value template" );
+	public TitanBoolean operatorEquals(final TitanBoolean otherValue) {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Equals operation of a non specific value template");
 		}
 
-		return single_value.operatorEquals( otherValue );
+		return single_value.operatorEquals(otherValue);
 	}
 
 	// match
@@ -199,36 +199,31 @@ public class TitanBoolean_template extends Base_Template {
 
 		return single_value;
 	}
-	
+
 	// set_type
-		public void setType(final template_sel templateType, final int listLength)
-		{
-			if(!template_sel.VALUE_LIST.equals(templateType) && !template_sel.COMPLEMENTED_LIST.equals(templateType))
-					{
-						throw new TtcnError("Setting an invalid list type for a boolean template.");
-					}
-			cleanUp();
-			setSelection(templateType);
-			value_list = new ArrayList<TitanBoolean_template>(listLength);
-			for(int i = 0; i < listLength; i++) {
-				value_list.add(new TitanBoolean_template());
-			}
+	public void setType(final template_sel templateType, final int listLength) {
+		if (!template_sel.VALUE_LIST.equals(templateType) && !template_sel.COMPLEMENTED_LIST.equals(templateType)) {
+			throw new TtcnError("Setting an invalid list type for a boolean template.");
 		}
-	
-	
-	// listItem
-	public TitanBoolean_template listItem(final int listIndex)
-	{
-		if (!template_sel.VALUE_LIST.equals(templateSelection) &&
-				!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
-			throw new TtcnError("Accessing a list element of a non-list boolean template.");
+
+		cleanUp();
+		setSelection(templateType);
+		value_list = new ArrayList<TitanBoolean_template>(listLength);
+		for (int i = 0; i < listLength; i++) {
+			value_list.add(new TitanBoolean_template());
+		}
 	}
+
+	// listItem
+	public TitanBoolean_template listItem(final int listIndex) {
+		if (!template_sel.VALUE_LIST.equals(templateSelection) && !template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
+			throw new TtcnError("Accessing a list element of a non-list boolean template.");
+		}
 		if (listIndex > value_list.size()) {
 			throw new TtcnError("Index overflow in an boolean value list template.");
 		}
 
 		return value_list.get(listIndex);
 	}
-
 }
 

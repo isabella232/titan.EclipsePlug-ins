@@ -70,7 +70,7 @@ public class TitanBitString_Element {
 
 		return new TitanBoolean( str_val.getBit(bit_pos) == other_value.getBit(0));
 	}
-	
+
 	//originally operator!=
 	public TitanBoolean operatorNotEquals(final TitanBitString_Element otherValue){
 		return operatorEquals(otherValue).not();
