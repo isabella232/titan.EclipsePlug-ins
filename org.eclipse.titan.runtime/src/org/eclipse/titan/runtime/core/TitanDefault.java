@@ -40,19 +40,46 @@ public class TitanDefault extends Base_Type {
 		default_ptr = aOtherValue.default_ptr;
 	}
 
-	@Override
-	public boolean isPresent() {
-		return default_ptr != UNBOUND_DEFAULT;
+	//originally operator= with component parameter
+	public TitanDefault assign(final int otherValue) {
+		if (otherValue != TitanComponent.NULL_COMPREF) {
+			throw new TtcnError( "Assignment of an invalid default reference." );
+		}
+
+		default_ptr = null;
+		return this;
+	}
+
+	//originally operator=
+	public TitanDefault assign(final Default_Base otherValue) {
+		if (otherValue == UNBOUND_DEFAULT) {
+			throw new TtcnError( "Assignment of an unbound default reference." );
+		}
+
+		default_ptr = otherValue;
+		return this;
+	}
+
+	//originally operator=
+	public TitanDefault assign(final TitanDefault otherValue) {
+		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
+			throw new TtcnError( "Assignment of an unbound default reference." );
+		}
+
+		if (otherValue != this) {
+			default_ptr = otherValue.default_ptr;
+		}
+
+		return this;
 	}
 
 	@Override
-	public boolean isBound() {
-		return default_ptr != UNBOUND_DEFAULT;
-	}
+	public Base_Type assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanDefault) {
+			return assign((TitanDefault)otherValue);
+		}
 
-	@Override
-	public boolean isValue() {
-		return default_ptr != UNBOUND_DEFAULT;
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
 	}
 
 	//originally operator==
@@ -113,43 +140,31 @@ public class TitanDefault extends Base_Type {
 		return operatorEquals(otherValue).not();
 	}
 
-	//originally has component parameter
-	public TitanDefault assign(final int otherValue) {
-		if (otherValue != TitanComponent.NULL_COMPREF) {
-			throw new TtcnError( "Assignment of an invalid default reference." );
+	//originally operator Default_Base*
+	public Default_Base getDefaultBase() {
+		if (default_ptr == UNBOUND_DEFAULT) {
+			throw new TtcnError("Using the value of an unbound default reference.");
 		}
 
-		default_ptr = null;
-		return this;
-	}
-
-	public TitanDefault assign(final Default_Base otherValue) {
-		if (otherValue == UNBOUND_DEFAULT) {
-			throw new TtcnError( "Assignment of an unbound default reference." );
-		}
-
-		default_ptr = otherValue;
-		return this;
-	}
-
-	public TitanDefault assign(final TitanDefault otherValue) {
-		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError( "Assignment of an unbound default reference." );
-		}
-
-		if (otherValue != this) {
-			default_ptr = otherValue.default_ptr;
-		}
-
-		return this;
+		return default_ptr;
 	}
 
 	@Override
-	public Base_Type assign(final Base_Type otherValue) {
-		if (otherValue instanceof TitanDefault) {
-			return assign((TitanDefault)otherValue);
-		}
+	public boolean isPresent() {
+		return default_ptr != UNBOUND_DEFAULT;
+	}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
+	@Override
+	public boolean isBound() {
+		return default_ptr != UNBOUND_DEFAULT;
+	}
+
+	@Override
+	public boolean isValue() {
+		return default_ptr != UNBOUND_DEFAULT;
+	}
+
+	public void cleanUp() {
+		default_ptr = UNBOUND_DEFAULT;
 	}
 }
