@@ -61,7 +61,12 @@ public class AdditionalFunctions {
 				tempValue = tempValue >> 1;
 			}
 			if (tempValue != 0) {
-				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}.", value, length, length > 1 ? "s" : ""));
+				int i = 0;
+				while (tempValue != 0) {
+					tempValue = tempValue >> 1;
+					i++;
+				}
+				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
 			}
 
 			return new TitanBitString(bits_ptr, length);
@@ -79,7 +84,12 @@ public class AdditionalFunctions {
 				tempValue = tempValue.shiftRight(1);
 			}
 			if (tempValue.compareTo(BigInteger.ZERO) != 0) {
-				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}.", value, length, length > 1 ? "s" : ""));
+				int i = 0;
+				while (tempValue.compareTo(BigInteger.ZERO) == 1) {
+					tempValue = tempValue.shiftRight(1);
+					i++;
+				}
+				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
 			}
 
 			return new TitanBitString(bits_ptr, length);
