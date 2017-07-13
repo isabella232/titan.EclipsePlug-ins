@@ -19,6 +19,15 @@ public class TitanDefault extends Base_Type {
 		default_ptr = UNBOUND_DEFAULT;
 	}
 
+	//originally has component parameter
+	public TitanDefault(final int otherValue) {
+		if (otherValue != TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("Initialization from an invalid default reference.");
+		}
+
+		default_ptr = null;
+	}
+
 	public TitanDefault(final Default_Base aOtherValue) {
 		default_ptr = aOtherValue;
 	}
@@ -46,6 +55,19 @@ public class TitanDefault extends Base_Type {
 		return default_ptr != UNBOUND_DEFAULT;
 	}
 
+	//originally operator==
+	public TitanBoolean operatorEquals(final int otherValue) {
+		if (default_ptr == UNBOUND_DEFAULT) {
+			throw new TtcnError("The left operand of comparison is an unbound default reference.");
+		}
+		if (otherValue != TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("Comparison of an invalid default value.");
+		}
+
+		return new TitanBoolean(default_ptr == null);
+	}
+
+	//originally operator==
 	public TitanBoolean operatorEquals(final Default_Base otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
@@ -53,7 +75,8 @@ public class TitanDefault extends Base_Type {
 
 		return new TitanBoolean(default_ptr == otherValue);
 	}
-	
+
+	//originally operator==
 	public TitanBoolean operatorEquals(final TitanDefault otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
@@ -73,6 +96,31 @@ public class TitanDefault extends Base_Type {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
 
+	}
+
+	//originally operator!=
+	public TitanBoolean operatorNotEquals(final int otherValue) {
+		return operatorEquals(otherValue).not();
+	}
+
+	//originally operator!=
+	public TitanBoolean operatorNotEquals(final Default_Base otherValue) {
+		return operatorEquals(otherValue).not();
+	}
+
+	//originally operator!=
+	public TitanBoolean operatorNotEquals(final TitanDefault otherValue) {
+		return operatorEquals(otherValue).not();
+	}
+
+	//originally has component parameter
+	public TitanDefault assign(final int otherValue) {
+		if (otherValue != TitanComponent.NULL_COMPREF) {
+			throw new TtcnError( "Assignment of an invalid default reference." );
+		}
+
+		default_ptr = null;
+		return this;
 	}
 
 	public TitanDefault assign(final Default_Base otherValue) {
@@ -103,7 +151,5 @@ public class TitanDefault extends Base_Type {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
-
 	}
-
 }
