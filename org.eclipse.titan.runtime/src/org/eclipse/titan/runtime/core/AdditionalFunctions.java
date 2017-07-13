@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -46,23 +47,43 @@ public class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2bit() is a negative integer value: {0}.", length));
 		}
 
-		int tempValue = value.getInt();
-		ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
-		for (int i = 0; i < (length + 7) / 8; i++) {
-			bits_ptr.add(new Byte((byte)0));
-		}
-		for (int i = length - 1; tempValue != 0 && i >= 0; i--) {
-			if((tempValue & 1) > 0) {
-				int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
-				bits_ptr.set(i / 8, new Byte((byte) temp));
+		if (value.isNative()) {
+			int tempValue = value.getInt();
+			ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
+			for (int i = 0; i < (length + 7) / 8; i++) {
+				bits_ptr.add(new Byte((byte)0));
 			}
-			tempValue = tempValue >> 1;
-		}
-		if (tempValue != 0) {
-			throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}.", value, length, length > 1 ? "s" : ""));
-		}
+			for (int i = length - 1; tempValue != 0 && i >= 0; i--) {
+				if((tempValue & 1) > 0) {
+					int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
+					bits_ptr.set(i / 8, new Byte((byte) temp));
+				}
+				tempValue = tempValue >> 1;
+			}
+			if (tempValue != 0) {
+				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}.", value, length, length > 1 ? "s" : ""));
+			}
 
-		return new TitanBitString(bits_ptr, length);
+			return new TitanBitString(bits_ptr, length);
+		} else {
+			BigInteger tempValue = value.getBigInteger();
+			ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
+			for (int i = 0; i < (length + 7) / 8; i++) {
+				bits_ptr.add(new Byte((byte)0));
+			}
+			for (int i = length - 1; tempValue.compareTo(BigInteger.ZERO) == 1 && i >= 0; i--) {
+				if((tempValue.and(BigInteger.ONE)).compareTo(BigInteger.ZERO) == 1) {
+					int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
+					bits_ptr.set(i / 8, new Byte((byte) temp));
+				}
+				tempValue = tempValue.shiftRight(1);
+			}
+			if (tempValue.compareTo(BigInteger.ZERO) != 0) {
+				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}.", value, length, length > 1 ? "s" : ""));
+			}
+
+			return new TitanBitString(bits_ptr, length);
+		}
 	}
 
 	public static TitanBitString int2bit(final TitanInteger value, final TitanInteger length) {
