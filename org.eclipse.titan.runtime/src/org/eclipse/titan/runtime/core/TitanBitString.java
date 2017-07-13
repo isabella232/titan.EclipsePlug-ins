@@ -125,11 +125,11 @@ public class TitanBitString extends Base_Type {
 	 * @param aBitIndex
 	 * @return bit value ( 0 or 1 )
 	 */
-	public boolean getBit( final int aBitIndex ) {
+	boolean getBit( final int aBitIndex ) {
 		return ( bits_ptr.get( aBitIndex / 8 ) & ( 1 << ( aBitIndex % 8 ) ) ) != 0;
 	}
 
-	public void setBit( final int aBitIndex, final boolean aNewValue ) {
+	void setBit( final int aBitIndex, final boolean aNewValue ) {
 		final int mask = 1 << ( aBitIndex % 8 );
 		// the index of the actual byte, where the modification is made
 		final int listIndex = aBitIndex / 8;
@@ -494,7 +494,6 @@ public class TitanBitString extends Base_Type {
 	//originally operator<<
 	public TitanBitString shiftLeft(final TitanInteger otherValue){
 		mustBound("Unbound bitstring operand of shift left operator.");
-		
 		return shiftLeft(otherValue.getInt());
 	}
 	
@@ -541,10 +540,9 @@ public class TitanBitString extends Base_Type {
 	//originally operator>>
 	public TitanBitString shiftRight(final TitanInteger otherValue){
 		mustBound("Unbound bitstring operand of shift left operator.");
-
 		return shiftRight(otherValue.getInt());
 	}
-
+	
 	//originally operator<<=
 	public TitanBitString rotateLeft(int rotateCount){
 		mustBound("Unbound bistring operand of rotate left operator.");
@@ -597,7 +595,7 @@ public class TitanBitString extends Base_Type {
 
 		return this.rotateRight(rotateCount.getInt());
 	}
-	
+
 	//originally operator[](int)
 	public TitanBitString_Element getAt(final int index_value) {
 		if (bits_ptr == null && index_value == 0) {
