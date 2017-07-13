@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -496,4 +497,14 @@ public final class RotateLeftExpression extends Expression_Value {
 	public Value getValue2() {
 		return value2;
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		value1.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(".rotateLeft( ");
+		value2.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(" )");
+	}
+	
 }
