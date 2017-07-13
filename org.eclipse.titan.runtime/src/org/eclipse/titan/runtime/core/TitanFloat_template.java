@@ -11,7 +11,8 @@ import java.util.ArrayList;
 
 /**
  * TTCN-3 float template
- *
+ * @author Farkas Izabella Ingrid  
+ * 
  * Not yet complete rewrite
  */
 public class TitanFloat_template extends Base_Template {
@@ -198,14 +199,124 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
-	//TODO: implement set_type
-	//TODO: implement list_item
-	//TODO: implement setMin
-	//TODO: implement setMax
-	//TODO: implement setMinExclusive
-	//TODO: implement setMaxExclusive
-	//TODO: implement valueOf
-	//TODO: implement isPresent
-	//TODO: implement match_omit
-	
+	public void setType(template_sel templateType){
+		setType(templateType,0);
+	}
+
+	public void setType(template_sel templateType, int listLength ){
+		cleanUp();
+		switch (templateType) {
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			setSelection(templateType);
+			value_list = new ArrayList<TitanFloat_template>(listLength);
+			break;
+		case VALUE_RANGE:
+			setSelection(template_sel.VALUE_RANGE);
+			min_is_present = false;
+			max_is_present = false;
+			min_is_exclusive = false;
+			max_is_exclusive = false;
+			break;
+		default:
+			throw new TtcnError("Setting an invalid type for a float template.");
+		}
+	}
+
+	public TitanFloat_template list_item(int index) {
+		if (templateSelection != template_sel.VALUE_LIST &&
+				templateSelection != template_sel.COMPLEMENTED_LIST)
+			throw new TtcnError("Accessing a list element of a non-list float template.");
+		if (index >= value_list.size())
+			throw new TtcnError("Index overflow in a float value list template.");
+		return value_list.get(index);
+	}
+
+	public void setMin(double minValue) {
+		if (templateSelection != template_sel.VALUE_RANGE)
+			throw new TtcnError("Float template is not range when setting lower limit.");
+		if (max_is_present && min_is_present && max_value.isLessThan(min_value).getValue())
+			throw new TtcnError("The lower limit of the range is greater than the "
+					+"upper limit in a float template.");
+		min_is_present = true;
+		min_is_exclusive = false;
+		min_value = new TitanFloat(minValue);
+	}
+
+	public void setMin(final TitanFloat  minValue){
+		minValue.mustBound("Using an unbound value when setting the lower bound "
+				+ "in a float range template.");
+		setMin(minValue.getValue());
+	}
+
+	public void setMax(double maxValue){
+		if (templateSelection != template_sel.VALUE_RANGE)
+			throw new TtcnError("Float template is not range when setting upper limit.");
+		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value).getValue())
+			throw new TtcnError("The upper limit of the range is smaller than the "
+					+"lower limit in a float template.");
+		max_is_present = true;
+		max_is_exclusive = false;
+		max_value = new TitanFloat(maxValue);
+	}
+
+	public void setMax(final TitanFloat maxValue){
+		maxValue.mustBound("Using an unbound value when setting the upper bound "
+				+"in a float range template.");
+		setMax(maxValue.getValue());
+	}
+
+	public void setMinExclusive(boolean minExclusive){
+		if (templateSelection != template_sel.VALUE_RANGE)
+			throw new TtcnError("Float template is not range when setting lower limit exclusiveness.");
+		min_is_exclusive = minExclusive;
+	}
+
+	public void setMaxExclusive(boolean maxExclusive){
+		if (templateSelection != template_sel.VALUE_RANGE)
+			throw new TtcnError("Float template is not range when setting upper limit exclusiveness.");
+		max_is_exclusive = maxExclusive;
+	}
+
+	public TitanFloat valueOf(){
+		if (templateSelection != template_sel.SPECIFIC_VALUE  || is_ifPresent)
+			throw new TtcnError("Performing a valueof or send operation on a non-specific float template.");
+
+		return single_value;
+	}
+
+	public TitanBoolean isPresent(){
+		return isPresent(false);
+	}
+
+	public TitanBoolean isPresent(boolean legacy){
+		if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) 
+			return new TitanBoolean(false);
+
+		return matchOmit(legacy).not();
+	}
+
+	public TitanBoolean matchOmit(){
+		return matchOmit(false);
+	}
+
+	public TitanBoolean matchOmit(boolean legacy){
+		if(is_ifPresent) return new TitanBoolean(true);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_OR_OMIT: 
+			return new TitanBoolean(true);
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			if(legacy){
+				for (int i=0; i<value_list.size(); i++)
+					if (value_list.get(i).matchOmit().getValue())
+						return new TitanBoolean( templateSelection==template_sel.VALUE_LIST);
+				return new TitanBoolean(templateSelection==template_sel.COMPLEMENTED_LIST);
+			}
+		}
+
+		return new TitanBoolean(false);
+	}
 }
