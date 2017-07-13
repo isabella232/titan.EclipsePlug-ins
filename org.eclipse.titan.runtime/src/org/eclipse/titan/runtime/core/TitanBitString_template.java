@@ -14,6 +14,7 @@ import java.util.List;
  * TTCN-3 bitstring template
  *
  * @author Arpad Lovassy
+ * @author Gergo Ujhelyi
  */
 public class TitanBitString_template extends Base_Template {
 
@@ -53,13 +54,29 @@ public class TitanBitString_template extends Base_Template {
 		single_value = new TitanBitString(otherValue);
 	}
 
-	//TODO: implement constructor with bitstring element
-	//TODO: implement constructor with optional element
+	public TitanBitString_template (final TitanBitString_Element otherValue){
+		super(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanBitString((byte)(otherValue.get_bit() ? 1 : 0));
+	}
+
+	public TitanBitString_template(final Optional<TitanBitString> otherValue){
+		switch (otherValue.getSelection()) {
+		case OPTIONAL_PRESENT:
+			setSelection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanBitString(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			setSelection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a bitstring template from an unbound optional field.");
+		}
+	}
 	
 	public TitanBitString_template (final TitanBitString_template otherValue) {
 		copyTemplate(otherValue);
 	}
-
+	
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -104,9 +121,16 @@ public class TitanBitString_template extends Base_Template {
 
 		return this;
 	}
-
-	//TODO: implement BITSTRING_template::assign for bitstring element
-	//TODO: implement BITSTRING_template::assign for optional
+	
+	//originally operator=
+	public TitanBitString_template assign( final TitanBitString_Element otherValue ){
+		otherValue.mustBound("Assignment of an unbound bitstring element to a template.");
+		cleanUp();
+		setSelection(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanBitString((byte)(otherValue.get_bit() ? 1 : 0));
+		return this;
+		
+	}
 
 	//originally operator=
 	public TitanBitString_template assign( final TitanBitString_template otherValue ) {
@@ -115,6 +139,23 @@ public class TitanBitString_template extends Base_Template {
 			copyTemplate(otherValue);
 		}
 
+		return this;
+	}
+
+	//originally operator=
+	public TitanBitString_template assign(final Optional<TitanBitString> otherValue){
+		cleanUp();
+		switch (otherValue.getSelection()) {
+		case OPTIONAL_PRESENT:
+			setSelection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanBitString(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			setSelection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Assignment of an unbound optional field to a bitstring template.");
+		}
 		return this;
 	}
 

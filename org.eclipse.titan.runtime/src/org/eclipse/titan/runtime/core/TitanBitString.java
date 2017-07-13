@@ -29,7 +29,7 @@ public class TitanBitString extends Base_Type {
 	private int n_bits;
 
 	public TitanBitString() {
-		bits_ptr = null;
+		bits_ptr = new ArrayList<Byte>();
 		n_bits = 0;
 	}
 
@@ -125,11 +125,11 @@ public class TitanBitString extends Base_Type {
 	 * @param aBitIndex
 	 * @return bit value ( 0 or 1 )
 	 */
-	boolean getBit( final int aBitIndex ) {
+	public boolean getBit( final int aBitIndex ) {
 		return ( bits_ptr.get( aBitIndex / 8 ) & ( 1 << ( aBitIndex % 8 ) ) ) != 0;
 	}
 
-	void setBit( final int aBitIndex, final boolean aNewValue ) {
+	public void setBit( final int aBitIndex, final boolean aNewValue ) {
 		final int mask = 1 << ( aBitIndex % 8 );
 		// the index of the actual byte, where the modification is made
 		final int listIndex = aBitIndex / 8;
@@ -492,9 +492,9 @@ public class TitanBitString extends Base_Type {
 	}
 	
 	//originally operator<<
-	//FIXME: temporally implement
-	public TitanBitString shiftLeft(TitanInteger otherValue){
+	public TitanBitString shiftLeft(final TitanInteger otherValue){
 		mustBound("Unbound bitstring operand of shift left operator.");
+		
 		return shiftLeft(otherValue.getInt());
 	}
 	
@@ -539,17 +539,65 @@ public class TitanBitString extends Base_Type {
 	}
 	
 	//originally operator>>
-	//FIXME: temporally implement
-	public TitanBitString shiftRight(TitanInteger otherValue){
+	public TitanBitString shiftRight(final TitanInteger otherValue){
 		mustBound("Unbound bitstring operand of shift left operator.");
+
 		return shiftRight(otherValue.getInt());
 	}
-	
-	//TODO: implement BITSTRING::operator<< (shiftLeft)
-	//TODO: implement BITSTRING::operator>> (shiftRight)
-	//TODO: implement BITSTRING::operator<<= (rotateLeft)
-	//TODO: implement BITSTRING::operator>>= (rotateRight)
 
+	//originally operator<<=
+	public TitanBitString rotateLeft(int rotateCount){
+		mustBound("Unbound bistring operand of rotate left operator.");
+
+		if(n_bits == 0){
+			return this;
+		}
+		if(rotateCount >= 0){
+			rotateCount %= n_bits;
+			if(rotateCount == 0){
+				return this;
+			} else {
+				return ((this.shiftLeft(rotateCount)).or4b(this.shiftRight(n_bits-rotateCount)) );
+			}
+		} else {
+			return this.rotateRight(-rotateCount);
+		}
+	}
+
+	//originally operator<<=
+	public TitanBitString rotateLeft(final TitanInteger rotateCount){
+		mustBound("Unbound bistring operand of rotate left operator.");
+
+		return this.rotateLeft(rotateCount.getInt());
+	}
+	
+	//originally operator>>=
+	public TitanBitString rotateRight(int rotateCount){
+		mustBound("Unbound bistring operand of rotate right operator.");
+		
+		if(n_bits == 0){
+			return this;
+		}
+		if(rotateCount >= 0){
+			rotateCount %= n_bits;
+			if(rotateCount == 0){
+				return this;
+			} else {
+				return ((this.shiftRight(rotateCount)).or4b(this.shiftLeft(n_bits-rotateCount)) );
+			}
+		} else {
+			return this.rotateLeft(-rotateCount);
+		}
+		
+	}
+	
+	//originally operator<<=
+	public TitanBitString rotateRight(final TitanInteger rotateCount){
+		mustBound("Unbound bistring operand of rotate left operator.");
+
+		return this.rotateRight(rotateCount.getInt());
+	}
+	
 	//originally operator[](int)
 	public TitanBitString_Element getAt(final int index_value) {
 		if (bits_ptr == null && index_value == 0) {
