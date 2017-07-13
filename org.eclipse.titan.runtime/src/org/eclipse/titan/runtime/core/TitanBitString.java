@@ -29,7 +29,7 @@ public class TitanBitString extends Base_Type {
 	private int n_bits;
 
 	public TitanBitString() {
-		bits_ptr = new ArrayList<Byte>();
+		bits_ptr = null;
 		n_bits = 0;
 	}
 
@@ -144,6 +144,8 @@ public class TitanBitString extends Base_Type {
 
 	//originally char*()
 	public List<Byte> getValue() {
+		mustBound("Casting an unbound bitstring value to const unsigned char*.");
+
 		return bits_ptr;
 	}
 
@@ -158,6 +160,7 @@ public class TitanBitString extends Base_Type {
 	//originally operator=
 	public TitanBitString assign(final TitanBitString_Element otherValue){
 		otherValue.mustBound("Assignment of an unbound bitstring element to a bitstring.");
+
 		boolean bitValue = otherValue.get_bit();
 		cleanUp();
 		n_bits = 1;
@@ -248,7 +251,6 @@ public class TitanBitString extends Base_Type {
 	public TitanBoolean operatorNotEquals(final TitanBitString_Element aOtherValue){
 		return operatorEquals(aOtherValue).not();
 	}
-	
 
 	public void cleanUp() {
 		n_bits = 0;
