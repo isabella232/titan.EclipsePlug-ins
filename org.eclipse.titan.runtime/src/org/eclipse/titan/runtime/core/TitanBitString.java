@@ -125,11 +125,11 @@ public class TitanBitString extends Base_Type {
 	 * @param aBitIndex
 	 * @return bit value ( 0 or 1 )
 	 */
-	public boolean getBit( final int aBitIndex ) {
+	boolean getBit( final int aBitIndex ) {
 		return ( bits_ptr.get( aBitIndex / 8 ) & ( 1 << ( aBitIndex % 8 ) ) ) != 0;
 	}
 
-	public void setBit( final int aBitIndex, final boolean aNewValue ) {
+	void setBit( final int aBitIndex, final boolean aNewValue ) {
 		final int mask = 1 << ( aBitIndex % 8 );
 		// the index of the actual byte, where the modification is made
 		final int listIndex = aBitIndex / 8;
