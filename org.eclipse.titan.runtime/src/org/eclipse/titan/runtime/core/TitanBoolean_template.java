@@ -151,57 +151,52 @@ public class TitanBoolean_template extends Base_Template {
 		return single_value.operatorEquals( otherValue );
 	}
 
-	//match
+	// match
 	public TitanBoolean match(final boolean otherValue) {
 		return match(otherValue, false);
 	}
-	public TitanBoolean match(final boolean otherValue, final boolean legacy)
-	{
-	switch (templateSelection) 
-	{
-	case SPECIFIC_VALUE:
-		return single_value.operatorEquals(otherValue);
-	case OMIT_VALUE:
-		return new TitanBoolean(false);
-	case ANY_VALUE:
-	case ANY_OR_OMIT:
-		return new TitanBoolean(true);
-	case VALUE_LIST:
-	case COMPLEMENTED_LIST:
-		for(int i=0;i<value_list.size();i++)
-		{
-			if(value_list.get(i).match(otherValue, legacy).getValue())
-			{
-				return new TitanBoolean(templateSelection==template_sel.VALUE_LIST);
-			}
-		}
-		return new TitanBoolean(templateSelection==template_sel.COMPLEMENTED_LIST);
-	default: throw new TtcnError("Matching with an uninitialized/unsupported boolean template.");
 
-	}
-	
-	}
-	public TitanBoolean match(final TitanBoolean otherValue) {
-	return match(otherValue, false);
-	}
-	public TitanBoolean match(final TitanBoolean otherValue, final boolean legacy)
-	{
-	if(!otherValue.isBound())
-	{
-		return new TitanBoolean(false);
-	}
-	return match(otherValue.getValue(), legacy);
-	}
-	
-	//valueof
-	public TitanBoolean valueof()
-	{
-		if ( templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent ) {
-			throw new TtcnError( "Performing valueof or send operation on a non-specific boolean template." );
+	public TitanBoolean match(final boolean otherValue, final boolean legacy) {
+		switch (templateSelection) {
+		case SPECIFIC_VALUE:
+			return single_value.operatorEquals(otherValue);
+		case OMIT_VALUE:
+			return new TitanBoolean(false);
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			return new TitanBoolean(true);
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy).getValue()) {
+					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+				}
+			}
+			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+		default:
+			throw new TtcnError("Matching with an uninitialized/unsupported boolean template.");
 		}
+	}
+
+	public TitanBoolean match(final TitanBoolean otherValue) {
+		return match(otherValue, false);
+	}
+
+	public TitanBoolean match(final TitanBoolean otherValue, final boolean legacy) {
+		if (!otherValue.isBound()) {
+			return new TitanBoolean(false);
+		}
+
+		return match(otherValue.getValue(), legacy);
+	}
+
+	// valueof
+	public TitanBoolean valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			throw new TtcnError("Performing valueof or send operation on a non-specific boolean template.");
+		}
+
 		return single_value;
 	}
-	
-
 }
 
