@@ -14,6 +14,7 @@ import java.util.List;
  * TTCN-3 bitstring template
  *
  * @author Arpad Lovassy
+ * @author Gergo Ujhelyi
  */
 public class TitanBitString_template extends Base_Template {
 
@@ -122,8 +123,14 @@ public class TitanBitString_template extends Base_Template {
 	}
 	
 	//originally operator=
-	//TODO: implement BITSTRING_template::assign for bitstring element
-	//TODO: implement BITSTRING_template::assign for optional
+	public TitanBitString_template assign( final TitanBitString_Element otherValue ){
+		otherValue.mustBound("Assignment of an unbound bitstring element to a template.");
+		cleanUp();
+		setSelection(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanBitString((byte)(otherValue.get_bit() ? 1 : 0));
+		return this;
+		
+	}
 
 	//originally operator=
 	public TitanBitString_template assign( final TitanBitString_template otherValue ) {
@@ -132,6 +139,23 @@ public class TitanBitString_template extends Base_Template {
 			copyTemplate(otherValue);
 		}
 
+		return this;
+	}
+
+	//originally operator=
+	public TitanBitString_template assign(final Optional<TitanBitString> otherValue){
+		cleanUp();
+		switch (otherValue.getSelection()) {
+		case OPTIONAL_PRESENT:
+			setSelection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanBitString(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			setSelection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Assignment of an unbound optional field to a bitstring template.");
+		}
 		return this;
 	}
 
