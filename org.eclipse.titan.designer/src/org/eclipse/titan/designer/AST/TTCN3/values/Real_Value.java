@@ -295,6 +295,12 @@ public final class Real_Value extends Value {
 			} else {
 				return "-Double.NEGATIVE_INFINITY";
 			}
+		} else if(value == 0.0) {
+			if (1.0/value == Double.NEGATIVE_INFINITY) {
+				return "-0.0";
+			} else {
+				return "0.0";
+			}
 		} else {
 			return Double.toString(value);
 		}
