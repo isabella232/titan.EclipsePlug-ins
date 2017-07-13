@@ -976,7 +976,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		source.append( "\t" );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() body is not implemented!\n" );
+		source.append( ".generateCode() body is not fully implemented!\n" );
 		source.append( ";\n" );
 	}
 
