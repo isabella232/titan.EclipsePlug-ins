@@ -7,7 +7,6 @@ import java.text.MessageFormat;
  *
  * @author Kristof Szabados
  * 
- * FIXME implement rest
  */
 public class TitanDefault extends Base_Type {
 	// TODO check if we could use null instead of this object
@@ -82,7 +81,7 @@ public class TitanDefault extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
 	}
 
-	//originally operator==
+	//originally operator== with component parameter
 	public TitanBoolean operatorEquals(final int otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("The left operand of comparison is an unbound default reference.");
@@ -125,7 +124,7 @@ public class TitanDefault extends Base_Type {
 
 	}
 
-	//originally operator!=
+	//originally operator!= with component parameter
 	public TitanBoolean operatorNotEquals(final int otherValue) {
 		return operatorEquals(otherValue).not();
 	}
@@ -151,7 +150,7 @@ public class TitanDefault extends Base_Type {
 
 	@Override
 	public boolean isPresent() {
-		return default_ptr != UNBOUND_DEFAULT;
+		return isBound();
 	}
 
 	@Override
@@ -166,5 +165,36 @@ public class TitanDefault extends Base_Type {
 
 	public void cleanUp() {
 		default_ptr = UNBOUND_DEFAULT;
+	}
+
+	//originally static operator== with component parameter
+	public static TitanBoolean operatorEquals(final int defaultValue, final TitanDefault otherValue) {
+		if (defaultValue != TitanComponent.NULL_COMPREF) {
+			throw new TtcnError("The left operand of comparison is an invalid default reference.");
+		}
+		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
+			throw new TtcnError("The right operand of comparison is an unbound default reference.");
+		}
+
+		return new TitanBoolean(otherValue.default_ptr == null);
+	}
+
+	//originally static operator== with component parameter
+	public static TitanBoolean operatorEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
+		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
+			throw new TtcnError("The right operand of comparison is an unbound default reference.");
+		}
+
+		return new TitanBoolean(defaultValue == otherValue.default_ptr);
+	}
+
+	//originally static operator!= with component parameter
+	public static TitanBoolean operatorNotEquals(final int defaultValue, final TitanDefault otherValue) {
+		return operatorEquals(defaultValue, otherValue).not();
+	}
+
+	//originally static operator!= with component parameter
+	public static TitanBoolean operatorNotEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
+		return operatorEquals(defaultValue, otherValue).not();
 	}
 }
