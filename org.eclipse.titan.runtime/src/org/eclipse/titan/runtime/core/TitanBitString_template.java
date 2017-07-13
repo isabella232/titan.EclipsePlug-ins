@@ -53,13 +53,29 @@ public class TitanBitString_template extends Base_Template {
 		single_value = new TitanBitString(otherValue);
 	}
 
-	//TODO: implement constructor with bitstring element
-	//TODO: implement constructor with optional element
+	public TitanBitString_template (final TitanBitString_Element otherValue){
+		super(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanBitString((byte)(otherValue.get_bit() ? 1 : 0));
+	}
+
+	public TitanBitString_template(final Optional<TitanBitString> otherValue){
+		switch (otherValue.getSelection()) {
+		case OPTIONAL_PRESENT:
+			setSelection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanBitString(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			setSelection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a bitstring template from an unbound optional field.");
+		}
+	}
 	
 	public TitanBitString_template (final TitanBitString_template otherValue) {
 		copyTemplate(otherValue);
 	}
-
+	
 	//originally clean_up
 	public void cleanUp() {
 		switch (templateSelection) {
@@ -104,7 +120,8 @@ public class TitanBitString_template extends Base_Template {
 
 		return this;
 	}
-
+	
+	//originally operator=
 	//TODO: implement BITSTRING_template::assign for bitstring element
 	//TODO: implement BITSTRING_template::assign for optional
 
