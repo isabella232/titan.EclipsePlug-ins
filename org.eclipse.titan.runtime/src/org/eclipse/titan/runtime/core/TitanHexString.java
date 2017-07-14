@@ -72,8 +72,6 @@ public class TitanHexString extends Base_Type {
 		}
 		return newList;
 	}
-	//TODO:  HEXSTRING operator&(const HEXSTRING& other_value) const;
-	//TODO:  HEXSTRING operator&(const HEXSTRING_ELEMENT& other_value) const;
 	//TODO:  HEXSTRING operator|(const HEXSTRING& other_value) const;
 	//TODO:  HEXSTRING operator|(const HEXSTRING_ELEMENT& other_value) const;
 	//TODO:  HEXSTRING operator^(const HEXSTRING& other_value) const;
@@ -389,5 +387,37 @@ public class TitanHexString extends Base_Type {
 		byte result = (byte)(get_nibble(0) & otherValue.get_nibble());
 		return new TitanHexString(result);
 	}
+	
+	//originally operator|
+	public TitanHexString or4b(final TitanHexString otherValue){
+		mustBound("Left operand of operator and4b is an unbound hexstring value.");
+		otherValue.mustBound("Right operand of operator and4b is an unbound hexstring value.");
 
+		if(lengthOf() != otherValue.lengthOf()){
+			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
+		}
+		if(lengthOf() == 0){
+			return this;
+		}
+		int n_bytes = (lengthOf() + 1 ) / 2;
+		List<Byte> result = new ArrayList<Byte>(n_bytes);
+		for (int i = 0; i < n_bytes; i++) {
+			result.set(i, (byte)(nibbles_ptr.get(i) | otherValue.nibbles_ptr.get(i)));
+		}
+		TitanHexString ret_val = new TitanHexString(result);
+		return ret_val;
+	}
+	
+	//originally operator|
+	public TitanHexString or4b(final TitanHexString_Element otherValue){
+		mustBound("Left operand of operator or4b is an unbound hexstring value.");
+		otherValue.mustBound("Right operand of operator or4b is an unbound hexstring element.");
+		
+		if(lengthOf() != 1){
+			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
+		}
+		byte result = (byte)(get_nibble(0) | otherValue.get_nibble());
+		return new TitanHexString(result);
+	}
+	
 }
