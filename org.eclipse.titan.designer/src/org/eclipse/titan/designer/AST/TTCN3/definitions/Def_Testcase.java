@@ -556,11 +556,12 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		aData.addBuiltinTypeImport( "TtcnError" );
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport( "Ttcn3Float" );
+		aData.addBuiltinTypeImport("TitanVerdictType");
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		source.append( "\tpublic static final " );
 
 		// return value
-		source.append( "void testcase_" );
+		source.append( "TitanVerdictType testcase_" );
 
 		// function name
 		source.append( genName );
@@ -579,8 +580,8 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("} catch (TtcnError error) {\n");
 		source.append("System.out.println(error);\n");
 		source.append("}\n");
-		//FIXME return verdittype
-		source.append("TTCN_Runtime.end_testcase();\n");
+
+		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
 		source.append( "}\n" );
 		sb.append(source);
 	}
