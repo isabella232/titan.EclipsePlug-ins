@@ -304,7 +304,7 @@ public final class OrExpression extends Expression_Value {
 		} else {
 			//TODO actually a bit more complicated
 			value1.generateCodeExpressionMandatory(aData, expression);
-			expression.expression.append( ".and( " );
+			expression.expression.append( ".or( " );
 			value2.generateCodeExpressionMandatory(aData, expression);
 			expression.expression.append( " )" );
 		}

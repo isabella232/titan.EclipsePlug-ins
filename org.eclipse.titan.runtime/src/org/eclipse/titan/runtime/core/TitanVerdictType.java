@@ -31,10 +31,10 @@ public class TitanVerdictType extends Base_Type {
 
 	public static final String verdict_name[] = { "none", "pass", "inconc", "fail", "error" };
 
-	private VerdictTypeEnum verdict_value = null;
+	private VerdictTypeEnum verdict_value;
 
-	TitanVerdictType() {
-		//do nothing
+	public TitanVerdictType() {
+		verdict_value = null;
 	}
 
 	public TitanVerdictType(final VerdictTypeEnum other_value) {

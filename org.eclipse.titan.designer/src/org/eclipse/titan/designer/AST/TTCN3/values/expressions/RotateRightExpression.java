@@ -493,7 +493,7 @@ public final class RotateRightExpression extends Expression_Value {
 	public Value getValue2() {
 		return value2;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
