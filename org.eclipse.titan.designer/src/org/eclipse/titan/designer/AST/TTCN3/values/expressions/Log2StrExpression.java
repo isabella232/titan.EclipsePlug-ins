@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.statements.LogArguments;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -144,4 +145,22 @@ public final class Log2StrExpression extends Expression_Value {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		if ( logArguments == null ) {
+			return;
+		}
+
+		aData.addBuiltinTypeImport("TitanCharString");
+
+		//FIXME implement logging
+		expression.expression.append("new TitanCharString(");
+		logArguments.generateCodeExpression(aData, expression);
+		expression.expression.append(')');
+		expression.expression.append( "//TODO this is only temporal implementation!\n" );
+	}
+
+	
 }

@@ -146,17 +146,19 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		if ( arguments == null ) {
 			return;
 		}
+
+		//FIXME implement logging
 		final int size = arguments.size();
 		if ( size > 0 ) {
-			source.append( " " );
+			source.append( "new StringBuilder()");
 			for ( int i = 0; i < size; i++ ) {
-				if ( i > 0 ) {
-					source.append( ", " );
-				}
+				source.append( ".append(" );
 				arguments.get( i ).generateCode( aData, source );
+				source.append(')');
 			}
-			source.append( " " );
+			source.append(".toString()");
 		}
+		source.append( "//TODO this is only temporal implementation!\n" );
 	}
 
 	/**
@@ -172,13 +174,15 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 			return;
 		}
 		//FIXME begin logging
+		expression.expression.append( "new StringBuilder()");
 		final int size = arguments.size();
 		for ( int i = 0; i < size; i++ ) {
-			if ( i > 0 ) {
-				expression.expression.append( ", " );
-			}
+			expression.expression.append( ".append(" );
 			arguments.get( i ).generateCodeExpression(aData, expression);
+			expression.expression.append( ')' );
 		}
+		expression.expression.append(".toString()");
+		expression.expression.append( "//TODO this is only temporal implementation!\n" );
 		//FIXME end logging
 	}
 }
