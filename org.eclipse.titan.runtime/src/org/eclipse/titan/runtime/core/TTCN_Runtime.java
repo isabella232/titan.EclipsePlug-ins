@@ -301,6 +301,19 @@ public class TTCN_Runtime {
 		//FIXME implement else
 	}
 
+	//originally getverdict
+	public static TitanVerdictType getVerdict() {
+		if (verdictEnabled()) {
+			//FIXME logging
+		} else if (inControlPart()) {
+			throw new TtcnError("Getverdict operation cannot be performed in the control part.");
+		} else {
+			throw new TtcnError("Internal error: Performing getverdict operation in invalid state.");
+		}
+
+		return new TitanVerdictType(localVerdict);
+	}
+
 	//originally setverdict_internal
 	private static void setverdictInternal(final TitanVerdictType.VerdictTypeEnum newValue, final String reason) {
 		if (newValue.getValue() < VerdictTypeEnum.NONE.getValue() || newValue.getValue() > VerdictTypeEnum.ERROR.getValue()) {

@@ -64,7 +64,7 @@ public class Ttcn3Float {
 	// originally operator<
 	boolean isLessThan( final double d ) {
 		if ( Double.isNaN( value ) ) {
-			return Double.isNaN( d ); // TTCN-3 special: NaN is bigger than anything except NaN
+			return false; // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( Double.isNaN( d ) ) {
 			return true; // TTCN-3 special: NaN is bigger than anything except NaN
 		} else if ( value == 0.0 && d == 0.0 ) { // does not distinguish -0.0

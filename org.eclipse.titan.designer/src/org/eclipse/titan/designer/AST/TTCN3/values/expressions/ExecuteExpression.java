@@ -14,7 +14,9 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
@@ -23,8 +25,10 @@ import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -233,5 +237,28 @@ public final class ExecuteExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		Assignment testcase = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));
+
+		List<ISubReference> subReferences = reference.getSubreferences();
+		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {
+			ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
+			if (actualParList.getNofParameters() > 0) {
+				actualParList.generateCodeAlias(aData, expression);
+				expression.expression.append(", ");
+			}
+		}
+
+		if (timerValue != null) {
+			expression.expression.append("true, ");
+			timerValue.generateCodeExpression(aData, expression);
+			expression.expression.append(')');
+		} else {
+			expression.expression.append("false, new TitanFloat( new Ttcn3Float( 0.0 ) ))");
+		}
 	}
 }
