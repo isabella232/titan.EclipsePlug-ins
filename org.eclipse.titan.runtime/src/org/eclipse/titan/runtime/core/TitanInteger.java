@@ -225,13 +225,7 @@ public class TitanInteger extends Base_Type {
 
 	//originally operator/
 	public TitanInteger div(final int otherValue){
-		mustBound("Unbound left operand of integer division.");
-
-		if(otherValue == 0){
-			throw new TtcnError("Integer division by zero.");
-		}
-
-		return this.div(new TitanInteger(otherValue));
+		return div(new TitanInteger(otherValue));
 	}
 
 	// originally operator/
@@ -516,19 +510,11 @@ public class TitanInteger extends Base_Type {
 
 	// static mul
 	public static TitanInteger mul(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer multiplication.");
-
 		return new TitanInteger(intValue).mul(otherValue);
 	}
 
 	// static operator/
 	public static TitanInteger div(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer division.");
-
-		if (otherValue.operatorEquals(0).getValue()) {
-			throw new TtcnError("Integer division by zero.");
-		}
-
 		return new TitanInteger(intValue).div(otherValue);
 	}
 
@@ -549,14 +535,10 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public static TitanInteger rem(final TitanInteger leftValue, final int rightValue) {
-		leftValue.mustBound("Unbound right operator of rem");
-
-		return rem(new TitanInteger(leftValue), rightValue);
+		return rem(leftValue, new TitanInteger(rightValue));
 	}
 
 	public static TitanInteger rem(int leftValue, final TitanInteger rightValue) {
-		rightValue.mustBound("Unbound right operator of rem");
-
 		return rem(new TitanInteger(leftValue), rightValue);
 	}
 
@@ -603,14 +585,10 @@ public class TitanInteger extends Base_Type {
 
 	// static mod
 	public static TitanInteger mod(final TitanInteger leftValue, int rightValue) {
-		leftValue.mustBound("Unbound left operand of mod operator.");
-
 		return mod(leftValue, new TitanInteger(rightValue));
 	}
 
 	public static TitanInteger mod(int leftValue, final TitanInteger rightValue) {
-		rightValue.mustBound("Unbound right operand of mod operator. ");
-
 		return mod(new TitanInteger(leftValue), rightValue);
 	}
 
@@ -639,65 +617,36 @@ public class TitanInteger extends Base_Type {
 
 	// mod with one parameter - int
 	public TitanInteger mod(final int rightValue) {
-		mustBound("Unbound left operand of mod operator");
-
-		TitanInteger rightValueAbs = new TitanInteger(rightValue);
-		if (rightValueAbs.isLessThan(0).getValue()) {
-			rightValueAbs = rightValueAbs.mul(-1);
-		} else if (rightValue == 0) {
-			throw new TtcnError("The right operand of mod operator is zero");
-		}
-		if (isGreaterThan(0).getValue()) {
-			return rem(this, rightValue);
-		} else {
-			TitanInteger result = rem(this, rightValueAbs);
-			if (result.operatorEquals(0).getValue()) {
-				return new TitanInteger(0);
-			} else {
-				return new TitanInteger(rightValueAbs.add(result));
-			}
-		}
+		return mod(new TitanInteger(rightValue));
 	}
 
 	// static operator==
 	public static TitanBoolean operatorEquals(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer comparison.");
-
 		return new TitanInteger(intValue).operatorEquals(otherValue);
 	}
 
 	// static operator!=
 	public static TitanBoolean operatorNotEquals(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer comparison.");
-
 		return new TitanInteger(intValue).operatorNotEquals(otherValue);
 	}
 
 	// static operator <
 	public static TitanBoolean isLessThan(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer comparison.");
-
 		return new TitanInteger(intValue).isLessThan(otherValue);
 	}
 
 	// static operator >
 	public static TitanBoolean isGreaterThan(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer comparison.");
-
 		return new TitanInteger(intValue).isGreaterThan(otherValue);
 	}
 
 	// static operator <=
 	public static TitanBoolean isLessThanOrEqual(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer comparison.");
-
 		return new TitanInteger(intValue).isLessThanOrEqual(otherValue);
 	}
 
 	// static operator >=
 	public static TitanBoolean isGreaterThanOrEqual(final int intValue, final TitanInteger otherValue) {
-		otherValue.mustBound("Unbound right operand of integer comparison.");
-
 		return new TitanInteger(intValue).isGreaterThanOrEqual(otherValue);
 	}
 }
