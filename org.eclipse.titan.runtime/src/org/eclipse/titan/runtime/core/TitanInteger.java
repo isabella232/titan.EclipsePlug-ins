@@ -428,6 +428,10 @@ public class TitanInteger extends Base_Type {
 		return isLessThan(otherValue).not();
 	}
 
+	public boolean isNative() {
+		return nativeFlag;
+	}
+
 	public boolean isBound() {
 		return boundFlag;
 	}
