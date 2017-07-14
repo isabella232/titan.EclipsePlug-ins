@@ -250,18 +250,18 @@ public class TitanBitString_template extends Base_Template {
 		}
 	}
 
-	//originally valueof
-	public TitanBitString valueOf(){
-		if(templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent){
+	// originally valueof
+	public TitanBitString valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific bitstring template.");
 		}
 
 		return single_value;
 	}
 
-	//originally lengthof
-	public int lengthOf(){
-		if(is_ifPresent){
+	// originally lengthof
+	public int lengthOf() {
+		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a bitstring template which has an ifpresent attribute.");
 		}
 		int min_length = 0;
@@ -280,12 +280,12 @@ public class TitanBitString_template extends Base_Template {
 			break;
 		case VALUE_LIST:
 			// error if any element does not have length or the lengths differ
-			if(value_list.isEmpty()){
+			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a bitstring template containing an empty list.");
 			}
 			int item_length = value_list.get(0).lengthOf();
 			for (int i = 1; i < value_list.size(); i++) {
-				if(value_list.get(i).lengthOf() != item_length){
+				if (value_list.get(i).lengthOf() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a bitstring template containing a value list with different lengths.");
 				}
 			}
@@ -298,7 +298,7 @@ public class TitanBitString_template extends Base_Template {
 			min_length = 0;
 			has_any_or_none = false;
 			for (int i = 0; i < pattern_value.size(); i++) {
-				if(pattern_value.get(i) < 3){ // case of 1, 0, ?
+				if (pattern_value.get(i) < 3) { // case of 1, 0, ?
 					min_length++;
 				} else {
 					has_any_or_none = true;
@@ -309,52 +309,57 @@ public class TitanBitString_template extends Base_Template {
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported bitstring template.");
 		}
 
+		//FIXME implement check_section_is_single 
 		return min_length;
 	}
 
-	public TitanBitString_template listItem(final int listIndex){
-		if(templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST){
+	//FIXME implement setType
+
+	public TitanBitString_template listItem(final int listIndex) {
+		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list bitstring template.");
 		}
-		if(listIndex >= value_list.size()){
+		if (listIndex >= value_list.size()) {
 			throw new TtcnError("Index overflow in a bitstring value list template.");
 		}
+
 		return value_list.get(listIndex);
 	}
 
-	//originally is_present
-	public boolean isPresent(boolean legacy){
-		if(templateSelection == template_sel.UNINITIALIZED_TEMPLATE){
+	// originally is_present
+	public boolean isPresent(boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
+
 		return !match_omit(legacy);
 	}
-	
-	public boolean match_omit(){
+
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public boolean match_omit(boolean legacy){
-		if(is_ifPresent){
+	public boolean match_omit(boolean legacy) {
+		if (is_ifPresent) {
 			return true;
 		}
-		
+
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			if(legacy){
+			if (legacy) {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if(value_list.get(i).match_omit()){
+					if (value_list.get(i).match_omit()) {
 						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
 				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
-			  // else fall through
+			// else fall through
 		}
 		return false;
 	}
