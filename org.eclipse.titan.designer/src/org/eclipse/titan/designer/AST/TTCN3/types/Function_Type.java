@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,23 +17,23 @@ import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
-import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
@@ -41,8 +42,11 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.RunsOnScope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.types.FunctionReferenceGenerator.FunctionReferenceDefinition;
+import org.eclipse.titan.designer.AST.TTCN3.types.FunctionReferenceGenerator.fatType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Function_Reference_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -363,6 +367,7 @@ public final class Function_Type extends Type {
 			assignment.check(timestamp);
 			break;
 		case TTCN3_NULL_VALUE:
+			value.setValuetype(timestamp, Value_type.FAT_NULL_VALUE);
 			return;
 		case EXPRESSION_VALUE:
 		case MACRO_VALUE:
@@ -667,5 +672,42 @@ public final class Function_Type extends Type {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		//TODO implemented here to not generate todo text into the code
+		return getGenNameOwn(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenNameOwn();
+		final String displayName = getFullName();
+
+		FunctionReferenceDefinition def = new FunctionReferenceDefinition(genName, displayName);
+		if (returnType == null) {
+			def.returnType = null;
+		} else {
+			if (returnsTemplate) {
+				def.returnType = returnType.getGenNameTemplate(aData, source, myScope);
+			} else {
+				def.returnType = returnType.getGenNameValue(aData, source, myScope);
+			}
+		}
+		def.type = fatType.FUNCTION;
+		def.runsOnSelf = runsOnSelf;
+		def.isStartable = isStartable;
+		def.formalParList = formalParList.generateCode(aData).toString();
+		def.actualParList = formalParList.generateCodeActualParlist("").toString();
+		def.parameters = new ArrayList<String>(formalParList.getNofParameters());
+		for ( int i = 0; i < formalParList.getNofParameters(); i++) {
+			def.parameters.add(formalParList.getParameterByIndex(i).getIdentifier().getName());
+		}
+
+		FunctionReferenceGenerator.generateValueClass(aData, source, def);
+		FunctionReferenceGenerator.generateTemplateClass(aData, source, def);
 	}
 }

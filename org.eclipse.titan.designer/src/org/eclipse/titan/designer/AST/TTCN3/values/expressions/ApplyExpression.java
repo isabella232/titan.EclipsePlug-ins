@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -46,6 +47,8 @@ public final class ApplyExpression extends Expression_Value {
 
 	private final Value value;
 	private final ParsedActualParameters actualParameterList;
+
+	private ActualParameterList actualParameters;
 
 	public ApplyExpression(final Value value, final ParsedActualParameters actualParameterList) {
 		this.value = value;
@@ -225,11 +228,11 @@ public final class ApplyExpression extends Expression_Value {
 			myScope.checkRunsOnScope(timestamp, type, this, "call");
 		}
 
-		final ActualParameterList tempActualParameters = new ActualParameterList();
+		actualParameters = new ActualParameterList();
 		final FormalParameterList formalParameterList = ((Function_Type) type).getFormalParameters();
-		if (!formalParameterList.checkActualParameterList(timestamp, actualParameterList, tempActualParameters)) {
-			tempActualParameters.setFullNameParent(this);
-			tempActualParameters.setMyScope(getMyScope());
+		if (!formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameters)) {
+			actualParameters.setFullNameParent(this);
+			actualParameters.setMyScope(getMyScope());
 		}
 
 		switch (expectedValue) {
@@ -306,5 +309,20 @@ public final class ApplyExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (value == null) {
+			return;
+		}
+
+		//FIXME a bit more complicated
+		value.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(".invoke(");
+		if (actualParameters != null) {
+			actualParameters.generateCodeAlias(aData, expression);
+		}
+		expression.expression.append(")");
 	}
 }

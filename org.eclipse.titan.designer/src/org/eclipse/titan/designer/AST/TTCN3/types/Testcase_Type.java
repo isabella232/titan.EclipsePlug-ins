@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.text.templates.Template;
@@ -34,8 +35,11 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.RunsOnScope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.types.FunctionReferenceGenerator.FunctionReferenceDefinition;
+import org.eclipse.titan.designer.AST.TTCN3.types.FunctionReferenceGenerator.fatType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Testcase_Reference_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3CodeSkeletons;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -263,6 +267,7 @@ public final class Testcase_Type extends Type {
 			testcase.check(timestamp);
 			break;
 		case TTCN3_NULL_VALUE:
+			value.setValuetype(timestamp, Value_type.FAT_NULL_VALUE);
 			return;
 		case EXPRESSION_VALUE:
 		case MACRO_VALUE:
@@ -442,5 +447,41 @@ public final class Testcase_Type extends Type {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		//TODO implemented here to not generate todo text into the code
+		return getGenNameOwn(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenNameOwn();
+		final String displayName = getFullName();
+
+		FunctionReferenceDefinition def = new FunctionReferenceDefinition(genName, displayName);
+		def.returnType = null;
+		def.type = fatType.TESTCASE;
+		def.runsOnSelf = false;
+		def.isStartable = false;
+		def.formalParList = formalParList.generateCode(aData).toString();
+		def.actualParList = formalParList.generateCodeActualParlist("").toString();
+		def.parameters = new ArrayList<String>(formalParList.getNofParameters());
+		if (formalParList.getNofParameters() > 0) {
+			def.formalParList = def.formalParList + ", ";
+			def.actualParList = def.actualParList + ", ";
+		}
+		def.formalParList = def.formalParList + "boolean has_timer, double timer_value";
+		def.actualParList = def.actualParList + "has_timer, timer_value";
+
+		for ( int i = 0; i < formalParList.getNofParameters(); i++) {
+			def.parameters.add(formalParList.getParameterByIndex(i).getIdentifier().getName());
+		}
+
+		FunctionReferenceGenerator.generateValueClass(aData, source, def);
+		FunctionReferenceGenerator.generateTemplateClass(aData, source, def);
 	}
 }

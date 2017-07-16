@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -120,5 +121,39 @@ public final class FAT_Null_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		StringBuilder result = new StringBuilder();
+
+		if (myGovernor != null) {
+			result.append(MessageFormat.format("({0})", myGovernor.getGenNameValue(aData, result, myScope)));
+		}
+		//get_fat_null is not needed
+		result.append( "null" );
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		//get_fat_null is not needed
+		source.append(name);
+		source.append(".assign( ");
+		if (myGovernor != null) {
+			source.append(MessageFormat.format("({0})", myGovernor.getGenNameValue(aData, source, myScope)));
+		}
+		source.append("null );\n");
+
+		return source;
 	}
 }

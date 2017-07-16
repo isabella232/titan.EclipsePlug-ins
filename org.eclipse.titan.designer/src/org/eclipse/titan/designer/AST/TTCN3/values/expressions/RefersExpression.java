@@ -7,27 +7,32 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
+import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Altstep_Reference_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Function_Reference_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Testcase_Reference_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -252,5 +257,54 @@ public final class RefersExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null || referredAssignment == null) {
+			expression.expression.append("// FATAL ERROR while processing refers expression\n");
+			return;
+		}
+
+		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if (!(lastGovernor instanceof Function_Type)) {
+			expression.expression.append("// FATAL ERROR while processing refers expression\n");
+			return;
+		}
+
+		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression, myScope)));
+		expression.expression.append("@Override\n");
+		expression.expression.append("public String getId() {\n");
+		expression.expression.append(MessageFormat.format("return \"{0}\";\n", referredAssignment.getFullName()));
+		expression.expression.append("}\n");
+		expression.expression.append("@Override\n");
+		expression.expression.append("public ");
+		Function_Type functionType = (Function_Type) lastGovernor;
+		Type returnType = functionType.getReturnType();
+		if (returnType == null) {
+			expression.expression.append("void");
+		} else {
+			if (functionType.returnsTemplate()) {
+				expression.expression.append(returnType.getGenNameTemplate(aData, expression.expression, myScope));
+			} else {
+				expression.expression.append(returnType.getGenNameValue(aData, expression.expression, myScope));
+			}
+		}
+		expression.expression.append(" invoke(");
+		functionType.getFormalParameters().generateCode(aData, expression.expression);
+		expression.expression.append(") {\n");
+		if (returnType != null) {
+			expression.expression.append("return ");
+		}
+		expression.expression.append(referredAssignment.getIdentifier().getName());
+		expression.expression.append('(');
+		expression.expression.append(functionType.getFormalParameters().generateCodeActualParlist(""));
+		expression.expression.append(");\n");
+		expression.expression.append("}\n");
+		expression.expression.append("})\n");
 	}
 }
