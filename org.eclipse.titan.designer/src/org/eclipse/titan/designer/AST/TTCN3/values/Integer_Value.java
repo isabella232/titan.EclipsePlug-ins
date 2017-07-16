@@ -266,7 +266,6 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 		StringBuilder result = new StringBuilder();
 
 		if (isNative()) {
-
 			result.append( "new TitanInteger( " );
 			result.append(value);
 			result.append( " )" );
@@ -299,6 +298,4 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 		source.append( " );\n" );
 		return source;
 	}
-
-
 }
