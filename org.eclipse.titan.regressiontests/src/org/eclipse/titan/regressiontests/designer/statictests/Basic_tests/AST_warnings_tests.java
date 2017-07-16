@@ -1172,7 +1172,7 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(39);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(38);
 		int lineNum = 134;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the final condition evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the final condition evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
@@ -1223,9 +1223,7 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("A variable entry for parameter `par1' is already given here",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 143;
 		markersToCheck.add(new MarkerToCheck("The call operation has a timer, but the timeout expection is not cought",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 69;
-		markersToCheck.add(new MarkerToCheck("Using `*' for a mandatory field",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 23;
+		lineNum += 92;
 		markersToCheck.add(new MarkerToCheck("The value returned by @statement_tests.f_functionwith_return is not used",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The template returned by @statement_tests.f_functionwith_returntemplate is not used",  ++lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The value returned by @statement_tests.ef_f_externalfunctionwith_return is not used",  ++lineNum, IMarker.SEVERITY_WARNING));

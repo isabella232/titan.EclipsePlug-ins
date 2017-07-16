@@ -400,7 +400,7 @@ public class Semantic_errors_tests {
 		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template `t_roi'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 14;
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 10;

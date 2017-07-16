@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -26,7 +27,6 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ValueList_Template;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -123,37 +123,17 @@ public final class Return_Statement extends Statement {
 				location.reportSemanticError(MessageFormat.format(MISSINGVALUE,  returnType.getTypename()));
 				break;
 			}
-
+			if (!template.isValue(timestamp)) {
+				template.getLocation().reportSemanticError(SPECIFICVALUEEXPECTED);
+				break;
+			}
 			// General:
 			template.setMyGovernor(returnType);
-			final ITTCN3Template temporalTemplate = returnType.checkThisTemplateRef(timestamp, template,Expected_Value_type.EXPECTED_DYNAMIC_VALUE,null);
-			temporalTemplate.checkThisTemplateGeneric(timestamp, returnType,
-					false, /* isModified */
-					false, /* allowOmit */
-					false, /* allowAnyOrOmit */
-					true, /* subCheck */
-					false /* implicitOmit */);
-			TemplateRestriction.check(timestamp, definition, temporalTemplate, null);
-
-			switch (template.getTemplatetype()) {
-			case SPECIFIC_VALUE:
-				break; //error handling in Types.java
-			case VALUE_LIST:
-				if (((ValueList_Template) template).getNofTemplates() == 1) {
-					// ValueList_Template with one element can be accepted as a
-					// hidden expression
-					// TODO: if you want to compile this, the type should change
-					// for SingleExpression
-					break;
-				}
-				//intentionally do not break
-			case VALUE_RANGE:
-			case TEMPLATE_LIST:
-			default:
-				if (!template.isValue(timestamp)) {
-					template.getLocation().reportSemanticError(SPECIFICVALUEEXPECTED);
-					break;
-				}
+			IValue value = template.getValue();
+			if (value != null) {
+				value.setMyGovernor(returnType);
+				returnType.checkThisValueRef(timestamp, value);
+				returnType.checkThisValue(timestamp, value, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, true, false, false));
 			}
 
 			break;
