@@ -2,6 +2,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.util.List;
 
+/**
+ * @author Farkas Izabella Ingrid
+ * */
+
 public class TitanOctetString_Element {
 	private boolean bound_flag;
 	private TitanOctetString str_val;
@@ -27,17 +31,17 @@ public class TitanOctetString_Element {
 		}
 	}
 
-	//originally operator=
+	// originally operator=
 	public TitanOctetString_Element assign( final TitanOctetString_Element other_value ) {
 		other_value.mustBound("Assignment of an unbound octetstring element.");
 
 		bound_flag = true;
-		str_val = new TitanOctetString( other_value.str_val );
 		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
+		
 		return this;
 	}
 
-	//originally operator=
+	// originally operator=
 	public TitanOctetString_Element assign( final TitanOctetString other_value ) {
 		other_value.mustBound("Assignment of unbound octetstring value.");
 
@@ -47,32 +51,31 @@ public class TitanOctetString_Element {
 		}
 
 		bound_flag = true;
-		str_val = new TitanOctetString( other_value );
 		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
 		return this;
 	}
 	
-	//originally operator==
-	public boolean operatorEquals( final TitanOctetString_Element other_value ) {
+	// originally operator==
+	public TitanBoolean operatorEquals( final TitanOctetString_Element other_value ) {
 		mustBound("Unbound left operand of octetstring element comparison.");
 		other_value.mustBound("Unbound right operand of octetstring comparison.");
 
-		return str_val.get_nibble(nibble_pos) == other_value.str_val.get_nibble( other_value.nibble_pos );
+		return new TitanBoolean(str_val.get_nibble(nibble_pos) == other_value.str_val.get_nibble( other_value.nibble_pos ));
 	}
 
-	//originally operator==
-	public boolean operatorEquals( final TitanOctetString other_value ) {
+	// originally operator==
+	public TitanBoolean operatorEquals( final TitanOctetString other_value ) {
 		mustBound("Unbound left operand of octetstring element comparison.");
 		other_value.mustBound("Unbound right operand of octetstring element comparison.");
 
 		if (other_value.getValue().size() != 1) {
-			return false;
+			return new TitanBoolean(false);
 		}
 
-		return str_val.get_nibble(nibble_pos) == other_value.get_nibble(0);
+		return new TitanBoolean(str_val.get_nibble(nibble_pos) == other_value.get_nibble(0));
 	}
 
-	//originally operator+
+	// originally operator+
 	public TitanOctetString append( final TitanOctetString other_value ) {
 		mustBound("Unbound left operand of octetstring element concatenation.");
 		other_value.mustBound("Unbound right operand of octetstring concatenation.");
@@ -89,7 +92,7 @@ public class TitanOctetString_Element {
 		return ret_val;
 	}
 
-	//originally operator+
+	// originally operator+
 	public TitanOctetString append( final TitanOctetString_Element other_value ) {
 		mustBound("Unbound left operand of octetstring element concatenation.");
 		other_value.mustBound("Unbound right operand of octetstring element concatenation.");
@@ -97,7 +100,7 @@ public class TitanOctetString_Element {
 		return new TitanOctetString( other_value.str_val );
 	}
 
-	//originally operator~
+	// originally operator~
 	public TitanOctetString operatorNot4b() {
 		mustBound("Unbound octetstring element operand of operator not4b.");
 
@@ -105,7 +108,7 @@ public class TitanOctetString_Element {
 		return new TitanOctetString( result );
 	}
 
-	//originally operator&
+	// originally operator&
 	public TitanOctetString operatorAnd4b(final TitanOctetString other_value) {
 		mustBound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound octetstring value.");
@@ -118,7 +121,7 @@ public class TitanOctetString_Element {
 		return new TitanOctetString( result );
 	}
 
-	//originally operator&
+	// originally operator&
 	public TitanOctetString operatorAnd4b(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound octetstring element.");
@@ -127,7 +130,7 @@ public class TitanOctetString_Element {
 		return new TitanOctetString( result );
 	}
 
-	//originally operator|
+	// originally operator|
 	public TitanOctetString operatorOr4b(final TitanOctetString other_value) {
 		mustBound("Left operand of operator or4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound octetstring value.");
