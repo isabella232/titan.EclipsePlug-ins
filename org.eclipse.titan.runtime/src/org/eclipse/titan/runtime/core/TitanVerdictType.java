@@ -145,7 +145,7 @@ public class TitanVerdictType extends Base_Type {
 			TtcnLogger.log_event_str( verdict_name[ verdict_value.ordinal() ] );
 		}
 		else {
-			TtcnLogger.log_event("<invalid verdict value: %d>", verdict_value);
+			TtcnLogger.log_event( MessageFormat.format( "<invalid verdict value: {0}>", verdict_value ) );
 		}
 	}
 
