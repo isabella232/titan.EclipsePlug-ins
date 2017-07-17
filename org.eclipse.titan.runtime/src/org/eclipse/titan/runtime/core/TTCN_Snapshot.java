@@ -16,6 +16,8 @@ public class TTCN_Snapshot {
 	//FIXME should be private
 	public static Selector selector;
 
+	//[else] branch of alt was reached
+	private static boolean else_branch_found;
 	// The last time a snapshot was taken
 	private static double alt_begin;
 
@@ -30,7 +32,20 @@ public class TTCN_Snapshot {
 			
 		}
 
+		else_branch_found = false;
 		alt_begin = timeNow();
+	}
+
+	/**
+	 * Execution reached an else branch of an alt.
+	 * If this is the first time we must warn the user.
+	 * */
+	public static void elseBranchReached() {
+		if (!else_branch_found) {
+			else_branch_found = true;
+			TtcnError.TtcnWarning("An [else] branch of an alt construct has been reached."
+					+ "Re-configuring the snapshot manager to call the event handlers even when taking the first snapshot.");
+		}
 	}
 
 	/**
@@ -67,63 +82,64 @@ public class TTCN_Snapshot {
 	 * originally take_new
 	 * */
 	public static void takeNew(final boolean blockExecution) {
-		//FIXME implement
-		long pollTimeout = 0;
-		if (blockExecution) {
-			//FIXME this is way more complex
-			Changeable_Double timerTimeout = new Changeable_Double(0.0);
-			boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
-			if (isTimerTimeout) {
-				double blockTime = timerTimeout.getValue() - timeNow();
-				pollTimeout = (long)Math.floor(blockTime * 1000);
-			} else {
-				// no active timers: infinite timeout
-				pollTimeout = -1;
-			}
-		}
-
-		if (selector.keys().isEmpty() && pollTimeout < 0) {
-			throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
-		}
-
-		int selectReturn = 0;
-		if (selector.keys().isEmpty()) {
-			//no channels to wait for
-			//TODO this check is not needed
-			if (pollTimeout > 0) {
-				try {
-					selectReturn = selector.select(pollTimeout);
-				} catch (IOException exception) {
-					throw new TtcnError("Interrupted while taking snapshot.");
+		if (blockExecution || else_branch_found) {
+			//FIXME implement
+			long pollTimeout = 0;
+			if (blockExecution) {
+				//FIXME this is way more complex
+				Changeable_Double timerTimeout = new Changeable_Double(0.0);
+				boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
+				if (isTimerTimeout) {
+					double blockTime = timerTimeout.getValue() - timeNow();
+					pollTimeout = (long)Math.floor(blockTime * 1000);
+				} else {
+					// no active timers: infinite timeout
+					pollTimeout = -1;
 				}
-			} else {
+			}
+
+			if (selector.keys().isEmpty() && pollTimeout < 0) {
 				throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
 			}
-		} else {
-			if (pollTimeout > 0) {
-				try {
-					selectReturn = selector.select(pollTimeout);
-				} catch (IOException exception) {
-					throw new TtcnError("Interrupted while taking snapshot.");
+
+			int selectReturn = 0;
+			if (selector.keys().isEmpty()) {
+				//no channels to wait for
+				//TODO this check is not needed
+				if (pollTimeout > 0) {
+					try {
+						selectReturn = selector.select(pollTimeout);
+					} catch (IOException exception) {
+						throw new TtcnError("Interrupted while taking snapshot.");
+					}
+				} else {
+					throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
 				}
 			} else {
-				try {
-					selectReturn = selector.selectNow();
-				} catch (IOException exception) {
-					throw new TtcnError("Interrupted while taking snapshot.");
+				if (pollTimeout > 0) {
+					try {
+						selectReturn = selector.select(pollTimeout);
+					} catch (IOException exception) {
+						throw new TtcnError("Interrupted while taking snapshot.");
+					}
+				} else {
+					try {
+						selectReturn = selector.selectNow();
+					} catch (IOException exception) {
+						throw new TtcnError("Interrupted while taking snapshot.");
+					}
+				}
+			}
+
+			if (selectReturn > 0 ){
+				Set<SelectionKey> selectedKeys = selector.selectedKeys();
+				//call handlers
+				for (SelectionKey key : selectedKeys) {
+					TitanPort handler = channelMap.get(key.channel());
+					handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 				}
 			}
 		}
-
-		if (selectReturn > 0 ){
-			Set<SelectionKey> selectedKeys = selector.selectedKeys();
-			//call handlers
-			for (SelectionKey key : selectedKeys) {
-				TitanPort handler = channelMap.get(key.channel());
-				handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
-			}
-		}
-
 		// just update the time and check the testcase guard timer if blocking was
 		// not requested and there is no [else] branch in the test suite
 		alt_begin = timeNow();
