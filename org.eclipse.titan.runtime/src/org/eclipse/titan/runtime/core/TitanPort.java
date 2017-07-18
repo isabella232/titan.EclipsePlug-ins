@@ -240,6 +240,62 @@ public class TitanPort {
 		return returnValue;
 	}
 
+	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_getreply
+	public static TitanAlt_Status any_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.getreply(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Getreply operation returned unexpected status code on port {0} while evaluating `any port.getreply'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
+	public TitanAlt_Status check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_check_getreply
+	public static TitanAlt_Status any_check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.check_getreply(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0} while evaluating `any port.check(getreply)'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
 	protected void Install_Handler(final Set<SelectableChannel> readChannels, final Set<SelectableChannel> writeChannels, final double callInterval) throws IOException {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Event handler cannot be installed for inactive port {0}.", portName));
