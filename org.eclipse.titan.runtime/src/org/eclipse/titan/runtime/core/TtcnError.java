@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+//TODO: maybe change it to exception
 public class TtcnError extends Error {
 
 	public TtcnError( final String aErrorMessage ) {
