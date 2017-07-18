@@ -297,7 +297,7 @@ public class TitanOctetString extends Base_Type {
 	 * this + otherValue (concatenation)
 	 * originally operator+
 	 */
-	public TitanOctetString add( final TitanOctetString otherValue ) {
+	public TitanOctetString append( final TitanOctetString otherValue ) {
 		mustBound( "Unbound left operand of octetstring concatenation." );
 		otherValue.mustBound( "Unbound right operand of octetstring concatenation." );
 		TitanOctetString result = new TitanOctetString( val_ptr );
@@ -305,7 +305,7 @@ public class TitanOctetString extends Base_Type {
 		return result;
 	}
 
-	public TitanOctetString add( final TitanOctetString_Element otherValue ) {
+	public TitanOctetString append( final TitanOctetString_Element otherValue ) {
 		mustBound( "Unbound left operand of octetstring concatenation." );
 		otherValue.mustBound( "Unbound right operand of octetstring element concatenation." );
 
