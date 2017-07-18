@@ -342,7 +342,7 @@ public class TitanOctetString extends Base_Type {
 		}
 
 		TitanOctetString result = new TitanOctetString();
-		result.val_ptr = new ArrayList<>();
+		result.val_ptr = new ArrayList<Character>();
 
 		for (int i = 0; i < val_ptr.size(); i++) {
 			result.val_ptr.add((char) (val_ptr.get(i) & otherValue.val_ptr.get(i)));
@@ -373,7 +373,7 @@ public class TitanOctetString extends Base_Type {
 		}
 
 		TitanOctetString result = new TitanOctetString();
-		result.val_ptr = new ArrayList<>();
+		result.val_ptr = new ArrayList<Character>();
 		for (int i = 0; i < val_ptr.size(); i++) {
 			result.val_ptr.add((char)(val_ptr.get(i) | otherValue.val_ptr.get(i)));
 		}
@@ -404,7 +404,7 @@ public class TitanOctetString extends Base_Type {
 		}
 
 		TitanOctetString result = new TitanOctetString();
-		result.val_ptr = new ArrayList<>();
+		result.val_ptr = new ArrayList<Character>();
 		for (int i = 0; i < val_ptr.size(); i++) {
 			result.val_ptr.add((char)(val_ptr.get(i) ^ otherValue.val_ptr.get(i)));
 		}
@@ -463,7 +463,7 @@ public class TitanOctetString extends Base_Type {
 			if (val_ptr.size() == 0) return this;
 
 			TitanOctetString result = new TitanOctetString();
-			result.val_ptr =  new ArrayList<>();
+			result.val_ptr =  new ArrayList<Character>();
 			if (shiftCount > val_ptr.size()) shiftCount = val_ptr.size();
 			for (int i = 0; i < shiftCount; i++) {
 				result.val_ptr.add(i, (char) 0);
@@ -494,7 +494,7 @@ public class TitanOctetString extends Base_Type {
 			if (rotateCount == 0) return this;
 			
 			TitanOctetString result = new TitanOctetString();
-			result.val_ptr =  new ArrayList<>();
+			result.val_ptr =  new ArrayList<Character>();
 			for (int i = 0; i < val_ptr.size() - rotateCount; i++) {
 				result.val_ptr.add(i, val_ptr.get(i+rotateCount));
 			}
@@ -523,7 +523,7 @@ public class TitanOctetString extends Base_Type {
 			rotateCount = rotateCount % val_ptr.size();
 			if (rotateCount == 0) return this;
 			TitanOctetString result = new TitanOctetString();
-			result.val_ptr =  new ArrayList<>();
+			result.val_ptr =  new ArrayList<Character>();
 			if (rotateCount > val_ptr.size()) rotateCount = val_ptr.size();
 			for (int i = 0; i < rotateCount; i++) {
 				result.val_ptr.add(i, val_ptr.get(i-rotateCount+val_ptr.size()));
