@@ -15,6 +15,7 @@ import java.util.regex.Pattern;
 /**
  * TTCN-3 octetstring
  * @author Arpad Lovassy
+ * @author Farkas Izabella Ingrid
  */
 public class TitanOctetString extends Base_Type {
 
@@ -133,6 +134,14 @@ public class TitanOctetString extends Base_Type {
 		return this;
 	}
 
+	public TitanOctetString assign( final TitanOctetString_Element aOtherValue ) {
+		aOtherValue.mustBound( "Assignment of an unbound octetstring element to an octetstring." );
+		val_ptr = new ArrayList<Character>();
+		val_ptr.add(aOtherValue.get_nibble());
+
+		return this;
+	}
+
 	@Override
 	public TitanOctetString assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanOctetString) {
@@ -156,19 +165,27 @@ public class TitanOctetString extends Base_Type {
 		}
 	}
 
-	//originally lengthof
+	// originally lengthof
 	public int lengthOf() {
 		mustBound("Performing lengthof operation on an unbound octetstring value.");
 
 		return val_ptr.size();
 	}
 
-	//originally operator==
+	// originally operator==
 	public TitanBoolean operatorEquals( final TitanOctetString otherValue ) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
 		return new TitanBoolean(val_ptr.equals( otherValue.val_ptr ));
+	}
+
+	public TitanBoolean operatorEquals( final TitanOctetString_Element otherValue ) {
+		mustBound("Unbound left operand of octetstring comparison.");
+		otherValue.mustBound("Unbound right operand of octetstring comparison.");
+
+		return otherValue.operatorEquals(this);
+		//new TitanBoolean(val_ptr.equals( otherValue.get_nibble()));
 	}
 
 	@Override
@@ -182,6 +199,14 @@ public class TitanOctetString extends Base_Type {
 
 	//originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanOctetString aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
+	}
+
+	public TitanBoolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
+	}
+
+	public TitanBoolean operatorNotEquals( final Base_Type aOtherValue ) {
 		return operatorEquals( aOtherValue ).not();
 	}
 
@@ -207,6 +232,7 @@ public class TitanOctetString extends Base_Type {
 						", but the string has only " + n_nibbles + " hexadecimal digits.");
 			}
 			if (index_value == n_nibbles) {
+				val_ptr.add('e');
 				return new TitanOctetString_Element( false, this, index_value );
 			} else {
 				return new TitanOctetString_Element( true, this, index_value );
@@ -281,5 +307,239 @@ public class TitanOctetString extends Base_Type {
 		TitanOctetString result = new TitanOctetString( val_ptr );
 		result.val_ptr.addAll( copyList( otherValue.val_ptr ) );
 		return result;
+	}
+
+	public TitanOctetString add( final TitanOctetString_Element otherValue ) {
+		mustBound( "Unbound left operand of octetstring concatenation." );
+		otherValue.mustBound( "Unbound right operand of octetstring element concatenation." );
+
+		TitanOctetString result = new TitanOctetString( val_ptr );
+		result.val_ptr.add( new Character( otherValue.get_nibble()) );
+
+		return result;
+	}
+
+	// originally operator~
+	public TitanOctetString not4b() {
+		mustBound("Unbound octetstring operand of operator not4b.");
+
+		TitanOctetString result = new TitanOctetString(this);
+		//result.val_ptr = new ArrayList<>();
+		for (int i = 0; i < val_ptr.size(); i++) {
+			result.val_ptr.add((char) (~val_ptr.get(i)));
+		}
+
+		return result;
+	}
+
+	// originally operator&
+	public TitanOctetString and4b(final TitanOctetString otherValue) {
+		mustBound("Left operand of operator and4b is an unbound octetstring value.");
+		otherValue.mustBound("Right operand of operator and4b is an unbound octetstring value.");
+
+		if (val_ptr.size() != otherValue.val_ptr.size()) {
+			throw new TtcnError("The octetstring operands of operator and4b must have the same length.");
+		}
+
+		TitanOctetString result = new TitanOctetString();
+		result.val_ptr = new ArrayList<>();
+
+		for (int i = 0; i < val_ptr.size(); i++) {
+			result.val_ptr.add((char) (val_ptr.get(i) & otherValue.val_ptr.get(i)));
+		}
+
+		return result;
+	}
+
+	// originally operator&
+	public TitanOctetString and4b(final TitanOctetString_Element otherValue) {
+		mustBound("Left operand of operator and4b is an unbound octetstring value.");
+		otherValue.mustBound("Right operand of operator and4b is an unbound octetstring value.");
+
+		if (val_ptr.size() != 1) {
+			throw new TtcnError("The octetstring operands of operator and4b must have the same length.");
+		}
+
+		return new TitanOctetString((char)(val_ptr.get(0) & otherValue.get_nibble()));
+	}
+
+	// originally operator|
+	public TitanOctetString or4b(final TitanOctetString otherValue) {
+		mustBound("Left operand of operator or4b is an unbound octetstring value.");
+		otherValue.mustBound("Right operand of operator or4b is an unbound octetstring value.");
+
+		if (val_ptr.size() != otherValue.val_ptr.size()) {
+			throw new TtcnError("The octetstring operands of operator or4b must have the same length.");
+		}
+
+		TitanOctetString result = new TitanOctetString();
+		result.val_ptr = new ArrayList<>();
+		for (int i = 0; i < val_ptr.size(); i++) {
+			result.val_ptr.add((char)(val_ptr.get(i) | otherValue.val_ptr.get(i)));
+		}
+
+		return result;
+
+	}
+
+	// originally operator|
+	public TitanOctetString or4b(final TitanOctetString_Element otherValue) {
+		mustBound("Left operand of operator or4b is an unbound octetstring value.");
+		otherValue.mustBound("Right operand of operator or4b is an unbound octetstring value.");
+
+		if (lengthOf() != 1) {
+			throw new TtcnError("The octetstring operands of operator or4b must have the same length.");
+		}
+
+		return new TitanOctetString((char)(val_ptr.get(0) | otherValue.get_nibble()));
+	}
+
+	//originally operator^
+	public TitanOctetString xor4b(final TitanOctetString otherValue) {
+		mustBound("Left operand of operator xor4b is an unbound octetstring value.");
+		otherValue.mustBound("Right operand of operator xor4b is an unbound octetstring value.");
+
+		if (val_ptr.size() != otherValue.val_ptr.size()) {
+			throw new TtcnError("The octetstring operands of operator xor4b must have the same length.");
+		}
+
+		TitanOctetString result = new TitanOctetString();
+		result.val_ptr = new ArrayList<>();
+		for (int i = 0; i < val_ptr.size(); i++) {
+			result.val_ptr.add((char)(val_ptr.get(i) ^ otherValue.val_ptr.get(i)));
+		}
+
+		return result;
+	}
+
+	//originally operator^
+	public TitanOctetString xor4b(final TitanOctetString_Element otherValue) {
+		mustBound("Left operand of operator xor4b is an unbound octetstring value.");
+		otherValue.mustBound("Right operand of operator xor4b is an unbound octetstring element.");
+
+		if (val_ptr.size() != 1) {
+			throw new TtcnError("The octetstring operands of operator xor4b must have the same length.");
+		}
+
+		return new TitanOctetString((char)(val_ptr.get(0) ^ otherValue.get_nibble()));
+	}
+
+	//originally operator<<
+	public TitanOctetString shiftLeft(int shiftCount) {
+		mustBound("Unbound octetstring operand of shift left operator.");
+		
+		if (shiftCount > 0) {
+			if (val_ptr.size() == 0) return this;
+
+			TitanOctetString result = new TitanOctetString();
+			result.val_ptr = new ArrayList<Character>();
+			if (shiftCount > val_ptr.size()) shiftCount = val_ptr.size();
+		
+			for (int i = 0; i < val_ptr.size() - shiftCount; i++) {
+				result.val_ptr.add(i, val_ptr.get(i+shiftCount));
+			}
+		
+			for (int i = val_ptr.size() - shiftCount; i < val_ptr.size(); i++) {
+				result.val_ptr.add(i, (char) 0);
+			}
+			return result;
+		} else {
+			if (shiftCount == 0) return this;
+			else return this.shiftRight(-shiftCount);
+		}
+	}
+
+	public TitanOctetString shiftLeft(final TitanInteger otherValue) {
+		mustBound("Unbound right operand of octetstring shift left operator.");
+
+		return shiftLeft(otherValue.getInt());
+	}
+
+	// originally operator>>
+	public TitanOctetString shiftRight(int shiftCount) {
+		mustBound("Unbound octetstring operand of shift right operator.");
+
+		if (shiftCount > 0) {
+			if (val_ptr.size() == 0) return this;
+
+			TitanOctetString result = new TitanOctetString();
+			result.val_ptr =  new ArrayList<>();
+			if (shiftCount > val_ptr.size()) shiftCount = val_ptr.size();
+			for (int i = 0; i < shiftCount; i++) {
+				result.val_ptr.add(i, (char) 0);
+			}
+			for (int i = shiftCount; i < val_ptr.size(); i++) {
+				result.val_ptr.add(i, val_ptr.get(i-shiftCount));
+			}
+			return result;
+		} else {
+			if (shiftCount == 0) return this;
+			else return this.shiftLeft(-shiftCount);
+		}
+	}
+
+	public TitanOctetString shiftRight(final TitanInteger otherValue){
+		mustBound("Unbound right operand of octetstring shift right operator.");
+		
+		return shiftRight(otherValue.getInt());
+	}
+	
+	// originally operator<<=
+	public TitanOctetString rotateLeft(int rotateCount) {
+		mustBound("Unbound octetstring operand of rotate left operator.");
+		
+		if (val_ptr.size() == 0) return this;
+		if (rotateCount >= 0) {
+			rotateCount = rotateCount % val_ptr.size();
+			if (rotateCount == 0) return this;
+			
+			TitanOctetString result = new TitanOctetString();
+			result.val_ptr =  new ArrayList<>();
+			for (int i = 0; i < val_ptr.size() - rotateCount; i++) {
+				result.val_ptr.add(i, val_ptr.get(i+rotateCount));
+			}
+			for (int i = val_ptr.size() - rotateCount; i < val_ptr.size(); i++) {
+				result.val_ptr.add(i, val_ptr.get(i+rotateCount-val_ptr.size()));
+			}
+
+			return result;
+		} else {
+			return rotateRight(-rotateCount);
+		}
+	}
+	
+	public TitanOctetString rotateLeft(final TitanInteger rotateCount) {
+		rotateCount.mustBound("Unbound right operand of octetstring rotate left operator.");
+		
+		return rotateLeft(rotateCount.getInt());
+	}
+	
+	// originally operator>>=
+	public TitanOctetString rotateRight(int rotateCount) {
+		mustBound("Unbound octetstring operand of rotate right operator.");
+		
+		if (val_ptr.size() == 0) return this;
+		if (rotateCount >= 0) {
+			rotateCount = rotateCount % val_ptr.size();
+			if (rotateCount == 0) return this;
+			TitanOctetString result = new TitanOctetString();
+			result.val_ptr =  new ArrayList<>();
+			if (rotateCount > val_ptr.size()) rotateCount = val_ptr.size();
+			for (int i = 0; i < rotateCount; i++) {
+				result.val_ptr.add(i, val_ptr.get(i-rotateCount+val_ptr.size()));
+			}
+			for (int i = rotateCount; i < val_ptr.size(); i++) {
+				result.val_ptr.add(i, val_ptr.get(i-rotateCount));
+			}
+			return result;
+		} else {
+			return rotateLeft(-rotateCount);
+		}
+	}
+	
+	public TitanOctetString rotateRight(final TitanInteger rotateCount) {
+		rotateCount.mustBound("Unbound right operand of octetstring rotate left operator.");
+		
+		return rotateRight(rotateCount.getInt());
 	}
 }
