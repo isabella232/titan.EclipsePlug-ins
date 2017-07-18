@@ -1,9 +1,21 @@
+/******************************************************************************
+ * Copyright (c) 2000-2017 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package org.eclipse.titan.runtime.core;
+
+import java.text.MessageFormat;
 
 /**
  * Base_Template in core
- * */
-public class Base_Template {
+ *
+ * @author Kristof Szabados
+ * @author Arpad Lovassy
+ */
+public abstract class Base_Template {
 	public enum template_sel {
 		UNINITIALIZED_TEMPLATE,
 		SPECIFIC_VALUE,
@@ -118,4 +130,35 @@ public class Base_Template {
 		}
 	}
 
+	protected boolean get_istemplate_kind(final String type) {
+		if("value".equals(type)) {
+			return isValue();
+		} else if ("list".equals(type)) {
+			return templateSelection == template_sel.VALUE_LIST;
+		} else if ("complement".equals(type)) {
+			return templateSelection == template_sel.COMPLEMENTED_LIST;
+		} else if ("?".equals(type) || "AnyValue".equals(type)) {
+			return templateSelection == template_sel.ANY_VALUE;
+		} else if ("*".equals(type) || "AnyValueOrNone".equals(type)) {
+			return templateSelection == template_sel.ANY_OR_OMIT;
+		} else if ("range".equals(type)) {
+			return templateSelection == template_sel.VALUE_RANGE;
+		} else if ("superset".equals(type)) {
+			return templateSelection == template_sel.SUPERSET_MATCH;
+		} else if ("subset".equals(type)) {
+			return templateSelection == template_sel.SUBSET_MATCH;
+		} else if ("omit".equals(type)) {
+			return templateSelection == template_sel.OMIT_VALUE;
+		} else if ("decmatch".equals(type)) {
+			return templateSelection == template_sel.DECODE_MATCH;
+		} else if ("ifpresent".equals(type)) {
+			return is_ifPresent;
+		} else if ("pattern".equals(type)) {
+			return templateSelection == template_sel.STRING_PATTERN;
+		} else if ("AnyElement".equals(type) || "AnyElementsOrNone".equals(type) ||
+				"permutation".equals(type) || "length".equals(type)) {
+			return false;
+		}
+		throw new TtcnError( MessageFormat.format( "Incorrect second parameter ({0}) was passed to istemplatekind.", type ) );
+	}
 }
