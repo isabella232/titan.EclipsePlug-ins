@@ -111,8 +111,12 @@ public class TitanOctetString_Element {
 	public TitanOctetString operatorNot4b() {
 		mustBound("Unbound octetstring element operand of operator not4b.");
 
-		final char result = (char) (~str_val.get_nibble(nibble_pos) & 0x0F);
-		return new TitanOctetString( result );
+		final int temp = str_val.get_nibble(nibble_pos);
+		final int digit1 = temp >> 4;
+		final int digit2 = temp & 0x0F;
+		final int negDigit1 = ~digit1 & 0x0F;
+		final int negDigit2 = ~digit2 & 0x0F;
+		return new TitanOctetString( (char) ((negDigit1  << 4) + negDigit2) );
 	}
 
 	// originally operator&

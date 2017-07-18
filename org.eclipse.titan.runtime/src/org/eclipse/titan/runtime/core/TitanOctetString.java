@@ -83,7 +83,7 @@ public class TitanOctetString extends Base_Type {
 	 * @return value of the octet
 	 */
 	private static char octet2value( final char aHexDigit1, final char aHexDigit2 ) {
-		final char result = (char) ( 256 * TitanHexString.hexdigit2byte( aHexDigit1 ) + TitanHexString.hexdigit2byte( aHexDigit2 ));
+		final char result = (char) ( 16 * TitanHexString.hexdigit2byte( aHexDigit1 ) + TitanHexString.hexdigit2byte( aHexDigit2 ));
 		return result;
 	}
 
@@ -277,18 +277,14 @@ public class TitanOctetString extends Base_Type {
 		}
 
 		final StringBuilder sb = new StringBuilder();
+		sb.append('\'');
 		final int size = val_ptr.size();
 		for ( int i = 0; i < size; i++ ) {
-			final Character digit = val_ptr.get( i );
-			if ( digit == 256 ) {
-				sb.append( '?' );
-			} else if ( digit == 257 ) {
-				sb.append( '*' );
-			} else {
-				sb.append( HEX_DIGITS.charAt( digit >> 8 ) );
-				sb.append( HEX_DIGITS.charAt( digit & 0xFF ) );
-			}
+			final int digit = val_ptr.get( i ).charValue();
+			sb.append( HEX_DIGITS.charAt( digit / 16 ) );
+			sb.append( HEX_DIGITS.charAt( digit % 16 ) );
 		}
+		sb.append('\'');
 		return sb.toString();
 	}
 
@@ -323,10 +319,14 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString not4b() {
 		mustBound("Unbound octetstring operand of operator not4b.");
 
-		TitanOctetString result = new TitanOctetString(this);
-		//result.val_ptr = new ArrayList<>();
+		TitanOctetString result = new TitanOctetString();
+		result.val_ptr = new ArrayList<Character>();
 		for (int i = 0; i < val_ptr.size(); i++) {
-			result.val_ptr.add((char) (~val_ptr.get(i)));
+			final int digit1 = val_ptr.get(i) / 16;
+			final int digit2 = val_ptr.get(i) % 16;
+			final int negDigit1 = ~digit1 & 0x0F;
+			final int negDigit2 = ~digit2 & 0x0F;
+			result.val_ptr.add((char)((negDigit1  << 4) + negDigit2));
 		}
 
 		return result;
