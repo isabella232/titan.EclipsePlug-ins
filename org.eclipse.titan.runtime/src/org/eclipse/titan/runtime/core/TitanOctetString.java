@@ -166,10 +166,10 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	// originally lengthof
-	public int lengthOf() {
+	public TitanInteger lengthOf() {
 		mustBound("Performing lengthof operation on an unbound octetstring value.");
 
-		return val_ptr.size();
+		return new TitanInteger(val_ptr.size());
 	}
 
 	// originally operator==
@@ -387,7 +387,7 @@ public class TitanOctetString extends Base_Type {
 		mustBound("Left operand of operator or4b is an unbound octetstring value.");
 		otherValue.mustBound("Right operand of operator or4b is an unbound octetstring value.");
 
-		if (lengthOf() != 1) {
+		if (val_ptr.size() != 1) {
 			throw new TtcnError("The octetstring operands of operator or4b must have the same length.");
 		}
 
