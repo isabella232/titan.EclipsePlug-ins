@@ -19,16 +19,16 @@ import java.util.List;
 public class TitanUniversalCharString extends Base_Type {
 
 	/** Internal data */
-	private List<TitanUniversalChar> val_ptr;
+	List<TitanUniversalChar> val_ptr;
 
 	/** Character string values are stored in an optimal way */
-	private StringBuilder cstr;
+	StringBuilder cstr;
 
 	/**
 	 * true, if cstr is used <br>
 	 * false, if val_ptr is used
 	 */
-	private boolean charstring;
+	boolean charstring;
 
 	public TitanUniversalCharString() {
 		super();
