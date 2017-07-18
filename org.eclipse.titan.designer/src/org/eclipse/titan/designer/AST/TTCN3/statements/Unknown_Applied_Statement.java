@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -132,7 +133,7 @@ public final class Unknown_Applied_Statement extends Statement {
 		switch (type.getTypetype()) {
 		case TYPE_FUNCTION:
 			if (realStatement == null || !Statement_type.S_FUNCTION_APPLIED.equals(realStatement.getType())) {
-				realStatement = new Function_Applied_Statement(dereferredValue, actualParameterList);
+				realStatement = new Function_Applied_Statement(dereferredValue, actualParameterList, tempActualParameters);
 				realStatement.setFullNameParent(this);
 				realStatement.setLocation(location);
 				realStatement.setMyStatementBlock(getMyStatementBlock(), statementIndex);
@@ -150,7 +151,7 @@ public final class Unknown_Applied_Statement extends Statement {
 			break;
 		case TYPE_ALTSTEP:
 			if (realStatement == null || !Statement_type.S_ALTSTEP_APPLIED.equals(realStatement.getType())) {
-				realStatement = new Altstep_Applied_Statement(dereferredValue, actualParameterList);
+				realStatement = new Altstep_Applied_Statement(dereferredValue, actualParameterList, tempActualParameters);
 				realStatement.setFullNameParent(this);
 				realStatement.setLocation(location);
 				realStatement.setMyStatementBlock(getMyStatementBlock(), statementIndex);
@@ -168,6 +169,8 @@ public final class Unknown_Applied_Statement extends Statement {
 		if (myStatementBlock != null) {
 			myStatementBlock.checkRunsOnScope(timestamp, type, this, "call");
 		}
+		tempActualParameters.setFullNameParent(this);
+		tempActualParameters.setMyScope(myScope);
 	}
 
 	@Override
@@ -224,5 +227,14 @@ public final class Unknown_Applied_Statement extends Statement {
 			}
 			return true;
 		}
+	}
+
+	@Override
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		if (realStatement == null) {
+			source.append("//FATAL ERROR furing apply statement\n");
+		}
+
+		realStatement.generateCode(aData, source);
 	}
 }

@@ -13,16 +13,20 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -40,6 +44,8 @@ public final class Activate_Referenced_Statement extends Statement {
 
 	private final Value dereferredValue;
 	private final ParsedActualParameters actualParameterList;
+
+	private ActualParameterList actualParameterList2;
 
 	public Activate_Referenced_Statement(final Value dereferredValue, final ParsedActualParameters actualParameterList) {
 		this.dereferredValue = dereferredValue;
@@ -133,16 +139,16 @@ public final class Activate_Referenced_Statement extends Statement {
 			myStatementBlock.checkRunsOnScope(timestamp, type, this, STATEMENT_NAME);
 		}
 
-		final ActualParameterList tempActualParameters = new ActualParameterList();
+		actualParameterList2 = new ActualParameterList();
 		final FormalParameterList formalParameterList = ((Altstep_Type) type).getFormalParameters();
-		if (formalParameterList.checkActualParameterList(timestamp, actualParameterList, tempActualParameters)) {
+		if (formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameterList2)) {
 			setIsErroneous();
 			return;
 		}
 
-		tempActualParameters.setFullNameParent(this);
-		tempActualParameters.setMyScope(getMyScope());
-		if (!formalParameterList.checkActivateArgument(timestamp, tempActualParameters, getFullName())) {
+		actualParameterList2.setFullNameParent(this);
+		actualParameterList2.setMyScope(getMyScope());
+		if (!formalParameterList.checkActivateArgument(timestamp, actualParameterList2, getFullName())) {
 			setIsErroneous();
 		}
 	}
@@ -185,5 +191,26 @@ public final class Activate_Referenced_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		aData.addBuiltinTypeImport("TitanFloat");
+		aData.addBuiltinTypeImport("Ttcn3Float");
+
+		ExpressionStruct expression = new ExpressionStruct();
+		IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+		if (last.getValuetype().equals(Value_type.ALTSTEP_REFERENCE_VALUE)) {
+			//TODO Optimize for easily resolvable value
+		}
+		dereferredValue.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(".activate(");
+		
+		if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
+			actualParameterList2.generateCodeAlias(aData, expression);
+		}
+
+		expression.expression.append(')');
+		expression.mergeExpression(source);
 	}
 }

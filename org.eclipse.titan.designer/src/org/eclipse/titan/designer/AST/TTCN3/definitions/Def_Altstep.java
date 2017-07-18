@@ -628,6 +628,11 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		// the class is for internal use
 		aData.addBuiltinTypeImport("Default_Base");
 		source.append(MessageFormat.format("static final class {0}_Default extends Default_Base '{'\n", genName));
+		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
+			FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+			source.append("private ");
+			formalParameter.generateCodeObject(aData, source, "par_");
+		}
 		source.append(MessageFormat.format("public {0}_Default({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {

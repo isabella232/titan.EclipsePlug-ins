@@ -55,21 +55,45 @@ public class FunctionReferenceGenerator {
 		aData.addCommonLibraryImport("TtcnError");
 
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", def.genName));
-		source.append("private function_pointer referred_function;\n");
-		source.append("public interface function_pointer {\n");
-		source.append("String getId();\n");
-		if (def.returnType == null) {
-			source.append("void");
-		} else {
-			source.append(def.returnType);
+		switch (def.type) {
+		case FUNCTION:
+			source.append("public interface function_pointer {\n");
+			source.append("String getId();\n");
+			if (def.returnType == null) {
+				source.append("void");
+			} else {
+				source.append(def.returnType);
+			}
+			source.append(MessageFormat.format(" invoke({0});\n", def.formalParList));
+			source.append("}\n");
+			break;
+		case ALTSTEP:
+			source.append("public interface function_pointer {\n");
+			source.append("String getId();\n");
+			if (def.returnType == null) {
+				source.append("void");
+			} else {
+				source.append(def.returnType);
+			}
+			source.append(MessageFormat.format(" invoke_standalone({0});\n", def.formalParList));
+			source.append(MessageFormat.format("Default_Base activate({0});\n", def.formalParList));
+			source.append(MessageFormat.format("TitanAlt_Status invoke({0});\n", def.formalParList));
+			source.append("}\n");
+			break;
+		case TESTCASE:
+			source.append("public interface function_pointer {\n");
+			source.append("String getId();\n");
+			source.append(MessageFormat.format("TitanVerdictType execute({0});\n", def.formalParList));
+			source.append("}\n");
+			break;
 		}
-		source.append(MessageFormat.format(" invoke({0});\n", def.formalParList));
-		source.append("}\n");
+		source.append("private function_pointer referred_function;\n");
 
 		source.append(MessageFormat.format("public {0}() '{'\n", def.genName));
 		source.append("referred_function = null;\n");
 		source.append("}\n");
 		
+		//TODO check if this kind of constructor is a good idea or not!!!
 		source.append(MessageFormat.format("public {0}(final function_pointer otherValue) '{'\n", def.genName));
 		source.append("referred_function = otherValue;\n");
 		source.append("}\n");
@@ -123,23 +147,56 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals(final {0} otherValue) '{'\n", def.genName));
 		source.append("return operatorEquals(otherValue).not();\n");
 		source.append("}\n");
-		
-		source.append("public ");
-		if (def.returnType == null) {
-			source.append("void");
-		} else {
-			source.append(def.returnType);
+
+		switch (def.type) {
+		case FUNCTION:
+			source.append("public ");
+			if (def.returnType == null) {
+				source.append("void");
+			} else {
+				source.append(def.returnType);
+			}
+			source.append(MessageFormat.format(" invoke({0}) '{'\n", def.formalParList));
+			source.append("mustBound(\"Call of unbound function.\");\n");
+					//check for null
+			if (def.returnType != null) {
+				source.append("return ");
+			}
+			source.append("referred_function.invoke(");
+			source.append(def.actualParList);
+			source.append(");\n");
+			source.append("}\n");
+			break;
+		case ALTSTEP:
+			source.append(MessageFormat.format("public void invoke_standalone({0}) '{'\n", def.formalParList));
+			source.append("mustBound(\"Call of unbound altstep.\");\n");
+			source.append("referred_function.invoke_standalone(");
+			source.append(def.actualParList);
+			source.append(");\n");
+			source.append("}\n");
+			source.append(MessageFormat.format("public Default_Base activate({0}) '{'\n", def.formalParList));
+			source.append("mustBound(\"Activation of unbound altstep.\");\n");
+			source.append("return referred_function.activate(");
+			source.append(def.actualParList);
+			source.append(");\n");
+			source.append("}\n");
+			source.append(MessageFormat.format("public TitanAlt_Status invoke({0}) '{'\n", def.formalParList));
+			source.append("mustBound(\"Call of unbound altstep.\");\n");
+			source.append("return referred_function.invoke(");
+			source.append(def.actualParList);
+			source.append(");\n");
+			source.append("}\n");
+			break;
+		case TESTCASE:
+			source.append(MessageFormat.format("public TitanVerdictType execute({0}) '{'\n", def.formalParList));
+			source.append("mustBound(\"Call of unbound testcase.\");\n");
+			source.append("if (referred_function == null) {\n");
+			source.append("throw new TtcnError(\"null reference cannot be executed.\");\n");
+			source.append("}\n");
+			source.append(MessageFormat.format("return referred_function.execute({0});", def.actualParList));
+			source.append("}\n");
+			break;
 		}
-		source.append(MessageFormat.format(" invoke({0}) '{'\n", def.formalParList));
-		source.append("mustBound(\"Call of unbound function.\");\n");
-				//check for null
-		if (def.returnType != null) {
-			source.append("return ");
-		}
-		source.append("referred_function.invoke(");
-		source.append(def.actualParList);
-		source.append(");\n");
-		source.append("}\n");
 
 		source.append("public boolean isBound() {\n");
 		source.append("return referred_function != null;\n");

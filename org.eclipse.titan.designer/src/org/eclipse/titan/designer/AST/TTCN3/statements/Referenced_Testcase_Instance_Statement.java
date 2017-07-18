@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
@@ -25,6 +26,8 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Testcase_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -46,6 +49,8 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 	private final Value dereferredValue;
 	private final ParsedActualParameters actualParameterList;
 	private final Value timerValue;
+
+	private ActualParameterList actualParameterList2;
 
 	public Referenced_Testcase_Instance_Statement(final Value dereferredValue, final ParsedActualParameters actualParameterList,
 			final Value timerValue) {
@@ -142,9 +147,9 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 			return;
 		}
 
-		final ActualParameterList tempActualParameters = new ActualParameterList();
+		actualParameterList2 = new ActualParameterList();
 		final FormalParameterList formalParameterList = ((Testcase_Type) type).getFormalParameters();
-		formalParameterList.checkActualParameterList(timestamp, actualParameterList, tempActualParameters);
+		formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameterList2);
 
 		if (timerValue != null) {
 			timerValue.setLoweridToReference(timestamp);
@@ -222,5 +227,31 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		aData.addBuiltinTypeImport("TitanFloat");
+		aData.addBuiltinTypeImport("Ttcn3Float");
+
+		ExpressionStruct expression = new ExpressionStruct();
+		IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+		if (last.getValuetype().equals(Value_type.TESTCASE_REFERENCE_VALUE)) {
+			//TODO Optimize for easily resolvable value
+		}
+		dereferredValue.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(".execute(");
+		actualParameterList2.generateCodeAlias(aData, expression);
+		if (actualParameterList2.getNofParameters() > 0) {
+			expression.expression.append(", ");
+		}
+		if (timerValue == null) {
+			expression.expression.append("false, new TitanFloat( new Ttcn3Float( 0.0 ) ))");
+		} else {
+			expression.expression.append("true, ");
+			timerValue.generateCodeExpression(aData, expression);
+			expression.expression.append(')');
+		}
+		expression.mergeExpression(source);
 	}
 }

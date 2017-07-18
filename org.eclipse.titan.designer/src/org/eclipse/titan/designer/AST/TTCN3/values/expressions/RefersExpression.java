@@ -27,7 +27,9 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
+import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Testcase_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Altstep_Reference_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Function_Reference_Value;
@@ -271,40 +273,92 @@ public final class RefersExpression extends Expression_Value {
 		}
 
 		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		if (!(lastGovernor instanceof Function_Type)) {
-			expression.expression.append("// FATAL ERROR while processing refers expression\n");
-			return;
-		}
 
 		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression, myScope)));
 		expression.expression.append("@Override\n");
 		expression.expression.append("public String getId() {\n");
 		expression.expression.append(MessageFormat.format("return \"{0}\";\n", referredAssignment.getFullName()));
 		expression.expression.append("}\n");
-		expression.expression.append("@Override\n");
-		expression.expression.append("public ");
-		Function_Type functionType = (Function_Type) lastGovernor;
-		Type returnType = functionType.getReturnType();
-		if (returnType == null) {
-			expression.expression.append("void");
-		} else {
-			if (functionType.returnsTemplate()) {
-				expression.expression.append(returnType.getGenNameTemplate(aData, expression.expression, myScope));
+		if (lastGovernor.getTypetype().equals(Type_type.TYPE_FUNCTION)) {
+			expression.expression.append("@Override\n");
+			expression.expression.append("public ");
+			Function_Type functionType = (Function_Type) lastGovernor;
+			Type returnType = functionType.getReturnType();
+			if (returnType == null) {
+				expression.expression.append("void");
 			} else {
-				expression.expression.append(returnType.getGenNameValue(aData, expression.expression, myScope));
+				if (functionType.returnsTemplate()) {
+					expression.expression.append(returnType.getGenNameTemplate(aData, expression.expression, myScope));
+				} else {
+					expression.expression.append(returnType.getGenNameValue(aData, expression.expression, myScope));
+				}
 			}
+			expression.expression.append(" invoke(");
+			functionType.getFormalParameters().generateCode(aData, expression.expression);
+			expression.expression.append(") {\n");
+			if (returnType != null) {
+				expression.expression.append("return ");
+			}
+			expression.expression.append(referredAssignment.getIdentifier().getName());
+			expression.expression.append('(');
+			expression.expression.append(functionType.getFormalParameters().generateCodeActualParlist(""));
+			expression.expression.append(");\n");
+			expression.expression.append("}\n");
+		} else if (lastGovernor.getTypetype().equals(Type_type.TYPE_ALTSTEP)) {
+			aData.addBuiltinTypeImport("Default_Base");
+			aData.addBuiltinTypeImport("TitanAlt_Status");
+
+			Altstep_Type altstepType = (Altstep_Type) lastGovernor;
+			String altstepName = referredAssignment.getIdentifier().getName();
+			StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
+
+			expression.expression.append("@Override\n");
+			expression.expression.append("public void invoke_standalone(");
+			altstepType.getFormalParameters().generateCode(aData, expression.expression);
+			expression.expression.append(") {\n");
+			expression.expression.append(MessageFormat.format("{0}({1});\n", altstepName, actualParList));
+			expression.expression.append("}\n");
+
+			expression.expression.append("@Override\n");
+			expression.expression.append("public Default_Base activate(");
+			altstepType.getFormalParameters().generateCode(aData, expression.expression);
+			expression.expression.append(") {\n");
+			expression.expression.append(MessageFormat.format("return activate_{0}({1});\n", altstepName, actualParList));
+			expression.expression.append("}\n");
+
+			expression.expression.append("@Override\n");
+			expression.expression.append("public TitanAlt_Status invoke(");
+			altstepType.getFormalParameters().generateCode(aData, expression.expression);
+			expression.expression.append(") {\n");
+			expression.expression.append(MessageFormat.format("return {0}_instance({1});\n", altstepName, actualParList));
+			expression.expression.append("}\n");
+		} else if (lastGovernor.getTypetype().equals(Type_type.TYPE_TESTCASE)) {
+			aData.addBuiltinTypeImport("TitanVerdictType");
+			aData.addBuiltinTypeImport("TitanFloat");
+
+			expression.expression.append("@Override\n");
+			expression.expression.append("public ");
+			Testcase_Type testcaseType = (Testcase_Type) lastGovernor;
+
+			expression.expression.append("TitanVerdictType");
+			expression.expression.append(" execute(");
+			if(testcaseType.getFormalParameters().getNofParameters() > 0) {
+				testcaseType.getFormalParameters().generateCode(aData, expression.expression);
+				expression.expression.append(", ");
+			}
+			expression.expression.append("boolean has_timer, TitanFloat timer_value");
+			expression.expression.append(") {\n");
+			expression.expression.append("return testcase_");
+			expression.expression.append(referredAssignment.getIdentifier().getName());
+			expression.expression.append('(');
+			if(testcaseType.getFormalParameters().getNofParameters() > 0) {
+				expression.expression.append(testcaseType.getFormalParameters().generateCodeActualParlist(""));
+				expression.expression.append(", ");
+			}
+			expression.expression.append("has_timer, timer_value");
+			expression.expression.append(");\n");
+			expression.expression.append("}\n");
 		}
-		expression.expression.append(" invoke(");
-		functionType.getFormalParameters().generateCode(aData, expression.expression);
-		expression.expression.append(") {\n");
-		if (returnType != null) {
-			expression.expression.append("return ");
-		}
-		expression.expression.append(referredAssignment.getIdentifier().getName());
-		expression.expression.append('(');
-		expression.expression.append(functionType.getFormalParameters().generateCodeActualParlist(""));
-		expression.expression.append(");\n");
-		expression.expression.append("}\n");
 		expression.expression.append("})\n");
 	}
 }

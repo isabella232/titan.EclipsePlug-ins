@@ -1017,6 +1017,39 @@ public final class FormalParameter extends Definition {
 	}
 
 	/**
+	 * Generate Java code for a formal parameter.
+	 *
+	 * generate_code_object in the compiler
+	 *
+	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * @param prefix the prefix to be used before the parameter names.
+	 */
+	public void generateCodeObject(final JavaGenData aData, final StringBuilder source, final String prefix) {
+		//TODO: implement: based on access type the code needs to be more refined
+		//TODO for timers too!
+		//TODO actually formal parameters are generated in generate_code ... with sub function
+		switch (assignmentType) {
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_INOUT:
+		case A_PAR_VAL_OUT:
+			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			break;
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_INOUT:
+		case A_PAR_TEMP_OUT:
+			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			break;
+		case A_PAR_TIMER:
+			source.append(MessageFormat.format("TitanTimer {0}{1} = new TitanTimer();\n", prefix, identifier.getName()));
+			break;
+		default:
+			//TODO fatal error
+		}
+	}
+
+	/**
 	 * Generates the formal parameter.
 	 * 
 	 * @param aData only used to update imports if needed
@@ -1042,7 +1075,7 @@ public final class FormalParameter extends Definition {
 			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TIMER:
-			result.append(MessageFormat.format("TitanTimer ", identifier.getName()));
+			result.append(MessageFormat.format("TitanTimer {0}", identifier.getName()));
 			break;
 		default:
 			break;

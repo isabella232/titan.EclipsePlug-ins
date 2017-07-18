@@ -459,6 +459,8 @@ public final class Testcase_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		aData.addBuiltinTypeImport("TitanFloat");
+
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
@@ -474,7 +476,7 @@ public final class Testcase_Type extends Type {
 			def.formalParList = def.formalParList + ", ";
 			def.actualParList = def.actualParList + ", ";
 		}
-		def.formalParList = def.formalParList + "boolean has_timer, double timer_value";
+		def.formalParList = def.formalParList + "boolean has_timer, TitanFloat timer_value";
 		def.actualParList = def.actualParList + "has_timer, timer_value";
 
 		for ( int i = 0; i < formalParList.getNofParameters(); i++) {
