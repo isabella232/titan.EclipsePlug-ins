@@ -16,14 +16,16 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
+import org.eclipse.titan.designer.AST.TTCN3.types.Testcase_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -126,5 +128,70 @@ public final class Testcase_Reference_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		source.append(name);
+		source.append(".assign( ");
+		source.append(generateSingleExpression(aData));
+		source.append( " );\n" );
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		StringBuilder result = new StringBuilder();
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null || referredTestcase == null) {
+			result.append("// FATAL ERROR while processing function reference value\n");
+			return result;
+		}
+
+		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
+		result.append("@Override\n");
+		result.append("public String getId() {\n");
+		result.append(MessageFormat.format("return \"{0}\";\n", referredTestcase.getFullName()));
+		result.append("}\n");
+		aData.addBuiltinTypeImport("TitanVerdictType");
+		aData.addBuiltinTypeImport("TitanFloat");
+
+		result.append("@Override\n");
+		result.append("public ");
+		Testcase_Type testcaseType = (Testcase_Type) lastGovernor;
+
+		result.append("TitanVerdictType");
+		result.append(" execute(");
+		if(testcaseType.getFormalParameters().getNofParameters() > 0) {
+			testcaseType.getFormalParameters().generateCode(aData, result);
+			result.append(", ");
+		}
+		result.append("boolean has_timer, TitanFloat timer_value");
+		result.append(") {\n");
+		result.append("return testcase_");
+		result.append(referredTestcase.getIdentifier().getName());
+		result.append('(');
+		if(testcaseType.getFormalParameters().getNofParameters() > 0) {
+			result.append(testcaseType.getFormalParameters().generateCodeActualParlist(""));
+			result.append(", ");
+		}
+		result.append("has_timer, timer_value");
+		result.append(");\n");
+		result.append("}\n");
+		result.append("})\n");
+
+		return result;
 	}
 }
