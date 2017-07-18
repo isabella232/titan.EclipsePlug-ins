@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (c) 2000-2017 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
@@ -300,9 +307,14 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append("\n");
-		source.append("\tpublic int getNofElements() {\n");
+		source.append("\tpublic int sizeOf() {\n");
 		source.append( MessageFormat.format( "\t\tmustBound(\"Performing sizeof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\treturn valueElements.size();\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append("\tpublic int getNofElements() {\n");
+		source.append("\t\treturn sizeOf();\n");
 		source.append("\t}\n");
 
 		source.append("\n");
