@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +44,6 @@ public class TitanOctetString_Element {
 		other_value.mustBound("Assignment of an unbound octetstring element.");
 
 		bound_flag = true;
-		//str_val = new TitanOctetString( other_value.str_val );
 		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
 		
 		return this;
@@ -59,7 +59,6 @@ public class TitanOctetString_Element {
 		}
 
 		bound_flag = true;
-		//str_val = new TitanOctetString( other_value );
 		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
 		return this;
 	}
@@ -83,11 +82,13 @@ public class TitanOctetString_Element {
 
 		return new TitanBoolean(str_val.get_nibble(nibble_pos) == other_value.get_nibble(0));
 	}
-	
+
+	// originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
 		return operatorEquals( aOtherValue ).not();
 	}
-	
+
+	// originally operator!=
 	public TitanBoolean operatorNotEquals( final TitanOctetString aOtherValue ) {
 		return operatorEquals( aOtherValue ).not();
 	}
@@ -99,28 +100,30 @@ public class TitanOctetString_Element {
 
 		final List<Character> src_ptr = other_value.getValue();
 		final int n_nibbles = src_ptr.size();
-		final TitanOctetString ret_val = new TitanOctetString();
-		final List<Character> dest_ptr = ret_val.getValue();
-		dest_ptr.set(0, str_val.get_nibble(nibble_pos) );
+		final List<Character> dest_ptr = new ArrayList<Character>();
+		dest_ptr.add(0, str_val.get_nibble(nibble_pos) );
 		// chars in the result minus 1
 		for (int i = 0; i < n_nibbles; i++) {
-			dest_ptr.set( i, src_ptr.get( i ) );
+			dest_ptr.add( i+1, src_ptr.get( i ) );
 		}
-		return ret_val;
+		return new TitanOctetString(dest_ptr);
 	}
 
 	// originally operator+
 	public TitanOctetString append( final TitanOctetString_Element other_value ) {
 		mustBound("Unbound left operand of octetstring element concatenation.");
 		other_value.mustBound("Unbound right operand of octetstring element concatenation.");
-
-		return new TitanOctetString( other_value.str_val );
+		
+		final List<Character> dest_ptr = new ArrayList<Character>();
+		dest_ptr.add(0, str_val.get_nibble(nibble_pos) );
+		dest_ptr.add(1,other_value.get_nibble());
+		return new TitanOctetString(dest_ptr);
 	}
 
 	// originally operator~
 	public TitanOctetString not4b() {
 		mustBound("Unbound octetstring element operand of operator not4b.");
-		
+
 		final int temp = str_val.get_nibble(nibble_pos);
 		final int digit1 = temp >> 4;
 		final int digit2 = temp & 0x0F;
