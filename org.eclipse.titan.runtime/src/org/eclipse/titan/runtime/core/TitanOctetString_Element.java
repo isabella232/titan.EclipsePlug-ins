@@ -43,6 +43,7 @@ public class TitanOctetString_Element {
 		other_value.mustBound("Assignment of an unbound octetstring element.");
 
 		bound_flag = true;
+		//str_val = new TitanOctetString( other_value.str_val );
 		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
 		
 		return this;
@@ -58,6 +59,7 @@ public class TitanOctetString_Element {
 		}
 
 		bound_flag = true;
+		//str_val = new TitanOctetString( other_value );
 		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
 		return this;
 	}
@@ -81,7 +83,15 @@ public class TitanOctetString_Element {
 
 		return new TitanBoolean(str_val.get_nibble(nibble_pos) == other_value.get_nibble(0));
 	}
-
+	
+	public TitanBoolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
+	}
+	
+	public TitanBoolean operatorNotEquals( final TitanOctetString aOtherValue ) {
+		return operatorEquals( aOtherValue ).not();
+	}
+	
 	// originally operator+
 	public TitanOctetString append( final TitanOctetString other_value ) {
 		mustBound("Unbound left operand of octetstring element concatenation.");
@@ -110,7 +120,7 @@ public class TitanOctetString_Element {
 	// originally operator~
 	public TitanOctetString not4b() {
 		mustBound("Unbound octetstring element operand of operator not4b.");
-
+		
 		final int temp = str_val.get_nibble(nibble_pos);
 		final int digit1 = temp >> 4;
 		final int digit2 = temp & 0x0F;
