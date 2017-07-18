@@ -108,15 +108,19 @@ public class TitanOctetString_Element {
 	}
 
 	// originally operator~
-	public TitanOctetString operatorNot4b() {
+	public TitanOctetString not4b() {
 		mustBound("Unbound octetstring element operand of operator not4b.");
 
-		final char result = (char) (~str_val.get_nibble(nibble_pos) & 0x0F);
-		return new TitanOctetString( result );
+		final int temp = str_val.get_nibble(nibble_pos);
+		final int digit1 = temp >> 4;
+		final int digit2 = temp & 0x0F;
+		final int negDigit1 = ~digit1 & 0x0F;
+		final int negDigit2 = ~digit2 & 0x0F;
+		return new TitanOctetString( (char) ((negDigit1  << 4) + negDigit2) );
 	}
 
 	// originally operator&
-	public TitanOctetString operatorAnd4b(final TitanOctetString other_value) {
+	public TitanOctetString and4b(final TitanOctetString other_value) {
 		mustBound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound octetstring value.");
 
@@ -129,7 +133,7 @@ public class TitanOctetString_Element {
 	}
 
 	// originally operator&
-	public TitanOctetString operatorAnd4b(final TitanOctetString_Element other_value) {
+	public TitanOctetString and4b(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator and4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound octetstring element.");
 
@@ -138,7 +142,7 @@ public class TitanOctetString_Element {
 	}
 
 	// originally operator|
-	public TitanOctetString operatorOr4b(final TitanOctetString other_value) {
+	public TitanOctetString or4b(final TitanOctetString other_value) {
 		mustBound("Left operand of operator or4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound octetstring value.");
 
@@ -151,7 +155,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator|
-	public TitanOctetString operatorOr4b(final TitanOctetString_Element other_value) {
+	public TitanOctetString or4b(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator or4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound octetstring element.");
 
@@ -160,7 +164,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator^
-	public TitanOctetString operatorXor4b(final TitanOctetString other_value) {
+	public TitanOctetString xor4b(final TitanOctetString other_value) {
 		mustBound("Left operand of operator xor4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound octetstring value.");
 
@@ -173,7 +177,7 @@ public class TitanOctetString_Element {
 	}
 
 	//originally operator^
-	public TitanOctetString operatorXor4b(final TitanOctetString_Element other_value) {
+	public TitanOctetString xor4b(final TitanOctetString_Element other_value) {
 		mustBound("Left operand of operator xor4b is an unbound octetstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound octetstring element.");
 
