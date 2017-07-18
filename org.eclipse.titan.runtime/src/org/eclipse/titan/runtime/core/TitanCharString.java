@@ -56,18 +56,19 @@ public class TitanCharString extends Base_Type {
 	}
 
 	// assign for String
-	public TitanCharString assign( final String aOtherValue){
-		if(aOtherValue == null){
+	public TitanCharString assign(final String aOtherValue) {
 		cleanUp();
-		val_ptr=new StringBuilder();
+
+		if (aOtherValue == null) {
+			val_ptr = new StringBuilder();
 		} else {
-		cleanUp();
-		val_ptr=new StringBuilder(aOtherValue);
+			val_ptr = new StringBuilder(aOtherValue);
 		}
+
 		return this;
 	}
-
-	// originally operator=
+	
+	//originally operator=
 	public TitanCharString assign( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Assignment of an unbound charstring value." );
 
@@ -104,40 +105,43 @@ public class TitanCharString extends Base_Type {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
-	
-	// assign for TitanCharString_Element 
-	public TitanCharString assign( final TitanCharString_Element aOtherValue){
-		aOtherValue.mustBound( "Assignment of an unbound charstring element to a charstring.");
-		char charValue=aOtherValue.get_char();
+
+	// assign for TitanCharString_Element
+	public TitanCharString assign(final TitanCharString_Element aOtherValue) {
+		aOtherValue.mustBound("Assignment of an unbound charstring element to a charstring.");
+
 		cleanUp();
 		val_ptr = new StringBuilder(1);
 		val_ptr.append(aOtherValue.get_char());
+
 		return this;
 	}
-	
+
 	// assign for UniversalCharstring
-	public TitanCharString assign(final TitanUniversalCharString aOtherValue){
-		aOtherValue.mustBound( "Assignment of an unbound universal charstring to a charstring.");
-		if(aOtherValue.charstring){
+	public TitanCharString assign(final TitanUniversalCharString aOtherValue) {
+		aOtherValue.mustBound("Assignment of an unbound universal charstring to a charstring.");
+
+		if (aOtherValue.charstring) {
 			return assign(aOtherValue.cstr.toString());
-		}
-		else{
-		cleanUp();
-		 for(int i=0;i<aOtherValue.val_ptr.size();++i){
-		TitanUniversalChar uc = aOtherValue.val_ptr.get(i);
-			if(uc.getUc_group()!=0 || uc.getUc_plane()!=0 || uc.getUc_row()!=0){
-				throw new TtcnError(MessageFormat.format("Multiple-byte characters cannot be assigned to a charstring, invalid character char({0},{1}, {2}, {3}) at index {4}.",aOtherValue));	
 		} else {
-				val_ptr.append(uc.getUc_cell());
-		  }
-		 	}
-		} return this;
+			cleanUp();
+			for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
+				TitanUniversalChar uc = aOtherValue.val_ptr.get(i);
+				if (uc.getUc_group() != 0 || uc.getUc_plane() != 0 || uc.getUc_row() != 0) {
+					throw new TtcnError(MessageFormat.format("Multiple-byte characters cannot be assigned to a charstring, invalid character char({0},{1}, {2}, {3}) at index {4}.", aOtherValue));
+				} else {
+					val_ptr.append(uc.getUc_cell());
+				}
+			}
+		}
+
+		return this;
 	}
-	
 
 	// originally lengthOf
 	public int lengthOf() {
 		mustBound("Performing lengthof operation on an unbound charstring value.");
+
 		return val_ptr.length();
 	}
 
@@ -155,7 +159,7 @@ public class TitanCharString extends Base_Type {
 
 		return new TitanCharString( val_ptr.append( aOtherValue.val_ptr ) );
 	}
-	
+
 	//TODO: implement operatorEquals for String
 	//TODO: implement operatorEquals for charstring_element
 	//TODO: implement operatorEquals for universal charstring
@@ -260,7 +264,6 @@ public class TitanCharString extends Base_Type {
 		return val_ptr.toString();
 	}
 
-	
 	//TODO: implement static operatorEquals
 	//TODO: implement static append
 	//TODO: implement static bit2str
@@ -268,5 +271,4 @@ public class TitanCharString extends Base_Type {
 	//TODO: implement static oct2str
 	//TODO: implement static unichar2str
 	//TODO: implement static replace
-	
 }
