@@ -16,16 +16,19 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -132,5 +135,69 @@ public final class Function_Reference_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		source.append(name);
+		source.append(".assign( ");
+		source.append(generateSingleExpression(aData));
+		source.append( " );\n" );
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		StringBuilder result = new StringBuilder();
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null || referredFunction == null) {
+			result.append("// FATAL ERROR while processing function reference value\n");
+			return result;
+		}
+
+		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
+		result.append("@Override\n");
+		result.append("public String getId() {\n");
+		result.append(MessageFormat.format("return \"{0}\";\n", referredFunction.getFullName()));
+		result.append("}\n");
+		result.append("@Override\n");
+		result.append("public ");
+		Function_Type functionType = (Function_Type) lastGovernor;
+		Type returnType = functionType.getReturnType();
+		if (returnType == null) {
+			result.append("void");
+		} else {
+			if (functionType.returnsTemplate()) {
+				result.append(returnType.getGenNameTemplate(aData, result, myScope));
+			} else {
+				result.append(returnType.getGenNameValue(aData, result, myScope));
+			}
+		}
+		result.append(" invoke(");
+		functionType.getFormalParameters().generateCode(aData, result);
+		result.append(") {\n");
+		if (returnType != null) {
+			result.append("return ");
+		}
+		result.append(referredFunction.getIdentifier().getName());
+		result.append('(');
+		result.append(functionType.getFormalParameters().generateCodeActualParlist(""));
+		result.append(");\n");
+		result.append("}\n");
+		result.append("})\n");
+
+		return result;
 	}
 }

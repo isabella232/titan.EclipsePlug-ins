@@ -16,14 +16,16 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
+import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -126,5 +128,73 @@ public final class Altstep_Reference_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		source.append(name);
+		source.append(".assign( ");
+		source.append(generateSingleExpression(aData));
+		source.append( " );\n" );
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport("Default_Base");
+		aData.addBuiltinTypeImport("TitanAlt_Status");
+
+		StringBuilder result = new StringBuilder();
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null || referredAltstep == null) {
+			result.append("// FATAL ERROR while processing altstep reference value\n");
+			return result;
+		}
+
+		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
+		result.append("@Override\n");
+		result.append("public String getId() {\n");
+		result.append(MessageFormat.format("return \"{0}\";\n", referredAltstep.getFullName()));
+		result.append("}\n");
+
+		Altstep_Type altstepType = (Altstep_Type) lastGovernor;
+		String altstepName = referredAltstep.getIdentifier().getName();
+		StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
+
+		result.append("@Override\n");
+		result.append("public void invoke_standalone(");
+		altstepType.getFormalParameters().generateCode(aData, result);
+		result.append(") {\n");
+		result.append(MessageFormat.format("{0}({1});\n", altstepName, actualParList));
+		result.append("}\n");
+
+		result.append("@Override\n");
+		result.append("public Default_Base activate(");
+		altstepType.getFormalParameters().generateCode(aData, result);
+		result.append(") {\n");
+		result.append(MessageFormat.format("return activate_{0}({1});\n", altstepName, actualParList));
+		result.append("}\n");
+
+		result.append("@Override\n");
+		result.append("public TitanAlt_Status invoke(");
+		altstepType.getFormalParameters().generateCode(aData, result);
+		result.append(") {\n");
+		result.append(MessageFormat.format("return {0}_instance({1});\n", altstepName, actualParList));
+		result.append("}\n");
+		result.append("})\n");
+
+		return result;
 	}
 }
