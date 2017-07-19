@@ -30,10 +30,12 @@ import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados
@@ -292,5 +294,29 @@ public final class Reply_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		ExpressionStruct expression = new ExpressionStruct();
+
+		portReference.generateCode(aData, expression);
+		expression.expression.append(".reply(");
+		parameter.generateCode(aData, expression);
+
+		if (replyValue != null) {
+			expression.expression.append(".set_value_template(");
+			replyValue.generateCodeExpression(aData, expression);
+			expression.expression.append(')');
+		}
+	
+		if (toClause != null) {
+			expression.expression.append(", ");
+			toClause.generateCodeExpression(aData, expression);
+		}
+		expression.expression.append(" )");
+
+		expression.mergeExpression(source);
 	}
 }
