@@ -370,7 +370,7 @@ public class SignatureGenerator {
 				SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("return (({0}) field).match(other_value.getTitanInteger(), legacy);\n", exception.mJavaTemplateName));
+				source.append(MessageFormat.format("return (({0}) field).match(other_value.get{1}(), legacy);\n", exception.mJavaTemplateName, exception.mJavaTypeName));
 			}
 			source.append("default:\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector when matching an exception of signature {0}.\");\n", def.displayName));
