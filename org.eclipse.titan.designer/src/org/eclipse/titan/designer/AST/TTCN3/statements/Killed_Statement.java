@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -15,6 +16,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -27,9 +30,12 @@ public final class Killed_Statement extends Statement {
 	private static final String STATEMENT_NAME = "killed";
 
 	private final Value componentReference;
+	//when componentReference is null, this show if the killed was called with any component or all component
+	private final boolean isAny;
 
-	public Killed_Statement(final Value componentReference) {
+	public Killed_Statement(final Value componentReference, final boolean isAny) {
 		this.componentReference = componentReference;
+		this.isAny = isAny;
 
 		if (componentReference != null) {
 			componentReference.setFullNameParent(this);
@@ -117,5 +123,64 @@ public final class Killed_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		String tempLabel = aData.getTemporaryVariableName();
+
+		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
+		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("for( ; ; ) {\n");
+		source.append("if (alt_flag != TitanAlt_Status.ALT_NO) {\n");
+
+		ExpressionStruct expression = new ExpressionStruct();
+		generateCodeExpression(aData, expression);
+		source.append(MessageFormat.format("alt_flag = {0};\n", expression.expression));
+
+		source.append("if (alt_flag == TitanAlt_Status.ALT_YES) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
+		source.append("default_flag = TTCN_Default.tryAltsteps();\n");
+		source.append("if (default_flag == TitanAlt_Status.ALT_YES || default_flag == TitanAlt_Status.ALT_BREAK) {\n");
+		source.append("break;\n");
+		source.append("} else if (default_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+		source.append(MessageFormat.format("continue {0};\n", tempLabel));
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone getcall statement failed in file {0}, line {1}.\");\n", getLocation().getFile().getProjectRelativePath(), getLocation().getLine()));
+		source.append("}\n");
+		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+		aData.addBuiltinTypeImport("TitanComponent");
+
+		if (componentReference != null) {
+			// compref.killed
+			componentReference.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append(".killed(");
+			//FIXME handle index redirection
+			expression.expression.append("null");
+			expression.expression.append(')');
+		} else if (isAny) {
+			// any component.killed
+			expression.expression.append("TTCN_Runtime.component_killed(TitanComponent.ANY_COMPREF)");
+		} else {
+			// all component.killed
+			expression.expression.append("TTCN_Runtime.component_killed(TitanComponent.ALL_COMPREF)");
+		}
 	}
 }

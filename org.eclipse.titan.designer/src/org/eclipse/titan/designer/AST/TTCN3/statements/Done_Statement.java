@@ -16,13 +16,18 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -41,10 +46,14 @@ public final class Done_Statement extends Statement {
 	private final TemplateInstance doneMatch;
 	private final Reference redirect;
 
-	public Done_Statement(final Value componentreference, final TemplateInstance doneMatch, final Reference redirect) {
+	//when componentReference is null, this show if the killed was called with any component or all component
+	private final boolean isAny;
+
+	public Done_Statement(final Value componentreference, final TemplateInstance doneMatch, final Reference redirect, final boolean isAny) {
 		this.componentreference = componentreference;
 		this.doneMatch = doneMatch;
 		this.redirect = redirect;
+		this.isAny = isAny;
 
 		if (componentreference != null) {
 			componentreference.setFullNameParent(this);
@@ -237,5 +246,93 @@ public final class Done_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		String tempLabel = aData.getTemporaryVariableName();
+
+		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
+		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("for( ; ; ) {\n");
+		source.append("if (alt_flag != TitanAlt_Status.ALT_NO) {\n");
+
+		ExpressionStruct expression = new ExpressionStruct();
+		generateCodeExpression(aData, expression);
+		source.append(MessageFormat.format("alt_flag = {0};\n", expression.expression));
+
+		source.append("if (alt_flag == TitanAlt_Status.ALT_YES) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
+		source.append("default_flag = TTCN_Default.tryAltsteps();\n");
+		source.append("if (default_flag == TitanAlt_Status.ALT_YES || default_flag == TitanAlt_Status.ALT_BREAK) {\n");
+		source.append("break;\n");
+		source.append("} else if (default_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+		source.append(MessageFormat.format("continue {0};\n", tempLabel));
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone getcall statement failed in file {0}, line {1}.\");\n", getLocation().getFile().getProjectRelativePath(), getLocation().getLine()));
+		source.append("}\n");
+		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+		aData.addBuiltinTypeImport("TitanComponent");
+
+		if (componentreference != null) {
+			if (doneMatch != null) {
+				// value returning done
+				// figure out what type the done() function belongs to
+				IType t = doneMatch.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+				if (t == null) {
+					expression.expression.append("// FATAL ERROR while processing value returning done\n");
+					return;
+				}
+				while (t instanceof Referenced_Type && !t.hasDoneAttribute()) {
+					t = ((Referenced_Type)t).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), null);
+				}
+				if (!t.hasDoneAttribute()) {
+					expression.expression.append("// FATAL ERROR while processing value returning done\n");
+					return;
+				}
+
+				// determine whether the done() function is in the same module
+				Module t_module = t.getMyScope().getModuleScope();
+				if (t_module != myStatementBlock.getModuleScope()) {
+					expression.expression.append(MessageFormat.format("{0}.", t_module.getIdentifier().getName()));
+				}
+				expression.expression.append("done(");
+				componentreference.generateCodeExpression(aData, expression);
+				expression.expression.append(", ");
+				//FIXME handle decoded match
+				doneMatch.generateCode(aData, expression);
+				//expression.expression.append(", ");
+				//FIXME handle value redirection
+			} else {
+				// simple done
+				componentreference.generateCodeExpressionMandatory(aData, expression);
+				expression.expression.append(".done(");
+			}
+
+			//FIXME handle index redirection
+			expression.expression.append(')');
+		} else if (isAny) {
+			// any component.done
+			expression.expression.append("TTCN_Runtime.component_done(TitanComponent.ANY_COMPREF)");
+		} else {
+			// all component.done
+			expression.expression.append("TTCN_Runtime.component_done(TitanComponent.ALL_COMPREF)");
+		}
 	}
 }

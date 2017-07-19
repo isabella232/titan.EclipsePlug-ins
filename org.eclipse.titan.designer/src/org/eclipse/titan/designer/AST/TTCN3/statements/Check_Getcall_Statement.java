@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -245,6 +246,43 @@ public final class Check_Getcall_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		String tempLabel = aData.getTemporaryVariableName();
+
+		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
+		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("for( ; ; ) {\n");
+		source.append("if (alt_flag != TitanAlt_Status.ALT_NO) {\n");
+
+		ExpressionStruct expression = new ExpressionStruct();
+		generateCodeExpression(aData, expression);
+		source.append(MessageFormat.format("alt_flag = {0};\n", expression.expression));
+
+		source.append("if (alt_flag == TitanAlt_Status.ALT_YES) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
+		source.append("default_flag = TTCN_Default.tryAltsteps();\n");
+		source.append("if (default_flag == TitanAlt_Status.ALT_YES || default_flag == TitanAlt_Status.ALT_BREAK) {\n");
+		source.append("break;\n");
+		source.append("} else if (default_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+		source.append(MessageFormat.format("continue {0};\n", tempLabel));
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone getcall statement failed in file {0}, line {1}.\");\n", getLocation().getFile().getProjectRelativePath(), getLocation().getLine()));
+		source.append("}\n");
+		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
 	}
 
 	@Override

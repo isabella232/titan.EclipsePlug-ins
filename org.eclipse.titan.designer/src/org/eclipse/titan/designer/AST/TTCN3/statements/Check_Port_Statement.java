@@ -19,6 +19,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -195,5 +197,83 @@ public final class Check_Port_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		String tempLabel = aData.getTemporaryVariableName();
+
+		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
+		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("for( ; ; ) {\n");
+		source.append("if (alt_flag != TitanAlt_Status.ALT_NO) {\n");
+
+		ExpressionStruct expression = new ExpressionStruct();
+		generateCodeExpression(aData, expression);
+		source.append(MessageFormat.format("alt_flag = {0};\n", expression.expression));
+
+		source.append("if (alt_flag == TitanAlt_Status.ALT_YES) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
+		source.append("default_flag = TTCN_Default.tryAltsteps();\n");
+		source.append("if (default_flag == TitanAlt_Status.ALT_YES || default_flag == TitanAlt_Status.ALT_BREAK) {\n");
+		source.append("break;\n");
+		source.append("} else if (default_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+		source.append(MessageFormat.format("continue {0};\n", tempLabel));
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone getcall statement failed in file {0}, line {1}.\");\n", getLocation().getFile().getProjectRelativePath(), getLocation().getLine()));
+		source.append("}\n");
+		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("TitanPort");
+
+		if (portReference != null) {
+			// the operation refers to a specific port
+			portReference.generateCode(aData, expression);
+		} else {
+			// the operation refers to any port
+			expression.expression.append("TitanPort.any_check");
+		}
+
+		expression.expression.append('(');
+		generateCodeExprFromclause(aData, expression);
+		expression.expression.append(", ");
+		if (redirectSender == null) {
+			expression.expression.append("null");
+		} else {
+			redirectSender.generateCode(aData, expression);
+		}
+		//FIXME handle index redirection
+		expression.expression.append(')');
+	}
+
+	/**
+	 * helper to generate the from part.
+	 * 
+	 * originally generate_code_expr_fromclause
+	 * */
+	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
+		if (fromClause != null) {
+			fromClause.generateCode(aData, expression);
+			//FIXME handle redirect
+		} else {
+			// neither from clause nor sender redirect is present
+			// the operation cannot refer to address type
+			expression.expression.append("TitanComponent_template.any_compref");
+		}
 	}
 }
