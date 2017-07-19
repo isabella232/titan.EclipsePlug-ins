@@ -25,6 +25,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -464,5 +466,80 @@ public final class Getreply_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (portReference != null) {
+			portReference.generateCode(aData, expression);
+			expression.expression.append(".getreply(");
+			if (parameter != null) {
+				//FIXME handle redirect
+				parameter.generateCode(aData, expression);
+				IType signature = parameter.getTemplateBody().getMyGovernor();
+				IType signatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				IType returnType = ((Signature_Type) signatureType).getSignatureReturnType();
+				if (returnType != null) {
+					expression.expression.append(".set_value_template(");
+					if (valueMatch != null) {
+						valueMatch.generateCode(aData, expression);
+					} else {
+						// the value match is not present
+						// we must substitute it with ? in the signature template
+						expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", returnType.getGenNameTemplate(aData, expression.expression, myScope)));
+					}
+					expression.expression.append(')');
+				}
+				expression.expression.append(", ");
+				generateCodeExprFromclause(aData, expression);
+				//FIXME handle redirections
+				expression.expression.append(", ");
+				if (redirectSender == null) {
+					expression.expression.append("null");
+				} else {
+					redirectSender.generateCode(aData, expression);
+				}
+			} else {
+				// the signature template is not present
+				generateCodeExprFromclause(aData, expression);
+				expression.expression.append(", ");
+				if (redirectSender == null) {
+					expression.expression.append("null");
+				} else {
+					redirectSender.generateCode(aData, expression);
+				}
+			}
+//			expression.expression.append(", ");
+//			//FIXME handle redirect
+//			expression.expression.append("null");
+		} else {
+			// the operation refers to any port
+			expression.expression.append("TitanPort.any_getreply(");
+			generateCodeExprFromclause(aData, expression);
+			expression.expression.append(", ");
+			if (redirectSender == null) {
+				expression.expression.append("null");
+			} else {
+				redirectSender.generateCode(aData, expression);
+			}
+		}
+		expression.expression.append(')');
+	}
+
+	/**
+	 * helper to generate the from part.
+	 * 
+	 * originally generate_code_expr_fromclause
+	 * */
+	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
+		if (fromClause != null) {
+			fromClause.generateCode(aData, expression);
+			//FIXME handle redirect
+		} else {
+			// neither from clause nor sender redirect is present
+			// the operation cannot refer to address type
+			expression.expression.append("TitanComponent_template.any_compref");
+		}
 	}
 }

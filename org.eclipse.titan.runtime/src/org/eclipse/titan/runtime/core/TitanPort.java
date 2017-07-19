@@ -240,6 +240,62 @@ public class TitanPort {
 		return returnValue;
 	}
 
+	public TitanAlt_Status getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_getcall
+	public static TitanAlt_Status any_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.getcall(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Getcall operation returned unexpected status code on port {0} while evaluating `any port.getcall'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
+	public TitanAlt_Status check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_check_getcall
+	public static TitanAlt_Status any_check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.check_getcall(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Check-getcall operation returned unexpected status code on port {0} while evaluating `any port.check(getcall)'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
 	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		return TitanAlt_Status.ALT_NO;
 	}
@@ -290,6 +346,141 @@ public class TitanPort {
 				break;
 			default:
 				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0} while evaluating `any port.check(getreply)'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
+	public TitanAlt_Status get_exception(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_catch
+	public static TitanAlt_Status any_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.get_exception(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Catch operation returned unexpected status code on port {0} while evaluating `any port.catch'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
+	public TitanAlt_Status check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_check_catch
+	public static TitanAlt_Status any_check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.check_getreply(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0} while evaluating `any port.check(catch)'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
+	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		// the procedure-based queue must have the higher priority
+		switch(check_getcall(sender_template, sender_pointer)) {
+		case ALT_YES:
+			return TitanAlt_Status.ALT_YES;
+		case ALT_MAYBE:
+			returnValue = TitanAlt_Status.ALT_MAYBE;
+		case ALT_NO:
+			break;
+		default:
+			throw new TtcnError(MessageFormat.format("Internal error: Check-getcall operation returned unexpected status code on port {0}.", portName));
+		}
+		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
+			// don't try getreply if the procedure-based queue is empty
+			// (i.e. check_getcall() returned ALT_MAYBE)
+			switch(check_getreply(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0}.", portName));
+			}
+		}
+		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
+			// don't try catch if the procedure-based queue is empty
+			// (i.e. check_getcall() or check_getreply() returned ALT_MAYBE)
+			switch(check_catch(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0}.", portName));
+			}
+		}
+		switch(check_receive(sender_template, sender_pointer)) {
+		case ALT_YES:
+			return TitanAlt_Status.ALT_YES;
+		case ALT_MAYBE:
+			returnValue = TitanAlt_Status.ALT_MAYBE;
+		case ALT_NO:
+			break;
+		default:
+			throw new TtcnError(MessageFormat.format("Internal error: Check-receive operation returned unexpected status code on port {0}.", portName));
+		}
+
+		return returnValue;
+	}
+
+	//originally any_check
+	public static TitanAlt_Status any_check(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.check(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Check operation returned unexpected status code on port {0} while evaluating `any port.check'.", port.portName));
 			}
 		}
 

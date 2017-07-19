@@ -17,10 +17,12 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados
@@ -36,7 +38,7 @@ public final class Check_Getcall_Statement extends Statement {
 	private final Reference portReference;
 	private final TemplateInstance parameter;
 	private final TemplateInstance fromClause;
-	private final Parameter_Redirect redirect;
+	private final Parameter_Redirect redirectParameter;
 	private final Reference redirectSender;
 
 	public Check_Getcall_Statement(final Reference portReference, final TemplateInstance parameter, final TemplateInstance fromClause,
@@ -44,7 +46,7 @@ public final class Check_Getcall_Statement extends Statement {
 		this.portReference = portReference;
 		this.parameter = parameter;
 		this.fromClause = fromClause;
-		this.redirect = redirect;
+		this.redirectParameter = redirect;
 		this.redirectSender = redirectSender;
 
 		if (portReference != null) {
@@ -87,7 +89,7 @@ public final class Check_Getcall_Statement extends Statement {
 			return builder.append(FULLNAMEPART2);
 		} else if (fromClause == child) {
 			return builder.append(FULLNAMEPART3);
-		} else if (redirect == child) {
+		} else if (redirectParameter == child) {
 			return builder.append(FULLNAMEPART4);
 		} else if (redirectSender == child) {
 			return builder.append(FULLNAMEPART5);
@@ -109,8 +111,8 @@ public final class Check_Getcall_Statement extends Statement {
 		if (fromClause != null) {
 			fromClause.setMyScope(scope);
 		}
-		if (redirect != null) {
-			redirect.setMyScope(scope);
+		if (redirectParameter != null) {
+			redirectParameter.setMyScope(scope);
 		}
 		if (redirectSender != null) {
 			redirectSender.setMyScope(scope);
@@ -130,7 +132,7 @@ public final class Check_Getcall_Statement extends Statement {
 			return;
 		}
 
-		Getcall_Statement.checkGetcallStatement(timestamp, this, "check-getcall", portReference, parameter, fromClause, redirect,
+		Getcall_Statement.checkGetcallStatement(timestamp, this, "check-getcall", portReference, parameter, fromClause, redirectParameter,
 				redirectSender);
 
 		if (redirectSender != null) {
@@ -150,7 +152,7 @@ public final class Check_Getcall_Statement extends Statement {
 		final List<Integer> result = new ArrayList<Integer>();
 		result.add(Ttcn3Lexer.SENDER);
 
-		if (redirect != null) {
+		if (redirectParameter != null) {
 			return result;
 		}
 
@@ -193,9 +195,9 @@ public final class Check_Getcall_Statement extends Statement {
 			reparser.updateLocation(fromClause.getLocation());
 		}
 
-		if (redirect != null) {
-			redirect.updateSyntax(reparser, false);
-			reparser.updateLocation(redirect.getLocation());
+		if (redirectParameter != null) {
+			redirectParameter.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectParameter.getLocation());
 		}
 
 		if (redirectSender != null) {
@@ -216,8 +218,8 @@ public final class Check_Getcall_Statement extends Statement {
 		if (fromClause != null) {
 			fromClause.findReferences(referenceFinder, foundIdentifiers);
 		}
-		if (redirect != null) {
-			redirect.findReferences(referenceFinder, foundIdentifiers);
+		if (redirectParameter != null) {
+			redirectParameter.findReferences(referenceFinder, foundIdentifiers);
 		}
 		if (redirectSender != null) {
 			redirectSender.findReferences(referenceFinder, foundIdentifiers);
@@ -236,12 +238,80 @@ public final class Check_Getcall_Statement extends Statement {
 		if (fromClause != null && !fromClause.accept(v)) {
 			return false;
 		}
-		if (redirect != null && !redirect.accept(v)) {
+		if (redirectParameter != null && !redirectParameter.accept(v)) {
 			return false;
 		}
 		if (redirectSender != null && !redirectSender.accept(v)) {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (portReference != null) {
+			// the operation refers to a specific port
+			portReference.generateCode(aData, expression);
+			expression.expression.append(".check_getcall(");
+			if (parameter != null) {
+				//FIXME handle redirect
+				parameter.generateCode(aData, expression);
+				expression.expression.append(", ");
+				generateCodeExprFromclause(aData, expression);
+//				IType signature = parameter.getTemplateBody().getMyGovernor();
+//				//FIXME handle redirect
+//				expression.expression.append(MessageFormat.format(", {0}_call_redirect(", signature.getGenNameTemplate(aData, expression.expression, myScope)));
+//				if (redirectParameter != null) {
+//					expression.expression.append("//FIXME add support for parameter redirection.\n");
+//				}
+//				expression.expression.append(") ");
+				expression.expression.append(", ");
+				if (redirectSender == null) {
+					expression.expression.append("null");
+				} else {
+					redirectSender.generateCode(aData, expression);
+				}
+			} else {
+				// the signature template is not present
+				generateCodeExprFromclause(aData, expression);
+				expression.expression.append(", ");
+				if (redirectSender == null) {
+					expression.expression.append("null");
+				} else {
+					redirectSender.generateCode(aData, expression);
+				}
+			}
+//			expression.expression.append(", ");
+//			//FIXME handle redirect
+//			expression.expression.append("null");
+		} else {
+			// the operation refers to any port
+			expression.expression.append("TitanPort.any_check_getcall(");
+			generateCodeExprFromclause(aData, expression);
+			expression.expression.append(", ");
+			if (redirectSender == null) {
+				expression.expression.append("null");
+			} else {
+				redirectSender.generateCode(aData, expression);
+			}
+		}
+		expression.expression.append(')');
+	}
+
+	/**
+	 * helper to generate the from part.
+	 * 
+	 * originally generate_code_expr_fromclause
+	 * */
+	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
+		if (fromClause != null) {
+			fromClause.generateCode(aData, expression);
+			//FIXME handle redirect
+		} else {
+			// neither from clause nor sender redirect is present
+			// the operation cannot refer to address type
+			expression.expression.append("TitanComponent_template.any_compref");
+		}
 	}
 }

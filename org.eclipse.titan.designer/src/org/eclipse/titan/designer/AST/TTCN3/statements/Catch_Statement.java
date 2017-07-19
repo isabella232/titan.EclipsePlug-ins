@@ -25,6 +25,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureExceptions;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
@@ -496,5 +498,57 @@ public final class Catch_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (portReference != null) {
+			// the operation refers to a specific port
+			if (timeout) {
+				// the operation catches the timeout exception
+				expression.expression.append("call_timer.timeout()");
+				return;
+			}
+			portReference.generateCode(aData, expression);
+			expression.expression.append(".get_exception(");
+			if (signatureReference != null) {
+				// the signature reference and the exception template is present
+				expression.expression.append(MessageFormat.format("{0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
+				//FIXME handle redirection
+				parameter.generateCode(aData, expression);
+				expression.expression.append(", ");
+				//FIXME handle value redirection
+			}
+		} else {
+			// the operation refers to any port
+			expression.expression.append("TitanPort.any_catch(");
+		}
+
+		generateCodeExprFromclause(aData, expression);
+		expression.expression.append(", ");
+		if (redirectSender == null) {
+			expression.expression.append("null");
+		} else {
+			redirectSender.generateCode(aData, expression);
+		}
+		//FIXME handle index redirection
+		expression.expression.append(')');
+	}
+
+	/**
+	 * helper to generate the from part.
+	 * 
+	 * originally generate_code_expr_fromclause
+	 * */
+	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
+		if (fromClause != null) {
+			fromClause.generateCode(aData, expression);
+			//FIXME handle redirect
+		} else {
+			// neither from clause nor sender redirect is present
+			// the operation cannot refer to address type
+			expression.expression.append("TitanComponent_template.any_compref");
+		}
 	}
 }
