@@ -258,7 +258,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator+
-	public TitanBitString add(final TitanBitString aOtherValue) {
+	public TitanBitString concatenate(final TitanBitString aOtherValue) {
 		mustBound("Unbound left operand of bitstring concatenation.");
 		aOtherValue.mustBound("Unbound right operand of bitstring element concatenation.");
 
@@ -311,7 +311,7 @@ public class TitanBitString extends Base_Type {
 	}
 	
 	//originally operator+
-	public TitanBitString add(final TitanBitString_Element otherValue){
+	public TitanBitString concatenate(final TitanBitString_Element otherValue){
 		mustBound("Unbound left operand of bitstring concatenation.");
 		otherValue.mustBound("Unbound right operand of bitstring element");
 		TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits+1);

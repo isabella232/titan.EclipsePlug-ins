@@ -145,15 +145,15 @@ public class TitanCharString extends Base_Type {
 		return val_ptr.length();
 	}
 
-	//TODO: implement append for String
-	//TODO: implement append for charstring_element
-	//TODO: implement append for universal charstring
+	//TODO: implement concatenate for String
+	//TODO: implement concatenate for charstring_element
+	//TODO: implement concatenate for universal charstring
 
 	/**
 	 * this + aOtherValue
 	 * originally operator&
 	 */
-	public TitanCharString append( final TitanCharString aOtherValue ) {
+	public TitanCharString concatenate( final TitanCharString aOtherValue ) {
 		mustBound( "Unbound left operand of charstring addition." );
 		aOtherValue.mustBound( "Unbound right operand of charstring addition." );
 

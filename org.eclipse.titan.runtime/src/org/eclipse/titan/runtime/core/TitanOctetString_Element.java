@@ -94,7 +94,7 @@ public class TitanOctetString_Element {
 	}
 	
 	// originally operator+
-	public TitanOctetString append( final TitanOctetString other_value ) {
+	public TitanOctetString concatenate( final TitanOctetString other_value ) {
 		mustBound("Unbound left operand of octetstring element concatenation.");
 		other_value.mustBound("Unbound right operand of octetstring concatenation.");
 
@@ -106,17 +106,19 @@ public class TitanOctetString_Element {
 		for (int i = 0; i < n_nibbles; i++) {
 			dest_ptr.add( i+1, src_ptr.get( i ) );
 		}
+
 		return new TitanOctetString(dest_ptr);
 	}
 
 	// originally operator+
-	public TitanOctetString append( final TitanOctetString_Element other_value ) {
+	public TitanOctetString concatenate( final TitanOctetString_Element other_value ) {
 		mustBound("Unbound left operand of octetstring element concatenation.");
 		other_value.mustBound("Unbound right operand of octetstring element concatenation.");
-		
+
 		final List<Character> dest_ptr = new ArrayList<Character>();
 		dest_ptr.add(0, str_val.get_nibble(nibble_pos) );
 		dest_ptr.add(1,other_value.get_nibble());
+
 		return new TitanOctetString(dest_ptr);
 	}
 

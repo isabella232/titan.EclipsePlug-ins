@@ -394,7 +394,7 @@ public final class StringConcatenationExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpressionMandatory(aData, expression);
 		// originally operatior+ is used for string concatenation
-		expression.expression.append( ".append( " );
+		expression.expression.append( ".concatenate( " );
 		value2.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append( " )" );
 	}

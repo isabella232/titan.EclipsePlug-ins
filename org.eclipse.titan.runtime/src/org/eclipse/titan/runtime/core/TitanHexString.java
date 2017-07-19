@@ -319,9 +319,10 @@ public class TitanHexString extends Base_Type {
 	 * this + otherValue (concatenation)
 	 * originally operator+
 	 */
-	public TitanHexString add(final TitanHexString otherValue) {
+	public TitanHexString concatenate(final TitanHexString otherValue) {
 		mustBound("Unbound left operand of hexstring concatenation.");
 		otherValue.mustBound("Unbound right operand of hexstring concatenation.");
+
 		TitanHexString result = new TitanHexString(nibbles_ptr);
 		result.nibbles_ptr.addAll(copyList(otherValue.nibbles_ptr));
 
@@ -329,7 +330,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally operator+
-	public TitanHexString add(final TitanHexString_Element otherValue) {
+	public TitanHexString concatenate(final TitanHexString_Element otherValue) {
 		mustBound("Unbound left operand of hexstring concatenation.");
 		otherValue.mustBound("Unbound right operand of hexstring element concatenation.");
 

@@ -73,7 +73,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator+
-	public TitanHexString append( final TitanHexString other_value ) {
+	public TitanHexString concatenate( final TitanHexString other_value ) {
 		mustBound("Unbound left operand of hexstring element concatenation.");
 		other_value.mustBound("Unbound right operand of hexstring concatenation.");
 
@@ -90,7 +90,7 @@ public class TitanHexString_Element {
 	}
 
 	//originally operator+
-	public TitanHexString append( final TitanHexString_Element other_value ) {
+	public TitanHexString concatenate( final TitanHexString_Element other_value ) {
 		mustBound("Unbound left operand of hexstring element concatenation.");
 		other_value.mustBound("Unbound right operand of hexstring element concatenation.");
 

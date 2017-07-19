@@ -82,7 +82,7 @@ public class TitanBitString_Element {
 	}
 
 	//originally operator+
-	public TitanBitString append( final TitanBitString other_value ) {
+	public TitanBitString concatenate( final TitanBitString other_value ) {
 		mustBound("Unbound left operand of bitstring element concatenation.");
 		other_value.mustBound("Unbound right operand of bitstring concatenation.");
 
@@ -99,7 +99,7 @@ public class TitanBitString_Element {
 	}
 
 	//originally operator+
-	public TitanBitString append( final TitanBitString_Element other_value ) {
+	public TitanBitString concatenate( final TitanBitString_Element other_value ) {
 		mustBound("Unbound left operand of bitstring element concatenation.");
 		other_value.mustBound("Unbound right operand of bitstring element concatenation.");
 
