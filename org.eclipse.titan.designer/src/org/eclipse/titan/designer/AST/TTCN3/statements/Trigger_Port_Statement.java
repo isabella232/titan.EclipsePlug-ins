@@ -293,8 +293,7 @@ public final class Trigger_Port_Statement extends Statement {
 			if (varType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()==Type_type.TYPE_COMPONENT) {
 				expression.expression.append("TitanComponent_template.any_compref");
 			} else {
-				//FIXME what is ANY_VALUE?
-				expression.expression.append(MessageFormat.format("new {0}(ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
+				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
 			}
 		} else {
 			expression.expression.append("TitanComponent_template.any_compref");
