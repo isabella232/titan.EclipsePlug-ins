@@ -297,10 +297,10 @@ public final class Check_Catch_Statement extends Statement {
 			expression.expression.append(".check_catch(");
 			if (signatureReference != null) {
 				// the signature reference and the exception template is present
-				expression.expression.append(MessageFormat.format("{0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
+				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
 				//FIXME handle redirection
 				parameter.generateCode(aData, expression);
-				expression.expression.append(", ");
+				expression.expression.append("), ");
 				//FIXME handle value redirection
 			}
 		} else {
