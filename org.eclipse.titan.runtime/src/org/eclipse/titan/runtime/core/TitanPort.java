@@ -153,71 +153,6 @@ public class TitanPort {
 		userStop();
 	}
 
-	protected void Install_Handler(final Set<SelectableChannel> readChannels, final Set<SelectableChannel> writeChannels, final double callInterval) throws IOException {
-		if (!is_active) {
-			throw new TtcnError(MessageFormat.format("Event handler cannot be installed for inactive port {0}.", portName));
-		}
-
-		//FIXME register handler
-		if (readChannels != null) {
-			for(SelectableChannel channel : readChannels) {
-				channel.configureBlocking(false);
-				TTCN_Snapshot.channelMap.put(channel, this);
-				channel.register(TTCN_Snapshot.selector, SelectionKey.OP_READ);
-			}
-		}
-	}
-
-	protected void Uninstall_Handler() throws IOException {
-		ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
-		for (Map.Entry<SelectableChannel, TitanPort> entry: TTCN_Snapshot.channelMap.entrySet()) {
-			if (entry.getValue() == this) {
-				tobeRemoved.add(entry.getKey());
-			}
-		}
-
-		for (SelectableChannel channel : tobeRemoved) {
-			channel.close();
-			TTCN_Snapshot.channelMap.remove(channel);
-		}
-	}
-
-	public void Handle_Event(final SelectableChannel channel, final boolean isReadable, final boolean isWriteable) {
-		//FIXME implement default
-	}
-
-	protected void userMap(final String systemPort) {
-		//default implementation is empty
-	}
-
-	protected void userUnmap(final String systemPort) {
-		//default implementation is empty
-	}
-
-	protected void userStart(){
-		//default implementation is empty
-	}
-
-	protected void userStop() {
-		//default implementation is empty
-	}
-
-	protected void clearQueue() {
-		//default implementation is empty
-	}
-
-	//originally get_default_destination
-	protected int getDefaultDestination() {
-		//FIXME implement connection checks
-		if (systemMappings.size() > 1) {
-			throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", portName));
-		} else if (systemMappings.size() == 0) {
-			throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", portName));
-		}
-
-		return TitanComponent.SYSTEM_COMPREF;
-	}
-
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		// FIXME logging
 		return TitanAlt_Status.ALT_NO;
@@ -304,6 +239,129 @@ public class TitanPort {
 
 		return returnValue;
 	}
+
+	public TitanAlt_Status getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_getreply
+	public static TitanAlt_Status any_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.getreply(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Getreply operation returned unexpected status code on port {0} while evaluating `any port.getreply'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
+	public TitanAlt_Status check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		return TitanAlt_Status.ALT_NO;
+	}
+
+	//originally any_check_getreply
+	public static TitanAlt_Status any_check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
+		if (PORTS.isEmpty()) {
+			// FIXME log error
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
+		for (TitanPort port : PORTS) {
+			switch(port.check_getreply(sender_template, sender_pointer)) {
+			case ALT_YES:
+				return TitanAlt_Status.ALT_YES;
+			case ALT_MAYBE:
+				returnValue = TitanAlt_Status.ALT_MAYBE;
+			case ALT_NO:
+				break;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0} while evaluating `any port.check(getreply)'.", port.portName));
+			}
+		}
+
+		return returnValue;
+	}
+
+	protected void Install_Handler(final Set<SelectableChannel> readChannels, final Set<SelectableChannel> writeChannels, final double callInterval) throws IOException {
+		if (!is_active) {
+			throw new TtcnError(MessageFormat.format("Event handler cannot be installed for inactive port {0}.", portName));
+		}
+
+		//FIXME register handler
+		if (readChannels != null) {
+			for(SelectableChannel channel : readChannels) {
+				channel.configureBlocking(false);
+				TTCN_Snapshot.channelMap.put(channel, this);
+				channel.register(TTCN_Snapshot.selector, SelectionKey.OP_READ);
+			}
+		}
+	}
+
+	protected void Uninstall_Handler() throws IOException {
+		ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
+		for (Map.Entry<SelectableChannel, TitanPort> entry: TTCN_Snapshot.channelMap.entrySet()) {
+			if (entry.getValue() == this) {
+				tobeRemoved.add(entry.getKey());
+			}
+		}
+
+		for (SelectableChannel channel : tobeRemoved) {
+			channel.close();
+			TTCN_Snapshot.channelMap.remove(channel);
+		}
+	}
+
+	public void Handle_Event(final SelectableChannel channel, final boolean isReadable, final boolean isWriteable) {
+		//FIXME implement default
+	}
+
+	protected void userMap(final String systemPort) {
+		//default implementation is empty
+	}
+
+	protected void userUnmap(final String systemPort) {
+		//default implementation is empty
+	}
+
+	protected void userStart(){
+		//default implementation is empty
+	}
+
+	protected void userStop() {
+		//default implementation is empty
+	}
+
+	protected void clearQueue() {
+		//default implementation is empty
+	}
+
+	//originally get_default_destination
+	protected int getDefaultDestination() {
+		//FIXME implement connection checks
+		if (systemMappings.size() > 1) {
+			throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", portName));
+		} else if (systemMappings.size() == 0) {
+			throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", portName));
+		}
+
+		return TitanComponent.SYSTEM_COMPREF;
+	}
+
+
 
 	// FIXME handle translation ports
 	private final void map(final String systemPort) {
