@@ -53,13 +53,14 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		permutation_intervals = null;
 	}
 
-	void set_selection(template_sel other_value) {
-		super.set_selection(other_value);
+	@Override
+	protected void setSelection(template_sel other_value) {
+		super.setSelection(other_value);
 		clean_up_intervals();
 	}
 
-	void set_selection(final Record_Of_Template other_value) {
-		super.set_selection(other_value);
+	void setSelection(final Record_Of_Template other_value) {
+		super.setSelection(other_value);
 		clean_up_intervals();
 		if(other_value.templateSelection == template_sel.SPECIFIC_VALUE) {
 			permutation_intervals = copyPermutations( other_value.permutation_intervals );
