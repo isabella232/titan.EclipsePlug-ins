@@ -312,8 +312,8 @@ public class TitanBitString_template extends Base_Template {
 		//FIXME implement check_section_is_single 
 		return min_length;
 	}
-	
-	
+
+
 	//originally set_type
 	public void setType(template_sel templateType, int listLength /* = 0 */){
 		if(templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST &&
@@ -323,7 +323,7 @@ public class TitanBitString_template extends Base_Template {
 		cleanUp();
 		setSelection(templateType);
 		if(templateType != template_sel.DECODE_MATCH){
-			value_list = new ArrayList<>(listLength);
+			value_list = new ArrayList<TitanBitString_template>(listLength);
 			//FIXME: check the correction
 			value_list.add(new TitanBitString_template(this.constGetAt(listLength)));
 		}

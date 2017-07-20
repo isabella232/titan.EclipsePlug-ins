@@ -70,7 +70,7 @@ public class TitanBitString_Element {
 
 		return new TitanBoolean( str_val.getBit(bit_pos) == otherValue.getBit(0));
 	}
-	
+
 	//originally operator!=
 	public TitanBoolean operatorNotEquals(final TitanBitString_Element otherValue){
 		return operatorEquals(otherValue).not();
@@ -86,10 +86,10 @@ public class TitanBitString_Element {
 	public TitanBitString concatenate( final TitanBitString otherValue ) {
 		mustBound("Unbound left operand of bitstring element concatenation.");
 		otherValue.mustBound("Unbound right operand of bitstring concatenation.");
-		
+
 		int n_bits = otherValue.lengthOf().getInt();
-		List<Byte> result = new ArrayList<>();
-		List<Byte> temp = new ArrayList<>(otherValue.getValue());
+		List<Byte> result = new ArrayList<Byte>();
+		List<Byte> temp = new ArrayList<Byte>(otherValue.getValue());
 		int n_bytes = (n_bits + 7) / 8;
 		
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
@@ -127,7 +127,7 @@ public class TitanBitString_Element {
 
 		final byte result = (byte) (str_val.getBit(bit_pos) ? 0 : 1);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<>();
+		List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -144,7 +144,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.getBit(0);
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<>();
+		List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -157,7 +157,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.get_bit();
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<>();
+		List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -174,7 +174,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.getBit(0);
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<>();
+		List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -187,7 +187,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.get_bit();
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<>();
+		List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -204,7 +204,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.getBit(0);
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<>();
+		List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -217,7 +217,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.get_bit();
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<>();
+		List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
