@@ -16,26 +16,26 @@ import java.text.MessageFormat;
  */
 public abstract class Restricted_Length_Template extends Base_Template {
 
-	enum length_restriction_type_t {
+	public enum length_restriction_type_t {
 		NO_LENGTH_RESTRICTION,
 		SINGLE_LENGTH_RESTRICTION,
 		RANGE_LENGTH_RESTRICTION
 	}
 
-	length_restriction_type_t length_restriction_type;
+	public length_restriction_type_t length_restriction_type;
 
 	// originally in union length_restriction
-	int single_length;
+	protected int single_length;
 
-	int range_length_min_length;
-	int range_length_max_length;
-	boolean range_length_max_length_set;
+	protected int range_length_min_length;
+	protected int range_length_max_length;
+	protected boolean range_length_max_length_set;
 
-	Restricted_Length_Template() {
+	public Restricted_Length_Template() {
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
-	Restricted_Length_Template( template_sel other_value ) {
+	public Restricted_Length_Template( template_sel other_value ) {
 		super( other_value );
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}

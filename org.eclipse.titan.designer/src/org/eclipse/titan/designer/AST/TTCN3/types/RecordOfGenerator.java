@@ -65,10 +65,14 @@ public class RecordOfGenerator {
 											  final String displayName,
 											  final String ofTypeName ) {
 		aData.addImport("java.util.List");
+		aData.addImport("java.util.concurrent.atomic.AtomicBoolean");
+		aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
+		aData.addBuiltinTypeImport("Record_Of_Template");
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TtcnError");
-		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", genName ) );
+		source.append( MessageFormat.format( "public static class {0}_template extends Record_Of_Template '{'\n", genName ) );
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
 		generateTemplateConstructors( source, genName, displayName );
@@ -78,8 +82,18 @@ public class RecordOfGenerator {
 		generateTemplateMatchOmit( source );
 		generateTemplateAssign( source, genName, displayName );
 		generateTemplateCleanup( source );
-		generateTemplateGetterSetters( source, ofTypeName, displayName );
-
+		//TODO: use
+		//generateTemplateReplace( source, genName );
+		generateTemplateGetterSetters( source, genName );
+		//generateTemplateConcat( source, genName );
+		//generateTemplateSetSize( source, genName );
+		generateTemplateNElem( source, genName );
+		//generateTemplateMatchv( source, genName );
+		generateTemplateIsValue( source, genName );
+		generateTemplateSetType( source, genName );
+		//generateTemplateGetListItem( source, genName );
+		//generateTemplateGetIstemplateKind( source, genName );
+		//generateTemplateCheckRestriction( source, genName );
 		source.append("}\n");
 	}
 
@@ -372,8 +386,15 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateDeclaration( final StringBuilder source, final String genName, final String ofTypeName ) {
 		source.append("\n");
+		//TODO: remove
 		source.append( MessageFormat.format( "\t{0} single_value;\n", genName ) );
-		source.append( MessageFormat.format( "\tList<{0}_template> value_list;\n", genName ) );
+
+		source.append("\t//originally single_value/value_elements\n");
+		source.append( MessageFormat.format( "\tList<{0}> value_elements;\n", genName ) );
+		source.append("\n");
+
+		source.append("\t//originally value_list/list_value\n");
+		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", genName ) );
 	}
 
 	/**
@@ -428,10 +449,10 @@ public class RecordOfGenerator {
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
-		source.append( MessageFormat.format( "\t\t\tvalue_list = new ArrayList<{0}_template>(other_value.value_list.size());\n", genName));
-		source.append("\t\t\tfor(int i = 0; i < other_value.value_list.size(); i++) {\n");
-		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.value_list.get(i));\n", genName));
-		source.append("\t\t\t\tvalue_list.add(temp);\n");	
+		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", genName));
+		source.append("\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", genName));
+		source.append("\t\t\t\tlist_value.add(temp);\n");	
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
@@ -494,8 +515,8 @@ public class RecordOfGenerator {
 
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\tfor(int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("\t\t\t\tif(value_list.get(i).match(other_value, legacy).getValue()) {\n");
+		source.append("\t\t\tfor(int i = 0 ; i < list_value.size(); i++) {\n");
+		source.append("\t\t\t\tif(list_value.get(i).match(other_value, legacy).getValue()) {\n");
 		source.append("\t\t\t\t\treturn new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
@@ -524,8 +545,8 @@ public class RecordOfGenerator {
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\tif (legacy) {\n");
-		source.append("\t\t\t\tfor (int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("\t\t\t\t\tif (value_list.get(i).match_omit(legacy)) {\n");
+		source.append("\t\t\t\tfor (int i = 0 ; i < list_value.size(); i++) {\n");
+		source.append("\t\t\t\t\tif (list_value.get(i).match_omit(legacy)) {\n");
 		source.append("\t\t\t\t\t\treturn templateSelection == template_sel.VALUE_LIST;\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
@@ -592,8 +613,8 @@ public class RecordOfGenerator {
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\tvalue_list.clear();\n");
-		source.append("\t\t\tvalue_list = null;\n");
+		source.append("\t\t\tlist_value.clear();\n");
+		source.append("\t\t\tlist_value = null;\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\tbreak;\n");
@@ -603,14 +624,620 @@ public class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate getter and setter functions for template 
+	 * Generate replace functions for template
+	 *  
 	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element
-	 * @param displayName the user readable name of the type to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
-	private static void generateTemplateGetterSetters(StringBuilder source, final String ofTypeName , final String displayName) {
-		//TODO: implement
-		//TODO: n_elem()
+	private static void generateTemplateReplace(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void substr_(int index, int returncount, {0} rec_of) '{'\n", genName ) );
+		source.append("\t\tif (!isValue()) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\trec_of.valueElements = null;\n");
+		source.append( MessageFormat.format( "\t\t{0}_template this_value = new {0}_template();\n", genName ) );
+		source.append("\t\tvalueofv(this_value);\n");
+		source.append("\t\tthis_value.substr_(index, returncount, rec_of);\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void replace_(int index, int len, final {0}_template repl, {0} rec_of) '{'\n", genName ) );
+		source.append("\t\tif (!isValue()) {\n");
+		//TODO: fix: "third" instead of "first", also in titan.core
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\trec_of.valueElements = null;\n");
+		source.append( MessageFormat.format( "\t\t{0}_template this_value = new {0}_template();\n", genName ) );
+		source.append("\t\tvalueofv(this_value);\n");
+		source.append( MessageFormat.format( "\t\t{0}_template repl_value = new {0}_template();\n", genName ) );
+		source.append("\t\trepl.valueofv(repl_value);\n");
+		source.append("\t\t// call the replace() function of the value class instance\n");
+		source.append("\t\tthis_value.replace_(index, len, repl_value, rec_of);\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void replace_(int index, int len, final {0} repl, {0} rec_of) '{'\n", genName ) );
+		source.append("\t\tif (!isValue()) {\n");
+		//TODO: fix: "third" instead of "first", also in titan.core
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\trec_of.valueElements = null;\n");
+		source.append( MessageFormat.format( "\t\t{0}_template this_value = new {0}_template();\n", genName ) );
+		source.append("\t\tvalueofv(this_value);\n");
+		source.append("\t\t// call the replace() function of the value class instance\n");
+		source.append("\t\tthis_value.replace_(index, len, repl, rec_of);\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate getter and setter functions for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateGetterSetters(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate {0} getAt(int index_value) '{'\n", genName ) );
+		source.append("\t\tif (index_value < 0) {\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+genName+" using a negative index: {0}.\", index_value ) );\n");
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\tif(index_value < value_elements.size()) break;\n");
+		source.append("\t\t\t// no break\n");
+		source.append("\t\tcase OMIT_VALUE:\n");
+		source.append("\t\tcase ANY_VALUE:\n");
+		source.append("\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\tcase UNINITIALIZED_TEMPLATE:\n");
+		//TODO: use set_size()
+		source.append("\t\t\t//TODO: use set_size()\n");
+		source.append("\t\t\t//set_size(index_value + 1);\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing an element of a non-specific template for type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t\treturn value_elements.get(index_value);\n");
+		source.append("\t}\n");
 		
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate {0} getAt(final TitanInteger index_value) '{'\n", genName ) );
+		source.append("\t\tif (!index_value.isBound()) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\treturn getAt(index_value.getInt());\n");
+		source.append("\t}\n");
+		
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate {0} constGetAt(int index_value) '{'\n", genName ) );
+		source.append("\t\tif (index_value < 0) {\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+genName+" using a negative index: {0}.\", index_value ) );\n");
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing an element of a non-specific template for type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\tif (index_value >= value_elements.size()) {\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Index overflow in a template of type "+genName+": The index is {0}, but the template has only {1} elements.\", index_value, value_elements.size() ) );\n");
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\treturn value_elements.get(index_value);\n");
+		source.append("\t}\n");
+		
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate {0} constGetAt(final TitanInteger index_value) '{'\n", genName ) );
+		source.append("\t\tif (!index_value.isBound()) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\n");
+		source.append("\t\treturn constGetAt(index_value.getInt());\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate concat functions for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateConcat(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append("\tprivate int get_length_for_concat(AtomicBoolean is_any_value) {\n");
+		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\treturn value_elements.size();\n");
+		source.append("\t\tcase ANY_VALUE:\n");
+		source.append("\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\tswitch (length_restriction_type) {\n");
+		source.append("\t\t\tcase NO_LENGTH_RESTRICTION:\n");
+		source.append("\t\t\t\tif (templateSelection == template_sel.ANY_VALUE) {\n");
+		source.append("\t\t\t\t\t// ? => { * }\n");
+		source.append("\t\t\t\t\tis_any_value.set( true );\n");
+		source.append("\t\t\t\t\treturn 1;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tthrow new TtcnError(\"Operand of record of template concatenation is an AnyValueOrNone (*) matching mechanism with no length restriction\");\n");
+		source.append("\t\t\tcase RANGE_LENGTH_RESTRICTION:\n");
+		source.append("\t\t\t\tif (range_length_max_length == 0 || range_length_max_length != range_length_min_length) {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Operand of record of template concatenation is an {0} matching mechanism with non-fixed length restriction\", templateSelection == template_sel.ANY_VALUE ? \"AnyValue (?)\" : \"AnyValueOrNone (*)\" ) );\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\t// else fall through (range length restriction is allowed if the minimum\n");
+		source.append("\t\t\t\t// and maximum value are the same)\n");
+		source.append("\t\t\tcase SINGLE_LENGTH_RESTRICTION:\n");
+		source.append("\t\t\t\t// ? length(N) or * length(N) => { ?, ?, ... ? } N times\n");
+		source.append("\t\t\t\treturn length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? single_length : range_length_min_length;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\tdefault:\n");
+		source.append("\t\t\tthrow new TtcnError(\"Operand of record of template concatenation is an uninitialized or unsupported template.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate int get_length_for_concat(final {0} operand) '{'\n", genName ) );
+		source.append("\t\tif (!operand.isBound()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"Operand of record of template concatenation is an unbound value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn operand.valueElements.size();\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append("\n\tprivate int get_length_for_concat(template_sel operand) {");
+		source.append("\t\tif (operand == template_sel.ANY_VALUE) {\n");
+		source.append("\t\t\t// ? => { * }\n");
+		source.append("\t\t\treturn 1;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tthrow new TtcnError(\"Operand of record of template concatenation is an uninitialized or unsupported template.\");\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void concat(AtomicInteger pos, final {0}_template operand) '{'\n", genName ) );
+		source.append("\t\t// all errors should have already been caught by the operand's\n");
+		source.append("\t\t// get_length_for_concat() call;\n");
+		source.append("\t\t// the result template (this) should already be set to SPECIFIC_VALUE and\n");
+		source.append("\t\t// single_value.value_elements should already be allocated\n");
+		source.append("\t\tswitch (operand.templateSelection) {\n");
+		source.append("\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t	for (int i = 0; i < operand.value_elements.size(); ++i) {\n");
+		source.append("\t\t		value_elements.set( pos.get() + i, operand.value_elements.get(i).clone_() );\n");
+		source.append("\t\t	}\n");
+		source.append("\t\t	pos.addAndGet( operand.value_elements.size() );\n");
+		source.append("\t\t	break;\n");
+		source.append("\t\tcase ANY_VALUE:\n");
+		source.append("\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\tswitch (operand.length_restriction_type) {\n");
+		source.append("\t\t\tcase NO_LENGTH_RESTRICTION:\n");
+		source.append("\t\t\t\t// ? => { * }\n");
+		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.set( pos.get(), new {0}_template( template_sel.ANY_OR_OMIT ) );\n", genName ) );
+		source.append("\t\t\t\tpos.incrementAndGet();\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase RANGE_LENGTH_RESTRICTION:\n");
+		source.append("\t\t\tcase SINGLE_LENGTH_RESTRICTION: {\n");
+		source.append("\t\t\t\t// ? length(N) or * length(N) => { ?, ?, ... ? } N times\n");
+		source.append("\t\t\t\tint N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;\n");
+		source.append("\t\t\t\tfor (int i = 0; i < N; ++i) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.set( pos.get() + i, new {0}_template( template_sel.ANY_VALUE ) );\n", genName ) );
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tpos.addAndGet( N );\n");
+		source.append("\t\t\t\tbreak; }\n");
+		source.append("\t\t	}\n");
+		source.append("\t\tdefault:\n");
+		source.append("\t\t	break;\n");
+		source.append("\t\t}\n");
+		source.append("\t}\n");
+
+		//TODO: implement void concat(int& pos, const Record_Of_Type& operand)
+		//TODO: implement void concat(int& pos)
+	}
+
+	/**
+	 * Generate set_size and sizeof functions for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateSetSize(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append("\tpublic void set_size(int new_size) {\n");
+		source.append("\t\tif (new_size < 0)\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a template of type {0}.\");\n", genName ) );
+		source.append("\t\ttemplate_sel old_selection = templateSelection;\n");
+		source.append("\t\tif (old_selection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\tvalue_elements = null;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tif (new_size > value_elements.size()) {\n");
+		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
+		source.append("\t\t\tfor (int elem_count = value_elements.size(); elem_count < new_size; elem_count++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(template_sel.ANY_VALUE) );\n", genName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t\tfor (int elem_count = value_elements.size(); elem_count < new_size; elem_count++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", genName ) );
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t} else if (new_size < value_elements.size()) {\n");
+		source.append("\t\t\tfinal int oldSize = value_elements.size();\n");
+		source.append("\t\t\tfor (int elem_count = new_size; elem_count < oldSize; elem_count++) {\n");
+		source.append("\t\t\t\tvalue_elements.remove( new_size );\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t}\n");
+		
+		source.append("\n");
+		source.append("\tint size_of(boolean is_size) {\n");
+		source.append("\t\tfinal String op_name = is_size ? \"size\" : \"length\";\n");
+		source.append("\t\tint min_size;\n");
+		source.append("\t\tboolean has_any_or_none;\n");
+		source.append("\t\tif (is_ifPresent) {\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" which has an ifpresent attribute.\", op_name ) );\n");
+		source.append("\t\t}\n");
+		source.append("\t\tswitch (templateSelection)\n");
+		source.append("\t\t{\n");
+		source.append("\t\tcase SPECIFIC_VALUE: {\n");
+		source.append("\t\t\tmin_size = 0;\n");
+		source.append("\t\t\thas_any_or_none = false;\n");
+		source.append("\t\t\tint elem_count = value_elements.size();\n");
+		source.append("\t\t\tif (!is_size) {\n");
+		source.append("\t\t\t\twhile (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())\n");
+		source.append("\t\t\t\t\telem_count--;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tfor (int i=0; i<elem_count; i++)\n");
+		source.append("\t\t\t{\n");
+		source.append("\t\t\tswitch (value_elements.get(i).getSelection())\n");
+		source.append("\t\t\t\t{\n");
+		source.append("\t\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing omit element.\", op_name ) );\n");
+		source.append("\t\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\t\thas_any_or_none = true;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\tdefault:\n");
+		source.append("\t\t\t\t\tmin_size++;\n");
+		source.append("\t\t\t\t\tbreak;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t} break;\n");
+		source.append("\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing omit value.\", op_name ) );\n");
+		source.append("\t\tcase ANY_VALUE:\n");
+		source.append("\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\tmin_size = 0;\n");
+		source.append("\t\t\thas_any_or_none = true;\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase VALUE_LIST:\n");
+		source.append("\t\t{\n");
+		source.append("\t\t\tif (list_value.size()<1)\n");
+		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing an empty list.\", op_name ) );\n");
+		source.append("\t\t\tint item_size = list_value.get(0).size_of(is_size);\n");
+		source.append("\t\t\tfor (int i = 1; i < list_value.size(); i++) {\n");
+		source.append("\t\t\t\tif (list_value.get(i).size_of(is_size)!=item_size) {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing a value list with different sizes.\", op_name ) );\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tmin_size = item_size;\n");
+		source.append("\t\t\thas_any_or_none = false;\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing complemented list.\", op_name ) );\n");
+		source.append("\t\tdefault:\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on an uninitialized/unsupported template of type "+genName+".\", op_name ) );\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn check_section_is_single(min_size, has_any_or_none, op_name, \"a template of type\", genName);\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate n_elem function for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateNElem(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append("\tpublic int n_elem() {\n");
+		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\treturn single_value.getNofElements();\n");
+		source.append("\t\tcase COMPLEMENTED_LIST:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Performing n_elem() operation on a template of type {0} containing complemented list.\");\n", genName ) );
+		source.append("\t\tcase UNINITIALIZED_TEMPLATE:\n");
+		source.append("\t\tcase OMIT_VALUE:\n");
+		source.append("\t\tcase ANY_VALUE:\n");
+		source.append("\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\tcase VALUE_LIST:\n");
+		source.append("\t\tcase VALUE_RANGE:\n");
+		source.append("\t\tcase STRING_PATTERN:\n");
+		source.append("\t\tcase SUPERSET_MATCH:\n");
+		source.append("\t\tcase SUBSET_MATCH:\n");
+		source.append("\t\tcase DECODE_MATCH:\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Performing n_elem() operation on an uninitialized/unsupported template of type {0}.\");\n", genName ) );
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate matchv function for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateMatchv(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate boolean matchv(final {0} other_value, boolean legacy) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\t\tfinal {0} other_recof = other_value;\n", genName ) );
+		source.append("\t\tif (!other_value.isBound()) return false;\n");
+		source.append("\t\tint value_length = other_recof.sizeOf();\n");
+		source.append("\t\tif (!match_length(value_length)) return false;\n");
+		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\treturn match_record_of(other_recof, value_length, this, value_elements.size(), match_function_specific, legacy);\n");
+		source.append("\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\treturn false;\n");
+		source.append("\t\tcase ANY_VALUE:\n");
+		source.append("\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\treturn true;\n");
+		source.append("\t\tcase VALUE_LIST:\n");
+		source.append("\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\t\tif (list_value.get(list_count).matchv(other_value, legacy)) {\n");
+		source.append("\t\t\t\t\treturn templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t\treturn false;\n");
+		source.append("\t}\n");
+		
+	}
+
+	/**
+	 * Generate is_value function for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateIsValue(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append("\t@Override\n");
+		source.append("\tpublic boolean isValue() {\n");
+		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\t\t\treturn false;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
+		source.append("\t\t\tif (!value_elements.get(elem_count).isValue()) return false;\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn true;\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate set_type function for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateSetType(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append("\tpublic void set_type(template_sel template_type, int list_length) {\n");
+		source.append("\t\tcleanUp();\n");
+		source.append("\t\tswitch (template_type) {\n");
+		source.append("\t\tcase VALUE_LIST:\n");
+		source.append("\t\tcase COMPLEMENTED_LIST:\n");
+		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>( list_length );\n", genName ) );
+		source.append("\t\t\tfor (int list_count = 0; list_count < list_length; list_count++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tlist_value.add( new {0}_template() );\n", genName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting an invalid type for a template of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tsetSelection(template_type);\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate get_list_item function for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateGetListItem(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template get_list_item(int list_index) '{'\n", genName ) );
+		source.append("\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append( MessageFormat.format( "\t\t	throw new TtcnError(\"Internal error: Accessing a list element of a non-list template of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tif (list_index < 0) {\n");
+		source.append("\t\t	throw new TtcnError( MessageFormat.format( \"Internal error: Accessing a value list template of type "+genName+" using a negative index ({0}).\", list_index ) ); {\n");
+		source.append("\t\t}\n");
+		source.append("\t\tif (list_index >= list_value.size()) {\n");
+		source.append( MessageFormat.format( "\t\t	throw new TtcnError(\"Internal error: Index overflow in a value list template of type {0}.\");\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t\treturn list_value.get( list_index );\n");
+		source.append("\t}\n");
+	}
+
+//TODO: implement log()
+/*
+	void log() {
+		switch (templateSelection) {
+		case SPECIFIC_VALUE:
+			if (value_elements.size() > 0) {
+				TtcnLogger.log_event_str("{ ");
+				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
+					if (elem_count > 0) TtcnLogger.log_event_str(", ");
+					if (permutation_starts_at(elem_count)) TtcnLogger.log_event_str("permutation(");
+					value_elements.get(elem_count).log();
+					if (permutation_ends_at(elem_count)) TtcnLogger.log_char(')');
+				}
+				TtcnLogger.log_event_str(" }");
+			} else TtcnLogger.log_event_str("{ }");
+			break;
+		case COMPLEMENTED_LIST:
+			TtcnLogger.log_event_str("complement ");
+			// no break
+		case VALUE_LIST:
+			TtcnLogger.log_char('(');
+			for (int list_count = 0; list_count < list_value.size(); list_count++) {
+				if (list_count > 0) TtcnLogger.log_event_str(", ");
+				list_value.get(list_count).log();
+			}
+			TtcnLogger.log_char(')');
+			break;
+		default:
+			log_generic();
+			break;
+		}
+		log_restricted();
+		log_ifpresent();
+		if (err_descr) err_descr.log();
+	}
+//TODO
+//*/
+
+//TODO: implement void log_matchv(final Base_Type match_value, boolean legacy)
+/*
+	void log_matchv(final Base_Type match_value, boolean legacy)
+	{
+		if (TtcnLogger.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+			if (matchv(match_value, legacy)) {
+				TtcnLogger.print_logmatch_buffer();
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				final Record_Of_Type recof_value = (Record_Of_Type)(match_value);
+				if (templateSelection == SPECIFIC_VALUE &&
+						single_value.n_elements > 0 && get_number_of_permutations() == 0 &&
+						single_value.n_elements == recof_value.size_of()) {
+					size_t previous_size = TtcnLogger.get_logmatch_buffer_len();
+					for (int elem_count = 0; elem_count < single_value.n_elements; elem_count++) {
+						if(!single_value.value_elements[elem_count].matchv(recof_value.getAt(elem_count), legacy)){
+							TtcnLogger.log_logmatch_info("[{0}]", elem_count);
+							single_value.value_elements[elem_count].log_matchv(recof_value.getAt(elem_count), legacy);
+							TtcnLogger.set_logmatch_buffer_len(previous_size);
+						}
+					}
+					log_match_length(single_value.n_elements);
+				} else {
+					TtcnLogger.print_logmatch_buffer();
+					match_value.log();
+					TtcnLogger.log_event_str(" with ");
+					log();
+					TtcnLogger.log_event_str(" unmatched");
+				}
+			}
+		} else {
+			final Record_Of_Type recof_value = static_cast<const Record_Of_Type*>(match_value);
+			if (templateSelection == SPECIFIC_VALUE &&
+					single_value.n_elements > 0 && get_number_of_permutations() == 0 &&
+					single_value.n_elements == recof_value.size_of()) {
+				TtcnLogger.log_event_str("{ ");
+				for (int elem_count = 0; elem_count < single_value.n_elements; elem_count++) {
+					if (elem_count > 0) TtcnLogger.log_event_str(", ");
+					single_value.value_elements[elem_count].log_matchv(recof_value.getAt(elem_count), legacy);
+				}
+				TtcnLogger.log_event_str(" }");
+				log_match_length(single_value.n_elements);
+			} else {
+				match_value.log();
+				TtcnLogger.log_event_str(" with ");
+				log();
+				if (matchv(match_value, legacy)) TtcnLogger.log_event_str(" matched");
+				else TtcnLogger.log_event_str(" unmatched");
+			}
+		}
+	}
+
+//TODO
+//*/
+	//TODO" implement void encode_text(Text_Buf& text_buf)
+	//TODO: implement void set_param(Module_Param& param)
+	//TODO: implement Module_Param* get_param(Module_Param_Name& param_name) const
+
+	/**
+	 * Generate get_istemplate_kind function for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateGetIstemplateKind(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append("\t@Override\n");
+		source.append("\tprotected boolean get_istemplate_kind(final String type) {\n");
+		source.append("\t\tif (\"AnyElement\".equals(type)) {\n");
+		source.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tfor (int i = 0; i < value_elements.size(); i++) {\n");
+		source.append("\t\t\t\tif (value_elements.get(i).getSelection() == template_sel.ANY_VALUE) {\n");
+		source.append("\t\t\t\t\treturn true;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn false;\n");
+		source.append("\t\t} else if (\"AnyElementsOrNone\".equals(type)) {\n");
+		source.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tfor (int i = 0; i < value_elements.size(); i++) {\n");
+		source.append("\t\t\t\tif (value_elements.get(i).getSelection() == template_sel.ANY_OR_OMIT) {\n");
+		source.append("\t\t\t\t\treturn true;\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn false;\n");
+		source.append("\t\t} else if (\"permutation\".equals(type)) {\n");
+		source.append("\t\t\treturn get_number_of_permutations() != 0;\n");
+		source.append("\t\t} else if (\"length\".equals(type)) {\n");
+		source.append("\t\t\treturn length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION;\n");
+		source.append("\t\t} else {\n");
+		source.append("\t\t\treturn super.get_istemplate_kind(type);\n");
+		source.append("\t\t}\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate check_restriction function for template
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateCheckRestriction(StringBuilder source, final String genName) {
+		source.append("\n");
+		source.append("\tvoid check_restriction(template_res t_res, final String t_name, boolean legacy) {\n");
+		source.append("\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("\t\t\treturn;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tswitch ((t_name != null && (t_res==template_res.TR_VALUE)) ? template_res.TR_OMIT : t_res) {\n");
+		source.append("\t\tcase TR_OMIT:\n");
+		source.append("\t\t\tif (templateSelection==template_sel.OMIT_VALUE) {\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\t// no break\n");
+		source.append("\t\tcase TR_VALUE:\n");
+		source.append("\t\t\tif (templateSelection!=template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tfor (int i=0; i<value_elements.size(); i++)\n");
+		source.append("\t\t\t\tvalue_elements.get(i).check_restriction(t_res, t_name != null ? t_name : \""+genName+"\");\n");
+		source.append("\t\t\treturn;\n");
+		source.append("\t\tcase TR_PRESENT:\n");
+		source.append("\t\t\tif (!match_omit(legacy)) return;\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append("\t\t\treturn;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tthrow new TtcnError( MessageFormat.format( \"Restriction `{0}' on template of type {1} violated.\", get_res_name(t_res), t_name != null ? t_name : \""+genName+"\" ) );\n");
+		source.append("\t}\n");
 	}
 }
