@@ -3,6 +3,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 public class PortGenerator {
@@ -1602,6 +1603,54 @@ public class PortGenerator {
 		source.append("} else {\n");
 		source.append("return false;\n");
 		source.append("}\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * A utility function for generating code for the standalone version of
+	 *  receive/trigger/getcall/getreply/catch/check/check-receive/check-getcall/check-getreply/check-catch/timeout/done/killed
+	 *  statements.
+	 * 
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param statement the code generated for the statement as an expression.
+	 * @param location the location of the statement to report errors to.
+	 * */
+	public static void generateCodeStandalone(final JavaGenData aData, final StringBuilder source, final String statement, final Location location) {
+		aData.addBuiltinTypeImport("TitanAlt_Status");
+		aData.addBuiltinTypeImport("TTCN_Default");
+		aData.addBuiltinTypeImport("TtcnError");
+		aData.addCommonLibraryImport("TTCN_Snapshot");
+
+		String tempLabel = aData.getTemporaryVariableName();
+
+		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
+		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TitanAlt_Status default_flag = TitanAlt_Status.ALT_UNCHECKED;\n");
+		source.append("TTCN_Snapshot.takeNew(false);\n");
+		source.append("for( ; ; ) {\n");
+		source.append("if (alt_flag != TitanAlt_Status.ALT_NO) {\n");
+
+		source.append(MessageFormat.format("alt_flag = {0};\n", statement));
+
+		source.append("if (alt_flag == TitanAlt_Status.ALT_YES) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
+		source.append("default_flag = TTCN_Default.tryAltsteps();\n");
+		source.append("if (default_flag == TitanAlt_Status.ALT_YES || default_flag == TitanAlt_Status.ALT_BREAK) {\n");
+		source.append("break;\n");
+		source.append("} else if (default_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+		source.append(MessageFormat.format("continue {0};\n", tempLabel));
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone getcall statement failed in file {0}, line {1}.\");\n", location.getFile().getProjectRelativePath(), location.getLine()));
+		source.append("}\n");
+		source.append("TTCN_Snapshot.takeNew(true);\n");
+		source.append("}\n");
+		source.append("break;\n");
 		source.append("}\n");
 	}
 }
