@@ -268,7 +268,7 @@ public class TitanBitString_template extends Base_Template {
 		boolean has_any_or_none = false;
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			min_length = single_value.lengthOf();
+			min_length = single_value.lengthOf().getInt();
 			has_any_or_none = false;
 			break;
 		case OMIT_VALUE:
@@ -312,8 +312,22 @@ public class TitanBitString_template extends Base_Template {
 		//FIXME implement check_section_is_single 
 		return min_length;
 	}
-
-	//FIXME implement setType
+	
+	
+	//originally set_type
+	public void setType(template_sel templateType, int listLength /* = 0 */){
+		if(templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST &&
+				templateType != template_sel.DECODE_MATCH){
+			throw new TtcnError("Setting an invalid list type for a bitstring template.");
+		}
+		cleanUp();
+		setSelection(templateType);
+		if(templateType != template_sel.DECODE_MATCH){
+			value_list = new ArrayList<>(listLength);
+			//FIXME: check the correction
+			value_list.add(new TitanBitString_template(this.constGetAt(listLength)));
+		}
+	}
 
 	public TitanBitString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
