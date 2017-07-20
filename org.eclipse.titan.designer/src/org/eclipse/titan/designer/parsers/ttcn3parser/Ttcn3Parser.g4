@@ -4462,7 +4462,7 @@ pr_ConfigurationStatements returns[Statement statement]
 		(	k = pr_KilledKeyword
 				{
 					//pr_KilledStatement
-					$statement = new Killed_Statement( $componentValue.value );
+					$statement = new Killed_Statement( $componentValue.value, $componentValue.isAny );
 					$statement.setLocation(getLocation( $componentValue.start, $k.stop));
 				}
 		|	pr_DoneKeyword	//pr_DoneStatement
@@ -4477,7 +4477,7 @@ pr_ConfigurationStatements returns[Statement statement]
 				)
 			)?
 				{
-					$statement = new Done_Statement($componentValue.value, doneMatch, reference);
+					$statement = new Done_Statement($componentValue.value, doneMatch, reference, $componentValue.isAny);
 					$statement.setLocation(getLocation( $componentValue.start, getStopToken()));
 				}
 		)
@@ -4580,11 +4580,12 @@ pr_KillKeyword:
 	KILL
 ;
 
-pr_ComponentId returns[Value value]
+pr_ComponentId returns[Value value, boolean isAny]
 @init {
 	$value = null;
+	$isAny = false;
 }:
-(	(	pr_AnyKeyword
+(	(	pr_AnyKeyword	{$isAny = true;}
 	|	pr_AllKeyword
 	)
 	pr_ComponentKeyword
@@ -6543,7 +6544,7 @@ pr_GuardOp returns[Statement statement]
 }:
 (	v = pr_ComponentId
 		pr_Dot
-		(	pr_KilledKeyword	{ $statement = new Killed_Statement($v.value); }		//pr_KilledStatement
+		(	pr_KilledKeyword	{ $statement = new Killed_Statement($v.value, false); }		//pr_KilledStatement
 		|	pr_DoneKeyword	//pr_DoneStatement
 			(	pr_LParen
 				t = pr_TemplateInstance { doneMatch = $t.templateInstance; }
@@ -6555,7 +6556,7 @@ pr_GuardOp returns[Statement statement]
 				|	pr_IndexSpec
 				)
 			)?
-			{ $statement = new Done_Statement($v.value, doneMatch, reference); } //Done_Statement
+			{ $statement = new Done_Statement($v.value, doneMatch, reference, false); } //Done_Statement
 		)
 |	pr_AnyKeyword
 	pr_TimerKeyword pr_Dot pr_TimeoutKeyword		{ $statement = new Timeout_Statement(null); }
