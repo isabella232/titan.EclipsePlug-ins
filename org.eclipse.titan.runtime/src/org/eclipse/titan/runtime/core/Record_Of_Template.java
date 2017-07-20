@@ -18,12 +18,6 @@ import java.util.List;
  */
 public abstract class Record_Of_Template extends Restricted_Length_Template {
 
-	//originally single_value/value_elements
-	List<Base_Template> value_elements;
-
-	//originally value_list/list_value
-	List<Record_Of_Template> list_value;
-
 	/**
 	 * permutation interval 
 	 */
@@ -40,11 +34,11 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 
 	List<Pair_of_elements> permutation_intervals;
 
-	Record_Of_Template() {
+	public Record_Of_Template() {
 		permutation_intervals = null;
 	}
 
-	Record_Of_Template(template_sel other_value) {
+	public Record_Of_Template(template_sel other_value) {
 		super(other_value);
 		permutation_intervals = null;
 	}
@@ -82,6 +76,31 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 
 	//TODO: implement void encode_text_permutation(Text_Buf text_buf)
 	//TODO: implement void decode_text_permutation(Text_Buf text_buf)
+	/*
+	void encode_text_permutation(Text_Buf text_buf) {
+		encode_text_restricted(text_buf);
+		final int number_of_permutations = get_number_of_permutations();
+		text_buf.push_int(number_of_permutations);
+
+		for(int i = 0; i < number_of_permutations; i++) {
+			text_buf.push_int(permutation_intervals.get( i ).start_index);
+			text_buf.push_int(permutation_intervals.get( i ).end_index);
+		}
+	}
+
+	void decode_text_permutation(Text_Buf text_buf) {
+		decode_text_restricted(text_buf);
+
+		final int number_of_permutations = text_buf.pull_int().get_val();
+		permutation_intervals = new ArrayList<Pair_of_elements>(number_of_permutations);
+
+		for (int i = 0; i < number_of_permutations; i++) {
+			final int start_index = text_buf.pull_int().get_val();
+			final int end_index = text_buf.pull_int().get_val();
+			permutation_intervals.add( new Pair_of_elements( start_index, end_index ) );
+		}
+	}
+	*/
 
 	void add_permutation(int start_index, int end_index) {
 		if(start_index > end_index) {
