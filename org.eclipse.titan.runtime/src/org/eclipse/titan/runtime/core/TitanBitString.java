@@ -51,7 +51,7 @@ public class TitanBitString extends Base_Type {
 		bits_ptr.add( aValue );
 		n_bits = 8;
 	}
-
+	
 	/**
 	 * Constructor
 	 * @param aValue string representation of a bitstring value, without ''B, it contains only '0' and '1' characters.
@@ -208,10 +208,10 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally lengthof
-	public int lengthOf() {
+	public TitanInteger lengthOf() {
 		mustBound("Performing lengthof operation on an unbound bitstring value.");
 
-		return n_bits;
+		return new TitanInteger(n_bits);
 	}
 
 	//originally operator==
@@ -314,6 +314,7 @@ public class TitanBitString extends Base_Type {
 	public TitanBitString concatenate(final TitanBitString_Element otherValue){
 		mustBound("Unbound left operand of bitstring concatenation.");
 		otherValue.mustBound("Unbound right operand of bitstring element");
+		
 		TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits+1);
 		ret_val.setBit(n_bits, otherValue.get_bit());
 		
@@ -323,14 +324,15 @@ public class TitanBitString extends Base_Type {
 	//originally operator~
 	public TitanBitString not4b(){
 		mustBound("Unbound bitstring operand of operator not4b.");
+		
 		int n_bytes = (n_bits + 7) /8;
 		if(n_bytes == 0){
 			return this;
 		}
 		List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
 		dest_ptr.addAll(bits_ptr);
-		for (int i = 0; i < n_bytes; i++) {
-			dest_ptr.set(i, (byte)~dest_ptr.get(i));
+		for (int i = 0; i < bits_ptr.size(); i++) {
+			dest_ptr.set(i, (byte)(~dest_ptr.get(i) & 0x0F));
 		}
 		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
 		ret_val.clear_unused_bits();
@@ -352,7 +354,7 @@ public class TitanBitString extends Base_Type {
 		int n_bytes = (n_bits + 7) /8;
 		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
 		dest_ptr.addAll(bits_ptr);
-		for (int i = 0; i < n_bytes; i++) {
+		for (int i = 0; i < bits_ptr.size(); i++) {
 			dest_ptr.set(i, (byte)(dest_ptr.get(i)&otherValue.bits_ptr.get(i)));
 		}
 		
@@ -390,7 +392,7 @@ public class TitanBitString extends Base_Type {
 		int n_bytes = (n_bits + 7) / 8;
 		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
 		dest_ptr.addAll(bits_ptr);
-		for (int i = 0; i < n_bytes; i++) {
+		for (int i = 0; i < bits_ptr.size(); i++) {
 			dest_ptr.set(i, (byte)(dest_ptr.get(i)|otherValue.bits_ptr.get(i)));
 		}
 		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
@@ -427,7 +429,7 @@ public class TitanBitString extends Base_Type {
 		int n_bytes = (n_bits + 7) / 8;
 		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
 		dest_ptr.addAll(bits_ptr);
-		for (int i = 0; i < n_bytes; i++) {
+		for (int i = 0; i < bits_ptr.size(); i++) {
 			dest_ptr.set(i, (byte)(dest_ptr.get(i)^otherValue.bits_ptr.get(i)));
 		}
 		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
@@ -453,6 +455,7 @@ public class TitanBitString extends Base_Type {
 	//originally operator<<
 	public TitanBitString shiftLeft(int shiftCount){
 		mustBound("Unbound bitstring operand of shift left operator.");
+		
 		if(shiftCount > 0){
 			if(n_bits == 0){
 				return this;
@@ -494,6 +497,7 @@ public class TitanBitString extends Base_Type {
 	//originally operator<<
 	public TitanBitString shiftLeft(final TitanInteger otherValue){
 		mustBound("Unbound bitstring operand of shift left operator.");
+		
 		return shiftLeft(otherValue.getInt());
 	}
 	
@@ -540,9 +544,10 @@ public class TitanBitString extends Base_Type {
 	//originally operator>>
 	public TitanBitString shiftRight(final TitanInteger otherValue){
 		mustBound("Unbound bitstring operand of shift left operator.");
+
 		return shiftRight(otherValue.getInt());
 	}
-	
+
 	//originally operator<<=
 	public TitanBitString rotateLeft(int rotateCount){
 		mustBound("Unbound bistring operand of rotate left operator.");
@@ -595,7 +600,7 @@ public class TitanBitString extends Base_Type {
 
 		return this.rotateRight(rotateCount.getInt());
 	}
-
+	
 	//originally operator[](int)
 	public TitanBitString_Element getAt(final int index_value) {
 		if (bits_ptr == null && index_value == 0) {
