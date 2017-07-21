@@ -291,4 +291,54 @@ public class TitanHexString_template extends Base_Template {
 			value_list.add(new TitanHexString_template(constGetAt(listLength)));
 		}
 	}
+	
+	//originally list_item
+	public TitanHexString_template listItem(int listIndex){
+		if(templateSelection != template_sel.VALUE_LIST &&
+				templateSelection != template_sel.COMPLEMENTED_LIST){
+			throw new TtcnError("Accessing a list element of a non-list hexstring template.");
+		}
+		if(listIndex >= value_list.size()){
+			throw new TtcnError("Index overflow in a hexstring value list template.");
+		}
+		return value_list.get(listIndex);
+	}
+	
+	//originally is_present
+	public boolean isPresent(boolean legacy /* = FALSE */ ){
+		if(templateSelection == template_sel.UNINITIALIZED_TEMPLATE){
+			return true;
+		}
+		return !matchOmit(legacy);
+	}
+	
+	//originally matc_omit
+	public boolean matchOmit(boolean legacy /* = FALSE */){
+		if(is_ifPresent){
+			return true;
+		}
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_OR_OMIT:
+			return true;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			if(legacy){
+				//legacy behavior: 'omit' can appear in the value/complement list
+				for (int i = 0; i < value_list.size(); i++) {
+					if(value_list.get(i).matchOmit()){
+						return templateSelection == template_sel.VALUE_LIST;
+					}
+				}
+			}
+			// else fall through
+		}
+		return false;
+	}
+	
+	public boolean matchOmit(){
+		return matchOmit(false);
+	}
+	
+	
 }
