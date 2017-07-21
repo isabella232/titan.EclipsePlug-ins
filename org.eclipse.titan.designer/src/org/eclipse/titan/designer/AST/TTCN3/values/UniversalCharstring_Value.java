@@ -222,7 +222,10 @@ public final class UniversalCharstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
-		return value.generateSingleExpression(aData);
+		StringBuilder result = new StringBuilder();
+		result.append(MessageFormat.format("new TitanUniversalCharString({0})", value.generateSingleExpression(aData)));
+
+		return result;
 	}
 
 	@Override
@@ -231,9 +234,9 @@ public final class UniversalCharstring_Value extends Value {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
 		source.append(name);
-		source.append(".assign(");
+		source.append(".assign( new TitanUniversalCharString(");
 		source.append(value.generateSingleExpression(aData));
-		source.append(");\n");
+		source.append(") );\n");
 
 		return source;
 	}
