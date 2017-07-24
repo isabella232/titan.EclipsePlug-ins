@@ -76,7 +76,7 @@ public class TitanHexString extends Base_Type {
 
 	private void clearUnusedNibble() {
 		if (nibbles_ptr.size() % 2 == 1) {
-			nibbles_ptr.set(lengthOf() / 2, (byte) (nibbles_ptr.get(lengthOf() / 2) & 0x0F));
+			nibbles_ptr.set(lengthOf().getInt() / 2, (byte) (nibbles_ptr.get(lengthOf().getInt() / 2) & 0x0F));
 		}
 	}
 
@@ -185,10 +185,10 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally lengthof
-	public int lengthOf() {
+	public TitanInteger lengthOf() {
 		mustBound("Performing lengthof operation on an unbound charstring value.");
 
-		return nibbles_ptr.size();
+		return new TitanInteger(nibbles_ptr.size());
 	}
 
 	// originally operator==
@@ -362,10 +362,10 @@ public class TitanHexString extends Base_Type {
 		if (lengthOf() != otherValue.lengthOf()) {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
-		if (lengthOf() == 0) {
+		if (lengthOf().getInt() == 0) {
 			return this;
 		}
-		int n_bytes = (lengthOf() + 1) / 2;
+		int n_bytes = (lengthOf().getInt() + 1) / 2;
 		List<Byte> result = new ArrayList<Byte>(n_bytes);
 		for (int i = 0; i < nibbles_ptr.size(); i++) {
 			result.set(i, (byte) (nibbles_ptr.get(i) & otherValue.nibbles_ptr.get(i)));
@@ -381,7 +381,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Left operand of operator and4b is an unbound hexstring value.");
 		otherValue.mustBound("Right operand of operator and4b is an unbound hexstring element.");
 
-		if (lengthOf() != 1) {
+		if (lengthOf().getInt() != 1) {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
 		byte result = (byte) (get_nibble(0) & otherValue.get_nibble());
@@ -397,7 +397,7 @@ public class TitanHexString extends Base_Type {
 		if(nibbles_ptr.size() != otherValue.nibbles_ptr.size()){
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
-		if (lengthOf() == 0) {
+		if (lengthOf().getInt() == 0) {
 			return this;
 		}
 		List<Byte> result = new ArrayList<Byte>();
@@ -416,7 +416,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Left operand of operator or4b is an unbound hexstring value.");
 		otherValue.mustBound("Right operand of operator or4b is an unbound hexstring element.");
 
-		if (lengthOf() != 1) {
+		if (lengthOf().getInt() != 1) {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
 		byte result = (byte) (get_nibble(0) | otherValue.get_nibble());
@@ -432,10 +432,10 @@ public class TitanHexString extends Base_Type {
 		if (lengthOf() != otherValue.lengthOf()) {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
-		if (lengthOf() == 0) {
+		if (lengthOf().getInt() == 0) {
 			return this;
 		}
-		int n_bytes = (lengthOf() + 1) / 2;
+		int n_bytes = (lengthOf().getInt() + 1) / 2;
 		List<Byte> result = new ArrayList<Byte>(n_bytes);
 		for (int i = 0; i < nibbles_ptr.size(); i++) {
 			result.set(i, (byte) (nibbles_ptr.get(i) ^ otherValue.nibbles_ptr.get(i)));
@@ -451,7 +451,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Left operand of operator xor4b is an unbound hexstring value.");
 		otherValue.mustBound("Right operand of operator xor4b is an unbound hexstring element.");
 
-		if (lengthOf() != 1) {
+		if (lengthOf().getInt() != 1) {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
 		byte result = (byte) (get_nibble(0) ^ otherValue.get_nibble());
