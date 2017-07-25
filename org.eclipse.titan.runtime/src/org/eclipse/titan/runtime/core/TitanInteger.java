@@ -13,6 +13,8 @@ import java.text.MessageFormat;
 /**
  * TTCN-3 integer
  * @author Arpad Lovassy
+ * @author Gergo Ujhelyi
+ * @author Andrea Palfi
  */
 public class TitanInteger extends Base_Type {
 	private boolean boundFlag;
