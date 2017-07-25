@@ -8,6 +8,7 @@
 /Ttcn3CharstringLexer.java
 /Ttcn3CharstringLexer.tokens
 /Ttcn3Parser.java
+/Ttcn3ParserListener.java
 /Ttcn3Parser.tokens
 /Ttcn3Reparser.java
 /Ttcn3Reparser.tokens
@@ -16,4 +17,8 @@
 /PreprocessorDirectiveParser.java
 /PreprocessorDirectiveParser.tokens
 /PreprocessorDirectiveLexerLogUtil.java
-
+/PreprocessorDirectiveParserBaseListener.java
+/PreprocessorDirectiveParserListener.java
+/Ttcn3ParserBaseListener.java
+/Ttcn3ReparserBaseListener.java
+/Ttcn3ReparserListener.java
