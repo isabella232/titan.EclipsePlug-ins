@@ -314,8 +314,8 @@ public class TitanUniversalCharString extends Base_Type {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
 		aOtherValue.mustBound("The right operand of comparison is an unbound charstring value.");
 		
-		if (charstring) return new TitanBoolean(cstr.equals(aOtherValue));
-		if (val_ptr.size() != aOtherValue.lengthOf()) return new TitanBoolean(false);
+		if (charstring) return new TitanBoolean(aOtherValue.operatorEquals(cstr.toString()));
+		if (val_ptr.size() != aOtherValue.lengthOf().getInt()) return new TitanBoolean(false);
 		
 		for (int i = 0; i < val_ptr.size(); ++i) {
 			if (val_ptr.get(i).getUc_group() != 0 || val_ptr.get(i).getUc_plane() !=0 || val_ptr.get(i).getUc_row() != 0 || 
@@ -451,7 +451,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (other_len == 0) {
 			return this;
 		}
-		if ( charstring ) {
+		if (charstring) {
 			return new TitanUniversalCharString( cstr.append( other_value ) );
 		}
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
@@ -658,6 +658,9 @@ public class TitanUniversalCharString extends Base_Type {
 	// intentionally package public
 	final TitanUniversalChar charAt( final int i ) {
 		//TODO, handle charstring case also if needed
+		if (charstring) 
+			return new TitanUniversalChar((char) 0, (char) 0, (char) 0, cstr.charAt(i));
+		
 		return val_ptr.get( i );
 	}
 
@@ -665,6 +668,10 @@ public class TitanUniversalCharString extends Base_Type {
 	final void setCharAt( final int i, final TitanUniversalChar c ) {
 		//TODO, handle charstring case also if needed
 		val_ptr.set( i, c );
+	}
+	
+	final void setCharAt( final int i, final char c ) {
+		cstr.setCharAt( i, c );
 	}
 	
 	// originally operator<<=
@@ -731,5 +738,14 @@ public class TitanUniversalCharString extends Base_Type {
 		rotateCount.mustBound("Unbound right operand of octetstring rotate left operator.");
 		
 		return rotateRight(rotateCount.getInt());
+	}
+	
+	public void convertCstrToUni() {
+		val_ptr = new ArrayList<TitanUniversalChar>(cstr.length());
+		for (int i = 0; i < cstr.length(); ++i) {
+			val_ptr.add(i,new TitanUniversalChar((char) 0,(char) 0,(char) 0, cstr.charAt(i)));
+		}
+		charstring = false;
+		cstr = null;
 	}
 }
