@@ -11,10 +11,13 @@ import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import com.sun.xml.internal.ws.assembler.jaxws.MustUnderstandTubeFactory;
+
 /**
  * Additional (predefined) functions
  * 
  * @author Kristof Szabados
+ * @author Gergo Ujhelyi
  * 
  * originally in Addfunc.{hh,cc}
  * 
@@ -101,5 +104,76 @@ public class AdditionalFunctions {
 		length.mustBound("The second argument (length) of function int2bit() is an unbound integer value.");
 
 		return int2bit(value, length.getInt());
+	}
+
+	// C.4 - int2hex
+	public static TitanHexString int2hex(final int value, final int length){
+		return int2hex(new TitanInteger(value), length);
+	}
+
+	public static TitanHexString int2hex(final TitanInteger value, final int length){
+		value.mustBound("The first argument (value) of function int2hex() is an unbound integer value.");
+
+		if(TitanBoolean.getNative(value.isLessThan(0))){
+			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2hex() is a  negative integer value: {0}.",value));
+		}
+		if(length < 0){
+			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2hex() is a negative integer value: {0}.", length));
+		}
+		if(value.isNative()){
+			int tmp_value = value.getInt();
+			ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
+			for (int i = 0; i < length; i++) {
+				nibbles_ptr.add((byte)0);
+			}
+			for(int i = length - 1; i >= 0; i--){
+				nibbles_ptr.set(i,(byte)( tmp_value & 0xF));
+				tmp_value = tmp_value >> 4;
+			}
+			
+			if (tmp_value != 0) {
+				int i = 0;
+				while (tmp_value != 0) {
+					tmp_value = tmp_value >> 4;
+					i++;
+				}
+				throw new TtcnError(MessageFormat.format("The first argument of function int2hex(), which is {0}, does not fit in {1} hexadecimal digit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
+			}
+			return new TitanHexString(nibbles_ptr);
+		} else {
+			BigInteger tmp_value = value.getBigInteger();
+			ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
+			for (int i = 0; i < length; i++) {
+				nibbles_ptr.add((byte)0);
+			}
+			for(int i = length - 1; i >= 0; i--){
+				BigInteger temp = tmp_value.and(BigInteger.valueOf(0xF));
+				nibbles_ptr.set(i, temp.byteValue());
+				tmp_value = tmp_value.shiftRight(4);
+			}
+			tmp_value.shiftRight(4);
+			if (tmp_value.compareTo(BigInteger.ZERO) != 0) {
+				int i = 0;
+				while (tmp_value.compareTo(BigInteger.ZERO) != 0) {
+					tmp_value = tmp_value.shiftRight(4);
+					i++;
+				}
+				throw new TtcnError(MessageFormat.format("The first argument of function int2hex(), which is {0}, does not fit in {1} hexadecimal digit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));	
+			}
+			return new TitanHexString(nibbles_ptr);
+		}
+	}
+	
+	public static TitanHexString int2hex(final TitanInteger value, TitanInteger length){
+		value.mustBound("The first argument (value) of function int2hex() is an unbound integer value.");
+		length.mustBound("The second argument (length) of function int2hex() is an unbound integer value.");
+		
+		return int2hex(value,length.getInt());
+	}
+	
+	public static TitanHexString int2hex(final int value, final TitanInteger length) {
+		length.mustBound("The second argument (length) of function int2hex() is an unbound integer value.");
+
+		return int2hex(value, length.getInt());
 	}
 }
