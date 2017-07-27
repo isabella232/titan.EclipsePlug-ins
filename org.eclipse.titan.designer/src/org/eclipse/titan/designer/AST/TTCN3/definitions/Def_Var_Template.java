@@ -467,21 +467,20 @@ public final class Def_Var_Template extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary hack to adapt to the starting code
 		StringBuilder source = new StringBuilder();
-		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
-		source.append( typeName );
-		source.append( " " );
-		source.append( genName );
-		source.append( " = new " ). append(typeName).append("();\n");
+		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
+		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		sb.append(source);
+		
 		//TODO this actually belongs to the module initialization
+		StringBuilder initComp = aData.getInitComp();
 		if ( initialValue != null ) {
-			//TODO use ::get_lhs_name instead of generic getGennameOwn
-			initialValue.generateCodeInit( aData, source, initialValue.getGenNameOwn(myScope) );
+			//TODO use ::get_lhs_name instead of generic genName (?)
+			initialValue.generateCodeInit( aData, initComp, genName );
 		} else if (cleanUp) {
-			StringBuilder initComp = aData.getInitComp();
 			initComp.append(genName);
 			initComp.append(".cleanUp();\n");
 		}
-		sb.append(source);
+
 	}
 
 	@Override
