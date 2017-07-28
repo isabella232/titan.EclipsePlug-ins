@@ -324,8 +324,9 @@ public class TitanBitString_template extends Base_Template {
 		setSelection(templateType);
 		if(templateType != template_sel.DECODE_MATCH){
 			value_list = new ArrayList<TitanBitString_template>(listLength);
-			//FIXME: check the correction
-			value_list.add(new TitanBitString_template(this.constGetAt(listLength)));
+			for (int i = 0; i < listLength; i++) {
+				value_list.add(new TitanBitString_template());
+			}
 		}
 	}
 
@@ -346,14 +347,14 @@ public class TitanBitString_template extends Base_Template {
 			return false;
 		}
 
-		return !match_omit(legacy);
+		return !matchOmit(legacy);
 	}
 
-	public boolean match_omit() {
-		return match_omit(false);
+	public boolean matchOmit() {
+		return matchOmit(false);
 	}
 
-	public boolean match_omit(boolean legacy) {
+	public boolean matchOmit(boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}
@@ -367,7 +368,7 @@ public class TitanBitString_template extends Base_Template {
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).match_omit()) {
+					if (value_list.get(i).matchOmit()) {
 						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
