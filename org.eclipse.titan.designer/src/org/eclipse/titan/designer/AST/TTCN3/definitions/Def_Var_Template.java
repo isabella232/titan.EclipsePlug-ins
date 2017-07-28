@@ -462,7 +462,8 @@ public final class Def_Var_Template extends Definition {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-		//TODO this should handle only the global case
+		//TODO this should handle only the global case <- That happens (baat)
+		//In local case the generateCodeString will be called
 		//TODO there are no Global variable templates
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary hack to adapt to the starting code
@@ -480,7 +481,6 @@ public final class Def_Var_Template extends Definition {
 			initComp.append(genName);
 			initComp.append(".cleanUp();\n");
 		}
-
 	}
 
 	@Override

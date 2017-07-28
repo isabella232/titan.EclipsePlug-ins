@@ -452,26 +452,28 @@ public final class Def_Var extends Definition {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-		//TODO this should handle only the global case
+		//TODO this should handle only the global case<- That happens (baat)
+		//In local case the generateCodeString will be called
 		//TODO there are no Global variables
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
-			source.append( "\tpublic static " );
+			source.append( "\tpublic static final " );
+		} else {
+			source.append("//FIXME: Faulty branch !!!\n");
 		}
 
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+		sb.append(source);
+		StringBuilder initComp = aData.getInitComp();
 		if ( initialValue != null ) {
-			initialValue.generateCodeInit(aData, source, genName );
+			initialValue.generateCodeInit(aData, initComp, genName );
 		} else if (cleanUp) {
-			StringBuilder initComp = aData.getInitComp();
 			initComp.append(genName);
 			initComp.append(".cleanUp();\n");
 		}
-
-		sb.append(source);
 	}
 
 	@Override
