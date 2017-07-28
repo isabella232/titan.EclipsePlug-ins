@@ -288,10 +288,15 @@ public class TitanHexString_template extends Base_Template {
 		setSelection(templateType);
 		if(templateType != template_sel.DECODE_MATCH){
 			value_list = new ArrayList<TitanHexString_template>(listLength);
-			value_list.add(new TitanHexString_template(constGetAt(listLength)));
+			for (int i = 0; i < listLength; i++) {
+				value_list.add(new TitanHexString_template());
+			}
 		}
 	}
 
+	
+	
+	
 	//originally list_item
 	public TitanHexString_template listItem(int listIndex){
 		if(templateSelection != template_sel.VALUE_LIST &&
