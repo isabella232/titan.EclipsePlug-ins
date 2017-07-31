@@ -222,24 +222,56 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	@Override
 	public String toString() {
-		if ( pattern_value == null ) {
+		switch (templateSelection) {
+		case UNINITIALIZED_TEMPLATE:
 			return "<unbound>";
-		}
-
-		final StringBuilder sb = new StringBuilder();
-		final int size = pattern_value.size();
-		for ( int i = 0; i < size; i++ ) {
-			final Character digit = pattern_value.get( i );
-			if ( digit == 256 ) {
-				sb.append( '?' );
-			} else if ( digit == 257 ) {
-				sb.append( '*' );
-			} else {
-				sb.append( TitanHexString.HEX_DIGITS.charAt( digit >> 4 ) );
-				sb.append( TitanHexString.HEX_DIGITS.charAt( digit % 16 ) );
+		case OMIT_VALUE:
+			return "omit";
+		case ANY_VALUE:
+			return "?";
+		case ANY_OR_OMIT:
+			return "*";
+		case SPECIFIC_VALUE:
+			return single_value.toString();
+		case COMPLEMENTED_LIST:
+		case VALUE_LIST:
+		{
+			StringBuilder builder = new StringBuilder();
+			if(templateSelection == template_sel.COMPLEMENTED_LIST) {
+				builder.append("complement ");
 			}
+			builder.append('(');
+			for (int i = 0; i < value_list.size(); i++) {
+				if (i > 0) {
+					builder.append(", ");
+				}
+				builder.append(value_list.get(i).toString());
+			}
+			builder.append(')');
+			return builder.toString();
 		}
-		return sb.toString();
+		case STRING_PATTERN:
+		{
+			final StringBuilder sb = new StringBuilder();
+			sb.append('\'');
+			final int size = pattern_value.size();
+			for ( int i = 0; i < size; i++ ) {
+				final Character digit = pattern_value.get( i );
+				if ( digit == 256 ) {
+					sb.append( '?' );
+				} else if ( digit == 257 ) {
+					sb.append( '*' );
+				} else {
+					sb.append( TitanHexString.HEX_DIGITS.charAt( digit >> 4 ) );
+					sb.append( TitanHexString.HEX_DIGITS.charAt( digit % 16 ) );
+				}
+			}
+			sb.append("\'O");
+			return sb.toString();
+		}
+		default:
+			return "<unknown template selection>";
+		}
 	}
 
 	public TitanOctetString valueOf() {
