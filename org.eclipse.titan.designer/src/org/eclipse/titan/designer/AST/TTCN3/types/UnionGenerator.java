@@ -241,7 +241,7 @@ public class UnionGenerator {
 		source.append("if(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
 		source.append("}\n");
-		source.append("if (union_selection == checked_selection) {\n");
+		source.append("if (union_selection == union_selection_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing ischosen() operation on an unbound value of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("return union_selection == checked_selection;\n");
