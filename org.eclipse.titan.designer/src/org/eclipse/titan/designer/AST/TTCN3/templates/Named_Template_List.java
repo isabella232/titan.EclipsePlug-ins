@@ -556,14 +556,12 @@ public final class Named_Template_List extends TTCN3Template {
 		//FIXME actually a bit more complex
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
-			NamedTemplate namedTamplate = namedTemplates.getTemplateByIndex(i);
+			NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 			//FIXME handle needs_temp_ref case
 
-			String fieldName = FieldSubReference.getJavaGetterName(namedTamplate.getName().getName());
+			String fieldName = FieldSubReference.getJavaGetterName(namedTemplate.getName().getName());
 			String embeddedName = MessageFormat.format("{0}.get{1}()", name, fieldName); 
-			namedTamplate.getTemplate().generateCodeInit(aData, source, embeddedName);
+			namedTemplate.getTemplate().generateCodeInit(aData, source, embeddedName);
 		}
 	}
-
-	
 }
