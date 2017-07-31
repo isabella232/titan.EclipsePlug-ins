@@ -38,45 +38,45 @@ public class TitanUniversalChar {
 	}
 
 	//originally boolean operator==(const universal_char& left_value, const universal_char& right_value)
-	public static boolean operatorEquals( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
-		return left_value.getUc_group() == right_value.getUc_group() &&
+	public static TitanBoolean operatorEquals( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
+		return new TitanBoolean(left_value.getUc_group() == right_value.getUc_group() &&
 				left_value.getUc_plane() == right_value.getUc_plane() &&
 				left_value.getUc_row() == right_value.getUc_row() &&
-				left_value.getUc_cell() == right_value.getUc_cell();
+				left_value.getUc_cell() == right_value.getUc_cell());
 	}
 
-	public boolean operatorEquals( final TitanUniversalChar right_value ) {
+	public TitanBoolean operatorEquals( final TitanUniversalChar right_value ) {
 		return operatorEquals( this, right_value );
 	}
 
 	//originally boolean operator<(const universal_char& left_value, const universal_char& right_value)
-	public static boolean lessThan( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
+	public static TitanBoolean lessThan( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
 		if (left_value.getUc_group() < right_value.getUc_group()) {
-			return true;
+			return new TitanBoolean(true);
 		} else if (left_value.getUc_group() == right_value.getUc_group()) {
 			if (left_value.getUc_plane() < right_value.getUc_plane()) {
-				return true;
+				return new TitanBoolean(true);
 			} else if (left_value.getUc_plane() == right_value.getUc_plane()) {
 				if (left_value.getUc_row() < right_value.getUc_row()) {
-					return true;
+					return new TitanBoolean(true);
 				} else if (left_value.getUc_row() == right_value.getUc_row()) {
 					if (left_value.getUc_cell() < right_value.getUc_cell()) {
-						return true;
+						return new TitanBoolean(true);
 					} else {
-						return false;
+						return new TitanBoolean(false);
 					}
 				} else {
-					return false;
+					return new TitanBoolean(false);
 				}
 			} else {
-				return false;
+				return new TitanBoolean(false);
 			}
 		} else {
-			return false;
+			return new TitanBoolean(false);
 		}
 	}
 
-	public boolean lessThan( final TitanUniversalChar right_value ) {
+	public TitanBoolean lessThan( final TitanUniversalChar right_value ) {
 		return lessThan( this, right_value );
 	}
 

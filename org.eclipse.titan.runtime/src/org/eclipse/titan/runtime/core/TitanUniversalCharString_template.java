@@ -196,9 +196,9 @@ public class TitanUniversalCharString_template extends Base_Template {
 			}
 			for (int i = 0; i < otherLen; i++) {
 				final TitanUniversalChar uc = otherStr.get( i );
-				if ( uc.lessThan( min_value ) || max_value.lessThan( uc ) ) {
+				if ( uc.lessThan( min_value ).getValue() || max_value.lessThan( uc ).getValue() ) {
 					return new TitanBoolean(false);
-				} else if ( ( min_is_exclusive && uc.operatorEquals( min_value ) ) || ( max_is_exclusive && uc.operatorEquals( max_value ) ) ) {
+				} else if ( ( min_is_exclusive && uc.operatorEquals( min_value ).getValue() ) || ( max_is_exclusive && uc.operatorEquals( max_value ).getValue() ) ) {
 					return new TitanBoolean(false);
 				}
 			}
