@@ -124,12 +124,9 @@ public class TitanUniversalCharString extends Base_Type {
 
 	public List<TitanUniversalChar> getValue() {
 		if (charstring) {
-			List<TitanUniversalChar>  uc = new ArrayList<TitanUniversalChar>();
-			for (int i = 0; i < cstr.length(); ++i) {
-				uc.add(new TitanUniversalChar((char)0,(char)0,(char)0,cstr.charAt(i)));
-			}
-			return uc;
+			convertCstrToUni();
 		}
+
 		return val_ptr;
 	}
 
@@ -686,12 +683,19 @@ public class TitanUniversalCharString extends Base_Type {
 
 	// intentionally package public
 	final void setCharAt(final int i, final TitanUniversalChar c) {
-		//TODO, handle charstring case also if needed
+		if (charstring) {
+			convertCstrToUni();
+		}
+
 		val_ptr.set(i, c);
 	}
 
 	final void setCharAt( final int i, final char c ) {
-		cstr.setCharAt( i, c );
+		if (charstring) {
+			cstr.setCharAt( i, c );
+		} else {
+			val_ptr.set( i, new TitanUniversalChar( (char)0, (char)0, (char)0, c ) );
+		}
 	}
 
 	// originally operator<<=
