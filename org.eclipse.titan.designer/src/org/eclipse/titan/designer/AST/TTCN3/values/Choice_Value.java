@@ -418,14 +418,8 @@ public final class Choice_Value extends Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		String altName = this.name.getName();
 
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		String altPrefix = "";
-		if (Type_type.TYPE_ANYTYPE.equals(type.getTypetype())) {
-			altPrefix = "AT_";
-		}
-
 		//TODO handle the case when temporary reference is needed
-		String embeddedName = MessageFormat.format("{0}.get{1}{2}()", name, altPrefix, FieldSubReference.getJavaGetterName(altName));
+		String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
 		return value.generateCodeInit(aData, source, embeddedName);
 	}
 }
