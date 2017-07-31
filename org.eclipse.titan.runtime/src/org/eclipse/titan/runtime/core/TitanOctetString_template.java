@@ -315,14 +315,18 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		setSelection(template_type);
 		if (template_type != template_sel.DECODE_MATCH) {
 			value_list = new ArrayList<TitanOctetString_template>(list_length);
+			for (int i = 0; i < list_length; ++i) {
+				value_list.add( new TitanOctetString_template());
+			}
 		}
 	}
 
 	public TitanOctetString_template listItem(int listIndex) {
+		System.out.println("listIndex: "+listIndex + " size: "+value_list.size());
 		if (templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST)
 			throw new TtcnError("Accessing a list element of a non-list octetstring template.");
-		if (listIndex >= value_list.size())
+		if (listIndex >= value_list.size() || listIndex < 0)
 			throw new TtcnError("Index overflow in an octetstring value list template.");
 		return value_list.get(listIndex);
 	}
