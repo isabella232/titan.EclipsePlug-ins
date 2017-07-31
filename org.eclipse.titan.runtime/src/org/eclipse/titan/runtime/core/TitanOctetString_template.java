@@ -322,7 +322,6 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	public TitanOctetString_template listItem(int listIndex) {
-		System.out.println("listIndex: "+listIndex + " size: "+value_list.size());
 		if (templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST)
 			throw new TtcnError("Accessing a list element of a non-list octetstring template.");
