@@ -68,23 +68,23 @@ public class TitanCharString_Element {
 	//TODO: implement operatorEquals for universalcharstring_element
 
 	//originally operator==
-	public boolean operatorEquals( final TitanCharString_Element other_value ) {
+	public TitanBoolean operatorEquals( final TitanCharString_Element other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring comparison.");
 
-		return get_char() == other_value.str_val.getValue().charAt( other_value.char_pos );
+		return new TitanBoolean(get_char() == other_value.str_val.getValue().charAt( other_value.char_pos ));
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanCharString other_value ) {
+	public TitanBoolean operatorEquals( final TitanCharString other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring element comparison.");
 
 		if (other_value.getValue().length() != 1) {
-			return false;
+			return new TitanBoolean(false);
 		}
 
-		return get_char() == other_value.getValue().charAt(0);
+		return new TitanBoolean(get_char() == other_value.getValue().charAt(0));
 	}
 
 	//TODO: implement operatorNotEquals for String

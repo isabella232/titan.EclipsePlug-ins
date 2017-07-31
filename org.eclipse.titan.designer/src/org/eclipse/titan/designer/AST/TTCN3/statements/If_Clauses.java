@@ -9,11 +9,11 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.ChangeableBoolean;
-import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -267,9 +267,9 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
 	 */
-	public void generateCode( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source, final AtomicInteger blockCount, final AtomicBoolean unReachable, final AtomicBoolean eachFalse) {
 		for (int i = 0; i < ifclauses.size(); i++) {
-			if (unReachable.getValue()) {
+			if (unReachable.get()) {
 				return;
 			}
 

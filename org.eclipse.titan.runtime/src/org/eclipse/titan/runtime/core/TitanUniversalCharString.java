@@ -36,7 +36,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public TitanUniversalCharString(final TitanUniversalChar aOtherValue) {
-		if (aOtherValue.is_char()) {
+		if (!aOtherValue.is_char()) {
 			val_ptr = new ArrayList<TitanUniversalChar>();
 			val_ptr.add(aOtherValue);
 			charstring = false;
@@ -50,6 +50,7 @@ public class TitanUniversalCharString extends Base_Type {
 		TitanUniversalChar uc = new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell);
 		if (uc.is_char()) {
 			cstr = new StringBuilder(uc_cell);
+			charstring = true;
 		} else {
 			val_ptr = new ArrayList<TitanUniversalChar>();
 			val_ptr.add(uc);
@@ -100,7 +101,8 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("Initialization of a universal charstring with an unbound universal charstring element.");
 
 		if (aOtherValue.get_char().is_char()) {
-			cstr = new StringBuilder(aOtherValue.get_char().getUc_cell());
+			cstr = new StringBuilder();
+			cstr.append(aOtherValue.get_char().getUc_cell());
 			charstring = true;
 		} else {
 			val_ptr = new ArrayList<TitanUniversalChar>();
@@ -122,7 +124,10 @@ public class TitanUniversalCharString extends Base_Type {
 		return clonedList;
 	}
 
+	// originally operator universal_char*
 	public List<TitanUniversalChar> getValue() {
+		mustBound("Casting an unbound universal charstring value to const universal_char*.");
+		
 		if (charstring) {
 			convertCstrToUni();
 		}
@@ -258,7 +263,10 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public void mustBound(final String aErrorMessage) {
-		if (val_ptr == null) {
+		if (charstring && cstr == null) {
+			throw new TtcnError(aErrorMessage);
+		} 
+		if (!charstring && val_ptr == null) {
 			throw new TtcnError(aErrorMessage);
 		}
 	}
@@ -280,17 +288,29 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring value.");
 
 		if (charstring) {
-			return new TitanBoolean(cstr.equals(aOtherValue));
+			if (aOtherValue.charstring) {
+				return new TitanBoolean(cstr.toString().equals(aOtherValue.cstr.toString()));
+			} else {
+				if (cstr.length() != aOtherValue.val_ptr.size()) {
+					return new TitanBoolean(false);
+				}
+				
+				for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
+					if (!aOtherValue.val_ptr.get(i).is_char() || aOtherValue.val_ptr.get(i).getUc_cell() != cstr.charAt(i)){
+						return new TitanBoolean(false);
+					}
+				}
+				
+				return new TitanBoolean(true);
+			}
+			
 		}
 		if (val_ptr.size() != aOtherValue.val_ptr.size()) {
 			return new TitanBoolean(false);
 		}
 
 		for (int i = 0; i < val_ptr.size(); ++i) {
-			if (val_ptr.get(i).getUc_group() != aOtherValue.val_ptr.get(i).getUc_group()
-					|| val_ptr.get(i).getUc_plane() != aOtherValue.val_ptr.get(i).getUc_plane()
-					|| val_ptr.get(i).getUc_row() != aOtherValue.val_ptr.get(i).getUc_row()
-					|| val_ptr.get(i).getUc_cell() != aOtherValue.val_ptr.get(i).getUc_cell()) {
+			if (!val_ptr.get(i).operatorEquals(aOtherValue.val_ptr.get(i)).getValue()) {
 				return new TitanBoolean(false);
 			}
 		}
@@ -304,13 +324,13 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring element.");
 
 		if (charstring) {
-			return new TitanBoolean(cstr.equals(aOtherValue));
+			return new TitanBoolean(aOtherValue.get_char().is_char() && aOtherValue.get_char().getUc_cell() == cstr.charAt(0));
 		}
 		if (val_ptr.size() != 1) {
 			return new TitanBoolean(false);
 		}
 
-		return new TitanBoolean(val_ptr.get(0).equals(aOtherValue.get_char()));
+		return new TitanBoolean(val_ptr.get(0).operatorEquals(aOtherValue.get_char()));
 	}
 
 	// originally operator==
@@ -319,7 +339,7 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("The right operand of comparison is an unbound charstring value.");
 
 		if (charstring) {
-			return new TitanBoolean(aOtherValue.operatorEquals(cstr.toString()));
+			return new TitanBoolean(aOtherValue.toString().equals(cstr.toString()));
 		}
 		if (val_ptr.size() != aOtherValue.lengthOf().getInt()) {
 			return new TitanBoolean(false);
@@ -341,7 +361,7 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("The right operand of comparison is an unbound charstring element.");
 
 		if (charstring) {
-			return new TitanBoolean(cstr.equals(aOtherValue));
+			return new TitanBoolean(cstr.charAt(0) == aOtherValue.get_char());
 		}
 		if (val_ptr.size() != 1) {
 			return new TitanBoolean(false);
@@ -379,7 +399,7 @@ public class TitanUniversalCharString extends Base_Type {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
 
 		if (charstring) {
-			return new TitanBoolean(cstr.equals(aOtherValue));
+			return new TitanBoolean(cstr.toString().equals(aOtherValue.toString()));
 		}
 		if (val_ptr.size() != aOtherValue.length()) {
 			return new TitanBoolean(false);
@@ -574,7 +594,7 @@ public class TitanUniversalCharString extends Base_Type {
 		other_value.mustBound("The right operand of concatenation is an unbound universal charstring element.");
 
 		if ( charstring ) {
-			return new TitanUniversalCharString( cstr.append( other_value.get_char() ) );
+			return new TitanUniversalCharString(cstr.append( other_value.get_char().getUc_cell()));
 		}
 
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
@@ -643,7 +663,7 @@ public class TitanUniversalCharString extends Base_Type {
 			throw new TtcnError("Accessing an universal charstring element using a negative index (" + index_value + ").");
 		}
 
-		final int n_nibbles = val_ptr.size();
+		final int n_nibbles = charstring ? cstr.length() : val_ptr.size();
 		if (index_value >= n_nibbles) {
 			throw new TtcnError("Index overflow when accessing a universal charstring element: The index is " + index_value +
 					", but the string has only " + n_nibbles + " characters.");
@@ -668,7 +688,21 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( charstring ) {
 			return cstr.toString();
 		} else {
-			return val_ptr.toString();
+			StringBuilder str = new StringBuilder();
+			
+			for (int i = 0; i < val_ptr.size(); ++i) {
+				str.append("(");
+				str.append(val_ptr.get(i).getUc_group());
+				str.append(",");
+				str.append(val_ptr.get(i).getUc_plane());
+				str.append(",");
+				str.append(val_ptr.get(i).getUc_row());
+				str.append(",");
+				str.append(val_ptr.get(i).getUc_cell());
+				str.append(") ");
+			}
+			
+			return str.toString();
 		}
 	}
 

@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -488,7 +490,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 *  @param prefix the prefix to be generated before the actual value
 	 *  @param blockCount the block counter storing how many open blocks there are in the local area.
 	 */
-	StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final ChangeableInteger blockCount);
+	StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final AtomicInteger blockCount);
 
 	/**
 	 * as above

@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.Formatter;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -133,7 +134,7 @@ public final class SingleExecutor extends BaseExecutor {
 				lastTimeSelectionTime = 1;
 				lastTimeSelectionType = ExecutableType.CONFIGURATIONFILE;
 			} else {
-				final MyBoolean temp = new MyBoolean(true);
+				final AtomicBoolean temp = new AtomicBoolean(true);
 
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
@@ -146,7 +147,7 @@ public final class SingleExecutor extends BaseExecutor {
 						dialog.setSelection(lastTimeSelection, lastTimeSelectionTime, lastTimeSelectionType);
 
 						if (dialog.open() != Window.OK) {
-							temp.setValue(false);
+							temp.set(false);
 							return;
 						}
 
@@ -156,7 +157,7 @@ public final class SingleExecutor extends BaseExecutor {
 					}
 				});
 
-				if (!temp.getValue()) {
+				if (!temp.get()) {
 					executionStarted = false;
 					terminate(true);
 					return;

@@ -8,13 +8,13 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.ChangeableBoolean;
-import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -301,26 +301,26 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 	 *
 	 * TODO: if we can generate "else if" -s the blockCount is not needed
 	 */
-	public void generateCode( final JavaGenData aData, final StringBuilder source, final ChangeableInteger blockCount, final ChangeableBoolean unReachable, final ChangeableBoolean eachFalse) {
-		if (unReachable.getValue()) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source, final AtomicInteger blockCount, final AtomicBoolean unReachable, final AtomicBoolean eachFalse) {
+		if (unReachable.get()) {
 			return;
 		}
 		if (!expression.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
 			final IValue last = expression.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 			if (((Boolean_Value) last).getValue()) {
-				unReachable.setValue(true);
+				unReachable.set(true);
 			} else {
 				return;
 			}
 		}
 
-		if(!eachFalse.getValue()) {
+		if(!eachFalse.get()) {
 			source.append("else ");
 		}
-		if(!unReachable.getValue()) {
-			if(!eachFalse.getValue()) {
+		if(!unReachable.get()) {
+			if(!eachFalse.get()) {
 				source.append("{\n");
-				blockCount.setValue(blockCount.getValue() + 1);
+				blockCount.set(blockCount.get() + 1);
 			}
 
 			//TODO this is temporary solution, to handle both object and native types.
@@ -330,7 +330,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 
 			source.append(") )");
 		}
-		eachFalse.setValue(false);
+		eachFalse.set(false);
 		source.append("{\n");
 		statementblock.generateCode(aData, source);
 		source.append("}\n");

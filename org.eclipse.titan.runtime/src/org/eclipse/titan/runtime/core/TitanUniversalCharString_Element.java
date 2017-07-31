@@ -59,23 +59,23 @@ public class TitanUniversalCharString_Element {
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanUniversalCharString_Element other_value ) {
+	public TitanBoolean operatorEquals( final TitanUniversalCharString_Element other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring comparison.");
 
-		return get_char() == other_value.str_val.charAt( other_value.char_pos );
+		return new TitanBoolean(get_char() == other_value.str_val.charAt( other_value.char_pos ));
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanUniversalCharString other_value ) {
+	public TitanBoolean operatorEquals( final TitanUniversalCharString other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring element comparison.");
 
 		if (other_value.getValue().size() != 1) {
-			return false;
+			return new TitanBoolean(false);
 		}
 
-		return get_char() == other_value.charAt(0);
+		return new TitanBoolean(get_char() == other_value.charAt(0));
 	}
 
 	public TitanUniversalChar get_char() {

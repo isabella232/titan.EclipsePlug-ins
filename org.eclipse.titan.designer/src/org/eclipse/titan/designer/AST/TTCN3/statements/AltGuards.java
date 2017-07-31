@@ -11,19 +11,19 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -536,13 +536,13 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					source.append("return TitanAlt_Status.ALT_YES;\n");
 				}
 			} else {
-				ChangeableInteger blockCount = new ChangeableInteger(0);
+				AtomicInteger blockCount = new AtomicInteger(0);
 				IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
 
 					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
 					source.append(") {\n");
-					blockCount.setValue(blockCount.getValue() + 1);
+					blockCount.set(blockCount.get() + 1);
 				}
 
 				boolean canRepeat = false;
@@ -558,9 +558,9 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				//FIXME implement rest
 				}
 				if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
-					if (blockCount.getValue() == 0) {
+					if (blockCount.get() == 0) {
 						source.append("{\n");
-						blockCount.setValue(blockCount.getValue() + 1);
+						blockCount.set(blockCount.get() + 1);
 					}
 					String tempId = aData.getTemporaryVariableName();
 					source.append(MessageFormat.format("TitanAlt_Status {0};\n", tempId));
@@ -602,7 +602,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				source.append("}\n");
 
 				// closing statement blocks
-				for(int j = 0 ; j < blockCount.getValue(); j++) {
+				for(int j = 0 ; j < blockCount.get(); j++) {
 					source.append("}\n");
 				}
 			}

@@ -8,18 +8,18 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
@@ -307,12 +307,12 @@ public final class While_Statement extends Statement {
 
 			// do not generate the exit condition for infinite loops
 			if (!condition_always_true) {
-				ChangeableInteger blockCount = new ChangeableInteger(0);
+				AtomicInteger blockCount = new AtomicInteger(0);
 				last.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
 				source.append(")) {\n");
 				source.append("break;\n");
 				source.append("}\n");
-				for(int i = 0 ; i < blockCount.getValue(); i++) {
+				for(int i = 0 ; i < blockCount.get(); i++) {
 					source.append("}\n");
 				}
 			}
