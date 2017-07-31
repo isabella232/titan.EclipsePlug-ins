@@ -58,7 +58,7 @@ public class TitanHexString_template extends Base_Template {
 		copyTemplate(otherValue);
 	}
 
-	public TitanHexString_template(final TitanHexString_Element otherValue){
+	public TitanHexString_template(final TitanHexString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
 	}
@@ -108,8 +108,8 @@ public class TitanHexString_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanHexString_template assign(final TitanHexString_Element otherValue){
+	// originally operator=
+	public TitanHexString_template assign(final TitanHexString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound hexstring element to a template.");
 
 		cleanUp();
@@ -220,22 +220,23 @@ public class TitanHexString_template extends Base_Template {
 		}
 	}
 
-	//originally valueof
+	// originally valueof
 	public TitanHexString valueOf() {
-		if(templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent){
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific hexstring template.");
 		}
 
 		return single_value;
 	}
 
-	//originally lengthof
-	public TitanInteger lengthOf(){
-		int min_length = 0;
-		boolean has_any_or_none = false;
-		if(is_ifPresent){
+	// originally lengthof
+	public TitanInteger lengthOf() {
+		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a hexstring template which has an ifpresent attribute.");
 		}
+
+		int min_length = 0;
+		boolean has_any_or_none = false;
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			min_length = single_value.lengthOf().getInt();
@@ -248,7 +249,7 @@ public class TitanHexString_template extends Base_Template {
 			break;
 		case VALUE_LIST:
 			// error if any element does not have length or the lengths differ
-			if(value_list.size() < 1){
+			if (value_list.size() < 1) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a hexstring template containing an empty list.");
 			}
 			int item_length = value_list.get(0).lengthOf().getInt();
@@ -264,7 +265,7 @@ public class TitanHexString_template extends Base_Template {
 		case STRING_PATTERN:
 			has_any_or_none = false; // TRUE if * chars in the pattern
 			for (int i = 0; i < pattern_value.size(); i++) {
-				if(pattern_value.get(i) < 17){
+				if (pattern_value.get(i) < 17) {
 					min_length++; // case of 0-F, ?
 				} else {
 					has_any_or_none = true; // case of * character
@@ -274,19 +275,20 @@ public class TitanHexString_template extends Base_Template {
 		default:
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported hexstring template.");
 		}
-		//TODO: implement check_section_is_single()
+		// TODO: implement check_section_is_single()
 		return new TitanInteger(min_length);
 	}
 
-	//originally set_type
-	public void setType(template_sel templateType, int listLength){
-		if(templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST &&
-				templateType != template_sel.DECODE_MATCH){
+	// originally set_type
+	public void setType(template_sel templateType, int listLength) {
+		if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST
+				&& templateType != template_sel.DECODE_MATCH) {
 			throw new TtcnError("Setting an invalid list type for a hexstring template.");
 		}
+
 		cleanUp();
 		setSelection(templateType);
-		if(templateType != template_sel.DECODE_MATCH){
+		if (templateType != template_sel.DECODE_MATCH) {
 			value_list = new ArrayList<TitanHexString_template>(listLength);
 			for (int i = 0; i < listLength; i++) {
 				value_list.add(new TitanHexString_template());
@@ -294,32 +296,30 @@ public class TitanHexString_template extends Base_Template {
 		}
 	}
 
-	
-	
-	
-	//originally list_item
-	public TitanHexString_template listItem(int listIndex){
-		if(templateSelection != template_sel.VALUE_LIST &&
-				templateSelection != template_sel.COMPLEMENTED_LIST){
+	// originally list_item
+	public TitanHexString_template listItem(final int listIndex) {
+		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list hexstring template.");
 		}
-		if(listIndex >= value_list.size()){
+
+		if (listIndex >= value_list.size()) {
 			throw new TtcnError("Index overflow in a hexstring value list template.");
 		}
+
 		return value_list.get(listIndex);
 	}
 
-	//originally is_present
-	public boolean isPresent(boolean legacy /* = FALSE */ ){
-		if(templateSelection == template_sel.UNINITIALIZED_TEMPLATE){
+	// originally is_present
+	public boolean isPresent(boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return true;
 		}
 		return !matchOmit(legacy);
 	}
 
-	//originally matc_omit
-	public boolean matchOmit(boolean legacy /* = FALSE */){
-		if(is_ifPresent){
+	// originally matc_omit
+	public boolean matchOmit(boolean legacy) {
+		if (is_ifPresent) {
 			return true;
 		}
 		switch (templateSelection) {
@@ -328,10 +328,10 @@ public class TitanHexString_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			if(legacy){
-				//legacy behavior: 'omit' can appear in the value/complement list
+			if (legacy) {
+				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if(value_list.get(i).matchOmit()){
+					if (value_list.get(i).matchOmit()) {
 						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
@@ -341,9 +341,7 @@ public class TitanHexString_template extends Base_Template {
 		return false;
 	}
 
-	public boolean matchOmit(){
+	public boolean matchOmit() {
 		return matchOmit(false);
 	}
-
-
 }
