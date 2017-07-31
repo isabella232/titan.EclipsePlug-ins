@@ -41,7 +41,8 @@ public class TitanUniversalCharString extends Base_Type {
 			val_ptr.add(aOtherValue);
 			charstring = false;
 		} else {
-			cstr = new StringBuilder(aOtherValue.getUc_cell());
+			cstr = new StringBuilder();
+			cstr.append(aOtherValue.getUc_cell());
 			charstring = true;
 		}
 	}
@@ -49,7 +50,8 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanUniversalCharString(char uc_group, char uc_plane, char uc_row,  char uc_cell) {
 		TitanUniversalChar uc = new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell);
 		if (uc.is_char()) {
-			cstr = new StringBuilder(uc_cell);
+			cstr = new StringBuilder();
+			cstr.append(uc_cell);
 			charstring = true;
 		} else {
 			val_ptr = new ArrayList<TitanUniversalChar>();
@@ -162,7 +164,8 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("Assignment of an unbound universal charstring element to a universal charstring.");
 
 		if (aOtherValue.get_char().is_char()) {
-			cstr = new StringBuilder(aOtherValue.get_char().getUc_cell());
+			cstr = new StringBuilder();
+			cstr.append(aOtherValue.get_char().getUc_cell());
 			val_ptr = null;
 			charstring = true;
 		} else {
@@ -196,7 +199,8 @@ public class TitanUniversalCharString extends Base_Type {
 			cleanUp();
 			charstring = true;
 		}
-		cstr = new StringBuilder(aOtherValue.get_char());
+		cstr = new StringBuilder();
+		cstr.append(aOtherValue.get_char());
 
 		return this;
 	}
@@ -218,7 +222,8 @@ public class TitanUniversalCharString extends Base_Type {
 		cleanUp();
 		if (aOtherValue.is_char()) {
 			charstring = true;
-			cstr = new StringBuilder(aOtherValue.getUc_cell());
+			cstr = new StringBuilder();
+			cstr.append(aOtherValue.getUc_cell());
 		} else {
 			charstring = false;
 			val_ptr = new ArrayList<TitanUniversalChar>();
