@@ -155,6 +155,7 @@ public final class Assignment_Statement extends Statement {
 			if (template.isValue(timestamp)) { //TODO: isValue should be checked within the previous line! This is double check!
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
+				template.setMyGovernor(temporalValue.getMyGovernor());
 				break;
 			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype())
 					&& ((ValueList_Template) template).getNofTemplates() == 1) {
@@ -172,6 +173,7 @@ public final class Assignment_Statement extends Statement {
 			if (template.isValue(timestamp)) { //TODO: isValue should be checked within the previous line! This is double check!
 				final IValue temporalValue = template.getValue();
 				checkVarAssignment(timestamp, assignment, temporalValue);
+				template.setMyGovernor(temporalValue.getMyGovernor());
 				break;
 			} else if( Template_type.VALUE_LIST.equals(template.getTemplatetype())
 					&& ((ValueList_Template) template).getNofTemplates() == 1) {
@@ -191,6 +193,7 @@ public final class Assignment_Statement extends Statement {
 			final IValue temporalValue = template.getValue();
 			if (temporalValue != null) {
 				checkVarAssignment(timestamp, assignment, temporalValue);
+				template.setMyGovernor(temporalValue.getMyGovernor());
 				break;
 			} else if ( Template_type.VALUE_LIST.equals(template.getTemplatetype())
 					&& ((ValueList_Template) template).getNofTemplates() == 1) {
@@ -540,42 +543,68 @@ public final class Assignment_Statement extends Statement {
 			//TODO: handle null
 			return;
 		}
+		boolean isValue;
 		switch (assignment.getAssignmentType()) {
 		case A_PAR_VAL_IN:
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL:
 		case A_VAR:
+			isValue = true;
 			//TODO handle value
+			break;
 		default:
+			isValue = false;
 			//TODO handle template
+			break;
 		}
 
 
 		// TODO Assignment::generate_code
+		// TODO handle rhs copied, needs_conv
+		// TODO we assume single expression here, value and template cases are the same this case
 		source.append( "\t\t" );
 
-		ExpressionStruct leftExpression = new ExpressionStruct();
-		reference.generateCode(aData, leftExpression);
-		source.append(leftExpression.preamble);
-
-		ExpressionStruct rightExpression = new ExpressionStruct();
-		if (template instanceof SpecificValue_Template) {
-			IValue value = ((SpecificValue_Template) template).getValue();
-
-			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-			referenceChain.release();
-
-			last.generateCodeExpression(aData, rightExpression);
+		//TODO implement the needs conversion case
+		if (reference.getSubreferences().size() > 1 && !template.hasSingleExpression()) {
+			String tempID = aData.getTemporaryVariableName();
+			ExpressionStruct leftExpression = new ExpressionStruct();
+			reference.generateCode(aData, leftExpression);
+			source.append("{\n");
+			source.append(leftExpression.preamble);
+			if (isValue) {
+				source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+			} else {
+				source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), tempID, leftExpression.expression));
+			}
+			source.append(leftExpression.postamble);
+			template.generateCodeInit(aData, source, tempID);
+			source.append("}\n");
+		} else if (reference.getSubreferences().size() > 1) {
+			ExpressionStruct leftExpression = new ExpressionStruct();
+			reference.generateCode(aData, leftExpression);
+			source.append(leftExpression.preamble);
+	
+			StringBuilder rightSide;
+			if (template instanceof SpecificValue_Template) {
+				IValue value = ((SpecificValue_Template) template).getValue();
+	
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+				referenceChain.release();
+	
+				rightSide = last.generateSingleExpression(aData);
+			} else {
+				rightSide = template.getSingleExpression(aData, false);
+			}
+	
+			source.append(leftExpression.expression);
+			source.append( ".assign( " );
+			source.append(rightSide);
+			source.append( " );\n" );
 		} else {
-			template.generateCodeExpression( aData, rightExpression);
+			// left hand side is a single assignment
+			template.generateCodeInit(aData, source, assignment.getIdentifier().getName());
 		}
-		source.append(rightExpression.preamble);
-
-		source.append(leftExpression.expression);
-		source.append( ".assign( " );
-		source.append(rightExpression.expression);
-		source.append( " );\n" );
 	}
 }
