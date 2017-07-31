@@ -471,7 +471,7 @@ public final class Def_Var_Template extends Definition {
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		sb.append(source);
-		
+
 		//TODO this actually belongs to the module initialization
 		StringBuilder initComp = aData.getInitComp();
 		if ( initialValue != null ) {
@@ -493,11 +493,8 @@ public final class Def_Var_Template extends Definition {
 		}
 
 		// temporal code until generate_code_object and generateCodeInit is supported for templates
-		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
-		source.append( typeName );
-		source.append( " " );
-		source.append( genName );
-		source.append( " = new " ). append(typeName).append("();\n");
+		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
+		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit( aData, source, genName );
 		}
