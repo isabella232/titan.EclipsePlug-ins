@@ -461,7 +461,7 @@ public final class Def_Var extends Definition {
 		if ( !isLocal() ) {
 			source.append( "\tpublic static final " );
 		} else {
-			source.append("//FIXME: Faulty branch !!!\n");
+			source.append("//Fatal Error: there should be no global variables\n");
 		}
 
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
