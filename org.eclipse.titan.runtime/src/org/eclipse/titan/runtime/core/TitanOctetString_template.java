@@ -353,11 +353,14 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		}
 	}
 
-	public TitanOctetString_template listItem(int listIndex) {
+	public TitanOctetString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST)
 			throw new TtcnError("Accessing a list element of a non-list octetstring template.");
-		if (listIndex >= value_list.size() || listIndex < 0)
+		if (listIndex < 0) {
+			throw new TtcnError("Accessing an octetstring value list template using a negative index (" + listIndex + ").");
+		}
+		if (listIndex >= value_list.size())
 			throw new TtcnError("Index overflow in an octetstring value list template.");
 		return value_list.get(listIndex);
 	}

@@ -219,6 +219,9 @@ public class TitanBoolean_template extends Base_Template {
 		if (!template_sel.VALUE_LIST.equals(templateSelection) && !template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
 			throw new TtcnError("Accessing a list element of a non-list boolean template.");
 		}
+		if (listIndex < 0) {
+			throw new TtcnError("Accessing an boolean value list template using a negative index (" + listIndex + ").");
+		}
 		if (listIndex > value_list.size()) {
 			throw new TtcnError("Index overflow in an boolean value list template.");
 		}

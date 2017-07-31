@@ -243,7 +243,9 @@ public class TitanInteger_template extends Base_Template {
 				!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {
 			throw new TtcnError("Accessing a list element of a non-list integer template.");
 		}
-
+		if (listIndex < 0) {
+			throw new TtcnError("Accessing an integer value list template using a negative index (" + listIndex + ").");
+		}
 		if (listIndex > value_list.size()) {
 			throw new TtcnError("Index overflow in an integer value list template.");
 		}

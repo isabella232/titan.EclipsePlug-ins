@@ -223,15 +223,18 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
-	public TitanFloat_template list_item(int index) {
+	public TitanFloat_template list_item(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list float template.");
 		}
-		if (index >= value_list.size()) {
+		if (listIndex < 0) {
+			throw new TtcnError("Accessing an bitstring value list template using a negative index (" + listIndex + ").");
+		}
+		if (listIndex >= value_list.size()) {
 			throw new TtcnError("Index overflow in a float value list template.");
 		}
 
-		return value_list.get(index);
+		return value_list.get(listIndex);
 	}
 
 	public void setMin(double minValue) {

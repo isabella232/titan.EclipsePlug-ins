@@ -334,6 +334,9 @@ public class TitanBitString_template extends Base_Template {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list bitstring template.");
 		}
+		if (listIndex < 0) {
+			throw new TtcnError("Accessing an bitstring value list template using a negative index (" + listIndex + ").");
+		}
 		if (listIndex >= value_list.size()) {
 			throw new TtcnError("Index overflow in a bitstring value list template.");
 		}

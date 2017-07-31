@@ -240,17 +240,19 @@ public class TitanVerdictType_template extends Base_Template {
 		value_list = new ArrayList<TitanVerdictType_template>( list_length );
 	}
 
-	public TitanVerdictType_template list_item( final int list_index ) {
+	public TitanVerdictType_template list_item( final int listIndex ) {
 		if ( templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST ) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list verdict template.");
 		}
-
-		if ( list_index >= value_list.size() ) {
+		if (listIndex < 0) {
+			throw new TtcnError("Accessing an verdict value list template using a negative index (" + listIndex + ").");
+		}
+		if ( listIndex >= value_list.size() ) {
 			throw new TtcnError("Internal error: Index overflow in a verdict value list template.");
 		}
 
-		return value_list.get( list_index );
+		return value_list.get( listIndex );
 	}
 
 	public void log() {
