@@ -346,14 +346,46 @@ public final class Template_List extends CompositeTemplate {
 		return "";
 	}
 
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+	/**
+	 * Returns whether the template can be represented by an in-line
+	 *  Java expression.
+	 * */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+		//TODO fatal error
+		return false;
+	}
 
-		//TODO generate code for missing parts
-		expression.expression.append( "\t" );
-		expression.expression.append( "//TODO: " );
-		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCode() is not implemented!\n" );
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (asValue != null) {
+			asValue.generateCodeExpression(aData, expression);
+			return;
+		}
 
-		return;
+		if (myGovernor == null) {
+			return;
+		}
+
+		// TODO not yet implemented
+		super.generateCodeExpression(aData, expression);
+	}
+
+	@Override
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (asValue != null) {
+			asValue.generateCodeInit(aData, source, name);
+			return;
+		}
+
+		if (myGovernor == null) {
+			return;
+		}
+
+		// TODO not yet implemented
+		super.generateCodeInit(aData, source, name);
 	}
 }
