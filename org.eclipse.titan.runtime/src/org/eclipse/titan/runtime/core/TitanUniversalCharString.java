@@ -267,7 +267,7 @@ public class TitanUniversalCharString extends Base_Type {
 			throw new TtcnError(aErrorMessage);
 		} 
 		if (!charstring && val_ptr == null) {
-				throw new TtcnError(aErrorMessage);
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 
@@ -286,7 +286,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public TitanBoolean operatorEquals(final TitanUniversalCharString aOtherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
 		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring value.");
-		
+
 		if (charstring) {
 			if (aOtherValue.charstring) {
 				return new TitanBoolean(cstr.toString().equals(aOtherValue.cstr.toString()));
@@ -308,9 +308,9 @@ public class TitanUniversalCharString extends Base_Type {
 		if (val_ptr.size() != aOtherValue.val_ptr.size()) {
 			return new TitanBoolean(false);
 		}
-		
+
 		for (int i = 0; i < val_ptr.size(); ++i) {
-			if (!val_ptr.get(i).operatorEquals(aOtherValue.val_ptr.get(i))) {
+			if (!val_ptr.get(i).operatorEquals(aOtherValue.val_ptr.get(i)).getValue()) {
 				return new TitanBoolean(false);
 			}
 		}
@@ -488,7 +488,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (other_len == 0) {
 			return this;
 		}
-		if (charstring) {
+		if ( charstring ) {
 			return new TitanUniversalCharString( cstr.append( other_value ) );
 		}
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
