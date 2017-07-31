@@ -9,6 +9,8 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
@@ -17,8 +19,6 @@ import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.ChangeableBoolean;
-import org.eclipse.titan.designer.AST.ChangeableInteger;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -285,26 +285,26 @@ public final class If_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//TODO this is just a simplified version to enable early performance testing
-		ChangeableInteger blockCount = new ChangeableInteger(0);
-		ChangeableBoolean unReachable = new ChangeableBoolean(false);
-		ChangeableBoolean eachFalse = new ChangeableBoolean(true);
+		AtomicInteger blockCount = new AtomicInteger(0);
+		AtomicBoolean unReachable = new AtomicBoolean(false);
+		AtomicBoolean eachFalse = new AtomicBoolean(true);
 
 		ifClauses.generateCode(aData, source, blockCount, unReachable, eachFalse);
-		if (statementblock != null && !unReachable.getValue()) {
-			if(!eachFalse.getValue()) {
+		if (statementblock != null && !unReachable.get()) {
+			if(!eachFalse.get()) {
 				source.append("else ");
 			}
-			eachFalse.setValue(false);
+			eachFalse.set(false);
 			source.append("{\n");
-			blockCount.setValue(blockCount.getValue() + 1);
+			blockCount.set(blockCount.get() + 1);
 			statementblock.generateCode(aData, source);
 		}
 
-		for(int i = 0 ; i < blockCount.getValue(); i++) {
+		for(int i = 0 ; i < blockCount.get(); i++) {
 			source.append("}\n");
 		}
 
-		if(eachFalse.getValue()) {
+		if(eachFalse.get()) {
 			source.append("/* never occurs */;\n");
 		}
 	}

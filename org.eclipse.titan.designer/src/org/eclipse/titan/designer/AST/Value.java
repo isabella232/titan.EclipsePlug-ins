@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST;
 
 import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -525,14 +526,14 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *  @param prefix the string to be used as prefix of the value
 	 *  @param blockCount the counter storing the number of open block in the local area
 	 */
-	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final ChangeableInteger blockCount) {
+	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final AtomicInteger blockCount) {
 		StringBuilder s2 = new StringBuilder();
 		StringBuilder s1 = generateCodeTmp(aData, new StringBuilder(), s2);
 
 		if(s2.length() > 0) {
-			if(blockCount.getValue() == 0) {
+			if(blockCount.get() == 0) {
 				source.append("{\n");
-				blockCount.setValue(blockCount.getValue() + 1);
+				blockCount.set(blockCount.get() + 1);
 			}
 			source.append(s2);
 		}
