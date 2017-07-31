@@ -14,7 +14,7 @@ in ClientSyncCompList pl_clientRefs,
   in template (value) SyncCmd pl_syncCmd )
 runs on ServerSyncComp {
   var template ClientSyncComp vt_client := ClientSyncComp.create; 
-  syncPort_PT.send(pl_syncCmd) to vt_client; 
+  syncPort_PT.send(pl_syncCmd) to valueof(vt_client);
   syncPort_PT.send(pl_syncCmd) to valueof(vt_client);
   var integer vl_i:=0;
   for (vl_i:=0; vl_i< sizeof(pl_clientRefs); vl_i:=vl_i+1 ){
