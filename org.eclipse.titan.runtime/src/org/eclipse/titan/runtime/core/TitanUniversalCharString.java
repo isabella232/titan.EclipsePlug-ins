@@ -457,7 +457,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 		if (charstring) {
 			if (other_value.is_char()) {
-				final TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.getUc_cell() ) );
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString( new StringBuilder(cstr).append( other_value.getUc_cell() ) );
 				return ret_val;
 			} else {
 				final List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
@@ -494,7 +494,7 @@ public class TitanUniversalCharString extends Base_Type {
 			return this;
 		}
 		if ( charstring ) {
-			return new TitanUniversalCharString( cstr.append( other_value ) );
+			return new TitanUniversalCharString( new StringBuilder(cstr).append( other_value ) );
 		}
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
 		for (int i = 0; i < other_len; i++) {
@@ -524,7 +524,7 @@ public class TitanUniversalCharString extends Base_Type {
 		other_value.mustBound("The right operand of concatenation is an unbound charstring element.");
 
 		if ( charstring ) {
-			return new TitanUniversalCharString( cstr.append( other_value.get_char() ) );
+			return new TitanUniversalCharString( new StringBuilder(cstr).append( other_value.get_char() ) );
 		}
 
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
@@ -550,7 +550,7 @@ public class TitanUniversalCharString extends Base_Type {
 				if (other_value.cstr.length() == 0) {
 					return this;
 				}
-				final TitanUniversalCharString ret_val = new TitanUniversalCharString( cstr.append( other_value.cstr ) );
+				final TitanUniversalCharString ret_val = new TitanUniversalCharString( new StringBuilder(cstr).append( other_value.cstr ) );
 				return ret_val;
 			} else {
 				if (other_value.val_ptr.isEmpty()) {
@@ -599,7 +599,7 @@ public class TitanUniversalCharString extends Base_Type {
 		other_value.mustBound("The right operand of concatenation is an unbound universal charstring element.");
 
 		if ( charstring ) {
-			return new TitanUniversalCharString(cstr.append( other_value.get_char().getUc_cell()));
+			return new TitanUniversalCharString(new StringBuilder(cstr).append( other_value.get_char().getUc_cell()));
 		}
 
 		final TitanUniversalCharString ret_val = new TitanUniversalCharString( val_ptr );
