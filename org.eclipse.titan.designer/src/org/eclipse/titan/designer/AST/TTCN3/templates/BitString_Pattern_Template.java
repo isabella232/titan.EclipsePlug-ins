@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -103,5 +104,29 @@ public final class BitString_Pattern_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// nothing to be done
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		StringBuilder result = new StringBuilder();
+
+		result.append( "\t//TODO:  " );
+		result.append( getClass().getSimpleName() );
+		result.append( ".getSingleExpression() not yet implement!\n" );
+		// TODO: fatal error
+
+		//TODO handle cast needed
+
+		return result;
 	}
 }

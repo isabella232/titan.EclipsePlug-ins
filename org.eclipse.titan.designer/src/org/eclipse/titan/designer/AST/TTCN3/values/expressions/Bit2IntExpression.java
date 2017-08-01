@@ -246,6 +246,7 @@ public final class Bit2IntExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
+
 		expression.expression.append("AdditionalFunctions.bit2int( ");
 		value.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(')');

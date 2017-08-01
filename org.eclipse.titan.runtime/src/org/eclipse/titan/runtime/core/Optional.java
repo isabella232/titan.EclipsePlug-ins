@@ -69,13 +69,13 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		case OPTIONAL_PRESENT:
 			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 				optionalValue.assign(otherValue.optionalValue);
-
 			} else {
 				try {
 					optionalValue = clazz.newInstance();
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
+				optionalValue.assign(otherValue.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
@@ -95,7 +95,18 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	@Override
 	public Optional<TYPE> assign(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to optional", otherValue));
+			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+				optionalValue.assign(otherValue);
+			} else {
+				try {
+					optionalValue = clazz.newInstance();
+				} catch (Exception e) {
+					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
+				}
+				optionalValue.assign(otherValue);
+				optionalSelection = optional_sel.OPTIONAL_PRESENT;
+			}
+			return this;
 		}
 
 		final Optional<?> optionalOther = (Optional<?>)otherValue;
@@ -109,6 +120,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
+				optionalValue.assign(optionalOther.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
@@ -249,7 +261,23 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	@Override
 	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to an optional value", otherValue));
+			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
+				if(!otherValue.isBound()) {
+					return new TitanBoolean(true);
+				} else {
+					throw new TtcnError("The left operand of comparison is an unbound optional value.");
+				}
+			} else {
+				if (!otherValue.isBound()) {
+					throw new TtcnError("The right operand of comparison is an unbound optional value.");
+				} else {
+					 if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+						return optionalValue.operatorEquals(otherValue);
+					} else {
+						return new TitanBoolean(true);
+					}
+				}
+			}
 		}
 
 		final Optional<?> optionalOther = (Optional<?>) otherValue;

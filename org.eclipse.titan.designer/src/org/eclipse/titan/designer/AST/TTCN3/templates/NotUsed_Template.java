@@ -12,6 +12,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.values.Notused_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -99,5 +100,29 @@ public final class NotUsed_Template extends TTCN3Template {
 		}
 
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		StringBuilder result = new StringBuilder();
+
+		result.append( "\t//TODO:  " );
+		result.append( getClass().getSimpleName() );
+		result.append( ".getSingleExpression() not yet implement!\n" );
+		// TODO: fatal error
+
+		//TODO handle cast needed
+
+		return result;
 	}
 }
