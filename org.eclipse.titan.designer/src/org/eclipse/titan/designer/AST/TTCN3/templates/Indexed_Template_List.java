@@ -21,14 +21,19 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.IndexedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Values;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -387,6 +392,82 @@ public final class Indexed_Template_List extends TTCN3Template {
 		super.setGenNamePrefix(prefix);
 		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
 			indexedTemplates.getTemplateByIndex(i).getTemplate().setGenNamePrefix(prefix);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		//TODO if it has no fields and we have that in the runtime it could be
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (asValue != null) {
+			asValue.generateCodeExpression(aData, expression);
+			return;
+		}
+
+		if (myGovernor == null) {
+			return;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		String genName = myGovernor.getGenNameTemplate(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		setGenNameRecursive(genName);
+		generateCodeInit(aData, expression.preamble, tempId);
+		//FIXME generate restriction check
+		expression.expression.append(tempId);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (asValue != null) {
+			asValue.generateCodeInit(aData, source, name);
+			return;
+		}
+
+		if (myGovernor == null) {
+			return;
+		}
+
+		//FIXME actually a bit more complex
+		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		String ofTypeName;
+		switch(type.getTypetype()) {
+		case TYPE_SEQUENCE_OF:
+			ofTypeName = ((SequenceOf_Type) type).getOfType().getGenNameTemplate(aData, source, myScope);
+			break;
+		case TYPE_SET_OF:
+			ofTypeName = ((SetOf_Type) type).getOfType().getGenNameTemplate(aData, source, myScope);
+			break;
+		case TYPE_ARRAY:
+			ofTypeName = ((Array_Type) type).getElementType().getGenNameTemplate(aData, source, myScope);
+			break;
+		default:
+			//FATAL error
+			return;
+		}
+
+		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
+			IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
+			String tempId = aData.getTemporaryVariableName();
+			source.append("{\n");
+			Value index = indexedTemplate.getIndex().getValue();
+			if (Value_type.INTEGER_VALUE.equals(index.getValuetype())) {
+				source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, ((Integer_Value) index).getValue()));
+			} else {
+				String tempId2 = aData.getTemporaryVariableName();
+				source.append(MessageFormat.format("int {0};\n", tempId2));
+				index.generateCodeInit(aData, source, tempId2);
+				source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, tempId2));
+			}
+			indexedTemplate.getTemplate().generateCodeInit(aData, source, tempId);
+			source.append("}\n");
 		}
 	}
 }
