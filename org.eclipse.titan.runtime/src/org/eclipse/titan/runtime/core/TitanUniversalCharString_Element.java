@@ -8,7 +8,6 @@
 package org.eclipse.titan.runtime.core;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  *
@@ -30,7 +29,7 @@ public class TitanUniversalCharString_Element {
 		return bound_flag;
 	}
 
-	boolean is_present() { 
+	boolean isPresent() { 
 		return bound_flag;
 	}
 
@@ -59,11 +58,11 @@ public class TitanUniversalCharString_Element {
 					str_val.cstr.setCharAt(char_pos, other_value.get_char().getUc_cell());
 				} else {
 					str_val.convertCstrToUni();
-					str_val.val_ptr.set( char_pos, other_value.get_char());
+					str_val.val_ptr.set(char_pos, other_value.get_char());
 				}
 			} else {
 				if (other_value.str_val.charstring) {
-					str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0,(char) 0, (char) 0,other_value.str_val.cstr.charAt(other_value.char_pos)));
+					str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, other_value.str_val.cstr.charAt(other_value.char_pos)));
 				} else {
 					str_val.val_ptr.set(char_pos, other_value.get_char());
 				}
@@ -83,7 +82,7 @@ public class TitanUniversalCharString_Element {
 		}
 
 		bound_flag = true;
-	
+
 		if (other_value.charstring) {
 			str_val.cstr = other_value.cstr;
 			str_val.charstring = true;
@@ -105,25 +104,26 @@ public class TitanUniversalCharString_Element {
 			if (otherValue.is_char()) {
 				str_val.cstr.setCharAt(char_pos, otherValue.getUc_cell());
 				return this;
-			} else { 
+			} else {
 				str_val.convertCstrToUni();
 			}
-		} 
-		str_val.val_ptr.set( char_pos, otherValue);
+		}
+		str_val.val_ptr.set(char_pos, otherValue);
 
 		return this;
 	}
 
 	// originally operator=
 	public TitanUniversalCharString_Element assign(final String otherValue) {
-		if(otherValue == null || otherValue.length() != 1) {
+		if (otherValue == null || otherValue.length() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a universal charstring element.");
 		}
+
 		bound_flag = true;
 		if (str_val.charstring) {
 			str_val.cstr.setCharAt(char_pos, otherValue.charAt(0));
 		} else {
-			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0,(char) 0,(char) 0, otherValue.charAt(0)));
+			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.charAt(0)));
 		}
 
 		return this;
@@ -131,6 +131,7 @@ public class TitanUniversalCharString_Element {
 
 	public TitanUniversalCharString_Element assign(final TitanCharString otherValue) {
 		otherValue.mustBound("Assignment of an unbound charstring value to a universal charstring element.");
+
 		if (otherValue.lengthOf().getInt() != 1) {
 			throw new TtcnError("Assignment of a charstring value with length other than 1 to a universal charstring element.");
 		}
@@ -138,7 +139,7 @@ public class TitanUniversalCharString_Element {
 		if (str_val.charstring) {
 			str_val.cstr.setCharAt(char_pos, otherValue.getAt(0).get_char());
 		} else {
-			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0,(char) 0,(char) 0, otherValue.getAt(0).get_char()));
+			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.getAt(0).get_char()));
 		}
 
 		return this;
@@ -147,11 +148,12 @@ public class TitanUniversalCharString_Element {
 	// originally operator=
 	public TitanUniversalCharString_Element assign(final TitanCharString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound charstring element to a universal charstring element.");
+
 		bound_flag = true;
 		if (str_val.charstring) {
 			str_val.cstr.setCharAt(char_pos, otherValue.get_char());
 		} else {
-			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0,(char) 0,(char) 0, otherValue.get_char()));
+			str_val.val_ptr.set(char_pos, new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.get_char()));
 		}
 
 		return this;
@@ -161,7 +163,7 @@ public class TitanUniversalCharString_Element {
 	public TitanBoolean operatorEquals(final TitanUniversalCharString_Element other_value) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring comparison.");
-		
+
 		return new TitanBoolean(get_char().operatorEquals(other_value.get_char()));
 	}
 
@@ -179,6 +181,7 @@ public class TitanUniversalCharString_Element {
 
 	public TitanBoolean operatorEquals(final TitanUniversalChar otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
+
 		if (str_val.charstring && otherValue.is_char()) {
 			return new TitanBoolean(str_val.cstr.charAt(char_pos) == otherValue.getUc_cell());
 		}
@@ -187,14 +190,15 @@ public class TitanUniversalCharString_Element {
 		}
 		if (!str_val.charstring && otherValue.is_char()) {
 			final TitanUniversalChar uchar = new TitanUniversalChar(str_val.charAt(char_pos));
-			return new TitanBoolean(uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 &&
-					uchar.getUc_cell() == otherValue.getUc_cell()); 
+			return new TitanBoolean(uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0
+					&& uchar.getUc_cell() == otherValue.getUc_cell());
 		}
 		return new TitanBoolean(str_val.val_ptr.get(char_pos).operatorEquals(otherValue));
 	}
 
 	public TitanBoolean operatorEquals(final String otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
+
 		if (otherValue == null || otherValue.length() != 1) {
 			return new TitanBoolean(false);
 		}
@@ -202,20 +206,24 @@ public class TitanUniversalCharString_Element {
 			return new TitanBoolean(str_val.cstr.charAt(char_pos) == otherValue.charAt(0));
 		}
 		final TitanUniversalChar uc = str_val.val_ptr.get(char_pos);
-		return new TitanBoolean(uc.getUc_group() == 0 && uc.getUc_plane() == 0 && uc.getUc_row() == 0 && 
-				uc.getUc_cell() == otherValue.charAt(0));
+		return new TitanBoolean(uc.getUc_group() == 0 && uc.getUc_plane() == 0 && uc.getUc_row() == 0
+				&& uc.getUc_cell() == otherValue.charAt(0));
 	}
 
 	public TitanBoolean operatorEquals(final TitanCharString otherValue) {
 		mustBound("The left operand of comparison is an unbound universal charstring element.");
 		otherValue.mustBound("The right operand of comparison is an unbound charstring value.");
-		if (otherValue.lengthOf().getInt() != 1) return new TitanBoolean(false);
+
+		if (otherValue.lengthOf().getInt() != 1) {
+			return new TitanBoolean(false);
+		}
 		if (str_val.charstring) {
 			return new TitanBoolean(str_val.cstr.charAt(char_pos) == otherValue.getAt(0).get_char());
-		}	
+		}
+
 		final TitanUniversalChar uchar = str_val.val_ptr.get(char_pos);
-		return new TitanBoolean(uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 &&
-				uchar.getUc_cell() == otherValue.getAt(0).get_char());
+		return new TitanBoolean(uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0
+				&& uchar.getUc_cell() == otherValue.getAt(0).get_char());
 	}
 
 	public TitanBoolean operatorEquals(final TitanCharString_Element otherValue) {
@@ -227,8 +235,8 @@ public class TitanUniversalCharString_Element {
 		}
 		final TitanUniversalChar uchar = str_val.val_ptr.get(char_pos);
 
-		return new TitanBoolean(uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 &&
-				uchar.getUc_cell() == otherValue.get_char());
+		return new TitanBoolean(uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0
+				&& uchar.getUc_cell() == otherValue.get_char());
 	}
 
 	// originally operator!=
@@ -237,7 +245,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	public TitanBoolean operatorNotEquals(final TitanUniversalCharString otherValue) {
-		return operatorEquals(otherValue).not();	
+		return operatorEquals(otherValue).not();
 	}
 
 	public TitanBoolean operatorNotEquals(final TitanUniversalChar otherValue) {
@@ -268,7 +276,7 @@ public class TitanUniversalCharString_Element {
 			result.charstring = true;
 			return result;
 		} else {
-			if (str_val.charstring ^ otherValue.is_char()) { //xor
+			if (str_val.charstring ^ otherValue.is_char()) { // xor
 				TitanUniversalCharString result = new TitanUniversalCharString();
 				result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 				result.charstring = false;
@@ -295,7 +303,7 @@ public class TitanUniversalCharString_Element {
 		mustBound("The left operand of concatenation is an unbound universal charstring element.");
 
 		if (otherValue == null)
-			return new TitanUniversalCharString(str_val.charAt(char_pos));  
+			return new TitanUniversalCharString(str_val.charAt(char_pos));
 
 		TitanUniversalCharString result = new TitanUniversalCharString();
 		if (str_val.charstring) {
@@ -313,6 +321,7 @@ public class TitanUniversalCharString_Element {
 		}
 		return result;
 	}
+
 	// originally operator+
 	public TitanUniversalCharString concatenate(final TitanCharString otherValue) {
 		mustBound("The left operand of concatenation is an unbound universal charstring element.");
@@ -358,7 +367,7 @@ public class TitanUniversalCharString_Element {
 		}
 
 		return result;
-	} 
+	}
 
 	// originally operator+
 	public TitanUniversalCharString concatenate(final TitanUniversalCharString otherValue) {
@@ -429,7 +438,6 @@ public class TitanUniversalCharString_Element {
 	}
 
 	public TitanUniversalChar get_char() {
-		return str_val.charAt( char_pos );
+		return str_val.charAt(char_pos);
 	}
-
 }
