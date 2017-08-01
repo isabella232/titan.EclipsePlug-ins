@@ -564,6 +564,10 @@ public final class Assignment_Statement extends Statement {
 		// TODO handle rhs copied, needs_conv
 		// TODO we assume single expression here, value and template cases are the same this case
 		source.append( "\t\t" );
+		boolean isOptional = false;
+		if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+			isOptional = true;
+		}
 
 		//TODO implement the needs conversion case
 		if (reference.getSubreferences().size() > 1 && !template.hasSingleExpression()) {
@@ -573,7 +577,11 @@ public final class Assignment_Statement extends Statement {
 			source.append("{\n");
 			source.append(leftExpression.preamble);
 			if (isValue) {
-				source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+				if (isOptional) {
+					source.append(MessageFormat.format("Optional<{0}> {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+				} else {
+					source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+				}
 			} else {
 				source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), tempID, leftExpression.expression));
 			}
