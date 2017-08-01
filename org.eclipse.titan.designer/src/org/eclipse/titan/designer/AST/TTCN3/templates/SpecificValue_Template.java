@@ -551,6 +551,39 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		if (specificValue == null) {
+			return false;
+		}
+
+		return specificValue.canGenerateSingleExpression();
+	}
+
+	@Override
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		StringBuilder result = new StringBuilder();
+
+		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
+			result.append( "\t//TODO: fatal error while generating " );
+			result.append( getClass().getSimpleName() );
+			result.append( ".getSingleExpression() !\n" );
+			// TODO: fatal error
+			return result;
+		}
+
+		result.append(specificValue.generateSingleExpression(aData));
+
+		//TODO handle cast needed
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (myGovernor == null) {
 			return;

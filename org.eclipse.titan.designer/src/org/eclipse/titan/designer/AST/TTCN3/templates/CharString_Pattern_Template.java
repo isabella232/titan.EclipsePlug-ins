@@ -138,4 +138,14 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		return false;
+	}
 }
