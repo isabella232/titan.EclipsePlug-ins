@@ -75,6 +75,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
+				optionalValue.assign(otherValue.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
@@ -119,6 +120,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				} catch (Exception e) {
 					throw new TtcnError(MessageFormat.format("Internal Error: exception `{0}'' thrown while instantiating class of `{1}'' type", e.getMessage(), clazz.getName()));
 				}
+				optionalValue.assign(optionalOther.optionalValue);
 				optionalSelection = optional_sel.OPTIONAL_PRESENT;
 			}
 			break;
