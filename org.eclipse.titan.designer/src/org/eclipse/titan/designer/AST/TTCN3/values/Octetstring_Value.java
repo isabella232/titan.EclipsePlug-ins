@@ -16,17 +16,16 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.OctetString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2OctExpression;
-import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2OctExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -191,27 +190,28 @@ public final class Octetstring_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanOctetString" );
-		source.append(name);
-		source.append(".assign( ");
-
-		source.append( "new TitanOctetString( \"" );
-		source.append( value );
-		source.append( "\" ) );\n" );
-		return source;
+	public boolean canGenerateSingleExpression() {
+		return true;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		if (canGenerateSingleExpression()) {
-			expression.expression.append(generateSingleExpression(aData));
-			return;
-		}
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport( "TitanOctetString" );
 
-		expression.expression.append( "new TitanOctetString( \"" );
-		expression.expression.append( value );
-		expression.expression.append( "\" )" );
+		StringBuilder result = new StringBuilder();
+		result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", value));
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport( "TitanOctetString" );
+
+		source.append(MessageFormat.format("{0}.assign(new TitanOctetString(\"{1}\"));\n", name, value));
+
+		return source;
 	}
 }

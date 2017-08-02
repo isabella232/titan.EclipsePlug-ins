@@ -16,16 +16,15 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.BitString_Type;
-import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2BitExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -200,26 +199,27 @@ public final class Bitstring_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanBitString" );
-		source.append(name);
-		source.append(".assign( ");
 
-		source.append( "new TitanBitString( \"" );
-		source.append( value );
-		source.append( "\" ) );\n" );
+		source.append(MessageFormat.format("{0}.assign(new TitanBitString(\"{1}\"));\n", name, value));
+
 		return source;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		if (canGenerateSingleExpression()) {
-			expression.expression.append(generateSingleExpression(aData));
-			return;
-		}
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
 
-		expression.expression.append( "new TitanBitString( \"" );
-		expression.expression.append( value );
-		expression.expression.append( "\" )" );
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport( "TitanBitString" );
+
+		StringBuilder result = new StringBuilder();
+		result.append(MessageFormat.format("new TitanBitString(\"{0}\")", value));
+
+		return result;
 	}
 
 }
