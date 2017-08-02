@@ -242,6 +242,7 @@ public final class Bit2IntExpression extends Expression_Value {
 		}
 		return true;
 	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
