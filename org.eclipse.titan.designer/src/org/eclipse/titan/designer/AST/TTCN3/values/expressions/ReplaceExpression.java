@@ -500,7 +500,7 @@ public final class ReplaceExpression extends Expression_Value {
 		final IValue value4 = ((SpecificValue_Template) temp).getSpecificValue();
 		final IValue v4 = value4.getValueRefdLast(timestamp, referenceChain);
 
-		final Value_type vt = value1.getValuetype();
+		final Value_type vt = v1.getValuetype();
 
 		final int index = ((Integer_Value) v2).intValue();
 		final int len = ((Integer_Value) v3).intValue();
