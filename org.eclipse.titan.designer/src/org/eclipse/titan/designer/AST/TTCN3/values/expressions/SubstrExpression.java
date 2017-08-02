@@ -222,6 +222,7 @@ public final class SubstrExpression extends Expression_Value {
 				setIsErroneous(true);
 			}
 			value1 = ((SpecificValue_Template) temp).getSpecificValue();
+			value1.setLoweridToReference(timestamp);
 			tempType1 = value1.getExpressionReturntype(timestamp, internalExpectation);
 
 			switch (tempType1) {
