@@ -142,7 +142,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
-		if (lastTimeChecked != null && lastTimeChecked.equals(timestamp)) {
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			if (myGovernor != null) {
 				return myGovernor;
 			}
@@ -171,7 +171,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public ITTCN3Template setLoweridToReference(final CompilationTimeStamp timestamp) {
-		if (lastTimeChecked != null && lastTimeChecked.equals(timestamp)) {
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return realTemplate;
 		}
 
