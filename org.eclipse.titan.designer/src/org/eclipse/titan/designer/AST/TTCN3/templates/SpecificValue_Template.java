@@ -560,6 +560,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return false;
 		}
 
+		if (realTemplate != null && realTemplate != this) {
+			return realTemplate.hasSingleExpression();
+		}
+
 		return specificValue.canGenerateSingleExpression();
 	}
 
@@ -575,7 +579,11 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return result;
 		}
 
-		result.append(specificValue.generateSingleExpression(aData));
+		if (realTemplate != null && realTemplate != this) {
+			result.append(realTemplate.getSingleExpression(aData, castIsNeeded));
+		} else {
+			result.append(specificValue.generateSingleExpression(aData));
+		}
 
 		//TODO handle cast needed
 
@@ -591,7 +599,11 @@ public final class SpecificValue_Template extends TTCN3Template {
 		String genName = myGovernor.getGenNameTemplate(aData, expression.expression, myScope);
 
 		expression.expression.append(MessageFormat.format("new {0}(", genName) );
-		specificValue.generateCodeExpression( aData, expression );
+		if (realTemplate != null && realTemplate != this) {
+			realTemplate.generateCodeExpression(aData, expression);
+		} else {
+			specificValue.generateCodeExpression( aData, expression );
+		}
 		expression.expression.append(')');
 	}
 
@@ -599,7 +611,11 @@ public final class SpecificValue_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		//TODO handle post init rearrangement
-		specificValue.generateCodeInit( aData, source, name );
+		if (realTemplate != null && realTemplate != this) {
+			realTemplate.generateCodeInit(aData, source, name);
+		} else {
+			specificValue.generateCodeInit( aData, source, name );
+		}
 
 		if (isIfpresent) {
 			source.append(name);
