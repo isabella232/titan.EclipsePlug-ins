@@ -442,11 +442,11 @@ public class TitanUniversalCharString_Element {
 		return str_val.charAt(char_pos);
 	}
 
-	@Override 
-	public String toString(){
-		return str_val.toString()+" index: "+char_pos;
+	@Override
+	public String toString() {
+		return str_val.toString() + " index: " + char_pos;
 	}
-	
+
 	// static functions
 
 	public static TitanBoolean operatorEquals(TitanUniversalChar ucharValue, TitanUniversalCharString_Element otherValue) {
@@ -456,7 +456,7 @@ public class TitanUniversalCharString_Element {
 	}
 
 	public static TitanBoolean operatorNotEquals(TitanUniversalChar ucharValue, TitanUniversalCharString_Element otherValue) {
-		return operatorEquals(ucharValue,otherValue).not();	
+		return operatorEquals(ucharValue, otherValue).not();
 	}
 
 	public static TitanUniversalCharString concatenate(TitanUniversalChar ucharValue, TitanUniversalCharString_Element otherValue) {
@@ -473,7 +473,7 @@ public class TitanUniversalCharString_Element {
 				result.val_ptr = new ArrayList<TitanUniversalChar>(2);
 				result.charstring = false;
 				result.val_ptr.add(ucharValue);
-				result.val_ptr.add(new TitanUniversalChar((char) 0,(char) 0,(char) 0, otherValue.str_val.cstr.charAt(otherValue.char_pos)));
+				result.val_ptr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.str_val.cstr.charAt(otherValue.char_pos)));
 			}
 		} else {
 			result.val_ptr = new ArrayList<TitanUniversalChar>(2);
@@ -484,7 +484,7 @@ public class TitanUniversalCharString_Element {
 
 		return result;
 	}
-	
+
 	public static TitanBoolean operatorEquals(final String otherValue, final TitanUniversalCharString_Element rightValue) {
 		rightValue.mustBound("The right operand of comparison is an unbound universal charstring element.");
 
@@ -498,7 +498,7 @@ public class TitanUniversalCharString_Element {
 		return new TitanBoolean(uc.getUc_group() == 0 && uc.getUc_plane() == 0 && uc.getUc_row() == 0
 				&& uc.getUc_cell() == otherValue.charAt(0));
 	}
-	
+
 	public static TitanUniversalCharString concatenate(final String otherValue, final TitanUniversalCharString_Element rightValue) {
 		rightValue.mustBound("The right operand of concatenation is an unbound universal charstring element.");
 
@@ -521,6 +521,4 @@ public class TitanUniversalCharString_Element {
 		}
 		return result;
 	}
-
-
 }
