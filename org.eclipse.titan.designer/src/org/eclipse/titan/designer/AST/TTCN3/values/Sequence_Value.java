@@ -743,11 +743,18 @@ public final class Sequence_Value extends Value {
 	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
-		if (myGovernor == null) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+		if (governor == null) {
 			return;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if(Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
 				String name = values.getNamedValueByIndex(i).getName().getName();
@@ -768,6 +775,10 @@ public final class Sequence_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
+		if (convertedValue != null) {
+			return convertedValue.canGenerateSingleExpression();
+		}
+
 		// TODO actually empty could be
 		return false;
 	}
@@ -775,6 +786,10 @@ public final class Sequence_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		if (convertedValue != null) {
+			return convertedValue.generateSingleExpression(aData);
+		}
+
 		// TODO actually empty could be
 		return new StringBuilder("/* generating code for empty record/set is not yet supported */");
 	}
@@ -782,12 +797,29 @@ public final class Sequence_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
-		if (myGovernor == null) {
+		if (convertedValue != null) {
+			convertedValue.generateCodeExpression(aData, expression);
+			return;
+		}
+
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+		if (governor == null) {
 			return;
 		}
 
 		String tempId = aData.getTemporaryVariableName();
-		String genName = myGovernor.getGenNameValue(aData, expression.expression, myScope);
+		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -804,7 +836,15 @@ public final class Sequence_Value extends Value {
 			return convertedValue.generateCodeInit(aData, source, name);
 		}
 
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		int nofComps = 0;
 		switch (type.getTypetype()) {
 		case TYPE_TTCN3_SEQUENCE:

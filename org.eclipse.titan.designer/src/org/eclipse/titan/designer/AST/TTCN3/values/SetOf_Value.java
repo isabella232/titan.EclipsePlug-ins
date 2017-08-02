@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -609,7 +610,7 @@ public final class SetOf_Value extends Value {
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
-				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actuall NULL_VALUE
+				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actual NULL_VALUE
 			} else {
 				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
 				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
@@ -633,7 +634,7 @@ public final class SetOf_Value extends Value {
 		} else {
 			final int nofValues = values.getNofValues();
 			if (nofValues == 0) {
-				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actuall NULL_VALUE
+				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actual NULL_VALUE
 			} else {
 				source.append(MessageFormat.format("{0}.setSize({1});\n", name, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
@@ -653,5 +654,29 @@ public final class SetOf_Value extends Value {
 		}
 
 		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		String genName = myLastSetGovernor.getGenNameValue(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		setGenNamePrefix(tempId);
+		generateCodeInit(aData, expression.preamble, tempId);
+		expression.expression.append(tempId);
 	}
 }

@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -572,11 +573,19 @@ public final class Set_Value extends Value {
 	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
-		if (myGovernor == null) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		if (governor == null) {
 			return;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if(Type_type.TYPE_TTCN3_SET.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
 				String name = values.getNamedValueByIndex(i).getName().getName();
@@ -595,11 +604,36 @@ public final class Set_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		if (values == null) {
+			return false;
+		}
+
+		return values.getSize() == 0;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		//TODO the empty record is so frequent that it is worth to handle in the library
+		return new StringBuilder("NULL_VALUE");
+	}
+
+	@Override
 	/** {@inheritDoc}
 	 * generate_code_init_se in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		int nofComps = 0;
 		switch (type.getTypetype()) {
 		case TYPE_TTCN3_SET:
@@ -657,5 +691,29 @@ public final class Set_Value extends Value {
 		}
 
 		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		setGenNamePrefix(tempId);
+		generateCodeInit(aData, expression.preamble, tempId);
+		expression.expression.append(tempId);
 	}
 }

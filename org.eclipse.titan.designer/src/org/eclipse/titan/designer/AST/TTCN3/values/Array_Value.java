@@ -16,17 +16,19 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
-import org.eclipse.titan.designer.AST.IType.Type_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -485,11 +487,19 @@ public final class Array_Value extends Value {
 	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
-		if (myGovernor == null) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		if (governor == null) {
 			return;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
 			return;
 		}
@@ -508,5 +518,90 @@ public final class Array_Value extends Value {
 				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
 			}
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (isIndexed()) {
+			final int nofIndexedValues = values.getNofIndexedValues();
+			if (nofIndexedValues == 0) {
+				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actual NULL_VALUE
+			} else {
+				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
+				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
+				for (int i = 0; i < nofIndexedValues; i++) {
+					final IndexedValue indexedValue = values.getIndexedValueByIndex(i);
+					final String tempId1 = aData.getTemporaryVariableName();
+					source.append("{\n");
+					final Value index = indexedValue.getIndex().getValue();
+					if (index.getValuetype().equals(Value_type.INTEGER_VALUE)) {
+						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
+					} else {
+						final String tempId2 = aData.getTemporaryVariableName();
+						source.append(MessageFormat.format("int {0};\n", tempId2));
+						index.generateCodeInit(aData, source, tempId2);
+						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
+					}
+					indexedValue.getValue().generateCodeInit(aData, source, tempId1);
+					source.append("}\n");
+				}
+			}
+		} else {
+			IType governor = myGovernor;
+			if (governor == null) {
+				governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+			}
+			if (governor == null) {
+				governor = myLastSetGovernor;
+			}
+
+			final int nofValues = values.getNofValues();
+			IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			if (!Type_type.TYPE_ARRAY.equals(lastType.getTypetype())) {
+				return source;
+			}
+
+			long indexOffset = ((Array_Type) lastType).getDimension().getOffset();
+			final String embeddedType = lastType.getGenNameValue(aData, source, myScope);
+
+			for (int i = 0; i < nofValues; i++) {
+				final IValue value = values.getValueByIndex(i);
+				if (value.getValuetype().equals(Value_type.NOTUSED_VALUE)) {
+					continue;
+				} else // FIXME needs temporary reference branch
+					// (needs_temp_ref function missing)
+				{
+					final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, indexOffset + i);
+					value.generateCodeInit(aData, source, embeddedName);
+				}
+			}
+		}
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (canGenerateSingleExpression()) {
+			expression.expression.append(generateSingleExpression(aData));
+			return;
+		}
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		setGenNamePrefix(tempId);
+		generateCodeInit(aData, expression.preamble, tempId);
+		expression.expression.append(tempId);
 	}
 }

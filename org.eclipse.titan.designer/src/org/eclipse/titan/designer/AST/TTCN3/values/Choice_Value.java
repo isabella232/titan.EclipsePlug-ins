@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -401,9 +402,17 @@ public final class Choice_Value extends Value {
 	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
 		StringBuilder embeddedName = new StringBuilder(parameterGenName);
 		embeddedName.append('.');
-		if(Type_type.TYPE_ANYTYPE.equals(myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
+		if(Type_type.TYPE_ANYTYPE.equals(governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
 			embeddedName.append("AT_");
 		}
 		embeddedName.append(name.getName());
@@ -421,5 +430,24 @@ public final class Choice_Value extends Value {
 		//TODO handle the case when temporary reference is needed
 		String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
 		return value.generateCodeInit(aData, source, embeddedName);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		setGenNamePrefix(tempId);
+		generateCodeInit(aData, expression.preamble, tempId);
+		expression.expression.append(tempId);
 	}
 }

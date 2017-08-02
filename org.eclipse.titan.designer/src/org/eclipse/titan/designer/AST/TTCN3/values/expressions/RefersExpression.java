@@ -267,6 +267,9 @@ public final class RefersExpression extends Expression_Value {
 		if (governor == null) {
 			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
 		if (governor == null || referredAssignment == null) {
 			expression.expression.append("// FATAL ERROR while processing refers expression\n");
 			return;

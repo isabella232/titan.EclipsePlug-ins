@@ -33,6 +33,15 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	/** The type of the value, which also happens to be its governor. */
 	protected IType myGovernor;
 
+	/**
+	 * This is the governor last set for this value.
+	 * Should only be handle in code generation, and even there with care.
+	 *
+	 * During the semantic analysis this should not be used
+	 * as it only serves a purpose to keep the temporary value of myGovernor around for longer.
+	 * */
+	protected IType myLastSetGovernor;
+
 	@Override
 	/** {@inheritDoc} */
 	public Setting_type getSettingtype() {
@@ -51,6 +60,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		location = original.getLocation();
 		super.setFullNameParent(original.getNameParent());
 		myGovernor = original.getMyGovernor();
+		myLastSetGovernor = original.getMyGovernor();
 		setMyScope(original.getMyScope());
 	}
 
@@ -78,6 +88,9 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	/** {@inheritDoc} */
 	public final void setMyGovernor(final IType governor) {
 		myGovernor = governor;
+		if (governor != null) {
+			myLastSetGovernor = governor;
+		}
 	}
 
 	/**
