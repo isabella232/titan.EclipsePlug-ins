@@ -579,6 +579,10 @@ public final class Assignment_Statement extends Statement {
 			if (isValue) {
 				if (isOptional) {
 					source.append(MessageFormat.format("Optional<{0}> {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+				} else if (reference.refersToStringElement()) {
+					String typeName = template.getMyGovernor().getGenNameValue(aData, source, myScope);
+					aData.addBuiltinTypeImport(typeName + "_Element");
+					source.append(MessageFormat.format("{0}_Element {1} = {2};\n", typeName, tempID, leftExpression.expression));
 				} else {
 					source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
 				}
