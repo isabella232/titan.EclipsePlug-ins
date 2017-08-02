@@ -32,7 +32,6 @@ public class TitanHexString_Element {
 		other_value.mustBound("Assignment of an unbound hexstring element.");
 
 		bound_flag = true;
-		str_val = new TitanHexString( other_value.str_val );
 		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
 		return this;
 	}
@@ -47,7 +46,6 @@ public class TitanHexString_Element {
 		}
 
 		bound_flag = true;
-		str_val = new TitanHexString( other_value );
 		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
 		return this;
 	}
