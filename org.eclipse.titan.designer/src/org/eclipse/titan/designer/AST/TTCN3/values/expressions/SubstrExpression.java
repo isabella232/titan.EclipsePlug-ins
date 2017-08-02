@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -221,7 +222,6 @@ public final class SubstrExpression extends Expression_Value {
 				setIsErroneous(true);
 			}
 			value1 = ((SpecificValue_Template) temp).getSpecificValue();
-			value1.setLoweridToReference(timestamp);
 			tempType1 = value1.getExpressionReturntype(timestamp, internalExpectation);
 
 			switch (tempType1) {
@@ -509,5 +509,47 @@ public final class SubstrExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (lastValue != null && lastValue != this) {
+			lastValue.generateCodeExpression(aData, expression);
+			return;
+		}
+
+		// TODO handle the needs conversion case
+		Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		switch(expressionType) {
+		case TYPE_BITSTRING:
+		case TYPE_HEXSTRING:
+		case TYPE_OCTETSTRING:
+		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
+			aData.addCommonLibraryImport("AdditionalFunctions");
+
+			expression.expression.append("AdditionalFunctions.subString( ");
+			templateInstance1.generateCode(aData, expression);
+			expression.expression.append(", ");
+			value2.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append(", ");
+			value3.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append(')');
+			break;
+		case TYPE_SEQUENCE_OF:
+		case TYPE_SET_OF:
+			templateInstance1.generateCode(aData, expression);
+			expression.expression.append(".subString( ");
+			value2.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append(", ");
+			value3.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append(')');
+			break;
+		default:
+			//FATAL ERROR
+			break;
+		}
+		
 	}
 }

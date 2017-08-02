@@ -38,6 +38,8 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -571,5 +573,69 @@ public final class Referenced_Template extends TTCN3Template {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		TTCN3Template lastTemplate = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+		if (lastTemplate != null && lastTemplate != this && lastTemplate.hasSingleExpression()) {
+			for (Scope tempScope = myScope; tempScope != null; tempScope = tempScope.getParentScope()) {
+				if (tempScope == lastTemplate.getMyScope()) {
+					return true;
+				}
+			}
+		}
+
+		return reference.hasSingleExpression();
+	}
+
+	@Override
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		StringBuilder result = new StringBuilder();
+
+		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
+			result.append( "\t//TODO: fatal error while generating " );
+			result.append( getClass().getSimpleName() );
+			result.append( ".getSingleExpression() !\n" );
+			// TODO: fatal error
+			return result;
+		}
+
+		ExpressionStruct expression = new ExpressionStruct();
+		reference.generateCode(aData, expression);
+		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			result.append( "\t//TODO: fatal error while generating " );
+			result.append( getClass().getSimpleName() );
+			result.append( ".getSingleExpression() !\n" );
+			// TODO: fatal error
+			return result;
+		}
+
+		result.append(expression.expression);
+
+		//TODO handle cast needed
+
+		return result;
+	}
+
+	@Override
+	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+		reference.generateCode(aData, expression);
+	}
+
+	@Override
+	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (hasSingleExpression()) {
+			source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
+			return;
+		}
+
+		// TODO complex case not yet implemented
+		super.generateCodeInit(aData, source, name);
 	}
 }

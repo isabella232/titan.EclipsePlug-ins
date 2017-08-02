@@ -42,8 +42,8 @@ public class RecordOfGenerator {
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
-		generateValueOperatorEquals( source, genName, ofTypeName, displayName);
-		generateValueAssign( source, genName, displayName);
+		generateValueOperatorEquals( source, genName, ofTypeName , displayName);
+		generateValueAssign( source, genName , displayName);
 		generateValueCleanup( source );
 		generateValueGetterSetters( source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
@@ -149,7 +149,7 @@ public class RecordOfGenerator {
 		source.append("\t\treturn newList;\n");
 		source.append("\t}\n");
 	}
-
+	
 	/**
 	 * Generate the isPresent function
 	 *
@@ -351,23 +351,24 @@ public class RecordOfGenerator {
 		source.append("\t\tvalueElements.add( aElement );\n");
 		source.append("\t}\n");
 
-        source.append("\tpublic void setSize(final int newSize) {\n");
-        source.append("\t\tif (newSize < 0) {\n");
-        source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a value of type {0}.\");\n", displayName ) );
-        source.append("\t\t}\n");
-        source.append("\t\tif ( valueElements == null ) {\n");
-        source.append( MessageFormat.format( "\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
-        source.append("\t\t}\n");
-        source.append("\t\tif (newSize > valueElements.size()) {\n");
-        source.append("\t\t\tfor ( int i = valueElements.size(); i <= newSize; i++ ) {\n");
-        source.append("\t\t\t\tvalueElements.add( null );\n");
-        source.append("\t\t\t}\n");
-        source.append("\t\t} else if (newSize < valueElements.size()) {\n");
-        source.append("\t\t\twhile(valueElements.size() > newSize) {\n");
-        source.append("\t\t\t\tvalueElements.remove(valueElements.size()-1);\n");
-        source.append("\t\t\t}\n");
-        source.append("\t\t}\n");
-        source.append("\t}\n");
+		source.append("\n");
+		source.append("\tpublic void setSize(final int newSize) {\n");
+		source.append("\t\tif (newSize < 0) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a value of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tif ( valueElements == null ) {\n");
+		source.append( MessageFormat.format( "\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tif (newSize > valueElements.size()) {\n");
+		source.append("\t\t\tfor ( int i = valueElements.size(); i < newSize; i++ ) {\n");
+		source.append("\t\t\t\tvalueElements.add( null );\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t} else if (newSize < valueElements.size()) {\n");
+		source.append("\t\t\twhile(valueElements.size() > newSize) {\n");
+		source.append("\t\t\t\tvalueElements.remove(valueElements.size()-1);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t}\n");
 	}
 
 	private static void generateValueGetUnboundElem(StringBuilder source, String ofTypeName) {
@@ -678,7 +679,7 @@ public class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate getter and setter functions for template
+	 * Generate getter and setter functions for template 
 	 *  
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
@@ -780,7 +781,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\tthrow new TtcnError(\"Operand of record of template concatenation is an uninitialized or unsupported template.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
-
+		
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate int get_length_for_concat(final {0} operand) '{'\n", genName ) );
 		source.append("\t\tif (!operand.isBound()) {\n");
