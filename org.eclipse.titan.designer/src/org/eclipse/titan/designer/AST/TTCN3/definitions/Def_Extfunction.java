@@ -734,16 +734,32 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	public String getGenName() {
+		final StringBuilder returnValue = new StringBuilder();
+
+		returnValue.append(myScope.getModuleScope().getIdentifier().getName());
+		returnValue.append("_externalfunctions.");
+		returnValue.append(identifier.getName());
+
+		return returnValue.toString();
+	}
+
+	@Override
+	public String getGenNameFromScope(JavaGenData aData, StringBuilder source, Scope scope, String prefix) {
+		final StringBuilder returnValue = new StringBuilder();
+
+		returnValue.append(myScope.getModuleScope().getIdentifier().getName());
+		returnValue.append("_externalfunctions.");
+		returnValue.append(identifier.getName());
+
+		return returnValue.toString();
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
-		final String genName = getGenName();
-		if (formalParList != null) {
-			formalParList.setGenName(genName);
-		}
-		//TODO the external function will have to be implemented in a base class of the code generated for the module
-
-		// TODO Auto-generated method stub
-		super.generateCode(aData, cleanUp);
+		aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScope().getIdentifier().getName() + "_externalfunctions");
+		// external functions are implemented elsewhere
 	}
 
 

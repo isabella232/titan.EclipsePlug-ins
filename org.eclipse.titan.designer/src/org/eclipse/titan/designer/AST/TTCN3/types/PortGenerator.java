@@ -105,6 +105,9 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport("TitanComponent");
 		aData.addBuiltinTypeImport( "Base_Type" );
+		if (portDefinition.testportType != TestportType.INTERNAL) {
+			aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
+		}
 
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
