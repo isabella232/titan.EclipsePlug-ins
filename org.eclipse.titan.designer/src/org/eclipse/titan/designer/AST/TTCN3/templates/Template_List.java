@@ -22,6 +22,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
@@ -37,7 +39,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * */
 public final class Template_List extends CompositeTemplate {
 	/** Indicates whether the embedded templates contain PERMUTATION_MATCH. */
-	//private boolean hasPermutation = false;
+	private boolean hasPermutation = false;
 
 	// cache storing the value form of this list of templates if already
 	// created, or null
@@ -46,11 +48,11 @@ public final class Template_List extends CompositeTemplate {
 	public Template_List(final ListOfTemplates templates) {
 		super(templates);
 
-		//		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-		//			if (Template_type.PERMUTATION_MATCH.equals(templates.getTemplateByIndex(i).getTemplatetype())) {
-		//				hasPermutation = true;
-		//			}
-		//		}
+		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+			if (Template_type.PERMUTATION_MATCH.equals(templates.getTemplateByIndex(i).getTemplatetype())) {
+				hasPermutation = true;
+			}
+		}
 	}
 
 	@Override
@@ -92,6 +94,16 @@ public final class Template_List extends CompositeTemplate {
 		}
 
 		return builder.toString();
+	}
+
+	public boolean hasAllFrom() {
+		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+			if (Template_type.ALLELEMENTSFROM.equals(templates.getTemplateByIndex(i).getTemplatetype())) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override
@@ -385,6 +397,59 @@ public final class Template_List extends CompositeTemplate {
 			return;
 		}
 
+		// TODO special case for empty list
+		IType typeLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		long indexOffset = 0;
+		if (typeLast.getTypetype().equals(Type_type.TYPE_ARRAY)) {
+			indexOffset = ((Array_Type) typeLast).getDimension().getOffset();
+		}
+
+		String ofTypeName;
+		switch(typeLast.getTypetype()) {
+		case TYPE_SEQUENCE_OF:
+			ofTypeName = ((SequenceOf_Type) typeLast).getOfType().getGenNameTemplate(aData, source, myScope);
+			break;
+		case TYPE_SET_OF:
+			ofTypeName = ((SetOf_Type) typeLast).getOfType().getGenNameTemplate(aData, source, myScope);
+			break;
+		case TYPE_ARRAY:
+			ofTypeName = ((Array_Type) typeLast).getElementType().getGenNameTemplate(aData, source, myScope);
+			break;
+		default:
+			//FATAL error
+			return;
+		}
+
+		if (hasPermutation) {
+			//FIXME implement
+		} else if (hasAllFrom()) {
+			//FIXME implement
+		} else {
+			source.append(MessageFormat.format("{0}.setSize({1});\n", name, getNofTemplates()));
+
+			int index = 0;
+			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+				ITemplateListItem template = templates.getTemplateByIndex(i);
+				switch (template.getTemplatetype()) {
+				case PERMUTATION_MATCH:
+					//FIXME implement
+					break;
+				case ALLELEMENTSFROM:
+				case TEMPLATE_NOTUSED:
+					index++;
+					break;
+				default:
+					//TODO use generate_code_init_seof_element
+					String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
+					((TemplateBody) template).generateCodeInit(aData, source, embeddedName);
+					index++;
+					break;
+				}
+			}
+			//FIXME implement
+		}
+		// FIXME implement
+		//TODO handle the case when we know everything in compilation time
 		// TODO not yet implemented
 		super.generateCodeInit(aData, source, name);
 	}
