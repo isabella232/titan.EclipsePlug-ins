@@ -520,6 +520,9 @@ public final class SubstrExpression extends Expression_Value {
 			return;
 		}
 
+		final IValue lastValue2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
+		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
+
 		// TODO handle the needs conversion case
 		Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		switch(expressionType) {
@@ -533,18 +536,38 @@ public final class SubstrExpression extends Expression_Value {
 			expression.expression.append("AdditionalFunctions.subString( ");
 			templateInstance1.generateCode(aData, expression);
 			expression.expression.append(", ");
-			value2.generateCodeExpressionMandatory(aData, expression);
+			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
+				lastValue2.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue2).getValue();
+				expression.expression.append(tempNative);
+			}
 			expression.expression.append(", ");
-			value3.generateCodeExpressionMandatory(aData, expression);
+			if (lastValue3.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue3).isNative()) {
+				lastValue3.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue3).getValue();
+				expression.expression.append(tempNative);
+			}
 			expression.expression.append(')');
 			break;
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
 			templateInstance1.generateCode(aData, expression);
 			expression.expression.append(".subString( ");
-			value2.generateCodeExpressionMandatory(aData, expression);
+			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
+				lastValue2.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue2).getValue();
+				expression.expression.append(tempNative);
+			}
 			expression.expression.append(", ");
-			value3.generateCodeExpressionMandatory(aData, expression);
+			if (lastValue3.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue3).isNative()) {
+				lastValue3.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue3).getValue();
+				expression.expression.append(tempNative);
+			}
 			expression.expression.append(')');
 			break;
 		default:
