@@ -45,7 +45,7 @@ public class TitanOctetString_Element {
 
 		bound_flag = true;
 		str_val.set_nibble(nibble_pos, other_value.str_val.get_nibble(other_value.nibble_pos));
-		
+
 		return this;
 	}
 
@@ -209,8 +209,7 @@ public class TitanOctetString_Element {
 			TtcnLogger.log_char('\'');
 			TtcnLogger.log_octet(str_val.get_nibble(nibble_pos));
 			TtcnLogger.log_event_str("'O");
-		}
-		else {
+		} else {
 			TtcnLogger.log_event_unbound();
 		}
 	}
