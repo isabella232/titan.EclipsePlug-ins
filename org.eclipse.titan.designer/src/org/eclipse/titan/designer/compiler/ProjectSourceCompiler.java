@@ -43,7 +43,7 @@ public class ProjectSourceCompiler {
 	 */
 	public static void compile( final Module aModule, final boolean aDebug ) throws CoreException {
 		IResource sourceFile = aModule.getLocation().getFile();
-		if(MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, sourceFile)
+		if(MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, sourceFile, IMarker.SEVERITY_ERROR)
 				|| MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, sourceFile)
 				|| MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, sourceFile, IMarker.SEVERITY_ERROR)) {
 			// if there are syntactic errors in the module don't generate code for it

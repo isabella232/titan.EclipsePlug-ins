@@ -103,7 +103,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return this;
 	}
 
-	public TitanUniversalCharString_template assign( final TitanCharString otherValue ) {
+	public TitanUniversalCharString_template assign(final TitanCharString otherValue) {
 		otherValue.mustBound("Assignment of an unbound universal charstring value to a template.");
 
 		cleanUp();
@@ -112,7 +112,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		return this;
 	}
-	
+
 	//originally operator=
 	public TitanUniversalCharString_template assign( final TitanUniversalCharString_template otherValue ) {
 		if (otherValue != this) {
@@ -224,12 +224,13 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	public TitanInteger lengthOf() {
+		if (is_ifPresent) {
+			throw new TtcnError("Performing lengthof() operation on a universal charstring template which has an ifpresent attribute.");
+		}
+
 		int min_length;
 		boolean has_any_or_none;
-		if (is_ifPresent)
-			throw new TtcnError("Performing lengthof() operation on a universal charstring template which has an ifpresent attribute.");
-		switch (templateSelection)
-		{
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			min_length = single_value.lengthOf().getInt();
 			has_any_or_none = false;
@@ -242,15 +243,17 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			min_length = 0;
 			has_any_or_none = true; // max. length is infinity
 			break;
-		case VALUE_LIST:
-		{
-			// error if any element does not have length or the lengths differ
-			if (value_list.size() < 1)
+		case VALUE_LIST: {
+			// error if any element does not have length or the
+			// lengths differ
+			if (value_list.size() < 1) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a universal charstring template containing an empty list.");
+			}
 			int item_length = value_list.get(0).lengthOf().getInt();
 			for (int i = 1; i < value_list.size(); ++i) {
-				if (value_list.get(i).lengthOf().getInt()!=item_length)
+				if (value_list.get(i).lengthOf().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a universal charstring template containing a value list with different lengths.");
+				}
 			}
 			min_length = item_length;
 			has_any_or_none = false;
@@ -263,13 +266,15 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		default:
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported universal charstring template.");
 		}
+
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "universal charstring template"));
 	}
 
-	public TitanUniversalCharString  valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent)
+	public TitanUniversalCharString valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific universal charstring template.");
+		}
+
 		return single_value;
 	}
-
 }
