@@ -667,11 +667,14 @@ public final class Referenced_Value extends Value {
 			return source;
 		}
 
+		// the referred value is available at compile time
+		// the code generation is based on the referred value
+
 		//TODO might need initialization see needs_init_precede
 		//TODO Value.cc:generate_code_init_refd
 		source.append(name);
 		source.append(".assign(");
-		source.append( last.getGenNameOwn() ); 
+		source.append( last.getGenNameOwn() );
 		source.append(");\n");
 		return source;
 	}
