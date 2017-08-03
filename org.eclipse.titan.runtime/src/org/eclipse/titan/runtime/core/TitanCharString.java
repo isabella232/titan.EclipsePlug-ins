@@ -37,7 +37,7 @@ public class TitanCharString extends Base_Type {
 	public TitanCharString( final TitanCharString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound charstring value." );
 
-		val_ptr = aOtherValue.val_ptr;
+		val_ptr = new StringBuilder(aOtherValue.val_ptr);
 	}
 
 	//originally char*()
