@@ -233,7 +233,7 @@ public final class UniversalCharstring_Value extends Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
-		source.append(MessageFormat.format("{0}.assign(new TitanUniversalCharString({0}));\n", name, value.generateSingleExpression(aData)));
+		source.append(MessageFormat.format("{0}.assign(new TitanUniversalCharString({1}));\n", name, value.generateSingleExpression(aData)));
 
 		return source;
 	}
