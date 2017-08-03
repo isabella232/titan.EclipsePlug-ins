@@ -7,11 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+
 /**
  * originally universal_char
  * Represents UTF-32 character
  *
  * @author Arpad Lovassy
+ * @author Andrea Palfi
  */
 public class TitanCharString_Element {
 	private boolean bound_flag;
@@ -38,7 +40,16 @@ public class TitanCharString_Element {
 		}
 	}
 
-	//TODO: implement assign for String
+	//assign for String
+	public TitanCharString_Element assign(final String aOtherValue){
+		if(aOtherValue==null || aOtherValue.charAt(0)=='\0' || aOtherValue.charAt(1)!='\0'){
+			throw new TtcnError("Assignment of a charstring value with length other than 1 to a charstring element.");	
+		}
+		bound_flag=true;	
+		str_val=new TitanCharString(aOtherValue);
+		char_pos=0;
+		return this;		
+	}
 
 	//originally operator=
 	public TitanCharString_Element assign( final TitanCharString_Element other_value ) {
@@ -54,8 +65,7 @@ public class TitanCharString_Element {
 		other_value.mustBound("Assignment of unbound charstring value.");
 
 		if (other_value.getValue().length() != 1) {
-			throw new TtcnError( "Assignment of a charstring value " +
-					"with length other than 1 to a charstring element." );
+			throw new TtcnError( "Assignment of a charstring value with length other than 1 to a charstring element." );
 		}
 
 		bound_flag = true;
@@ -63,9 +73,39 @@ public class TitanCharString_Element {
 		return this;
 	}
 
-	//TODO: implement operatorEquals for String
-	//TODO: implement operatorEquals for universalcharstring
-	//TODO: implement operatorEquals for universalcharstring_element
+	// originally operator==
+	// operatorEquals for String
+	public TitanBoolean operatorEquals ( final String aOtherValue)
+	{
+		mustBound("Comparison of an unbound charstring element.");
+		if(aOtherValue==null || aOtherValue.length()!=1){
+			return new TitanBoolean(false);
+		}else {
+			return new TitanBoolean (str_val.getAt(char_pos).toString().equals(aOtherValue));
+		}
+	}
+
+	//operatorEquals for universalcharstring
+	public TitanBoolean operatorEquals ( final TitanUniversalCharString aOtherValue)
+	{
+		mustBound("Comparison of an unbound charstring element.");
+		aOtherValue.mustBound("Comparison of an unbound charstring value.");
+
+		if(aOtherValue.val_ptr.size()!=1){
+			return new TitanBoolean(false);
+		} else {
+			return new TitanBoolean (str_val.getAt(char_pos).equals(aOtherValue.charAt(0)));
+		}
+	}
+
+	//operatorEquals for universalcharstring_element
+	public TitanBoolean operatorEquals ( final TitanUniversalCharString_Element aOtherValue)
+	{
+		mustBound("Comparison of an unbound charstring element.");
+		aOtherValue.mustBound("Comparison of an unbound charstring value.");
+
+		return new TitanBoolean(str_val.getAt(char_pos).equals(aOtherValue.get_char()));
+	}
 
 	//originally operator==
 	public TitanBoolean operatorEquals( final TitanCharString_Element other_value ) {
@@ -87,17 +127,82 @@ public class TitanCharString_Element {
 		return new TitanBoolean(get_char() == other_value.getValue().charAt(0));
 	}
 
-	//TODO: implement operatorNotEquals for String
-	//TODO: implement operatorNotEquals for charstring
-	//TODO: implement operatorNotEquals for charstring_element
+	// operatorNotEquals for String
+	public TitanBoolean operatorNotEquals ( final String aOtherValue){
+		return operatorEquals(aOtherValue).not();
+	}
 
-	//TODO: implement append for String
-	//TODO: implement append for charstring
-	//TODO: implement append for charstring_element
-	//TODO: implement append for universalcharstring
-	//TODO: implement append for universalcharstring_element
+	// operatorNotEquals for charstring
+	public TitanBoolean operatorNotEquals ( final TitanUniversalCharString aOtherValue)	{
+		return operatorEquals(aOtherValue).not();
+	}
+
+	//operatorNotEquals for charstring_element
+
+	public TitanBoolean operatorNotEquals ( final TitanUniversalCharString_Element aOtherValue)	{
+		return operatorEquals(aOtherValue).not();
+	}
+
 
 	public char get_char() {
 		return str_val.getValue().charAt( char_pos );
 	}
+
+	@Override
+	public String toString() {
+		if ( str_val == null ) {
+			return "<unbound>";
+		}
+
+		return String.valueOf(str_val.getValue().charAt(char_pos));
+	}
+
+	//originally operator +
+	public TitanCharString concatenate(final String aOtherValue) {
+		mustBound("Unbound operand of charstring element concatenation.");
+
+		int otherLen=0;
+		if(aOtherValue!=null)
+		{
+			otherLen=aOtherValue.length();
+		}
+		StringBuilder ret_val = new StringBuilder(otherLen+1);
+		ret_val.append(str_val.constGetAt(char_pos).toString());
+		ret_val.append(aOtherValue);
+
+		return new TitanCharString(ret_val);
+	}
+
+	//originally operator +
+	public TitanCharString concatenate(final TitanCharString aOtherValue) {
+		mustBound("Unbound operand of charstring element concatenation.");
+		aOtherValue.mustBound("Unbound operand of charstring concatenation.");
+
+		int nChars=aOtherValue.lengthOf().getInt();
+		StringBuilder ret_val = new StringBuilder(nChars+1);
+		ret_val.append(str_val.constGetAt(char_pos).toString());
+		ret_val.append(aOtherValue.toString());
+
+		return new TitanCharString(ret_val);
+	}
+
+	//originally operator +
+	public TitanCharString concatenate(final TitanCharString_Element aOtherValue) {
+		mustBound("Unbound operand of charstring element concatenation.");
+		aOtherValue.mustBound("Unbound operand of charstring element concatenation.");
+
+		StringBuilder ret_val = new StringBuilder(2);
+		ret_val.append(str_val.constGetAt(char_pos).toString());
+		ret_val.append(aOtherValue.toString());
+
+		return new TitanCharString(ret_val);
+	}
+
+	//TODO: operator+(TitanUniversalCharString)
+	//TODO: operator+(TitanUniversalCharString_Element)
+	//TODO: operatorEquals((TitanUniversalCharString) test
+	//TODO: operatorEquals((TitanUniversalCharString_Element) test
+	//TODO: operatorNotEquals((TitanUniversalCharString) test
+	//TODO: operatorNotEquals((TitanUniversalCharString_Element) test
+
 }
