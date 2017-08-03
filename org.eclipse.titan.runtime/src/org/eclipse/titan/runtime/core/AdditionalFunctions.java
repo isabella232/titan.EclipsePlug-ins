@@ -27,6 +27,42 @@ public class AdditionalFunctions {
 	private AdditionalFunctions() {
 		//intentionally private to disable instantiation
 	}
+	// C.1 - int2char
+	public static TitanCharString int2char(final int value){
+		if(value < 0 || value > 127){
+			throw new TtcnError(MessageFormat.format("The argument of function int2char() is {0}, which is outside the allowed range 0 .. 127.", value));
+		}
+		return new TitanCharString(String.valueOf(Character.toChars(value)[0]));
+	}
+
+	public static TitanCharString int2char(final TitanInteger value){
+		value.mustBound("The argument of function int2char() is an unbound integer value.");
+
+		int ivt = value.getInt();
+		if(ivt < 0 || ivt > 127){
+			throw new TtcnError(MessageFormat.format("The argument of function int2char() is {0}, which is outside the allowed range 0 .. 127.", value));
+		}
+		return new TitanCharString(String.valueOf(Character.toChars(ivt)[0]));
+	}
+
+	// C.2 - int2unichar
+
+	public static TitanUniversalCharString int2unichar(final int value){
+		if(value < 0 || value > Integer.MAX_VALUE){
+			throw new TtcnError(MessageFormat.format("The argument of function int2unichar() is {0}, which outside the allowed range 0 .. 2147483647.", value));
+		}
+		return new TitanUniversalCharString(Character.toChars(value >> 24)[0],Character.toChars((value >> 16) & 0xFF)[0],Character.toChars((value >> 8) & 0xFF)[0],Character.toChars(value & 0xFF)[0]);
+	}
+
+	public static TitanUniversalCharString int2unichar(final TitanInteger value){
+		value.mustBound("The argument of function int2unichar() is an unbound integer value.");
+
+		int ivt = value.getInt();
+		if(ivt < 0 || ivt > Integer.MAX_VALUE){ 
+			throw new TtcnError("The argument of function int2unichar() is {0}, which outside the allowed range 0 .. 2147483647.");
+		}
+		return int2unichar(ivt);
+	}
 
 	// C.3 - int2bit
 	public static TitanBitString int2bit(final int value, final int length) {
@@ -66,7 +102,7 @@ public class AdditionalFunctions {
 				int i = 0;
 				while (tempValue != 0) {
 					tempValue = tempValue >> 1;
-					i++;
+		i++;
 				}
 				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
 			}
@@ -106,7 +142,7 @@ public class AdditionalFunctions {
 	}
 
 	// C.4 - int2hex
-	public static TitanHexString int2hex(final int value, final int length) {
+	public static TitanHexString int2hex(final int value, final int length){
 		return int2hex(new TitanInteger(value), length);
 	}
 
@@ -116,23 +152,23 @@ public class AdditionalFunctions {
 		return int2hex(value, length.getInt());
 	}
 
-	public static TitanHexString int2hex(final TitanInteger value, final int length) {
+	public static TitanHexString int2hex(final TitanInteger value, final int length){
 		value.mustBound("The first argument (value) of function int2hex() is an unbound integer value.");
 
-		if (TitanBoolean.getNative(value.isLessThan(0))) {
-			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2hex() is a  negative integer value: {0}.", value));
+		if(TitanBoolean.getNative(value.isLessThan(0))){
+			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2hex() is a  negative integer value: {0}.",value));
 		}
-		if (length < 0) {
+		if(length < 0){
 			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2hex() is a negative integer value: {0}.", length));
 		}
-		if (value.isNative()) {
+		if(value.isNative()){
 			int tmp_value = value.getInt();
 			ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
 			for (int i = 0; i < length; i++) {
-				nibbles_ptr.add((byte) 0);
+				nibbles_ptr.add((byte)0);
 			}
-			for (int i = length - 1; i >= 0; i--) {
-				nibbles_ptr.set(i, (byte) (tmp_value & 0xF));
+			for(int i = length - 1; i >= 0; i--){
+				nibbles_ptr.set(i,(byte)( tmp_value & 0xF));
 				tmp_value = tmp_value >> 4;
 			}
 
@@ -149,9 +185,9 @@ public class AdditionalFunctions {
 			BigInteger tmp_value = value.getBigInteger();
 			ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
 			for (int i = 0; i < length; i++) {
-				nibbles_ptr.add((byte) 0);
+				nibbles_ptr.add((byte)0);
 			}
-			for (int i = length - 1; i >= 0; i--) {
+			for(int i = length - 1; i >= 0; i--){
 				BigInteger temp = tmp_value.and(BigInteger.valueOf(0xF));
 				nibbles_ptr.set(i, temp.byteValue());
 				tmp_value = tmp_value.shiftRight(4);
@@ -163,21 +199,53 @@ public class AdditionalFunctions {
 					tmp_value = tmp_value.shiftRight(4);
 					i++;
 				}
-				throw new TtcnError(MessageFormat.format("The first argument of function int2hex(), which is {0}, does not fit in {1} hexadecimal digit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
+				throw new TtcnError(MessageFormat.format("The first argument of function int2hex(), which is {0}, does not fit in {1} hexadecimal digit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));	
 			}
 			return new TitanHexString(nibbles_ptr);
 		}
 	}
 
-	public static TitanHexString int2hex(final TitanInteger value, TitanInteger length) {
+	public static TitanHexString int2hex(final TitanInteger value, TitanInteger length){
 		value.mustBound("The first argument (value) of function int2hex() is an unbound integer value.");
 		length.mustBound("The second argument (length) of function int2hex() is an unbound integer value.");
 
-		return int2hex(value, length.getInt());
+		return int2hex(value,length.getInt());
 	}
 
+	//C.5 - int2oct
+	public static TitanOctetString int2oct(final int value, final int length){
+		if(value < 0){
+			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2oct() is a negative integer value:", value));
+		}
+		if(length < 0){
+			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value:", length));
+		}
+		List<Character> octets_ptr = new ArrayList<Character>(length);
+		for (int i = 0; i < length; i++) {
+			octets_ptr.add((char)0);
+		}
+		int tmp_value = value;
+		for (int i = length - 1; i >= 0; i--) {
+			octets_ptr.set(i, (char)(tmp_value & 0xFF));
+			tmp_value = tmp_value >> 8;
+		}
+		if(tmp_value != 0){
+			throw new TtcnError("The first argument of function int2oct(), which is {0}, does not fit in {1} octet(s).");
+		}
+		return new TitanOctetString(octets_ptr);
+	}
+
+	//initial implement 
+	public static TitanOctetString int2oct(final TitanInteger value, final TitanInteger length){
+		value.mustBound("The first argument (value) of function int2oct() is an unbound integer value.");
+		length.mustBound("The second argument (length) of function int2oct() is an unbound integer value.");
+		
+		return int2oct(value.getInt(), length.getInt());
+	}
+
+
 	// C.12 - bit2int
-	public static TitanInteger bit2int(final TitanBitString value) {
+	public static TitanInteger bit2int(final TitanBitString value){
 		value.mustBound("The argument of function bit2int() is an unbound bitstring value.");
 
 		int n_bits = value.lengthOf().getInt();
@@ -186,8 +254,8 @@ public class AdditionalFunctions {
 
 		// skip the leading zero bits
 		int start_index = 0;
-		for (; start_index < n_bits; start_index++) {
-			if ((temp.get(start_index / 8) & (1 << (start_index % 8))) != 0) {
+		for(; start_index < n_bits; start_index++){
+			if((temp.get(start_index / 8) & (1 << (start_index % 8))) != 0){
 				break;
 			}
 		}
@@ -195,7 +263,7 @@ public class AdditionalFunctions {
 		BigInteger ret_val = new BigInteger("0");
 		for (int i = start_index; i < n_bits; i++) {
 			ret_val = ret_val.shiftLeft(1);
-			if ((temp.get(i / 8) & (1 << (i % 8))) != 0) {
+			if((temp.get(i / 8) & (1 << (i % 8))) != 0){
 				ret_val = ret_val.add(new BigInteger("1"));
 			}
 		}
@@ -205,9 +273,38 @@ public class AdditionalFunctions {
 		return new TitanInteger(ret_val);
 	}
 
-	public static TitanInteger bit2int(final TitanBitString_Element value) {
+	public static TitanInteger bit2int(final TitanBitString_Element value){
 		value.mustBound("The argument of function bit2int() is an unbound bitstring element.");
 
 		return new TitanInteger(value.get_bit() ? 1 : 0);
 	}
+
+
+	//FIXME:bit2hex
+	// C.13 - bit2hexnew 
+	public static TitanHexString bit2hex(final TitanBitString value){
+		value.mustBound("The argument of function bit2hex() is an unbound bitstring value.");
+
+		int n_bits = value.lengthOf().getInt();
+		int n_nibbles = (n_bits + 3) / 4;
+		int padding_bits = 4 * n_nibbles - n_bits;
+		List<Byte> ret_val = new ArrayList<Byte>();
+		List<Byte> bits_ptr = new ArrayList<Byte>();
+		bits_ptr = value.getValue();
+		for (int i = 0; i < n_nibbles; i++) {
+			ret_val.add((byte)0);
+		}
+
+		for (int i = 0; i < n_bits; i++) {
+			int temp2 = (bits_ptr.get(i / 8) & (1 << (i % 8)));
+			if((bits_ptr.get(i / 8) & (1 << (i % 8))) != 0){
+				int temp1 = (0x80 >>  ((i + padding_bits) % 8)) >> 4;
+			ret_val.set((i + padding_bits) / 8 , (byte) (ret_val.get((i + padding_bits) / 8) | temp1) );
+			}
+		}
+
+		return new TitanHexString(ret_val);
+		/*return int2hex(bit2int(value), n_nibbles); */
+	}
+
 }

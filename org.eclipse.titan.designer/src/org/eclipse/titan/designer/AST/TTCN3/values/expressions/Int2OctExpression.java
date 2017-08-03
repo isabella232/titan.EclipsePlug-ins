@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -292,5 +293,16 @@ public final class Int2OctExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		expression.expression.append("AdditionalFunctions.int2oct(");
+		value1.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(", ");
+		value2.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(')');
 	}
 }
