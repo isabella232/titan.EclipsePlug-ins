@@ -467,11 +467,18 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		if (derivedReference != null) {
-			//TODO implement
-			expression.expression.append( "\t" );
-			expression.expression.append( "//TODO: " );
-			expression.expression.append( getClass().getSimpleName() );
-			expression.expression.append( ".generateCode() is not implemented!\n" );
+			ExpressionStruct derivedExpression = new ExpressionStruct();
+			derivedReference.generateCode(aData, derivedExpression);
+			String tempId = aData.getTemporaryVariableName();
+
+			expression.preamble.append(derivedExpression.preamble);
+			expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2});\n", templateBody.getMyGovernor().getGenNameTemplate(aData, expression.expression, myScope), tempId, derivedExpression.expression));
+
+			// perform the modifications on the temporary variable
+			templateBody.generateCodeInit(aData, expression.preamble, tempId);
+			//TODO implement runtime restriction check
+
+			expression.expression.append(tempId);
 		} else {
 			//TODO handle decoded redirect
 			templateBody.generateCodeExpression( aData, expression );
