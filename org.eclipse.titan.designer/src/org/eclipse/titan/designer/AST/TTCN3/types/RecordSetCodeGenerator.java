@@ -1,5 +1,6 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -9,8 +10,12 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * Utility class for generating the value and template classes for record and set types.
  *
  * The code generated for record and set types only differs in matching and encoding.
- * */
+ * 
+ * @author Kristof Szabados
+ * @author Arpad Lovassy
+ */
 public class RecordSetCodeGenerator {
+
 	/**
 	 * Data structure to store sequence field variable and type names.
 	 * Used for java code generation.
@@ -32,10 +37,10 @@ public class RecordSetCodeGenerator {
 		private String mTTCN3TypeName;
 
 		/**
-		 * @param fieldType: the string representing the type of this field in the generated code.
-		 * @param fieldName: the string representing the name of this field in the generated code.
-		 * @param isOptional: true if the field is optional.
-		 * @param debugName: additional text printed out in a comment after the generated local variables.
+		 * @param fieldType the string representing the type of this field in the generated code.
+		 * @param fieldName the string representing the name of this field in the generated code.
+		 * @param isOptional true if the field is optional.
+		 * @param debugName additional text printed out in a comment after the generated local variables.
 		 * */
 		public FieldInfo(final String fieldType, final String fieldName, final boolean isOptional, final String debugName) {
 			mJavaTypeName = fieldType;
@@ -51,14 +56,14 @@ public class RecordSetCodeGenerator {
 	 *
 	 * defRecordClass in compilers/record.{h,c}
 	 *
-	 * @param aData: only used to update imports if needed.
-	 * @param source: where the source code is to be generated.
-	 * @param className: the name of the generated class representing the record/set type.
-	 * @param classDisplayName: the user readable name of the type to be generated.
-	 * @param fieldInfos: the list of information about the fields.
-	 * @param hasOptional: true if the type has an optional field.
-	 * @param isSet: true if generating code for a set, false if generating code for a record.
-	 * */
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param className the name of the generated class representing the record/set type.
+	 * @param classDisplayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 * @param hasOptional true if the type has an optional field.
+	 * @param isSet true if generating code for a set, false if generating code for a record.
+	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
 		aData.addBuiltinTypeImport("Base_Type");
@@ -84,6 +89,37 @@ public class RecordSetCodeGenerator {
 		generateOperatorEquals( source, fieldInfos, className, classDisplayname);
 		generateGettersSetters( source, fieldInfos );
 		source.append( "\t}\n" );
+	}
+
+	/**
+	 * This function can be used to generate the template class of record and set types
+	 *
+	 * defRecordClass in compilers/record.{h,c}
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param className the name of the generated class representing the record/set type.
+	 * @param classDisplayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 * @param hasOptional true if the type has an optional field.
+	 * @param isSet true if generating code for a set, false if generating code for a record.
+	 */
+	public static void generateTemplateClass(JavaGenData aData, StringBuilder source, String className,
+			String classDisplayName, List<FieldInfo> fieldInfos, boolean hasOptional, boolean isSet) {
+		aData.addImport("java.util.List");
+		aData.addImport("java.text.MessageFormat");
+		aData.addBuiltinTypeImport("Base_Template");
+		aData.addBuiltinTypeImport("TitanBoolean");
+		aData.addBuiltinTypeImport("TtcnError");
+		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
+
+		generateTemplateDeclaration( aData, source, fieldInfos, className );
+		generateTemplateConstructors( source, className, classDisplayName );
+		generateTemplateAssign( source, className, classDisplayName );
+		generateTemplateCopyTemplate( aData,source, fieldInfos, className, classDisplayName );
+		
+		// TODO
+		source.append("}\n");
 	}
 
 	/**
@@ -436,5 +472,183 @@ public class RecordSetCodeGenerator {
 			//			aSb.append( ";\n" +
 			//						"\t\t}\n" );
 		}
+	}
+
+	/**
+	 * Generate member variables for template
+	 *
+	 * @param aData the generated java code with other info
+	 * @param source the source to be updated
+	 * @param aNamesList sequence field variable and type names
+	 * @param className the name of the generated class representing the record/set type.
+	 */
+	private static void generateTemplateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
+			final String className ) {
+		source.append("\n");
+
+		source.append("\tprivate static class single_value_struct {\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			aData.addBuiltinTypeImport(fi.mJavaTypeName + "_template");
+			source.append( "\t\tprivate " );
+			source.append( fi.mJavaTypeName );
+			source.append( "_template " );
+			source.append( fi.mVarName );
+			source.append( ";" );
+			if ( aData.isDebug() ) {
+				source.append( " //" );
+				source.append( fi.mTTCN3TypeName );
+			}
+			source.append( "\n" );
+		}
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\treturn {0};\n", fi.mVarName ) );
+			source.append("\t\t}\n");
+			source.append( "\n" );
+
+			source.append( MessageFormat.format( "\t\tpublic void set{1}( final {0}_template a{1}) '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\tthis.{0} = a{1};\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append("\t\t}\n");
+			source.append( "\n" );
+		}
+		source.append("\t}\n");
+		source.append("\tsingle_value_struct single_value;\n");
+		source.append("\n");
+
+		source.append("\t//originally value_list/list_value\n");
+		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", className ) );
+
+	}
+
+	/**
+	 * Generate constructors for template
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
+		source.append("\t};\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel other_value ) '{'\n", genName));
+		source.append("\t\tsuper( other_value );\n");
+		source.append("\t\tcheckSingleSelection( other_value );\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
+		source.append("\t\tcopyValue(otherValue);\n");
+		source.append("\t};\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
+		source.append("\t\tcopyTemplate( otherValue );\n");
+		source.append("\t};\n");
+
+		//TODO: implement optional parameter version
+	}
+
+	/**
+	 * Generate assign functions for template
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateAssign( final StringBuilder source, final String genName, final String displayName ) {
+		source.append("\n");
+		source.append("\t//originally operator=\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel other_value ) '{'\n", genName ) );
+		source.append("\t\tcheckSingleSelection(other_value);\n");
+		source.append("\t\tcleanUp();\n");
+		source.append("\t\tsetSelection(other_value);\n");
+		source.append("\t\treturn this;\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append("\t//originally operator=\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} other_value ) '{'\n", genName ) );
+		source.append("\t\tcleanUp();\n");
+		source.append("\t\tcopyValue(other_value);\n");
+		source.append("\t\treturn this;\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append("\t//originally operator=\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template other_value ) '{'\n", genName ) );
+		source.append("\t\tif (other_value != this) {\n");
+		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tcopyTemplate(other_value);\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn this;\n");
+		source.append("\t}\n");
+
+		//TODO: implement optional parameter version
+	}
+
+	/**
+	 * Generate the copyTemplate function for template
+	 *
+	 * @param aData the generated java code with other info
+	 * @param source where the source code is to be generated.
+	 * @param aNamesList sequence field variable and type names
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateCopyTemplate( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void copyValue(final {0} other_value) '{'\n", genName));
+		source.append("\t\tsingle_value = new single_value_struct();\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\tif (other_value.get{0}().isBound()) '{'\n", fi.mJavaVarName ) );
+			if ( fi.isOptional ) {
+				source.append( MessageFormat.format( "\t\t\tif (other_value.get{0}().isPresent()) '{'\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().assign(other_value.get{0}().get());\n", fi.mJavaVarName ) );
+				source.append("\t\t\t} else {\n");
+				source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
+				source.append("\t\t\t}\n");
+			} else {
+				source.append( MessageFormat.format( "\t\t\tsingle_value.get{0}().assign(other_value.get{0}());\n", fi.mJavaVarName ) );
+			}
+			source.append("\t\t} else {\n");
+			source.append( MessageFormat.format( "\t\t\tsingle_value.get{0}().cleanUp();\n", fi.mJavaVarName ) );
+			source.append("\t\t}\n");
+		}
+		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void copyTemplate(final {0}_template other_value) '{'\n", genName));
+		source.append("\t\tswitch (other_value.templateSelection) {\n");
+		source.append("\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\tsingle_value = new single_value_struct();\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE != other_value.single_value.get{0}().getSelection()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().assign(other_value.single_value.get{0}());\n", fi.mJavaVarName ) );
+			source.append("\t\t\t} else {\n");
+			source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().cleanUp();\n", fi.mJavaVarName ) );
+			source.append("\t\t\t}\n");
+		}
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase OMIT_VALUE:\n");
+		source.append("\t\tcase ANY_VALUE:\n");
+		source.append("\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase VALUE_LIST:\n");
+		source.append("\t\tcase COMPLEMENTED_LIST:\n");
+		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", genName));
+		source.append("\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", genName));
+		source.append("\t\t\t\tlist_value.add(temp);\n");	
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
+		source.append("\t\t}\n");
+		source.append("\t\tsetSelection(other_value);\n");
+		source.append("\t}\n");
 	}
 }
