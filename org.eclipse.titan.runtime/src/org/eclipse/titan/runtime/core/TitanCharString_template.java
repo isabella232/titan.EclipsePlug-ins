@@ -9,6 +9,8 @@ package org.eclipse.titan.runtime.core;
 
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 charstring template
@@ -17,20 +19,20 @@ import java.util.ArrayList;
  */
 public class TitanCharString_template extends Base_Template {
 
-	private TitanCharString single_value;
+	TitanCharString single_value;
 
 	// value_list part
-	private ArrayList<TitanCharString_template> value_list;
+	ArrayList<TitanCharString_template> value_list;
 
 	// value range part
-	private boolean min_is_set, max_is_set;
-	private boolean min_is_exclusive, max_is_exclusive;
-	private TitanCharString min_value, max_value;
+	boolean min_is_set, max_is_set;
+	boolean min_is_exclusive, max_is_exclusive;
+	TitanCharString min_value, max_value;
 
 	//TODO: implement: pattern_value part for STRING_PATTERN case
 
 	public TitanCharString_template () {
-		//do nothing
+		//do  nothing
 	}
 
 	public TitanCharString_template (final template_sel otherValue) {
@@ -228,12 +230,114 @@ public class TitanCharString_template extends Base_Template {
 		return new TitanCharString(single_value);
 	}
 
-	//TODO: implement lengthof
-	//TODO: implement setType
+	//FIXME: set_type
+	/*// originally set_type
+	public void setType(final template_sel templateType) {
+		setType(templateType, 0);
+	}
+
+	// originally set_type
+
+	public void setType(final template_sel templateType, final int listLength) {
+		cleanUp();
+		switch (templateType) {
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			setSelection(templateType);
+			value_list = new ArrayList<TitanCharString_template>(listLength);
+			for(int i = 0; i < listLength; i++) {
+				value_list.add(new TitanCharString_template());
+			}
+			break;
+		case VALUE_RANGE:
+			setSelection(template_sel.VALUE_RANGE);
+			min_is_set = false;
+			max_is_set = false;
+			min_is_exclusive = false;
+			max_is_exclusive = false;
+			break;
+		case DECODE_MATCH:
+			setSelection(template_sel.DECODE_MATCH);			
+		default:
+			throw new TtcnError("Setting an invalid type for a charstring template.");
+		}
+	}
+
+	//FIXME: lengthOf
+	// originally lengthOf
+	public TitanInteger lengthOf() {
+		int min_length;
+		boolean has_any_or_none;
+		if(is_ifPresent){
+			throw new TtcnError("Performing lengthof() operation on a charstring template which has an ifpresent attribute.");
+		}switch(templateSelection){
+		case SPECIFIC_VALUE: 
+			min_length = single_value.lengthOf().getInt();
+			has_any_or_none = false;
+			break;
+		case OMIT_VALUE:
+			throw new TtcnError("Performing lengthof() operation on a charstring template containing omit value.");
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+		case VALUE_RANGE:
+			min_length=0;
+			has_any_or_none=true;
+			break;
+		case VALUE_LIST: 
+			//error if any element does not have length or the lengths differ
+			if(value_list.size()<1){
+				throw new TtcnError("Internal error: Performing lengthof() operation on a charstring template containing an empty list.");
+			}
+			int item_length = value_list.get(0).lengthOf().getInt();
+			for (int i = 1; i < value_list.size(); i++) {
+				if(value_list.get(i).lengthOf().getInt() != item_length){
+					throw new TtcnError("Performing lengthof() operation on a charstring template containing a value list with different lengths.");
+				}
+			}
+			min_length=item_length;
+			has_any_or_none=false;
+			break;
+		case COMPLEMENTED_LIST:
+			throw new TtcnError("Performing lengthof() operation on a charstring template containing complemented list.");
+		case STRING_PATTERN:
+			throw new TtcnError("Performing lengthof() operation on a charstring template containing a pattern is not allowed.");
+		default:
+			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported charstring template.");
+		}
+		//TODO: implement check_section_is_single
+		return new TitanInteger(min_length);
+	}
+
+	//FIXME: set_min
+	//originally set_min
+
+	public void setMin(final TitanCharString otherMinValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
+		}
+			otherMinValue.mustBound("Setting an unbound value as lower bound in a charstring value range template.");
+			int length=otherMinValue.lengthOf().getInt();
+			if(length!=1){
+				throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of '{0}''. ", length));
+			}
+			min_is_set=true;
+			min_is_exclusive=false;
+			TitanCharString min_value = new TitanCharString (min_value);
+			if((max_is_set) && (min_value)>(max_value) ){
+			throw new TtcnError(MessageFormat.format("The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
+			}
+		
+		}*/
+
 	//TODO: implement setMin
 	//TODO: implement setMax
 	//TODO: implement setMinExclusive
 	//TODO: implement setMaxExclusive
 	//TODO: implement isPresent
 	//TODO: implement match_omit
+
+	//TODO: test lengthOf
+	//TODO: test setType
+	//}
+//}
 }
