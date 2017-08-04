@@ -335,6 +335,12 @@ public final class Template_List extends CompositeTemplate {
 	/** {@inheritDoc} */
 	public void setGenNamePrefix(final String prefix) {
 		super.setGenNamePrefix(prefix);
+
+		if (converted != null) {
+			converted.setGenNamePrefix(prefix);
+			return;
+		}
+
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
 			templates.getTemplateByIndex(i).setGenNamePrefix(prefix);
 		}
@@ -344,6 +350,11 @@ public final class Template_List extends CompositeTemplate {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
+
+		if (converted != null) {
+			converted.setGenNameRecursive(parameterGenName);
+			return;
+		}
 
 		if(myGovernor == null) {
 			return;
@@ -462,7 +473,7 @@ public final class Template_List extends CompositeTemplate {
 			ofTypeName = ((Array_Type) typeLast).getElementType().getGenNameTemplate(aData, source, myScope);
 			break;
 		default:
-			//FATAL error
+			//TODO FATAL error
 			return;
 		}
 

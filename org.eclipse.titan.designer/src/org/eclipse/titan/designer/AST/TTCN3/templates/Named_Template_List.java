@@ -602,7 +602,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 				String tempId = aData.getTemporaryVariableName();
 				source.append("{\n");
-				source.append(MessageFormat.format("{0} {1} = {2}.{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
+				source.append(MessageFormat.format("{0} {1} = {2}.get{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
 				namedTemplate.getTemplate().generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {

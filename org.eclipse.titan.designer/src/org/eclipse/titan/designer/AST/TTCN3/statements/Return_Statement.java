@@ -220,18 +220,17 @@ public final class Return_Statement extends Statement {
 			return;
 		}
 
-		source.append( "\t\treturn " );
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append("return ");
 
 		Definition definition = myStatementBlock.getMyDefinition();
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
 			IValue value = ((SpecificValue_Template) template).getValue();
-			ExpressionStruct expression = new ExpressionStruct();
 			value.generateCodeExpressionMandatory(aData, expression);
-			expression.mergeExpression(source);
 		} else {
-			ExpressionStruct expression = new ExpressionStruct();
 			template.generateCodeExpression( aData, expression );
-			expression.mergeExpression(source);
 		}
+
+		expression.mergeExpression(source);
 	}
 }

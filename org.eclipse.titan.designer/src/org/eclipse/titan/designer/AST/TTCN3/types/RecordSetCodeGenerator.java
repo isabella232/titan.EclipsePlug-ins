@@ -15,7 +15,6 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * @author Arpad Lovassy
  */
 public class RecordSetCodeGenerator {
-
 	/**
 	 * Data structure to store sequence field variable and type names.
 	 * Used for java code generation.
@@ -493,7 +492,6 @@ public class RecordSetCodeGenerator {
 
 		source.append("\tprivate static class single_value_struct {\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			aData.addBuiltinTypeImport(fi.mJavaTemplateTypeName);
 			source.append( "\t\tprivate " );
 			source.append( fi.mJavaTypeName );
 			source.append( "_template " );
