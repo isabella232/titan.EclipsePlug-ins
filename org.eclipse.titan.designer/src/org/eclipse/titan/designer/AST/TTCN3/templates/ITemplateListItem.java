@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Jeno Balasko
  *
  */
+// TODO check if we still need this interface
 public interface ITemplateListItem extends ITTCN3Template {
 
 	public void setTemplate(TTCN3Template t);
