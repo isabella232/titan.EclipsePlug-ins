@@ -733,6 +733,12 @@ public final class Sequence_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNamePrefix(final String prefix) {
 		super.setGenNamePrefix(prefix);
+
+		if (convertedValue != null) {
+			convertedValue.setGenNamePrefix(prefix);
+			return;
+		}
+
 		for (int i = 0; i < values.getSize(); i++) {
 			values.getNamedValueByIndex(i).getValue().setGenNamePrefix(prefix);
 		}
