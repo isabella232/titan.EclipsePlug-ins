@@ -8,6 +8,8 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -61,5 +63,27 @@ public final class PermutationMatch_Template extends CompositeTemplate {
 	@Override
 	protected String getNameForStringRep() {
 		return "permutation";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		// There is no code generation for permutations here
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		// There is no code generation for permutations here
 	}
 }

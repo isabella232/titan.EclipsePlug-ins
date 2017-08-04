@@ -8,11 +8,14 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -26,6 +29,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Values;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -462,8 +466,161 @@ public final class Template_List extends CompositeTemplate {
 			return;
 		}
 
+		ArrayList<Integer> variables = new ArrayList<Integer>();
+		long fixedPart = 0;
 		if (hasPermutation) {
-			//FIXME implement
+			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+				ITemplateListItem templateListItem = templates.getTemplateByIndex(i);
+				TTCN3Template template = ((TemplateBody) templateListItem).getTemplate();
+				if (template.getTemplatetype() == Template_type.PERMUTATION_MATCH) {
+					int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
+					for (int j = 0; j < numPermutations; j++) {
+						ITemplateListItem templateListItem2 = ((PermutationMatch_Template) template).getTemplateByIndex(j);
+						TTCN3Template subTemplate = ((TemplateBody) templateListItem2).getTemplate();
+						if (subTemplate.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
+							variables.add(j);
+						} else {
+							fixedPart++;
+						}
+					}
+				} else {
+					fixedPart++;
+				}
+			}
+
+			StringBuilder preamble = new StringBuilder();
+			StringBuilder setSize = new StringBuilder();
+			setSize.append(MessageFormat.format("{0}.setSize({1}", name, fixedPart));
+
+			//variable part
+			for (int i = 0; i < templates.getNofTemplates(); i++) {
+				ITemplateListItem templateListItem = templates.getTemplateByIndex(i);
+				TTCN3Template template = ((TemplateBody) templateListItem).getTemplate();
+				for (int k = 0; k < variables.size(); k++) {
+					ITemplateListItem templateListItem2 = templates.getTemplateByIndex(k);
+					if (templateListItem2.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
+						TTCN3Template subTemplate = ((AllElementsFrom) templateListItem2).getTemplate();
+						final Reference reference = ((SpecificValue_Template) subTemplate).getReference();
+						final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+						setSize.append(" + ");
+						ExpressionStruct expression = new ExpressionStruct();
+						reference.generateCode(aData, expression);
+						setSize.append(expression.expression);
+						if (expression.preamble.length() > 0) {
+							preamble.append(expression.preamble);
+						}
+
+						switch (assignment.getAssignmentType()) {
+						case A_CONST:
+						case A_EXT_CONST:
+						case A_MODULEPAR:
+						case A_VAR:
+						case A_PAR_VAL:
+						case A_PAR_VAL_IN:
+						case A_PAR_VAL_OUT:
+						case A_PAR_VAL_INOUT:
+						case A_FUNCTION_RVAL:
+						case A_EXT_FUNCTION_RVAL:
+							if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+								setSize.append(".get()");
+							}
+							break;
+						default:
+							break;
+						}
+
+						setSize.append(".n_elem()");
+					}
+				}
+			}
+
+			source.append(preamble);
+			source.append(setSize);
+			source.append(");\n");
+
+			int index = 0;
+			StringBuilder skipper = new StringBuilder();
+			StringBuilder hopper = new StringBuilder();
+			for (int i = 0; i < templates.getNofTemplates(); i++) {
+				ITemplateListItem templateListItem = templates.getTemplateByIndex(i);
+				TTCN3Template template = ((TemplateBody) templateListItem).getTemplate();
+				switch (template.getTemplatetype()) {
+				case ALLELEMENTSFROM:
+					break;
+				case TEMPLATE_NOTUSED:
+					index++;
+					break;
+				case PERMUTATION_MATCH:{
+					int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
+					for (int j = 0; j < numPermutations; j++) {
+						long ix = indexOffset + index + j;
+						ITemplateListItem templateListItem2 = ((PermutationMatch_Template) template).getTemplateByIndex(j);
+						TTCN3Template permutationElement = ((TemplateBody) templateListItem2).getTemplate();
+						if (templateListItem2.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
+							ExpressionStruct expression = new ExpressionStruct();
+							TTCN3Template allFromTemplate = ((AllElementsFrom) templateListItem2).template;
+							switch (allFromTemplate.getTemplatetype()) {
+							case SPECIFIC_VALUE: {
+								IValue specificValue = ((SpecificValue_Template) allFromTemplate).getValue();
+								switch(specificValue.getValuetype()) {
+								case REFERENCED_VALUE: {
+									Reference reference = ((Referenced_Value) specificValue).getReference();
+									reference.generateCode(aData, expression);
+
+									Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+									switch (assignment.getAssignmentType()) {
+									case A_CONST:
+									case A_EXT_CONST:
+									case A_MODULEPAR:
+									case A_VAR:
+									case A_PAR_VAL:
+									case A_PAR_VAL_IN:
+									case A_PAR_VAL_OUT:
+									case A_PAR_VAL_INOUT:
+									case A_FUNCTION_RVAL:
+									case A_EXT_FUNCTION_RVAL:
+										if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+											setSize.append(".get()");
+										}
+										break;
+									default:
+										break;
+									}
+									break;
+								}
+								default:
+									source.append("//FATAL ERROR while generating code for all from within a permutation\n");
+									break;
+								}
+								break;
+							}
+							default:
+								source.append("//FATAL ERROR while generating code for all from within a permutation\n");
+								break;
+							}
+
+							source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_liml ++i_i ) '{'\n", expression.expression));
+							permutationElement.generateCodeInitSeofElement(aData, source, name, Long.toString(ix) + skipper + " + i_i", ofTypeName);
+							source.append("}\n");
+							skipper.append(MessageFormat.format("-1 + {0}.n_elem() /* 3005 */", expression.expression));
+						} else {
+							permutationElement.generateCodeInitSeofElement(aData, source, name, Long.toString(ix) + skipper, ofTypeName);
+						}
+					}
+
+					// do not consider index_offset in case of permutation indicators
+					source.append(MessageFormat.format("{0}.addPermutation({1}{2}, {3}{4});\n", name, index, hopper, index + numPermutations - 1, skipper));
+					hopper = skipper;
+					index += numPermutations;
+					break;
+					}
+				default:
+					template.generateCodeInitSeofElement(aData, source, name, Long.toString(indexOffset + index) + skipper, ofTypeName);
+					index++;
+					break;
+				}
+			}
 		} else if (hasAllFrom()) {
 			//FIXME implement
 		} else {
