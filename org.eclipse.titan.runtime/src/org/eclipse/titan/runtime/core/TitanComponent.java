@@ -76,6 +76,15 @@ public class TitanComponent extends Base_Type {
 		}
 	}
 
+	// originally done, TODO needs index redirection support
+	public TitanAlt_Status done() {
+		if (componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError("Performing done operation on an unbound component reference.");
+		}
+
+		return TTCN_Runtime.component_done(componentValue);
+	}
+
 	//originally operator==
 	public TitanBoolean operatorEquals(final int otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
