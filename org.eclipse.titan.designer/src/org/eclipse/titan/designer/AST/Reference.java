@@ -25,6 +25,9 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
@@ -999,6 +1002,26 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			break;
 		}
 
+		FormalParameterList formalParameterList;
+		switch (referredAssignment.getAssignmentType()) {
+		case A_FUNCTION:
+		case A_FUNCTION_RVAL:
+		case A_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Function) referredAssignment).getFormalParameterList();
+			break;
+		case A_EXT_FUNCTION:
+		case A_EXT_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Extfunction) referredAssignment).getFormalParameterList();
+			break;
+		case A_TEMPLATE:
+			formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
+			break;
+		default:
+			formalParameterList = null;
+			break;
+		}
+
 		IType referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
 
 		//ha parameterezett
@@ -1007,6 +1030,20 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append("( ");
 			ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
 			temp.getActualParameters().generateCodeAlias(aData, expression);
+			expression.expression.append(" )");
+		} else if (formalParameterList != null) {
+			//the reference does not have an actual parameter list, but the assignment has
+			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			expression.expression.append("( ");
+			//FieldSubReference temp = ((FieldSubReference)subReferences.get(0));
+			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
+				if (i > 0){
+					expression.expression.append(", ");
+				}
+				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression);
+			}
+			
+			//temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
 			//TODO add fuzzy handling
