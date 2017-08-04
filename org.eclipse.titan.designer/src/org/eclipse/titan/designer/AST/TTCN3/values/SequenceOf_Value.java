@@ -576,6 +576,12 @@ public final class SequenceOf_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNamePrefix(final String prefix) {
 		super.setGenNamePrefix(prefix);
+
+		if (convertedValue != null) {
+			convertedValue.setGenNamePrefix(prefix);
+			return;
+		}
+
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
 				values.getIndexedValueByIndex(i).getValue().setGenNamePrefix(prefix);
@@ -591,6 +597,11 @@ public final class SequenceOf_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
+
+		if (convertedValue != null) {
+			convertedValue.setGenNameRecursive(parameterGenName);
+			return;
+		}
 
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
