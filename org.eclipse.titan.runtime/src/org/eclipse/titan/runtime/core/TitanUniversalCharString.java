@@ -95,8 +95,10 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("Copying an unbound universal charstring value.");
 
 		val_ptr = copyList(aOtherValue.val_ptr);
-		cstr = new StringBuilder(aOtherValue.cstr);
 		charstring = aOtherValue.charstring;
+		if (charstring) {
+			cstr = new StringBuilder(aOtherValue.cstr);
+		}
 	}
 
 	public TitanUniversalCharString(final TitanUniversalCharString_Element aOtherValue) {
