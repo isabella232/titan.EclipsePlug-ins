@@ -25,6 +25,9 @@ public class RecordSetCodeGenerator {
 		/** Java type name of the field */
 		private String mJavaTypeName;
 
+		/** Java template type name of the field */
+		private String mJavaTemplateTypeName;
+
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
 
@@ -38,12 +41,14 @@ public class RecordSetCodeGenerator {
 
 		/**
 		 * @param fieldType the string representing the type of this field in the generated code.
+		 * @param fieldTemplateType the string representing the template type of this field in the generated code.
 		 * @param fieldName the string representing the name of this field in the generated code.
 		 * @param isOptional true if the field is optional.
 		 * @param debugName additional text printed out in a comment after the generated local variables.
 		 * */
-		public FieldInfo(final String fieldType, final String fieldName, final boolean isOptional, final String debugName) {
+		public FieldInfo(final String fieldType, final String fieldTemplateType, final String fieldName, final boolean isOptional, final String debugName) {
 			mJavaTypeName = fieldType;
+			mJavaTemplateTypeName = fieldTemplateType;
 			mVarName = fieldName;
 			mJavaVarName  = FieldSubReference.getJavaGetterName( mVarName );
 			this.isOptional = isOptional;
@@ -488,7 +493,7 @@ public class RecordSetCodeGenerator {
 
 		source.append("\tprivate static class single_value_struct {\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			aData.addBuiltinTypeImport(fi.mJavaTypeName + "_template");
+			aData.addBuiltinTypeImport(fi.mJavaTemplateTypeName);
 			source.append( "\t\tprivate " );
 			source.append( fi.mJavaTypeName );
 			source.append( "_template " );
