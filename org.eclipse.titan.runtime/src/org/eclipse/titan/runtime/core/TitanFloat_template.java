@@ -211,7 +211,7 @@ public class TitanFloat_template extends Base_Template {
 			setSelection(templateType);
 			value_list = new ArrayList<TitanFloat_template>(listLength);
 			for (int i = 0; i < listLength; ++i) {
-				value_list.add( new TitanFloat_template());
+				value_list.add(new TitanFloat_template());
 			}
 			break;
 		case VALUE_RANGE:
