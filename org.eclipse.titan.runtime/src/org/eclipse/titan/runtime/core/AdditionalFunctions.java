@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -313,6 +314,20 @@ public class AdditionalFunctions {
 		}
 		
 		return new TitanFloat(value.getBigInteger().doubleValue());
+	}
+	
+	// C.8 - float2int
+	public static TitanInteger float2int(double value){
+		if(value > Integer.MIN_VALUE && value < Integer.MAX_VALUE){
+			return new TitanInteger((int) value);
+		}
+		return new TitanInteger(new BigDecimal(value).toBigInteger());
+	}
+	
+	public static TitanInteger float2int(TitanFloat value){
+		value.mustBound("The argument of function float2int() is an unbound float value.");
+		
+		return float2int(value.getValue());
 	}
 
 	// C.12 - bit2int
