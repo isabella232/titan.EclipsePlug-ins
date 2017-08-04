@@ -6,9 +6,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
-
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
-
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 
 //TODO: Not yet complete rewrite
@@ -231,13 +230,12 @@ public class TitanCharString_template extends Base_Template {
 	}
 
 	//FIXME: set_type
-	/*// originally set_type
+	// originally set_type
 	public void setType(final template_sel templateType) {
 		setType(templateType, 0);
 	}
 
 	// originally set_type
-
 	public void setType(final template_sel templateType, final int listLength) {
 		cleanUp();
 		switch (templateType) {
@@ -262,8 +260,49 @@ public class TitanCharString_template extends Base_Template {
 			throw new TtcnError("Setting an invalid type for a charstring template.");
 		}
 	}
+	
+	// originally list_item
+	public TitanCharString_template listItem(final int listIndex) {
+		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Internal error: Accessing a list element of a non-list charstring template. ");
+		}
+		if (listIndex >= value_list.size()) {
+			throw new TtcnError("Internal error: Index overflow in a charstring value list template.");
+		}
 
-	//FIXME: lengthOf
+		return value_list.get(listIndex);
+	}
+	
+	//originally match_omit
+	public boolean match_omit(final boolean legacy) {
+		if (is_ifPresent) {
+			return true;
+		}
+
+		switch(templateSelection) {
+		case OMIT_VALUE:
+		case ANY_OR_OMIT:
+			return true;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			if (legacy) {
+				// legacy behavior: 'omit' can appear in the value/complement list
+				for (int i = 0; i < value_list.size(); i++) {
+					if (value_list.get(i).match_omit(legacy)) {
+						return templateSelection == template_sel.VALUE_LIST;
+					}
+				}
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
+			}
+			return false;
+			 // else fall through
+		default:
+			return false;
+		}
+	}
+}
+	
+	/*//FIXME: lengthOf
 	// originally lengthOf
 	public TitanInteger lengthOf() {
 		int min_length;
@@ -307,6 +346,7 @@ public class TitanCharString_template extends Base_Template {
 		//TODO: implement check_section_is_single
 		return new TitanInteger(min_length);
 	}
+//}
 
 	//FIXME: set_min
 	//originally set_min
@@ -322,22 +362,21 @@ public class TitanCharString_template extends Base_Template {
 			}
 			min_is_set=true;
 			min_is_exclusive=false;
-			TitanCharString min_value = new TitanCharString (min_value);
-			if((max_is_set) && (min_value)>(max_value) ){
+			min_value = new TitanCharString (min_value);
+			if((max_is_set) && min_value.toString() > (max_value).toString() ){
 			throw new TtcnError(MessageFormat.format("The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
 			}
-		
-		}*/
+	}
+	}*/
 
 	//TODO: implement setMin
 	//TODO: implement setMax
 	//TODO: implement setMinExclusive
 	//TODO: implement setMaxExclusive
 	//TODO: implement isPresent
-	//TODO: implement match_omit
 
 	//TODO: test lengthOf
 	//TODO: test setType
 	//}
 //}
-}
+
