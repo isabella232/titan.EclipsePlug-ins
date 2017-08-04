@@ -171,6 +171,12 @@ public final class Value_Range_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
 		return false;
 	}

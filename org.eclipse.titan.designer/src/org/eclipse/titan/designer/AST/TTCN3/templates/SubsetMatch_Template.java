@@ -72,7 +72,14 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getNameForStringRep() {
 		return "subset";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		return true;
 	}
 }

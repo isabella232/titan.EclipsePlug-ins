@@ -18,9 +18,11 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -515,6 +517,16 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		if (lengthRestriction != null || isIfpresent) {
+			return true;
+		}
+
+		return namedTemplates.getNofTemplates() > 0;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
 		//TODO if it has no fields and we have that in the runtime it could be
 		return false;
@@ -555,13 +567,48 @@ public final class Named_Template_List extends TTCN3Template {
 
 		//FIXME actually a bit more complex
 		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if (type == null) {
+			return;
+		}
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
+			String fieldName = namedTemplate.getName().getName();
 			//FIXME handle needs_temp_ref case
 
-			String fieldName = FieldSubReference.getJavaGetterName(namedTemplate.getName().getName());
-			String embeddedName = MessageFormat.format("{0}.get{1}()", name, fieldName); 
-			namedTemplate.getTemplate().generateCodeInit(aData, source, embeddedName);
+			String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
+
+			if (needsTemporaryReference()) {
+				Type fieldType;
+				switch(type.getTypetype()) {
+				case TYPE_SIGNATURE:
+					fieldType = ((Signature_Type) type).getParameterByName(fieldName).getType();
+					break;
+				case TYPE_TTCN3_SEQUENCE:
+					fieldType = ((TTCN3_Sequence_Type) type).getComponentByName(fieldName).getType();
+					break;
+				case TYPE_TTCN3_SET:
+					fieldType = ((TTCN3_Set_Type) type).getComponentByName(fieldName).getType();
+					break;
+				case TYPE_ASN1_SEQUENCE:
+					fieldType = ((ASN1_Sequence_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					break;
+				case TYPE_ASN1_SET:
+					fieldType = ((ASN1_Set_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					break;
+				default:
+					source.append("//FATAL ERROR while generating code for a named template list\n");
+					return;
+				}
+
+				String tempId = aData.getTemporaryVariableName();
+				source.append("{\n");
+				source.append(MessageFormat.format("{0} {1} = {2}.{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
+				namedTemplate.getTemplate().generateCodeInit(aData, source, tempId);
+				source.append("}\n");
+			} else {
+				String embeddedName = MessageFormat.format("{0}.get{1}()", name, generatedFieldName); 
+				namedTemplate.getTemplate().generateCodeInit(aData, source, embeddedName);
+			}
 		}
 	}
 }

@@ -45,6 +45,9 @@ public final class Template_List extends CompositeTemplate {
 	// created, or null
 	private SequenceOf_Value asValue = null;
 
+	// if assigned to a record/set the semantic checking will create a converted value.
+	private TTCN3Template converted = null;
+
 	public Template_List(final ListOfTemplates templates) {
 		super(templates);
 
@@ -111,7 +114,8 @@ public final class Template_List extends CompositeTemplate {
 	public TTCN3Template setTemplatetype(final CompilationTimeStamp timestamp, final Template_type newType) {
 		switch (newType) {
 		case NAMED_TEMPLATE_LIST:
-			return Named_Template_List.convert(timestamp, this);
+			converted =  Named_Template_List.convert(timestamp, this);
+			return converted;
 		default:
 			return super.setTemplatetype(timestamp, newType);
 		}
@@ -354,8 +358,32 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getNameForStringRep() {
 		return "";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		if (converted != null) {
+			return converted.needsTemporaryReference();
+		}
+
+		if (lengthRestriction != null || isIfpresent) {
+			return true;
+		}
+
+		// temporary reference is needed if the template has at least one
+		// element (excluding not used symbols)
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			ITemplateListItem template = templates.getTemplateByIndex(i);
+			if (((TemplateBody) template).getTemplate().getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -363,6 +391,10 @@ public final class Template_List extends CompositeTemplate {
 	 *  Java expression.
 	 * */
 	public boolean hasSingleExpression() {
+		if (converted != null) {
+			return converted.hasSingleExpression();
+		}
+
 		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
 			return false;
 		}
@@ -378,6 +410,11 @@ public final class Template_List extends CompositeTemplate {
 			return;
 		}
 
+		if (converted != null) {
+			converted.generateCodeExpression(aData, expression);
+			return;
+		}
+
 		if (myGovernor == null) {
 			return;
 		}
@@ -390,6 +427,11 @@ public final class Template_List extends CompositeTemplate {
 	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
 		if (asValue != null) {
 			asValue.generateCodeInit(aData, source, name);
+			return;
+		}
+
+		if (converted != null) {
+			converted.generateCodeInit(aData, source, name);
 			return;
 		}
 
@@ -432,21 +474,28 @@ public final class Template_List extends CompositeTemplate {
 				ITemplateListItem template = templates.getTemplateByIndex(i);
 				switch (template.getTemplatetype()) {
 				case PERMUTATION_MATCH:
-					//FIXME implement
+					PermutationMatch_Template actualTemplate = (PermutationMatch_Template) template.getTemplate();
+					int nofPermutatedTemplates = actualTemplate.getNofTemplates();
+					for (int j = 0; j < nofPermutatedTemplates; j++) {
+						long ix = indexOffset + index + j;
+						ITemplateListItem template2 = actualTemplate.getTemplateByIndex(j);
+						((TemplateBody) template2).getTemplate().generateCodeInitSeofElement(aData, source, name, Long.toString(ix), ofTypeName);
+					}
+					// do not consider index_offset in case of permutation indicators
+					source.append(MessageFormat.format("{0}.addPermutation({1}, {2});\n", name, index, index + nofPermutatedTemplates - 1));
+					index += nofPermutatedTemplates;
 					break;
 				case ALLELEMENTSFROM:
 				case TEMPLATE_NOTUSED:
 					index++;
 					break;
 				default:
-					//TODO use generate_code_init_seof_element
-					String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
-					((TemplateBody) template).generateCodeInit(aData, source, embeddedName);
+					((TemplateBody) template).getTemplate().generateCodeInitSeofElement(aData, source, name, Long.toString(indexOffset + index), ofTypeName);
 					index++;
 					break;
 				}
 			}
-			//FIXME implement
+			return; // TODO this is just to skip over the temporary super call
 		}
 		// FIXME implement
 		//TODO handle the case when we know everything in compilation time

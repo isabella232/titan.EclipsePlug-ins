@@ -124,8 +124,15 @@ public final class ValueList_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getNameForStringRep() {
 		return "";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		return true;
 	}
 
 	@Override

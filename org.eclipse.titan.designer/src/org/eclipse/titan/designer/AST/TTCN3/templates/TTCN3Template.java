@@ -1164,6 +1164,19 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	}
 
 	/**
+	 * Returns whether the Java initialization sequence requires a
+	 *  temporary variable reference to be introduced for efficiency
+	 *  reasons.
+	 * */
+	public boolean needsTemporaryReference() {
+		if (lengthRestriction != null || isIfpresent) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
 	 * Returns whether the template can be represented by an in-line
 	 *  Java expression.
 	 * */
@@ -1173,6 +1186,19 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		}
 		//TODO fatal error
 		return false;
+	}
+
+	public void generateCodeInitSeofElement(final JavaGenData aData, final StringBuilder source, final String name, final String index, final String elementTypeGenname) {
+		if (needsTemporaryReference()) {
+			String tempId = aData.getTemporaryVariableName();
+			source.append("{\n");
+			source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", elementTypeGenname, tempId, name, index));
+			generateCodeInit(aData, source, tempId);
+			source.append("}\n");
+		} else {
+			String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
+			generateCodeInit(aData, source, embeddedName);
+		}
 	}
 
 	/**

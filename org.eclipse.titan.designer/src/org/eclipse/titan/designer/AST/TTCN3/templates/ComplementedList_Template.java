@@ -164,8 +164,15 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getNameForStringRep() {
 		return "complement";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		return true;
 	}
 
 	@Override

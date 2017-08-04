@@ -397,6 +397,25 @@ public final class Indexed_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		if (lengthRestriction != null || isIfpresent) {
+			return true;
+		}
+
+		// temporary reference is needed if the template has at least one
+		// element (excluding not used symbols)
+		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
+			ITemplateListItem template = indexedTemplates.getTemplateByIndex(i).getTemplate();
+			if (((TemplateBody) template).getTemplate().getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
 		//TODO if it has no fields and we have that in the runtime it could be
 		return false;

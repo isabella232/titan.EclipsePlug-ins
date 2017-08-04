@@ -63,7 +63,14 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getNameForStringRep() {
 		return "superset";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean needsTemporaryReference() {
+		return true;
 	}
 }
