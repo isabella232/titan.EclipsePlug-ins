@@ -462,7 +462,7 @@ public final class Template_List extends CompositeTemplate {
 			ofTypeName = ((Array_Type) typeLast).getElementType().getGenNameTemplate(aData, source, myScope);
 			break;
 		default:
-			//FATAL error
+			//TODO FATAL error
 			return;
 		}
 
