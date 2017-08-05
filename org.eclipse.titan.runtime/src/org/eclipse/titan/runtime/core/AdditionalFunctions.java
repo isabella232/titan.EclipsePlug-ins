@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -313,6 +314,53 @@ public class AdditionalFunctions {
 		}
 		
 		return new TitanFloat(value.getBigInteger().doubleValue());
+	}
+	
+	// C.8 - float2int
+	public static TitanInteger float2int(double value){
+		if(value > Integer.MIN_VALUE && value < Integer.MAX_VALUE){
+			return new TitanInteger((int) value);
+		}
+		return new TitanInteger(new BigDecimal(value).toBigInteger());
+	}
+	
+	public static TitanInteger float2int(TitanFloat value){
+		value.mustBound("The argument of function float2int() is an unbound float value.");
+		
+		return float2int(value.getValue());
+	}
+	
+	// C.9 - char2int
+	public static TitanInteger char2int(char value){
+		if(value > 127){
+			throw new TtcnError("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.");
+		}
+		return new TitanInteger((int) value);
+	}
+	
+	public static TitanInteger char2int(String value){
+		if(value == null){
+			value = "";
+		}
+		if(value.length() != 1){	
+			throw new TtcnError(MessageFormat.format("The length of the argument in function char2int() must be exactly 1 instead of {0}.",value.length()));
+		}
+		return char2int(value.charAt(0));
+	}
+	
+	public static TitanInteger char2int(final TitanCharString value){
+		value.mustBound("The argument of function char2int() is an unbound charstring value.");
+		
+			if(value.lengthOf().getInt() != 1){
+				throw new TtcnError(MessageFormat.format("The length of the argument in function char2int() must be exactly 1 instead of {0}.",value.lengthOf()));
+			}
+			return char2int(value.constGetAt(0).get_char());
+	}
+	
+	public static TitanInteger char2int(final TitanCharString_Element value){
+		value.mustBound("The argument of function char2int() is an unbound charstring element.");
+		
+		return char2int(value.get_char());
 	}
 
 	// C.12 - bit2int
