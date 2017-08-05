@@ -442,7 +442,7 @@ public class AdditionalFunctions {
 
 		for (int i = 0; i < n_bits; i++) {
 			int temp2 = (bits_ptr.get(i / 8) & (1 << (i % 8)));
-			if ((bits_ptr.get(i / 8) & (1 << (i % 8))) != 0) {
+			if (temp2 != 0) {
 				int temp1 = (0x80 >> ((i + padding_bits) % 8)) >> 4;
 				ret_val.set((i + padding_bits) / 8, (byte) (ret_val.get((i + padding_bits) / 8) | temp1));
 			}
