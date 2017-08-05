@@ -365,10 +365,7 @@ public class AdditionalFunctions {
 
 	// C.10 - char2oct
 	public static TitanOctetString char2oct(String value) {
-		if(value == null){
-			value = "";
-		}
-		if(value.length() <= 0){
+		if (value == null || value.length() <= 0) {
 			return new TitanOctetString("0");
 		}
 
