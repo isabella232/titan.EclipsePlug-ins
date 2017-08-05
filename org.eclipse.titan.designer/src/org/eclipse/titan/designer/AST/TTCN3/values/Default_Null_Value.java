@@ -125,7 +125,7 @@ public final class Default_Null_Value extends Value {
 	}
 
 	@Override
-	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport("TitanComponent");
 
 		source.append(name);
@@ -136,7 +136,7 @@ public final class Default_Null_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanComponent");
 
 		expression.expression.append("TitanComponent.NULL_COMPREF");

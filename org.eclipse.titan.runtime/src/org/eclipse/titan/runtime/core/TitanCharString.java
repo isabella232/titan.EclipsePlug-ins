@@ -332,7 +332,7 @@ public class TitanCharString extends Base_Type {
 
 	// originally operator<<=
 	// rotateLeft for TitanInteger
-	public TitanCharString rotateLeft(TitanInteger rotatecount) {
+	public TitanCharString rotateLeft(final TitanInteger rotatecount) {
 		rotatecount.mustBound("Unbound integer operand of rotate left operator.");
 
 		return rotateLeft(rotatecount.getInt());
@@ -366,7 +366,7 @@ public class TitanCharString extends Base_Type {
 
 	// originally operator>>=
 	// rotateRight for TitanInteger
-	public TitanCharString rotateRight(TitanInteger rotatecount) {
+	public TitanCharString rotateRight(final TitanInteger rotatecount) {
 		rotatecount.mustBound("Unbound integer operand of rotate right operator.");
 
 		return rotateRight(rotatecount.getInt());
@@ -439,7 +439,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	// static operatorEquals
-	public static TitanBoolean operatorEquals(String StringValue, TitanCharString aOtherValue) {
+	public static TitanBoolean operatorEquals(final String StringValue, final TitanCharString aOtherValue) {
 		aOtherValue.mustBound("Unbound operand of charstring comparison.");
 
 		if (StringValue == null) {
@@ -448,7 +448,7 @@ public class TitanCharString extends Base_Type {
 		return new TitanBoolean(aOtherValue.val_ptr.toString().equals(StringValue));
 	}
 
-	public static TitanBoolean operatorEquals(String StringValue, TitanCharString_Element aOtherValue) {
+	public static TitanBoolean operatorEquals(final String StringValue, final TitanCharString_Element aOtherValue) {
 		aOtherValue.mustBound("Unbound operand of charstring element comparison.");
 
 		if (StringValue.length() != 1) {
@@ -458,23 +458,23 @@ public class TitanCharString extends Base_Type {
 	}
 
 	// static operatorNotEquals
-	public static TitanBoolean operatorNotEquals(String StringValue, TitanCharString aOtherValue) {
+	public static TitanBoolean operatorNotEquals(final String StringValue, final TitanCharString aOtherValue) {
 		return operatorEquals(StringValue, aOtherValue).not();
 	}
 
-	public static TitanBoolean operatorNotEquals(String StringValue, TitanCharString_Element aOtherValue) {
+	public static TitanBoolean operatorNotEquals(final String StringValue, final TitanCharString_Element aOtherValue) {
 		return operatorEquals(StringValue, aOtherValue).not();
 	}
 
 	// static concatenate
-	public static TitanCharString concatenate(final String StringValue, TitanCharString aOtherValue) {
+	public static TitanCharString concatenate(final String StringValue, final TitanCharString aOtherValue) {
 		aOtherValue.mustBound("Unbound operand of charstring concatenation.");
 
 		final TitanCharString ret_val = new TitanCharString(StringValue);
 		return ret_val.concatenate(aOtherValue);
 	}
 
-	public static TitanCharString concatenate(final String StringValue, TitanCharString_Element aOtherValue) {
+	public static TitanCharString concatenate(final String StringValue, final TitanCharString_Element aOtherValue) {
 		aOtherValue.mustBound("Unbound operand of charstring element concatenation.");
 
 		final TitanCharString ret_val = new TitanCharString(StringValue);

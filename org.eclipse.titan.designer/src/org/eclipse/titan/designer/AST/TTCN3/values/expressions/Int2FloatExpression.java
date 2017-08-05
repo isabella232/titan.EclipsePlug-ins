@@ -220,7 +220,7 @@ public final class Int2FloatExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2float(");

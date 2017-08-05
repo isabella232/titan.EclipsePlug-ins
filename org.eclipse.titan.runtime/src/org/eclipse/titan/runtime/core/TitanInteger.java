@@ -540,12 +540,12 @@ public class TitanInteger extends Base_Type {
 		return rem(leftValue, new TitanInteger(rightValue));
 	}
 
-	public static TitanInteger rem(int leftValue, final TitanInteger rightValue) {
+	public static TitanInteger rem(final int leftValue, final TitanInteger rightValue) {
 		return rem(new TitanInteger(leftValue), rightValue);
 	}
 
 	// mod
-	public static TitanInteger mod(int leftValue, int rightValue) {
+	public static TitanInteger mod(final int leftValue, int rightValue) {
 		if (rightValue < 0) {
 			rightValue = rightValue * (-1);
 		} else if (rightValue == 0) {
@@ -586,11 +586,11 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// static mod
-	public static TitanInteger mod(final TitanInteger leftValue, int rightValue) {
+	public static TitanInteger mod(final TitanInteger leftValue, final int rightValue) {
 		return mod(leftValue, new TitanInteger(rightValue));
 	}
 
-	public static TitanInteger mod(int leftValue, final TitanInteger rightValue) {
+	public static TitanInteger mod(final int leftValue, final TitanInteger rightValue) {
 		return mod(new TitanInteger(leftValue), rightValue);
 	}
 

@@ -50,7 +50,7 @@ public class TitanUniversalChar {
 	}
 
 	// originally inline boolean operator!=(const universal_char& uchar_value, const universal_char& other_value)
-	public static TitanBoolean operatorNotEquals(TitanUniversalChar left_value, TitanUniversalChar right_value) {
+	public static TitanBoolean operatorNotEquals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
 		return operatorEquals(left_value, right_value).not();
 	}
 

@@ -449,17 +449,17 @@ public class TitanUniversalCharString_Element {
 
 	// static functions
 
-	public static TitanBoolean operatorEquals(TitanUniversalChar ucharValue, TitanUniversalCharString_Element otherValue) {
+	public static TitanBoolean operatorEquals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
 		otherValue.mustBound("The right operand of comparison is an unbound universal charstring element.");
 
 		return new TitanBoolean(ucharValue.operatorEquals(otherValue.get_char()));
 	}
 
-	public static TitanBoolean operatorNotEquals(TitanUniversalChar ucharValue, TitanUniversalCharString_Element otherValue) {
+	public static TitanBoolean operatorNotEquals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
 		return operatorEquals(ucharValue, otherValue).not();
 	}
 
-	public static TitanUniversalCharString concatenate(TitanUniversalChar ucharValue, TitanUniversalCharString_Element otherValue) {
+	public static TitanUniversalCharString concatenate(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
 		otherValue.mustBound("The right operand of concatenation is an unbound universal charstring element.");
 
 		TitanUniversalCharString result = new TitanUniversalCharString();

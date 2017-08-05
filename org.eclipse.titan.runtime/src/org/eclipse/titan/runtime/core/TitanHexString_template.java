@@ -280,7 +280,7 @@ public class TitanHexString_template extends Base_Template {
 	}
 
 	// originally set_type
-	public void setType(template_sel templateType, int listLength) {
+	public void setType(final template_sel templateType, final int listLength) {
 		if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST
 				&& templateType != template_sel.DECODE_MATCH) {
 			throw new TtcnError("Setting an invalid list type for a hexstring template.");
@@ -312,7 +312,7 @@ public class TitanHexString_template extends Base_Template {
 	}
 
 	// originally is_present
-	public boolean isPresent(boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return true;
 		}
@@ -320,7 +320,7 @@ public class TitanHexString_template extends Base_Template {
 	}
 
 	// originally matc_omit
-	public boolean matchOmit(boolean legacy) {
+	public boolean matchOmit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}

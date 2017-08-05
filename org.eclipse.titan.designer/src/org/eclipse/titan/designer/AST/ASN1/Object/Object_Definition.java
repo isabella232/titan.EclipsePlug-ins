@@ -226,7 +226,7 @@ public final class Object_Definition extends ASN1Object {
 
 	//This function can get identifier with or without error reporting in case of not founding identifier
 	//It is cheaper than calling the function hasFieldSettingWithNameDefault and then the get function again
-	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier, boolean reportError) {
+	public FieldSetting getFieldSettingWithNameDefault(final Identifier identifier, final boolean reportError) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
 		}

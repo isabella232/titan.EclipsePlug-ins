@@ -212,7 +212,7 @@ public class AdditionalFunctions {
 		}
 	}
 
-	public static TitanHexString int2hex(final TitanInteger value, TitanInteger length) {
+	public static TitanHexString int2hex(final TitanInteger value, final TitanInteger length) {
 		value.mustBound("The first argument (value) of function int2hex() is an unbound integer value.");
 		length.mustBound("The second argument (length) of function int2hex() is an unbound integer value.");
 
@@ -316,21 +316,21 @@ public class AdditionalFunctions {
 	}
 
 	// C.8 - float2int
-	public static TitanInteger float2int(double value) {
+	public static TitanInteger float2int(final double value) {
 		if (value > Integer.MIN_VALUE && value < Integer.MAX_VALUE) {
 			return new TitanInteger((int) value);
 		}
 		return new TitanInteger(new BigDecimal(value).toBigInteger());
 	}
 
-	public static TitanInteger float2int(TitanFloat value) {
+	public static TitanInteger float2int(final TitanFloat value) {
 		value.mustBound("The argument of function float2int() is an unbound float value.");
 
 		return float2int(value.getValue());
 	}
 
 	// C.9 - char2int
-	public static TitanInteger char2int(char value) {
+	public static TitanInteger char2int(final char value) {
 		if (value > 127) {
 			throw new TtcnError("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.");
 		}
@@ -364,7 +364,7 @@ public class AdditionalFunctions {
 	}
 
 	// C.10 - char2oct
-	public static TitanOctetString char2oct(String value) {
+	public static TitanOctetString char2oct(final String value) {
 		if (value == null || value.length() <= 0) {
 			return new TitanOctetString("0");
 		}
@@ -377,13 +377,13 @@ public class AdditionalFunctions {
 		return new TitanOctetString(octets_ptr);
 	}
 
-	public static TitanOctetString char2oct(TitanCharString value){
+	public static TitanOctetString char2oct(final TitanCharString value){
 		value.mustBound("The argument of function char2oct() is an unbound charstring value.");
 
 		return char2oct(value.toString());
 	}
 
-	public static TitanOctetString char2oct(TitanCharString_Element value){
+	public static TitanOctetString char2oct(final TitanCharString_Element value){
 		value.mustBound("The argument of function char2oct() is an unbound charstring element.");
 
 		return char2oct(String.valueOf(value.get_char()));

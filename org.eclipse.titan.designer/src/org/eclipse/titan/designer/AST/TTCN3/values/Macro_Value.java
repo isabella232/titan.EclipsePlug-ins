@@ -298,7 +298,7 @@ public final class Macro_Value extends Value {
 	}
 
 	@Override
-	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (Macro_type.TESTCASEID.equals(value)) {
 			aData.addCommonLibraryImport( "TTCN_Runtime" );
 

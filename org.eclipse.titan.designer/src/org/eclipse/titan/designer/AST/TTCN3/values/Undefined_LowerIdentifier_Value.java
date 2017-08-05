@@ -291,7 +291,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameRecursive(String parameterGenName) {
+	public void setGenNameRecursive(final String parameterGenName) {
 		if (realValue != null) {
 			realValue.setGenNameRecursive(parameterGenName);
 		}

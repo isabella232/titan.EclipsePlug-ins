@@ -658,7 +658,7 @@ public final class SetOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (canGenerateSingleExpression()) {
 			expression.expression.append(generateSingleExpression(aData));
 			return;

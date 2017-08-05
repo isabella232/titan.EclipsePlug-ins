@@ -230,7 +230,7 @@ public final class Unknown_Applied_Statement extends Statement {
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (realStatement == null) {
 			source.append("//FATAL ERROR furing apply statement\n");
 		}

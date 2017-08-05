@@ -146,7 +146,7 @@ public final class TTCN3_Null_Value extends Value {
 	}
 
 	@Override
-	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (lastValue == null || lastValue == this) {
 			//fatal error
 			source.append("//FATAL ERROR in TTCN3_Null_Value.generateCodeInit\n");
@@ -158,7 +158,7 @@ public final class TTCN3_Null_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (lastValue == null || lastValue == this) {
 			//fatal error
 			expression.expression.append("//FATAL ERROR in TTCN3_Null_Value.generateCodeExpression\n");

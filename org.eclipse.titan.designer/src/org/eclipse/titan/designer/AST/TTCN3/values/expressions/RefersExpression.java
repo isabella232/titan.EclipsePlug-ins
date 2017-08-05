@@ -262,7 +262,7 @@ public final class RefersExpression extends Expression_Value {
 	}
 
 	@Override
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		IType governor = myGovernor;
 		if (governor == null) {
 			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);

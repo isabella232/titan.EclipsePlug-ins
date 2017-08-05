@@ -312,7 +312,7 @@ public final class ApplyExpression extends Expression_Value {
 	}
 
 	@Override
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (value == null) {
 			return;
 		}

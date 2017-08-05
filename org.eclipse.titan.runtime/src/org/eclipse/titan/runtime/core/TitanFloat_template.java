@@ -199,11 +199,11 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
-	public void setType(template_sel templateType) {
+	public void setType(final template_sel templateType) {
 		setType(templateType, 0);
 	}
 
-	public void setType(template_sel templateType, int listLength) {
+	public void setType(final template_sel templateType, final int listLength) {
 		cleanUp();
 		switch (templateType) {
 		case VALUE_LIST:
@@ -240,7 +240,7 @@ public class TitanFloat_template extends Base_Template {
 		return value_list.get(listIndex);
 	}
 
-	public void setMin(double minValue) {
+	public void setMin(final double minValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
@@ -259,7 +259,7 @@ public class TitanFloat_template extends Base_Template {
 		setMin(minValue.getValue());
 	}
 
-	public void setMax(double maxValue) {
+	public void setMax(final double maxValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
@@ -278,7 +278,7 @@ public class TitanFloat_template extends Base_Template {
 		setMax(maxValue.getValue());
 	}
 
-	public void setMinExclusive(boolean minExclusive) {
+	public void setMinExclusive(final boolean minExclusive) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit exclusiveness.");
 		}
@@ -286,7 +286,7 @@ public class TitanFloat_template extends Base_Template {
 		min_is_exclusive = minExclusive;
 	}
 
-	public void setMaxExclusive(boolean maxExclusive) {
+	public void setMaxExclusive(final boolean maxExclusive) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit exclusiveness.");
 		}
@@ -306,7 +306,7 @@ public class TitanFloat_template extends Base_Template {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(boolean legacy) {
+	public TitanBoolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return new TitanBoolean(false);
 		}
@@ -318,7 +318,7 @@ public class TitanFloat_template extends Base_Template {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(boolean legacy) {
+	public TitanBoolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return new TitanBoolean(true);
 		}

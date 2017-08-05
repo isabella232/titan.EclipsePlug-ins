@@ -514,7 +514,7 @@ public final class SubstrExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (lastValue != null && lastValue != this) {
 			lastValue.generateCodeExpression(aData, expression);
 			return;

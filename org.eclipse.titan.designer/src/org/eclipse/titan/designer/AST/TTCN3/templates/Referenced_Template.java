@@ -624,12 +624,12 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		reference.generateCode(aData, expression);
 	}
 
 	@Override
-	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (hasSingleExpression()) {
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
 			return;

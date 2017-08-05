@@ -595,7 +595,7 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenNameRecursive(String parameterGenName) {
+	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
 
 		if (convertedValue != null) {
@@ -705,7 +705,7 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (convertedValue != null) {
 			convertedValue.generateCodeExpression(aData, expression);
 			return;

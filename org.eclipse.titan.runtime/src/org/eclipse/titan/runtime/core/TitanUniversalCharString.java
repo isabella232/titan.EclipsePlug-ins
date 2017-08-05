@@ -47,7 +47,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	public TitanUniversalCharString(char uc_group, char uc_plane, char uc_row,  char uc_cell) {
+	public TitanUniversalCharString(final char uc_group, final char uc_plane, final char uc_row,  final char uc_cell) {
 		TitanUniversalChar uc = new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell);
 		if (uc.is_char()) {
 			cstr = new StringBuilder();
@@ -163,7 +163,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// originally operator=
-	public TitanUniversalCharString assign(TitanUniversalCharString_Element aOtherValue) {
+	public TitanUniversalCharString assign(final TitanUniversalCharString_Element aOtherValue) {
 		aOtherValue.mustBound("Assignment of an unbound universal charstring element to a universal charstring.");
 
 		if (aOtherValue.get_char().is_char()) {
@@ -221,7 +221,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// originally operator=
-	public TitanUniversalCharString assign(TitanUniversalChar aOtherValue) {
+	public TitanUniversalCharString assign(final TitanUniversalChar aOtherValue) {
 		cleanUp();
 		if (aOtherValue.is_char()) {
 			charstring = true;
@@ -237,7 +237,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// originally operator=
-	public TitanUniversalCharString assign(char[] aOtherValue) {
+	public TitanUniversalCharString assign(final char[] aOtherValue) {
 		charstring = true;
 		cstr = new StringBuilder();
 		for (int i = 0; i < aOtherValue.length; ++i) {
@@ -248,7 +248,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	// originally operator=
-	public TitanUniversalCharString assign(String aOtherValue) {
+	public TitanUniversalCharString assign(final String aOtherValue) {
 		charstring = true;
 		cstr = new StringBuilder();
 		for (int i = 0; i < aOtherValue.length(); ++i) {
@@ -828,7 +828,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	// static function
 
-	public static TitanBoolean operatorEquals(TitanUniversalChar ucharValue, TitanUniversalCharString otherValue) {
+	public static TitanBoolean operatorEquals(final TitanUniversalChar ucharValue, final TitanUniversalCharString otherValue) {
 		otherValue.mustBound("The right operand of comparison is an unbound universal charstring value.");
 
 		if (otherValue.charstring) {
@@ -844,11 +844,11 @@ public class TitanUniversalCharString extends Base_Type {
 		return new TitanBoolean(ucharValue.operatorEquals(otherValue.val_ptr.get(0)));
 	}
 
-	public static TitanBoolean operatorNotEquals(TitanUniversalChar ucharValue, TitanUniversalCharString otherValue) {
+	public static TitanBoolean operatorNotEquals(final TitanUniversalChar ucharValue, final TitanUniversalCharString otherValue) {
 		return operatorEquals(ucharValue, otherValue).not();
 	}
 
-	public static TitanUniversalCharString concatenate(TitanUniversalChar ucharValue, TitanUniversalCharString otherValue) {
+	public static TitanUniversalCharString concatenate(final TitanUniversalChar ucharValue, final TitanUniversalCharString otherValue) {
 		otherValue.mustBound("The right operand of concatenation is an unbound universal charstring value.");
 
 		if (otherValue.charstring) {

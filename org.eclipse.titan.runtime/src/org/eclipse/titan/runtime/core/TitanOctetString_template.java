@@ -335,11 +335,11 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "an", "octetstring template"));
 	}
 
-	public void setType(template_sel template_type) {
+	public void setType(final template_sel template_type) {
 		setType(template_type,0);
 	}
 
-	public void setType(template_sel template_type, int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST &&
 				template_type != template_sel.DECODE_MATCH)
 			throw new TtcnError("Setting an invalid type for an octetstring template.");
@@ -369,7 +369,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return isPresent(false);
 	}
 
-	public boolean isPresent(boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) return false;
 
 		return !matchOmit(legacy).getValue();
@@ -379,7 +379,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		return matchOmit(false);
 	}
 
-	public TitanBoolean matchOmit(boolean legacy) {
+	public TitanBoolean matchOmit(final boolean legacy) {
 		if (is_ifPresent) return new TitanBoolean(true);
 		switch (templateSelection) {
 		case OMIT_VALUE:

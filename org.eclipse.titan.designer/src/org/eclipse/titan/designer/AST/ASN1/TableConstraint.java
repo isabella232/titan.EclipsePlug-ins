@@ -408,7 +408,7 @@ public final class TableConstraint extends Constraint {
 
 
 	//Original titan.core version: t_type->get_otaltname(is_strange);
-	private Identifier getOpenTypeAlternativeName(CompilationTimeStamp timestamp, Type type) {
+	private Identifier getOpenTypeAlternativeName(final CompilationTimeStamp timestamp, final Type type) {
 		StringBuffer sb = new StringBuffer();
 		//TODO:  if (is_tagged() || is_constrained() || hasRawAttrs()) {
 		if (type.isConstrained()) {

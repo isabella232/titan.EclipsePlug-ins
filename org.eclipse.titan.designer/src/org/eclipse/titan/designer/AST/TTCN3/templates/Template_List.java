@@ -419,7 +419,7 @@ public final class Template_List extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (asValue != null) {
 			asValue.generateCodeExpression(aData, expression);
 			return;
@@ -439,7 +439,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
-	public void generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (asValue != null) {
 			asValue.generateCodeInit(aData, source, name);
 			return;

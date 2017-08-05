@@ -745,7 +745,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
-	public String getGenNameFromScope(JavaGenData aData, StringBuilder source, Scope scope, String prefix) {
+	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
 		final StringBuilder returnValue = new StringBuilder();
 
 		returnValue.append(myScope.getModuleScope().getIdentifier().getName());

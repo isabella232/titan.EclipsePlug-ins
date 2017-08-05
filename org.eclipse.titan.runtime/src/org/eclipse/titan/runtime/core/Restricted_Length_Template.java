@@ -35,13 +35,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
-	public Restricted_Length_Template( template_sel other_value ) {
+	public Restricted_Length_Template( final template_sel other_value ) {
 		super( other_value );
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
 	@Override
-	protected void setSelection( template_sel other_value ) {
+	protected void setSelection( final template_sel other_value ) {
 		templateSelection = other_value;
 		is_ifPresent = false;
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
@@ -59,7 +59,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		range_length_max_length_set = other_value.range_length_max_length_set;
 	}
 
-	public boolean match_length( int value_length ) {
+	public boolean match_length( final int value_length ) {
 		switch (length_restriction_type) {
 		case NO_LENGTH_RESTRICTION:
 			return true;
@@ -76,8 +76,8 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	//TODO: implement according to:
 	//      Template.hh: class Restricted_Length_Template : public Base_Template
 
-	int check_section_is_single(int min_size,
-			boolean has_any_or_none, final String operation_name,
+	int check_section_is_single(final int min_size,
+			final boolean has_any_or_none, final String operation_name,
 			final String type_name_prefix, final String type_name) {
 		if ( has_any_or_none ) {
 			 // upper limit is infinity
@@ -169,7 +169,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	void log_match_length(int value_length)
+	void log_match_length(final int value_length)
 	{
 		if (length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION) {
 			if(TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()){
@@ -277,13 +277,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		return mp_res;
 	}
 
-	void set_single_length(int single_length)
+	void set_single_length(final int single_length)
 	{
 		length_restriction_type = length_restriction_type_t.SINGLE_LENGTH_RESTRICTION;
 		this.single_length = single_length;
 	}
 
-	void set_min_length(int min_length)
+	void set_min_length(final int min_length)
 	{
 		if (min_length < 0) throw new TtcnError( MessageFormat.format( "The lower limit for the length is negative ({0}) in a template with length restriction.", min_length ) );
 		length_restriction_type = length_restriction_type_t.RANGE_LENGTH_RESTRICTION;
@@ -291,7 +291,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		range_length_max_length_set = false;
 	}
 
-	void set_max_length(int max_length)
+	void set_max_length(final int max_length)
 	{
 		if (length_restriction_type != length_restriction_type_t.RANGE_LENGTH_RESTRICTION)
 			throw new TtcnError("Internal error: Setting a maximum length for a template the length restriction of which is not a range.");

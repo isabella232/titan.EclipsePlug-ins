@@ -528,7 +528,7 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 		portReference.generateCode(aData, expression);
 		expression.expression.append(".call(");

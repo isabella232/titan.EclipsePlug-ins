@@ -556,13 +556,13 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(JavaGenData aData, final StringBuilder source , final Scope scope) {
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanInteger" );
 		return "TitanInteger";
 	}
 
 	@Override
-	public String getGenNameTemplate(JavaGenData aData, StringBuilder source, Scope scope) {
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanInteger_template" );
 		return "TitanInteger_template";
 	}

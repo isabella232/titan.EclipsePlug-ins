@@ -334,7 +334,7 @@ public class TemplateBody implements ITemplateListItem {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenName(String genName) {
+	public void setGenName(final String genName) {
 		template.setGenName(genName);
 	}
 

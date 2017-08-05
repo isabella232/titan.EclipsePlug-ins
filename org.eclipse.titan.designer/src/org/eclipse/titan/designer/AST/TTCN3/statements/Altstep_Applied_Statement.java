@@ -148,7 +148,7 @@ public final class Altstep_Applied_Statement extends Statement {
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 		IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 		if (last.getValuetype().equals(Value_type.ALTSTEP_REFERENCE_VALUE)) {
