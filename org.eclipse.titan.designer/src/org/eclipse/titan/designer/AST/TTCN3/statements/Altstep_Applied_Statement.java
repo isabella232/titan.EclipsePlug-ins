@@ -102,6 +102,7 @@ public final class Altstep_Applied_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		location.reportSemanticError("Invocation of an altstep type is not allowed within an interleave statement");
 	}
@@ -148,6 +149,7 @@ public final class Altstep_Applied_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 		IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);

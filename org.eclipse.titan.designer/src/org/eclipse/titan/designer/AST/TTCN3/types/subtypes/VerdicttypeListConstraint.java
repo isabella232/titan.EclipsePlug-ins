@@ -67,17 +67,20 @@ public final class VerdicttypeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public VerdicttypeListConstraint complement() {
 		return new VerdicttypeListConstraint(constraint ^ ConstraintValue.ALL.value());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public VerdicttypeListConstraint intersection(final SubtypeConstraint other) {
 		final VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
 		return new VerdicttypeListConstraint(constraint & o.constraint);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final Verdict_Value.Verdict_type vt = (Verdict_Value.Verdict_type) o;
 		switch (vt) {
@@ -97,22 +100,26 @@ public final class VerdicttypeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return TernaryBool.fromBool(constraint == 0);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
 		return TernaryBool.fromBool(constraint == o.constraint);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		return TernaryBool.fromBool(constraint == ConstraintValue.ALL.value());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		boolean hasValue = false;
@@ -129,6 +136,7 @@ public final class VerdicttypeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public VerdicttypeListConstraint union(final SubtypeConstraint other) {
 		final VerdicttypeListConstraint o = (VerdicttypeListConstraint) other;
 		return new VerdicttypeListConstraint(constraint | o.constraint);

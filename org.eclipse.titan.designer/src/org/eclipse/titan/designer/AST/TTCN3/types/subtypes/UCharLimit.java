@@ -27,33 +27,39 @@ public final class UCharLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType decrement() {
 		return new UCharLimit(value - 1);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType() {
 		return Type.UCHAR;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType increment() {
 		return new UCharLimit(value + 1);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isAdjacent(final LimitType other) {
 		final UCharLimit ucl = (UCharLimit) other;
 		return ((value + 1) == ucl.value);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		final UniversalChar uc = new UniversalChar(value);
 		sb.append(uc.toString());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int compareTo(final LimitType o) {
 		final UCharLimit ucl = (UCharLimit) o;
 		if (value < ucl.value) {
@@ -67,6 +73,7 @@ public final class UCharLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -82,6 +89,7 @@ public final class UCharLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int hashCode() {
 		return value;
 	}

@@ -60,6 +60,7 @@ public final class UniversalChar {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		if (isChar() && (cell >= 32) && (cell <= 127)) {
@@ -150,6 +151,7 @@ public final class UniversalChar {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

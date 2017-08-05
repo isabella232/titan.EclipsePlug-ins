@@ -93,6 +93,7 @@ public final class Operation_Altguard extends AltGuard {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		if (statement != null) {
 			statement.setMyStatementBlock(statementBlock, index);
@@ -103,6 +104,7 @@ public final class Operation_Altguard extends AltGuard {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		if (statement != null) {
 			statement.setMyDefinition(definition);
@@ -113,6 +115,7 @@ public final class Operation_Altguard extends AltGuard {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		if (statementblock != null) {
 			statementblock.setMyAltguards(altGuards);
@@ -120,6 +123,7 @@ public final class Operation_Altguard extends AltGuard {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		if (statementblock != null) {
 			return statementblock.hasReturn(timestamp);
@@ -161,6 +165,7 @@ public final class Operation_Altguard extends AltGuard {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		if (statementblock != null) {
 			statementblock.checkAllowedInterleave();
@@ -168,6 +173,7 @@ public final class Operation_Altguard extends AltGuard {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (statement != null) {
 			statement.postCheck();

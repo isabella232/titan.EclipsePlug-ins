@@ -73,6 +73,7 @@ public class ModuleVersionAttribute extends ExtensionAttribute {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String toString() {
 		if (versionNumber == null) {
 			return "<erroneous version number>";

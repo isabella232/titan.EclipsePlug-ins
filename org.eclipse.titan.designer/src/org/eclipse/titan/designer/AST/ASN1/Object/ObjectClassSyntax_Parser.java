@@ -63,6 +63,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitSetting(final ObjectClassSyntax_setting parameter) {
 		FieldSetting fieldSetting = null;
 		switch (parameter.getSettingType()) {
@@ -108,6 +109,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitRoot(final ObjectClassSyntax_root parameter) {
 		if (mBlock != null) {
 			if (!success || !parameter.getIsBuilded() || (mBlock.getTokenList().isEmpty())) {
@@ -133,6 +135,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitLiteral(final ObjectClassSyntax_literal parameter) {
 		previousSuccess = false;
 		if (null != mBlock) {
@@ -157,6 +160,7 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitSequence(final ObjectClassSyntax_sequence parameter) {
 
 		if (null != mBlock) {

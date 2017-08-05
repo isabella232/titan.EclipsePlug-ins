@@ -377,6 +377,7 @@ public final class UniversalCharstring_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString_template" );
 

@@ -741,11 +741,13 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String toString() {
 		return getDisplayName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -764,6 +766,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final int hashCode() {
 		return idData.getName().hashCode();
 	}

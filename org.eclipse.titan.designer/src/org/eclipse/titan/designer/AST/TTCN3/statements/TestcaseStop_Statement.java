@@ -113,6 +113,7 @@ public final class TestcaseStop_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return true;
 	}

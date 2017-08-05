@@ -20,27 +20,32 @@ public final class StringPatternConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringPatternConstraint complement() {
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringPatternConstraint intersection(final SubtypeConstraint other) {
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		// TODO
 		return true;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return TernaryBool.TUNKNOWN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		if (this == other) {
 			return TernaryBool.TTRUE;
@@ -50,22 +55,26 @@ public final class StringPatternConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		return TernaryBool.TUNKNOWN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		// TODO
 		sb.append("<patterns not implemented yet>");
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringPatternConstraint union(final SubtypeConstraint other) {
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isSubset(final SubtypeConstraint other) {
 		return TernaryBool.TUNKNOWN;
 	}

@@ -119,6 +119,7 @@ public final class Templates extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Iterator<TTCN3Template> iterator() {
 		return templates.iterator();
 	}

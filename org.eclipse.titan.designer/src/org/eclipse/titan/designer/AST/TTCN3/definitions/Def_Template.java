@@ -155,6 +155,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_TEMPLATE;
 	}
@@ -176,16 +177,19 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FormalParameterList getFormalParameterList() {
 		return formalParList;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "template";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDescription() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(getAssignmentName()).append(" `");
@@ -207,6 +211,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		int result = super.category();
 		if (type != null) {
@@ -216,6 +221,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -249,6 +255,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ITTCN3Template getSetting(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked == null) {
 			check(timestamp);
@@ -258,6 +265,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IType getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -591,12 +599,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		postCheckPrivateness();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		final StringBuilder builder = new StringBuilder();
 		if (type != null) {
@@ -607,6 +617,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalDescription() {
 		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		if (formalParList != null) {
@@ -657,6 +668,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TemplateRestriction.Restriction_type getTemplateRestriction() {
 		return templateRestriction;
 	}

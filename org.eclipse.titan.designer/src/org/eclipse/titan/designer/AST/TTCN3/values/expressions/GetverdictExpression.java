@@ -98,6 +98,7 @@ public final class GetverdictExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 

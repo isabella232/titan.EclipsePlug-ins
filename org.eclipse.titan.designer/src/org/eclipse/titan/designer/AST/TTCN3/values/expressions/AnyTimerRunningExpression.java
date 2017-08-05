@@ -110,6 +110,7 @@ public final class AnyTimerRunningExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		expression.expression.append("TitanTimer.anyRunning()");
 	}

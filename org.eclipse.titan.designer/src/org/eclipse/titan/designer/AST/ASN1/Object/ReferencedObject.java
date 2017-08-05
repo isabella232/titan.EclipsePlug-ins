@@ -49,6 +49,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ReferencedObject newInstance() {
 		return new ReferencedObject(reference.newInstance());
 	}
@@ -145,6 +146,7 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object_Definition getRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final boolean newChain = null == referenceChain;
 		IReferenceChain temporalReferenceChain;

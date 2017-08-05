@@ -32,11 +32,13 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Subreference_type getReferenceType() {
 		return Subreference_type.fieldSubReference;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getId() {
 		return fieldId;
 	}
@@ -87,11 +89,13 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		return "fieldSubReference: " + fieldId.getDisplayName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void appendDisplayName(final StringBuilder builder) {
 		if (builder.length() > 0) {
 			builder.append('.');

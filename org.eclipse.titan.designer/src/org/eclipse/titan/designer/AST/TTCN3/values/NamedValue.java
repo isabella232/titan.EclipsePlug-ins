@@ -153,6 +153,7 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 
 		INamedNode inamedNode = getNameParent();

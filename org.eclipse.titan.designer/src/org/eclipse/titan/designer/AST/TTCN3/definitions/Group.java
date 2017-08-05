@@ -112,6 +112,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getIdentifier() {
 		return identifier;
 	}
@@ -352,6 +353,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		return "";
 	}
@@ -363,6 +365,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		return 0;
 	}

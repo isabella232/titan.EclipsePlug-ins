@@ -146,6 +146,7 @@ public final class TTCN3_Null_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (lastValue == null || lastValue == this) {
 			//fatal error

@@ -49,6 +49,7 @@ public abstract class SubtypeConstraint {
 	public abstract void toString(StringBuilder sb);
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		final StringBuilder sb = new StringBuilder();
 		toString(sb);

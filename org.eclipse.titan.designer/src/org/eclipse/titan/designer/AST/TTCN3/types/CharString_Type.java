@@ -330,6 +330,7 @@ public final class CharString_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanCharString_template" );
 

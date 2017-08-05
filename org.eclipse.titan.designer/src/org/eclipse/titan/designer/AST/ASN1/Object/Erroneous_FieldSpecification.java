@@ -33,16 +33,19 @@ public final class Erroneous_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Fieldspecification_types getFieldSpecificationType() {
 		return Fieldspecification_types.FS_ERROR;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasDefault() {
 		return hasDefaultFlag;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ISetting getDefault() {
 		if (null == settingError && hasDefaultFlag) {
 			settingError = new Error_Setting();

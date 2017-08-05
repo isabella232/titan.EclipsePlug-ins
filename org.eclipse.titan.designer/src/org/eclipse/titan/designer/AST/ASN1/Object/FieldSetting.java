@@ -61,6 +61,7 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 	public abstract ISetting getSetting();
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setMyScope(final Scope scope) {
 		getSetting().setMyScope(scope);
 	}

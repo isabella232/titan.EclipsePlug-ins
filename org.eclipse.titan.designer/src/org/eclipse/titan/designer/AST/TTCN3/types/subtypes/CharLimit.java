@@ -21,33 +21,39 @@ public final class CharLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType decrement() {
 		return new CharLimit((char) (value - 1));
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType() {
 		return Type.CHAR;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType increment() {
 		return new CharLimit((char) (value + 1));
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isAdjacent(final LimitType other) {
 		final CharLimit cl = (CharLimit) other;
 		return ((value + 1) == cl.value);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		// FIXME: need Charstring.get_stringRepresentation()
 		sb.append(value);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int compareTo(final LimitType o) {
 		final CharLimit cl = (CharLimit) o;
 		if (value < cl.value) {
@@ -60,6 +66,7 @@ public final class CharLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -75,6 +82,7 @@ public final class CharLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int hashCode() {
 		return value;
 	}

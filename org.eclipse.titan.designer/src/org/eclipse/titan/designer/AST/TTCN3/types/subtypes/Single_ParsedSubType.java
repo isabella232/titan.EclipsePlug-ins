@@ -30,6 +30,7 @@ public final class Single_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ParsedSubType_type getSubTypetype() {
 		return ParsedSubType_type.SINGLE_PARSEDSUBTYPE;
 	}

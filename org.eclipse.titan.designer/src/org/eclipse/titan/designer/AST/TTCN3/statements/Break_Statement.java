@@ -33,6 +33,7 @@ public final class Break_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return true;
 	}

@@ -50,6 +50,7 @@ public final class RealLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType decrement() {
 		switch (valueType) {
 		case UPPER:
@@ -60,11 +61,13 @@ public final class RealLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType() {
 		return Type.REAL;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType increment() {
 		switch (valueType) {
 		case LOWER:
@@ -75,12 +78,14 @@ public final class RealLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isAdjacent(final LimitType other) {
 		final RealLimit rl = (RealLimit) other;
 		return ((Double.compare(value, rl.value) == 0) && ((valueType.value() + 1) == rl.valueType.value()));
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		if (valueType != ValueType.EXACT) {
 			sb.append('!');
@@ -89,6 +94,7 @@ public final class RealLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int compareTo(final LimitType o) {
 		final RealLimit rl = (RealLimit) o;
 		// compare the double values with "natural ordering" compare,
@@ -98,6 +104,7 @@ public final class RealLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -113,6 +120,7 @@ public final class RealLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int hashCode() {
 		return (int) value;
 	}

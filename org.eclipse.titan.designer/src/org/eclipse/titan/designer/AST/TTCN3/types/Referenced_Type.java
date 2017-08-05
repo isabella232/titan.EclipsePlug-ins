@@ -304,6 +304,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkEmbedded(final CompilationTimeStamp timestamp, final Location errorLocation, final boolean defaultAllowed,
 			final String errorMessage) {
 		final IType last = getTypeRefdLast(timestamp);

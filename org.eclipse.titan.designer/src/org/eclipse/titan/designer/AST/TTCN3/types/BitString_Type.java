@@ -244,6 +244,7 @@ public final class BitString_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanBitString_template" );
 

@@ -138,6 +138,7 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return realAssignmentType;
 	}
@@ -165,6 +166,7 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -225,6 +227,7 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		switch (realAssignmentType) {
 		case A_PAR_VAL:
@@ -250,6 +253,7 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDescription() {
 		final StringBuilder builder = new StringBuilder(getAssignmentName());
 		return builder.append(" `").append(identifier.getDisplayName()).append('\'').toString();
@@ -262,6 +266,7 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}
@@ -394,6 +399,7 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (!isUsed) {
 			location.reportConfigurableSemanticProblem(getUnusedLocalDefinitionSeverity(),
@@ -925,6 +931,7 @@ public final class FormalParameter extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TemplateRestriction.Restriction_type getTemplateRestriction() {
 		return templateRestriction;
 	}

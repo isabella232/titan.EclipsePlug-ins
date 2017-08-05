@@ -34,6 +34,7 @@ public final class NULL_Location extends Location {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void reportSemanticError(final String reason) {
 		final boolean debug = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
@@ -43,6 +44,7 @@ public final class NULL_Location extends Location {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void reportSemanticWarning(final String reason) {
 		final boolean debug = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
@@ -52,6 +54,7 @@ public final class NULL_Location extends Location {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void reportSyntacticError(final String reason) {
 		final boolean debug = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
@@ -61,6 +64,7 @@ public final class NULL_Location extends Location {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void reportSyntacticWarning(final String reason) {
 		final boolean debug = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);

@@ -27,11 +27,13 @@ public final class FieldSetting_Value extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FieldSetting newInstance() {
 		return new FieldSetting_Value(name.newInstance());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Error_Setting getSetting() {
 		return new Error_Setting();
 	}

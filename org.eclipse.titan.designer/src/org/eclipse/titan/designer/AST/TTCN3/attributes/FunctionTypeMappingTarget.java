@@ -43,16 +43,19 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TypeMapping_type getTypeMappingType() {
 		return TypeMapping_type.FUNCTION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getMappingName() {
 		return "function";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getTargetType() {
 		return targetType;
 	}

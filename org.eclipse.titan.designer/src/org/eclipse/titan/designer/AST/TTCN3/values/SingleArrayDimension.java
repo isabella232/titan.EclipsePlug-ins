@@ -53,11 +53,13 @@ public final class SingleArrayDimension extends ArrayDimension {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public long getOffset() {
 		return 0;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public long getSize() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());

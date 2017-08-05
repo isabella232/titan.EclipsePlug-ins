@@ -113,6 +113,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return assignmentType;
 	}
@@ -134,6 +135,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FormalParameterList getFormalParameterList() {
 		return formalParList;
 	}
@@ -151,11 +153,13 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "external function";
 	}
@@ -183,6 +187,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -235,6 +240,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		postCheckPrivateness();
@@ -540,6 +546,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalDescription() {
 		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		nameBuilder.append('(');
@@ -591,6 +598,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -623,6 +631,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TemplateRestriction.Restriction_type getTemplateRestriction() {
 		return templateRestriction;
 	}
@@ -734,6 +743,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenName() {
 		final StringBuilder returnValue = new StringBuilder();
 
@@ -745,6 +755,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
 		final StringBuilder returnValue = new StringBuilder();
 

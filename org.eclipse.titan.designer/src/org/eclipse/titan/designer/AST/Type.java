@@ -136,6 +136,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract Type_type getTypetype();
 
 	@Override
@@ -1256,21 +1257,25 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getIdentifier() {
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		return new Object[] {};
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		return "";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		return getTypetype().ordinal();
 	}

@@ -165,6 +165,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringSizeAndValueListConstraint complement() {
 		final StringSizeAndValueListConstraint returnValue = new StringSizeAndValueListConstraint(type);
 		returnValue.sizeConstraint = sizeConstraint.complement();
@@ -248,22 +249,26 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringSizeAndValueListConstraint intersection(final SubtypeConstraint other) {
 		return setOperation(other, false);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final String s = (String) o;
 		return (sizeConstraint.isElement(new SizeLimit(s.length() / type.elemSize())) && !notValues.contains(s)) || hasValues.contains(s);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return sizeConstraint.isEmpty().and(TernaryBool.fromBool(hasValues.isEmpty()));
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final StringSizeAndValueListConstraint o = (StringSizeAndValueListConstraint) other;
 		return sizeConstraint.isEqual(o.sizeConstraint).and(
@@ -271,6 +276,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		return sizeConstraint.isFull().and(TernaryBool.fromBool(notValues.isEmpty()));
 	}
@@ -292,6 +298,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		if (!hasValues.isEmpty()) {
 			valuesToString(sb, hasValues);
@@ -310,6 +317,7 @@ public final class StringSizeAndValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint union(final SubtypeConstraint other) {
 		return setOperation(other, true);
 	}

@@ -178,6 +178,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 
 		INamedNode inamedNode = getNameParent();

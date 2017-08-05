@@ -73,6 +73,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getNofComps() {
 		if (null != componentTypes) {
 			return componentTypes.getNofComps();
@@ -81,6 +82,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CompField getCompByIndex(final int index) {
 		if (null != componentTypes) {
 			return componentTypes.getCompByIndex(index);
@@ -91,6 +93,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasCompWithName(final Identifier identifier) {
 		if (null != componentTypes) {
 			return componentTypes.hasCompWithName(identifier);
@@ -101,6 +104,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CompField getCompByName(final Identifier identifier) {
 		if (null != componentTypes) {
 			return componentTypes.getCompByName(identifier);
@@ -111,6 +115,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void trCompsof(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain, final boolean isSet) {
 		if (null != trCompsofTimestamp && !trCompsofTimestamp.isLess(timestamp)) {
 			return;

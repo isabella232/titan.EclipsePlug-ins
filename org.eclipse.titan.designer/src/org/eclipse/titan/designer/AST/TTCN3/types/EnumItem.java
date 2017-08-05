@@ -209,6 +209,7 @@ public final class EnumItem extends ASTNode implements ILocateableNode, IIncreme
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 		if (getMyScope() == null) {
 			return null;

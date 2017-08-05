@@ -21,11 +21,13 @@ public final class ObjectClassSyntax_root extends ObjectClassSyntax_Node {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void accept(final ObjectClassSyntax_Visitor visitor) {
 		visitor.visitRoot(this);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDisplayName() {
 		return sequence.getDisplayName();
 	}

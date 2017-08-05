@@ -82,6 +82,7 @@ public final class StatementBlock_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		if (statementblock != null) {
 			statementblock.setMyDefinition(definition);
@@ -89,6 +90,7 @@ public final class StatementBlock_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 
@@ -98,6 +100,7 @@ public final class StatementBlock_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		if (statementblock != null) {
 			return statementblock.hasReturn(timestamp);
@@ -107,6 +110,7 @@ public final class StatementBlock_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		if (statementblock != null) {
 			statementblock.setMyAltguards(altGuards);
@@ -128,6 +132,7 @@ public final class StatementBlock_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		if (statementblock != null) {
 			statementblock.checkAllowedInterleave();
@@ -135,6 +140,7 @@ public final class StatementBlock_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 

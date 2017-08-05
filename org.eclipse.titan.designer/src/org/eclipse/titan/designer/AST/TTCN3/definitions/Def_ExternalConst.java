@@ -57,6 +57,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_EXT_CONST;
 	}
@@ -74,6 +75,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "external constant";
 	}
@@ -94,6 +96,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -146,12 +149,14 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		postCheckPrivateness();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}
@@ -270,6 +275,7 @@ public final class Def_ExternalConst extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		// TODO Auto-generated method stub
 		super.generateCode(aData, cleanUp);

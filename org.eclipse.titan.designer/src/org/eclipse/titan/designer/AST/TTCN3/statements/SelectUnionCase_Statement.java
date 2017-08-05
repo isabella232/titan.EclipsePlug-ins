@@ -94,22 +94,26 @@ public final class SelectUnionCase_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		mSelectUnionCases.setMyStatementBlock(statementBlock, index);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		mSelectUnionCases.setMyDefinition(definition);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		mSelectUnionCases.setMyAltguards(altGuards);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		return mSelectUnionCases.hasReturn(timestamp);
 	}
@@ -205,11 +209,13 @@ public final class SelectUnionCase_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		mSelectUnionCases.checkAllowedInterleave();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		mSelectUnionCases.postCheck();
 	}

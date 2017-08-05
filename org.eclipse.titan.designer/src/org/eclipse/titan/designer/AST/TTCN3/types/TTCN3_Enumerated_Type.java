@@ -524,6 +524,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getComponentIdentifierByName(final Identifier identifier) {
 		final EnumItem enumItem = getEnumItemWithName(identifier);
 		return enumItem == null ? null : enumItem.getId();
@@ -559,8 +560,8 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-
 		return  getGenNameOwn(scope).concat("_template");
 	}
 }

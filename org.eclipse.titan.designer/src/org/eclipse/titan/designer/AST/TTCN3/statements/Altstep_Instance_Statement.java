@@ -90,6 +90,7 @@ public final class Altstep_Instance_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		location.reportSemanticError("Invocation of an altstep is not allowed within an interleave statement");
 	}

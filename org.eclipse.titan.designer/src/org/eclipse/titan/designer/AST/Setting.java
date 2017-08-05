@@ -65,6 +65,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean isAsn() {
 		if (myScope == null) {
 			return false;

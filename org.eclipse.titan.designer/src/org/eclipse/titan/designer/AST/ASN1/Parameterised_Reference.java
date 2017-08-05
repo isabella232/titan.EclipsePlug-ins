@@ -105,6 +105,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getId() {
 		final Defined_Reference ref = getRefDefdSimple();
 
@@ -116,6 +117,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getModuleIdentifier() {
 		final Defined_Reference ref = getRefDefdSimple();
 		if (null != ref) {
@@ -125,6 +127,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDisplayName() {
 		getRefDefdSimple();
 		if (null != finalReference) {

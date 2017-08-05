@@ -34,6 +34,7 @@ public class Defined_Reference extends Reference {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Defined_Reference newInstance() {
 		return new Defined_Reference(modid, subReferences);
 	}

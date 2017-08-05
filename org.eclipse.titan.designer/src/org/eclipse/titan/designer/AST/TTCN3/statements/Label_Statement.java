@@ -50,6 +50,7 @@ public final class Label_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		statementIndex = index;
@@ -87,6 +88,7 @@ public final class Label_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		location.reportSemanticError("Label statement is not allowed within an interleave statment");
 	}

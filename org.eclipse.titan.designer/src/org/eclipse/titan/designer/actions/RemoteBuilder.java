@@ -243,21 +243,25 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 	 *   Not used.
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public void run(final IAction action) {
 		doRemoteBuilde();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void selectionChanged(final IAction action, final ISelection selection) {
 		this.selection = selection;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		doRemoteBuilde();
 

@@ -424,6 +424,7 @@ public final class Referenced_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkExpressionOmitComparison(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp)) {
 			return;

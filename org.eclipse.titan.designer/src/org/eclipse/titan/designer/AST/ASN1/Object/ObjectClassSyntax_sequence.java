@@ -32,6 +32,7 @@ public final class ObjectClassSyntax_sequence extends ObjectClassSyntax_Node {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void accept(final ObjectClassSyntax_Visitor visitor) {
 		visitor.visitSequence(this);
 	}
@@ -63,6 +64,7 @@ public final class ObjectClassSyntax_sequence extends ObjectClassSyntax_Node {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDisplayName() {
 		final StringBuilder builder = new StringBuilder();
 

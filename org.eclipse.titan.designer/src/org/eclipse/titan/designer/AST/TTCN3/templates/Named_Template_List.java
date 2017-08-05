@@ -337,6 +337,7 @@ public final class Named_Template_List extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation) {
 		boolean needsRuntimeCheck = false;

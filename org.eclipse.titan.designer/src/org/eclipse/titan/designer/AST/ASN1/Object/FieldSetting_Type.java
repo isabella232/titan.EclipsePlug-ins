@@ -39,11 +39,13 @@ public final class FieldSetting_Type extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FieldSetting_Type newInstance() {
 		return new FieldSetting_Type(name.newInstance(), type.newInstance());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type getSetting() {
 		return type;
 	}

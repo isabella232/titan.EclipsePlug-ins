@@ -205,6 +205,7 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkArraySize(final CompilationTimeStamp timestamp, final ArrayDimension dimension) {
 		if (lastTimeChecked == null || dimension.getIsErroneous(timestamp)) {
 			return;
@@ -265,6 +266,7 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkNofElements(final CompilationTimeStamp timestamp, final int nofElements, final boolean lessAllowed,
 			final boolean moreAllowed, final boolean hasAnyornone, final ILocateableNode locatable) {
 		if (lower == null) {

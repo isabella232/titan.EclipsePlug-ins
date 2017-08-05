@@ -48,6 +48,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Subreference_type getReferenceType() {
 		return Subreference_type.arraySubReference;
 	}
@@ -74,6 +75,7 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getId() {
 		return ID;
 	}
@@ -91,11 +93,13 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		return "arraySubReference";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void appendDisplayName(final StringBuilder builder) {
 		builder.append('[');
 		if (null != value) {

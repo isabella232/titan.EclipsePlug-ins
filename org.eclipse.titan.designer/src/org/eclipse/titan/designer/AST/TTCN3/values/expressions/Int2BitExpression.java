@@ -311,6 +311,7 @@ public final class Int2BitExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 

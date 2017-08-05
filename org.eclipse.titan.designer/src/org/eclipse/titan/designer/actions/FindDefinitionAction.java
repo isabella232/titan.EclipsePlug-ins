@@ -77,11 +77,13 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void run(final IAction action) {
 		doFindDefinition();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		
@@ -91,11 +93,13 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void selectionChanged(final IAction action, final ISelection selection) {
 		this.selection = selection;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setActiveEditor(final IAction action, final IEditorPart targetEditor) {
 		this.targetEditor = targetEditor;
 	}

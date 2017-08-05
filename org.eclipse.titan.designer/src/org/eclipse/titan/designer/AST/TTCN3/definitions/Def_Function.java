@@ -156,6 +156,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return assignmentType;
 	}
@@ -179,6 +180,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FormalParameterList getFormalParameterList() {
 		return formalParList;
 	}
@@ -196,11 +198,13 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "function";
 	}
@@ -216,6 +220,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalDescription() {
 		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		nameBuilder.append('(');
@@ -254,6 +259,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -603,6 +609,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (myScope != null) {
 			final Module module = myScope.getModuleScope();
@@ -662,6 +669,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -694,6 +702,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TemplateRestriction.Restriction_type getTemplateRestriction() {
 		return templateRestriction;
 	}

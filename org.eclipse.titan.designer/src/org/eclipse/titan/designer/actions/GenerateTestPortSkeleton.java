@@ -51,12 +51,14 @@ public final class GenerateTestPortSkeleton extends ExternalTitanAction {
 	 *   Not used.
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public void run(final IAction action) {
 		doGenerateSkeleton();
 	}
 
 
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		doGenerateSkeleton();
 

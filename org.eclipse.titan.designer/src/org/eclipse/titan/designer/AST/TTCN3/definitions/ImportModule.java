@@ -246,6 +246,7 @@ IReferencingElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkImports(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain, final List<Module> moduleStack) {
 		if (lastImportCheckTimeStamp != null && !lastImportCheckTimeStamp.isLess(timestamp)) {
 			return;
@@ -426,6 +427,7 @@ IReferencingElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasImportedAssignmentWithID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (referredModule == null) {
 			return false;
@@ -454,6 +456,7 @@ IReferencingElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment importAssignment(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain,
 			final Identifier moduleId, final Reference reference, final List<ModuleImportation> usedImports) {
 		if (referenceChain.contains(this)) {
@@ -628,6 +631,7 @@ IReferencingElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 		return Declaration.createInstance(getReferredModule());
 	}

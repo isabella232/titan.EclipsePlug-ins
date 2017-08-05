@@ -171,6 +171,7 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		if (altGuards != null) {
@@ -179,6 +180,7 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		if (altGuards != null) {
 			altGuards.setMyDefinition(definition);
@@ -186,6 +188,7 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		if (altGuards != null) {
 			altGuards.hasReturn(timestamp);
@@ -421,6 +424,7 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		if (altGuards != null) {
 			altGuards.checkAllowedInterleave();
@@ -428,6 +432,7 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (altGuards != null) {
 			altGuards.postCheck();
@@ -528,6 +533,7 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 		portReference.generateCode(aData, expression);

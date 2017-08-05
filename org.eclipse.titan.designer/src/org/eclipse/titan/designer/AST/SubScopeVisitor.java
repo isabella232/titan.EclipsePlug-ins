@@ -22,6 +22,7 @@ public class SubScopeVisitor extends ASTVisitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int visit(final IVisitableNode node) {
 		if (node instanceof Scope) {
 			final Scope scope = (Scope)node;

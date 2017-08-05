@@ -152,6 +152,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return checkCreate(timestamp);
 	}
@@ -329,6 +330,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		return (name == null || name.canGenerateSingleExpression()) &&
 				(location == null || location.canGenerateSingleExpression());

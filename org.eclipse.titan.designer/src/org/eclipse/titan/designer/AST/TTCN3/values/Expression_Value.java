@@ -173,11 +173,13 @@ public abstract class Expression_Value extends Value {
 	public abstract Operation_type getOperationType();
 
 	@Override
+	/** {@inheritDoc} */
 	public final String chainedDescription() {
 		return "expression: " + getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference,
 			final int actualSubReference, final IReferenceChain refChain) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -260,6 +262,7 @@ public abstract class Expression_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
 		return this == other;
 	}

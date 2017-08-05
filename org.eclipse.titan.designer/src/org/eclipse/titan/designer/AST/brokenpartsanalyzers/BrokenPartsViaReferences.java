@@ -72,6 +72,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void execute() {
 		if (writeDebugInfo) {
 			TITANDebugConsole.println(String.format(format, header, simpleDateFormat.format(new Date())));

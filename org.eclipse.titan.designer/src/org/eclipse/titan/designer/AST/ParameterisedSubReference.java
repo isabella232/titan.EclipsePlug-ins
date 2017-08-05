@@ -46,11 +46,13 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Subreference_type getReferenceType() {
 		return Subreference_type.parameterisedSubReference;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getId() {
 		return identifier;
 	}
@@ -94,11 +96,13 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		return "parameterisedSubReference: " + identifier.getDisplayName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void appendDisplayName(final StringBuilder builder) {
 		if (builder.length() > 0) {
 			builder.append('.');

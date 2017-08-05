@@ -233,6 +233,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue setLoweridToReference(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return realValue;

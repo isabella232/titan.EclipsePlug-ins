@@ -210,6 +210,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int compareTo(final UniversalCharstring other) {
 		return compareWith(other);
 	}
@@ -282,6 +283,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;

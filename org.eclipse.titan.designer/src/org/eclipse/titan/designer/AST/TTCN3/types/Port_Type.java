@@ -145,6 +145,7 @@ public final class Port_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkEmbedded(final CompilationTimeStamp timestamp, final Location errorLocation,
 			final boolean defaultAllowed, final String errorMessage) {
 		errorLocation.reportSemanticError(MessageFormat.format("Port type `{0}'' cannot be {1}", getTypename(), errorMessage));

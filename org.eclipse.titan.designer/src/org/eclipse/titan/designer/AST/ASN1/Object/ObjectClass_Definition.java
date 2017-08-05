@@ -88,6 +88,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisObject(final CompilationTimeStamp timestamp, final ASN1Object object) {
 		if (null == object || isErroneous) {
 			return;
@@ -150,6 +151,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectClassSyntax_root getObjectClassSyntax(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -157,6 +159,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FieldSpecifications getFieldSpecifications() {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -166,6 +169,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectClass_Definition getRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		check(timestamp);
 

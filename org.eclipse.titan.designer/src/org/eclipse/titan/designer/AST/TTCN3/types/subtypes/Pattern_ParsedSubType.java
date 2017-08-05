@@ -28,6 +28,7 @@ public final class Pattern_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ParsedSubType_type getSubTypetype() {
 		return ParsedSubType_type.PATTERN_PARSEDSUBTYPE;
 	}

@@ -36,6 +36,7 @@ public final class Range_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ParsedSubType_type getSubTypetype() {
 		return ParsedSubType_type.RANGE_PARSEDSUBTYPE;
 	}

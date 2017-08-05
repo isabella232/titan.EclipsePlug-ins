@@ -210,6 +210,7 @@ public abstract class ASN1Assignment extends Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean shouldMarkOccurrences() {
 		return markOccurrences;
 	}

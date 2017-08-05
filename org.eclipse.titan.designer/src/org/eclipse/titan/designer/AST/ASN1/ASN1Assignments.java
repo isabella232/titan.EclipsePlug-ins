@@ -86,6 +86,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		return assignments.toArray();
 	}
@@ -109,6 +110,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasLocalAssignmentWithID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (null == lastUniqueNessCheckTimeStamp) {
 			checkUniqueness(timestamp);
@@ -127,6 +129,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getLocalAssignmentByID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (null == lastUniqueNessCheckTimeStamp) {
 			checkUniqueness(timestamp);
@@ -154,11 +157,13 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getNofAssignments() {
 		return assignments.size() + dynamic_assignments.size();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getAssignmentByIndex(final int i) {
 		if (i < assignments.size()) {
 			return assignments.get(i);
@@ -282,6 +287,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		for (int i = 0; i < assignments.size(); i++) {
 			assignments.get(i).postCheck();
@@ -319,6 +325,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		// getLocation() doesn't work since the locations are not set
 		// properly
@@ -384,6 +391,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Iterator<Assignment> iterator() {
 		return new Iterator<Assignment>() {
 			Iterator<ASN1Assignment> it = assignments.iterator();

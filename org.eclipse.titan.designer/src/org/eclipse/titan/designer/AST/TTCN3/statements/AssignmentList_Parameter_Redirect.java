@@ -66,6 +66,7 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkErroneous(final CompilationTimeStamp timestamp) {
 		final HashMap<String, Parameter_Assignment> parameterMap = new HashMap<String, Parameter_Assignment>();
 		for (int i = 0, size = assignments.getNofParameterAssignments(); i < size; i++) {

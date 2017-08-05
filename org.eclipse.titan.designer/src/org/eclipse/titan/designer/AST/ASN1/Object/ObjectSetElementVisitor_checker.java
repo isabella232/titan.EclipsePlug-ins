@@ -31,12 +31,14 @@ public final class ObjectSetElementVisitor_checker extends ObjectSetElement_Visi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitObject(final ASN1Object p) {
 		p.setMyGovernor(governor);
 		p.check(timestamp);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitObjectSetReferenced(final Referenced_ObjectSet p) {
 		p.setMyGovernor(governor);
 		p.check(timestamp);

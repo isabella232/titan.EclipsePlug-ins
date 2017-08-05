@@ -71,11 +71,13 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_TYPE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "type";
 	}
@@ -91,6 +93,7 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		int result = super.category();
 		if (type != null) {
@@ -113,6 +116,7 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getSetting(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -138,6 +142,7 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setWithAttributes(final MultipleWithAttributes attributes) {
 		if (type == null) {
 			return;
@@ -152,6 +157,7 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setAttributeParentPath(final WithAttributesPath parent) {
 		super.setAttributeParentPath(parent);
 		if (type == null) {
@@ -222,6 +228,7 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		postCheckPrivateness();
@@ -296,6 +303,7 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		if (type != null) {
 			return type.getProposalDescription(new StringBuilder()).toString();
@@ -304,6 +312,7 @@ public final class Def_Type extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		if (type == null) {
 			return super.getOutlineChildren();

@@ -205,6 +205,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ControlPart getControlPart() {
 		return this;
 	}
@@ -331,6 +332,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		if (statementblock == null) {
 			return null;

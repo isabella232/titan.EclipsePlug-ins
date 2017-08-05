@@ -344,6 +344,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append("\n");
+		//FIXME eddig nem volt ilyen API -nk
 		source.append( MessageFormat.format( "\tpublic void add( final {0} aElement ) '{'\n", ofTypeName ) );
 		source.append("\t\tif ( valueElements == null ) {\n");
 		source.append( MessageFormat.format( "\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );

@@ -72,6 +72,7 @@ public final class Def_Port extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_PORT;
 	}
@@ -107,6 +108,7 @@ public final class Def_Port extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "port";
 	}
@@ -118,6 +120,7 @@ public final class Def_Port extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Port_Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -185,6 +188,7 @@ public final class Def_Port extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkIdentical(final CompilationTimeStamp timestamp, final Definition definition) {
 		check(timestamp);
 		definition.check(timestamp);
@@ -231,6 +235,7 @@ public final class Def_Port extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}

@@ -91,6 +91,7 @@ public final class Definition_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		myDefinition = definition;
 	}
@@ -122,6 +123,7 @@ public final class Definition_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (definition != null) {
 			definition.postCheck();

@@ -75,6 +75,7 @@ public final class ImportModule extends ModuleImportation {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkImports(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain, final List<Module> moduleStack) {
 		if (null != lastImportCheckTimeStamp && !lastImportCheckTimeStamp.isLess(timestamp)) {
 			return;
@@ -147,6 +148,7 @@ public final class ImportModule extends ModuleImportation {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasImportedAssignmentWithID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (referredModule == null) {
 			return false;
@@ -161,6 +163,7 @@ public final class ImportModule extends ModuleImportation {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment importAssignment(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain,
 			final Identifier moduleId, final Reference reference, final List<ModuleImportation> usedImports) {
 		// referenceChain is not used since this can only be the

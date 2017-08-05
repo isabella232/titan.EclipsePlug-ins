@@ -44,6 +44,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectClass_refd newInstance() {
 		final ObjectClass_refd oc = new ObjectClass_refd(reference);
 		oc.setLocation(reference.getLocation());
@@ -100,6 +101,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectClass_Definition getRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final boolean newChain = null == referenceChain;
 		IReferenceChain temporalReferenceChain;
@@ -138,12 +140,14 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkThisObject(final CompilationTimeStamp timestamp, final ASN1Object object) {
 		final ObjectClass_Definition temp = getRefdLast(timestamp, null);
 		temp.checkThisObject(timestamp, object);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FieldSpecifications getFieldSpecifications() {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -153,6 +157,7 @@ public final class ObjectClass_refd extends ObjectClass implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectClassSyntax_root getObjectClassSyntax(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 

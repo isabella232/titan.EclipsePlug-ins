@@ -158,6 +158,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Fieldspecification_types getFieldSpecificationType() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -167,6 +168,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyObjectClass(final ObjectClass_Definition objectClass) {
 		super.setMyObjectClass(objectClass);
 		if (fieldSpecification != null) {
@@ -175,6 +177,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasDefault() {
 		if (fieldSpecification != null) {
 			return fieldSpecification.hasDefault();
@@ -209,6 +212,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ISetting getDefault() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -218,6 +222,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FieldSpecification getLast() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());

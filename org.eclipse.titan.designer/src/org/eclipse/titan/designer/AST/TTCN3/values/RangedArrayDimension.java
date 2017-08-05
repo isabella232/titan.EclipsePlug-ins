@@ -82,6 +82,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public long getOffset() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -91,6 +92,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public long getSize() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());

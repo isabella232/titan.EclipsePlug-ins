@@ -82,21 +82,25 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 	 *                of the action (not used here)
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public void run(final IAction action) {
 		doExclusion(selection);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void selectionChanged(final IAction action, final ISelection selection) {
 		this.selection = selection;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 		// Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 

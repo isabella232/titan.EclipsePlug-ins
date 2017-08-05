@@ -93,6 +93,7 @@ public final class Goto_statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		statementIndex = index;
@@ -108,6 +109,7 @@ public final class Goto_statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return true;
 	}
@@ -167,6 +169,7 @@ public final class Goto_statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		location.reportSemanticError("Goto statement is not allowed within an interleave statement");
 	}

@@ -133,6 +133,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public module_type getModuletype() {
 		return module_type.TTCN3_MODULE;
 	}
@@ -238,11 +239,13 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Definitions getAssignmentsScope() {
 		return definitions;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignments getAssignments() {
 		return definitions;
 	}
@@ -252,6 +255,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Def_Type getAnytype() {
 		return anytypeDefinition;
 	}
@@ -283,6 +287,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		if (!importedModules.isEmpty()) {
 			return new Object[] { importedModules, definitions };
@@ -311,6 +316,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isValidModuleId(final Identifier identifier) {
 		if (identifier == null) {
 			return false;
@@ -332,6 +338,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkImports(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain, final List<Module> moduleStack) {
 
 		if (lastImportCheckTimeStamp != null && !lastImportCheckTimeStamp.isLess(timestamp)) {
@@ -391,6 +398,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Module> getImportedModules() {
 		final List<Module> result = new ArrayList<Module>();
 
@@ -402,6 +410,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasUnhandledImportChanges() {
 		for (ImportModule impmod : importedModules) {
 			if (impmod.hasUnhandledChange()) {
@@ -504,6 +513,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (!getReportUnusedModuleImportationProblems()) {
 			for (ImportModule impmod : importedModules) {
@@ -641,6 +651,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Scope getSmallestEnclosingScope(final int offset) {
 		if (location == null || offset < location.getOffset() || offset > location.getEndOffset()) {
 			return null;
@@ -653,6 +664,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasImportedAssignmentWithID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		for (ImportModule impMod : importedModules) {
 			if (impMod.hasImportedAssignmentWithID(timestamp, identifier)) {
@@ -664,6 +676,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Definition importAssignment(final CompilationTimeStamp timestamp, final Identifier moduleId, final Reference reference) {
 		final Definition result = definitions.getLocalAssignmentByID(timestamp, reference.getId());
 		if (result == null) {
@@ -724,6 +737,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isVisible(final CompilationTimeStamp timestamp, final Identifier moduleId, final Assignment assignment) {
 		if (assignment == null || !(assignment instanceof Definition)) {
 			return false;
@@ -867,6 +881,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		final StringBuilder builder = new StringBuilder("module: ").append(name);
 		return builder.toString();
@@ -898,6 +913,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
 		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
@@ -906,6 +922,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addKeywordProposal(final ProposalCollector propCollector) {
 		propCollector.addProposal(TTCN3Keywords.MODULE_SCOPE, null, TTCN3Keywords.KEYWORD);
 		propCollector.addProposal(TTCN3Keywords.GENERALLY_USABLE, null, TTCN3Keywords.KEYWORD);
@@ -984,6 +1001,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void extractStructuralInformation(final ProjectStructureDataCollector collector) {
 		for (ImportModule imported : importedModules) {
 			collector.addImportation(identifier, imported.getIdentifier());
@@ -1153,6 +1171,7 @@ public final class TTCN3Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		if (definitions == null) {
 			return null;

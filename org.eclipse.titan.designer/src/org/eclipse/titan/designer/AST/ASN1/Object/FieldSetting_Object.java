@@ -37,11 +37,13 @@ public final class FieldSetting_Object extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FieldSetting_Object newInstance() {
 		return new FieldSetting_Object(name.newInstance(), object.newInstance());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ASN1Object getSetting() {
 		return object;
 	}

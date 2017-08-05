@@ -62,21 +62,25 @@ public final class NatureConverter extends AbstractHandler implements IObjectAct
 	 *   Not used.
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public void run(final IAction action) {
 		doConvertNature(selection);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void selectionChanged(final IAction action, final ISelection selection) {
 		this.selection = selection;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 		// Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 

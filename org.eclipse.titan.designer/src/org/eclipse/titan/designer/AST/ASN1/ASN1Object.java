@@ -34,6 +34,7 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	public abstract ASN1Object newInstance();
 
 	@Override
+	/** {@inheritDoc} */
 	public final IObjectSet_Element newOseInstance() {
 		return newInstance();
 	}
@@ -64,11 +65,13 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void accept(final ObjectSetElement_Visitor visitor) {
 		visitor.visitObject(this);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setMyScopeOse(final Scope scope) {
 		setMyScope(scope);
 	}

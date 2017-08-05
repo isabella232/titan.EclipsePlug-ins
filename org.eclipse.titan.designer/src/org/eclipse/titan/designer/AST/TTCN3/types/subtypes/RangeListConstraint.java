@@ -84,6 +84,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public RangeListConstraint complement() {
 		if (rlList.isEmpty()) {
 			return new RangeListConstraint(LimitType.getMinimum(limitType), LimitType.getMaximum(limitType));
@@ -250,16 +251,19 @@ public final class RangeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public RangeListConstraint intersection(final SubtypeConstraint other) {
 		return setOperation(other, false);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public RangeListConstraint union(final SubtypeConstraint other) {
 		return setOperation(other, true);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		if (rlList.isEmpty()) {
 			return false;
@@ -306,11 +310,13 @@ public final class RangeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return TernaryBool.fromBool(rlList.isEmpty());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final RangeListConstraint rlc = (RangeListConstraint) other;
 		if (rlList.size() != rlc.rlList.size()) {
@@ -328,6 +334,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		if (rlList.size() != 2) {
 			return TernaryBool.TFALSE;
@@ -383,6 +390,7 @@ public final class RangeListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		toString(sb, true);
 	}

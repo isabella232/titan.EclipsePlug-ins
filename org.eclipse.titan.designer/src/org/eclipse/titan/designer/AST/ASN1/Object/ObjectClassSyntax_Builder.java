@@ -66,6 +66,7 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitRoot(final ObjectClassSyntax_root parameter) {
 		if (parameter.getIsBuilded()) {
 			return;
@@ -167,11 +168,13 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitLiteral(final ObjectClassSyntax_literal parameter) {
 		// FATAL ERROR
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitSetting(final ObjectClassSyntax_setting parameter) {
 		// FATAL ERROR
 	}

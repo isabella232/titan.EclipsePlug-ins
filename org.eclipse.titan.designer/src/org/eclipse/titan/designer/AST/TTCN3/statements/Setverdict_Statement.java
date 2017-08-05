@@ -219,6 +219,7 @@ public final class Setverdict_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		ExpressionStruct expression = new ExpressionStruct();
 

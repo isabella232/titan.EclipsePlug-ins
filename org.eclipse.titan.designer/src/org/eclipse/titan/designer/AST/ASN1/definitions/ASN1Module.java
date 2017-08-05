@@ -80,6 +80,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public module_type getModuletype() {
 		return module_type.ASN_MODULE;
 	}
@@ -138,21 +139,25 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignments getAssignmentsScope() {
 		return assignments;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Def_Type getAnytype() {
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		return new Object[] { imports, assignments };
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		return "";
 	}
@@ -168,6 +173,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkImports(final CompilationTimeStamp timestamp, final ModuleImportationChain referenceChain, final List<Module> moduleStack) {
 		if (null != lastImportCheckTimeStamp && !lastImportCheckTimeStamp.isLess(timestamp)) {
 			return;
@@ -183,27 +189,32 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment importAssignment(final CompilationTimeStamp timestamp, final Identifier moduleId, final Reference reference) {
 		final Identifier id = reference.getId();
 		return assignments.getLocalAssignmentByID(timestamp, id);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isVisible(final CompilationTimeStamp timestamp, final Identifier moduleId, final Assignment assignment) {
 		return true;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public List<Module> getImportedModules() {
 		return imports.getImportedModules();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasUnhandledImportChanges() {
 		return imports.hasUnhandledImportChanges();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (!getReportUnusedModuleImportationProblems()) {
 			imports.checkImportedness();
@@ -230,6 +241,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignments getAssignments() {
 		return assignments;
 	}
@@ -239,6 +251,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasImportedAssignmentWithID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		return imports.singularImportedSymbols_map.containsKey(identifier.getName());
 	}
@@ -318,6 +331,7 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		final StringBuilder builder = new StringBuilder("module: ").append(name);
 		return builder.toString();
@@ -374,11 +388,13 @@ public final class ASN1Module extends Module {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void extractStructuralInformation(final ProjectStructureDataCollector collector) {
 		imports.extractStructuralInformation(identifier, collector);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		if (assignments == null) {
 			return null;

@@ -87,6 +87,7 @@ public final class ReferenceChain implements IReferenceChain {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void release() {
 		if (!chainLinks.isEmpty()) {
 			chainLinks.clear();
@@ -97,6 +98,7 @@ public final class ReferenceChain implements IReferenceChain {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean add(final IReferenceChainElement chainLink) {
 		final int index = chainLinks.indexOf(chainLink);
 		if (index >= 0) {
@@ -138,11 +140,13 @@ public final class ReferenceChain implements IReferenceChain {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void markState() {
 		markedStates.add(chainLinks.size());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void previousState() {
 		if (markedStates.isEmpty()) {
 			return;

@@ -36,6 +36,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ElementType getElementType() {
 		return ElementType.CONSTRAINT;
 	}
@@ -49,11 +50,13 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringSetConstraint complement() {
 		return new StringSetConstraint(stringType, constraintType, constraint.complement());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint intersection(final SubtypeConstraint other) {
 		final StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
 		if (o instanceof StringSetConstraint) {
@@ -69,6 +72,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint union(final SubtypeConstraint other) {
 		final StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
 		if (o instanceof StringSetConstraint) {
@@ -83,6 +87,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint except(final SubtypeConstraint other) {
 		final StringSubtypeTreeElement o = (StringSubtypeTreeElement) other;
 		if (o instanceof StringSetConstraint) {
@@ -116,6 +121,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		switch (constraintType) {
 		case ALPHABET_CONSTRAINT: {
@@ -156,21 +162,25 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return constraint.isEmpty();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		return constraint.isEqual(other);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		return constraint.isFull();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		if (constraintType == ConstraintType.SIZE_CONSTRAINT) {
 			sb.append("length");
@@ -179,6 +189,7 @@ public final class StringSetConstraint extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringSubtypeTreeElement evaluate() {
 		if (constraint.isEmpty() == TernaryBool.TTRUE) {
 			return new EmptyStringSet(stringType);

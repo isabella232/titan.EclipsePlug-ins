@@ -154,11 +154,13 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getChainLocation() {
 		return location;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String chainedDescription() {
 		return getFullName();
 	}
@@ -204,16 +206,19 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		return new Object[]{};
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		return "";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		return getAssignmentType().ordinal() * Type.Type_type.values().length;
 	}
@@ -309,6 +314,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	public abstract boolean shouldMarkOccurrences();
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 		return Declaration.createInstance(this);
 	}

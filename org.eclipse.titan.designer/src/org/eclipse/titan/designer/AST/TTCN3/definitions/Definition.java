@@ -335,6 +335,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	public abstract String getProposalKind();
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalDescription() {
 		return getProposalKind();
 	}
@@ -461,6 +462,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (!isUsed) {
 			if (isLocal()) {
@@ -474,6 +476,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isLocal() {
 		if (myScope == null) {
 			return false;
@@ -606,6 +609,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean shouldMarkOccurrences() {
 		return markOccurrences;
 	}

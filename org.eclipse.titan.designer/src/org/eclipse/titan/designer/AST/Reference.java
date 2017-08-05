@@ -783,6 +783,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String toString() {
 		return getDisplayName();
 	}
@@ -888,6 +889,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 		return getReferencedDeclaration(null);
 	}

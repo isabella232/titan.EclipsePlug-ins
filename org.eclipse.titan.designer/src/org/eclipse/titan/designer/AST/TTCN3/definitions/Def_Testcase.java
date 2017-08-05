@@ -96,6 +96,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_TESTCASE;
 	}
@@ -119,11 +120,13 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FormalParameterList getFormalParameterList() {
 		return formalParList;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "testcase";
 	}
@@ -135,6 +138,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -168,11 +172,13 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalDescription() {
 		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		nameBuilder.append('(');
@@ -299,6 +305,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (myScope != null) {
 			final Module module = myScope.getModuleScope();

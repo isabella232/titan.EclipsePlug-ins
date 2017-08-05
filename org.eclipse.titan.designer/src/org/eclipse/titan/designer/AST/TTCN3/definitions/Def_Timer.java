@@ -78,6 +78,7 @@ public final class Def_Timer extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_TIMER;
 	}
@@ -109,11 +110,13 @@ public final class Def_Timer extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "timer";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDescription() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(getAssignmentName()).append(" `");
@@ -135,6 +138,7 @@ public final class Def_Timer extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}
@@ -264,6 +268,7 @@ public final class Def_Timer extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkIdentical(final CompilationTimeStamp timestamp, final Definition definition) {
 		check(timestamp);
 		definition.check(timestamp);

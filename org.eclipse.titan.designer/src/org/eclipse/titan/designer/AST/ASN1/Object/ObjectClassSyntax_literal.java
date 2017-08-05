@@ -30,6 +30,7 @@ public final class ObjectClassSyntax_literal extends ObjectClassSyntax_Node {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void accept(final ObjectClassSyntax_Visitor visitor) {
 		visitor.visitLiteral(this);
 	}
@@ -43,6 +44,7 @@ public final class ObjectClassSyntax_literal extends ObjectClassSyntax_Node {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDisplayName() {
 		final StringBuilder builder = new StringBuilder("`");
 		if (null == word) {

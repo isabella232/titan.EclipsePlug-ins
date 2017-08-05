@@ -331,6 +331,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 
@@ -781,6 +782,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration resolveReference(final Reference reference, final int subRefIdx, final ISubReference lastSubreference) {
 		if (getOfType() == null) {
 			return null;

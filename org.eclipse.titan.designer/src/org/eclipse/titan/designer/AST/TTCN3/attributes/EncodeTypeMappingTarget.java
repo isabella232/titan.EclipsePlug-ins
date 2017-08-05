@@ -43,16 +43,19 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TypeMapping_type getTypeMappingType() {
 		return TypeMapping_type.ENCODE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getMappingName() {
 		return "encode";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getTargetType() {
 		return targetType;
 	}

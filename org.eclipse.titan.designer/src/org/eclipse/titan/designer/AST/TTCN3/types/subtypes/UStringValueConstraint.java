@@ -36,6 +36,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint complement() {
 		return null;
 	}
@@ -73,33 +74,39 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public UStringValueConstraint intersection(final SubtypeConstraint other) {
 		return setOperation(other, false);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final UniversalCharstring str = (UniversalCharstring) o;
 		return values.contains(str);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return TernaryBool.fromBool(values.isEmpty());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final UStringValueConstraint o = (UStringValueConstraint) other;
 		return TernaryBool.fromBool(values.equals(o.values));
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		return TernaryBool.TFALSE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		boolean needComma = false;
@@ -162,6 +169,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public UStringValueConstraint union(final SubtypeConstraint other) {
 		return setOperation(other, true);
 	}

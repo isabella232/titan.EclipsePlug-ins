@@ -40,11 +40,13 @@ public final class RegularComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getNofComps() {
 		return 1;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CompField getCompByIndex(final int index) {
 		if (0 == index) {
 			return componentField;
@@ -55,6 +57,7 @@ public final class RegularComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasCompWithName(final Identifier identifier) {
 		if (null == identifier) {
 			return false;
@@ -64,6 +67,7 @@ public final class RegularComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CompField getCompByName(final Identifier identifier) {
 		if (null == identifier) {
 			return null;
@@ -78,6 +82,7 @@ public final class RegularComponentType extends ComponentType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void trCompsof(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain, final boolean isSet) {
 		//Do nothing
 	}

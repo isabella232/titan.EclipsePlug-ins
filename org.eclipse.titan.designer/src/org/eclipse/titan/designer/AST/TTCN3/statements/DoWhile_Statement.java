@@ -112,6 +112,7 @@ public final class DoWhile_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		if (statementblock != null) {
@@ -120,6 +121,7 @@ public final class DoWhile_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		if (statementblock != null) {
 			statementblock.setMyDefinition(definition);
@@ -127,6 +129,7 @@ public final class DoWhile_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		if (statementblock != null) {
 			statementblock.setMyAltguards(altGuards);
@@ -134,11 +137,13 @@ public final class DoWhile_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return isInfiniteLoop;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		if (statementblock != null) {
 			return statementblock.hasReturn(timestamp);
@@ -192,6 +197,7 @@ public final class DoWhile_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		if (statementblock != null) {
 			statementblock.checkAllowedInterleave();
@@ -199,6 +205,7 @@ public final class DoWhile_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 

@@ -117,16 +117,19 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Object[] getOutlineChildren() {
 		return new Object[] {};
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String getOutlineText() {
 		return "";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String getOutlineIcon() {
 		if (referredModule == null) {
 			return "titan.gif";
@@ -136,6 +139,7 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final int category() {
 		return 0;
 	}

@@ -71,6 +71,7 @@ public final class Stop_Component_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		if (componentReference != null) {
 			final IValue last = componentReference.getValueRefdLast(timestamp, null);

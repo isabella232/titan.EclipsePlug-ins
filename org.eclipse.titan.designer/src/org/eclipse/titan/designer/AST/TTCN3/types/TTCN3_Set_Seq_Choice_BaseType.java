@@ -62,6 +62,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		compFieldMap.setMyScope(scope);
@@ -126,6 +127,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -253,6 +255,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean isComponentInternal(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -368,6 +371,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -397,6 +401,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void checkComponentInternal(final CompilationTimeStamp timestamp, final Set<IType> typeSet, final String operation) {
 		if (typeSet.contains(this)) {
 			return;
@@ -413,6 +418,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Object[] getOutlineChildren() {
 		return compFieldMap.getOutlineChildren();
 	}
@@ -508,6 +514,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			lastTimeChecked = null;
@@ -579,6 +586,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getComponentIdentifierByName(final Identifier identifier) {
 		if(identifier == null){
 			return null;
@@ -588,6 +596,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration resolveReference(final Reference reference, final int subRefIdx, final ISubReference lastSubreference) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		int localIndex = subRefIdx;

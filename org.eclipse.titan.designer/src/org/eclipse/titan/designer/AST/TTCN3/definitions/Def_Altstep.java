@@ -97,6 +97,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_ALTSTEP;
 	}
@@ -120,16 +121,19 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FormalParameterList getFormalParameterList() {
 		return formalParList;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		return KIND;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "altstep";
 	}
@@ -141,6 +145,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalDescription() {
 		final StringBuilder nameBuilder = new StringBuilder(identifier.getDisplayName());
 		nameBuilder.append('(');
@@ -273,6 +278,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (myScope != null) {
 			final Module module = myScope.getModuleScope();
@@ -331,6 +337,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		if (lastTimeChecked == null) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -554,6 +561,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		final StringBuilder source = aData.getSrc();
 

@@ -40,6 +40,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ValueListConstraint complement() {
 		// invalid operation for this set type
 		ErrorReporter.INTERNAL_ERROR("invalid set operation");
@@ -47,6 +48,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ValueListConstraint except(final SubtypeConstraint other) {
 		final ValueListConstraint o = (ValueListConstraint) other;
 		final List<IValue> returnValue = new ArrayList<IValue>();
@@ -59,6 +61,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint intersection(final SubtypeConstraint other) {
 		final ValueListConstraint o = (ValueListConstraint) other;
 		final List<IValue> returnValue = new ArrayList<IValue>();
@@ -71,11 +74,13 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isSubset(final SubtypeConstraint other) {
 		return except(other).isEmpty();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final Value val = (Value) o;
 		for (IValue v : values) {
@@ -87,11 +92,13 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return TernaryBool.fromBool(values.isEmpty());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final ValueListConstraint o = (ValueListConstraint) other;
 		if (values.size() != o.values.size()) {
@@ -125,12 +132,14 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		// it's unknown how many possible values we have
 		return TernaryBool.TUNKNOWN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		boolean needComma = false;
@@ -145,6 +154,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ValueListConstraint union(final SubtypeConstraint other) {
 		final ValueListConstraint o = (ValueListConstraint) other;
 		final ArrayList<IValue> returnValue = new ArrayList<IValue>();

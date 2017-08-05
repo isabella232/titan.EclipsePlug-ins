@@ -32,11 +32,13 @@ public final class MakeArchive extends ExternalTitanAction {
 	private static final String BIN_SUBPATH = File.separatorChar + "bin" + File.separatorChar;
 
 	@Override
+	/** {@inheritDoc} */
 	public void run(IAction action) {
 		doMakeArchive();
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		doMakeArchive();
 		return null;

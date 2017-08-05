@@ -39,39 +39,46 @@ public final class BooleanListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public BooleanListConstraint complement() {
 		return new BooleanListConstraint(constraint ^ ConstraintValue.ALL.value());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public BooleanListConstraint intersection(final SubtypeConstraint other) {
 		final BooleanListConstraint o = (BooleanListConstraint) other;
 		return new BooleanListConstraint(constraint & o.constraint);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final Boolean b = (Boolean) o;
 		return b ? ((constraint & ConstraintValue.TRUE.value()) != 0) : ((constraint & ConstraintValue.FALSE.value()) != 0);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return TernaryBool.fromBool(constraint == 0);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final BooleanListConstraint o = (BooleanListConstraint) other;
 		return TernaryBool.fromBool(constraint == o.constraint);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		return TernaryBool.fromBool(constraint == ConstraintValue.ALL.value());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		if ((constraint & ConstraintValue.FALSE.value()) != 0) {
@@ -87,6 +94,7 @@ public final class BooleanListConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public BooleanListConstraint union(final SubtypeConstraint other) {
 		final BooleanListConstraint o = (BooleanListConstraint) other;
 		return new BooleanListConstraint(constraint | o.constraint);

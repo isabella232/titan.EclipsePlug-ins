@@ -439,6 +439,7 @@ public final class Template_List extends CompositeTemplate {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (asValue != null) {
 			asValue.generateCodeInit(aData, source, name);

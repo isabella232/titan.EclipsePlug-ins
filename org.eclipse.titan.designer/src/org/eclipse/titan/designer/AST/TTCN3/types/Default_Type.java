@@ -135,6 +135,7 @@ public final class Default_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkEmbedded(final CompilationTimeStamp timestamp, final Location errorLocation,
 			final boolean defaultAllowed, final String errorMessage) {
 		if (!defaultAllowed) {
@@ -210,6 +211,7 @@ public final class Default_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanDefault_template" );
 		return "TitanDefault_template";

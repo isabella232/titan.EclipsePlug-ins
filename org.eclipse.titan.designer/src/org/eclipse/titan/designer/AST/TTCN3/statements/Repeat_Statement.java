@@ -36,11 +36,13 @@ public final class Repeat_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return true;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		this.myAltGuards = altGuards;
 	}
@@ -62,6 +64,7 @@ public final class Repeat_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		location.reportSemanticError("Repeat statement is not allowed within an interleave statement");
 	}

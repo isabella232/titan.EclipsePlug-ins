@@ -494,6 +494,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
 		if (reference != null) {
@@ -595,6 +596,7 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		StringBuilder result = new StringBuilder();
 
@@ -624,11 +626,13 @@ public final class Referenced_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		reference.generateCode(aData, expression);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (hasSingleExpression()) {
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));

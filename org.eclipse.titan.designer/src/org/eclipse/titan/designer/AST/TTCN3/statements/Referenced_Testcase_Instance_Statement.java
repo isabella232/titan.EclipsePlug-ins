@@ -230,6 +230,7 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport("TitanFloat");
 		aData.addBuiltinTypeImport("Ttcn3Float");

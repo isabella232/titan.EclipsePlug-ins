@@ -861,6 +861,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration resolveReference(final Reference reference, final int subRefIdx, final ISubReference lastSubreference) {
 		if (elementType == null) {
 			return null;

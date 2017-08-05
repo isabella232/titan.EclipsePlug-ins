@@ -57,6 +57,7 @@ public class DefinitionContainer implements Iterable<Definition> {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Iterator<Definition> iterator() {
 		return definitions.iterator();
 	}

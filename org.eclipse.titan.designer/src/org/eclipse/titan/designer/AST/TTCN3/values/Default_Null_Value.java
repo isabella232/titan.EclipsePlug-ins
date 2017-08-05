@@ -125,6 +125,7 @@ public final class Default_Null_Value extends Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport("TitanComponent");
 

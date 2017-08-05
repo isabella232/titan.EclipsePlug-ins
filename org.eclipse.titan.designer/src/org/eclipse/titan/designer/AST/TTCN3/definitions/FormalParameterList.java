@@ -155,6 +155,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -918,6 +919,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean hasAssignmentWithId(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (parameterMap != null && parameterMap.containsKey(identifier.getName())) {
 			return true;
@@ -993,6 +995,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
 			for (FormalParameter parameter : parameters) {
@@ -1003,6 +1006,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
 		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_VALUE_PARAMETER_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
@@ -1019,12 +1023,14 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addKeywordProposal(final ProposalCollector propCollector) {
 		propCollector.addProposal(TTCN3Keywords.FORMAL_PARAMETER_SCOPE, null, TTCN3Keywords.KEYWORD);
 		super.addKeywordProposal(propCollector);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
 			final Identifier identifier = declarationCollector.getReference().getId();
@@ -1059,6 +1065,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		if (parameters == null) {
 			return null;

@@ -568,6 +568,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		StringBuilder result = new StringBuilder();
 

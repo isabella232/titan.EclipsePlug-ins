@@ -79,6 +79,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_MODULEPAR_TEMPLATE;
 	}
@@ -108,6 +109,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "template module parameter";
 	}
@@ -119,6 +121,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		int result = super.category();
 		if (type != null) {
@@ -128,6 +131,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 		return type;
@@ -206,12 +210,14 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		postCheckPrivateness();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		final StringBuilder builder = new StringBuilder();
 		if (type != null) {
@@ -252,6 +258,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		final StringBuilder text = new StringBuilder(getIdentifier().getDisplayName());
 		text.append(" : ");
@@ -378,6 +385,7 @@ public final class Def_ModulePar_Template extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 

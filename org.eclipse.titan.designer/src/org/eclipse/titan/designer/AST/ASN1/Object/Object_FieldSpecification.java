@@ -39,11 +39,13 @@ public final class Object_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Fieldspecification_types getFieldSpecificationType() {
 		return Fieldspecification_types.FS_O;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyObjectClass(final ObjectClass_Definition objectClass) {
 		super.setMyObjectClass(objectClass);
 		final Scope scope = myObjectClass.getMyScope();
@@ -54,11 +56,13 @@ public final class Object_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasDefault() {
 		return null != defaultObject;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ISetting getDefault() {
 		return defaultObject;
 	}

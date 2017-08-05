@@ -118,6 +118,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 	 *                the window that provides the context for this delegate
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public final void init(final IWorkbenchWindow window) {
 		if (!files.isEmpty()) {
 			files.clear();
@@ -128,6 +129,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 	 * Free the resources.
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public final void dispose() {
 		files.clear();
 		workingDir = null;
@@ -287,6 +289,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 	 *                is no selection.
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public final void selectionChanged(final IAction action, final ISelection selection) {
 		this.selection = selection;
 	}

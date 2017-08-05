@@ -41,16 +41,19 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TypeMapping_type getTypeMappingType() {
 		return TypeMapping_type.DECODE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getMappingName() {
 		return "decode";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getTargetType() {
 		return targetType;
 	}

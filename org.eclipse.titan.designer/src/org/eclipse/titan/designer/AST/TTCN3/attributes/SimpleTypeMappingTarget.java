@@ -30,16 +30,19 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TypeMapping_type getTypeMappingType() {
 		return TypeMapping_type.SIMPLE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getMappingName() {
 		return "simple";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getTargetType() {
 		return targetType;
 	}

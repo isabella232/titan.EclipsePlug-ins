@@ -106,16 +106,19 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getNofAssignments() {
 		return definitions.size();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Definition getAssignmentByIndex(final int i) {
 		return definitions.get(i);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		final List<IOutlineElement> outlineDefinitions = new ArrayList<IOutlineElement>();
 		// Take care of ordering.
@@ -302,6 +305,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			iterator.next().postCheck();
@@ -358,6 +362,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasLocalAssignmentWithID(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (lastUniquenessCheckTimeStamp == null) {
 			checkUniqueness(timestamp);
@@ -378,6 +383,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
 		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
@@ -386,6 +392,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addKeywordProposal(final ProposalCollector propCollector) {
 		propCollector.addProposal(TTCN3Keywords.MODULE_SCOPE, null, TTCN3Keywords.KEYWORD);
 		propCollector.addProposal(TTCN3Keywords.GENERALLY_USABLE, null, TTCN3Keywords.KEYWORD);
@@ -580,6 +587,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		if (definitions == null) {
 			return null;
@@ -621,6 +629,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Iterator<Assignment> iterator() {
 		return new Iterator<Assignment>() {
 			Iterator<Definition> it = definitions.iterator();

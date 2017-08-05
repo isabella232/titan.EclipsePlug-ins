@@ -44,6 +44,7 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_OC;
 	}
@@ -54,6 +55,7 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setRightScope(final Scope rightScope) {
 		if (null != objectClass) {
 			objectClass.setMyScope(rightScope);
@@ -89,6 +91,7 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectClass getSetting(final CompilationTimeStamp timestamp) {
 		return getObjectClass(timestamp);
 	}
@@ -151,6 +154,7 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "information object class";
 	}

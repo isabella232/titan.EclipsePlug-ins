@@ -339,6 +339,7 @@ public final class Component_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		return componentBody.getDefinitions().toArray();
 	}
@@ -684,6 +685,7 @@ public final class Component_Type extends Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "TitanComponent_template" );
 		return "TitanComponent_template";

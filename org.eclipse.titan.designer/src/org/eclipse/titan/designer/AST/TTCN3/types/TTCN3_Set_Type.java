@@ -367,6 +367,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkConstructorName(final String definitionName) {
 		if (hasComponentWithName(definitionName)) {
 			CompField field = getComponentByName(definitionName);

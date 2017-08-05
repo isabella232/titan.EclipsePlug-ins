@@ -83,6 +83,7 @@ public final class Unknown_Instance_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		statementIndex = index;
@@ -133,6 +134,7 @@ public final class Unknown_Instance_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		if (realStatement != null) {
 			realStatement.checkAllowedInterleave();

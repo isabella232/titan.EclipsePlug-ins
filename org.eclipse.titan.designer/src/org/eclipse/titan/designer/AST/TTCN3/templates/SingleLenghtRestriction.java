@@ -128,6 +128,7 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkArraySize(final CompilationTimeStamp timestamp, final ArrayDimension dimension) {
 		if (lastTimeChecked == null || dimension.getIsErroneous(timestamp) || value == null) {
 			return;

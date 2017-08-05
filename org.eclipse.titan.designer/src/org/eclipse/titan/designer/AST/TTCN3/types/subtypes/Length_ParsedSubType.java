@@ -30,6 +30,7 @@ public final class Length_ParsedSubType extends ParsedSubType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ParsedSubType_type getSubTypetype() {
 		return ParsedSubType_type.LENGTH_PARSEDSUBTYPE;
 	}

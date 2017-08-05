@@ -53,6 +53,7 @@ public final class Stop_Profiler_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return super.isTerminating(timestamp);
 	}

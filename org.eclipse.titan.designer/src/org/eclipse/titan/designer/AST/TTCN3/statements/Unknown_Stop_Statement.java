@@ -80,12 +80,14 @@ public final class Unknown_Stop_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		this.statementIndex = index;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		if (realStatement != null) {
 			return realStatement.isTerminating(timestamp);

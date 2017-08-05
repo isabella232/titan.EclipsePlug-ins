@@ -62,11 +62,13 @@ public final class CachedReferenceChain implements IReferenceChain {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void release() {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean add(final IReferenceChainElement chainLink) {
 		final int index = chainLinks.indexOf(chainLink);
 		chainLinks.add(chainLink);
@@ -126,11 +128,13 @@ public final class CachedReferenceChain implements IReferenceChain {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void markState() {
 		markedStates.add(chainLinks.size());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void previousState() {
 		if (markedStates.isEmpty()) {
 			return;

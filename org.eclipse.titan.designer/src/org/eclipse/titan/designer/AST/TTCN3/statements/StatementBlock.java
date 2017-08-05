@@ -708,11 +708,13 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock getStatementBlockScope() {
 		return this;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Component_Type getMtcSystemComponentType(final CompilationTimeStamp timestamp, final boolean isSystem) {
 		if (myDefinition == null || !Assignment_type.A_TESTCASE.semanticallyEquals(myDefinition.getAssignmentType())) {
 			return null;
@@ -732,6 +734,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasAssignmentWithId(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (definitionMap != null && definitionMap.containsKey(identifier.getName())) {
 			return true;
@@ -783,6 +786,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
 		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.STATEMENT_LEVEL_SKELETON_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
@@ -791,6 +795,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addKeywordProposal(final ProposalCollector propCollector) {
 		propCollector.addProposal(TTCN3Keywords.STATEMENT_SCOPE, null, TTCN3Keywords.KEYWORD);
 		super.addKeywordProposal(propCollector);
@@ -975,6 +980,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		if (definitionMap == null) {
 			return null;

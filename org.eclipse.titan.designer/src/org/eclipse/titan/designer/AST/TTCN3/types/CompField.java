@@ -125,6 +125,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		if (type == null) {
 			return new Object[] {};
@@ -134,6 +135,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		final StringBuilder text = new StringBuilder(name.getDisplayName());
 		text.append(" : ");
@@ -152,6 +154,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		if (type == null) {
 			return 0;
@@ -351,6 +354,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 
 		INamedNode inamedNode = getNameParent();

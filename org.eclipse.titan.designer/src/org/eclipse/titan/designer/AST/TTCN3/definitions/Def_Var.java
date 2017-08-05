@@ -85,6 +85,7 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_VAR;
 	}
@@ -116,11 +117,13 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "variable";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDescription() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(getAssignmentName()).append(" `");
@@ -142,6 +145,7 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		int result = super.category();
 		if (type != null) {
@@ -151,6 +155,7 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -162,11 +167,13 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setWithAttributes(final MultipleWithAttributes attributes) {
 		// variable should not have with attributes
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setAttributeParentPath(final WithAttributesPath parent) {
 		// variable should not have with attributes
 	}
@@ -228,6 +235,7 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		if (!wasAssigned) {
@@ -250,6 +258,7 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkIdentical(final CompilationTimeStamp timestamp, final Definition definition) {
 		check(timestamp);
 		definition.check(timestamp);
@@ -297,6 +306,7 @@ public final class Def_Var extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		final StringBuilder builder = new StringBuilder();
 		if (type != null) {

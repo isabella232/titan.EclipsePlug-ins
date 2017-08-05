@@ -126,6 +126,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	// TODO: remove this when the location is properly set
 	@Override
+	/** {@inheritDoc} */
 	public Location getLikelyLocation() {
 		if (mBlock != null) {
 			return mBlock.getLocation();
@@ -166,12 +167,14 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getComponentIdentifierByName(final Identifier identifier) {
 		final CompField cf = getComponentByName(identifier);
 		return cf == null ? null : cf.getIdentifier();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration resolveReference(final Reference reference, final int subRefIdx, final ISubReference lastSubreference) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		int actualIndex = subRefIdx;
@@ -245,6 +248,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		if (components == null) {
 			return new Object[] {};

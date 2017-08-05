@@ -117,11 +117,13 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String chainedDescription() {
 		return getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Location getChainLocation() {
 		return getLocation();
 	}
@@ -139,6 +141,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
@@ -152,6 +155,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		for (final IObjectSet_Element element : objectSetElements) {
@@ -189,6 +193,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final ObjectSet_definition getRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (1 != objectSetElements.size()) {
 			return this;
@@ -218,6 +223,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final int getNofObjects() {
 		createObjects(false);
 
@@ -225,6 +231,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final ASN1Object getObjectByIndex(final int index) {
 		createObjects(false);
 
@@ -238,6 +245,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void accept(final ObjectSetElementVisitor_objectCollector v) {
 		v.visitObjectSet(this, false);
 	}
@@ -298,6 +306,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -325,6 +334,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {

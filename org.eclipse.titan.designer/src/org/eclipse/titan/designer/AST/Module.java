@@ -181,6 +181,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getIdentifier() {
 		return identifier;
 	}
@@ -198,6 +199,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Module getModuleScope() {
 		return this;
 	}
@@ -314,11 +316,13 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		return 0;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		return "";
 	}
@@ -359,6 +363,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 		return Declaration.createInstance(this);
 	}

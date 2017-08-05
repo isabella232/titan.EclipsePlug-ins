@@ -291,6 +291,7 @@ public final class Address_Type extends Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return address.getGenNameTemplate(aData, source, scope);
 	}

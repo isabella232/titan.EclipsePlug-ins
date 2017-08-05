@@ -73,11 +73,13 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 	private ISelection selection;
 
 	@Override
+	/** {@inheritDoc} */
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
 		//Do nothing
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void run(final IAction action) {
 		if (!LicenseValidator.check()) {
 			return;
@@ -347,11 +349,13 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void selectionChanged(final IAction action, final ISelection selection) {
 		this.selection = selection;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		if (!LicenseValidator.check()) {
 			return null;

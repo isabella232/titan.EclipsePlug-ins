@@ -41,6 +41,7 @@ public final class Stop_Execution_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return true;
 	}
@@ -67,6 +68,7 @@ public final class Stop_Execution_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		source.append("TTCN_Runtime.stopExecution();\n");

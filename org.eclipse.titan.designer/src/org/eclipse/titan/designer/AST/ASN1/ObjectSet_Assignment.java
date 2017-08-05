@@ -50,16 +50,19 @@ public final class ObjectSet_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_OS;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected ASN1Assignment internalNewInstance(final Identifier identifier) {
 		return new ObjectSet_Assignment(identifier, null, objectClass.newInstance(), objectSet.newInstance());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setRightScope(final Scope rightScope) {
 		if (null != objectSet) {
 			objectSet.setMyScope(rightScope);
@@ -98,6 +101,7 @@ public final class ObjectSet_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectSet getSetting(final CompilationTimeStamp timestamp) {
 		return getObjectSet(timestamp);
 	}
@@ -167,6 +171,7 @@ public final class ObjectSet_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "information object set";
 	}

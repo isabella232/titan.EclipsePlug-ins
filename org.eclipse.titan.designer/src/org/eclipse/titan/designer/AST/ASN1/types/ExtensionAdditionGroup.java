@@ -64,26 +64,31 @@ public final class ExtensionAdditionGroup extends ExtensionAddition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getNofComps() {
 		return componentTypes.getNofComps();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CompField getCompByIndex(final int index) {
 		return componentTypes.getCompByIndex(index);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasCompWithName(final Identifier identifier) {
 		return componentTypes.hasCompWithName(identifier);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CompField getCompByName(final Identifier identifier) {
 		return componentTypes.getCompByName(identifier);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void trCompsof(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain, final boolean isSet) {
 		componentTypes.trCompsof(timestamp, referenceChain, isSet);
 	}

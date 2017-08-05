@@ -53,11 +53,13 @@ public abstract class Assignments extends Scope implements IOutlineElement, Iter
 	public abstract Assignment getAssignmentByIndex(int i);
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getIdentifier() {
 		return getModuleScope().getIdentifier();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignments getAssignmentsScope() {
 		return this;
 	}
@@ -96,6 +98,7 @@ public abstract class Assignments extends Scope implements IOutlineElement, Iter
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasAssignmentWithId(final CompilationTimeStamp timestamp, final Identifier identifier) {
 
 		if (hasLocalAssignmentWithID(timestamp, identifier)) {

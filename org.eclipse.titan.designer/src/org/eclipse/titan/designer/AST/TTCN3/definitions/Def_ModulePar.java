@@ -75,6 +75,7 @@ public final class Def_ModulePar extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_MODULEPAR;
 	}
@@ -111,6 +112,7 @@ public final class Def_ModulePar extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "module parameter";
 	}
@@ -122,6 +124,7 @@ public final class Def_ModulePar extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		int result = super.category();
 		if (type != null) {
@@ -131,6 +134,7 @@ public final class Def_ModulePar extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -197,12 +201,14 @@ public final class Def_ModulePar extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		postCheckPrivateness();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		final StringBuilder builder = new StringBuilder();
 		if (type != null) {
@@ -243,6 +249,7 @@ public final class Def_ModulePar extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		final StringBuilder text = new StringBuilder(getIdentifier().getDisplayName());
 		text.append(" : ");

@@ -60,6 +60,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasAssignmentWithId(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		if (componentDefinitions != null && componentDefinitions.hasAssignmentWithId(timestamp, identifier)) {
 			return true;
@@ -68,6 +69,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public RunsOnScope getScopeRunsOn() {
 		return this;
 	}
@@ -123,6 +125,7 @@ public final class RunsOnScope extends TTCN3Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		return null;
 	}

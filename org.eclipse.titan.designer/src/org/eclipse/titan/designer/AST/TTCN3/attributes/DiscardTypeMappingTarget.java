@@ -19,16 +19,19 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public final class DiscardTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
+	/** {@inheritDoc} */
 	public TypeMapping_type getTypeMappingType() {
 		return TypeMapping_type.DISCARD;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getMappingName() {
 		return "discard";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getTargetType() {
 		return null;
 	}

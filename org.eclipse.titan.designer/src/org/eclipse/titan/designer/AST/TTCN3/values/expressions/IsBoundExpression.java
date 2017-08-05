@@ -184,6 +184,7 @@ public final class IsBoundExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue setLoweridToReference(final CompilationTimeStamp timestamp) {
 		if (templateInstance != null && templateInstance.getType() != null && templateInstance.getDerivedReference() != null) {
 			templateInstance.getTemplateBody().setLoweridToReference(timestamp);

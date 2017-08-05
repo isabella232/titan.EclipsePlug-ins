@@ -40,6 +40,7 @@ public final class ObjectClassSyntax_setting extends ObjectClassSyntax_Node {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void accept(final ObjectClassSyntax_Visitor visitor) {
 		visitor.visitSetting(this);
 	}
@@ -53,6 +54,7 @@ public final class ObjectClassSyntax_setting extends ObjectClassSyntax_Node {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDisplayName() {
 		switch (settingType) {
 		case S_T:

@@ -258,6 +258,7 @@ public final class SetOf_Type extends AbstractOfType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isStronglyCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 

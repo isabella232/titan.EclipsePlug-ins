@@ -1333,6 +1333,7 @@ public final class SubType implements IIncrementallyUpdateable {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		if (isErroneous) {
 			return "<erroneous>";

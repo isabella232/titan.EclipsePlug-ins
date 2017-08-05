@@ -30,17 +30,20 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ElementType getElementType() {
 		return ElementType.OPERATION;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint complement() {
 		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, new FullStringSet(stringType), this);
 		return returnValue.evaluate();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint intersection(final SubtypeConstraint other) {
 		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.INTERSECTION, this,
 				(StringSubtypeTreeElement) other);
@@ -48,6 +51,7 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		switch (operationType) {
 		case INHERIT:
@@ -63,6 +67,7 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		switch (operationType) {
 		case INHERIT:
@@ -81,11 +86,13 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		return TernaryBool.TUNKNOWN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		switch (operationType) {
 		case INHERIT:
@@ -101,6 +108,7 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		a.toString(sb);
@@ -125,23 +133,27 @@ public final class StringSetOperation extends StringSubtypeTreeElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint union(final SubtypeConstraint other) {
 		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.UNION, this, (StringSubtypeTreeElement) other);
 		return returnValue.evaluate();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint except(final SubtypeConstraint other) {
 		final StringSetOperation returnValue = new StringSetOperation(stringType, OperationType.EXCEPT, this, (StringSubtypeTreeElement) other);
 		return returnValue.evaluate();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isSubset(final SubtypeConstraint other) {
 		return TernaryBool.TUNKNOWN;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringSubtypeTreeElement evaluate() {
 		// recursive evaluation
 		a = a.evaluate();

@@ -34,6 +34,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType() {
 		return Type.SIZE;
 	}
@@ -47,6 +48,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType decrement() {
 		if (infinity) {
 			return new SizeLimit(true);
@@ -56,6 +58,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType increment() {
 		if (infinity) {
 			return new SizeLimit(true);
@@ -65,6 +68,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isAdjacent(final LimitType other) {
 		final SizeLimit sl = (SizeLimit) other;
 		if (infinity || sl.infinity) {
@@ -75,6 +79,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int compareTo(final LimitType o) {
 		final SizeLimit sl = (SizeLimit) o;
 		if (infinity) {
@@ -93,6 +98,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -108,6 +114,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		if (infinity) {
 			sb.append("infinity");
@@ -117,6 +124,7 @@ public final class SizeLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int hashCode() {
 		return size.hashCode();
 	}

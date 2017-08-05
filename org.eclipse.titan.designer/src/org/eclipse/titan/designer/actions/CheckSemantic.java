@@ -56,12 +56,14 @@ public final class CheckSemantic extends ExternalTitanAction {
 	 * @param action the action proxy that handles the presentation portion of the action (not used here)
 	 */
 	@Override
+	/** {@inheritDoc} */
 	public void run(final IAction action) {
 		doCheckSemantics();
 	}
 
 
 	@Override
+	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		doCheckSemantics();
 

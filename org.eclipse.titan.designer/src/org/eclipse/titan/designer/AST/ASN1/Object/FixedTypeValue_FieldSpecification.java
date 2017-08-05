@@ -51,11 +51,13 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Fieldspecification_types getFieldSpecificationType() {
 		return Fieldspecification_types.FS_V_FT;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyObjectClass(final ObjectClass_Definition objectClass) {
 		super.setMyObjectClass(objectClass);
 		if (null != fixedType) {
@@ -67,6 +69,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasDefault() {
 		return hasDefault;
 	}

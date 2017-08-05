@@ -142,6 +142,7 @@ public final class If_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		if (ifClauses != null) {
@@ -153,6 +154,7 @@ public final class If_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		if (ifClauses != null) {
 			ifClauses.setMyDefinition(definition);
@@ -163,6 +165,7 @@ public final class If_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		if (ifClauses != null) {
 			ifClauses.setMyAltguards(altGuards);
@@ -173,6 +176,7 @@ public final class If_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		if (ifClauses != null) {
 			return ifClauses.hasReturn(timestamp, statementblock);
@@ -209,6 +213,7 @@ public final class If_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		if (ifClauses != null) {
 			ifClauses.checkAllowedInterleave();
@@ -219,6 +224,7 @@ public final class If_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (ifClauses != null) {
 			ifClauses.postCheck();

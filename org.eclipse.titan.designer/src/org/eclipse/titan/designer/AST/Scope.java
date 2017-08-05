@@ -584,6 +584,7 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	public abstract Assignment getEnclosingAssignment(final int offset);
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers);
 
 	public String getSubScopeAndLocInfo() {

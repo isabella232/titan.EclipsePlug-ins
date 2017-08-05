@@ -37,11 +37,13 @@ public final class FieldSetting_ObjectSet extends FieldSetting {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public FieldSetting_ObjectSet newInstance() {
 		return new FieldSetting_ObjectSet(name.newInstance(), objectSet.newInstance());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectSet getSetting() {
 		return objectSet;
 	}

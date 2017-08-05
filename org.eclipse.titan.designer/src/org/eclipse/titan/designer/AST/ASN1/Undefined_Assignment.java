@@ -42,6 +42,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Assignment_type getAssignmentType() {
 		if (null != realAssignment) {
 			return realAssignment.getAssignmentType();
@@ -51,6 +52,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String getAssignmentName() {
 		if (null != realAssignment) {
 			return realAssignment.getAssignmentName();
@@ -66,6 +68,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void setRightScope(final Scope rightScope) {
 		if (null != realAssignment) {
 			realAssignment.setRightScope(rightScope);
@@ -84,6 +87,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final ISetting getSetting(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -95,6 +99,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final IType getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -142,6 +147,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean isAssignmentType(final CompilationTimeStamp timestamp, final Assignment_type assignmentType,
 			final IReferenceChain referenceChain) {
 		check(timestamp);
@@ -165,6 +171,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	protected abstract void classifyAssignment(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain);
 
 	@Override
+	/** {@inheritDoc} */
 	public final Object[] getOutlineChildren() {
 		if (null == realAssignment) {
 			return super.getOutlineChildren();
@@ -174,6 +181,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String getOutlineIcon() {
 		if (null != realAssignment) {
 			return realAssignment.getOutlineIcon();
@@ -182,6 +190,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		if (null != realAssignment) {
 			realAssignment.addDeclaration(declarationCollector, i);
@@ -190,6 +199,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 
 	// TODO: remove when location is fixed
 	@Override
+	/** {@inheritDoc} */
 	public Location getLikelyLocation() {
 		if (realAssignment != null) {
 			return realAssignment.getLikelyLocation();
@@ -199,6 +209,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addProposal(final ProposalCollector propCollector, final int i) {
 		if (null != realAssignment) {
 			realAssignment.addProposal(propCollector, i);

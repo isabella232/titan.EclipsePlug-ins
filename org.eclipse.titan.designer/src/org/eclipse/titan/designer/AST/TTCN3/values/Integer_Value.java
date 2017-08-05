@@ -210,6 +210,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object x) {
 		if (this == x) {
 			return true;
@@ -223,11 +224,13 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int hashCode() {
 		return value.hashCode();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int compareTo(final Integer_Value val) {
 		return value.compareTo(val.getValueValue());
 	}

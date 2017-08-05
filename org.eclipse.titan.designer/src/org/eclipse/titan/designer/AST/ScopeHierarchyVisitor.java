@@ -83,6 +83,7 @@ public class ScopeHierarchyVisitor extends ASTVisitor {
 	ScopeTreeNode scopeTree = new ScopeTreeNode(null);
 
 	@Override
+	/** {@inheritDoc} */
 	public int visit(final IVisitableNode node) {
 		if (node instanceof Scope) {
 			final Scope scope = (Scope) node;

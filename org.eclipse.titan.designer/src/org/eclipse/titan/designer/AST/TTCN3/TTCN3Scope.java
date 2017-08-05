@@ -20,9 +20,11 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 public abstract class TTCN3Scope extends Scope {
 
 	@Override
+	/** {@inheritDoc} */
 	public abstract Assignment getAssBySRef(final CompilationTimeStamp timestamp, Reference reference);
 
 	@Override
+	/** {@inheritDoc} */
 	public void addKeywordProposal(final ProposalCollector propCollector) {
 		propCollector.addProposal(TTCN3Keywords.GENERALLY_USABLE, null, TTCN3Keywords.KEYWORD);
 		propCollector.addProposal(TTCN3Keywords.MACROS, null, TTCN3Keywords.MACRO);

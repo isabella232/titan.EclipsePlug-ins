@@ -169,6 +169,7 @@ public final class RegexpExpression extends Expression_Value {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue setLoweridToReference(final CompilationTimeStamp timestamp) {
 		if (templateInstance1 != null && templateInstance1.getType() != null && templateInstance1.getDerivedReference() != null) {
 			templateInstance1.getTemplateBody().setLoweridToReference(timestamp);

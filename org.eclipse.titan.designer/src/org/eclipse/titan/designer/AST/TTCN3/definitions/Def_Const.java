@@ -80,6 +80,7 @@ public final class Def_Const extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_CONST;
 	}
@@ -109,6 +110,7 @@ public final class Def_Const extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
 
@@ -124,16 +126,19 @@ public final class Def_Const extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IValue getSetting(final CompilationTimeStamp timestamp) {
 		return getValue();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "constant";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDescription() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(getAssignmentName()).append(" `");
@@ -155,6 +160,7 @@ public final class Def_Const extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		int result = super.category();
 		if (type != null) {
@@ -234,6 +240,7 @@ public final class Def_Const extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean checkIdentical(final CompilationTimeStamp timestamp, final Definition definition) {
 		check(timestamp);
 		definition.check(timestamp);
@@ -267,12 +274,14 @@ public final class Def_Const extends Definition {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		super.postCheck();
 		postCheckPrivateness();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getProposalKind() {
 		final StringBuilder builder = new StringBuilder(KIND);
 		if (type != null) {

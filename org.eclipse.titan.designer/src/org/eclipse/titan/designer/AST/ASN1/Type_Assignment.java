@@ -48,6 +48,7 @@ public final class Type_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_TYPE;
 	}
@@ -58,6 +59,7 @@ public final class Type_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setRightScope(final Scope rightScope) {
 		if (null != type) {
 			type.setMyScope(rightScope);
@@ -74,6 +76,7 @@ public final class Type_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type getType(final CompilationTimeStamp timestamp) {
 		if (null != assPard) {
 			//FIXME: This is commented out because Mark Occurences gives a faulty error marker
@@ -88,6 +91,7 @@ public final class Type_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IASN1Type getSetting(final CompilationTimeStamp timestamp) {
 		return getType(timestamp);
 	}
@@ -124,6 +128,7 @@ public final class Type_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		if (type instanceof IOutlineElement) {
 			return ((IOutlineElement) type).getOutlineChildren();
@@ -169,6 +174,7 @@ public final class Type_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "type";
 	}
@@ -185,6 +191,7 @@ public final class Type_Assignment extends ASN1Assignment {
 
 	// TODO: remove when location is fixed
 	@Override
+	/** {@inheritDoc} */
 	public Location getLikelyLocation() {
 		if (type != null) {
 			return Location.interval(super.getLikelyLocation(), type.getLikelyLocation());

@@ -29,6 +29,7 @@ public class ASTLocationChainVisitor extends ASTVisitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int visit(final IVisitableNode node) {
 		if (node instanceof ILocateableNode) {
 			final Location loc = ((ILocateableNode)node).getLocation();

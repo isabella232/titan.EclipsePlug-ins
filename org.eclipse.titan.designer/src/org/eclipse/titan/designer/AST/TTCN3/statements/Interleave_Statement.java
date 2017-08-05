@@ -75,12 +75,14 @@ public final class Interleave_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		altGuards.setMyStatementBlock(statementBlock, index);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		altGuards.setMyDefinition(definition);
 	}
@@ -101,6 +103,7 @@ public final class Interleave_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		if (altGuards != null) {
 			altGuards.postCheck();

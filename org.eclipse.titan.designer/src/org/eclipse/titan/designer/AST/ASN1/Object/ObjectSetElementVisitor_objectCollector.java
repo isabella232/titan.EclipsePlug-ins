@@ -48,6 +48,7 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitObject(final ASN1Object p) {
 		final Object_Definition object = p.getRefdLast(timestamp, null);
 		if (object.getIsErroneous(timestamp)) {
@@ -70,6 +71,7 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void visitObjectSetReferenced(final Referenced_ObjectSet p) {
 		visitObjectSet(p, false);
 	}

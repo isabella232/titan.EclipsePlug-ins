@@ -92,6 +92,7 @@ public final class Return_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return true;
 	}
@@ -166,6 +167,7 @@ public final class Return_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		location.reportSemanticError("Return statement is not allowed within an interleave statement");
 	}

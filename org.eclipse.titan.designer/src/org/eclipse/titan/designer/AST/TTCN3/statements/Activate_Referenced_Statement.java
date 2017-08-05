@@ -194,6 +194,7 @@ public final class Activate_Referenced_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport("TitanFloat");
 		aData.addBuiltinTypeImport("Ttcn3Float");

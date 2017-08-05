@@ -100,6 +100,7 @@ public final class Unknown_Applied_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		statementIndex = index;
@@ -174,6 +175,7 @@ public final class Unknown_Applied_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		if (realStatement != null) {
 			realStatement.checkAllowedInterleave();
@@ -230,6 +232,7 @@ public final class Unknown_Applied_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (realStatement == null) {
 			source.append("//FATAL ERROR furing apply statement\n");

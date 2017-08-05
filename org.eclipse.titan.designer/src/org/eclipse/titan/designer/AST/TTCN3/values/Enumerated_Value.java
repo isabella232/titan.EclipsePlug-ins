@@ -162,6 +162,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Declaration getDeclaration() {
 
 		IType type = getMyGovernor();

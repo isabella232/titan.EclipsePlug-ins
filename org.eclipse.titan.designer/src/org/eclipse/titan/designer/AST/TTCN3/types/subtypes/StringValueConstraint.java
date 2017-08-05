@@ -36,6 +36,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public SubtypeConstraint complement() {
 		ErrorReporter.INTERNAL_ERROR("invalid set operation");
 		return null;
@@ -74,33 +75,39 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringValueConstraint intersection(final SubtypeConstraint other) {
 		return setOperation(other, false);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final String str = (String) o;
 		return values.contains(str);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		return TernaryBool.fromBool(values.isEmpty());
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final StringValueConstraint o = (StringValueConstraint) other;
 		return TernaryBool.fromBool(values.equals(o.values));
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		return TernaryBool.TFALSE;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		boolean needComma = false;
@@ -166,6 +173,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StringValueConstraint union(final SubtypeConstraint other) {
 		return setOperation(other, true);
 	}

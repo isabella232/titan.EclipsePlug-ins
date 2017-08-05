@@ -56,11 +56,13 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Referenced_ObjectSet newInstance() {
 		return new Referenced_ObjectSet(reference);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public IObjectSet_Element newOseInstance() {
 		return newInstance();
 	}
@@ -115,6 +117,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ObjectSet_definition getRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		final boolean newChain = null == referenceChain;
 		IReferenceChain temporalReferenceChain;
@@ -233,6 +236,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getNofObjects() {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -246,6 +250,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ASN1Object getObjectByIndex(final int index) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());
@@ -259,6 +264,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void accept(final ObjectSetElement_Visitor visitor) {
 		visitor.visitObjectSetReferenced(this);
 
@@ -276,6 +282,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void accept(final ObjectSetElementVisitor_objectCollector visitor) {
 		visitor.visitObjectSet(this, false);
 	}

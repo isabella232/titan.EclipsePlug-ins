@@ -140,37 +140,44 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getCharPositionInLine() {
 		return tokenList.get(0).getCharPositionInLine();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CharStream getInputStream() {
 		assert(false);
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getLine() {
 		return tokenList.get(0).getLine();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getChannel() {
 		return Token.DEFAULT_CHANNEL;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getStartIndex() {
 		return tokenList.get(0).getStartIndex();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getStopIndex() {
 		return tokenList.get(tokenList.size() - 1).getStopIndex();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getText() {
 		final StringBuilder text = new StringBuilder();
 		for (Token t : tokenList) {
@@ -180,39 +187,46 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getTokenIndex() {
 		assert(false);
 		return -1;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TokenSource getTokenSource() {
 		assert(false);
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getType() {
 		return Asn1Lexer.BLOCK;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getSourceName() {
 		return IntStream.UNKNOWN_SOURCE_NAME;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TokenFactory<?> getTokenFactory() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Token nextToken() {
 		return tokenList.get(index++);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setTokenFactory(final TokenFactory<?> arg0) {
 		assert(false);
 	}

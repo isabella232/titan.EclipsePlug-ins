@@ -49,6 +49,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ValueListAndSizeConstraint complement() {
 		final ValueListAndSizeConstraint returnValue = new ValueListAndSizeConstraint();
 		returnValue.sizeConstraint = sizeConstraint.complement();
@@ -95,11 +96,13 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ValueListAndSizeConstraint intersection(final SubtypeConstraint other) {
 		return setOperation(other, false);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final IValue v = (IValue) o;
 		SizeLimit sl;
@@ -124,6 +127,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEmpty() {
 		if ((sizeConstraint.isEmpty() == TernaryBool.TTRUE) && (hasValues.isEmpty() == TernaryBool.TTRUE)) {
 			return TernaryBool.TTRUE;
@@ -139,6 +143,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isEqual(final SubtypeConstraint other) {
 		final ValueListAndSizeConstraint o = (ValueListAndSizeConstraint) other;
 		if ((sizeConstraint.isEqual(o.sizeConstraint) == TernaryBool.TTRUE) && (hasValues.isEqual(o.hasValues) == TernaryBool.TTRUE)
@@ -151,6 +156,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TernaryBool isFull() {
 		if ((sizeConstraint.isFull() == TernaryBool.TTRUE) && (notValues.isEmpty() == TernaryBool.TTRUE)) {
 			return TernaryBool.TTRUE;
@@ -162,6 +168,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		final boolean hv = (hasValues.isEmpty() != TernaryBool.TTRUE);
 		if (hv) {
@@ -181,6 +188,7 @@ public final class ValueListAndSizeConstraint extends SubtypeConstraint {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ValueListAndSizeConstraint union(final SubtypeConstraint other) {
 		return setOperation(other, true);
 	}

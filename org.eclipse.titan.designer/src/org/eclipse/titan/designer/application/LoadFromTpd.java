@@ -38,6 +38,7 @@ public class LoadFromTpd implements IApplication {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object start(final IApplicationContext context) throws Exception {
 		if (!GeneralConstants.DEBUG) {
 			ErrorReporter.INTERNAL_ERROR("Loading Tpd files in headless mode is in prototype mode and so should not be available in released versions yet");
@@ -104,6 +105,7 @@ public class LoadFromTpd implements IApplication {
 	}
 	
 	@Override
+	/** {@inheritDoc} */
 	public void stop() {
 		// nothing to be done
 		

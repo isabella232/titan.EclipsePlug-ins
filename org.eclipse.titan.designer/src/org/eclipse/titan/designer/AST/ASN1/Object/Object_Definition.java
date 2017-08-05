@@ -54,6 +54,7 @@ public final class Object_Definition extends ASN1Object {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object_Definition newInstance() {
 		Object_Definition temp = null;
 		temp = new Object_Definition(mBlock);
@@ -256,6 +257,7 @@ public final class Object_Definition extends ASN1Object {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object_Definition getRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		return this;
 	}

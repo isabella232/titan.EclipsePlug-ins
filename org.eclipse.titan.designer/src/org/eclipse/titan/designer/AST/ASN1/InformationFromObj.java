@@ -118,16 +118,19 @@ public final class InformationFromObj extends Reference {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getId() {
 		return reference.getId();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getDisplayName() {
 		return reference.getDisplayName() + fieldName.getDisplayName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ISetting getRefdSetting(final CompilationTimeStamp timestamp) {
 		setIsErroneous(false);
 		ISetting temporalSetting = reference.getRefdSetting(timestamp);
@@ -436,6 +439,7 @@ public final class InformationFromObj extends Reference {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getRefdAssignment(final CompilationTimeStamp timestamp, final boolean checkParameterList, final IReferenceChain refChain) {
 		return reference.getRefdAssignment(timestamp, true, refChain);
 	}

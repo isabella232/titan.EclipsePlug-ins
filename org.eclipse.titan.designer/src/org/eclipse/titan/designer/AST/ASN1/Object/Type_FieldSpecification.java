@@ -34,11 +34,13 @@ public final class Type_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Fieldspecification_types getFieldSpecificationType() {
 		return Fieldspecification_types.FS_T;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyObjectClass(final ObjectClass_Definition objectClass) {
 		super.setMyObjectClass(objectClass);
 		if (null != definedType) {
@@ -47,11 +49,13 @@ public final class Type_FieldSpecification extends FieldSpecification {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasDefault() {
 		return null != definedType;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public ISetting getDefault() {
 		return definedType;
 	}

@@ -204,6 +204,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getTypeRefd(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (refChain.add(this) && !getIsErroneous(timestamp)) {
 			final IType type = selectionType.getTypeRefdLast(timestamp);

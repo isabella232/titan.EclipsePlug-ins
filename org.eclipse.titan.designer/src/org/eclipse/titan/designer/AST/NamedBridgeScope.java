@@ -37,6 +37,7 @@ public final class NamedBridgeScope extends Scope {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		return null;
 	}

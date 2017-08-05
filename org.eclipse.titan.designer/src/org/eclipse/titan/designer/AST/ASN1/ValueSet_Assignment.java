@@ -53,11 +53,13 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment_type getAssignmentType() {
 		return Assignment_type.A_VS;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setRightScope(final Scope rightScope) {
 		//Do nothing
 
@@ -102,6 +104,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getAssignmentName() {
 		return "value set";
 	}

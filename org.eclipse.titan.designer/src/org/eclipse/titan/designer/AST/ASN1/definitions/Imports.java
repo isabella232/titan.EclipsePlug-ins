@@ -118,11 +118,13 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Identifier getIdentifier() {
 		return new Identifier(Identifier.Identifier_type.ID_ASN, "imports", location, true);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getOutlineText() {
 		return "";
 	}
@@ -134,11 +136,13 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] getOutlineChildren() {
 		return importedModules_v.toArray();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int category() {
 		return 0;
 	}

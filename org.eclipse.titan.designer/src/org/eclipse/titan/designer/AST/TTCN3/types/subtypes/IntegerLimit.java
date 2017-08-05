@@ -34,27 +34,32 @@ public final class IntegerLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Type getType() {
 		return Type.INTEGER;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType decrement() {
 		return (valueType == ValueType.NUMBER) ? new IntegerLimit(value.subtract(BigInteger.ONE)) : this;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public LimitType increment() {
 		return (valueType == ValueType.NUMBER) ? new IntegerLimit(value.add(BigInteger.ONE)) : this;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean isAdjacent(final LimitType other) {
 		final IntegerLimit il = (IntegerLimit) other;
 		return ((valueType == ValueType.NUMBER) && (il.valueType == ValueType.NUMBER) && value.add(BigInteger.ONE).equals(il.value));
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void toString(final StringBuilder sb) {
 		switch (valueType) {
 		case MINUS_INFINITY:
@@ -70,6 +75,7 @@ public final class IntegerLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int compareTo(final LimitType other) {
 		final IntegerLimit il = (IntegerLimit) other;
 		switch (valueType) {
@@ -90,6 +96,7 @@ public final class IntegerLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
@@ -105,6 +112,7 @@ public final class IntegerLimit extends LimitType {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int hashCode() {
 		return value.hashCode();
 	}

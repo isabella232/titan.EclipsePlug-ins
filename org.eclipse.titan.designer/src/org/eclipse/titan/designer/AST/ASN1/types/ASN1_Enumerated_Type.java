@@ -84,16 +84,19 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Type_type getTypetype() {
 		return Type_type.TYPE_ASN1_ENUMERATED;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Type_type getTypetypeTtcn3() {
 		return Type_type.TYPE_TTCN3_ENUMERATED;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("enumerated");
 	}
@@ -113,6 +116,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean isCompatible(final CompilationTimeStamp timestamp, final IType otherType, final TypeCompatibilityInfo info,
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain) {
 		check(timestamp);
@@ -127,22 +131,26 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		return isCompatible(timestamp, type, null, null, null);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String getTypename() {
 		return getFullName();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final String getOutlineIcon() {
 		return "enumeration.gif";
 	}
 
 	// TODO: remove this when the location is properly set
 	@Override
+	/** {@inheritDoc} */
 	public Location getLikelyLocation() {
 		return location;
 	}
@@ -180,6 +188,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void check(final CompilationTimeStamp timestamp) {
 		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -350,6 +359,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final IValue checkThisValueRef(final CompilationTimeStamp timestamp, final IValue value) {
 		IValue temp = value;
 		if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
@@ -380,6 +390,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -424,6 +435,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit) {
 		registerUsage(template);
@@ -438,6 +450,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -500,6 +513,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addProposal(final ProposalCollector propCollector, final int i) {
 		final List<ISubReference> subreferences = propCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i || enumerations == null) {
@@ -535,6 +549,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {
@@ -568,6 +583,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		if (enumerations == null) {
 			return;
@@ -594,6 +610,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		super.findReferences(referenceFinder, foundIdentifiers);
 		if (enumerations != null) {
@@ -623,6 +640,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final Identifier getComponentIdentifierByName(final Identifier identifier) {
 		final EnumItem enumItem = getEnumItemWithName(identifier);
 		return enumItem == null ? null : enumItem.getId();

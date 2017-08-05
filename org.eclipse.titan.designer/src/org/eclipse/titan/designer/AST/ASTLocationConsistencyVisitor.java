@@ -24,6 +24,7 @@ public class ASTLocationConsistencyVisitor extends ASTVisitor {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int visit(final IVisitableNode node) {
 		if (node instanceof Identifier) {
 			final Identifier id = (Identifier)node;

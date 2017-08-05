@@ -89,22 +89,26 @@ public final class SelectCase_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
 		selectcases.setMyStatementBlock(statementBlock, index);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
 		selectcases.setMyDefinition(definition);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
 		selectcases.setMyAltguards(altGuards);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		return selectcases.hasReturn(timestamp);
 	}
@@ -140,11 +144,13 @@ public final class SelectCase_Statement extends Statement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
 		selectcases.checkAllowedInterleave();
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void postCheck() {
 		selectcases.postCheck();
 	}

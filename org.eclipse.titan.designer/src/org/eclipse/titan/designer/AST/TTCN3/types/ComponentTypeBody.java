@@ -314,6 +314,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean hasAssignmentWithId(final CompilationTimeStamp timestamp, final Identifier identifier) {
 		final String name = identifier.getName();
 		Definition definition = definitions.getDefinition(name);
@@ -467,6 +468,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String toString() {
 		return getFullName();
 	}
@@ -812,6 +814,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
 		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.COMPONENT_INTERNAL_SKELETON_TEMPLATE_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), TTCN3CodeSkeletons.SKELETON_IMAGE);
@@ -819,6 +822,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void addKeywordProposal(final ProposalCollector propCollector) {
 		propCollector.addProposal(TTCN3Keywords.COMPONENT_SCOPE, null, TTCN3Keywords.KEYWORD);
 		super.addKeywordProposal(propCollector);
@@ -876,6 +880,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Assignment getEnclosingAssignment(final int offset) {
 		if (definitions == null) {
 			return null;
