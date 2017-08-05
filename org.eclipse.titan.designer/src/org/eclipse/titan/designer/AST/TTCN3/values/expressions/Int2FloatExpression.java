@@ -217,7 +217,7 @@ public final class Int2FloatExpression extends Expression_Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {

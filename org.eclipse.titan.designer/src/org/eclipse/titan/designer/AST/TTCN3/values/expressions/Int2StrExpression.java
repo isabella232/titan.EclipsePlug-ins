@@ -216,7 +216,7 @@ public final class Int2StrExpression extends Expression_Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
