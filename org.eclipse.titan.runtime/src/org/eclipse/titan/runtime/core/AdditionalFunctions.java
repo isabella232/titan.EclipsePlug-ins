@@ -284,7 +284,7 @@ public class AdditionalFunctions {
 		return int2oct(value, length.getInt());
 	}
 	
-	//C.6 - int2str
+	// C.6 - int2str
 	public static TitanCharString int2str(final int value){
 		
 		return new TitanCharString(Integer.valueOf(value).toString());
@@ -299,6 +299,21 @@ public class AdditionalFunctions {
 		return new TitanCharString(value.getBigInteger().toString());
 	}
 
+	// C.7 - int2float
+	public static TitanFloat int2float(final int value){
+		
+		return new TitanFloat((double) value);
+	}
+	
+	public static TitanFloat int2float(final TitanInteger value){
+		value.mustBound("The argument of function int2float() is an unbound integer value.");
+		
+		if(value.isNative()){
+			return int2float(value.getInt());
+		}
+		
+		return new TitanFloat(value.getBigInteger().doubleValue());
+	}
 
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
