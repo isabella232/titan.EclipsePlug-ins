@@ -30,6 +30,15 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		this.clazz = clazz;
 	}
 
+	public Optional(final Class<TYPE> clazz, final template_sel otherValue) {
+		if (otherValue != template_sel.OMIT_VALUE) {
+			throw new TtcnError("Setting an optional field to an invalid value.");
+		}
+		optionalValue = null;
+		optionalSelection = optional_sel.OPTIONAL_OMIT;
+		this.clazz = clazz;
+	}
+
 	public Optional(final Optional<TYPE> otherValue) {
 		//super(otherValue);
 		optionalValue = null;

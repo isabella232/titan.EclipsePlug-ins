@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -135,9 +136,13 @@ public final class Omit_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
-		StringBuilder result = new StringBuilder();
+		IType governor = myGovernor;
+		if(governor == null) {
+			governor = myLastSetGovernor;
+		}
 
-		result.append( "template_sel.OMIT_VALUE" );
+		StringBuilder result = new StringBuilder();
+		result.append(MessageFormat.format("new Optional<{0}>({0}.class, template_sel.OMIT_VALUE)", governor.getGenNameValue(aData, result, myScope)));
 
 		return result;
 	}
