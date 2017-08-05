@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.math.BigDecimal;
+
 import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -240,14 +242,155 @@ public class AdditionalFunctions {
 		return new TitanOctetString(octets_ptr);
 	}
 
-	// initial implement
+	public static TitanOctetString int2oct(final int value, final TitanInteger length) {
+		length.mustBound("The second argument (length) of function int2oct() is an unbound integer value.");
+
+		return int2oct(value, length.getInt());
+	}
+
+	public static TitanOctetString int2oct(final TitanInteger value, final int length){
+		value.mustBound("The first argument (value) of function int2oct() is an unbound integer value.");
+
+		if(value.isNative()){
+			return int2oct(value.getInt(), length);
+		} else{
+			BigInteger tmp_val = value.getBigInteger();
+			if(value.isLessThan(0).getValue()){
+				throw new TtcnError("The first argument (value) of function int2oct() is a negative integer value: {0}.");
+			}
+			if (length < 0){
+				throw new TtcnError("The second argument (length) of function int2oct() is a negative integer value: {0}.");
+			}
+			if((tmp_val.bitCount() + 7) / 4 < length){
+				throw new TtcnError("The first argument of function int2oct(), which is {0}, does not fit in {1} octet(s).");
+			}
+			List<Character> octets_ptr = new ArrayList<Character>(length);
+			for (int i = 0; i < length; i++) {
+				octets_ptr.add((char) 0);
+			}
+			for (int i = length - 1; i >= 0; i--) {
+				octets_ptr.set(i, (char) (tmp_val.and(new BigInteger("255")).intValue()));
+				tmp_val = tmp_val.shiftRight(8);
+			}
+			return new TitanOctetString(octets_ptr);
+		}
+	}
+
 	public static TitanOctetString int2oct(final TitanInteger value, final TitanInteger length) {
 		value.mustBound("The first argument (value) of function int2oct() is an unbound integer value.");
 		length.mustBound("The second argument (length) of function int2oct() is an unbound integer value.");
 
-		return int2oct(value.getInt(), length.getInt());
+		if(value.isNative()){
+			return int2oct(value.getInt(), length.getInt());
+		}	
+		return int2oct(value, length.getInt());
 	}
 
+	// C.6 - int2str
+	public static TitanCharString int2str(final int value){
+
+		return new TitanCharString(Integer.valueOf(value).toString());
+	}
+
+	public static TitanCharString int2str(final TitanInteger value){
+		value.mustBound("The argument of function int2str() is an unbound integer value.");
+
+		if(value.isNative()){
+			return int2str(value.getInt());
+		}
+		return new TitanCharString(value.getBigInteger().toString());
+	}
+
+	// C.7 - int2float
+	public static TitanFloat int2float(final int value){
+
+		return new TitanFloat((double) value);
+	}
+
+	public static TitanFloat int2float(final TitanInteger value){
+		value.mustBound("The argument of function int2float() is an unbound integer value.");
+
+		if(value.isNative()){
+			return int2float(value.getInt());
+		}
+
+		return new TitanFloat(value.getBigInteger().doubleValue());
+	}
+
+	// C.8 - float2int
+	public static TitanInteger float2int(double value){
+		if(value > Integer.MIN_VALUE && value < Integer.MAX_VALUE){
+			return new TitanInteger((int) value);
+		}
+		return new TitanInteger(new BigDecimal(value).toBigInteger());
+	}
+
+	public static TitanInteger float2int(TitanFloat value){
+		value.mustBound("The argument of function float2int() is an unbound float value.");
+
+		return float2int(value.getValue());
+	}
+
+	// C.9 - char2int
+	public static TitanInteger char2int(char value){
+		if(value > 127){
+			throw new TtcnError("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.");
+		}
+		return new TitanInteger((int) value);
+	}
+
+	public static TitanInteger char2int(String value){
+		if(value == null){
+			value = "";
+		}
+		if(value.length() != 1){	
+			throw new TtcnError(MessageFormat.format("The length of the argument in function char2int() must be exactly 1 instead of {0}.",value.length()));
+		}
+		return char2int(value.charAt(0));
+	}
+
+	public static TitanInteger char2int(final TitanCharString value){
+		value.mustBound("The argument of function char2int() is an unbound charstring value.");
+
+		if(value.lengthOf().getInt() != 1){
+			throw new TtcnError(MessageFormat.format("The length of the argument in function char2int() must be exactly 1 instead of {0}.",value.lengthOf()));
+		}
+		return char2int(value.constGetAt(0).get_char());
+	}
+
+	public static TitanInteger char2int(final TitanCharString_Element value){
+		value.mustBound("The argument of function char2int() is an unbound charstring element.");
+
+		return char2int(value.get_char());
+	}
+
+	// C.10 - char2oct
+	public static TitanOctetString char2oct(String value){
+		if(value == null){
+			value = "";
+		}
+		if(value.length() <= 0){
+			return new TitanOctetString("0");
+		}
+		List<Character> octets_ptr = new ArrayList<Character>();
+		for (int i = 0; i < value.length(); i++) {
+			octets_ptr.add(int2oct((int)value.charAt(i), 1).get_nibble(0));
+		}
+		return new TitanOctetString(octets_ptr);
+
+	}
+
+	public static TitanOctetString char2oct(TitanCharString value){
+		value.mustBound("The argument of function char2oct() is an unbound charstring value.");
+
+		return char2oct(value.toString());
+	}
+
+	public static TitanOctetString char2oct(TitanCharString_Element value){
+		value.mustBound("The argument of function char2oct() is an unbound charstring element.");
+
+		return char2oct(String.valueOf(value.get_char()));
+	}
 
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
@@ -304,7 +447,7 @@ public class AdditionalFunctions {
 			int temp2 = (bits_ptr.get(i / 8) & (1 << (i % 8)));
 			if ((bits_ptr.get(i / 8) & (1 << (i % 8))) != 0) {
 				int temp1 = (0x80 >> ((i + padding_bits) % 8)) >> 4;
-				ret_val.set((i + padding_bits) / 8, (byte) (ret_val.get((i + padding_bits) / 8) | temp1));
+			ret_val.set((i + padding_bits) / 8, (byte) (ret_val.get((i + padding_bits) / 8) | temp1));
 			}
 		}
 
