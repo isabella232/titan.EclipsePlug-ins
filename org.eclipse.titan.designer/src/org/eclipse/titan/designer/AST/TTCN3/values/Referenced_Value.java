@@ -670,13 +670,17 @@ public final class Referenced_Value extends Value {
 
 		// the referred value is available at compile time
 		// the code generation is based on the referred value
+		if (last.canGenerateSingleExpression() &&
+				myScope.getModuleScope() == last.getMyScope().getModuleScope()) {
+			// simple substitution for in-line values within the same module
+			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
+		} else {
+			//TODO might need initialization see needs_init_precede
+			//TODO Value.cc:generate_code_init_refd
 
-		//TODO might need initialization see needs_init_precede
-		//TODO Value.cc:generate_code_init_refd
-		source.append(name);
-		source.append(".assign(");
-		source.append( last.getGenNameOwn() );
-		source.append(");\n");
+			last.generateCodeInit(aData, source, name);
+		}
+
 		return source;
 	}
 
