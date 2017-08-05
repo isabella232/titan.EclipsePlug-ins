@@ -283,6 +283,21 @@ public class AdditionalFunctions {
 		}	
 		return int2oct(value, length.getInt());
 	}
+	
+	//C.6 - int2str
+	public static TitanCharString int2str(final int value){
+		
+		return new TitanCharString(Integer.valueOf(value).toString());
+	}
+	
+	public static TitanCharString int2str(final TitanInteger value){
+		value.mustBound("The argument of function int2str() is an unbound integer value.");
+		
+		if(value.isNative()){
+			return int2str(value.getInt());
+		}
+		return new TitanCharString(value.getBigInteger().toString());
+	}
 
 
 	// C.12 - bit2int
