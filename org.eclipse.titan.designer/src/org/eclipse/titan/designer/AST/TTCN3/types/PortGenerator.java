@@ -352,7 +352,7 @@ public class PortGenerator {
 				}
 				source.append(inType.mJavaTypeName);
 			}
-			source.append("\n");
+			source.append('\n');
 			source.append("Base_Type message;\n");
 			source.append("int sender_component;\n");
 			if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -572,12 +572,12 @@ public class PortGenerator {
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		} else {
 			source.append("if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		}
 		
 		source.append(" else {\n");
@@ -639,13 +639,13 @@ public class PortGenerator {
 			source.append("//FIXME logging\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		} else {
 			source.append("if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-			source.append("}");
+			source.append('}');
 		}
 
 		source.append(" else {\n");
@@ -1007,7 +1007,7 @@ public class PortGenerator {
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		} else {
 			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
 			source.append("//FIXME logging\n");
@@ -1076,12 +1076,12 @@ public class PortGenerator {
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		} else {
 			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		}
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
@@ -1215,12 +1215,12 @@ public class PortGenerator {
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		} else {
 			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		}
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.REPLY_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
@@ -1354,12 +1354,12 @@ public class PortGenerator {
 			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		} else {
 			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("}");
+			source.append('}');
 		}
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
