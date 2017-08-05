@@ -606,13 +606,13 @@ public final class SequenceOf_Value extends Value {
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
 				StringBuilder embeddedName = new StringBuilder(parameterGenName);
-				embeddedName.append('[').append(i).append(']');
+				embeddedName.append(".getAt(").append(i).append(')');
 				values.getIndexedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
 			}
 		} else {
 			for (int i = 0; i < values.getNofValues(); i++) {
 				StringBuilder embeddedName = new StringBuilder(parameterGenName);
-				embeddedName.append('[').append(i).append(']');
+				embeddedName.append(".getAt(").append(i).append(')');
 				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
 			}
 		}
