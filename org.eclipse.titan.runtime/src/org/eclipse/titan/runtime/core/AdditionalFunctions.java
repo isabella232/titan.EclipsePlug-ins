@@ -240,12 +240,48 @@ public class AdditionalFunctions {
 		return new TitanOctetString(octets_ptr);
 	}
 
-	// initial implement
+	public static TitanOctetString int2oct(final int value, final TitanInteger length) {
+		length.mustBound("The second argument (length) of function int2oct() is an unbound integer value.");
+
+		return int2oct(value, length.getInt());
+	}
+
+	public static TitanOctetString int2oct(final TitanInteger value, final int length){
+		value.mustBound("The first argument (value) of function int2oct() is an unbound integer value.");
+
+		if(value.isNative()){
+			return int2oct(value.getInt(), length);
+		} else{
+			BigInteger tmp_val = value.getBigInteger();
+			if(value.isLessThan(0).getValue()){
+				throw new TtcnError("The first argument (value) of function int2oct() is a negative integer value: {0}.");
+			}
+			if (length < 0){
+				throw new TtcnError("The second argument (length) of function int2oct() is a negative integer value: {0}.");
+			}
+			if((tmp_val.bitCount() + 7) / 4 < length){
+				throw new TtcnError("The first argument of function int2oct(), which is {0}, does not fit in {1} octet(s).");
+			}
+			List<Character> octets_ptr = new ArrayList<Character>(length);
+			for (int i = 0; i < length; i++) {
+				octets_ptr.add((char) 0);
+			}
+			for (int i = length - 1; i >= 0; i--) {
+				octets_ptr.set(i, (char) (tmp_val.and(new BigInteger("255")).intValue()));
+				tmp_val = tmp_val.shiftRight(8);
+			}
+			return new TitanOctetString(octets_ptr);
+		}
+	}
+
 	public static TitanOctetString int2oct(final TitanInteger value, final TitanInteger length) {
 		value.mustBound("The first argument (value) of function int2oct() is an unbound integer value.");
 		length.mustBound("The second argument (length) of function int2oct() is an unbound integer value.");
 
-		return int2oct(value.getInt(), length.getInt());
+		if(value.isNative()){
+			return int2oct(value.getInt(), length.getInt());
+		}	
+		return int2oct(value, length.getInt());
 	}
 
 
