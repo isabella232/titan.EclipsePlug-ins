@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
@@ -18,6 +19,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -159,5 +161,30 @@ public final class SingleArrayDimension extends ArrayDimension {
 			}
 		}
 		return true;
+	}
+
+
+	@Override
+	/** {@inheritDoc} */
+	public String getValueType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
+		if(isErroneous) {
+			return "FATAL ERROR in SingleArrayDImension:getValueType";
+		}
+
+		aData.addBuiltinTypeImport("VALUE_ARRAY");
+
+		return MessageFormat.format("VALUE_ARRAY<{0}>", elementType.getGenNameValue(aData, source, scope));
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getTemplateType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
+		if(isErroneous) {
+			return "FATAL ERROR in SingleArrayDImension:getTemplateType";
+		}
+
+		aData.addBuiltinTypeImport("TEMPLATE_ARRAY");
+
+		return MessageFormat.format("TEMPLATE_ARRAY<{0}, {1}>", elementType.getGenNameValue(aData, source, scope), elementType.getGenNameTemplate(aData, source, scope));
 	}
 }

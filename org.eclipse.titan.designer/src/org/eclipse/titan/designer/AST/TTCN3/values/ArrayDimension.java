@@ -12,13 +12,16 @@ import java.text.MessageFormat;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -34,7 +37,7 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	private static final String INDEXOVERFLOW = "Array index oveflow: the index value must be at most {0} instead of {1}";
 
 	protected CompilationTimeStamp lastTimeChecked;
-	private boolean isErroneous = false;
+	protected boolean isErroneous = false;
 	private Location location = NULL_Location.INSTANCE;
 
 	@Override
@@ -178,4 +181,33 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	 * */
 	@Override
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
+
+	/**
+	 * Returns the Java type expression that represents the equivalent value
+	 * class at runtime viewed from the module of the scope .
+	 * 
+	 * get_genname_value in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param elementType the element type of the array
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java value class in the generated code.
+	 */
+	public abstract String getValueType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope);
+
+	/**
+	 * Returns the Java type expression that represents the equivalent template
+	 * class at runtime viewed from the module of the scope .
+	 * 
+	 * get_genname_value in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param elementType the element type of the array
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java value class in the generated code.
+	 */
+	public abstract String getTemplateType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope);
+
 }

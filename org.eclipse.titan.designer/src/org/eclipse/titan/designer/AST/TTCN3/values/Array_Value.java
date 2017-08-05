@@ -523,6 +523,18 @@ public final class Array_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
+		source.append(MessageFormat.format("{0}.setSize({1});\n", name, tempDimension.getSize()));
+		source.append(MessageFormat.format("{0}.setOfset({1});\n", name, tempDimension.getOffset()));
+
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
@@ -548,14 +560,6 @@ public final class Array_Value extends Value {
 				}
 			}
 		} else {
-			IType governor = myGovernor;
-			if (governor == null) {
-				governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
-			}
-			if (governor == null) {
-				governor = myLastSetGovernor;
-			}
-
 			final int nofValues = values.getNofValues();
 			IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if (!Type_type.TYPE_ARRAY.equals(lastType.getTypetype())) {
@@ -597,9 +601,13 @@ public final class Array_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
+		ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
 		String tempId = aData.getTemporaryVariableName();
 		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		expression.preamble.append(MessageFormat.format("{0}.setSize({1});\n", tempId, tempDimension.getSize()));
+		expression.preamble.append(MessageFormat.format("{0}.setOfset({1});\n", tempId, tempDimension.getOffset()));
+
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);
 		expression.expression.append(tempId);

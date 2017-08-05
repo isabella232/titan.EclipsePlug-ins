@@ -23,31 +23,31 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
-import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IValue.Value_type;
-import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.IndexedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Indexed_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -898,5 +898,26 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		return elementType.isPresentAnyvalueEmbeddedField(expression, subreferences, beginIndex + 1);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
+		if (!inTypeDefinition) {
+			return dimension.getValueType(aData, source, elementType, scope);
+		}
+
+		return getGenNameOwn();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		// a template class has to be instantiated in case of arrays outside type definitions
+		if (!inTypeDefinition) {
+			return dimension.getTemplateType(aData, source, elementType, scope);
+		}
+
+		return getGenNameOwn();
 	}
 }
