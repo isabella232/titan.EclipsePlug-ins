@@ -6,9 +6,8 @@
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
-import java.time.temporal.ValueRange;
+
 import java.util.ArrayList;
-import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 
 //TODO: Not yet complete rewrite
 /**
@@ -31,7 +30,7 @@ public class TitanCharString_template extends Base_Template {
 	//TODO: implement: pattern_value part for STRING_PATTERN case
 
 	public TitanCharString_template () {
-		//do  nothing
+		//do nothing
 	}
 
 	public TitanCharString_template (final template_sel otherValue) {
@@ -255,16 +254,20 @@ public class TitanCharString_template extends Base_Template {
 			max_is_exclusive = false;
 			break;
 		case DECODE_MATCH:
-			setSelection(template_sel.DECODE_MATCH);			
+			setSelection(template_sel.DECODE_MATCH);
+			break;
 		default:
 			throw new TtcnError("Setting an invalid type for a charstring template.");
 		}
 	}
-	
+
 	// originally list_item
 	public TitanCharString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list charstring template. ");
+		}
+		if (listIndex < 0) {
+			throw new TtcnError("Internal error: Indexing a charstring value list template with a negative index.");
 		}
 		if (listIndex >= value_list.size()) {
 			throw new TtcnError("Internal error: Index overflow in a charstring value list template.");
@@ -272,7 +275,7 @@ public class TitanCharString_template extends Base_Template {
 
 		return value_list.get(listIndex);
 	}
-	
+
 	//originally match_omit
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
@@ -295,13 +298,11 @@ public class TitanCharString_template extends Base_Template {
 				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
 			return false;
-			 // else fall through
 		default:
 			return false;
 		}
 	}
-}
-	
+
 	/*//FIXME: lengthOf
 	// originally lengthOf
 	public TitanInteger lengthOf() {
@@ -374,9 +375,5 @@ public class TitanCharString_template extends Base_Template {
 	//TODO: implement setMinExclusive
 	//TODO: implement setMaxExclusive
 	//TODO: implement isPresent
-
-	//TODO: test lengthOf
-	//TODO: test setType
-	//}
-//}
-
+	//TODO: implement match_omit
+}
