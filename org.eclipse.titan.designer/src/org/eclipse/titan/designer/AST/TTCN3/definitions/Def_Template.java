@@ -974,7 +974,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					body.generateCodeInit( aData, source, genName );
 				}
 			} else {
-				source.append(MessageFormat.format("{0} {1} = new {0}({2}", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
+				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeName, genName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
 				if ( body != null ) {
 					body.generateCodeInit( aData, source, genName );
 				}
