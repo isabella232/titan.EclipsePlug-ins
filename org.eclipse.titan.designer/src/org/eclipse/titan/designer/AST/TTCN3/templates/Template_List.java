@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Values;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -488,8 +489,7 @@ public final class Template_List extends CompositeTemplate {
 					int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
 					for (int j = 0; j < numPermutations; j++) {
 						ITemplateListItem templateListItem2 = ((PermutationMatch_Template) template).getTemplateByIndex(j);
-						TTCN3Template subTemplate = ((TemplateBody) templateListItem2).getTemplate();
-						if (subTemplate.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
+						if (templateListItem2.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
 							variables.add(j);
 						} else {
 							fixedPart++;
@@ -508,8 +508,11 @@ public final class Template_List extends CompositeTemplate {
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
 				ITemplateListItem templateListItem = templates.getTemplateByIndex(i);
 				TTCN3Template template = ((TemplateBody) templateListItem).getTemplate();
+				if (template.getTemplatetype() != Template_type.PERMUTATION_MATCH) {
+					continue;
+				}
 				for (int k = 0; k < variables.size(); k++) {
-					ITemplateListItem templateListItem2 = templates.getTemplateByIndex(k);
+					ITemplateListItem templateListItem2 = ((PermutationMatch_Template) template).getTemplateByIndex(k);
 					if (templateListItem2.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
 						TTCN3Template subTemplate = ((AllElementsFrom) templateListItem2).getTemplate();
 						final Reference reference = ((SpecificValue_Template) subTemplate).getReference();
@@ -572,37 +575,36 @@ public final class Template_List extends CompositeTemplate {
 						if (templateListItem2.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
 							ExpressionStruct expression = new ExpressionStruct();
 							TTCN3Template allFromTemplate = ((AllElementsFrom) templateListItem2).template;
+							allFromTemplate.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
 							switch (allFromTemplate.getTemplatetype()) {
 							case SPECIFIC_VALUE: {
 								IValue specificValue = ((SpecificValue_Template) allFromTemplate).getValue();
-								switch(specificValue.getValuetype()) {
-								case REFERENCED_VALUE: {
-									Reference reference = ((Referenced_Value) specificValue).getReference();
-									reference.generateCode(aData, expression);
+								Reference reference;
+								if (specificValue.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
+									reference = ((Undefined_LowerIdentifier_Value) specificValue).getAsReference();
+								} else {
+									reference = ((Referenced_Value) specificValue).getReference();
+								}
 
-									Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-									switch (assignment.getAssignmentType()) {
-									case A_CONST:
-									case A_EXT_CONST:
-									case A_MODULEPAR:
-									case A_VAR:
-									case A_PAR_VAL:
-									case A_PAR_VAL_IN:
-									case A_PAR_VAL_OUT:
-									case A_PAR_VAL_INOUT:
-									case A_FUNCTION_RVAL:
-									case A_EXT_FUNCTION_RVAL:
-										if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
-											setSize.append(".get()");
-										}
-										break;
-									default:
-										break;
+								reference.generateCode(aData, expression);
+
+								Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+								switch (assignment.getAssignmentType()) {
+								case A_CONST:
+								case A_EXT_CONST:
+								case A_MODULEPAR:
+								case A_VAR:
+								case A_PAR_VAL:
+								case A_PAR_VAL_IN:
+								case A_PAR_VAL_OUT:
+								case A_PAR_VAL_INOUT:
+								case A_FUNCTION_RVAL:
+								case A_EXT_FUNCTION_RVAL:
+									if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+										setSize.append(".get()");
 									}
 									break;
-								}
 								default:
-									source.append("//FATAL ERROR while generating code for all from within a permutation\n");
 									break;
 								}
 								break;
@@ -612,8 +614,10 @@ public final class Template_List extends CompositeTemplate {
 								break;
 							}
 
-							source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_liml ++i_i ) '{'\n", expression.expression));
-							permutationElement.generateCodeInitSeofElement(aData, source, name, Long.toString(ix) + skipper + " + i_i", ofTypeName);
+							source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_lim; ++i_i ) '{'\n", expression.expression));
+
+							String embeddedName = MessageFormat.format("{0}.setItem({1} + {2} + i_i)", name, i, ix);
+							((AllElementsFrom) templateListItem2).generateCodeInitAllFrom(aData, source, embeddedName);
 							source.append("}\n");
 							skipper.append(MessageFormat.format("-1 + {0}.n_elem() /* 3005 */", expression.expression));
 						} else {
