@@ -531,6 +531,7 @@ public final class Array_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
+		governor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
 		source.append(MessageFormat.format("{0}.setSize({1});\n", name, tempDimension.getSize()));
 		source.append(MessageFormat.format("{0}.setOfset({1});\n", name, tempDimension.getOffset()));
