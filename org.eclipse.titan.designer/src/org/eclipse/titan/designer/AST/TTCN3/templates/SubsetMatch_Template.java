@@ -67,7 +67,8 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 	/** {@inheritDoc} */
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_SET_OF.equals(typeType)) {
-			lengthRestriction.checkNofElements(timestamp, getNofTemplatesNotAnyornone(timestamp), false, true, true, this);
+			final boolean hasAnyOrNone = templateContainsAnyornone();
+			lengthRestriction.checkNofElements(timestamp, getNofTemplatesNotAnyornone(timestamp), hasAnyOrNone, true, hasAnyOrNone, this);
 		}
 	}
 
