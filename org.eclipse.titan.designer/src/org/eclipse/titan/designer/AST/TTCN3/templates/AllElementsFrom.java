@@ -26,8 +26,12 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -329,4 +333,41 @@ public class AllElementsFrom extends TemplateBody {
 		return result;
 	}
 
+
+	public void generateCodeInitAllFrom(final JavaGenData aData, final StringBuilder source, final String name) {
+		IValue value = ((SpecificValue_Template) template).getValue();
+		Reference reference;
+		if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
+			//value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+			reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
+		} else {
+			reference = ((Referenced_Value) value).getReference();
+		}
+
+		ExpressionStruct expression = new ExpressionStruct();
+		reference.generateCode(aData, expression);
+
+		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		switch (assignment.getAssignmentType()) {
+		case A_CONST:
+		case A_EXT_CONST:
+		case A_MODULEPAR:
+		case A_VAR:
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_OUT:
+		case A_PAR_VAL_INOUT:
+		case A_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RVAL:
+			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+				expression.expression.append(".get()");
+			}
+			break;
+		default:
+			break;
+		}
+
+		// The caller will have to provide the for cycle with this variable
+		source.append(MessageFormat.format("{0}.assign({1}.getAt(i_i));\n", name, expression.expression));
+	}
 }
