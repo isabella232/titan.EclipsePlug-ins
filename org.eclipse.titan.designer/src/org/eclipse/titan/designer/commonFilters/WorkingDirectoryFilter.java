@@ -72,6 +72,7 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] filter(final Viewer viewer, final Object parent, final Object[] elements) {
 		workingDirectories = null;
 		Object tempParent = parent;
@@ -103,6 +104,7 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Object[] filter(final Viewer viewer, final TreePath parentPath, final Object[] elements) {
 		workingDirectories = null;
 
@@ -110,6 +112,7 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean select(final Viewer viewer, final Object parentElement, final Object element) {
 		if (!(element instanceof IFolder)) {
 			return true;

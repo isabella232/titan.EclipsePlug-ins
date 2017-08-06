@@ -61,6 +61,7 @@ public final class ExcludedResourceFilter extends org.eclipse.jface.viewers.View
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean select(final Viewer viewer, final Object parentElement, final Object element) {
 		if (element instanceof IFile) {
 			final IFile file = (IFile) element;
