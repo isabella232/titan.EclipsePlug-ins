@@ -198,10 +198,7 @@ public final class Verdict_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		source.append(name);
-		source.append(".assign(");
-		source.append(generateSingleExpression(aData));
-		source.append( " );\n" );
+		source.append(MessageFormat.format("{0}.assign({1});\n", name, generateSingleExpression(aData)));
 
 		return source;
 	}
