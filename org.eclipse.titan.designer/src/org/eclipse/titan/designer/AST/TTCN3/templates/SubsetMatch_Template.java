@@ -290,7 +290,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 					String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
 					source.append(MessageFormat.format("{0} {1} = {2}.setItem({3});\n", ofTypeName, tempId, name, i));
-					generateCodeInit(aData, source, tempId);
+					template.generateCodeInit(aData, source, tempId);
 					source.append("}\n");
 				} else {
 					String embeddedName = MessageFormat.format("{0}.setItem({1})", name, i);
