@@ -388,6 +388,34 @@ public class AdditionalFunctions {
 
 		return char2oct(String.valueOf(value.get_char()));
 	}
+	
+	//C.11 - unichar2int
+	public static TitanInteger unichar2int(final TitanUniversalChar value) {
+		if(value.getUc_group() > 127) {
+			throw new TtcnError("The argument of function unichar2int() is the invalid quadruple char {0},"+
+		"the first number of which is outside the allowed range 0 .. 127.");
+		}
+		int result = (value.getUc_group() << 24) | (value.getUc_plane() << 16) | (value.getUc_row() << 8) | value.getUc_cell();
+		
+		return new TitanInteger(result);
+	}
+	
+	public static TitanInteger unichar2int(final TitanUniversalCharString value){
+		value.mustBound("The argument of function unichar2int() is an unbound universal charstring value.");
+		
+		if(value.lengthOf().getInt() != 1){
+			throw new TtcnError("The length of the argument in function unichar2int() must be exactly 1 instead of %d.");
+		}
+		
+		return unichar2int(value.getValue().get(0));
+	}
+	
+	public static TitanInteger unichar2int(final TitanUniversalCharString_Element value){
+		value.mustBound("The argument of function unichar2int() is an unbound universal charstring element.");
+		
+		return unichar2int(value.get_char());
+	}
+	
 
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
@@ -425,31 +453,17 @@ public class AdditionalFunctions {
 	}
 
 
-	// FIXME:bit2hex
-	// C.13 - bit2hexnew
-	public static TitanHexString bit2hex(final TitanBitString value) {
-		value.mustBound("The argument of function bit2hex() is an unbound bitstring value.");
-
-		int n_bits = value.lengthOf().getInt();
-		int n_nibbles = (n_bits + 3) / 4;
-		int padding_bits = 4 * n_nibbles - n_bits;
-		List<Byte> ret_val = new ArrayList<Byte>();
-		List<Byte> bits_ptr = new ArrayList<Byte>();
-		bits_ptr = value.getValue();
-		for (int i = 0; i < n_nibbles; i++) {
-			ret_val.add((byte) 0);
-		}
-
-		for (int i = 0; i < n_bits; i++) {
-			int temp2 = (bits_ptr.get(i / 8) & (1 << (i % 8)));
-			if (temp2 != 0) {
-				int temp1 = (0x80 >> ((i + padding_bits) % 8)) >> 4;
-				ret_val.set((i + padding_bits) / 8, (byte) (ret_val.get((i + padding_bits) / 8) | temp1));
-			}
-		}
-
-		return new TitanHexString(ret_val);
-		/* return int2hex(bit2int(value), n_nibbles); */
+	
+	
+	//C.13 - bit2hexnew
+	public static TitanHexString bit2hex(final TitanBitString_Element value) {
+		value.mustBound("The argument of function bit2hex() is an unbound bitstring element.");
+		
+		return new TitanHexString((byte)(value.get_bit() ? 0x01 : 0x00));
 	}
-
+	
+	
+	
+	
+	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
 }
