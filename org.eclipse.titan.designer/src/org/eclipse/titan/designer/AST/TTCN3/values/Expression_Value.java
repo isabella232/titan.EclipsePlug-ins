@@ -342,7 +342,7 @@ public abstract class Expression_Value extends Value {
 		expression.expression.append(name);
 		expression.expression.append(".assign(");
 
-		generateCodeExpressionExpression(aData, expression);
+		generateCodeExpression(aData, expression);
 
 		expression.expression.append(')');
 		expression.mergeExpression(source);
@@ -353,6 +353,11 @@ public abstract class Expression_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (lastValue != null && lastValue != this) {
+			lastValue.generateCodeExpression(aData, expression);
+			return;
+		}
+
 		if (canGenerateSingleExpression()) {
 			expression.expression.append(generateSingleExpression(aData));
 			return;
