@@ -256,7 +256,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
 				throw new TtcnError("The right operand of comparison is an unbound optional value.");
 			} else {
-				if(optionalSelection == otherValue.optionalSelection) {
+				if(optionalSelection != otherValue.optionalSelection) {
 					return new TitanBoolean(false);
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 					return optionalValue.operatorEquals(otherValue.optionalValue);
@@ -300,7 +300,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
 				throw new TtcnError("The right operand of comparison is an unbound optional value.");
 			} else {
-				if(optionalSelection == optionalOther.optionalSelection) {
+				if(optionalSelection != optionalOther.optionalSelection) {
 					return new TitanBoolean(false);
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 					return optionalValue.operatorEquals(optionalOther.optionalValue);
