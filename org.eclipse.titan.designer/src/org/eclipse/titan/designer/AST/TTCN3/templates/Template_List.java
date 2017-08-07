@@ -428,12 +428,21 @@ public final class Template_List extends CompositeTemplate {
 			return;
 		}
 
-		if (myGovernor == null) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
 			return;
 		}
+		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		String tempId = aData.getTemporaryVariableName();
 
-		// TODO not yet implemented
-		super.generateCodeExpression(aData, expression);
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		setGenNameRecursive(tempId);
+		generateCodeInit(aData, expression.preamble, tempId);
+		// TODO handle template restriction
+		expression.expression.append(tempId);
 	}
 
 	@Override
