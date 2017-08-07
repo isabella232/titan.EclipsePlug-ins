@@ -51,6 +51,9 @@ public class TryCatch_Statement extends Statement {
 
 		catchSurroundingBlock = new StatementBlock();
 		catchSurroundingBlock.setFullNameParent(this);
+		if ( exceptionIdentifier == null ) {
+			return;
+		}
 		catchSurroundingBlock.setLocation(exceptionIdentifier.getLocation());
 		final Type strType = new CharString_Type();
 		strType.setLocation(exceptionIdentifier.getLocation());
