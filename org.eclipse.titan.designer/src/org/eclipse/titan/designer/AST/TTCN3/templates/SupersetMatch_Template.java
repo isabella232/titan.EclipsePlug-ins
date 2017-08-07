@@ -74,8 +74,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 	/** {@inheritDoc} */
 	protected void checkTemplateSpecificLengthRestriction(final CompilationTimeStamp timestamp, final Type_type typeType) {
 		if (Type_type.TYPE_SET_OF.equals(typeType)) {
-			final boolean hasAnyOrNone = templateContainsAnyornone();
-			lengthRestriction.checkNofElements(timestamp, getNofTemplatesNotAnyornone(timestamp), hasAnyOrNone, false, hasAnyOrNone, this);
+			lengthRestriction.checkNofElements(timestamp, getNofTemplatesNotAnyornone(timestamp), true, false, true, this);
 		}
 	}
 
