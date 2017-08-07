@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
@@ -486,14 +487,14 @@ public final class Getreply_Statement extends Statement {
 			expression.expression.append(".getreply(");
 			if (parameter != null) {
 				//FIXME handle redirect
-				parameter.generateCode(aData, expression);
+				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 				IType signature = parameter.getTemplateBody().getMyGovernor();
 				IType signatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				IType returnType = ((Signature_Type) signatureType).getSignatureReturnType();
 				if (returnType != null) {
 					expression.expression.append(".set_value_template(");
 					if (valueMatch != null) {
-						valueMatch.generateCode(aData, expression);
+						valueMatch.generateCode(aData, expression, Restriction_type.TR_NONE);
 					} else {
 						// the value match is not present
 						// we must substitute it with ? in the signature template
@@ -544,7 +545,7 @@ public final class Getreply_Statement extends Statement {
 	 * */
 	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
 		if (fromClause != null) {
-			fromClause.generateCode(aData, expression);
+			fromClause.generateCode(aData, expression, Restriction_type.TR_NONE);
 			//FIXME handle redirect
 		} else {
 			// neither from clause nor sender redirect is present

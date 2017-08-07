@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
@@ -447,7 +448,7 @@ public final class IsPresentExpression extends Expression_Value {
 				return;
 			}
 		} else {
-			templateInstance.generateCode(aData, expression);
+			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
 		expression.expression.append(".isPresent()");

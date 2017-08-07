@@ -423,7 +423,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
 		if (asValue != null) {
 			asValue.generateCodeExpression(aData, expression);
 			return;

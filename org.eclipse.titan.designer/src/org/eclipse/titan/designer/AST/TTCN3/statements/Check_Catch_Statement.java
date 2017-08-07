@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
@@ -309,7 +310,7 @@ public final class Check_Catch_Statement extends Statement {
 				// the signature reference and the exception template is present
 				expression.expression.append(MessageFormat.format("new {0}_exception_template(", signature.getGenNameValue(aData, expression.expression, myScope)));
 				//FIXME handle redirection
-				parameter.generateCode(aData, expression);
+				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 				expression.expression.append("), ");
 				//FIXME handle value redirection
 			}
@@ -336,7 +337,7 @@ public final class Check_Catch_Statement extends Statement {
 	 * */
 	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {
 		if (fromClause != null) {
-			fromClause.generateCode(aData, expression);
+			fromClause.generateCode(aData, expression, Restriction_type.TR_NONE);
 			//FIXME handle redirect
 		} else {
 			// neither from clause nor sender redirect is present

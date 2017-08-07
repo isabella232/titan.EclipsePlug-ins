@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -345,8 +346,8 @@ public class TemplateBody implements ITemplateListItem {
 	}
 
 	@Override
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		template.generateCodeExpression(aData, expression);
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
+		template.generateCodeExpression(aData, expression, templateRestriction);
 	}
 
 	@Override

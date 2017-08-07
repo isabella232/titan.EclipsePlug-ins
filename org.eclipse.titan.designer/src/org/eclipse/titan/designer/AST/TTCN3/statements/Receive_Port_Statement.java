@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -419,7 +420,7 @@ public final class Receive_Port_Statement extends Statement {
 				expression.expression.append( "/* TODO: " );
 				expression.expression.append( "port redirection is not yet handled!*/\n" );
 				//TODO this is good reason to optimize for
-				receiveParameter.generateCode(aData, expression);
+				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 //				expression.expression.append(", ");
 //				if (redirectValue == null) {
 //					expression.expression.append("null");
@@ -432,7 +433,7 @@ public final class Receive_Port_Statement extends Statement {
 		}
 		
 		if (fromClause != null) {
-			fromClause.generateCode(aData, expression);
+			fromClause.generateCode(aData, expression, Restriction_type.TR_NONE);
 		} else if (redirectSender != null) {
 			IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
 			if (varType == null) {

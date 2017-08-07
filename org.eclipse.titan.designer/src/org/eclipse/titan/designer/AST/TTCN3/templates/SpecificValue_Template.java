@@ -593,7 +593,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
 		IType governor = myGovernor;
 		if (governor == null) {
 			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
@@ -605,7 +605,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 		expression.expression.append(MessageFormat.format("new {0}(", genName) );
 		if (realTemplate != null && realTemplate != this) {
-			realTemplate.generateCodeExpression(aData, expression);
+			realTemplate.generateCodeExpression(aData, expression, templateRestriction);
 		} else {
 			specificValue.generateCodeExpression( aData, expression );
 		}

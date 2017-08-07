@@ -464,8 +464,9 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 * Add generated java code on this level.
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression code generated
+	 * @param templateRestriction the template restriction to check in runtime
 	 */
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateRestriction.Restriction_type templateRestriction) {
 		if (derivedReference != null) {
 			ExpressionStruct derivedExpression = new ExpressionStruct();
 			derivedReference.generateCode(aData, derivedExpression);
@@ -481,7 +482,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			expression.expression.append(tempId);
 		} else {
 			//TODO handle decoded redirect
-			templateBody.generateCodeExpression( aData, expression );
+			templateBody.generateCodeExpression( aData, expression, templateRestriction );
 			//TODO handle decoded redirect
 		}
 

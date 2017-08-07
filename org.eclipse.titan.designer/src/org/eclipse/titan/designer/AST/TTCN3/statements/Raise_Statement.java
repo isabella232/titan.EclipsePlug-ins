@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
@@ -324,7 +325,7 @@ public final class Raise_Statement extends Statement {
 			//FIXME implement the case where cast is needed (if really needed)
 			value.generateCodeExpressionMandatory(aData, expression);
 		} else {
-			parameter.generateCode(aData, expression);
+			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
 		expression.expression.append(')');

@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -42,7 +43,7 @@ public final class TemplateInstance_InternalLogArgument extends InternalLogArgum
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		//FIXME somewhat more complicated
 		if (templateInstance != null) {
-			templateInstance.generateCode(aData, expression);
+			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 			//TODO need to be appended with ".log"
 		}
 	}

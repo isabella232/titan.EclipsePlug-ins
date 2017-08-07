@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
@@ -534,7 +535,7 @@ public final class SubstrExpression extends Expression_Value {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
 			expression.expression.append("AdditionalFunctions.subString( ");
-			templateInstance1.generateCode(aData, expression);
+			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
 			expression.expression.append(", ");
 			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
 				lastValue2.generateCodeExpressionMandatory(aData, expression);
@@ -553,7 +554,7 @@ public final class SubstrExpression extends Expression_Value {
 			break;
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
-			templateInstance1.generateCode(aData, expression);
+			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
 			expression.expression.append(".subString( ");
 			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
 				lastValue2.generateCodeExpressionMandatory(aData, expression);

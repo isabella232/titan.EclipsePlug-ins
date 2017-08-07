@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
@@ -403,7 +404,7 @@ public final class IsChoosenExpression extends Expression_Value {
 			expression.expression.append(MessageFormat.format(".isChosen({0}.union_selection_type.ALT_{1})", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName())));
 		}
 		if (template != null) {
-			template.generateCodeExpression(aData, expression);
+			template.generateCodeExpression(aData, expression, Restriction_type.TR_NONE);
 			final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
 			expression.expression.append(MessageFormat.format(".isChosen({0}.union_selection_type.ALT_{1})", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName())));
 		}

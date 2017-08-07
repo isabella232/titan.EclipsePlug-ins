@@ -13,6 +13,8 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -28,6 +30,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class Template_ActualParameter extends ActualParameter {
 
 	private final TemplateInstance template;
+	private TemplateRestriction.Restriction_type genRestrictionCheck = Restriction_type.TR_NONE;
 
 	public Template_ActualParameter(final TemplateInstance template) {
 		this.template = template;
@@ -35,6 +38,15 @@ public final class Template_ActualParameter extends ActualParameter {
 
 	public TemplateInstance getTemplateInstance() {
 		return template;
+	}
+
+	//FIXME needs to be called from the right places for the code generation to work
+	public void setGenRestrictionCheck(final TemplateRestriction.Restriction_type tr) {
+		genRestrictionCheck = tr;
+	}
+
+	public TemplateRestriction.Restriction_type getGenRestrictionCheck() {
+		return genRestrictionCheck;
 	}
 
 	@Override
@@ -101,7 +113,7 @@ public final class Template_ActualParameter extends ActualParameter {
 		if (template != null ) {
 			StringBuilder expressionExpression = new StringBuilder();
 			ExpressionStruct tempExpression = new ExpressionStruct();
-			template.generateCode(aData, tempExpression);
+			template.generateCode(aData, tempExpression, genRestrictionCheck);
 			if(tempExpression.preamble.length() > 0) {
 				expression.preamble.append(tempExpression.preamble);
 			}

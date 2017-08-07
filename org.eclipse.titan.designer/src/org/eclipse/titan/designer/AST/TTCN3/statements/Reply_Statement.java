@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
@@ -303,7 +304,7 @@ public final class Reply_Statement extends Statement {
 
 		portReference.generateCode(aData, expression);
 		expression.expression.append(".reply(");
-		parameter.generateCode(aData, expression);
+		parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 
 		if (replyValue != null) {
 			expression.expression.append(".set_value_template(");

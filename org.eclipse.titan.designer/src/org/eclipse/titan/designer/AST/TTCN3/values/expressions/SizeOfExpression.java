@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
@@ -602,7 +603,7 @@ public final class SizeOfExpression extends Expression_Value {
 			// FIXME implement support for cast
 			value.generateCodeExpressionMandatory(aData, expression);
 		} else {
-			templateInstance.generateCode(aData, expression);
+			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
 		expression.expression.append(".sizeOf()");

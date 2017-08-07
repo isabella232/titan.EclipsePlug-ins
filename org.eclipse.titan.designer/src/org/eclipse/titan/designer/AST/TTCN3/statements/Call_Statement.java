@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard.altguard_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
@@ -538,7 +539,7 @@ public final class Call_Statement extends Statement {
 		ExpressionStruct expression = new ExpressionStruct();
 		portReference.generateCode(aData, expression);
 		expression.expression.append(".call(");
-		parameter.generateCode(aData, expression);
+		parameter.generateCode(aData, expression, TemplateRestriction.Restriction_type.TR_NONE);
 		if(toClause != null) {
 			expression.expression.append(", ");
 			toClause.generateCodeExpression(aData, expression);

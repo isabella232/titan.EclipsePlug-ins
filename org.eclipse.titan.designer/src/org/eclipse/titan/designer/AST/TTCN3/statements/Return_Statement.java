@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
@@ -49,6 +50,7 @@ public final class Return_Statement extends Statement {
 	private static final String STATEMENT_NAME = "return";
 
 	private final TTCN3Template template;
+	private boolean genRestrictionCheck = false;
 
 	public Return_Statement(final TTCN3Template template) {
 		this.template = template;
@@ -105,6 +107,7 @@ public final class Return_Statement extends Statement {
 		}
 
 		lastTimeChecked = timestamp;
+		genRestrictionCheck = false;
 
 		final Definition definition = myStatementBlock.getMyDefinition();
 		if (definition == null) {
@@ -152,7 +155,7 @@ public final class Return_Statement extends Statement {
 						true, /* allowAnyOrOmit */
 						true, /* subCheck */
 						true); /* implicitOmit */
-				TemplateRestriction.check(timestamp, definition, temporalTemplate1, null);
+				genRestrictionCheck = TemplateRestriction.check(timestamp, definition, temporalTemplate1, null);
 			}
 			break;
 		case A_ALTSTEP:
@@ -230,7 +233,13 @@ public final class Return_Statement extends Statement {
 			IValue value = ((SpecificValue_Template) template).getValue();
 			value.generateCodeExpressionMandatory(aData, expression);
 		} else {
-			template.generateCodeExpression( aData, expression );
+			Definition myDefinition = myStatementBlock.getMyDefinition();
+			if (myDefinition.getTemplateRestriction() != TemplateRestriction.Restriction_type.TR_NONE
+					&& genRestrictionCheck) {
+				template.generateCodeExpression(aData, expression, myDefinition.getTemplateRestriction());
+			} else {
+				template.generateCodeExpression( aData, expression, Restriction_type.TR_NONE );
+			}
 		}
 
 		expression.mergeExpression(source);

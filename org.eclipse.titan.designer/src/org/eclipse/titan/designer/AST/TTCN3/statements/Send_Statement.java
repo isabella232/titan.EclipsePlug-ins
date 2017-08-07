@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
@@ -280,7 +281,7 @@ public final class Send_Statement extends Statement {
 			value.generateCodeExpression(aData, expression);
 		} else {
 			//real template, can not be optimized
-			parameter.generateCode(aData, expression);
+			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
 		expression.expression.append(", ");

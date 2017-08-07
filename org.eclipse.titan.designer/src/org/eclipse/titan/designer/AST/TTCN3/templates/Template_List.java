@@ -417,14 +417,14 @@ public final class Template_List extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
 		if (asValue != null) {
 			asValue.generateCodeExpression(aData, expression);
 			return;
 		}
 
 		if (converted != null) {
-			converted.generateCodeExpression(aData, expression);
+			converted.generateCodeExpression(aData, expression, templateRestriction);
 			return;
 		}
 

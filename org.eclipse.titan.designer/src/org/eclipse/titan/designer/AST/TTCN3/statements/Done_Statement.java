@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
@@ -291,7 +292,7 @@ public final class Done_Statement extends Statement {
 				componentreference.generateCodeExpression(aData, expression);
 				expression.expression.append(", ");
 				//FIXME handle decoded match
-				doneMatch.generateCode(aData, expression);
+				doneMatch.generateCode(aData, expression, Restriction_type.TR_NONE);
 				//expression.expression.append(", ");
 				//FIXME handle value redirection
 			} else {

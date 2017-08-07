@@ -1154,8 +1154,9 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * Add generated java code on this level.
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression for code generated
+	 * @param templateRestriction the template restriction to check in runtime
 	 */
-	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
 		//default implementation
 		expression.expression.append( "\t" );
 		expression.expression.append( "//TODO: " );
