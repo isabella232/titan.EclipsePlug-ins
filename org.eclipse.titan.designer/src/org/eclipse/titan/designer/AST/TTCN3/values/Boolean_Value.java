@@ -177,7 +177,7 @@ public final class Boolean_Value extends Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
 
-		source.append(MessageFormat.format("{0}.assign(new TitanBoolean( {0} ) );\n", name, value));
+		source.append(MessageFormat.format("{0}.assign(new TitanBoolean( {1} ) );\n", name, value));
 
 		return source;
 	}
