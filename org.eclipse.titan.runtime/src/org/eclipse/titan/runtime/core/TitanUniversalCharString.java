@@ -699,15 +699,7 @@ public class TitanUniversalCharString extends Base_Type {
 			StringBuilder str = new StringBuilder();
 			
 			for (int i = 0; i < val_ptr.size(); ++i) {
-				str.append("(");
-				str.append(val_ptr.get(i).getUc_group());
-				str.append(",");
-				str.append(val_ptr.get(i).getUc_plane());
-				str.append(",");
-				str.append(val_ptr.get(i).getUc_row());
-				str.append(",");
-				str.append(val_ptr.get(i).getUc_cell());
-				str.append(") ");
+				str.append(val_ptr.get(i).toString());
 			}
 			
 			return str.toString();
