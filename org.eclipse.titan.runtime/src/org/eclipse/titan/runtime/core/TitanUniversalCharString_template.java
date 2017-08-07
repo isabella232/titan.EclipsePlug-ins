@@ -72,7 +72,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		single_value = new TitanUniversalCharString(otherValue);
 	}
 
-	public TitanUniversalCharString_template(final TitanUniversalCharString_template otherValue) {
+	public TitanUniversalCharString_template (final TitanUniversalCharString_template otherValue) {
 		copyTemplate(otherValue);
 	}
 
@@ -115,7 +115,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	//originally operator=
-	public TitanUniversalCharString_template assign(final template_sel otherValue) {
+	public TitanUniversalCharString_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -124,7 +124,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	//originally operator=
-	public TitanUniversalCharString_template assign(final String otherValue) {
+	public TitanUniversalCharString_template assign( final String otherValue ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
@@ -133,7 +133,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	//originally operator=
-	public TitanUniversalCharString_template assign(final TitanUniversalCharString otherValue) {
+	public TitanUniversalCharString_template assign( final TitanUniversalCharString otherValue ) {
 		otherValue.mustBound("Assignment of an unbound universal charstring value to a template.");
 
 		cleanUp();
@@ -181,7 +181,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	//originally operator=
-	public TitanUniversalCharString_template assign(final TitanUniversalCharString_template otherValue) {
+	public TitanUniversalCharString_template assign( final TitanUniversalCharString_template otherValue ) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -276,12 +276,14 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a universal charstring element of a non-specific universal charstring template.");
 		}
+
 		return single_value.getAt(index);
 	}
 
 	// originally operator[](const INTEGER& index_value)
 	public TitanUniversalCharString_Element getAt(TitanInteger index) {
 		index.mustBound("Indexing a universal charstring template with an unbound integer value.");
+
 		return getAt(index.getInt());
 	}
 
@@ -289,12 +291,14 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a universal charstring element of a non-specific universal charstring template.");
 		}
+
 		return single_value.constGetAt(index);
 	}
 
 	// originally operator[](const INTEGER& index_value)
 	public TitanUniversalCharString_Element constGetAt(TitanInteger index) {
 		index.mustBound("Indexing a universal charstring template with an unbound integer value.");
+
 		return constGetAt(index.getInt());
 	}
 
@@ -326,8 +330,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			return new TitanBoolean(true);
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for (int i = 0 ; i < value_list.size(); i++) {
-				if (value_list.get(i).match(otherValue, legacy).getValue()) {
+			for(int i = 0 ; i < value_list.size(); i++) {
+				if(value_list.get(i).match(otherValue, legacy).getValue()) {
 					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 				}
 			}
@@ -418,7 +422,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		setType(otherValue, 0);
 	}
 
-	public void setType(template_sel otherValue, int lenght){
+	public void setType(template_sel otherValue, int lenght) {
 		cleanUp();
 		switch (otherValue) {
 		case VALUE_LIST:
@@ -426,7 +430,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			setSelection(otherValue);
 			value_list = new ArrayList<TitanUniversalCharString_template>(lenght);
 			for (int i = 0; i < lenght; ++i) {
-				value_list.add( new TitanUniversalCharString_template());
+				value_list.add(new TitanUniversalCharString_template());
 			}
 			break;
 		case VALUE_RANGE:
@@ -447,7 +451,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	public TitanUniversalCharString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST) {
-			throw new TtcnError("Accessing a list element of a non-list universal charstring template.");			
+			throw new TtcnError("Accessing a list element of a non-list universal charstring template.");
 		}
 		if (listIndex < 0) {
 			throw new TtcnError("Accessing an universal charstring value list template using a negative index (" + listIndex + ").");
@@ -467,7 +471,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		minValue.mustBound("Setting an unbound value as lower bound in a universal charstring value range template.");
 		final int length = minValue.lengthOf().getInt();
 		if (length != 1) {
-			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of "+ length);
+			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of " + length);
 		}
 
 		min_is_set = true;
@@ -487,7 +491,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		maxValue.mustBound("Setting an unbound value as upper bound in a universal charstring value range template.");
 		final int length = maxValue.lengthOf().getInt();
 		if (length != 1) {
-			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of "+ length);
+			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of " + length);
 		}
 
 		max_is_set = true;
@@ -554,6 +558,5 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		default:
 			return new TitanBoolean(false);
 		}
-
 	}
 }
