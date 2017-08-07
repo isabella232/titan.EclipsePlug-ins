@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
@@ -140,12 +141,15 @@ public final class MatchExpression extends Expression_Value {
 			localGovernor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if(localGovernor == null) {
+			getLocation().reportSemanticError("Cannot determine the type of arguments in `match()' operation");
 			setIsErroneous(true);
 			return;
 		}
 
 		value.setMyGovernor(localGovernor);
-		
+		final IValue temporalValue = localGovernor.checkThisValueRef(timestamp, value);
+		localGovernor.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				false, false, true, false, false));
 		//FIXME check value against governor
 
 		templateInstance.getTemplateBody().checkThisTemplateGeneric(timestamp, localGovernor, false, false, false, true, false);

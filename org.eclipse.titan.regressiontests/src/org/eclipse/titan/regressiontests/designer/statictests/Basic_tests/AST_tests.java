@@ -1724,11 +1724,13 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The third operand of the `regexp' operation should be an integer value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 13;
-		for (i = 0; i < 3; i++) {
+		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 11;
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of arguments in `match()' operation",  lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum, IMarker.SEVERITY_ERROR));
+		}		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Incompatible component types: a component reference of type `@expression_tests.componentName_CT2' was expected, but `mtc' has type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Incompatible component types: a component reference of type `@expression_tests.componentName_CT2' was expected, but `system' has type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
