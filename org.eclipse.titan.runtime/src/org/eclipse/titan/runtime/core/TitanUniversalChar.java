@@ -103,7 +103,7 @@ public class TitanUniversalChar {
 
 	@Override
 	public String toString() {
-		return new StringBuilder("(").append(uc_group).append(",").append(uc_plane)
-				.append(",").append(uc_row).append(",").append(uc_cell).append(")").toString();
+		return new StringBuilder("(").append((int) uc_group).append(",").append((int) uc_plane)
+				.append(",").append((int) uc_row).append(",").append((int) uc_cell).append(")").toString();
 	}
 }
