@@ -320,8 +320,8 @@ testcase tc_ref_verdicttype() runs on CT
 testcase tc_ref_component() runs on CT
 {
   template CT t_mpcomp2 := null;
-  if (not match( tsp_tcomp2, t_mpcomp2)) {
-    setverdict(fail, "Expected( tsp_comp2): ", t_mpcomp2, ", got: ", tsp_tcomp2);
+  if (not match( tsp_cotsp_2, t_mpcomp2)) {
+    setverdict(fail, "Expected( tsp_comp2): ", t_mpcomp2, ", got: ", tsp_cotsp_2);
   }
   setverdict(pass);
 }
