@@ -6,16 +6,19 @@
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
-
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import java.text.MessageFormat;
 
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 charstring template
  *
  * @author Arpad Lovassy
+ * @author Andrea Pálfi
  */
-public class TitanCharString_template extends Base_Template {
+public class TitanCharString_template extends Restricted_Length_Template {
 
 	TitanCharString single_value;
 
@@ -30,7 +33,7 @@ public class TitanCharString_template extends Base_Template {
 	//TODO: implement: pattern_value part for STRING_PATTERN case
 
 	public TitanCharString_template () {
-		//do nothing
+		//do  nothing
 	}
 
 	public TitanCharString_template (final template_sel otherValue) {
@@ -151,6 +154,15 @@ public class TitanCharString_template extends Base_Template {
 	//TODO: implement getAt
 	//TODO: implement constGetAt
 
+	// originally is_present
+	public boolean isPresent(final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return false;
+		}
+
+		return !match_omit(legacy);
+	}
+	
 	// originally match
 	public TitanBoolean match(final TitanCharString otherValue) {
 		return match(otherValue, false);
@@ -228,7 +240,6 @@ public class TitanCharString_template extends Base_Template {
 		return new TitanCharString(single_value);
 	}
 
-	//FIXME: set_type
 	// originally set_type
 	public void setType(final template_sel templateType) {
 		setType(templateType, 0);
@@ -281,7 +292,6 @@ public class TitanCharString_template extends Base_Template {
 		if (is_ifPresent) {
 			return true;
 		}
-
 		switch(templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
@@ -303,7 +313,7 @@ public class TitanCharString_template extends Base_Template {
 		}
 	}
 
-	/*//FIXME: lengthOf
+	//FIXME: lengthOf
 	// originally lengthOf
 	public TitanInteger lengthOf() {
 		int min_length;
@@ -347,7 +357,6 @@ public class TitanCharString_template extends Base_Template {
 		//TODO: implement check_section_is_single
 		return new TitanInteger(min_length);
 	}
-//}
 
 	//FIXME: set_min
 	//originally set_min
@@ -356,24 +365,62 @@ public class TitanCharString_template extends Base_Template {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
 		}
-			otherMinValue.mustBound("Setting an unbound value as lower bound in a charstring value range template.");
-			int length=otherMinValue.lengthOf().getInt();
-			if(length!=1){
-				throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of '{0}''. ", length));
-			}
-			min_is_set=true;
-			min_is_exclusive=false;
-			min_value = new TitanCharString (min_value);
-			if((max_is_set) && min_value.toString() > (max_value).toString() ){
+		otherMinValue.mustBound("Setting an unbound value as lower bound in a charstring value range template.");
+		int length=otherMinValue.lengthOf().getInt();
+		if(length!=1){
+			throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of '{0}''. ", length));
+		}
+		min_is_set=true;
+		min_is_exclusive=false;
+		min_value = new TitanCharString(otherMinValue);
+		if((max_is_set) && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt()) ){
 			throw new TtcnError(MessageFormat.format("The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
-			}
+		}
 	}
-	}*/
 
-	//TODO: implement setMin
-	//TODO: implement setMax
-	//TODO: implement setMinExclusive
-	//TODO: implement setMaxExclusive
-	//TODO: implement isPresent
-	//TODO: implement match_omit
+
+	// FIXME: set_max
+	// originally set_max
+
+	public void setMax(final TitanCharString otherMaxValue)
+	{
+		if(templateSelection != template_sel.VALUE_RANGE){
+			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
+		}
+		otherMaxValue.mustBound("Setting an unbound value as upper bound in a charstring value range template.");
+		int length=otherMaxValue.lengthOf().getInt();
+		if(length!=1){
+			throw new TtcnError(MessageFormat.format("The length of the upper bound in a charstring value range template must be 1 instead of {0}.", length));
+		}
+		max_is_set=true;
+		max_is_exclusive=false;
+		max_value=new TitanCharString(otherMaxValue);
+		if((min_is_set) && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()){
+			throw new TtcnError(MessageFormat.format("The upper bound `{0}'' in a charstring value range template is smaller than the lower bound {1}.", max_value, min_value));
+		}
+	}
+
+	// originally set_min_exclusive
+	public void setMinExclusive(final boolean minExclusive) {
+		if(templateSelection!=template_sel.VALUE_RANGE){
+			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
+		}
+		min_is_exclusive = minExclusive;
+	}
+
+	// originally set_max_exclusive
+	public void setMaxExclusive(final boolean maxExclusive) {
+		if(templateSelection!=template_sel.VALUE_RANGE){
+			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
+		}
+		max_is_exclusive = maxExclusive;
+	}
+
+	//TODO: test isPresent
+	//TODO: test lengthOf
+	//TODO: test setType
+	//TODO: test setMax
+	//TODO: test setMin
+	//TODO: test setMinExclusive
+	//TODO: test setMaxExclusive
 }
