@@ -7900,17 +7900,20 @@ pr_SelectUnionCaseHeader[ List<Identifier> items ]:
 pr_TryCatchConstruct returns[Statement statement]
 @init {
 	$statement = null;
+	Identifier exceptionId = null;
 }:
 (	TITANSPECIFICTRY
 	sb1 = pr_StatementBlock
 	TITANSPECIFICCATCH
 	pr_LParen
-	id = pr_Identifier
+	(	id = pr_Identifier { exceptionId = $id.identifier; }
+	|	str = pr_CString { reportError( "dte_string variable expected as argument of @catch", $str.start, $str.stop ); }
+	)
 	pr_RParen
 	sb2 = pr_StatementBlock
 )
 {
-	$statement = new TryCatch_Statement($sb1.statementblock, $id.identifier, $sb2.statementblock);
+	$statement = new TryCatch_Statement($sb1.statementblock, exceptionId, $sb2.statementblock);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
