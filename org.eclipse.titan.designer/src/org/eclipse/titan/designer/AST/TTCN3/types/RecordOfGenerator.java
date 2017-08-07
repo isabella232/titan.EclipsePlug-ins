@@ -35,6 +35,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TtcnError");
+		aData.addBuiltinTypeImport("TitanInteger");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName );
