@@ -274,11 +274,7 @@ public final class Real_Value extends Value {
 		aData.addBuiltinTypeImport( "Ttcn3Float" );
 
 		StringBuilder result = new StringBuilder();
-		result.append( "new TitanFloat( " );
-		result.append( "new Ttcn3Float( " );
-		result.append( createJavaStringRepresentation() );
-		result.append( " )" );
-		result.append( " )" );
+		result.append(MessageFormat.format("new TitanFloat( new Ttcn3Float( {0} ) )", createJavaStringRepresentation()));
 
 		return result;
 	}
@@ -310,10 +306,8 @@ public final class Real_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		source.append(name);
-		source.append(".assign( ");
-		source.append(generateSingleExpression(aData));
-		source.append( " );\n" );
+		source.append(MessageFormat.format("{0}.assign({1});\n", name, generateSingleExpression(aData)));
+
 		return source;
 	}
 }

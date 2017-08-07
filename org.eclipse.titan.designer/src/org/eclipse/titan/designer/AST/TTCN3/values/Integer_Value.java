@@ -269,15 +269,11 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 		StringBuilder result = new StringBuilder();
 
 		if (isNative()) {
-			result.append( "new TitanInteger( " );
-			result.append(value);
-			result.append( " )" );
+			result.append(MessageFormat.format("new TitanInteger( {0} )", value));
 		} else {
 			aData.addImport("java.math.BigInteger");
 
-			result.append( "new TitanInteger( new BigInteger(\"" );
-			result.append( value.toString() );
-			result.append( "\") )" );
+			result.append(MessageFormat.format("new TitanInteger( new BigInteger(\" {0} \") )", value.toString()));
 		}
 
 		return result;
@@ -294,9 +290,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 		} else {
 			aData.addImport("java.math.BigInteger");
 
-			source.append( "new TitanInteger( new BigInteger(\"" );
-			source.append( value.toString() );
-			source.append( "\") )" );
+			source.append(MessageFormat.format("new TitanInteger( new BigInteger(\" {0} \") )", value.toString()));
 		}
 		source.append( " );\n" );
 		return source;

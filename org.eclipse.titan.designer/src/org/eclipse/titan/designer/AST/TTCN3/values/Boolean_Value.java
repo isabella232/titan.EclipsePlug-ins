@@ -166,10 +166,9 @@ public final class Boolean_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
+
 		StringBuilder result = new StringBuilder();
-		result.append("new TitanBoolean( ");
-		result.append(value);
-		result.append( " )" );
+		result.append(MessageFormat.format("new TitanBoolean( {0} )", value));
 		return result;
 	}
 
@@ -177,11 +176,8 @@ public final class Boolean_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
-		source.append(name);
-		source.append(".assign(");
-		source.append("new TitanBoolean( ");
-		source.append( value );
-		source.append( " ) );\n" );
+
+		source.append(MessageFormat.format("{0}.assign(new TitanBoolean( {0} ) );\n", name, value));
 
 		return source;
 	}
