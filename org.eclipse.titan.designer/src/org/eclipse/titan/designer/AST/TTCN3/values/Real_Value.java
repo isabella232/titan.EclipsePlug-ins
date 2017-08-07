@@ -290,7 +290,7 @@ public final class Real_Value extends Value {
 			if( Double.compare(value,0)>0) {
 				return "Double.POSITIVE_INFINITY";
 			} else {
-				return "-Double.NEGATIVE_INFINITY";
+				return "Double.NEGATIVE_INFINITY";
 			}
 		} else if(value == 0.0) {
 			if (1.0/value == Double.NEGATIVE_INFINITY) {
