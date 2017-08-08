@@ -868,7 +868,9 @@ public final class Sequence_Value extends Value {
 		}
 
 		if (nofComps == 0) {
-			source.append(MessageFormat.format("{0}.assign(NULL_VALUE);\n", name));
+			aData.addBuiltinTypeImport("TitanNull_Type");
+
+			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
 			return source;
 		}
 
