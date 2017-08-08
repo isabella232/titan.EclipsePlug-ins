@@ -153,6 +153,11 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	//TODO: implement getAt
 	//TODO: implement constGetAt
 
+	//originally is_present (with default parameter)
+	public boolean isPresent() {
+		return isPresent(false);
+	}
+
 	// originally is_present
 	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
