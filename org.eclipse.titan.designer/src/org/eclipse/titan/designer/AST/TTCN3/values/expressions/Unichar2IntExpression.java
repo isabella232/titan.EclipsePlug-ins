@@ -256,7 +256,7 @@ public final class Unichar2IntExpression extends Expression_Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {

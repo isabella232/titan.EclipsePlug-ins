@@ -388,34 +388,33 @@ public class AdditionalFunctions {
 
 		return char2oct(String.valueOf(value.get_char()));
 	}
-	
-	//C.11 - unichar2int
+
+	// C.11 - unichar2int
 	public static TitanInteger unichar2int(final TitanUniversalChar value) {
-		if(value.getUc_group() > 127) {
-			throw new TtcnError("The argument of function unichar2int() is the invalid quadruple char {0},"+
-		"the first number of which is outside the allowed range 0 .. 127.");
+		if (value.getUc_group() > 127) {
+			throw new TtcnError("The argument of function unichar2int() is the invalid quadruple char {0},"
+					+ "the first number of which is outside the allowed range 0 .. 127.");
 		}
 		int result = (value.getUc_group() << 24) | (value.getUc_plane() << 16) | (value.getUc_row() << 8) | value.getUc_cell();
-		
+
 		return new TitanInteger(result);
 	}
-	
-	public static TitanInteger unichar2int(final TitanUniversalCharString value){
+
+	public static TitanInteger unichar2int(final TitanUniversalCharString value) {
 		value.mustBound("The argument of function unichar2int() is an unbound universal charstring value.");
-		
-		if(value.lengthOf().getInt() != 1){
+
+		if (value.lengthOf().getInt() != 1) {
 			throw new TtcnError("The length of the argument in function unichar2int() must be exactly 1 instead of %d.");
 		}
-		
+
 		return unichar2int(value.getValue().get(0));
 	}
-	
-	public static TitanInteger unichar2int(final TitanUniversalCharString_Element value){
+
+	public static TitanInteger unichar2int(final TitanUniversalCharString_Element value) {
 		value.mustBound("The argument of function unichar2int() is an unbound universal charstring element.");
-		
+
 		return unichar2int(value.get_char());
 	}
-	
 
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
@@ -452,18 +451,15 @@ public class AdditionalFunctions {
 		return new TitanInteger(value.get_bit() ? 1 : 0);
 	}
 
-
-	
-	
-	//C.13 - bit2hexnew
+	// C.13 - bit2hexnew
 	public static TitanHexString bit2hex(final TitanBitString_Element value) {
 		value.mustBound("The argument of function bit2hex() is an unbound bitstring element.");
-		
-		return new TitanHexString((byte)(value.get_bit() ? 0x01 : 0x00));
+
+		return new TitanHexString((byte) (value.get_bit() ? 0x01 : 0x00));
 	}
 	
-	
-	
+
+
 	
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
 }
