@@ -303,7 +303,8 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		range_length_max_length_set = true;
 	}
 
-	boolean is_omit() {
+	@Override
+	public boolean isOmit() {
 		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent &&
 				length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
