@@ -7,17 +7,20 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -120,6 +123,19 @@ public final class Value_Range_Template extends TTCN3Template {
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		// nothing to be done here, as template references can not
 		// appear here
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public final void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {
+		switch (templateRestriction) {
+		case TR_VALUE:
+		case TR_OMIT:
+			usageLocation.reportSemanticError(MessageFormat.format("Restriction ''{0}'' on {1} does not allow usage of {2}", templateRestriction.getDisplayName(), definitionName, getTemplateTypeName()));
+			break;
+		default:
+			break;
+		}
 	}
 
 	@Override

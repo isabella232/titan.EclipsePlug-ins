@@ -30,16 +30,13 @@ public class ExpectedValueTypeTest {
 	
 	private ArrayList<MarkerToCheck> ExpectedValueTypeTest_ttcn_initializer() {
 		//ExpectedValueTypeTest.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(28);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(26);
 		int lineNum = 14;
 		markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@ExpectedValueTypeTest.Rec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 21;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template module parameter `@ExpectedValueTypeTest.tsp_i'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Restriction 'value' on template does not allow usage of this template",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 5;
+		lineNum += 7;
 		markersToCheck.add(new MarkerToCheck("Formal parameter without template restriction not allowed here",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Restriction 'value' on template does not allow usage of this template",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 12;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template module parameter `@ExpectedValueTypeTest.tsp_trec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
@@ -54,20 +51,20 @@ public class ExpectedValueTypeTest {
 			markersToCheck.add(new MarkerToCheck("Type mismatch: a value or template of type `charstring' was expected instead of `integer'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template parameter `pl_rec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template parameter `pl_rec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of `out' template parameter `pl_rec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
-		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of `inout' template parameter `pl_rec'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template variable `vt_rec_'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template `t_rec_'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
 		markersToCheck.add(new MarkerToCheck("The second operand of the `&' operation should be a string, `record of', or a `set of' value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("A specific value without matching symbols was expected as return value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template variable `vt_cs'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 9;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template parameter `pl_rec'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template module parameter `@ExpectedValueTypeTest.tsp_trec'",  ++lineNum, IMarker.SEVERITY_ERROR));

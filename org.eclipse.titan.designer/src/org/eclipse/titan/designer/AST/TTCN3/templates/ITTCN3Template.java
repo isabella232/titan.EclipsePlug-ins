@@ -394,7 +394,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 *
 	 * @return true if a check at runtime is needed, false otherwise.
 	 */
-	boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName,
+	boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation);
 
 	/**

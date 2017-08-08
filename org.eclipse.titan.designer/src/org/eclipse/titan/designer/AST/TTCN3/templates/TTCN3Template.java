@@ -986,14 +986,15 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *                the location to be used for reporting errors
 	 * */
 	@Override
-	public final void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {
+	public void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {
 		switch (templateRestriction) {
 		case TR_VALUE:
-			if (!isValue(timestamp)) {
-				usageLocation.reportSemanticError(MessageFormat.format(VALUERESTRICTIONERROR, definitionName, "this template"));//TODO:"This template" should be refined!
-			}
-			//Intentional fall-through
 		case TR_OMIT:
+			if (!isValue(timestamp)) {
+				usageLocation.reportSemanticError(
+						MessageFormat.format("Restriction ''{0}'' on {1} does not allow usage of this template", 
+								templateRestriction.getDisplayName(), definitionName ));
+			}
 			if (lengthRestriction != null) {
 				usageLocation.reportSemanticError(MessageFormat.format(LENGTHRESTRICTIONERROR, definitionName));
 			}
@@ -1062,7 +1063,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @return true if a check at runtime is needed, false otherwise.
 	 */
 	@Override
-	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName,
+	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName, final boolean omitAllowed,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation) {
 		// override when needed
 		return false;

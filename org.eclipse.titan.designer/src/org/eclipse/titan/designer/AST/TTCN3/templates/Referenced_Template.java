@@ -512,10 +512,9 @@ public final class Referenced_Template extends TTCN3Template {
 				if (ass instanceof Definition) {
 					TemplateRestriction.Restriction_type refdTemplateRestriction = ((Definition) ass).getTemplateRestriction();
 					refdTemplateRestriction = TemplateRestriction.getSubRestriction(refdTemplateRestriction, timestamp, reference);
-					// if restriction not satisfied issue
-					// warning
+					// if restriction not satisfied issue warning
 					if (TemplateRestriction.isLessRestrictive(TemplateRestriction.Restriction_type.TR_PRESENT, refdTemplateRestriction)) {
-						getLocation().reportSemanticError(
+						getLocation().reportSemanticWarning(
 								MessageFormat.format(INADEQUATETEMPLATERESTRICTION, ass.getAssignmentName(), reference.getDisplayName()));
 						return true;
 					}

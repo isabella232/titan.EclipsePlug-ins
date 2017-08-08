@@ -338,7 +338,8 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName,
+	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName, 
+			final boolean omitAllowed,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation) {
 		boolean needsRuntimeCheck = false;
 		if (checkedNames.size() >= neededCheckedCnt) {
@@ -349,15 +350,15 @@ public final class Named_Template_List extends TTCN3Template {
 			final ITTCN3Template tmpl = namedTemplates.getTemplateByIndex(i).getTemplate();
 			final String name = namedTemplates.getTemplateByIndex(i).getName().getName();
 			if (!checkedNames.contains(name)) {
-				if (tmpl.checkValueomitRestriction(timestamp, definitionName, true, usageLocation)) {
+				if (tmpl.checkValueomitRestriction(timestamp, definitionName, omitAllowed, usageLocation)) {
 					needsRuntimeCheck = true;
 				}
 				checkedNames.add(name);
 			}
 		}
 		if (baseTemplate instanceof Named_Template_List) {
-			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName, checkedNames,
-					neededCheckedCnt, usageLocation)) {
+			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName, 
+					omitAllowed,checkedNames, neededCheckedCnt, usageLocation)) {
 				needsRuntimeCheck = true;
 			}
 		}
@@ -412,7 +413,7 @@ public final class Named_Template_List extends TTCN3Template {
 			if (neededCheckedCnt > 0) {
 				if (baseTemplate instanceof Named_Template_List
 						&& ((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp,
-								definitionName, checkedNames, neededCheckedCnt, usageLocation)) {
+								definitionName, omitAllowed, checkedNames, neededCheckedCnt, usageLocation)) {
 					needsRuntimeCheck = true;
 				}
 			}
