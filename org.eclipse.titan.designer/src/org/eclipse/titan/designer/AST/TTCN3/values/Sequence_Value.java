@@ -912,6 +912,8 @@ public final class Sequence_Value extends Value {
 				//TODO add extra handling for optional fields
 				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
+				aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+
 				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, FieldSubReference.getJavaGetterName(fieldName.getName())));
 			}
 		}
