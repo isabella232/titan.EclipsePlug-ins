@@ -1044,7 +1044,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				}
 				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression);
 			}
-			
+
 			//temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
@@ -1155,25 +1155,67 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * @param isTemplate if the reference is pointing to a template
 	 * @param isBound true to generate code for isbound, false otherwise
 	 * */
-	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate, final boolean isBound) {
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate,
+			final boolean isBound) {
 		Assignment assignment = getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		String ass_id = assignment.getGenNameFromScope(aData, expression.expression, myScope, null);
 
 		String ass_id2 = ass_id;
+		FormalParameterList formalParameterList;
+		switch (assignment.getAssignmentType()) {
+		case A_FUNCTION:
+		case A_FUNCTION_RVAL:
+		case A_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Function) assignment).getFormalParameterList();
+			break;
+		case A_EXT_FUNCTION:
+		case A_EXT_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RTEMP:
+			formalParameterList = ((Def_Extfunction) assignment).getFormalParameterList();
+			break;
+		case A_TEMPLATE:
+			formalParameterList = ((Def_Template) assignment).getFormalParameterList();
+			break;
+		default:
+			formalParameterList = null;
+			break;
+		}
 		if (subReferences.size() > 0 && subReferences.get(0) instanceof ParameterisedSubReference) {
 			ParameterisedSubReference subReference = (ParameterisedSubReference) subReferences.get(0);
 			ExpressionStruct tempExpression = new ExpressionStruct();
-			//FIXME should need the formal parameters and other options
+			// FIXME should need the formal parameters and other
+			// options
 			subReference.getActualParameters().generateCodeAlias(aData, tempExpression);
 
 			ass_id2 = MessageFormat.format("{0}({1})", ass_id, tempExpression.expression);
+		} else if (formalParameterList != null) {
+			// the reference does not have an actual parameter list,
+			// but the assignment has
+			ExpressionStruct tempExpression = new ExpressionStruct();
+			StringBuilder newId = new StringBuilder();
+			newId.append(assignment.getGenNameFromScope(aData, tempExpression.expression, getMyScope(), null));
+			newId.append("( ");
+			// FieldSubReference temp =
+			// ((FieldSubReference)subReferences.get(0));
+			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
+				if (i > 0) {
+					tempExpression.expression.append(", ");
+				}
+				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, tempExpression);
+			}
+
+			// temp.getActualParameters().generateCodeAlias(aData,
+			// expression);
+			newId.append(tempExpression.expression);
+			newId.append(" )");
+			ass_id2 = newId.toString();
 		}
-		
+
 		if (subReferences.size() > 1) {
 			String tempGeneralId = aData.getTemporaryVariableName();
 			ExpressionStruct isboundExpression = new ExpressionStruct();
-			
-			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound();\n", tempGeneralId, ass_id));
+
+			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound();\n", tempGeneralId, ass_id2));
 
 			IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 			type.generateCodeIspresentBound(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, isBound);
@@ -1182,9 +1224,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.preamble.append(isboundExpression.expression);
 			expression.expression.append(tempGeneralId);
 		} else {
-			//FIXME handle omit_in_value_list
-			expression.expression.append(MessageFormat.format("{0}.{1}({2})", ass_id2, isBound ? "isBound" : "isPresent",""));
+			// FIXME handle omit_in_value_list
+			expression.expression.append(MessageFormat.format("{0}.{1}({2})", ass_id2, isBound ? "isBound" : "isPresent", ""));
 		}
-		
 	}
 }
