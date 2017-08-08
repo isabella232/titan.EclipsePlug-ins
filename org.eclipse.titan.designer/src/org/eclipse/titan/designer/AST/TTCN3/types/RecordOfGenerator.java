@@ -322,14 +322,14 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append("\n");
-		source.append("\tpublic int sizeOf() {\n");
+		source.append("\tpublic TitanInteger sizeOf() {\n");
 		source.append( MessageFormat.format( "\t\tmustBound(\"Performing sizeof operation on an unbound value of type {0}.\");\n", displayName ) );
-		source.append("\t\treturn valueElements.size();\n");
+		source.append("\t\treturn new TitanInteger(valueElements.size());\n");
 		source.append("\t}\n");
 
 		source.append("\n");
 		source.append("\tpublic int getNofElements() {\n");
-		source.append("\t\treturn sizeOf();\n");
+		source.append("\t\treturn sizeOf().getInt();\n");
 		source.append("\t}\n");
 
 		source.append("\n");
