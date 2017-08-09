@@ -458,8 +458,103 @@ public class AdditionalFunctions {
 		return new TitanHexString((byte) (value.get_bit() ? 0x01 : 0x00));
 	}
 	
-
+	// C.14 - bit2oct
+	public static TitanOctetString bit2oct(final TitanBitString_Element value) {
+		value.mustBound("The argument of function bit2oct() is an unbound bitstring element.");
+		
+		return new TitanOctetString((char)(value.get_bit() ? 1 : 0));
+	}
+	
+	// C.15 - bit2str
+	public static TitanCharString bit2str(final TitanBitString value) {
+		value.mustBound("The argument of function bit2str() is an unbound bitstring value.");
+		
+		int n_bits = value.lengthOf().getInt();
+		StringBuilder ret_val = new StringBuilder(n_bits);
+		
+		for (int i = 0; i < n_bits; i++) {
+			if(value.getBit(i)){
+				ret_val.append("1");
+			}
+			else{
+				ret_val.append("0");
+			}
+		}
+		return new TitanCharString(ret_val);
+	}
+	
+	public static TitanCharString bit2str(final TitanBitString_Element value) {
+		value.mustBound("The argument of function bit2str() is an unbound bitstring element.");
+		
+		if(value.get_bit()){
+			return new TitanCharString("1");
+		} else{
+			return new TitanCharString("0");
+		}
+	}
+	
+	// C.16 - hex2int
+	public static TitanInteger hex2int(final TitanHexString value) {
+		value.mustBound("The argument of function hex2int() is an unbound hexstring value.");
+		
+		int n_nibbles = value.lengthOf().getInt();
+		
+		//skip the leading zero hex digits
+		int start_index = 0;
+		for (start_index = 0; start_index < n_nibbles; start_index++) {
+			if(value.get_nibble(start_index) != 0) {
+				break;
+			}
+		}
+		
+		//do the conversion
+		BigInteger ret_val = new BigInteger("0");
+		for (int i = start_index; i < n_nibbles; i++) {
+			ret_val = ret_val.shiftLeft(4);	
+			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+		}
+		if(ret_val.compareTo(BigInteger.valueOf((long)Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1 ){
+			return new TitanInteger(ret_val.intValue());
+		}
+		return new TitanInteger(ret_val);
+	}
+	
+	public static TitanInteger hex2int(final TitanHexString_Element value) {
+		value.mustBound("The argument of function hex2int() is an unbound hexstring element.");
+		
+		return new TitanInteger(value.get_nibble());
+	}
+	
+	// C.17 - hex2bit
+	public static TitanBitString hex2bit(final TitanHexString value) {
+		value.mustBound("The argument of function hex2bit() is an unbound hexstring value.");
+		
+		int n_nibbles = value.lengthOf().getInt();
+		List<Byte> bits_ptr = new ArrayList<Byte>();
+		List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		for (int i = n_nibbles; i > 0; i--) {
+			nibbles_ptr.add(value.get_nibble(n_nibbles-i));
+		}
+		int j = 0;
+		for (int i = 0; i < n_nibbles-1; i+=2) {
+			bits_ptr.add(nibbles_ptr.get(i));	
+			bits_ptr.set(j, (byte)(bits_ptr.get(j) << 4));
+			bits_ptr.set(j, (byte)(bits_ptr.get(j) | nibbles_ptr.get(i+1)));
+			j++;
+		}
+		
+		//FIXME:can be simple
+		//reverse the order of bits
+		for (int i = 0; i < bits_ptr.size(); i++) {
+			bits_ptr.set(i,(byte)((bits_ptr.get(i) & 0xF0) >> 4 | (bits_ptr.get(i) & 0x0F) << 4));
+			bits_ptr.set(i,(byte)((bits_ptr.get(i) & 0xCC) >> 2 | (bits_ptr.get(i) & 0x33) << 2));
+			bits_ptr.set(i,(byte)((bits_ptr.get(i) & 0xAA) >> 1 | (bits_ptr.get(i) & 0x55) << 1));
+		}
+		
+		return new TitanBitString(bits_ptr, 4*n_nibbles);
+	}
 
 	
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
+	//TODO: OCTETSTRING bit2oct(const BITSTRING& value);
 }
