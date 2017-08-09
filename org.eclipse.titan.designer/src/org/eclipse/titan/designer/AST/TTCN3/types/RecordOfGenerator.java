@@ -36,10 +36,11 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TitanInteger");
+		aData.addBuiltinTypeImport("TitanNull_Type");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName );
-		generateValueConstructors( source, genName , displayName);
+		generateValueConstructors( source, genName, ofTypeName, displayName );
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
@@ -115,16 +116,23 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element 
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueConstructors( final StringBuilder source, final String genName, final String displayName) {
+	private static void generateValueConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}() '{'\n", genName ) );
 		source.append("\t};\n");
+
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format("\t\totherValue.mustBound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tvalueElements = copyList( otherValue.valueElements );\n");
+		source.append("\t};\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0}(TitanNull_Type nullValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t};\n");
 	}
 
