@@ -161,7 +161,7 @@ public abstract class Base_Template {
 		}
 		throw new TtcnError( MessageFormat.format( "Incorrect second parameter ({0}) was passed to istemplatekind.", type ) );
 	}
-	
+
 	public boolean isOmit() {
 	  return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent;
 	}
