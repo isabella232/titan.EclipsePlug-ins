@@ -111,11 +111,12 @@ public class UnionGenerator {
 		generateTemplateIsChosen(source, genName, displayName);
 		generateTemplateIsValue(source, displayName, fieldInfos);
 		generateTemplateValueOf(source, genName, displayName, fieldInfos);
+		generateTemplateSetType(source, genName, displayName);
+		generateTemplateListItem(source, genName, displayName);
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
 
-		//FIXME implement list_item
 		//FIXME implement log
 		//FIXME implement log_match
 		//FIXME implement encode
@@ -711,6 +712,51 @@ public class UnionGenerator {
 		if (fieldInfos.size() > 0) {
 			source.append("return ret_val;\n");
 		}
+		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate the setType function
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * */
+	private static void generateTemplateSetType(final StringBuilder source, final String genName, final String displayName) {
+		source.append("public void setType(template_sel template_type, int list_length) {");
+		source.append("if (template_type != template_sel.VALUE_LIST || template_type != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+
+		source.append("cleanUp();\n");
+		source.append("setSelection(template_type);\n");
+		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>();\n", genName));
+		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", genName));
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate the listItem function
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * */
+	private static void generateTemplateListItem(final StringBuilder source, final String genName, final String displayName) {
+		source.append(MessageFormat.format("public {0}_template listItem(int list_index)  '{'\n", genName));
+		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+
+		source.append("if (list_index < 0) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Index underflow in a value list template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("if(list_index >= value_list.size()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Index overflow in a value list template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("return value_list.get(list_index);\n");
 		source.append("}\n\n");
 	}
 
