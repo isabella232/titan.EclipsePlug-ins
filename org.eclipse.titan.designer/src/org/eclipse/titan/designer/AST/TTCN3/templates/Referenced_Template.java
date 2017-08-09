@@ -608,7 +608,7 @@ public final class Referenced_Template extends TTCN3Template {
 		}
 
 		ExpressionStruct expression = new ExpressionStruct();
-		reference.generateCode(aData, expression);
+		reference.generateConstRef(aData, expression);
 		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			result.append( "\t//TODO: fatal error while generating " );
 			result.append( getClass().getSimpleName() );
@@ -627,7 +627,7 @@ public final class Referenced_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
-		reference.generateCode(aData, expression);
+		reference.generateConstRef(aData, expression);
 	}
 
 	@Override
