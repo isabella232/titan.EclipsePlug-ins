@@ -492,6 +492,38 @@ public class AdditionalFunctions {
 			return new TitanCharString("0");
 		}
 	}
+	
+	// C.16 - hex2int
+	public static TitanInteger hex2int(final TitanHexString value) {
+		value.mustBound("The argument of function hex2int() is an unbound hexstring value.");
+		
+		int n_nibbles = value.lengthOf().getInt();
+		
+		//skip the leading zero hex digits
+		int start_index = 0;
+		for (start_index = 0; start_index < n_nibbles; start_index++) {
+			if(value.get_nibble(start_index) != 0) {
+				break;
+			}
+		}
+		
+		//do the conversion
+		BigInteger ret_val = new BigInteger("0");
+		for (int i = start_index; i < n_nibbles; i++) {
+			ret_val = ret_val.shiftLeft(4);	
+			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+		}
+		if(ret_val.compareTo(BigInteger.valueOf((long)Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1 ){
+			return new TitanInteger(ret_val.intValue());
+		}
+		return new TitanInteger(ret_val);
+	}
+	
+	public static TitanInteger hex2int(final TitanHexString_Element value) {
+		value.mustBound("The argument of function hex2int() is an unbound hexstring element.");
+		
+		return new TitanInteger(value.get_nibble());
+	}
 
 	
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
