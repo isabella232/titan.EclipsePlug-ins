@@ -524,6 +524,35 @@ public class AdditionalFunctions {
 		
 		return new TitanInteger(value.get_nibble());
 	}
+	
+	// C.17 - hex2bit
+	public static TitanBitString hex2bit(final TitanHexString value) {
+		value.mustBound("The argument of function hex2bit() is an unbound hexstring value.");
+		
+		int n_nibbles = value.lengthOf().getInt();
+		List<Byte> bits_ptr = new ArrayList<Byte>();
+		List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		for (int i = n_nibbles; i > 0; i--) {
+			nibbles_ptr.add(value.get_nibble(n_nibbles-i));
+		}
+		int j = 0;
+		for (int i = 0; i < n_nibbles-1; i+=2) {
+			bits_ptr.add(nibbles_ptr.get(i));	
+			bits_ptr.set(j, (byte)(bits_ptr.get(j) << 4));
+			bits_ptr.set(j, (byte)(bits_ptr.get(j) | nibbles_ptr.get(i+1)));
+			j++;
+		}
+		
+		//FIXME:can be simple
+		//reverse the order of bits
+		for (int i = 0; i < bits_ptr.size(); i++) {
+			bits_ptr.set(i,(byte)((bits_ptr.get(i) & 0xF0) >> 4 | (bits_ptr.get(i) & 0x0F) << 4));
+			bits_ptr.set(i,(byte)((bits_ptr.get(i) & 0xCC) >> 2 | (bits_ptr.get(i) & 0x33) << 2));
+			bits_ptr.set(i,(byte)((bits_ptr.get(i) & 0xAA) >> 1 | (bits_ptr.get(i) & 0x55) << 1));
+		}
+		
+		return new TitanBitString(bits_ptr, 4*n_nibbles);
+	}
 
 	
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
