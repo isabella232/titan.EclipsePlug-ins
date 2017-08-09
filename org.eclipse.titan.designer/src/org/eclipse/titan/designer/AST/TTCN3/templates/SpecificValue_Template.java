@@ -364,10 +364,9 @@ public final class SpecificValue_Template extends TTCN3Template {
 		if (lengthRestriction != null || isIfpresent || getIsErroneous(timestamp)) {
 			return false;
 		}
-		final IValue templ = specificValue.setLoweridToReference(timestamp);
 
-		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(templ.getValuetype())) {
-			final IType governor = ((Function_Reference_Value) templ).getExpressionGovernor(timestamp,
+		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(specificValue.getValuetype())) {
+			final IType governor = ((Function_Reference_Value) specificValue).getExpressionGovernor(timestamp,
 					Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (governor == null) {
 				return true;
@@ -377,8 +376,8 @@ public final class SpecificValue_Template extends TTCN3Template {
 			if (Type_type.TYPE_FUNCTION.equals(last.getTypetype()) && ((Function_Type) last).returnsTemplate()) {
 				return false;
 			}
-		} else if (Value_type.REFERENCED_VALUE.equals(templ.getValuetype()) ) {
-			final Reference reference = ((Referenced_Value) templ).getReference();
+		} else if (Value_type.REFERENCED_VALUE.equals(specificValue.getValuetype()) ) {
+			final Reference reference = ((Referenced_Value) specificValue).getReference();
 			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment == null) {
 				return true;

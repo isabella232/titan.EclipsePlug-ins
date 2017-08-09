@@ -868,7 +868,9 @@ public final class Sequence_Value extends Value {
 		}
 
 		if (nofComps == 0) {
-			source.append(MessageFormat.format("{0}.assign(NULL_VALUE);\n", name));
+			aData.addBuiltinTypeImport("TitanNull_Type");
+
+			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
 			return source;
 		}
 
@@ -912,6 +914,8 @@ public final class Sequence_Value extends Value {
 				//TODO add extra handling for optional fields
 				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
+				aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+
 				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, FieldSubReference.getJavaGetterName(fieldName.getName())));
 			}
 		}

@@ -110,18 +110,18 @@ public final class TemplateRestriction {
 		if (template.getIsErroneous(timestamp)) {
 			return false;
 		}
-
+		ITTCN3Template last = template.getTemplateReferencedLast(timestamp);
 		Restriction_type tr = definition.getTemplateRestriction();
 		tr = getSubRestriction(tr, timestamp, ref);
 		switch (tr) {
 		case TR_NONE:
 			return false;
 		case TR_VALUE:
-			return template.checkValueomitRestriction(timestamp, definition.getAssignmentName(), false, template.getLocation());
+			return last.checkValueomitRestriction(timestamp, definition.getAssignmentName(), false, template.getLocation());
 		case TR_OMIT:
-			return template.checkValueomitRestriction(timestamp, definition.getAssignmentName(), true, template.getLocation());
+			return last.checkValueomitRestriction(timestamp, definition.getAssignmentName(), true, template.getLocation());
 		case TR_PRESENT:
-			return template.checkPresentRestriction(timestamp, definition.getAssignmentName(), template.getLocation());
+			return last.checkPresentRestriction(timestamp, definition.getAssignmentName(), template.getLocation());
 		default:
 			return false;
 		}

@@ -120,7 +120,9 @@ public class RecordSetCodeGenerator {
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
 		generateTemplateConstructors( source, className, classDisplayName );
 		generateTemplateAssign( source, className, classDisplayName );
-		generateTemplateCopyTemplate( aData,source, fieldInfos, className, classDisplayName );
+		generateTemplateCopyTemplate( source, fieldInfos, className, classDisplayName );
+		generateTemplateIsPresent( source );
+		generateTemplateValueOf( source, fieldInfos, className, classDisplayName );
 		
 		// TODO
 		source.append("}\n");
@@ -490,9 +492,8 @@ public class RecordSetCodeGenerator {
 			final String className ) {
 		source.append("\n");
 
-		source.append("\tprivate static class single_value_struct {\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\t\tprivate " );
+			source.append( "\tprivate " );
 			source.append( fi.mJavaTypeName );
 			source.append( "_template " );
 			source.append( fi.mVarName );
@@ -503,20 +504,16 @@ public class RecordSetCodeGenerator {
 			}
 			source.append( "\n" );
 		}
-		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
-			source.append( MessageFormat.format( "\t\t\treturn {0};\n", fi.mVarName ) );
-			source.append("\t\t}\n");
-			source.append( "\n" );
 
-			source.append( MessageFormat.format( "\t\tpublic void set{1}( final {0}_template a{1}) '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
-			source.append( MessageFormat.format( "\t\t\tthis.{0} = a{1};\n", fi.mVarName, fi.mJavaVarName ) );
-			source.append("\t\t}\n");
-			source.append( "\n" );
-		}
-		source.append("\t}\n");
-		source.append("\tsingle_value_struct single_value;\n");
+		//TODO: move to getter/setter
 		source.append("\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
+			source.append("\t}\n");
+			source.append( "\n" );
+			//TODO: add constGetXx()
+		}
 
 		source.append("\t//originally value_list/list_value\n");
 		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", className ) );
@@ -595,29 +592,27 @@ public class RecordSetCodeGenerator {
 	/**
 	 * Generate the copyTemplate function for template
 	 *
-	 * @param aData the generated java code with other info
 	 * @param source where the source code is to be generated.
 	 * @param aNamesList sequence field variable and type names
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateCopyTemplate( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
+	private static void generateTemplateCopyTemplate( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate void copyValue(final {0} other_value) '{'\n", genName));
-		source.append("\t\tsingle_value = new single_value_struct();\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( MessageFormat.format( "\t\tif (other_value.get{0}().isBound()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
 				source.append( MessageFormat.format( "\t\t\tif (other_value.get{0}().isPresent()) '{'\n", fi.mJavaVarName ) );
-				source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().assign(other_value.get{0}().get());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(other_value.get{0}().get());\n", fi.mJavaVarName ) );
 				source.append("\t\t\t} else {\n");
-				source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				source.append("\t\t\t}\n");
 			} else {
-				source.append( MessageFormat.format( "\t\t\tsingle_value.get{0}().assign(other_value.get{0}());\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\tget{0}().assign(other_value.get{0}());\n", fi.mJavaVarName ) );
 			}
 			source.append("\t\t} else {\n");
-			source.append( MessageFormat.format( "\t\t\tsingle_value.get{0}().cleanUp();\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\tget{0}().cleanUp();\n", fi.mJavaVarName ) );
 			source.append("\t\t}\n");
 		}
 		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
@@ -627,12 +622,11 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\tprivate void copyTemplate(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\tswitch (other_value.templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\tsingle_value = new single_value_struct();\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE != other_value.single_value.get{0}().getSelection()) '{'\n", fi.mJavaVarName ) );
-			source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().assign(other_value.single_value.get{0}());\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE != other_value.get{0}().getSelection()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(other_value.get{0}());\n", fi.mJavaVarName ) );
 			source.append("\t\t\t} else {\n");
-			source.append( MessageFormat.format( "\t\t\t\tsingle_value.get{0}().cleanUp();\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\t\tget{0}().cleanUp();\n", fi.mJavaVarName ) );
 			source.append("\t\t\t}\n");
 		}
 		source.append("\t\t\tbreak;\n");
@@ -653,5 +647,45 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tsetSelection(other_value);\n");
 		source.append("\t}\n");
+	}
+
+	/**
+	 * Generating isPresent() function for template
+	 * @param aSb the output, where the java code is written
+	 */
+	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
+		aSb.append( "\n\t\tpublic boolean isPresent() {\n" );
+		aSb.append( "\t\t\t\treturn isBound();\n");
+		aSb.append( "\t\t}\n" );
+	}
+
+	/**
+	 * Generating valueOf() function for template
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateValueOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
+		aSb.append("\n");
+		aSb.append( MessageFormat.format( "\t\tpublic {0} valueOf() '{'\n", genName ) );
+		aSb.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
+		aSb.append("\t\t\t}\n");
+		aSb.append( MessageFormat.format( "\t\t\t{0} ret_val = new {0}();\n", genName ) );
+		for ( final FieldInfo fi : aNamesList ) {
+			if (fi.isOptional) {
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit()) '{'\n", fi.mVarName )  );
+				aSb.append( MessageFormat.format( "\t\t\t\tret_val.{0}.assign(template_sel.OMIT_VALUE);\n", fi.mVarName ) );
+				aSb.append("\t\t\t} else ");
+			} else {
+				aSb.append("\t\t\t ");
+			}
+			aSb.append( MessageFormat.format( "if ({0}.isBound()) '{'\n", fi.mVarName )  );
+			aSb.append( MessageFormat.format( "\t\t\t\tret_val.{0}.assign({0}.valueOf());\n", fi.mVarName ) );
+			aSb.append("\t\t\t}\n");
+		}
+		aSb.append("\t\t\treturn ret_val;\n");
+		aSb.append("\t\t}\n");
 	}
 }

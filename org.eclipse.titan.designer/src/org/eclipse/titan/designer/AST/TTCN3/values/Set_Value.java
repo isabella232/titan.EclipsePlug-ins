@@ -617,7 +617,26 @@ public final class Set_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO the empty record is so frequent that it is worth to handle in the library
-		return new StringBuilder("NULL_VALUE");
+		aData.addBuiltinTypeImport("TitanNull_Type");
+
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		aData.addBuiltinTypeImport("TitanNull_Type");
+
+		if (governor == null) {
+			return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		}
+
+		StringBuilder result = new StringBuilder();
+		String genName = governor.getGenNameValue(aData, result, myScope);
+		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
+		return result;
 	}
 
 	@Override
@@ -644,6 +663,13 @@ public final class Set_Value extends Value {
 			break;
 		default:
 			//TODO fatal error
+		}
+
+		if (nofComps == 0) {
+			aData.addBuiltinTypeImport("TitanNull_Type");
+
+			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+			return source;
 		}
 
 		CompField compField = null;

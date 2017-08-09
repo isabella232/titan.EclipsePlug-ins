@@ -74,6 +74,8 @@ public final class Assignment_Statement extends Statement {
 	private final Reference reference;
 	private final TTCN3Template template;
 
+	private boolean selfReference;
+
 	public Assignment_Statement(final Reference reference, final TTCN3Template template) {
 		this.reference = reference;
 		this.template = template;
@@ -133,6 +135,7 @@ public final class Assignment_Statement extends Statement {
 
 		lastTimeChecked = timestamp;
 		isErroneous = false;
+		selfReference = false;
 
 		if (reference == null) {
 			return;
@@ -318,7 +321,7 @@ public final class Assignment_Statement extends Statement {
 			}
 		} else {
 			final boolean isStringElement = reference.refersToStringElement();
-			type.checkThisValue(timestamp, value, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, false,
+			/*selfReference |= */type.checkThisValue(timestamp, value, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, false,
 					!isStringElement, false, isStringElement));
 
 			if (isStringElement) {
@@ -413,7 +416,7 @@ public final class Assignment_Statement extends Statement {
 
 		template.setMyGovernor(type);
 		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
-		temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false);
+		/*selfReference |= */ temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false);
 		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 		if (ass != null && ass instanceof Definition) {
 			TemplateRestriction.check(timestamp, (Definition) ass, template, reference);
@@ -537,6 +540,7 @@ public final class Assignment_Statement extends Statement {
 			return;
 		}
 
+		final boolean rhsCopied = selfReference;
 		//TODO this is actually much more complicated
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 		if ( assignment == null ) {
@@ -559,7 +563,6 @@ public final class Assignment_Statement extends Statement {
 			break;
 		}
 
-
 		// TODO Assignment::generate_code
 		// TODO handle rhs copied, needs_conv
 		// TODO we assume single expression here, value and template cases are the same this case
@@ -578,7 +581,11 @@ public final class Assignment_Statement extends Statement {
 			source.append(leftExpression.preamble);
 			if (isValue) {
 				if (isOptional) {
-					source.append(MessageFormat.format("Optional<{0}> {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+					if (rhsCopied) {
+						source.append(MessageFormat.format("Optional<{0}> {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+					} else {
+						source.append(MessageFormat.format("{0} {1} = {2}.get();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+					}
 				} else if (reference.refersToStringElement()) {
 					String typeName = template.getMyGovernor().getGenNameValue(aData, source, myScope);
 					aData.addBuiltinTypeImport(typeName + "_Element");

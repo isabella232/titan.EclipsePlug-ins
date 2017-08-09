@@ -202,8 +202,9 @@ public class TemplateBody implements ITemplateListItem {
 	@Override
 	public boolean chkRestrictionNamedListBaseTemplate(
 			final CompilationTimeStamp timestamp, final String definitionName,
+			final boolean omitAllowed,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation) {
-		return template.chkRestrictionNamedListBaseTemplate(timestamp, definitionName, checkedNames, neededCheckedCnt, usageLocation);
+		return template.chkRestrictionNamedListBaseTemplate(timestamp, definitionName, omitAllowed, checkedNames, neededCheckedCnt, usageLocation);
 	}
 
 	@Override

@@ -122,10 +122,12 @@ public class ProjectSourceCompiler {
 		
 		contentBuilder.append( "public class Single_main {\n\n" );
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
+		contentBuilder.append("long absoluteStart = System.nanoTime();");
 		for ( Module module : modules ) {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
 		}
 		contentBuilder.append("Runtime_Single_main.singleMain();\n");
+		contentBuilder.append("System.out.println(\"Execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");");
 		contentBuilder.append( "}\n" );
 		contentBuilder.append( "}\n\n" );
 

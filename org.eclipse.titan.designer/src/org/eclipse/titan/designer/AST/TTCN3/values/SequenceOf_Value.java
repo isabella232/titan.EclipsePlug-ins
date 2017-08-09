@@ -643,8 +643,24 @@ public final class SequenceOf_Value extends Value {
 			return convertedValue.generateSingleExpression(aData);
 		}
 
-		//TODO the empty record is so frequent that it is worth to handle in the library
-		return new StringBuilder("NULL_VALUE");
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
+
+		aData.addBuiltinTypeImport("TitanNull_Type");
+
+		if (governor == null) {
+			return new StringBuilder("TitanNull_Type.NULL_VALUE");
+		}
+
+		StringBuilder result = new StringBuilder();
+		String genName = governor.getGenNameValue(aData, result, myScope);
+		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
+		return result;
 	}
 
 	@Override
@@ -657,7 +673,9 @@ public final class SequenceOf_Value extends Value {
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
-				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actual NULL_VALUE
+				aData.addBuiltinTypeImport("TitanNull_Type");
+
+				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
 				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
@@ -681,7 +699,9 @@ public final class SequenceOf_Value extends Value {
 		} else {
 			final int nofValues = values.getNofValues();
 			if (nofValues == 0) {
-				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actual NULL_VALUE
+				aData.addBuiltinTypeImport("TitanNull_Type");
+
+				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				source.append(MessageFormat.format("{0}.setSize({1});\n", name, nofValues));
 				final IType ofType = values.getValueByIndex(0).getMyGovernor();
