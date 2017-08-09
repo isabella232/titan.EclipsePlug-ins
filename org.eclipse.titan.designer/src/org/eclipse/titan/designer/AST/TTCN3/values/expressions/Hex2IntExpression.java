@@ -247,7 +247,7 @@ public final class Hex2IntExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
-		expression.expression.append("AdditionalFunctions.int2hex( ");
+		expression.expression.append("AdditionalFunctions.hex2int( ");
 		value.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(" )");
 	}
