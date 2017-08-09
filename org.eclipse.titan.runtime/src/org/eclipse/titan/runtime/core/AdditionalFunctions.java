@@ -458,8 +458,42 @@ public class AdditionalFunctions {
 		return new TitanHexString((byte) (value.get_bit() ? 0x01 : 0x00));
 	}
 	
-
+	// C.14 - bit2oct
+	public static TitanOctetString bit2oct(final TitanBitString_Element value) {
+		value.mustBound("The argument of function bit2oct() is an unbound bitstring element.");
+		
+		return new TitanOctetString((char)(value.get_bit() ? 1 : 0));
+	}
+	
+	// C.15 - bit2str
+	public static TitanCharString bit2str(final TitanBitString value) {
+		value.mustBound("The argument of function bit2str() is an unbound bitstring value.");
+		
+		int n_bits = value.lengthOf().getInt();
+		StringBuilder ret_val = new StringBuilder(n_bits);
+		
+		for (int i = 0; i < n_bits; i++) {
+			if(value.getBit(i)){
+				ret_val.append("1");
+			}
+			else{
+				ret_val.append("0");
+			}
+		}
+		return new TitanCharString(ret_val);
+	}
+	
+	public static TitanCharString bit2str(final TitanBitString_Element value) {
+		value.mustBound("The argument of function bit2str() is an unbound bitstring element.");
+		
+		if(value.get_bit()){
+			return new TitanCharString("1");
+		} else{
+			return new TitanCharString("0");
+		}
+	}
 
 	
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
+	//TODO: OCTETSTRING bit2oct(const BITSTRING& value);
 }
