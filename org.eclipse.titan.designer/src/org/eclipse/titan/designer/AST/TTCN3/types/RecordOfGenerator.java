@@ -45,7 +45,7 @@ public class RecordOfGenerator {
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
 		generateValueOperatorEquals( source, genName, ofTypeName , displayName);
-		generateValueAssign( source, genName , displayName);
+		generateValueAssign( source, genName, ofTypeName, displayName);
 		generateValueCleanup( source );
 		generateValueGetterSetters( source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
@@ -237,9 +237,10 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueAssign( final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateValueAssign( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append("\n");
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic {0} assign(final Base_Type otherValue) '{'\n", genName ) );
@@ -248,6 +249,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n");
+
 		source.append("\n");
 		source.append("\t//originally operator=\n");
 		source.append( MessageFormat.format( "\tpublic {0} assign( final {0} aOtherValue ) '{'\n", genName ) );
@@ -256,6 +258,12 @@ public class RecordOfGenerator {
 		source.append("\t\tvalueElements = aOtherValue.valueElements;\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0} assign(TitanNull_Type nullValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append("\t\treturn this;\n");
+		source.append("\t};\n");
 	}
 
 	/**
