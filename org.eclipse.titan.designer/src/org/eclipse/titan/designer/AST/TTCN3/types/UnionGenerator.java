@@ -110,11 +110,11 @@ public class UnionGenerator {
 		generateTemplateMatch(source, genName, displayName, fieldInfos);
 		generateTemplateIsChosen(source, genName, displayName);
 		generateTemplateIsValue(source, displayName, fieldInfos);
+		generateTemplateValueOf(source, genName, displayName, fieldInfos);
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
 
-		//FIXME implement valueOf
 		//FIXME implement list_item
 		//FIXME implement log
 		//FIXME implement log_match
@@ -679,6 +679,38 @@ public class UnionGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate the valueOf function
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * */
+	private static void generateTemplateValueOf(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append(MessageFormat.format("public {0} valueOf() '{'\n", genName));
+		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		if (fieldInfos.size() > 0) {
+			source.append(MessageFormat.format("{0} ret_val = new {0}();\n", genName));
+		}
+		source.append("switch(single_value_union_selection) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			FieldInfo fieldInfo = fieldInfos.get(i);
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("ret_val.get{0}().assign((({1})single_value).valueOf());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
+			source.append("break;\n");
+		}
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		if (fieldInfos.size() > 0) {
+			source.append("return ret_val;\n");
+		}
 		source.append("}\n\n");
 	}
 
