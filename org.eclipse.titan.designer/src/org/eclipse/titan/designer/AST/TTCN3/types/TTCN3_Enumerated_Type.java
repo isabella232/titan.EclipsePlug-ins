@@ -14,6 +14,7 @@ import java.util.Map;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -276,26 +277,26 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs,  valueCheckingOptions);
 
 		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -322,12 +323,14 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
@@ -339,6 +342,8 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			template.getLocation().reportSemanticError(LENGTHRESTRICTIONNOTALLOWED);
 			template.setIsErroneous(true);
 		}
+
+		return false;
 	}
 
 	@Override

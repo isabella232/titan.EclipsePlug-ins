@@ -65,6 +65,16 @@ public final class IsBoundExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment lhs) {
+		if (templateInstance.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("isbound(");
 		builder.append(templateInstance.createStringRepresentation());

@@ -323,7 +323,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			}
 		}
 
-		myOwner.checkThisValue(timestamp, last, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false,
+		myOwner.checkThisValue(timestamp, last, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false,
 				false));
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		last = last.getValueRefdLast(timestamp, chain);
@@ -443,7 +443,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			((Integer_Type) lastOwner).checkThisValueLimit(timestamp, last, Expected_Value_type.EXPECTED_CONSTANT, false, false, false,
 					false);
 		} else {
-			myOwner.checkThisValue(timestamp, last, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false,
+			myOwner.checkThisValue(timestamp, last, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false,
 					false, false));
 		}
 		IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -460,7 +460,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			((Integer_Type) lastOwner).checkThisValueLimit(timestamp, last, Expected_Value_type.EXPECTED_CONSTANT, false, false, false,
 					false);
 		} else {
-			myOwner.checkThisValue(timestamp, last, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false,
+			myOwner.checkThisValue(timestamp, last, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false,
 					false, false));
 		}
 		chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);

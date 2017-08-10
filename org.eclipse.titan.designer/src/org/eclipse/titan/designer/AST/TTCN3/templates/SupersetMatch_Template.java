@@ -66,6 +66,18 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+			if(templates.getTemplateByIndex(i).checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		getLocation().reportSemanticError("A specific value expected instead of a superset match");
 	}

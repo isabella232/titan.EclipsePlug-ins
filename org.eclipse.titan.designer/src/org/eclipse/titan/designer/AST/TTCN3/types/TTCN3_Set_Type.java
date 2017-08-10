@@ -19,6 +19,7 @@ import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -395,26 +396,26 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -425,10 +426,10 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		case SEQUENCE_VALUE:
 			last = last.setValuetype(timestamp, Value_type.SET_VALUE);
 			if (last.isAsn()) {
-				checkThisValueSet(timestamp, (Set_Value) last, valueCheckingOptions.expected_value,
+				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						false, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
-				checkThisValueSet(timestamp, (Set_Value) last, valueCheckingOptions.expected_value,
+				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			}
 			break;
@@ -454,16 +455,16 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			break;
 		case SET_VALUE:
 			if (last.isAsn()) {
-				checkThisValueSet(timestamp, (Set_Value) last, valueCheckingOptions.expected_value,
+				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						false, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			} else {
-				checkThisValueSet(timestamp, (Set_Value) last, valueCheckingOptions.expected_value,
+				selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs, valueCheckingOptions.expected_value,
 						valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			}
 			break;
 		case UNDEFINED_BLOCK:
 			last = last.setValuetype(timestamp, Value_type.SET_VALUE);
-			checkThisValueSet(timestamp, (Set_Value) last,
+			selfReference = checkThisValueSet(timestamp, (Set_Value) last, lhs,
 					valueCheckingOptions.expected_value, false, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -483,6 +484,8 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	/**
@@ -498,10 +501,11 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * @param impliciOmit true if the implicit omit optional attribute was set
 	 *            for the value, false otherwise
 	 * */
-	private void checkThisValueSet(final CompilationTimeStamp timestamp, final Set_Value value, final Expected_Value_type expectedValue,
+	private boolean checkThisValueSet(final CompilationTimeStamp timestamp, final Set_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean impliciOmit, final boolean strElem) {
 		value.removeGeneratedValues();
 
+		boolean selfReference = false;
 		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
 		final Map<String, CompField> realComponents = compFieldMap.getComponentFieldMap(timestamp);
 
@@ -536,7 +540,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						}
 					} else {
 						final IValue tempValue = type.checkThisValueRef(timestamp, componentValue);
-						type.checkThisValue(timestamp, tempValue,
+						selfReference = type.checkThisValue(timestamp, tempValue, lhs,
 								new ValueCheckingOptions(expectedValue, incompleteAllowed, componentField.isOptional(), true, impliciOmit, strElem));
 					}
 				}
@@ -561,15 +565,18 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case TEMPLATE_LIST:
 			if (((Template_List) template).getNofTemplates() > 0) {
@@ -579,11 +586,11 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				template.getLocation().reportSemanticError(MessageFormat.format(NONEMPTYSETTEMPLATEEXPECTED, getFullName()));
 			} else {
 				final ITTCN3Template transformed = template.setTemplatetype(timestamp, Template_type.NAMED_TEMPLATE_LIST);
-				checkThisNamedTemplateList(timestamp, (Named_Template_List) transformed, isModified, implicitOmit);
+				selfReference = checkThisNamedTemplateList(timestamp, (Named_Template_List) transformed, isModified, implicitOmit, lhs);
 			}
 			break;
 		case NAMED_TEMPLATE_LIST:
-			checkThisNamedTemplateList(timestamp, (Named_Template_List) template, isModified, implicitOmit);
+			selfReference = checkThisNamedTemplateList(timestamp, (Named_Template_List) template, isModified, implicitOmit, lhs);
 			break;
 		default:
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
@@ -593,6 +600,8 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		if (template.getLengthRestriction() != null) {
 			template.getLocation().reportSemanticError(LENGTHRESTRICTIONNOTALLOWED);
 		}
+
+		return selfReference;
 	}
 
 	/**
@@ -603,10 +612,11 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	 * @param isModified is the template modified or not ?
 	 * @param implicitOmit indicates whether the template has the implicit omit attribute set or not.
 	 * */
-	private void checkThisNamedTemplateList(final CompilationTimeStamp timestamp, final Named_Template_List templateList, final boolean isModified,
-			final boolean implicitOmit) {
+	private boolean checkThisNamedTemplateList(final CompilationTimeStamp timestamp, final Named_Template_List templateList, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs) {
 		templateList.removeGeneratedValues();
 
+		boolean selfReference = false;
 		final Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
 		final int nofTypeComponents = getNofComponents();
 		final int nofTemplateComponents = templateList.getNofTemplates();
@@ -633,7 +643,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				componentTemplate.setMyGovernor(type);
 				componentTemplate = type.checkThisTemplateRef(timestamp, componentTemplate);
 				final boolean isOptional = componentField.isOptional();
-				componentTemplate.checkThisTemplateGeneric(timestamp, type, isModified, isOptional, isOptional, true, implicitOmit);
+				selfReference = componentTemplate.checkThisTemplateGeneric(timestamp, type, isModified, isOptional, isOptional, true, implicitOmit, lhs);
 			} else {
 				namedTemplate.getLocation().reportSemanticError(
 						MessageFormat.format(NONEXISTENTTEMPLATEFIELDREFERENCE, identifier.getDisplayName(), getTypename()));
@@ -655,6 +665,8 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				}
 			}
 		}
+
+		return selfReference;
 	}
 
 	@Override

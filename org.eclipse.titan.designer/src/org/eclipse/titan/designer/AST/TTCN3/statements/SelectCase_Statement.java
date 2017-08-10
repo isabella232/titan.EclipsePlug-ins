@@ -137,7 +137,7 @@ public final class SelectCase_Statement extends Statement {
 		}
 
 		temp = governor.checkThisValueRef(timestamp, expression);
-		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
+		governor.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false,
 				true, false, false));
 
 		selectcases.check(timestamp, governor);

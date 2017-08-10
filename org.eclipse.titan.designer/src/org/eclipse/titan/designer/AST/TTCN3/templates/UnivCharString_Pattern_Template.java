@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -86,6 +87,14 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 		}
 
 		return Type_type.TYPE_UCHARSTRING;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		//FIXME implement once patterns are supported
+
+		return false;
 	}
 
 	@Override

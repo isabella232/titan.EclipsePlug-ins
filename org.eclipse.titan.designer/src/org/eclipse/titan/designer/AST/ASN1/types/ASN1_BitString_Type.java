@@ -17,6 +17,7 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignments;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -249,22 +250,22 @@ public final class ASN1_BitString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -282,7 +283,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 					value.getLocation().reportSemanticError("(reference to) BIT STRING value was expected");
 					value.setIsErroneous(true);
 					value.setLastTimeChecked(timestamp);
-					return;
+					return selfReference;
 				}
 			}
 			switch (last.getValuetype()) {
@@ -298,7 +299,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 							MessageFormat.format("No named bits are defined in type `{0}''", getTypename()));
 					value.setIsErroneous(true);
 					value.setLastTimeChecked(timestamp);
-					return;
+					return selfReference;
 				}
 				final Named_Bits namedBits = (Named_Bits) last;
 				final StringBuilder builder = new StringBuilder(namedBits.getNofIds());
@@ -310,7 +311,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 										id.getDisplayName(), getTypename()));
 						value.setIsErroneous(true);
 						value.setLastTimeChecked(timestamp);
-						return;
+						return selfReference;
 					}
 
 					IValue tempValue = namedValues.getNamedValueByName(id).getValue();
@@ -342,7 +343,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 				value.getLocation().reportSemanticError(BITSTRINGVALUEEXPECTED1);
 				value.setIsErroneous(true);
 				value.setLastTimeChecked(timestamp);
-				return;
+				return selfReference;
 			}
 		} else {
 			switch (last.getValuetype()) {
@@ -366,12 +367,14 @@ public final class ASN1_BitString_Type extends ASN1Type {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
@@ -383,6 +386,8 @@ public final class ASN1_BitString_Type extends ASN1Type {
 					MessageFormat.format(BitString_Type.TEMPLATENOTALLOWED, template.getTemplateTypeName()));
 			break;
 		}
+
+		return false;
 	}
 
 	private void parseBlockBitstring() {

@@ -515,7 +515,7 @@ public final class FormalParameter extends Definition {
 				value.setMyGovernor(type);
 				final IValue temp = type.checkThisValueRef(timestamp, value);
 				if(!Value_type.NOTUSED_VALUE.equals(temp.getValuetype())) {
-					type.checkThisValue(timestamp, temp, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
+					type.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
 				}
 				return new Value_ActualParameter(temp);
 			}

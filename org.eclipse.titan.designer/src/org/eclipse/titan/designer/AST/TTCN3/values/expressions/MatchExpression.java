@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -54,6 +55,16 @@ public final class MatchExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.MATCH_OPERATION;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (templateInstance != null) {
+			return templateInstance.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs);
+		}
+
+		return false;
 	}
 
 	@Override
@@ -148,11 +159,11 @@ public final class MatchExpression extends Expression_Value {
 
 		value.setMyGovernor(localGovernor);
 		final IValue temporalValue = localGovernor.checkThisValueRef(timestamp, value);
-		localGovernor.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+		localGovernor.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 				false, false, true, false, false));
 		//FIXME check value against governor
 
-		templateInstance.getTemplateBody().checkThisTemplateGeneric(timestamp, localGovernor, false, false, false, true, false);
+		templateInstance.getTemplateBody().checkThisTemplateGeneric(timestamp, localGovernor, false, false, false, true, false, null);
 
 		try {
 			ExpressionUtilities.checkExpressionOperatorCompatibility(timestamp, this, referenceChain, Expected_Value_type.EXPECTED_TEMPLATE, value, templateInstance);

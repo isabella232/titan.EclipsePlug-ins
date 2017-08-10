@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
@@ -134,22 +135,22 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -160,7 +161,7 @@ public final class CharString_Type extends Type {
 		case UNDEFINED_BLOCK:
 			last = last.setValuetype(timestamp, Value_type.CHARSYMBOLS_VALUE);
 			if (last.getIsErroneous(timestamp)) {
-				return;
+				return selfReference;
 			}
 
 			last.setValuetype(timestamp, Value_type.CHARSTRING_VALUE);
@@ -189,14 +190,18 @@ public final class CharString_Type extends Type {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		checkThisTemplateString(timestamp, this, template, isModified);
+
+		return false;
 	}
 
 	/**
@@ -244,7 +249,7 @@ public final class CharString_Type extends Type {
 
 		value.setMyGovernor(type);
 		IValue temp = type.checkThisValueRef(timestamp, value);
-		type.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, true, false, false));
+		type.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, true, false, false));
 		temp = temp.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 		switch (temp.getValuetype()) {
 		case CHARSTRING_VALUE:

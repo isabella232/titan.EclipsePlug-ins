@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -35,6 +36,12 @@ public final class TestcasenameExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		return Type_type.TYPE_CHARSTRING;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		return false;
 	}
 
 	@Override

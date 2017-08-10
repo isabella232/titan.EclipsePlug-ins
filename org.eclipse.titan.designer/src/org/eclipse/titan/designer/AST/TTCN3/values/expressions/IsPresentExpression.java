@@ -65,6 +65,16 @@ public final class IsPresentExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment lhs) {
+		if (templateInstance.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("ispresent(");
 		builder.append(templateInstance.createStringRepresentation());

@@ -334,14 +334,15 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
+		boolean selfReference = false;
 		final IType tempType = getTypeRefdLast(timestamp);
 		if (tempType != this) {
-			tempType.checkThisValue(timestamp, value, new ValueCheckingOptions(valueCheckingOptions.expected_value,
+			selfReference = tempType.checkThisValue(timestamp, value, lhs, new ValueCheckingOptions(valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.omit_allowed, false, valueCheckingOptions.implicit_omit,
 					valueCheckingOptions.str_elem));
 			final Definition def = value.getDefiningAssignment();
@@ -358,22 +359,26 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
 		registerUsage(template);
-
+		boolean selfReference = false;
 		final IType tempType = getTypeRefdLast(timestamp);
 		if (tempType != this) {
-			tempType.checkThisTemplate(timestamp, template, isModified, implicitOmit);
+			selfReference = tempType.checkThisTemplate(timestamp, template, isModified, implicitOmit, lhs);
 		}
+
+		return selfReference;
 	}
 
 	@Override

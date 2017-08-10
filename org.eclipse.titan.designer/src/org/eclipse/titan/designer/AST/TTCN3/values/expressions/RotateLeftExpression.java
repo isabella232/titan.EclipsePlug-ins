@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
@@ -75,6 +76,19 @@ public final class RotateLeftExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.ROTATELEFT_OPERATION;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (value1.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+		if (value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

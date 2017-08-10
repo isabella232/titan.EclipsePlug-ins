@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
@@ -72,6 +73,13 @@ public final class NotUsed_Template extends TTCN3Template {
 		asValue.setMyScope(getMyScope());
 		asValue.setFullNameParent(getNameParent());
 		return asValue;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		//self reference can not happen
+		return false;
 	}
 
 	@Override

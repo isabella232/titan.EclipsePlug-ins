@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.GovernedSimple;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceChainElement;
@@ -949,17 +950,18 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * */
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
-			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
+			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
 
 		if(type == null) {
-			return;
+			return false;
 		}
 
+		boolean selfReference = false;
 		if (!getIsErroneous(timestamp)) {
 
 			if( !(ITTCN3Template.Template_type.TEMPLATE_NOTUSED.equals(this.getTemplatetype())) ) {
-				type.checkThisTemplate(timestamp, this, isModified, implicitOmit);
+				selfReference = type.checkThisTemplate(timestamp, this, isModified, implicitOmit, lhs);
 			}
 
 			if (getLengthRestriction() != null) {
@@ -972,6 +974,8 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 				type.checkThisTemplateSubtype(timestamp, this);
 			}
 		}
+
+		return selfReference;
 	}
 
 	/**

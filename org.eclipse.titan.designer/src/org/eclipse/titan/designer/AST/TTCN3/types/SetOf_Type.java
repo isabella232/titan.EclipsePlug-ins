@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
@@ -322,26 +323,26 @@ public final class SetOf_Type extends AbstractOfType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -352,17 +353,17 @@ public final class SetOf_Type extends AbstractOfType {
 			last = last.setValuetype(timestamp, Value_type.SETOF_VALUE);
 		}
 		if (last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		switch (last.getValuetype()) {
 		case SEQUENCEOF_VALUE:
 			last = last.setValuetype(timestamp, Value_type.SETOF_VALUE);
-			checkThisValueSetOf(timestamp, (SetOf_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueSetOf(timestamp, (SetOf_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case SETOF_VALUE:
-			checkThisValueSetOf(timestamp, (SetOf_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueSetOf(timestamp, (SetOf_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -386,15 +387,18 @@ public final class SetOf_Type extends AbstractOfType {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case OMIT_VALUE:
 			if (template.getLengthRestriction() != null) {
@@ -408,7 +412,7 @@ public final class SetOf_Type extends AbstractOfType {
 				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit);
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs);
 				if (Template_type.ANY_OR_OMIT.equals(templateComponent.getTemplateReferencedLast(timestamp, null).getTemplatetype())) {
 					templateComponent.getLocation().reportSemanticWarning(ANYOROMITINSUBSET);
 				}
@@ -422,7 +426,7 @@ public final class SetOf_Type extends AbstractOfType {
 				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit);
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs);
 				if (Template_type.ANY_OR_OMIT.equals(templateComponent.getTemplateReferencedLast(timestamp, null).getTemplatetype())) {
 					templateComponent.getLocation().reportSemanticWarning(ANYOROMITINSUPERSET);
 				}
@@ -441,7 +445,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 				if (tempBase == null) {
 					setIsErroneous(true);
-					return;
+					return selfReference;
 				}
 
 				base = ((Template_List) tempBase);
@@ -477,7 +481,7 @@ public final class SetOf_Type extends AbstractOfType {
 				default:
 					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
 					|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
-					component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit);
+					selfReference = component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit, lhs);
 					break;
 				}
 			}
@@ -523,7 +527,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit);
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit, lhs);
 			}
 			break;
 		}
@@ -532,6 +536,8 @@ public final class SetOf_Type extends AbstractOfType {
 					MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName(), getTypename()));
 			break;
 		}
+
+		return selfReference;
 	}
 
 	@Override

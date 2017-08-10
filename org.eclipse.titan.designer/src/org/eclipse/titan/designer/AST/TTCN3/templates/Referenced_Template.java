@@ -389,17 +389,26 @@ public final class Referenced_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
-			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		final Assignment tempAssignment = reference.getRefdAssignment(timestamp, false);
+
+		return tempAssignment == lhs;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
+			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
 		if (getIsErroneous(timestamp) || reference == null) {
-			return;
+			return false;
 		}
 
 		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
-			return;
+			return false;
 		}
 
+		boolean selfReference = lhs == assignment;
 		assignment.check(timestamp);
 
 		IType governor = assignment.getType(timestamp);
@@ -408,7 +417,7 @@ public final class Referenced_Template extends TTCN3Template {
 		}
 		if (governor == null) {
 			setIsErroneous(true);
-			return;
+			return selfReference;
 		}
 
 		final TypeCompatibilityInfo info = new TypeCompatibilityInfo(type, governor, true);
@@ -438,6 +447,8 @@ public final class Referenced_Template extends TTCN3Template {
 			final boolean referencedHasImplicitOmit = hasTemplateImpliciteOmit(timestamp, referenceChain);
 			referenceChain.release();
 		}
+
+		return selfReference;
 	}
 
 	@Override
@@ -593,7 +604,7 @@ public final class Referenced_Template extends TTCN3Template {
 
 		return reference.hasSingleExpression();
 	}
-	
+
 	//original:TtcnTemplate.cc Template::isValue()/case TEMPLATE_REFD
 	@Override
 	/** {@inheritDoc} */

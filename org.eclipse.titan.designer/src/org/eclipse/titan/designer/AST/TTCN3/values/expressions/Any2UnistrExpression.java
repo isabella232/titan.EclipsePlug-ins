@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -49,6 +50,16 @@ public final class Any2UnistrExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.ANY2UNISTR_OPERATION;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment lhs) {
+		if (templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

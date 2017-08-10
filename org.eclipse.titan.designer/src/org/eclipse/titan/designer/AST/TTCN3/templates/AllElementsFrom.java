@@ -80,24 +80,30 @@ public class AllElementsFrom extends TemplateBody {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified, final boolean allowOmit,
-			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+	public boolean checkExpressionSelfReferenceTemplate(CompilationTimeStamp timestamp, Assignment lhs) {
+		return template.checkExpressionSelfReferenceTemplate(timestamp, lhs);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified, final boolean allowOmit,
+			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
 
 		if (template == null) {
 			ErrorReporter.INTERNAL_ERROR();
-			return;
+			return false;
 		}
 
 		if (!Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
 			template.getLocation().reportSemanticError(SPECIFICVALUEEXPECTED);
 			template.setIsErroneous(true);
-			return;
+			return false;
 		}
 
 		if (!((SpecificValue_Template) template).isReference()) {
 			template.getLocation().reportSemanticError(REFERENCEEXPECTED);
 			template.setIsErroneous(true);
-			return;
+			return false;
 		}
 
 		// isReference branch:
@@ -106,7 +112,7 @@ public class AllElementsFrom extends TemplateBody {
 		if (assignment == null) {
 			template.getLocation().reportSemanticError("Assignment not found");
 			template.setIsErroneous(true);
-			return;
+			return false;
 		}
 
 		// ES 201 873-1 - V4.7.1 B.1.2.1.a:
@@ -120,7 +126,7 @@ public class AllElementsFrom extends TemplateBody {
 			final IType atype = assType.getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 			if (atype == null) {
 				template.setIsErroneous(true);
-				return;
+				return false;
 			}
 
 			final IType referredType = atype.getTypeRefdLast(timestamp);
@@ -183,7 +189,7 @@ public class AllElementsFrom extends TemplateBody {
 			value = ((Def_Var) assignment).getInitialValue();
 			break;
 		default:
-			return;
+			return false;
 		}
 
 		//it is too complex to analyse anyoromit. Perhaps it can be omit
@@ -206,7 +212,7 @@ public class AllElementsFrom extends TemplateBody {
 			default:
 				template.getLocation().reportSemanticError(LISTEXPECTED);
 				template.setIsErroneous(true);
-				return;
+				return false;
 			}
 
 		}
@@ -216,6 +222,7 @@ public class AllElementsFrom extends TemplateBody {
 		//			return;
 		//		}
 
+		return false;
 	}
 
 	// @Override

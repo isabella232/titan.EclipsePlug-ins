@@ -228,7 +228,7 @@ public final class Def_Const extends Definition {
 			break;
 		}
 
-		type.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false, true,
+		type.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false, true,
 				hasImplicitOmitAttribute(timestamp), false));
 
 		checkErroneousAttributes(timestamp);

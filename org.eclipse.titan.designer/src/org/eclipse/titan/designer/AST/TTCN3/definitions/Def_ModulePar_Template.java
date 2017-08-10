@@ -201,7 +201,7 @@ public final class Def_ModulePar_Template extends Definition {
 			}
 
 			final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, realTemplate);
-			temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false);
+			temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false, null);
 			final IReferenceChain tempReferenceChain = ReferenceChain.getInstance(Def_Template.CIRCULAREMBEDDEDRECURSION, true);
 			tempReferenceChain.add(this);
 			temporalTemplate.checkRecursions(timestamp, tempReferenceChain);

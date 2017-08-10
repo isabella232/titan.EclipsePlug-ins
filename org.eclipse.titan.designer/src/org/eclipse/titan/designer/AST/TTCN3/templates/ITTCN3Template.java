@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.util.Set;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IGovernedSimple;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -276,6 +277,17 @@ public interface ITTCN3Template extends IGovernedSimple {
 	void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain);
 
 	/**
+	 * Check that the template - being used as the RHS - refers to the LHS of the assignment.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param lhs
+	 *                the assignment to check against
+	 * @return true if self-assignment
+	 * */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs);
+
+	/**
 	 * Checks whether the template (including embedded fields) contains no
 	 * matching symbols. Allow_omit is used because omit is allowed in only
 	 * in embedded fields.
@@ -339,9 +351,12 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * @param implicitOmit
 	 *                true if the implicit omit optional attribute was set
 	 *                for the template, false otherwise
+	 * @param lhs
+	 *                the assignment to check against
+	 * @return true if the value contains a reference to lhs
 	 * */
-	void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified, final boolean allowOmit,
-			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit);
+	boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified, final boolean allowOmit,
+			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs);
 
 	/**
 	 * Checks template restriction using common data members of this class,

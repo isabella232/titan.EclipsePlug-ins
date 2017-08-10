@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.ASN1.types;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -84,8 +85,8 @@ public final class Any_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
@@ -95,6 +96,8 @@ public final class Any_Type extends ASN1Type {
 		if (null != template.getLengthRestriction()) {
 			template.getLocation().reportSemanticError(LENGTHRESTRICTIONNOTALLOWED);
 		}
+
+		return false;
 	}
 
 	@Override

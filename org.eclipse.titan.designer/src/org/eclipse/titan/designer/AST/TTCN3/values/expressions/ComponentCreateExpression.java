@@ -79,6 +79,13 @@ public final class ComponentCreateExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		//assume no self-ref
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		if (componentReference == null) {
 			return "<erroneous value>";

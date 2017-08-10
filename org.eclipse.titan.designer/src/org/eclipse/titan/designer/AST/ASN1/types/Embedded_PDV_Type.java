@@ -109,20 +109,23 @@ public final class Embedded_PDV_Type extends ASN1Type implements IReferencingTyp
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		final IType last = getTypeRefd(timestamp, null);
 
+		boolean selfReference = false;
 		if (null != last && last != this) {
-			last.checkThisValue(timestamp, value, valueCheckingOptions);
+			selfReference = last.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
@@ -131,6 +134,8 @@ public final class Embedded_PDV_Type extends ASN1Type implements IReferencingTyp
 		if (null != template.getLengthRestriction()) {
 			template.getLocation().reportSemanticError(LENGTHRESTRICTIONNOTALLOWED);
 		}
+
+		return false;
 	}
 
 	@Override

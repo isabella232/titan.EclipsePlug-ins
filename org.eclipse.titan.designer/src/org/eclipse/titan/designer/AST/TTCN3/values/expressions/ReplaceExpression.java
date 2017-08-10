@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
@@ -89,6 +90,25 @@ public final class ReplaceExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.REPLACE_OPERATION;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+			return true;
+		}
+		if (value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+		if (value3.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+		if (templateInstance4.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

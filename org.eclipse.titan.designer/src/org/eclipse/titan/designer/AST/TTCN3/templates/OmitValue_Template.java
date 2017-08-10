@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -63,6 +64,13 @@ public final class OmitValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		//self reference can not happen
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		if (!allowOmit) {
 			getLocation().reportSemanticError(SPECIFICVALUEEXPECTED);
@@ -83,8 +91,8 @@ public final class OmitValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
-			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
+			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
 		if (!allowOmit) {
 			location.reportSemanticError(OMITNOTALLOWED);
 			setIsErroneous(true);
@@ -105,6 +113,8 @@ public final class OmitValue_Template extends TTCN3Template {
 		if (subCheck) {
 			type.checkThisTemplateSubtype(timestamp, this);
 		}
+
+		return false;
 	}
 	
 	public final void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {

@@ -218,6 +218,21 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (realTemplate != null && realTemplate != this) {
+			return realTemplate.checkExpressionSelfReferenceTemplate(timestamp, lhs);
+		}
+
+		IType governor = specificValue.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		if (governor == null) {
+			return false;
+		}
+
+		return governor.checkThisValue(timestamp, specificValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, true, false, false, false));
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		if (specificValue == null) {
 			return;
@@ -326,22 +341,23 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
-			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
+			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
 		if (type == null) {
-			return;
+			return false;
 		}
 
+		boolean selfReference = false;
 		type.check(timestamp);
 
 		if (specificValue != null) {
 			specificValue.setMyGovernor(type);
 			final IValue temporalValue = type.checkThisValueRef(timestamp, specificValue);
-			type.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, isModified,
+			selfReference = type.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, isModified,
 					allowOmit, true, implicitOmit, false));
 		}
 
@@ -356,6 +372,8 @@ public final class SpecificValue_Template extends TTCN3Template {
 		if (subCheck) {
 			type.checkThisTemplateSubtype(timestamp, this);
 		}
+
+		return selfReference;
 	}
 
 	@Override

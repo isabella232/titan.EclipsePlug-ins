@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import java.text.MessageFormat;
 import java.util.Set;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -58,6 +59,13 @@ public final class Any_Value_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		//self reference can not happen
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		getLocation().reportSemanticError("A specific value was expected instead of any value");
 	}
@@ -70,8 +78,8 @@ public final class Any_Value_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
-			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
+			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
 		final IType last = type.getTypeRefdLast(timestamp);
 		if (Type_type.TYPE_SIGNATURE.equals(last.getTypetype())) {
 			location.reportSemanticError(MessageFormat.format(SIGNATUREERROR, last.getFullName()));
@@ -85,6 +93,8 @@ public final class Any_Value_Template extends TTCN3Template {
 		if (subCheck) {
 			type.checkThisTemplateSubtype(timestamp, this);
 		}
+
+		return false;
 	}
 
 	@Override
@@ -95,7 +105,7 @@ public final class Any_Value_Template extends TTCN3Template {
 		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
 	}
-
+	
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {

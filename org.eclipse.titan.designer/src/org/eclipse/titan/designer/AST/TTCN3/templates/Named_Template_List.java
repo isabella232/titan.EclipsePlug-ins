@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -311,6 +312,18 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		for (int i = 0, size = namedTemplates.getNofTemplates(); i < size; i++) {
+			if(namedTemplates.getTemplateByIndex(i).getTemplate().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		ITTCN3Template temp;
 		for (int i = 0, size = namedTemplates.getNofTemplates(); i < size; i++) {
@@ -357,7 +370,7 @@ public final class Named_Template_List extends TTCN3Template {
 			}
 		}
 		if (baseTemplate instanceof Named_Template_List) {
-			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName,
+			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName, 
 					omitAllowed,checkedNames, neededCheckedCnt, usageLocation)) {
 				needsRuntimeCheck = true;
 			}
@@ -378,7 +391,6 @@ public final class Named_Template_List extends TTCN3Template {
 		int neededCheckedCnt = 0;
 		final HashSet<String> checkedNames = new HashSet<String>();
 		if (baseTemplate != null && myGovernor != null) {
-			
 			switch (myGovernor.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				neededCheckedCnt = ((TTCN3_Sequence_Type) myGovernor).getNofComponents();
@@ -407,8 +419,7 @@ public final class Named_Template_List extends TTCN3Template {
 			if (temp.getTemplate().checkValueomitRestriction(timestamp, definitionName, true, usageLocation)) {
 				needsRuntimeCheck = true;
 			}
-
-			if (neededCheckedCnt > 0) {
+				if (neededCheckedCnt > 0) {
 				checkedNames.add(temp.getName().getName());
 			}
 		}

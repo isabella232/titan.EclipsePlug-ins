@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -237,6 +238,26 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		if (!temp.getIsErroneous(timestamp) && this != temp && referenceChain.add(this)) {
 			temp.checkRecursions(timestamp, referenceChain);
 		}
+	}
+
+	@Override
+	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment assignment) {
+		//simple values can not self-reference
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceValue(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		}
+		if (governor == null) {
+			return false;
+		}
+
+		return governor.checkThisValue(timestamp, this, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, true, false, false, false));
 	}
 
 	/**

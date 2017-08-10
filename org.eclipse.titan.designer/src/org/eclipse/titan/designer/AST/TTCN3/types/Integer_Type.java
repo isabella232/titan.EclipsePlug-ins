@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -119,22 +120,22 @@ public final class Integer_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -161,6 +162,8 @@ public final class Integer_Type extends Type {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	/**
@@ -178,8 +181,7 @@ public final class Integer_Type extends Type {
 	 * */
 	public void checkThisValueLimit(final CompilationTimeStamp timestamp, final IValue value, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean omitAllowed, final boolean subCheck, final boolean implicitOmit) {
-		super.checkThisValue(
-				timestamp, value, new ValueCheckingOptions(expectedValue, incompleteAllowed, omitAllowed, subCheck, implicitOmit, false));
+		super.checkThisValue(timestamp, value, null, new ValueCheckingOptions(expectedValue, incompleteAllowed, omitAllowed, subCheck, implicitOmit, false));
 
 		final IValue last = value.getValueRefdLast(timestamp, expectedValue, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
@@ -230,15 +232,16 @@ public final class Integer_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case VALUE_RANGE:
 			final ValueRange range = ((Value_Range_Template) template).getValueRange();
@@ -260,7 +263,7 @@ public final class Integer_Type extends Type {
 			final ValueList_Template temp = (ValueList_Template) template;
 			for (int i = 0; i < temp.getNofTemplates(); i++){
 				final TTCN3Template tmp = temp.getTemplateByIndex(i).getTemplate();
-				checkThisTemplate(timestamp,tmp,isModified,implicitOmit);
+				selfReference = checkThisTemplate(timestamp,tmp,isModified,implicitOmit, lhs);
 			}
 			break;
 		case ANY_OR_OMIT:
@@ -276,6 +279,8 @@ public final class Integer_Type extends Type {
 			template.getLocation().reportSemanticError(LENGTHRESTRICTIONNOTALLOWED);
 			template.setIsErroneous(true);
 		}
+
+		return selfReference;
 	}
 
 	private IValue checkBoundary(final CompilationTimeStamp timestamp, final Value value, final BOUNDARY_TYPE btype ) {

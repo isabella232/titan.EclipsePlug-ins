@@ -227,6 +227,8 @@ public final class Assignment_Statement extends Statement {
 	}
 
 	private void checkVarAssignment(final CompilationTimeStamp timestamp, final Assignment assignment, final IValue value) {
+		final Assignment lhs = reference.getRefdAssignment(timestamp, false);
+		//FIXME use lhs
 		final IType varType = getType(timestamp, assignment);
 
 		if (varType == null || value == null) {
@@ -321,7 +323,7 @@ public final class Assignment_Statement extends Statement {
 			}
 		} else {
 			final boolean isStringElement = reference.refersToStringElement();
-			/*selfReference |= */type.checkThisValue(timestamp, value, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, false,
+			selfReference = type.checkThisValue(timestamp, value, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, false,
 					!isStringElement, false, isStringElement));
 
 			if (isStringElement) {
@@ -399,6 +401,8 @@ public final class Assignment_Statement extends Statement {
 
 	private void checkTemplateAssignment(final CompilationTimeStamp timestamp, final Assignment assignment,
 			final Expected_Value_type expectedValue, final IReferenceChain referenceChain) {
+		final Assignment lhs = reference.getRefdAssignment(timestamp, false);
+		//FIXME use lhs
 		IType type = getType(timestamp, assignment);
 
 		if (type == null) {
@@ -416,7 +420,7 @@ public final class Assignment_Statement extends Statement {
 
 		template.setMyGovernor(type);
 		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
-		/*selfReference |= */ temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false);
+		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false, lhs);
 		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 		if (ass != null && ass instanceof Definition) {
 			TemplateRestriction.check(timestamp, (Definition) ass, template, reference);

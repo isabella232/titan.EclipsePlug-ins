@@ -52,6 +52,16 @@ public final class UndefRunningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (lhs == reference.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(reference.getDisplayName()).append(".running");

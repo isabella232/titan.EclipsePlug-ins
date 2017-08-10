@@ -137,7 +137,7 @@ public final class Return_Statement extends Statement {
 			if (value != null) {
 				value.setMyGovernor(returnType);
 				returnType.checkThisValueRef(timestamp, value);
-				returnType.checkThisValue(timestamp, value, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, true, false, false));
+				returnType.checkThisValue(timestamp, value, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, true, false, false));
 			}
 
 			break;
@@ -154,7 +154,8 @@ public final class Return_Statement extends Statement {
 						true, /* allowOmit */
 						true, /* allowAnyOrOmit */
 						true, /* subCheck */
-						true); /* implicitOmit */
+						true, /* implicitOmit */
+						null);
 				genRestrictionCheck = TemplateRestriction.check(timestamp, definition, temporalTemplate1, null);
 			}
 			break;

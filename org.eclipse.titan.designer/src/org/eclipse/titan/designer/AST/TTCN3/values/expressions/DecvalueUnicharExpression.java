@@ -90,6 +90,22 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if( lhs == reference2.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+		if (value3 != null && value3.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+		if (value4 != null && value4.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("decvalue_unichar(");
 		builder.append(reference1.getDisplayName());

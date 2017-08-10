@@ -14,6 +14,7 @@ import java.util.Set;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -153,10 +154,12 @@ public final class Port_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, getFullName()));
+
+		return false;
 	}
 
 	@Override

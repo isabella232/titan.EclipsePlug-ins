@@ -18,6 +18,7 @@ import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -432,22 +433,22 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -457,11 +458,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		switch (last.getValuetype()) {
 		case SEQUENCEOF_VALUE:
 			last = last.setValuetype(timestamp, Value_type.ARRAY_VALUE);
-			checkThisValueArray(timestamp, value, (Array_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueArray(timestamp, value, lhs, (Array_Value) last, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case ARRAY_VALUE:
-			checkThisValueArray(timestamp, value, (Array_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueArray(timestamp, value, lhs, (Array_Value) last, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -474,15 +475,18 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
-	private void checkThisValueArray(final CompilationTimeStamp timestamp, final IValue originalValue,
+	private boolean checkThisValueArray(final CompilationTimeStamp timestamp, final IValue originalValue, final Assignment lhs,
 			final Array_Value lastValue, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
 		if (dimension == null) {
-			return;
+			return false;
 		}
 
+		boolean selfReference = false;
 		final int nofValues = lastValue.getNofComponents();
 
 		if (!dimension.getIsErroneous(timestamp) && dimension.getSize() < nofValues) {
@@ -531,7 +535,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 				component.setMyGovernor(elementType);
 				final IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
-				elementType.checkThisValue(timestamp, tempValue2,
+				selfReference = elementType.checkThisValue(timestamp, tempValue2, lhs,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
 			if (checkHoles) {
@@ -563,11 +567,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 					}
 				} else {
 					final IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
-					elementType.checkThisValue(timestamp, tempValue2,
+					selfReference = elementType.checkThisValue(timestamp, tempValue2, lhs,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
 			}
 		}
+
+		return selfReference;
 	}
 
 	public IType getElementType() {
@@ -576,11 +582,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case OMIT_VALUE:
 			if (template.getLengthRestriction() != null) {
@@ -621,7 +628,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 							templateComponent.getLocation().reportSemanticError(NOTUSEDNOTALLOWED);
 						}
 					} else {
-						templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit);
+						selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
 					}
 				}
 			}
@@ -660,7 +667,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 				templateComponent.setMyGovernor(elementType);
 				templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
-				templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit);
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
 			}
 			break;
 		}
@@ -668,6 +675,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName(), getTypename()));
 			break;
 		}
+
+		return selfReference;
 	}
 
 	@Override
