@@ -38,6 +38,15 @@ public class TitanOctetString_Element {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		final int digit = get_nibble();
+		sb.append( TitanHexString.HEX_DIGITS.charAt( digit / 16 ) );
+		sb.append( TitanHexString.HEX_DIGITS.charAt( digit % 16 ) );
+		return sb.toString();
+	}
 
 	// originally operator=
 	public TitanOctetString_Element assign( final TitanOctetString_Element other_value ) {

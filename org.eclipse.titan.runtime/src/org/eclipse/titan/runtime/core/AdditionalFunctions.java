@@ -713,6 +713,25 @@ public class AdditionalFunctions {
 		
 		return new TitanHexString(ret_val);
 	}
+	
+	// C.23 - oct2str
+	public static TitanCharString oct2str(final TitanOctetString value) {
+		value.mustBound("The argument of function oct2str() is an unbound octetstring value.");
+		
+		int n_octets = value.lengthOf().getInt();
+		StringBuilder ret_val = new StringBuilder();
+		for (int i = 0; i < n_octets; i++) {
+			ret_val.append(value.constGetAt(i).toString());
+		}
+		
+		return new TitanCharString(ret_val);
+	}
+	
+	public static TitanCharString oct2str(final TitanOctetString_Element value) {
+		value.mustBound("The argument of function oct2str() is an unbound octetstring element.");
+		
+		return new TitanCharString(value.toString());
+	}
 
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
 	//TODO: OCTETSTRING bit2oct(const BITSTRING& value);
