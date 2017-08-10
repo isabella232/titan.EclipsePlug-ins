@@ -228,7 +228,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return false;
 		}
 
-		return governor.checkThisValue(timestamp, specificValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, true, false, false, false));
+		return governor.checkThisValue(timestamp, specificValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, true, false, false, false));
 	}
 
 	@Override
