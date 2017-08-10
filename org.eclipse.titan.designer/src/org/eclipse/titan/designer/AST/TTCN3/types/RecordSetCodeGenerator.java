@@ -118,11 +118,14 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
+		generateTemplateGetter( source, fieldInfos, classDisplayName );
 		generateTemplateConstructors( source, className, classDisplayName );
 		generateTemplateAssign( source, className, classDisplayName );
 		generateTemplateCopyTemplate( source, fieldInfos, className, classDisplayName );
 		generateTemplateIsPresent( source );
 		generateTemplateValueOf( source, fieldInfos, className, classDisplayName );
+		generateTemplateListItem( source, className, classDisplayName );
+		generateTemplateSetType( source, className, classDisplayName );
 		
 		// TODO
 		source.append("}\n");
@@ -510,19 +513,37 @@ public class RecordSetCodeGenerator {
 			source.append( "\n" );
 		}
 
-		//TODO: move to getter/setter
-		source.append("\n");
-		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
-			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
-			source.append("\t}\n");
-			source.append( "\n" );
-			//TODO: add constGetXx()
-		}
-
 		source.append("\t//originally value_list/list_value\n");
 		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", className ) );
+	}
 
+	/**
+	 * Generate getters for template
+	 *
+	 * @param source the source to be updated
+	 * @param aNamesList sequence field variable and type names
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateGetter( final StringBuilder source, final List<FieldInfo> aNamesList,
+			final String displayName ) {
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( "\n" );
+			source.append( MessageFormat.format( "\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			//TODO
+			//source.append("\t\t//TODO\n");
+			//source.append("\t\t//set_specific();\n");
+			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
+			source.append("\t}\n");
+			
+			source.append( "\n" );
+			source.append( MessageFormat.format( "\tpublic {0}_template constGet{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
+			source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mVarName, displayName ) );
+			source.append("\t\t}\n");
+			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
+			source.append("\t}\n");
+		}
+		source.append("\n");
 	}
 
 	/**
@@ -659,9 +680,47 @@ public class RecordSetCodeGenerator {
 	 * @param aSb the output, where the java code is written
 	 */
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
-		aSb.append( "\n\t\tpublic boolean isPresent() {\n" );
-		aSb.append( "\t\t\t\treturn isBound();\n");
-		aSb.append( "\t\t}\n" );
+		aSb.append("\n");
+		aSb.append("\t\tpublic boolean isPresent() {\n");
+		aSb.append("\t\t\treturn isPresent(false);\n");
+		aSb.append("\t\t}\n");
+
+		aSb.append("\n");
+		aSb.append("\t\tpublic boolean isPresent(boolean legacy) {\n");
+		aSb.append("\t\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		aSb.append("\t\t\t\treturn false;\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\treturn !match_omit(legacy);\n");
+		aSb.append("\t\t}\n");
+
+		aSb.append("\n");
+		aSb.append("\t\tpublic boolean match_omit() {\n");
+		aSb.append("\t\t\treturn match_omit(false);\n");
+		aSb.append("\t\t}\n");
+
+		aSb.append("\n");
+		aSb.append("\t\tpublic boolean match_omit(boolean legacy) {\n");
+		aSb.append("\t\t\tif (is_ifPresent) {\n");
+		aSb.append("\t\t\t\treturn true;\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\tswitch (templateSelection) {\n");
+		aSb.append("\t\t\tcase OMIT_VALUE:\n");
+		aSb.append("\t\t\tcase ANY_OR_OMIT:\n");
+		aSb.append("\t\t\t\treturn true;\n");
+		aSb.append("\t\t\tcase VALUE_LIST:\n");
+		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		aSb.append("\t\t\t\tif (legacy) {\n");
+		aSb.append("\t\t\t\t\tfor (int l_idx=0; l_idx<list_value.size(); l_idx++) {\n");
+		aSb.append("\t\t\t\t\t\tif (list_value.get(l_idx).match_omit()) {\n");
+		aSb.append("\t\t\t\t\t\t\treturn templateSelection==template_sel.VALUE_LIST;\n");
+		aSb.append("\t\t\t\t\t\t}\n");
+		aSb.append("\t\t\t\t\t}\n");
+		aSb.append("\t\t\t\t\treturn templateSelection==template_sel.COMPLEMENTED_LIST;\n");
+		aSb.append("\t\t\t\t} // else fall through\n");
+		aSb.append("\t\t\tdefault:\n");
+		aSb.append("\t\t\t\treturn false;\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t}\n");
 	}
 
 	/**
@@ -692,5 +751,45 @@ public class RecordSetCodeGenerator {
 		}
 		aSb.append("\t\t\treturn ret_val;\n");
 		aSb.append("\t\t}\n");
+	}
+
+	/**
+	 * Generating listItem() function for template
+	 * @param aSb the output, where the java code is written
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
+		aSb.append("\n");
+		aSb.append( MessageFormat.format( "\t\tpublic {0}_template listItem(int list_index) '{'\n", genName ) );
+		aSb.append("\t\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\tif (list_index >= list_value.size()) {\n");
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of type {0}.\");\n", displayName ) );
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\treturn list_value.get(list_index);\n");
+		aSb.append("\t\t}\n");
+	}
+
+	/**
+	 * Generating setType() function for template
+	 * @param aSb the output, where the java code is written
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateSetType( final StringBuilder aSb, final String genName, final String displayName ) {
+		aSb.append("\n");
+		aSb.append("\t\tpublic void setType(template_sel template_type, int list_length) {\n");
+		aSb.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", displayName ) );
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\tcleanUp();\n");
+		aSb.append("\t\t\tsetSelection(template_type);\n");
+		aSb.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(list_length);\n", genName ) );
+		//TODO: fill list with list_length number of empty values
+		aSb.append("\t\t\t//TODO: fill list with list_length number of empty values\n");
+		aSb.append("\t\t}\n");
+		
 	}
 }
