@@ -206,37 +206,39 @@ public class TitanCharString_Element {
 
 		return new TitanCharString(ret_val);
 	}
-	
-	//originally operator +
-	public TitanUniversalCharString concatenate(final TitanUniversalCharString aOtherValue){
+
+	// originally operator +
+	public TitanUniversalCharString concatenate(final TitanUniversalCharString aOtherValue) {
 		mustBound("The left operand of concatenation is an unbound charstring value.");
 		aOtherValue.mustBound("The right operand of concatenation is an unbound universal charstring value.");
-		if(aOtherValue.charstring){
-			StringBuilder val_ptr=new StringBuilder();
+
+		if (aOtherValue.charstring) {
+			StringBuilder val_ptr = new StringBuilder();
 			val_ptr.append(get_char());
 			val_ptr.append(aOtherValue.toString());
 			return new TitanUniversalCharString(val_ptr);
-		}else{
+		} else {
 			List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
-			ret_val.add(new TitanUniversalChar((char)0,(char)0,(char)0,get_char()));
+			ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char()));
 			for (int i = 0; i < aOtherValue.lengthOf().getInt(); i++) {
 				ret_val.add(aOtherValue.charAt(i));
-			}return new TitanUniversalCharString(ret_val);
-			
+			}
+			return new TitanUniversalCharString(ret_val);
+
 		}
 	}
 
-	//originally operator +
-	public TitanUniversalCharString concatenate(final TitanUniversalCharString_Element aOtherValue)
-	{
+	// originally operator +
+	public TitanUniversalCharString concatenate(final TitanUniversalCharString_Element aOtherValue) {
 		mustBound("The left operand of concatenation is an unbound charstring element.");
 		aOtherValue.mustBound("The right operand of concatenation is an unbound universal charstring element.");
+
 		TitanUniversalChar[] result = new TitanUniversalChar[2];
-		result[0] = new TitanUniversalChar((char)0, (char)0, (char)0, get_char());
+		result[0] = new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char());
 		result[1] = aOtherValue.get_char();
 		return new TitanUniversalCharString(result);
 	}
-	
+
 	//TODO: operatorEquals((TitanUniversalCharString) test
 	//TODO: operatorEquals((TitanUniversalCharString_Element) test
 	//TODO: operatorNotEquals((TitanUniversalCharString) test
