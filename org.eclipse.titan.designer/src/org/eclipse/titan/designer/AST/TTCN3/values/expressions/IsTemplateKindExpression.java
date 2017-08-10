@@ -64,7 +64,7 @@ public final class IsTemplateKindExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment lhs) {
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		if (templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}

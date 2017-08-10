@@ -80,7 +80,7 @@ public class AllElementsFrom extends TemplateBody {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean checkExpressionSelfReferenceTemplate(CompilationTimeStamp timestamp, Assignment lhs) {
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		return template.checkExpressionSelfReferenceTemplate(timestamp, lhs);
 	}
 

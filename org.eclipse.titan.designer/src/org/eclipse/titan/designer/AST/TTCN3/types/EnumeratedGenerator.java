@@ -242,7 +242,7 @@ public class EnumeratedGenerator {
 		source.append("enum_value = enum_type.getValue(intValue);\n");
 		source.append("}\n\n");
 	}
-	private static void generateValueEnumToInt(final StringBuilder source, String name) {
+	private static void generateValueEnumToInt(final StringBuilder source, final String name) {
 		// arg: enum_type
 		source.append(MessageFormat.format("public static int enum2int({0}.enum_type enumPar) '{'\n", name));
 		source.append("if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {\n");

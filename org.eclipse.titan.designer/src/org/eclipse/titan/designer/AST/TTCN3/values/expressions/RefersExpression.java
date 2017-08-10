@@ -68,7 +68,7 @@ public final class RefersExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment lhs) {
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		if (lhs == referredAssignment) {
 			return true;
 		}

@@ -82,7 +82,7 @@ public final class IsChoosenExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment lhs) {
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		if (template != null && template.checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}

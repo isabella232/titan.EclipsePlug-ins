@@ -71,7 +71,7 @@ public final class ApplyExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment lhs) {
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		if (value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
