@@ -10,15 +10,15 @@ module templateRestrictionTest {
 type record Rec {
   integer i,
   float f,
-  charstring cs, 
-  octetstring os
+  charstring cs optional, 
+  octetstring os optional
 }
 
 template (present) Rec t_original(in template (present) integer pl_i) := {
   i := pl_i, //warning marker expected: Inadequate restriction on the referenced template parameter `pt_i', this may cause a dynamic test case error at runtime - NOT OK
   f := ?,
-  cs := ?,
-  os := ?
+  cs := *,
+  os := omit
 }
 
 template (present) Rec t_modifiedp(in template (present) integer pl_i, in template (present) float pl_f ) 

@@ -104,22 +104,9 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {
-		switch (templateRestriction) {
-		case TR_VALUE:
-		case TR_OMIT:
-			usageLocation.reportSemanticError(MessageFormat.format("Restriction ''{0}'' on {1} does not allow usage of {2}", templateRestriction.getDisplayName(), definitionName, getTemplateTypeName()));
-			break;
-		default:
-			break;
-		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
-		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
+		usageLocation.reportSemanticError(MessageFormat.format(PRESENTRESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
 	}
 

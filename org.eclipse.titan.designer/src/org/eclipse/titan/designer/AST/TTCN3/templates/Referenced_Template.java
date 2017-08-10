@@ -593,6 +593,27 @@ public final class Referenced_Template extends TTCN3Template {
 
 		return reference.hasSingleExpression();
 	}
+	
+	//original:TtcnTemplate.cc Template::isValue()/case TEMPLATE_REFD
+	@Override
+	/** {@inheritDoc} */
+	public boolean isValue(final CompilationTimeStamp timestamp) {
+		Assignment ass = reference.getRefdAssignment(timestamp, true);
+		if (ass == null) {
+			return true;
+		}
+		switch( ass.getAssignmentType()){
+		case A_EXT_CONST:
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_VAL_OUT:
+		case A_PAR_VAL_INOUT:
+		case A_VAR:
+			return true;
+		default:
+			return false;
+		}
+	}
 
 	@Override
 	/** {@inheritDoc} */

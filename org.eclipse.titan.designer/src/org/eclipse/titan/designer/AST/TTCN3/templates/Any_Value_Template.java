@@ -95,19 +95,6 @@ public final class Any_Value_Template extends TTCN3Template {
 		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
 	}
-	
-	@Override
-	/** {@inheritDoc} */
-	public void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {
-		switch (templateRestriction) {
-		case TR_VALUE:
-		case TR_OMIT:
-			usageLocation.reportSemanticError(MessageFormat.format("Restriction ''{0}'' on {1} does not allow usage of {2}", templateRestriction.getDisplayName(), definitionName, getTemplateTypeName()));
-			break;
-		default:
-			break;
-		}
-	}
 
 	@Override
 	/** {@inheritDoc} */

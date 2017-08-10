@@ -56,8 +56,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Kristof Szabados
  * */
 public abstract class TTCN3Template extends GovernedSimple implements IReferenceChainElement, ITTCN3Template, IIncrementallyUpdateable {
-	protected static final String RESTRICTIONERROR = "Restriction on {0} does not allow usage of `{1}''";
-	protected static final String OMITRESTRICTIONERROR = "Restriction 'omit' on {0} does not allow usage of `{1}''";
+	protected static final String RESTRICTIONERROR = "Restriction ''value'' or ''omit'' on {0} does not allow usage of `{1}''";
+	protected static final String OMITRESTRICTIONERROR = "Restriction ''omit'' on {0} does not allow usage of `{1}''";
 	protected static final String VALUERESTRICTIONERROR = "Restriction ''value'' on {0} does not allow usage of {1}";
 	protected static final String PRESENTRESTRICTIONERROR = "Restriction ''present'' on {0} does not allow usage of `{1}''";
 	private static final String LENGTHRESTRICTIONERROR = "Restriction on {0} does not allow usage of length restriction";
@@ -990,11 +990,6 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		switch (templateRestriction) {
 		case TR_VALUE:
 		case TR_OMIT:
-			if (!isValue(timestamp)) {
-				usageLocation.reportSemanticError(
-						MessageFormat.format("Restriction ''{0}'' on {1} does not allow usage of this template", 
-								templateRestriction.getDisplayName(), definitionName ));
-			}
 			if (lengthRestriction != null) {
 				usageLocation.reportSemanticError(MessageFormat.format(LENGTHRESTRICTIONERROR, definitionName));
 			}
@@ -1041,7 +1036,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_VALUE, usageLocation);
 		}
 
-		//usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
+		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
 	}
 
