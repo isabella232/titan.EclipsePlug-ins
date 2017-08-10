@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -216,5 +217,15 @@ public final class Oct2BitExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		expression.expression.append("AdditionalFunctions.oct2bit( ");
+		value.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(" )");
 	}
 }
