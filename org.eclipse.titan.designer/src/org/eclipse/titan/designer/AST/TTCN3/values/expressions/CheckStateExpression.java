@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
@@ -44,7 +45,7 @@ public final class CheckStateExpression extends Expression_Value {
 	private static final String OPERAND1_ERROR1 = "The operand of the `checkstate' operation should be a charstring";
 
 	/** port reference */
-	private final Reference mPortReference;
+	private final Reference portReference;
 
 	/**
 	 * The parameter of the checkstate operation
@@ -58,18 +59,18 @@ public final class CheckStateExpression extends Expression_Value {
 	 * e) "Mapped"
 	 * f) "Linked"
 	 */
-	private final Value mValue;
+	private final Value value;
 
 	public CheckStateExpression(final Reference aPortReference, final Value aValue) {
-		this.mPortReference = aPortReference;
-		this.mValue = aValue;
+		this.portReference = aPortReference;
+		this.value = aValue;
 
-		if (mPortReference != null) {
-			mPortReference.setFullNameParent(this);
+		if (portReference != null) {
+			portReference.setFullNameParent(this);
 		}
 
-		if (mValue != null) {
-			mValue.setFullNameParent(this);
+		if (value != null) {
+			value.setFullNameParent(this);
 		}
 	}
 
@@ -83,9 +84,9 @@ public final class CheckStateExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append(mPortReference.getDisplayName());
+		builder.append(portReference.getDisplayName());
 		builder.append(".checkstate(");
-		builder.append(mValue.createStringRepresentation());
+		builder.append(value.createStringRepresentation());
 		builder.append(')');
 		return builder.toString();
 	}
@@ -94,11 +95,11 @@ public final class CheckStateExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		if (mPortReference != null) {
-			mPortReference.setMyScope(scope);
+		if (portReference != null) {
+			portReference.setMyScope(scope);
 		}
-		if (mValue != null) {
-			mValue.setMyScope(scope);
+		if (value != null) {
+			value.setMyScope(scope);
 		}
 	}
 
@@ -107,9 +108,9 @@ public final class CheckStateExpression extends Expression_Value {
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		if (mPortReference == child) {
+		if (portReference == child) {
 			return builder.append(OPERAND1);
-		} else if (mValue == child) {
+		} else if (value == child) {
 			return builder.append(OPERAND2);
 		}
 
@@ -143,9 +144,9 @@ public final class CheckStateExpression extends Expression_Value {
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		//check mPortReference
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, mPortReference);
+		final Port_Type portType = Port_Utility.checkPortReference(timestamp, portReference);
 		if (portType != null && !portType.getPortBody().hasQueue(timestamp)) {
-			mPortReference.getLocation().reportSemanticError(MessageFormat.format(NOINCOMINGQUEUE, portType.getTypename()));
+			portReference.getLocation().reportSemanticError(MessageFormat.format(NOINCOMINGQUEUE, portType.getTypename()));
 		}
 
 
@@ -166,22 +167,22 @@ public final class CheckStateExpression extends Expression_Value {
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
 			final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain ) {
-		if (mValue == null) {
+		if (value == null) {
 			setIsErroneous(true);
 			return;
 		}
 
-		mValue.setLoweridToReference(timestamp);
-		final Type_type tempType = mValue.getExpressionReturntype(timestamp, expectedValue);
+		value.setLoweridToReference(timestamp);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			final IValue last = mValue.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
 				final CharstringExtractor cs = new CharstringExtractor( originalString );
 				if ( cs.isErrorneous() ) {
-					mValue.getLocation().reportSemanticError( cs.getErrorMessage() );
+					value.getLocation().reportSemanticError( cs.getErrorMessage() );
 					setIsErroneous(true);
 				}
 			}
@@ -211,7 +212,7 @@ public final class CheckStateExpression extends Expression_Value {
 		lastTimeChecked = timestamp;
 		lastValue = this;
 
-		if (mValue == null) {
+		if (value == null) {
 			return lastValue;
 		}
 
@@ -225,7 +226,7 @@ public final class CheckStateExpression extends Expression_Value {
 			return lastValue;
 		}
 
-		lastValue = mValue;
+		lastValue = value;
 		return lastValue;
 	}
 
@@ -236,26 +237,26 @@ public final class CheckStateExpression extends Expression_Value {
 			throw new ReParseException();
 		}
 
-		if (mValue != null) {
-			mValue.updateSyntax(reparser, false);
-			reparser.updateLocation(mValue.getLocation());
+		if (value != null) {
+			value.updateSyntax(reparser, false);
+			reparser.updateLocation(value.getLocation());
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (mValue == null) {
+		if (value == null) {
 			return;
 		}
 
-		mValue.findReferences(referenceFinder, foundIdentifiers);
+		value.findReferences(referenceFinder, foundIdentifiers);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (mValue != null && !mValue.accept(v)) {
+		if (value != null && !value.accept(v)) {
 			return false;
 		}
 		return true;
