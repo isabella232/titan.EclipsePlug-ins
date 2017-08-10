@@ -34,10 +34,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class HostIdExpression extends Expression_Value {
 	private static final String OPERAND1_ERROR1 = "The 1st operand of the `hostid' operation should be a charstring value";
 
-	private final Value value1;
+	private final Value value;
 
 	public HostIdExpression(final Value value1) {
-		this.value1 = value1;
+		this.value = value1;
 
 		if (value1 != null) {
 			value1.setFullNameParent(this);
@@ -54,7 +54,7 @@ public final class HostIdExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("hostid(");
-		builder.append(value1 == null ? "null" : value1.createStringRepresentation());
+		builder.append(value == null ? "null" : value.createStringRepresentation());
 		builder.append(')');
 		return builder.toString();
 	}
@@ -63,8 +63,8 @@ public final class HostIdExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		if (value1 != null) {
-			value1.setMyScope(scope);
+		if (value != null) {
+			value.setMyScope(scope);
 		}
 	}
 
@@ -73,7 +73,7 @@ public final class HostIdExpression extends Expression_Value {
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		if (value1 == child) {
+		if (value == child) {
 			return builder.append(OPERAND1);
 		}
 
@@ -124,21 +124,21 @@ public final class HostIdExpression extends Expression_Value {
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
 			final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain ) {
-		if (value1 == null) {
+		if (value == null) {
 			return;
 		}
 
-		value1.setLoweridToReference(timestamp);
-		final Type_type tempType = value1.getExpressionReturntype(timestamp, expectedValue);
+		value.setLoweridToReference(timestamp);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			final IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
 				final CharstringExtractor cs = new CharstringExtractor( originalString );
 				if ( cs.isErrorneous() ) {
-					value1.getLocation().reportSemanticError( cs.getErrorMessage() );
+					value.getLocation().reportSemanticError( cs.getErrorMessage() );
 					setIsErroneous(true);
 				}
 			}
@@ -168,7 +168,7 @@ public final class HostIdExpression extends Expression_Value {
 		lastTimeChecked = timestamp;
 		lastValue = this;
 
-		if (value1 != null) {
+		if (value != null) {
 			checkExpressionOperands(timestamp, expectedValue, referenceChain);
 		}
 
@@ -179,9 +179,9 @@ public final class HostIdExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
-			if (value1 != null) {
+			if (value != null) {
 				referenceChain.markState();
-				value1.checkRecursions(timestamp, referenceChain);
+				value.checkRecursions(timestamp, referenceChain);
 				referenceChain.previousState();
 			}
 		}
@@ -194,24 +194,24 @@ public final class HostIdExpression extends Expression_Value {
 			throw new ReParseException();
 		}
 
-		if (value1 != null) {
-			value1.updateSyntax(reparser, false);
-			reparser.updateLocation(value1.getLocation());
+		if (value != null) {
+			value.updateSyntax(reparser, false);
+			reparser.updateLocation(value.getLocation());
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (value1 != null) {
-			value1.findReferences(referenceFinder, foundIdentifiers);
+		if (value != null) {
+			value.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (value1 != null && !value1.accept(v)) {
+		if (value != null && !value.accept(v)) {
 			return false;
 		}
 		return true;
