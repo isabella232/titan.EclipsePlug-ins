@@ -609,6 +609,39 @@ public class AdditionalFunctions {
 		return new TitanCharString(value.toString());
 	}
 	
+	// C.20 - oct2int
+	public static TitanInteger oct2int(final TitanOctetString value) {
+		value.mustBound("The argument of function oct2int() is an unbound octetstring value.");
+		
+		int n_octets = value.lengthOf().getInt();
+		
+		//skip the leading zero hex digits
+		int start_index = 0;
+		for (start_index = 0; start_index < n_octets; start_index++) {
+			if(value.get_nibble(start_index) != 0) {
+				break;
+			}
+		}
+		
+		//do the conversion
+		BigInteger ret_val = new BigInteger("0");
+		for (int i = start_index; i < n_octets; i++) {
+			ret_val = ret_val.shiftLeft(8);	
+			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
+			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+		}
+		if(ret_val.compareTo(BigInteger.valueOf((long)Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1 ){
+			return new TitanInteger(ret_val.intValue());
+		}
+		return new TitanInteger(ret_val);
+	}
+	
+	public static TitanInteger oct2int(final TitanOctetString_Element value) {
+		value.mustBound("The argument of function oct2int() is an unbound octetstring element.");
+		
+		return new TitanInteger((int)value.get_nibble());
+	}
+	
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
 	//TODO: OCTETSTRING bit2oct(const BITSTRING& value);
 }
