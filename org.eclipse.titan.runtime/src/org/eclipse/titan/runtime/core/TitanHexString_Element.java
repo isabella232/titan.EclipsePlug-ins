@@ -26,6 +26,19 @@ public class TitanHexString_Element {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
+	
+	@Override
+	public String toString() {
+		if (str_val == null) {
+			return "<unbound>";
+		}
+
+		final StringBuilder sb = new StringBuilder();
+			final Byte digit = str_val.get_nibble(nibble_pos);
+			sb.append(TitanHexString.HEX_DIGITS.charAt(digit));
+		return sb.toString();
+	}
+	
 
 	//originally operator=
 	public TitanHexString_Element assign( final TitanHexString_Element other_value ) {
