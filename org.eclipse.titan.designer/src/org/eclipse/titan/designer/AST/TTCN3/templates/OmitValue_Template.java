@@ -156,7 +156,7 @@ public final class OmitValue_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
-		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
+		usageLocation.reportSemanticError(MessageFormat.format(PRESENTRESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
 	}
 

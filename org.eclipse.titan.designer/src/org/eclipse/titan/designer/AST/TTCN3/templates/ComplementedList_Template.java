@@ -155,7 +155,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 
 			}
 			if (!hasAnyOrOmit) {
-				location.reportSemanticError(MessageFormat.format(RESTRICTIONERROR+" without omit or AnyValueOrNone in the list", definitionName, getTemplateTypeName()));
+				location.reportSemanticError(MessageFormat.format(PRESENTRESTRICTIONERROR+" without omit or AnyValueOrNone in the list", definitionName, getTemplateTypeName()));
 				return false;
 			}
 		}

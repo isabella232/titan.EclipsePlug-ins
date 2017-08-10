@@ -350,14 +350,14 @@ public final class Named_Template_List extends TTCN3Template {
 			final ITTCN3Template tmpl = namedTemplates.getTemplateByIndex(i).getTemplate();
 			final String name = namedTemplates.getTemplateByIndex(i).getName().getName();
 			if (!checkedNames.contains(name)) {
-				if (tmpl.checkValueomitRestriction(timestamp, definitionName, omitAllowed, usageLocation)) {
+				if (tmpl.checkValueomitRestriction(timestamp, definitionName, true, usageLocation)) {
 					needsRuntimeCheck = true;
 				}
 				checkedNames.add(name);
 			}
 		}
 		if (baseTemplate instanceof Named_Template_List) {
-			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName, 
+			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName,
 					omitAllowed,checkedNames, neededCheckedCnt, usageLocation)) {
 				needsRuntimeCheck = true;
 			}
@@ -376,8 +376,9 @@ public final class Named_Template_List extends TTCN3Template {
 
 		boolean needsRuntimeCheck = false;
 		int neededCheckedCnt = 0;
+		final HashSet<String> checkedNames = new HashSet<String>();
 		if (baseTemplate != null && myGovernor != null) {
-			final HashSet<String> checkedNames = new HashSet<String>();
+			
 			switch (myGovernor.getTypetype()) {
 			case TYPE_TTCN3_SEQUENCE:
 				neededCheckedCnt = ((TTCN3_Sequence_Type) myGovernor).getNofComponents();
@@ -399,23 +400,23 @@ public final class Named_Template_List extends TTCN3Template {
 				// check
 				break;
 			}
+		}
 
-			for (int i = 0, size = getNofTemplates(); i < size; i++) {
-				final NamedTemplate temp = namedTemplates.getTemplateByIndex(i);
-				if (temp.getTemplate().checkValueomitRestriction(timestamp, definitionName, true, usageLocation)) {
-					needsRuntimeCheck = true;
-				}
-
-				if (neededCheckedCnt > 0) {
-					checkedNames.add(temp.getName().getName());
-				}
+		for (int i = 0, size = getNofTemplates(); i < size; i++) {
+			final NamedTemplate temp = namedTemplates.getTemplateByIndex(i);
+			if (temp.getTemplate().checkValueomitRestriction(timestamp, definitionName, true, usageLocation)) {
+				needsRuntimeCheck = true;
 			}
+
 			if (neededCheckedCnt > 0) {
-				if (baseTemplate instanceof Named_Template_List
-						&& ((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp,
-								definitionName, omitAllowed, checkedNames, neededCheckedCnt, usageLocation)) {
-					needsRuntimeCheck = true;
-				}
+				checkedNames.add(temp.getName().getName());
+			}
+		}
+		if (neededCheckedCnt > 0) {
+			if (baseTemplate instanceof Named_Template_List
+					&& ((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp,
+							definitionName, omitAllowed, checkedNames, neededCheckedCnt, usageLocation)) {
+				needsRuntimeCheck = true;
 			}
 		}
 		return needsRuntimeCheck;

@@ -124,19 +124,7 @@ public final class Value_Range_Template extends TTCN3Template {
 		// nothing to be done here, as template references can not
 		// appear here
 	}
-	
-	@Override
-	/** {@inheritDoc} */
-	public final void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {
-		switch (templateRestriction) {
-		case TR_VALUE:
-		case TR_OMIT:
-			usageLocation.reportSemanticError(MessageFormat.format("Restriction ''{0}'' on {1} does not allow usage of {2}", templateRestriction.getDisplayName(), definitionName, getTemplateTypeName()));
-			break;
-		default:
-			break;
-		}
-	}
+
 
 	@Override
 	/** {@inheritDoc} */

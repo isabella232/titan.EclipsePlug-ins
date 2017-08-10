@@ -26,29 +26,29 @@ public class TemplateRestrictionTest {
 
 	private ArrayList<MarkerToCheck> templateRestrictionTest_ttcn_initializer_errors() {
 		//templateRestrictionTest.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(12);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(13);
 		int lineNum = 29;
 		int i = 0;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Formal parameter with template restriction `present' not allowed here", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Restriction 'value' on template does not allow usage of any value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Restriction 'value' or 'omit' on template does not allow usage of `any or omit'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("Restriction 'value' on template does not allow usage of any value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Restriction 'value' or 'omit' on template does not allow usage of `any or omit'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 16;
-		markersToCheck.add(new MarkerToCheck("Restriction 'value' on function does not allow usage of value range match",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Restriction 'value' or 'omit' on function does not allow usage of `value range match'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("Restriction 'value' on template parameter does not allow usage of any value", lineNum++, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 6; i++) {
+			markersToCheck.add(new MarkerToCheck("Restriction 'value' or 'omit' on template parameter does not allow usage of `any or omit'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Restriction 'value' on template parameter does not allow usage of this template",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Restriction 'value' or 'omit' on template parameter does not allow usage of `any value'",  --lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Restriction 'present' on template variable does not allow usage of `ifpresent'",  lineNum, IMarker.SEVERITY_ERROR));
 
 		return markersToCheck;
 	}
 
-	
+
 	private ArrayList<MarkerToCheck> templateRestrictionTest_ttcn_initializer_warnings() {
 		//templateRestrictionTest.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
