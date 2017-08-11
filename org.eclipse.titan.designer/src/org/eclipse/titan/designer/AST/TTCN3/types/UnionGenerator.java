@@ -825,8 +825,9 @@ public class UnionGenerator {
 			source.append("if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 			source.append(MessageFormat.format("single_value = new {0}(template_sel.ANY_VALUE);\n", fieldInfo.mJavaTemplateName));
 			source.append("} else {\n");
-			source.append(MessageFormat.format("single_value_union_selection = {0}.union_selection_type.ALT_{1};\n", genName, fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("single_value = new {0}();\n", fieldInfo.mJavaTemplateName));
 			source.append("}\n");
+			source.append(MessageFormat.format("single_value_union_selection = {0}.union_selection_type.ALT_{1};\n", genName, fieldInfo.mJavaVarName));
 			source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
 			source.append("}\n");
 			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
