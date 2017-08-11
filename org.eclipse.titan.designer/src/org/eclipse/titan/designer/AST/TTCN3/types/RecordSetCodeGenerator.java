@@ -551,9 +551,9 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}(template_sel.ANY_OR_OMIT);\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 			} else {
-				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}(template_sel.ANY_VALUE);\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 			}
 		}
 		source.append("\t\t\t}\n");
