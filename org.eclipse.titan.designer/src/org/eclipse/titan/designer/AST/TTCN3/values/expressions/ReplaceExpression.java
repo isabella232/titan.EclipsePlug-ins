@@ -95,16 +95,16 @@ public final class ReplaceExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+		if (templateInstance1 != null && templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
-		if (value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value2 != null && value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
-		if (value3.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value3 != null && value3.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
-		if (templateInstance4.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+		if (templateInstance4 != null && templateInstance4.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
 

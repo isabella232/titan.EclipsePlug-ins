@@ -53,7 +53,7 @@ public final class Oct2UnicharExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value != null && value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 

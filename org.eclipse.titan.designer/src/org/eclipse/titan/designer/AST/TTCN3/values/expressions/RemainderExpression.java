@@ -59,10 +59,10 @@ public final class RemainderExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (value1.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value1 != null && value1.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
-		if (value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value2 != null && value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 

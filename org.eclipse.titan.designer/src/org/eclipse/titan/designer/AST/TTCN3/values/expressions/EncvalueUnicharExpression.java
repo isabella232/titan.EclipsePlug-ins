@@ -75,7 +75,7 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+		if (templateInstance1 != null && templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
 		if (value2 != null && value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {

@@ -52,7 +52,7 @@ public final class Oct2IntExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		return value.checkExpressionSelfReferenceValue(timestamp, lhs);
+		return value != null && value.checkExpressionSelfReferenceValue(timestamp, lhs);
 	}
 
 	@Override

@@ -81,13 +81,13 @@ public final class RegexpExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+		if (templateInstance1 != null && templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
-		if (templateInstance2.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+		if (templateInstance2 != null && templateInstance2.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
-		if (value3.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value3 != null && value3.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 

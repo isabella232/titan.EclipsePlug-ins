@@ -53,7 +53,7 @@ public final class EncodeExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (templateInstance.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+		if (templateInstance!= null && templateInstance.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
 

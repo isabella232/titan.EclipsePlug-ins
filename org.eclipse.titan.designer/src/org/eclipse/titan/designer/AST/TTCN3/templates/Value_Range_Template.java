@@ -116,10 +116,7 @@ public final class Value_Range_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (valueRange.getMin().checkExpressionSelfReferenceValue(timestamp, lhs)) {
-			return true;
-		}
-		if (valueRange.getMax().checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (valueRange != null && valueRange.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 

@@ -86,7 +86,7 @@ public final class CheckStateExpression extends Expression_Value {
 		if (lhs == portReference.getRefdAssignment(timestamp, false)) {
 			return true;
 		}
-		if(value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value != null && value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 
