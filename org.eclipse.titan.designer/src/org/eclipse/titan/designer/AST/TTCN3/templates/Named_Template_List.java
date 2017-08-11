@@ -27,11 +27,14 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
@@ -608,6 +611,15 @@ public final class Named_Template_List extends TTCN3Template {
 					break;
 				case TYPE_ASN1_SET:
 					fieldType = ((ASN1_Set_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					break;
+				case TYPE_ASN1_CHOICE:
+					fieldType = ((ASN1_Choice_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					break;
+				case TYPE_TTCN3_CHOICE:
+					fieldType = ((TTCN3_Choice_Type) type).getComponentByName(fieldName).getType();
+					break;
+				case TYPE_OPENTYPE:
+					fieldType = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
 					break;
 				default:
 					source.append("//FATAL ERROR while generating code for a named template list\n");
