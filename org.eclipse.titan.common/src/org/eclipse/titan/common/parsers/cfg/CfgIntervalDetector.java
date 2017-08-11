@@ -7,8 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.common.parsers.cfg;
 
-import org.eclipse.titan.common.parsers.IntervalDetector;
 import org.eclipse.titan.common.parsers.Interval.interval_type;
+import org.eclipse.titan.common.parsers.IntervalDetector;
 import org.eclipse.titan.common.parsers.cfg.CfgInterval.section_type;
 
 /**
