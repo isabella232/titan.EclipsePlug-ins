@@ -8,8 +8,8 @@
 package org.eclipse.titan.designer.AST;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.AST.Module.module_type;
+import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**

@@ -20,7 +20,6 @@ import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.WritableToken;
 import org.eclipse.core.resources.IFile;
-import org.eclipse.titan.designer.parsers.asn1parser.Asn1Lexer;
 
 public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 	private HashSet<Integer> discardMask = new HashSet<Integer>();

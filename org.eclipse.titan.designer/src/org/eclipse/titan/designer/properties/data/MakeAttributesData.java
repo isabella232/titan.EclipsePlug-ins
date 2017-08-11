@@ -7,12 +7,14 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.properties.data;
 
+import java.util.HashSet;
 import java.util.TreeMap;
 
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.properties.pages.ProjectBuildPropertyPage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

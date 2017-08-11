@@ -39,12 +39,9 @@ import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.TitanListener;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ISourceAnalyzer;
 import org.eclipse.titan.designer.parsers.ParserUtilities;
-import org.eclipse.titan.designer.parsers.GlobalParser;
-import org.eclipse.titan.designer.parsers.ttcn3parser.PreprocessedTokenStream;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Parser;
 import org.eclipse.titan.designer.properties.data.PreprocessorSymbolsOptionsData;
 
 /**

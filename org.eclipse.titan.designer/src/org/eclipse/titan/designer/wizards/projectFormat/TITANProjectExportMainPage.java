@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.wizards.projectFormat;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
+
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;

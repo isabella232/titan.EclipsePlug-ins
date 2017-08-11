@@ -21,9 +21,9 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
-import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeSet;
@@ -31,8 +31,8 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
-import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados

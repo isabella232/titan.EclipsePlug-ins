@@ -9,10 +9,10 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
-import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;

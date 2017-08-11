@@ -39,10 +39,10 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
-import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureReturnType;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureDefinition;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureException;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureParameter;
+import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.SignatureReturnType;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureGenerator.signatureParamaterDirection;
 import org.eclipse.titan.designer.AST.TTCN3.values.NamedValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.Sequence_Value;

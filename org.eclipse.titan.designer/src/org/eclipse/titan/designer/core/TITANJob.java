@@ -39,12 +39,12 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.actions.ExternalTitanAction;
 import org.eclipse.titan.designer.consoles.TITANConsole;
-import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.license.License;
 import org.eclipse.titan.designer.license.LicenseValidator;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
+import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
 
 /**

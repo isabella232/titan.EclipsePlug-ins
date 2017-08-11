@@ -18,8 +18,8 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.titan.designer.properties.data.LinkerFlagsOptionsData;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 
 /**
  * @author Jeno Balasko

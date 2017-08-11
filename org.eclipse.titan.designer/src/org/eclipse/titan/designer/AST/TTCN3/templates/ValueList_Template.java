@@ -7,9 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
-import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;

@@ -15,9 +15,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.designer.AST.ASN1.Block;
-import org.eclipse.titan.designer.parsers.asn1parser.Asn1Lexer;
-import org.eclipse.titan.designer.parsers.asn1parser.ASN1Listener;
-import org.eclipse.titan.designer.parsers.asn1parser.Asn1Parser;
 
 public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 	private HashSet<Integer> discardMask = new HashSet<Integer>();

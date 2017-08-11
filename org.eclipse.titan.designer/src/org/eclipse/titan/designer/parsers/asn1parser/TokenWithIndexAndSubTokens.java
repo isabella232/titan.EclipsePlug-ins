@@ -10,11 +10,11 @@ package org.eclipse.titan.designer.parsers.asn1parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.antlr.v4.runtime.misc.Pair;
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.CommonToken;
+import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenSource;
+import org.antlr.v4.runtime.misc.Pair;
 import org.eclipse.core.resources.IFile;
 
 /**

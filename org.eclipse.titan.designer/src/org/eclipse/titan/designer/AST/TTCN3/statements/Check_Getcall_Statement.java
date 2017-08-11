@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 

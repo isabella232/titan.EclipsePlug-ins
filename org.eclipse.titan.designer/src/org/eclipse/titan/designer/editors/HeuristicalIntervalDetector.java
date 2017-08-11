@@ -11,8 +11,8 @@ import org.eclipse.jface.text.BadLocationException;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.Interval;
-import org.eclipse.titan.common.parsers.IntervalDetector;
 import org.eclipse.titan.common.parsers.Interval.interval_type;
+import org.eclipse.titan.common.parsers.IntervalDetector;
 
 /**
  * This class can be used to build an interval hierarchy from file types, for

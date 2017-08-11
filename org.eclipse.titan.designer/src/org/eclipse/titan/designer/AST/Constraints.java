@@ -10,9 +10,9 @@ package org.eclipse.titan.designer.AST;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.designer.AST.ASN1.TableConstraint;
 import org.eclipse.titan.designer.AST.Constraint.Constraint_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.ASN1.TableConstraint;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**

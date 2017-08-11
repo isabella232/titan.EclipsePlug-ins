@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISetting.Setting_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -18,7 +19,6 @@ import org.eclipse.titan.designer.AST.ASN1.Object.ObjectClass_refd;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
 import org.eclipse.titan.designer.AST.ASN1.Object.ReferencedObject;
 import org.eclipse.titan.designer.AST.ASN1.values.Undefined_Block_Value;
-import org.eclipse.titan.designer.AST.ISetting.Setting_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;

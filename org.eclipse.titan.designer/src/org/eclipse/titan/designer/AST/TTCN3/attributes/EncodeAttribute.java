@@ -8,8 +8,8 @@
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.IType.Encoding_type;
+import org.eclipse.titan.designer.AST.IVisitableNode;
 
 /**
  * Represents a single encode attribute on an external function, used to

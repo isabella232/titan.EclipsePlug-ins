@@ -22,10 +22,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonToken;
 import org.antlr.v4.runtime.CommonTokenFactory;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.UnbufferedCharStream;
@@ -37,6 +37,11 @@ import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.text.IDocument;
+import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
+import org.eclipse.titan.common.parsers.TITANMarker;
+import org.eclipse.titan.common.parsers.TitanListener;
+import org.eclipse.titan.common.product.ProductConstants;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.editors.EditorTracker;
@@ -44,11 +49,6 @@ import org.eclipse.titan.designer.editors.ISemanticTITANEditor;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.preprocess.PreprocessorDirective;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
-import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
-import org.eclipse.titan.common.parsers.TITANMarker;
-import org.eclipse.titan.common.parsers.TitanListener;
-import org.eclipse.titan.common.product.ProductConstants;
 /**
  * Directive types for state machine transitions
  * 
