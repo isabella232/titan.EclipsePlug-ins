@@ -8,12 +8,11 @@
 package org.eclipse.titan.log.viewer.views.msc.ui.actions;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.actions.SelectionProviderAction;
-
 import org.eclipse.titan.log.viewer.models.LogFileMetaData;
 import org.eclipse.titan.log.viewer.utils.Messages;
 import org.eclipse.titan.log.viewer.views.MSCView;
 import org.eclipse.titan.log.viewer.views.text.table.TextTableViewHelper;
+import org.eclipse.ui.actions.SelectionProviderAction;
 
 /**
  * Opens the Text Table view

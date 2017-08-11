@@ -7,7 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.log.viewer.views.msc.ui.core;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.Comparator;
 
 import org.eclipse.titan.log.viewer.views.msc.ui.view.IGC;

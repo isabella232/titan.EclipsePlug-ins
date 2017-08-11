@@ -35,13 +35,6 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.preference.IPreferenceStore;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.IOUtils;
 import org.eclipse.titan.common.utils.preferences.PreferenceUtils;
@@ -49,6 +42,12 @@ import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.exceptions.TechnicalException;
 import org.eclipse.titan.log.viewer.exceptions.TitanLogExceptionHandler;
 import org.eclipse.titan.log.viewer.utils.Messages;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 public final class DecipheringPreferenceHandler {
 

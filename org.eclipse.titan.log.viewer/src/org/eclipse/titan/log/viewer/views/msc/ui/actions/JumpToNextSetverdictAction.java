@@ -9,11 +9,10 @@ package org.eclipse.titan.log.viewer.views.msc.ui.actions;
 
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.ui.actions.SelectionProviderAction;
-
 import org.eclipse.titan.log.viewer.views.MSCView;
 import org.eclipse.titan.log.viewer.views.msc.model.ExecutionModel;
 import org.eclipse.titan.log.viewer.views.msc.ui.view.MSCWidget;
+import org.eclipse.ui.actions.SelectionProviderAction;
 
 /**
  * Jumps to previous setverdict

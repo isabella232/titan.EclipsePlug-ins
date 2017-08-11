@@ -33,9 +33,6 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.preferences.DecipheringPreferenceHandler.ImportFailedException;
 import org.eclipse.titan.log.viewer.preferences.PreferenceConstants;
@@ -45,6 +42,8 @@ import org.eclipse.titan.log.viewer.preferences.fieldeditors.MutableComboFieldEd
 import org.eclipse.titan.log.viewer.preferences.fieldeditors.StringListEditor;
 import org.eclipse.titan.log.viewer.utils.ImportExportUtils;
 import org.eclipse.titan.log.viewer.utils.Messages;
+import org.eclipse.ui.IWorkbench;
+import org.eclipse.ui.PlatformUI;
 
 public class DecipheringPreferencePage extends LogViewerPreferenceRootPage {
 

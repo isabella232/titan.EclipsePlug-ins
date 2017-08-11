@@ -13,7 +13,6 @@ import java.util.List;
 import org.eclipse.jface.dialogs.IInputValidator;
 import org.eclipse.jface.dialogs.InputDialog;
 import org.eclipse.swt.widgets.Composite;
-
 import org.eclipse.titan.common.utils.preferences.PreferenceUtils;
 import org.eclipse.titan.log.viewer.utils.Constants;
 import org.eclipse.titan.log.viewer.utils.Messages;
