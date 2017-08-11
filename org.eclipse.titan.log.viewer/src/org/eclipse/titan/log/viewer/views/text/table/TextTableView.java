@@ -46,15 +46,6 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IMemento;
-import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.IWorkbenchActionConstants;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.part.ViewPart;
-
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.actions.OpenSourceViewMenuAction;
@@ -79,6 +70,14 @@ import org.eclipse.titan.log.viewer.views.msc.model.EventSelection;
 import org.eclipse.titan.log.viewer.views.msc.model.EventType;
 import org.eclipse.titan.log.viewer.views.navigator.ProjectsViewerMenuListener;
 import org.eclipse.titan.log.viewer.views.navigator.ProjectsViewerMenuManager;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchActionConstants;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.part.ViewPart;
 
 
 /**

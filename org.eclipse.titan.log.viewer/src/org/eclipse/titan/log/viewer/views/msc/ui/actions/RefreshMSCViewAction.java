@@ -23,10 +23,6 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.jface.action.Action;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PlatformUI;
-
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.log.viewer.exceptions.TechnicalException;
 import org.eclipse.titan.log.viewer.exceptions.TitanLogExceptionHandler;
@@ -43,6 +39,9 @@ import org.eclipse.titan.log.viewer.utils.LogFileCacheHandler;
 import org.eclipse.titan.log.viewer.utils.Messages;
 import org.eclipse.titan.log.viewer.views.MSCView;
 import org.eclipse.titan.log.viewer.views.msc.model.ExecutionModel;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PlatformUI;
 
 public class RefreshMSCViewAction extends Action {
 

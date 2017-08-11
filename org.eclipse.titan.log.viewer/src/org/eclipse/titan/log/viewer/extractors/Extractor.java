@@ -15,10 +15,9 @@ import java.util.regex.Pattern;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.titan.common.utils.IOUtils;
 import org.eclipse.titan.log.viewer.models.LogFileMetaData;
 import org.eclipse.titan.log.viewer.utils.Constants;
-
-import org.eclipse.titan.common.utils.IOUtils;
 
 /**
  * Abstract class which enables data extraction from a log file

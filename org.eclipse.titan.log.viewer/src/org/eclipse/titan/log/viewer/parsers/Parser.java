@@ -17,7 +17,6 @@ import java.util.Set;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
-
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.IOUtils;
 import org.eclipse.titan.log.viewer.console.TITANDebugConsole;

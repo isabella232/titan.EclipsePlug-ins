@@ -46,18 +46,6 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
-import org.eclipse.ui.IActionBars;
-import org.eclipse.ui.IMemento;
-import org.eclipse.ui.IViewPart;
-import org.eclipse.ui.IViewReference;
-import org.eclipse.ui.IViewSite;
-import org.eclipse.ui.IWorkbenchPage;
-import org.eclipse.ui.PartInitException;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.actions.ActionFactory;
-import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.eclipse.ui.part.ViewPart;
-
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.extractors.TestCaseExtractor;
@@ -90,6 +78,17 @@ import org.eclipse.titan.log.viewer.views.msc.ui.view.MSCWidget;
 import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 import org.eclipse.titan.log.viewer.views.text.table.TextTableView;
 import org.eclipse.titan.log.viewer.views.text.table.TextTableViewHelper;
+import org.eclipse.ui.IActionBars;
+import org.eclipse.ui.IMemento;
+import org.eclipse.ui.IViewPart;
+import org.eclipse.ui.IViewReference;
+import org.eclipse.ui.IViewSite;
+import org.eclipse.ui.IWorkbenchPage;
+import org.eclipse.ui.PartInitException;
+import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.actions.ActionFactory;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.ui.part.ViewPart;
 
 public class MSCView extends ViewPart implements ILogViewerView {
 

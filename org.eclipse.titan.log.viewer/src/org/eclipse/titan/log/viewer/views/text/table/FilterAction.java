@@ -25,8 +25,6 @@ import org.eclipse.jface.action.Action;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.ui.progress.IProgressConstants;
-
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.exceptions.TechnicalException;
@@ -36,6 +34,7 @@ import org.eclipse.titan.log.viewer.models.TimeInterval;
 import org.eclipse.titan.log.viewer.utils.Constants;
 import org.eclipse.titan.log.viewer.utils.Messages;
 import org.eclipse.titan.log.viewer.views.MSCFilterDialog;
+import org.eclipse.ui.progress.IProgressConstants;
 
 class FilterAction extends Action {
 

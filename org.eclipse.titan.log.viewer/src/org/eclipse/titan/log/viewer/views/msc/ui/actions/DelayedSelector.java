@@ -9,7 +9,6 @@
 package org.eclipse.titan.log.viewer.views.msc.ui.actions;
 
 import org.eclipse.swt.widgets.Display;
-
 import org.eclipse.titan.common.logging.ErrorReporter;
 
 class DelayedSelector extends Thread {

@@ -22,7 +22,6 @@ import static org.eclipse.titan.log.viewer.views.msc.util.MSCConstants.DEFAULT_B
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Rectangle;
-
 import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.views.msc.ui.view.IGC;
 import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;

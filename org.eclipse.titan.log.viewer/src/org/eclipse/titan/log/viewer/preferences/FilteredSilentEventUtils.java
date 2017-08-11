@@ -14,7 +14,6 @@ import java.util.SortedMap;
 
 import org.eclipse.core.resources.IResource;
 import org.eclipse.jface.preference.IPreferenceStore;
-
 import org.eclipse.titan.log.viewer.utils.Constants;
 import org.eclipse.titan.log.viewer.utils.ResourcePropertyHandler;
 

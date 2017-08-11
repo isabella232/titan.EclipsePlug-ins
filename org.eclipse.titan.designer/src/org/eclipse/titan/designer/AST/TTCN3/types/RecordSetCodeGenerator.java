@@ -529,9 +529,7 @@ public class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( "\n" );
 			source.append( MessageFormat.format( "\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
-			//TODO
-			//source.append("\t\t//TODO\n");
-			//source.append("\t\t//set_specific();\n");
+			source.append("\t\tsetSpecific();\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
 			source.append("\t}\n");
 			
@@ -543,7 +541,27 @@ public class RecordSetCodeGenerator {
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
 			source.append("\t}\n");
 		}
+
 		source.append("\n");
+		source.append("\tprivate void setSpecific() {\n");
+		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\tfinal template_sel old_selection = templateSelection;\n");
+		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
+		}
+		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			if (fi.isOptional) {
+				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
+			} else {
+				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
+			}
+		}
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t}\n");
 	}
 
 	/**

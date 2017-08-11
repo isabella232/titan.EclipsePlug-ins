@@ -21,7 +21,6 @@ import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-
 import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.models.LogFileMetaData;
 import org.eclipse.titan.log.viewer.preferences.PreferencesHandler;

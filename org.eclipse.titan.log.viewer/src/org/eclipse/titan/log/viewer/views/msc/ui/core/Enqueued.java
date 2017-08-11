@@ -13,7 +13,6 @@ import static org.eclipse.titan.log.viewer.views.msc.ui.core.RectangleDrawer.dra
 
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Rectangle;
-
 import org.eclipse.titan.log.viewer.utils.Constants;
 import org.eclipse.titan.log.viewer.views.msc.ui.view.IGC;
 import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;

@@ -13,9 +13,8 @@ import java.util.StringTokenizer;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-import org.eclipse.ui.IViewSite;
-
 import org.eclipse.titan.log.viewer.console.TITANDebugConsole;
+import org.eclipse.ui.IViewSite;
 
 /**
  * This class builds the tree view

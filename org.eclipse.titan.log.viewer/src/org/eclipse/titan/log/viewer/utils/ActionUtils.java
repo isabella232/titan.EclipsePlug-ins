@@ -14,17 +14,16 @@ import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.jface.viewers.AbstractTreeViewer;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.log.viewer.models.LogFileMetaData;
+import org.eclipse.titan.log.viewer.views.DetailsView;
+import org.eclipse.titan.log.viewer.views.ILogViewerView;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.IViewReference;
 import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.navigator.CommonNavigator;
 import org.eclipse.ui.navigator.CommonViewer;
-
-import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.log.viewer.models.LogFileMetaData;
-import org.eclipse.titan.log.viewer.views.DetailsView;
-import org.eclipse.titan.log.viewer.views.ILogViewerView;
 
 /**
  * Help class to navigator actions

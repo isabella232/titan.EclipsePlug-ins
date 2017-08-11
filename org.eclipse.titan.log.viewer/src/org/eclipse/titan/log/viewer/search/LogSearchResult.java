@@ -7,8 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.log.viewer.search;
 
-import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.resources.IFile;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.search.ui.ISearchQuery;
 import org.eclipse.search.ui.text.AbstractTextSearchResult;
 import org.eclipse.search.ui.text.IEditorMatchAdapter;
