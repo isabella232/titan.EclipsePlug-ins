@@ -269,6 +269,7 @@ public class UnionGenerator {
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("public boolean isValue() {\n");
 		source.append("switch(union_selection) {\n");
+		source.append("case UNBOUND_VALUE: return false;\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
