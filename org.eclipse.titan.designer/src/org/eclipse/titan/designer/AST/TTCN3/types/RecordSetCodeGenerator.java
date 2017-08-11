@@ -548,12 +548,15 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\tfinal template_sel old_selection = templateSelection;\n");
 		source.append("\t\t\tcleanUp();\n");
 		source.append("\t\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
+		}
 		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}(template_sel.ANY_OR_OMIT);\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
+				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_OR_OMIT);\n", fi.mVarName ) );
 			} else {
-				source.append( MessageFormat.format( "\t\t\t\t{0} = new {1}(template_sel.ANY_VALUE);\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
+				source.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.ANY_VALUE);\n", fi.mVarName ) );
 			}
 		}
 		source.append("\t\t\t}\n");
