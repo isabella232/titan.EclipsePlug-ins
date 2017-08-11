@@ -165,29 +165,6 @@ public final class TITANNature implements IProjectNature {
 	}
 
 	/**
-	 * Decides whether the project has the TITAN builder or not.
-	 * 
-	 * @param project
-	 *                the project in question
-	 * @return whether the project has the TITAN builder or not.
-	 */
-	public static boolean hasTITANBuilder(final IProject project) {
-		if (project == null || !project.isAccessible()) {
-			return false;
-		}
-
-		try {
-			final IProjectDescription description = project.getDescription();
-			final int javaCommandIndex = getJavaCommandIndex(description.getBuildSpec());
-			return javaCommandIndex != -1;
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-		}
-
-		return false;
-	}
-	
-	/**
 	 * Adds the TITAN Builder to a project.
 	 * 
 	 * @param project
