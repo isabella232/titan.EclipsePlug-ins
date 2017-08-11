@@ -7,6 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.executors;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.StringReader;
+import java.util.Date;
+import java.util.Formatter;
+
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
@@ -23,13 +30,6 @@ import org.eclipse.titan.executor.graphics.ImageCache;
 import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.util.Date;
-import java.util.Formatter;
 
 /**
  * Connects to the a started Host Controllers and redirects its output to the notification view and the TITANConsole.

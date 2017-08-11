@@ -7,15 +7,15 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.tabpages.testset;
 
-import org.eclipse.swt.dnd.ByteArrayTransfer;
-import org.eclipse.swt.dnd.TransferData;
-import org.eclipse.titan.common.logging.ErrorReporter;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import org.eclipse.swt.dnd.ByteArrayTransfer;
+import org.eclipse.swt.dnd.TransferData;
+import org.eclipse.titan.common.logging.ErrorReporter;
 
 /**
  * @author Kristof Szabados

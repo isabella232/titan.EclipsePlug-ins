@@ -8,7 +8,6 @@
 package org.eclipse.titan.executor.executors;
 
 import static org.eclipse.titan.executor.GeneralConstants.EXECUTECONFIGFILEONLAUNCH;
-import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,7 @@ import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.window.Window;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
 import org.eclipse.titan.executor.tabpages.hostcontrollers.HostControllersTab;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;

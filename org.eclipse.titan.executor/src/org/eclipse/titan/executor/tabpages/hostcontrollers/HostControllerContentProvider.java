@@ -7,20 +7,20 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.tabpages.hostcontrollers;
 
+import static org.eclipse.titan.executor.GeneralConstants.HOSTCOMMANDS;
+import static org.eclipse.titan.executor.GeneralConstants.HOSTEXECUTABLES;
+import static org.eclipse.titan.executor.GeneralConstants.HOSTNAMES;
+import static org.eclipse.titan.executor.GeneralConstants.HOSTWORKINGDIRECTORIES;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.ILaunchConfiguration;
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.executor.HostController;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.eclipse.titan.executor.GeneralConstants.HOSTCOMMANDS;
-import static org.eclipse.titan.executor.GeneralConstants.HOSTEXECUTABLES;
-import static org.eclipse.titan.executor.GeneralConstants.HOSTNAMES;
-import static org.eclipse.titan.executor.GeneralConstants.HOSTWORKINGDIRECTORIES;
 
 /**
  * @author Kristof Szabados

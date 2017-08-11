@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.properties;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
@@ -35,9 +38,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.ResourceUtils;
 import org.eclipse.titan.executor.Activator;
 import org.eclipse.ui.IWorkbenchPropertyPage;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**

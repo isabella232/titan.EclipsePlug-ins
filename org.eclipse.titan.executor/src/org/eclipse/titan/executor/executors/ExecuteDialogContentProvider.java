@@ -7,10 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.executors;
 
+import java.util.List;
+
 import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.Viewer;
-
-import java.util.List;
 
 /**
  * Simple content provider for the execute dialog.

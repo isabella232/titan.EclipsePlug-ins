@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.views.executormonitor;
 
+import java.util.Iterator;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.debug.core.DebugPlugin;
 import org.eclipse.debug.core.ILaunch;
@@ -37,8 +39,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.console.ConsolePlugin;
 import org.eclipse.ui.console.IConsole;
 import org.eclipse.ui.part.ViewPart;
-
-import java.util.Iterator;
 
 /**
  * @author Kristof Szabados

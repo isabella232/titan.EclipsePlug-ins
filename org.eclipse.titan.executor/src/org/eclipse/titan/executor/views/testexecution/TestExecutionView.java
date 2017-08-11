@@ -7,6 +7,16 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.views.testexecution;
 
+import static org.eclipse.titan.executor.GeneralConstants.ERROR;
+import static org.eclipse.titan.executor.GeneralConstants.FAIL;
+import static org.eclipse.titan.executor.GeneralConstants.INCONC;
+import static org.eclipse.titan.executor.GeneralConstants.NONE;
+import static org.eclipse.titan.executor.GeneralConstants.PASS;
+import static org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView.EXECUTORMONITOR_VIEW_ID;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuManager;
 import org.eclipse.jface.action.IToolBarManager;
@@ -30,16 +40,6 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.eclipse.titan.executor.GeneralConstants.ERROR;
-import static org.eclipse.titan.executor.GeneralConstants.FAIL;
-import static org.eclipse.titan.executor.GeneralConstants.INCONC;
-import static org.eclipse.titan.executor.GeneralConstants.NONE;
-import static org.eclipse.titan.executor.GeneralConstants.PASS;
-import static org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView.EXECUTORMONITOR_VIEW_ID;
 
 /**
  * @author Kristof Szabados

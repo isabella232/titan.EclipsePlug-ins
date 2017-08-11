@@ -7,15 +7,15 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.properties;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
 import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.jface.preference.PreferenceStore;
 import org.eclipse.titan.common.logging.ErrorReporter;
-
-import java.io.IOException;
-import java.io.OutputStream;
 
 
 /**

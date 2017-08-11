@@ -7,13 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.designerconnection;
 
+import java.util.List;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.utils.StringUtils;
-
-import java.util.List;
 
 /**
  * @author Kristof Szabados

@@ -7,6 +7,11 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.designerconnection;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.QualifiedName;
@@ -15,11 +20,6 @@ import org.eclipse.core.variables.VariablesPlugin;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.executor.TITANDebugConsole;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This class has utility functions to help handling environmental variables.

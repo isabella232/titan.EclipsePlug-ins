@@ -7,15 +7,15 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.views.testexecution;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.jface.viewers.IStructuredContentProvider;
 import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.titan.executor.executors.BaseExecutor;
 import org.eclipse.titan.executor.executors.ITreeLeaf;
 import org.eclipse.titan.executor.views.executormonitor.LaunchElement;
 import org.eclipse.titan.executor.views.executormonitor.MainControllerElement;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Kristof Szabados

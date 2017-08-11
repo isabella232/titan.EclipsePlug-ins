@@ -7,15 +7,15 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.tabpages.testset;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.dnd.DND;
 import org.eclipse.swt.dnd.DragSourceEvent;
 import org.eclipse.swt.dnd.DragSourceListener;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 /**
  * @author Kristof Szabados

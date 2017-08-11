@@ -7,13 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.views.executormonitor;
 
-import org.eclipse.titan.executor.executors.ITreeBranch;
-import org.eclipse.titan.executor.executors.ITreeLeaf;
-import org.eclipse.titan.executor.executors.TreeLeaf;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import org.eclipse.titan.executor.executors.ITreeBranch;
+import org.eclipse.titan.executor.executors.ITreeLeaf;
+import org.eclipse.titan.executor.executors.TreeLeaf;
 
 /**
  * @author Kristof Szabados

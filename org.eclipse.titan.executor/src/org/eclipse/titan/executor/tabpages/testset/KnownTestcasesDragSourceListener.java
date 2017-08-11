@@ -7,12 +7,12 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.tabpages.testset;
 
+import java.util.Iterator;
+
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.dnd.DragSourceAdapter;
 import org.eclipse.swt.dnd.DragSourceEvent;
-
-import java.util.Iterator;
 
 /**
  * @author Kristof Szabados

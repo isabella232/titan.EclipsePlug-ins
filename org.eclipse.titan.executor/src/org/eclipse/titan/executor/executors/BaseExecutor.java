@@ -7,6 +7,42 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.executors;
 
+import static org.eclipse.titan.common.utils.StringUtils.isNullOrEmpty;
+import static org.eclipse.titan.executor.GeneralConstants.CONFIGFILEPATH;
+import static org.eclipse.titan.executor.GeneralConstants.CONSOLELOGGING;
+import static org.eclipse.titan.executor.GeneralConstants.EXECUTABLEFILEPATH;
+import static org.eclipse.titan.executor.GeneralConstants.EXECUTECONFIGFILEONLAUNCH;
+import static org.eclipse.titan.executor.GeneralConstants.HOSTCOMMANDS;
+import static org.eclipse.titan.executor.GeneralConstants.HOSTEXECUTABLES;
+import static org.eclipse.titan.executor.GeneralConstants.HOSTNAMES;
+import static org.eclipse.titan.executor.GeneralConstants.HOSTWORKINGDIRECTORIES;
+import static org.eclipse.titan.executor.GeneralConstants.KEEPTEMPORARILYGENERATEDCONFIGURATIONFILES;
+import static org.eclipse.titan.executor.GeneralConstants.MAXIMUMNOTIFICATIONLINECOUNT;
+import static org.eclipse.titan.executor.GeneralConstants.PROJECTNAME;
+import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEHOSTEXECUTABLE;
+import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEHOSTNAME;
+import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEHOSTWORKIGNDIRECTORY;
+import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEMCHOST;
+import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEMCPORT;
+import static org.eclipse.titan.executor.GeneralConstants.SEVERITYLEVELEXTRACTION;
+import static org.eclipse.titan.executor.GeneralConstants.TESTCASEREFRESHONSTART;
+import static org.eclipse.titan.executor.GeneralConstants.VERDICTEXTRACTION;
+import static org.eclipse.titan.executor.GeneralConstants.WORKINGDIRECTORYPATH;
+import static org.eclipse.titan.executor.properties.FieldEditorPropertyPage.getOverlayedPreferenceValue;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Formatter;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 import org.eclipse.core.filesystem.URIUtil;
 import org.eclipse.core.resources.IContainer;
 import org.eclipse.core.resources.IFile;
@@ -57,42 +93,6 @@ import org.eclipse.titan.executor.views.notification.Notification;
 import org.eclipse.titan.executor.views.testexecution.ExecutedTestcase;
 import org.eclipse.ui.console.MessageConsoleStream;
 import org.eclipse.ui.progress.IProgressConstants;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.IOException;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.Formatter;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import static org.eclipse.titan.common.utils.StringUtils.isNullOrEmpty;
-import static org.eclipse.titan.executor.GeneralConstants.CONFIGFILEPATH;
-import static org.eclipse.titan.executor.GeneralConstants.CONSOLELOGGING;
-import static org.eclipse.titan.executor.GeneralConstants.EXECUTABLEFILEPATH;
-import static org.eclipse.titan.executor.GeneralConstants.EXECUTECONFIGFILEONLAUNCH;
-import static org.eclipse.titan.executor.GeneralConstants.HOSTCOMMANDS;
-import static org.eclipse.titan.executor.GeneralConstants.HOSTEXECUTABLES;
-import static org.eclipse.titan.executor.GeneralConstants.HOSTNAMES;
-import static org.eclipse.titan.executor.GeneralConstants.HOSTWORKINGDIRECTORIES;
-import static org.eclipse.titan.executor.GeneralConstants.KEEPTEMPORARILYGENERATEDCONFIGURATIONFILES;
-import static org.eclipse.titan.executor.GeneralConstants.MAXIMUMNOTIFICATIONLINECOUNT;
-import static org.eclipse.titan.executor.GeneralConstants.PROJECTNAME;
-import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEHOSTEXECUTABLE;
-import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEHOSTNAME;
-import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEHOSTWORKIGNDIRECTORY;
-import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEMCHOST;
-import static org.eclipse.titan.executor.GeneralConstants.REPLACEABLEMCPORT;
-import static org.eclipse.titan.executor.GeneralConstants.SEVERITYLEVELEXTRACTION;
-import static org.eclipse.titan.executor.GeneralConstants.TESTCASEREFRESHONSTART;
-import static org.eclipse.titan.executor.GeneralConstants.VERDICTEXTRACTION;
-import static org.eclipse.titan.executor.GeneralConstants.WORKINGDIRECTORYPATH;
-import static org.eclipse.titan.executor.properties.FieldEditorPropertyPage.getOverlayedPreferenceValue;
 
 /**
  * This is a base class to build the Executors on.
