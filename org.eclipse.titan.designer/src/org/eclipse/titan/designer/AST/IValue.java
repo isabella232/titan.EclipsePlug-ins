@@ -252,6 +252,29 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain);
 
 	/**
+	 * Check that the value (a V_EXPR) - being used as the RHS - refers to
+	 * the LHS of the assignment.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param lhs
+	 *                the assignment to check against
+	 * @return true if self-assignment
+	 * */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs);
+
+	/**
+	 * Check that the value (a V_EXPR) - being used as the RHS - refers to the LHS of the assignment.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param lhs
+	 *                the assignment to check against
+	 * @return true if self-assignment
+	 * */
+	public boolean checkExpressionSelfReferenceValue(final CompilationTimeStamp timestamp, final Assignment lhs);
+
+	/**
 	 * Creates and returns a string representation if the actual value.
 	 *
 	 * @return the string representation of the value.

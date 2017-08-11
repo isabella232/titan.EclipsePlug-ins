@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
@@ -83,26 +84,39 @@ public final class ComplementedList_Template extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+			if(templates.getTemplateByIndex(i).checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		getLocation().reportSemanticError("A specific value expected instead of a complemented list match");
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
-			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp, final IType type, final boolean isModified,
+			final boolean allowOmit, final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
 
 		if(type == null){
-			return;
+			return false;
 		}
 
 		final boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
 
+		boolean selfReference = false;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			final ITemplateListItem component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
 			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
-			temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit);
+			selfReference = temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
 
 			if (Template_type.ANY_OR_OMIT.equals(temporalComponent.getTemplatetype())) {
 				component.getLocation().reportSemanticWarning(ANYOROMITWARNING);
@@ -116,6 +130,8 @@ public final class ComplementedList_Template extends CompositeTemplate {
 		if (subCheck) {
 			type.checkThisTemplateSubtype(timestamp, this);
 		}
+
+		return selfReference;
 	}
 
 	/**

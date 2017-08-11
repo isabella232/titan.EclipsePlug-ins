@@ -639,7 +639,7 @@ public final class Port_Utility {
 			}
 
 			if (isAddress) {
-				addressType.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				addressType.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						false, false, true, false, false));
 			} else {
 				checkComponentReference(timestamp, source, temp, true, true);

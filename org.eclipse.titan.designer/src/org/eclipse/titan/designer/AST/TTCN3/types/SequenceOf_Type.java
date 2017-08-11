@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
@@ -395,26 +396,26 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -425,17 +426,17 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			last = last.setValuetype(timestamp, Value_type.SEQUENCEOF_VALUE);
 		}
 		if (last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		switch (last.getValuetype()) {
 		case SEQUENCEOF_VALUE: {
-			checkThisValueSequenceOf(timestamp, (SequenceOf_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueSequenceOf(timestamp, (SequenceOf_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		}
 		case SETOF_VALUE: {
-			checkThisValueSetOf(timestamp, (SetOf_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueSetOf(timestamp, (SetOf_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		}
@@ -461,6 +462,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	/**
@@ -476,8 +479,10 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	 * @param implicitOmit true if the implicit omit optional attribute was set
 	 *            for the value, false otherwise
 	 * */
-	public void checkThisValueSequenceOf(final CompilationTimeStamp timestamp, final SequenceOf_Value value,
+	public boolean checkThisValueSequenceOf(final CompilationTimeStamp timestamp, final SequenceOf_Value value, final Assignment lhs,
 			final Expected_Value_type expectedValue, final boolean incompleteAllowed , final boolean implicitOmit, final boolean strElem) {
+		boolean selfReference = false;
+
 		if (value.isIndexed()) {
 			boolean checkHoles = Expected_Value_type.EXPECTED_CONSTANT.equals(expectedValue);
 			BigInteger maxIndex = BigInteger.valueOf(-1);
@@ -493,7 +498,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				tempType.check(timestamp);
 				indexLast.setMyGovernor(tempType);
 				final IValue temporalValue = tempType.checkThisValueRef(timestamp, indexLast);
-				tempType.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				selfReference = tempType.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						true, false, true, false, false));
 
 				if (indexLast.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
@@ -523,7 +528,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				component.setMyGovernor(getOfType());
 				final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-				getOfType().checkThisValue(timestamp, tempValue2,
+				selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
 			if (checkHoles) {
@@ -541,22 +546,25 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					}
 				} else {
 					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-					getOfType().checkThisValue(timestamp, tempValue2,
+					selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
 			}
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case OMIT_VALUE:
 			if (template.getLengthRestriction() != null) {
@@ -570,7 +578,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				ITTCN3Template templateComponent = permutationTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
-				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit); //it is a special for AllElementsFrom, it is the usual for TemplateBody
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
 			break;
 		}
@@ -581,7 +589,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
-				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit); //it is a special for AllElementsFrom, it is the usual for TemplateBody
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
 			break;
 		}
@@ -592,7 +600,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
-				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit); //it is a special for AllElementsFrom, it is the usual for TemplateBody
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
 			break;
 		}
@@ -608,7 +616,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				if (tempBase == null) {
 					setIsErroneous(true);
-					return;
+					return selfReference;
 				}
 
 				base = ((Template_List) tempBase);
@@ -635,7 +643,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					//FIXME: for Complement??? case COMPLEMENTED_LIST: ???
 					// the elements of permutation has to be checked by u.seof.ofType
 					// the templates within the permutation always have to be complete
-					component.checkThisTemplateGeneric(timestamp, this, false, false, true, true, implicitOmit);
+					selfReference = component.checkThisTemplateGeneric(timestamp, this, false, false, true, true, implicitOmit, lhs);
 					break;
 				case TEMPLATE_NOTUSED:
 					if (Completeness_type.MUST_COMPLETE.equals(completeness)) {
@@ -647,7 +655,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				default:
 					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
 					|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
-					component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit);
+					selfReference = component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit, lhs);
 					break;
 				}
 			}
@@ -669,7 +677,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				tempType.check(timestamp);
 				lastValue.setMyGovernor(tempType);
 				final IValue temporalValue = tempType.checkThisValueRef(timestamp, lastValue);
-				tempType.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				tempType.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						true, false, true, false, false));
 
 				if (!temporalValue.getIsErroneous(timestamp) && Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
@@ -693,7 +701,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit);
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit, lhs);
 			}
 			break;
 		}
@@ -701,6 +709,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName(), getTypename()));
 			break;
 		}
+
+		return selfReference;
 	}
 
 	@Override

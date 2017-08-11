@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.CachedReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -275,26 +276,26 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -309,13 +310,13 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			} else {
 				last = last.setValuetype(timestamp, Value_type.CHOICE_VALUE);
 				if (!last.getIsErroneous(timestamp)) {
-					checkThisValueChoice(timestamp, (Choice_Value) last, valueCheckingOptions.expected_value,
+					selfReference = checkThisValueChoice(timestamp, (Choice_Value) last, lhs, valueCheckingOptions.expected_value,
 							valueCheckingOptions.incomplete_allowed, valueCheckingOptions.str_elem);
 				}
 			}
 			break;
 		case CHOICE_VALUE:
-			checkThisValueChoice(timestamp, (Choice_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueChoice(timestamp, (Choice_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -339,10 +340,13 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
-	private void checkThisValueChoice(final CompilationTimeStamp timestamp, final Choice_Value value, final Expected_Value_type expectedValue,
+	private boolean checkThisValueChoice(final CompilationTimeStamp timestamp, final Choice_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean strElem) {
+		boolean selfReference = false;
 		final Identifier name = value.getName();
 		if (!hasComponentWithName(name.getName())) {
 			if (value.isAsn()) {
@@ -352,34 +356,37 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				value.getLocation().reportSemanticError(MessageFormat.format(NONEXISTENTUNION, name.getDisplayName(), getFullName()));
 				value.setIsErroneous(true);
 			}
-			return;
+			return selfReference;
 		}
 
 		IValue alternativeValue = value.getValue();
 		if (alternativeValue == null) {
-			return;
+			return selfReference;
 		}
 
 		final Type alternativeType = getComponentByName(name.getName()).getType();
 		alternativeValue.setMyGovernor(alternativeType);
 		alternativeValue = alternativeType.checkThisValueRef(timestamp, alternativeValue);
-		alternativeType.checkThisValue(timestamp, alternativeValue, new ValueCheckingOptions(expectedValue,
+		selfReference = alternativeType.checkThisValue(timestamp, alternativeValue, lhs, new ValueCheckingOptions(expectedValue,
 				incompleteAllowed, false, true, false, strElem));
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
+		boolean selfReference = false;
 		if (Template_type.NAMED_TEMPLATE_LIST.equals(template.getTemplatetype())) {
 			final Named_Template_List namedTemplateList = (Named_Template_List) template;
 			final int nofTemplates = namedTemplateList.getNofTemplates();
@@ -401,8 +408,8 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					namedTemplateTemplate.setMyGovernor(fieldType);
 					namedTemplateTemplate = fieldType.checkThisTemplateRef(timestamp, namedTemplateTemplate);
 					final Completeness_type completeness = namedTemplateList.getCompletenessConditionChoice(timestamp, isModified, name);
-					namedTemplateTemplate.checkThisTemplateGeneric(
-							timestamp, fieldType, Completeness_type.MAY_INCOMPLETE.equals(completeness), false, false, true, implicitOmit);
+					selfReference = namedTemplateTemplate.checkThisTemplateGeneric(
+							timestamp, fieldType, Completeness_type.MAY_INCOMPLETE.equals(completeness), false, false, true, implicitOmit, lhs);
 				}
 			}
 		} else {
@@ -412,6 +419,8 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		if (template.getLengthRestriction() != null) {
 			template.getLocation().reportSemanticError(MessageFormat.format(LENGTHRESTRICTIONNOTALLOWED, getTypename()));
 		}
+
+		return selfReference;
 	}
 
 	@Override

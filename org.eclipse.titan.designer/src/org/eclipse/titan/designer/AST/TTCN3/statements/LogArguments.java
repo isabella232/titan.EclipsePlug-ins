@@ -60,11 +60,19 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		}
 	}
 
+	public int getNofLogArguments () {
+		return arguments.size();
+	}
+
 	public void add(final LogArgument logArgument) {
 		if (logArgument != null) {
 			arguments.add(logArgument);
 			logArgument.setFullNameParent(this);
 		}
+	}
+
+	public LogArgument getLogArgumentByIndex(final int index) {
+		return arguments.get(index);
 	}
 
 	/**

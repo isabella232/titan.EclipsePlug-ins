@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -38,6 +39,18 @@ public final class PermutationMatch_Template extends CompositeTemplate {
 		}
 
 		return "permutation match";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+			if(templates.getTemplateByIndex(i).checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override

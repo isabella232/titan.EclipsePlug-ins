@@ -62,6 +62,19 @@ public final class DecodeExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (lhs == reference1.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+		if (lhs == reference2.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("decvalue");
 		builder.append('(').append(reference1.getDisplayName());

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -163,6 +164,11 @@ public class TemplateBody implements ITemplateListItem {
 	}
 
 	@Override
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		return template.checkExpressionSelfReferenceTemplate(timestamp, lhs);
+	}
+
+	@Override
 	public ITTCN3Template getReferencedSubTemplate(
 			final CompilationTimeStamp timestamp, final Reference reference,
 			final IReferenceChain referenceChain) {
@@ -180,11 +186,11 @@ public class TemplateBody implements ITemplateListItem {
 	}
 
 	@Override
-	public void checkThisTemplateGeneric(final CompilationTimeStamp timestamp,
+	public boolean checkThisTemplateGeneric(final CompilationTimeStamp timestamp,
 			final IType type, final boolean isModified, final boolean allowOmit,
-			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit) {
-		template.checkThisTemplateGeneric(
-				timestamp, type, isModified, allowOmit, allowAnyOrOmit, subCheck, implicitOmit);
+			final boolean allowAnyOrOmit, final boolean subCheck, final boolean implicitOmit, final Assignment lhs) {
+		return template.checkThisTemplateGeneric(
+				timestamp, type, isModified, allowOmit, allowAnyOrOmit, subCheck, implicitOmit, lhs);
 	}
 
 	@Override

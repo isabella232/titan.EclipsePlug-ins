@@ -82,6 +82,19 @@ public final class IsChoosenExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (template != null && template.checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+			return true;
+		}
+		if (value != null && value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("ischoosen(");
 		builder.append(reference.getDisplayName());

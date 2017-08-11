@@ -165,7 +165,7 @@ public final class ErroneousAttributeSpecification implements ILocateableNode, I
 			value = templ.getValue();
 			value.setMyGovernor(type);
 			type.checkThisValueRef(timestamp, value);
-			type.checkThisValue(timestamp, value, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true,
+			type.checkThisValue(timestamp, value, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true,
 					false, false));
 		} else {
 			templateInst.getLocation().reportSemanticError("A specific value without matching symbols was expected");

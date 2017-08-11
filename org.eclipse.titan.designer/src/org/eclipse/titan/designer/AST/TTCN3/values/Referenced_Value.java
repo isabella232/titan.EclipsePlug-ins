@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -105,6 +106,22 @@ public final class Referenced_Value extends Value {
 	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
 		//Do nothing
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceValue(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		}
+		if (governor == null) {
+			return false;
+		}
+
+		boolean isStringElement = reference.refersToStringElement();
+
+		return governor.checkThisValue(timestamp, this, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, true, false, false, isStringElement));
 	}
 
 	@Override

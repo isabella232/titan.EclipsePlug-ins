@@ -553,7 +553,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		value.setIsErroneous(false);
 
 		final Assignment assignment = getDefiningAssignment();
@@ -579,32 +579,35 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		check(timestamp);
 		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp) || getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
 		if (Value_type.OMIT_VALUE.equals(last.getValuetype()) && !valueCheckingOptions.omit_allowed) {
 			value.getLocation().reportSemanticError("`omit' value is not allowed in this context");
 			value.setIsErroneous(true);
-			return;
+			return false;
 		}
 
+		boolean selfReference = false;
 		switch (value.getValuetype()) {
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
 				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				checkThisReferencedValue(timestamp, last, valueCheckingOptions.expected_value, chain, valueCheckingOptions.sub_check,
+				selfReference = checkThisReferencedValue(timestamp, last, lhs, valueCheckingOptions.expected_value, chain, valueCheckingOptions.sub_check,
 						valueCheckingOptions.str_elem);
 				chain.release();
+				return selfReference;
 			}
-			return;
+			return false;
 		case REFERENCED_VALUE: {
 			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			checkThisReferencedValue(timestamp, value, valueCheckingOptions.expected_value, chain, valueCheckingOptions.sub_check,
+			selfReference = checkThisReferencedValue(timestamp, value, lhs, valueCheckingOptions.expected_value, chain, valueCheckingOptions.sub_check,
 					valueCheckingOptions.str_elem);
 			chain.release();
-			return;
+			return selfReference;
 		}
 		case EXPRESSION_VALUE:
+			selfReference = value.checkExpressionSelfReference(timestamp, lhs);
 			if (value.isUnfoldable(timestamp, null)) {
 				final Type_type temporalType = value.getExpressionReturntype(timestamp, valueCheckingOptions.expected_value);
 				if (!Type_type.TYPE_UNDEFINED.equals(temporalType)
@@ -612,10 +615,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					value.getLocation().reportSemanticError(MessageFormat.format(INCOMPATIBLEVALUE, getTypename()));
 					value.setIsErroneous(true);
 				}
-				return;
 			}
-			break;
+			return selfReference;
 		case MACRO_VALUE:
+			selfReference = value.checkExpressionSelfReference(timestamp, lhs);
 			if (value.isUnfoldable(timestamp, null)) {
 				final Type_type temporalType = value.getExpressionReturntype(timestamp, valueCheckingOptions.expected_value);
 				if (!Type_type.TYPE_UNDEFINED.equals(temporalType)
@@ -623,12 +626,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					value.getLocation().reportSemanticError(MessageFormat.format(INCOMPATIBLEVALUE, getTypename()));
 					value.setIsErroneous(true);
 				}
-				return;
+				return selfReference;
 			}
 			break;
 		default:
 			break;
 		}
+
+		return selfReference;
 	}
 
 	/**
@@ -638,6 +643,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                the timestamp of the actual semantic check cycle.
 	 * @param value
 	 *                the referenced value to be checked.
+	 * @param lhs
+	 *                the assignment to check against
 	 * @param expectedValue
 	 *                the expectations we have for the value.
 	 * @param referenceChain
@@ -645,15 +652,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param strElem
 	 *                true if the value to be checked is an element of a
 	 *                string
+	 * @return true if the value contains a reference to lhs
 	 * */
-	private void checkThisReferencedValue(final CompilationTimeStamp timestamp, final IValue value, final Expected_Value_type expectedValue,
+	private boolean checkThisReferencedValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain, final boolean subCheck, final boolean strElem) {
 		final Reference reference = ((Referenced_Value) value).getReference();
 		final Assignment assignment = reference.getRefdAssignment(timestamp, true, referenceChain);
 
 		if (assignment == null) {
 			value.setIsErroneous(true);
-			return;
+			return false;
 		}
 
 		final Assignment myAssignment = getDefiningAssignment();
@@ -665,6 +673,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		assignment.check(timestamp);
+		boolean selfReference = assignment == lhs;
+
 		boolean isConst = false;
 		boolean errorFlag = false;
 		boolean checkRunsOn = false;
@@ -681,7 +691,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				final ISetting setting = reference.getRefdSetting(timestamp);
 				if (setting == null || setting.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return;
+					return selfReference;
 				}
 
 				if (!Setting_type.S_V.equals(setting.getSettingtype())) {
@@ -689,7 +699,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 							MessageFormat.format("This InformationFromObjects construct does not refer to a value: {0}",
 									value.getFullName()));
 					value.setIsErroneous(true);
-					return;
+					return selfReference;
 				}
 
 				governor = ((Value) setting).getMyGovernor();
@@ -817,14 +827,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 								Expected_Value_type.EXPECTED_TEMPLATE.equals(expectedValue) ? "value or template"
 										: "value", assignment.getDescription()));
 				value.setIsErroneous(true);
-				return;
+				return selfReference;
 			default:
 				value.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to a {0} was expected instead of {1}",
 								Expected_Value_type.EXPECTED_TEMPLATE.equals(expectedValue) ? "value or template"
 										: "value", assignment.getDescription()));
 				value.setIsErroneous(true);
-				return;
+				return selfReference;
 			}
 		}
 
@@ -839,7 +849,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 		if (governor == null) {
 			value.setIsErroneous(true);
-			return;
+			return selfReference;
 		}
 
 		final TypeCompatibilityInfo info = new TypeCompatibilityInfo(this, governor, true);
@@ -905,7 +915,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		if (errorFlag) {
 			value.setIsErroneous(true);
-			return;
+			return selfReference;
 		}
 
 		// checking for circular references
@@ -915,6 +925,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				subType.checkThisValue(timestamp, value);
 			}
 		}
+
+		return selfReference;
 	}
 
 	@Override
@@ -1124,8 +1136,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public abstract void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit);
+	public abstract boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs);
 
 	@Override
 	/** {@inheritDoc} */

@@ -397,7 +397,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		checkModified(timestamp);
 		checkRecursiveDerivation(timestamp);
-		tempBody.checkThisTemplateGeneric(timestamp, type, derivedReference != null, true, true, true, hasImplicitOmitAttribute(timestamp));
+		tempBody.checkThisTemplateGeneric(timestamp, type, derivedReference != null, true, true, true, hasImplicitOmitAttribute(timestamp), null);
 
 		checkErroneousAttributes(timestamp);
 

@@ -160,7 +160,7 @@ public final class Value_Assignment extends ASN1Assignment {
 
 		value.setMyGovernor(type);
 		final IValue tempValue = type.checkThisValueRef(timestamp, value);
-		type.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, true,
+		type.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, true,
 				false));
 
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);

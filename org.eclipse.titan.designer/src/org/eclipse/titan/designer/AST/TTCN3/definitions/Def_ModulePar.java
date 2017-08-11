@@ -195,7 +195,7 @@ public final class Def_ModulePar extends Definition {
 		if (defaultValue != null) {
 			defaultValue.setMyGovernor(type);
 			final IValue temporalValue = type.checkThisValueRef(timestamp, defaultValue);
-			type.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false,
+			type.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false,
 					true, hasImplicitOmitAttribute(timestamp), false));
 		}
 	}

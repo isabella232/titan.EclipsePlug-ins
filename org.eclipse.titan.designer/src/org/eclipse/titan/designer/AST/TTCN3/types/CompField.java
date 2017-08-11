@@ -237,7 +237,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 		defaultValue.setMyGovernor(type);
 		final IType lastType = type.getTypeRefdLast(timestamp);
 		final IValue tempValue = lastType.checkThisValueRef(timestamp, defaultValue);
-		lastType.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, false, false));
+		lastType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, false, false));
 	}
 
 	@Override

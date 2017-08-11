@@ -54,6 +54,17 @@ public final class TimerReadExpression extends Expression_Value {
 		return Operation_type.TIMER_READ_OPERATION;
 	}
 
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (lhs == reference.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+
+		return false;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {

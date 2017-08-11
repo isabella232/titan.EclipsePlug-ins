@@ -101,7 +101,7 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 		final Integer_Type integer = new Integer_Type();
 		value.setMyGovernor(integer);
 		IValue last = integer.checkThisValueRef(timestamp, value);
-		integer.checkThisValue(timestamp, last, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
+		integer.checkThisValue(timestamp, last, null, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
 
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		last = last.getValueRefdLast(timestamp, chain);

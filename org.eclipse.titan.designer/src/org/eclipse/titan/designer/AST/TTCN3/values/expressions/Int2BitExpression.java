@@ -12,6 +12,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -59,6 +60,19 @@ public final class Int2BitExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.INT2BIT_OPERATION;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (value1 != null && value1.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+		if (value2 != null && value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	@Override

@@ -225,10 +225,10 @@ public final class Def_Var extends Definition {
 			initialValue.setMyGovernor(type);
 			final IValue temporalValue = type.checkThisValueRef(timestamp, initialValue);
 			if (isLocal()) {
-				type.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				type.checkThisValue(timestamp, temporalValue, this, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						true, false, true, false, false));
 			} else {
-				type.checkThisValue(timestamp, temporalValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_STATIC_VALUE,
+				type.checkThisValue(timestamp, temporalValue, this, new ValueCheckingOptions(Expected_Value_type.EXPECTED_STATIC_VALUE,
 						true, false, true, false, false));
 			}
 		}

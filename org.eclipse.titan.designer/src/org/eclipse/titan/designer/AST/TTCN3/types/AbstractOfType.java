@@ -19,6 +19,7 @@ import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -381,8 +382,10 @@ public abstract class AbstractOfType extends ASN1Type {
 	 *                true if the implicit omit optional attribute was set
 	 *                for the value, false otherwise
 	 * */
-	public void checkThisValueSetOf(final CompilationTimeStamp timestamp, final SetOf_Value value, final Expected_Value_type expectedValue,
+	public boolean checkThisValueSetOf(final CompilationTimeStamp timestamp, final SetOf_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
+		boolean selfReference = false;
+
 		if (value.isIndexed()) {
 			boolean checkHoles = Expected_Value_type.EXPECTED_CONSTANT.equals(expectedValue);
 			BigInteger maxIndex = BigInteger.valueOf(-1);
@@ -424,7 +427,7 @@ public abstract class AbstractOfType extends ASN1Type {
 
 				component.setMyGovernor(getOfType());
 				final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-				getOfType().checkThisValue(timestamp, tempValue2,
+				selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
 			if (checkHoles && maxIndex.compareTo(BigInteger.valueOf(indexMap.size() - 1)) != 0) {
@@ -440,13 +443,15 @@ public abstract class AbstractOfType extends ASN1Type {
 					}
 				} else {
 					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-					getOfType().checkThisValue(timestamp, tempValue2,
+					selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
 			}
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	@Override

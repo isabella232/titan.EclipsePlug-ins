@@ -265,6 +265,18 @@ public final class Template_List extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+			if(templates.getTemplateByIndex(i).checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkSpecificValue(final CompilationTimeStamp timestamp, final boolean allowOmit) {
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			templates.getTemplateByIndex(i).checkSpecificValue(timestamp, true);

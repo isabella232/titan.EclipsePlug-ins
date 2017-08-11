@@ -522,11 +522,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param value
 	 *                the value to be checked
+	 * @param lhs
+	 *                the assignment to check against
 	 * @param valueCheckingOptions
 	 *                the options according to which the given value should
 	 *                be evaluated
+	 * @return true if the value contains a reference to lhs
 	 * */
-	void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions);
+	boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions);
 
 	/**
 	 * Checks whether the provided template is a specific value and the
@@ -571,9 +574,12 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param implicitOmit
 	 *                true if the implicit omit optional attribute was set
 	 *                for the template, false otherwise
+	 * @param lhs
+	 *                the assignment to check against
+	 * @return true if the value contains a reference to lhs
 	 * */
-	void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
-			final boolean implicitOmit);
+	boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
+			final boolean implicitOmit, final Assignment lhs);
 
 	/**
 	 * Does the semantic checking of the provided template according to the

@@ -96,7 +96,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 			if (null != defaultValue) {
 				defaultValue.setMyGovernor(fixedType);
 				final IValue tempValue = fixedType.checkThisValueRef(timestamp, defaultValue);
-				fixedType.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT,
+				fixedType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT,
 						false, false, true, false, false));
 			}
 		}

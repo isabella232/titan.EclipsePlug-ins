@@ -299,7 +299,7 @@ public final class ExpressionUtilities {
 				if (Value_type.OMIT_VALUE.equals(operand2.getValuetype())) {
 					operand1.checkExpressionOmitComparison(timestamp, expectedValue);
 				} else {
-					type1.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(expectedValue, false, false, false,
+					type1.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(expectedValue, false, false, false,
 							false, false));
 					checkExpressionOperatorCompatibilityInternal(timestamp, expression, referenceChain, expectedValue, operand1,
 							tempValue);
@@ -312,7 +312,7 @@ public final class ExpressionUtilities {
 			if (Value_type.OMIT_VALUE.equals(operand1.getValuetype())) {
 				operand2.checkExpressionOmitComparison(timestamp, expectedValue);
 			} else {
-				type2.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(expectedValue, false, false, false, false, false));
+				type2.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(expectedValue, false, false, false, false, false));
 				checkExpressionOperatorCompatibilityInternal(timestamp, expression, referenceChain, expectedValue, tempValue,
 						operand2);
 				return;
@@ -480,7 +480,7 @@ public final class ExpressionUtilities {
 										.getValuetype()))) {
 					operand1.checkExpressionOmitComparison(timestamp, expectedValue);
 				} else {
-					type1.checkThisTemplate(timestamp, tempValue, false, false);
+					type1.checkThisTemplate(timestamp, tempValue, false, false, null);
 					final TemplateInstance tempTemplateInstance2 = new TemplateInstance(operand2.getType(),
 							operand2.getDerivedReference(), (TTCN3Template) tempValue);
 					if (operand2 == tempTemplateInstance2) {
@@ -498,7 +498,7 @@ public final class ExpressionUtilities {
 				// temp2.check_expression_omit_comparison(timestamp,
 				// expectedValue); ???
 			} else {
-				type2.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(expectedValue, false, false, false, false, false));
+				type2.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(expectedValue, false, false, false, false, false));
 				checkExpressionOperatorCompatibilityInternal(timestamp, expression, referenceChain, expectedValue, tempValue,
 						operand2);
 				return;

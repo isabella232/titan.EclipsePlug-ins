@@ -229,7 +229,7 @@ public final class Getcall_Statement extends Statement {
 				signature = signature.getTypeRefdLast(timestamp);
 				switch (signature.getTypetype()) {
 				case TYPE_SIGNATURE:
-					((Signature_Type) signature).checkThisTemplate(timestamp, parameter.getTemplateBody(), false, false);
+					((Signature_Type) signature).checkThisTemplate(timestamp, parameter.getTemplateBody(), false, false, null);
 					if (redirect != null) {
 						redirect.check(timestamp, (Signature_Type) signature, false);
 					}

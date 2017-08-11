@@ -26,7 +26,7 @@ public class TitanHexString_Element {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		if (str_val == null) {
@@ -38,7 +38,6 @@ public class TitanHexString_Element {
 			sb.append(TitanHexString.HEX_DIGITS.charAt(digit));
 		return sb.toString();
 	}
-	
 
 	//originally operator=
 	public TitanHexString_Element assign( final TitanHexString_Element other_value ) {

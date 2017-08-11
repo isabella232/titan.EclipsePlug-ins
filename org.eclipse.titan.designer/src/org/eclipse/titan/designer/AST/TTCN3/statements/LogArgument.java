@@ -99,6 +99,11 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 		return location;
 	}
 
+	public InternalLogArgument getRealArgument() {
+		// has to be checked at this time
+		return internalLogArgument;
+	}
+
 	/**
 	 * Does the semantic checking of the log argument. This is the main
 	 * entry point.
@@ -200,7 +205,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 
 		//TODO: Is the next part necessary ???
 		temp.setMyGovernor(governor);
-		governor.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, true, true, true, true, false));//TODO:WHY
+		governor.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, true, true, true, true, false));//TODO:WHY
 
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		if (ArgumentType.Value.equals(internalLogArgument.getArgumentType()) && !temp.isUnfoldable(timestamp)) {

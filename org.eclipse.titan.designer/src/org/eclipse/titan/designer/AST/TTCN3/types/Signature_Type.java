@@ -16,6 +16,7 @@ import java.util.Set;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -330,26 +331,26 @@ public final class Signature_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final ValueCheckingOptions valueCheckingOptions) {
+	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
 		if (getIsErroneous(timestamp)) {
-			return;
+			return false;
 		}
 
-		super.checkThisValue(timestamp, value, valueCheckingOptions);
+		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
-			return;
+			return selfReference;
 		}
 
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
 		case REFERENCED_VALUE:
-			return;
+			return selfReference;
 		case UNDEFINED_LOWERIDENTIFIER_VALUE:
 			if (Value_type.REFERENCED_VALUE.equals(last.getValuetype())) {
-				return;
+				return selfReference;
 			}
 			break;
 		default:
@@ -358,14 +359,14 @@ public final class Signature_Type extends Type {
 
 		switch (last.getValuetype()) {
 		case SEQUENCE_VALUE:
-			checkThisValueSequence(
-					timestamp, (Sequence_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueSequence(
+					timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case SEQUENCEOF_VALUE:
 			last = last.setValuetype(timestamp, Value_type.SEQUENCE_VALUE);
-			checkThisValueSequence(
-					timestamp, (Sequence_Value) last, valueCheckingOptions.expected_value,
+			selfReference = checkThisValueSequence(
+					timestamp, (Sequence_Value) last, lhs, valueCheckingOptions.expected_value,
 					valueCheckingOptions.incomplete_allowed, valueCheckingOptions.implicit_omit, valueCheckingOptions.str_elem);
 			break;
 		case EXPRESSION_VALUE:
@@ -378,6 +379,8 @@ public final class Signature_Type extends Type {
 		}
 
 		value.setLastTimeChecked(timestamp);
+
+		return selfReference;
 	}
 
 	/**
@@ -393,8 +396,9 @@ public final class Signature_Type extends Type {
 	 * @param implicitOmit true if the implicit omit optional attribute was set
 	 *            for the value, false otherwise
 	 * */
-	private void checkThisValueSequence(final CompilationTimeStamp timestamp, final Sequence_Value value, final Expected_Value_type expectedValue,
+	private boolean checkThisValueSequence(final CompilationTimeStamp timestamp, final Sequence_Value value, final Assignment lhs, final Expected_Value_type expectedValue,
 			final boolean incompleteAllowed, final boolean implicitOmit, final boolean strElem) {
+		boolean selfReference = false;
 		final Map<String, NamedValue> componentMap = new HashMap<String, NamedValue>();
 		boolean inSnyc = true;
 		final int nofTypeComponents = getNofParameters();
@@ -455,7 +459,7 @@ public final class Signature_Type extends Type {
 			if (componentValue != null) {
 				componentValue.setMyGovernor(type);
 				final IValue tempValue = type.checkThisValueRef(timestamp, componentValue);
-				type.checkThisValue(timestamp, tempValue, new ValueCheckingOptions(expectedValue, false, false, true, implicitOmit, strElem));
+				selfReference = type.checkThisValue(timestamp, tempValue, lhs, new ValueCheckingOptions(expectedValue, false, false, true, implicitOmit, strElem));
 			}
 		}
 
@@ -469,22 +473,25 @@ public final class Signature_Type extends Type {
 				}
 			}
 		}
+
+		return selfReference;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
-			final boolean isModified, final boolean implicitOmit) {
+	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
+			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case TEMPLATE_LIST:
 			final ITTCN3Template transformed = template.setTemplatetype(timestamp, Template_type.NAMED_TEMPLATE_LIST);
-			checkThisNamedTemplateList(timestamp, (Named_Template_List) transformed, isModified);
+			selfReference = checkThisNamedTemplateList(timestamp, (Named_Template_List) transformed, isModified, lhs);
 			break;
 		case NAMED_TEMPLATE_LIST:
-			checkThisNamedTemplateList(timestamp, (Named_Template_List) template, isModified);
+			selfReference = checkThisNamedTemplateList(timestamp, (Named_Template_List) template, isModified, lhs);
 			break;
 		case SPECIFIC_VALUE:
 			((SpecificValue_Template) template).checkSpecificValue(timestamp,false);
@@ -497,17 +504,19 @@ public final class Signature_Type extends Type {
 		if (template.getLengthRestriction() != null) {
 			template.getLocation().reportSemanticError(MessageFormat.format(LENGTHRESTRICTIONNOTALLOWED, getTypename()));
 		}
+
+		return selfReference;
 	}
 
 	//see void Type::chk_this_template_Signature(Template *t, namedbool incomplete_allowed) in Type_chk.cc
-	private void checkThisNamedTemplateList(final CompilationTimeStamp timestamp, final Named_Template_List template, final boolean isModified) {
+	private boolean checkThisNamedTemplateList(final CompilationTimeStamp timestamp, final Named_Template_List template, final boolean isModified, final Assignment lhs) {
 		final Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
 		boolean inSynch = true;
 		final int nofTypeParameters =  getNofParameters();  //TODO:  alternatives:formalParList.getNofInParameters(); formalParList.getNofOutParameters()
 		final int nofTemplateComponents = template.getNofTemplates();
 
 		int tI = 0;
-
+		boolean selfReference = false;
 		for (int vI = 0; vI < nofTemplateComponents; vI++) {
 			final NamedTemplate namedTemplate = template.getTemplateByIndex(vI);
 			final Identifier identifier = namedTemplate.getName();
@@ -545,7 +554,7 @@ public final class Signature_Type extends Type {
 				ITTCN3Template componentTemplate = namedTemplate.getTemplate();
 				componentTemplate.setMyGovernor(parameterType); //FIXME: will be overwritten?
 				componentTemplate = parameterType.checkThisTemplateRef(timestamp, componentTemplate);
-				componentTemplate.checkThisTemplateGeneric(timestamp, parameterType, isModified, false, false, true, false);
+				selfReference = componentTemplate.checkThisTemplateGeneric(timestamp, parameterType, isModified, false, false, true, false, lhs);
 			} else {
 				namedTemplate.getLocation().reportSemanticError(
 						MessageFormat.format(NONEXISTENTPARAMETER, identifier.getDisplayName(), getTypename()));
@@ -587,6 +596,8 @@ public final class Signature_Type extends Type {
 								.getDisplayName()));
 			}
 		}
+
+		return selfReference;
 	}
 
 	@Override

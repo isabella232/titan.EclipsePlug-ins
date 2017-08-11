@@ -11,6 +11,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -168,6 +169,26 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		}
 
 		return Type_type.TYPE_UNDEFINED;
+	}
+
+	/**
+	 * Check that the value range - being used as the RHS - refers to the LHS of the assignment.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param lhs
+	 *                the assignment to check against
+	 * @return true if self-assignment
+	 * */
+	public boolean checkExpressionSelfReferenceValue(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (min != null && min.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+		if (max != null && max.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

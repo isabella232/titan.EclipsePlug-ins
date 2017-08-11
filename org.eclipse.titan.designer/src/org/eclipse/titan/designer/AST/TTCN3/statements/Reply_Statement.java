@@ -209,7 +209,7 @@ public final class Reply_Statement extends Statement {
 			if (replyValue != null && returnType != null) {
 				replyValue.setMyGovernor(returnType);
 				final IValue temp = returnType.checkThisValueRef(timestamp, replyValue);
-				returnType.checkThisValue(timestamp, temp, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				returnType.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						false, false, true, false, false));
 			}
 

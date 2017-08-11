@@ -10,15 +10,23 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.statements.InternalLogArgument;
 import org.eclipse.titan.designer.AST.TTCN3.statements.LogArguments;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Match_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Reference_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.statements.TemplateInstance_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Value_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -44,6 +52,50 @@ public final class Log2StrExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public Operation_type getOperationType() {
 		return Operation_type.LOG2STR_OPERATION;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		for(int i = 0; i < logArguments.getNofLogArguments(); i++) {
+			InternalLogArgument logArgument = logArguments.getLogArgumentByIndex(i).getRealArgument();
+
+			if (logArgument == null) {
+				continue;
+			}
+			switch(logArgument.getArgumentType()) {
+			case Macro:
+			case String:
+				//self reference not possible
+				break;
+			case Value:
+				if (((Value_InternalLogArgument)logArgument).getValue().checkExpressionSelfReferenceValue(timestamp, lhs)) {
+					return true;
+				}
+				break;
+			case Match:
+				if (((Match_InternalLogArgument)logArgument).getMatchExpression().checkExpressionSelfReferenceValue(timestamp, lhs)) {
+					return true;
+				}
+				break;
+			case Reference:{
+				Reference reference = ((Reference_InternalLogArgument) logArgument).getReference();
+				if (lhs == reference.getRefdAssignment(timestamp, false)) {
+					return true;
+				}
+				break;
+			}
+			case TemplateInstance: {
+				TTCN3Template template = ((TemplateInstance_InternalLogArgument) logArgument).getTemplate().getTemplateBody();
+				if (template.checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+					return true;
+				}
+				break;
+			}
+			}
+		}
+
+		return false;
 	}
 
 	@Override

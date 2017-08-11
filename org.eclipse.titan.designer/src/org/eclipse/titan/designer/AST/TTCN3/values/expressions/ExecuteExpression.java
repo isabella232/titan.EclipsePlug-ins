@@ -66,6 +66,19 @@ public final class ExecuteExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (lhs == reference.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+		if (timerValue != null && timerValue.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("execute(");
 		if (reference != null) {

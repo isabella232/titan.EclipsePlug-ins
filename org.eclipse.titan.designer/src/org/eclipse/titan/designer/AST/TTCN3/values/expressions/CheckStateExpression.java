@@ -82,6 +82,19 @@ public final class CheckStateExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		if (lhs == portReference.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+		if (value != null && value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
 		builder.append(portReference.getDisplayName());

@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -301,6 +302,18 @@ public final class Indexed_Template_List extends TTCN3Template {
 		asValue.setMyScope(getMyScope());
 		asValue.setFullNameParent(getNameParent());
 		return asValue;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean checkExpressionSelfReferenceTemplate(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		for (int i = 0, size = indexedTemplates.getNofTemplates(); i < size; i++) {
+			if(indexedTemplates.getTemplateByIndex(i).getTemplate().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class TitanOctetString_Element {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

@@ -216,7 +216,7 @@ public final class Def_Var_Template extends Definition {
 		}
 
 		final ITTCN3Template temporalValue = type.checkThisTemplateRef(timestamp, realInitialValue);
-		temporalValue.checkThisTemplateGeneric(timestamp, type, true, true, true, true, false);
+		temporalValue.checkThisTemplateGeneric(timestamp, type, true, true, true, true, false, this);
 		TemplateRestriction.check(timestamp, this, initialValue, null);
 
 		// Only to follow the pattern, otherwise no such field can exist
