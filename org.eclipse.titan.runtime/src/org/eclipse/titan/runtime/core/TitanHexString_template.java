@@ -16,7 +16,7 @@ import java.util.List;
  * @author Arpad Lovassy
  * @author Gergo Ujhelyi
  */
-public class TitanHexString_template extends Base_Template {
+public class TitanHexString_template extends Restricted_Length_Template {
 
 	private TitanHexString single_value;
 
@@ -275,8 +275,7 @@ public class TitanHexString_template extends Base_Template {
 		default:
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported hexstring template.");
 		}
-		// TODO: implement check_section_is_single()
-		return new TitanInteger(min_length);
+		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a" , "hexstring template"));
 	}
 
 	// originally set_type
