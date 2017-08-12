@@ -141,11 +141,8 @@ public final class Any_Value_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		source.append(name);
-		source.append(".assign( ");
-		source.append(getSingleExpression(aData, false));
-		source.append( " );\n" );
-		// TODO:  missing parts need to be completed
+
+		source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
 
 		if (isIfpresent) {
 			source.append(name);
