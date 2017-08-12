@@ -26,6 +26,8 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Integer_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -347,5 +349,20 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lower != null) {
+			ExpressionStruct expression = new ExpressionStruct();
+			lower.generateCodeExpression(aData, expression);
+			source.append(MessageFormat.format("{0}.setMinLength({1});\n", name, expression.expression));
+		}
+		if (upper != null) {
+			ExpressionStruct expression = new ExpressionStruct();
+			upper.generateCodeExpression(aData, expression);
+			source.append(MessageFormat.format("{0}.setMaxLength({1});\n", name, expression.expression));
+		}
 	}
 }

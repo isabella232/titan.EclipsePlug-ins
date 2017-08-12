@@ -26,6 +26,8 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Integer_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -218,5 +220,22 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		ExpressionStruct expression = new ExpressionStruct();
+		value.generateCodeExpression(aData, expression);
+
+		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			source.append("{\n");
+			source.append(expression.preamble);
+			source.append(MessageFormat.format("{0}.setSingleLength({1});\n", name, expression.expression));
+			source.append(expression.postamble);
+			source.append("}\n");
+		} else {
+			source.append(MessageFormat.format("{0}.setSingleLength({1});\n", name, expression.expression));
+		}
 	}
 }

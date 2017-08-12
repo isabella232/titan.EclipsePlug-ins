@@ -294,5 +294,14 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 				}
 			}
 		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }

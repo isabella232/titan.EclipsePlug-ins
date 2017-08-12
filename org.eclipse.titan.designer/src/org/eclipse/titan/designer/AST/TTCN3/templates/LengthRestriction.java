@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -109,4 +110,14 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 	 * */
 	@Override
 	public abstract void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException;
+
+	/**
+	 * Add generated java code for length restriction.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param name the name to init
+	 */
+	public abstract void generateCodeInit( final JavaGenData aData, final StringBuilder source, final String name );
+
 }

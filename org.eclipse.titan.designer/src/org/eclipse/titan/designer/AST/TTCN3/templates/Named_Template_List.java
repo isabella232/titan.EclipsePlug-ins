@@ -636,5 +636,14 @@ public final class Named_Template_List extends TTCN3Template {
 				namedTemplate.getTemplate().generateCodeInit(aData, source, embeddedName);
 			}
 		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }

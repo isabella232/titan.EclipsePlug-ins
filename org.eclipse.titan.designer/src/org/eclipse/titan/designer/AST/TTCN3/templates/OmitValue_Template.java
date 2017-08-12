@@ -207,7 +207,10 @@ public final class OmitValue_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
-		//TODO missing parts need to be completed
+
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
 
 		if (isIfpresent) {
 			source.append(name);

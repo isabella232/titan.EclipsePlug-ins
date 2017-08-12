@@ -214,7 +214,9 @@ public final class Value_Range_Template extends TTCN3Template {
 			valueRange.generateCodeInit(aData, source, name);
 		}
 
-		// TODO:  missing parts need to be completed
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
 
 		if (isIfpresent) {
 			source.append(name);

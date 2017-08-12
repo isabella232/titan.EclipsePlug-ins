@@ -501,5 +501,14 @@ public final class Indexed_Template_List extends TTCN3Template {
 			indexedTemplate.getTemplate().generateCodeInit(aData, source, tempId);
 			source.append("}\n");
 		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }

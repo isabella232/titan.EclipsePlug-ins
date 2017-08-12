@@ -229,7 +229,10 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			String embeddedName = name + ".listItem(" + i + ")";
 			template.generateCodeInit(aData, source, embeddedName);
 		}
-		// TODO:  missing parts need to be completed
+
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
 
 		if (isIfpresent) {
 			source.append(name);

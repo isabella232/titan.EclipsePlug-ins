@@ -144,6 +144,10 @@ public final class Any_Value_Template extends TTCN3Template {
 
 		source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
 
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
 		if (isIfpresent) {
 			source.append(name);
 			source.append(".set_ifPresent();\n");

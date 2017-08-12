@@ -190,7 +190,10 @@ public final class ValueList_Template extends CompositeTemplate {
 			String embeddedName = name + ".listItem(" + i + ")";
 			template.generateCodeInit(aData, source, embeddedName);
 		}
-		// TODO:  missing parts need to be completed
+
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
 
 		if (isIfpresent) {
 			source.append(name);

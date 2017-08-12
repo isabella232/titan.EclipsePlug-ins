@@ -639,6 +639,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 			specificValue.generateCodeInit( aData, source, name );
 		}
 
+		if (lengthRestriction != null) {
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
 		if (isIfpresent) {
 			source.append(name);
 			source.append(".set_ifPresent();\n");
