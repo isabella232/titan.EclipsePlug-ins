@@ -51,7 +51,7 @@ public final class ExtensionAttributeAnalyzer {
 		TitanListener lexerListener = new TitanListener();
 		lexer.removeErrorListeners();
 		lexer.addErrorListener(lexerListener);
-		
+
 		// 1. Previously it was UnbufferedTokenStream(lexer), but it was changed to BufferedTokenStream, because UnbufferedTokenStream seems to be unusable. It is an ANTLR 4 bug.
 		// Read this: https://groups.google.com/forum/#!topic/antlr-discussion/gsAu-6d3pKU
 		// pr_PatternChunk[StringBuilder builder, boolean[] uni]:
@@ -61,11 +61,11 @@ public final class ExtensionAttributeAnalyzer {
 
 		ExtensionAttributeParser parser = new ExtensionAttributeParser( tokenStream );
 		parser.setBuildParseTree(false);
-		
+
 		TitanListener parserListener = new TitanListener();
 		parser.removeErrorListeners();
 		parser.addErrorListener(parserListener);
-		
+
 		parser.setActualFile((IFile)location.getFile());
 		parser.setLine(location.getLine());
 		parser.setOffset(location.getOffset() + 1);

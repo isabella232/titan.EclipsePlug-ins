@@ -122,7 +122,7 @@ public final class Stop_Timer_Statement extends Statement {
 			final ExpressionStruct expression = new ExpressionStruct();
 			timerReference.generateCode(aData, expression);
 			expression.expression.append(".stop()");
-	
+
 			expression.mergeExpression(source);
 		}
 	}

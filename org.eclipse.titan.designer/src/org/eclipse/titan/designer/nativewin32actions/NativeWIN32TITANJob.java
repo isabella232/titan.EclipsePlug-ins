@@ -61,7 +61,7 @@ public final class NativeWIN32TITANJob extends TITANJob {
 		final IPreferencesService service = Platform.getPreferencesService();
 		final String pathOfTITAN = service.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "",
 				null);
-		
+
 		final Map<String, String> env = pb.environment();
 		if(License.isLicenseNeeded()) {
 			final String licenseFilePath = 

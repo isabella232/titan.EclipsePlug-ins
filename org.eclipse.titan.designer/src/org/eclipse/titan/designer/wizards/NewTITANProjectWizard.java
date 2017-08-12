@@ -254,13 +254,13 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		
+
 		try {
 			TITANNature.addTITANBuilderToProject(newProject);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		
+
 		BasicNewProjectResourceWizard.updatePerspective(config);
 		selectAndReveal(newProject);
 

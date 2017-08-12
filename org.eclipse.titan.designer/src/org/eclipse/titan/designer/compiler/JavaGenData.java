@@ -13,19 +13,19 @@ public class JavaGenData {
 
 	/** the java source file without the import part */
 	private StringBuilder mSrc;
-	
+
 	/** the contents of pre_init */
 	private StringBuilder preInit;
-	
+
 	/** the contents of post_init */
 	private StringBuilder postInit;
-	
+
 	/** the contents of init_comp_type */
 	private StringBuilder initComp;
 
 	/** The imports with short class names */
 	private Set<String> mImports;
-	
+
 	/** The imports with short class names */
 	private Set<String> mInternalImports;
 
@@ -38,7 +38,7 @@ public class JavaGenData {
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
 	private boolean mDebug;
-	
+
 	/**
 	 * internal variable used to generate temporal helper variables with unique names.
 	 * */
@@ -67,7 +67,7 @@ public class JavaGenData {
 		types.put(typeName, temp);
 		return temp;
 	}
-	
+
 	/**
 	 * @return the string where new java code is written
 	 */
@@ -81,18 +81,18 @@ public class JavaGenData {
 	public StringBuilder getPreInit() {
 		return preInit;
 	}
-	
+
 	/**
 	 * @return the string where new post init code is written
 	 */
 	public StringBuilder getPostInit() {
 		return postInit;
 	}
-	
+
 	public StringBuilder getInitComp() {
 		return initComp;
 	}
-	
+
 	/**
 	 * Adds a new import
 	 * @param aNewImport the new import with short class name. It is ignored in case of duplicate.
@@ -100,7 +100,7 @@ public class JavaGenData {
 	public void addImport( final String aNewImport ) {
 		mImports.add( aNewImport );
 	}
-	
+
 	/**
 	 * Adds a new built in type import
 	 * @param aNewImport the new import with short class name. It is ignored in case of duplicate.
@@ -135,7 +135,7 @@ public class JavaGenData {
 	public HashMap<String, StringBuilder> getTypes() {
 		return types;
 	}
-	
+
 	/**
 	 * @return the internal imports with short class names in alphabetical order
 	 */
@@ -170,7 +170,7 @@ public class JavaGenData {
 		StringBuilder builder = new StringBuilder("tmp_");
 		tempVariableCounter++;
 		builder.append(tempVariableCounter);
-		
+
 		return builder.toString();
 	}
 }

@@ -30,16 +30,16 @@ public final class NewConfigFileCreationWizardPage extends WizardNewFileCreation
 
 	/** Error message for new cfg file name validation for case of empty name */
 	private static final String EMPTYCFGFILENAMEERROR = "Configuration files must have a name.";
-	
+
 	/** Error message for new cfg file name validation for case of invalid name. Valid name must match CFGFILENAMEREGEXP */
 	private static final String INVALIDCFGFILENAME = "Invalid configuration file name {0}";
-	
+
 	/** Pattern string for new cfg file validation */
 	private static final String CFGFILENAMEREGEXP = "[a-zA-Z][a-zA-Z_0-9]*";
-	
+
 	/** Pattern for new cfg file validation */
 	private static final Pattern CFGFILENAMEPATTERN = Pattern.compile(CFGFILENAMEREGEXP);
-	
+
 	private final NewConfigFileWizard wizard;
 
 	public NewConfigFileCreationWizardPage(final IStructuredSelection selection, final NewConfigFileWizard wizard) {

@@ -607,22 +607,22 @@ public final class Assignment_Statement extends Statement {
 			ExpressionStruct leftExpression = new ExpressionStruct();
 			reference.generateCode(aData, leftExpression);
 			source.append(leftExpression.preamble);
-	
+
 			StringBuilder rightSide;
 			TTCN3Template lastTemplate = template.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 			if (lastTemplate instanceof SpecificValue_Template) {
 				IValue value = ((SpecificValue_Template) lastTemplate).getValue();
-	
-				
+
+
 				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 				referenceChain.release();
-	
+
 				rightSide = last.generateSingleExpression(aData);
 			} else {
 				rightSide = lastTemplate.getSingleExpression(aData, false);
 			}
-	
+
 			source.append(leftExpression.expression);
 			source.append( ".assign( " );
 			source.append(rightSide);

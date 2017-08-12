@@ -440,7 +440,7 @@ public final class License {
 
 		return builder.toString();
 	}
-	
+
 	/**
 	 * @return if usage statistics is sent
 	 */

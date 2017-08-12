@@ -45,7 +45,7 @@ public final class PreferenceConstants {
 	public static final String EXPORT_PACK_ALL_PROJECTS_INTO_ONE = ProductConstants.PRODUCT_ID_DESIGNER + ".packAllProjectsIntoOne";
 	public static final String USE_TPD_NAME = ProductConstants.PRODUCT_ID_DESIGNER + ".useTpdName";
 	public static final String ORIG_TPD_URI = ProductConstants.PRODUCT_ID_DESIGNER + ".origTpdURI";
-	
+
 	/**
 	 * Flag: Automatic export required
 	 */
@@ -54,7 +54,7 @@ public final class PreferenceConstants {
 	 * Flag: Requests new location for the tpds at the first automatic save. "true" if yes, "false" otherwise
 	 */
 	public static final String EXPORT_REQUEST_LOCATION = ProductConstants.PRODUCT_ID_DESIGNER + ".requestLocation";
-	
+
 	// folding
 	public static final String FOLDING_ENABLED = ProductConstants.PRODUCT_ID_DESIGNER + ".foldingEnabledPreference";
 	public static final String FOLD_COMMENTS = ProductConstants.PRODUCT_ID_DESIGNER + ".foldComments";
@@ -247,7 +247,7 @@ public final class PreferenceConstants {
 	public static final String DEBUG_LOAD_THREAD_PRIORITY = DEBUG + ".load.threadPriority";
 	public static final String DEBUG_LOAD_SLEEP_BETWEEN_FILES = DEBUG + ".load.sleepBetweenFiles";
 	public static final String DEBUG_LOAD_YIELD_BETWEEN_CHECKS = DEBUG + ".load.yieldBetweenChecks";
-	
+
 
 	/** private constructor to disable instantiation */
 	private PreferenceConstants() {

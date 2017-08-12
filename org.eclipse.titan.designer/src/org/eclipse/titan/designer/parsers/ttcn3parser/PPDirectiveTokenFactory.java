@@ -31,7 +31,7 @@ public class PPDirectiveTokenFactory implements TokenFactory<CommonToken>{
 	public PPDirectiveTokenFactory (boolean copyText, Token token) { 
 		this.copyText = copyText;
 		this.token = token;
-	}	
+	}
 
 	@Override
 	public CommonToken create(int type, String text) {

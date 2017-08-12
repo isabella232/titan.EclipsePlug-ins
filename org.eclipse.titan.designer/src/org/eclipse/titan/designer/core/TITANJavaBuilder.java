@@ -48,11 +48,11 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 		final SubMonitor progress = SubMonitor.convert(monitor);
 		progress.beginTask("Build", 2);
-		
+
 		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(project);
 		//TODO: this is temporary code!
 		sourceParser.makefileCreatingAnalyzeAll();
-		
+
 		progress.worked(1);
 
 		IProgressMonitor codeGeneratorMonitor = progress.newChild(1);
@@ -76,7 +76,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 		codeGeneratorMonitor.worked(1);
 		codeGeneratorMonitor.done();
-		
+
 		return null;
 	}
 

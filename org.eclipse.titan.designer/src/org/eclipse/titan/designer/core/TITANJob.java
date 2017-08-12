@@ -221,7 +221,7 @@ public class TITANJob extends WorkspaceJob {
 			}
 			return Status.CANCEL_STATUS;
 		}
-		
+
 
 		internalMonitor.beginTask(getName(), commands.size());
 		Activator.getDefault().pauseHandlingResourceChanges();
@@ -233,7 +233,7 @@ public class TITANJob extends WorkspaceJob {
 		Process proc = null;
 
 		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream(); 
-		
+
 		String line;
 		BufferedReader stdout;
 
@@ -316,12 +316,12 @@ public class TITANJob extends WorkspaceJob {
 					TITANConsole.println(line,stream);
 				}
 				int exitval = proc.waitFor();
-				
+
 				if ((exitval == 0) && (analyzer.hasProcessedErrorMessages())) {
 					//make returns error if there was a linker error, but does not propagate the error code
 					exitval = analyzer.getExternalErrorCode();
 				}
-				
+
 				if (exitval != 0) {
 					TITANConsole.println(FAILURE + exitval,stream);
 					if (!analyzer.hasProcessedErrorMessages()) {

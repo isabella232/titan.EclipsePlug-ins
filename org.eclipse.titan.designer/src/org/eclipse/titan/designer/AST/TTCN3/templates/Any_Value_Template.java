@@ -105,7 +105,7 @@ public final class Any_Value_Template extends TTCN3Template {
 		usageLocation.reportSemanticError(MessageFormat.format(RESTRICTIONERROR, definitionName, getTemplateTypeName()));
 		return false;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {

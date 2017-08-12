@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.AST.Location;
  * @author Kristof Szabados
  */
 public final class ParserMarkerSupport {
-	
+
 	// disabled constructor
 	private ParserMarkerSupport() {
 		//Do nothing
@@ -149,7 +149,7 @@ public final class ParserMarkerSupport {
 		location.reportSingularExternalProblem(message, severity, GeneralConstants.ONTHEFLY_MIXED_MARKER);
 	}
 
-	
+
 	public static void createOnTheFlySyntacticMarker(final IFile file, final SyntacticErrorStorage errorStorage, final int severity) {
 		if (!file.isAccessible()) {
 			return;
@@ -183,7 +183,7 @@ public final class ParserMarkerSupport {
 					ErrorReporter.logExceptionStackTrace(e);
 				}
 			}
-		
+
 			Location location = new Location(file, lineNumber, charStart, charEnd);
 			location.reportSingularExternalProblem(message, severity, GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
 		} catch (CoreException e) {
@@ -240,7 +240,7 @@ public final class ParserMarkerSupport {
 					ErrorReporter.logExceptionStackTrace(e);
 				}
 			}
-		
+
 			Location location = new Location(file, lineNumber, charStart, charEnd);
 			location.reportSingularExternalProblem(message, severity, GeneralConstants.ONTHEFLY_MIXED_MARKER);
 		} catch (CoreException e) {

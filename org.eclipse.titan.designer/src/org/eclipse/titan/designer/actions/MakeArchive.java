@@ -36,7 +36,7 @@ public final class MakeArchive extends ExternalTitanAction {
 	public void run(IAction action) {
 		doMakeArchive();
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
@@ -60,7 +60,7 @@ public final class MakeArchive extends ExternalTitanAction {
 			TITANConsole.println("Make archive works only for single selected project");
 			return;
 		}
-			
+
 		final File binDir = new File( singleSelectedProject.getLocation().toFile(), BIN_SUBPATH );
 		final TITANJob titanJob = new TITANJob( JOB_TITLE, new HashMap<String, IFile>(), binDir, project );
 		titanJob.setPriority( Job.DECORATE );

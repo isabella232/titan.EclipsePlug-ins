@@ -311,7 +311,7 @@ public final class Reply_Statement extends Statement {
 			replyValue.generateCodeExpression(aData, expression);
 			expression.expression.append(')');
 		}
-	
+
 		if (toClause != null) {
 			expression.expression.append(", ");
 			toClause.generateCodeExpression(aData, expression);

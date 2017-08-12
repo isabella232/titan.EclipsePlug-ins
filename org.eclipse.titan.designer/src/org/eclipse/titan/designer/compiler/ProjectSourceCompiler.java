@@ -50,7 +50,7 @@ public class ProjectSourceCompiler {
 			// TODO semantic errors need to be checked for severity
 			return;
 		}
-		
+
 		JavaGenData data = new JavaGenData();
 		data.setDebug( aDebug );
 		aModule.generateCode( data );
@@ -58,13 +58,13 @@ public class ProjectSourceCompiler {
 		//write imports
 		StringBuilder headerSb = new StringBuilder();
 		writeHeader( headerSb, data );
-		
+
 		for(StringBuilder typeString: data.getTypes().values()) {
 			data.getSrc().append(typeString);
 		}
 
 		writeFooter(data);
-		
+
 
 		//write src file body
 		IProject project  = aModule.getProject();
@@ -119,7 +119,7 @@ public class ProjectSourceCompiler {
 		for ( Module module : modules ) {
 			contentBuilder.append(MessageFormat.format("import {0}.{1};\n", PACKAGE_GENERATED_ROOT, module.getIdentifier().getName()));
 		}
-		
+
 		contentBuilder.append( "public class Single_main {\n\n" );
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
 		contentBuilder.append("long absoluteStart = System.nanoTime();");
@@ -222,7 +222,7 @@ public class ProjectSourceCompiler {
 		aSb.append( "package " );
 		aSb.append( PACKAGE_GENERATED_ROOT );
 		aSb.append( ";\n\n" );
-		
+
 		for ( String importName : aData.getInternalImports() ) {
 			aSb.append( "import " );
 			aSb.append( PACKAGE_RUNTIME_ROOT );
@@ -240,7 +240,7 @@ public class ProjectSourceCompiler {
 		}
 		aSb.append( "\n" );
 	}
-	
+
 	/**
 	 * Builds footer part of the java source file.
 	 * <ul>
@@ -262,15 +262,15 @@ public class ProjectSourceCompiler {
 		aSb.append("public void post_init_module()").append("\n" );
 		aSb.append("{").append("\n" );
 		aSb.append(aData.getPostInit());
-		aSb.append("").append("\n" );	
+		aSb.append("").append("\n" );
 		aSb.append("}").append("\n" );
-		
+
 		aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps)\n");
 		aSb.append("{\n");
 		aSb.append(aData.getInitComp());
 		aSb.append("return false;\n");
 		aSb.append("}\n");
-		
+
 		aSb.append( "}\n" );
 	}
 

@@ -194,7 +194,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 		if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITANACTIONS_DEFAULT_AS_OMIT, false, null)) {
 			builder.append('d');
 		}
-		
+
 		return builder.toString();
 	}
 

@@ -131,7 +131,7 @@ public final class MakefileCreationTab {
 		singleModeButton = new Button(automaticBuildPropertiesComposite, SWT.CHECK);
 		singleModeButton.setText("generate Makefile for single mode");
 
-		//codeSplitting	
+		//codeSplitting
 		codeSplittingGroup = new Group(automaticBuildPropertiesComposite, SWT.NONE);
 		codeSplittingGroup.setText("Code Splitting (-U)");
 		final GridLayout layout = new GridLayout();
@@ -537,9 +537,9 @@ public final class MakefileCreationTab {
 			setProperty(project, MakefileCreationData.FUNCTIONTESTRUNTIME_PROPERTY, functionTestRuntimeButton.getSelection() ? "true"
 					: "false");
 			setProperty(project, MakefileCreationData.SINGLEMODE_PROPERTY, singleModeButton.getSelection() ? "true" : "false");
-			
+
 			String codeSplittingActualValue = codeSplitting.getActualValue();
-			
+
 			if (codeSplittingActualValue.equals(GeneralConstants.NONE) || codeSplittingActualValue.equals(GeneralConstants.TYPE)) {
 				setProperty(project, MakefileCreationData.CODE_SPLITTING_PROPERTY, codeSplittingActualValue);
 			} else if ( codeSplittingActualValue.equals(GeneralConstants.NUMBER)) {

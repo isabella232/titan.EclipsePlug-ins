@@ -226,7 +226,7 @@ public final class ProjectBasedBuilder {
 
 		return knownProjects;
 	}
-	
+
 	/**
 	 * Calculates and returns a list of all projects referencing transitively the provided one.
 	 * 
@@ -267,7 +267,7 @@ public final class ProjectBasedBuilder {
 			knownProjects.add(actualProject);
 		}
 	}
-	
+
 	public IProject[] getReferencingProjects() {
 		return project.getReferencingProjects();
 	}
@@ -311,7 +311,7 @@ public final class ProjectBasedBuilder {
 
 		return Boolean.FALSE;
 	}
-	
+
 	public static void clearForcedMakefileRebuild(final IProject project) {
 		FORCED_MAKEFILE_REBUILD_SET.remove(project);
 	}

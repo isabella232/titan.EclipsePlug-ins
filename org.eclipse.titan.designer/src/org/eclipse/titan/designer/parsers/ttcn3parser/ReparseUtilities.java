@@ -26,11 +26,11 @@ public final class ReparseUtilities {
 	 * */
 	public static List<Integer> getAllValidTokenTypes() {
 		List<Integer> result = new ArrayList<Integer>();
-		
+
 		for (int i = Ttcn3Lexer.EOF + 1; i < Ttcn3Lexer.LEXERPLACEHOLDER; i++) {
 			result.add(Integer.valueOf(i));
 		}
-		
+
 		return result;
 	}
 }

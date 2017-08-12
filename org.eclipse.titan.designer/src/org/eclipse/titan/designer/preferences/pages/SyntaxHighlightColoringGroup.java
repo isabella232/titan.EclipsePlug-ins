@@ -39,7 +39,7 @@ final class SyntaxHighlightColoringGroup implements ISyntaxHighlightTreeElement 
 	public void setParent(final ISyntaxHighlightTreeElement treeElement) {
 		parent = treeElement;
 	}
-	
+
 	public ISyntaxHighlightTreeElement[] getChildren() {
 		return elements.toArray(new ISyntaxHighlightTreeElement[elements.size()]);
 	}

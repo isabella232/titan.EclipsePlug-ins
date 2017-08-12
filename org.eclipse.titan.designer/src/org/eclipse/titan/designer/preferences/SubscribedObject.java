@@ -32,7 +32,7 @@ public abstract class SubscribedObject<T> {
 	protected final String qualifier;
 	protected final String key;
 	protected final T defaultValue;
-	
+
 	protected T currentValue;
 
 	protected SubscribedObject(final String qualifier, final String key,
@@ -76,6 +76,6 @@ public abstract class SubscribedObject<T> {
 	 * @param prefService The preference service.
 	 */
 	protected abstract void handleChange(final IPreferencesService prefService);
-	
+
 	protected abstract void storeNewValue(final T newValue);
 }

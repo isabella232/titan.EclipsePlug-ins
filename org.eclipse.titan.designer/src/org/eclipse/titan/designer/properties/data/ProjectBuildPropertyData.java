@@ -325,7 +325,7 @@ public final class ProjectBuildPropertyData {
 		}
 
 	}
-	
+
 	//************ Getting the state of makefile generating switches on project level*****
 	/**
 	 * Gets if automatic makefile generation is switched on in the given project.
@@ -368,7 +368,7 @@ public final class ProjectBuildPropertyData {
 		}
 		return TRUE_STRING.equals(useInternalMakefileGeneration);
 	}
-	
+
 	/**
 	 * Gets if symbolic link switch is switched on in the given project.
 	 * <p>
@@ -394,8 +394,8 @@ public final class ProjectBuildPropertyData {
 		}
 		return TRUE_STRING.equals(symlinklessBuild);
 	}
-	
-	
+
+
 	/**
 	 * Gets if symbolic links shall be generated or not in the given project.
 	 * 
@@ -407,7 +407,7 @@ public final class ProjectBuildPropertyData {
 	 * true
 	 */
 	public static boolean useSymbolicLinks(final IProject project) {
-		
+
 		if(useAutomaticMakefilegeneration(project)) {
 			if(useInternalMakefilegeneration(project) && isSymlinklessBuildSwitchedOn(project)) {
 				return false;

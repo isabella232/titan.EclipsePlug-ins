@@ -272,7 +272,7 @@ public final class GUIProjectImporter {
 		for (int j = 0; j < size; j++) {
 			Node node = rootList.item(j);
 			String nodeName = node.getNodeName();
-			
+
 			if("#text".equals(nodeName)) {
 				//do nothing, empty node because found a "\n"
 			} else	if ("General".equals(nodeName)) {
@@ -306,7 +306,7 @@ public final class GUIProjectImporter {
 
 		return projectInformation;
 	}
-	
+
 	private void reportError(final String message, final boolean headless) {
 		ErrorReporter.logError("Import from prj error: " + message);
 		//		if(!headless) {
@@ -952,7 +952,7 @@ public final class GUIProjectImporter {
 		}
 	}
 
-		
+
 	/**
 	 * Creating a new project. FIXME document
 	 * 
@@ -1019,7 +1019,7 @@ public final class GUIProjectImporter {
 			if(tempProjectInformation == null) {
 				continue;
 			}
-			
+
 			IPath tempPath2 = tempPath.removeFileExtension();
 			String includedProjectName = tempPath2.lastSegment();
 

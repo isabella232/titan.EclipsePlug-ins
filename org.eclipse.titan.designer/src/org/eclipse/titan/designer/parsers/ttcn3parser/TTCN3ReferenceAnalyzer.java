@@ -60,7 +60,7 @@ public final class TTCN3ReferenceAnalyzer {
 
 		return reference;
 	}
-	
+
     /**
 	 * Parses the provided elements. If the contents of an editor are to be parsed,
 	 *  than the file parameter is only used to report the errors to.

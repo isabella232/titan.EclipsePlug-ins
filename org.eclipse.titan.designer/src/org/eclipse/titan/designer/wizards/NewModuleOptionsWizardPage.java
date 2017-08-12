@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Label;
 public abstract class NewModuleOptionsWizardPage extends WizardPage {
 
 	private static final String GEN_EXCLUDED = "Generate as excluded from build";
-	
+
 	//Module generation
 	private static final String GEN_WITH = "Generate module with this content:";
 	private static final String GEN_EMPTY_CONT 	= "Empty module";
@@ -40,23 +40,23 @@ public abstract class NewModuleOptionsWizardPage extends WizardPage {
 		GEN_MODULE_NAME,
 		GEN_MODULE_SKEL
 	};
-		
+
 	public static enum GeneratedModuleType { 
 		EMPTY, NAME_AND_EMPTY_BODY, SKELETON
 	}
-	
+
 	private static GeneratedModuleType[] generatedModuleTypeValues = GeneratedModuleType.values();
-	
+
 	private Composite pageComposite;
 
 	private Button excludeFromBuildButton;
 	private boolean isExcludedFromBuildSelected = false;
-	
+
 	private Label generateModuleLabel;
-	
+
 	private Combo generateModuleCombo;
 	private GeneratedModuleType generatedModuleType = GeneratedModuleType.NAME_AND_EMPTY_BODY;
-	
+
 	public NewModuleOptionsWizardPage(final String title) {
 		super(title);
 	}
@@ -76,7 +76,7 @@ public abstract class NewModuleOptionsWizardPage extends WizardPage {
 		final GridData data = new GridData(GridData.FILL);
 		data.grabExcessHorizontalSpace = true;
 		pageComposite.setLayoutData(data);
-	
+
 		excludeFromBuildButton = new Button(pageComposite, SWT.CHECK);
 		excludeFromBuildButton.setText(GEN_EXCLUDED);
 		excludeFromBuildButton.setEnabled(true);
@@ -88,11 +88,11 @@ public abstract class NewModuleOptionsWizardPage extends WizardPage {
 				isExcludedFromBuildSelected = excludeFromBuildButton.getSelection();
 			}
 		});
-		
+
 		generateModuleLabel = new Label(pageComposite, SWT.READ_ONLY|SWT.LEFT);
 		generateModuleLabel.setText(GEN_WITH);
-		
-		generateModuleCombo = new Combo(pageComposite,SWT.READ_ONLY|SWT.RIGHT);	
+
+		generateModuleCombo = new Combo(pageComposite,SWT.READ_ONLY|SWT.RIGHT);
 		generateModuleCombo.setEnabled(true);
 		generateModuleCombo.setItems(GEN_MODULE_OPTIONS);
 		generateModuleCombo.setText(GEN_MODULE_NAME);
@@ -114,7 +114,7 @@ public abstract class NewModuleOptionsWizardPage extends WizardPage {
 	public GeneratedModuleType getGeneratedModuleType() {
 		return generatedModuleType;
 	}
-	
+
 	private void setGeneratedModuleType(final int index) {
 		generatedModuleType = generatedModuleTypeValues[index];
 	}

@@ -502,7 +502,7 @@ public final class InternalMakefileGenerator {
 			hasRegular = userHeadersRegular || userSourcesRegular || baseUserHeadersRegular || baseUserSourcesRegular;
 		}
 	}
-	
+
 	private String getSplittingMode() {
 		if (GeneralConstants.TYPE.equals(codeSplittingMode) || GeneralConstants.NONE.equals(codeSplittingMode)) {
 			return codeSplittingMode;
@@ -557,12 +557,12 @@ public final class InternalMakefileGenerator {
 	 *                generated.
 	 */
 	public void generateMakefile(final IProject project) {
-		
+
 		if(Cygwin.isMissingInOSWin32()) {
 			ErrorReporter.logError(MISSING_CYGWIN);
 			return;
 		}
-		
+
 		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
@@ -617,7 +617,7 @@ public final class InternalMakefileGenerator {
 				}
 			}
 		}
-		
+
 		if (foundClosedProject) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog("Error during Makefile generation",
 					"A makefile can not be generated for project " + project.getName() + "\n"
@@ -2684,14 +2684,14 @@ public final class InternalMakefileGenerator {
 		if ("null".equals(originalLocation)) {
 			originalLocation = null;
 		}
-		
+
 		final IProject project = file.getProject();
 		final IPath parentPath = file.getLocation().removeLastSegments(1);
 		TTCN3IncludeFileStruct includeFile = null;
 		if (usingSymbolicLinks) {
 			final IPath workingDirectoryPath = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
 			String workspaceFilePath = workingDirectoryPath.toOSString() + File.separatorChar + file.getName();
-		
+
 			includeFile = new TTCN3IncludeFileStruct(parentPath.toOSString(),workingDirectoryPath.toOSString(),
 							originalLocation, workspaceFilePath, file.getName());
 			addAdditionallyIncludedDirectory(workingDirectoryPath);

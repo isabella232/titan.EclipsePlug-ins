@@ -1168,11 +1168,11 @@ pr_StructOfDefBody returns[Type_Identifier_Helper helper]
 (	(	t1 = pr_Type { type = $t1.type; }
 	|	t2 = pr_NestedTypeDef { type = $t2.type; }
 	)
-	
+
 	(	i = pr_Identifier { identifier = $i.identifier; }
 	|	ADDRESS { identifier = new Identifier(Identifier_type.ID_TTCN, "address", getLocation( $ADDRESS)); }
 	)
-	
+
 	( p = pr_SubTypeSpec { parsedSubTypes = $p.parsedSubTypes; } )?
 )
 {
@@ -1756,7 +1756,7 @@ pr_ComponentElementDef returns[List<Definition> definitions]
 		}
 		definition.setCumulativeDefinitionLocation(getLocation( $start, getStopToken()));
 	}
-	
+
 };
 
 pr_ComponentElementVisibility returns[VisibilityModifier modifier]
@@ -4827,7 +4827,7 @@ pr_StartTCStatement returns[Statement statement]
 				parameters.setLocation(getLocation( $a1.start, $a2.stop));
 				$statement = new Start_Referenced_Component_Statement( component, dereferredValue, parameters );
 			}
-		)		
+		)
 		|	f = pr_FunctionInstance
 			{
 				functionref = $f.temporalReference;

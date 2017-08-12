@@ -206,7 +206,7 @@ public final class FolderBuildPropertyPage extends PropertyPage {
 				configurationManager.saveActualConfiguration();
 				ProjectDocumentHandlingUtility.saveDocument(project);
 				TITANAutomaticProjectExporter.saveAllAutomatically(project);
-								
+
 				MarkerHandler.markAllMarkersForRemoval(folderResource);
 
 				PropertyNotificationManager.firePropertyChange(folderResource);

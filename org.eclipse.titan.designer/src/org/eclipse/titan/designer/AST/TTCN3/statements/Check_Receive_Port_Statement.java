@@ -287,9 +287,9 @@ public final class Check_Receive_Port_Statement extends Statement {
 //				}
 				expression.expression.append(", ");
 			}
-			
+
 		}
-		
+
 		if (fromClause != null) {
 			fromClause.generateCode(aData, expression, Restriction_type.TR_NONE);
 		} else if (redirectSender != null) {

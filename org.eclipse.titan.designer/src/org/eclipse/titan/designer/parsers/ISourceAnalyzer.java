@@ -25,7 +25,7 @@ public interface ISourceAnalyzer {
 
 	/** @return the errors from ANTLR 4 lexer and parser */
 	List<SyntacticErrorStorage> getErrorStorage();
-	
+
 	/**
 	 * @return the list of markers created for the parse time found
 	 *         unsupported features and bad practices

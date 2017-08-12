@@ -26,10 +26,10 @@ import org.eclipse.titan.common.logging.ErrorReporter;
  * */
 public enum ExtensionHandler {
 	INSTANCE;
-	
+
 	private static final String ID = "org.eclipse.titan.designer.extensions.post_analyze";
 	private List<IProjectProcesser> plugins;
-	
+
 	public synchronized void registerContributors() {
 		final IConfigurationElement[] config = Platform.getExtensionRegistry().getConfigurationElementsFor(ID); 
 		plugins = new ArrayList<IProjectProcesser>();

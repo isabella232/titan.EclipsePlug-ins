@@ -174,7 +174,7 @@ public final class FileBuildPropertyPage extends PropertyPage {
 				configurationManager.saveActualConfiguration();
 				ProjectDocumentHandlingUtility.saveDocument(project);
 				TITANAutomaticProjectExporter.saveAllAutomatically(project);
-								
+
 				MarkerHandler.markAllMarkersForRemoval(fileResource);
 
 				PropertyNotificationManager.firePropertyChange(fileResource);

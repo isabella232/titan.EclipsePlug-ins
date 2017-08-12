@@ -224,7 +224,7 @@ public final class Oct2IntExpression extends Expression_Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {

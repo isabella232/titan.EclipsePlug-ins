@@ -160,7 +160,7 @@ public class TITANProjectImportMainPage extends WizardPage {
 			final String absolutePath = PathConverter.getAbsolutePath(projectInformation.getSourceFile(), projectInformation.getWorkingDir());
 			newProjectPage.setWorkingDirectory(absolutePath);
 		}
-		
+
 	}
 
 }

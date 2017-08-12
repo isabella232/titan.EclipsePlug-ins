@@ -569,13 +569,13 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
-		
+
 		//FIXME handle location object
 
 		StringBuilder body = new StringBuilder();
 		block.generateCode(aData, body);
 		altGuards.generateCodeAltstep(aData, body);
-		
+
 		StringBuilder formalParListCode = new StringBuilder();
 		formalParList.generateCode(aData, formalParListCode);
 		// FIXME generate code defval and shadow objects

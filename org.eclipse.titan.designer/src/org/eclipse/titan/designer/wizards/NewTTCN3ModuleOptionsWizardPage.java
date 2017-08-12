@@ -13,11 +13,11 @@ package org.eclipse.titan.designer.wizards;
 public final class NewTTCN3ModuleOptionsWizardPage extends NewModuleOptionsWizardPage {
 	private static final String TITLE = "TTCN3 Module creation options";
 	private static final String DESCRIPTION = "Create the new TTCN3 module according to these options";
-	
+
 	NewTTCN3ModuleOptionsWizardPage() {
 		super(TITLE);
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return DESCRIPTION;

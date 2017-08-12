@@ -56,11 +56,11 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 
 		return builder;
 	}
-	
+
 	public int getSize() {
 		return mSelectUnionCases.size();
 	}
-	
+
 	public SelectUnionCase getSelectUnionCase(final int index) {
 		if( index < mSelectUnionCases.size()) {
 			return mSelectUnionCases.get(index);

@@ -38,7 +38,7 @@ public class PropertyNotificationManager {
 	public static synchronized void addListener(final IPropertyChangeListener listener) {
 		listeners.add(listener);
 	}
-	
+
 	/**
 	 * Removes an already registered listener.
 	 * 
@@ -47,7 +47,7 @@ public class PropertyNotificationManager {
 	public static synchronized void removeListener(final IPropertyChangeListener listener) {
 		listeners.remove(listener);
 	}
-	
+
 	/**
 	 * Notifies every listener signed up for property changes,
 	 * that a property of the provided resource has changed.

@@ -58,7 +58,7 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 
 		useIncrementalParsing = new BooleanFieldEditor(PreferenceConstants.USEINCREMENTALPARSING, ENABLE_INCREMENTAL_PARSING, tempParent);
 		addField(useIncrementalParsing);
-		
+
 		composite = new Composite(tempParent, SWT.NONE);
 		final GridLayout compositeLayout = new GridLayout();
 		composite.setLayout(compositeLayout);
@@ -121,5 +121,5 @@ public final class OnTheFlyCheckerPreferencePage extends FieldEditorPreferencePa
 		super.performApply();
 
 	}
-	
+
 }

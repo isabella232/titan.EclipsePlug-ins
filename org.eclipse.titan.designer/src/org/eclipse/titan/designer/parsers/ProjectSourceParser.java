@@ -671,7 +671,7 @@ public final class ProjectSourceParser {
 			return Status.OK_STATUS;
 		}
 		MarkerHandler.removeMarkedMarkers(GeneralConstants.ONTHEFLY_SEMANTIC_MARKER, project);
-		
+
 		if (OutOfMemoryCheck.isOutOfMemoryAlreadyReported()) {
 			return Status.CANCEL_STATUS;
 		}

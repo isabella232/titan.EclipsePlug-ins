@@ -47,5 +47,5 @@ public class TokenWithIndexAndSubTokensFactory implements	TokenFactory<TokenWith
 		return new TokenWithIndexAndSubTokens(type, text);
 	}
 
-	
+
 }

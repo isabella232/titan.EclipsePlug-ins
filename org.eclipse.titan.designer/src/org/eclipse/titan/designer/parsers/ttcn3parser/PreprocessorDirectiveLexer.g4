@@ -16,7 +16,7 @@ lexer grammar PreprocessorDirectiveLexer;
 
 DIRECTIVE_IFDEF : 'ifdef'; DIRECTIVE_IFNDEF : 'ifndef'; DIRECTIVE_IF : 'if';
 DIRECTIVE_ELSE : 'else'; DIRECTIVE_ELIF : 'elif'; DIRECTIVE_ENDIF : 'endif';
-DIRECTIVE_DEFINE : 'define'; DIRECTIVE_UNDEF : 'undef'; OP_DEFINED : 'defined';	
+DIRECTIVE_DEFINE : 'define'; DIRECTIVE_UNDEF : 'undef'; OP_DEFINED : 'defined';
 DIRECTIVE_INCLUDE : 'include';
 DIRECTIVE_LINECONTROL : 'line';
 

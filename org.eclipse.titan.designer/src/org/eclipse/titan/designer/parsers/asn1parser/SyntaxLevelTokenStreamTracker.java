@@ -30,7 +30,7 @@ public class SyntaxLevelTokenStreamTracker extends CommonTokenStream {
 	public void setActualFile(IFile sourceFile) {
 		this.sourceFile = sourceFile;
 	}
-	
+
 	public void discard(int ttype) {
 		discardMask.add(Integer.valueOf(ttype));
 	}
@@ -52,7 +52,7 @@ public class SyntaxLevelTokenStreamTracker extends CommonTokenStream {
 			tokens.add(new TokenWithIndexAndSubTokens(Token.EOF));
 			return ++i;
 		}
-		
+
 		do {
 			Token t = oldList.get(index++);
 			//t = tokens.get(index++);
@@ -80,7 +80,7 @@ public class SyntaxLevelTokenStreamTracker extends CommonTokenStream {
 	public static Asn1Parser getASN1ParserForBlock(Block aBlock) {
 		return getASN1ParserForBlock(aBlock, 0);
 	}
-	
+
 	public static Asn1Parser getASN1ParserForBlock(Block aBlock, int startIndex) {
 		if(aBlock == null || aBlock.getLocation() == null) {
 			return null;
@@ -90,14 +90,14 @@ public class SyntaxLevelTokenStreamTracker extends CommonTokenStream {
 		tracker.discard(Asn1Lexer.WS);
 		tracker.discard(Asn1Lexer.MULTILINECOMMENT);
 		tracker.discard(Asn1Lexer.SINGLELINECOMMENT);
-		
+
 		Asn1Parser parser = new Asn1Parser(tracker);
 		tracker.setActualFile((IFile) aBlock.getLocation().getFile());
 		parser.setActualFile((IFile) aBlock.getLocation().getFile());
 		parser.setBuildParseTree(false);
 		ASN1Listener parserListener = new ASN1Listener(parser);
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
-		parser.addErrorListener(parserListener);		
+		parser.addErrorListener(parserListener);
 		return parser;
 	}
 

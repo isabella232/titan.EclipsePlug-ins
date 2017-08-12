@@ -123,7 +123,7 @@ public class UnionGenerator {
 		//FIXME implement decode
 		//FIXME implement set_param
 		//FIXME implement check_restriction
-		source.append("}\n");	
+		source.append("}\n");
 	}
 
 	/**
@@ -214,7 +214,7 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("return assign(({0})otherValue);\n", genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-			
+
 		source.append("}\n\n");
 	}
 
@@ -257,7 +257,7 @@ public class UnionGenerator {
 	private static void generateValueIsBound(final StringBuilder source) {
 		source.append("public boolean isBound() {\n");
 		source.append("return union_selection != union_selection_type.UNBOUND_VALUE;\n");
-		source.append("}\n\n");	
+		source.append("}\n\n");
 	}
 
 	/**
@@ -402,7 +402,7 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("private {0}.union_selection_type single_value_union_selection;\n", genName));
 		source.append("//originally a union which can not be mapped to Java\n");
 		source.append("private Base_Template single_value;\n");
-		source.append("// value_list part\n");	
+		source.append("// value_list part\n");
 		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n\n", genName));
 	}
 
@@ -448,7 +448,7 @@ public class UnionGenerator {
 				source.append("break;\n");
 			}
 			source.append("default:\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Initializing a template with an unbound value of type {0}.\");\n", displayName));	
+			source.append(MessageFormat.format("throw new TtcnError(\"Initializing a template with an unbound value of type {0}.\");\n", displayName));
 			source.append("}\n");
 		}
 		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
@@ -467,10 +467,10 @@ public class UnionGenerator {
 				source.append("break;\n");
 			}
 			source.append("default:\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid union selector in a specific value when copying a template of type {0}.\");\n", displayName));	
-			source.append("}\n");	
+			source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid union selector in a specific value when copying a template of type {0}.\");\n", displayName));
+			source.append("}\n");
 		}
-		source.append("break;\n");	
+		source.append("break;\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -480,7 +480,7 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(other_value.value_list.size());\n", genName));
 		source.append("for(int i = 0; i < other_value.value_list.size(); i++) {\n");
 		source.append(MessageFormat.format("final {0}_template temp = new {0}_template(other_value.value_list.get(i));\n", genName));
-		source.append("value_list.add(temp);\n");	
+		source.append("value_list.add(temp);\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("default:\n");

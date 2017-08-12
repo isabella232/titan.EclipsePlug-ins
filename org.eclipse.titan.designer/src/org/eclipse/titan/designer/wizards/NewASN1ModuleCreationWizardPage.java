@@ -178,7 +178,7 @@ public final class NewASN1ModuleCreationWizardPage extends WizardNewFileCreation
 		}
 
 	}
-	
+
 	private String getModuleName() {
 		final String moduleName = getFileName();
 		final int dotIndex = moduleName.indexOf('.');

@@ -35,7 +35,7 @@ public final class NewConfigFileWizard extends BasicNewResourceWizard {
 	private NewConfigFileCreationWizardPage mainPage;
 	private NewConfigFileOptionsWizardPage optionsPage;
 
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 

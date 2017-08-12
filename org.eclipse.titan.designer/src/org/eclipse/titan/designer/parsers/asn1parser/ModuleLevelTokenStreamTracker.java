@@ -29,11 +29,11 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 		super(source);
 		this.sourceFile = null;
 	}
-	
+
 	public void setActualFile(IFile sourceFile) {
 		this.sourceFile = sourceFile;
 	}
-	
+
 	public void discard(int ttype) {
 		discardMask.add(Integer.valueOf(ttype));
 	}
@@ -80,7 +80,7 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 	private boolean getBlock(Token first) { // return true if EOF hit
 		Token t;
 		TokenWithIndexAndSubTokens result;
-		
+
 		t = getTokenSource().nextToken();
 		if ( t instanceof WritableToken ) {
 			((WritableToken)t).setTokenIndex(tokens.size());
@@ -120,7 +120,7 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 		tokens.add(result);
 		return true;
 	}
-	
+
 	private String makeString(List<Token> list) {
 		StringBuilder text = new StringBuilder();
 		for (Token t : list) {

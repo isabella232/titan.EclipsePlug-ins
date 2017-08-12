@@ -297,7 +297,7 @@ class TokenStreamData extends CommonTokenStream {
 
 public class PreprocessedTokenStream extends CommonTokenStream {
 	private static final int RECURSION_LIMIT = 20;
-	
+
 	IFile actualFile;
 	Ttcn3Lexer actualLexer;
 	Ttcn3Parser parser;
@@ -644,5 +644,5 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 			}
 		} while (true);
 	}
-	
+
 }

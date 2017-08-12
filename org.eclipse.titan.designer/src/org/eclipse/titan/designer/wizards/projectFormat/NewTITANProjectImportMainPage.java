@@ -79,7 +79,7 @@ class NewTITANProjectImportMainPage extends WizardPage {
 	public String getProjectFile() {
 		return projectFile;
 	}
-	
+
 	public List<String> getSearchPaths() {
 		return searchPaths;
 	}
@@ -131,7 +131,7 @@ class NewTITANProjectImportMainPage extends WizardPage {
 		searchPathEnumerateTextField.setFont(font);
 		searchPathEnumerateTextField.addModifyListener(generalListener);
 	}
-	
+
 
 	protected void handleProjectFileButtonSelected() {
 		final FileDialog dialog = new FileDialog(getShell());
@@ -153,7 +153,7 @@ class NewTITANProjectImportMainPage extends WizardPage {
 			}
 		});
 	}
-	
+
 	protected void handleSearchPathTextModified() {
 		correctSearchPaths = checkSearchPaths();
 		BusyIndicator.showWhile(null, new Runnable() {
@@ -173,7 +173,7 @@ class NewTITANProjectImportMainPage extends WizardPage {
 		setPageComplete(projectFile != null && !"".equals(projectFile.trim()) && correctSearchPaths);
 		// TODO implement checks here if needed
 	}
-	
+
 	/**
 	 * Check and extract the search paths from the Text
 	 */

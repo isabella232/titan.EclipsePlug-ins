@@ -17,7 +17,7 @@ public final class NewASN1ModuleOptionsWizardPage extends NewModuleOptionsWizard
 	NewASN1ModuleOptionsWizardPage() {
 		super(TITLE);
 	}
-	
+
 	@Override
 	public String getDescription() {
 		return DESCRIPTION;

@@ -36,10 +36,10 @@ public final class LinkerFlagsOptionsPage implements IOptionsPage {
 		if (mainComposite != null) {
 			mainComposite.dispose();
 			mainComposite = null;
-			
+
 			linkerFreeTextComposite.dispose();
 			linkerFreeTextComposite = null;
-			
+
 			useGoldLinker.dispose();
 			freeTextLinkerOptions.dispose();
 		}
@@ -57,7 +57,7 @@ public final class LinkerFlagsOptionsPage implements IOptionsPage {
 
 		useGoldLinker = new Button(mainComposite, SWT.CHECK);
 		useGoldLinker.setText("Use Gold Linker (-fuse-ld=gold)");
-		
+
 		linkerFreeTextComposite = new Composite(mainComposite, SWT.NONE);
 		linkerFreeTextComposite.setLayout(new GridLayout());
 		linkerFreeTextComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -139,7 +139,7 @@ public final class LinkerFlagsOptionsPage implements IOptionsPage {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					LinkerFlagsOptionsData.USE_GOLD_LINKER_PROPERTY));
 			useGoldLinker.setSelection("true".equals(temp) ? true : false);
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					LinkerFlagsOptionsData.FREE_TEXT_OPTIONS_PROPERTY));
 			freeTextLinkerOptions.setStringValue(temp);

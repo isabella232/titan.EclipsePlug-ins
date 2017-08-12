@@ -152,7 +152,7 @@ public final class Function_Applied_Statement extends Statement {
 		}
 		dereferredValue.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(".invoke(");
-		
+
 		if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
 			actualParameterList2.generateCodeAlias(aData, expression);
 		}

@@ -178,7 +178,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 
 		return null;
 	}
-	
+
 	//==== Code generation ====
 	/**
 	 * Generates a Java code sequence, which initializes the Java
@@ -201,7 +201,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 					));
 		return source;
 	}
-	
+
 	public boolean canGenerateSingleExpression() {
 		//TODO this might be a good location to check for the need of conversion
 		//TODO implement
@@ -223,7 +223,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 		//TODO: Implement all cases! This is just the first draft
 		return source;
 	}
-	
+
 	/**
 	 * Generates the equivalent Java code for the value. It is used
 	 *  when the value is part of a complex expression (e.g. as

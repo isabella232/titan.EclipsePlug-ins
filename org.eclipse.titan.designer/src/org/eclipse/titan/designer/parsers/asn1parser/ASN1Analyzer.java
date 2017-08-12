@@ -31,7 +31,7 @@ import org.eclipse.titan.designer.parsers.ISourceAnalyzer;
  * @author Arpad Lovassy
  */
 public class ASN1Analyzer implements ISourceAnalyzer {
-	
+
 	private List<TITANMarker> warnings;
 	private List<TITANMarker> unsupportedConstructs;
 	private Interval rootInterval;
@@ -58,7 +58,7 @@ public class ASN1Analyzer implements ISourceAnalyzer {
 	public Interval getRootInterval() {
 		return rootInterval;
 	}
-	
+
 	@Override
 	public List<SyntacticErrorStorage> getErrorStorage() {
 		if (!lexerListener.getErrorsStored().isEmpty() && parserListener.getErrorsStored().isEmpty()) {
@@ -106,7 +106,7 @@ public class ASN1Analyzer implements ISourceAnalyzer {
 		Asn1Parser parser = new Asn1Parser(tracker);
 		parser.setProject(file.getProject());
 		parser.setActualFile(file);
-		parser.setBuildParseTree(false);		
+		parser.setBuildParseTree(false);
 		parserListener = new ASN1Listener(parser);
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
 		parser.addErrorListener(parserListener);

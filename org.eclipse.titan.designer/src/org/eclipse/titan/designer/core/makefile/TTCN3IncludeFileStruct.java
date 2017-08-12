@@ -40,7 +40,7 @@ public final class TTCN3IncludeFileStruct implements Comparable<TTCN3IncludeFile
 		result.append(getFileName());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj) {
@@ -98,7 +98,7 @@ public final class TTCN3IncludeFileStruct implements Comparable<TTCN3IncludeFile
 	public void setFileName(final String fileName) {
 		this.fileName = fileName;
 	}
-	
+
 	@Override
 	public int compareTo(final TTCN3IncludeFileStruct other) {
 		return getFileName().compareTo(other.getFileName());

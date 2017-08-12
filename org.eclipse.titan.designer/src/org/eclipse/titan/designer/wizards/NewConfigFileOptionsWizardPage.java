@@ -78,7 +78,7 @@ public final class NewConfigFileOptionsWizardPage extends WizardPage {
 	public boolean isGenerateSkeletonSelected() {
 		return isGenerateSkeletonSelected;
 	}
-	
+
 	@Override
 	public void setWizard(final IWizard newWizard) {
 		super.setWizard(newWizard);

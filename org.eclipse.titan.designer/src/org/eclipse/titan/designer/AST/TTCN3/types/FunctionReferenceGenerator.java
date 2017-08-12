@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 public class FunctionReferenceGenerator {
 
 	enum fatType {FUNCTION, ALTSTEP, TESTCASE};
-	
+
 	public static class FunctionReferenceDefinition {
 		private String genName;
 		private String displayName;
@@ -92,12 +92,12 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("public {0}() '{'\n", def.genName));
 		source.append("referred_function = null;\n");
 		source.append("}\n");
-		
+
 		//TODO check if this kind of constructor is a good idea or not!!!
 		source.append(MessageFormat.format("public {0}(final function_pointer otherValue) '{'\n", def.genName));
 		source.append("referred_function = otherValue;\n");
 		source.append("}\n");
-		
+
 		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Copying an unbound {0}.\");\n\n", def.displayName));
 		source.append("referred_function = otherValue.referred_function;\n");
@@ -126,7 +126,7 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n\n", def.displayName));
 		source.append("return new TitanBoolean(referred_function.getId().equals(otherValue.getId()));\n");
 		source.append("}\n");
-		
+
 		source.append(MessageFormat.format("public TitanBoolean operatorEquals(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n", def.displayName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Unbound right operand of {0} comparison.\");\n\n", def.displayName));
@@ -140,7 +140,7 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
-			
+
 		source.append("public TitanBoolean operatorNotEquals(final function_pointer otherValue) {\n");
 		source.append("return operatorEquals(otherValue).not();\n");
 		source.append("}\n");

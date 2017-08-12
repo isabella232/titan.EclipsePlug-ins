@@ -53,7 +53,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.CONTENTASSISTANT_PROPOSAL_SORTING, PreferenceConstantValues.SORT_BY_RELEVANCE);
 		preferenceStore.setDefault(PreferenceConstants.CONTENTASSISTANT_AUTO_ACTIVATION, true);
 		preferenceStore.setDefault(PreferenceConstants.CONTENTASSISTANT_AUTO_ACTIVATION_DELAY, 100);
-		
+
 		//		export
 		preferenceStore.setDefault(PreferenceConstants.EXPORT_EXCLUDE_WORKING_DIRECTORY_CONTENTS, true);
 		preferenceStore.setDefault(PreferenceConstants.EXPORT_EXCLUDE_DOT_RESOURCES, true);
@@ -62,10 +62,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.EXPORT_PACK_ALL_PROJECTS_INTO_ONE, false);
 		preferenceStore.setDefault(PreferenceConstants.USE_TPD_NAME, false);
 		preferenceStore.setDefault(PreferenceConstants.ORIG_TPD_URI, "");
-		
+
 		preferenceStore.setDefault(PreferenceConstants.EXPORT_AUTOMATIC_EXPORT, false);
 		preferenceStore.setDefault(PreferenceConstants.EXPORT_REQUEST_LOCATION, false);
-		
+
 		//		folding
 		preferenceStore.setDefault(PreferenceConstants.FOLDING_ENABLED, true);
 		preferenceStore.setDefault(PreferenceConstants.FOLD_COMMENTS, true);
@@ -184,7 +184,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		//other:
 		preferenceStore.setDefault(PreferenceConstants.REPORT_MODULENAME_IN_DEFINITION, GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.REPORT_VISIBILITY_IN_DEFINITION, GeneralConstants.IGNORE);
-		
+
 	}
 
 	private void color(final IPreferenceStore preferenceStore) {

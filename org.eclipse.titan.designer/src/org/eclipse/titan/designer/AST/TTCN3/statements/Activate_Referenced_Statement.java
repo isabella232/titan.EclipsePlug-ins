@@ -206,7 +206,7 @@ public final class Activate_Referenced_Statement extends Statement {
 		}
 		dereferredValue.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(".activate(");
-		
+
 		if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
 			actualParameterList2.generateCodeAlias(aData, expression);
 		}

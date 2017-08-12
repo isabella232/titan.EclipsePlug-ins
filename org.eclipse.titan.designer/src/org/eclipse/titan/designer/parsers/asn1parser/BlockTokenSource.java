@@ -18,12 +18,12 @@ import org.antlr.v4.runtime.TokenSource;
 public class BlockTokenSource implements TokenSource {
 	private List<Token> tokenList;
 	int index;
-	
+
 	BlockTokenSource(List<Token> tokenList) {
 		this.tokenList = tokenList;
 		this.index = 0;
 	}
-	
+
 	@Override
 	public int getCharPositionInLine() {
 		return -1;
@@ -58,6 +58,6 @@ public class BlockTokenSource implements TokenSource {
 	public void setTokenFactory(TokenFactory<?> arg0) {
 		//Do nothing
 	}
-		
+
 }
 

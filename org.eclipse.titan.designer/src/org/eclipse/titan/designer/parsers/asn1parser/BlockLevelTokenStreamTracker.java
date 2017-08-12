@@ -31,7 +31,7 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 	public void setActualFile(IFile sourceFile) {
 		this.sourceFile = sourceFile;
 	}
-	
+
 	public void discard(int ttype) {
 		discardMask.add(Integer.valueOf(ttype));
 	}
@@ -44,17 +44,17 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 	public int fetch(int n) {
 		if (fetchedEOF) {
 			return 0;
-		}	
+		}
 
 		Token t;
 		Token first;
 		int i = 0;
-		
+
 		if (oldList == null || index >= oldList.size()) {
 			tokens.add(new TokenWithIndexAndSubTokens(Token.EOF));
 			return ++i;
 		}
-		
+
 		do {
 			t = oldList.get(index++);
 			first = t;
@@ -82,28 +82,28 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 	public static Asn1Parser getASN1ParserForBlock(Block aBlock) {
 		return getASN1ParserForBlock(aBlock, 0);
 	}
-	
+
 	public static Asn1Parser getASN1ParserForBlock(Block aBlock, int startIndex) {
 		if(aBlock == null || aBlock.getLocation() == null) {
 			return null;
 		}
-		
+
 		BlockLevelTokenStreamTracker tracker = new BlockLevelTokenStreamTracker(aBlock, startIndex);
 		tracker.discard(Asn1Lexer.WS);
 		tracker.discard(Asn1Lexer.MULTILINECOMMENT);
 		tracker.discard(Asn1Lexer.SINGLELINECOMMENT);
-		
+
 		Asn1Parser parser = new Asn1Parser(tracker);
-		
+
 		tracker.setActualFile((IFile) aBlock.getLocation().getFile());
 		parser.setActualFile((IFile) aBlock.getLocation().getFile());
 		parser.setBuildParseTree(false);
 		ASN1Listener parserListener = new ASN1Listener(parser);
 		parser.removeErrorListeners(); // remove ConsoleErrorListener
-		parser.addErrorListener(parserListener);		
+		parser.addErrorListener(parserListener);
 		return parser;
 	}
-	
+
 	private boolean getBlock(Token first) { // return true if it were out of bond
 		if(index >= oldList.size()) {
 			tokens.add(first);
@@ -144,9 +144,9 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 		}
 		tokens.add(result);
 		return true;
-	
+
 	}
-	
+
 	private String makeString(List<Token> list) {
 		StringBuilder text = new StringBuilder();
 		for (Token t : list) {

@@ -46,11 +46,11 @@ public final class LinkerFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					LinkerFlagsOptionsData.USE_GOLD_LINKER_PROPERTY));
 			builder.append("true".equals(temp) ? "-fuse-ld=gold " : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					LinkerFlagsOptionsData.FREE_TEXT_OPTIONS_PROPERTY));
 			builder.append(temp);
-			
+
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace("While getting Linker options of `" + project.getName() + "'", e);
 		}

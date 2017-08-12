@@ -49,7 +49,7 @@ import org.eclipse.titan.designer.properties.data.PreprocessorSymbolsOptionsData
  * @author Arpad Lovassy
  */
 public class TTCN3Analyzer implements ISourceAnalyzer {
-	
+
 	private List<TITANMarker> warnings;
 	private List<TITANMarker> unsupportedConstructs;
 	private Interval rootInterval;
@@ -60,12 +60,12 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 * NOTE: used from ANTLR v4
 	 */
 	private List<SyntacticErrorStorage> mErrorsStored = null;
-	
+
 	@Override
 	public List<SyntacticErrorStorage> getErrorStorage() {
 		return mErrorsStored;
 	}
-	
+
 	@Override
 	public List<TITANMarker> getWarnings() {
 		return warnings;
@@ -85,7 +85,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	public Interval getRootInterval() {
 		return rootInterval;
 	}
-	
+
 	/**
 	 * Parse TTCN-3 file using ANTLR v4
 	 * @param aFile TTCN-3 file to parse, It cannot be null
@@ -131,10 +131,10 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		} else {
 			return;
 		}
-		
+
 		parse( reader, rootInt, aFile );
 	}
-	
+
 	/**
 	 * Parse TTCN-3 file using ANTLR v4
 	 * Eclipse independent version
@@ -153,7 +153,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		final int fileLength = (int)aFile.length();
 		parse( bufferedReader, fileLength, null );
 	}
-	
+
 	/**
 	 * Parse TTCN-3 file using ANTLR v4
 	 * @param aReader file to parse (cannot be null, closes aReader)
@@ -183,7 +183,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		Ttcn3Parser parser = new Ttcn3Parser( tokenStream );
 		ParserUtilities.setBuildParseTree( parser );
 		PreprocessedTokenStream preprocessor = null;
-		
+
 		if ( aEclipseFile != null && GlobalParser.TTCNPP_EXTENSION.equals( aEclipseFile.getFileExtension() ) ) {
 			lexer.setTTCNPP();
 			preprocessor = new PreprocessedTokenStream(lexer);
@@ -196,24 +196,24 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			preprocessor.setActualLexer(lexer);
 			preprocessor.setParser(parser);
 		}
-		
+
 		if ( aEclipseFile != null ) {
 			lexer.setActualFile( aEclipseFile );
 			parser.setActualFile( aEclipseFile );
 			parser.setProject( aEclipseFile.getProject() );
 		}
-		
+
 		// remove ConsoleErrorListener
 		parser.removeErrorListeners();
 		TitanListener parserListener = new TitanListener();
 		parser.addErrorListener( parserListener );
-		
+
 		// This is added because of the following ANTLR 4 bug:
 		// Memory Leak in PredictionContextCache #499
 		// https://github.com/antlr/antlr4/issues/499
 		DFA[] decisionToDFA = parser.getInterpreter().decisionToDFA;
 		parser.setInterpreter(new ParserATNSimulator(parser, parser.getATN(), decisionToDFA, new PredictionContextCache()));
-		
+
 		//try SLL mode
 		try {
 			parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
@@ -225,7 +225,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		} catch (RecognitionException e) {
 			// quit
 		}
-		
+
 		if (!warnings.isEmpty() || !mErrorsStored.isEmpty()) {
 			//SLL mode might have failed, try LL mode
 			try {

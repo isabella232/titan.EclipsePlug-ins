@@ -1559,7 +1559,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (inMessages != null) {
 			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 				IType inType = inMessages.getTypeByIndex(i);
-	
+
 				messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
 				portDefinition.inMessages.add(info);
 			}
@@ -1568,7 +1568,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (outMessages != null) {
 			for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
 				IType outType = outMessages.getTypeByIndex(i);
-	
+
 				messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
 				portDefinition.outMessages.add(info);
 			}
@@ -1578,7 +1578,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			for (int i = 0 ; i < inSignatures.getNofTypes(); i++) {
 				IType outType = inSignatures.getTypeByIndex(i);
 				Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-	
+
 				procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, false);
 				portDefinition.inProcedures.add(info);
 			}
@@ -1588,7 +1588,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			for (int i = 0 ; i < outSignatures.getNofTypes(); i++) {
 				IType outType = outSignatures.getTypeByIndex(i);
 				Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-	
+
 				procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, signature.getSignatureReturnType() != null);
 				portDefinition.outProcedures.add(info);
 			}

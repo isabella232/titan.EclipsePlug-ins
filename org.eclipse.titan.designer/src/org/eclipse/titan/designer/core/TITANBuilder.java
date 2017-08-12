@@ -701,7 +701,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 	 */
 	@Override
 	protected IProject[] build(final int kind, @SuppressWarnings("rawtypes") final Map args, final IProgressMonitor monitor) throws CoreException {
-			
+
 		IProject project = getProject();
 		if (!TITANInstallationValidator.check(true)) {
 			return project.getReferencedProjects();
@@ -720,9 +720,9 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		boolean reportDebugInformation = store.getBoolean(PreferenceConstants.DISPLAYDEBUGINFORMATION);
 
 		final SubMonitor progress = SubMonitor.convert(monitor);
-		
+
 		String consoleActionBeforeBuild = store.getString(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD);	 
-		
+
 		if ( PreferenceConstantValues.BEFORE_BUILD_PRINT_CONSOLE_DELIMITERS.equals(consoleActionBeforeBuild) ) {
 			String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss").format(Calendar.getInstance().getTime());
 			TITANConsole.println(
@@ -733,7 +733,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			TITANConsole.clearConsole();
 		} 
 		//else: nothing
-		
+
 		if (store.getBoolean(PreferenceConstants.TREATONTHEFLYERRORSFATALFORBUILD)) {
 			// IF the option to treat on-the-fly errors as fatal for
 			// build was set, and we find an error marker, quit the build.
@@ -752,7 +752,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 					return project.getReferencedProjects();
 				}
 			}
-			
+
 			markers = project.findMarkers(GeneralConstants.ONTHEFLY_MIXED_MARKER, true, IResource.DEPTH_INFINITE);
 			for (IMarker marker : markers) {
 				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
@@ -761,22 +761,22 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				}
 			}
 		}
-		
+
 		MarkerHandler.markMarkersForRemoval(GeneralConstants.COMPILER_ERRORMARKER, project);
 
 		if (!ProjectSourceParser.checkConfigurationRequirements(project, GeneralConstants.COMPILER_ERRORMARKER)) {
 			TITANConsole.println("Build failed because of build configuration error. See view 'Error Log' for details.");
 			return project.getReferencedProjects();
 		}
-		
+
 		if(!ProjectBasedBuilder.getProjectBasedBuilder(project).checkCodeSplittingEquality()){
 			TITANConsole.println("Build failed because of code splitting setting error.\n"
 					+ "Code splitting settings shall be the same. See view 'Error Log' for details.");
 			return project.getReferencedProjects();
 		}
-		
+
 		MarkerHandler.removeAllMarkedMarkers(project);
-		
+
 		if (reportDebugInformation) {
 			TITANDebugConsole.println("starting to build " + project.getName());
 		}
@@ -1004,9 +1004,9 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 					new QualifiedName(ProjectBuildPropertyData.QUALIFIER, MakeAttributesData.BUILD_LEVEL_PROPERTY),
 					MakeAttributesData.BUILD_LEVEL_5);
 		}
-		
+
 		buildLevel = MakeAttributesData.getBuildLevel(buildLevel);
-		
+
 		if (makefileExists || makefileWillExist) {
 			List<String> command = new ArrayList<String>();
 
@@ -1092,7 +1092,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			if (processingUnitsToUse > 1) {
 				command.add(" -j " + processingUnitsToUse);
 			}
-			if (processingUnitsToUse < availableProcessors) {	
+			if (processingUnitsToUse < availableProcessors) {
 				TITANConsole.println(MessageFormat.format(FEWPROCESSINGUNITTOUSESET, processingUnitsToUse, availableProcessors));
 			}
 

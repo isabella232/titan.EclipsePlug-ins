@@ -17,7 +17,7 @@ public class CatchOp_Helper {
 	public Reference signatureReference;
 	public TemplateInstance parameter;
 	public boolean timeout;
-	
+
 	public CatchOp_Helper(Reference signatureReference, TemplateInstance parameter,
 			boolean timeout) {
 		this.signatureReference = signatureReference;

@@ -32,7 +32,7 @@ public class ExternalMakefileGenerator {
 	static final String APOSTROPHE = "'";
 	static final String BIN_DIRECTORY = "bin";
 	static final String MAKEFILEGENERATOR = "ttcn3_makefilegen";
-	
+
 	/**
 	 * Creates the commandline command to be used to generate the Makefile for the passed project.
 	 * 
@@ -41,15 +41,15 @@ public class ExternalMakefileGenerator {
 	public static List<String> createMakefilGeneratorCommand(final IProject project) {
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
-		
+
 		final TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
-		
+
 		final Map<String, IFile> files = visitor.getFiles();
 		final Map<String, IFile> centralStorageFiles = visitor.getCentralStorageFiles();
 		final Map<String, IFile> referencedFiles = ProjectBasedBuilder.getProjectBasedBuilder(project)
 				.getFilesofReferencedProjects();
 
-		
+
 		final List<String> command = new ArrayList<String>();
 		final IPreferencesService prefs = Platform.getPreferencesService();
 		final String pathOfTITAN = prefs.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.TITAN_INSTALLATION_PATH, "",

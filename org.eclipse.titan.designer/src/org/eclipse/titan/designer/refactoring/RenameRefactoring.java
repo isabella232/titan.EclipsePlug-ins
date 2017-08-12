@@ -445,7 +445,7 @@ public class RenameRefactoring extends Refactoring {
 	 */
 	public static void reanalyseAstAfterRefactoring(final IProject project, final Set<Module> modules ){
 
-		
+
 		final ConcurrentLinkedQueue<WorkspaceJob> reportOutdatingJobs = new ConcurrentLinkedQueue<WorkspaceJob>();
 		for(Module tempModule : modules) {
 			final IFile f = (IFile)tempModule.getLocation().getFile();
@@ -465,7 +465,7 @@ public class RenameRefactoring extends Refactoring {
 			reportOutdatingJobs.add(op);
 			op.schedule();
 		}
-		
+
 		//Waits for finishing update then analyzes all projects related to this change
 		final WorkspaceJob op = new WorkspaceJob("Analyzes all projects related to this change") {
 			@Override

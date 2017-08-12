@@ -42,7 +42,7 @@ import org.eclipse.titan.designer.parsers.ParserUtilities;
  * @author Arpad Lovassy
  */
 public final class TTCN3ReparseUpdater {
-	
+
 	/** Errors from the parser (indicating syntax errors). */
 	private List<SyntacticErrorStorage> mErrors;
 
@@ -100,7 +100,7 @@ public final class TTCN3ReparseUpdater {
 	public final int getDamageEnd() {
 		return modificationEndOffset;
 	}
-	
+
 	public final int getFirstLine() {
 		return firstLine;
 	}
@@ -219,7 +219,7 @@ public final class TTCN3ReparseUpdater {
 
 		return followSet.contains( token.getType() );
 	}
-	
+
 	/**
 	 * Checks if the last TTCN-3 lexical token in the substring, that covers the possibly changed interval of the document belongs to a given list of
 	 * expected tokens or not.
@@ -437,7 +437,7 @@ public final class TTCN3ReparseUpdater {
 			}
 		}
 	}
-	
+
 	public final void reportSyntaxErrors() {
 		reportSpecificSyntaxErrors();
 		if (warnings != null) {
@@ -494,7 +494,7 @@ public final class TTCN3ReparseUpdater {
 
 		return columnCounter;
 	}
-	
+
 	public int parse(ITTCN3ReparseBase userDefined) {
 		if (modificationStartOffset == modificationEndOffset + shift) {
 			return 0;
@@ -529,7 +529,7 @@ public final class TTCN3ReparseUpdater {
 		Ttcn3Lexer lexer = new Ttcn3Lexer(charStream);
 		lexer.setTokenFactory( new CommonTokenFactory( true ) );
 		lexer.initRootInterval(modificationEndOffset - modificationStartOffset + 1);
-		
+
 		// lexer and parser listener
 		TitanListener parserListener = new TitanListener();
 		// remove ConsoleErrorListener
@@ -560,7 +560,7 @@ public final class TTCN3ReparseUpdater {
 		mErrors = parserListener.getErrorsStored();
 		warnings = parser.getWarnings();
 		unsupportedConstructs.addAll(parser.getUnsupportedConstructs());
-		
+
 		int result = measureIntervallDamage();
 		if(!parser.isErrorListEmpty()){
 			++result;

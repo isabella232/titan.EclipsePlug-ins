@@ -273,9 +273,9 @@ public final class MakeAttributesTab {
 		try {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakeAttributesData.BUILD_LEVEL_PROPERTY));
-			temp = MakeAttributesData.getBuildLevel(temp);			
+			temp = MakeAttributesData.getBuildLevel(temp);
 			tempStorage.setValue(MakeAttributesData.BUILD_LEVEL_PROPERTY, temp);
-	
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakeAttributesData.TEMPORAL_MAKEFILE_SCRIPT_PROPERTY));
 			if (temp != null) {

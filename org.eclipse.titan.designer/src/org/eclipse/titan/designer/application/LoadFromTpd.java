@@ -52,7 +52,7 @@ public class LoadFromTpd implements IApplication {
 			return Integer.valueOf(-1);
 		}
 		final String[] projectFiles = (String[]) arguments;
-		
+
 		if (projectFiles.length != 1) {
 			System.out.println("This application takes as parameter the location of the Tpd file it should load projects from.");
 			return Integer.valueOf(-1);
@@ -103,11 +103,11 @@ public class LoadFromTpd implements IApplication {
 
 		return Integer.valueOf(-1);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void stop() {
 		// nothing to be done
-		
+
 	}
 }

@@ -610,7 +610,6 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			} else {
 				init.append(MessageFormat.format("{0} = {1};\n", tempId, expression.expression));
 			}
-			
 
 			if(expression.postamble.length() > 0) {
 				init.append(expression.postamble);

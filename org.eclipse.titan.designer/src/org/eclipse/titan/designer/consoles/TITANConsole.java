@@ -46,21 +46,21 @@ public final class TITANConsole {
 //				{
 //					return new TitanConsoleStream(this);
 //				}
-//				
+//
 //			};
 			console.activate();
 			ConsolePlugin.getDefault().getConsoleManager().addConsoles(new IConsole[]{console});
 		}
 		return console;
 	}
-	
+
 	public static void clearConsole() {
 		if(inHeadLessMode) {
 			return;
 		}
 		getConsole().clearConsole();
 	}
-	
+
 	public static void println(final String message, final MessageConsoleStream stream) {
 		if(inHeadLessMode) {
 			return;
@@ -72,7 +72,7 @@ public final class TITANConsole {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 	}
-	
+
 	// It creates a MessageStream just for this println
 	public static void println(final String message) {
 		if(inHeadLessMode) {
@@ -80,14 +80,14 @@ public final class TITANConsole {
 		}
 		println(message, getConsole().newMessageStream());
 	}
-	
+
 	public static void print(final String message, final MessageConsoleStream stream) {
 		if(inHeadLessMode) {
 			return;
 		}
 		stream.print(message);
 	}
-	
+
 	// It creates a MessageStream just for this println
 	public static void print(final String message) {
 		if(inHeadLessMode) {

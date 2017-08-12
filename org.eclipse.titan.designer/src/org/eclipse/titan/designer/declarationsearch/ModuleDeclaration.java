@@ -80,7 +80,7 @@ class ModuleDeclaration extends Declaration {
 		// No reference finder present, guard with null
 		return null;
 	}
-	
+
 	@Override
 	public Assignment getAssignment() {
 		return null;

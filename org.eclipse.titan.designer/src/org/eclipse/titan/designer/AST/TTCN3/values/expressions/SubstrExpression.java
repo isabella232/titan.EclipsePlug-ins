@@ -592,6 +592,6 @@ public final class SubstrExpression extends Expression_Value {
 			//FATAL ERROR
 			break;
 		}
-		
+
 	}
 }

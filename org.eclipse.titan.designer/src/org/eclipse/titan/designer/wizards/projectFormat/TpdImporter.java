@@ -241,7 +241,7 @@ public class TpdImporter {
 			IPath projectFileFolderPath = new Path(file.getPath()).removeLastSegments(1);
 			URI projectFileFolderURI = URIUtil.toURI(projectFileFolderPath);
 			Document actualDocument = projectsToImport.get(file);
-			
+
 			if (this.searchPaths != null && !this.searchPaths.isEmpty()) {
 				String tpdNameAttrVal = tpdNameAttrMap.get(project.getName());
 				String tpdURIVal = tpdURIMap.get(project.getName());
@@ -802,7 +802,7 @@ public class TpdImporter {
 
 		// Remove possible target configuration nodes in existence
 		removeConfigurationNodes(targetDocument.getDocumentElement());
-		
+
 
 		Node targetActiveConfiguration = targetDocument.createElement(ProjectFormatConstants.ACTIVE_CONFIGURATION_NODE);
 		targetActiveConfiguration.appendChild(targetDocument.createTextNode(activeConfiguration));
@@ -817,7 +817,7 @@ public class TpdImporter {
 			ProjectBuildPropertyData.setProjectAlreadyExported(project, false);
 			ProjectFileHandler handler = new ProjectFileHandler(project);
 			handler.loadProjectSettingsFromDocument(targetDocument);
-			
+
 			return true;
 		}
 
@@ -970,7 +970,7 @@ public class TpdImporter {
 
 		IProject project = ResourcesPlugin.getWorkspace().getRoot().getProject(projectName);
 		if (project.exists()) {
-						
+
 			if (!treatExistingProjectAsError || headless) {
 
 				if(!project.isOpen()) {
@@ -1035,10 +1035,10 @@ public class TpdImporter {
 					+ " could not be loaded");
 			return false;
 		}
-		
+
 		Document document = getDocumentFromFile(file.getPath());
-		
-		
+
+
 		if (document == null) {
 			final StringBuilder builder = new StringBuilder("It was not possible to load the imported project file: '" + file.toString()
 					+ "'\n");
@@ -1134,7 +1134,7 @@ public class TpdImporter {
 					}
 				}
 			}
-			
+
 			if (absoluteURI!=null && !"file".equals(absoluteURI.getScheme())) {
 				final StringBuilder builder = new StringBuilder(
 						"Loading of project information is only supported for local files right now. " + absoluteURI.toString()

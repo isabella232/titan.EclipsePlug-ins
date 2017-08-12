@@ -68,7 +68,7 @@ public final class LicenseValidator {
 		if ( !License.isLicenseNeeded() ) {
 			return true;
 		}
-		
+
 		if (wasChecked) {
 			return wasCorrect;
 		}

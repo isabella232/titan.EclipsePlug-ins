@@ -58,7 +58,7 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 			+ " in the names of the definitions.\n" + 
 			"They should be explicitly set as visibility attributes of the definition";
 
-	
+
 	private boolean changed = false;
 
 	private static final String[][] IGNORE_WARNING_ERROR = new String[][] { { "Ignore", GeneralConstants.IGNORE },
@@ -322,7 +322,7 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 		addField(createFieldEditor(comp, PreferenceConstants.REPORTNAMINGCONVENTION_COMPONENT_VARIABLE, "component variable"));
 		addField(createFieldEditor(comp, PreferenceConstants.REPORTNAMINGCONVENTION_COMPONENT_TIMER, "component timer"));
 	}
-	
+
 	/**
 	 * Creates the section of naming conventions governing definitions
 	 * 
@@ -360,11 +360,11 @@ public class NamingConventionPreferencePage extends FieldEditorPreferencePage im
 			}
 		});
 		addField(comboedit);
-	
+
 	}
-	
-	
-	
+
+
+
 
 	@Override
 	protected IPreferenceStore doGetPreferenceStore() {

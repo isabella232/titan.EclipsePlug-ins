@@ -47,7 +47,7 @@ public final class TITANFlagsOptionsData {
 	public static final String WARNINGS_FOR_BAD_VARIANTS_PROPERTY = "warningsForBadVariants";
 	public static final String IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY = "ignoreUntaggedOnTopLevelUnion";
 	public static final String ACTIVATE_DEBUGGER_PROPERTY = "activateDebugger";
-	
+
 	//The order of items of the next array defines the order of items in the tpd file within the "MakefileSettings".
 	//It should be according to the TPD.xsd otherwise the generated tpd will not be valid and the import will fail.
 	public static final String[] PROPERTIES = {
@@ -90,7 +90,7 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_XER_PROPERTY));
 			builder.append("true".equals(temp) ? "X" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
 			builder.append("true".equals(temp) ? "j" : "");
@@ -138,15 +138,15 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
 			builder.append("true".equals(temp) ? "M" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
 			builder.append("true".equals(temp) ? "E" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
 			builder.append("true".equals(temp) ? "N" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData. ACTIVATE_DEBUGGER_PROPERTY));
 			builder.append("true".equals(temp) ? "n" : "");
@@ -191,7 +191,7 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_XER_PROPERTY));
 			builder.append("true".equals(temp) ? " + disable XER" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
 			builder.append("true".equals(temp) ? " + disable JSON" : "");
@@ -239,11 +239,11 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
 			builder.append("true".equals(temp) ? " + allow omit in template value lists" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
 			builder.append("true".equals(temp) ? " + warnings for unrecognized encodings" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
 			builder.append("true".equals(temp) ? " + ignore UNTAGGED encoding instruction on top level unions" : "");
@@ -251,7 +251,7 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 			builder.append("true".equals(temp) ? " + activate debugger" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					MakefileCreationData.CODE_SPLITTING_PROPERTY));
 			if (temp != null && !"".equals(temp) && !GeneralConstants.NONE.equals(temp)) {

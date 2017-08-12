@@ -52,11 +52,11 @@ parser grammar Asn1Parser;
 	private IProject project = null;
 
 	private List<SyntacticErrorStorage> errorsStored = new ArrayList<SyntacticErrorStorage>();
-	
+
 	public List<SyntacticErrorStorage> getErrorStorage() {
 		return errorsStored;
 	}
-	
+
 	public void setProject(IProject project) {
 		this.project = project;
 	}
@@ -136,7 +136,7 @@ parser grammar Asn1Parser;
 	public List<TITANMarker> getWarnings(){
 		return warnings;
 	}
-	
+
 	private ArrayList<TITANMarker> unsupportedConstructs = new ArrayList<TITANMarker>();
 
 	public void reportUnsupportedConstruct(TITANMarker marker) {
@@ -146,7 +146,7 @@ parser grammar Asn1Parser;
 	public ArrayList<TITANMarker> getUnsupportedConstructs() {
 		return unsupportedConstructs;
 	}
-	
+
 	int consume_counter = 0;
 
 	public int nof_consumed_tokens() {
@@ -155,13 +155,13 @@ parser grammar Asn1Parser;
 
 	public Token consume() {
 			Token token = super.consume();
-			
+
 			if(token.getType() == BLOCK) {
 				consume_counter += ((TokenWithIndexAndSubTokens)token).tokenList.size() + 2;
 			} else {
 				consume_counter++;
 			}
-			
+
 			return token;
 	}
 }
@@ -178,8 +178,8 @@ pr_TITAN_special_Assignment [Identifier identifier]
 returns [ASN1Assignment assignment]
 locals [Token col, ASN1Type type, Reference reference, ObjectClass_Definition objectClass_Definition]
 @init { $type = null; $reference = null; $objectClass_Definition = null; $assignment = null; }:
-(	
-	(	
+(
+	(
 		a = pr_Type_reg
 		{
 			$type = $a.type; 
@@ -269,7 +269,7 @@ locals [Exports exports, Imports imports]
 		a = pr_Exports	{ $exports = $a.exports; }
 	|	{ $exports = new Exports(true); }
 	)
-	(	
+	(
 		b = pr_Imports	{ $imports = $b.imports; }
 	|	{
 			$imports = new Imports();
@@ -280,7 +280,7 @@ locals [Exports exports, Imports imports]
 		}
 	)
 	c = pr_AssignmentList	{ $assignments = $c.assignments; }
-|	{	
+|	{
 		$exports = new Exports(false);
 		$imports = new Imports();
 		$assignments = new ASN1Assignments();
@@ -399,7 +399,7 @@ locals [Identifier identifier, Ass_pard formalParameters, ASN1Type type, Referen
 		tr = pr_Type_reg
 		{
 			$type = $tr.type;
-			$assignment = new Type_Assignment($identifier, $formalParameters, $type);	
+			$assignment = new Type_Assignment($identifier, $formalParameters, $type);
 		}
 	)
 |	(
@@ -409,7 +409,7 @@ locals [Identifier identifier, Ass_pard formalParameters, ASN1Type type, Referen
 			$type = new Referenced_Type($reference);
 			$type.setLocation(getLocation($uo.start, $uo.stop));
 			$assignment = new Type_Assignment($identifier, $formalParameters, $type);
-			
+
 		}
 	)
 |	(
@@ -454,21 +454,21 @@ locals [Identifier identifier, Ass_pard formalParameters, Reference reference, R
 		(
 			d1  = pr_DefdUpper	{ $reference = $d1.reference; }
 			ASSIGNMENT
-			b1 = BLOCK			
+			b1 = BLOCK
 			{
 				$assignment = new Undefined_Assignment_OS_or_VS($identifier, $formalParameters, $reference, new Block($b1));
 			}
 		)
 	|	(
 			ASSIGNMENT
-			d2 = pr_DefdUpper	
+			d2 = pr_DefdUpper
 			{
 				$reference = $d2.reference;
 				if ($reference != null) {
 					$assignment = new Undefined_Assignment_T_or_OC($identifier, $formalParameters, $reference);
 				}
 			}
-		)	
+		)
 	)
 |	(
 		id = LOWERIDENTIFIER	{ $identifier = new Identifier(Identifier_type.ID_ASN, $id.getText(), getLocation($id, $id)); }
@@ -522,7 +522,7 @@ locals [Token endcol, Identifier identifier, Reference reference, Reference refe
 		(
 			a10 = pr_Type_reg { $type = $a10.type; }
 			ASSIGNMENT
-			(	
+			(
 				a11 = pr_Value_reg			{ $value = $a11.value; $endcol = $a11.stop; }
 			|	a12 = pr_NullValue			{ $value = $a12.value; $endcol = $a12.stop; }
 			|	block1 = BLOCK				{ $value = new Undefined_Block_Value(new Block($block1)); $endcol = $block1;}
@@ -549,10 +549,10 @@ locals [Token endcol, Identifier identifier, Reference reference, Reference refe
 			$type = new Referenced_Type($reference);
 			$assignment = new Value_Assignment($identifier, $formalParameters, $type, $value);
 		}
-	|	(	
+	|	(
 			a40 = pr_DefdUpper { $reference = $a40.reference; }
 			ASSIGNMENT
-			(	
+			(
 				a41 = pr_Value_reg { $value = $a41.value; }//value_assignment
 				{
 					$endcol = $a41.stop;
@@ -588,16 +588,16 @@ pr_Type_reg returns [ASN1Type type]
 locals [ASN1Type subType, NamedType_Helper namedType_Helper, Constraint constraint, Constraints constraints]
 @init { $subType = null; $namedType_Helper = null; $constraint = null; $constraints = null; $type = null; }:
 (
-	(	(	
+	(	(
 			set = SET
 		|	sequence = SEQUENCE
 		)
-		(	
+		(
 			a = pr_Constraint		{ $constraint = $a.constraint; }
 		|	b = pr_SizeConstraint	{ $constraint = $b.constraint; }
 		)?
 		OF
-		(	
+		(
 			c = pr_NamedType{ $namedType_Helper = $c.helper; $subType = $namedType_Helper.type;}
 		|	d = pr_Type		{ $subType = $d.type;}
 		)   // pr_SeqOfSetOfWithConstraint, pr_SequenceOfType, pr_SetOfType
@@ -618,7 +618,7 @@ locals [ASN1Type subType, NamedType_Helper namedType_Helper, Constraint constrai
 	)
 |//	(
 //		(
-			(	
+			(
 				builtin = pr_BuiltinType_reg { $type = $builtin.type; }
 				(
 					e = pr_Constraints { $constraints = $e.constraints; } 
@@ -657,10 +657,10 @@ locals [ASN1Type subType, NamedType_Helper namedType_Helper, Constraint constrai
 pr_ObjectClassDefn returns [ObjectClass_Definition objectClass_Definition]
 locals [Token end, Block withBlock]
 @init { $withBlock = null; $objectClass_Definition = null; }:
-(	
+(
 	CLASS
 	block1 = BLOCK {  $end = $block1; }
-	(	
+	(
 		block2 = pr_WithSyntaxSpec { $withBlock = $block2.block; $end = $block2.stop; }
 	)?
 )
@@ -671,8 +671,8 @@ locals [Token end, Block withBlock]
 
 pr_Symbol returns [Identifier identifier]
 @init { $identifier = null; }:
-(	
-	(	
+(
+	(
 		a = UPPERIDENTIFIER
 		{ 
 			$identifier = new Identifier(Identifier_type.ID_ASN, $a.getText(), getLocation($a, $a));
@@ -688,14 +688,14 @@ pr_Symbol returns [Identifier identifier]
 );
 
 pr_AssignedIdentifier:
-(	
+(
 	BLOCK
 |	pr_DefinedValue
 );
 
 pr_WithSyntaxSpec returns [Block block]
 @init { $block = null; }:
-(	
+(
 	WITH
 	SYNTAX
 	b = BLOCK
@@ -719,7 +719,7 @@ locals [String text]
 
 pr_special_FieldSpecList returns [FieldSpecifications fieldSpecifications]
 @init { $fieldSpecifications = null; }:
-(	
+(
 	a = pr_FieldSpecList { $fieldSpecifications = $a.fieldSpecifications; }
 	EOF
 );
@@ -735,7 +735,7 @@ locals [FieldSpecification fieldSpecification]
 			$fieldSpecifications.addFieldSpecification($fieldSpecification);
 		}
 	}
-	(	
+	(
 		COMMA
 		endCol = pr_FieldSpec { $fieldSpecification = $endCol.fieldSpecification; }
 			{	if($fieldSpecification != null) {
@@ -748,7 +748,7 @@ locals [FieldSpecification fieldSpecification]
 
 pr_FieldSpec returns [FieldSpecification fieldSpecification]
 @init { $fieldSpecification = null; }:
-(	
+(
 	a = pr_TypeFieldSpec { $fieldSpecification = $a.fieldspecification; }
 |	b = pr_FixedTypeValueFieldSpec { $fieldSpecification = $b.fieldSpecification; }
 |	c = pr_UndefFieldSpec { $fieldSpecification = $c.fieldSpecification; }
@@ -774,15 +774,15 @@ locals [Identifier identifier, Defined_Reference reference, boolean is_optional,
 @init { $identifier = null; $reference = null;  $is_optional = false; $defaultBlock = null; $defaultSetting = null; 
 		$fieldSpecification = null; } :
 (
-	(	
+	(
 		a = AMPLOWERIDENTIFIER	{ $identifier = new Identifier(Identifier_type.ID_ASN, $a.getText(), getLocation($a, $a)); }
 	|	b = AMPUPPERIDENTIFIER	{ $identifier = new Identifier(Identifier_type.ID_ASN, $b.getText(), getLocation($b, $b)); }
 	)
 	c = pr_SimplDefdUpper		{ $reference = $c.reference; }
-	(	
+	(
 		OPTIONAL	{ $is_optional = true; }
 	|	DEFAULT
-		(	
+		(
 			block = BLOCK 	{ $defaultBlock = new Block($block); }//pr_Dflt_Block
 		|	e = pr_RefdLower { $defaultSetting = $e.reference; }//pr_Dflt_RefdLower // This did not exist for AmpUpperIdentifier in the original parser
 		)
@@ -800,7 +800,7 @@ pr_special_ObjectClassSyntax_Builder [FieldSpecifications fieldSpecifications]
 returns [ArrayList<ObjectClassSyntax_Node> nodes]
 locals [Token endcol, Identifier identifier, ObjectClassSyntax_literal literal]
 @init { $identifier = null; $literal = null; $nodes = new ArrayList<ObjectClassSyntax_Node>(); }:
-(	
+(
 	(
 		block = BLOCK
 		{
@@ -823,7 +823,7 @@ locals [Token endcol, Identifier identifier, ObjectClassSyntax_literal literal]
 					$nodes.add(new ObjectClassSyntax_literal($identifier));
 				}
 			}
-	|	(	
+	|	(
 			c = AMPUPPERIDENTIFIER { $identifier = new Identifier(Identifier_type.ID_ASN, $c.getText(), getLocation($c, $c)); $endcol = $c; }
 		|	d = AMPLOWERIDENTIFIER { $identifier = new Identifier(Identifier_type.ID_ASN, $d.getText(), getLocation($d, $d)); $endcol = $d; }
 		)	//ampId
@@ -893,7 +893,7 @@ pr_special_ObjectSet returns [ObjectSet objectSet]
 
 pr_special_Value returns [Value value]
 @init { $value = null; }:
-(	
+(
 	a = pr_special_Value_subrule { $value = $a.value; }
 );
 
@@ -906,7 +906,7 @@ pr_special_Value_subrule returns [Value value]
 );
 
 pr_special_Value_endCorrectingSubrule:
-(	
+(
 	pr_special_Value_subrule
 	( . | EOF )
 	( . | EOF )
@@ -917,7 +917,7 @@ pr_special_Value_endCorrectingSubrule:
 pr_parseReference returns [Reference reference]
 locals [Token endCol, FieldSubReference subReference]
 @init { $subReference = null; $reference = new Reference(null); }:
-(	
+(
 	(
 		(	a1 = LOWERIDENTIFIER
 			{
@@ -943,7 +943,7 @@ locals [Token endCol, FieldSubReference subReference]
 		( BLOCK )?
 		{ $reference.addSubReference($subReference); }
 	)
-	(	
+	(
 		DOT
 		(	a2 = LOWERIDENTIFIER
 			{
@@ -1006,13 +1006,13 @@ pr_special_Enumerations returns [ASN1_Enumeration enumeration]
 pr_Enumerations [ASN1_Enumeration enumeration]
 locals [ ExceptionSpecification exceptionSpecification]
 @init	{ $exceptionSpecification = null; }:
-(	
+(
 	a = pr_Enumeration	{ $enumeration.enumItems1 = $a.enumItems; }
-	(	
+	(
 		COMMA
 		ELLIPSIS	{ $enumeration.hasEllipses = true; }
 		b = pr_ExceptionSpec { $exceptionSpecification = $b.exceptionSpecification; } 
-		(	
+		(
 			COMMA
 			c = pr_Enumeration	{ $enumeration.enumItems2 = $c.enumItems; }
 		)?
@@ -1028,7 +1028,7 @@ locals [EnumItem enumItem]
 		$enumItem = $a.enumItem;
 		if($enumItem != null) { $enumItems.addEnumItem($enumItem); }
 	}
-	(	
+	(
 		COMMA
 		b = pr_EnumerationItem
 		{
@@ -1061,7 +1061,7 @@ locals [Value value]
 pr_NamedBitList [NamedValues namedValues]
 locals [NamedValue namedValue]
 @init { $namedValue = null; }:
-(	
+(
 	a = pr_NamedBit 
 	{
 		$namedValue = $a.namedValue;
@@ -1080,10 +1080,10 @@ locals [NamedValue namedValue]
 pr_NamedBit returns [NamedValue namedValue]
 locals [Value value]
 @init { $value = null; $namedValue = null; }:
-(	
+(
 	a = LOWERIDENTIFIER
 	LPAREN
-	(	
+	(
 		b = pr_Val_Number	{ $value = $b.value; }
 	|	c = pr_DefinedValue	{ $value = $c.value; }
 	)
@@ -1108,7 +1108,7 @@ pr_IdentifierList1 [Named_Bits named_bits]:
 		Identifier identifier1 = new Identifier(Identifier_type.ID_ASN, $a.getText(), getLocation($a, $a));
 		$named_bits.addId(identifier1);
 	}
-	(	
+	(
 		COMMA
 		b = LOWERIDENTIFIER
 		{
@@ -1134,7 +1134,7 @@ locals [NamedValue namedValue]
 
 pr_NamedNumber returns [NamedValue namedValue]
 @init { Value value = null; $namedValue = null; }:
-(	
+(
 	a = LOWERIDENTIFIER
 	LPAREN
 	(
@@ -1175,12 +1175,12 @@ a = NUMBER
 
 pr_DefdLower returns [Defined_Reference reference]
 @init { Defined_Reference simpleReference = null; $reference = null;}:
-(	
+(
 	(
 		startcol1 = pr_ExtLowerRef	{ simpleReference = $startcol1.reference; }	//pr_SimplDefdLower
 	|	startcol2 = pr_LowerRef		{ simpleReference = $startcol2.reference; }	//pr_SimplDefdLower
 	)
-	(	
+	(
 		b = BLOCK  //pr_PardLower
 	)?
 )
@@ -1197,7 +1197,7 @@ pr_DefdLower returns [Defined_Reference reference]
 
 pr_ExtLowerRef returns [Defined_Reference reference]
 @init { Identifier id1 = null; Identifier id2 = null; $reference = null; }:
-(	
+(
 	a = UPPERIDENTIFIER
 	DOT
 	b = LOWERIDENTIFIER
@@ -1228,9 +1228,9 @@ locals [Identifier id]
 pr_Type returns [ASN1Type type]
 locals [Type subType, NamedType_Helper namedType_Helper, Constraint constraint, Constraints constraints]
 @init { $subType = null; $namedType_Helper = null; $constraint = null; $constraints = null; $type = null; }:
-(	
-	(	
-		(	
+(
+	(
+		(
 			set = 		SET
 		|	sequence =	SEQUENCE
 		)
@@ -1268,14 +1268,14 @@ locals [Type subType, NamedType_Helper namedType_Helper, Constraint constraint, 
 		}
 	)
 |	(
-		(	
+		(
 			builtin = pr_BuiltinType_reg 
 			{
 				$type = $builtin.type;
 				$type.setLocation(getLocation($builtin.start, $builtin.stop));
 			}
 		|	referenced = pr_ReferencedType
-			{	
+			{
 				$type = $referenced.type;
 				$type.setLocation(getLocation($referenced.start, $referenced.stop));
 			}
@@ -1294,7 +1294,7 @@ locals [Type subType, NamedType_Helper namedType_Helper, Constraint constraint, 
 
 pr_SizeConstraint returns[Constraint constraint]
 @init { $constraint = null; }:
-(	
+(
 	SIZE
 	a = pr_Constraint { $constraint = $a.constraint; }
 );
@@ -1302,7 +1302,7 @@ pr_SizeConstraint returns[Constraint constraint]
 pr_Constraint returns[Constraint constraint]
 locals [ExceptionSpecification exceptionSpecfication]
 @init { $exceptionSpecfication = null; $constraint = null; }:
-(	
+(
 	LPAREN
 	a = pr_ConstraintSpec	{ $constraint = $a.constraint; }
 	b = pr_ExceptionSpec	{ $exceptionSpecfication = $b.exceptionSpecification; }
@@ -1318,7 +1318,7 @@ pr_ConstraintSpec returns[Constraint constraint]
 
 pr_GeneralConstraint returns[Constraint constraint]
 @init { $constraint = null; }:
-(	
+(
 	a = pr_UserDefinedConstraint{ $constraint = $a.constraint; }
 |	b = pr_TableConstraint		{ $constraint = $b.constraint; }
 |	c = pr_ContentsConstraint	{ $constraint = $c.constraint; }
@@ -1326,7 +1326,7 @@ pr_GeneralConstraint returns[Constraint constraint]
 
 pr_NamedType returns [NamedType_Helper helper]
 @init { ASN1Type type = null; $helper = new NamedType_Helper(); }:
-(	
+(
 	a = LOWERIDENTIFIER
 	b = pr_Type { type = $b.type; }
 )
@@ -1337,7 +1337,7 @@ pr_NamedType returns [NamedType_Helper helper]
 
 pr_Object returns [ASN1Object object]
 @init { $object = null; }:
-(	
+(
 	a = pr_DefinedObject	{ $object = $a.object; }
 |	b = pr_ObjectDefn		{ $object = $b.object; }
 );
@@ -1354,7 +1354,7 @@ pr_ObjectSet  returns [ObjectSet objectSet]
 
 pr_BuiltinValue returns[Value value]
 @init { $value = null; }:
-(	
+(
 	a = pr_BuiltinValue_reg	{ $value = $a.value; }
 |	b = pr_NullValue		{ $value = $b.value; }
 |	c = pr_LowerIdValue		{ $value = $c.value; }
@@ -1364,7 +1364,7 @@ pr_BuiltinValue returns[Value value]
 pr_ReferencedValue_reg returns[Value value]
 locals [Reference reference]
 @init { $reference = null; $value = null; }:
-(	
+(
 	a = pr_RefdLower_reg { $reference = $a.reference; }
 )
 {
@@ -1402,7 +1402,7 @@ pr_BuiltinType_reg returns [ASN1Type type]
 pr_ReferencedType returns [Referenced_Type type]
 locals [Reference reference]
 @init { $reference = null; }:
-(	
+(
 	 a = pr_RefUpper { $reference = $a.reference; }
 )
 {
@@ -1413,7 +1413,7 @@ locals [Reference reference]
 pr_Constraints returns[Constraints constraints]
 locals [Constraint constraint]
 @init { $constraint = null; $constraints = new Constraints(); }:
-(	
+(
 	a = pr_Constraint
 	{
 		$constraint = $a.constraint;
@@ -1427,7 +1427,7 @@ pr_Tag:
 	pr_Class
 	pr_ClassNumber
 	SQUARECLOSE
-	(	
+	(
 		IMPLICIT
 	|	EXPLICIT
 	)?
@@ -1464,10 +1464,10 @@ pr_TableConstraint returns[TableConstraint constraint]
 // NOT YET SUPPORTED IN SEMANTIC CHECKING
 pr_ContentsConstraint returns[Constraint constraint]
 @init {ASN1Type type = null; Value value = null; $constraint = null; }:
-(	
+(
 	CONTAINING
 	a = pr_Type			{ type = $a.type; }
-	(	
+	(
 		ENCODED BY
 		b = pr_Value	{ value = $b.value; }
 	)?
@@ -1497,7 +1497,7 @@ pr_ObjectDefn returns [Object_Definition object]
 
 pr_BuiltinValue_reg returns[Value value]
 @init { $value = null; }:
-(	
+(
 	a = BSTRING
 	{
 		String temp = $a.getText();
@@ -1513,15 +1513,15 @@ pr_BuiltinValue_reg returns[Value value]
 |	c = pr_Val_CString	{ $value = $c.value; }
 |	d = pr_BooleanValue	{ $value = $d.value; }
 |	e = pr_ChoiceValue	{ $value = $e.value; }
-|	(	
+|	(
 		f1 = MINUS
-		(	
+		(
 			f10 = pr_Val_Number
 			{
 				$value = $f10.value;
 				((Integer_Value)$value).changeSign();
 			}
-		|	f11 = REALNUMBER	
+		|	f11 = REALNUMBER
 			{
 				$value = new Real_Value(Double.parseDouble( $f11.getText()));
 				$value.setLocation(getLocation($f11, $f11));
@@ -1573,7 +1573,7 @@ pr_LowerIdValue returns[Undefined_LowerIdentifier_Value value]
 pr_RefdLower_reg returns [Reference reference]
 locals [Defined_Reference tempReference]
 @init { $tempReference = null; $reference = null; }:
-(	
+(
 	(
 		a = pr_LowerRef		{ $tempReference = $a.reference; }
 	|	b = pr_ExtLowerRef	{ $tempReference = $b.reference; }
@@ -1581,7 +1581,7 @@ locals [Defined_Reference tempReference]
 	(
 		BLOCK //pr_PardLower
 	)?
-	(	
+	(
 		DOT
 		pr_FieldNameLower //pr_LowerFromObj
 	|	{ $reference = $tempReference; }
@@ -1590,7 +1590,7 @@ locals [Defined_Reference tempReference]
 
 pr_NullType returns [NULL_Type type]
 @init { $type = null; }:
-(	
+(
 	NULL)
 {
 	$type = new NULL_Type();
@@ -1624,14 +1624,14 @@ pr_BooleanType returns [Boolean_Type type]
 
 pr_CharacterStringType returns [ASN1Type type]
 @init { $type = null; }:
-(	
+(
 	a = pr_RestrictedCharacterStringType	{ $type = $a.type; }
 |	b = pr_UnrestrictedCharacterStringType	{ $type = $b.type; }
 );
 
 pr_ChoiceType returns [ASN1_Choice_Type type]
 @init { $type = null; }:
-(	
+(
 	CHOICE
 	endCol = BLOCK
 )
@@ -1664,7 +1664,7 @@ pr_SelectionType returns [Selection_Type type]
 
 pr_EnumeratedType returns [ASN1_Enumerated_Type type]
 @init { $type = null; }:
-(	
+(
 	ENUMERATED
 	block = BLOCK
 )
@@ -1709,7 +1709,7 @@ pr_RelativeOIDType returns [RelativeObjectIdentifier_Type type]
 
 pr_OctetStringType returns [OctetString_Type type]
 @init { $type = null; }:
-(	
+(
 	OCTET
 	a = STRING
 )
@@ -1730,7 +1730,7 @@ pr_RealType returns[Float_Type type]
 
 pr_SequenceType returns [ASN1_Sequence_Type type]
 @init { $type = null; }:
-(	
+(
 	SEQUENCE
 	block = BLOCK
 )
@@ -1741,7 +1741,7 @@ pr_SequenceType returns [ASN1_Sequence_Type type]
 
 pr_SetType returns [ASN1_Set_Type type]
 @init { $type = null; }:
-(	
+(
 	SET
 	block = BLOCK
 )
@@ -1775,7 +1775,7 @@ locals [Token endCol]
 @init { $type = null; }:
 (
 	a = ANY { $endCol = $a; }
-	(	
+	(
 		DEFINED BY
 		b = LOWERIDENTIFIER { $endCol = $b; }
 	)?
@@ -1788,7 +1788,7 @@ locals [Token endCol]
 pr_UsefulType returns [ASN1Type type]
 locals [Token col]
 @init { $type = null;}:
-(	
+(
 	a = GENERALIZEDTIME		{ $type = new GeneralizedTime_Type(); $col = $a;}
 |	b = UTCTIME				{ $type = new UTCTime_Type(); $col = $b;}
 |	c = OBJECTDESCRIPTOR	{ $type = new ObjectDescriptor_Type(); $col = $c;}
@@ -1801,14 +1801,14 @@ locals [Token col]
 
 pr_RefUpper returns [Reference reference]
 @init { $reference = null; }:
-(	
+(
 	a = pr_FromObjs		{ $reference = $a.fromObj; }
 |	b = pr_UpperFromObj	{ $reference = $b.fromObj; }
 |	c = pr_DefdUpper	{ $reference = $c.reference; }
 );
 
 pr_Class:
-(	
+(
 	UNIVERSAL
 |	APPLICATION
 |	PRIVATE
@@ -1822,7 +1822,7 @@ pr_ClassNumber:
 
 pr_ExceptionIdentification returns [ExceptionSpecification exceptionSpecification]
 @init { ASN1Type type = null; Value value = null; $exceptionSpecification = null; }:
-(	
+(
 	a = pr_SignedNumber
 	{
 		if ($a.value != null) { $exceptionSpecification = new ExceptionSpecification(null, $a.value); }
@@ -1978,7 +1978,7 @@ pr_Quadruple:
 
 pr_Group:
 (
-	NUMBER	
+	NUMBER
 );
 
 pr_Plane:
@@ -2031,7 +2031,7 @@ pr_FromObjs returns [InformationFromObj fromObj]
 
 pr_UpperFromObj returns [InformationFromObj fromObj]
 @init { $fromObj = null; }:
-(	
+(
 	a = pr_DefdLower
 	DOT
 	b = pr_FieldNameUpper
@@ -2045,7 +2045,7 @@ pr_DefdUpper returns [Reference reference]
 @init { $reference = null; }:
 (
 	a = pr_SimplDefdUpper
-	(	
+	(
 		block = BLOCK
 		{
 			if($a.reference != null) { $reference = new Parameterised_Reference($a.reference, $block != null ? new Block($block):null); }
@@ -2078,7 +2078,7 @@ pr_ObjectClassFieldValue returns[Value value]
 
 pr_GeneralString returns [GeneralString_Type type]
 @init { $type = null; }:
-(	
+(
 	GENERALSTRING
 )
 {
@@ -2088,7 +2088,7 @@ pr_GeneralString returns [GeneralString_Type type]
 
 pr_BMPString returns [BMPString_Type type]
 @init { $type = null; }:
-(	
+(
 	BMPSTRING
 )
 {
@@ -2118,7 +2118,7 @@ pr_IA5String returns [IA5String_Type type]
 
 pr_NumericString returns [NumericString_Type type]
 @init { $type = null; }:
-(	
+(
 	NUMERICSTRING
 )
 {
@@ -2128,7 +2128,7 @@ pr_NumericString returns [NumericString_Type type]
 
 pr_PrintableString returns [PrintableString_Type type]
 @init { $type = null; }:
-(	
+(
 	PRINTABLESTRING
 )
 {
@@ -2138,7 +2138,7 @@ pr_PrintableString returns [PrintableString_Type type]
 
 pr_TeletexString returns [TeletexString_Type type]
 @init { $type = null; }:
-(	
+(
 	TELETEXSTRING
 |	T61STRING
 )
@@ -2149,7 +2149,7 @@ pr_TeletexString returns [TeletexString_Type type]
 
 pr_UniversalString returns [UniversalString_Type type]
 @init { $type = null; }:
-(	
+(
 	UNIVERSALSTRING
 )
 {
@@ -2159,7 +2159,7 @@ pr_UniversalString returns [UniversalString_Type type]
 
 pr_UTF8String returns [UTF8String_Type type]
 @init { $type = null; }:
-(	
+(
 	UTF8STRING
 )
 {
@@ -2169,7 +2169,7 @@ pr_UTF8String returns [UTF8String_Type type]
 
 pr_VideoTextString returns [VideotexString_Type type]
 @init { $type = null; }:
-(	
+(
 	VIDEOTEXSTRING
 )
 {
@@ -2179,7 +2179,7 @@ pr_VideoTextString returns [VideotexString_Type type]
 
 pr_VisibleString returns [VisibleString_Type type]
 @init { $type = null; }:
-(	
+(
 	VISIBLESTRING
 |	ISO646STRING
 )
@@ -2190,9 +2190,9 @@ pr_VisibleString returns [VisibleString_Type type]
 
 pr_SimplDefdUpper returns [Defined_Reference reference]
 @init { Identifier first = null; $reference = null; }:
-(	
+(
 	a = UPPERIDENTIFIER
-	{	
+	{
 		first = new Identifier(Identifier_type.ID_ASN, $a.getText(), getLocation($a, $a));
 	}
 	(
@@ -2244,12 +2244,12 @@ locals [Token end, Defined_Reference ref, FieldName fieldName]
 		}
 	)?
 	DOT
-	(	
+	(
 		b1 = pr_FieldNameLower	{ $end = $b1.stop; $fieldName = $b1.fieldName; }
 	|	b2 = pr_FieldNameUpper	{ $end = $b2.stop; $fieldName = $b2.fieldName; }
-		(	
+		(
 			DOT
-			(	
+			(
 				c = AMPLOWERIDENTIFIER
 				{
 					Location location = getLocation($c, $c);
@@ -2295,7 +2295,7 @@ pr_FieldNameUpper returns [FieldName fieldName]
 
 pr_ElementSetSpecs returns[Constraint constraint]
 @init { $constraint = null; }:
-(	
+(
 	a = pr_RootElementSetSpec	{ $constraint = $a.constraint; }
 	(
 		COMMA
@@ -2325,11 +2325,11 @@ pr_FixedTypeFieldValue returns[Value value]
 pr_FieldNameUppers returns [FieldName fieldName]
 locals [Token endcol]
 @init { $fieldName = null; }:
-(	
+(
 	col = pr_FieldNameUpper { $fieldName = $col.fieldName; }
-	(	
+	(
 		DOT
-		(	
+		(
 			a = AMPLOWERIDENTIFIER
 			{
 				$endcol = $a;
@@ -2350,9 +2350,9 @@ locals [Token endcol]
 
 pr_Unions returns[Constraint constraint]
 @init { $constraint = null; }:
-(	
+(
 	a = pr_Intersections	{ $constraint = $a.constraint; }
-	(	
+	(
 		pr_UnionMark
 		pr_Intersections	{ $constraint = null; }
 	)*
@@ -2366,9 +2366,9 @@ pr_Exclusions:
 
 pr_Intersections returns[Constraint constraint]
 @init { $constraint = null; }:
-(	
+(
 	a = pr_IntersectionElements { $constraint = $a.constraint; }
-	(	
+	(
 		pr_IntersectionMark
 		pr_IntersectionElements	{ $constraint = null; }
 	)*
@@ -2391,7 +2391,7 @@ pr_Elements returns[Constraint constraint]
 
 pr_IntersectionElements returns[Constraint constraint]
 @init { $constraint = null; }:
-(	
+(
 	a = pr_Elements 	{ $constraint = $a.constraint; }
 	(
 		pr_Exclusions	{ $constraint = null; }
@@ -2407,7 +2407,7 @@ pr_IntersectionMark:
 pr_SubtypeElements returns[Constraint constraint]
 locals [Token col]
 @init { $constraint = null; }:
-(	
+(
 	a = pr_ValueRange			{ $col = $a.start; }
 |	b = pr_TypeConstraint		{ $col = $b.start; }
 |	c = pr_SingleValue			{ $col = $c.start; $constraint = $c.constraint; }
@@ -2443,7 +2443,7 @@ locals [Token col]
 );
 
 pr_ContainedSubtype:
-(	
+(
 	INCLUDES
 	pr_Type
 );
@@ -2509,7 +2509,7 @@ pr_LowerEndValue:
 );
 
 pr_UpperEndValue:
-(	
+(
 	pr_Value
 |	MAX
 );
@@ -2540,10 +2540,10 @@ locals [Token referenceEnd, Identifier identifier, ASN1Type type, boolean is_uni
 				(
 					(
 						c1 = UNIQUE			{ $is_unique = true; }
-						(	
+						(
 							c11 = OPTIONAL	{ $is_optional = true; }
 						|	DEFAULT			{ $has_default = true; }
-							(	
+							(
 								c121 = pr_Value_reg { $defaultValue = $c121.value; }//pr_Dflt_Value_reg
 							|	c122 = pr_NullValue { $defaultValue = $c122.value; }//pr_Dflt_NullValue
 							|	defaultBlock1 = BLOCK { $defaultValue = new Undefined_Block_Value(new Block($defaultBlock1));
@@ -2623,18 +2623,18 @@ locals [Token referenceEnd, Identifier identifier, ASN1Type type, boolean is_uni
 														$defaultValue.setLocation(getLocation($lowerid2, $lowerid2)); }//pr_Dflt_LowerId
 					)
 				)?
-			|	(	
+			|	(
 					DEFAULT	{ $has_default = true; }
 					(
 						f11 = pr_Value_reg { $defaultValue = $f11.value; }//pr_Dflt_Value_reg
 					|	f12 = pr_NullValue { $defaultValue = $f12.value; }//pr_Dflt_NullValue
 					)
 				|	DOT
-					(	
+					(
 						a2 = pr_FieldNameLower	{ $fieldName = $a2.fieldName; $referenceEnd = $a2.stop; }
 					|	a21 = pr_FieldNameUpper { $fieldName = $a21.fieldName; }
 						(	DOT
-							(	
+							(
 								b2 = AMPLOWERIDENTIFIER
 								{
 									Location location = getLocation($b2, $b2);
@@ -2657,7 +2657,7 @@ locals [Token referenceEnd, Identifier identifier, ASN1Type type, boolean is_uni
 						$reference.setLocation(getLocation($referenceStart.start, $referenceEnd));
 					}
 					f2 =pr_UNIQ_opt { $is_unique = $f2.is_unique; }
-					(	
+					(
 						OPTIONAL	{ $is_optional = true; }
 					|	f4 = pr_Dflt_Value	{ $defaultValue = $f4.value; $has_default = true; }
 					)?
@@ -2685,7 +2685,7 @@ pr_UNIQ_opt returns [boolean is_unique]
 
 pr_Dflt_Value returns [Value value]
 @init { $value = null; }:
-(	
+(
 	DEFAULT
 	a = pr_Value { $value = $a.value; }
 );
@@ -2768,7 +2768,7 @@ pr_special_SequenceValue returns [Sequence_Value value]
 pr_SequenceValue returns [Sequence_Value value]
 locals [NamedValues namedValues]
 @init { $namedValues = null; $value = null; }:
-(	
+(
 	(
 		a = pr_ComponentValueList { $namedValues = $a.namedValues; }
 	)?
@@ -2789,7 +2789,7 @@ locals [NamedValue namedValue]
 		$namedValue = $a.namedValue;
 		if($namedValue != null) {  $namedValues.addNamedValue($namedValue); }
 	}
-	(	
+	(
 		COMMA
 		b = pr_NamedValue
 		{
@@ -2822,7 +2822,7 @@ pr_special_SetValue returns [Set_Value value]
 pr_SetValue returns [Set_Value value]
 locals [NamedValues namedValues]
 @init	{ $namedValues = null; $value = null; }:
-(	
+(
 	(
 		a = pr_ComponentValueList { $namedValues = $a.namedValues; }
 	)?
@@ -2858,15 +2858,15 @@ locals [ObjectIdentifierComponent objidComponent]
 			$value.addObjectIdComponent($objidComponent);
 		}
 	}
-	
+
 )+;
 
 pr_ObjIdComponent returns [ObjectIdentifierComponent objidComponent]
 locals [Value value]
 @init { $value = null; $objidComponent = null; }:
-(	
+(
 	a = pr_ObjIdComponentNumber { $objidComponent = $a.objidComponent; }
-|	b = LOWERIDENTIFIER	
+|	b = LOWERIDENTIFIER
 	{
 		Identifier identifier = new Identifier(Identifier_type.ID_ASN, $b.getText(), 
 								getLocation($b, $b));
@@ -2914,7 +2914,7 @@ locals [Value value]
 (
 	a = LOWERIDENTIFIER
 	LPAREN
-	(	
+	(
 		b = pr_Val_Number	{ $value = $b.value; }	//pr_DefinitiveNameAndNumberForm
 	|	c = pr_DefinedValue	{ $value = $c.value; }
 	)
@@ -2962,7 +2962,7 @@ locals [ObjectIdentifierComponent objidComponent]
 (
 	a = pr_RelativeOIDComponent
 	{
-		$objidComponent = $a.objidComponent;		
+		$objidComponent = $a.objidComponent;
 		if($objidComponent != null) {
 			$value.addObjectIdComponent($objidComponent);
 		}
@@ -2972,7 +2972,7 @@ locals [ObjectIdentifierComponent objidComponent]
 pr_RelativeOIDComponent returns [ObjectIdentifierComponent objidComponent]
 locals [Value value]
 @init { $value = null; $objidComponent = null; }:
-(	
+(
 	a = pr_ObjIdComponentNumber { $objidComponent = $a.objidComponent; }
 |	b = pr_DefinedValue
 	{
@@ -2988,7 +2988,7 @@ locals [FormalParameter_Helper helper]
 @init { $helper = null; $parameters = new ArrayList<FormalParameter_Helper>(); }:
 (
 	a = pr_FormalParameter		{ $helper = $a.formalParameter;  $parameters.add($helper); }
-	(	
+	(
 		COMMA
 		b = pr_FormalParameter	{ $helper = $b.formalParameter; $parameters.add($helper); }
 	)*
@@ -2997,18 +2997,18 @@ locals [FormalParameter_Helper helper]
 
 pr_FormalParameter returns [FormalParameter_Helper formalParameter]
 @init { $formalParameter = new FormalParameter_Helper(); }:
-(	
+(
 	(
 		governorToken =  .  { $formalParameter.governorToken = $governorToken; }
 		COLON
 	)?
 	(	a = UPPERIDENTIFIER
-		{	
+		{
 			$formalParameter.identifier = new Identifier(Identifier_type.ID_ASN, $a.getText(), getLocation($a, $a));
 			$formalParameter.formalParameterToken = $a;
 		}
 	|	b = LOWERIDENTIFIER
-		{	
+		{
 			$formalParameter.identifier = new Identifier(Identifier_type.ID_ASN, $b.getText(), getLocation($b, $b));
 			$formalParameter.formalParameterToken = $b;
 		}
@@ -3082,7 +3082,7 @@ locals [NamedType_Helper helper, CompField field]
 pr_ExtensionAndException returns [ExtensionAndException extensionAndException]
 locals [ExceptionSpecification exeptionSpecification]
 @init { $exeptionSpecification = null; $extensionAndException = null; }:
-(	
+(
 	ELLIPSIS
 	a = pr_ExceptionSpec { $exeptionSpecification = $a.exceptionSpecification; }
 )
@@ -3136,7 +3136,7 @@ locals [ComponentTypeList componentTypeList, NamedType_Helper helper]
 );
 
 pr_ExtensionEndMarker:
-(	
+(
 	COMMA
 	ELLIPSIS
 );
@@ -3154,7 +3154,7 @@ locals [ComponentTypeList ctss1, ExtensionAndException ee, ExtensionAdditions ex
 (
 	(
 		a = pr_ComponentTypeList	{ $ctss1 = $a.componentTypeList; }
-		(	
+		(
 			COMMA
 			b = pr_ExtensionAndException { $ee = $b.extensionAndException; }
 			(
@@ -3162,10 +3162,10 @@ locals [ComponentTypeList ctss1, ExtensionAndException ee, ExtensionAdditions ex
 					COMMA
 					c = pr_ExtensionAdditionList
 					{
-						$extensionAdditions = $c.extensionAdditions;	
+						$extensionAdditions = $c.extensionAdditions;
 						if($ee != null) { $ee.setExtensionAdditions($extensionAdditions); }
 					}
-					(	
+					(
 						pr_ExtensionEndMarker
 						(
 							COMMA
@@ -3173,7 +3173,7 @@ locals [ComponentTypeList ctss1, ExtensionAndException ee, ExtensionAdditions ex
 						)?
 					)?
 				)
-			|	(	
+			|	(
 					pr_ExtensionEndMarker
 					(
 						COMMA
@@ -3183,9 +3183,9 @@ locals [ComponentTypeList ctss1, ExtensionAndException ee, ExtensionAdditions ex
 			)?
 		)?
 	)
-|	(	
+|	(
 		f = pr_ExtensionAndException	{ $ee = $f.extensionAndException; }
-		(	
+		(
 			COMMA
 			(
 				pr_ExtensionEndMarker
@@ -3196,7 +3196,7 @@ locals [ComponentTypeList ctss1, ExtensionAndException ee, ExtensionAdditions ex
 					$extensionAdditions = $h.extensionAdditions;
 					if($ee != null) { $ee.setExtensionAdditions($extensionAdditions); }
 				}
-				(	
+				(
 					pr_ExtensionEndMarker
 					(
 						COMMA
@@ -3221,7 +3221,7 @@ locals [ComponentType componentType]
 		$componentType = $a.componentType;
 		$componentTypeList.addComponentType($componentType);
 	}
-	(	
+	(
 		COMMA
 		b = pr_ComponentType
 		{
@@ -3287,7 +3287,7 @@ locals [NamedType_Helper helper, boolean optional, Value default_value]
 @init { $helper = null; $optional = false; $default_value = null; $compField = null; }:
 (
 	a = pr_NamedType { $helper = $a.helper; }
-	(	
+	(
 		OPTIONAL	{ $optional = true; }
 	|	DEFAULT
 		b = pr_Value { $default_value = $b.value; }
@@ -3336,7 +3336,7 @@ locals [ObjectSet_definition temporalDefinition]
 		)?
 	)?
 |	e = ELLIPSIS
-	(	
+	(
 		COMMA
 		f = pr_ObjectSetSpec0 { $definition = $f.definition; }
 	|	{ $definition = new ObjectSet_definition(); $definition.setLocation(getLocation($e, $e));}
@@ -3346,7 +3346,7 @@ locals [ObjectSet_definition temporalDefinition]
 pr_ObjectSetSpec0 returns [ObjectSet_definition definition]
 locals [IObjectSet_Element element]
 @init { $element = null; $definition = null; }:
-(	
+(
 	 a = pr_ObjectSetElements
 	{
 		$element = $a.element;
@@ -3357,7 +3357,7 @@ locals [IObjectSet_Element element]
 		pr_UnionMark
 		b = pr_ObjectSetElements
 		{
-			$element = $b.element;			
+			$element = $b.element;
 			if ($definition != null) {
 				$definition.addObjectSetElement($element);
 			}
@@ -3437,7 +3437,7 @@ pr_Levels returns[int level]
 
 pr_ComponentIdList returns[FieldName fieldName]
 @init { $fieldName = null; }:
-(	
+(
 	a = LOWERIDENTIFIER
 	{
 		$fieldName = new FieldName(); 
@@ -3456,7 +3456,7 @@ pr_ComponentIdList returns[FieldName fieldName]
 
 pr_Level returns[int level]
 @init { $level = 0; }:
-(	
+(
 	(
 		DOT					{ $level += 1; }
 	|	RANGESEPARATOR		{ $level += 2; }
@@ -3466,7 +3466,7 @@ pr_Level returns[int level]
 
 pr_special_Assignment returns [ASN1Assignment assignment]
 @init { $assignment = null; }:
-(	
+(
 	a = pr_Assignment { $assignment = $a.assignment; }
 	EOF
 );

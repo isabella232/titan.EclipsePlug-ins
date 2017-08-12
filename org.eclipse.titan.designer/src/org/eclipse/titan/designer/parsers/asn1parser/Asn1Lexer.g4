@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.AST.Location;
 */
 @members{
 	private IFile actualFile = null;
-	
+
 	public void setActualFile(IFile file){
       actualFile = file;
     }

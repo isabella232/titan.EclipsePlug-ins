@@ -310,7 +310,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 						unsupportedConstructMap.remove(file);
 
 						reparser.maxDamage();
-						
+
 						ITtcn3FileReparser r = new Ttcn3FileReparser( reparser, file, sourceParser, fileMap, uptodateFiles, highlySyntaxErroneousFiles );
 						syntacticallyOutdated = r.parse();
 
@@ -616,7 +616,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			// parsed
 			boolean useIncrementalParsing = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 					PreferenceConstants.USEINCREMENTALPARSING, false, null); 
-			
+
 			for (IFile file : ttcn3FilesToCheck) {
 				//if not incremental parsing applied then all the markers should be marked for removal
 				//later these markings can be removed if they can be skipped
@@ -870,11 +870,11 @@ public final class ProjectSourceSyntacticAnalyzer {
 		}
 
 		final boolean hadParseErrors = processParserErrors(file, analyzer);
-		
+
 		List<TITANMarker> warnings = analyzer.getWarnings();
 		List<TITANMarker> unsupportedConstructs = analyzer.getUnsupportedConstructs();
 		Module module = analyzer.getModule();
-		
+
 		if (warnings != null) {
 			for (TITANMarker marker : warnings) {
 				if (file.isAccessible()) {
@@ -891,7 +891,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 		return new TemporalParseData(module, file, unsupportedConstructs, hadParseErrors, document);
 	}
-	
+
 	/**
 	 * Handle the errors in fileBasedGeneralAnalysis(), and add them to the markers
 	 * @param aFile the parsed file
@@ -902,7 +902,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 		List<SyntacticErrorStorage> errors = null;
 
 		errors = aAnalyzer.getErrorStorage();
-		
+
 		if (errors != null) {
 			for (int i = 0; i < errors.size(); i++) {
 				ParserMarkerSupport.createOnTheFlySyntacticMarker(aFile, errors.get(i), IMarker.SEVERITY_ERROR);

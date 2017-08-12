@@ -243,5 +243,5 @@ public final class Int2CharExpression extends Expression_Value {
 		value.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(')');
 	}
-	
+
 }

@@ -214,5 +214,5 @@ public final class Log2StrExpression extends Expression_Value {
 		expression.expression.append( "//TODO this is only temporal implementation!\n" );
 	}
 
-	
+
 }

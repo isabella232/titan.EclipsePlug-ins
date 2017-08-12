@@ -450,7 +450,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				if(altGuardType.equals(altguard_type.AG_REF) || altGuardType.equals(altguard_type.AG_INVOKE)) {
 					source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_BREAK) break;\n", label, i));
 				}
-	
+
 				// execution of statement block if the guard was successful
 				source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_YES) ", label, i));
 				StatementBlock block = altGuard.getStatementBlock();

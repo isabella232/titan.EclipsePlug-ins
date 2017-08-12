@@ -36,7 +36,7 @@ final class SyntaxHighlightContentProvider implements ITreeContentProvider {
 	public Object[] getChildren(final Object parentElement) {
 		if (parentElement instanceof ISyntaxHighlightTreeElement) {
 			ISyntaxHighlightTreeElement treeElement = ((ISyntaxHighlightTreeElement) parentElement);
-			
+
 			return treeElement.getChildren();
 		}
 		return new Object[] {};

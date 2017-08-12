@@ -323,5 +323,5 @@ public final class GreaterThanExpression extends Expression_Value {
 		value2.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(" )");
 	}
-	
+
 }

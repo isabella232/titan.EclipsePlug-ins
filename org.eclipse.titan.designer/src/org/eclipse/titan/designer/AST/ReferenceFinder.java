@@ -76,7 +76,7 @@ public final class ReferenceFinder {
 	public ReferenceFinder(final Assignment assignment) {
 		init(assignment, null);
 	}
-	
+
 	/**
 	 * Creates and configures a new ReferenceFinder
 	 *
@@ -91,7 +91,7 @@ public final class ReferenceFinder {
 	public ReferenceFinder(final Assignment aAssignment, final Identifier aFieldId) {
 		init(aAssignment, aFieldId);
 	}
-	
+
 	private void init(final Assignment assignment, final Identifier aFieldId ) {
 		this.assignment = assignment;
 		this.fieldId = aFieldId;

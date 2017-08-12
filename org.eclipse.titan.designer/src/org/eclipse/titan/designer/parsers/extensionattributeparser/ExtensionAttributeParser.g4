@@ -63,7 +63,7 @@ tokenVocab=ExtensionAttributeLexer;
  
 pr_ExtensionAttributeRoot returns[ArrayList<ExtensionAttribute> list]
 @init { $list = new ArrayList<ExtensionAttribute>(); }:
-(	
+(
 	a = pr_ExtensionAttribute	{ if($a.attribute != null) {$list.add($a.attribute); } }
 )*
 EOF
@@ -90,7 +90,7 @@ pr_ExtensionAttribute returns[ExtensionAttribute attribute]:
 pr_VersionAttribute returns[ModuleVersionAttribute attribute]
 	locals[Token endCol]
 	:
-(	
+(
 	VERSION
 	(
 		LANGLE
@@ -108,7 +108,7 @@ pr_VersionAttribute returns[ModuleVersionAttribute attribute]
 // Required version for an imported module
 pr_RequiresAttribute returns [VersionRequirementAttribute attribute]
 	:
-(	
+(
 	REQUIRES
 	pr_Identifier
 	pr_Version
@@ -123,7 +123,7 @@ pr_RequiresAttribute returns [VersionRequirementAttribute attribute]
 // Required Titan version
 pr_TitanVersionAttribute returns[TitanVersionAttribute attribute]
 	:
-(	
+(
 	REQ_TITAN
 	pr_Version
 )
@@ -162,7 +162,7 @@ pr_EncDecValueAttribute returns [ EncDecValueAttribute attribute ]
 
 pr_PrototypeAttribute returns[PrototypeAttribute attribute]
 @init { $attribute = null;}:
-(	
+(
 	PROTOTYPE
 	LPAREN 
 	type = pr_PrototypeSetting
@@ -177,7 +177,7 @@ pr_PrototypeAttribute returns[PrototypeAttribute attribute]
 
 pr_PrototypeSetting returns[EncodingPrototype_type type]
 	:
-(	
+(
 	BACKTRACK	{ $type = EncodingPrototype_type.BACKTRACK; }
 |	CONVERT		{ $type = EncodingPrototype_type.CONVERT; }
 |	FAST		{ $type = EncodingPrototype_type.FAST; }
@@ -186,7 +186,7 @@ pr_PrototypeSetting returns[EncodingPrototype_type type]
 
 pr_EncodeAttribute returns[EncodeAttribute attribute]
 	locals[boolean hasOption]:
-(	
+(
 	ENCODE
 	LPAREN
 	pr_EncodingType {$hasOption = false;}
@@ -210,7 +210,7 @@ pr_EncodeAttribute returns[EncodeAttribute attribute]
 
 pr_DecodeAttribute returns[DecodeAttribute attribute]
 	locals[boolean hasOption]:
-(	
+(
 	DECODE
 	LPAREN
 	pr_EncodingType {$hasOption = false;}
@@ -234,7 +234,7 @@ pr_DecodeAttribute returns[DecodeAttribute attribute]
 
 pr_EncodingType returns[Encoding_type type]
 	:
-(	
+(
 	BER		{$type = Encoding_type.BER;}
 |	PER		{$type = Encoding_type.PER;}
 |	XER		{$type = Encoding_type.XER;}
@@ -247,9 +247,9 @@ pr_EncodingOptions returns[String text]
 	locals[StringBuilder builder, String option]
 	:
 	{$builder = new StringBuilder();}
-(	
+(
 	pr_EncodingOption	{if($pr_EncodingOption.text != null) { $builder.append($pr_EncodingOption.text); } }
-	(	
+	(
 		ANDOP		pr_EncodingOption	{if($pr_EncodingOption.text != null) { $builder.append(" & ").append($pr_EncodingOption.text); } }
 	|	OROP		pr_EncodingOption	{if($pr_EncodingOption.text != null) { $builder.append(" | ").append($pr_EncodingOption.text); } }
 	)*
@@ -267,7 +267,7 @@ pr_EncodingOption returns[String text]
 
 pr_ErrorBehaviorAttribute returns[ErrorBehaviorAttribute attribute]
 	:
-(	
+(
 	ERRORBEHAVIOR
 	LPAREN
 	pr_ErrorBehaviorSettingList
@@ -282,7 +282,7 @@ pr_ErrorBehaviorAttribute returns[ErrorBehaviorAttribute attribute]
 
 pr_TransparentAttribute returns[TransparentAttribute attribute]
 	:
-(	
+(
 	TRANSPARENT
 )
 {
@@ -294,7 +294,7 @@ pr_ErrorBehaviorSettingList returns[ErrorBehaviorList list]
 	locals[Token endCol]
 	:
 	{$list = new ErrorBehaviorList();}
-(	
+(
 	pr_ErrorBehaviorSetting	{$list.addSetting($pr_ErrorBehaviorSetting.behaviorSetting); $endCol = $pr_ErrorBehaviorSetting.stop;}
 	(
 		COMMA
@@ -307,7 +307,7 @@ pr_ErrorBehaviorSettingList returns[ErrorBehaviorList list]
 
 pr_ErrorBehaviorSetting returns[ErrorBehaviorSetting behaviorSetting]
 	:
-(	
+(
 	errorType = pr_ErrorBehaviorString
 	COLON
 	errorHandling = pr_ErrorBehaviorString
@@ -319,7 +319,7 @@ pr_ErrorBehaviorSetting returns[ErrorBehaviorSetting behaviorSetting]
 
 pr_ErrorBehaviorString returns[String string]
 	:
-(	
+(
 	IDENTIFIER
 )
 {
@@ -328,7 +328,7 @@ pr_ErrorBehaviorString returns[String string]
 
 pr_PrintingAttribute returns[PrintingAttribute attribute]
 	:
-(	
+(
 	PRINTING
 	LPAREN
 	pr_PrintingType
@@ -345,7 +345,7 @@ pr_PrintingType returns[PrintingType printingType]
 	locals[PrintingTypeEnum pte, Token endCol]
 	:
 	{$pte = PrintingTypeEnum.NONE;}
-(	
+(
 	COMPACT	{$pte = PrintingTypeEnum.COMPACT; $endCol = $COMPACT;}
 |	PRETTY	{$pte = PrintingTypeEnum.PRETTY; $endCol = $PRETTY;}
 )
@@ -359,7 +359,7 @@ pr_PrintingType returns[PrintingType printingType]
 pr_PortTypeAttribute returns[PortTypeAttribute attribute]
 	locals[Token endCol]
 	:
-(	
+(
 	INTERNAL	{$attribute = new InternalPortTypeAttribute(); $endCol = $INTERNAL;}
 |	ADDRESS		{$attribute = new AddressPortTypeAttribute(); $endCol = $ADDRESS;}
 |	PROVIDER	{$attribute = new ProviderPortTypeAttribute(); $endCol = $PROVIDER;}
@@ -371,7 +371,7 @@ pr_PortTypeAttribute returns[PortTypeAttribute attribute]
 
 pr_UserAttribute returns[UserPortTypeAttribute attribute]
 	:
-(	
+(
 	USER
 	pr_PortTypeReference	{$attribute = new UserPortTypeAttribute($pr_PortTypeReference.reference);}
 	pr_InOutTypeMappingList[$attribute]
@@ -383,13 +383,13 @@ pr_PortTypeReference returns[Reference reference]
 ;
 
 pr_InOutTypeMappingList[ IInOutTypeMappingAttribute attribute ]:
-(	
+(
 	pr_InOutTypeMapping[$attribute]
 )+
 ;
 
 pr_InOutTypeMapping[ IInOutTypeMappingAttribute attribute ]:
-(	
+(
 	IN
 	LPAREN
 	pr_TypeMappingList	{if($attribute != null) {$attribute.setInMappings($pr_TypeMappingList.mappings);}}
@@ -408,7 +408,7 @@ pr_InOutTypeMapping[ IInOutTypeMappingAttribute attribute ]:
 pr_TypeMappingList returns [TypeMappings mappings]
 	:
 	{$mappings = new TypeMappings();}
-(	
+(
 	pr_TypeMapping	{ if($pr_TypeMapping.typeMapping != null) {$mappings.addMapping($pr_TypeMapping.typeMapping); } }
 	(
 		SEMICOLON
@@ -421,7 +421,7 @@ pr_TypeMappingList returns [TypeMappings mappings]
 
 pr_TypeMapping returns[TypeMapping typeMapping]
 	:
-(	
+(
 	pr_Type
 	REDIRECTSYMBOL
 	pr_TypeMappingTargetList
@@ -434,9 +434,9 @@ pr_TypeMapping returns[TypeMapping typeMapping]
 pr_TypeMappingTargetList returns[TypeMappingTargets targets]
 	:
 	{$targets = new TypeMappingTargets();}
-(	
+(
 	pr_TypeMappingTarget	{if($pr_TypeMappingTarget.mappingTarget != null) { $targets.addMappingTarget($pr_TypeMappingTarget.mappingTarget); } }
-	(	
+	(
 		COMMA
 		pr_TypeMappingTarget	{if($pr_TypeMappingTarget.mappingTarget != null) { $targets.addMappingTarget($pr_TypeMappingTarget.mappingTarget); } }
 	)*
@@ -445,13 +445,13 @@ pr_TypeMappingTargetList returns[TypeMappingTargets targets]
 pr_TypeMappingTarget returns[TypeMappingTarget mappingTarget]
 	locals[EncodeMappingHelper helper, Token endCol]
 	:
-(	
+(
 	DASH
 	COLON
 	DISCARD		{$mappingTarget = new DiscardTypeMappingTarget(); $endCol = $DISCARD;} 
 |	pr_Type
 	COLON
-	(	
+	(
 		SIMPLE				{$mappingTarget = new SimpleTypeMappingTarget($pr_Type.type);}
 	|	pr_FunctionMapping	{$mappingTarget = new FunctionTypeMappingTarget($pr_Type.type, $pr_FunctionMapping.reference);}
 	|	pr_EncodeMapping	{if($pr_EncodeMapping.helper != null)
@@ -465,13 +465,13 @@ pr_TypeMappingTarget returns[TypeMappingTarget mappingTarget]
 )
 {
 	if ($mappingTarget != null) {
-		$mappingTarget.setLocation(getLocation($start, $endCol));	
+		$mappingTarget.setLocation(getLocation($start, $endCol));
 	}
 };
 
 pr_FunctionMapping returns[Reference reference]
 	:
-(	
+(
 	FUNCTION
 	LPAREN
 	pr_FunctionReference	{$reference = $pr_FunctionReference.reference;}
@@ -484,21 +484,21 @@ pr_FunctionReference returns[Reference reference]:
 
 pr_EncodeMapping returns[EncodeMappingHelper helper]
 	:
-(	
+(
 	encodeAttribute = pr_EncodeAttribute
-	(	
+	(
 		errorBehaviorAttribute = pr_ErrorBehaviorAttribute
 	)?
-	(	
+	(
 		printingAttribute = pr_PrintingAttribute
 	)?
 );
 
 pr_DecodeMapping returns[EncodeMappingHelper helper]
 	locals[boolean hasErrorBehaviorAttribute]:
-(	
+(
 	decodeAttribute = pr_DecodeAttribute {$hasErrorBehaviorAttribute = false;}
-	(	
+	(
 		errorBehaviorAttribute = pr_ErrorBehaviorAttribute {$hasErrorBehaviorAttribute = true;}
 	)?
 )
@@ -513,7 +513,7 @@ pr_DecodeMapping returns[EncodeMappingHelper helper]
 
 pr_ExtendsAttribute returns[ExtensionsAttribute attribute]
 	:
-(	
+(
 	EXTENDS
 	types = pr_ExtensionList
 )
@@ -527,7 +527,7 @@ pr_ExtendsAttribute returns[ExtensionsAttribute attribute]
 pr_ExtensionList returns[Types types]
 	: 
 	{$types = new Types();}
-(	
+(
 	pr_ReferencedType	{ if ($pr_ReferencedType.type != null) { $types.addType($pr_ReferencedType.type); } }
 	(
 		COMMA
@@ -537,7 +537,7 @@ pr_ExtensionList returns[Types types]
 
 pr_AnyTypeAttribute returns[AnytypeAttribute attribute]
 	:
-(	
+(
 	ANYTYPE
 	pr_TypeList
 )
@@ -551,16 +551,16 @@ pr_AnyTypeAttribute returns[AnytypeAttribute attribute]
 pr_TypeList returns[Types types]
 	: 
 	{$types = new Types();}
-(	
+(
 	pr_Type	{ if ($pr_Type.type != null) { $types.addType($pr_Type.type); } }
-	(	
+	(
 		COMMA
 		pr_Type	{ if ($pr_Type.type != null) { $types.addType($pr_Type.type); } }
 	)*
 );
 
 pr_Type returns[Type type]:
-(	
+(
 	pr_PredefinedType	{$type = $pr_PredefinedType.type;}
 |	pr_ReferencedType	{$type = $pr_ReferencedType.type;}
 );
@@ -568,7 +568,7 @@ pr_Type returns[Type type]:
 pr_PredefinedType returns[Type type]
 	locals[Token endCol]
 	:
-(	
+(
 	BITSTRING	{ $type = new BitString_Type(); $endCol = $BITSTRING; }
 |	BOOLEAN		{ $type = new Boolean_Type(); $endCol = $BOOLEAN; }
 |	CHARSTRING	{ $type = new CharString_Type(); $endCol = $CHARSTRING; }
@@ -590,7 +590,7 @@ pr_PredefinedType returns[Type type]
 
 pr_ReferencedType returns [Type type]
 	:
-(	
+(
 	reference = pr_Reference
 )
 {
@@ -603,7 +603,7 @@ pr_ReferencedType returns [Type type]
 pr_Reference returns[Reference reference]
 	locals[Identifier identifier1, Identifier identifier2]
 	:
-(	
+(
 	pr_Identifier	{$identifier1 = $pr_Identifier.identifier;}
 	(
 		DOT
@@ -628,7 +628,7 @@ pr_Reference returns[Reference reference]
 
 pr_Identifier returns [Identifier identifier]
 	:
-(	
+(
 	IDENTIFIER
 )
 {
@@ -639,7 +639,7 @@ pr_Identifier returns [Identifier identifier]
 
 pr_DoneAttribute returns[DoneAttribute attribute]
 	:
-(	
+(
 	DONE
 )
 {

@@ -142,24 +142,24 @@ public class TITANProjectExportWizard extends Wizard implements IExportWizard {
 			ErrorReporter.logExceptionStackTrace(e);
 		};
 		optionsPage = new TITANProjectExportOptionsPage(useTpdName);
-		
+
 		addPage(optionsPage);
 	}
 
 	@Override
 	public boolean performFinish() {
-				
+
 		if (project == null) {
 			ErrorReporter.logError("Trying to use the project information export wizard, without having selected a project to work on");
 			return false;
 		}
-		
+
 		projectFile = mainPage.getProjectFilePath();
 		if(projectFile==null || projectFile.length()==0 ) {
 			ErrorReporter.logError("Invalid target tpd file name. Use the Browse button to get a valid file path");
 			return false;
 		}
-		
+
 		final URI projectFileURI = TITANPathUtilities.resolvePathURI(projectFile, project.getLocation().toOSString());
 		final IPath projectFilePath = URIUtil.toPath(projectFileURI);
 		if( projectFilePath == null ) {
@@ -178,7 +178,7 @@ public class TITANProjectExportWizard extends Wizard implements IExportWizard {
 		exporter.setUseTpdNameAttribute(optionsPage.isUseTpdNameAttribute());
 
 		return exporter.saveAll();
-		
+
 	}
 
 

@@ -979,7 +979,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					body.generateCodeInit( aData, source, genName );
 				}
 			}
-			
+
 		} else {
 			source.append(MessageFormat.format("Code generation for parameterized local template `{0}' is not supported", identifier.getDisplayName()));
 		}

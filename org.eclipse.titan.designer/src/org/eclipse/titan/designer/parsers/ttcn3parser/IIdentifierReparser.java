@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.parsers.ttcn3parser;
 import org.eclipse.titan.designer.AST.Identifier;
 
 public interface IIdentifierReparser {
-	
+
 	/**
 	 * Runs the reparsing process
 	 * @return 0 on success

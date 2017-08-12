@@ -31,7 +31,7 @@ public class TokenWithIndexAndSubTokens extends CommonToken {
 		this.tokenList = new ArrayList<Token>();
 	}
 
-	
+
 	public TokenWithIndexAndSubTokens(int t) {
 		super(t);
 		this.tokenList = new ArrayList<Token>();

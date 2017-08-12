@@ -65,7 +65,7 @@ public class PortGenerator {
 
 		/** The original name in the TTCN-3 code */
 		public String displayName;
-		
+
 		/** The name of address in the actual module */
 		public String addressName;
 
@@ -340,13 +340,13 @@ public class PortGenerator {
 				source.append(MessageFormat.format("MESSAGE_{0}", i));
 			}
 			source.append("};\n");
-	
+
 			source.append("private class MessageQueueItem {\n");
 			source.append("message_selection item_selection;\n");
 			source.append("// base type could be: ");
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 				messageTypeInfo inType = portDefinition.inMessages.get(i);
-	
+
 				if (i > 0) {
 					source.append(", ");
 				}
@@ -359,7 +359,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
 			}
 			source.append("}\n");
-	
+
 			source.append("private LinkedList<MessageQueueItem> message_queue = new LinkedList<MessageQueueItem>();\n\n");
 
 			source.append("private void remove_msg_queue_head() {\n");
@@ -411,7 +411,7 @@ public class PortGenerator {
 				}
 			}
 			source.append("};\n");
-	
+
 			source.append("private class ProcedureQueueItem {\n");
 			source.append("proc_selection item_selection;\n");
 			source.append("// TODO check if an object would be enough \n");
@@ -436,7 +436,7 @@ public class PortGenerator {
 			}
 			source.append("}\n");
 			source.append("private LinkedList<ProcedureQueueItem> procedure_queue = new LinkedList<ProcedureQueueItem>();\n");
-	
+
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
 			//FIXME add logging
@@ -579,7 +579,7 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		}
-		
+
 		source.append(" else {\n");
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
@@ -853,7 +853,7 @@ public class PortGenerator {
 		} else {
 			source.append("outgoing_call(call_temp);\n");
 		}
-		
+
 		source.append("} else {\n");
 		source.append("//FIXME implement\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, is not yet supported.\", getName()));\n");
@@ -919,7 +919,7 @@ public class PortGenerator {
 				source.append("outgoing_reply(reply_temp, destination_address);\n");
 				source.append("}\n\n");
 			}
-			
+
 			source.append(MessageFormat.format("public void reply(final {0}_template reply_template) '{'\n", info.mJavaTypeName));
 			source.append("reply(reply_template, new TitanComponent(getDefaultDestination()));\n");
 			source.append("}\n\n");
@@ -1537,8 +1537,8 @@ public class PortGenerator {
 			source.append("incoming_call(incoming_par);\n");
 			source.append("return true;\n");
 		}
-			
-				
+
+
 		source.append("} else {\n");
 		source.append("return false;\n");
 		source.append("}\n");
@@ -1569,8 +1569,8 @@ public class PortGenerator {
 				source.append("return true;\n");
 			}
 		}
-			
-				
+
+
 		source.append("} else {\n");
 		source.append("return false;\n");
 		source.append("}\n");
@@ -1601,8 +1601,8 @@ public class PortGenerator {
 				source.append("return true;\n");
 			}
 		}
-			
-				
+
+
 		source.append("} else {\n");
 		source.append("return false;\n");
 		source.append("}\n");

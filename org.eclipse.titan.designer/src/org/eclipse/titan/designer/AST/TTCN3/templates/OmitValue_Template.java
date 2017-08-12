@@ -116,7 +116,7 @@ public final class OmitValue_Template extends TTCN3Template {
 
 		return false;
 	}
-	
+
 	public final void checkRestrictionCommon(final CompilationTimeStamp timestamp, final String definitionName, final TemplateRestriction.Restriction_type templateRestriction, final Location usageLocation) {
 		switch (templateRestriction) {
 		case TR_VALUE:

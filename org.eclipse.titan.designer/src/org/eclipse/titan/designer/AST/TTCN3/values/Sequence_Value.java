@@ -748,7 +748,7 @@ public final class Sequence_Value extends Value {
 	/** {@inheritDoc} */
 	public void setGenNameRecursive(final String parameterGenName) {
 		super.setGenNameRecursive(parameterGenName);
-		
+
 		if (convertedValue != null) {
 			convertedValue.setGenNameRecursive(parameterGenName);
 		}

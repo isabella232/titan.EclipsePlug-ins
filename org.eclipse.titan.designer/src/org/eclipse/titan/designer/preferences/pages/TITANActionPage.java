@@ -41,7 +41,7 @@ public final class TITANActionPage extends FieldEditorPreferencePage implements 
 
 		defaultOmit = new BooleanFieldEditor(PreferenceConstants.TITANACTIONS_DEFAULT_AS_OMIT, "Default as omit", getFieldEditorParent());
 		addField(defaultOmit);
-		
+
 	}
 
 	@Override

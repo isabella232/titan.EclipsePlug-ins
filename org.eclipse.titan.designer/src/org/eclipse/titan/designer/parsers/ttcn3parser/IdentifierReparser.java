@@ -19,13 +19,13 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Reparser.Pr_Identifie
 public class IdentifierReparser implements IIdentifierReparser {
 
 	private final TTCN3ReparseUpdater mReparser;
-	
+
 	private Identifier mIdentifier;
-	
+
 	public IdentifierReparser( final TTCN3ReparseUpdater aReparser ) {
 		mReparser = aReparser;
 	}
-	
+
 	@Override
 	public int parse() {
 		return mReparser.parse(new ITTCN3ReparseBase() {
@@ -43,7 +43,7 @@ public class IdentifierReparser implements IIdentifierReparser {
 			}
 		});
 	}
-	
+
 	@Override
 	public int parseAndSetNameChanged() {
 		return mReparser.parse(new ITTCN3ReparseBase() {
@@ -63,7 +63,7 @@ public class IdentifierReparser implements IIdentifierReparser {
 			}
 		});
 	}
-	
+
 	@Override
 	public final Identifier getIdentifier() {
 		return mIdentifier;

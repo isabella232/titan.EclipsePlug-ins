@@ -99,7 +99,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		disableXER = new Button(mainComposite, SWT.CHECK);
 		disableXER.setText("Disable XER encoding (-X)");
-		
+
 		disableJSON = new Button(mainComposite, SWT.CHECK);
 		disableJSON.setText("Disable JSON encoder (-j)");
 
@@ -132,20 +132,20 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		quietly = new Button(mainComposite, SWT.CHECK);
 		quietly.setText("Suppress all messages (quiet mode) (-q)");
-		
+
 		omitInValueList = new Button(mainComposite, SWT.CHECK);
 		omitInValueList.setText("Allow 'omit' in template value lists (legacy behavior) (-M)");
-		
+
 		warningsForBadVariants = new Button(mainComposite, SWT.CHECK);
 		warningsForBadVariants.setText("Display warnings instead of errors for invalid variants (-E)");
-		
+
 		ignoreUntaggedOnTopLevelUnion = new Button(mainComposite, SWT.CHECK);
 		ignoreUntaggedOnTopLevelUnion.setText(
 				"Ignore UNTAGGED enc. instr. on top level unions (legacy behaviour) (-N)");
-		
+
 		activateDebugger = new Button(mainComposite, SWT.CHECK);
 		activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
-		
+
 		return mainComposite;
 	}
 
@@ -277,7 +277,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_XER_PROPERTY));
 			disableXER.setSelection("true".equals(temp) ? true : false);
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
 			disableJSON.setSelection("true".equals(temp) ? true : false);
@@ -325,24 +325,24 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.QUIETLY_PROPERTY));
 			quietly.setSelection("true".equals(temp) ? true : false);
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
 			omitInValueList.setSelection("true".equals(temp) ? true : false);
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY));
 			warningsForBadVariants.setSelection("true".equals(temp) ? true : false);
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY));
 			ignoreUntaggedOnTopLevelUnion.setSelection("true".equals(temp) ? true : false);
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 			activateDebugger.setSelection("true".equals(temp) ? true : false);
 
-		} catch (CoreException e) {			
+		} catch (CoreException e) {
 			performDefaults();
 		}
 	}
@@ -371,7 +371,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			setProperty(project, TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY,  warningsForBadVariants.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY,  ignoreUntaggedOnTopLevelUnion.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
-			
+
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return false;

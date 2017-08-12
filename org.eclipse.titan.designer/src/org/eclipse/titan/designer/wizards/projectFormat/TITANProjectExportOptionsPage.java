@@ -46,7 +46,7 @@ class TITANProjectExportOptionsPage extends WizardPage {
 		setExportPreferences();
 		isUseTpdNameAttribute = useTpdName;
 	}
-	
+
 	private void setExportPreferences(){
 		isExcludedWorkingDirectoryContents =
 				preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.EXPORT_EXCLUDE_WORKING_DIRECTORY_CONTENTS, true, null);
@@ -89,7 +89,7 @@ class TITANProjectExportOptionsPage extends WizardPage {
 	public boolean isPackAllProjectsIntoOne() {
 		return isPackAllProjectsIntoOne;
 	}
-	
+
 	public boolean isUseTpdNameAttribute() {
 		return isUseTpdNameAttribute;
 	}
@@ -157,7 +157,7 @@ class TITANProjectExportOptionsPage extends WizardPage {
 				isPackAllProjectsIntoOne = packAllProjectsIntoOne.getSelection();
 			}
 		});
-		
+
 		useTpdNameAttribute = new Button(pageComposite, SWT.CHECK);
 		useTpdNameAttribute.setText("Export tpdName attribute to referenced projects");
 		useTpdNameAttribute.setToolTipText("See Referred project usage with –I switch section in the TITAN Reference guide");

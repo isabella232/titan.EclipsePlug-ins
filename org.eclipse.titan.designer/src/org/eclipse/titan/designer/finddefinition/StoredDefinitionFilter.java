@@ -61,11 +61,11 @@ public final class StoredDefinitionFilter {
 		}
 		return instance;
 	}
-	
+
 	public boolean isWorkspaceScope() {
 		return workspaceScope.getValue();
 	}
-	
+
 	public IProject getCurrentProject() {
 		return currentProject;
 	}
@@ -84,21 +84,21 @@ public final class StoredDefinitionFilter {
 		if (!functions.getValue() && isFunction(obj)) {
 			return false;
 		}
-		
+
 		if (!types.getValue() && isType(obj)) {
 			return false;
 		}
-		
+
 		if (!modules.getValue() && obj instanceof Module) {
 			return false;
 		}
-		
+
 		if (!globalVariables.getValue() && isGlobalVar(obj)) {
 			return false;
 		}
 		return true;
 	}
-	
+
 	private boolean isFunction(final Object obj) {
 		return obj instanceof Def_Function
 				|| obj instanceof Def_Testcase
@@ -156,7 +156,7 @@ public final class StoredDefinitionFilter {
 	public void setWorkspaceScope(final boolean workspaceScope) {
 		this.workspaceScope.setValue(workspaceScope);
 	}
-	
+
 	public boolean showOnlyModules() {
 		return modules.getValue()
 				&& !functions.getValue()

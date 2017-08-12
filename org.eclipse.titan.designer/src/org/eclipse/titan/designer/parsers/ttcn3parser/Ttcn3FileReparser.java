@@ -31,7 +31,7 @@ public class Ttcn3FileReparser implements ITtcn3FileReparser {
 	private final Set<IFile> mHighlySyntaxErroneousFiles;
 	 
 	private boolean mSyntacticallyOutdated = false;
-	
+
 	public Ttcn3FileReparser( final TTCN3ReparseUpdater aReparser,
 							  final IFile aFile,
 							  final ProjectSourceParser aSourceParser,
@@ -45,7 +45,7 @@ public class Ttcn3FileReparser implements ITtcn3FileReparser {
 		mUptodateFiles = aUptodateFiles;
 		mHighlySyntaxErroneousFiles = aHighlySyntaxErroneousFiles;
 	}
-	
+
 	@Override
 	public boolean parse() {
 		mReparser.parse(new ITTCN3ReparseBase() {
@@ -58,7 +58,7 @@ public class Ttcn3FileReparser implements ITtcn3FileReparser {
 					mSourceParser.getSemanticAnalyzer().addModule(actualTtcn3Module);
 					mFileMap.put(mFile, actualTtcn3Module.getName());
 					mUptodateFiles.put(mFile, actualTtcn3Module.getName());
-					
+
 					if (actualTtcn3Module.getLocation().getEndOffset() == -1 && !parser.getErrors().isEmpty()) {
 						actualTtcn3Module.getLocation().setEndOffset((int) new File(mFile.getLocationURI()).length());
 					}

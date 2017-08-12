@@ -135,7 +135,7 @@ public final class Activator extends AbstractUIPlugin {
 		private static final String LOG_FILE_EXTENSION = "log";
 		private boolean changedNotExcludedResourceFound = false;
 		private List<IContainer> workingDirectories;
-		
+
 		@Override
 		public boolean visit(final IResourceDelta delta) throws CoreException {
 			if (changedNotExcludedResourceFound) {
@@ -186,12 +186,12 @@ public final class Activator extends AbstractUIPlugin {
 				return false;
 			}
 		}
-		
+
 		public boolean getChangeFound() {
 			return changedNotExcludedResourceFound;
 		}
 	}
-	
+
 	private IResourceChangeListener decoratorUpdater = new IResourceChangeListener() {
 		@Override
 		public void resourceChanged(final IResourceChangeEvent event) {
@@ -212,7 +212,7 @@ public final class Activator extends AbstractUIPlugin {
 						if (!Boolean.TRUE.equals(changedResource.getSessionProperty(GeneralConstants.PROJECT_UP_TO_DATE))) {
 							return;
 						}
-						
+
 						final ContentChangedFileFinder changeFinder = new ContentChangedFileFinder();
 						delta.accept(changeFinder);
 						if (changeFinder.getChangeFound()) {
@@ -372,7 +372,7 @@ public final class Activator extends AbstractUIPlugin {
 					} catch (CoreException e) {
 						ErrorReporter.logExceptionStackTrace(e);
 					}
-					
+
 					final WorkspaceJob buildStarter = new WorkspaceJob("Build starter") {
 						@Override
 						public IStatus runInWorkspace(final IProgressMonitor monitor) {
@@ -477,7 +477,7 @@ public final class Activator extends AbstractUIPlugin {
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				//TODO: preload if needed
 				// preload some of the heavier classes, and do the analysis of the static ASN.1 module
-				
+
 				//The existence of the compiler must not be checked, as it is not a required component.
 				CompilerVersionInformationCollector.collectInformation();
 

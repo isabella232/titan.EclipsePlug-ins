@@ -379,7 +379,7 @@ public final class TITANDecorator extends LabelProvider implements ILabelDecorat
 			if (result.length() > 0) {
 				result.insert(0, '-');
 			}
-			
+
 			boolean pendingSpace = result.length() > 0;
 
 			String targetExecutable = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,

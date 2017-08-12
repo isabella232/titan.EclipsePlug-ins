@@ -86,7 +86,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 	private static final String[][] ONTHEFLY_ERROR_OPTIONS = new String[][] {
 			{ PreferenceConstantValues.ONTHEFLYOPTIONREMOVE, PreferenceConstantValues.ONTHEFLYOPTIONREMOVE },
 			{ PreferenceConstantValues.ONTHEFLYOPTIONSTAY, PreferenceConstantValues.ONTHEFLYOPTIONSTAY } };
-	
+
 	private static final String[][] CONSOLE_ACTION_BEFORE_BUILD = new String[][] {
 		{PreferenceConstantValues.BEFORE_BUILD_NOTHING_TO_DO,PreferenceConstantValues.BEFORE_BUILD_NOTHING_TO_DO},
 		{PreferenceConstantValues.BEFORE_BUILD_CLEAR_CONSOLE, PreferenceConstantValues.BEFORE_BUILD_CLEAR_CONSOLE},
@@ -289,7 +289,7 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 		if ( !License.isLicenseNeeded() ) {
 			return;
 		}
-		
+
 		if (licenseFile == null || licenseInfo == null) {
 			createLinkNewLicense();
 			return;
@@ -404,13 +404,13 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 				"Treat on-the-fly errors as fatal for build (the project will not build).", getFieldEditorParent());
 		addField(treatOnTheFlyErrorsFatalforBuild);
 
-		
+
 		ComboFieldEditor comboedit = new ComboFieldEditor(PreferenceConstants.COMPILERMARKERSAFTERANALYZATION,
 				"When On-the-Fly analyzation ends the compiler markers:", COMPILER_ERROR_OPTIONS, getFieldEditorParent());
 		Label text = comboedit.getLabelControl(getFieldEditorParent());
 		text.setToolTipText("Keeping the compiler markers can be good for consistency, but might lead to outdated error reports.");
 		addField(comboedit);
-		
+
 		//"When the compiler runs the on-the-fly markers:"
 		ComboFieldEditor comboedit2 = new ComboFieldEditor(PreferenceConstants.ONTHEFLYMARKERSAFTERCOMPILER, "When the compiler runs the on-the-fly markers:",
 				ONTHEFLY_ERROR_OPTIONS, getFieldEditorParent());
@@ -428,14 +428,14 @@ public final class TITANPreferencePage extends FieldEditorPreferencePage impleme
 		displayDebugPreferences = new BooleanFieldEditor(PreferenceConstants.DEBUG_PREFERENCE_PAGE_ENABLED, "Display debug preferences",
 				getFieldEditorParent());
 		addField(displayDebugPreferences);
-		
+
 		//"Action on the console before build"
 		ComboFieldEditor comboedit3 = new ComboFieldEditor(PreferenceConstants.CONSOLE_ACTION_BEFORE_BUILD, "Action on the console before build:",
 				CONSOLE_ACTION_BEFORE_BUILD, getFieldEditorParent());
 		Label text3 = comboedit3.getLabelControl(getFieldEditorParent());
 		text3.setToolTipText("Select what to do in the TITANConsole before starting the build to easier find the starting point of the actual build");
 		addField(comboedit3);
-		
+
 	}
 
 	@Override

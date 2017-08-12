@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.parsers.Parser_Helper;
 public class PortReference_Helper {
 	public Value componentReference;
 	public Reference portReference;
-	
+
 	public PortReference_Helper(Value componentReference, Reference portReference) {
 		this.componentReference = componentReference;
 		this.portReference = portReference;

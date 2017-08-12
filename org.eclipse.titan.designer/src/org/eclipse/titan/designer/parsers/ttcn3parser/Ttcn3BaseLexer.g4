@@ -115,7 +115,7 @@ import org.eclipse.titan.designer.AST.Location;
   
 	/** pattern for matching todo/fixme in a comment line */
 	final static Pattern PATTERN_TODO_FIXME = Pattern.compile("((TODO|FIXME).*?)\\s*(?=(TODO|FIXME|$))");
-			
+
 	/**
 	 * Extracts todo and fixme information from comment text
 	 * @param aCommentText the full text of the comment token
@@ -132,7 +132,7 @@ import org.eclipse.titan.designer.AST.Location;
 		} else {
 			commentText = aCommentText.substring( 2 );
 		}
-			
+
 		String commentLines[] = commentText.split("\\r?\\n");
 		for( int i = 0; i < commentLines.length; i++ ) {
 			String commentLine = commentLines[ i ];

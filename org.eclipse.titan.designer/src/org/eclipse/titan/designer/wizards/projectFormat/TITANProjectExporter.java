@@ -142,11 +142,11 @@ public final class TITANProjectExporter {
 	public void setPackAllProjectsIntoOne(final boolean value) {
 		packAllProjectsIntoOne = value;
 	}
-	
+
 	public boolean getUseTpdNameAttribute() {
 		return useTpdNameAttribute;
 	}
-	
+
 	public void setUseTpdNameAttribute(boolean value) {
 		useTpdNameAttribute = value;
 	}
@@ -167,11 +167,11 @@ public final class TITANProjectExporter {
 		try {
 			projectFile = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					ProjectBuildPropertyData.LOAD_LOCATION));
-			
+
 			if(projectFile == null){
 				return false; // It hasn't been exported yet.
 			}
-			
+
 			if( projectFile.startsWith("file:/")) {
 				projectFile = projectFile.substring(6);
 				project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
@@ -392,7 +392,7 @@ public final class TITANProjectExporter {
 		final Document document = root.getOwnerDocument();
 		Element projectsElement = document.createElement(ProjectFormatConstants.REFERENCED_PROJECTS_NODE);
 		root.appendChild(projectsElement);
-		
+
 		for (final IProject tempProject : referencedProjects) {
 			Element element = document.createElement(ProjectFormatConstants.REFERENCED_PROJECT_NODE);
 			element.setAttribute(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE, tempProject.getName());
@@ -448,12 +448,12 @@ public final class TITANProjectExporter {
 							Path locationPath = new Path(location);
 							locationuri = org.eclipse.core.runtime.URIUtil.fromString("file:/" + locationPath.toString());
 						}
-	
+
 					} catch (URISyntaxException e) {
 						ErrorReporter.logExceptionStackTrace(e);
 						return false;
 					}
-	
+
 					IPath path = new Path(projectFile);
 					path = path.removeLastSegments(1);
 					URI projecturi = URIUtil.toURI(path);

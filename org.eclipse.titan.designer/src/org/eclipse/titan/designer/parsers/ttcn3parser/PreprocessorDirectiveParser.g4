@@ -33,25 +33,25 @@ import org.eclipse.core.resources.IFile;
 	protected int line;
 	private IFile actualFile = null;
 	private int offset = 0;
-	
+
 	public void setIsActiveCode(boolean isActiveCode) {
 		this.isActiveCode = isActiveCode;
 	}
-	
+
 	public void setMacros(Map<String,String> macros) {
 		this.macros = macros;
 	}
-	
+
 	public void setLine(int line) {
 		this.line = line;
 	}
 
 	private ArrayList<SyntacticErrorStorage> errorsStored = new ArrayList<SyntacticErrorStorage>();
-	
+
 	public ArrayList<SyntacticErrorStorage> getErrorStorage() {
 		return errorsStored;
 	}
-	
+
   	private ArrayList<TITANMarker> warnings = new ArrayList<TITANMarker>();
 
   	public void reportWarning(TITANMarker marker) {
@@ -151,7 +151,7 @@ pr_Integer returns [long value]
 					line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 			reportUnsupportedConstruct(marker);
 		} 
-	}		
+	}
 
 |	o = OCTINT {
 		try {

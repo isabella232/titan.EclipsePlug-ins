@@ -162,7 +162,7 @@ class TITANProjectExportMainPage extends WizardPage {
 				// if this project is imported, the location of the source tpd is stored in loadLocation,
 				// if this project is not imported then loadLocation == null and the new default tpd will be defined
 				// in the current project folder in the current workspace
-				
+
 				//URI string or path string::
 				String loadLocation = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 						ProjectBuildPropertyData.LOAD_LOCATION));

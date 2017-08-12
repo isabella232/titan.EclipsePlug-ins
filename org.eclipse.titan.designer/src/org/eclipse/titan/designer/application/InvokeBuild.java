@@ -20,7 +20,7 @@ import org.eclipse.titan.designer.core.TITANBuilder;
  * @author Kristof Szabados
  * */
 public final class InvokeBuild implements IApplication {
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public Object start(final IApplicationContext context) throws Exception {
@@ -49,6 +49,6 @@ public final class InvokeBuild implements IApplication {
 	/** {@inheritDoc} */
 	public void stop() {
 		// nothing to be done
-		
+
 	}
 }

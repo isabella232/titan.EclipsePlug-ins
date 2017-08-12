@@ -375,9 +375,9 @@ public final class ProjectBuildPropertyPage extends PropertyPage {
 
 		configurationManager.saveActualConfiguration();
 		ProjectDocumentHandlingUtility.saveDocument(projectResource);
-		
+
 		TITANAutomaticProjectExporter.saveAllAutomatically(projectResource);
-		
+
 		evaluatePropertyStore();
 		return true;
 	}

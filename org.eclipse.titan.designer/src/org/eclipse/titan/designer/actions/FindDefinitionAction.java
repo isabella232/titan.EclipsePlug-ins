@@ -86,7 +86,7 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 	/** {@inheritDoc} */
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		targetEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		
+
 		doFindDefinition();
 
 		return null;
@@ -113,7 +113,7 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 		dialog.setTitle("Find Definition");
 		dialog.setMessage("Type the name of a definition");
 		dialog.setHelpAvailable(false);
-		
+
 		if (targetEditor instanceof TTCN3Editor) {
 			selection = ((TTCN3Editor) targetEditor).getSelectionProvider().getSelection();
 		}
@@ -121,15 +121,15 @@ public class FindDefinitionAction extends AbstractHandler implements IEditorActi
 			final IPreferencesService prefs = Platform.getPreferencesService();
 			final boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 					true, null);
-			
+
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
 			}
 			final TextSelection tSelection = (TextSelection) selection;
 			dialog.setFilter(tSelection.getText());
 		}
-		
-		
+
+
 		dialog.init();
 
 		if (dialog.open() == Window.CANCEL || dialog.getFirstResult() == null) {

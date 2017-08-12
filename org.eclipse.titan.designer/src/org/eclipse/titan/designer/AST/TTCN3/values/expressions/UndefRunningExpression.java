@@ -33,7 +33,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class UndefRunningExpression extends Expression_Value {
 	private final Reference reference;
-	
+
 	private Expression_Value realExpression;
 
 	public UndefRunningExpression(final Reference reference) {

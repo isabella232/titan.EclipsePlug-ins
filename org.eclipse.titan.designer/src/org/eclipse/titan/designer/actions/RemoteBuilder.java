@@ -69,7 +69,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 		private final List<String> hostnames;
 		private final List<String> commands;
 		private final List<String> descriptions;
-		
+
 		private final JobChangeAdapter decoratorUpdater = new JobChangeAdapter() {
 			@Override
 			public void done(final IJobChangeEvent event) {
@@ -130,9 +130,9 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 			pb.redirectErrorStream(true);
 			Process proc = null;
 			BufferedReader stdout;
-			
+
 			final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream(); 
-       
+
 			String actualCommand;
 			for (int i = 0; i < commands.size(); i++) {
 				actualCommand = commands.get(i);

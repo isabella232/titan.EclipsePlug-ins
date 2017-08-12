@@ -298,7 +298,7 @@ public class ProjectSourceSemanticAnalyzer {
 				return Status.CANCEL_STATUS;
 			}
 		}
-		
+
 		final long semanticCheckStart = System.nanoTime();
 
 		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
@@ -312,13 +312,13 @@ public class ProjectSourceSemanticAnalyzer {
 		SubMonitor progress = SubMonitor.convert(monitor, 1);
 		progress.setTaskName("On-the-fly semantic checking of everything ");
 		progress.subTask("Checking the importations of the modules");
-		
+
 		try{
-	
+
 			// clean the instantiated parameterized assignments,
 			// from their instances
 			Ass_pard.resetAllInstanceCounters();
-			
+
 			//check for duplicated module names
 			HashMap<String, Module> uniqueModules = new HashMap<String, Module>();
 			Set<String> duplicatedModules = new HashSet<String>();
@@ -326,7 +326,7 @@ public class ProjectSourceSemanticAnalyzer {
 			// collect all modules and semantically checked modules to work on.
 			final List<Module> allModules = new ArrayList<Module>();
 			final List<String> semanticallyChecked = new ArrayList<String>();
-			
+
 			//remove module name duplication markers. It shall be done before starting the next for-loop!
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 				final ProjectSourceSemanticAnalyzer semanticAnalyzer = 
@@ -335,10 +335,10 @@ public class ProjectSourceSemanticAnalyzer {
 					if(module instanceof TTCN3Module){
 						MarkerHandler.markAllSemanticMarkersForRemoval(module.getIdentifier());
 					}
-				}				
+				}
 			}
-			
-			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {				
+
+			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 				final ProjectSourceSemanticAnalyzer semanticAnalyzer = 
 						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
 				for (Module module: semanticAnalyzer.fileModuleMap.values()) {
@@ -370,7 +370,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 				// check and build the import hierarchy of the modules
 				ModuleImportationChain referenceChain = new ModuleImportationChain(CIRCULARIMPORTCHAIN, false);
-				
+
 				//remove markers from import lines
 				for(Module module : allModules) {
 					if(module instanceof TTCN3Module) {
@@ -381,12 +381,12 @@ public class ProjectSourceSemanticAnalyzer {
 					} 
 					// markers are removed in one step in ASN1 modules
 				}
-				
+
 				for(Module module : allModules) {
 					module.checkImports(compilationCounter, referenceChain, new ArrayList<Module>());
 					referenceChain.clear();
 				}
-				
+
 				progress.subTask("Calculating the list of modules to be checked");
 
 				IBaseAnalyzer selectionMethod = new BrokenPartsViaReferences(SelectionAlgorithm.BROKENREFERENCESINVERTED, compilationCounter);
@@ -398,10 +398,10 @@ public class ProjectSourceSemanticAnalyzer {
 					OutOfMemoryCheck.outOfMemoryEvent();
 					return Status.CANCEL_STATUS;
 				}
-				
+
 				BrokenPartsChecker brokenPartsChecker = new BrokenPartsChecker(progress.newChild(1), compilationCounter, selectionMethodBase);
 				brokenPartsChecker.doChecking();
-								
+
 				// re-enable the markers on the skipped modules.
 				for (Module module2 : selectionMethodBase.getModulesToSkip()) {
 					MarkerHandler.reEnableAllMarkers((IFile) module2.getLocation().getFile());
@@ -414,7 +414,7 @@ public class ProjectSourceSemanticAnalyzer {
 					MarkerHandler.reEnableAllMarkers((IFile) module2.getLocation().getFile());
 				}
 			}
-			
+
 			//Not supported markers are handled here, at the and of checking. Otherwise they would be deleted
 			final IPreferencesService preferenceService = Platform.getPreferencesService();
 			final String option = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, GeneralConstants.WARNING, null);
@@ -431,7 +431,7 @@ public class ProjectSourceSemanticAnalyzer {
 					}
 				}
 			}
-			
+
 			if (preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
 				MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 				TITANDebugConsole.println("  ** Had to start checking at " + nofModulesTobeChecked + " modules. ", stream);
@@ -459,7 +459,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 		for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
 			GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).setLastTimeChecked(compilationCounter);
-			
+
 			ProjectStructureDataCollector collector = GlobalProjectStructureTracker.getDataCollector(tobeSemanticallyAnalyzed.get(i));
 			for (Module module : GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer().moduleMap.values()) {
 				collector.addKnownModule(module.getIdentifier());

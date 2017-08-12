@@ -65,14 +65,14 @@ public final class TITANDebugConsole {
 		}
 		return console;
 	}
-	
+
 	public static void clearConsole() {
 		if(inHeadLessMode) {
 			return;
 		}
 		getConsole().clearConsole();
 	}
-	
+
 	public static void println(final String message, final MessageConsoleStream stream) {
 		if(inHeadLessMode) {
 			return;
@@ -84,7 +84,7 @@ public final class TITANDebugConsole {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 	}
-	
+
 	// It creates a MessageStream just for this println
 	public static void println(final String... message) {
 		if(inHeadLessMode) {
@@ -100,14 +100,14 @@ public final class TITANDebugConsole {
 		}
 		println(msg.toString(), getConsole().newMessageStream());
 	}
-	
+
 	public static void print(final String message, final MessageConsoleStream stream) {
 		if(inHeadLessMode) {
 			return;
 		}
 		stream.print(message);
 	}
-	
+
 	// It creates a MessageStream just for this println
 	public static void print(final String message) {
 		if(inHeadLessMode) {

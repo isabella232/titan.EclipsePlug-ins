@@ -41,7 +41,7 @@ public abstract class InternalLogArgument {
 	 *                the ReferenceChain used to detect circular references.
 	 * */
 	public abstract void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain);
-	
+
 	/**
 	 * Add generated java code on this level.
 	 * @param aData the structure to put imports into and get temporal variable names from.
