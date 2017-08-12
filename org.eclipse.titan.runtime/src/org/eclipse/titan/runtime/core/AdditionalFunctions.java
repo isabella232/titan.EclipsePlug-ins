@@ -451,6 +451,7 @@ public class AdditionalFunctions {
 		return new TitanInteger(value.get_bit() ? 1 : 0);
 	}
 
+	// C.13 - bit2hexnew
 	public static TitanHexString bit2hex(final TitanBitString_Element value) {
 		value.mustBound("The argument of function bit2hex() is an unbound bitstring element.");
 
@@ -734,30 +735,30 @@ public class AdditionalFunctions {
 
 		return new TitanCharString(value.toString());
 	}
-	
+
 	// C.24 - oct2char
 	public static TitanCharString oct2char(final TitanOctetString value) {
 		value.mustBound("The argument of function oct2char() is an unbound octetstring value.");
-		
+
 		int value_length = value.lengthOf().getInt();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value_length; i++) {
-			if((int)value.get_nibble(i) > 127) {
+			if ((int) value.get_nibble(i) > 127) {
 				throw new TtcnError("The argument of function oct2char() contains octet, which is outside the allowed range 00 .. 7F.");
 			}
 			sb.append(value.get_nibble(i));
 		}
 		return new TitanCharString(sb);
 	}
-	
+
 	public static TitanCharString oct2char(final TitanOctetString_Element value) {
 		value.mustBound("The argument of function oct2char() is an unbound octetstring element.");
-		
+
 		char octet = value.get_nibble();
-		if((int)octet > 127) {
+		if ((int) octet > 127) {
 			throw new TtcnError("The argument of function oct2char() contains the octet, which is outside the allowed range 00 .. 7F.");
 		}
-		
+
 		return new TitanCharString(String.valueOf(octet));
 	}
 
