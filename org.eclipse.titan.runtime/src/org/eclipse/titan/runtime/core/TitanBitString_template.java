@@ -16,7 +16,7 @@ import java.util.List;
  * @author Arpad Lovassy
  * @author Gergo Ujhelyi
  */
-public class TitanBitString_template extends Base_Template {
+public class TitanBitString_template extends Restricted_Length_Template {
 
 	private TitanBitString single_value;
 
@@ -260,7 +260,7 @@ public class TitanBitString_template extends Base_Template {
 	}
 
 	// originally lengthof
-	public int lengthOf() {
+	public TitanInteger lengthOf() {
 		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a bitstring template which has an ifpresent attribute.");
 		}
@@ -283,9 +283,9 @@ public class TitanBitString_template extends Base_Template {
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a bitstring template containing an empty list.");
 			}
-			int item_length = value_list.get(0).lengthOf();
+			int item_length = value_list.get(0).lengthOf().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (value_list.get(i).lengthOf() != item_length) {
+				if (value_list.get(i).lengthOf().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a bitstring template containing a value list with different lengths.");
 				}
 			}
@@ -310,7 +310,7 @@ public class TitanBitString_template extends Base_Template {
 		}
 
 		//FIXME implement check_section_is_single 
-		return min_length;
+		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "bitstring template"));
 	}
 
 
