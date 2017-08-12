@@ -309,7 +309,6 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported bitstring template.");
 		}
 
-		//FIXME implement check_section_is_single 
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "bitstring template"));
 	}
 
