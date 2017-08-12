@@ -277,13 +277,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		return mp_res;
 	}
 
-	void set_single_length(final int single_length)
+	void setSingleLength(final int single_length)
 	{
 		length_restriction_type = length_restriction_type_t.SINGLE_LENGTH_RESTRICTION;
 		this.single_length = single_length;
 	}
 
-	void set_min_length(final int min_length)
+	void setMinLength(final int min_length)
 	{
 		if (min_length < 0) throw new TtcnError( MessageFormat.format( "The lower limit for the length is negative ({0}) in a template with length restriction.", min_length ) );
 		length_restriction_type = length_restriction_type_t.RANGE_LENGTH_RESTRICTION;
@@ -291,7 +291,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		range_length_max_length_set = false;
 	}
 
-	void set_max_length(final int max_length)
+	void setMaxLength(final int max_length)
 	{
 		if (length_restriction_type != length_restriction_type_t.RANGE_LENGTH_RESTRICTION)
 			throw new TtcnError("Internal error: Setting a maximum length for a template the length restriction of which is not a range.");
