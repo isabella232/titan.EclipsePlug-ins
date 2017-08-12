@@ -35,13 +35,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
-	public Restricted_Length_Template( final template_sel other_value ) {
-		super( other_value );
+	public Restricted_Length_Template(final template_sel other_value) {
+		super(other_value);
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
 	@Override
-	protected void setSelection( final template_sel other_value ) {
+	protected void setSelection(final template_sel other_value) {
 		templateSelection = other_value;
 		is_ifPresent = false;
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
@@ -59,15 +59,14 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		range_length_max_length_set = other_value.range_length_max_length_set;
 	}
 
-	public boolean match_length( final int value_length ) {
+	public boolean match_length(final int value_length) {
 		switch (length_restriction_type) {
 		case NO_LENGTH_RESTRICTION:
 			return true;
 		case SINGLE_LENGTH_RESTRICTION:
 			return value_length == single_length;
 		case RANGE_LENGTH_RESTRICTION:
-			return value_length >= range_length_min_length &&
-			(!range_length_max_length_set || value_length <= range_length_max_length);
+			return value_length >= range_length_min_length && (!range_length_max_length_set || value_length <= range_length_max_length);
 		default:
 			throw new TtcnError("Internal error: Matching with a template that has invalid length restriction type.");
 		}
@@ -76,25 +75,24 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	//TODO: implement according to:
 	//      Template.hh: class Restricted_Length_Template : public Base_Template
 
-	int check_section_is_single(final int min_size,
-			final boolean has_any_or_none, final String operation_name,
-			final String type_name_prefix, final String type_name) {
-		if ( has_any_or_none ) {
-			 // upper limit is infinity
+	int check_section_is_single(final int min_size, final boolean has_any_or_none, final String operation_name, final String type_name_prefix,
+			final String type_name) {
+		if (has_any_or_none) {
+			// upper limit is infinity
 			switch (length_restriction_type) {
 			case NO_LENGTH_RESTRICTION:
 				throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on {1} {2} with no exact {3}.",
 						operation_name, type_name_prefix, type_name, operation_name ) );
 			case SINGLE_LENGTH_RESTRICTION:
-				if ( single_length >= min_size ) {
+				if (single_length >= min_size) {
 					return single_length;
 				}
 				throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The minimum {2} ({3}) contradicts the length restriction ({4}).",
 						operation_name, type_name, operation_name, min_size, single_length ) );
 			case RANGE_LENGTH_RESTRICTION: {
 				boolean has_invalid_restriction;
-				if ( match_length( min_size ) ) {
-					if ( range_length_max_length_set && ( min_size == range_length_max_length ) ) {
+				if (match_length(min_size)) {
+					if (range_length_max_length_set && (min_size == range_length_max_length)) {
 						return min_size;
 					}
 					has_invalid_restriction = false;
@@ -121,19 +119,18 @@ public abstract class Restricted_Length_Template extends Base_Template {
 			}
 		} else {
 			// exact size is in min_size, check for invalid restriction
-			switch (length_restriction_type)
-			{
+			switch (length_restriction_type) {
 			case NO_LENGTH_RESTRICTION:
 				return min_size;
 			case SINGLE_LENGTH_RESTRICTION:
-				if ( single_length == min_size ) {
+				if (single_length == min_size) {
 					return min_size;
 				}
 				throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}).",
 						operation_name, type_name, operation_name, min_size, single_length ) );
 			case RANGE_LENGTH_RESTRICTION:
-				if ( !match_length( min_size ) ) {
-					if ( range_length_max_length_set ) {
+				if (!match_length(min_size)) {
+					if (range_length_max_length_set) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}..{5}).",
 								operation_name, type_name, operation_name, min_size, range_length_min_length, range_length_max_length ) );
 					} else {
@@ -149,19 +146,20 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	void log_restricted()
-	{
+	void log_restricted() {
 		switch (length_restriction_type) {
 		case SINGLE_LENGTH_RESTRICTION:
-			TtcnLogger.log_event( MessageFormat.format( " length ({0})", single_length ) );
+			TtcnLogger.log_event(MessageFormat.format(" length ({0})", single_length));
 			break;
 		case NO_LENGTH_RESTRICTION:
 			break;
 		case RANGE_LENGTH_RESTRICTION:
-			TtcnLogger.log_event( MessageFormat.format( " length ({0} .. ", range_length_min_length ) );
-			if (range_length_max_length_set)
-				TtcnLogger.log_event( MessageFormat.format( "{0})", range_length_max_length ) );
-			else TtcnLogger.log_event_str("infinity)");
+			TtcnLogger.log_event(MessageFormat.format(" length ({0} .. ", range_length_min_length));
+			if (range_length_max_length_set) {
+				TtcnLogger.log_event(MessageFormat.format("{0})", range_length_max_length));
+			} else {
+				TtcnLogger.log_event_str("infinity)");
+			}
 			break;
 		default:
 			TtcnLogger.log_event_str("<unknown length restriction>");
@@ -169,20 +167,22 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	void log_match_length(final int value_length)
-	{
+	void log_match_length(final int value_length) {
 		if (length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION) {
-			if(TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()){
-				if (!match_length(value_length)){
+			if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+				if (!match_length(value_length)) {
 					TtcnLogger.print_logmatch_buffer();
 					log_restricted();
-					TtcnLogger.log_event( MessageFormat.format( " with {0} ", value_length ) );
+					TtcnLogger.log_event(MessageFormat.format(" with {0} ", value_length));
 				}
-			}else{
+			} else {
 				log_restricted();
-				TtcnLogger.log_event( MessageFormat.format( " with {0} ", value_length ) );
-				if (match_length(value_length)) TtcnLogger.log_event_str("matched");
-				else TtcnLogger.log_event_str("unmatched");
+				TtcnLogger.log_event(MessageFormat.format(" with {0} ", value_length));
+				if (match_length(value_length)) {
+					TtcnLogger.log_event_str("matched");
+				} else {
+					TtcnLogger.log_event_str("unmatched");
+				}
 			}
 		}
 	}
@@ -259,16 +259,14 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 */
 
-	Module_Param_Length_Restriction get_length_range()
-	{
+	Module_Param_Length_Restriction get_length_range() {
 		if (length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION) {
 			return null;
 		}
 		Module_Param_Length_Restriction mp_res = new Module_Param_Length_Restriction();
 		if (length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION) {
 			mp_res.set_single(single_length);
-		}
-		else {
+		} else {
 			mp_res.set_min(range_length_min_length);
 			if (range_length_max_length_set) {
 				mp_res.set_max(range_length_max_length);
@@ -277,40 +275,43 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		return mp_res;
 	}
 
-	void setSingleLength(final int single_length)
-	{
+	void setSingleLength(final int single_length) {
 		length_restriction_type = length_restriction_type_t.SINGLE_LENGTH_RESTRICTION;
 		this.single_length = single_length;
 	}
 
-	void setMinLength(final int min_length)
-	{
-		if (min_length < 0) throw new TtcnError( MessageFormat.format( "The lower limit for the length is negative ({0}) in a template with length restriction.", min_length ) );
+	void setMinLength(final int min_length) {
+		if (min_length < 0) {
+			throw new TtcnError(MessageFormat.format("The lower limit for the length is negative ({0}) in a template with length restriction.", min_length));
+		}
 		length_restriction_type = length_restriction_type_t.RANGE_LENGTH_RESTRICTION;
 		range_length_min_length = min_length;
 		range_length_max_length_set = false;
 	}
 
-	void setMaxLength(final int max_length)
-	{
-		if (length_restriction_type != length_restriction_type_t.RANGE_LENGTH_RESTRICTION)
+	void setMaxLength(final int max_length) {
+		if (length_restriction_type != length_restriction_type_t.RANGE_LENGTH_RESTRICTION) {
 			throw new TtcnError("Internal error: Setting a maximum length for a template the length restriction of which is not a range.");
-		if (max_length < 0) throw new TtcnError( MessageFormat.format( "The upper limit for the length is negative ({0}) in a template with length restriction.", max_length ) );
-		if (range_length_min_length > max_length)
+		}
+		if (max_length < 0) {
+			throw new TtcnError(MessageFormat.format("The upper limit for the length is negative ({0}) in a template with length restriction.", max_length));
+		}
+		if (range_length_min_length > max_length) {
 			throw new TtcnError( MessageFormat.format( "The upper limit for the length ({0}) is smaller than the lower limit ({1}) in a template with length restriction.",
-					max_length, range_length_min_length ) );
+							max_length, range_length_min_length));
+		}
 		range_length_max_length = max_length;
 		range_length_max_length_set = true;
 	}
 
 	@Override
 	public boolean isOmit() {
-		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent &&
-				length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
+		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent
+				&& length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
 	boolean is_any_or_omit() {
-		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent &&
-				length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
+		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent
+				&& length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 }
