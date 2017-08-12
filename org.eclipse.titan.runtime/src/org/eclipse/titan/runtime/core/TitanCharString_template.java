@@ -10,8 +10,6 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-//import org.eclipse.titan.runtime.core.Base_Template.template_sel;
-
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 charstring template
@@ -152,9 +150,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		setSelection(otherValue);
 	}
 
-	//FIXME: getAt
-	//FIXME: constGetAt	
-	
+	// FIXME: getAt
+	// FIXME: constGetAt
+
 	// originally operator[](int index_value)
 	public TitanCharString_Element getAt(int index) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
@@ -163,19 +161,19 @@ public class TitanCharString_template extends Restricted_Length_Template {
 
 		return single_value.getAt(index);
 	}
-	
-	//originally operator[](const INTEGER&) const
-	public TitanCharString_Element getAt( final TitanInteger index_value) {
+
+	// originally operator[](const INTEGER&) const
+	public TitanCharString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a charstring template with an unbound integer value.");
 
-		return getAt( index_value.getInt() );
+		return getAt(index_value.getInt());
 	}
 
-	public TitanCharString_Element constGetAt( final TitanInteger index_value) {
+	public TitanCharString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a charstring template with an unbound integer value.");
 
-		return constGetAt( index_value.getInt());
-	}	
+		return constGetAt(index_value.getInt());
+	}
 
 	public TitanCharString_Element constGetAt(final int index) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
@@ -353,11 +351,12 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	// FIXME: lengthOf
 	// originally lengthOf
 	public TitanInteger lengthOf() {
-		int min_length=0;
-		boolean has_any_or_none=false;
-		if(is_ifPresent){
+		int min_length = 0;
+		boolean has_any_or_none = false;
+		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthof() operation on a charstring template which has an ifpresent attribute.");
-		}switch(templateSelection){
+		}
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			min_length = single_value.lengthOf().getInt();
 			has_any_or_none = false;
@@ -392,7 +391,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		default:
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported charstring template.");
 		}
-		
+
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "charstring template"));
 	}
 
@@ -416,6 +415,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			throw new TtcnError(MessageFormat.format( "The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
 		}
 	}
+
 
 	// FIXME: set_max
 	// originally set_max
