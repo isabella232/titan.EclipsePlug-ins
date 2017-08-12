@@ -47,7 +47,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		length_restriction_type = length_restriction_type_t.NO_LENGTH_RESTRICTION;
 	}
 
-	void setSelection(final Restricted_Length_Template other_value) {
+	protected void setSelection(final Restricted_Length_Template other_value) {
 		templateSelection = other_value.templateSelection;
 		is_ifPresent = other_value.is_ifPresent;
 		length_restriction_type = other_value.length_restriction_type;
@@ -75,7 +75,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	//TODO: implement according to:
 	//      Template.hh: class Restricted_Length_Template : public Base_Template
 
-	int check_section_is_single(final int min_size, final boolean has_any_or_none, final String operation_name, final String type_name_prefix,
+	protected int check_section_is_single(final int min_size, final boolean has_any_or_none, final String operation_name, final String type_name_prefix,
 			final String type_name) {
 		if (has_any_or_none) {
 			// upper limit is infinity
@@ -146,7 +146,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	void log_restricted() {
+	protected void log_restricted() {
 		switch (length_restriction_type) {
 		case SINGLE_LENGTH_RESTRICTION:
 			TtcnLogger.log_event(MessageFormat.format(" length ({0})", single_length));
@@ -167,7 +167,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-	void log_match_length(final int value_length) {
+	protected void log_match_length(final int value_length) {
 		if (length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION) {
 			if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
 				if (!match_length(value_length)) {
@@ -259,7 +259,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	}
 */
 
-	Module_Param_Length_Restriction get_length_range() {
+	protected Module_Param_Length_Restriction get_length_range() {
 		if (length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION) {
 			return null;
 		}
@@ -275,18 +275,18 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		return mp_res;
 	}
 
-	void setSingleLength(final int single_length) {
+	public void setSingleLength(final int single_length) {
 		length_restriction_type = length_restriction_type_t.SINGLE_LENGTH_RESTRICTION;
 		this.single_length = single_length;
 	}
 
-	void setSingleLength(final TitanInteger single_length) {
+	public void setSingleLength(final TitanInteger single_length) {
 		single_length.mustBound("Using an unbound integer value as length restriction.");
 
 		setSingleLength(single_length.getInt());
 	}
 
-	void setMinLength(final int min_length) {
+	public void setMinLength(final int min_length) {
 		if (min_length < 0) {
 			throw new TtcnError(MessageFormat.format("The lower limit for the length is negative ({0}) in a template with length restriction.", min_length));
 		}
@@ -295,13 +295,13 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		range_length_max_length_set = false;
 	}
 
-	void setMinLength(final TitanInteger min_length) {
+	public void setMinLength(final TitanInteger min_length) {
 		min_length.mustBound("Using an unbound integer value as lower length restriction.");
 
 		setMinLength(min_length.getInt());
 	}
 
-	void setMaxLength(final int max_length) {
+	public void setMaxLength(final int max_length) {
 		if (length_restriction_type != length_restriction_type_t.RANGE_LENGTH_RESTRICTION) {
 			throw new TtcnError("Internal error: Setting a maximum length for a template the length restriction of which is not a range.");
 		}
@@ -316,7 +316,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		range_length_max_length_set = true;
 	}
 
-	void setMaxLength(final TitanInteger max_length) {
+	public void setMaxLength(final TitanInteger max_length) {
 		max_length.mustBound("Using an unbound integer value as upper length restriction.");
 
 		setMaxLength(max_length.getInt());
