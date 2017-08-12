@@ -265,6 +265,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 *                the definition the statement is located within.
 	 * */
 	public void setMyDefinition(final Definition definition) {
+		//empty by default
 	}
 
 	/**
@@ -275,6 +276,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 *                the altguards to which the statement belongs to.
 	 * */
 	public void setMyAltguards(final AltGuards altGuards) {
+		//empty by default
 	}
 
 	/**
@@ -331,6 +333,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
+		//empty by default
 	}
 
 	/**
@@ -340,6 +343,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * The default behavior does not define any operation.
 	 * */
 	public void postCheck() {
+		//empty by default
 	}
 
 	@Override
