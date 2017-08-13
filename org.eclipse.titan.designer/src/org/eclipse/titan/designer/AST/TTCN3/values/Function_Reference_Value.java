@@ -155,7 +155,7 @@ public final class Function_Reference_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		IType governor = myGovernor;
 		if (governor == null) {
@@ -166,7 +166,7 @@ public final class Function_Reference_Value extends Value {
 			return result;
 		}
 
-		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");
 		result.append("public String getId() {\n");
@@ -174,8 +174,8 @@ public final class Function_Reference_Value extends Value {
 		result.append("}\n");
 		result.append("@Override\n");
 		result.append("public ");
-		Function_Type functionType = (Function_Type) lastGovernor;
-		Type returnType = functionType.getReturnType();
+		final Function_Type functionType = (Function_Type) lastGovernor;
+		final Type returnType = functionType.getReturnType();
 		if (returnType == null) {
 			result.append("void");
 		} else {

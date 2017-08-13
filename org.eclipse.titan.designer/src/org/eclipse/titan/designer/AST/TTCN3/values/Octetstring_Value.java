@@ -199,7 +199,7 @@ public final class Octetstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanOctetString" );
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", value));
 
 		return result;

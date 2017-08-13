@@ -58,7 +58,7 @@ public final class Log2StrExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		for(int i = 0; i < logArguments.getNofLogArguments(); i++) {
-			InternalLogArgument logArgument = logArguments.getLogArgumentByIndex(i).getRealArgument();
+			final InternalLogArgument logArgument = logArguments.getLogArgumentByIndex(i).getRealArgument();
 
 			if (logArgument == null) {
 				continue;
@@ -79,14 +79,14 @@ public final class Log2StrExpression extends Expression_Value {
 				}
 				break;
 			case Reference:{
-				Reference reference = ((Reference_InternalLogArgument) logArgument).getReference();
+				final Reference reference = ((Reference_InternalLogArgument) logArgument).getReference();
 				if (lhs == reference.getRefdAssignment(timestamp, false)) {
 					return true;
 				}
 				break;
 			}
 			case TemplateInstance: {
-				TTCN3Template template = ((TemplateInstance_InternalLogArgument) logArgument).getTemplate().getTemplateBody();
+				final TTCN3Template template = ((TemplateInstance_InternalLogArgument) logArgument).getTemplate().getTemplateBody();
 				if (template.checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 					return true;
 				}

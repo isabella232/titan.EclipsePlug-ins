@@ -330,7 +330,7 @@ public final class IsValueExpression extends Expression_Value {
 		final TTCN3Template templateBody = templateInstance.getTemplateBody();
 		// FIXME actually a bit more complex
 		if (templateInstance.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
-			IValue value = ((SpecificValue_Template) templateBody).getValue();
+			final IValue value = ((SpecificValue_Template) templateBody).getValue();
 			// FIXME implement support for cast
 			value.generateCodeExpression(aData, expression);
 		} else {

@@ -273,7 +273,7 @@ public final class Real_Value extends Value {
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport( "Ttcn3Float" );
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanFloat( new Ttcn3Float( {0} ) )", createJavaStringRepresentation()));
 
 		return result;

@@ -169,7 +169,8 @@ public final class Verdict_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanVerdictType" );
 		aData.addBuiltinTypeImport("TitanVerdictType.VerdictTypeEnum");
-		StringBuilder result = new StringBuilder();
+
+		final StringBuilder result = new StringBuilder();
 		result.append("new TitanVerdictType( ");
 		switch (value) {
 		case NONE:

@@ -605,13 +605,13 @@ public final class SequenceOf_Value extends Value {
 
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
-				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 				embeddedName.append(".getAt(").append(i).append(')');
 				values.getIndexedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
 			}
 		} else {
 			for (int i = 0; i < values.getNofValues(); i++) {
-				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 				embeddedName.append(".getAt(").append(i).append(')');
 				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
 			}
@@ -657,8 +657,8 @@ public final class SequenceOf_Value extends Value {
 			return new StringBuilder("TitanNull_Type.NULL_VALUE");
 		}
 
-		StringBuilder result = new StringBuilder();
-		String genName = governor.getGenNameValue(aData, result, myScope);
+		final StringBuilder result = new StringBuilder();
+		final String genName = governor.getGenNameValue(aData, result, myScope);
 		result.append(MessageFormat.format("new {0}(TitanNull_Type.NULL_VALUE)", genName));
 		return result;
 	}
@@ -744,8 +744,8 @@ public final class SequenceOf_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
-		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
+		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);

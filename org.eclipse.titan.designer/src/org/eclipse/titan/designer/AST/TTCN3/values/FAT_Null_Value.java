@@ -132,7 +132,7 @@ public final class FAT_Null_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		if (myGovernor != null) {
 			result.append(MessageFormat.format("({0})", myGovernor.getGenNameValue(aData, result, myScope)));

@@ -216,7 +216,7 @@ public final class Bitstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanBitString" );
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanBitString(\"{0}\")", value));
 
 		return result;

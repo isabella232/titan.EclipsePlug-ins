@@ -499,21 +499,21 @@ public final class Array_Value extends Value {
 			return;
 		}
 
-		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
 			return;
 		}
 
-		long offset = ((Array_Type) type).getDimension().getOffset();
+		final long offset = ((Array_Type) type).getDimension().getOffset();
 		if (isIndexed()) {
 			for (int i = 0; i < values.getNofIndexedValues(); i++) {
-				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 				embeddedName.append(".getAt(").append(offset + i).append(')');
 				values.getIndexedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
 			}
 		} else {
 			for (int i = 0; i < values.getNofValues(); i++) {
-				StringBuilder embeddedName = new StringBuilder(parameterGenName);
+				final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 				embeddedName.append(".getAt(").append(offset + i).append(')');
 				values.getValueByIndex(i).setGenNameRecursive(embeddedName.toString());
 			}
@@ -532,7 +532,7 @@ public final class Array_Value extends Value {
 		}
 
 		governor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
+		final ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
 		source.append(MessageFormat.format("{0}.setSize({1});\n", name, tempDimension.getSize()));
 		source.append(MessageFormat.format("{0}.setOfset({1});\n", name, tempDimension.getOffset()));
 
@@ -562,12 +562,12 @@ public final class Array_Value extends Value {
 			}
 		} else {
 			final int nofValues = values.getNofValues();
-			IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if (!Type_type.TYPE_ARRAY.equals(lastType.getTypetype())) {
 				return source;
 			}
 
-			long indexOffset = ((Array_Type) lastType).getDimension().getOffset();
+			final long indexOffset = ((Array_Type) lastType).getDimension().getOffset();
 			final String embeddedType = lastType.getGenNameValue(aData, source, myScope);
 
 			for (int i = 0; i < nofValues; i++) {
@@ -602,9 +602,9 @@ public final class Array_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
-		String tempId = aData.getTemporaryVariableName();
-		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		final ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
+		final String tempId = aData.getTemporaryVariableName();
+		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		expression.preamble.append(MessageFormat.format("{0}.setSize({1});\n", tempId, tempDimension.getSize()));
 		expression.preamble.append(MessageFormat.format("{0}.setOfset({1});\n", tempId, tempDimension.getOffset()));

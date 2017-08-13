@@ -304,11 +304,11 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append("new TitanUniversalChar[]{");
 
 		for (int i = 0, size = value.size(); i < size; i++) {
-			UniversalChar temp = value.get(i);
+			final UniversalChar temp = value.get(i);
 
 			result.append(temp.generateSingleExpression(aData));
 			if(i != size - 1) {

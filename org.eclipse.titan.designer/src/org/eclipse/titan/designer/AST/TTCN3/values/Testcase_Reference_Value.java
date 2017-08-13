@@ -148,7 +148,7 @@ public final class Testcase_Reference_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		IType governor = myGovernor;
 		if (governor == null) {
@@ -159,7 +159,7 @@ public final class Testcase_Reference_Value extends Value {
 			return result;
 		}
 
-		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");
 		result.append("public String getId() {\n");
@@ -170,7 +170,7 @@ public final class Testcase_Reference_Value extends Value {
 
 		result.append("@Override\n");
 		result.append("public ");
-		Testcase_Type testcaseType = (Testcase_Type) lastGovernor;
+		final Testcase_Type testcaseType = (Testcase_Type) lastGovernor;
 
 		result.append("TitanVerdictType");
 		result.append(" execute(");

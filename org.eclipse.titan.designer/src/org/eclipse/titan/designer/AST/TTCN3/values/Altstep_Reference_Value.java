@@ -151,7 +151,7 @@ public final class Altstep_Reference_Value extends Value {
 		aData.addBuiltinTypeImport("Default_Base");
 		aData.addBuiltinTypeImport("TitanAlt_Status");
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		IType governor = myGovernor;
 		if (governor == null) {
@@ -162,16 +162,16 @@ public final class Altstep_Reference_Value extends Value {
 			return result;
 		}
 
-		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");
 		result.append("public String getId() {\n");
 		result.append(MessageFormat.format("return \"{0}\";\n", referredAltstep.getFullName()));
 		result.append("}\n");
 
-		Altstep_Type altstepType = (Altstep_Type) lastGovernor;
-		String altstepName = referredAltstep.getIdentifier().getName();
-		StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
+		final Altstep_Type altstepType = (Altstep_Type) lastGovernor;
+		final String altstepName = referredAltstep.getIdentifier().getName();
+		final StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
 
 		result.append("@Override\n");
 		result.append("public void invoke_standalone(");

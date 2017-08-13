@@ -286,7 +286,7 @@ public final class RefersExpression extends Expression_Value {
 			return;
 		}
 
-		IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression, myScope)));
 		expression.expression.append("@Override\n");
@@ -296,8 +296,8 @@ public final class RefersExpression extends Expression_Value {
 		if (lastGovernor.getTypetype().equals(Type_type.TYPE_FUNCTION)) {
 			expression.expression.append("@Override\n");
 			expression.expression.append("public ");
-			Function_Type functionType = (Function_Type) lastGovernor;
-			Type returnType = functionType.getReturnType();
+			final Function_Type functionType = (Function_Type) lastGovernor;
+			final Type returnType = functionType.getReturnType();
 			if (returnType == null) {
 				expression.expression.append("void");
 			} else {
@@ -322,9 +322,9 @@ public final class RefersExpression extends Expression_Value {
 			aData.addBuiltinTypeImport("Default_Base");
 			aData.addBuiltinTypeImport("TitanAlt_Status");
 
-			Altstep_Type altstepType = (Altstep_Type) lastGovernor;
-			String altstepName = referredAssignment.getIdentifier().getName();
-			StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
+			final Altstep_Type altstepType = (Altstep_Type) lastGovernor;
+			final String altstepName = referredAssignment.getIdentifier().getName();
+			final StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
 
 			expression.expression.append("@Override\n");
 			expression.expression.append("public void invoke_standalone(");
@@ -352,7 +352,7 @@ public final class RefersExpression extends Expression_Value {
 
 			expression.expression.append("@Override\n");
 			expression.expression.append("public ");
-			Testcase_Type testcaseType = (Testcase_Type) lastGovernor;
+			final Testcase_Type testcaseType = (Testcase_Type) lastGovernor;
 
 			expression.expression.append("TitanVerdictType");
 			expression.expression.append(" execute(");

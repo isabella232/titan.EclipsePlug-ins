@@ -542,7 +542,7 @@ public final class SubstrExpression extends Expression_Value {
 		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 
 		// TODO handle the needs conversion case
-		Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		final Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		switch(expressionType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:

@@ -217,7 +217,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		//default implementation
 		source.append(MessageFormat.format("new {0}({0}.enum_type.{1})", getMyGovernor().getGenNameValue(aData, source, myScope), getValue().getName()));
 		//TODO: Implement all cases! This is just the first draft

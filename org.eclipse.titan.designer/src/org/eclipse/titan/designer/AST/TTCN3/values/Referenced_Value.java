@@ -119,7 +119,7 @@ public final class Referenced_Value extends Value {
 			return false;
 		}
 
-		boolean isStringElement = reference.refersToStringElement();
+		final boolean isStringElement = reference.refersToStringElement();
 
 		return governor.checkThisValue(timestamp, this, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, true, false, false, isStringElement));
 	}
@@ -675,7 +675,7 @@ public final class Referenced_Value extends Value {
 		referenceChain.release();
 
 		if (last == this) {
-			ExpressionStruct expression = new ExpressionStruct();
+			final ExpressionStruct expression = new ExpressionStruct();
 			expression.expression.append(name);
 			expression.expression.append(".assign(");
 			reference.generateConstRef(aData, expression);

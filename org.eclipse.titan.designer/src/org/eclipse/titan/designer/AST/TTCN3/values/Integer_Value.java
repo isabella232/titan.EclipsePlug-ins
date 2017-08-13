@@ -266,7 +266,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanInteger" );
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		if (isNative()) {
 			result.append( "new TitanInteger( " );
@@ -285,6 +285,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "TitanInteger" );
+
 		source.append(name);
 		source.append(".assign( ");
 		if (isNative()) {

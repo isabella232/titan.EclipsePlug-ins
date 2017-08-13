@@ -254,7 +254,7 @@ public final class Charstring_Value extends Value {
 		//TODO register as module level charstring literal and return the literal's name
 		aData.addBuiltinTypeImport( "TitanCharString" );
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanCharString(\"{0}\")", value));
 
 		return result;

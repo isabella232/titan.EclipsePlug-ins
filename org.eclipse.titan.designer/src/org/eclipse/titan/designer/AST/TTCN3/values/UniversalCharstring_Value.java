@@ -222,7 +222,7 @@ public final class UniversalCharstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanUniversalCharString({0})", value.generateSingleExpression(aData)));
 
 		return result;

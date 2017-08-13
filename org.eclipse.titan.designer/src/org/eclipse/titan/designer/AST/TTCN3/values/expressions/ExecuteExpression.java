@@ -255,12 +255,12 @@ public final class ExecuteExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		Assignment testcase = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final Assignment testcase = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));
 
-		List<ISubReference> subReferences = reference.getSubreferences();
+		final List<ISubReference> subReferences = reference.getSubreferences();
 		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {
-			ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
+			final ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
 			if (actualParList.getNofParameters() > 0) {
 				actualParList.generateCodeAlias(aData, expression);
 				expression.expression.append(", ");

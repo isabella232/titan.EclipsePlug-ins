@@ -410,7 +410,7 @@ public final class Choice_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		StringBuilder embeddedName = new StringBuilder(parameterGenName);
+		final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 		embeddedName.append('.');
 		if(Type_type.TYPE_ANYTYPE.equals(governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
 			embeddedName.append("AT_");
@@ -425,10 +425,10 @@ public final class Choice_Value extends Value {
 	 * generate_code_init_choice in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		String altName = this.name.getName();
+		final String altName = this.name.getName();
 
 		//TODO handle the case when temporary reference is needed
-		String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
+		final String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
 		return value.generateCodeInit(aData, source, embeddedName);
 	}
 
@@ -443,8 +443,8 @@ public final class Choice_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
-		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
+		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);

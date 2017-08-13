@@ -764,12 +764,12 @@ public final class Sequence_Value extends Value {
 			return;
 		}
 
-		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if(Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
-				String name = values.getNamedValueByIndex(i).getName().getName();
+				final String name = values.getNamedValueByIndex(i).getName().getName();
 				if(((TTCN3_Sequence_Type)type).hasComponentWithName(name)) {
-					StringBuilder embeddedName = new StringBuilder(parameterGenName);
+					final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 					embeddedName.append('.');
 					embeddedName.append(name);
 					embeddedName.append("()");
@@ -828,8 +828,8 @@ public final class Sequence_Value extends Value {
 			return;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
-		String genName = governor.getGenNameValue(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
+		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -854,7 +854,7 @@ public final class Sequence_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		int nofComps = 0;
 		switch (type.getTypetype()) {
 		case TYPE_TTCN3_SEQUENCE:
@@ -903,7 +903,7 @@ public final class Sequence_Value extends Value {
 
 			if (fieldValue != null) {
 				//TODO handle the case when temporary reference is needed
-				StringBuilder embeddedName = new StringBuilder();
+				final StringBuilder embeddedName = new StringBuilder();
 				embeddedName.append(name);
 				embeddedName.append(".get");
 				embeddedName.append(FieldSubReference.getJavaGetterName(fieldName.getName()));

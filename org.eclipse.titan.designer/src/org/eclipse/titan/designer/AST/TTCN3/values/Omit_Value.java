@@ -141,7 +141,7 @@ public final class Omit_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new Optional<{0}>({0}.class, template_sel.OMIT_VALUE)", governor.getGenNameValue(aData, result, myScope)));
 
 		return result;
