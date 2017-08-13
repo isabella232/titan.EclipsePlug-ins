@@ -192,7 +192,7 @@ public class TitanBoolean extends Base_Type {
 	public TitanBoolean operatorNotEquals(final boolean otherValue){
 		mustBound("The left operand of comparison is an unbound boolean value.");
 
-		return operatorNotEquals(otherValue).not();
+		return operatorEquals(otherValue).not();
 	}
 	
 	//originally operator!=
