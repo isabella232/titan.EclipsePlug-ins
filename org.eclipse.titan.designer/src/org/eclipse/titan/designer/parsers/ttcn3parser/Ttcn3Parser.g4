@@ -1960,7 +1960,6 @@ pr_TemplateDef returns[Def_Template def_template]
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
 	Template_definition_helper helper = new Template_definition_helper();
 	Reference derivedReference = null;
-	TemplateBody body = null;
 	boolean isLazy = false;
 }:
 (	col = pr_TemplateKeyword
@@ -1972,9 +1971,9 @@ pr_TemplateDef returns[Def_Template def_template]
 	b = pr_TemplateBody
 )
 {
-	if(helper.identifier != null && helper.type != null && $b.body != null) {
+	if(helper.identifier != null && helper.type != null && $b.template != null) {
 		$def_template = new Def_Template( templateRestriction, helper.identifier, helper.type, helper.formalParList,
-										  derivedReference, $b.body.getTemplate(), isLazy );
+										  derivedReference, $b.template, isLazy );
 		$def_template.setLocation(getLocation( $col.start, $b.stop));
 		$def_template.setCommentLocation( getLastCommentLocation( $start ) );
 	}
@@ -2051,39 +2050,37 @@ pr_ListOfTemplates returns [ListOfTemplates templates]
 	pr_RParen
 );
 
-pr_TemplateListItem returns [ITemplateListItem template]
+pr_TemplateListItem returns [TTCN3Template template]
 @init {
 	$template = null;
 }:
 (	t = pr_AllElementsFrom { $template = $t.template; }
-|	t2 = pr_TemplateBody { $template = $t2.body; }
+|	t2 = pr_TemplateBody { $template = $t2.template; }
 );
 
-pr_AllElementsFrom returns[ AllElementsFrom template]
+pr_AllElementsFrom returns[ All_From_Template template]
 @init {
 	$template = null;
 }:
 (	pr_AllKeyword
 	pr_FromKeyword
-	b = pr_TemplateBody { if( $b.body!= null ) { $template = new AllElementsFrom( $b.body.getTemplate() ); } }
+	b = pr_TemplateBody { if( $b.template!= null ) { $template = new All_From_Template( $b.template ); } }
 );
 
-pr_TemplateBody returns[ TemplateBody body]
+pr_TemplateBody returns[ TTCN3Template template]
 @init {
-	$body = null;
-	TTCN3Template temp = null;
+	TTCN3Template template = null;
 }:
-(	(	t1 = pr_FieldSpecList { temp = $t1.template; }
-	|	t2 = pr_ArraySpecList  { temp = $t2.indexed_template_list; }
-	|	t3 = pr_ArrayValueOrAttrib { temp = $t3.template; }
-	|	t4 = pr_SimpleSpec { temp = $t4.template; }
+(	(	t1 = pr_FieldSpecList { $template = $t1.template; }
+	|	t2 = pr_ArraySpecList  { $template = $t2.indexed_template_list; }
+	|	t3 = pr_ArrayValueOrAttrib { $template = $t3.template; }
+	|	t4 = pr_SimpleSpec { $template = $t4.template; }
 	)
-	(	pr_ExtraMatchingAttributes[temp]	)?
-|	dc = pr_DecodedContentMatch { temp = $dc.template; }
+	(	pr_ExtraMatchingAttributes[$template]	)?
+|	dc = pr_DecodedContentMatch { $template = $dc.template; }
 )
 {
-	if( temp != null ) {
-		$body = new TemplateBody(temp);
+	if( $template != null ) {
 		//TODO: set location
 	}
 };
@@ -2127,8 +2124,8 @@ pr_FieldSpec returns[NamedTemplate namedTemplate]
 	b = pr_TemplateBody
 )
 {
-	if($name.identifier != null && $b.body != null) {
-		$namedTemplate = new NamedTemplate($name.identifier, $b.body.getTemplate());
+	if($name.identifier != null && $b.template != null) {
+		$namedTemplate = new NamedTemplate($name.identifier, $b.template);
 		$namedTemplate.setLocation(getLocation( $name.start, $b.stop));
 	}
 };
@@ -2180,8 +2177,8 @@ pr_ArraySpec returns[IndexedTemplate indexedTemplate]
 	b = pr_TemplateBody
 )
 {
-	if ($index.subReference != null && $b.body != null) {
-		$indexedTemplate = new IndexedTemplate($index.subReference, $b.body);
+	if ($index.subReference != null && $b.template != null) {
+		$indexedTemplate = new IndexedTemplate($index.subReference, $b.template);
 		$indexedTemplate.setLocation(getLocation( $index.start, $b.stop));
 	}
 };
@@ -2262,19 +2259,18 @@ pr_ArrayElementSpecList returns[ListOfTemplates templates]
 	)*
 );
 
-pr_ArrayElementSpec returns[ TemplateBody body]
+pr_ArrayElementSpec returns[ TTCN3Template body]
 @init {
-	$body = null;
 	ListOfTemplates templates = null;
 }:
 (	t = pr_PermutationMatch
 		{	templates = $t.templates;
 			if ( templates!=null ) {
-				$body = new TemplateBody( new PermutationMatch_Template(templates));
+				$body = new PermutationMatch_Template(templates);
 			}
 		}
-|	pr_NotUsedSymbol { $body = new TemplateBody(new NotUsed_Template()); }
-|	b = pr_TemplateBody { $body = $b.body; }
+|	pr_NotUsedSymbol { $body = new NotUsed_Template();/*new TemplateBody(new NotUsed_Template());*/ }
+|	b = pr_TemplateBody { $body = $b.template; }
 |	t1 = pr_AllElementsFrom { $body = $t1.template; }
 )
 {
@@ -2590,8 +2586,8 @@ pr_InLineTemplate returns[TemplateInstance templateInstance]
 	b = pr_TemplateBody
 )
 {
-	if($b.body != null) {
-		$templateInstance = new TemplateInstance(type, derived, $b.body.getTemplate());
+	if($b.template != null) {
+		$templateInstance = new TemplateInstance(type, derived, $b.template);
 		$templateInstance.setLocation(getLocation( $start, $b.stop));
 	}
 };
@@ -4124,33 +4120,25 @@ pr_TemplateModuleParList [Type type]
 	$parameters = new ArrayList<Definition>();
 	Token endcol = null;
 	Definition def;
-	TemplateBody body = null;
+	TTCN3Template template = null;
 }:
 	i = pr_Identifier { endcol = $i.start; }
 	(	pr_AssignmentChar
-		b = pr_TemplateBody { endcol = $b.stop; body = $b.body; }
+		b = pr_TemplateBody { endcol = $b.stop; template = $b.template; }
 	)?
 		{	if($i.identifier != null && $type != null) {
-				if(body != null ) {
-					def = new Def_ModulePar_Template($i.identifier, $type, body.getTemplate());
-				} else {
-					def = new Def_ModulePar_Template($i.identifier, $type, null);
-				}
+				def = new Def_ModulePar_Template($i.identifier, $type, template);
 			def.setLocation(getLocation( $i.start, endcol));
 			$parameters.add(def);
 			}
 		}
 	(	pr_Comma
-		i2 = pr_Identifier { endcol = $i2.stop; body = null; }
+		i2 = pr_Identifier { endcol = $i2.stop; template = null; }
 		(	pr_AssignmentChar
-			b2 = pr_TemplateBody { endcol = $b2.stop; body = $b2.body; }
+			b2 = pr_TemplateBody { endcol = $b2.stop; template = $b2.template; }
 		)?
 			{	if($i2.identifier != null && type != null) {
-					if(body != null) {
-						def = new Def_ModulePar_Template($i2.identifier, $type, body.getTemplate());
-				  	} else {
-				  		def = new Def_ModulePar_Template($i2.identifier, $type, null);
-				  	}
+					def = new Def_ModulePar_Template($i2.identifier, $type, template);
 				  	def.setLocation(getLocation( $i2.start, endcol));
 					$parameters.add(def);
 				}
@@ -4293,7 +4281,7 @@ pr_TempVarList [List<Definition> definitions, Type type, TemplateRestriction.Res
 
 pr_SingleTempVarInstance [List<Definition> definitions, Type type, TemplateRestriction.Restriction_type templateRestriction]
 @init {
-	TemplateBody body = null;
+	TTCN3Template template = null;
 	ArrayDimensions dimensions = null;
 	FormalParameterList formalParList = null;
 }:
@@ -4304,7 +4292,7 @@ pr_SingleTempVarInstance [List<Definition> definitions, Type type, TemplateRestr
 		pr_RParen
 	)?
 	(	pr_AssignmentChar
-		b = pr_TemplateBody { body = $b.body; }
+		b = pr_TemplateBody { template = $b.template; }
 	)?
 )
 {
@@ -4317,7 +4305,7 @@ pr_SingleTempVarInstance [List<Definition> definitions, Type type, TemplateRestr
 			}
 		}
 
-		Definition definition = new Def_Var_Template( $templateRestriction, $i.identifier, tempType, formalParList, body != null ? body.getTemplate() : null );
+		Definition definition = new Def_Var_Template( $templateRestriction, $i.identifier, tempType, formalParList, template );
 		definition.setLocation(getLocation( $start, getStopToken()));
 		$definitions.add(definition);
 	}
@@ -6409,17 +6397,13 @@ pr_SUTStatements returns[Action_Statement statement]
 pr_ReturnStatement returns[Return_Statement statement]
 @init {
 	$statement = null;
-	TemplateBody body = null;
+	TTCN3Template template = null;
 }:
 (	RETURN
-	( b = pr_TemplateBody { body = $b.body; } )?
+	( b = pr_TemplateBody { template = $b.template; } )?
 )
 {
-	if( body != null ) {
-		$statement = new Return_Statement( body.getTemplate() );
-	} else {
-		$statement = new Return_Statement( null );
-	}
+	$statement = new Return_Statement( template );
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
@@ -6894,8 +6878,8 @@ pr_Assignment returns[Assignment_Statement statement]
 	b = pr_TemplateBody
 )
 {
-	if( $b.body != null ) {
-		$statement = new Assignment_Statement($r.reference, $b.body.getTemplate());
+	if( $b.template != null ) {
+		$statement = new Assignment_Statement($r.reference, $b.template);
 	} else {
 		$statement = new Assignment_Statement($r.reference, null);
 	}

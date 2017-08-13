@@ -38,7 +38,6 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
@@ -956,11 +955,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		//Case of specific value:
 
 		ITTCN3Template template = t;
-
-		if( template instanceof TemplateBody) {
-			template = ((TemplateBody) template).getTemplate();
-		}
-
 		IValue value = ((SpecificValue_Template) template).getSpecificValue();
 		if (value == null) {
 			return template;

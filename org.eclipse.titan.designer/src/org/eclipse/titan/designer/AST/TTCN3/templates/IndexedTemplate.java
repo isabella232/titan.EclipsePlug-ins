@@ -30,7 +30,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class IndexedTemplate extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 
 	private final ArraySubReference index;
-	private final ITemplateListItem template;
+	private final TTCN3Template template;
 
 	/**
 	 * The location of the whole template. This location encloses the
@@ -38,7 +38,7 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 	 **/
 	private Location location;
 
-	public IndexedTemplate(final ArraySubReference index, final ITemplateListItem template) {
+	public IndexedTemplate(final ArraySubReference index, final TTCN3Template template) {
 		super();
 		this.index = index;
 		this.template = template;
@@ -56,7 +56,7 @@ public final class IndexedTemplate extends ASTNode implements ILocateableNode, I
 		return index;
 	}
 
-	public ITemplateListItem getTemplate() {
+	public TTCN3Template getTemplate() {
 		return template;
 	}
 

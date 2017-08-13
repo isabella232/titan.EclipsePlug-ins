@@ -113,7 +113,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 
 		boolean selfReference = false;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			final ITemplateListItem component = templates.getTemplateByIndex(i);
+			final TTCN3Template component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
 			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
 			selfReference = temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
@@ -146,20 +146,17 @@ public final class ComplementedList_Template extends CompositeTemplate {
 		if(allowOmitInValueList) {
 			boolean hasAnyOrOmit = false;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-				final ITemplateListItem component = templates.getTemplateByIndex(i);
+				final TTCN3Template component = templates.getTemplateByIndex(i);
 
 				// === if OMIT_VALUE then hasOmitValue=true and break ====
 				// componentType == ITTCN3Template.Template_type.OMIT_VALUE does not work
 				// TODO: put this if-block to a higher level
 				//TODO: avoid NPE (?)
-				if(component instanceof TemplateBody) {
-					final ITTCN3Template template = ((TemplateBody) component).getTemplate();
-					if(Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())){
-						final IValue value = ((SpecificValue_Template) template).getSpecificValue();
-						if( Value_type.OMIT_VALUE.equals(value.getValuetype())){
-							hasAnyOrOmit = true;
-							break;
-						}
+				if(Template_type.SPECIFIC_VALUE.equals(component.getTemplatetype())){
+					final IValue value = ((SpecificValue_Template) component).getSpecificValue();
+					if( Value_type.OMIT_VALUE.equals(value.getValuetype())){
+						hasAnyOrOmit = true;
+						break;
 					}
 				}
 
@@ -224,7 +221,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 		source.append( " );\n" );
 
 		for (int i = 0 ; i < nofTs ; i++) {
-			ITemplateListItem template = templates.getTemplateByIndex(i);
+			TTCN3Template template = templates.getTemplateByIndex(i);
 			// TODO: handle needs template reference
 			String embeddedName = name + ".listItem(" + i + ")";
 			template.generateCodeInit(aData, source, embeddedName);

@@ -171,8 +171,8 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 		ArrayList<Integer> variables = new ArrayList<Integer>();
 		long fixedPart = 0;
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
-			ITemplateListItem templateListItem = templates.getTemplateByIndex(i);
-			if (templateListItem.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
+			TTCN3Template templateListItem = templates.getTemplateByIndex(i);
+			if (templateListItem.getTemplatetype() == Template_type.ALL_FROM) {
 				variables.add(i);
 			} else {
 				fixedPart++;
@@ -185,8 +185,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 			setType.append(MessageFormat.format("{0}.setType(template_sel.SUBSET_MATCH, {1}", name, fixedPart));
 
 			for (int v = 0; v < variables.size(); v++) {
-				ITemplateListItem templateListItem = templates.getTemplateByIndex(variables.get(v));
-				TTCN3Template template = ((TemplateBody) templateListItem).getTemplate();
+				TTCN3Template template = templates.getTemplateByIndex(variables.get(v));
 				// the template must be all from
 				IValue value = ((SpecificValue_Template) template).getValue();
 				Reference reference;
@@ -234,11 +233,10 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 
 			StringBuilder shifty = new StringBuilder();
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
-				ITemplateListItem templateListItem = templates.getTemplateByIndex(i);
-				TTCN3Template template = ((TemplateBody) templateListItem).getTemplate();
+				TTCN3Template template = templates.getTemplateByIndex(i);
 
-				switch (templateListItem.getTemplatetype()) {
-				case ALLELEMENTSFROM: {
+				switch (template.getTemplatetype()) {
+				case ALL_FROM: {
 					// the template must be all from
 					template.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
 					IValue value = ((SpecificValue_Template) template).getValue();
@@ -276,7 +274,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_lim; ++i_i ) '{'\n", expression.expression));
 
 					String embeddedName = MessageFormat.format("{0}.setItem({1}{2} + i_i)", name, i, shifty);
-					((AllElementsFrom) templateListItem).generateCodeInitAllFrom(aData, source, embeddedName);
+					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName);
 					source.append("}\n");
 					shifty.append(MessageFormat.format("-1 + {0}.n_elem()", expression.expression));
 					break;
@@ -298,7 +296,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 		} else {
 			source.append(MessageFormat.format("{0}.setType(template_sel.SUBSET_MATCH, {1});\n", name, templates.getNofTemplates()));
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
-				TTCN3Template template = templates.getTemplateByIndex(i).getTemplate();
+				TTCN3Template template = templates.getTemplateByIndex(i);
 				if (template.needsTemporaryReference()) {
 					String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");

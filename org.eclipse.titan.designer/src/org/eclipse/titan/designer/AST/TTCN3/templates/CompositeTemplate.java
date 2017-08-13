@@ -51,7 +51,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	 *
 	 * @return the template on the indexed position.
 	 * */
-	public ITemplateListItem getTemplateByIndex(final int index) {  //???
+	public TTCN3Template getTemplateByIndex(final int index) {  //???
 		return templates.getTemplateByIndex(index);
 	}
 
@@ -77,19 +77,15 @@ public abstract class CompositeTemplate extends TTCN3Template {
 		int result = 0;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 			ITTCN3Template template = templates.getTemplateByIndex(i);
-			final Template_type ttype = template.getTemplatetype();
 
-			switch (ttype) {
+			switch (template.getTemplatetype()) {
 			case ANY_OR_OMIT:
 				break;
 			case PERMUTATION_MATCH:
-				if(template instanceof TemplateBody){
-					template = ((TemplateBody) template).getTemplate();
-				}
 				result += ((PermutationMatch_Template) template).getNofTemplatesNotAnyornone(timestamp);
 				break;
-			case ALLELEMENTSFROM:
-				result += ((AllElementsFrom) template).getNofTemplatesNotAnyornone(timestamp);
+			case ALL_FROM:
+				result += ((All_From_Template) template).getNofTemplatesNotAnyornone(timestamp);
 				break;
 			default:
 				result++;
@@ -112,9 +108,6 @@ public abstract class CompositeTemplate extends TTCN3Template {
 			case ANY_OR_OMIT:
 				return true;
 			case PERMUTATION_MATCH:
-				if(template instanceof TemplateBody){
-					template = ((TemplateBody) template).getTemplate();
-				}
 				if (((PermutationMatch_Template) template).templateContainsAnyornone()) {
 					return true;
 				}

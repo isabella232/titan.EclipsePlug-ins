@@ -112,7 +112,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 		final NamedTemplates namedTemplates = new NamedTemplates();
 		for (int i = 0; i < upperLimit; i++) {
-			final ITemplateListItem template = other.getTemplateByIndex(i);
+			final TTCN3Template template = other.getTemplateByIndex(i);
 			if (!Template_type.TEMPLATE_NOTUSED.equals(template.getTemplatetype())) {
 				allNotUsed = false;
 				Identifier identifier = null;
@@ -528,7 +528,7 @@ public final class Named_Template_List extends TTCN3Template {
 			}
 			embeddedName.append(namedTemplates.getTemplateByIndex(i).getName().getName());
 			embeddedName.append("()");
-			namedTemplates.getTemplateByIndex(i).getTemplate().getTemplate().setGenNameRecursive(embeddedName.toString());
+			namedTemplates.getTemplateByIndex(i).getTemplate().setGenNameRecursive(embeddedName.toString());
 		}
 	}
 

@@ -73,9 +73,7 @@ public interface ITTCN3Template extends IGovernedSimple {
 		/** universal charstring pattern. */
 		USTR_PATTERN,
 		/** all from template type, hides its real type*/
-		ALLELEMENTSFROM,
-		/** template body, hides its real type */
-		TEMPLATEBODY
+		ALL_FROM
 	}
 
 	public enum Completeness_type {

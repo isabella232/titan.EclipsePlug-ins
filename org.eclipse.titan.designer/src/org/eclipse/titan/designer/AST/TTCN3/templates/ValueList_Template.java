@@ -89,7 +89,7 @@ public final class ValueList_Template extends CompositeTemplate {
 
 		boolean selfReference = false;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			final ITemplateListItem component = templates.getTemplateByIndex(i);
+			final TTCN3Template component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
 			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
 			selfReference = temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
@@ -185,7 +185,7 @@ public final class ValueList_Template extends CompositeTemplate {
 		source.append( " );\n" );
 
 		for (int i = 0 ; i < nofTs ; i++) {
-			ITemplateListItem template = templates.getTemplateByIndex(i);
+			TTCN3Template template = templates.getTemplateByIndex(i);
 			// TODO: handle needs template reference
 			String embeddedName = name + ".listItem(" + i + ")";
 			template.generateCodeInit(aData, source, embeddedName);

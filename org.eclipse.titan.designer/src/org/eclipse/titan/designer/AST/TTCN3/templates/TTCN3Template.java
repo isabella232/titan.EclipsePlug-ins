@@ -768,7 +768,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		}
 		}
 		if(this instanceof Template_List) {
-			final ITemplateListItem returnValue = ((Template_List) this).getTemplateByIndex((int) index);
+			final TTCN3Template returnValue = ((Template_List) this).getTemplateByIndex((int) index);
 			if (Template_type.TEMPLATE_NOTUSED.equals(returnValue.getTemplatetype())) {
 				if (baseTemplate != null) {
 					return baseTemplate.getTemplateReferencedLast(timestamp, referenceChain).getReferencedArrayTemplate(timestamp,

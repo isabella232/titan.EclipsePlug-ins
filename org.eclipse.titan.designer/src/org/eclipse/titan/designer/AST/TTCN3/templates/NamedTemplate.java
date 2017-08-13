@@ -37,7 +37,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 
 	private final Identifier name;
 	// TODO: Check if removing template property "final" causes problem or not
-	private final ITemplateListItem template;
+	private final TTCN3Template template;
 
 	/**
 	 * The location of the whole template. This location encloses the
@@ -51,7 +51,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 	 * */
 	private final boolean parsed;
 
-	public NamedTemplate(final Identifier name, final ITemplateListItem template) {
+	public NamedTemplate(final Identifier name, final TTCN3Template template) {
 		//		final boolean parsed = true;
 		//		NamedTemplate(name,template,parsed);
 		super();
@@ -65,34 +65,10 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 		}
 	}
 
-	public NamedTemplate(final Identifier name, final TTCN3Template template) {
-		super();
-		this.name = name;
-		this.template = new TemplateBody(template);
-		location = NULL_Location.INSTANCE;
-		this.parsed = true;
-
-		if (template != null) {
-			template.setFullNameParent(this);
-		}
-	}
-
-	public NamedTemplate(final Identifier name, final ITemplateListItem template, final boolean parsed) {
-		super();
-		this.name = name;
-		this.template = template;
-		location = NULL_Location.INSTANCE;
-		this.parsed = parsed;
-
-		if (template != null) {
-			template.setFullNameParent(this);
-		}
-	}
-
 	public NamedTemplate(final Identifier name, final TTCN3Template template, final boolean parsed) {
 		super();
 		this.name = name;
-		this.template = new TemplateBody(template);
+		this.template = template;
 		location = NULL_Location.INSTANCE;
 		this.parsed = parsed;
 
@@ -105,7 +81,7 @@ public final class NamedTemplate extends ASTNode implements ILocateableNode, IIn
 		return name;
 	}
 
-	public ITemplateListItem getTemplate() {
+	public TTCN3Template getTemplate() {
 		return template;
 	}
 

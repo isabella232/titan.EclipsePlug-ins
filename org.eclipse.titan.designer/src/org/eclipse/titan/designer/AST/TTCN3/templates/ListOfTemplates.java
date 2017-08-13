@@ -30,12 +30,12 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Jeno Balasko
  *
  */
-public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable, Iterable<ITemplateListItem>{
+public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable, Iterable<TTCN3Template> {
 
-	private final List<ITemplateListItem> templates;
+	private final List<TTCN3Template> templates;
 
 	public ListOfTemplates() {
-		templates = new ArrayList<ITemplateListItem>();
+		templates = new ArrayList<TTCN3Template>();
 	}
 
 	@Override
@@ -52,7 +52,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	 * @param template
 	 *                the template to be added.
 	 * */
-	public void addTemplate(final ITemplateListItem template) {
+	public void addTemplate(final TTCN3Template template) {
 		templates.add(template);
 	}
 
@@ -66,7 +66,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	 *                the index of the element to return.
 	 * @return the template on the indexed position.
 	 * */
-	public ITemplateListItem getTemplateByIndex(final int index) {
+	public TTCN3Template getTemplateByIndex(final int index) {
 		return templates.get(index);
 	}
 
@@ -87,7 +87,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 			throw new ReParseException();
 		}
 
-		ITemplateListItem template;
+		TTCN3Template template;
 		for (int i = 0, size = templates.size(); i < size; i++) {
 			template = templates.get(i);
 			template.updateSyntax(reparser, false);
@@ -101,7 +101,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 			return;
 		}
 
-		for ( ITemplateListItem  template : templates) {
+		for ( TTCN3Template  template : templates) {
 			template.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -111,7 +111,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	@Override
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (templates != null) {
-			for (ITemplateListItem t : templates) {
+			for (TTCN3Template t : templates) {
 				if (!t.accept(v)) {
 					return false;
 				}
@@ -121,7 +121,7 @@ public class ListOfTemplates extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	@Override
-	public Iterator<ITemplateListItem> iterator() {
+	public Iterator<TTCN3Template> iterator() {
 		return templates.iterator();
 	}
 }

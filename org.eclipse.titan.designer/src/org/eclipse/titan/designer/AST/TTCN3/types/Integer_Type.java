@@ -262,7 +262,7 @@ public final class Integer_Type extends Type {
 		case VALUE_LIST:
 			final ValueList_Template temp = (ValueList_Template) template;
 			for (int i = 0; i < temp.getNofTemplates(); i++){
-				final TTCN3Template tmp = temp.getTemplateByIndex(i).getTemplate();
+				final TTCN3Template tmp = temp.getTemplateByIndex(i);
 				selfReference = checkThisTemplate(timestamp,tmp,isModified,implicitOmit, lhs);
 			}
 			break;

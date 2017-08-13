@@ -103,7 +103,7 @@ public final class Template_List extends CompositeTemplate {
 
 	public boolean hasAllFrom() {
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			if (Template_type.ALLELEMENTSFROM.equals(templates.getTemplateByIndex(i).getTemplatetype())) {
+			if (Template_type.ALL_FROM.equals(templates.getTemplateByIndex(i).getTemplatetype())) {
 				return true;
 			}
 		}
@@ -378,7 +378,7 @@ public final class Template_List extends CompositeTemplate {
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
 			StringBuilder embeddedName = new StringBuilder(parameterGenName);
 			embeddedName.append('[').append(offset + i).append(']');
-			templates.getTemplateByIndex(i).getTemplate().setGenNameRecursive(embeddedName.toString());
+			templates.getTemplateByIndex(i).setGenNameRecursive(embeddedName.toString());
 		}
 	}
 
@@ -402,8 +402,8 @@ public final class Template_List extends CompositeTemplate {
 		// temporary reference is needed if the template has at least one
 		// element (excluding not used symbols)
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
-			ITemplateListItem template = templates.getTemplateByIndex(i);
-			if (((TemplateBody) template).getTemplate().getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
+			TTCN3Template template = templates.getTemplateByIndex(i);
+			if (template.getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
 				return true;
 			}
 		}
@@ -507,10 +507,9 @@ public final class Template_List extends CompositeTemplate {
 			body.append(MessageFormat.format("int {0} = 0;\n", counter));
 
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-				ITemplateListItem templateListItem = templates.getTemplateByIndex(i);
-				TTCN3Template template = ((TemplateBody) templateListItem).getTemplate();
-				if (templateListItem.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
-					TTCN3Template subTemplate = ((AllElementsFrom) templateListItem).getTemplate();
+				TTCN3Template template = templates.getTemplateByIndex(i);
+				if (template.getTemplatetype() == Template_type.ALL_FROM) {
+					TTCN3Template subTemplate = ((All_From_Template) template).getAllFrom();
 					final Reference reference = ((SpecificValue_Template) subTemplate).getReference();
 					final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
@@ -547,7 +546,7 @@ public final class Template_List extends CompositeTemplate {
 					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
 
 					String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
-					((AllElementsFrom) templateListItem).generateCodeInitAllFrom(aData, body, embeddedName);
+					((All_From_Template) template).generateCodeInitAllFrom(aData, body, embeddedName);
 					body.append("}\n");
 					body.append(MessageFormat.format("{0} += {1}.n_elem();\n", counter, bodyExpression.expression));
 				} else if (template.getTemplatetype() == Template_type.PERMUTATION_MATCH) {
@@ -555,9 +554,9 @@ public final class Template_List extends CompositeTemplate {
 					String permutationStart = aData.getTemporaryVariableName();
 					body.append(MessageFormat.format("int {0} = {1};\n", permutationStart, counter));
 					for (int j = 0; j < numPermutations; j++) {
-						ITemplateListItem templateListItem2 = ((PermutationMatch_Template) template).getTemplateByIndex(j);
-						if (templateListItem2.getTemplatetype() == Template_type.ALLELEMENTSFROM) {
-							TTCN3Template subTemplate = ((AllElementsFrom) templateListItem2).getTemplate();
+						TTCN3Template template2 = ((PermutationMatch_Template) template).getTemplateByIndex(j);
+						if (template2.getTemplatetype() == Template_type.ALL_FROM) {
+							TTCN3Template subTemplate = ((All_From_Template) template2).getAllFrom();
 							final Reference reference = ((SpecificValue_Template) subTemplate).getReference();
 							final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
@@ -594,14 +593,13 @@ public final class Template_List extends CompositeTemplate {
 							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
 
 							String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
-							((AllElementsFrom) templateListItem2).generateCodeInitAllFrom(aData, body, embeddedName);
+							((All_From_Template) template2).generateCodeInitAllFrom(aData, body, embeddedName);
 							body.append("}\n");
 
 							body.append(MessageFormat.format("{0} += {1}.n_elem();\n", counter, bodyExpression.expression));
 						} else {
 							fixedPart++;
-							TTCN3Template subTemplate = templateListItem2.getTemplate();
-							subTemplate.generateCodeInitSeofElement(aData, body, name, counter, ofTypeName);
+							template2.generateCodeInitSeofElement(aData, body, name, counter, ofTypeName);
 							body.append(MessageFormat.format("{0}++;\n", counter));
 						}
 					}
@@ -626,26 +624,26 @@ public final class Template_List extends CompositeTemplate {
 
 			int index = 0;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-				ITemplateListItem template = templates.getTemplateByIndex(i);
+				TTCN3Template template = templates.getTemplateByIndex(i);
 				switch (template.getTemplatetype()) {
 				case PERMUTATION_MATCH:
-					PermutationMatch_Template actualTemplate = (PermutationMatch_Template) template.getTemplate();
+					PermutationMatch_Template actualTemplate = (PermutationMatch_Template) template;
 					int nofPermutatedTemplates = actualTemplate.getNofTemplates();
 					for (int j = 0; j < nofPermutatedTemplates; j++) {
 						long ix = indexOffset + index + j;
-						ITemplateListItem template2 = actualTemplate.getTemplateByIndex(j);
-						((TemplateBody) template2).getTemplate().generateCodeInitSeofElement(aData, source, name, Long.toString(ix), ofTypeName);
+						TTCN3Template template2 = actualTemplate.getTemplateByIndex(j);
+						template2.generateCodeInitSeofElement(aData, source, name, Long.toString(ix), ofTypeName);
 					}
 					// do not consider index_offset in case of permutation indicators
 					source.append(MessageFormat.format("{0}.addPermutation({1}, {2});\n", name, index, index + nofPermutatedTemplates - 1));
 					index += nofPermutatedTemplates;
 					break;
-				case ALLELEMENTSFROM:
+				case ALL_FROM:
 				case TEMPLATE_NOTUSED:
 					index++;
 					break;
 				default:
-					((TemplateBody) template).getTemplate().generateCodeInitSeofElement(aData, source, name, Long.toString(indexOffset + index), ofTypeName);
+					template.generateCodeInitSeofElement(aData, source, name, Long.toString(indexOffset + index), ofTypeName);
 					index++;
 					break;
 				}

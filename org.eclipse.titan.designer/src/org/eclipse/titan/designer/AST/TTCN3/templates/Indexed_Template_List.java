@@ -418,8 +418,8 @@ public final class Indexed_Template_List extends TTCN3Template {
 		// temporary reference is needed if the template has at least one
 		// element (excluding not used symbols)
 		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
-			ITemplateListItem template = indexedTemplates.getTemplateByIndex(i).getTemplate();
-			if (((TemplateBody) template).getTemplate().getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
+			TTCN3Template template = indexedTemplates.getTemplateByIndex(i).getTemplate();
+			if (template.getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
 				return true;
 			}
 		}
