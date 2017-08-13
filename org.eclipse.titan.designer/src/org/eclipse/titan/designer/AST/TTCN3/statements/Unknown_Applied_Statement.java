@@ -236,6 +236,7 @@ public final class Unknown_Applied_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (realStatement == null) {
 			source.append("//FATAL ERROR furing apply statement\n");
+			return;
 		}
 
 		realStatement.generateCode(aData, source);
