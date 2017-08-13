@@ -357,12 +357,12 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 		if (lower != null) {
 			ExpressionStruct expression = new ExpressionStruct();
 			lower.generateCodeExpression(aData, expression);
-			source.append(MessageFormat.format("{0}.setMinLength({1});\n", name, expression.expression));
+			source.append(MessageFormat.format("{0}.set_min_length({1});\n", name, expression.expression));
 		}
 		if (upper != null) {
 			ExpressionStruct expression = new ExpressionStruct();
 			upper.generateCodeExpression(aData, expression);
-			source.append(MessageFormat.format("{0}.setMaxLength({1});\n", name, expression.expression));
+			source.append(MessageFormat.format("{0}.set_max_length({1});\n", name, expression.expression));
 		}
 	}
 }

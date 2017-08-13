@@ -231,11 +231,11 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			source.append("{\n");
 			source.append(expression.preamble);
-			source.append(MessageFormat.format("{0}.setSingleLength({1});\n", name, expression.expression));
+			source.append(MessageFormat.format("{0}.set_single_length({1});\n", name, expression.expression));
 			source.append(expression.postamble);
 			source.append("}\n");
 		} else {
-			source.append(MessageFormat.format("{0}.setSingleLength({1});\n", name, expression.expression));
+			source.append(MessageFormat.format("{0}.set_single_length({1});\n", name, expression.expression));
 		}
 	}
 }
