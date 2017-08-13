@@ -94,7 +94,7 @@ public class TitanFloat extends Base_Type {
 
 	// isspecial
 	public static TitanBoolean isSpecial(final double aOtherValue) {
-		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || aOtherValue == NOT_A_NUMBER);
+		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || Double.isNaN(aOtherValue));
 	}
 
 	/**
