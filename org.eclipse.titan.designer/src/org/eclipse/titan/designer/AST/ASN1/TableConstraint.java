@@ -435,15 +435,19 @@ public final class TableConstraint extends Constraint {
 						// (i.e. it points to a parameter assignment of an instantiation)
 						// perform the same examination recursively on the referenced type
 						// (which is the actual parameter)
-						return getOpenTypeAlternativeName(timestamp,
-								(Type) ((Referenced_Type) type).getTypeRefd(timestamp, null));
+						IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+						IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
+						chain.release();
+						return getOpenTypeAlternativeName(timestamp, (Type) referencedType);
 					}
 				}
 			} else {
 				// the type comes from an information object [class]
 				// examine the referenced type recursively
-				return getOpenTypeAlternativeName(timestamp,
-						(Type) ((Referenced_Type) type).getTypeRefd(timestamp, null));
+				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
+				chain.release();
+				return getOpenTypeAlternativeName(timestamp, (Type) referencedType);
 			}
 		} else {
 			Identifier tmpId1 = new Identifier(Identifier_type.ID_NAME, type.getFullName());
