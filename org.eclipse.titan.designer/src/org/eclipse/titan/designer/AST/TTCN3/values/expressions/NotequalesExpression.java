@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -22,6 +23,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -247,7 +249,20 @@ public final class NotequalesExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		value1.generateCodeExpression(aData, expression);
 		expression.expression.append( ".operatorEquals( " );
-		value2.generateCodeExpression(aData, expression);
+
+		IValue temp = value1.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		if (temp instanceof Referenced_Value) {
+			Reference reference = ((Referenced_Value) temp).getReference();
+			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+				value2.generateCodeExpression(aData, expression);
+			} else {
+				value2.generateCodeExpressionMandatory(aData, expression);
+			}
+		} else {
+			value2.generateCodeExpressionMandatory(aData, expression);
+		}
+
 		expression.expression.append( " ).not()" );
 	}
 }
