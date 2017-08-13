@@ -199,7 +199,7 @@ public class AdditionalFunctions {
 				nibbles_ptr.set(i, temp.byteValue());
 				tmp_value = tmp_value.shiftRight(4);
 			}
-			tmp_value.shiftRight(4);
+			tmp_value.shiftRight(4);//TODO check: does not seem to do anything
 			if (tmp_value.compareTo(BigInteger.ZERO) != 0) {
 				int i = 0;
 				while (tmp_value.compareTo(BigInteger.ZERO) != 0) {
@@ -585,7 +585,7 @@ public class AdditionalFunctions {
 		List<Character> octet_ptr = new ArrayList<Character>(n_octets);
 		List<Byte> nibbles_ptr = new ArrayList<Byte>();
 
-		if (n_nibbles % 2 == 1) {
+		if ((n_nibbles & 1) == 1) {
 			nibbles_ptr.add((byte) 0);
 		}
 		nibbles_ptr.addAll(value.getValue());
