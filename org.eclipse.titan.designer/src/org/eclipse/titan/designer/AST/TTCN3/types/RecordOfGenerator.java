@@ -295,7 +295,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
-		source.append("\t\tif (index_value >= valueElements.size() ) {\n");
+		source.append("\t\tif (valueElements == null || index_value >= valueElements.size() ) {\n");
 		source.append("\t\t\t//increase list size\n");
 		source.append("\t\t\tsetSize(index_value + 1);\n");
 		source.append("\t\t}\n");
