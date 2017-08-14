@@ -458,12 +458,12 @@ public class AdditionalFunctions {
 		int n_bits = value.lengthOf().getInt();
 		List<Byte> ret_val = new ArrayList<Byte>();
 		StringBuilder sb = new StringBuilder();
-		
+
 		//reverse the order
 		for (int i = n_bits-1; i >=0; i--) {
 			sb.append(value.getBit(i) ? "1" : "0");
 		}
-		
+
 		TitanBitString temp_val = new TitanBitString(sb.toString());
 		List<Byte> bits_ptr = new ArrayList<Byte>();
 		bits_ptr = temp_val.getValue();	
@@ -486,6 +486,46 @@ public class AdditionalFunctions {
 	}
 
 	// C.14 - bit2oct
+	public static TitanOctetString bit2oct(final TitanBitString value){
+		value.mustBound("The argument of function bit2oct() is an unbound bitstring value.");
+		
+		int n_bits = value.lengthOf().getInt();
+		int n_nibbles = (n_bits + 3) / 4;
+		List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		StringBuilder sb = new StringBuilder();
+
+		//reverse the order
+		for (int i = n_bits-1; i >=0; i--) {
+			sb.append(value.getBit(i) ? "1" : "0");
+		}
+		
+		if(n_nibbles % 2 == 1){
+			nibbles_ptr.add((byte)0);
+		}
+
+		TitanBitString temp_val = new TitanBitString(sb.toString());
+		List<Byte> bits_ptr = new ArrayList<Byte>();
+		bits_ptr = temp_val.getValue();	
+		
+		//bitstring conversion to hex characters
+		for (int i = bits_ptr.size()-1; i >=0; i--) {
+			if(bits_ptr.get(i) > -1 && bits_ptr.get(i) < 16) {
+				nibbles_ptr.add(bits_ptr.get(i));
+			} else{
+				nibbles_ptr.add((byte)((bits_ptr.get(i) >> 4) & 0x0F));
+				nibbles_ptr.add((byte)(bits_ptr.get(i) & 0x0F));
+			}
+		}
+		
+		//hex characters to octets
+		List<Character> ret_val = new ArrayList<Character>();
+		for (int i = 1; i < nibbles_ptr.size(); i += 2) {
+			ret_val.add((char) ((nibbles_ptr.get(i - 1) << 4) | nibbles_ptr.get(i)));
+		}
+		
+		return new TitanOctetString(ret_val);
+	}
+
 	public static TitanOctetString bit2oct(final TitanBitString_Element value) {
 		value.mustBound("The argument of function bit2oct() is an unbound bitstring element.");
 
@@ -789,8 +829,6 @@ public class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(octet));
 	}
 
-	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
-	//TODO: OCTETSTRING bit2oct(const BITSTRING& value);
 	//TODO: UNIVERSAL_CHARSTRING oct2unichar(const OCTETSTRING& invalue)
 	//TODO: UNIVERSAL_CHARSTRING oct2unichar(const OCTETSTRING& invalue, const CHARSTRING& string_encoding)
 	//TODO: INTEGER str2int(const char *value)
