@@ -78,7 +78,7 @@ public class RecordOfGenerator {
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
 		generateTemplateConstructors( source, genName, displayName );
-		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName );
+		generateTemplateCopyTemplate( source, genName, displayName );
 		generateTemplateIsPresent( source );
 		generateTemplateMatch( source, genName, displayName );
 		generateTemplateMatchOmit( source );
@@ -411,7 +411,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t{0} single_value;\n", genName ) );
 
 		source.append("\t//originally single_value/value_elements\n");
-		source.append( MessageFormat.format( "\tList<{0}_template> value_elements;\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tList<{0}> value_elements;\n", ofTypeName ) );
 		source.append("\n");
 
 		source.append("\t//originally value_list/list_value\n");
@@ -454,10 +454,9 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element 
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String displayName ) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate void copyTemplate(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\tswitch (other_value.templateSelection) {\n");
@@ -708,7 +707,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateGetterSetters(StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate {0}_template getAt(int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate {0} getAt(int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -732,7 +731,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		
 		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate {0}_template getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.isBound()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -741,7 +740,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		
 		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate {0}_template constGetAt(int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate {0} constGetAt(int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -758,7 +757,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		
 		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate {0}_template constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.isBound()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");

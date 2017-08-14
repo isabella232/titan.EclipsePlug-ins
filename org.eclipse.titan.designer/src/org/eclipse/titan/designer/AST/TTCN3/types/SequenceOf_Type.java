@@ -813,11 +813,12 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		final String displayName = getFullName();
 		final IType ofType = getOfType();
 		final String ofTypeName = ofType.getGenNameValue( aData, source, getMyScope() );
+		final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
 		StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
 		ofType.generateCode(aData, tempSource);
 
 		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName );
-		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTypeName );
+		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName );
 	}
 
 	@Override

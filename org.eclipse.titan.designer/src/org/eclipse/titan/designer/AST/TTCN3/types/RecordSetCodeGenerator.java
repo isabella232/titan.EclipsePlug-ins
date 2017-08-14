@@ -405,11 +405,11 @@ public class RecordSetCodeGenerator {
 	private static void generateTemplateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
 		aSb.append( "\t\t\tif (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n"
-						+ "\t\t\t\treturn false;\n"
-						+ "\t\t\t}\n" );
+				+ "\t\t\t\treturn false;\n"
+				+ "\t\t\t}\n" );
 		aSb.append( "\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n"
-						+ "\t\t\t\treturn true;\n"
-						+ "\t\t\t}\n" );
+				+ "\t\t\t\treturn true;\n"
+				+ "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit() || {0}.isBound()) '{'\n"
