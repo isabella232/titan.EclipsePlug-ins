@@ -126,6 +126,8 @@ public class RecordSetCodeGenerator {
 		generateTemplateValueOf( source, fieldInfos, className, classDisplayName );
 		generateTemplateListItem( source, className, classDisplayName );
 		generateTemplateSetType( source, className, classDisplayName );
+		generateTemplateIsBound( source, fieldInfos );
+		generateTemplateIsValue( source, fieldInfos );
 		
 		// TODO
 		source.append("}\n");
@@ -389,6 +391,59 @@ public class RecordSetCodeGenerator {
 				aSb.append( "\t\t\tif ( " );
 				aSb.append( fi.mVarName );
 				aSb.append( ".isValue() ) return true;\n" );
+			}
+		}
+		aSb.append( "\t\t\treturn true;\n" +
+				"\t\t}\n" );
+	}
+
+	/**
+	 * Generating isBound() function for template
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateTemplateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
+		aSb.append( "\t\t\tif (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n"
+						+ "\t\t\t\treturn false;\n"
+						+ "\t\t\t}\n" );
+		aSb.append( "\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n"
+						+ "\t\t\t\treturn true;\n"
+						+ "\t\t\t}\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			if (fi.isOptional) {
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit() || {0}.isBound()) '{'\n"
+						+ "\t\t\t\treturn true;\n"
+						+ "\t\t\t}\n", fi.mVarName ) );
+			} else {
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isBound()) '{'\n"
+						+ "\t\t\t\treturn true;\n"
+						+ "\t\t\t}\n", fi.mVarName ) );
+			}
+		}
+		aSb.append( "\t\t\treturn false;\n" +
+				"\t\t}\n" );
+	}
+
+	/**
+	 * Generating isValue() function for template
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateTemplateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
+		aSb.append( "\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n"
+				+ "\t\t\t\treturn false;\n"
+				+ "\t\t\t}\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			if (fi.isOptional) {
+				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.isOmit() && !{0}.isValue()) '{'\n"
+						+ "\t\t\t\treturn false;\n"
+						+ "\t\t\t}\n", fi.mVarName ) );
+			} else {
+				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.isValue()) '{'\n"
+						+ "\t\t\t\treturn false;\n"
+						+ "\t\t\t}\n", fi.mVarName ) );
 			}
 		}
 		aSb.append( "\t\t\treturn true;\n" +
