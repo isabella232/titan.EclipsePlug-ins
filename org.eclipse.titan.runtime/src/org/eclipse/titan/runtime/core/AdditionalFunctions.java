@@ -199,7 +199,7 @@ public class AdditionalFunctions {
 				nibbles_ptr.set(i, temp.byteValue());
 				tmp_value = tmp_value.shiftRight(4);
 			}
-			tmp_value.shiftRight(4);//TODO check: does not seem to do anything
+			tmp_value.shiftRight(4);
 			if (tmp_value.compareTo(BigInteger.ZERO) != 0) {
 				int i = 0;
 				while (tmp_value.compareTo(BigInteger.ZERO) != 0) {
@@ -451,7 +451,34 @@ public class AdditionalFunctions {
 		return new TitanInteger(value.get_bit() ? 1 : 0);
 	}
 
-	// C.13 - bit2hexnew
+	// C.13 - bit2hex
+	public static TitanHexString bit2hex(final TitanBitString value) {
+		value.mustBound("The argument of function bit2hex() is an unbound bitstring value.");
+
+		int n_bits = value.lengthOf().getInt();
+		List<Byte> ret_val = new ArrayList<Byte>();
+		StringBuilder sb = new StringBuilder();
+		
+		//reverse the order
+		for (int i = n_bits-1; i >=0; i--) {
+			sb.append(value.getBit(i) ? "1" : "0");
+		}
+		
+		TitanBitString temp_val = new TitanBitString(sb.toString());
+		List<Byte> bits_ptr = new ArrayList<Byte>();
+		bits_ptr = temp_val.getValue();	
+		//do the conversion
+		for (int i = bits_ptr.size()-1; i >=0; i--) {
+			if(bits_ptr.get(i) > -1 && bits_ptr.get(i) < 16) {
+				ret_val.add(bits_ptr.get(i));
+			} else{
+				ret_val.add((byte)((bits_ptr.get(i) >> 4) & 0x0F));
+				ret_val.add((byte)(bits_ptr.get(i) & 0x0F));
+			}
+		}
+		return new TitanHexString(ret_val);
+	}
+
 	public static TitanHexString bit2hex(final TitanBitString_Element value) {
 		value.mustBound("The argument of function bit2hex() is an unbound bitstring element.");
 
@@ -585,7 +612,7 @@ public class AdditionalFunctions {
 		List<Character> octet_ptr = new ArrayList<Character>(n_octets);
 		List<Byte> nibbles_ptr = new ArrayList<Byte>();
 
-		if ((n_nibbles & 1) == 1) {
+		if (n_nibbles % 2 == 1) {
 			nibbles_ptr.add((byte) 0);
 		}
 		nibbles_ptr.addAll(value.getValue());
@@ -743,7 +770,7 @@ public class AdditionalFunctions {
 		int value_length = value.lengthOf().getInt();
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value_length; i++) {
-			if ((int) value.get_nibble(i) > 127) {
+			if((int)value.get_nibble(i) > 127) {
 				throw new TtcnError("The argument of function oct2char() contains octet, which is outside the allowed range 00 .. 7F.");
 			}
 			sb.append(value.get_nibble(i));
@@ -755,7 +782,7 @@ public class AdditionalFunctions {
 		value.mustBound("The argument of function oct2char() is an unbound octetstring element.");
 
 		char octet = value.get_nibble();
-		if ((int) octet > 127) {
+		if((int)octet > 127) {
 			throw new TtcnError("The argument of function oct2char() contains the octet, which is outside the allowed range 00 .. 7F.");
 		}
 
@@ -764,4 +791,12 @@ public class AdditionalFunctions {
 
 	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
 	//TODO: OCTETSTRING bit2oct(const BITSTRING& value);
+	//TODO: UNIVERSAL_CHARSTRING oct2unichar(const OCTETSTRING& invalue)
+	//TODO: UNIVERSAL_CHARSTRING oct2unichar(const OCTETSTRING& invalue, const CHARSTRING& string_encoding)
+	//TODO: INTEGER str2int(const char *value)
+	//TODO: INTEGER str2int(const CHARSTRING& value)
+	//TODO: INTEGER str2int(const CHARSTRING_ELEMENT& value)
+	//TODO: double str2float(const char *value)
+	//TODO: double str2float(const CHARSTRING& value)
+	//TODO: regexp
 }
