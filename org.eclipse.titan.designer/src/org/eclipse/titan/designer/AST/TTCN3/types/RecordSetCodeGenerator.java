@@ -128,6 +128,7 @@ public class RecordSetCodeGenerator {
 		generateTemplateSetType( source, className, classDisplayName );
 		generateTemplateIsBound( source, fieldInfos );
 		generateTemplateIsValue( source, fieldInfos );
+		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
 		
 		// TODO
 		source.append("}\n");
@@ -863,6 +864,63 @@ public class RecordSetCodeGenerator {
 		//TODO: fill list with list_length number of empty values
 		aSb.append("\t\t\t//TODO: fill list with list_length number of empty values\n");
 		aSb.append("\t\t}\n");
+	}
+
+	/**
+	 * Generate the copyTemplate function for template
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param aNamesList sequence field variable and type names
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateMatch( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\t\tpublic TitanBoolean match({0} other_value) '{'\n", genName ) );
+		source.append("\t\t\treturn match(other_value, false);\n");
+		source.append("\t\t}\n");
+		
+		source.append("\n");
+		source.append( MessageFormat.format( "\t\tpublic TitanBoolean match({0} other_value, boolean legacy) '{'\n", genName ) );
+		source.append("\t\t\treturn new TitanBoolean(match_(other_value, legacy));\n");
+		source.append("\t\t}\n");
+		
+		source.append("\n");
+		source.append( MessageFormat.format( "\t\tprivate boolean match_({0} other_value, boolean legacy) '{'\n", genName ) );
+		source.append("\t\t\tif (!other_value.isBound()) {\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tswitch (templateSelection) {\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		for ( final FieldInfo fi : aNamesList ) {
+			source.append( MessageFormat.format( "\t\t\t\tif(!other_value.get{0}().isBound()) '{'\n", fi.mJavaVarName )  );
+			source.append("\t\t\t\t\treturn false;\n");
+			source.append("\t\t\t\t}\n");
+			if (fi.isOptional) {
+				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get{0}().isPresent() ? !{1}.match(other_value.get{0}().get(), legacy).getValue() : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
+			} else {
+				source.append( MessageFormat.format( "\t\t\t\tif(!{1}.match(other_value.get{0}(), legacy).getValue()) '{'\n", fi.mJavaVarName, fi.mVarName )  );
+			}
+			source.append("\t\t\t\t\treturn false;\n");
+			source.append("\t\t\t\t}\n");
+		}
+		source.append("\t\t\t\treturn true;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++)\n");
+		source.append("\t\t\t\t\tif (list_value.get(list_count).match(other_value, legacy).getValue()) {\n");
+		source.append("\t\t\t\t\t\treturn templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\treturn templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
 		
 	}
 }
