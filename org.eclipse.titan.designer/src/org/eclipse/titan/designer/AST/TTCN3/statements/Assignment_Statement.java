@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -559,77 +560,159 @@ public final class Assignment_Statement extends Statement {
 		case A_PAR_VAL:
 		case A_VAR:
 			isValue = true;
-			//TODO handle value
 			break;
 		default:
 			isValue = false;
-			//TODO handle template
 			break;
 		}
 
-		// TODO Assignment::generate_code
-		// TODO handle rhs copied, needs_conv
-		// TODO we assume single expression here, value and template cases are the same this case
-		source.append( "\t\t" );
 		boolean isOptional = false;
 		if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
 			isOptional = true;
 		}
 
-		//TODO implement the needs conversion case
-		if (reference.getSubreferences().size() > 1 && !template.hasSingleExpression()) {
-			String tempID = aData.getTemporaryVariableName();
-			ExpressionStruct leftExpression = new ExpressionStruct();
-			reference.generateCode(aData, leftExpression);
-			source.append("{\n");
-			source.append(leftExpression.preamble);
-			if (isValue) {
+		if (isValue) {
+			String rhsCopy = aData.getTemporaryVariableName();
+			String rhsRef = rhsCopy;
+			if(rhsCopied) {
+				source.append("{\n");
 				if (isOptional) {
-					if (rhsCopied) {
-						source.append(MessageFormat.format("Optional<{0}> {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
-					} else {
-						source.append(MessageFormat.format("{0} {1} = {2}.get();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
-					}
-				} else if (reference.refersToStringElement()) {
-					String typeName = template.getMyGovernor().getGenNameValue(aData, source, myScope);
-					aData.addBuiltinTypeImport(typeName + "_Element");
-					source.append(MessageFormat.format("{0}_Element {1} = {2};\n", typeName, tempID, leftExpression.expression));
+					source.append(MessageFormat.format("Optional<{0}> {1} = new Optional<{0}>();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
+					rhsRef += ".get()";
 				} else {
-					source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), tempID, leftExpression.expression));
+					source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
+				}
+			}
+			TTCN3Template lastTemplate = template.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+			IValue value;
+			if (lastTemplate instanceof SpecificValue_Template) {
+				value = ((SpecificValue_Template) lastTemplate).getValue();
+			} else {
+				return;
+			}
+			// TODO handle needs_conv
+			if (reference.getSubreferences().size() > 1) {
+				if(value.canGenerateSingleExpression()) {
+					ExpressionStruct expression = new ExpressionStruct();
+					reference.generateCode(aData, expression);
+					source.append(expression.preamble);
+					if (rhsCopied) {
+						source.append(MessageFormat.format("{0}.assign({1});\n", rhsCopy, value.generateSingleExpression(aData)));
+						expression.expression.append(MessageFormat.format(".assign({0});\n", rhsCopy));
+					} else {
+						expression.expression.append(MessageFormat.format(".assign({0});\n", value.generateSingleExpression(aData)));
+					}
+
+					source.append(expression.expression);
+					source.append(expression.postamble);
+				} else {
+					String tempID = aData.getTemporaryVariableName();
+					String typeGenname = value.getMyGovernor().getGenNameValue(aData, source, myScope);
+					ExpressionStruct leftExpression = new ExpressionStruct();
+					reference.generateCode(aData, leftExpression);
+
+					if (rhsCopied) {
+						//TODO handle needs conversion case
+						value.generateCodeInit(aData, source, rhsRef);
+					}
+
+					source.append("{\n");
+					source.append(leftExpression.preamble);
+					if (reference.refersToStringElement()) {
+						//LHS is a string element
+						aData.addBuiltinTypeImport(typeGenname + "_Element");
+						source.append(MessageFormat.format("{0}_Element {1} = {2};\n", typeGenname, tempID, leftExpression.expression));
+					} else {
+						source.append(MessageFormat.format("{0} {1} = {2};\n", typeGenname, tempID, leftExpression.expression));
+					}
+					source.append(leftExpression.postamble);
+					if (rhsCopied) {
+						source.append(MessageFormat.format("{0}.assign({1});\n", tempID, rhsCopy));
+					} else {
+						//TODO handle needs conversion
+						value.generateCodeInit(aData, source, tempID);
+					}
+
+					source.append("}\n");
 				}
 			} else {
-				source.append(MessageFormat.format("{0} {1} = {2};\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), tempID, leftExpression.expression));
+				// left hand side is a single assignment
+				value.generateCodeInit(aData, source, assignment.getIdentifier().getName());
 			}
-			source.append(leftExpression.postamble);
-			template.generateCodeInit(aData, source, tempID);
-			source.append("}\n");
-		} else if (reference.getSubreferences().size() > 1) {
-			ExpressionStruct leftExpression = new ExpressionStruct();
-			reference.generateCode(aData, leftExpression);
-			source.append(leftExpression.preamble);
-
-			StringBuilder rightSide;
-			TTCN3Template lastTemplate = template.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
-			if (lastTemplate instanceof SpecificValue_Template) {
-				IValue value = ((SpecificValue_Template) lastTemplate).getValue();
-
-
-				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
-				referenceChain.release();
-
-				rightSide = last.generateSingleExpression(aData);
-			} else {
-				rightSide = lastTemplate.getSingleExpression(aData, false);
+			if(rhsCopied) {
+				source.append("}\n");
 			}
-
-			source.append(leftExpression.expression);
-			source.append( ".assign( " );
-			source.append(rightSide);
-			source.append( " );\n" );
 		} else {
-			// left hand side is a single assignment
-			template.generateCodeInit(aData, source, assignment.getIdentifier().getName());
+			String rhsCopy = aData.getTemporaryVariableName();
+			if(rhsCopied) {
+				source.append("{\n");
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), rhsCopy));
+			}
+			// TODO handle needs_conv
+			if (reference.getSubreferences().size() > 1) {
+				//FIXME handle template restriction
+				if(template.hasSingleExpression()) {
+					ExpressionStruct expression = new ExpressionStruct();
+					reference.generateCode(aData, expression);
+					source.append(expression.preamble);
+					if (rhsCopied) {
+						source.append(MessageFormat.format("{0}.assign({1});\n", rhsCopy, template.getSingleExpression(aData, false)));
+						expression.expression.append(MessageFormat.format(".assign({0});\n", rhsCopy));
+					} else {
+						expression.expression.append(MessageFormat.format(".assign({0});\n", template.getSingleExpression(aData, false)));
+					}
+
+					expression.mergeExpression(source);
+				} else {
+					String tempID = aData.getTemporaryVariableName();
+					ExpressionStruct expression = new ExpressionStruct();
+					reference.generateCode(aData, expression);
+
+					if (rhsCopied) {
+						//TODO handle needs conversion case
+						template.generateCodeInit(aData, source, rhsCopy);
+					}
+
+					source.append("{\n");
+					source.append(expression.preamble);
+					IType governor = template.getMyGovernor();
+					source.append(MessageFormat.format("{0} {1} = {2};\n", governor.getGenNameTemplate(aData, source, template.getMyScope()), tempID, expression.expression));
+					source.append(expression.postamble);
+					if (rhsCopied) {
+						source.append(MessageFormat.format("{0}.assign({1});\n", tempID, rhsCopy));
+					} else {
+						//TODO handle needs conversion case
+						if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
+							source.append(MessageFormat.format("{0}.removeAllPermuations();\n", tempID));
+						}
+						template.generateCodeInit(aData, source, tempID);
+					}
+
+					//TODO generate code for template restrictions
+					source.append( "\t" );
+					source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+
+					source.append("}\n");
+				}
+			} else {
+				// left hand side is a single assignment
+				String rhsName = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getGenNameFromScope(aData, source, myScope, "");
+				IType governor = template.getMyGovernor();
+				if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
+					source.append(MessageFormat.format("{0}.removeAllPermuations();\n", rhsCopied?rhsCopy:rhsName));
+				}
+				template.generateCodeInit(aData, source, rhsCopied?rhsCopy:rhsName);
+				if (rhsCopied) {
+					source.append(MessageFormat.format("{0}.assign({1});\n", rhsName, rhsCopy));
+				}
+
+				//TODO generate code for template restrictions
+				source.append( "\t" );
+				source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+			}
+			if(rhsCopied) {
+				source.append("}\n");
+			}
 		}
 	}
 }
