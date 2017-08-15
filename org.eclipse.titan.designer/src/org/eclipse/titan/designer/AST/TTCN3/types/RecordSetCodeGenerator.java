@@ -129,7 +129,7 @@ public class RecordSetCodeGenerator {
 		generateTemplateIsBound( source, fieldInfos );
 		generateTemplateIsValue( source, fieldInfos );
 		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
-		
+
 		// TODO
 		source.append("}\n");
 	}
@@ -630,7 +630,7 @@ public class RecordSetCodeGenerator {
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel other_value ) '{'\n", genName));
@@ -641,12 +641,12 @@ public class RecordSetCodeGenerator {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyValue(otherValue);\n");
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyTemplate( otherValue );\n");
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		//TODO: implement optional parameter version
 	}
@@ -755,25 +755,35 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
 		aSb.append("\n");
-		aSb.append("\t\tpublic boolean isPresent() {\n");
+		aSb.append("\t\tpublic TitanBoolean isPresent() {\n");
 		aSb.append("\t\t\treturn isPresent(false);\n");
 		aSb.append("\t\t}\n");
 
 		aSb.append("\n");
-		aSb.append("\t\tpublic boolean isPresent(boolean legacy) {\n");
-		aSb.append("\t\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		aSb.append("\t\t\t\treturn false;\n");
-		aSb.append("\t\t\t}\n");
-		aSb.append("\t\t\treturn !match_omit(legacy);\n");
+		aSb.append("\t\tpublic TitanBoolean isPresent(boolean legacy) {\n");
+		aSb.append("\t\t\treturn new TitanBoolean(isPresent_(legacy));\n");
 		aSb.append("\t\t}\n");
 
 		aSb.append("\n");
-		aSb.append("\t\tpublic boolean match_omit() {\n");
+		aSb.append("\t\tprivate boolean isPresent_(boolean legacy) {\n");
+		aSb.append("\t\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		aSb.append("\t\t\t\treturn false;\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\treturn !match_omit_(legacy);\n");
+		aSb.append("\t\t}\n");
+
+		aSb.append("\n");
+		aSb.append("\t\tpublic TitanBoolean match_omit() {\n");
 		aSb.append("\t\t\treturn match_omit(false);\n");
 		aSb.append("\t\t}\n");
 
 		aSb.append("\n");
-		aSb.append("\t\tpublic boolean match_omit(boolean legacy) {\n");
+		aSb.append("\t\tpublic TitanBoolean match_omit(boolean legacy) {\n");
+		aSb.append("\t\t\treturn new TitanBoolean(match_omit_(legacy));\n");
+		aSb.append("\t\t}\n");
+
+		aSb.append("\n");
+		aSb.append("\t\tprivate boolean match_omit_(boolean legacy) {\n");
 		aSb.append("\t\t\tif (is_ifPresent) {\n");
 		aSb.append("\t\t\t\treturn true;\n");
 		aSb.append("\t\t\t}\n");
@@ -785,7 +795,7 @@ public class RecordSetCodeGenerator {
 		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");
 		aSb.append("\t\t\t\tif (legacy) {\n");
 		aSb.append("\t\t\t\t\tfor (int l_idx=0; l_idx<list_value.size(); l_idx++) {\n");
-		aSb.append("\t\t\t\t\t\tif (list_value.get(l_idx).match_omit()) {\n");
+		aSb.append("\t\t\t\t\t\tif (list_value.get(l_idx).match_omit_(legacy)) {\n");
 		aSb.append("\t\t\t\t\t\t\treturn templateSelection==template_sel.VALUE_LIST;\n");
 		aSb.append("\t\t\t\t\t\t}\n");
 		aSb.append("\t\t\t\t\t}\n");
@@ -879,12 +889,12 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\tpublic TitanBoolean match({0} other_value) '{'\n", genName ) );
 		source.append("\t\t\treturn match(other_value, false);\n");
 		source.append("\t\t}\n");
-		
+
 		source.append("\n");
 		source.append( MessageFormat.format( "\t\tpublic TitanBoolean match({0} other_value, boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\treturn new TitanBoolean(match_(other_value, legacy));\n");
 		source.append("\t\t}\n");
-		
+
 		source.append("\n");
 		source.append( MessageFormat.format( "\t\tprivate boolean match_({0} other_value, boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif (!other_value.isBound()) {\n");
@@ -902,7 +912,7 @@ public class RecordSetCodeGenerator {
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get{0}().isPresent() ? !{1}.match(other_value.get{0}().get(), legacy).getValue() : !{1}.match_omit(legacy))) '{'\n", fi.mJavaVarName, fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get{0}().isPresent() ? !{1}.match(other_value.get{0}().get(), legacy).getValue() : !{1}.match_omit(legacy).getValue())) '{'\n", fi.mJavaVarName, fi.mVarName ) );
 			} else {
 				source.append( MessageFormat.format( "\t\t\t\tif(!{1}.match(other_value.get{0}(), legacy).getValue()) '{'\n", fi.mJavaVarName, fi.mVarName )  );
 			}
@@ -921,6 +931,5 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
-		
 	}
 }
