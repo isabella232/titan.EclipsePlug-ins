@@ -720,9 +720,7 @@ public class RecordOfGenerator {
 		source.append("\t\tcase ANY_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\tcase UNINITIALIZED_TEMPLATE:\n");
-		//TODO: use set_size()
-		source.append("\t\t\t//TODO: use set_size()\n");
-		source.append("\t\t\t//set_size(index_value + 1);\n");
+		source.append("\t\t\tsetSize(index_value + 1);\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing an element of a non-specific template for type {0}.\");\n", displayName ) );
@@ -879,6 +877,9 @@ public class RecordOfGenerator {
 		source.append("\t\t\tcleanUp();\n");
 		source.append("\t\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t\tvalue_elements = null;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tif (value_elements == null) {\n");
+		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tif (new_size > value_elements.size()) {\n");
 		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
