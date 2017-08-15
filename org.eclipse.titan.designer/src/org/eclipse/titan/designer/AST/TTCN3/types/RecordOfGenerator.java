@@ -88,7 +88,7 @@ public class RecordOfGenerator {
 		//generateTemplateReplace( source, genName );
 		generateTemplateGetterSetters( source, genName, ofTypeName, displayName );
 		//generateTemplateConcat( source, genName );
-		//generateTemplateSetSize( source, genName );
+		generateTemplateSetSize( source, genName, ofTypeName, displayName );
 		generateTemplateNElem( source, genName );
 		//generateTemplateMatchv( source, genName );
 		generateTemplateIsValue( source, genName );
@@ -865,12 +865,15 @@ public class RecordOfGenerator {
 	 *  
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateSetSize(StringBuilder source, final String genName) {
+	private static void generateTemplateSetSize(StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append("\n");
-		source.append("\tpublic void set_size(int new_size) {\n");
-		source.append("\t\tif (new_size < 0)\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a template of type {0}.\");\n", genName ) );
+		source.append("\tpublic void setSize(int new_size) {\n");
+		source.append("\t\tif (new_size < 0) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a template of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
 		source.append("\t\ttemplate_sel old_selection = templateSelection;\n");
 		source.append("\t\tif (old_selection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\tcleanUp();\n");
@@ -879,12 +882,12 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tif (new_size > value_elements.size()) {\n");
 		source.append("\t\t\tif (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
-		source.append("\t\t\tfor (int elem_count = value_elements.size(); elem_count < new_size; elem_count++) {\n");
-		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(template_sel.ANY_VALUE) );\n", genName ) );
-		source.append("\t\t\t}\n");
+		source.append("\t\t\t\tfor (int elem_count = value_elements.size(); elem_count < new_size; elem_count++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(template_sel.ANY_VALUE) );\n", ofTypeName ) );
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t} else {\n");
 		source.append("\t\t\t\tfor (int elem_count = value_elements.size(); elem_count < new_size; elem_count++) {\n");
-		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t} else if (new_size < value_elements.size()) {\n");
@@ -896,12 +899,12 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		
 		source.append("\n");
-		source.append("\tint size_of(boolean is_size) {\n");
+		source.append("\tpublic TitanInteger sizeOf(boolean is_size) {\n");
 		source.append("\t\tfinal String op_name = is_size ? \"size\" : \"length\";\n");
 		source.append("\t\tint min_size;\n");
 		source.append("\t\tboolean has_any_or_none;\n");
 		source.append("\t\tif (is_ifPresent) {\n");
-		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" which has an ifpresent attribute.\", op_name ) );\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" which has an ifpresent attribute.\", op_name ) );\n");
 		source.append("\t\t}\n");
 		source.append("\t\tswitch (templateSelection)\n");
 		source.append("\t\t{\n");
@@ -918,7 +921,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\tswitch (value_elements.get(i).getSelection())\n");
 		source.append("\t\t\t\t{\n");
 		source.append("\t\t\t\tcase OMIT_VALUE:\n");
-		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing omit element.\", op_name ) );\n");
+		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing omit element.\", op_name ) );\n");
 		source.append("\t\t\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\t\t\thas_any_or_none = true;\n");
 		source.append("\t\t\t\t\tbreak;\n");
@@ -929,7 +932,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t} break;\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
-		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing omit value.\", op_name ) );\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing omit value.\", op_name ) );\n");
 		source.append("\t\tcase ANY_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\tmin_size = 0;\n");
@@ -938,11 +941,11 @@ public class RecordOfGenerator {
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\t{\n");
 		source.append("\t\t\tif (list_value.size()<1)\n");
-		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing an empty list.\", op_name ) );\n");
-		source.append("\t\t\tint item_size = list_value.get(0).size_of(is_size);\n");
+		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing an empty list.\", op_name ) );\n");
+		source.append("\t\t\tint item_size = list_value.get(0).sizeOf(is_size).getInt();\n");
 		source.append("\t\t\tfor (int i = 1; i < list_value.size(); i++) {\n");
-		source.append("\t\t\t\tif (list_value.get(i).size_of(is_size)!=item_size) {\n");
-		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing a value list with different sizes.\", op_name ) );\n");
+		source.append("\t\t\t\tif (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {\n");
+		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing a value list with different sizes.\", op_name ) );\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tmin_size = item_size;\n");
@@ -950,11 +953,11 @@ public class RecordOfGenerator {
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+genName+" containing complemented list.\", op_name ) );\n");
+		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing complemented list.\", op_name ) );\n");
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on an uninitialized/unsupported template of type "+genName+".\", op_name ) );\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn check_section_is_single(min_size, has_any_or_none, op_name, \"a template of type\", genName);\n");
+		source.append("\t\treturn new TitanInteger(check_section_is_single(min_size, has_any_or_none, op_name, \"a template of type\", \""+ofTypeName+"\"));\n");
 		source.append("\t}\n");
 	}
 
