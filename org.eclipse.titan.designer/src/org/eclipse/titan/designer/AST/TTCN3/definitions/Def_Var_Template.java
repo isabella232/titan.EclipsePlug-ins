@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
@@ -64,6 +65,7 @@ public final class Def_Var_Template extends Definition {
 	private FormalParameterList mFormalParList;
 	private final TTCN3Template initialValue;
 	private final TemplateRestriction.Restriction_type templateRestriction;
+	private boolean generateRestrictionCheck = false;
 
 	private boolean wasAssigned;
 
@@ -217,7 +219,7 @@ public final class Def_Var_Template extends Definition {
 
 		final ITTCN3Template temporalValue = type.checkThisTemplateRef(timestamp, realInitialValue);
 		temporalValue.checkThisTemplateGeneric(timestamp, type, true, true, true, true, false, this);
-		TemplateRestriction.check(timestamp, this, initialValue, null);
+		generateRestrictionCheck = TemplateRestriction.check(timestamp, this, initialValue, null);
 
 		// Only to follow the pattern, otherwise no such field can exist
 		// here
@@ -486,6 +488,9 @@ public final class Def_Var_Template extends Definition {
 		if ( initialValue != null ) {
 			//TODO use ::get_lhs_name instead of generic genName (?)
 			initialValue.generateCodeInit( aData, initComp, genName );
+			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+				TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
+			}
 		} else if (cleanUp) {
 			initComp.append(genName);
 			initComp.append(".cleanUp();\n");
@@ -501,11 +506,14 @@ public final class Def_Var_Template extends Definition {
 			initialValue.setGenNameRecursive(genName);
 		}
 
-		// temporal code until generate_code_object and generateCodeInit is supported for templates
+		// FIXME temporal code until generate_code_object and generateCodeInit is supported for templates
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
 		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit( aData, source, genName );
+			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+				TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
+			}
 		}
 
 	}

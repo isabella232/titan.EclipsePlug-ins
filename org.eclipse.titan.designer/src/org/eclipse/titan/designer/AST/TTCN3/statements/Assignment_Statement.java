@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ExternalConst;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
@@ -43,7 +44,6 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
-import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueList_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
@@ -75,7 +75,9 @@ public final class Assignment_Statement extends Statement {
 	private final Reference reference;
 	private final TTCN3Template template;
 
-	private boolean selfReference;
+	private boolean selfReference = false;
+	TemplateRestriction.Restriction_type templateRestriction = Restriction_type.TR_NONE;
+	private boolean generateRestrictionCheck = false;
 
 	public Assignment_Statement(final Reference reference, final TTCN3Template template) {
 		this.reference = reference;
@@ -422,20 +424,45 @@ public final class Assignment_Statement extends Statement {
 		template.setMyGovernor(type);
 		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
 		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false, lhs);
-		final Assignment ass = reference.getRefdAssignment(timestamp, true);
-		if (ass != null && ass instanceof Definition) {
-			TemplateRestriction.check(timestamp, (Definition) ass, template, reference);
-		}
+		checkTemplateRestriction(timestamp);
 
 		if (reference.refersToStringElement()) {
 			if (!template.isValue(timestamp)) {
-				template.getLocation().reportSemanticError(
-						TEMPLATEASSIGNMENTTOVALUE);
+				template.getLocation().reportSemanticError(TEMPLATEASSIGNMENTTOVALUE);
 				template.setIsErroneous(true);
 				//isErroneous = true; //????
 				return;
 			}
 		}
+	}
+
+	/**
+	 * Checks the template restriction on the assignment referenced on the left hand side.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 */
+	private void checkTemplateRestriction(final CompilationTimeStamp timestamp) {
+		final Assignment ass = reference.getRefdAssignment(timestamp, true);
+		if (ass == null) {
+			return;
+		}
+
+		switch(ass.getAssignmentType()) {
+		case A_VAR_TEMPLATE:
+			templateRestriction =  ((Def_Var_Template) ass).getTemplateRestriction();
+			break;
+		case A_PAR_TEMP_IN:
+		case A_PAR_TEMP_OUT:
+		case A_PAR_TEMP_INOUT:
+			templateRestriction = ((FormalParameter) ass).getTemplateRestriction();
+			break;
+		default:
+			templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
+			break;
+		}
+
+		templateRestriction = TemplateRestriction.getSubRestriction(templateRestriction, timestamp, reference);
+		generateRestrictionCheck = TemplateRestriction.check(timestamp, (Definition)ass, template, reference);
 	}
 
 	/**
@@ -583,7 +610,7 @@ public final class Assignment_Statement extends Statement {
 					source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
 				}
 			}
-			TTCN3Template lastTemplate = template.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+
 			final IValue value = template.getValue();
 			// TODO handle needs_conv
 			if (reference.getSubreferences().size() > 1) {
@@ -683,9 +710,9 @@ public final class Assignment_Statement extends Statement {
 						template.generateCodeInit(aData, source, tempID);
 					}
 
-					//TODO generate code for template restrictions
-					source.append( "\t" );
-					source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+					if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+						TemplateRestriction.generateRestrictionCheckCode(aData, source, location, tempID, templateRestriction);
+					}
 
 					source.append("}\n");
 				}
@@ -701,9 +728,9 @@ public final class Assignment_Statement extends Statement {
 					source.append(MessageFormat.format("{0}.assign({1});\n", rhsName, rhsCopy));
 				}
 
-				//TODO generate code for template restrictions
-				source.append( "\t" );
-				source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+					TemplateRestriction.generateRestrictionCheckCode(aData, source, location, rhsName, templateRestriction);
+				}
 			}
 			if(rhsCopied) {
 				source.append("}\n");

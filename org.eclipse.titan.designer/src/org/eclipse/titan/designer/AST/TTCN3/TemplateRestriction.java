@@ -7,11 +7,16 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 
@@ -125,5 +130,25 @@ public final class TemplateRestriction {
 		default:
 			return false;
 		}
+	}
+
+	public static void generateRestrictionCheckCode(final JavaGenData aData, final StringBuilder source, final Location location, final String name, final Restriction_type templateRestriction) {
+		String restrictionName;
+		switch(templateRestriction) {
+		case TR_OMIT:
+			restrictionName = "TR_OMIT";
+			break;
+		case TR_VALUE:
+			restrictionName = "TR_VALUE";
+			break;
+		case TR_PRESENT:
+			restrictionName = "TR_PRESENT";
+			break;
+		default:
+			return;
+		}
+
+		boolean omitInValueList = TTCN3Template.allowOmitInValueList(location, true);
+		source.append(MessageFormat.format("{0}.check_restriction({1}{2})", name, restrictionName, omitInValueList? ", null, true": ""));
 	}
 }

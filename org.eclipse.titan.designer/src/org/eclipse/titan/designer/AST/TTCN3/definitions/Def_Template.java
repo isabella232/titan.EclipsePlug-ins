@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
@@ -87,6 +88,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	private final Type type;
 
 	private final TemplateRestriction.Restriction_type templateRestriction;
+	private boolean generateRestrictionCheck = false;
 
 	/**
 	 * The formal parameter list. Can be null, in that case this template is
@@ -407,7 +409,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		tempReferenceChain.release();
 
 		if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
-			TemplateRestriction.check(timestamp, this, tempBody, null);
+			generateRestrictionCheck = TemplateRestriction.check(timestamp, this, tempBody, null);
 			if (formalParList != null && templateRestriction != TemplateRestriction.Restriction_type.TR_PRESENT) {
 				final int nofFps = formalParList.getNofParameters();
 				for (int i = 0; i < nofFps; i++) {
@@ -907,10 +909,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if ( body != null ) {
 				body.generateCodeInit( aData, aData.getPostInit(), body.get_lhs_name() );
 
-				if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
-					//TODO generate code for missing parts
-					source.append( "\t" );
-					source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+					TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
 				}
 			}
 		} else {
@@ -937,10 +937,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if ( body != null ) {
 				body.generateCodeInit( aData, source, "ret_val" );
 
-				if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
-					//TODO generate code for missing parts
-					source.append( "\t" );
-					source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+					TemplateRestriction.generateRestrictionCheckCode(aData, source, location, "ret_val", templateRestriction);
 				}
 			}
 
@@ -985,10 +983,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			source.append(MessageFormat.format("Code generation for parameterized local template `{0}' is not supported", identifier.getDisplayName()));
 		}
 
-		if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
-			//TODO generate code for missing parts
-			source.append( "\t" );
-			source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+		if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+			TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
 		}
 	}
 
