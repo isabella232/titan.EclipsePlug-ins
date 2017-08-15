@@ -226,6 +226,11 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			return new TitanBoolean(false);
 		}
 
+		TitanInteger value_length = otherValue.lengthOf();
+		if(!match_length(value_length.getInt())) {
+			return new TitanBoolean(false);
+		}
+
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals( otherValue );
