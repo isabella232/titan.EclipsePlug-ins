@@ -226,7 +226,7 @@ public class TitanFloat_template extends Base_Template {
 		}
 	}
 
-	public TitanFloat_template list_item(final int listIndex) {
+	public TitanFloat_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list float template.");
 		}
@@ -302,10 +302,12 @@ public class TitanFloat_template extends Base_Template {
 		return single_value;
 	}
 
+	// originally is_present (with default parameter)
 	public TitanBoolean isPresent() {
 		return isPresent(false);
 	}
 
+	// originally is_present
 	public TitanBoolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return new TitanBoolean(false);

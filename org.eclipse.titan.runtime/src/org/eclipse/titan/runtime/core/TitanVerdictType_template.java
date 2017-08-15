@@ -240,7 +240,7 @@ public class TitanVerdictType_template extends Base_Template {
 		value_list = new ArrayList<TitanVerdictType_template>( list_length );
 	}
 
-	public TitanVerdictType_template list_item( final int listIndex ) {
+	public TitanVerdictType_template listItem( final int listIndex ) {
 		if ( templateSelection != template_sel.VALUE_LIST &&
 				templateSelection != template_sel.COMPLEMENTED_LIST ) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list verdict template.");
@@ -289,45 +289,48 @@ public class TitanVerdictType_template extends Base_Template {
 	//TODO: implement VERDICTTYPE_template::encode_text()
 	//TODO: implement VERDICTTYPE_template::decode_text()
 
-	public boolean is_present() {
-		return is_present( false );
+	// originally is_present (with default parameter)
+	public TitanBoolean isPresent() {
+		return isPresent(false);
 	}
 
-	public boolean is_present(final boolean legacy ) {
-		if ( templateSelection==template_sel.UNINITIALIZED_TEMPLATE ) {
-			return false;
+	// originally is_present
+	public TitanBoolean isPresent(final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return new TitanBoolean(false);
 		}
-		return !match_omit(legacy);
+
+		return match_omit(legacy).not();
 	}
 
-	public boolean match_omit() {
-		return match_omit( false );
+	public TitanBoolean match_omit() {
+		return match_omit(false);
 	}
 
-	public boolean match_omit(final boolean legacy) {
+	public TitanBoolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
-			return true;
+			return new TitanBoolean(true);
 		}
 
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
-			return true;
+			return new TitanBoolean(true);
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the
 				// value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).match_omit()) {
-						return templateSelection == template_sel.VALUE_LIST;
+					if (value_list.get(i).match_omit().getValue()) {
+						return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 					}
 				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
+				return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 			}
-			// else fall through
+			return new TitanBoolean(false);
 		default:
-			return false;
+			return new TitanBoolean(false);
 		}
 	}
 
@@ -359,7 +362,7 @@ public class TitanVerdictType_template extends Base_Template {
 			}
 			break;
 		case TR_PRESENT:
-			if (!match_omit(legacy)) {
+			if (!match_omit(legacy).getValue()) {
 				return;
 			}
 			break;
