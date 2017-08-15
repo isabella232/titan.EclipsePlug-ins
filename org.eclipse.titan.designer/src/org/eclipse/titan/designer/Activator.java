@@ -127,7 +127,6 @@ public final class Activator extends AbstractUIPlugin {
 				return false;
 			}
 		}
-
 	};
 
 	private class ContentChangedFileFinder implements IResourceDeltaVisitor {
