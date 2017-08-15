@@ -639,11 +639,11 @@ public final class Referenced_Value extends Value {
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		if (last == this) {
-			return false;
+		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+			return true;
 		}
 
-		return last.canGenerateSingleExpression();
+		return reference.hasSingleExpression();
 	}
 
 	@Override
@@ -660,11 +660,14 @@ public final class Referenced_Value extends Value {
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		if (last == this) {
-			return new StringBuilder("/* fatal error during generating code for erroneous reference */");
+		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+			return last.generateSingleExpression(aData);
 		}
 
-		return last.generateSingleExpression(aData);
+		ExpressionStruct expression = new ExpressionStruct();
+		reference.generateConstRef(aData, expression);
+
+		return expression.expression;
 	}
 
 	@Override
