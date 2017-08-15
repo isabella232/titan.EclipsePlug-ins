@@ -911,7 +911,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					//TODO generate code for missing parts
 					source.append( "\t" );
 					source.append( "//TODO: template restriction checks are not yet implemented!\n" );
-				}			}
+				}
+			}
 		} else {
 			StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
@@ -984,12 +985,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			source.append(MessageFormat.format("Code generation for parameterized local template `{0}' is not supported", identifier.getDisplayName()));
 		}
 
-		//TODO generate code for missing parts
-		source.append( "\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() body is not fully implemented!\n" );
-		source.append( ";\n" );
+		if (templateRestriction != TemplateRestriction.Restriction_type.TR_NONE) {
+			//TODO generate code for missing parts
+			source.append( "\t" );
+			source.append( "//TODO: template restriction checks are not yet implemented!\n" );
+		}
 	}
 
 	@Override
