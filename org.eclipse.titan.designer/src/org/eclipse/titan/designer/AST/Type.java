@@ -1744,7 +1744,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		//FIXME handle omit_in_value_list
-		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
+		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4}).getValue();\n",
 				globalId, externalId, temporalIndexId, isBound|(!isLast)?"isBound":"isPresent", !(isBound|(!isLast)) && isTemplate?"true":""));
 
 		generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
