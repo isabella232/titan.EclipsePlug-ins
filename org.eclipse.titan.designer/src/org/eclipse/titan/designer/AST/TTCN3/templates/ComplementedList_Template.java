@@ -109,7 +109,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			return false;
 		}
 
-		final boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
+		final boolean allowOmitInValueList = TTCN3Template.allowOmitInValueList(getLocation(), allowOmit);
 
 		boolean selfReference = false;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
@@ -142,7 +142,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
 
-		final boolean allowOmitInValueList = allowOmitInValueList(true);
+		final boolean allowOmitInValueList = TTCN3Template.allowOmitInValueList(getLocation(), true);
 		if(allowOmitInValueList) {
 			boolean hasAnyOrOmit = false;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {

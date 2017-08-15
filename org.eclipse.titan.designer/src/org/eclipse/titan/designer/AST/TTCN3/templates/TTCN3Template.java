@@ -11,6 +11,11 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -19,6 +24,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceChainElement;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -50,6 +56,8 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
+import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
 
 /**
  * Represents the templates of the TTCN-3 language.
@@ -1085,6 +1093,57 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	public boolean checkPresentRestriction(final CompilationTimeStamp timestamp, final String definitionName, final Location usageLocation) {
 		checkRestrictionCommon(timestamp, definitionName, TemplateRestriction.Restriction_type.TR_PRESENT, usageLocation);
 		return false;
+	}
+
+	/** Test if omit is allowed in a value list
+	 * <p>
+	 *  Uses TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY:
+	 *  (It is the same as -M flag of makefilegen) <p>
+	 *  If it is true the old syntax allowed.
+	 *  If it is false then only the new syntax is allowed.<p>
+	 *	For example:<p/>
+	 *	 ( 1 ifpresent, 2 ifpresent, omit ) //=> allowed in old solution,
+	 *                                           not allowed in new solution (3 error markers)<p>
+	 *	 ( 1, 2 ) ifpresent //= only this allowed in new solution when this function returns false<p>
+	 *
+	 * @param allowOmit true if the field is optional field,
+	 *                  false if the field is mandatory.<p>
+	 *                  Of course in this case omit value and the ifpresent clause is prohibitied=> returns false<p>
+	 * @return
+	 *   If allowOmit == false it returns false
+	 *   ( quick exit for mandatory fields).
+	 *	 If allowOmit == true it returns according to the
+	 *	 project property setting
+	 *   TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY
+	 */
+	static final public boolean allowOmitInValueList(final Location location, final boolean allowOmit) {
+		if( !allowOmit ) {
+			return false;
+		}
+
+		if(location == null || (location instanceof NULL_Location)) {
+			return true;
+		}
+
+		final IResource f = location.getFile();
+		if( f == null) {
+			return true;
+		}
+
+		final IProject project = f.getProject();
+		if(project == null) {
+			return true;
+		}
+
+		final QualifiedName qn = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY);
+		try {
+			final String s= project.getPersistentProperty(qn);
+			return ( "true".equals(s));
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+			return true;
+		}
+
 	}
 
 	/**

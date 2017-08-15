@@ -85,7 +85,7 @@ public final class ValueList_Template extends CompositeTemplate {
 		if(type == null){
 			return false;
 		}
-		final boolean allowOmitInValueList = allowOmitInValueList(allowOmit);
+		final boolean allowOmitInValueList = TTCN3Template.allowOmitInValueList(getLocation(), allowOmit);
 
 		boolean selfReference = false;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
