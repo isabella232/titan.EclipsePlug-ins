@@ -238,11 +238,25 @@ public class TitanFloat extends Base_Type {
 	}
 
 	// originally operator <
+	public TitanBoolean isLessThan(final double otherValue) {
+		mustBound("Unbound left operand of float comparison.");
+
+		return new TitanBoolean(float_value.isLessThan(otherValue));
+	}
+
+	// originally operator <
 	public TitanBoolean isLessThan(final TitanFloat otherValue) {
 		mustBound("Unbound left operand of float comparison.");
 		otherValue.mustBound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(float_value.isLessThan(otherValue.float_value.getValue()));
+	}
+
+	// originally operator >
+	public TitanBoolean isGreaterThan(final Double otherValue) {
+		mustBound("Unbound left operand of float comparison.");
+
+		return new TitanBoolean(float_value.isGreaterThan(otherValue));
 	}
 
 	// originally operator >
@@ -254,8 +268,18 @@ public class TitanFloat extends Base_Type {
 	}
 
 	// originally operator <=
+	public TitanBoolean isLessThanOrEqual(final Double otherValue) {
+		return isGreaterThan(otherValue).not();
+	}
+
+	// originally operator <=
 	public TitanBoolean isLessThanOrEqual(final TitanFloat otherValue) {
 		return isGreaterThan(otherValue).not();
+	}
+
+	// originally operator >=
+	public TitanBoolean isGreaterThanOrEqual(final Double otherValue) {
+		return isLessThan(otherValue).not();
 	}
 
 	// originally operator >=
