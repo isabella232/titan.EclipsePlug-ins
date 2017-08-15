@@ -528,14 +528,14 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			return new TitanBoolean(false);
 		}
 
-		return matchOmit(legacy).not();
+		return match_omit(legacy).not();
 	}
 
-	public TitanBoolean matchOmit() {
-		return matchOmit(false);
+	public TitanBoolean match_omit() {
+		return match_omit(false);
 	}
 
-	public TitanBoolean matchOmit(final boolean legacy) {
+	public TitanBoolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return new TitanBoolean(true);
 		}
@@ -549,7 +549,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			if (legacy) {
 				 // legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); ++i) {
-					if (value_list.get(i).matchOmit().getValue()) {
+					if (value_list.get(i).match_omit().getValue()) {
 						return new TitanBoolean(templateSelection.equals(template_sel.VALUE_LIST));
 					}
 				}

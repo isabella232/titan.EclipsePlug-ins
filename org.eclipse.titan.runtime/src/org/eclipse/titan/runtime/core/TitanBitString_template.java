@@ -349,14 +349,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			return false;
 		}
 
-		return !matchOmit(legacy);
+		return !match_omit(legacy);
 	}
 
-	public boolean matchOmit() {
-		return matchOmit(false);
+	public boolean match_omit() {
+		return match_omit(false);
 	}
 
-	public boolean matchOmit(final boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}
@@ -370,7 +370,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).matchOmit()) {
+					if (value_list.get(i).match_omit()) {
 						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}

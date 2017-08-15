@@ -315,11 +315,15 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return true;
 		}
-		return !matchOmit(legacy);
+		return !match_omit(legacy);
+	}
+
+	public boolean match_omit() {
+		return match_omit(false);
 	}
 
 	// originally matc_omit
-	public boolean matchOmit(final boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}
@@ -332,7 +336,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).matchOmit()) {
+					if (value_list.get(i).match_omit()) {
 						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
@@ -340,9 +344,5 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			// else fall through
 		}
 		return false;
-	}
-
-	public boolean matchOmit() {
-		return matchOmit(false);
 	}
 }

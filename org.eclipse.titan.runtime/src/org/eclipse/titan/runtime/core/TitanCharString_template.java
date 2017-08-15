@@ -321,6 +321,11 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return value_list.get(listIndex);
 	}
 
+	//originally match_omit (with default parameter)
+	public boolean match_omit() {
+		return match_omit(false);
+	}
+
 	//originally match_omit
 	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {

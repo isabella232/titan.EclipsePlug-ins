@@ -121,4 +121,49 @@ public class TitanComponent_template extends Base_Template {
 			throw new TtcnError("Matching with an uninitialized/unsupported component reference template.");
 		}
 	}
+
+	//originally is_present (with default parameter)
+	public boolean isPresent() {
+		return isPresent(false);
+	}
+
+	//originally is_present
+	public boolean isPresent(final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
+			return false;
+		}
+
+		return !match_omit(legacy);
+	}
+
+	//originally match_omit (with default parameter)
+	public boolean match_omit() {
+		return match_omit(false);
+	}
+
+	public boolean match_omit(final boolean legacy) {
+		if (is_ifPresent) {
+			return true;
+		}
+
+		switch(templateSelection) {
+		case OMIT_VALUE:
+		case ANY_OR_OMIT:
+			return true;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			if (legacy) {
+				// legacy behavior: 'omit' can appear in the value/complement list
+				for (int i = 0; i < value_list.size(); i++) {
+					if (value_list.get(i).match_omit(legacy)) {
+						return templateSelection == template_sel.VALUE_LIST;
+					}
+				}
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
+			}
+			return false;
+		default:
+			return false;
+		}
+	}
 }
