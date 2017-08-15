@@ -259,7 +259,7 @@ public final class Bit2HexExpression extends Expression_Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
