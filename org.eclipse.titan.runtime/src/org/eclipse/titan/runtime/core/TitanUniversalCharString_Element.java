@@ -25,16 +25,16 @@ public class TitanUniversalCharString_Element {
 		char_pos = par_char_pos;
 	}
 
-	public boolean isBound() {
-		return bound_flag;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(bound_flag);
 	}
 
-	boolean isPresent() { 
-		return bound_flag;
+	public TitanBoolean isPresent() { 
+		return new TitanBoolean(bound_flag);
 	}
 
-	public boolean isValue() {
-		return bound_flag;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(bound_flag);
 	}
 
 	public void mustBound( final String aErrorMessage ) {

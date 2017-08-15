@@ -38,17 +38,17 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	}
 
 	@Override
-	public boolean isBound() {
-		return valueElements != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(valueElements != null);
 	}
 
 	public void mustBound( final String aErrorMessage ) {
-		if ( !isBound() ) {
+		if ( !isBound().getValue() ) {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
@@ -156,7 +156,7 @@ public class TitanRecordOf extends Base_Type {
 
 	//originally get_at(int) const
 	public Base_Type constGetAt( final int index_value ) {
-		if ( !isBound() ) {
+		if ( !isBound().getValue() ) {
 			throw new TtcnError( MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", getOfTypeName()));
 		}
 		if (index_value < 0) {

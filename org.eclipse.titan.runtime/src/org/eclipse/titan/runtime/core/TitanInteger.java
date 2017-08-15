@@ -428,16 +428,16 @@ public class TitanInteger extends Base_Type {
 		return nativeFlag;
 	}
 
-	public boolean isBound() {
-		return boundFlag;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(boundFlag);
 	}
 
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	};
 
-	public boolean isValue() {
-		return boundFlag;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(boundFlag);
 	}
 
 	public void mustBound( final String errorMessage ) {

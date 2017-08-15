@@ -168,22 +168,22 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optionalSelection;
 	}
 
-	public boolean isBound() {
+	public TitanBoolean isBound() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
 		case OPTIONAL_OMIT:
-			return true;
+			return new TitanBoolean(true);
 		default:
 			if (null != optionalValue) {
-				return optionalValue.isBound();
+				return new TitanBoolean(optionalValue.isBound());
 			}
-			return false;
+			return new TitanBoolean(false);
 		}
 	}
 
 	//originally is_present
-	public boolean isPresent() {
-		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection);
+	public TitanBoolean isPresent() {
+		return new TitanBoolean(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection));
 	}
 
 	/**
@@ -204,9 +204,9 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	public boolean isValue() {
-		return optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)
-				&& optionalValue.isValue();
+	public TitanBoolean isValue() {
+		return new TitanBoolean(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)
+				&& optionalValue.isValue().getValue());
 	}
 
 	public boolean isOptional() {
@@ -271,13 +271,13 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
 			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
-				if(!otherValue.isBound()) {
+				if(!otherValue.isBound().getValue()) {
 					return new TitanBoolean(true);
 				} else {
 					throw new TtcnError("The left operand of comparison is an unbound optional value.");
 				}
 			} else {
-				if (!otherValue.isBound()) {
+				if (!otherValue.isBound().getValue()) {
 					throw new TtcnError("The right operand of comparison is an unbound optional value.");
 				} else {
 					 if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {

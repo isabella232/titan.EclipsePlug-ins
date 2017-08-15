@@ -69,12 +69,12 @@ public abstract class Base_Template {
 	}
 
 	//originally isBound
-	public boolean isBound() {
-		return templateSelection != template_sel.UNINITIALIZED_TEMPLATE;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(templateSelection != template_sel.UNINITIALIZED_TEMPLATE);
 	}
 	//originally is_value
-	public boolean isValue() {
-		return !is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE);
 	}
 
 	//originally clean_up
@@ -132,7 +132,7 @@ public abstract class Base_Template {
 
 	protected boolean get_istemplate_kind(final String type) {
 		if("value".equals(type)) {
-			return isValue();
+			return isValue().getValue();
 		} else if ("list".equals(type)) {
 			return templateSelection == template_sel.VALUE_LIST;
 		} else if ("complement".equals(type)) {

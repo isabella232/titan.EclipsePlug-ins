@@ -14,11 +14,11 @@ public class TitanBitString_Element {
 		bit_pos = par_bit_pos;
 	}
 
-	public boolean isBound() {
-		return bound_flag;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(bound_flag);
 	}
 
-	public boolean isValue() {
+	public TitanBoolean isValue() {
 		return isBound();
 	}
 

@@ -466,6 +466,6 @@ public final class IsBoundExpression extends Expression_Value {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
-		expression.expression.append(".isBound()");
+		expression.expression.append(".isBound().getValue()");
 	}
 }

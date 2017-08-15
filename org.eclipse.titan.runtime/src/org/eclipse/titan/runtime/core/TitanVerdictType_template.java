@@ -203,7 +203,7 @@ public class TitanVerdictType_template extends Base_Template {
 
 	//originally boolean VERDICTTYPE_template::match(const VERDICTTYPE& other_value, boolean legacy) const
 	public TitanBoolean match( final TitanVerdictType other_value, final boolean legacy ) {
-		if (!other_value.isBound()) {
+		if (!other_value.isBound().getValue()) {
 			return new TitanBoolean(false);
 		}
 

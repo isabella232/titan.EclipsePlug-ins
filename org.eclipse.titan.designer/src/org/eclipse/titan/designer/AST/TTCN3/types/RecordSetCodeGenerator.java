@@ -285,7 +285,7 @@ public class RecordSetCodeGenerator {
 		source.append( aClassName );
 		source.append( " aOtherValue ) {\n" );
 
-		source.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
+		source.append( "\t\t\tif ( !aOtherValue.isBound().getValue() ) {\n" +
 				"\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
 		source.append( classReadableName );
 		source.append( "\" );\n" +
@@ -294,7 +294,7 @@ public class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( "\t\t\tif ( aOtherValue.get" );
 			source.append( fi.mJavaVarName );
-			source.append( "().isBound() ) {\n" +
+			source.append( "().isBound().getValue() ) {\n" +
 					"\t\t\t\tthis." );
 			source.append( fi.mVarName );
 			source.append( ".assign( aOtherValue.get" );
@@ -342,7 +342,7 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
+		aSb.append( "\n\t\tpublic TitanBoolean isBound() {\n" );
 		//TODO: remove
 		//for( int i = 0; i < 80; i++ )
 		for ( final FieldInfo fi : aNamesList ) {
@@ -351,15 +351,15 @@ public class RecordSetCodeGenerator {
 				aSb.append( fi.mVarName );
 				aSb.append(".getSelection()) || ");
 				aSb.append(fi.mVarName);
-				aSb.append( ".isBound() ) return true;\n" );
+				aSb.append( ".isBound().getValue() ) return new TitanBoolean(true);\n" );
 			} else {
 				aSb.append( "\t\t\tif ( " );
 				aSb.append( fi.mVarName );
-				aSb.append( ".isBound() ) return true;\n" );
+				aSb.append( ".isBound().getValue() ) return new TitanBoolean(true);\n" );
 			}
 
 		}
-		aSb.append( "\t\t\treturn false;\n" +
+		aSb.append( "\t\t\treturn new TitanBoolean(false);\n" +
 				"\t\t}\n" );
 	}
 
@@ -369,7 +369,7 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isPresent() {\n" );
+		aSb.append( "\n\t\tpublic TitanBoolean isPresent() {\n" );
 		aSb.append( "\t\t\t\treturn isBound();\n");
 		aSb.append( "\t\t}\n" );
 	}
@@ -380,21 +380,21 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
+		aSb.append( "\n\t\tpublic TitanBoolean isValue() {\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( "\t\t\tif ( !optional_sel.OPTIONAL_OMIT.equals(" );
 				aSb.append( fi.mVarName );
 				aSb.append(".getSelection()) && !");
 				aSb.append(fi.mVarName);
-				aSb.append( ".isValue() ) return true;\n" );
+				aSb.append( ".isValue().getValue() ) return new TitanBoolean(true);\n" );
 			} else {
 				aSb.append( "\t\t\tif ( " );
 				aSb.append( fi.mVarName );
-				aSb.append( ".isValue() ) return true;\n" );
+				aSb.append( ".isValue().getValue() ) return new TitanBoolean(true);\n" );
 			}
 		}
-		aSb.append( "\t\t\treturn true;\n" +
+		aSb.append( "\t\t\treturn new TitanBoolean(true);\n" +
 				"\t\t}\n" );
 	}
 
@@ -404,25 +404,25 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateTemplateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
+		aSb.append( "\n\t\tpublic TitanBoolean isBound() {\n" );
 		aSb.append( "\t\t\tif (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n"
-				+ "\t\t\t\treturn false;\n"
+				+ "\t\t\t\treturn new TitanBoolean(false);\n"
 				+ "\t\t\t}\n" );
 		aSb.append( "\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n"
-				+ "\t\t\t\treturn true;\n"
+				+ "\t\t\t\treturn new TitanBoolean(true);\n"
 				+ "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit() || {0}.isBound()) '{'\n"
-						+ "\t\t\t\treturn true;\n"
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit() || {0}.isBound().getValue()) '{'\n"
+						+ "\t\t\t\treturn new TitanBoolean(true);\n"
 						+ "\t\t\t}\n", fi.mVarName ) );
 			} else {
-				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isBound()) '{'\n"
-						+ "\t\t\t\treturn true;\n"
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isBound().getValue()) '{'\n"
+						+ "\t\t\t\treturn new TitanBoolean(true);\n"
 						+ "\t\t\t}\n", fi.mVarName ) );
 			}
 		}
-		aSb.append( "\t\t\treturn false;\n" +
+		aSb.append( "\t\t\treturn new TitanBoolean(false);\n" +
 				"\t\t}\n" );
 	}
 
@@ -432,22 +432,22 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateTemplateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
+		aSb.append( "\n\t\tpublic TitanBoolean isValue() {\n" );
 		aSb.append( "\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n"
-				+ "\t\t\t\treturn false;\n"
+				+ "\t\t\t\treturn new TitanBoolean(false);\n"
 				+ "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
-				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.isOmit() && !{0}.isValue()) '{'\n"
-						+ "\t\t\t\treturn false;\n"
+				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.isOmit() && !{0}.isValue().getValue()) '{'\n"
+						+ "\t\t\t\treturn new TitanBoolean(false);\n"
 						+ "\t\t\t}\n", fi.mVarName ) );
 			} else {
-				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.isValue()) '{'\n"
-						+ "\t\t\t\treturn false;\n"
+				aSb.append( MessageFormat.format( "\t\t\tif (!{0}.isValue().getValue()) '{'\n"
+						+ "\t\t\t\treturn new TitanBoolean(false);\n"
 						+ "\t\t\t}\n", fi.mVarName ) );
 			}
 		}
-		aSb.append( "\t\t\treturn true;\n" +
+		aSb.append( "\t\t\treturn new TitanBoolean(true);\n" +
 				"\t\t}\n" );
 	}
 
@@ -701,9 +701,9 @@ public class RecordSetCodeGenerator {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate void copyValue(final {0} other_value) '{'\n", genName));
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\tif (other_value.get{0}().isBound()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\tif (other_value.get{0}().isBound().getValue()) '{'\n", fi.mJavaVarName ) );
 			if ( fi.isOptional ) {
-				source.append( MessageFormat.format( "\t\t\tif (other_value.get{0}().isPresent()) '{'\n", fi.mJavaVarName ) );
+				source.append( MessageFormat.format( "\t\t\tif (other_value.get{0}().isPresent().getValue()) '{'\n", fi.mJavaVarName ) );
 				source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(other_value.get{0}().get());\n", fi.mJavaVarName ) );
 				source.append("\t\t\t} else {\n");
 				source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
@@ -829,7 +829,7 @@ public class RecordSetCodeGenerator {
 			} else {
 				aSb.append("\t\t\t ");
 			}
-			aSb.append( MessageFormat.format( "if ({0}.isBound()) '{'\n", fi.mVarName )  );
+			aSb.append( MessageFormat.format( "if ({0}.isBound().getValue()) '{'\n", fi.mVarName )  );
 			aSb.append( MessageFormat.format( "\t\t\t\tret_val.{0}.assign({0}.valueOf());\n", fi.mVarName ) );
 			aSb.append("\t\t\t}\n");
 		}
@@ -897,7 +897,7 @@ public class RecordSetCodeGenerator {
 
 		source.append("\n");
 		source.append( MessageFormat.format( "\t\tprivate boolean match_({0} other_value, boolean legacy) '{'\n", genName ) );
-		source.append("\t\t\tif (!other_value.isBound()) {\n");
+		source.append("\t\t\tif (!other_value.isBound().getValue()) {\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tswitch (templateSelection) {\n");
@@ -908,11 +908,11 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\t\tif(!other_value.get{0}().isBound()) '{'\n", fi.mJavaVarName )  );
+			source.append( MessageFormat.format( "\t\t\t\tif(!other_value.get{0}().isBound().getValue()) '{'\n", fi.mJavaVarName )  );
 			source.append("\t\t\t\t\treturn false;\n");
 			source.append("\t\t\t\t}\n");
 			if (fi.isOptional) {
-				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get{0}().isPresent() ? !{1}.match(other_value.get{0}().get(), legacy).getValue() : !{1}.match_omit(legacy).getValue())) '{'\n", fi.mJavaVarName, fi.mVarName ) );
+				source.append( MessageFormat.format( "\t\t\t\tif((other_value.get{0}().isPresent().getValue() ? !{1}.match(other_value.get{0}().get(), legacy).getValue() : !{1}.match_omit(legacy).getValue())) '{'\n", fi.mJavaVarName, fi.mVarName ) );
 			} else {
 				source.append( MessageFormat.format( "\t\t\t\tif(!{1}.match(other_value.get{0}(), legacy).getValue()) '{'\n", fi.mJavaVarName, fi.mVarName )  );
 			}

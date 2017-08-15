@@ -74,16 +74,16 @@ public class TitanFloat extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
 	}
 
-	public boolean isBound() {
-		return float_value != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(float_value != null);
 	}
 
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	};
 
-	public boolean isValue() {
-		return float_value != null;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(float_value != null);
 	}
 
 	public void mustBound(final String aErrorMessage) {

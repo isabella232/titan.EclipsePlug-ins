@@ -184,7 +184,7 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	public TitanBoolean match(final TitanBoolean otherValue, final boolean legacy) {
-		if (!otherValue.isBound()) {
+		if (!otherValue.isBound().getValue()) {
 			return new TitanBoolean(false);
 		}
 

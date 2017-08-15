@@ -262,20 +262,20 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueIsPresent(final StringBuilder source) {
-		source.append("public boolean isPresent() {\n");
+		source.append("public TitanBoolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsBound(final StringBuilder source){
-		source.append("public boolean isBound() {\n");
-		source.append("return (enum_value != enum_type.UNBOUND_VALUE);\n");
+		source.append("public TitanBoolean isBound() {\n");
+		source.append("return new TitanBoolean(enum_value != enum_type.UNBOUND_VALUE);\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsValue(final StringBuilder source){
-		source.append("public boolean isValue() {\n");
-		source.append("return (enum_value != enum_type.UNBOUND_VALUE);\n");
+		source.append("public TitanBoolean isValue() {\n");
+		source.append("return new TitanBoolean(enum_value != enum_type.UNBOUND_VALUE);\n");
 		source.append("}\n\n");
 	}
 
@@ -326,7 +326,7 @@ public class EnumeratedGenerator {
 
 	private static void generateMustBound(final StringBuilder source ) {
 		source.append("public void mustBound( String errorMessage) {\n");
-		source.append("if ( !isBound() ) {\n");
+		source.append("if ( !isBound().getValue() ) {\n");
 		source.append("throw new TtcnError( errorMessage );\n");
 		source.append("}\n");
 		source.append("}\n\n");

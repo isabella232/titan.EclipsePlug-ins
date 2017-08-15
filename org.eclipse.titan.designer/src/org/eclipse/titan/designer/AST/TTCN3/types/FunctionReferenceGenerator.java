@@ -198,20 +198,20 @@ public class FunctionReferenceGenerator {
 			break;
 		}
 
-		source.append("public boolean isBound() {\n");
-		source.append("return referred_function != null;\n");
+		source.append("public TitanBoolean isBound() {\n");
+		source.append("return new TitanBoolean(referred_function != null);\n");
 		source.append("}\n");
-		source.append("public boolean isValue() {\n");
-		source.append("return referred_function != null;\n");
+		source.append("public TitanBoolean isValue() {\n");
+		source.append("return new TitanBoolean(referred_function != null);\n");
 		source.append("}\n");
-		source.append("public boolean isPresent() {\n");
+		source.append("public TitanBoolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n");
 		source.append("public void cleanUp() {\n");
 		source.append("referred_function = null;\n");
 		source.append("}\n");
 		source.append("public void mustBound( final String aErrorMessage ) {\n");
-		source.append("if ( !isBound() ) {\n");
+		source.append("if ( !isBound().getValue() ) {\n");
 		source.append("throw new TtcnError( aErrorMessage );\n");
 		source.append("}\n");
 		source.append("}\n");

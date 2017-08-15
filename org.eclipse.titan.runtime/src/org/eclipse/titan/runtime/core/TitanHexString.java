@@ -170,12 +170,12 @@ public class TitanHexString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
-	public boolean isBound() {
-		return nibbles_ptr != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(nibbles_ptr != null);
 	}
 
-	public boolean isValue() {
-		return nibbles_ptr != null;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(nibbles_ptr != null);
 	}
 
 	public void mustBound(final String aErrorMessage) {
@@ -306,7 +306,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	}
 

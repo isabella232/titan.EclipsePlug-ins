@@ -91,16 +91,16 @@ public class TitanCharString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
-	public boolean isBound() {
-		return val_ptr != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(val_ptr != null);
 	}
 
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	};
 
-	public boolean isValue() {
-		return val_ptr != null;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(val_ptr != null);
 	}
 
 	public void mustBound( final String aErrorMessage ) {

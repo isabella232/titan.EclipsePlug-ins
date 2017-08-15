@@ -193,16 +193,16 @@ public class TitanBitString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
-	public boolean isBound() {
-		return bits_ptr != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(bits_ptr != null);
 	}
 
-	public boolean isValue() {
+	public TitanBoolean isValue() {
 		return isBound();
 	}
 
 	public void mustBound( final String aErrorMessage ) {
-		if ( !isBound() ) {
+		if ( !isBound().getValue() ) {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
@@ -659,7 +659,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	}
 

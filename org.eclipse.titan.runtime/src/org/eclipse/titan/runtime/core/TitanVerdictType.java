@@ -46,9 +46,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	public TitanVerdictType( final TitanVerdictType other_value ) {
-		if ( !other_value.isBound() ) {
-			throw new TtcnError("Copying an unbound verdict value.");
-		}
+		other_value.mustBound("Copying an unbound verdict value.");
 
 		verdict_value = other_value.verdict_value;
 	}
@@ -63,13 +61,13 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	}
 
 	@Override
-	public boolean isBound() {
-		return verdict_value != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(verdict_value != null);
 	}
 
 	public void mustBound( final String aErrorMessage ) {

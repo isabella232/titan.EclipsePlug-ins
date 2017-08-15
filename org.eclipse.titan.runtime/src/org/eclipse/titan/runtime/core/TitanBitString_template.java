@@ -222,7 +222,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	// originally match
 	public TitanBoolean match(final TitanBitString otherValue, final boolean legacy) {
-		if(! otherValue.isBound()) {
+		if(!otherValue.isBound().getValue()) {
 			return new TitanBoolean(false);
 		}
 

@@ -151,12 +151,12 @@ public class TitanOctetString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
-	public boolean isBound() {
-		return val_ptr != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(val_ptr != null);
 	}
 
-	public boolean isValue() {
-		return val_ptr != null;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(val_ptr != null);
 	}
 
 	public void mustBound( final String aErrorMessage ) {
@@ -289,7 +289,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	}
 

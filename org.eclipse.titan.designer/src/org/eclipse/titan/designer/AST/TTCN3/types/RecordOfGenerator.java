@@ -169,7 +169,7 @@ public class RecordOfGenerator {
 	private static void generateValueIsPresent(final StringBuilder source) {
 		source.append("\n");
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean isPresent() {\n");
+		source.append("\tpublic TitanBoolean isPresent() {\n");
 		source.append("\t\treturn isBound();\n");
 		source.append("\t}\n");
 	}
@@ -182,12 +182,12 @@ public class RecordOfGenerator {
 	private static void generateValueIsBound(final StringBuilder source) {
 		source.append("\n");
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean isBound() {\n");
-		source.append("\t\treturn valueElements != null;\n");
+		source.append("\tpublic TitanBoolean isBound() {\n");
+		source.append("\t\treturn new TitanBoolean(valueElements != null);\n");
 		source.append("\t}\n");	
 		source.append("\n");
 		source.append("\tpublic void mustBound( final String aErrorMessage ) {\n");
-		source.append("\t\tif ( !isBound() ) {\n");
+		source.append("\t\tif ( !isBound().getValue() ) {\n");
 		source.append("\t\t\tthrow new TtcnError( aErrorMessage );\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
@@ -317,7 +317,7 @@ public class RecordOfGenerator {
 		source.append("\n");
 		source.append("\t//originally get_at(int) const\n");
 		source.append( MessageFormat.format("\tpublic {0} constGetAt( final int index_value ) '{'\n", ofTypeName ) );
-		source.append("\t\tif ( !isBound() ) {\n");
+		source.append("\t\tif ( !isBound().getValue() ) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element in an unbound value of type {0}.\" );\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tif (index_value < 0) {\n");
@@ -355,7 +355,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tmustBound(\"Performing lengthof operation on an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tfor ( int i = valueElements.size() - 1; i >= 0; i-- ) {\n");
 		source.append( MessageFormat.format( "\t\t\t{0} elem = valueElements.get( i );\n", ofTypeName ) );
-		source.append("\t\t\tif ( elem != null && elem.isBound() ) {\n");
+		source.append("\t\t\tif ( elem != null && elem.isBound().getValue() ) {\n");
 		source.append("\t\t\t\treturn new TitanInteger(i + 1);\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
@@ -489,11 +489,11 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateIsPresent(final StringBuilder source) {
 		source.append("\n");
-		source.append("\tpublic boolean isPresent(final boolean legacy) {\n");
+		source.append("\tpublic TitanBoolean isPresent(final boolean legacy) {\n");
 		source.append("\t\tif (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("\t\t\treturn false;\n");
+		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn !match_omit(legacy);\n");
+		source.append("\t\treturn new TitanBoolean(!match_omit(legacy).getValue());\n");
 		source.append("\t}\n");
 	}
 
@@ -514,7 +514,7 @@ public class RecordOfGenerator {
 		source.append("\n");
 		source.append("\t// originally match\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean match(final {0} other_value, final boolean legacy) '{'\n", genName ) );
-		source.append("\t\tif(!other_value.isBound()) {\n");
+		source.append("\t\tif(!other_value.isBound().getValue()) {\n");
 		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\t}\n");
 		source.append("\t\tswitch (templateSelection) {\n");
@@ -554,27 +554,27 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateMatchOmit( final StringBuilder source ) {
 		source.append("\n");
-		source.append("\tpublic boolean match_omit(final boolean legacy) {\n");
+		source.append("\tpublic TitanBoolean match_omit(final boolean legacy) {\n");
 		source.append("\t\tif (is_ifPresent) {\n");
-		source.append("\t\t\treturn true;\n");
+		source.append("\t\t\treturn new TitanBoolean(true);\n");
 		source.append("\t\t}\n");
 		source.append("\t\tswitch(templateSelection) {\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
-		source.append("\t\t\treturn true;\n");
+		source.append("\t\t\treturn new TitanBoolean(true);\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\tif (legacy) {\n");
 		source.append("\t\t\t\tfor (int i = 0 ; i < list_value.size(); i++) {\n");
-		source.append("\t\t\t\t\tif (list_value.get(i).match_omit(legacy)) {\n");
-		source.append("\t\t\t\t\t\treturn templateSelection == template_sel.VALUE_LIST;\n");
+		source.append("\t\t\t\t\tif (list_value.get(i).match_omit(legacy).getValue()) {\n");
+		source.append("\t\t\t\t\t\treturn new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\treturn templateSelection == template_sel.COMPLEMENTED_LIST;\n");
+		source.append("\t\t\t\treturn new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn false;\n");
+		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\tdefault:\n");
-		source.append("\t\t\treturn false;\n");
+		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
 	}
@@ -730,7 +730,7 @@ public class RecordOfGenerator {
 		
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append("\t\tif (!index_value.isBound()) {\n");
+		source.append("\t\tif (!index_value.isBound().getValue()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
@@ -756,7 +756,7 @@ public class RecordOfGenerator {
 		
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
-		source.append("\t\tif (!index_value.isBound()) {\n");
+		source.append("\t\tif (!index_value.isBound().getValue()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
@@ -914,7 +914,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\thas_any_or_none = false;\n");
 		source.append("\t\t\tint elem_count = value_elements.size();\n");
 		source.append("\t\t\tif (!is_size) {\n");
-		source.append("\t\t\t\twhile (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())\n");
+		source.append("\t\t\t\twhile (elem_count>0 && !(value_elements.get(elem_count-1)).isBound().getValue())\n");
 		source.append("\t\t\t\t\telem_count--;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i=0; i<elem_count; i++)\n");
@@ -1038,14 +1038,14 @@ public class RecordOfGenerator {
 	private static void generateTemplateIsValue(StringBuilder source, final String genName) {
 		source.append("\n");
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean isValue() {\n");
+		source.append("\tpublic TitanBoolean isValue() {\n");
 		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append("\t\t\treturn false;\n");
+		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\t}\n");
 		source.append("\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
-		source.append("\t\t\tif (!value_elements.get(elem_count).isValue()) return false;\n");
+		source.append("\t\t\tif (!value_elements.get(elem_count).isValue().getValue()) return new TitanBoolean(false);\n");
 		source.append("\t\t}\n");
-		source.append("\t\treturn true;\n");
+		source.append("\t\treturn new TitanBoolean(true);\n");
 		source.append("\t}\n");
 	}
 
@@ -1129,7 +1129,7 @@ public class RecordOfGenerator {
 		aSb.append("\t\t\t}\n");
 		aSb.append( MessageFormat.format( "\t\t\t{0} ret_val = new {0}();\n", genName ) );
 		aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
-		aSb.append("\t\t\t\tif (value_elements.get(elem_count).isBound()) {\n");
+		aSb.append("\t\t\t\tif (value_elements.get(elem_count).isBound().getValue()) {\n");
 		aSb.append("\t\t\t\t\tret_val.add( value_elements.get(elem_count).valueOf() );\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t}\n");

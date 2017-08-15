@@ -258,15 +258,15 @@ public class TitanUniversalCharString extends Base_Type {
 		return this;
 	}
 
-	public boolean isBound() {
-		return charstring ? cstr != null : val_ptr != null;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(charstring ? cstr != null : val_ptr != null);
 	}
 
-	public boolean isPresent() {
+	public TitanBoolean isPresent() {
 		return isBound();
 	};
 
-	public boolean isValue() {
+	public TitanBoolean isValue() {
 		return isBound();
 	}
 
@@ -624,7 +624,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	//originally operator[](int)
 	public TitanUniversalCharString_Element getAt(final int index_value) {
-		if ( !isBound() && index_value == 0 ) {
+		if ( !isBound().getValue() && index_value == 0 ) {
 			if ( charstring ) {
 				cstr = new StringBuilder();
 			} else {
@@ -689,7 +689,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	@Override
 	public String toString() {
-		if ( !isBound() ) {
+		if ( !isBound().getValue() ) {
 			return "<unbound>";
 		}
 

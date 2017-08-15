@@ -56,18 +56,18 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public boolean isPresent() {
-		return componentValue != UNBOUND_COMPREF;
+	public TitanBoolean isPresent() {
+		return new TitanBoolean(componentValue != UNBOUND_COMPREF);
 	}
 
 	@Override
-	public boolean isBound() {
-		return componentValue != UNBOUND_COMPREF;
+	public TitanBoolean isBound() {
+		return new TitanBoolean(componentValue != UNBOUND_COMPREF);
 	}
 
 	@Override
-	public boolean isValue() {
-		return componentValue != UNBOUND_COMPREF;
+	public TitanBoolean isValue() {
+		return new TitanBoolean(componentValue != UNBOUND_COMPREF);
 	}
 
 	public void mustBound( final String aErrorMessage ) {

@@ -461,6 +461,6 @@ public final class IsPresentExpression extends Expression_Value {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
-		expression.expression.append(".isPresent()");
+		expression.expression.append(".isPresent().getValue()");
 	}
 }

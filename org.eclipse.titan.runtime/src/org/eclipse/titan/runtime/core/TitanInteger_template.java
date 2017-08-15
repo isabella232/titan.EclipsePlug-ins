@@ -156,7 +156,7 @@ public class TitanInteger_template extends Base_Template {
 
 	// originally match
 	public TitanBoolean match(final TitanInteger otherValue, final boolean legacy) {
-		if(! otherValue.isBound()) {
+		if(! otherValue.isBound().getValue()) {
 			return new TitanBoolean(false);
 		}
 
