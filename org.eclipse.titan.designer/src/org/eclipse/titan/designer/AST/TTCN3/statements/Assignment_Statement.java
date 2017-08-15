@@ -584,12 +584,7 @@ public final class Assignment_Statement extends Statement {
 				}
 			}
 			TTCN3Template lastTemplate = template.getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
-			IValue value;
-			if (lastTemplate instanceof SpecificValue_Template) {
-				value = ((SpecificValue_Template) lastTemplate).getValue();
-			} else {
-				return;
-			}
+			final IValue value = template.getValue();
 			// TODO handle needs_conv
 			if (reference.getSubreferences().size() > 1) {
 				if(value.canGenerateSingleExpression()) {
