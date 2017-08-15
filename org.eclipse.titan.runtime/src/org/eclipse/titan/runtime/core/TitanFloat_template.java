@@ -176,23 +176,28 @@ public class TitanFloat_template extends Base_Template {
 			}
 			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 		case VALUE_RANGE: {
-			boolean lowerMissMatch = true;
-			boolean upperMissMatch = true;
+			boolean lowerMatch = false;
+			boolean upperMatch = false;
 			if (min_is_present) {
-				if (min_is_exclusive) {
-					lowerMissMatch = min_value.isLessThanOrEqual(otherValue).getValue();
-				} else {
-					lowerMissMatch = min_value.isLessThan(otherValue).getValue();
+				if (!min_is_exclusive && min_value.isLessThanOrEqual(otherValue).getValue()) {
+					lowerMatch = true;
+				} else if (min_is_exclusive && min_value.isLessThan(otherValue).getValue()) {
+					lowerMatch = true;
 				}
+			} else if(!min_is_exclusive || otherValue.isGreaterThan(Double.NEGATIVE_INFINITY).getValue()) {
+				lowerMatch = true;
 			}
 			if (max_is_present) {
-				if (max_is_exclusive) {
-					upperMissMatch = min_value.isGreaterThanOrEqual(otherValue).getValue();
-				} else {
-					upperMissMatch = min_value.isGreaterThan(otherValue).getValue();
+				if (!max_is_exclusive && max_value.isGreaterThanOrEqual(otherValue).getValue()) {
+					upperMatch = true;
+				} else if(max_is_exclusive && max_value.isGreaterThan(otherValue).getValue()) {
+					upperMatch = true;
 				}
+			} else if(!max_is_exclusive || otherValue.isLessThan(Double.POSITIVE_INFINITY).getValue()) {
+				upperMatch = true;
 			}
-			return new TitanBoolean(lowerMissMatch && upperMissMatch);
+
+			return new TitanBoolean(lowerMatch && upperMatch);
 		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported float template.");
