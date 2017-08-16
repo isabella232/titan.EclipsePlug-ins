@@ -402,8 +402,6 @@ public final class Assignment_Statement extends Statement {
 
 	private void checkTemplateAssignment(final CompilationTimeStamp timestamp, final Assignment assignment,
 			final Expected_Value_type expectedValue, final IReferenceChain referenceChain) {
-		final Assignment lhs = reference.getRefdAssignment(timestamp, false);
-		//FIXME use lhs
 		IType type = getType(timestamp, assignment);
 
 		if (type == null) {
@@ -421,7 +419,7 @@ public final class Assignment_Statement extends Statement {
 
 		template.setMyGovernor(type);
 		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
-		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false, lhs);
+		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false, assignment);
 		checkTemplateRestriction(timestamp);
 
 		if (reference.refersToStringElement()) {
