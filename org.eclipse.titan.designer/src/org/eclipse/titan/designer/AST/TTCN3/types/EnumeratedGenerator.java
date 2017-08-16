@@ -150,13 +150,32 @@ public class EnumeratedGenerator {
 	//TODO: decode_text(Text_Buf& text_buf);
 
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs){
-		source.append(MessageFormat.format("\tpublic static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
+		aData.addImport("java.util.ArrayList");
+
+		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
 
 		//TODO: generate this, and others:
-		//generateTemplateAssign(source,e_defs.name);
-		generateTemplateSetType(source);
-
-		source.append("\t}\n");
+		generateTemplateDeclaration(source, e_defs.name);
+		generatetemplateCopyTemplate(source, e_defs.name);
+		generateTemplateConstructors(source, e_defs.name);
+		generateTemplateCleanUp(source);
+		generateTemplateIsBound(source);
+		generateTemplateIsValue(source, e_defs.name);
+		generateTemplateAssign(source,e_defs.name);
+		generateTemplateMatch(source,  e_defs.name);
+		generateTemplateValueOf(source, e_defs.name);
+		generateTemplateSetType(source,  e_defs.name);
+		generateTemplateListItem(source, e_defs.name);
+		generateTemplateIsPresent(source);
+		generateTemplateMatchOmit(source);
+		
+		//FIXME implement log
+		//FIXME implement log_match
+		//FIXME implement encode
+		//FIXME implement decode
+		//FIXME implement set_param
+		//FIXME implement check_restriction		
+		source.append("}\n");
 	}
 
 	//===
@@ -242,6 +261,7 @@ public class EnumeratedGenerator {
 		source.append("enum_value = enum_type.getValue(intValue);\n");
 		source.append("}\n\n");
 	}
+
 	private static void generateValueEnumToInt(final StringBuilder source, final String name) {
 		// arg: enum_type
 		source.append(MessageFormat.format("public static int enum2int({0}.enum_type enumPar) '{'\n", name));
@@ -279,6 +299,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
+	//TODO: ttcn error base_type
 	private static void generateValueOperatorEquals(final StringBuilder source,final String aName) {
 		//Arg type: own type
 		source.append("//originally operator==\n");
@@ -467,36 +488,290 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	//TODO: enum_template
+	//FIXME: enum_template
 
-	private static void generateTemplateSetType(final StringBuilder source){
-		source.append("\t\tpublic void setType(template_sel valueList, int i) {\n");
-		source.append("\t\t\t//TODO: setType is not implemented yet\n");
-		source.append("\t\t}\n");
+	private static void generateTemplateDeclaration(final StringBuilder source, final String name) {
+		source.append("// single_value\n");
+		source.append(MessageFormat.format("private {0}.enum_type single_value;\n",name));
+		source.append("// value_list part\n");	
+		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n\n", name));
+	}
+
+	private static void generateTemplateConstructors( final StringBuilder source, final String name){
+		// empty
+		source.append(MessageFormat.format("public {0}_template() '{'\n", name));
+		source.append("}\n\n");
+
+		// template_sel 
+		source.append(MessageFormat.format("public {0}_template(final template_sel otherValue) '{'\n", name));
+		source.append("super(otherValue);\n");
+		source.append("checkSingleSelection(otherValue);\n");
+		source.append("}\n\n");
+
+		// int 
+		source.append(MessageFormat.format("public {0}_template(final int otherValue) '{'\n", name));
+		source.append("super(template_sel.SPECIFIC_VALUE);\n");
+		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
+		source.append(MessageFormat.format("throw new TtcnError(\"Initializing a template of enumerated type {0} with unknown numeric value \"+ otherValue +\".\");\n", name));
+		source.append("}\n");
+		source.append(MessageFormat.format("single_value = {0}.enum_type.getValue(otherValue);\n", name));
+		source.append("}\n\n");
+
+		// name type
+		source.append(MessageFormat.format("public {0}_template(final {0} otherValue) '{'\n", name));
+		source.append("super(template_sel.SPECIFIC_VALUE);\n");
+		source.append(MessageFormat.format("if (otherValue.enum_value == {0}.enum_type.UNBOUND_VALUE) '{'\n", name));
+		source.append("throw new TtcnError(\"Creating a template from an unbound value of enumerated type "+ name +". \");\n");
+		source.append("}\n");
+		source.append("single_value = otherValue.enum_value;\n");
+		source.append("}\n\n");
+
+		// own type
+		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", name));
+		source.append("copy_template(otherValue);\n");
+		source.append("}\n\n");
+
+		// name.enum_type
+		source.append(MessageFormat.format("public {0}_template(final {0}.enum_type otherValue) '{'\n", name));
+		source.append("super(template_sel.SPECIFIC_VALUE);\n");
+		source.append("single_value = otherValue;\n");
+		source.append("}\n\n");
+
+		//FIXME implement optional parameter version
+	}
+
+	private static void generatetemplateCopyTemplate(final StringBuilder source, final String name) {
+		source.append(MessageFormat.format("private void copy_template(final {0}_template otherValue) '{'\n", name));
+		source.append("setSelection(otherValue);");
+		source.append("switch (otherValue.templateSelection) {\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("single_value = otherValue.single_value;\n");
+		source.append("break;\n");	
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(otherValue.value_list.size());\n", name));
+		source.append("for(int i = 0; i < otherValue.value_list.size(); i++) {\n");
+		source.append(MessageFormat.format("final {0}_template temp = new {0}_template(otherValue.value_list.get(i));\n", name));
+		source.append("value_list.add(temp);\n");	
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized/unsupported template of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	private static void generateTemplateAssign(final StringBuilder source, final String name) {
-		//Arg type: own type
-		source.append(MessageFormat.format("public {0}_template assign(final {0}_template other_value)'{'\n", name));
-		source.append("other_value.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
-		source.append( "if (other_value != this) {\n");
-		source.append(MessageFormat.format("this.enum_value = other_value.enum_value;\n",  name));
-		source.append("}\n\n");
+		// arg: template_sel 
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue) '{'\n", name));
+		source.append("checkSingleSelection(otherValue);\n");
+		source.append("cleanUp();\n");
+		source.append("setSelection(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
-		//Arg: Base_Type
-		source.append(MessageFormat.format("public {0}_template assign(final Base_Type other_value) '{' \n", name));
-		source.append(MessageFormat.format("if( other_value instanceof {0}_template ) '{'\n", name));
-		source.append(MessageFormat.format("return assign(({0}_template) other_value);\n", name));
-		source.append("}\n\n");
-		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", other_value));\n", name));
+		// arg: int 
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final int otherValue) '{'\n", name));
+		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
+		source.append(MessageFormat.format("throw new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+		source.append("cleanUp();\n");
+		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("return this;\n");
 		source.append("}\n\n");
 
-		//Arg: enum_type
-		source.append(MessageFormat.format("public {0}_template assign(final {0}_template.enum_type other_value)'{'\n", name));
-		source.append(MessageFormat.format("return assign( new {0}_template(other_value) );\n",name));
+		// arg: name.enum_type
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final {0}.enum_type otherValue)'{'\n", name));
+		source.append("cleanUp();\n");
+		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("single_value = otherValue;\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		// arg : own type
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final {0}_template otherValue)'{'\n", name));
+		source.append("// otherValue.mustBound(\"Assignment of an unbound enumerated value\");\n\n");
+		source.append( "if (otherValue != this) {\n");
+		source.append("cleanUp();\n");
+		source.append("copy_template(otherValue);\n");
+		source.append("}\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		// arg: name type
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final {0} otherValue)'{'\n", name));
+		source.append(MessageFormat.format("if (otherValue.enum_value == {0}.enum_type.UNBOUND_VALUE) '{'\n", name));
+		source.append("throw new TtcnError(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
+		source.append("}\n");
+		source.append("cleanUp();\n");
+		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("single_value = otherValue.enum_value;\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		//FIXME implement optional parameter version
+	}
+
+	private static void generateTemplateSetType(final StringBuilder source, String name){
+		source.append("public void setType(template_sel templateType, int list_length) {\n");
+		source.append("if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+		source.append("cleanUp();\n");
+		source.append("setSelection(templateType);\n");
+		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>();\n", name));
+		source.append("for(int i = 0 ; i < list_length; i++) {\n");
+		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", name));
+		source.append("}\n");
+		source.append("}\n\n");
+	}
+	
+	private static void generateTemplateIsBound(final StringBuilder source) {
+		source.append("public TitanBoolean isBound() {\n");
+		source.append("if (templateSelection != template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append("return new TitanBoolean(true);\n");
+		source.append("}\n\n");	
+	}
+
+	private static void generateTemplateIsValue(final StringBuilder source, String name) {
+		source.append("public TitanBoolean isValue() {\n");
+		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("return new TitanBoolean(single_value != {0}.enum_type.UNBOUND_VALUE);\n", name));
 		source.append("}\n\n");
 	}
 
+	private static void generateTemplateCleanUp(final StringBuilder source) {
+		source.append("public void cleanUp() {\n");
+		source.append("if (templateSelection == template_sel.VALUE_LIST || templateSelection == template_sel.COMPLEMENTED_LIST) {\n");
+		source.append("value_list.clear();\n");
+		source.append("value_list = null;\n");
+		source.append("}\n");
+		source.append("if (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("single_value = null;\n");
+		source.append("}\n");
+		source.append("templateSelection = template_sel.UNINITIALIZED_TEMPLATE;\n");
+		source.append("}\n\n");
+	}
+
+	private static void generateTemplateMatch(final StringBuilder source, String name) {
+		// name.enum_type
+		source.append("// originally match\n");
+		source.append(MessageFormat.format("public TitanBoolean match(final {0}.enum_type otherValue) '{'\n", name));
+		source.append("return match(otherValue, false);\n");
+		source.append("}\n\n");
+	
+		source.append("// originally match\n");
+		source.append(MessageFormat.format("public TitanBoolean match(final {0}.enum_type otherValue, boolean legacy ) '{'\n", name));
+		source.append("switch (templateSelection) {\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("return new TitanBoolean(single_value == otherValue);\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("return new TitanBoolean(true);\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("if(value_list.get(i).match(otherValue).getValue()) {\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ name +".\");\n");
+		source.append("}\n");
+		source.append("}\n\n");
+		
+		// name type
+		source.append("// originally match\n");
+		source.append(MessageFormat.format("public TitanBoolean match(final {0} otherValue) '{'\n", name));
+		source.append("return match(otherValue.enum_value, false);\n");
+		source.append("}\n\n");
+		
+		source.append("// originally match\n");
+		source.append(MessageFormat.format("public TitanBoolean match(final {0} otherValue, boolean legacy ) '{'\n", name));
+		source.append("return match(otherValue.enum_value, false);\n");
+		source.append("}\n\n");
+	}
+	
+	private static void generateTemplateValueOf(final StringBuilder source, final String name) {
+		source.append(MessageFormat.format("public {0}.enum_type valueOf() '{'\n", name));
+		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+		source.append("return single_value;\n");
+		source.append("}\n\n");
+	}
+	
+	private static void generateTemplateListItem(final StringBuilder source, final String name) {
+		source.append(MessageFormat.format("public {0}_template listItem(int list_index)  '{'\n", name));
+		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+
+		source.append("if (list_index < 0) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Index underflow in a value list template of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+		source.append("if(list_index >= value_list.size()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Index overflow in a value list template of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+		source.append("return value_list.get(list_index);\n");
+		source.append("}\n\n");
+	}
+
+	private static void generateTemplateIsPresent(final StringBuilder source) {
+		source.append("public TitanBoolean isPresent() {\n");
+		source.append("return isPresent(false);\n");
+		source.append("}\n\n");
+		
+		source.append("public TitanBoolean isPresent(final boolean legacy) {\n");
+		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append("return matchOmit(legacy).not();\n");
+		source.append("}\n\n");
+	}
+
+	private static void generateTemplateMatchOmit(final StringBuilder source) {
+		source.append("public TitanBoolean matchOmit() {\n");
+		source.append("return matchOmit(false);\n");
+		source.append("}\n\n");
+
+		source.append("public TitanBoolean matchOmit(final boolean legacy) {\n");
+		source.append("if (is_ifPresent) {\n");
+		source.append("return new TitanBoolean(true);\n");
+		source.append("}\n");
+		source.append("switch(templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("return new TitanBoolean(true);\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("if (legacy) {\n");
+		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append("if (value_list.get(i).matchOmit().getValue()) {\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append("}\n\n");
+	}
 }
