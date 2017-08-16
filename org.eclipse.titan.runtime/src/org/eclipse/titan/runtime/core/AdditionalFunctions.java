@@ -932,4 +932,38 @@ public class AdditionalFunctions {
 		
 		return subString(value, idx.getInt(), returncount.getInt());
 	}
+	
+	public static TitanHexString subString(final TitanHexString value, int idx, int returncount) {
+		value.mustBound("The first argument (value) of function substr() is an unbound hexstring value.");
+		
+		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "hexstring", "hexadecimal digi");
+		List<Byte> src_ptr = new ArrayList<Byte>();
+		src_ptr = value.getValue();
+		List<Byte> ret_val = new ArrayList<Byte>();
+		
+		for (int i = 0; i < returncount; i++) {
+			ret_val.add(src_ptr.get(i+idx));
+		}
+		
+		return new TitanHexString(ret_val);
+	}
+	
+	public static TitanHexString subString(final TitanHexString value, int idx, final TitanInteger returncount) {
+		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
+		
+		return subString(value, idx, returncount.getInt());
+	}
+	
+	public static TitanHexString subString(final TitanHexString value, final TitanInteger idx, int returncount) {
+		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
+		
+		return subString(value, idx.getInt(), returncount);
+	}
+	
+	public static TitanHexString subString(final TitanHexString value, final TitanInteger idx, final TitanInteger returncount) {
+		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
+		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
+		
+		return subString(value, idx.getInt(), returncount.getInt());
+	}
 }
