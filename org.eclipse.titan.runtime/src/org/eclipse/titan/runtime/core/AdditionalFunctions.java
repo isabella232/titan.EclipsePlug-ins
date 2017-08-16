@@ -65,7 +65,7 @@ public class AdditionalFunctions {
 
 		int ivt = value.getInt();
 		if (ivt < 0 || ivt > Integer.MAX_VALUE) {
-			throw new TtcnError("The argument of function int2unichar() is {0}, which outside the allowed range 0 .. 2147483647.");
+			throw new TtcnError(MessageFormat.format("The argument of function int2unichar() is {0}, which outside the allowed range 0 .. 2147483647.", value));
 		}
 
 		return int2unichar(ivt);
@@ -199,7 +199,6 @@ public class AdditionalFunctions {
 				nibbles_ptr.set(i, temp.byteValue());
 				tmp_value = tmp_value.shiftRight(4);
 			}
-			tmp_value.shiftRight(4);//TODO check: does not seem to do anything
 			if (tmp_value.compareTo(BigInteger.ZERO) != 0) {
 				int i = 0;
 				while (tmp_value.compareTo(BigInteger.ZERO) != 0) {
@@ -237,7 +236,7 @@ public class AdditionalFunctions {
 			tmp_value = tmp_value >> 8;
 		}
 		if (tmp_value != 0) {
-			throw new TtcnError("The first argument of function int2oct(), which is {0}, does not fit in {1} octet(s).");
+			throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" :""));
 		}
 		return new TitanOctetString(octets_ptr);
 	}
@@ -256,13 +255,13 @@ public class AdditionalFunctions {
 		} else {
 			BigInteger tmp_val = value.getBigInteger();
 			if (value.isLessThan(0).getValue()) {
-				throw new TtcnError("The first argument (value) of function int2oct() is a negative integer value: {0}.");
+				throw new TtcnError(MessageFormat.format("The first argument (value) of function int2oct() is a negative integer value: {0}.", value));
 			}
 			if (length < 0) {
-				throw new TtcnError("The second argument (length) of function int2oct() is a negative integer value: {0}.");
+				throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value: {0}.", length));
 			}
 			if ((tmp_val.bitCount() + 7) / 4 < length) {
-				throw new TtcnError("The first argument of function int2oct(), which is {0}, does not fit in {1} octet(s).");
+				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", (tmp_val.bitCount() + 7) / 4, length, length > 1 ? "s" : ""));
 			}
 			List<Character> octets_ptr = new ArrayList<Character>(length);
 			for (int i = 0; i < length; i++) {
@@ -332,7 +331,7 @@ public class AdditionalFunctions {
 	// C.9 - char2int
 	public static TitanInteger char2int(final char value) {
 		if (value > 127) {
-			throw new TtcnError("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.");
+			throw new TtcnError(MessageFormat.format("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.", value) );
 		}
 		return new TitanInteger((int) value);
 	}
@@ -392,8 +391,8 @@ public class AdditionalFunctions {
 	// C.11 - unichar2int
 	public static TitanInteger unichar2int(final TitanUniversalChar value) {
 		if (value.getUc_group() > 127) {
-			throw new TtcnError("The argument of function unichar2int() is the invalid quadruple char {0},"
-					+ "the first number of which is outside the allowed range 0 .. 127.");
+			throw new TtcnError(MessageFormat.format("The argument of function unichar2int() is the invalid quadruple char {0},"
+					+ "the first number of which is outside the allowed range 0 .. 127.", value.getUc_group()));
 		}
 		int result = (value.getUc_group() << 24) | (value.getUc_plane() << 16) | (value.getUc_row() << 8) | value.getUc_cell();
 
@@ -404,7 +403,7 @@ public class AdditionalFunctions {
 		value.mustBound("The argument of function unichar2int() is an unbound universal charstring value.");
 
 		if (value.lengthOf().getInt() != 1) {
-			throw new TtcnError("The length of the argument in function unichar2int() must be exactly 1 instead of %d.");
+			throw new TtcnError(MessageFormat.format("The length of the argument in function unichar2int() must be exactly 1 instead of %d.", value.lengthOf().getInt()));
 		}
 
 		return unichar2int(value.getValue().get(0));
@@ -812,7 +811,7 @@ public class AdditionalFunctions {
 		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value_length; i++) {
 			if ((int) value.get_nibble(i) > 127) {
-				throw new TtcnError("The argument of function oct2char() contains octet, which is outside the allowed range 00 .. 7F.");
+				throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains octet {0} at index {1}, which is outside the allowed range 00 .. 7F.", (int) value.get_nibble(i), i));
 			}
 			sb.append(value.get_nibble(i));
 		}
@@ -824,12 +823,9 @@ public class AdditionalFunctions {
 
 		char octet = value.get_nibble();
 		if ((int) octet > 127) {
-			throw new TtcnError("The argument of function oct2char() contains the octet, which is outside the allowed range 00 .. 7F.");
+			throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains the octet {0}, which is outside the allowed range 00 .. 7F.", octet));
 		}
 
 		return new TitanCharString(String.valueOf(octet));
 	}
-
-	//TODO: HEXSTRING bit2hex(const BITSTRING& value);
-	//TODO: OCTETSTRING bit2oct(const BITSTRING& value);
 }
