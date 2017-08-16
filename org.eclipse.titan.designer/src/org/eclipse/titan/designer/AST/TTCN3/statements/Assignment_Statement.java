@@ -230,8 +230,6 @@ public final class Assignment_Statement extends Statement {
 	}
 
 	private void checkVarAssignment(final CompilationTimeStamp timestamp, final Assignment assignment, final IValue value) {
-		final Assignment lhs = reference.getRefdAssignment(timestamp, false);
-		//FIXME use lhs
 		final IType varType = getType(timestamp, assignment);
 
 		if (varType == null || value == null) {
@@ -326,7 +324,7 @@ public final class Assignment_Statement extends Statement {
 			}
 		} else {
 			final boolean isStringElement = reference.refersToStringElement();
-			selfReference = type.checkThisValue(timestamp, value, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, false,
+			selfReference = type.checkThisValue(timestamp, value, assignment, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, true, false,
 					!isStringElement, false, isStringElement));
 
 			if (isStringElement) {
