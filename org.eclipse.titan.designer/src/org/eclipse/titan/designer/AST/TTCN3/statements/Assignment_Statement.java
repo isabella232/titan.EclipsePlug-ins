@@ -672,8 +672,7 @@ public final class Assignment_Statement extends Statement {
 			}
 			// TODO handle needs_conv
 			if (reference.getSubreferences().size() > 1) {
-				//FIXME handle template restriction
-				if(template.hasSingleExpression()) {
+				if((templateRestriction != Restriction_type.TR_NONE || !generateRestrictionCheck) && template.hasSingleExpression()) {
 					ExpressionStruct expression = new ExpressionStruct();
 					reference.generateCode(aData, expression);
 					source.append(expression.preamble);
