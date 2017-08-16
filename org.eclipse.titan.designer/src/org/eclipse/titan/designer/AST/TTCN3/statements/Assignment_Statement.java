@@ -139,6 +139,8 @@ public final class Assignment_Statement extends Statement {
 		lastTimeChecked = timestamp;
 		isErroneous = false;
 		selfReference = false;
+		templateRestriction = Restriction_type.TR_NONE;
+		generateRestrictionCheck = false;
 
 		if (reference == null) {
 			return;
