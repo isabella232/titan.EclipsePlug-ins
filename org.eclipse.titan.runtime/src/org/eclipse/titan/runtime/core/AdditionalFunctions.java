@@ -828,4 +828,78 @@ public class AdditionalFunctions {
 
 		return new TitanCharString(String.valueOf(octet));
 	}
+	
+	//C.34 - substr
+	public static void check_substr_arguments(int value_length, int idx, int returncount, final String string_type, final String element_name) {
+		if(idx < 0) {
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr() is a negative integer value: {0}.", idx));
+		}
+		if(idx > value_length) {
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr(), which is {0} , is greater than the length of the {1} value: {2}.", idx, string_type , value_length));
+		}
+		if(returncount < 0) {
+			throw new TtcnError(MessageFormat.format("The third argument (returncount) of function substr() is a negative integer value: {0}.", returncount));
+		}
+		if(idx + returncount > value_length) {
+			throw new TtcnError(MessageFormat.format("The first argument of function substr(), the length of which is {0}, does not have enough {1}s starting at index {2}: {3} {4}{5} needed, but there {6} only {7}.",
+					value_length, element_name, idx, returncount, element_name, returncount > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
+		}
+	}
+	
+	public static void check_substr_arguments(int idx, int returncount, final String string_type, final String element_name) {
+		if(idx < 0) {
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr() is a negative integer value: {0}.", idx));
+		}
+		if(idx > 1) {
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr(), which is {0}, is greater than 1 (i.e. the length of the {1} element).", idx, string_type));
+		}
+		if(returncount < 0) {
+			throw new TtcnError(MessageFormat.format("The third argument (returncount) of function substr() is a negative integer value: {0}.", returncount));
+		}
+		if(idx + returncount > 1) {
+			throw new TtcnError(MessageFormat.format("The first argument of function substr(), which is a{0} {1} element, does not have enough {2}s starting at index {3}: {4} {5}{6} needed, but there is only {7}.",
+				    string_type.charAt(0) == 'o' ? "n" : "", string_type, element_name, idx, returncount, element_name, returncount > 1 ? "s are" : " is",  1 - idx));
+		}
+	}
+
+	public static TitanBitString subString(final TitanBitString value, int idx, int returncount) {
+		value.mustBound("The first argument (value) of function substr() is an unbound bitstring value.");
+
+		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "bitstring", "bit");
+		if(idx % 8 != 0){
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < returncount; i++) {
+				sb.append(value.getBit(idx + i) ? "1" : "0");
+			}
+			TitanBitString ret_val = new TitanBitString(sb.toString());
+			return ret_val;
+		} else {
+			List<Byte> bits_ptr = new ArrayList<Byte>();
+			bits_ptr = value.getValue();
+			List<Byte> ret_val = new ArrayList<Byte>();
+			for (int i = 0; i < (returncount + 7) / 8; i++) {
+				ret_val.add(bits_ptr.get(i));
+			}
+			return new TitanBitString(ret_val, returncount);
+		}
+	}
+
+	public static TitanBitString subString(final TitanBitString value, int idx, final TitanInteger returncount) {
+		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
+
+		return subString(value, idx, returncount.getInt());
+	}
+
+	public static TitanBitString subString(final TitanBitString value, final TitanInteger idx, int returncount) {
+		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
+
+		return subString(value, idx.getInt(), returncount);
+	}
+
+	public static TitanBitString subString(final TitanBitString value, final TitanInteger idx, final TitanInteger returncount) {
+		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
+		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
+
+		return subString(value, idx.getInt(), returncount.getInt());
+	}
 }
