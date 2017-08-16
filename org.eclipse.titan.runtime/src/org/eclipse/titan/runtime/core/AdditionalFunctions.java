@@ -942,7 +942,7 @@ public class AdditionalFunctions {
 		List<Byte> ret_val = new ArrayList<Byte>();
 		
 		for (int i = 0; i < returncount; i++) {
-			ret_val.add(src_ptr.get(i+idx));
+			ret_val.add(src_ptr.get(i + idx));
 		}
 		
 		return new TitanHexString(ret_val);
@@ -991,6 +991,39 @@ public class AdditionalFunctions {
 	}
 	
 	public static TitanHexString subString(final TitanHexString_Element value, final TitanInteger idx, final TitanInteger returncount) {
+		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
+		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
+		
+		return subString(value, idx.getInt(), returncount.getInt());
+	}
+	
+	public static TitanOctetString subString(final TitanOctetString value, int idx, int returncount) {
+		value.mustBound("The first argument (value) of function substr() is an unbound octetstring value.");
+		
+		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "octetstring", "octet");
+		List<Character> ret_val = new ArrayList<Character>();
+		List<Character> src_ptr = new ArrayList<Character>();
+		src_ptr = value.getValue();
+		for (int i = 0; i < returncount; i++) {
+			ret_val.add(src_ptr.get(i + idx));
+		}
+		
+		return new TitanOctetString(ret_val);
+	}
+	
+	public static TitanOctetString subString(final TitanOctetString value, int idx, final TitanInteger returncount) {
+		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
+		
+		return subString(value, idx, returncount.getInt());
+	}
+	
+	public static TitanOctetString subString(final TitanOctetString value, final TitanInteger idx, int returncount) {
+		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
+		
+		return subString(value, idx.getInt(), returncount);
+	}
+	
+	public static TitanOctetString subString(final TitanOctetString value, final TitanInteger idx, final TitanInteger returncount) {
 		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
 		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
 		
