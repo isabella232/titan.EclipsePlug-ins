@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -165,10 +166,23 @@ public class Int2Enum_Statement extends Statement {
 
 	@Override
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		source.append( reference.toString()+".int2enum(" );
-		ExpressionStruct expression = new ExpressionStruct();
-		value.generateCodeExpression(aData, expression); 
-		source.append(expression.expression);
+		ExpressionStruct valueExpression = new ExpressionStruct();
+		value.generateCodeExpression(aData, valueExpression); 
+
+		ExpressionStruct referenceExpression = new ExpressionStruct();
+		reference.generateCode(aData, referenceExpression);
+
+		//FIXME check if the reference is an optional field
+		boolean isOptional = false;
+
+		source.append(valueExpression.preamble);
+		source.append(referenceExpression.preamble);
+
+		source.append(MessageFormat.format("{0}{1}.int2enum({2});\n", referenceExpression.expression, isOptional? ".get()":"", valueExpression.expression));
+
+		source.append(valueExpression.postamble);
+		source.append(referenceExpression.postamble);
+
 		source.append(");\n");
 	}
 }
