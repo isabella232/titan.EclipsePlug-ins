@@ -593,7 +593,7 @@ public class UnionGenerator {
 		source.append("return new TitanBoolean(false);\n");
 		source.append("}\n");
 		source.append("if (value_selection != single_value_union_selection) {\n");
-		source.append("new TitanBoolean(false);\n");
+		source.append("return new TitanBoolean(false);\n");
 		source.append("}\n");
 		source.append("switch(value_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
