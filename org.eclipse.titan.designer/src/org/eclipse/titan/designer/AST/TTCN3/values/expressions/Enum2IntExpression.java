@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Enumerated_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Enumerated_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -252,5 +253,28 @@ public final class Enum2IntExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		IType governor = value.getMyGovernor();
+		if (governor == null) {
+			governor = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) { 
+			governor = myLastSetGovernor;
+		}
+		if (governor == null ) {
+			expression.expression.append("// FATAL ERROR while processing refers expression\n");
+			return;
+		}
+
+		String name = governor.getGenNameValue(aData, expression.expression, myScope);
+
+		expression.expression.append(name);
+		expression.expression.append(".enum2int(");
+		value.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(")");
 	}
 }

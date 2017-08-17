@@ -19,6 +19,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -159,5 +161,14 @@ public class Int2Enum_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		source.append( reference.toString()+".int2enum(" );
+		ExpressionStruct expression = new ExpressionStruct();
+		value.generateCodeExpression(aData, expression); 
+		source.append(expression.expression);
+		source.append(");\n");
 	}
 }
