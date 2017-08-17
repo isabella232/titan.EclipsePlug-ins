@@ -253,9 +253,9 @@ public final class RangedArrayDimension extends ArrayDimension {
 			return "FATAL ERROR in RangedArrayDImension:getValueType";
 		}
 
-		aData.addBuiltinTypeImport("VALUE_ARRAY");
+		aData.addBuiltinTypeImport("TitanValueArray");
 
-		return MessageFormat.format("VALUE_ARRAY<{0}>", elementType.getGenNameValue(aData, source, scope));
+		return MessageFormat.format("TitanValueArray<{0}>", elementType.getGenNameValue(aData, source, scope));
 	}
 
 	@Override
@@ -265,8 +265,8 @@ public final class RangedArrayDimension extends ArrayDimension {
 			return "FATAL ERROR in RangedArrayDImension:getTemplateType";
 		}
 
-		aData.addBuiltinTypeImport("TEMPLATE_ARRAY");
+		aData.addBuiltinTypeImport("TitanTemplateArray");
 
-		return MessageFormat.format("TEMPLATE_ARRAY<{0}, {1}>", elementType.getGenNameValue(aData, source, scope), elementType.getGenNameTemplate(aData, source, scope));
+		return MessageFormat.format("TitanTemplateArray<{0}, {1}>", elementType.getGenNameValue(aData, source, scope), elementType.getGenNameTemplate(aData, source, scope));
 	}
 }
