@@ -199,6 +199,7 @@ public class AdditionalFunctions {
 				nibbles_ptr.set(i, temp.byteValue());
 				tmp_value = tmp_value.shiftRight(4);
 			}
+			tmp_value.shiftRight(4);//TODO check: does not seem to do anything
 			if (tmp_value.compareTo(BigInteger.ZERO) != 0) {
 				int i = 0;
 				while (tmp_value.compareTo(BigInteger.ZERO) != 0) {
@@ -499,7 +500,7 @@ public class AdditionalFunctions {
 			sb.append(value.getBit(i) ? "1" : "0");
 		}
 
-		if (n_nibbles % 2 == 1) {
+		if ((n_nibbles & 1) == 1) {
 			nibbles_ptr.add((byte) 0);
 		}
 
@@ -866,7 +867,7 @@ public class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound bitstring value.");
 
 		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "bitstring", "bit");
-		if(idx % 8 != 0){
+		if (idx % 8 != 0) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < returncount; i++) {
 				sb.append(value.getBit(idx + i) ? "1" : "0");
@@ -907,7 +908,7 @@ public class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound bitstring element.");
 
 		check_substr_arguments(idx, returncount, "bitstring", "bit");
-		if(returncount == 0) {
+		if (returncount == 0) {
 			return new TitanBitString();
 		} else {
 			return new TitanBitString(value.get_bit() ? "1" : "0");
@@ -971,7 +972,7 @@ public class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound hexstring element.");
 
 		check_substr_arguments(idx, returncount, "hexstring", "hexadecimal digit");
-		if(returncount == 0) {
+		if (returncount == 0) {
 			return new TitanHexString();
 		} else {
 			return new TitanHexString(String.valueOf(value.get_nibble()));
@@ -1034,7 +1035,7 @@ public class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound octetstring element.");
 
 		check_substr_arguments(idx, returncount, "octetstring", "octet");
-		if(returncount == 0) {
+		if (returncount == 0) {
 			return new TitanOctetString();
 		} else {
 			return new TitanOctetString(value.get_nibble());
@@ -1117,8 +1118,8 @@ public class AdditionalFunctions {
 	public static TitanUniversalCharString subString(final TitanUniversalCharString value, int idx, int returncount) {
 		value.mustBound("The first argument (value) of function substr() is an unbound universal charstring value.");
 
-		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "universal charstring" , "character" );
-		if(value.charstring){
+		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "universal charstring", "character");
+		if (value.charstring) {
 			return new TitanUniversalCharString(value.cstr.substring(idx, idx + returncount));
 		} else {
 			List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
@@ -1127,10 +1128,11 @@ public class AdditionalFunctions {
 			for (int i = 0; i < returncount; i++) {
 				ret_val.add(src_ptr.get(i + idx));
 			}
+
 			return new TitanUniversalCharString(ret_val);
 		}
 	}
-	
+
 	public static TitanUniversalCharString subString(final TitanUniversalCharString value, int idx, final TitanInteger returncount) {
 		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
 
@@ -1149,18 +1151,18 @@ public class AdditionalFunctions {
 
 		return subString(value, idx.getInt(), returncount.getInt());
 	}
-	
+
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_Element value, int idx, int returncount) {
 		value.mustBound("The first argument (value) of function substr() is an unbound universal charstring element.");
-		
-		check_substr_arguments(idx, returncount, "universal charstring" , "character");
-		if(returncount == 0) {
+
+		check_substr_arguments(idx, returncount, "universal charstring", "character");
+		if (returncount == 0) {
 			return new TitanUniversalCharString();
 		} else {
 			return new TitanUniversalCharString(value.get_char());
 		}
 	}
-	
+
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_Element value, int idx, final TitanInteger returncount) {
 		returncount.mustBound("The third argument (returncount) of function substr() is an unbound integer value.");
 
