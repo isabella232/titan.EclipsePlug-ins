@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -14,6 +15,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.values.Macro_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -120,5 +122,48 @@ public final class Log_Statement extends Statement {
 		source.append( "System.out.println(" );
 		logArguments.generateCode( aData, source );
 		source.append( ");\n" );
+
+		//this is a preliminary support to be enabled once runtime support is present
+		if (logArguments != null) {
+			aData.addCommonLibraryImport("TtcnLogger");
+
+			boolean bufferedMode = true;
+			if (logArguments.getNofLogArguments() == 1) {
+				LogArgument firstArgument = logArguments.getLogArgumentByIndex(0);
+				switch (firstArgument.getRealArgument().getArgumentType()) {
+				case String:
+					// the argument is a simple string: use non-buffered mode
+					//FIXME Code::translate_string is missing for now
+					source.append(MessageFormat.format("/*TtcnLogger.log_str(Severity.TTCN_USER, \"{0}\");\n*/", ((String_InternalLogArgument) firstArgument.getRealArgument()).getString()));
+					bufferedMode = false;
+					break;
+				case Macro: {
+					Macro_Value value = ((Macro_InternalLogArgument) firstArgument.getRealArgument()).getMacro();
+					if (value.canGenerateSingleExpression()) {
+						// the argument is a simple macro call: use non-buffered mode
+						source.append(MessageFormat.format("/*TtcnLogger.log_str(Severity.TTCN_USER, \"{0}\");\n*/", value.generateSingleExpression(aData)));
+						bufferedMode = false;
+					}
+					break;
+				}
+				default:
+					break;
+				}
+			}
+
+			if (bufferedMode) {
+				// the argument is a complicated construct: use buffered mode
+				source.append("/*try {\n");
+				source.append("TtcnLogger.begin_event(Severity.TTCN_USER);\n");
+				logArguments.generateCodeLog(aData, source);
+				source.append("TtcnLogger.end_event();\n");
+				source.append("} catch (Exception exception) {\n");
+				source.append("TtcnLogger.finish_event();\n");
+				source.append("throw exception;\n");
+				source.append("}\n*/");
+			}
+		} else {
+			source.append("/*TTCN_Logger.log_str(Severity.TTCN_USER,\"<empty log statement>\");\n*/");
+		}
 	}
 }

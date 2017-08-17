@@ -169,6 +169,17 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		source.append( "//TODO this is only temporal implementation!\n" );
 	}
 
+	public void generateCodeLog( final JavaGenData aData, final StringBuilder source ) {
+		if ( arguments == null ) {
+			return;
+		}
+
+		//This will be the final implementation
+		for ( int i = 0; i < arguments.size(); i++ ) {
+			arguments.get(i).generateCodeLog(aData, source);
+		}
+	}
+
 	/**
 	 * Generates the equivalent Java code for the log argument into an expression
 	 *

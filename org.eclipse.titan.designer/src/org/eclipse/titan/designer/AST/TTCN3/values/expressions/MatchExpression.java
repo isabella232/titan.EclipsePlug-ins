@@ -285,4 +285,13 @@ public final class MatchExpression extends Expression_Value {
 		//TODO handle omit in value list
 		expression.expression.append( " )" );
 	}
+
+	public void generateCodeLogMatch(final JavaGenData aData, final ExpressionStruct expression) {
+		//FIXME handle the needs template ref case
+		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+		expression.expression.append( ".log_match( " );
+		value.generateCodeExpression(aData, expression);
+		//TODO handle omit in value list
+		expression.expression.append( ", false )" );
+	}
 }

@@ -24,6 +24,10 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 		this.argument = argument;
 	}
 
+	public String getString() {
+		return argument;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
@@ -36,6 +40,26 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 		//FIXME somewhat more complicated
 		if (argument != null) {
 			expression.expression.append(MessageFormat.format("\"{0}\"", argument));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeLog( final JavaGenData aData, final ExpressionStruct expression ) {
+		//FIXME somewhat more complicated
+		if (argument != null) {
+			//TODO this will be the final generated code
+			if (argument.length() == 0) {
+				// the string is empty: do not generate any code
+				return;
+			} else if (argument.length() == 1) {
+				// the string has one character: use log_char member
+				//FIXME needs to use Code::translate_character
+				expression.expression.append(MessageFormat.format("TtcnLogger.log_char('{0}')", argument.charAt(0)));
+			} else {
+				//FIXME needs to use Code::translate_string
+				expression.expression.append(MessageFormat.format("TtcnLogger.log_char(\"{0}\")", argument));
+			}
 		}
 	}
 }

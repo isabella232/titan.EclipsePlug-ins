@@ -48,4 +48,11 @@ public abstract class InternalLogArgument {
 	 * @param expression the expression code generated
 	 */
 	public abstract void generateCode( final JavaGenData aData, final ExpressionStruct expression );
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression code generated
+	 */
+	public abstract void generateCodeLog( final JavaGenData aData, final ExpressionStruct expression );
 }

@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.TTCN3.values.Macro_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -44,6 +46,21 @@ public final class Macro_InternalLogArgument extends InternalLogArgument {
 		//FIXME somewhat more complicated
 		if (value != null) {
 			value.generateCodeExpression(aData, expression);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeLog( final JavaGenData aData, final ExpressionStruct expression ) {
+		//FIXME somewhat more complicated
+		if (value != null) {
+			//TODO this will be the final code generator
+			if (value.canGenerateSingleExpression()) {
+				expression.expression.append(MessageFormat.format("TtcnLogger.log_event_Str({0})", value.generateSingleExpression(aData)));
+			} else {
+				value.generateCodeExpression(aData, expression);
+				expression.expression.append(".log()");
+			}
 		}
 	}
 }
