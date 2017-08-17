@@ -144,7 +144,7 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 		}
 
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		result.append( "template_sel.ANY_OR_OMIT" );
+		result.append(MessageFormat.format("new {0}(template_sel.ANY_OR_OMIT)", myGovernor.getGenNameTemplate(aData, result, myScope)));
 
 		//TODO handle cast needed
 
