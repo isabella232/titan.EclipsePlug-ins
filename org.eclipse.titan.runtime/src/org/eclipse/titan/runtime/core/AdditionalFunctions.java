@@ -96,12 +96,12 @@ public final class AdditionalFunctions {
 			int tempValue = value.getInt();
 			ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
 			for (int i = 0; i < (length + 7) / 8; i++) {
-				bits_ptr.add(new Byte((byte)0));
+				bits_ptr.add(Byte.valueOf((byte)0));
 			}
 			for (int i = length - 1; tempValue != 0 && i >= 0; i--) {
 				if((tempValue & 1) > 0) {
 					int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
-					bits_ptr.set(i / 8, new Byte((byte) temp));
+					bits_ptr.set(i / 8, Byte.valueOf((byte) temp));
 				}
 				tempValue = tempValue >> 1;
 			}
@@ -119,12 +119,12 @@ public final class AdditionalFunctions {
 			BigInteger tempValue = value.getBigInteger();
 			ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
 			for (int i = 0; i < (length + 7) / 8; i++) {
-				bits_ptr.add(new Byte((byte)0));
+				bits_ptr.add(Byte.valueOf((byte)0));
 			}
 			for (int i = length - 1; tempValue.compareTo(BigInteger.ZERO) == 1 && i >= 0; i--) {
 				if((tempValue.and(BigInteger.ONE)).compareTo(BigInteger.ZERO) == 1) {
 					int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
-					bits_ptr.set(i / 8, new Byte((byte) temp));
+					bits_ptr.set(i / 8, Byte.valueOf((byte) temp));
 				}
 				tempValue = tempValue.shiftRight(1);
 			}
