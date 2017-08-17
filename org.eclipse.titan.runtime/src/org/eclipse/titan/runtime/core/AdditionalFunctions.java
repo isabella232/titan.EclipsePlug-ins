@@ -542,9 +542,9 @@ public final class AdditionalFunctions {
 
 		for (int i = 0; i < n_bits; i++) {
 			if (value.getBit(i)) {
-				ret_val.append("1");
+				ret_val.append('1');
 			} else {
-				ret_val.append("0");
+				ret_val.append('0');
 			}
 		}
 
