@@ -724,15 +724,15 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateSetType(final StringBuilder source, final String genName, final String displayName) {
-		source.append("public void setType(template_sel template_type, int list_length) {");
-		source.append("if (template_type != template_sel.VALUE_LIST || template_type != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append("public void setType(template_sel template_type, int list_length) {\n");
+		source.append("if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 
 		source.append("cleanUp();\n");
 		source.append("setSelection(template_type);\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>();\n", genName));
-		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
+		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(list_length);\n", genName));
+		source.append("for(int i = 0 ; i < list_length; i++) {\n");
 		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", genName));
 		source.append("}\n");
 		source.append("}\n\n");
