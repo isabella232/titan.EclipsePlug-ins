@@ -10,7 +10,7 @@ import java.util.LinkedList;
  * 
  * @author Kristof Szabados
  */
-public class TitanTimer {
+public final class TitanTimer {
 	public static final TitanTimer testcaseTimer = new TitanTimer("<testcase guard timer>");
 
 	// linked list of running timers
@@ -75,7 +75,7 @@ public class TitanTimer {
 	}
 
 	// originally set_default_duration
-	public void setDefaultDuration(final double defaultValue) {
+	public final void setDefaultDuration(final double defaultValue) {
 		if (defaultValue < 0.0) {
 			throw new TtcnError(MessageFormat.format("Setting the default duration of timer {0} to a negative float value ({1}).",
 					timerName, defaultValue));
@@ -90,7 +90,7 @@ public class TitanTimer {
 	}
 
 	// originally set_default_duration
-	public void setDefaultDuration(final TitanFloat defaultValue) {
+	public final void setDefaultDuration(final TitanFloat defaultValue) {
 		defaultValue.mustBound(MessageFormat.format("Setting the default duration of timer {0} to an unbound float value.", timerName));
 
 		setDefaultDuration(defaultValue.getValue());
