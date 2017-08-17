@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
@@ -659,7 +660,27 @@ public final class Referenced_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
-		reference.generateConstRef(aData, expression);
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				expression.expression.append(getSingleExpression(aData, true));
+				return;
+			}
+			//TODO handle the needs conversion case
+			reference.generateConstRef(aData, expression);
+			return;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", myGovernor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+
+		generateCodeInit(aData, expression.preamble, tempId);
+
+		if (templateRestriction != Restriction_type.TR_NONE) {
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+		}
+
+		expression.expression.append(tempId);
 	}
 
 	@Override

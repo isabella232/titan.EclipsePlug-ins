@@ -620,13 +620,35 @@ public final class SpecificValue_Template extends TTCN3Template {
 		}
 		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
 
-		expression.expression.append(MessageFormat.format("new {0}(", genName) );
+		
 		if (realTemplate != null && realTemplate != this) {
 			realTemplate.generateCodeExpression(aData, expression, templateRestriction);
-		} else {
-			specificValue.generateCodeExpression( aData, expression );
+			return;
 		}
-		expression.expression.append(')');
+
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				expression.expression.append(getSingleExpression(aData, true));
+				return;
+			}
+
+			expression.expression.append(MessageFormat.format("new {0}(", genName) );
+			specificValue.generateCodeExpression( aData, expression );
+			expression.expression.append(')');
+			return;
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", myGovernor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+
+		generateCodeInit(aData, expression.preamble, tempId);
+
+		if (templateRestriction != Restriction_type.TR_NONE) {
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+		}
+
+		expression.expression.append(tempId);
 	}
 
 	@Override

@@ -15,8 +15,6 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
-import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
-import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -152,24 +150,5 @@ public final class Any_Value_Template extends TTCN3Template {
 			source.append(name);
 			source.append(".set_ifPresent();\n");
 		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
-		if (lengthRestriction == null && !isIfpresent && lengthRestriction == null) {
-			//The single expression must be tried first because this rule might cover some referenced templates.
-			if (hasSingleExpression()) {
-				expression.expression.append(getSingleExpression(aData, true));
-				return;
-			}
-		}
-
-		String tempId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("{0} {1};\n", myGovernor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
-
-		generateCodeInit(aData, expression.preamble, tempId);
-		//FIXME generate code for restriction check
-		expression.expression.append(tempId);
 	}
 }

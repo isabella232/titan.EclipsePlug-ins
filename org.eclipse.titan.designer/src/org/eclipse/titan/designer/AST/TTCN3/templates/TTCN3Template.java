@@ -43,6 +43,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
@@ -1211,16 +1212,30 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	//TODO: remove
 	/**
 	 * Add generated java code on this level.
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression for code generated
 	 * @param templateRestriction the template restriction to check in runtime
 	 */
 	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
-		//default implementation
-		expression.expression.append( "\t" );
-		expression.expression.append( "//TODO: " );
-		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				expression.expression.append(getSingleExpression(aData, true));
+				return;
+			}
+		}
+
+		String tempId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", myGovernor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+
+		generateCodeInit(aData, expression.preamble, tempId);
+
+		if (templateRestriction != Restriction_type.TR_NONE) {
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+		}
+
+		expression.expression.append(tempId);
 	}
 
 	/**
