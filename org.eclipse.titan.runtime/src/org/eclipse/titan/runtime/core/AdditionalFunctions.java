@@ -1277,12 +1277,12 @@ public final class AdditionalFunctions {
 
 		return subString(value.valueOf(), idx, returncount);
 	}
-
+	
 	public static TitanCharString subString(final TitanCharString_template value, final int idx, final int returncount) {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1290,7 +1290,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1298,7 +1298,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1306,15 +1306,15 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
-
+	
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final int returncount) {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1322,7 +1322,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1330,7 +1330,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1338,7 +1338,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-
+		
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1360,7 +1360,7 @@ public final class AdditionalFunctions {
 		}
 		if(idx + len > value_length) {
 			throw new TtcnError(MessageFormat.format("The first argument of function replace(), the length of which is {0}, does not have enough {1}s starting at index {2}: {3} {4}{5} needed, but there {6} only {7}.",
-					value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
+				    value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
 		}
 	}
 
@@ -1376,7 +1376,7 @@ public final class AdditionalFunctions {
 		StringBuilder temp_sb = new StringBuilder();
 		for (int i = 0; i < value_len; i++) {
 			temp_sb.append('0');
-		}		
+		}
 		TitanBitString ret_val = new TitanBitString(temp_sb.toString());
 
 		for (int i = 0; i < idx; i++) {
@@ -1388,7 +1388,6 @@ public final class AdditionalFunctions {
 		for (int i = 0; i < value_len - idx - len; i++) {
 			ret_val.setBit(i + idx + repl_len, value.getBit(idx + len + i));
 		}
-
 		return ret_val;
 	}
 
@@ -1423,7 +1422,7 @@ public final class AdditionalFunctions {
 		List<Byte> ret_val = new ArrayList<Byte>(value_len + repl_len - len);
 
 		for (int i = 0; i < idx; i++) {
-			ret_val.add(i,value.get_nibble(i));
+			ret_val.add(i, value.get_nibble(i));
 		}
 		for (int i = 0; i < repl_len; i++) {
 			ret_val.add(idx + i, repl.get_nibble(i));
@@ -1466,7 +1465,7 @@ public final class AdditionalFunctions {
 		List<Character> ret_val = new ArrayList<Character>(value_len + repl_len - len);
 
 		for (int i = 0; i < idx; i++) {
-			ret_val.add(i,value.get_nibble(i));
+			ret_val.add(i, value.get_nibble(i));
 		}
 		for (int i = 0; i < repl_len; i++) {
 			ret_val.add(idx + i, repl.get_nibble(i));
@@ -1542,8 +1541,8 @@ public final class AdditionalFunctions {
 
 		int repl_len = repl.lengthOf().getInt();
 
-		if(value.charstring) {
-			if(repl.charstring) {
+		if (value.charstring) {
+			if (repl.charstring) {
 				StringBuilder ret_val = new StringBuilder();
 				ret_val.append(value.cstr.toString());
 				ret_val.replace(idx, idx + len, repl.cstr.toString());
@@ -1551,24 +1550,25 @@ public final class AdditionalFunctions {
 			} else {
 				List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < idx; i++) {
-					ret_val.add(i,new TitanUniversalChar((char)0, (char)0, (char)0, value.cstr.charAt(i)));
+					ret_val.add(i, new TitanUniversalChar((char) 0, (char) 0, (char) 0, value.cstr.charAt(i)));
 				}
 				for (int i = 0; i < repl_len; i++) {
 					ret_val.add(idx + i, repl.val_ptr.get(i));
 				}
 				for (int i = 0; i < value_len - idx - len; i++) {
-					ret_val.add(idx + i + repl_len, new TitanUniversalChar((char)0, (char)0, (char)0, value.cstr.charAt((idx + i + len))));
+					ret_val.add(idx + i + repl_len,
+							new TitanUniversalChar((char) 0, (char) 0, (char) 0, value.cstr.charAt((idx + i + len))));
 				}
 				return new TitanUniversalCharString(ret_val);
 			}
 		} else {
-			if(repl.charstring) {
+			if (repl.charstring) {
 				List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(idx + i, value.val_ptr.get(i));
 				}
 				for (int i = 0; i < repl_len; i++) {
-					ret_val.add(i,new TitanUniversalChar((char)0, (char)0, (char)0, repl.cstr.charAt(i)));
+					ret_val.add(i, new TitanUniversalChar((char) 0, (char) 0, (char) 0, repl.cstr.charAt(i)));
 				}
 				for (int i = 0; i < value_len - idx - len; i++) {
 					ret_val.add(idx + i + repl_len, value.val_ptr.get(idx + i + len));
@@ -1577,7 +1577,7 @@ public final class AdditionalFunctions {
 			} else {
 				List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < idx; i++) {
-					ret_val.add(i,value.val_ptr.get(i));
+					ret_val.add(i, value.val_ptr.get(i));
 				}
 				for (int i = 0; i < repl_len; i++) {
 					ret_val.add(idx + i, repl.val_ptr.get(i));
@@ -1587,7 +1587,7 @@ public final class AdditionalFunctions {
 				}
 				return new TitanUniversalCharString(ret_val);
 			}
-		}	
+		}
 	}
 
 	public static TitanUniversalCharString replace(final TitanUniversalCharString value, final int idx, final TitanInteger len, final TitanUniversalCharString repl) {
@@ -1608,226 +1608,227 @@ public final class AdditionalFunctions {
 
 		return replace(value, idx.getInt(), len.getInt(), repl);
 	}
-	
+
 	// replace on templates
-	
+
 	public static TitanBitString replace(final TitanBitString_template value, final int idx, final int len, final TitanBitString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanBitString replace(final TitanBitString_template value, final int idx, final TitanInteger len, final TitanBitString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanBitString replace(final TitanBitString_template value, final TitanInteger idx, final int len, final TitanBitString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanBitString replace(final TitanBitString_template value, final TitanInteger idx, final TitanInteger len, final TitanBitString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanHexString replace(final TitanHexString_template value, final int idx, final int len, final TitanHexString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanHexString replace(final TitanHexString_template value, final int idx, final TitanInteger len, final TitanHexString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanHexString replace(final TitanHexString_template value, final TitanInteger idx, final int len, final TitanHexString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
-	public static TitanHexString replace(final TitanHexString_template value, final TitanInteger idx, final TitanInteger len, final TitanHexString_template repl) {
-		if(!value.isValue().getValue()) {
+
+	public static TitanHexString replace(final TitanHexString_template value, final TitanInteger idx, final TitanInteger len,
+			final TitanHexString_template repl) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanOctetString replace(final TitanOctetString_template value, final int idx, final int len, final TitanOctetString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanOctetString replace(final TitanOctetString_template value, final int idx, final TitanInteger len, final TitanOctetString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanOctetString replace(final TitanOctetString_template value, final TitanInteger idx, final int len, final TitanOctetString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanOctetString replace(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger len, final TitanOctetString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanCharString replace(final TitanCharString_template value, final int idx, final int len, final TitanCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanCharString replace(final TitanCharString_template value, final int idx, final TitanInteger len, final TitanCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanCharString replace(final TitanCharString_template value, final TitanInteger idx, final int len, final TitanCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanCharString replace(final TitanCharString_template value, final TitanInteger idx, final TitanInteger len, final TitanCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final int idx, final int len, final TitanUniversalCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final int idx, final TitanInteger len, final TitanUniversalCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final TitanInteger idx, final int len, final TitanUniversalCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	public static TitanUniversalCharString replace(final TitanUniversalCharString_template value, final TitanInteger idx, final TitanInteger len, final TitanUniversalCharString_template repl) {
-		if(!value.isValue().getValue()) {
+		if (!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 		}
-		if(!repl.isValue().getValue()) {
+		if (!repl.isValue().getValue()) {
 			throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 		}
-		
+
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
 }
