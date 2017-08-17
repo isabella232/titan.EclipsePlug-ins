@@ -254,11 +254,20 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueIntToEnum(final StringBuilder source) {
+		//arg: int
 		source.append("public void int2enum(int intValue) {\n");
 		source.append("if (!isValidEnum(intValue)) {\n");
 		source.append("throw new TtcnError(\"Assigning invalid numeric value \"+intValue+\" to a variable of enumerated type {}.\");\n");
 		source.append("	}\n");
 		source.append("enum_value = enum_type.getValue(intValue);\n");
+		source.append("}\n\n");
+		
+		//arg: TitanInteger
+		source.append("public void int2enum(TitanInteger intValue) {\n");
+		source.append("if (!isValidEnum(intValue.getInt())) {\n");
+		source.append("throw new TtcnError(\"Assigning invalid numeric value \"+intValue.getInt()+\" to a variable of enumerated type {}.\");\n");
+		source.append("	}\n");
+		source.append("enum_value = enum_type.getValue(intValue.getInt());\n");
 		source.append("}\n\n");
 	}
 
