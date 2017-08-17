@@ -1181,4 +1181,233 @@ public final class AdditionalFunctions {
 
 		return subString(value, idx.getInt(), returncount.getInt());
 	}
+
+	//subString() on templates
+	public static TitanBitString subString(final TitanBitString_template value, final int idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanBitString subString(final TitanBitString_template value, final int idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanHexString subString(final TitanHexString_template value, final int idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanHexString subString(final TitanHexString_template value, final int idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanHexString subString(final TitanHexString_template value, final TitanInteger idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanHexString subString(final TitanHexString_template value, final TitanInteger idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+	
+	public static TitanCharString subString(final TitanCharString_template value, final int idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanCharString subString(final TitanCharString_template value, final int idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanCharString subString(final TitanCharString_template value, final TitanInteger idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanCharString subString(final TitanCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+	
+	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final TitanInteger idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+	
+	// C.35 - replace
+	
+	public static void check_replace_arguments(final int value_length, final int idx, final int len, final String string_type, final String element_name) {
+		if(idx < 0) {
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace() is a negative integer value: {0}.", idx));
+		}
+		if(idx > value_length) {
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace(), which is {0}, is greater than the length of the {1} value: {2}.",  
+					idx, string_type, value_length));
+		}
+		if(len < 0) {
+			throw new TtcnError(MessageFormat.format("The third argument (len) of function replace() is a negative integer value: {0}." , len));
+		}
+		if(len > value_length) {
+			throw new TtcnError(MessageFormat.format("The third argument (len) of function replace(), which is {0}, is greater than the length of the {1} value: {2}.", len, string_type, value_length));
+		}
+		if(idx + len > value_length) {
+			throw new TtcnError(MessageFormat.format("The first argument of function replace(), the length of which is {0}, does not have enough {1}s starting at index {2}: {3} {4}{5} needed, but there {6} only {7}.",
+				    value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
+		}
+	}
+	
+	public static TitanBitString replace(final TitanBitString value, final int idx, final int len, final TitanBitString repl) {
+		value.mustBound("The first argument (value) of function replace() is an unbound bitstring value.");
+		repl.mustBound("The fourth argument (repl) of function replace() is an unbound bitstring value.");
+		
+		int value_len = value.lengthOf().getInt();
+		
+		check_replace_arguments(value_len, idx, len, "bitstring", "bit");
+		
+		int repl_len = repl.lengthOf().getInt();
+		StringBuilder temp_sb = new StringBuilder();
+		for (int i = 0; i < value_len; i++) {
+			temp_sb.append('0');
+		}		
+		TitanBitString ret_val = new TitanBitString(temp_sb.toString());
+
+		for (int i = 0; i < idx; i++) {
+			ret_val.setBit(i, value.getBit(i));
+		}
+		for (int i = 0; i < repl_len; i++) {
+			ret_val.setBit(i + idx, repl.getBit(i));
+		}
+		for (int i = 0; i < value_len - idx - len; i++) {
+			ret_val.setBit(i + idx + repl_len, value.getBit(idx + len + i));
+		}
+		return ret_val;
+	}
+	
+	public static TitanBitString replace(final TitanBitString value, final int idx, final TitanInteger len, final TitanBitString repl) {
+		len.mustBound("The third argument (len) of function replace() is an unbound integer value.");
+		
+		return replace(value, idx, len.getInt(), repl);
+	}
+	
+	public static TitanBitString replace(final TitanBitString value, final TitanInteger idx, final int len, final TitanBitString repl) {
+		idx.mustBound("The second argument (index) of function replace() is an unbound integer value.");
+		
+		return replace(value, idx.getInt(), len, repl);
+	}
+	
+	public static TitanBitString replace(final TitanBitString value, final TitanInteger idx, final TitanInteger len, final TitanBitString repl) {
+		idx.mustBound("The second argument (index) of function replace() is an unbound integer value.");
+		len.mustBound("The third argument (len) of function replace() is an unbound integer value.");
+		
+		return replace(value, idx.getInt(), len.getInt(), repl);
+	}
 }
