@@ -1187,7 +1187,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1195,7 +1195,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1203,7 +1203,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1211,15 +1211,15 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
-	
+
 	public static TitanHexString subString(final TitanHexString_template value, final int idx, final int returncount) {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1227,7 +1227,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1235,7 +1235,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1243,7 +1243,39 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 }
