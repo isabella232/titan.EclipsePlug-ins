@@ -929,4 +929,18 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		return getGenNameOwn();
 	}
+
+	@Override
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		if (!inTypeDefinition) {
+			return;
+		}
+
+		final String ownName = getGenNameOwn();
+		final String valueName = dimension.getValueType(aData, source, elementType, myScope);
+		final String templateName = dimension.getTemplateType(aData, source, elementType, myScope);
+
+		source.append(MessageFormat.format("public static class {0} extends {1} '{' '}'\n", ownName, valueName));
+		source.append(MessageFormat.format("public static class {0}_template extends {1} '{' '}'\n", ownName, templateName));
+	}
 }
