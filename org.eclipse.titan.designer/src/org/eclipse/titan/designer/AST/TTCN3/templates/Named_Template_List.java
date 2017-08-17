@@ -593,8 +593,8 @@ public final class Named_Template_List extends TTCN3Template {
 			//FIXME handle needs_temp_ref case
 
 			String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
-
-			if (needsTemporaryReference()) {
+			TTCN3Template template = namedTemplate.getTemplate();
+			if (template.needsTemporaryReference()) {
 				Type fieldType;
 				switch(type.getTypetype()) {
 				case TYPE_SIGNATURE:
@@ -629,11 +629,11 @@ public final class Named_Template_List extends TTCN3Template {
 				String tempId = aData.getTemporaryVariableName();
 				source.append("{\n");
 				source.append(MessageFormat.format("{0} {1} = {2}.get{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
-				namedTemplate.getTemplate().generateCodeInit(aData, source, tempId);
+				template.generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {
 				String embeddedName = MessageFormat.format("{0}.get{1}()", name, generatedFieldName); 
-				namedTemplate.getTemplate().generateCodeInit(aData, source, embeddedName);
+				template.generateCodeInit(aData, source, embeddedName);
 			}
 		}
 
