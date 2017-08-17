@@ -24,7 +24,7 @@ import java.util.List;
  * 
  * FIXME implement rest
  */
-public class AdditionalFunctions {
+public final class AdditionalFunctions {
 
 	private AdditionalFunctions() {
 		//intentionally private to disable instantiation
