@@ -1181,4 +1181,37 @@ public final class AdditionalFunctions {
 
 		return subString(value, idx.getInt(), returncount.getInt());
 	}
+
+	//subString() on templates
+	public static TitanBitString subString(final TitanBitString_template value, final int idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanBitString subString(final TitanBitString_template value, final int idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final int returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
+
+	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final TitanInteger returncount) {
+		if(!value.isValue().getValue()) {
+			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
+		}
+		
+		return subString(value.valueOf(), idx, returncount);
+	}
 }
