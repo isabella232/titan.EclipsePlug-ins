@@ -88,7 +88,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		//TODO implement string pattern 
 	}
 
-	public TitanUniversalCharString_template(final template_sel selValue, final TitanCharString otherValue, boolean nocase) {
+	public TitanUniversalCharString_template(final template_sel selValue, final TitanCharString otherValue, final boolean nocase) {
 		if (selValue != template_sel.STRING_PATTERN) {
 			throw new TtcnError("Internal error: Initializing a universal charstring pattern template with invalid selection.");
 		}
@@ -272,7 +272,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	// originally operator[](int index_value)
-	public TitanUniversalCharString_Element getAt(int index) {
+	public TitanUniversalCharString_Element getAt(final int index) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a universal charstring element of a non-specific universal charstring template.");
 		}
@@ -281,13 +281,13 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	// originally operator[](const INTEGER& index_value)
-	public TitanUniversalCharString_Element getAt(TitanInteger index) {
+	public TitanUniversalCharString_Element getAt(final TitanInteger index) {
 		index.mustBound("Indexing a universal charstring template with an unbound integer value.");
 
 		return getAt(index.getInt());
 	}
 
-	public TitanUniversalCharString_Element constGetAt(int index) {
+	public TitanUniversalCharString_Element constGetAt(final int index) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a universal charstring element of a non-specific universal charstring template.");
 		}
@@ -296,7 +296,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	// originally operator[](const INTEGER& index_value)
-	public TitanUniversalCharString_Element constGetAt(TitanInteger index) {
+	public TitanUniversalCharString_Element constGetAt(final TitanInteger index) {
 		index.mustBound("Indexing a universal charstring template with an unbound integer value.");
 
 		return constGetAt(index.getInt());
@@ -418,11 +418,11 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return single_value;
 	}
 
-	public void setType(template_sel otherValue){
+	public void setType(final template_sel otherValue){
 		setType(otherValue, 0);
 	}
 
-	public void setType(template_sel otherValue, int lenght) {
+	public void setType(final template_sel otherValue, final int lenght) {
 		cleanUp();
 		switch (otherValue) {
 		case VALUE_LIST:

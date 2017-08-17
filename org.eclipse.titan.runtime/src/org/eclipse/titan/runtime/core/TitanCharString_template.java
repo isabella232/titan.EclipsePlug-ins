@@ -154,7 +154,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	// FIXME: constGetAt
 
 	// originally operator[](int index_value)
-	public TitanCharString_Element getAt(int index) {
+	public TitanCharString_Element getAt(final int index) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a charstring element of a non-specific charstring template.");
 		}
