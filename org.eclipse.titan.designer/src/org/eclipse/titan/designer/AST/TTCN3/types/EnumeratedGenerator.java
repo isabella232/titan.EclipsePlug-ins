@@ -69,7 +69,7 @@ public class EnumeratedGenerator {
 	}
 
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
-		aData.addImport("org.eclipse.titan.runtime.core.TitanInteger");		
+		aData.addBuiltinTypeImport("TitanInteger");
 		//		if(needsAlias()) { ???
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{' \n", e_defs.name));
 		//== enum_type ==
@@ -187,7 +187,7 @@ public class EnumeratedGenerator {
 		source.append("return enum_value.name() + \"(\"+enum_value.enum_num+\")\";\n");
 		source.append("}\n\n");
 	}
-	
+
 	private static void generateValueEnumGetValue(final StringBuilder source, final StringBuilder helper) {
 		source.append("public static enum_type getValue(int index) {\n");
 		source.append("switch (index) {\n");
@@ -269,7 +269,7 @@ public class EnumeratedGenerator {
 		source.append("	}\n");
 		source.append("enum_value = enum_type.getValue(intValue);\n");
 		source.append("}\n\n");
-		
+
 		//arg: TitanInteger
 		source.append("public void int2enum(TitanInteger intValue) {\n");
 		source.append("if (!isValidEnum(intValue.getInt())) {\n");
