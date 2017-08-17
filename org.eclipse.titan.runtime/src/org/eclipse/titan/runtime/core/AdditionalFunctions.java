@@ -461,7 +461,7 @@ public final class AdditionalFunctions {
 
 		// reverse the order
 		for (int i = n_bits - 1; i >= 0; i--) {
-			sb.append(value.getBit(i) ? "1" : "0");
+			sb.append(value.getBit(i) ? '1' : '0');
 		}
 
 		TitanBitString temp_val = new TitanBitString(sb.toString());
@@ -497,7 +497,7 @@ public final class AdditionalFunctions {
 
 		// reverse the order
 		for (int i = n_bits - 1; i >= 0; i--) {
-			sb.append(value.getBit(i) ? "1" : "0");
+			sb.append(value.getBit(i) ? '1' : '0');
 		}
 
 		if ((n_nibbles & 1) == 1) {
@@ -870,7 +870,7 @@ public final class AdditionalFunctions {
 		if (idx % 8 != 0) {
 			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < returncount; i++) {
-				sb.append(value.getBit(idx + i) ? "1" : "0");
+				sb.append(value.getBit(idx + i) ? '1' : '0');
 			}
 			TitanBitString ret_val = new TitanBitString(sb.toString());
 			return ret_val;
