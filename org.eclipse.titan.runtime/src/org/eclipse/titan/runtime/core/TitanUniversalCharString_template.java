@@ -502,6 +502,46 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("The upper bound in a universal charstring value range template is smaller than the lower bound.");
 		}
 	}
+	
+	public void setMin(final TitanCharString minValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
+		}
+
+		minValue.mustBound("Setting an unbound value as lower bound in a universal charstring value range template.");
+		final int length = minValue.lengthOf().getInt();
+		if (length != 1) {
+			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of " + length);
+		}
+
+		min_is_set = true;
+		min_is_exclusive = false;
+		min_value = new TitanUniversalChar( (char) 0, (char) 0, (char) 0, minValue.getAt(0).get_char());
+
+		if (max_is_set && max_value.lessThan(min_value).getValue()) {
+			throw new TtcnError("The lower bound in a universal charstring value range template is greater than the upper bound.");
+		}
+	}
+
+	public void setMax(final TitanCharString maxValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Setting the upper bound for a non-range universal charstring template.");
+		}
+
+		maxValue.mustBound("Setting an unbound value as upper bound in a universal charstring value range template.");
+		final int length = maxValue.lengthOf().getInt();
+		if (length != 1) {
+			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of " + length);
+		}
+
+		max_is_set = true;
+		max_is_exclusive = false;
+		max_value = new TitanUniversalChar( (char) 0, (char) 0, (char) 0, maxValue.getAt(0).get_char());
+
+		if (min_is_set && max_value.lessThan(min_value).getValue()) {
+			throw new TtcnError("The upper bound in a universal charstring value range template is smaller than the lower bound.");
+		}
+	}
 
 	public void setMinExclusive(final boolean minExclusive) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
