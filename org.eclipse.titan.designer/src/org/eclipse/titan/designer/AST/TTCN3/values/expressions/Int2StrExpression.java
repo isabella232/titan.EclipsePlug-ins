@@ -231,6 +231,6 @@ public final class Int2StrExpression extends Expression_Value {
 
 		expression.expression.append("AdditionalFunctions.int2str(");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(')');
+		expression.expression.append(" )");
 	}
 }
