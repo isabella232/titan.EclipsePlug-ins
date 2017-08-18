@@ -871,8 +871,9 @@ public class RecordSetCodeGenerator {
 		aSb.append("\t\t\tcleanUp();\n");
 		aSb.append("\t\t\tsetSelection(template_type);\n");
 		aSb.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(list_length);\n", genName ) );
-		//TODO: fill list with list_length number of empty values
-		aSb.append("\t\t\t//TODO: fill list with list_length number of empty values\n");
+		aSb.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
+        aSb.append(MessageFormat.format("\t\t\t\tlist_value.add(new {0}_template());\n", genName));
+        aSb.append("\t\t\t}\n");
 		aSb.append("\t\t}\n");
 	}
 
