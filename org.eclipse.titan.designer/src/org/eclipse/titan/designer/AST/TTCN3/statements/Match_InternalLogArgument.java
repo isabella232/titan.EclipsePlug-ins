@@ -41,7 +41,11 @@ public final class Match_InternalLogArgument extends InternalLogArgument {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
-		matchExpression.generateCodeLogMatch(aData, expression);
+		//default implementation
+		expression.expression.append( "\t\t" );
+		expression.expression.append( "//TODO: " );
+		expression.expression.append( getClass().getSimpleName() );
+		expression.expression.append( ".generateCode() is not implemented!\n" );
 	}
 
 	@Override
