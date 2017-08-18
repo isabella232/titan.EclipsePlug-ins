@@ -269,7 +269,7 @@ public final class Unichar2IntExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
-		expression.expression.append("AdditionalFunctions.unichar2int(");
+		expression.expression.append("AdditionalFunctions.unichar2int( ");
 		value.generateCodeExpressionMandatory(aData, expression);
 		expression.expression.append(" )");
 	}

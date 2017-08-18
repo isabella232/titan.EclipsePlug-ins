@@ -2279,14 +2279,53 @@ public final class AdditionalFunctions {
 
 		return new TitanHexString(hexdigit);
 	}
-	
+
 	// float2str
 	public static TitanCharString float2str(final TitanFloat value) {
 		value.mustBound("The argument of function float2str() is an unbound float value.");
-		
+
 		return new TitanCharString(value.toString());
 	}
-	
+
+	// unichar2char
+	public static TitanCharString unichar2char(final TitanUniversalCharString value) {
+		value.mustBound("The argument of function unichar2char() is an unbound universal charstring value.");
+
+		int value_length = value.lengthOf().getInt();
+		if(value.charstring) {
+
+			return new TitanCharString(value.cstr);
+		} else {
+			StringBuilder ret_val = new StringBuilder();
+			List<TitanUniversalChar> uchars_ptr = new ArrayList<TitanUniversalChar>();
+			uchars_ptr = value.val_ptr;
+			for (int i = 0; i < value_length; i++) {
+				final TitanUniversalChar uchar = uchars_ptr.get(i);
+				if(uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
+					//TODO: Initial implementation
+					throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. "
+							+ "char(0, 0, 0, 127), but quadruple char({0}, {1}, {2}, {3}) was found at index {4}." , 
+							uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row(),i));
+				}
+				ret_val.append((char)uchar.getUc_cell());
+			}
+
+			return new TitanCharString(ret_val);
+		}
+	}
+
+	public static TitanCharString unichar2char(final TitanUniversalCharString_Element value) {
+		value.mustBound("The argument of function unichar2char() is an unbound universal charstring element.");
+
+		final TitanUniversalChar uchar = value.get_char();
+		if(uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. char(0, 0, 0, 127), " 
+					+ "but the given universal charstring element contains the quadruple char({0}, {1}, {2}, {3})." , uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row()));
+		}
+
+		return new TitanCharString(String.valueOf(uchar.getUc_cell()));
+	}
 
 	//TODO: C.33 - regexp
 	//TODO: C.36 - rnd
