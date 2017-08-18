@@ -840,7 +840,7 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", getName()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound()) {\n");
+		source.append("if (!destination_component.isBound().getValue()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of call operation.\");\n");
 		source.append("}\n\n");
 
@@ -890,7 +890,7 @@ public class PortGenerator {
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", getName()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound()) {\n");
+			source.append("if (!destination_component.isBound().getValue()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of reply operation.\");\n");
 			source.append("}\n\n");
 
@@ -940,7 +940,7 @@ public class PortGenerator {
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", getName()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound()) {\n");
+			source.append("if (!destination_component.isBound().getValue()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
 			source.append("}\n\n");
 
