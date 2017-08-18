@@ -103,8 +103,9 @@ public class PortGenerator {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport( "TitanPort" );
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
-		aData.addBuiltinTypeImport("TitanComponent");
+		aData.addBuiltinTypeImport( "TitanComponent");
 		aData.addBuiltinTypeImport( "Base_Type" );
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
 		}
@@ -467,7 +468,7 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", getName()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound()) {\n");
+		source.append("if (!destination_component.isBound().getValue()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of send operation.\");\n");
 		source.append("}\n");
 		source.append("//FIXME logging\n");
