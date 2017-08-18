@@ -92,6 +92,45 @@ public class TitanComponent_template extends Base_Template {
 		setSelection(otherValue);
 	}
 
+	//originally operator=
+	public TitanComponent_template assign( final template_sel otherValue ) {
+		checkSingleSelection(otherValue);
+		cleanUp();
+		setSelection(otherValue);
+
+		return this;
+	}
+
+	//originally operator=
+	public TitanComponent_template assign( final int otherValue ) {
+		cleanUp();
+		setSelection(template_sel.SPECIFIC_VALUE);
+		single_value = otherValue;
+
+		return this;
+	}
+
+	//originally operator=
+	public TitanComponent_template assign( final TitanComponent otherValue ) {
+		otherValue.mustBound("Assignment of an unbound component reference to a template.");
+
+		cleanUp();
+		setSelection(template_sel.SPECIFIC_VALUE);
+		single_value = otherValue.componentValue;
+
+		return this;
+	}
+
+	//originally operator=
+	public TitanComponent_template assign( final TitanComponent_template otherValue ) {
+		if (otherValue != this) {
+			cleanUp();
+			copyTemplate(otherValue);
+		}
+
+		return this;
+	}
+
 	// originally match
 	public TitanBoolean match(final TitanComponent otherValue) {
 		return match(otherValue, false);
@@ -127,6 +166,14 @@ public class TitanComponent_template extends Base_Template {
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported component reference template.");
 		}
+	}
+
+	public TitanComponent valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific component reference template.");
+		}
+
+		return new TitanComponent(single_value);
 	}
 
 	// originally is_present (with default parameter)
