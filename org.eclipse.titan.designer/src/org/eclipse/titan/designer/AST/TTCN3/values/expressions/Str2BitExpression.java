@@ -239,6 +239,6 @@ public final class Str2BitExpression extends Expression_Value {
 
 		expression.expression.append("AdditionalFunctions.str2bit(");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(" )");
+		expression.expression.append(')');
 	}
 }

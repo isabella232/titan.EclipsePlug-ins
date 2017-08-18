@@ -261,6 +261,6 @@ public final class Unichar2CharExpression extends Expression_Value {
 
 		expression.expression.append("AdditionalFunctions.unichar2char(");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(" )");
+		expression.expression.append(')');
 	}
 }

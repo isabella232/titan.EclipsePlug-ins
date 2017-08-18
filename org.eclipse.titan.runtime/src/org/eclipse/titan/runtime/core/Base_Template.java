@@ -163,12 +163,11 @@ public abstract class Base_Template {
 	}
 
 	public boolean isOmit() {
-	  return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent;
-	}
-	
-	public boolean is_any_or_omit() {
-	  return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent;
+		return templateSelection == template_sel.OMIT_VALUE && !is_ifPresent;
 	}
 
+	public boolean is_any_or_omit() {
+		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent;
+	}
 
 }

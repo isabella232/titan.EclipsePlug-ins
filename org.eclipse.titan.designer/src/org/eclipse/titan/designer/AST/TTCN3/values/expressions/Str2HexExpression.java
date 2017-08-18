@@ -242,6 +242,6 @@ public final class Str2HexExpression extends Expression_Value {
 
 		expression.expression.append("AdditionalFunctions.str2hex( ");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(" )");
+		expression.expression.append(')');
 	}
 }

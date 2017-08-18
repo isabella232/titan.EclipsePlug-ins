@@ -253,6 +253,6 @@ public final class Str2IntExpression extends Expression_Value {
 
 		expression.expression.append("AdditionalFunctions.str2int(");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(" )");
+		expression.expression.append(')');
 	}
 }

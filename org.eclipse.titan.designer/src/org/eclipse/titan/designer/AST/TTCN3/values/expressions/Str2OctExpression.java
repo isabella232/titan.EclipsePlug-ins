@@ -249,6 +249,6 @@ public final class Str2OctExpression extends Expression_Value {
 
 		expression.expression.append("AdditionalFunctions.str2oct( ");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(" )");
+		expression.expression.append(')');
 	}
 }
