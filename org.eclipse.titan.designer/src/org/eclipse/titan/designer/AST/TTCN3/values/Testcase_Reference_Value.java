@@ -154,6 +154,9 @@ public final class Testcase_Reference_Value extends Value {
 		if (governor == null) {
 			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		}
+		if (governor == null) {
+			governor = myLastSetGovernor;
+		}
 		if (governor == null || referredTestcase == null) {
 			result.append("// FATAL ERROR while processing function reference value\n");
 			return result;
