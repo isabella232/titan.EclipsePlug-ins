@@ -916,7 +916,7 @@ public final class AdditionalFunctions {
 			}
 			if(state == str2intState.S_ERR) {
 				//TODO: Initial implementation
-				throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is {0} , does not represent a valid integer value. Invalid character '{1}' was found at index {2}.", value_str.toString() ,c , i));
+				throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is {0} , does not represent a valid integer value. Invalid character {1} was found at index {2}.", value_str.toString() ,c , i));
 			}
 		}
 		if (state != str2intState.S_ZERO && state != str2intState.S_MORE && state != str2intState.S_END) {
@@ -949,7 +949,7 @@ public final class AdditionalFunctions {
 		char c = value.get_char();
 		if(c < '0' || c > '9') {
 			//TODO: Initial implementation
-			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character '{0}', does not represent a valid integer value.", c));
+			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character {0}, does not represent a valid integer value.", c));
 		}
 		return new TitanInteger(Integer.valueOf(c - '0'));
 	}
@@ -982,7 +982,7 @@ public final class AdditionalFunctions {
 			byte hexdigit = charToHexDigit(c);
 			if(hexdigit > 0x0F) {
 				//TODO: Initial implementation
-				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character '{0}' was found at index {1}.", c , i));
+				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c , i));
 			}
 			if(i % 2 != 0) {
 				octets_ptr.set(i / 2, (char)(octets_ptr.get(i / 2) | hexdigit));
@@ -1142,7 +1142,7 @@ public final class AdditionalFunctions {
 			}
 			if(state == str2floatState.S_ERR) {
 				//TODO: Initial implementation
-				throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Invalid character '{1}' was found at index {2}. ", value_str.toString(),c,i));
+				throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Invalid character {1} was found at index {2}. ", value_str.toString(),c,i));
 			}
 		}
 		switch (state) {
@@ -2179,4 +2179,61 @@ public final class AdditionalFunctions {
 
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
+	
+	// Additional predefined functions defined in Annex B of ES 101 873-7
+	
+	// B.1 decomp - not implemented yet
+
+
+	// Non-standard functions
+	
+	// str2bit
+	public static TitanBitString str2bit(final String value) {
+		if(value == null) {
+			return new TitanBitString();
+		} else {
+			return str2bit(new TitanCharString(value));
+		}
+	}
+	
+	public static TitanBitString str2bit(final TitanCharString value) {
+		value.mustBound("The argument of function str2bit() is an unbound charstring value.");
+		
+		int value_length = value.lengthOf().getInt();
+		StringBuilder chars_ptr = new StringBuilder();
+		chars_ptr.append(value.getValue().toString());
+		StringBuilder ret_val = new StringBuilder();
+		
+		for (int i = 0; i < value_length; i++) {
+			char c = chars_ptr.charAt(i);
+			switch (c) {
+			case '0':
+				ret_val.append('0');
+				break;
+			case '1':
+				ret_val.append('1');
+				break;
+			default:
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters '0' and '1' only, but character {0} was found at index {1}.", c,i));
+			}
+		}
+		
+		return new TitanBitString(ret_val.toString());
+	}
+	
+	public static TitanBitString str2bit(final TitanCharString_Element value) {
+		value.mustBound("The argument of function str2bit() is an unbound charstring element.");
+		
+		char c = value.get_char();
+		if(c != '0' && c != '1') {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters `0' and `1' only, but the given charstring element "
+					+ "contains the character {0}.", c));
+		}
+		return new TitanBitString((value.get_char() == '1' ? "1" : "0"));
+	}
+	
+	//TODO: C.33 - regexp
+	//TODO: C.36 - rnd
 }
