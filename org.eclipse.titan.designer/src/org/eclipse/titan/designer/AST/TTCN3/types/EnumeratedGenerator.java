@@ -759,16 +759,16 @@ public class EnumeratedGenerator {
 		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return new TitanBoolean(false);\n");
 		source.append("}\n");
-		source.append("return matchOmit(legacy).not();\n");
+		source.append("return match_omit(legacy).not();\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
-		source.append("public TitanBoolean matchOmit() {\n");
-		source.append("return matchOmit(false);\n");
+		source.append("public TitanBoolean match_omit() {\n");
+		source.append("return match_omit(false);\n");
 		source.append("}\n\n");
 
-		source.append("public TitanBoolean matchOmit(final boolean legacy) {\n");
+		source.append("public TitanBoolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
 		source.append("return new TitanBoolean(true);\n");
 		source.append("}\n");
@@ -780,7 +780,7 @@ public class EnumeratedGenerator {
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("if (legacy) {\n");
 		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if (value_list.get(i).matchOmit().getValue()) {\n");
+		source.append("if (value_list.get(i).match_omit().getValue()) {\n");
 		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
 		source.append("}\n");
 		source.append("}\n");
