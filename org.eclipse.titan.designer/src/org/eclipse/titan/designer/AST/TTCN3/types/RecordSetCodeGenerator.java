@@ -92,6 +92,7 @@ public class RecordSetCodeGenerator {
 		generateIsValue( source, fieldInfos );
 		generateOperatorEquals( source, fieldInfos, className, classDisplayname);
 		generateGettersSetters( source, fieldInfos );
+		generateSizeOf( source, fieldInfos );
 		source.append( "\t}\n" );
 	}
 
@@ -129,6 +130,7 @@ public class RecordSetCodeGenerator {
 		generateTemplateIsBound( source, fieldInfos );
 		generateTemplateIsValue( source, fieldInfos );
 		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
+		generateTemplateSizeOf( source, fieldInfos, classDisplayName );
 
 		// TODO
 		source.append("}\n");
@@ -396,6 +398,23 @@ public class RecordSetCodeGenerator {
 		}
 		aSb.append( "\t\t\treturn new TitanBoolean(true);\n" +
 				"\t\t}\n" );
+	}
+
+	/**
+	 * Generating sizeOf() function
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateSizeOf( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
+		aSb.append( "\n\t\tpublic TitanInteger sizeOf() {\n" );
+		int size = 0;
+		for ( final FieldInfo fi : aNamesList ) {
+			if (!fi.isOptional) {
+				size++;
+			}
+		}
+		aSb.append( MessageFormat.format( "\t\t\treturn new TitanInteger({0});\n", size ) );
+		aSb.append( "\t\t}\n" );
 	}
 
 	/**
@@ -932,5 +951,49 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
+	}
+
+	/**
+	 * Generating sizeOf() function
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateSizeOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String displayName ) {
+		aSb.append( "\n\t\tpublic TitanInteger sizeOf() {\n" );
+		aSb.append( "\t\t\tif (is_ifPresent) {\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} which has an ifpresent attribute.\");\n", displayName ) );
+		aSb.append( "\t\t\t}\n" );
+		aSb.append( "\t\t\tswitch (templateSelection) {\n" );
+		aSb.append( "\t\t\tcase SPECIFIC_VALUE:\n" );
+		int size = 0;
+		for ( final FieldInfo fi : aNamesList ) {
+			if (!fi.isOptional) {
+				size++;
+			}
+		}
+		aSb.append( MessageFormat.format( "\t\t\t\treturn new TitanInteger({0});\n", size ) );
+		aSb.append( "\t\t\tcase VALUE_LIST:\n" );
+		aSb.append( "\t\t\t\tif (list_value.size() < 1) {\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing sizeof() operation on a template of type {0} containing an empty list.\");\n", displayName ) );
+		aSb.append( "\t\t\t\t}\n" );
+		aSb.append( "\t\t\t\tint item_size = list_value.get(0).sizeOf().getInt();\n" );
+		aSb.append( "\t\t\t\tfor (int l_idx = 1; l_idx < list_value.size(); l_idx++) {\n" );
+		aSb.append( "\t\t\t\t\tif (list_value.get(l_idx).sizeOf().getInt() != item_size) {\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing a value list with different sizes.\");\n", displayName ) );
+		aSb.append( "\t\t\t\t\t}\n" );
+		aSb.append( "\t\t\t\t}\n" );
+		aSb.append( "\t\t\t\treturn new TitanInteger(item_size);\n" );
+		aSb.append( "\t\t\tcase OMIT_VALUE:\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing omit value.\");\n", displayName ) );
+		aSb.append( "\t\t\tcase ANY_VALUE:\n" );
+		aSb.append( "\t\t\tcase ANY_OR_OMIT:\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing */? value.\");\n", displayName ) );
+		aSb.append( "\t\t\tcase COMPLEMENTED_LIST:\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on a template of type {0} containing complemented list.\");\n", displayName ) );
+		aSb.append( "\t\t\tdefault:\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing sizeof() operation on an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
+		aSb.append( "\t\t\t}\n" );
+		aSb.append( "\t\t}\n" );
 	}
 }
