@@ -657,7 +657,7 @@ public final class Assignment_Statement extends Statement {
 				}
 			} else {
 				// left hand side is a single assignment
-				value.generateCodeInit(aData, source, assignment.getIdentifier().getName());
+				value.generateCodeInit(aData, source, assignment.getGenNameFromScope(aData, source, myScope, null));
 			}
 			if(rhsCopied) {
 				source.append("}\n");
