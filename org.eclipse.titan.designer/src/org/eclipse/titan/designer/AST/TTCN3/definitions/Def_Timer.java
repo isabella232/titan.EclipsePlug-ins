@@ -549,6 +549,7 @@ public final class Def_Timer extends Definition {
 				}
 			}
 		} else {
+			source.append("//TODO timer array are not yet implemented\n");
 			//FIXME implement timer arrays
 		}
 	}
@@ -586,6 +587,7 @@ public final class Def_Timer extends Definition {
 				expression.expression.append(')');
 				expression.mergeExpression(initComp);
 			} else {
+				initComp.append("//TODO timer array are not yet implemented\n");
 				//FIXME implement array
 			}
 		}
