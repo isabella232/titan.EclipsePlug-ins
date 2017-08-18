@@ -26,7 +26,7 @@ public class RecordOfMatch {
 	public interface match_function_t {
 
 		//TODO: comment
-		boolean match(Base_Type value_ptr, int i, Restricted_Length_Template template_ptr, int template_index, boolean legacy);
+		boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy);
 	}
 
 	/**
