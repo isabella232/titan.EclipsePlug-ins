@@ -241,8 +241,8 @@ public final class Float2IntExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
-		expression.expression.append("AdditionalFunctions.float2int(");
+		expression.expression.append("AdditionalFunctions.float2int( ");
 		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append(')');
+		expression.expression.append(" )");
 	}
 }
