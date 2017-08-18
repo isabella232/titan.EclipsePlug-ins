@@ -2179,14 +2179,14 @@ public final class AdditionalFunctions {
 
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
-	
+
 	// Additional predefined functions defined in Annex B of ES 101 873-7
-	
+
 	// B.1 decomp - not implemented yet
 
 
 	// Non-standard functions
-	
+
 	// str2bit
 	public static TitanBitString str2bit(final String value) {
 		if(value == null) {
@@ -2195,15 +2195,15 @@ public final class AdditionalFunctions {
 			return str2bit(new TitanCharString(value));
 		}
 	}
-	
+
 	public static TitanBitString str2bit(final TitanCharString value) {
 		value.mustBound("The argument of function str2bit() is an unbound charstring value.");
-		
+
 		int value_length = value.lengthOf().getInt();
 		StringBuilder chars_ptr = new StringBuilder();
 		chars_ptr.append(value.getValue().toString());
 		StringBuilder ret_val = new StringBuilder();
-		
+
 		for (int i = 0; i < value_length; i++) {
 			char c = chars_ptr.charAt(i);
 			switch (c) {
@@ -2218,22 +2218,68 @@ public final class AdditionalFunctions {
 				throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters '0' and '1' only, but character {0} was found at index {1}.", c,i));
 			}
 		}
-		
+
 		return new TitanBitString(ret_val.toString());
 	}
-	
+
 	public static TitanBitString str2bit(final TitanCharString_Element value) {
 		value.mustBound("The argument of function str2bit() is an unbound charstring element.");
-		
+
 		char c = value.get_char();
 		if(c != '0' && c != '1') {
 			//TODO: Initial implementation
 			throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters `0' and `1' only, but the given charstring element "
 					+ "contains the character {0}.", c));
 		}
+
 		return new TitanBitString((value.get_char() == '1' ? "1" : "0"));
 	}
-	
+
+	// str2hex
+	public static TitanHexString str2hex(final String value) {
+		if(value == null) {
+			return new TitanHexString();
+		} else {
+			return str2hex(new TitanCharString(value));
+		}
+	}
+
+	public static TitanHexString str2hex(final TitanCharString value) {
+		value.mustBound("The argument of function str2hex() is an unbound charstring value.");
+
+		int value_length = value.lengthOf().getInt();
+		StringBuilder chars_ptr = new StringBuilder();
+		chars_ptr.append(value.getValue().toString());
+		List<Byte> ret_val = new ArrayList<Byte>(value_length);
+
+		for (int i = 0; i < value_length; i++) {
+			char c = chars_ptr.charAt(i);
+			byte hexdigit = charToHexDigit(c);
+			if(hexdigit > 0x0F) {
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c,i));
+			}
+			ret_val.add(hexdigit);
+		}
+
+		return new TitanHexString(ret_val);
+	}
+
+	public static TitanHexString str2hex(final TitanCharString_Element value) {
+		value.mustBound("The argument of function str2hex() is an unbound charstring element.");
+
+		char c = value.get_char();
+		byte hexdigit = charToHexDigit(c);
+
+		if(hexdigit > 0x0F) {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element "
+					+  "contains the character {0} .", c));
+		}
+
+		return new TitanHexString(hexdigit);
+	}
+
 	//TODO: C.33 - regexp
 	//TODO: C.36 - rnd
 }
