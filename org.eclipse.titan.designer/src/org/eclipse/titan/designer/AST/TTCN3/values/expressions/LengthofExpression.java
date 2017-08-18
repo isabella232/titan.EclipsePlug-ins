@@ -294,7 +294,8 @@ public final class LengthofExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final TTCN3Template templateBody = templateInstance.getTemplateBody();
 		// FIXME actually a bit more complex
-		if (templateInstance.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
+		if (templateInstance.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())
+				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			final IValue value = ((SpecificValue_Template) templateBody).getValue();
 			// FIXME implement support for cast
 			value.generateCodeExpressionMandatory(aData, expression);

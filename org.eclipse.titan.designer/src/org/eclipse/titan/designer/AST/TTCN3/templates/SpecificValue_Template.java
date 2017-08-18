@@ -148,6 +148,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 			}
 		}
 
+		if (realTemplate != null && realTemplate != this) {
+			return realTemplate.getExpressionGovernor(timestamp, expectedValue);
+		}
+
 		if (specificValue != null) {
 			specificValue.setMyGovernor(null);
 			final IValue temp = specificValue.setLoweridToReference(timestamp);
@@ -162,6 +166,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 	public Type_type getExpressionReturntype(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (getIsErroneous(timestamp) || specificValue == null) {
 			return Type_type.TYPE_UNDEFINED;
+		}
+
+		if (realTemplate != null && realTemplate != this) {
+			return realTemplate.getExpressionReturntype(timestamp, expectedValue);
 		}
 
 		specificValue.setLoweridToReference(timestamp);
@@ -383,6 +391,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return false;
 		}
 
+		if (realTemplate != null && realTemplate != this) {
+			return false;
+		}
+
 		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(specificValue.getValuetype())) {
 			final IType governor = ((Function_Reference_Value) specificValue).getExpressionGovernor(timestamp,
 					Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
@@ -443,6 +455,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public IValue getValue() {
+		if (realTemplate != null && realTemplate != this) {
+			return realTemplate.getValue();
+		}
+
 		return specificValue;
 	}
 
@@ -629,7 +645,9 @@ public final class SpecificValue_Template extends TTCN3Template {
 		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
 			//The single expression must be tried first because this rule might cover some referenced templates.
 			if (hasSingleExpression()) {
+				expression.expression.append(MessageFormat.format("new {0}(", genName) );
 				expression.expression.append(getSingleExpression(aData, true));
+				expression.expression.append(')');
 				return;
 			}
 
