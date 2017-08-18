@@ -31,6 +31,13 @@ public final class AdditionalFunctions {
 		//intentionally private to disable instantiation
 	}
 
+	private static byte charToHexDigit(char c){
+		if (c >= '0' && c <= '9') return (byte)(c - '0');
+		else if (c >= 'A' && c <= 'F') return (byte)(c - 'A' + 10);
+		else if (c >= 'a' && c <= 'f') return (byte)(c - 'a' + 10);
+		else return (byte)0xFF;
+	}
+
 	// C.1 - int2char
 	public static TitanCharString int2char(final int value) {
 		if (value < 0 || value > 127) {
@@ -907,7 +914,7 @@ public final class AdditionalFunctions {
 			}
 			if(state == str2intState.S_ERR) {
 				//TODO: Initial implementation
-				throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is {0} , does not represent a valid integer value. Invalid character `{1}` ' was found at index {2}.", value_str.toString() ,c , i));
+				throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is {0} , does not represent a valid integer value. Invalid character '{1}' was found at index {2}.", value_str.toString() ,c , i));
 			}
 		}
 		if (state != str2intState.S_ZERO && state != str2intState.S_MORE && state != str2intState.S_END) {
@@ -936,13 +943,53 @@ public final class AdditionalFunctions {
 
 	public static TitanInteger str2int(final TitanCharString_Element value) {
 		value.mustBound("The argument of function str2int() is an unbound charstring element.");
-		
+
 		char c = value.get_char();
 		if(c < '0' || c > '9') {
 			//TODO: Initial implementation
-			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character `{0}', does not represent a valid integer value.", c));
+			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character '{0}', does not represent a valid integer value.", c));
 		}
 		return new TitanInteger(Integer.valueOf(c - '0'));
+	}
+
+	//C.26 - str2oct
+	public static TitanOctetString str2oct(final String value) {
+		if(value == null) {
+			return new TitanOctetString();
+		} else {
+			return str2oct(new TitanCharString(value));
+		}
+	}
+
+	public static TitanOctetString str2oct(final TitanCharString value) {
+		value.mustBound("The argument of function str2oct() is an unbound charstring value.");
+
+		int value_len = value.lengthOf().getInt();
+		if(value_len % 2 != 0) {
+			throw new TtcnError(MessageFormat.format("The argument of function str2oct() must have even number of characters containing hexadecimal digits," +
+					" but the length of the string is odd: {0}.", value_len));
+		}
+		List<Character> octets_ptr = new ArrayList<Character>(value_len / 2);
+		for (int i = 0; i < value_len / 2; i++) {
+			octets_ptr.add((char)0);
+		}
+		StringBuilder chars_ptr = new StringBuilder();
+		chars_ptr.append(value.getValue().toString());
+		for (int i = 0; i < value_len; i++) {
+			char c = chars_ptr.charAt(i);
+			byte hexdigit = charToHexDigit(c);
+			if(hexdigit > 0x0F) {
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character '{0}' was found at index {1}.", c , i));
+			}
+			if(i % 2 != 0) {
+				octets_ptr.set(i / 2, (char)(octets_ptr.get(i / 2) | hexdigit));
+			} else {
+				octets_ptr.set(i / 2, (char)(hexdigit << 4));
+			}
+		}
+
+		return new TitanOctetString(octets_ptr);
 	}
 
 	//C.34 - substr
