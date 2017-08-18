@@ -251,6 +251,7 @@ public final class Altstep_Type extends Type {
 			return selfReference;
 		}
 
+		last.setMyGovernor(this);
 		// already handled ones
 		switch (value.getValuetype()) {
 		case OMIT_VALUE:
