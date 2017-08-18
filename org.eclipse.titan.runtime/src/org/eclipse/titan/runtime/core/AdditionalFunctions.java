@@ -2279,6 +2279,14 @@ public final class AdditionalFunctions {
 
 		return new TitanHexString(hexdigit);
 	}
+	
+	// float2str
+	public static TitanCharString float2str(final TitanFloat value) {
+		value.mustBound("The argument of function float2str() is an unbound float value.");
+		
+		return new TitanCharString(value.toString());
+	}
+	
 
 	//TODO: C.33 - regexp
 	//TODO: C.36 - rnd
