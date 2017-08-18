@@ -384,7 +384,7 @@ public final class Def_Port extends Definition {
 
 			StringBuilder preInit = aData.getPreInit();
 			preInit.append("{\n");
-			preInit.append(MessageFormat.format("static final String port_name = \"{0}\";\n", identifier.getDisplayName()));
+			preInit.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
 			preInit.append(MessageFormat.format("{0}.set_name(port_name);\n", genName));
 			preInit.append("}\n");
 		}
