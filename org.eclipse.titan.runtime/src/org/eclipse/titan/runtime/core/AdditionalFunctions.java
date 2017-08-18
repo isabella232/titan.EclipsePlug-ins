@@ -25,8 +25,19 @@ import java.util.List;
  */
 public final class AdditionalFunctions {
 
+	private static enum str2intState { S_INITIAL, S_FIRST, S_ZERO, S_MORE, S_END, S_ERR };
+	private static enum str2floatState { S_INITIAL, S_FIRST_M, S_ZERO_M, S_MORE_M, S_FIRST_F, S_MORE_F,
+		S_INITIAL_E, S_FIRST_E, S_ZERO_E, S_MORE_E, S_END, S_ERR }
+
 	private AdditionalFunctions() {
 		//intentionally private to disable instantiation
+	}
+
+	private static byte charToHexDigit(char c){
+		if (c >= '0' && c <= '9') return (byte)(c - '0');
+		else if (c >= 'A' && c <= 'F') return (byte)(c - 'A' + 10);
+		else if (c >= 'a' && c <= 'f') return (byte)(c - 'a' + 10);
+		else return (byte)0xFF;
 	}
 
 	// C.1 - int2char
@@ -829,7 +840,344 @@ public final class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(octet));
 	}
 
-	//C.34 - substr
+	// C.25 - str2int
+	public static TitanInteger str2int(final String value) {
+		return str2int(new TitanCharString(value));
+	}
+
+	public static TitanInteger str2int(final TitanCharString value) {
+		value.mustBound("The argument of function str2int() is an unbound charstring value.");
+
+		int value_len = value.lengthOf().getInt();
+		if(value_len == 0) {
+			throw new TtcnError("The argument of function str2int() is an empty string, which does not represent a valid integer value.");
+		}
+		StringBuilder value_str = new StringBuilder();
+		value_str.append(value.getValue().toString());
+		str2intState state = str2intState.S_INITIAL;
+		// state: expected characters
+		// S_INITIAL: +, -, first digit, leading whitespace
+		// S_FIRST: first digit
+		// S_ZERO, S_MORE: more digit(s), trailing whitespace
+		// S_END: trailing whitespace
+		// S_ERR: error was found, stop
+		boolean leading_ws = false;
+		boolean leading_zero = false;
+		for (int i = 0; i < value_len; i++) {
+			char c = value_str.charAt(i);
+			switch (state) {
+			case S_INITIAL:
+				if(c == '+' || c == '-') {
+					state = str2intState.S_FIRST;
+				} else if (c == '0') {
+					state = str2intState.S_ZERO;	
+				} else if (c >= '1' && c <= '9') {
+					state = str2intState.S_MORE;
+				} else if(Character.isWhitespace(c)) {
+					leading_ws = true;
+				} else {
+					state = str2intState.S_ERR;
+				}
+				break;
+			case S_FIRST:
+				if(c == '0') {
+					state = str2intState.S_ZERO;
+				} else if (c >= '1' && c <= '9') {
+					state = str2intState.S_MORE;
+				} else {
+					state = str2intState.S_ERR;
+				}
+				break;
+			case S_ZERO:
+				if (c >= '1' && c <= '9') {
+					leading_zero = true;
+					state = str2intState.S_MORE;
+				} else if(Character.isWhitespace(c)) {
+					state = str2intState.S_END;
+				} else {
+					state = str2intState.S_ERR;
+				}
+				break;
+			case S_MORE:
+				if(c >= '0' && c <= '9') {}
+				else if (Character.isWhitespace(c)) {
+					state = str2intState.S_END;
+				} else {
+					state = str2intState.S_ERR;
+				}
+				break;
+			case S_END:
+				if(!Character.isWhitespace(c)) {
+					state = str2intState.S_ERR;
+				}
+				break;
+			default:
+				break;
+			}
+			if(state == str2intState.S_ERR) {
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is {0} , does not represent a valid integer value. Invalid character {1} was found at index {2}.", value_str.toString() ,c , i));
+			}
+		}
+		if (state != str2intState.S_ZERO && state != str2intState.S_MORE && state != str2intState.S_END) {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is {0} , does not represent a valid integer value. Premature end of the string.", value_str.toString()));
+		}
+		if(leading_ws) {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("Leading whitespace was detected in the argument of function str2int(): {0}.", value_str.toString()));
+		}
+		if(leading_zero) {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("Leading zero digit was detected in the argument of function str2int(): {0}.", value_str.toString()));
+		}
+		if(state == str2intState.S_END) {
+			//TODO: Initial implementation
+			TtcnError.TtcnWarning(MessageFormat.format("Trailing whitespace was detected in the argument of function str2int(): {0}.", value_str.toString()));
+		}
+		long temp_val = Long.valueOf(value_str.toString());
+		if(temp_val > Integer.MIN_VALUE && temp_val < Integer.MAX_VALUE) {
+			return new TitanInteger(Integer.valueOf(value_str.toString()));
+		} else {
+			return new TitanInteger(BigInteger.valueOf(temp_val));
+		}
+	}
+
+	public static TitanInteger str2int(final TitanCharString_Element value) {
+		value.mustBound("The argument of function str2int() is an unbound charstring element.");
+
+		char c = value.get_char();
+		if(c < '0' || c > '9') {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character {0}, does not represent a valid integer value.", c));
+		}
+		return new TitanInteger(Integer.valueOf(c - '0'));
+	}
+
+	//C.26 - str2oct
+	public static TitanOctetString str2oct(final String value) {
+		if(value == null) {
+			return new TitanOctetString();
+		} else {
+			return str2oct(new TitanCharString(value));
+		}
+	}
+
+	public static TitanOctetString str2oct(final TitanCharString value) {
+		value.mustBound("The argument of function str2oct() is an unbound charstring value.");
+
+		int value_len = value.lengthOf().getInt();
+		if(value_len % 2 != 0) {
+			throw new TtcnError(MessageFormat.format("The argument of function str2oct() must have even number of characters containing hexadecimal digits," +
+					" but the length of the string is odd: {0}.", value_len));
+		}
+		List<Character> octets_ptr = new ArrayList<Character>(value_len / 2);
+		for (int i = 0; i < value_len / 2; i++) {
+			octets_ptr.add((char)0);
+		}
+		StringBuilder chars_ptr = new StringBuilder();
+		chars_ptr.append(value.getValue().toString());
+		for (int i = 0; i < value_len; i++) {
+			char c = chars_ptr.charAt(i);
+			byte hexdigit = charToHexDigit(c);
+			if(hexdigit > 0x0F) {
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c , i));
+			}
+			if(i % 2 != 0) {
+				octets_ptr.set(i / 2, (char)(octets_ptr.get(i / 2) | hexdigit));
+			} else {
+				octets_ptr.set(i / 2, (char)(hexdigit << 4));
+			}
+		}
+
+		return new TitanOctetString(octets_ptr);
+	}
+
+	// C.27 - str2float
+	public static TitanFloat str2float(final String value){
+		return str2float(new TitanCharString(value));
+	}
+
+	/*
+	 * leading zeros are allowed;
+	 * leading "+" sign before positive values is allowed;
+	 * "-0.0" is allowed;
+	 * no numbers after the dot in the decimal notation are allowed.
+	 */
+
+	public static TitanFloat str2float(final TitanCharString value) {
+		value.mustBound("The argument of function str2float() is an unbound charstring value.");
+
+		int value_len = value.lengthOf().getInt();
+		if(value_len == 0) {
+			throw new TtcnError("The argument of function str2float() is an empty string, which does not represent a valid float value.");
+		}
+		StringBuilder value_str = new StringBuilder();
+		value_str.append(value.getValue().toString());
+		str2floatState state = str2floatState.S_INITIAL;
+		// state: expected characters
+		// S_INITIAL: +, -, first digit of integer part in mantissa,
+		//            leading whitespace
+		// S_FIRST_M: first digit of integer part in mantissa
+		// S_ZERO_M, S_MORE_M: more digits of mantissa, decimal dot, E
+		// S_FIRST_F: first digit of fraction
+		// S_MORE_F: more digits of fraction, E, trailing whitespace
+		// S_INITIAL_E: +, -, first digit of exponent
+		// S_FIRST_E: first digit of exponent
+		// S_ZERO_E, S_MORE_E: more digits of exponent, trailing whitespace
+		// S_END: trailing whitespace
+		// S_ERR: error was found, stop
+		boolean leading_ws = false;
+		boolean leading_zero = false;
+		for (int i = 0; i < value_len; i++) {
+			char c = value_str.charAt(i);
+			switch (state) {
+			case S_INITIAL:
+				if(c == '+' || c == '-') {
+					state = str2floatState.S_FIRST_M;
+				} else if(c == '0') {
+					state = str2floatState.S_ZERO_M;
+				} else if(c >= '1' && c <= '9') {
+					state = str2floatState.S_MORE_M;
+				} else if(Character.isWhitespace(c)) {
+					leading_ws = true;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_FIRST_M:  // first mantissa digit
+				if(c == '0') {
+					state = str2floatState.S_ZERO_M;
+				} else if(c >= '1' && c <= '9') {
+					state = str2floatState.S_MORE_M;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_ZERO_M: // leading mantissa zero
+				if(c == '.') {
+					state = str2floatState.S_FIRST_F;
+				} else if (c == 'E' || c == 'e'){
+					state = str2floatState.S_INITIAL_E;
+				} else if (c >= '0' && c <= '9') {
+					leading_zero = true;
+					state = str2floatState.S_MORE_M;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_MORE_M:
+				if(c == '.') {
+					state = str2floatState.S_FIRST_F;
+				} else if (c == 'E' || c == 'e') {
+					state = str2floatState.S_INITIAL_E;
+				} else if(c >= '0' && c <= '9') {}
+				else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_FIRST_F:
+				if(c >= '0' && c <= '9') {
+					state = str2floatState.S_MORE_F;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_MORE_F:
+				if (c == 'E' || c == 'e') {
+					state = str2floatState.S_INITIAL_E;
+				} else if (c >= '0' && c <= '9') {}
+				else if(Character.isWhitespace(c)) {
+					state = str2floatState.S_END;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_INITIAL_E:
+				if (c == '+' || c == '-') {
+					state = str2floatState.S_FIRST_E;
+				} else if(c == '0') {
+					state = str2floatState.S_ZERO_E;
+				} else if(c >= '1' && c <= '9') {
+					state = str2floatState.S_MORE_E;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_FIRST_E:
+				if(c == '0') {
+					state = str2floatState.S_ZERO_E;
+				} else if(c >= '1' && c <= '9') {
+					state = str2floatState.S_MORE_E;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_ZERO_E:
+				if (c >= '0' && c <= '9') {
+					leading_zero = true;
+					state = str2floatState.S_MORE_E;
+				} else if(Character.isWhitespace(c)) {
+					state = str2floatState.S_END;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_MORE_E:
+				if (c >= '0' && c <= '9') {}
+				else if(Character.isWhitespace(c)) {
+					state = str2floatState.S_END;
+				} else {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			case S_END:
+				if(Character.isWhitespace(c)) {
+					state = str2floatState.S_ERR;
+				}
+				break;
+			default:
+				break;
+			}
+			if(state == str2floatState.S_ERR) {
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Invalid character {1} was found at index {2}. ", value_str.toString(),c,i));
+			}
+		}
+		switch (state) {
+		case S_MORE_F:
+		case S_ZERO_E:
+		case S_MORE_E:
+			// OK, originally
+			break;
+		case S_ZERO_M:
+		case S_MORE_M:
+			// OK now (decimal dot missing after mantissa)
+			break;
+		case S_FIRST_F:
+			// OK now (fraction part missing)
+			break;
+		default:
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Premature end of the string.",value_str.toString()));
+		}
+		if(leading_ws) {
+			//TODO: Initial implementation
+			TtcnError.TtcnWarning(MessageFormat.format("Leading whitespace was detected in the argument of function str2float(): {0}." , value_str.toString()));
+		}
+		if(leading_zero) {
+			//TODO: Initial implementation
+			TtcnError.TtcnWarning(MessageFormat.format("Leading zero digit was detected in the argument of function str2float(): {0}.", value_str.toString()));
+		}
+		if(state == str2floatState.S_END) {
+			//TODO: Initial implementation
+			TtcnError.TtcnWarning(MessageFormat.format("Trailing whitespace was detected in the argument of function str2float(): {0}.", value_str.toString()));
+		}
+		return new TitanFloat(Double.valueOf(value_str.toString()));
+	}
+
+	// C.34 - substr
 	public static void check_substr_arguments(final int value_length, final int idx, final int returncount, final String string_type, final String element_name) {
 		if(idx < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr() is a negative integer value: {0}.", idx));
@@ -1277,12 +1625,12 @@ public final class AdditionalFunctions {
 
 		return subString(value.valueOf(), idx, returncount);
 	}
-	
+
 	public static TitanCharString subString(final TitanCharString_template value, final int idx, final int returncount) {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1290,7 +1638,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1298,7 +1646,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1306,15 +1654,15 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
-	
+
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final int returncount) {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1322,7 +1670,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1330,7 +1678,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1338,7 +1686,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue().getValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1360,7 +1708,7 @@ public final class AdditionalFunctions {
 		}
 		if(idx + len > value_length) {
 			throw new TtcnError(MessageFormat.format("The first argument of function replace(), the length of which is {0}, does not have enough {1}s starting at index {2}: {3} {4}{5} needed, but there {6} only {7}.",
-				    value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
+					value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
 		}
 	}
 
@@ -1831,4 +2179,154 @@ public final class AdditionalFunctions {
 
 		return replace(value.valueOf(), idx, len, repl.valueOf());
 	}
+
+	// Additional predefined functions defined in Annex B of ES 101 873-7
+
+	// B.1 decomp - not implemented yet
+
+
+	// Non-standard functions
+
+	// str2bit
+	public static TitanBitString str2bit(final String value) {
+		if(value == null) {
+			return new TitanBitString();
+		} else {
+			return str2bit(new TitanCharString(value));
+		}
+	}
+
+	public static TitanBitString str2bit(final TitanCharString value) {
+		value.mustBound("The argument of function str2bit() is an unbound charstring value.");
+
+		int value_length = value.lengthOf().getInt();
+		StringBuilder chars_ptr = new StringBuilder();
+		chars_ptr.append(value.getValue().toString());
+		StringBuilder ret_val = new StringBuilder();
+
+		for (int i = 0; i < value_length; i++) {
+			char c = chars_ptr.charAt(i);
+			switch (c) {
+			case '0':
+				ret_val.append('0');
+				break;
+			case '1':
+				ret_val.append('1');
+				break;
+			default:
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters '0' and '1' only, but character {0} was found at index {1}.", c,i));
+			}
+		}
+
+		return new TitanBitString(ret_val.toString());
+	}
+
+	public static TitanBitString str2bit(final TitanCharString_Element value) {
+		value.mustBound("The argument of function str2bit() is an unbound charstring element.");
+
+		char c = value.get_char();
+		if(c != '0' && c != '1') {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters `0' and `1' only, but the given charstring element "
+					+ "contains the character {0}.", c));
+		}
+
+		return new TitanBitString((value.get_char() == '1' ? "1" : "0"));
+	}
+
+	// str2hex
+	public static TitanHexString str2hex(final String value) {
+		if(value == null) {
+			return new TitanHexString();
+		} else {
+			return str2hex(new TitanCharString(value));
+		}
+	}
+
+	public static TitanHexString str2hex(final TitanCharString value) {
+		value.mustBound("The argument of function str2hex() is an unbound charstring value.");
+
+		int value_length = value.lengthOf().getInt();
+		StringBuilder chars_ptr = new StringBuilder();
+		chars_ptr.append(value.getValue().toString());
+		List<Byte> ret_val = new ArrayList<Byte>(value_length);
+
+		for (int i = 0; i < value_length; i++) {
+			char c = chars_ptr.charAt(i);
+			byte hexdigit = charToHexDigit(c);
+			if(hexdigit > 0x0F) {
+				//TODO: Initial implementation
+				throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c,i));
+			}
+			ret_val.add(hexdigit);
+		}
+
+		return new TitanHexString(ret_val);
+	}
+
+	public static TitanHexString str2hex(final TitanCharString_Element value) {
+		value.mustBound("The argument of function str2hex() is an unbound charstring element.");
+
+		char c = value.get_char();
+		byte hexdigit = charToHexDigit(c);
+
+		if(hexdigit > 0x0F) {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element "
+					+  "contains the character {0} .", c));
+		}
+
+		return new TitanHexString(hexdigit);
+	}
+
+	// float2str
+	public static TitanCharString float2str(final TitanFloat value) {
+		value.mustBound("The argument of function float2str() is an unbound float value.");
+
+		return new TitanCharString(value.toString());
+	}
+
+	// unichar2char
+	public static TitanCharString unichar2char(final TitanUniversalCharString value) {
+		value.mustBound("The argument of function unichar2char() is an unbound universal charstring value.");
+
+		int value_length = value.lengthOf().getInt();
+		if(value.charstring) {
+
+			return new TitanCharString(value.cstr);
+		} else {
+			StringBuilder ret_val = new StringBuilder();
+			List<TitanUniversalChar> uchars_ptr = new ArrayList<TitanUniversalChar>();
+			uchars_ptr = value.val_ptr;
+			for (int i = 0; i < value_length; i++) {
+				final TitanUniversalChar uchar = uchars_ptr.get(i);
+				if(uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
+					//TODO: Initial implementation
+					throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. "
+							+ "char(0, 0, 0, 127), but quadruple char({0}, {1}, {2}, {3}) was found at index {4}." , 
+							uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row(),i));
+				}
+				ret_val.append((char)uchar.getUc_cell());
+			}
+
+			return new TitanCharString(ret_val);
+		}
+	}
+
+	public static TitanCharString unichar2char(final TitanUniversalCharString_Element value) {
+		value.mustBound("The argument of function unichar2char() is an unbound universal charstring element.");
+
+		final TitanUniversalChar uchar = value.get_char();
+		if(uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
+			//TODO: Initial implementation
+			throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. char(0, 0, 0, 127), " 
+					+ "but the given universal charstring element contains the quadruple char({0}, {1}, {2}, {3})." , uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row()));
+		}
+
+		return new TitanCharString(String.valueOf(uchar.getUc_cell()));
+	}
+
+	//TODO: C.33 - regexp
+	//TODO: C.36 - rnd
 }
