@@ -13,14 +13,19 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -261,11 +266,17 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		initStatement.append(name);
 		initStatement.append(".setType( template_sel.VALUE_RANGE );\n");
 		if(min != null) {
-			min.generateCodeExpression(aData, expression);
-			initStatement.append(name);
-			initStatement.append(".setMin( ");
-			initStatement.append(expression.expression);
-			initStatement.append(" );\n");
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			IValue last = min.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
+			chain.release();
+
+			if (!last.getValuetype().equals(Value_type.REAL_VALUE) || ((Real_Value) last).getValue() != Double.NEGATIVE_INFINITY) {
+				last.generateCodeExpression(aData, expression);
+				initStatement.append(name);
+				initStatement.append(".setMin( ");
+				initStatement.append(expression.expression);
+				initStatement.append(" );\n");
+			}
 		}
 		if(minExclusive) {
 			switch(typeType) {
@@ -282,12 +293,18 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		}
 
 		if(max != null) {
-			expression.expression = new StringBuilder();
-			max.generateCodeExpression(aData, expression);
-			initStatement.append(name);
-			initStatement.append(".setMax( ");
-			initStatement.append(expression.expression);
-			initStatement.append(" );\n");
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			IValue last = max.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
+			chain.release();
+
+			if (!last.getValuetype().equals(Value_type.REAL_VALUE) || ((Real_Value) last).getValue() != Double.POSITIVE_INFINITY) {
+				expression.expression = new StringBuilder();
+				last.generateCodeExpression(aData, expression);
+				initStatement.append(name);
+				initStatement.append(".setMax( ");
+				initStatement.append(expression.expression);
+				initStatement.append(" );\n");
+			}
 		}
 		if(maxExclusive) {
 			switch(typeType) {
