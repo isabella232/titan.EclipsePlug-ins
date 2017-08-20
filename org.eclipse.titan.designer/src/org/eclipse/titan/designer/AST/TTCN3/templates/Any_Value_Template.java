@@ -127,8 +127,13 @@ public final class Any_Value_Template extends TTCN3Template {
 			return result;
 		}
 
+		if (myGovernor == null ) {
+			result.append("// FATAL ERROR while processing any value template\n");
+			return result;
+		}
+
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		result.append( "template_sel.ANY_VALUE" );
+		result.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", myGovernor.getGenNameTemplate(aData, result, myScope)));
 
 		//TODO handle cast needed
 
