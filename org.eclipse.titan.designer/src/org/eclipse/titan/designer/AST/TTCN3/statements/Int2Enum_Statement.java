@@ -182,7 +182,5 @@ public class Int2Enum_Statement extends Statement {
 
 		source.append(valueExpression.postamble);
 		source.append(referenceExpression.postamble);
-
-		source.append(");\n");
 	}
 }
