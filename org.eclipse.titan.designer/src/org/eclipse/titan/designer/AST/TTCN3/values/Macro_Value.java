@@ -300,31 +300,33 @@ public final class Macro_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastValue != null && lastValue != this) {
+			lastValue.generateCodeInit(aData, source, name);
+			return source;
+		}
+
 		if (Macro_type.TESTCASEID.equals(value)) {
 			aData.addCommonLibraryImport( "TTCN_Runtime" );
 
 			source.append(MessageFormat.format("{0}.assign(TTCN_Runtime.getTestcaseIdMacro());\n", name));
 			return source;
 		}
-		if (lastValue == null || lastValue == this) {
-			return source;
-		}
 
-		return lastValue.generateCodeInit(aData, source, name);
+		return source;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (lastValue != null && lastValue != this) {
+			lastValue.generateCodeExpression(aData, expression);
+			return;
+		}
+
 		if (Macro_type.TESTCASEID.equals(value)) {
 			aData.addCommonLibraryImport( "TTCN_Runtime" );
 
 			expression.expression.append("TTCN_Runtime.getTestcaseIdMacro()");
 		}
-		if (lastValue == null || lastValue == this) {
-			return;
-		}
-
-		lastValue.generateCodeExpression(aData, expression);
 	}
 }
