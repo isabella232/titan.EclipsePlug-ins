@@ -58,7 +58,7 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 				expression.expression.append(MessageFormat.format("TtcnLogger.log_char('{0}')", argument.charAt(0)));
 			} else {
 				//FIXME needs to use Code::translate_string
-				expression.expression.append(MessageFormat.format("TtcnLogger.log_char(\"{0}\")", argument));
+				expression.expression.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}\")", argument));
 			}
 		}
 	}
