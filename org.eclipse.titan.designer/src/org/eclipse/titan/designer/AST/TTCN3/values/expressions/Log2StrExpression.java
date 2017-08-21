@@ -210,6 +210,7 @@ public final class Log2StrExpression extends Expression_Value {
 		//FIXME implement logging
 		expression.expression.append("new TitanCharString(");
 		logArguments.generateCodeExpression(aData, expression);
+		//logArguments.generateCodeExpressionLog(aData, expression);
 		expression.expression.append(')');
 		expression.expression.append( "//TODO this is only temporal implementation!\n" );
 	}

@@ -204,4 +204,19 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		expression.expression.append( "//TODO this is only temporal implementation!\n" );
 		//FIXME end logging
 	}
+
+	//Temporary function until real logging can take over the current version's place
+	public void generateCodeExpressionLog(final JavaGenData aData, final ExpressionStruct expression) {
+		if ( arguments == null ) {
+			return;
+		}
+
+		expression.preamble.append( "TtcnLogger.begin_event_log2str();\n");
+		final int size = arguments.size();
+		for ( int i = 0; i < size; i++ ) {
+			arguments.get( i ).generateCodeLog(aData, expression.preamble);
+		}
+		expression.expression.append( "TtcnLogger.end_event_log2str()");
+		expression.expression.append( "//TODO this is only temporal implementation!\n" );
+	}
 }
