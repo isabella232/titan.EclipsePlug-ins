@@ -73,6 +73,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("Record_Of_Template");
 		aData.addBuiltinTypeImport("TitanBoolean");
+		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("RecordOfMatch");
 		aData.addBuiltinTypeImport("RecordOfMatch.match_function_t");
@@ -87,8 +88,8 @@ public class RecordOfGenerator {
 		generateTemplateMatchOmit( source );
 		generateTemplateAssign( source, genName, displayName );
 		generateTemplateCleanup( source );
-		//TODO: use
-		//generateTemplateReplace( source, genName );
+		//TODO
+		//generateTemplateReplace( source, genName, displayName );
 		generateTemplateGetterSetters( source, genName, ofTypeName, displayName );
 		generateTemplateConcat( source, genName, ofTypeName, displayName );
 		generateTemplateSetSize( source, genName, ofTypeName, displayName );
@@ -100,6 +101,7 @@ public class RecordOfGenerator {
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
 		generateTemplateGetIstemplateKind( source, genName );
+		//TODO: use
 		//generateTemplateCheckRestriction( source, genName );
 		source.append("}\n");
 	}
@@ -500,6 +502,11 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateIsPresent(final StringBuilder source) {
 		source.append("\n");
+		source.append("\tpublic TitanBoolean isPresent() {\n");
+		source.append("\t\treturn isPresent(false);\n");
+		source.append("\t}\n");
+
+		source.append("\n");
 		source.append("\tpublic TitanBoolean isPresent(final boolean legacy) {\n");
 		source.append("\t\tif (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("\t\t\treturn new TitanBoolean(false);\n");
@@ -660,12 +667,13 @@ public class RecordOfGenerator {
 	 *  
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateReplace(StringBuilder source, final String genName) {
+	private static void generateTemplateReplace(StringBuilder source, final String genName, final String displayName) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate void substr_(int index, int returncount, {0} rec_of) '{'\n", genName ) );
 		source.append("\t\tif (!isValue().getValue()) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template of type {0} with non-specific value.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
 		source.append("\t\trec_of.valueElements = null;\n");
@@ -678,11 +686,11 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tprivate void replace_(int index, int len, final {0}_template repl, {0} rec_of) '{'\n", genName ) );
 		source.append("\t\tif (!isValue().getValue()) {\n");
 		//TODO: fix: "third" instead of "first", also in titan.core
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
 		source.append("\t\tif (!repl.isValue().getValue()) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template of type {0} with non-specific value.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
 		source.append("\t\trec_of.valueElements = null;\n");
@@ -698,7 +706,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tprivate void replace_(int index, int len, final {0} repl, {0} rec_of) '{'\n", genName ) );
 		source.append("\t\tif (!isValue().getValue()) {\n");
 		//TODO: fix: "third" instead of "first", also in titan.core
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\n");
 		source.append("\t\trec_of.valueElements = null;\n");
@@ -706,6 +714,18 @@ public class RecordOfGenerator {
 		source.append("\t\tvalueofv(this_value);\n");
 		source.append("\t\t// call the replace() function of the value class instance\n");
 		source.append("\t\tthis_value.replace_(index, len, repl, rec_of);\n");
+		source.append("\t}\n");
+		
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void valueofv(final {0}_template value) '{'\n", genName ) );
+		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );  
+		source.append("\t\t}\n");
+		source.append("\t\tvalue.setSize(value_elements.size());\n");
+		source.append("\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
+		source.append("\t\t\tvalue_elements.get(elem_count).valueofv(value.getAt(elem_count));\n");
+		source.append("\t\t}\n");
+		source.append("\t\tvalue.set_err_descr(err_descr);\n");
 		source.append("\t}\n");
 	}
 
