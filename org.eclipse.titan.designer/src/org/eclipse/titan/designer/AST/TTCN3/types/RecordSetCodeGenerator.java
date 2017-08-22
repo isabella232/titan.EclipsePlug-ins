@@ -72,6 +72,7 @@ public class RecordSetCodeGenerator {
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addImport("java.text.MessageFormat");
+		aData.addBuiltinTypeImport("TitanInteger");
 		if(hasOptional) {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
@@ -115,6 +116,7 @@ public class RecordSetCodeGenerator {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("TitanBoolean");
+		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
 		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 
