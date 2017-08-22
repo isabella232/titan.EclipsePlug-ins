@@ -9,9 +9,13 @@ package org.eclipse.titan.designer.core;
 
 import java.util.Map;
 
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IMarker;
 import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -24,7 +28,6 @@ import org.eclipse.titan.designer.license.LicenseValidator;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
-
 /**
  * Build system for java code generation.
  * @author Kristof Szabados
@@ -84,6 +87,30 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 	protected void clean(IProgressMonitor monitor) throws CoreException {
 		// TODO Auto-generated method stub
 		super.clean(monitor);
+
+		final SubMonitor progress = SubMonitor.convert(monitor,2);
+		progress.setTaskName("Cleaning");
+
+		IProject project = getProject();
+
+		IFolder folder = project.getFolder( "java_src/org");
+		if( folder.exists() ) {
+			try {
+				folder.deleteMarkers(IMarker.PROBLEM, true, IResource.DEPTH_INFINITE);
+				folder.delete(true, progress);
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace("While cleaning generated code in java_src", e);
+			}
+		}
+
+		folder = project.getFolder("java_bin");
+		if( folder.exists() ) {
+			try {
+				folder.delete(true, progress);
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace("While cleaning generated code in java_bin ", e);
+			}
+		}
 	}
 
 }
