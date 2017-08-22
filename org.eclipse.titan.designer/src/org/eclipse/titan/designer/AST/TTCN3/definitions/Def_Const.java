@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -29,6 +30,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -485,7 +487,15 @@ public final class Def_Const extends Definition {
 		}
 
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+
+		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
+			Array_Type arrayType =  (Array_Type) type;
+			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+			source.append(MessageFormat.format(" static final {0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
+		}
+		else {
+			source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		}
 		last.generateCodeInit( aData, aData.getPreInit(), genName );
 
 		sb.append(source);
@@ -510,8 +520,15 @@ public final class Def_Const extends Definition {
 		if (last.canGenerateSingleExpression() ) {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, last.generateSingleExpression(aData)));
 		} else {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
-			last.generateCodeInit(aData, source, genName );
+			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
+				Array_Type arrayType =  (Array_Type) type;
+				String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+				source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
+			}
+			else {
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			}
+			last.generateCodeInit(aData, source, genName );	
 		}
 	}
 
