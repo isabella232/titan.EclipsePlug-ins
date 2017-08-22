@@ -939,8 +939,17 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final String ownName = getGenNameOwn();
 		final String valueName = dimension.getValueType(aData, source, elementType, myScope);
 		final String templateName = dimension.getTemplateType(aData, source, elementType, myScope);
+		final String elementName = elementType.getGenNameValue(aData, source, myScope);
 
-		source.append(MessageFormat.format("public static class {0} extends {1} '{' '}'\n", ownName, valueName));
-		source.append(MessageFormat.format("public static class {0}_template extends {1} '{' '}'\n", ownName, templateName));
+		source.append(MessageFormat.format("public static class {0} extends {1} '{' \n", ownName, valueName));
+		source.append(MessageFormat.format("public {0}(Class<{1}> clazz) '{'\n", ownName, elementName));
+		source.append("super(clazz);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("public static class {0}_template extends {1} '{'\n", ownName, templateName));
+		source.append(MessageFormat.format("public {0}_template(Class<{1}> classValue, Class<{1}_template> classTemplate) '{'\n",ownName,elementName));
+		source.append("super(classValue, classTemplate);");
+		source.append("}\n");
+		source.append("}\n");
 	}
 }
