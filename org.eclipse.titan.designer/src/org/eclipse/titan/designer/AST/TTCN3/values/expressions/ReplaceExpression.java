@@ -676,7 +676,7 @@ public final class ReplaceExpression extends Expression_Value {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
@@ -690,7 +690,7 @@ public final class ReplaceExpression extends Expression_Value {
 
 		// TODO handle the needs conversion case
 		final Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
-		switch(expressionType) {
+		switch (expressionType) {
 		case TYPE_BITSTRING:
 		case TYPE_HEXSTRING:
 		case TYPE_OCTETSTRING:
@@ -720,7 +720,7 @@ public final class ReplaceExpression extends Expression_Value {
 			break;
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
-			//TODO: need to test
+			// TODO: need to test
 			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
 			expression.expression.append(".replace( ");
 			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
@@ -741,9 +741,8 @@ public final class ReplaceExpression extends Expression_Value {
 			expression.expression.append(')');
 			break;
 		default:
-			//FATAL ERROR
+			// FATAL ERROR
 			break;
 		}
-
 	}
 }
