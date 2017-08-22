@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
@@ -36,6 +37,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -673,5 +675,75 @@ public final class ReplaceExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if (lastValue != null && lastValue != this) {
+			lastValue.generateCodeExpression(aData, expression);
+			return;
+		}
+
+		final IValue lastValue2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
+		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
+
+		// TODO handle the needs conversion case
+		final Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		switch(expressionType) {
+		case TYPE_BITSTRING:
+		case TYPE_HEXSTRING:
+		case TYPE_OCTETSTRING:
+		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
+			aData.addCommonLibraryImport("AdditionalFunctions");
+
+			expression.expression.append("AdditionalFunctions.replace( ");
+			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			expression.expression.append(", ");
+			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
+				lastValue2.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue2).getValue();
+				expression.expression.append(tempNative);
+			}
+			expression.expression.append(", ");
+			if (lastValue3.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue3).isNative()) {
+				lastValue3.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue3).getValue();
+				expression.expression.append(tempNative);
+			}
+			expression.expression.append(", ");
+			templateInstance4.generateCode(aData, expression, Restriction_type.TR_NONE);
+			expression.expression.append(')');
+			break;
+		case TYPE_SEQUENCE_OF:
+		case TYPE_SET_OF:
+			//TODO: need to test
+			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			expression.expression.append(".replace( ");
+			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
+				lastValue2.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue2).getValue();
+				expression.expression.append(tempNative);
+			}
+			expression.expression.append(", ");
+			if (lastValue3.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue3).isNative()) {
+				lastValue3.generateCodeExpressionMandatory(aData, expression);
+			} else {
+				final long tempNative = ((Integer_Value) lastValue3).getValue();
+				expression.expression.append(tempNative);
+			}
+			expression.expression.append(", ");
+			templateInstance4.generateCode(aData, expression, Restriction_type.TR_NONE);
+			expression.expression.append(')');
+			break;
+		default:
+			//FATAL ERROR
+			break;
+		}
+
 	}
 }
