@@ -15,7 +15,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IncrementalProjectBuilder;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.preference.IPreferenceStore;
@@ -85,7 +84,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 	@Override
 	protected void clean(IProgressMonitor monitor) throws CoreException {
-		// TODO Auto-generated method stub
+		//TODO This is a temporary solution
 		super.clean(monitor);
 
 		final SubMonitor progress = SubMonitor.convert(monitor,2);
