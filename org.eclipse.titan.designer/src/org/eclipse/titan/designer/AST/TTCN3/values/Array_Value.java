@@ -120,7 +120,7 @@ public final class Array_Value extends Value {
 					return null;
 				}
 
-				final int index = ((Integer_Value) valueIndex).intValue();
+				final int index = ((Integer_Value) valueIndex).intValue() - (int) dimension.getOffset();
 				if (isIndexed()) {
 					for (int i = 0; i < values.getNofIndexedValues(); i++) {
 						IValue indexedValue = values.getIndexedValueByIndex(i).getIndex().getValue();
