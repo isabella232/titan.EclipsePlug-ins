@@ -14,7 +14,6 @@ public class TtcnError extends Error {
 		//FIXME implement
 		super( aErrorMessage );
 
-		TTCN_Runtime.setErrorVerdict();
 	}
 
 	// FIXME this function is not ok here.

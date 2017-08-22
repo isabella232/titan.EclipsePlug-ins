@@ -223,7 +223,8 @@ public class TryCatch_Statement extends Statement {
 		source.append("try {\n");
 		tryBlock.generateCode(aData, source);
 		source.append("}\n");
-		source.append("catch( TtcnError ttcn_error");
+		//FIXME: java can't catch Errors, only this way
+		source.append("catch(final Throwable ttcn_error");
 		source.append(" ) {\n");
 		catchSurroundingBlock.generateCode(aData, source);
 		source.append(exceptionIdentifier.getName());
