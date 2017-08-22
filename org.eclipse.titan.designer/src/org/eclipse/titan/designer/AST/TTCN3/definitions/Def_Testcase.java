@@ -586,9 +586,9 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		block.generateCode(aData, source);
 		source.append(MessageFormat.format("System.out.println(\"Testcase {0} took \" + (System.nanoTime() - test_start) * (1e-9) + \" seconds to complete\");", identifier.getDisplayName()));
 		source.append("} catch (TtcnError error) {\n");
+		source.append("TTCN_Runtime.setErrorVerdict(); \n");
 		source.append("System.out.println(error);\n");
 		source.append("}\n");
-
 		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
 		source.append( "}\n" );
 		sb.append(source);
