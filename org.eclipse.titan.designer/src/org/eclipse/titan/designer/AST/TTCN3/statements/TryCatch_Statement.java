@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -215,4 +216,20 @@ public class TryCatch_Statement extends Statement {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		source.append("try {\n");
+		tryBlock.generateCode(aData, source);
+		source.append("}\n");
+		source.append("catch( TtcnError ttcn_error");
+		source.append(" ) {\n");
+		catchSurroundingBlock.generateCode(aData, source);
+		source.append(exceptionIdentifier.getName());
+		source.append(" = ");
+		source.append("new TitanCharString(ttcn_error.toString());\n");
+		catchBlock.generateCode(aData, source);
+		source.append("}\n");
+	}	
 }
