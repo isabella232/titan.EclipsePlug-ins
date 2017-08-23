@@ -15,13 +15,11 @@ import java.util.List;
  * @author Arpad Lovassy
  * @author Andrea Palfi
  */
-public class TtcnLogger {
+public final class TtcnLogger {
 
-	enum matching_verbosity_t {
-		VERBOSITY_COMPACT, VERBOSITY_FULL
-	};
+	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
 
-	public enum Severity {
+	public static enum Severity {
 		NOTHING_TO_LOG,
 		ACTION_UNQUALIFIED,
 		DEFAULTOP_ACTIVATE,
