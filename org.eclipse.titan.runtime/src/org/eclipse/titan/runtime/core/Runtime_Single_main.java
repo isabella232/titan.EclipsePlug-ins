@@ -21,6 +21,7 @@ public class Runtime_Single_main {
 		TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
 
 		TTCN_Snapshot.initialize();
+		TtcnLogger.initialize_logger();
 
 		Module_List.pre_init_modules();
 
@@ -31,5 +32,6 @@ public class Runtime_Single_main {
 		}
 
 		TTCN_Runtime.logVerdictStatistics();
+		TtcnLogger.terminate_logger();
 	}
 }

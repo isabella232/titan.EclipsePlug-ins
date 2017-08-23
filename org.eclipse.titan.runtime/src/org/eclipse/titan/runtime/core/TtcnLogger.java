@@ -145,6 +145,14 @@ public final class TtcnLogger {
 	private static log_event_struct current_event;
 	private static ArrayList<log_event_struct> events = new ArrayList<log_event_struct>(); 
 
+	public static void initialize_logger() {
+		//empty for the time being
+	}
+
+	public static void terminate_logger() {
+		//empty for now
+	}
+
 	public static void begin_event(final Severity severity){
 		if (current_event == null) {
 			// could save on allocation with using outermost event
