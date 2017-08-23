@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -31,6 +32,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -475,7 +477,18 @@ public final class Def_Var extends Definition {
 		}
 
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+		
+		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
+			Array_Type arrayType =  (Array_Type) type;
+			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+			source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
+			source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+			source.append(MessageFormat.format("{0}.setOfset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+		}
+		else {
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+		}
+		
 		sb.append(source);
 		StringBuilder initComp = aData.getInitComp();
 		if ( initialValue != null ) {
@@ -499,7 +512,16 @@ public final class Def_Var extends Definition {
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
 		} else {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
+				Array_Type arrayType =  (Array_Type) type;
+				String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+				source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
+				source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+				source.append(MessageFormat.format("{0}.setOfset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+			}
+			else {
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			}
 			if (initialValue != null) {
 				initialValue.generateCodeInit(aData, source, genName );
 			}

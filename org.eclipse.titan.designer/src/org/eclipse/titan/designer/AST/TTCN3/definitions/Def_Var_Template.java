@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -30,6 +31,7 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -480,7 +482,15 @@ public final class Def_Var_Template extends Definition {
 		//TODO temporary hack to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
-		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		
+		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
+			Array_Type arrayType =  (Array_Type) type;
+			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+			source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
+			source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+		} else {
+			source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		}
 		sb.append(source);
 
 		//TODO this actually belongs to the module initialization
@@ -508,7 +518,14 @@ public final class Def_Var_Template extends Definition {
 
 		// FIXME temporal code until generate_code_object and generateCodeInit is supported for templates
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
-		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
+			Array_Type arrayType =  (Array_Type) type;
+			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+			source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
+			source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+		} else {
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+		}
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit( aData, source, genName );
 			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
