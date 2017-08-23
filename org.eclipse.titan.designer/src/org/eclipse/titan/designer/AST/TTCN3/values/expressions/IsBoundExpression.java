@@ -315,11 +315,11 @@ public final class IsBoundExpression extends Expression_Value {
 		}
 
 		final ITTCN3Template body = instance.getTemplateBody();
-		if (body.getTemplatetype() == Template_type.TEMPLATE_REFD) {
+		if ( Template_type.TEMPLATE_REFD.equals(body.getTemplatetype())) {
 			((Referenced_Template) body).getReference().setUsedInIsbound();
-		} else if (body.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
+		} else if (Template_type.SPECIFIC_VALUE.equals(body.getTemplatetype()) && ((SpecificValue_Template) body).isValue(timestamp)) {
 			final IValue value = ((SpecificValue_Template) body).getValue();
-			if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
+			if (Value_type.REFERENCED_VALUE.equals(value.getValuetype())) {
 				((Referenced_Value) value).getReference().setUsedInIsbound();
 			}
 		}
