@@ -328,7 +328,7 @@ public class RecordOfGenerator {
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t}\n");
-		source.append("\t\tfinal int nofElements = getNofElements();\n");
+		source.append("\t\tfinal int nofElements = getNofElements().getInt();\n");
 		source.append("\t\tif ( index_value >= nofElements ) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Index overflow in a value of type {0}: The index is \"+index_value+\", but the value has only \"+nofElements+\" elements.\" );\n", displayName ) );
 		source.append("\t\t}\n");
@@ -351,8 +351,8 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append("\n");
-		source.append("\tpublic int getNofElements() {\n");
-		source.append("\t\treturn sizeOf().getInt();\n");
+		source.append("\tpublic TitanInteger getNofElements() {\n");
+		source.append("\t\treturn sizeOf();\n");
 		source.append("\t}\n");
 
 		source.append("\n");
@@ -934,6 +934,16 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		
 		source.append("\n");
+		source.append("\tpublic TitanInteger sizeOf() {\n");
+		source.append("\t\treturn sizeOf(true);\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append("\tpublic TitanInteger lengthOf() {\n");
+		source.append("\t\treturn sizeOf(false);\n");
+		source.append("\t}\n");
+
+		source.append("\n");
 		source.append("\tpublic TitanInteger sizeOf(boolean is_size) {\n");
 		source.append("\t\tfinal String op_name = is_size ? \"size\" : \"length\";\n");
 		source.append("\t\tint min_size;\n");
@@ -1004,7 +1014,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateNElem(StringBuilder source, final String genName) {
 		source.append("\n");
-		source.append("\tpublic int n_elem() {\n");
+		source.append("\tpublic TitanInteger nofElements() {\n");
 		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\treturn single_value.getNofElements();\n");
