@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -224,11 +225,12 @@ public class TryCatch_Statement extends Statement {
 		tryBlock.generateCode(aData, source);
 		source.append("} ");
 		//FIXME: java can't catch Errors, only this way
-		source.append("catch(final Throwable ttcn_error) {\n");
+		String tempId = aData.getTemporaryVariableName();
+		source.append(MessageFormat.format("catch(final Throwable {0}) '{'\n", tempId));
 		catchSurroundingBlock.generateCode(aData, source);
 		source.append(exceptionIdentifier.getName());
 		source.append(" = ");
-		source.append("new TitanCharString(ttcn_error.toString());\n");
+		source.append(MessageFormat.format("new TitanCharString({0}.toString());\n", tempId));
 		catchBlock.generateCode(aData, source);
 		source.append("}\n");
 	}	
