@@ -411,12 +411,20 @@ public class FunctionReferenceGenerator {
 		source.append("return value_list.get(listIndex);\n");
 		source.append("}\n");
 
+		source.append("public TitanBoolean isPresent() {\n");
+		source.append("return isPresent(false);\n");
+		source.append("}\n");
+
 		source.append("public TitanBoolean isPresent(final boolean legacy) {\n");
 		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return new TitanBoolean(false);\n");
 		source.append("}\n");
 		source.append("return match_omit(legacy).not();\n");
 		source.append("}\n");
+
+		source.append("\t\tpublic TitanBoolean match_omit() {\n");
+		source.append("\t\t\treturn match_omit(false);\n");
+		source.append("\t\t}\n");
 
 		source.append("public TitanBoolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
