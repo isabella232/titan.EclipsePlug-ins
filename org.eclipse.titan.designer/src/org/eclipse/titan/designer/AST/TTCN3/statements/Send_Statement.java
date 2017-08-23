@@ -276,10 +276,6 @@ public final class Send_Statement extends Statement {
 				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			//optimize for value
 			IValue value = ((SpecificValue_Template) templateBody).getValue();
-			if (value == null) {
-				int i = 0;
-				i += i + 1;
-			}
 			//FIXME check if casting is needed
 			//FIXME use generate_code_expr_mandatory function to generate the code
 			value.generateCodeExpression(aData, expression);
