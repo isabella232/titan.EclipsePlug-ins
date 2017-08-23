@@ -133,7 +133,7 @@ public final class TtcnLogger {
 	};
 
 	private static class log_event_struct{
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder buffer;
 		Severity severity;
 	}
 
@@ -142,20 +142,40 @@ public final class TtcnLogger {
 	int logMachBufferSize=0;
 	boolean logMachPrinted = false;
 
-	static log_event_struct current_event;
+	private static log_event_struct current_event;
+	private static ArrayList<log_event_struct> events = new ArrayList<log_event_struct>(); 
 
-	public static void begin_event(Severity severity){
-		current_event=new log_event_struct();
-		current_event.buffer = new StringBuilder();
-		List<Severity> list = new ArrayList<Severity>();
-		current_event.severity=severity;
-		for (int i = 0; i < sev_categories.length; i++) {
-			list.add(current_event.severity);
+	public static void begin_event(final Severity severity){
+		if (current_event == null) {
+			// could save on allocation with using outermost event
+			current_event = new log_event_struct();
+			current_event.severity = severity;
+			current_event.buffer = new StringBuilder();
+			events.add(current_event);
+		} else {
+			current_event = new log_event_struct();
+			current_event.severity = severity;
+			current_event.buffer = new StringBuilder();
+			events.add(current_event);
 		}
 	}
 
 	public static void end_event(){
-		System.out.println(current_event.buffer);
+		if (current_event != null) {
+			log_line(current_event.severity, current_event.buffer);
+
+			if (events.size() > 1) {
+				events.remove(events.size() - 1);
+				current_event = events.get(events.size() - 1);
+			} else {
+				events.remove(0);
+				current_event = null;
+			}
+		}
+	}
+
+	private static void log_line(final Severity event_severity, final StringBuilder message) {
+		System.out.println("Logger sais: " + message);
 	}
 
 	public static void log_event( final String msg ) {
@@ -163,7 +183,9 @@ public final class TtcnLogger {
 	}
 
 	public static void log_event_str( final String string ) {
-		current_event.buffer.append(string);
+		if (current_event != null) {
+			current_event.buffer.append(string);
+		}
 	}
 
 	public static void log_char( final char c ) {
