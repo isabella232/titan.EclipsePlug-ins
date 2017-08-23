@@ -43,6 +43,10 @@ public class TTCN_Snapshot {
 		alt_begin = timeNow();
 	}
 
+	public static void terminate() {
+		//TODO implement
+	}
+
 	/**
 	 * Execution reached an else branch of an alt.
 	 * If this is the first time we must warn the user.

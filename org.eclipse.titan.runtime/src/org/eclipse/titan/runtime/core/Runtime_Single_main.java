@@ -33,5 +33,6 @@ public class Runtime_Single_main {
 
 		TTCN_Runtime.logVerdictStatistics();
 		TtcnLogger.terminate_logger();
+		TTCN_Snapshot.terminate();
 	}
 }
