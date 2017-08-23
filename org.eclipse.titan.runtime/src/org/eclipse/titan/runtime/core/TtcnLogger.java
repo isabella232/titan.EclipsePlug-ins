@@ -145,7 +145,7 @@ public class TtcnLogger {
 	
 	static log_event_struct current_event;
 	
-	/*public static void begin_event(Severity severity){
+	public static void begin_event(Severity severity){
 		current_event=new log_event_struct();
 		current_event.buffer = new StringBuilder();
 		List<Severity> list = new ArrayList<Severity>();
@@ -153,11 +153,11 @@ public class TtcnLogger {
 		for (int i = 0; i < sev_categories.length; i++) {
 			list.add(current_event.severity);
 		}
-	}*/
+	}
 	
-	/*public static void end_event(){
+	public static void end_event(){
 		System.out.println(current_event.buffer);
-	}*/
+	}
 	
 	
 	public static void log_event( final String msg ) {
@@ -165,10 +165,10 @@ public class TtcnLogger {
 
 	}
 
-	/*public static void log_event_str( final String string ) {
+	public static void log_event_str( final String string ) {
 		current_event.buffer.append(string);
 
-	}*/
+	}
 
 	public static void log_char( final char c ) {
 		// TODO Auto-generated method stub
