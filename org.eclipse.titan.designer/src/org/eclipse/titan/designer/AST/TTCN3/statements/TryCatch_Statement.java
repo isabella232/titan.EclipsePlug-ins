@@ -221,17 +221,17 @@ public class TryCatch_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		String tempId = aData.getTemporaryVariableName();
+
 		source.append("try {\n");
 		tryBlock.generateCode(aData, source);
-		source.append("} ");
+
 		//FIXME: java can't catch Errors, only this way
-		String tempId = aData.getTemporaryVariableName();
-		source.append(MessageFormat.format("catch(final Throwable {0}) '{'\n", tempId));
+		source.append(MessageFormat.format("'}' catch(final Throwable {0}) '{'\n", tempId));
 		catchSurroundingBlock.generateCode(aData, source);
-		source.append(exceptionIdentifier.getName());
-		source.append(" = ");
-		source.append(MessageFormat.format("new TitanCharString({0}.toString());\n", tempId));
+
+		source.append(MessageFormat.format("{0} = new TitanCharString({1}.toString());\n", exceptionIdentifier.getName(), tempId));
 		catchBlock.generateCode(aData, source);
 		source.append("}\n");
-	}	
+	}
 }
