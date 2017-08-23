@@ -49,6 +49,7 @@ public class RecordOfGenerator {
 		generateValueCleanup( source );
 		generateValueGetterSetters( source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
+		generateValueToString( source );
 
 		source.append("}\n");
 	}
@@ -400,6 +401,24 @@ public class RecordOfGenerator {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate static {0} getUnboundElem() '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\treturn new {0}();\n", ofTypeName ) );
+		source.append("\t}\n");
+	}
+
+	private static void generateValueToString(StringBuilder source) {
+		source.append("\n");
+		source.append("\t@Override\n");
+		source.append("\tpublic String toString() {\n");
+		source.append("\t\tfinal StringBuilder sb = new StringBuilder();\n");
+		source.append("\t\tsb.append('{');\n");
+		source.append("\t\tfinal int size = ( valueElements != null ) ? valueElements.size() : 0;\n");
+		source.append("\t\tfor (int i = 0; i < size; i++ ) {\n");
+		source.append("\t\t\tif ( i > 0 ) {\n");
+		source.append("\t\t\t\tsb.append(',');\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tsb.append(valueElements.get(i).toString());\n");
+		source.append("\t\t}\n");
+		source.append("\t\tsb.append('}');\n");
+		source.append("\t\treturn sb.toString();\n");
 		source.append("\t}\n");
 	}
 
