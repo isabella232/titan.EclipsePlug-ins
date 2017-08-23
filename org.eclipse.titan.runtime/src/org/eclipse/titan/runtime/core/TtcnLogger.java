@@ -186,6 +186,13 @@ public final class TtcnLogger {
 		System.out.println("Logger sais: " + message);
 	}
 
+	public static void finish_event() {
+		if (current_event != null) {
+			log_event_str("<unfinished>");
+			end_event();
+		}
+	}
+
 	public static void log_event( final String msg ) {
 		// TODO Auto-generated method stub
 	}
