@@ -277,8 +277,7 @@ public final class Send_Statement extends Statement {
 			//optimize for value
 			IValue value = ((SpecificValue_Template) templateBody).getValue();
 			//FIXME check if casting is needed
-			//FIXME use generate_code_expr_mandatory function to generate the code
-			value.generateCodeExpression(aData, expression);
+			value.generateCodeExpressionMandatory(aData, expression);
 		} else {
 			//real template, can not be optimized
 			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
