@@ -211,6 +211,8 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 			return;
 		}
 
+		aData.addCommonLibraryImport("TtcnLogger");
+
 		expression.preamble.append( "TtcnLogger.begin_event_log2str();\n");
 		final int size = arguments.size();
 		for ( int i = 0; i < size; i++ ) {
