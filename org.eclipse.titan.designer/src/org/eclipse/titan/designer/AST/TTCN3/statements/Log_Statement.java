@@ -154,13 +154,13 @@ public final class Log_Statement extends Statement {
 			if (bufferedMode) {
 				// the argument is a complicated construct: use buffered mode
 				source.append("/*try {\n");
-				source.append("TtcnLogger.begin_event(Severity.TTCN_USER);\n");
+				source.append("TtcnLogger.begin_event(TtcnLogger.Severity.TTCN_USER);\n");
 				logArguments.generateCodeLog(aData, source);
 				source.append("TtcnLogger.end_event();\n");
 				source.append("} catch (Exception exception) {\n");
 				source.append("TtcnLogger.finish_event();\n");
 				source.append("throw exception;\n");
-				source.append("}\n*/");
+				source.append("}*/\n");
 			}
 		} else {
 			source.append("/*TTCN_Logger.log_str(Severity.TTCN_USER,\"<empty log statement>\");\n*/");
