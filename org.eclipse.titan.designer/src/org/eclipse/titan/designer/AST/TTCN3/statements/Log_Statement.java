@@ -134,14 +134,14 @@ public final class Log_Statement extends Statement {
 				case String:
 					// the argument is a simple string: use non-buffered mode
 					//FIXME Code::translate_string is missing for now
-					source.append(MessageFormat.format("/*TtcnLogger.log_str(Severity.TTCN_USER, \"{0}\");\n*/", ((String_InternalLogArgument) firstArgument.getRealArgument()).getString()));
+					source.append(MessageFormat.format("/*TtcnLogger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n*/", ((String_InternalLogArgument) firstArgument.getRealArgument()).getString()));
 					bufferedMode = false;
 					break;
 				case Macro: {
 					Macro_Value value = ((Macro_InternalLogArgument) firstArgument.getRealArgument()).getMacro();
 					if (value.canGenerateSingleExpression()) {
 						// the argument is a simple macro call: use non-buffered mode
-						source.append(MessageFormat.format("/*TtcnLogger.log_str(Severity.TTCN_USER, \"{0}\");\n*/", value.generateSingleExpression(aData)));
+						source.append(MessageFormat.format("/*TtcnLogger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n*/", value.generateSingleExpression(aData)));
 						bufferedMode = false;
 					}
 					break;
@@ -154,7 +154,7 @@ public final class Log_Statement extends Statement {
 			if (bufferedMode) {
 				// the argument is a complicated construct: use buffered mode
 				source.append("/*try {\n");
-				source.append("TtcnLogger.begin_event(TtcnLogger.Severity.TTCN_USER);\n");
+				source.append("TtcnLogger.begin_event(TtcnLogger.Severity.USER_UNQUALIFIED);\n");
 				logArguments.generateCodeLog(aData, source);
 				source.append("TtcnLogger.end_event();\n");
 				source.append("} catch (Exception exception) {\n");
@@ -163,7 +163,7 @@ public final class Log_Statement extends Statement {
 				source.append("}*/\n");
 			}
 		} else {
-			source.append("/*TTCN_Logger.log_str(Severity.TTCN_USER,\"<empty log statement>\");\n*/");
+			source.append("/*TTCN_Logger.log_str(Severity.USER_UNQUALIFIED,\"<empty log statement>\");\n*/");
 		}
 	}
 }
