@@ -161,6 +161,10 @@ public final class TtcnLogger {
 		events.push(current_event);
 	}
 
+	public static void begin_event_log2str() {
+		begin_event(Severity.USER_UNQUALIFIED);//and true
+	}
+
 	public static void end_event() {
 		if (current_event != null) {
 			log_line(current_event.severity, current_event.buffer);
@@ -172,6 +176,23 @@ public final class TtcnLogger {
 				current_event = null;
 			}
 		}
+	}
+
+	public static TitanCharString end_event_log2str() {
+		if (current_event != null) {
+			TitanCharString ret_val = new TitanCharString(current_event.buffer);
+
+			events.pop();
+			if (!events.isEmpty()) {
+				current_event = events.peek();
+			} else {
+				current_event = null;
+			}
+
+			return ret_val;
+		}
+
+		return new TitanCharString();
 	}
 
 	private static void log_line(final Severity event_severity, final StringBuilder message) {
