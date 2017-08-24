@@ -206,17 +206,20 @@ public final class TtcnLogger {
 		}
 	}
 
-	public static void log_event( final String msg ) {
-		if (current_event != null) {
-			current_event.buffer.append(msg);
-		}
+	public static void log_event( final String formatString, Object... args ) {
+		log_event_va_list(formatString, args);
 	}
 
 	public static void log_event_str( final String string ) {
 		if (current_event != null) {
 			current_event.buffer.append(string);
 		}
+	}
 
+	public static void log_event_va_list(final String formatString, Object... args) {
+		if (current_event != null) {
+			current_event.buffer.append(String.format(formatString, args));
+		}
 	}
 
 	public static void log_char( final char c ) {
