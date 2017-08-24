@@ -7,8 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Stack;
 
 /**
  * originally TTCN_Logger
@@ -91,7 +90,7 @@ public final class TtcnLogger {
 		DEBUG_UNQUALIFIED,
 		NUMBER_OF_LOGSEVERITIES, // must follow the last individual severity
 		LOG_ALL_IMPORTANT
-	}
+	};
 
 	public static final Severity sev_categories[]=
 	{
@@ -132,9 +131,10 @@ public final class TtcnLogger {
 		"DEBUG",
 	};
 
-	private static class log_event_struct{
+	private static class log_event_struct {
 		StringBuilder buffer;
 		Severity severity;
+		//event_destination, etc...
 	}
 
 	String logMatchBuffer = null;
@@ -142,8 +142,9 @@ public final class TtcnLogger {
 	int logMachBufferSize=0;
 	boolean logMachPrinted = false;
 
-	private static log_event_struct current_event;
-	private static ArrayList<log_event_struct> events = new ArrayList<log_event_struct>(); 
+	private static log_event_struct current_event = null;
+	private static Stack<log_event_struct> events = new Stack<TtcnLogger.log_event_struct>();
+
 
 	public static void initialize_logger() {
 		//empty for the time being
@@ -153,30 +154,21 @@ public final class TtcnLogger {
 		//empty for now
 	}
 
-	public static void begin_event(final Severity severity){
-		if (current_event == null) {
-			// could save on allocation with using outermost event
-			current_event = new log_event_struct();
-			current_event.severity = severity;
-			current_event.buffer = new StringBuilder();
-			events.add(current_event);
-		} else {
-			current_event = new log_event_struct();
-			current_event.severity = severity;
-			current_event.buffer = new StringBuilder();
-			events.add(current_event);
-		}
+	public static void begin_event(final Severity msg_severity) {
+		current_event = new log_event_struct();
+		current_event.severity = msg_severity;
+		current_event.buffer = new StringBuilder();
+		events.push(current_event);
 	}
 
-	public static void end_event(){
+	public static void end_event() {
 		if (current_event != null) {
 			log_line(current_event.severity, current_event.buffer);
 
-			if (events.size() > 1) {
-				events.remove(events.size() - 1);
-				current_event = events.get(events.size() - 1);
+			events.pop();
+			if (!events.isEmpty()) {
+				current_event = events.peek();
 			} else {
-				events.remove(0);
 				current_event = null;
 			}
 		}
@@ -194,13 +186,16 @@ public final class TtcnLogger {
 	}
 
 	public static void log_event( final String msg ) {
-		// TODO Auto-generated method stub
+		if (current_event != null) {
+			current_event.buffer.append(msg);
+		}
 	}
 
 	public static void log_event_str( final String string ) {
 		if (current_event != null) {
 			current_event.buffer.append(string);
 		}
+
 	}
 
 	public static void log_char( final char c ) {
@@ -234,7 +229,6 @@ public final class TtcnLogger {
 
 	public static void print_logmatch_buffer() {
 		// TODO Auto-generated method stub
-
 	}
 
 	public static void log_logmatch_info(String string) {
@@ -246,7 +240,7 @@ public final class TtcnLogger {
 	}
 
 	public static int get_logmatch_buffer_len() {
-		// TODO Auto-generated ,method stub
+		// TODO Auto-generated method stub
 		return 0;
 	}
 }
