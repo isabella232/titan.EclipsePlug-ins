@@ -15,14 +15,14 @@ import java.util.ArrayList;
  */
 public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
-	private ArrayList<T> array_elements;
+	ArrayList<T> array_elements;
 
 	public Class<T> clazz;
 
 
 
 	private int array_size;
-	private int indexOfset;
+	private int indexOffset;
 
 	public TitanValueArray(Class<T> clazz) {
 		this.clazz = clazz;
@@ -49,8 +49,8 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_size = length;
 	}
 
-	public void setOfset(final int ofset) {
-		indexOfset = ofset;
+	public void setOffset(final int offset) {
+		indexOffset = offset;
 	}
 
 
@@ -62,12 +62,12 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	@Override
 	public TitanBoolean isBound() {
 		for (int i = 0; i < array_size; ++i) {
-			if (!array_elements.get(i).isBound().getValue()) {
-				return new TitanBoolean(false);
+			if (array_elements.get(i).isBound().getValue()) {
+				return new TitanBoolean(true);
 			}
 		}
-
-		return new TitanBoolean(true);
+		
+		return new TitanBoolean(false);
 	}
 
 	//FIXME: originally array_elements.get(i).clean_up()
@@ -128,7 +128,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		cleanUp();
 		array_size = otherValue.array_size;
 		array_elements = new ArrayList<T>(array_size);
-		indexOfset = otherValue.indexOfset;
+		indexOffset = otherValue.indexOffset;
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			array_elements.add(otherValue.array_element(i));
 		}
@@ -155,7 +155,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 
 		for (int i = 0; i < array_size; ++i) {
-			if (! array_elements.get(getArrayIndex(i, array_size, indexOfset)).operatorEquals(otherValue.array_elements.get(getArrayIndex(i, otherValue.array_size, otherValue.indexOfset))).getValue()) {
+			if (! array_elements.get(getArrayIndex(i, array_size, indexOffset)).operatorEquals(otherValue.array_elements.get(getArrayIndex(i, otherValue.array_size, otherValue.indexOffset))).getValue()) {
 				return new TitanBoolean(false);
 			}
 		}
@@ -181,7 +181,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 			TitanValueArray<T> result = new TitanValueArray<T>(clazz);
 			result.array_size = array_size;
-			result.indexOfset = indexOfset;
+			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) rotateCount = array_size;
 			for (int i = 0; i < array_size - rotateCount; i++) {
 				result.array_elements.add(i, array_elements.get(i+rotateCount));
@@ -209,7 +209,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			if (rotateCount == 0) return this;
 			TitanValueArray<T> result = new TitanValueArray<T>(clazz);
 			result.array_size = array_size;
-			result.indexOfset = indexOfset;
+			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) rotateCount = array_size;
 			for (int i = 0; i < rotateCount; i++) {
 				result.array_elements.add(i, array_elements.get(i-rotateCount+array_size));
@@ -231,21 +231,21 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	// originally T& operator[](int)
 	public T getAt(final int index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOfset));
+		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
 	}
 
 	//originally T& operator[](const INTEGER)
 	public T getAt(final TitanInteger index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOfset));
+		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
 	}
 	//const originally T& operator[](int)
 	public T constGetAt(final int index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOfset));
+		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
 	}
 
 	// const // originally T& operator[](const INTEGER)
 	public T constGetAt(final TitanInteger index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOfset));
+		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
 	}
 
 	public T array_element(int index) {
