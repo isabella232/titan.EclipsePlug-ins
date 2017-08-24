@@ -541,7 +541,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			//value_list.n_values = list_length;
 			value_list = new ArrayList<TitanTemplateArray<Tvalue, Ttemplate>>(length); //TEMPLATE_ARRAY[list_length];
 			for (int i = 0; i < length; ++i) {
-				value_list.add(new TitanTemplateArray<>(classValue, classTemplate));
+				value_list.add(new TitanTemplateArray<Tvalue,Ttemplate>(classValue, classTemplate));
 			}
 
 			break;
