@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamedBridgeScope;
@@ -32,6 +33,7 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
@@ -895,7 +897,15 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		if (formalParList == null) {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
+				Array_Type arrayType =  (Array_Type) type;
+				String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+				source.append(MessageFormat.format("{0} {1} = new {0}({2}.class, {2}_template.class);\n", typeName, genName, elementType));
+				source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+				source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+			} else {
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+			}
 
 			if (baseTemplate != null) {
 				//modified template
@@ -917,7 +927,15 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
 			if (baseTemplate == null) {
-				source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
+				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
+					Array_Type arrayType =  (Array_Type) type;
+					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+					source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class);\n", typeName, genName, elementType));
+					source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+					source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+				} else {
+					source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
+				}
 			} else {
 				//modified template
 				source.append(MessageFormat.format("{0} ret_val = new {0}({1}", typeName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
@@ -966,7 +984,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 
 			if (baseTemplate == null) {
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
+					Array_Type arrayType =  (Array_Type) type;
+					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+					source.append(MessageFormat.format(" {0} {1} = new {0}({2}.class);\n", typeName, genName, elementType));
+					source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+				} else {
+					source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+				}
 
 				if ( body != null ) {
 					//TODO can optimize for single expressions;
