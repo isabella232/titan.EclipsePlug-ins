@@ -37,6 +37,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanNull_Type");
+		aData.addBuiltinTypeImport("AdditionalFunctions");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName );
@@ -50,6 +51,7 @@ public class RecordOfGenerator {
 		generateValueGetterSetters( source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
 		generateValueToString( source );
+		generateValueReplace( source, genName, ofTypeName, displayName );
 
 		source.append("}\n");
 	}
@@ -89,8 +91,7 @@ public class RecordOfGenerator {
 		generateTemplateMatchOmit( source );
 		generateTemplateAssign( source, genName, displayName );
 		generateTemplateCleanup( source );
-		//TODO
-		//generateTemplateReplace( source, genName, displayName );
+		generateTemplateReplace( source, genName, displayName );
 		generateTemplateGetterSetters( source, genName, ofTypeName, displayName );
 		generateTemplateConcat( source, genName, ofTypeName, displayName );
 		generateTemplateSetSize( source, genName, ofTypeName, displayName );
@@ -130,18 +131,18 @@ public class RecordOfGenerator {
 	private static void generateValueConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}() '{'\n", genName ) );
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format("\t\totherValue.mustBound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\tvalueElements = copyList( otherValue.valueElements );\n");
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}(TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
-		source.append("\t};\n");
+		source.append("\t}\n");
 	}
 
 	/**
@@ -423,6 +424,69 @@ public class RecordOfGenerator {
 	}
 
 	/**
+	 * Generate substr() and replace()
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateValueReplace( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0} substr(int index, int returncount) '{'\n", genName ) );
+		source.append("\t\tif (valueElements == null) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of substr() is an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\tAdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, \"{0}\",\"element\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\t{0} ret_val = new {0}();\n", genName ) );
+		source.append("\t\tret_val.setSize(returncount);\n");
+		source.append("\t\tfor (int i=0; i<returncount; i++) {\n");
+		source.append("\t\t\tif (valueElements.get(i+index) != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.set(i, new {0}(valueElements.get(i+index)));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn ret_val;\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0} repl) '{'\n", genName ) );
+		source.append("\t\tif (valueElements == null) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tif (repl.valueElements == null) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The fourth argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\tAdditionalFunctions.check_replace_arguments(valueElements.size(), index, len, \"{0}\",\"element\");\n", displayName ) );
+		source.append( MessageFormat.format( "\t\t{0} ret_val = new {0}();\n", genName ) );
+		source.append("\t\tret_val.setSize(valueElements.size() + repl.valueElements.size() - len);\n");
+		source.append("\t\tfor (int i = 0; i < index; i++) {\n");
+		source.append("\t\t\tif (valueElements.get(i) != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.set(i, new {0}(valueElements.get(i)));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\tfor (int i = 0; i < repl.valueElements.size(); i++) {\n");
+		source.append("\t\t\tif (repl.valueElements.get(i) != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.set(i+index, new {0}(repl.valueElements.get(i)));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\tfor (int i = 0; i < valueElements.size() - index - len; i++) {\n");
+		source.append("\t\t\tif (valueElements.get(index+i+len) != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.set(index+i+repl.valueElements.size(), new {0}(valueElements.get(index+i+len)));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn ret_val;\n");
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0}_template repl) '{'\n", genName ) );
+		source.append("\t\tif (!repl.isValue().getValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn replace(index, len, repl.valueOf());\n");
+		source.append("\t}\n");
+	}
+
+	/**
 	 * Generate member variables for template
 	 *
 	 * @param source where the source code is to be generated.
@@ -689,7 +753,28 @@ public class RecordOfGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateReplace(StringBuilder source, final String genName, final String displayName) {
-		source.append("\n");
+ 		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0}_template repl) '{'\n", genName ) );
+		source.append("\t\tif (!isValue().getValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\tif (!repl.isValue().getValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn valueOf().replace(index, len, repl.valueOf());\n");
+		source.append("\t}\n");
+
+ 		source.append("\n");
+		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0} repl) '{'\n", genName ) );
+		source.append("\t\tif (!isValue().getValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn valueOf().replace(index, len, repl);\n");
+		source.append("\t}\n");
+
+//TODO: remove
+/*
+ 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate void substr_(int index, int returncount, {0} rec_of) '{'\n", genName ) );
 		source.append("\t\tif (!isValue().getValue()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template of type {0} with non-specific value.\");\n", displayName ) );
@@ -746,6 +831,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tvalue.set_err_descr(err_descr);\n");
 		source.append("\t}\n");
+*/
 	}
 
 	/**
