@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,6 +79,24 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			break;
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	@Override
+	public TitanOctetString_template assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanOctetString) {
+			return assign((TitanOctetString)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
+	}
+
+	@Override
+	public TitanOctetString_template assign(final Base_Template otherValue) {
+		if (otherValue instanceof TitanOctetString_template) {
+			return assign((TitanOctetString_template)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
 	//originally operator=

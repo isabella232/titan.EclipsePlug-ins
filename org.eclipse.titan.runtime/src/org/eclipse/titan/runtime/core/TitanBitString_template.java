@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,6 +94,24 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
+	@Override
+	public TitanBitString_template assign(Base_Type otherValue) {
+		if (otherValue instanceof TitanBitString) {
+			return assign((TitanBitString) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
+	}
+	
+	@Override
+	public TitanBitString_template assign(Base_Template otherValue) {
+		if (otherValue instanceof TitanBitString_template) {
+			return assign((TitanBitString_template) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
+	}
+	
 	//originally operator=
 	public TitanBitString_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);

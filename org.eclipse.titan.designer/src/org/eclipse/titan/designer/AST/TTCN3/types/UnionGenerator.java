@@ -558,6 +558,22 @@ public class UnionGenerator {
 		source.append("return this;\n");
 		source.append("}\n\n");
 
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign( final Base_Type otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("return assign(({0})otherValue);\n", genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", genName));
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign( final Base_Template otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("if (otherValue instanceof {0}_template) '{'\n", genName));
+		source.append(MessageFormat.format("return assign(({0}_template)otherValue);\n", genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}_template.\");\n", genName));
+		source.append("}\n\n");
+
 		//FIXME implement optional parameter version
 	}
 

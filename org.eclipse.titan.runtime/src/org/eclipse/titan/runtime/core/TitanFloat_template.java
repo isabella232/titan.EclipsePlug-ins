@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -71,6 +72,24 @@ public class TitanFloat_template extends Base_Template {
 			break;
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	@Override
+	public TitanFloat_template assign(Base_Type otherValue) {
+		if (otherValue instanceof TitanFloat) {
+			return assign((TitanFloat) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
+	}
+
+	@Override
+	public TitanFloat_template assign(Base_Template otherValue) {
+		if (otherValue instanceof TitanFloat_template) {
+			return assign((TitanFloat_template) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float template", otherValue));
 	}
 
 	// originally operator=

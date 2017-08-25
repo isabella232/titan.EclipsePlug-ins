@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -99,6 +100,24 @@ public class TitanComponent_template extends Base_Template {
 		setSelection(otherValue);
 
 		return this;
+	}
+	
+	@Override
+	public TitanComponent_template assign(Base_Type otherValue) {
+		if (otherValue instanceof TitanComponent) {
+			return assign((TitanComponent)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference", otherValue));
+	}
+
+	@Override
+	public TitanComponent_template assign(Base_Template otherValue) {
+		if (otherValue instanceof TitanComponent_template) {
+			return assign((TitanComponent_template)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference template", otherValue));
 	}
 
 	//originally operator=

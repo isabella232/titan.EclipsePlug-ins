@@ -717,6 +717,24 @@ public class RecordOfGenerator {
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
+		source.append("\n");
+		source.append("\t@Override\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template assign(final Base_Type otherValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\treturn assign(({0})otherValue);\n", genName) );
+		source.append("\t}\n\n");
+		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
+		source.append("\t}\n");
+
+		source.append("\n");
+		source.append("\t@Override\n");
+		source.append( MessageFormat.format( "\tpublic {0}_template assign(final Base_Template otherValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}_template) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\treturn assign(({0}_template)otherValue);\n", genName) );
+		source.append("\t}\n\n");
+		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", genName ) );
+		source.append("\t}\n");
+		
 		//TODO: implement optional parameter version
 	}
 

@@ -714,6 +714,24 @@ public class RecordSetCodeGenerator {
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
+		source.append("\n");
+		source.append("\t\t@Override\n");
+		source.append( MessageFormat.format("\t\tpublic {0}_template assign(final Base_Type otherValue) '{'\n", genName));
+		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", genName));
+		source.append( MessageFormat.format("\t\t\t\treturn assign(({0}) otherValue);\n", genName));
+		source.append("\t\t\t}\n\n");
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", genName));
+		source.append("\t\t}\n");
+
+		source.append("\n");
+		source.append("\t\t@Override\n");
+		source.append( MessageFormat.format("\t\tpublic {0}_template assign(final Base_Template otherValue) '{'\n", genName));
+		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}_template) '{'\n", genName));
+		source.append( MessageFormat.format("\t\t\t\treturn assign(({0}_template) otherValue);\n", genName));
+		source.append("\t\t\t}\n\n");
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", otherValue));\n", genName));
+		source.append("\t\t}\n");
+
 		//TODO: implement optional parameter version
 	}
 

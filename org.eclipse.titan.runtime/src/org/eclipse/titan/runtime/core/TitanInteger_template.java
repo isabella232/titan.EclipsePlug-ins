@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -72,6 +73,24 @@ public class TitanInteger_template extends Base_Template {
 			break;
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	@Override
+	public TitanInteger_template assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanInteger) {
+			return assign((TitanInteger)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
+	}
+
+	@Override
+	public TitanInteger_template assign(final Base_Template otherValue) {
+		if (otherValue instanceof TitanInteger_template) {
+			return assign((TitanInteger_template)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
 	//originally operator=

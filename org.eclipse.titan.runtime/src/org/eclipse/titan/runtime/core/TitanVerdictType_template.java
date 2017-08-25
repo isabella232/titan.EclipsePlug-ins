@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
@@ -77,6 +78,24 @@ public class TitanVerdictType_template extends Base_Template {
 			break;
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	@Override
+	public TitanVerdictType_template assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanVerdictType) {
+			return assign((TitanVerdictType)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
+	}
+
+	@Override
+	public TitanVerdictType_template assign(final Base_Template otherValue) {
+		if (otherValue instanceof TitanVerdictType_template) {
+			return assign((TitanVerdictType_template)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type template", otherValue));
 	}
 
 	//originally operator=

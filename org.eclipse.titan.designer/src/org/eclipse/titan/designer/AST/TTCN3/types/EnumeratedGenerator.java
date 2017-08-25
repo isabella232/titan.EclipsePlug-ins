@@ -170,7 +170,7 @@ public class EnumeratedGenerator {
 		generateTemplateListItem(source, e_defs.name);
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
-		
+
 		//FIXME implement log
 		//FIXME implement log_match
 		//FIXME implement encode
@@ -382,7 +382,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		//Arg: Base_Type
-		source.append("//originally operator=\n");
+		source.append("@Override\n");
 		source.append(MessageFormat.format("public {0} assign(final Base_Type otherValue)'{'\n", name));
 		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
 		source.append(MessageFormat.format("return assign(({0}) otherValue);\n", name));
@@ -635,6 +635,40 @@ public class EnumeratedGenerator {
 		source.append("return this;\n");
 		source.append("}\n\n");
 
+		//Arg: Base_Type
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign(final Base_Type otherValue)'{'\n", name));
+		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
+		source.append(MessageFormat.format("return assign(({0}) otherValue);\n", name));
+		source.append("}\n\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
+		source.append("}\n\n");
+
+		//Arg: Base_Template
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign(final Base_Template otherValue)'{'\n", name));
+		source.append(MessageFormat.format("if( otherValue instanceof {0}_template ) '{'\n", name));
+		source.append(MessageFormat.format("return assign(({0}_template) otherValue);\n", name));
+		source.append("}\n\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}''_template can not be cast to {1}\", otherValue));\n", name));
+		source.append("}\n\n");
+		/*@Override
+		public myenum1_template assign(Base_Type otherValue) {
+			if( otherValue instanceof myenum1 ) {
+				return assign((myenum1) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `myenum1' can not be cast to {1}", otherValue));
+		}
+
+		@Override
+		public myenum1_template assign(Base_Template otherValue) {
+			if( otherValue instanceof myenum1_template ) {
+				return assign((myenum1_template) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `myenum1' can not be cast to {1}", otherValue));
+		}*/
 		//FIXME implement optional parameter version
 	}
 
@@ -651,7 +685,7 @@ public class EnumeratedGenerator {
 		source.append("}\n");
 		source.append("}\n\n");
 	}
-	
+
 	private static void generateTemplateIsBound(final StringBuilder source) {
 		source.append("public TitanBoolean isBound() {\n");
 		source.append("if (templateSelection != template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
@@ -689,7 +723,7 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("public TitanBoolean match(final {0}.enum_type otherValue) '{'\n", name));
 		source.append("return match(otherValue, false);\n");
 		source.append("}\n\n");
-	
+
 		source.append("// originally match\n");
 		source.append(MessageFormat.format("public TitanBoolean match(final {0}.enum_type otherValue, boolean legacy ) '{'\n", name));
 		source.append("switch (templateSelection) {\n");
@@ -712,19 +746,19 @@ public class EnumeratedGenerator {
 		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ name +".\");\n");
 		source.append("}\n");
 		source.append("}\n\n");
-		
+
 		// name type
 		source.append("// originally match\n");
 		source.append(MessageFormat.format("public TitanBoolean match(final {0} otherValue) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");
-		
+
 		source.append("// originally match\n");
 		source.append(MessageFormat.format("public TitanBoolean match(final {0} otherValue, boolean legacy ) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");
 	}
-	
+
 	private static void generateTemplateValueOf(final StringBuilder source, final String name) {
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", name));
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
@@ -733,7 +767,7 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("return new {0}(single_value);\n", name));
 		source.append("}\n\n");
 	}
-	
+
 	private static void generateTemplateListItem(final StringBuilder source, final String name) {
 		source.append(MessageFormat.format("public {0}_template listItem(int list_index)  '{'\n", name));
 		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
@@ -754,7 +788,7 @@ public class EnumeratedGenerator {
 		source.append("public TitanBoolean isPresent() {\n");
 		source.append("return isPresent(false);\n");
 		source.append("}\n\n");
-		
+
 		source.append("public TitanBoolean isPresent(final boolean legacy) {\n");
 		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("return new TitanBoolean(false);\n");

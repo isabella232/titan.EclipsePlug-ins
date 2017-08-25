@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,6 +78,24 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	@Override
+	public TitanHexString_template assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanHexString) {
+			return assign((TitanHexString) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
+	}
+
+	@Override
+	public TitanHexString_template assign(final Base_Template otherValue) {
+		if (otherValue instanceof TitanHexString_template) {
+			return assign((TitanHexString_template) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
 	//originally operator=
