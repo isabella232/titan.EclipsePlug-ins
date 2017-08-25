@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,6 +113,29 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			break;
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	// originally operator=
+	@Override
+	public TitanUniversalCharString_template assign(final Base_Type otherValue) {
+		if (otherValue instanceof TitanUniversalCharString) {
+			return assign((TitanUniversalCharString) otherValue);
+		} else if (otherValue instanceof TitanCharString) {
+			return assign((TitanCharString) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universal charstring", otherValue));
+	}
+
+	@Override
+	public TitanUniversalCharString_template assign(final Base_Template otherValue) {
+		if (otherValue instanceof TitanUniversalCharString_template) {
+			return assign((TitanUniversalCharString_template) otherValue);
+		} else if (otherValue instanceof TitanCharString_template) {
+			return assign((TitanCharString_template) otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universal charstring template", otherValue));
 	}
 
 	//originally operator=
@@ -502,7 +526,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("The upper bound in a universal charstring value range template is smaller than the lower bound.");
 		}
 	}
-	
+
 	public void setMin(final TitanCharString minValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");

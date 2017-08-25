@@ -332,6 +332,22 @@ public class FunctionReferenceGenerator {
 		source.append("return this;\n");
 		source.append("}\n");
 
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign(Base_Type otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
+		source.append(MessageFormat.format("return assign(({0})otherValue);\n", def.genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", def.displayName));
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign(Base_Template otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("if (otherValue instanceof {0}_template) '{'\n", def.genName));
+		source.append(MessageFormat.format("return assign(({0}_template)otherValue);\n", def.genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", def.displayName));
+		source.append("}\n");
+
 		source.append("// originally match\n");
 		source.append(MessageFormat.format("public TitanBoolean match(final {0}.function_pointer other_value) '{'\n", def.genName));
 		source.append("return match(other_value, false);\n");

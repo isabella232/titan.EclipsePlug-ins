@@ -75,6 +75,24 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
+	@Override
+	public TitanCharString_template assign(Base_Type otherValue) {
+		if (otherValue instanceof TitanCharString) {
+			return assign((TitanCharString) otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
+	}
+
+	@Override
+	public TitanCharString_template assign(Base_Template otherValue) {
+		if (otherValue instanceof TitanCharString_template) {
+			return assign((TitanCharString_template) otherValue);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring template", otherValue));
+	}
+
 	//originally operator=
 	public TitanCharString_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);

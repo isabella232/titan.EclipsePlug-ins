@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -103,6 +104,24 @@ public class TitanDefault_template extends Base_Template {
 			break;
 		}
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
+	}
+
+	@Override
+	public TitanDefault_template assign(Base_Type otherValue) {
+		if (otherValue instanceof TitanDefault) {
+			return assign((TitanDefault)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
+	}
+
+	@Override
+	public TitanDefault_template assign(Base_Template otherValue) {
+		if (otherValue instanceof TitanDefault_template) {
+			return assign((TitanDefault_template)otherValue);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
 	}
 
 	//originally operator=

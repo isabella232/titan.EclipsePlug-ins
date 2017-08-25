@@ -83,7 +83,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return newList;
 	}
 
-	//FIXME: refactor rename removeAllPermutations
+	//FIXME: rename removeAllPermutations
 	public void removeAllPermuations() {
 		clean_up_intervals();
 	}
@@ -157,7 +157,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		for (int i = 0; i < array_size; ++i) {
 			try {
 				Ttemplate helper = classTemplate.newInstance();
-				//helper.assign(otherValue.getAt(i));
+				helper.assign(otherValue.getAt(i));
 				single_value.add(helper);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
@@ -181,10 +181,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			for (int i = 0; i < single_value.size(); ++i) {
 				try {
 					Ttemplate helper = classTemplate.newInstance();
-					//helper.assign(otherValue.single_value.get(i));
-					//single_value.add(helper);
-					single_value.add(otherValue.single_value.get(i));
-
+					helper.assign(otherValue.single_value.get(i));
+					single_value.add(helper);
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -200,11 +198,12 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			//value_list.n_values = other_value.value_list.n_values;
 			value_list = new ArrayList<TitanTemplateArray<Tvalue,Ttemplate>>();
 			listSize = otherValue.value_list.size();//array_size;
+			for (int i = 0; i < listSize; ++i) {
+				value_list.add(new TitanTemplateArray<Tvalue, Ttemplate>(classValue,classTemplate));
+			}
 			for (int list_count = 0; list_count < otherValue.value_list.size(); list_count++)
-				//FIXME: null pointer
 				value_list.get(list_count).copy_template(otherValue.value_list.get(list_count));
 			break;
 		default:
@@ -397,7 +396,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return getAt(index.getInt());
 	}
 
-	//const originally T& operator[](int)
+	// originally const T& operator[](int)
 	public Ttemplate constGetAt(int index) {
 		if (index < indexOffset ) {
 			throw new TtcnError(MessageFormat.format("Accessing an element of an array template using invalid index: {0}. "
@@ -415,7 +414,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return single_value.get(index);
 	}
 
-	// const // originally T& operator[](const INTEGER)
+	// originally T& operator[](const INTEGER)
 	public Ttemplate constGetAt(final TitanInteger index) {
 		index.mustBound("Using an unbound integer value for indexing an array template.");
 		return constGetAt(index.getInt());	
@@ -435,11 +434,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	public TitanInteger lengthOf() {
 		return sizeOf(false);
 	}
-	
+
 	public TitanInteger sizeOf(){
 		return sizeOf(true);
 	}
-	
+
 	// originally size_of
 	public TitanInteger sizeOf(boolean isSize) {
 		final String opName = isSize ? "size" : "length";
@@ -637,6 +636,52 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			// else fall through
 		default:
 			return new TitanBoolean(false);
+		}
+	}
+
+	@Override
+	public TitanTemplateArray<Tvalue, Ttemplate> assign(Base_Type otherValue) {
+		if (otherValue instanceof TitanValueArray<?>) {
+			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
+			return assign(arrayOther);
+		} else {
+			try {
+				Ttemplate value = classTemplate.newInstance();
+				value.assign(otherValue);
+				single_value = new ArrayList<Ttemplate>();
+				single_value.add(value);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return this;
+		}
+	}
+
+	@Override
+	public TitanTemplateArray<Tvalue, Ttemplate> assign(Base_Template otherValue) {
+		if (otherValue instanceof TitanTemplateArray<?,?>) {
+			final TitanTemplateArray<?,?> arrayOther = (TitanTemplateArray<?,?>)otherValue;
+			return assign(arrayOther);
+		} else {
+			try {
+				Ttemplate value = classTemplate.newInstance();
+				value.assign(otherValue);
+				single_value = new ArrayList<Ttemplate>();
+				single_value.add(value);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return this;
 		}
 	}
 

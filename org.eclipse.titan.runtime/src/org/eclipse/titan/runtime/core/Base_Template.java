@@ -170,5 +170,6 @@ public abstract class Base_Template {
 		return templateSelection == template_sel.ANY_OR_OMIT && !is_ifPresent;
 	}
 
-//	public abstract Base_Template assign(Base_Type value);
+	public abstract Base_Template assign(final Base_Type otherValue);
+	public abstract Base_Template assign(final Base_Template otherValue);
 }
