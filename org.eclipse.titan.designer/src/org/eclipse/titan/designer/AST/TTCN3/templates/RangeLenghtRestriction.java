@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Integer_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -36,7 +37,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * Represents a length restriction for a range.
  *
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class RangeLenghtRestriction extends LengthRestriction {
 	private static final String FULLNAMEPART1 = ".<lower>";
 	private static final String FULLNAMEPART2 = ".<upper>";
@@ -49,8 +51,10 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 
 	public RangeLenghtRestriction(final Value lower, final Value upper) {
 		super();
-		this.lower = lower;
-		this.upper = upper;
+
+		// infinity values are ignored
+		this.lower = isInfinity(lower) ? null : lower;
+		this.upper = isInfinity(upper) ? null : upper;
 
 		if (lower != null) {
 			lower.setFullNameParent(this);
@@ -364,5 +368,13 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 			upper.generateCodeExpression(aData, expression);
 			source.append(MessageFormat.format("{0}.set_max_length({1});\n", name, expression.expression));
 		}
+	}
+
+	private static boolean isInfinity( final Value value ) {
+		if ( !(value instanceof Real_Value) ) {
+			return false;
+		}
+		final Real_Value real = (Real_Value)value;
+		return Double.isInfinite( real.getValue() );
 	}
 }
