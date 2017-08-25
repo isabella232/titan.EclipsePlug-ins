@@ -485,8 +485,9 @@ public final class Def_Var_Template extends Definition {
 		
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
-			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-			source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class, {2}_template.class);\n", typeGeneratedName, genName, elementType));
+			String elementValueName = arrayType.getElementType().getGenNameValue(aData, source, myScope);
+			String elementTemplateName = arrayType.getElementType().getGenNameTemplate(aData, source, myScope);
+			source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class, {3}.class);\n", typeGeneratedName, genName, elementValueName, elementTemplateName));
 			source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
 			source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
 		} else {
