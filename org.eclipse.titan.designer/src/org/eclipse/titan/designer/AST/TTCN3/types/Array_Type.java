@@ -927,7 +927,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return dimension.getTemplateType(aData, source, elementType, scope);
 		}
 
-		return getGenNameOwn();
+		return getGenNameOwn()+"_template";
 	}
 
 	@Override
