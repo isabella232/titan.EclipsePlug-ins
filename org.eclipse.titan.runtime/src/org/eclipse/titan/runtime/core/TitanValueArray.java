@@ -19,14 +19,34 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	public Class<T> clazz;
 
-
-
-	private int array_size;
-	private int indexOffset;
+	int array_size;
+	int indexOffset;
 
 	public TitanValueArray(Class<T> clazz) {
 		this.clazz = clazz;
 		array_elements = new ArrayList<T>();
+	}
+	
+	public TitanValueArray(TitanValueArray<T> otherValue) {
+		clazz = otherValue.clazz; 
+		array_elements = new ArrayList<T>();
+		array_size = otherValue.array_size;
+		indexOffset = otherValue.indexOffset;
+		
+		for (int i = 0; i < array_size ; ++i) {
+			T helper;
+			try {
+				helper = clazz.newInstance();
+				helper.assign(otherValue.array_elements.get(i));
+				array_elements.add(helper);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	//FIXME: implement
@@ -36,11 +56,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				T emply = clazz.newInstance();
 				array_elements.add(emply);
 			} catch (InstantiationException e) {
-				
-				//Class obj = clazz.getClass();//.newInstance();
-				//System.out.println(obj.getName());
-				//T empty = obj.newInstance();
-				//e.printStackTrace();
+				e.printStackTrace();
 			} catch (IllegalAccessException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
