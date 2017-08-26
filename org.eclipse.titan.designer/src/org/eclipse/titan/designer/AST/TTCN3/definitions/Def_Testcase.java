@@ -582,9 +582,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("try{\n");
 		//TODO add extra parameters too
 		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", has_timer, timer_value);\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
-		source.append("long test_start = System.nanoTime();\n");
 		block.generateCode(aData, source);
-		source.append(MessageFormat.format("System.out.println(\"Testcase {0} took \" + (System.nanoTime() - test_start) * (1e-9) + \" seconds to complete\");", identifier.getDisplayName()));
 		source.append("} catch (TtcnError error) {\n");
 		source.append("TTCN_Runtime.setErrorVerdict(); \n");
 		source.append("System.out.println(error);\n");
