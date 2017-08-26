@@ -154,6 +154,18 @@ public final class TtcnLogger {
 		//empty for now
 	}
 
+	public static void log(final Severity msg_severity, final String formatString, Object... args ) {
+		log_va_list(msg_severity, formatString, args);
+	}
+
+	public static void log_str(final Severity msg_severity, final String string ) {
+		log_line(msg_severity, string == null ? "<NULL pointer>": string);
+	}
+
+	public static void log_va_list(final Severity msg_severity, final String formatString, Object... args) {
+		log_line(msg_severity, String.format(formatString, args));
+	}
+
 	public static void begin_event(final Severity msg_severity) {
 		current_event = new log_event_struct();
 		current_event.severity = msg_severity;
@@ -167,7 +179,7 @@ public final class TtcnLogger {
 
 	public static void end_event() {
 		if (current_event != null) {
-			log_line(current_event.severity, current_event.buffer);
+			log_line(current_event.severity, current_event.buffer.toString());
 
 			events.pop();
 			if (!events.isEmpty()) {
@@ -195,7 +207,7 @@ public final class TtcnLogger {
 		return new TitanCharString();
 	}
 
-	private static void log_line(final Severity event_severity, final StringBuilder message) {
+	private static void log_line(final Severity event_severity, final String message) {
 		long timestamp = System.currentTimeMillis();
 		long milisec = timestamp % 1000;
 		timestamp = timestamp / 1000;

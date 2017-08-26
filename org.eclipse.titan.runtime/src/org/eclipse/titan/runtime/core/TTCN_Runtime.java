@@ -10,6 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
 /**
  * TTCN-3 runtime class
@@ -60,7 +61,7 @@ public class TTCN_Runtime {
 		setTestcaseName(moduleName, testcaseName);
 		//FIXME this is much more complex
 
-		System.out.println(MessageFormat.format("Test case {0} started.", testcaseName));
+		TtcnLogger.log(Severity.TESTCASE_START, "Test case %s started.", testcaseName);
 		if (hasTimer) {
 			TitanTimer.testcaseTimer.start(timerValue.getValue());
 		}
@@ -76,9 +77,9 @@ public class TTCN_Runtime {
 		terminate_component_type();
 
 		if (verdictReason == null || verdictReason.length() == 0) {
-			System.out.println(MessageFormat.format("Test case {0} finished. Verdict {1}", testcaseDefinitionName, localVerdict.getName()));
+			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict %s", testcaseDefinitionName, localVerdict.getName());
 		} else {
-			System.out.println(MessageFormat.format("Test case {0} finished. Verdict {1}, reason: {2}", testcaseDefinitionName, localVerdict.getName(), verdictReason));
+			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict %s, reason: %s", testcaseDefinitionName, localVerdict.getName(), verdictReason);
 		}
 
 		verdictCount[localVerdict.getValue()]++;
@@ -396,14 +397,13 @@ public class TTCN_Runtime {
 			overallVerdict = VerdictTypeEnum.NONE;
 		}
 
-		//FIXME implement logging
-		System.out.println(MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
+		TtcnLogger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
 				verdictCount[VerdictTypeEnum.NONE.getValue()], (100.0 * verdictCount[VerdictTypeEnum.NONE.getValue()])/ totalTestcases,
 				verdictCount[VerdictTypeEnum.PASS.getValue()], (100.0 * verdictCount[VerdictTypeEnum.PASS.getValue()])/ totalTestcases,
 				verdictCount[VerdictTypeEnum.INCONC.getValue()], (100.0 * verdictCount[VerdictTypeEnum.INCONC.getValue()])/ totalTestcases,
 				verdictCount[VerdictTypeEnum.FAIL.getValue()], (100.0 * verdictCount[VerdictTypeEnum.FAIL.getValue()])/ totalTestcases,
 				verdictCount[VerdictTypeEnum.ERROR.getValue()], (100.0 * verdictCount[VerdictTypeEnum.ERROR.getValue()])/ totalTestcases));
-		System.out.println(MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were":" was", overallVerdict.getName()));
+		TtcnLogger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were":" was", overallVerdict.getName()));
 		
 		verdictCount[VerdictTypeEnum.NONE.getValue()] = 0;
 		verdictCount[VerdictTypeEnum.PASS.getValue()] = 0;
