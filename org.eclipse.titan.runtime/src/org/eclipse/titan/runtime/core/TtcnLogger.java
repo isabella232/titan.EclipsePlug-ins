@@ -196,7 +196,17 @@ public final class TtcnLogger {
 	}
 
 	private static void log_line(final Severity event_severity, final StringBuilder message) {
-		System.out.println("Logger sais: " + message);
+		long timestamp = System.currentTimeMillis();
+		long milisec = timestamp % 1000;
+		timestamp = timestamp / 1000;
+		long secs = timestamp % 60;
+		timestamp = timestamp / 60;
+		long minutes = timestamp % 60;
+		timestamp = timestamp / 60;
+		long hours = timestamp % 24;
+		timestamp = timestamp / 24;
+		String timestampString = String.format("%02d:%02d:%02d.%03d", hours, minutes, secs, milisec);
+		System.out.println("Logger sais: " + timestampString + " "+ message);
 	}
 
 	public static void finish_event() {
