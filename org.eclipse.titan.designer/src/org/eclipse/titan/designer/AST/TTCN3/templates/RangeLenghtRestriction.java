@@ -51,10 +51,8 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 
 	public RangeLenghtRestriction(final Value lower, final Value upper) {
 		super();
-
-		// infinity values are ignored
-		this.lower = isInfinity(lower) ? null : lower;
-		this.upper = isInfinity(upper) ? null : upper;
+		this.lower = lower;
+		this.upper = upper;
 
 		if (lower != null) {
 			lower.setFullNameParent(this);
@@ -358,12 +356,12 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (lower != null) {
+		if (lower != null && !isInfinity(lower)) {
 			ExpressionStruct expression = new ExpressionStruct();
 			lower.generateCodeExpression(aData, expression);
 			source.append(MessageFormat.format("{0}.set_min_length({1});\n", name, expression.expression));
 		}
-		if (upper != null) {
+		if (upper != null && !isInfinity(upper)) {
 			ExpressionStruct expression = new ExpressionStruct();
 			upper.generateCodeExpression(aData, expression);
 			source.append(MessageFormat.format("{0}.set_max_length({1});\n", name, expression.expression));
