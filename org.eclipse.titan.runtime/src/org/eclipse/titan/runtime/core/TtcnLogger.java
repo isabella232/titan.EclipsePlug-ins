@@ -218,6 +218,7 @@ public final class TtcnLogger {
 		long hours = timestamp % 24;
 		timestamp = timestamp / 24;
 		String timestampString = String.format("%02d:%02d:%02d.%03d", hours, minutes, secs, milisec);
+
 		System.out.println("Logger sais: " + timestampString + " "+ message);
 	}
 
@@ -249,7 +250,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_event_uninitialized() {
-		// TODO Auto-generated method stub
+		log_event_str("<uninitialized template>");
 	}
 
 	public static void log_hex( final byte aHexDigit ) {
