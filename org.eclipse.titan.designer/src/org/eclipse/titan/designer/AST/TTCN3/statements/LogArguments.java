@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -218,7 +219,9 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		for ( int i = 0; i < size; i++ ) {
 			arguments.get( i ).generateCodeLog(aData, expression.preamble);
 		}
-		expression.expression.append( "TtcnLogger.end_event_log2str()");
+		String tempId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("TitanCharString {0} = TtcnLogger.end_event_log2str();\n", tempId));
+		expression.expression.append(tempId);
 		expression.expression.append( "//TODO this is only temporal implementation!\n" );
 	}
 }
