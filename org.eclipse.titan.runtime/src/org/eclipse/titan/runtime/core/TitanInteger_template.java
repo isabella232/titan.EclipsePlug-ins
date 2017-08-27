@@ -196,23 +196,23 @@ public class TitanInteger_template extends Base_Template {
 			}
 			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 		case VALUE_RANGE:{
-			boolean lowerMissMatch = true;
-			boolean upperMissMatch = true;
+			boolean lowerMatch = true;
+			boolean upperMatch = true;
 			if(min_is_present) {
 				if(min_is_exclusive) {
-					lowerMissMatch = min_value.isLessThanOrEqual(otherValue).getValue();
+					lowerMatch = min_value.isLessThan(otherValue).getValue();
 				} else {
-					lowerMissMatch = min_value.isLessThan(otherValue).getValue();
+					lowerMatch = min_value.isLessThanOrEqual(otherValue).getValue();
 				}
 			}
 			if(max_is_present) {
 				if (max_is_exclusive) {
-					upperMissMatch = min_value.isGreaterThanOrEqual(otherValue).getValue();
+					upperMatch = max_value.isGreaterThan(otherValue).getValue();
 				} else {
-					upperMissMatch = min_value.isGreaterThan(otherValue).getValue();
+					upperMatch = max_value.isGreaterThanOrEqual(otherValue).getValue();
 				}
 			}
-			return new TitanBoolean(lowerMissMatch && upperMissMatch);
+			return new TitanBoolean(lowerMatch && upperMatch);
 		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported integer template.");
