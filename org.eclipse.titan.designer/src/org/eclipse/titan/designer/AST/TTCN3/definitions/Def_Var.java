@@ -525,7 +525,7 @@ public final class Def_Var extends Definition {
 					StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 					String tempId1 = aData.getTemporaryVariableName();
 					//TODO: can be more difficult
-					sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{2}> '{'\n", tempId1,lastType.getGenNameValue(aData, source, getMyScope())));
+					sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId1,lastType.getGenNameValue(aData, source, getMyScope())));
 					sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
 					sb.append(MessageFormat.format("super({0}.class);\n", lastType.getGenNameValue(aData, source, getMyScope())));
 					sb.append("}\n}\n");
