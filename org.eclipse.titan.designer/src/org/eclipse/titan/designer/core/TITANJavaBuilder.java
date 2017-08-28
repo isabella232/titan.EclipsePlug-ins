@@ -21,12 +21,14 @@ import org.eclipse.jface.preference.IPreferenceStore;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.ProjectSourceCompiler;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.license.LicenseValidator;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
+
 /**
  * Build system for java code generation.
  * @author Kristof Szabados
@@ -57,12 +59,14 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 		progress.worked(1);
 
+		BuildTimestamp timestamp = BuildTimestamp.getNewBuildCounter();
+
 		IProgressMonitor codeGeneratorMonitor = progress.newChild(1);
 		codeGeneratorMonitor.beginTask("Checking prerequisites", sourceParser.getModules().size() + 1);
 		for(Module module : sourceParser.getModules()) {
 			TITANDebugConsole.println("Generating code for module `" + module.getIdentifier().getDisplayName() + "'");
 			try {
-				ProjectSourceCompiler.compile( module, reportDebugInformation );
+				ProjectSourceCompiler.compile(timestamp, module, reportDebugInformation );
 			} catch ( Exception e ) {
 				ErrorReporter.logExceptionStackTrace("While generating Java code for module " + module.getIdentifier().getDisplayName(), e);
 			}
