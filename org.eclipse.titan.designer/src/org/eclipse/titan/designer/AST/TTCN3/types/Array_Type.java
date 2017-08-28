@@ -945,11 +945,17 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("public {0}() '{'\n", ownName, elementName));
 		source.append(MessageFormat.format("super({0}.class);\n",elementName));
 		source.append("}\n");
+		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", ownName, elementName));
+		source.append("super(otherValue);\n");
 		source.append("}\n");
+		source.append("}\n\n");
 		source.append(MessageFormat.format("public static class {0}_template extends {1} '{'\n", ownName, templateName));
 		source.append(MessageFormat.format("public {0}_template() '{'\n",ownName,elementName));
 		source.append(MessageFormat.format("super({0}.class, {0}_template.class);\n",elementName));
 		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template({0}_template otherValue) '{'\n",ownName,elementName));
+		source.append("super(otherValue);\n");
 		source.append("}\n");
+		source.append("}\n\n");
 	}
 }
