@@ -409,6 +409,9 @@ public class RecordOfGenerator {
 		source.append("\n");
 		source.append("\t@Override\n");
 		source.append("\tpublic String toString() {\n");
+		source.append("\t\tif (!isBound().getValue()) {\n");
+		source.append("\t\t\treturn \"<unbound>\";\n");
+		source.append("\t\t}\n");
 		source.append("\t\tfinal StringBuilder sb = new StringBuilder();\n");
 		source.append("\t\tsb.append('{');\n");
 		source.append("\t\tfinal int size = ( valueElements != null ) ? valueElements.size() : 0;\n");
