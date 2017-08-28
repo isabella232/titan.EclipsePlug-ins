@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -222,6 +223,8 @@ public final class Def_Var_Template extends Definition {
 		final ITTCN3Template temporalValue = type.checkThisTemplateRef(timestamp, realInitialValue);
 		temporalValue.checkThisTemplateGeneric(timestamp, type, true, true, true, true, false, this);
 		generateRestrictionCheck = TemplateRestriction.check(timestamp, this, initialValue, null);
+
+		initialValue.setCodeSection(CodeSectionType.CS_INLINE);
 
 		// Only to follow the pattern, otherwise no such field can exist
 		// here

@@ -263,6 +263,16 @@ public final class SequenceOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (values != null) {
+			values.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		switch (newType) {
 		case ARRAY_VALUE:

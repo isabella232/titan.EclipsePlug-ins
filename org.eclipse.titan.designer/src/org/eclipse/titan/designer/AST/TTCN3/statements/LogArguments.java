@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -56,8 +57,20 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		for (int i = 0, size = arguments.size(); i < size; i++) {
 			arguments.get(i).setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for these arguments to the provided value.
+	 *
+	 * @param codeSection the code section where these arguments should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		for (int i = 0, size = arguments.size(); i < size; i++) {
+			arguments.get(i).setCodeSection(codeSection);
 		}
 	}
 

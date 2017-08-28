@@ -73,6 +73,16 @@ public final class ComponentAliveExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (value != null) {
+			value.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 

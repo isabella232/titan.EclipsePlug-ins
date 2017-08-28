@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -27,6 +28,14 @@ public final class Reference_InternalLogArgument extends InternalLogArgument {
 
 	public Reference getReference() {
 		return reference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

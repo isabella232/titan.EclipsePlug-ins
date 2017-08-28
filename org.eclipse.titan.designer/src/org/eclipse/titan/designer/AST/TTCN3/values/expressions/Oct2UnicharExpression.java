@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -23,6 +24,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -72,8 +74,19 @@ public final class Oct2UnicharExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (value != null) {
 			value.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (value != null) {
+			value.setCodeSection(codeSection);
 		}
 	}
 
@@ -242,5 +255,13 @@ public final class Oct2UnicharExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (value != null) {
+			value.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 }

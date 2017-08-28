@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -82,8 +83,23 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (templateInstance != null) {
 			templateInstance.setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the argument to the provided value.
+	 *
+	 * @param codeSection the code section where this argument should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (templateInstance != null) {
+			templateInstance.setCodeSection(codeSection);
+		}
+		if (internalLogArgument != null) {
+			internalLogArgument.setCodeSection(codeSection);
 		}
 	}
 

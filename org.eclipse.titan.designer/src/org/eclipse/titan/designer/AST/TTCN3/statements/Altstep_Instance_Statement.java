@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -65,8 +66,17 @@ public final class Altstep_Instance_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (reference != null) {
 			reference.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
 		}
 	}
 

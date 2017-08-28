@@ -253,6 +253,16 @@ public final class Set_Value extends Value {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (values != null) {
+			values.setCodeSection(codeSection);
+		}
+	}
+
 	/**
 	 * Checks the uniqueness of the set value.
 	 *

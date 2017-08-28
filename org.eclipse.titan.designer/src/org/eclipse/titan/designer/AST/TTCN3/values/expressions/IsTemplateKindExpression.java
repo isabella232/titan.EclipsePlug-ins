@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -26,6 +27,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -95,6 +97,19 @@ public final class IsTemplateKindExpression extends Expression_Value {
 		}
 		if (value2 != null) {
 			value2.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (templateInstance1 != null) {
+			templateInstance1.setCodeSection(codeSection);
+		}
+		if (value2 != null) {
+			value2.setCodeSection(codeSection);
 		}
 	}
 
@@ -330,5 +345,16 @@ public final class IsTemplateKindExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (templateInstance1 != null) {
+			templateInstance1.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (value2 != null) {
+			value2.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 }

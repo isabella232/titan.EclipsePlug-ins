@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST;
 
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -46,6 +47,12 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
+		//Do nothing
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
 		//Do nothing
 	}
 
@@ -150,6 +157,12 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 			return "";
 		}
 		return aTtcn3RecField.substring(0, 1).toUpperCase() + aTtcn3RecField.substring(1);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		return true;
 	}
 
 	@Override

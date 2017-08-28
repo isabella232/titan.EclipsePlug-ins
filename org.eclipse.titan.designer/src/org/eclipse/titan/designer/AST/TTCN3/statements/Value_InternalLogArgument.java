@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -26,6 +27,14 @@ public final class Value_InternalLogArgument extends InternalLogArgument {
 
 	public IValue getValue() {
 		return value;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (value != null) {
+			value.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

@@ -8,7 +8,9 @@
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -34,6 +36,20 @@ public final class Default_ActualParameter extends ActualParameter {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(CodeSectionType codeSection) {
+		if (defaultActualParameter != null) {
+			defaultActualParameter.setCodeSection(codeSection);
+		}
 	}
 
 	public ActualParameter getActualParameter() {
@@ -75,6 +91,14 @@ public final class Default_ActualParameter extends ActualParameter {
 		//TODO needs specialized code generation at this point
 		if (defaultActualParameter != null) {
 			defaultActualParameter.generateCode(aData, expression);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (defaultActualParameter != null) {
+			defaultActualParameter.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 }

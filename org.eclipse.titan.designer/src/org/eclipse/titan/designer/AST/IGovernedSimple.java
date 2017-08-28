@@ -7,10 +7,30 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+
 /**
  * @author Kristof Szabados
  * */
 public interface IGovernedSimple extends IGoverned {
 
 	public void setGenNamePrefix(final String prefix);
+
+	/**
+	 * @return the code section where this governed simple is generated.
+	 * */
+	public CodeSectionType getCodeSection();
+
+	/**
+	 * Sets the code_section attribute of this governed simple object to the provided value.
+	 *
+	 * @param codeSection the code section where this governed simple should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection);
+
+	/***
+	 * Returns the Java expression that refers to the object, which has to be
+	 * initialized.
+	 * */
+	public String get_lhs_name();
 }

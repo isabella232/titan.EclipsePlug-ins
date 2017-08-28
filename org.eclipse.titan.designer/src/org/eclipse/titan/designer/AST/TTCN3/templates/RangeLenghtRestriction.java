@@ -16,6 +16,8 @@ import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -115,6 +117,17 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 		}
 		if (upper != null) {
 			upper.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (lower != null) {
+			lower.setCodeSection(codeSection);
+		}
+		if (upper != null) {
+			upper.setCodeSection(codeSection);
 		}
 	}
 
@@ -351,6 +364,17 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (lower != null) {
+			lower.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (upper != null) {
+			upper.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

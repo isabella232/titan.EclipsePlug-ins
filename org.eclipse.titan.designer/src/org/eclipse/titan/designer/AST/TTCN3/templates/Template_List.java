@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -459,7 +460,34 @@ public final class Template_List extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		if (asValue != null) {
+			asValue.reArrangeInitCode(aData, source, usageModule);
+			return;
+		}
+
+		if (converted != null) {
+			converted.reArrangeInitCode(aData, source, usageModule);
+			return;
+		}
+
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			templates.getTemplateByIndex(i).reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		if (asValue != null) {
 			asValue.generateCodeInit(aData, source, name);
 			return;
@@ -597,6 +625,7 @@ public final class Template_List extends CompositeTemplate {
 							body.append("}\n");
 
 							body.append(MessageFormat.format("{0} += {1}.n_elem();\n", counter, bodyExpression.expression));
+							template2.lastTimeBuilt = aData.buildTimestamp;
 						} else {
 							fixedPart++;
 							template2.generateCodeInitSeofElement(aData, body, name, counter, ofTypeName);
@@ -606,6 +635,7 @@ public final class Template_List extends CompositeTemplate {
 
 					// do not consider index_offset in case of permutation indicators
 					body.append(MessageFormat.format("{0}.addPermutation({1}, {2} - 1);\n", name, permutationStart, counter));
+					template.lastTimeBuilt = aData.buildTimestamp;
 				} else {
 					fixedPart++;
 					template.generateCodeInitSeofElement(aData, body, name, counter, ofTypeName);
@@ -636,6 +666,7 @@ public final class Template_List extends CompositeTemplate {
 					}
 					// do not consider index_offset in case of permutation indicators
 					source.append(MessageFormat.format("{0}.addPermutation({1}, {2});\n", name, index, index + nofPermutatedTemplates - 1));
+					template.lastTimeBuilt = aData.buildTimestamp;
 					index += nofPermutatedTemplates;
 					break;
 				case ALL_FROM:

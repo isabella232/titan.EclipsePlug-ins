@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -26,6 +27,12 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 
 	public String getString() {
 		return argument;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		//Do nothing
 	}
 
 	@Override

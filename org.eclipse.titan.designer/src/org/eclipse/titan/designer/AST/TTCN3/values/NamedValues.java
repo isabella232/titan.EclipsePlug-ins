@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -52,6 +53,17 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 		values.trimToSize();
 		for (int i = 0; i < values.size(); i++) {
 			values.get(i).setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the list to the provided value.
+	 *
+	 * @param codeSection the code section where this list should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		for (int i = 0; i < values.size(); i++) {
+			values.get(i).getValue().setCodeSection(codeSection);
 		}
 	}
 

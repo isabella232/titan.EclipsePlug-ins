@@ -108,11 +108,25 @@ public final class CheckStateExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (portReference != null) {
 			portReference.setMyScope(scope);
 		}
 		if (value != null) {
 			value.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (portReference != null) {
+			portReference.setCodeSection(codeSection);
+		}
+		if (value != null) {
+			value.setCodeSection(codeSection);
 		}
 	}
 

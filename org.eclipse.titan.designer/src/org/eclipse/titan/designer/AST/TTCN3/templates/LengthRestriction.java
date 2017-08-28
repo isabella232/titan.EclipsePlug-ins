@@ -10,7 +10,9 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
@@ -55,6 +57,13 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 	 * @return the string representation of the length restriction.
 	 * */
 	public abstract String createStringRepresentation();
+
+	/**
+	 * Sets the code_section attribute of this length restriction to the provided value.
+	 *
+	 * @param codeSection the code section where this length restriction should be generated.
+	 * */
+	public abstract void setCodeSection(final CodeSectionType codeSection);
 
 	/**
 	 * Check that the length restriction is a correct value, and at is
@@ -110,6 +119,19 @@ public abstract class LengthRestriction extends ASTNode implements ILocateableNo
 	 * */
 	@Override
 	public abstract void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException;
+
+	/**
+	 * Walks through the template recursively and appends the java
+	 * initialization sequence of all (directly or indirectly) referenced
+	 * non-parameterized templates and the default values of all
+	 * parameterized templates to source and returns the resulting string.
+	 * Only objects belonging to module usageModule are initialized.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param usageModule the name where the restriction is used
+	 * */
+	public abstract void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule);
 
 	/**
 	 * Add generated java code for length restriction.

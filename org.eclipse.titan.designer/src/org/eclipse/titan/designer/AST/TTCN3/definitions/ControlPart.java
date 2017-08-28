@@ -13,6 +13,7 @@ import java.util.List;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Location;
@@ -187,6 +188,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 		T3Doc.check(this.getCommentLocation(), KIND);
 
 		statementblock.check(timestamp);
+		statementblock.setCodeSection(CodeSectionType.CS_INLINE);
 
 		if (withAttributesPath != null) {
 			withAttributesPath.checkGlobalAttributes(timestamp, false);

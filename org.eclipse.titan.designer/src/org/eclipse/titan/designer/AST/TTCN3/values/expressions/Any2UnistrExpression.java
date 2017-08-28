@@ -75,8 +75,19 @@ public final class Any2UnistrExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (templateInstance1 != null) {
 			templateInstance1.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (templateInstance1 != null) {
+			templateInstance1.setCodeSection(codeSection);
 		}
 	}
 

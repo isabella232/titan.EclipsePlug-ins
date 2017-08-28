@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -50,6 +51,13 @@ public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IId
 	void setMyScope(Scope scope);
 
 	/**
+	 * Sets the code_section attribute of this governed simple object to the provided value.
+	 *
+	 * @param codeSection the code section where this governed simple should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection);
+
+	/**
 	 * Appends the description to be displayed of the sub-reference to the parameter, and returns it.
 	 * Or if the parameter is <code>null</code> creates a new <code>StringBuilder</code> and returns that.
 	 * <p>
@@ -68,6 +76,11 @@ public interface ISubReference extends INamedNode, IIncrementallyUpdateable, IId
 	 * */
 	@Override
 	void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
+
+	/**
+	 * originally has_single_expr
+	 * */
+	public boolean hasSingleExpression();
 
 	/**
 	 * Add generated java code on this level.

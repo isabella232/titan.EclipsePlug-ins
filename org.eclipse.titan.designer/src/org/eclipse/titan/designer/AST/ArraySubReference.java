@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST;
 
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -71,6 +72,14 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 		super.setMyScope(scope);
 		if (null != value) {
 			value.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (value != null) {
+			value.setCodeSection(codeSection);
 		}
 	}
 
@@ -139,6 +148,18 @@ public final class ArraySubReference extends ASTNode implements ISubReference, I
 				return false;
 			}
 		}
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (value != null) {
+			if (!value.canGenerateSingleExpression()) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 

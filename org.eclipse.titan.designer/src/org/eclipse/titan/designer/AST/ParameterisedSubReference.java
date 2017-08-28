@@ -9,7 +9,9 @@ package org.eclipse.titan.designer.AST;
 
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
@@ -63,6 +65,17 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 		super.setMyScope(scope);
 		if (parsedParameters != null) {
 			parsedParameters.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (parsedParameters != null) {
+			parsedParameters.setCodeSection(codeSection);
+		}
+		if (actualParameters != null) {
+			actualParameters.setCodeSection(codeSection);
 		}
 	}
 
@@ -141,6 +154,23 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 
 		if (parsedParameters != null && !parsedParameters.accept(v)) {
 			return false;
+		}
+
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (actualParameters == null) {
+			return true;
+		}
+
+		for (int i = 0; i < actualParameters.getNofParameters(); i++) {
+			ActualParameter actualParameter = actualParameters.getParameter(i);
+			if(!actualParameter.hasSingleExpression()) {
+				return false;
+			}
 		}
 
 		return true;

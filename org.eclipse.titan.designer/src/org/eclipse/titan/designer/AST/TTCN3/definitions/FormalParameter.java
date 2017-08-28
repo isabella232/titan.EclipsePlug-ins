@@ -15,6 +15,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -390,6 +391,8 @@ public final class FormalParameter extends Definition {
 				actualDefaultParameter.setFullNameParent(this);
 				actualDefaultParameter.setLocation(defaultValue.getLocation());
 			}
+			defaultValue.setCodeSection(CodeSectionType.CS_POST_INIT);
+			actualDefaultParameter.setCodeSection(CodeSectionType.CS_POST_INIT);
 		}
 
 		// in this case the naming convention has to be checked at the
@@ -1054,6 +1057,20 @@ public final class FormalParameter extends Definition {
 		default:
 			//TODO fatal error
 		}
+	}
+
+	/**
+	 * Generates the value assignments of the default value of the parameter.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * */
+	public void generateCodeDefaultValue(final JavaGenData aData, final StringBuilder source) {
+		if (actualDefaultParameter == null) {
+			return;
+		}
+
+		actualDefaultParameter.generateCodeDefaultValue(aData, source);
 	}
 
 	/**

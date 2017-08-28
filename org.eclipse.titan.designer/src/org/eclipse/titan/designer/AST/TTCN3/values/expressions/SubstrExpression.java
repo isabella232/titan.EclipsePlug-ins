@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -117,6 +118,7 @@ public final class SubstrExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (templateInstance1 != null) {
 			templateInstance1.setMyScope(scope);
 		}
@@ -125,6 +127,22 @@ public final class SubstrExpression extends Expression_Value {
 		}
 		if (value3 != null) {
 			value3.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (templateInstance1 != null) {
+			templateInstance1.setCodeSection(codeSection);
+		}
+		if (value2 != null) {
+			value2.setCodeSection(codeSection);
+		}
+		if (value3 != null) {
+			value3.setCodeSection(codeSection);
 		}
 	}
 
@@ -528,6 +546,20 @@ public final class SubstrExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (templateInstance1 != null) {
+			templateInstance1.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (value2 != null) {
+			value2.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (value3 != null) {
+			value3.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

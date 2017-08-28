@@ -15,7 +15,10 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
@@ -24,6 +27,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
@@ -31,6 +35,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -123,6 +128,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (reference1 != null) {
 			reference1.setMyScope(scope);
 		}
@@ -134,6 +140,25 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		}
 		if (value4 != null) {
 			value4.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (reference1 != null) {
+			reference1.setCodeSection(codeSection);
+		}
+		if (reference2 != null) {
+			reference2.setCodeSection(codeSection);
+		}
+		if (value3 != null) {
+			value3.setCodeSection(codeSection);
+		}
+		if (value4 != null) {
+			value4.setCodeSection(codeSection);
 		}
 	}
 
@@ -559,5 +584,34 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (reference1 != null) {
+			List<ISubReference> subreferences = reference1.getSubreferences();
+			if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
+				ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
+				if (actualParameterList != null) {
+					actualParameterList.reArrangeInitCode(aData, source, usageModule);
+				}
+			}
+		}
+		if (reference2 != null) {
+			List<ISubReference> subreferences = reference2.getSubreferences();
+			if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
+				ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
+				if (actualParameterList != null) {
+					actualParameterList.reArrangeInitCode(aData, source, usageModule);
+				}
+			}
+		}
+		if (value3 != null) {
+			value3.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (value4 != null) {
+			value4.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 }

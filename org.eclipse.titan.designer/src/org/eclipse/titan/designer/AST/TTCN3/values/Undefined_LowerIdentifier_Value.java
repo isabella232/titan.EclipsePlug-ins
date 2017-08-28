@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -329,6 +330,14 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 		}
 
 		return new StringBuilder("/* fatal error undefined lower identifier encountered */");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (realValue != null) {
+			realValue.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

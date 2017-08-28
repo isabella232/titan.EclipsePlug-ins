@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -106,8 +107,19 @@ public final class IsChoosenExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (reference != null) {
 			reference.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
 		}
 	}
 
@@ -400,6 +412,17 @@ public final class IsChoosenExpression extends Expression_Value {
 		}
 
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (value != null) {
+			value.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (template != null) {
+			template.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

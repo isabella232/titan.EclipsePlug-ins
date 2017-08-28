@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IOutlineElement;
@@ -238,6 +239,8 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 		final IType lastType = type.getTypeRefdLast(timestamp);
 		final IValue tempValue = lastType.checkThisValueRef(timestamp, defaultValue);
 		lastType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, true, false, false));
+
+		defaultValue.setCodeSection(CodeSectionType.CS_PRE_INIT);
 	}
 
 	@Override

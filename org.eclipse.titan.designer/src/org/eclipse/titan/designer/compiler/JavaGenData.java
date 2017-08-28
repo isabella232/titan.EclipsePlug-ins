@@ -44,7 +44,11 @@ public class JavaGenData {
 	 * */
 	private int tempVariableCounter = 0;
 
-	public JavaGenData() {
+	public BuildTimestamp buildTimestamp;
+
+	public JavaGenData(final BuildTimestamp timestamp) {
+		buildTimestamp = timestamp;
+
 		mSrc = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
@@ -156,6 +160,10 @@ public class JavaGenData {
 
 	public void setDebug( final boolean aDebug ) {
 		mDebug = aDebug;
+	}
+
+	public BuildTimestamp getBuildTimstamp() {
+		return buildTimestamp;
 	}
 
 	/**

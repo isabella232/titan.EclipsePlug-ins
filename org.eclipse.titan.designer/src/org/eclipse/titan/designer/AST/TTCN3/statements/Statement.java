@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -371,6 +372,16 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * */
 	@Override
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
+
+	/**
+	 * Sets the code_section attribute for the statement to the provided value.
+	 *
+	 * @param codeSection the code section where this statement should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		//Do nothing by default
+		//FIXME implement in child classes
+	}
 
 	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
 	/**

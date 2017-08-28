@@ -91,11 +91,25 @@ public final class ActivateDereferedExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (value != null) {
 			value.setMyScope(scope);
 		}
 		if (actualParameterList != null) {
 			actualParameterList.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (value != null) {
+			value.setCodeSection(codeSection);
+		}
+		if (actualParameterList != null) {
+			actualParameterList.setCodeSection(codeSection);
 		}
 	}
 

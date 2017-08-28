@@ -11,7 +11,9 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -54,6 +56,18 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 	}
 
 	/**
+	 * originally has_single_expr
+	 * */
+	public abstract boolean hasSingleExpression();
+
+	/**
+	 * Sets the code_section attribute of this actual parameter to the provided value.
+	 *
+	 * @param codeSection the code section where this actual parameter (it's default value) should be generated.
+	 * */
+	public abstract void setCodeSection(final CodeSectionType codeSection);
+
+	/**
 	 * Checks for circular references within the actual parameter.
 	 *
 	 * @param timestamp
@@ -77,7 +91,15 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
 
 	/**
+	 * Generates the value assignments of the default value of the parameter.
+	 * */
+	public void generateCodeDefaultValue(final JavaGenData aData, final StringBuilder source) {
+		//Do nothing by default
+	}
+
+	/**
 	 * Add generated java code on this level.
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression used for code generation
 	 */
@@ -88,4 +110,16 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 		expression.expression.append( getClass().getSimpleName() );
 		expression.expression.append( ".generateCode() is not implemented!\n" );
 	}
+
+	/**
+	 * Appends the initialization sequence of all (directly or indirectly)
+	 * referred non-parameterized templates and the default values of all
+	 * parameterized templates to source and returns the resulting string.
+	 * Only objects belonging to module usageModule are initialized.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source where the could should be added
+	 * @param usageModule where the parameter is to be used
+	 * */
+	public abstract void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule);
 }

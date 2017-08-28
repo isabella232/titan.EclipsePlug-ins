@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -239,6 +240,8 @@ public final class Def_Const extends Definition {
 		chain.add(this);
 		temporalValue.checkRecursions(timestamp, chain);
 		chain.release();
+
+		value.setCodeSection(CodeSectionType.CS_PRE_INIT);
 	}
 
 	@Override

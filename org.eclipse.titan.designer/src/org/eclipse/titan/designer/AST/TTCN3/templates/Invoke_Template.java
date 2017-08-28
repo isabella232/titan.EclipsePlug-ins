@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -57,7 +58,7 @@ public final class Invoke_Template extends TTCN3Template {
 
 	private ParsedActualParameters actualParameterList;
 
-	// private ActualParameterList actualParameter_list;
+	private ActualParameterList actualParameter_list;
 
 	Invoke_Template(final CompilationTimeStamp timestamp, final SpecificValue_Template original) {
 		copyGeneralProperties(original);
@@ -130,6 +131,21 @@ public final class Invoke_Template extends TTCN3Template {
 		 * if(actualParameter_list != null){
 		 * actualParameter_list.set_my_scope(scope); }
 		 */
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		if (value != null) {
+			value.setCodeSection(codeSection);
+		}
+		if (actualParameterList != null) {
+			actualParameterList.setCodeSection(codeSection);
+		}
+		if (lengthRestriction != null) {
+			lengthRestriction.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -263,10 +279,10 @@ public final class Invoke_Template extends TTCN3Template {
 
 		myScope.checkRunsOnScope(timestamp, type, this, "call");
 		final FormalParameterList formalParameterList = ((Function_Type) type).getFormalParameters();
-		final ActualParameterList actualParameters = new ActualParameterList();
-		if (!formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameters)) {
-			actualParameters.setFullNameParent(this);
-			actualParameters.setMyScope(getMyScope());
+		actualParameter_list = new ActualParameterList();
+		if (!formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameter_list)) {
+			actualParameter_list.setFullNameParent(this);
+			actualParameter_list.setMyScope(getMyScope());
 		}
 	}
 
@@ -310,11 +326,6 @@ public final class Invoke_Template extends TTCN3Template {
 			actualParameterList.updateSyntax(reparser, false);
 			reparser.updateLocation(actualParameterList.getLocation());
 		}
-
-		/*
-		 * if(actualParameter_list != null){
-		 * actualParameter_list.updateSyntax(reparser, false); }
-		 */
 	}
 
 	@Override
@@ -350,4 +361,21 @@ public final class Invoke_Template extends TTCN3Template {
 		//FIXME needs to have special handling here
 		super.generateCodeExpression(aData, expression, templateRestriction);
 	}
+
+	@Override
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		if (value != null) {
+			value.reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (actualParameter_list != null) {
+			actualParameter_list.reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	
 }

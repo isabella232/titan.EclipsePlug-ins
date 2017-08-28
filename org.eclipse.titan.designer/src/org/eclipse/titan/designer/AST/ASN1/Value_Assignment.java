@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -166,6 +167,8 @@ public final class Value_Assignment extends ASN1Assignment {
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		tempValue.checkRecursions(timestamp, chain);
 		chain.release();
+
+		value.setCodeSection(CodeSectionType.CS_PRE_INIT);
 	}
 
 	@Override

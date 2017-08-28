@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.ASN1.Object;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
@@ -91,6 +92,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 		}
 
 		if (null != fixedType) {
+			fixedType.setGenName(myObjectClass.getGenNameOwn(), identifier.getName());
 			fixedType.check(timestamp);
 
 			if (null != defaultValue) {
@@ -98,6 +100,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 				final IValue tempValue = fixedType.checkThisValueRef(timestamp, defaultValue);
 				fixedType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT,
 						false, false, true, false, false));
+				defaultValue.setCodeSection(CodeSectionType.CS_PRE_INIT);
 			}
 		}
 

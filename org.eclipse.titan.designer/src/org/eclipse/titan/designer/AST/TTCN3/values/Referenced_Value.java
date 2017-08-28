@@ -23,6 +23,8 @@ import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -33,6 +35,7 @@ import org.eclipse.titan.designer.AST.ASN1.Value_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
@@ -201,6 +204,16 @@ public final class Referenced_Value extends Value {
 		super.setMyScope(scope);
 		if (reference != null) {
 			reference.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
 		}
 	}
 
@@ -702,6 +715,18 @@ public final class Referenced_Value extends Value {
 		}
 
 		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		List<ISubReference> subreferences = reference.getSubreferences();
+		if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
+			ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
+			if (actualParameterList != null) {
+				actualParameterList.reArrangeInitCode(aData, source, usageModule);
+			}
+		}
 	}
 
 	@Override

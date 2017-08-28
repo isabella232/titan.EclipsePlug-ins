@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -151,7 +152,24 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			templates.getTemplateByIndex(i).reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		String ofTypeName;
 		switch (myGovernor.getTypetype()) {
 		case TYPE_SEQUENCE_OF:

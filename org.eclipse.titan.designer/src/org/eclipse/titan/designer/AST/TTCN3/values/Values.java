@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -124,6 +125,23 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 			values.trimToSize();
 			for (int i = 0; i < values.size(); i++) {
 				values.get(i).setMyScope(scope);
+			}
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the list to the provided value.
+	 *
+	 * @param codeSection the code section where this list should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (isIndexed) {
+			for (int i = 0; i < indexedValues.size(); i++) {
+				indexedValues.get(i).getValue().setCodeSection(codeSection);
+			}
+		} else {
+			for (int i = 0; i < values.size(); i++) {
+				values.get(i).setCodeSection(codeSection);
 			}
 		}
 	}

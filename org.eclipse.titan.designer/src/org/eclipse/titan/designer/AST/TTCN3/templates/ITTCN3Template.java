@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IGovernedSimple;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -440,4 +441,17 @@ public interface ITTCN3Template extends IGovernedSimple {
 	 * @param name the name to init
 	 */
 	public void generateCodeInit( final JavaGenData aData, final StringBuilder source, final String name );
+
+	/**
+	 * Walks through the template recursively and appends the java
+	 * initialization sequence of all (directly or indirectly) referenced
+	 * non-parameterized templates and the default values of all
+	 * parameterized templates to source and returns the resulting string.
+	 * Only objects belonging to module usageModule are initialized.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param usageModule the module where the template is to be used.
+	 * */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule);
 }

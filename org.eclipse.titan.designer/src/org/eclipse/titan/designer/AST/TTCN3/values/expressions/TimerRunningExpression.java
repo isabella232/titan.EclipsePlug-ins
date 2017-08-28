@@ -73,8 +73,19 @@ public final class TimerRunningExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (reference != null) {
 			reference.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
 		}
 	}
 

@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -127,6 +128,17 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		altGuards.trimToSize();
 		for (int i = 0, size = altGuards.size(); i < size; i++) {
 			altGuards.get(i).setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the statement to the provided value.
+	 *
+	 * @param codeSection the code section where this statement should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		for (int i = 0, size = altGuards.size(); i < size; i++) {
+			altGuards.get(i).setCodeSection(codeSection);
 		}
 	}
 

@@ -15,6 +15,7 @@ import java.util.Set;
 
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -370,6 +371,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			}
 
 			block.postCheck();
+			block.setCodeSection(CodeSectionType.CS_INLINE);
 		}
 
 		prototype = EncodingPrototype_type.NONE;

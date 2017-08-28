@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -450,6 +451,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				}
 			}
 		}
+
+		body.setCodeSection(CodeSectionType.CS_POST_INIT);
 	}
 
 	private void checkDefault(final CompilationTimeStamp timestamp) {
@@ -886,6 +889,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		//TODO this should handle only the global case
 		final StringBuilder sb = aData.getSrc();
 		StringBuilder source = new StringBuilder();
+
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 				source.append( "private" );

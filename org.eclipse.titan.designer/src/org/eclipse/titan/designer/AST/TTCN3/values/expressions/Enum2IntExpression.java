@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -75,6 +76,16 @@ public final class Enum2IntExpression extends Expression_Value {
 
 		if (value != null) {
 			value.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (value != null) {
+			value.setCodeSection(codeSection);
 		}
 	}
 
@@ -253,6 +264,14 @@ public final class Enum2IntExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (value != null) {
+			value.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

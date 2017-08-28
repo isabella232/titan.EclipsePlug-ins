@@ -13,13 +13,18 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -28,8 +33,10 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -122,6 +129,33 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 		}
 
 		templateBody.setMyScope(scope);
+	}
+
+	/**
+	 * originally has_single_expr
+	 * */
+	public boolean hasSingleExpression() {
+		if (derivedReference != null) {
+			return false;
+		}
+		if (type != null) {
+			return false;
+		}
+
+		return templateBody.hasSingleExpression();
+	}
+
+	/**
+	 * Sets the code_section attribute for this instance to the provided value.
+	 *
+	 * @param codeSection the code section where this instance should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (derivedReference != null) {
+			derivedReference.setCodeSection(codeSection);
+		}
+
+		templateBody.setCodeSection(codeSection);
 	}
 
 	@Override
@@ -485,6 +519,56 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 			templateBody.generateCodeExpression( aData, expression, templateRestriction );
 			//TODO handle decoded redirect
 		}
+	}
 
+	/**
+	 * Walks through the templateinstance recursively and appends the java
+	 * initialization sequence of all (directly or indirectly) referenced
+	 * non-parameterized templates and the default values of all
+	 * parameterized templates to source and returns the resulting string.
+	 * Only objects belonging to module usageModule are initialized.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param usageModule the module where the template is to be used.
+	 * */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (derivedReference != null) {
+			List<ISubReference> subreferences = derivedReference.getSubreferences();
+			if (subreferences != null && !subreferences.isEmpty() && subreferences.get(0) instanceof ParameterisedSubReference) {
+				ParameterisedSubReference subreference = (ParameterisedSubReference) subreferences.get(0);
+				ActualParameterList actualParameterList = subreference.getActualParameters();
+				if (actualParameterList != null) {
+					actualParameterList.reArrangeInitCode(aData, source, usageModule);
+				}
+			}
+
+			Assignment assignment = derivedReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			if (assignment == null) {
+				return;
+			}
+
+			if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE) {
+				ITTCN3Template template = ((Def_Template)assignment).getTemplate(CompilationTimeStamp.getBaseTimestamp());
+				FormalParameterList formalParameterList = ((Def_Template)assignment).getFormalParameterList();
+				if (formalParameterList != null) {
+					// the referred template is parameterized
+					// the embedded referenced templates shall be visited
+					template.reArrangeInitCode(aData, source, usageModule);
+
+					//FIXME implement
+				} else {
+					// the referred template is not parameterized
+					// its entire body has to be initialized now
+					if (assignment.getMyScope().getModuleScope() == usageModule) {
+						template.generateCodeInit(aData, source, template.get_lhs_name());
+					}
+				}
+			}
+		}
+
+		if (templateBody != null) {
+			templateBody.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 }

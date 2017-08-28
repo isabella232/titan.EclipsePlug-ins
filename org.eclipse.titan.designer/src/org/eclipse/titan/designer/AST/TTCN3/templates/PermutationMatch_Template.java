@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -93,6 +94,18 @@ public final class PermutationMatch_Template extends CompositeTemplate {
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
 		// There is no code generation for permutations here
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			templates.getTemplateByIndex(i).reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

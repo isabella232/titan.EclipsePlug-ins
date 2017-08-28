@@ -16,7 +16,9 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -80,6 +82,20 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		}
 		if (max != null) {
 			max.setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for this range to the provided value.
+	 *
+	 * @param codeSection the code section where this range should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (min != null) {
+			min.setCodeSection(codeSection);
+		}
+		if (max != null) {
+			max.setCodeSection(codeSection);
 		}
 	}
 
@@ -248,6 +264,27 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 
 	public void setTypeType(final Type_type typeType) {
 		this.typeType = typeType;
+	}
+
+	/**
+	 * Walks through the range limits recursively and appends the java
+	 * initialization sequence of all (directly or indirectly) referenced
+	 * non-parameterized templates and the default values of all
+	 * parameterized templates to source and returns the resulting string.
+	 * Only objects belonging to module usageModule are initialized.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param usageModule the module where the template is to be used.
+	 * */
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		if (min != null) {
+			min.reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (max != null) {
+			max.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	/**

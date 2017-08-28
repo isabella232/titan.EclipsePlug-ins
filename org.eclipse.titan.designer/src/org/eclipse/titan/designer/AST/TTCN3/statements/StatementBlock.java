@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.Assignments;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ILocateableNode;
@@ -248,6 +249,17 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		}
 		for (int i = 0, size = statements.size(); i < size; i++) {
 			statements.get(i).setMyScope(this);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the statements in this block to the provided value.
+	 *
+	 * @param codeSection the code section where these statements should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		for (int i = 0, size = statements.size(); i < size; i++) {
+			statements.get(i).setCodeSection(codeSection);
 		}
 	}
 

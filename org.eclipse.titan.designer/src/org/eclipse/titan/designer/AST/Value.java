@@ -489,6 +489,27 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
+	 * Appends the initialization sequence of all referred non-parameterized
+	 * templates to source and returns the resulting string. Such templates
+	 * may appear in the actual parameter list of parameterized value
+	 * references (e.g. function calls) and in operands of valueof or match
+	 * operations.
+	 * 
+	 * rearrange_init_code in the compiler
+	 * 
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
+	 * @param source
+	 *                the source code to be updated
+	 * @param usageModule
+	 *                the module where the value needs to be initialized
+	 * */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		//Do nothing by default
+	}
+
+	/**
 	 * Generates the equivalent Java code for the value. It is used
 	 *  when the value is part of a complex expression (e.g. as
 	 *  operand of a built-in operation, actual parameter, array

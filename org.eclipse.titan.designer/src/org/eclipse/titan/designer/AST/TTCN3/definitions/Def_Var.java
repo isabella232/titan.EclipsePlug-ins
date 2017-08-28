@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -233,6 +234,7 @@ public final class Def_Var extends Definition {
 				type.checkThisValue(timestamp, temporalValue, this, new ValueCheckingOptions(Expected_Value_type.EXPECTED_STATIC_VALUE,
 						true, false, true, false, false));
 			}
+			initialValue.setCodeSection(CodeSectionType.CS_INLINE);
 		}
 	}
 

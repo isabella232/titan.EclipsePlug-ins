@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -257,11 +258,13 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		if (block != null) {
 			block.check(timestamp);
+			block.setCodeSection(CodeSectionType.CS_INLINE);
 		}
 
 		if (altGuards != null) {
 			altGuards.setMyAltguards(altGuards);
 			altGuards.check(timestamp);
+			altGuards.setCodeSection(CodeSectionType.CS_INLINE);
 		}
 
 		if (withAttributesPath != null) {

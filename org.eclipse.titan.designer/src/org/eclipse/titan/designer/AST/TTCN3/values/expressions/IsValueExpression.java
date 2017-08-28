@@ -84,8 +84,19 @@ public final class IsValueExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (templateInstance != null) {
 			templateInstance.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (templateInstance != null) {
+			templateInstance.setCodeSection(codeSection);
 		}
 	}
 

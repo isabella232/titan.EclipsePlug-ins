@@ -37,11 +37,12 @@ public class ProjectSourceCompiler {
 
 	/**
 	 * Generates java code for a module
+	 * @param timestamp the timestamp of this build
 	 * @param aModule module to compile
 	 * @param aDebug true: debug info is added to the source code 
 	 * @throws CoreException
 	 */
-	public static void compile( final Module aModule, final boolean aDebug ) throws CoreException {
+	public static void compile(final BuildTimestamp timestamp, final Module aModule, final boolean aDebug ) throws CoreException {
 		IResource sourceFile = aModule.getLocation().getFile();
 		if(MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, sourceFile, IMarker.SEVERITY_ERROR)
 				|| MarkerHandler.hasMarker(GeneralConstants.ONTHEFLY_MIXED_MARKER, sourceFile)
@@ -51,7 +52,7 @@ public class ProjectSourceCompiler {
 			return;
 		}
 
-		JavaGenData data = new JavaGenData();
+		JavaGenData data = new JavaGenData(timestamp);
 		data.setDebug( aDebug );
 		aModule.generateCode( data );
 
@@ -127,7 +128,7 @@ public class ProjectSourceCompiler {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
 		}
 		contentBuilder.append("Runtime_Single_main.singleMain();\n");
-		contentBuilder.append("System.out.println(\"Execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");");
+		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");");
 		contentBuilder.append( "}\n" );
 		contentBuilder.append( "}\n\n" );
 

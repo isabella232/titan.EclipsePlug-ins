@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -253,6 +254,8 @@ public final class Def_Timer extends Definition {
 			} else {
 				checkArrayDuration(defaultDuration, 0);
 			}
+
+			defaultDuration.setCodeSection(CodeSectionType.CS_POST_INIT);
 		}
 
 		if (withAttributesPath != null) {

@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceChainElement;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
@@ -53,6 +54,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -94,6 +96,8 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * base template. It is null otherwise.
 	 */
 	protected ITTCN3Template baseTemplate;
+
+	protected BuildTimestamp lastTimeBuilt;
 
 	@Override
 	/** {@inheritDoc} */
@@ -1308,5 +1312,24 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateCodeInit() is not implemented!\n" );
+	}
+
+	/**
+	 * Walks through the template recursively and appends the java
+	 * initialization sequence of all (directly or indirectly) referenced
+	 * non-parameterized templates and the default values of all
+	 * parameterized templates to source and returns the resulting string.
+	 * Only objects belonging to module usageModule are initialized.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source for code generated
+	 * @param usageModule the module where the template is to be used.
+	 * */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		// default implementation
+		source.append("\t");
+		source.append("//TODO: ");
+		source.append(getClass().getSimpleName());
+		source.append(".reArrangeInitCode() is not implemented!\n");
 	}
 }

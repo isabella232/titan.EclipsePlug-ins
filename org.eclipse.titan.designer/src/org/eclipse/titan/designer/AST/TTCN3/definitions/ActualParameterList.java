@@ -13,7 +13,9 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -43,6 +45,21 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 		parameters.trimToSize();
 		for (int i = 0; i < parameters.size(); i++) {
 			parameters.get(i).setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute of these parameters to the provided value.
+	 *
+	 * @param codeSection the code section where these parameters should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (parameters == null) {
+			return;
+		}
+
+		for (int i = 0; i < parameters.size(); i++) {
+			parameters.get(i).setCodeSection(codeSection);
 		}
 	}
 
@@ -176,5 +193,21 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	//TODO re-implement
 	public void generateCodeAlias( final JavaGenData aData, final ExpressionStruct expression) {
 		generateCodeNoAlias(aData, expression);
+	}
+
+	/**
+	 * Appends the initialization sequence of all (directly or indirectly)
+	 * referred non-parameterized templates and the default values of all
+	 * parameterized templates to source and returns the resulting string.
+	 * Only objects belonging to module usageModule are initialized.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source where the could should be added
+	 * @param usageModule where the parameters are to be used
+	 * */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		for (int i = 0, size = parameters.size(); i < size; i++) {
+			parameters.get(i).reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 }

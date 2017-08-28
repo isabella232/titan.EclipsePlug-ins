@@ -97,11 +97,25 @@ public final class ExecuteExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (reference != null) {
 			reference.setMyScope(scope);
 		}
 		if (timerValue != null) {
 			timerValue.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
+		}
+		if (timerValue != null) {
+			timerValue.setCodeSection(codeSection);
 		}
 	}
 

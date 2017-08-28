@@ -64,4 +64,12 @@ public interface ISetting extends IASTNode, ILocateableNode {
 	 * @param suffix the suffix to use.
 	 * */
 	public void setGenName(final String prefix, final String suffix);
+
+	/**
+	 * Returns a Java reference that points to this setting from the module of the parameter scope.
+	 *
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java setting in the generated code.
+	 */
+	public String getGenNameOwn(final Scope scope);
 }

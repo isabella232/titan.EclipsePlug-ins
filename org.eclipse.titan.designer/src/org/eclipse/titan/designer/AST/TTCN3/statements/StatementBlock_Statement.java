@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -79,6 +80,14 @@ public final class StatementBlock_Statement extends Statement {
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 		statementblock.setMyScope(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (statementblock != null) {
+			statementblock.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

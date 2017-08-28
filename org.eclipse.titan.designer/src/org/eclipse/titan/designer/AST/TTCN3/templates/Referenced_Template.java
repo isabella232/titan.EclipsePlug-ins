@@ -9,8 +9,10 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.Stack;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -19,8 +21,10 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -37,6 +41,9 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -151,6 +158,18 @@ public final class Referenced_Template extends TTCN3Template {
 		super.setMyScope(scope);
 		if (reference != null) {
 			reference.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
+		}
+		if (lengthRestriction != null) {
+			lengthRestriction.setCodeSection(codeSection);
 		}
 	}
 
@@ -683,15 +702,258 @@ public final class Referenced_Template extends TTCN3Template {
 		expression.expression.append(tempId);
 	}
 
+	/**
+	 * originally use_single_expr_for_init
+	 * */
+	private boolean useSingleExpressionForInit() {
+		TTCN3Template lastTemplate = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+		// return false in case of unfoldable references
+		if (lastTemplate.getTemplatetype().equals(Template_type.TEMPLATE_REFD)) {
+			return false;
+		}
+
+		// return false if lastTemplate is in a different module
+		if (lastTemplate.getMyScope().getModuleScope() != myScope.getModuleScope()) {
+			return false;
+		}
+
+		// return false if lastTemplate cannot be represented by a single expression
+		if (!lastTemplate.hasSingleExpression()) {
+			return false;
+		}
+
+		// return true if t_last is a generic wildcard, string pattern, etc.
+		if (!lastTemplate.getTemplatetype().equals(Template_type.SPECIFIC_VALUE)) {
+			return true;
+		}
+		// examine the specific value
+		//FIXME implement
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		ISubReference tempSubreference = reference.getSubreferences().get(0);
+		if (tempSubreference instanceof ParameterisedSubReference) {
+			// generate code for the templates that are used in the actual parameter
+			// list of the reference
+			ActualParameterList actualParameterList = ((ParameterisedSubReference) tempSubreference).getActualParameters();
+			if (actualParameterList != null) {
+				actualParameterList.reArrangeInitCode(aData, source, usageModule);
+			}
+		}
+
+		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (assignment.getAssignmentType() != Assignment_type.A_TEMPLATE) {
+			return;
+		}
+
+		ITTCN3Template template = ((Def_Template) assignment).getTemplate(CompilationTimeStamp.getBaseTimestamp());
+		FormalParameterList formalParameterList = ((Def_Template) assignment).getFormalParameterList();
+		if (formalParameterList != null) {
+			// the reference points to a parameterized template
+			// we must perform the rearrangement for all non-parameterized templates
+			// that are referred by the parameterized template regardless of the
+			// sub-references of reference
+			template.reArrangeInitCode(aData, source, usageModule);
+			// the parameterized template's default values must also be generated
+			// (this only generates their value assignments, their declarations will
+			// be generated when the template's definition is reached)
+			if (assignment.getMyScope().getModuleScope() == usageModule) {
+				formalParameterList.generateCodeDefaultValues(aData, source);
+			}
+		} else {
+			// the reference points to a non-parameterized template
+			List<ISubReference> subReferences = reference.getSubreferences();
+			if (subReferences != null && subReferences.size() > 1) {
+				// we should follow the sub-references as much as we can
+				// and perform the rearrangement for the referred field only
+				for (int i = 1; i < subReferences.size(); i++) {
+					ISubReference subReference = subReferences.get(i);
+					if (subReference instanceof FieldSubReference) {
+						// stop if the body does not have fields
+						if (template.getTemplatetype() != Template_type.NAMED_TEMPLATE_LIST) {
+							break;
+						}
+						// the field reference can be followed
+						Identifier fieldId = ((FieldSubReference)subReference).getId();
+						template = ((Named_Template_List) template).getNamedTemplate(fieldId).getTemplate();
+					} else {
+						// stop if the body is not a list
+						if (template.getTemplatetype() != Template_type.TEMPLATE_LIST) {
+							break;
+						}
+
+						IValue arrayIndex = ((ArraySubReference) subReference).getValue();
+						final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+						arrayIndex = arrayIndex.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+						referenceChain.release();
+						if(arrayIndex.getValuetype() != Value_type.INTEGER_VALUE) {
+							break;
+						}
+
+						// the index is available at compilation time
+						long index = ((Integer_Value)arrayIndex).getValue();
+						// index transformation in case of arrays
+						if (template.getMyGovernor().getTypetype() == Type_type.TYPE_ARRAY) {
+							index = index - ((Array_Type)template.getMyGovernor()).getDimension().getOffset();
+						}
+						template = ((Template_List) template).getTemplateByIndex((int)index);
+					}
+				}
+			}
+			// otherwise if the reference points to a top-level template
+			// we should initialize its entire body
+			if (assignment.getMyScope().getModuleScope() == usageModule) {
+				template.generateCodeInit(aData, source, template.get_lhs_name());
+			}
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	private void generateRearrangeInitCodeReferenced(final JavaGenData aData, final StringBuilder source, final ExpressionStruct expression) {
+		/**
+		 * Initially we can assume that:
+		 * - this is a referenced template and a part of a non-parameterized template
+		 * - u.ref.ref points to (a field of) a non-parameterized template within the same module as this.
+		 * - this ensures that the do-while loop will run at least twice (i.e. the first continue statement will be reached in the first iteration)
+		 */
+		Stack<ISubReference> referenceStack = new Stack<ISubReference>();
+		ITTCN3Template template = this;
+		for ( ; ; ) {
+			if (template.getTemplatetype() == Template_type.TEMPLATE_REFD) {
+				Reference reference = ((Referenced_Template) template).getReference();
+				Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				/** Don't follow the reference if:
+				 *  - the referenced definition is not a template
+				 *  - the referenced template is parameterized or
+				 *  - the referenced template is in different module */
+				if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE && ((Def_Template) assignment).getFormalParameterList() == null
+						&& assignment.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+					// accumulate the sub-references of the referred reference
+					List<ISubReference> subReferences = reference.getSubreferences();
+					if (subReferences != null && subReferences.size() > 1) {
+						for(int i = subReferences.size(); i > 1; i--) {
+							referenceStack.push(subReferences.get(i-1));
+						}
+					}
+					// jump to the referred top-level template
+					template = ((Def_Template) assignment).getTemplate(CompilationTimeStamp.getBaseTimestamp());
+					// start the iteration from the beginning
+					continue;
+				} else {
+					// the reference cannot be followed
+					break;
+				}
+			}
+			// stop if there are no sub-references
+			if (referenceStack.isEmpty()) {
+				break;
+			}
+			// take the topmost sub-reference
+			ISubReference subReference = referenceStack.peek();
+			if (subReference instanceof FieldSubReference) {
+				if (template.getTemplatetype() != Template_type.NAMED_TEMPLATE_LIST) {
+					break;
+				}
+				// the field reference can be followed
+				Identifier fieldId = ((FieldSubReference)subReference).getId();
+				template = ((Named_Template_List) template).getNamedTemplate(fieldId).getTemplate();
+			} else {
+				// trying to follow an array reference
+				if (template.getTemplatetype() != Template_type.TEMPLATE_LIST) {
+					break;
+				}
+
+				IValue arrayIndex = ((ArraySubReference) subReference).getValue();
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				arrayIndex = arrayIndex.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+				referenceChain.release();
+				if(arrayIndex.getValuetype() != Value_type.INTEGER_VALUE) {
+					break;
+				}
+				// the index is available at compilation time
+				long index = ((Integer_Value)arrayIndex).getValue();
+				// index transformation in case of arrays
+				if (template.getMyGovernor().getTypetype() == Type_type.TYPE_ARRAY) {
+					index = index - ((Array_Type)template.getMyGovernor()).getDimension().getOffset();
+				}
+				template = ((Template_List) template).getTemplateByIndex((int)index);
+			}
+			// the topmost sub-reference was processed
+			// it can be erased from the stack
+			referenceStack.pop();
+		}
+		// the smallest dependent template is now in t
+		// generate the initializer sequence for t
+		template.generateCodeInit(aData, source, template.get_lhs_name());
+		// the equivalent Java code of the referenced template is composed of the
+		// genname of t and the remained sub-references in refstack
+		expression.expression.append(template.getGenNameOwn(myScope));
+		while (!referenceStack.isEmpty()) {
+			ISubReference subReference = referenceStack.pop();
+			if (subReference instanceof FieldSubReference) {
+				expression.expression.append(MessageFormat.format(".get{0}()", FieldSubReference.getJavaGetterName(((FieldSubReference) subReference).getId().getName())));
+			} else {
+				expression.expression.append(".getAt(");
+				((ArraySubReference) subReference).getValue().generateCodeExpression(aData, expression);
+				expression.expression.append(')');
+			}
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (hasSingleExpression()) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
+		if (useSingleExpressionForInit() && hasSingleExpression()) {
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
 			return;
 		}
 
-		// TODO complex case not yet implemented
-		super.generateCodeInit(aData, source, name);
+		ExpressionStruct expression = new ExpressionStruct();
+		boolean useReferenceForCodegeneration = true;
+		if (getCodeSection() == CodeSectionType.CS_POST_INIT) {
+			// the referencing template is a part of a non-parameterized template
+			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE) {
+				// the reference points to (a field of) a template
+				//FIXME implement formal par check
+				if (((Def_Template) assignment).getFormalParameterList() != null) {
+					// the referred template is parameterized
+					// generate the initialization sequence first for all dependent
+					// non-parameterized templates
+					reArrangeInitCode(aData, source, myScope.getModuleScope());
+				} else if (assignment.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+					// the referred template is non-parameterized
+					// use a different algorithm for code generation
+					generateRearrangeInitCodeReferenced(aData, source, expression);
+					useReferenceForCodegeneration = false;
+				}
+			}
+		}
+		if (useReferenceForCodegeneration) {
+			reference.generateConstRef(aData, expression);
+		}
+		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			// the expressions within reference need temporary objects
+			source.append("{\n");
+			source.append(expression.preamble);
+			//FIXME handle the needs conversion case
+			source.append(MessageFormat.format("{0}.assign({1});\n", name, expression.expression));
+			source.append(expression.postamble);
+			source.append("}\n");
+		} else {
+			//FIXME handle needs conversion case
+			source.append(MessageFormat.format("{0}.assign({1});\n", name, expression.expression));
+		}
 	}
 }

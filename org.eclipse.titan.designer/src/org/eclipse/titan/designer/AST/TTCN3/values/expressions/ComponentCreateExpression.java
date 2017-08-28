@@ -118,6 +118,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (componentReference != null) {
 			componentReference.setMyScope(scope);
 		}
@@ -126,6 +127,22 @@ public final class ComponentCreateExpression extends Expression_Value {
 		}
 		if (location != null) {
 			location.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (componentReference != null) {
+			componentReference.setCodeSection(codeSection);
+		}
+		if (name != null) {
+			name.setCodeSection(codeSection);
+		}
+		if (location != null) {
+			location.setCodeSection(codeSection);
 		}
 	}
 

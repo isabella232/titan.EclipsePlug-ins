@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -29,6 +30,13 @@ public abstract class InternalLogArgument {
 	public final ArgumentType getArgumentType() {
 		return argumentType;
 	}
+
+	/**
+	 * Sets the code_section attribute of this log argument to the provided value.
+	 *
+	 * @param codeSection the code section where this log argument should be generated.
+	 * */
+	public abstract void setCodeSection(final CodeSectionType codeSection);
 
 	/**
 	 * Checks whether this log argument is defining itself in a recursive

@@ -7,14 +7,19 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -56,6 +61,28 @@ public final class Template_ActualParameter extends ActualParameter {
 
 		if (template != null) {
 			template.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if(genRestrictionCheck != Restriction_type.TR_NONE) {
+			// TODO needs t check post restriction check generation
+			return true;
+		}
+		if (template != null) {
+			return template.hasSingleExpression();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(CodeSectionType codeSection) {
+		if (template != null) {
+			template.setCodeSection(codeSection);
 		}
 	}
 
@@ -108,6 +135,26 @@ public final class Template_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
+	public void generateCodeDefaultValue(final JavaGenData aData, final StringBuilder source) {
+		if (template == null) {
+			return;
+		}
+
+		TTCN3Template temp = template.getTemplateBody();
+		Reference baseReference = template.getDerivedReference();
+		if (baseReference != null) {
+			ExpressionStruct expression = new ExpressionStruct();
+			expression.expression.append(MessageFormat.format("{0}.assign(", temp.get_lhs_name()));
+			baseReference.generateCode(aData, expression);
+			expression.expression.append(')');
+		}
+		//FIXME handle the needs conversion case
+//		temp.generateCodeInit(aData, source, temp.get_lhs_name());
+		//FIXME generate restriction check code if needed
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO not complete implementation pl. copye_needed missing
 		if (template != null ) {
@@ -137,6 +184,14 @@ public final class Template_ActualParameter extends ActualParameter {
 
 			//TODO copy might be needed here
 			expression.expression.append(expressionExpression);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (template != null) {
+			template.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 }

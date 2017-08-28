@@ -53,6 +53,19 @@ public abstract class CompositeTemplate extends TTCN3Template {
 		templates.setMyScope(scope);
 	}
 
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
+			templates.getTemplateByIndex(i).setCodeSection(codeSection);
+		}
+		if (lengthRestriction != null) {
+			lengthRestriction.setCodeSection(codeSection);
+		}
+	}
+
 	/** @return the number of templates in the list */
 	public int getNofTemplates() {
 		return templates.getNofTemplates();

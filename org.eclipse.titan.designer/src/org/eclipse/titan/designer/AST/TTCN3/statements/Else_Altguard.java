@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -53,8 +54,17 @@ public final class Else_Altguard extends AltGuard {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (statementblock != null) {
 			statementblock.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(CodeSectionType codeSection) {
+		if (statementblock != null) {
+			statementblock.setCodeSection(codeSection);
 		}
 	}
 

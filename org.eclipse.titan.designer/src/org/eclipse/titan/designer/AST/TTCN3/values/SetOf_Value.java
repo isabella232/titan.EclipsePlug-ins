@@ -233,6 +233,16 @@ public final class SetOf_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (values != null) {
+			values.setCodeSection(codeSection);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
 			if (values.isIndexed()) {

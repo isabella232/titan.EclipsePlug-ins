@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Macro_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -28,6 +29,14 @@ public final class Macro_InternalLogArgument extends InternalLogArgument {
 
 	public Macro_Value getMacro() {
 		return value;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (value != null) {
+			value.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

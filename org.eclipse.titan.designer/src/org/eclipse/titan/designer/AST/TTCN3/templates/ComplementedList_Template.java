@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -204,6 +205,18 @@ public final class ComplementedList_Template extends CompositeTemplate {
 		result.append( ".getSingleExpression() !\n" );
 		// TODO: fatal error
 		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			templates.getTemplateByIndex(i).reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

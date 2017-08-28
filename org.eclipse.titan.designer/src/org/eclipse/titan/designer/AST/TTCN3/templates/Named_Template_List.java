@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -249,6 +250,18 @@ public final class Named_Template_List extends TTCN3Template {
 		super.setMyScope(scope);
 		if (namedTemplates != null) {
 			namedTemplates.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		for (int i = 0, size = namedTemplates.getNofTemplates(); i < size; i++) {
+			namedTemplates.getTemplateByIndex(i).getTemplate().setCodeSection(codeSection);
+		}
+		if (lengthRestriction != null) {
+			lengthRestriction.setCodeSection(codeSection);
 		}
 	}
 
@@ -572,7 +585,29 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		if (asValue != null) {
+			asValue.reArrangeInitCode(aData, source, usageModule);
+			return;
+		}
+
+		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
+			namedTemplates.getTemplateByIndex(i).getTemplate().reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		if (asValue != null) {
 			asValue.generateCodeInit(aData, source, name);
 			return;

@@ -12,6 +12,7 @@ import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -76,6 +77,13 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 	}
 
 	public abstract void setMyAltguards(AltGuards altGuards);
+
+	/**
+	 * Sets the code_section attribute for the statement to the provided value.
+	 *
+	 * @param codeSection the code section where this statement should be generated.
+	 * */
+	public abstract void setCodeSection(final CodeSectionType codeSection);
 
 	/**
 	 * Checks whether the altguard has a return statement, either directly

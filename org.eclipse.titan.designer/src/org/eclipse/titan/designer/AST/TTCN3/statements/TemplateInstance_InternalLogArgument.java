@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -26,6 +27,14 @@ public final class TemplateInstance_InternalLogArgument extends InternalLogArgum
 
 	public TemplateInstance getTemplate() {
 		return templateInstance;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if (templateInstance != null) {
+			templateInstance.setCodeSection(codeSection);
+		}
 	}
 
 	@Override

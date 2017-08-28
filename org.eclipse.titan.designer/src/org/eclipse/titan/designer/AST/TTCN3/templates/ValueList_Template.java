@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
@@ -172,7 +173,24 @@ public final class ValueList_Template extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			templates.getTemplateByIndex(i).reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		int nofTs = templates.getNofTemplates();

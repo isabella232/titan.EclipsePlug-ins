@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
@@ -86,6 +87,7 @@ public final class Referenced_Altguard extends AltGuard {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
+
 		if (expression != null) {
 			expression.setMyScope(scope);
 		}
@@ -95,6 +97,20 @@ public final class Referenced_Altguard extends AltGuard {
 		if (statementblock != null) {
 			statementblock.setMyScope(scope);
 			statementblock.setOwnerIsAltguard();
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(CodeSectionType codeSection) {
+		if (expression != null) {
+			expression.setCodeSection(codeSection);
+		}
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
+		}
+		if (statementblock != null) {
+			statementblock.setCodeSection(codeSection);
 		}
 	}
 

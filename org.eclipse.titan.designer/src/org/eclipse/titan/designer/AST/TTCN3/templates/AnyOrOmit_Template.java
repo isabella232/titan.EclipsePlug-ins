@@ -154,6 +154,11 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));

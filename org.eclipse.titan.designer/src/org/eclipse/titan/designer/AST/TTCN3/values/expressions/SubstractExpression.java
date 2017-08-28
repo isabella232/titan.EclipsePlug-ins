@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -92,6 +93,19 @@ public final class SubstractExpression extends Expression_Value {
 		}
 		if (value2 != null) {
 			value2.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+
+		if (value1 != null) {
+			value1.setCodeSection(codeSection);
+		}
+		if (value2 != null) {
+			value2.setCodeSection(codeSection);
 		}
 	}
 
@@ -338,6 +352,17 @@ public final class SubstractExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (value1 != null) {
+			value1.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (value2 != null) {
+			value2.reArrangeInitCode(aData, source, usageModule);
+		}
 	}
 
 	@Override

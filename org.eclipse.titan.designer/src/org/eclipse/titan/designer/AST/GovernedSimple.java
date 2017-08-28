@@ -8,12 +8,43 @@
 package org.eclipse.titan.designer.AST;
 
 /**
- * A governed thing that will be mapped to a C++ entity.
+ * A governed thing that will be mapped to a Java entity.
  * (e.g. Value, Template)
  *
  * @author Kristof Szabados
  */
 public abstract class GovernedSimple extends Governed implements IGovernedSimple {
+
+	public static enum CodeSectionType {
+		/** Unknown (i.e. not specified) */
+		CS_UNKNOWN,
+		/**
+		 * Initialized before processing the configuration file.
+		 * 
+		 * Example: constants, default value for module parameters.
+		 */
+		CS_PRE_INIT,
+		/**
+		 * Initialized after processing the configuration file.
+		 * 
+		 * Example: non-parameterized templates.
+		 */
+		CS_POST_INIT,
+		/**
+		 * Initialized with the component entities.
+		 * 
+		 * Example: initial value for component variables, default
+		 * duration for timers.
+		 */
+		CS_INIT_COMP,
+		/**
+		 * Initialized immediately at the place of definition.
+		 * Applicable to local definitions only.
+		 * 
+		 * Example: initial value for a local variable.
+		 */
+		CS_INLINE
+	}
 
 	/**
 	 * A prefix that shall be inserted before the genname when initializing
@@ -27,8 +58,30 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	 * */
 	private String genNamePrefix;
 
+	/**
+	 * Indicates the section of the output code where the initializer Java
+	 * sequence has to be put. If entity A refers to entity B and both has
+	 * to be initialized in the same section, the initializer of B must
+	 * precede the initializer of A. If the initializer of A and B has to be
+	 * put into different sections the right order is provided automatically
+	 * by the run-time environment.
+	 * */
+	private CodeSectionType codeSection = CodeSectionType.CS_UNKNOWN;
+
 	public void setGenNamePrefix(final String prefix) {
 		genNamePrefix = prefix;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public CodeSectionType getCodeSection() {
+		return codeSection;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		this.codeSection = codeSection;
 	}
 
 	/***

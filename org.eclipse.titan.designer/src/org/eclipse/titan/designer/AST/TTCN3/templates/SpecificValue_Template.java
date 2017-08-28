@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -136,6 +137,21 @@ public final class SpecificValue_Template extends TTCN3Template {
 		super.setMyScope(scope);
 		if (specificValue != null) {
 			specificValue.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		super.setCodeSection(codeSection);
+		if (specificValue != null) {
+			specificValue.setCodeSection(codeSection);
+		}
+		if (lengthRestriction != null) {
+			lengthRestriction.setCodeSection(codeSection);
+		}
+		if (realTemplate != null && realTemplate != this) {
+			realTemplate.setCodeSection(codeSection);
 		}
 	}
 
@@ -670,12 +686,36 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+		if (realTemplate != null && realTemplate != this) {
+			realTemplate.reArrangeInitCode(aData, source, usageModule);
+			return;
+		}
+
+		if (specificValue != null) {
+			specificValue.reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (lengthRestriction != null) {
+			lengthRestriction.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		//TODO handle post init rearrangement
 		if (realTemplate != null && realTemplate != this) {
 			realTemplate.generateCodeInit(aData, source, name);
 		} else {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				specificValue.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
 			specificValue.generateCodeInit( aData, source, name );
 		}
 

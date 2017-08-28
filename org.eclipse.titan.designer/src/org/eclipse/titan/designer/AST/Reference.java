@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ISetting.Setting_type;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -155,6 +156,17 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		subReferences.trimToSize();
 		for (int i = 0; i < subReferences.size(); i++) {
 			subReferences.get(i).setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute of this reference to the provided value.
+	 *
+	 * @param codeSection the code section where this reference be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		for (int i = 0; i < subReferences.size(); i++) {
+			subReferences.get(i).setCodeSection(codeSection);
 		}
 	}
 
@@ -960,10 +972,37 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 		for (int i = 0; i < subReferences.size(); i++) {
 			final ISubReference temp = subReferences.get(i);
-			if(temp instanceof ArraySubReference) {
-				final Value tempValue = ((ArraySubReference)temp).getValue();
-				if (tempValue == null || !tempValue.canGenerateSingleExpression()) {
-					return false;
+			if (!temp.hasSingleExpression()) {
+				return false;
+			}
+		}
+
+		if (referredAssignment != null) {
+			FormalParameterList formalParameterList;
+			switch (referredAssignment.getAssignmentType()) {
+			case A_FUNCTION:
+			case A_FUNCTION_RVAL:
+			case A_FUNCTION_RTEMP:
+				formalParameterList = ((Def_Function) referredAssignment).getFormalParameterList();
+				break;
+			case A_EXT_FUNCTION:
+			case A_EXT_FUNCTION_RVAL:
+			case A_EXT_FUNCTION_RTEMP:
+				formalParameterList = ((Def_Extfunction) referredAssignment).getFormalParameterList();
+				break;
+			case A_TEMPLATE:
+				formalParameterList = ((Def_Template) referredAssignment).getFormalParameterList();
+				break;
+			default:
+				formalParameterList = null;
+				break;
+			}
+
+			if (formalParameterList != null) {
+				for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
+					if (formalParameterList.getParameterByIndex(i).getIsLazy()) {
+						return false;
+					}
 				}
 			}
 		}

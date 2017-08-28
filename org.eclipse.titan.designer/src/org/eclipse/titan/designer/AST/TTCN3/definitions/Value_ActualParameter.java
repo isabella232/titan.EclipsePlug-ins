@@ -8,8 +8,10 @@
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -42,6 +44,24 @@ public final class Value_ActualParameter extends ActualParameter {
 
 		if (value != null) {
 			value.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (value != null) {
+			return value.canGenerateSingleExpression();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(CodeSectionType codeSection) {
+		if (value != null) {
+			value.setCodeSection(codeSection);
 		}
 	}
 
@@ -83,6 +103,16 @@ public final class Value_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
+	public void generateCodeDefaultValue(final JavaGenData aData, final StringBuilder source) {
+		//FIXME handle the needs conversion case
+		if (value != null) {
+			// TODO check if needed at all, right now this is intentionally not active
+//			value.generateCodeInit(aData, source, value.get_lhs_name());
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO not complete implementation pl. copy_needed, formal parameter missing
 		if (value != null ) {
@@ -112,6 +142,14 @@ public final class Value_ActualParameter extends ActualParameter {
 
 			//TODO copy might be needed here
 			expression.expression.append(expressionExpression);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (value != null) {
+			value.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 }

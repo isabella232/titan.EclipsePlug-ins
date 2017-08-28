@@ -8,7 +8,9 @@
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -37,6 +39,28 @@ public final class Referenced_ActualParameter extends ActualParameter {
 
 		if (reference != null) {
 			reference.setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+//		if(genRestrictionCheck != Restriction_type.TR_NONE) {
+			// TODO needs t check post restriction check generation
+//			return true;
+//		}
+		if (reference != null) {
+			return reference.hasSingleExpression();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setCodeSection(CodeSectionType codeSection) {
+		if (reference != null) {
+			reference.setCodeSection(codeSection);
 		}
 	}
 
@@ -81,5 +105,11 @@ public final class Referenced_ActualParameter extends ActualParameter {
 			// TODO implement properly
 			reference.generateCode(aData, expression);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		//fatal error
 	}
 }

@@ -1182,6 +1182,18 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	/**
+	 * Generates the value assignments of the default value of parameters.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * */
+	public void generateCodeDefaultValues(final JavaGenData aData, final StringBuilder source) {
+		for ( int i = 0 ; i < parameters.size(); i++) {
+			parameters.get(i).generateCodeDefaultValue(aData, source);
+		}
+	}
+	
+	/**
 	 * Generate code for actual parameter list with the provided prefix.
 	 * 
 	 * @param prefix teh prefix to use

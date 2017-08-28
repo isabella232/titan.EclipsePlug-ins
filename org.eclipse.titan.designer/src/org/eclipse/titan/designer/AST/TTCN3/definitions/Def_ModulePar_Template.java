@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -206,6 +207,8 @@ public final class Def_ModulePar_Template extends Definition {
 			tempReferenceChain.add(this);
 			temporalTemplate.checkRecursions(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
+
+			defaultTemplate.setCodeSection(CodeSectionType.CS_PRE_INIT);
 		}
 	}
 
