@@ -513,11 +513,11 @@ public final class Def_Var extends Definition {
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
 		} else {
-			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
+			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 				Array_Type arrayType =  (Array_Type) type;
-				Array_Type tempType = (Array_Type) type;
-				if(arrayType.getElementType().getTypetype() == IType.Type_type.TYPE_ARRAY) {
 
+				if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
+					Array_Type tempType = (Array_Type) type;
 					while(tempType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
 						tempType = (Array_Type)tempType.getElementType();
 					}
@@ -528,14 +528,20 @@ public final class Def_Var extends Definition {
 					sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId1,lastType.getGenNameValue(aData, source, getMyScope())));
 					sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
 					sb.append(MessageFormat.format("super({0}.class);\n", lastType.getGenNameValue(aData, source, getMyScope())));
-					sb.append("}\n}\n");
+					sb.append("}\n");
+					sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId1));
+					sb.append("super(otherValue);\n");
+					sb.append("}\n}\n\n");
 					while(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
 						arrayType = (Array_Type)arrayType.getElementType();
 						String tempId2 = aData.getTemporaryVariableName();
 						sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId2,tempId1));
 						sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
 						sb.append(MessageFormat.format("super({0}.class);\n", tempId1));
-						sb.append("}\n }\n");
+						sb.append("}\n");
+						sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId2));
+						sb.append("super(otherValue);\n");
+						sb.append("}\n }\n\n");
 						tempId1 = tempId2;
 					}
 					sb.append(MessageFormat.format("public static final {0} {1} = new {0}();\n", tempId1,genName));
