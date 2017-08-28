@@ -264,7 +264,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tpublic {0} assign( final {0} aOtherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format("\t\taOtherValue.mustBound( \"Assigning an unbound value of type {0}.\" );\n", displayName));
 		source.append("\n");
-		source.append("\t\tvalueElements = aOtherValue.valueElements;\n");
+		source.append("\t\tvalueElements = copyList( aOtherValue.valueElements );\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
