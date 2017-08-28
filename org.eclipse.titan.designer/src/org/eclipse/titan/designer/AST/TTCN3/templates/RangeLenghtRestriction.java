@@ -368,7 +368,13 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 		}
 	}
 
+	/**
+	 * @param value possible infinity value
+	 * @return true if value is negative or positive infinity
+	 */
 	private static boolean isInfinity( final Value value ) {
+		//INFINITY value is stored as a Real_Value
+		//see Ttcn3Parser.g4 pr_FloatValue
 		if ( !(value instanceof Real_Value) ) {
 			return false;
 		}
