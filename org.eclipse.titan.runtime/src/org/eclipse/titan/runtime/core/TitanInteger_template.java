@@ -8,7 +8,10 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
+
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 
 /**
  * TTCN-3 integer template
@@ -395,6 +398,70 @@ public class TitanInteger_template extends Base_Template {
 			return new TitanBoolean(false);
 		default:
 			return new TitanBoolean(false);
+		}
+	}
+	
+	
+	public void log()
+	{
+		switch(templateSelection){
+		case SPECIFIC_VALUE:
+			if(single_value.isNative()){
+			}
+			else{
+				single_value.getBigInteger().toString();
+			}
+			String tmp_str = single_value.toString();
+			TtcnLogger.log_event("%s",tmp_str);
+			break;
+
+		case COMPLEMENTED_LIST:{
+			TtcnLogger.log_event_str("complement");
+		}
+		case VALUE_LIST:
+			TtcnLogger.log_char('(');
+			for (int i = 0; i < value_list.size(); i++) {
+				if(i>0){
+					TtcnLogger.log_event_str(", ");
+					value_list.get(i).log();
+				}
+				TtcnLogger.log_char(')');
+				break;
+			}
+		case VALUE_RANGE: 
+			TtcnLogger.log_char('(');
+			if(min_is_exclusive){
+				TtcnLogger.log_char('!');
+			}
+			if(min_is_present){
+				if(min_value.isNative()){
+					TtcnLogger.log_event("%s", Integer.toString(min_value.getInt()));
+				}else{
+					TtcnLogger.log_event("%s", min_value.getBigInteger().toString());
+				}
+			}else{
+				TtcnLogger.log_event_str("-infinity");
+			}
+			TtcnLogger.log_event_str("..");
+
+
+			if(max_is_exclusive){
+				TtcnLogger.log_char('!');
+			}
+			if(max_is_present){
+				if(max_value.isNative()){
+					TtcnLogger.log_event("%s", Integer.toString(max_value.getInt()));
+				}else{
+					TtcnLogger.log_event("%s", max_value.getBigInteger().toString());
+				}
+			}else{
+				TtcnLogger.log_event_str("infinity");
+			}
+
+			TtcnLogger.log_char(')');
+			break;
+		default: log_generic();
+		break;
 		}
 	}
 }
