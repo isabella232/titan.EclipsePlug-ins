@@ -85,7 +85,7 @@ public class RecordOfGenerator {
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
 		generateTemplateConstructors( source, genName, displayName );
-		generateTemplateCopyTemplate( source, genName, displayName );
+		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName );
 		generateTemplateIsPresent( source );
 		generateTemplateMatch( source, genName, displayName );
 		generateTemplateMatchOmit( source );
@@ -498,8 +498,6 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateDeclaration( final StringBuilder source, final String genName, final String ofTypeName ) {
 		source.append("\n");
-		//TODO: remove
-		source.append( MessageFormat.format( "\t{0} single_value;\n", genName ) );
 
 		source.append("\t//originally single_value/value_elements\n");
 		source.append( MessageFormat.format( "\tList<{0}> value_elements;\n", ofTypeName ) );
@@ -537,9 +535,7 @@ public class RecordOfGenerator {
 
 		source.append("\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"Copying an unbound value of type {0}.\");\n", displayName ) );
-		source.append( MessageFormat.format( "\t\tsingle_value = new {0}( otherValue );\n", genName ) );
-		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\tcopy_value( otherValue );\n");
 		source.append("\t};\n");
 
 		source.append("\n");
@@ -553,14 +549,42 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+
+		source.append("\n");
+		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName ) );
+		source.append("\t\tif (!other_value.isBound().getValue()) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Initialization of a template of type {0} with an unbound value.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append("\t\tfinal int otherSize = other_value.sizeOf().getInt();\n");
+		source.append("\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
+		source.append("\t\t\tif (other_value.constGetAt(elem_count).isBound().getValue()) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
+		source.append("\t\t\t} else {\n");
+		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t}\n");
+
 		source.append("\n");
 		source.append( MessageFormat.format( "\tprivate void copyTemplate(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\tswitch (other_value.templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append( MessageFormat.format( "\t\t\tsingle_value = new {0}( other_value.single_value );\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
+		source.append("\t\t\tfinal int otherSize = other_value.sizeOf().getInt();\n");
+		source.append("\t\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
+		source.append("\t\t\t\tif (other_value.constGetAt(elem_count).isBound().getValue()) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
+		source.append("\t\t\t\t} else {\n");
+		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+
 		source.append("\t\t\tbreak;\n");	
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\tcase ANY_VALUE:\n");
@@ -705,8 +729,7 @@ public class RecordOfGenerator {
 		source.append("\t//originally operator=\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} other_value ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
-		source.append( MessageFormat.format( "\t\tsingle_value = new {0}( other_value );\n", genName ) );
-		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\tcopy_value(other_value);\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
@@ -752,7 +775,8 @@ public class RecordOfGenerator {
 		source.append("\tpublic void cleanUp() {\n");
 		source.append("\t\tswitch(templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\tsingle_value = null;\n");
+		source.append("\t\t\tvalue_elements.clear();\n");
+		source.append("\t\t\tvalue_elements = null;\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
@@ -792,67 +816,6 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index, len, repl);\n");
 		source.append("\t}\n");
-
-//TODO: remove
-/*
- 		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate void substr_(int index, int returncount, {0} rec_of) '{'\n", genName ) );
-		source.append("\t\tif (!isValue().getValue()) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template of type {0} with non-specific value.\");\n", displayName ) );
-		source.append("\t\t}\n");
-		source.append("\n");
-		source.append("\t\trec_of.valueElements = null;\n");
-		source.append( MessageFormat.format( "\t\t{0}_template this_value = new {0}_template();\n", genName ) );
-		source.append("\t\tvalueofv(this_value);\n");
-		source.append("\t\tthis_value.substr_(index, returncount, rec_of);\n");
-		source.append("\t}\n");
-
-		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate void replace_(int index, int len, final {0}_template repl, {0} rec_of) '{'\n", genName ) );
-		source.append("\t\tif (!isValue().getValue()) {\n");
-		//TODO: fix: "third" instead of "first", also in titan.core
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", displayName ) );
-		source.append("\t\t}\n");
-		source.append("\n");
-		source.append("\t\tif (!repl.isValue().getValue()) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template of type {0} with non-specific value.\");\n", displayName ) );
-		source.append("\t\t}\n");
-		source.append("\n");
-		source.append("\t\trec_of.valueElements = null;\n");
-		source.append( MessageFormat.format( "\t\t{0}_template this_value = new {0}_template();\n", genName ) );
-		source.append("\t\tvalueofv(this_value);\n");
-		source.append( MessageFormat.format( "\t\t{0}_template repl_value = new {0}_template();\n", genName ) );
-		source.append("\t\trepl.valueofv(repl_value);\n");
-		source.append("\t\t// call the replace() function of the value class instance\n");
-		source.append("\t\tthis_value.replace_(index, len, repl_value, rec_of);\n");
-		source.append("\t}\n");
-
-		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate void replace_(int index, int len, final {0} repl, {0} rec_of) '{'\n", genName ) );
-		source.append("\t\tif (!isValue().getValue()) {\n");
-		//TODO: fix: "third" instead of "first", also in titan.core
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template of type {0} with non-specific value.\");\n", displayName ) );
-		source.append("\t\t}\n");
-		source.append("\n");
-		source.append("\t\trec_of.valueElements = null;\n");
-		source.append( MessageFormat.format( "\t\t{0}_template this_value = new {0}_template();\n", genName ) );
-		source.append("\t\tvalueofv(this_value);\n");
-		source.append("\t\t// call the replace() function of the value class instance\n");
-		source.append("\t\tthis_value.replace_(index, len, repl, rec_of);\n");
-		source.append("\t}\n");
-		
-		source.append("\n");
-		source.append( MessageFormat.format( "\tprivate void valueofv(final {0}_template value) '{'\n", genName ) );
-		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );  
-		source.append("\t\t}\n");
-		source.append("\t\tvalue.setSize(value_elements.size());\n");
-		source.append("\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
-		source.append("\t\t\tvalue_elements.get(elem_count).valueofv(value.getAt(elem_count));\n");
-		source.append("\t\t}\n");
-		source.append("\t\tvalue.set_err_descr(err_descr);\n");
-		source.append("\t}\n");
-*/
 	}
 
 	/**
@@ -1143,7 +1106,7 @@ public class RecordOfGenerator {
 		source.append("\tpublic TitanInteger nofElements() {\n");
 		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\treturn single_value.getNofElements();\n");
+		source.append("\t\t\treturn new TitanInteger(value_elements.size());\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Performing n_elem() operation on a template of type {0} containing complemented list.\");\n", genName ) );
 		source.append("\t\tcase UNINITIALIZED_TEMPLATE:\n");
