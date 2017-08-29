@@ -679,6 +679,15 @@ public final class Template_List extends CompositeTemplate {
 					break;
 				}
 			}
+			
+			if(this.isIfpresent) {
+				source.append(MessageFormat.format("{0}.set_ifPresent();\n",name));
+			}
+			
+			//TODO: length restriction handling!
+			if(lengthRestriction != null) {
+				//TODO: generate code!
+			}
 			return; // TODO this is just to skip over the temporary super call
 		}
 		// FIXME implement
