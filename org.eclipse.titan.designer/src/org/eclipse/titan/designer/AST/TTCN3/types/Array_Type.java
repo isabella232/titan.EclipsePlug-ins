@@ -406,6 +406,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		parseAttributes(timestamp);
 
 		if (elementType != null) {
+			elementType.setGenName(getGenNameOwn(), "0");
 			elementType.setParentType(this);
 			elementType.check(timestamp);
 			elementType.checkEmbedded(timestamp, elementType.getLocation(), true, "embedded into an array type");
