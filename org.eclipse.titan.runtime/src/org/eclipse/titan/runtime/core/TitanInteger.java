@@ -21,7 +21,7 @@ public class TitanInteger extends Base_Type {
 
 	private boolean nativeFlag;
 	private int nativeInt;
-	public BigInteger openSSL;
+	private BigInteger openSSL;
 
 	public TitanInteger() {
 		boundFlag = false;
@@ -453,15 +453,15 @@ public class TitanInteger extends Base_Type {
 		}
 		return getBigInteger().toString();
 	}
-	
-	public void log(){
-		if(boundFlag){
-			if(nativeFlag){
-				TtcnLogger.log_event("%d",nativeInt);
-			}else{
+
+	public void log() {
+		if (boundFlag) {
+			if (nativeFlag) {
+				TtcnLogger.log_event("%d", nativeInt);
+			} else {
 				TtcnLogger.log_event("%s", openSSL.toString());
 			}
-		}else{
+		} else {
 			TtcnLogger.log_event_unbound();
 		}
 	}
