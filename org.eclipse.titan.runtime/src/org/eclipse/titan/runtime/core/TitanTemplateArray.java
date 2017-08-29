@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.titan.runtime.core.RecordOfMatch.answer;
+import org.eclipse.titan.runtime.core.RecordOfMatch.match_function_t;
+import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
+
 /**
  * @author Farkas Izabella Ingrid
  */
@@ -552,8 +556,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		switch (templateType) {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			//value_list.n_values = list_length;
-			value_list = new ArrayList<TitanTemplateArray<Tvalue, Ttemplate>>(length); //TEMPLATE_ARRAY[list_length];
+			listSize = length;
+			value_list = new ArrayList<TitanTemplateArray<Tvalue, Ttemplate>>(length);
 			for (int i = 0; i < length; ++i) {
 				value_list.add(new TitanTemplateArray<Tvalue,Ttemplate>(classValue, classTemplate));
 			}
@@ -578,12 +582,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return value_list.get(index);
 	}
 
-	//FIXME: resolve match
 	@SuppressWarnings("unchecked")
 	private TitanBoolean match_function_specific(Base_Type value, int valueIndex, Restricted_Length_Template template, int templateIndex, boolean legacy) {
 		if (valueIndex >= 0) {
 			return ((TitanTemplateArray<Tvalue, Ttemplate>)template).single_value.get(templateIndex)
-			.match(((TitanValueArray<Tvalue>) value).array_elements.get(valueIndex), legacy);
+					.match(((TitanValueArray<Tvalue>) value).array_elements.get(valueIndex), legacy);
 		} else {
 			return new TitanBoolean(((TitanTemplateArray<Tvalue, Ttemplate>)template).single_value.get(templateIndex).is_any_or_omit());
 		}
@@ -597,7 +600,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 		throw new TtcnError(MessageFormat.format("Internal Error: value {0} can not be cast to value array", otherValue));
 	}
-	
+
 	public TitanBoolean match(final TitanValueArray<Tvalue> otherValue) {
 		return match(otherValue,false);
 	}
@@ -722,228 +725,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
-	//TODO: answer recursive_permutation_match()
-	//TODO: match_permutation_array
-
-	/**
-	 * Interface for matching
-	 * Replacement of StructOf.hh/match_function_t function pointer
-	 */
-	public interface match_function_t {
-
-		//TODO: comment
-		boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy);
-	}
-
-	//TODO: comment
-	private enum answer { FAILURE, SUCCESS, NO_CHANCE };
-
-	//TODO: comment
-	private enum type_of_matching { SUBSET, EXACT, SUPERSET };
-
-	private enum edge_status { UNKNOWN, NO_EDGE, EDGE, PAIRS };
-
-	/* Class Matching_Table:
-	 * Responsibilities
-	 * - index transformation to skip asterisks in the template
-	 *   the table is initialized in constructor
-	 * - maintain a matrix that stores the status of edges
-	 *   (template <-> value relations)
-	 *   table is initialized explicitly
-	 * - a flag for each value element to indicate whether it is covered
-	 * Note: All dynamically allocated memory is collected into this class
-	 * to avoid memory leaks in case of errors (exceptions).
-	 */
-	private static class Matching_Table {
-		private match_function_t match_function;
-		private int value_size;
-		private int value_start;
-		private int template_size;
-		private int template_start;
-		private int n_asterisks;
-		private int[] template_index_table;
-		private edge_status[][] edge_matrix;
-		private boolean[] covered_vector; //tells if a value is covered
-		private boolean legacy;
-
-		//if the value is covered, then tells by whom it is covered
-		private int[] covered_index_vector;
-		private int nof_covered;
-		private int[] paired_templates;
-
-		//the matching function requires these pointers
-		private final Base_Type value_ptr;
-
-		//they are allocated and freed outside
-		private final Restricted_Length_Template template_ptr;
-
-		//the match_set_of will be called from the permutation matcher
-		// where the beginning of the examined set might not be at 0 position
-		public Matching_Table(final Base_Type par_value_ptr, int par_value_start,
-				int par_value_size, final Restricted_Length_Template par_template_ptr,
-				int par_template_start, int par_template_size,
-				match_function_t par_match_function, boolean par_legacy) {
-			match_function = par_match_function;
-			value_size = par_value_size;
-			value_start = par_value_start;
-			template_start = par_template_start;
-			value_ptr = par_value_ptr;
-			template_ptr = par_template_ptr;
-			legacy = par_legacy;
-			n_asterisks = 0;
-			nof_covered = 0;//to get rid of the linear summing
-
-			// we won't use all elements if there are asterisks in template
-			// it is cheaper to allocate it once instead of realloc'ing
-			template_index_table = new int[par_template_size];
-			// locating the asterisks in the template
-			for (int i = 0; i < par_template_size; i++) {
-				if(match_function.match(value_ptr, -1,template_ptr, par_template_start+i, legacy)) {
-					n_asterisks++;
-				} else {
-					template_index_table[i - n_asterisks] = i;
-				}
-			}
-			// don't count the asterisks
-			template_size = par_template_size - n_asterisks;
-
-			edge_matrix = null;
-			covered_vector = null;
-			covered_index_vector = null;
-			paired_templates = null;
-		}
-
-		public int get_template_size() { return template_size; }
-
-		public boolean has_asterisk() { return n_asterisks > 0; }
-
-		public void create_matrix() {
-			edge_matrix = new edge_status[template_size][value_size];
-			for (int i = 0; i < template_size; i++) {
-				for (int j = 0; j < value_size; j++) {
-					edge_matrix[i][j] = edge_status.UNKNOWN;
-				}
-			}
-			covered_vector = new boolean[value_size];
-			for (int j = 0; j < value_size; j++) {
-				covered_vector[j] = false;
-			}
-
-			paired_templates = new int[template_size];
-			for(int j = 0; j < template_size; j++) {
-				paired_templates[j] = -1;
-			}
-
-			covered_index_vector = new int[value_size];
-		}
-
-		public edge_status get_edge(int template_index, int value_index) {
-			if (edge_matrix[template_index][value_index] == edge_status.UNKNOWN) {
-				if (match_function.match(value_ptr, value_start + value_index,
-						template_ptr,
-						template_start + template_index_table[template_index], legacy)) {
-					edge_matrix[template_index][value_index] = edge_status.EDGE;
-				} else {
-					edge_matrix[template_index][value_index] = edge_status.NO_EDGE;
-				}
-			}
-			return edge_matrix[template_index][value_index];
-		}
-
-		public void set_edge(int template_index, int value_index, edge_status new_status) {
-			edge_matrix[template_index][value_index] = new_status;
-		}
-
-		public boolean is_covered(int value_index) {
-			return covered_vector[value_index];
-		}
-
-		public int covered_by(int value_index) {
-			return covered_index_vector[value_index];
-		}
-
-		public int get_nof_covered() {
-			return nof_covered;
-		}
-
-		public void set_covered(int value_index, int template_index) {
-			if(!covered_vector[value_index]) {
-				nof_covered++;
-			}
-
-			covered_vector[value_index] = true;
-			covered_index_vector[value_index] = template_index;
-		}
-
-		public boolean is_paired(int j) {
-			return paired_templates[j] != -1;
-		}
-
-		public void set_paired(int j, int i) {
-			paired_templates[j] = i;
-		}
-
-		public int get_paired(int j) {
-			return paired_templates[j];
-		}
-	}
-
-	/* Tree-list. It is used for storing a tree in BFS order. That is: the
-	 * first element is the root of the tree, it is followed by its
-	 * neighbours then the neighbours of the neighbours follow, and so
-	 * on. The elements can be reached sequentially by the use of the next
-	 * pointer. Also the parent of an element can be reached via a pointer
-	 * also. Elements can be inserted in the tree, and with the help of
-	 * the functions one can move or search in the tree.
-	 */
-	private static class Tree_list {
-		// Elements of the tree-list.
-		private class List_elem {
-			int data;
-			List_elem next, parent;
-		}
-
-		private List_elem head; // not null
-		private List_elem current; 
-
-		public Tree_list(int head_data) {
-			head.data = head_data;
-			head.next = null;
-			head.parent = null;
-			current = head;
-		}
-
-		public void insert_data(int new_data) {
-			List_elem newptr = new List_elem();
-			newptr.data = new_data;
-			newptr.next = current.next;
-			newptr.parent = current;
-			current.next = newptr;
-		}
-
-		public void back_step() {
-			if (current.parent != null) current = current.parent;
-		}
-
-		public void step_forward() {
-			if (current.next != null) current = current.next;
-		}
-
-		public int head_value() { return head.data; }
-		public int actual_data() { return current.data; }
-		public boolean is_head() { return current.parent == null; }
-		public boolean end_of_list()  { return current.next == null; }
-
-		public boolean do_exists(int find_data) {
-			for ( List_elem ptr = head; ptr != null; ptr = ptr.next ) {
-				if (ptr.data == find_data) return true;
-			}
-			return false;
-		}
-	}
-
-	/* Ancillary classes for 'set of' matching */
-
 	private answer recursive_permutation_match(final Base_Type value_ptr,
 			int value_start_index,
 			int value_size,
@@ -1001,8 +782,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 				//count how many non asterisk elements are in the permutation
 				for(int i = 0; i < permutation_size; i++) {
-					if(match_function.match(value_ptr, -1, template_ptr,
-							i + template_start_index, legacy)) {
+					if(match_function.match(value_ptr, -1, template_ptr, i + template_start_index, legacy)) {
 						has_asterisk = true;
 					} else {
 						smallest_possible_size++;
@@ -1068,7 +848,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 					// (other than asterisk) couldn't be matched
 					// and setting / giving back the value-template pairs
 
-					boolean found = match_set_of_internal(value_ptr, value_start_index,
+					boolean found = RecordOfMatch.match_set_of_internal(value_ptr, value_start_index,
 							temp_size, template_ptr,
 							template_start_index, permutation_size,
 							match_function, type_of_matching.SUPERSET, x, pair_list,old_temp_size, legacy);
@@ -1115,18 +895,15 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 					//don't step the permutation index
 					result = recursive_permutation_match(value_ptr,value_start_index+i,
 							value_size - i, template_ptr,
-							template_start_index +
-							permutation_size,
-							template_size -
-							permutation_size,
+							template_start_index + permutation_size,
+							template_size - permutation_size,
 							permutation_index,
 							match_function, shift_size, legacy);
 				} else {
 					//try with the next permutation
 					result = recursive_permutation_match(value_ptr,value_start_index+i,
 							value_size - i, template_ptr,
-							template_start_index +
-							permutation_size,
+							template_start_index + permutation_size,
 							template_size - permutation_size,
 							permutation_index + 1,
 							match_function, shift_size, legacy);
@@ -1186,13 +963,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				//half bad half good stop: the end of values is reached
 				//good stop: matching on the full distance or till an asterisk
 			} while(good && i < value_size && i < distance &&
-					!match_function.match(value_ptr, -1, template_ptr,
-							template_start_index + i, legacy));
+					!match_function.match(value_ptr, -1, template_ptr, template_start_index + i, legacy));
 
 			//if we matched on the full distance or till an asterisk
 			if(good && (i == distance ||
-					match_function.match(value_ptr, -1, template_ptr,
-							template_start_index + i, legacy))) {
+					match_function.match(value_ptr, -1, template_ptr, template_start_index + i, legacy))) {
 				//reached the end of the templates
 				if ( i == template_size ) {
 					if (i < value_size ) {
@@ -1227,9 +1002,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 					shift_size.set( 0 );
 					i--;
 					do {
-						good = match_function.match(value_ptr,
-								value_start_index + i + shift_size.get(),
-								template_ptr, template_start_index + i, legacy);
+						good = match_function.match(value_ptr, value_start_index + i + shift_size.get(), template_ptr, template_start_index + i, legacy);
 						shift_size.incrementAndGet();
 					} while(!good && i + shift_size.get() < value_size);
 
@@ -1245,216 +1018,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
-	private static boolean match_set_of_internal(final Base_Type value_ptr,
-			int value_start, int value_size,
-			final Restricted_Length_Template template_ptr,
-			int template_start, int template_size,
-			match_function_t match_function,
-			type_of_matching match_type,
-			AtomicInteger number_of_uncovered, int[] pair_list,
-			int number_of_checked, boolean legacy) {
-		Matching_Table table = new Matching_Table(value_ptr, value_start, value_size,
-				template_ptr, template_start, template_size,
-				match_function, legacy);
-
-		// we have to use the reduced length of the template
-		// (not counting the asterisks)
-		int real_template_size = table.get_template_size();
-
-		// handling trivial cases:
-		//to be compatible with the previous version
-		// is a mistake if the user can't enter an asterisk as a set member
-		if(match_type == type_of_matching.EXACT && real_template_size < template_size) {
-			match_type = type_of_matching.SUPERSET;
-		}
-
-		if(match_type == type_of_matching.SUBSET && real_template_size < template_size) {
-			return true;
-		}
-
-		//if the element count does not match the matching mode then we are ready
-		if(match_type == type_of_matching.SUBSET && value_size > real_template_size) {
-			return false;
-		}
-		if(match_type == type_of_matching.EXACT && value_size != real_template_size) {
-			return false;
-		}
-		if(match_type == type_of_matching.SUPERSET && value_size < real_template_size) {
-			return false;
-		}
-
-		// if the template has no non-asterisk elements
-		if (real_template_size == 0) {
-			if (template_size > 0) {
-				// if the template has only asterisks -> matches everything
-				return true;
-			} else {
-				// the empty template matches the empty value only
-				return (value_size == 0 || match_type == type_of_matching.SUPERSET);
-			}
-		}
-
-		// let's start the real work
-
-		// allocate some memory
-		table.create_matrix();
-
-		//if we need increamentality
-
-		if(pair_list != null) {
-			for(int i = 0; i < template_size; i++) {
-				//if we have values from a previous matching than use them
-				// instead of counting them out again
-				if(pair_list[i] >= 0) {
-					table.set_paired(i, pair_list[i]);
-					table.set_covered(pair_list[i], i);
-					table.set_edge(i, pair_list[i], edge_status.PAIRS);
-				}
-			}
-		}
-
-		for(int template_index = 0;
-				template_index < real_template_size;
-				template_index++) {
-			if(table.is_paired(template_index)) {
-				continue;
-			}
-
-			boolean found_route = false;
-			Tree_list tree = new Tree_list(template_index);
-			for (int i = template_index; ; ) {
-				int j;
-				if(table.is_paired(i))
-					j = table.get_paired(i)+1;
-				else
-					j = number_of_checked;
-
-				for(; j < value_size; j++) {
-					//if it is not covered
-					if(!table.is_covered(j)) {
-						//if it is not covered then it might be good
-						if (table.get_edge(i, j) == edge_status.EDGE) {
-							//update the values in the tree
-							// and in the other structures
-							int new_value_index = j;
-							int temp_value_index;
-							int actual_node;
-							boolean at_end = false;
-							for( ; !at_end; ) {
-								at_end = tree.is_head();
-								actual_node = tree.actual_data();
-
-								temp_value_index = table.get_paired(actual_node);
-								if(temp_value_index != -1) {
-									table.set_edge(temp_value_index,actual_node,edge_status.EDGE);
-								}
-
-								table.set_paired(actual_node,new_value_index);
-
-								if(pair_list != null) {
-									pair_list[actual_node] = new_value_index;
-								}
-
-								table.set_edge(actual_node, new_value_index, edge_status.PAIRS);
-								table.set_covered(new_value_index,actual_node);
-
-								new_value_index = temp_value_index;
-								if(!at_end) {
-									tree.back_step();
-								}
-							}
-
-							//if we need subset matching
-							// and we already matched every value
-							// then we have finished
-							if(match_type == type_of_matching.SUBSET
-									&& table.get_nof_covered() == value_size) {
-								return true;
-							}
-
-							found_route = true;
-							break;
-						}
-					}
-				}
-				if (found_route) {
-					break;
-				}
-
-				//we get here if we couldn't find a new value for the template
-				// so we check if there is a covered value.
-				//  if we find one then we try to find a new value for his
-				// pair template.
-				for(j = 0 ; j < value_size; j++) {
-					if(table.is_covered(j) &&
-							table.get_edge(i,j) == edge_status.EDGE &&
-							!tree.do_exists(j + real_template_size)) {
-						int temp_index = table.covered_by(j);
-						if(!tree.do_exists(temp_index)) {
-							tree.insert_data(temp_index);
-						}
-					}
-				}
-
-				if (!tree.end_of_list()) {
-					// continue with the next element
-					tree.step_forward();
-					i = tree.actual_data();
-				} else {
-					//couldn't find a matching value for a template
-					// this can only be allowed in SUBSET matching,
-					// otherwise there is no match
-					if(match_type == type_of_matching.EXACT) {
-						return false;
-					}
-
-					//every template has to match in SUPERSET matching
-					if(match_type == type_of_matching.SUPERSET) {
-						//if we are not in permutation matching or don't need to count
-						// the number of unmatched templates than exit
-						if(number_of_uncovered == null) {
-							return false;
-						}
-					}
-
-					//if we are SUBSET matching
-					// then we have either returned true when we found
-					// a new value for the last template (so we can't get to here)
-					// or we just have to simply ignore this template
-					break;
-				}
-			}
-		}
-		//we only reach here if we have found pairs to every template or we
-		// are making a SUBSET match
-		// (or in SUPERSET we need the number of uncovered)
-		//the result depends on the number of pairs found
-
-		int number_of_pairs = table.get_nof_covered();
-
-		if(match_type == type_of_matching.SUBSET) {
-			return number_of_pairs == value_size;
-		}
-
-		//here EXACT can only be true or we would have return false earlier
-		if(match_type == type_of_matching.EXACT) {
-			return true;
-		}
-
-		if(match_type == type_of_matching.SUPERSET) {
-			//we only return false if we need the number of uncovered templates and
-			// there really were uncovered templates
-			if(number_of_uncovered != null && number_of_pairs != real_template_size) {
-				number_of_uncovered.set( real_template_size - number_of_pairs );
-				return false;
-			} else {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
 	boolean match_permutation_array(final Base_Type value_ptr, int value_size, 
 			final TitanTemplateArray<Tvalue, Ttemplate> template_ptr, int template_size,
 			match_function_t match_function, boolean legacy) {
@@ -1465,19 +1028,18 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			throw new TtcnError("Internal error: match_permutation_arry: invalid argument.");
 		}
 
-		//final TitanTemplateArray<Base_Type, Base_Template> template_ptr = (TitanTemplateArray<Base_Type, Base_Template>)template_ptr1;
 		int nof_permutations = template_ptr.get_number_of_permutations();
 
 		// use the simplified algorithm if the template does not contain permutation
 		if (nof_permutations == 0) {
-			return match_array(value_ptr, value_size,
+			return RecordOfMatch.match_array(value_ptr, value_size,
 					template_ptr, template_size, match_function, legacy);
 		}
 
 		// use 'set of' matching if all template elements are grouped into one permutation
 		if (nof_permutations == 1 && template_ptr.get_permutation_start(0) == 0 &&
 				template_ptr.get_permutation_end(0) == (template_size - 1)) {
-			return match_set_of(value_ptr, value_size, template_ptr, template_size, match_function, legacy);
+			return RecordOfMatch.match_set_of(value_ptr, value_size, template_ptr, template_size, match_function, legacy);
 		}
 
 		AtomicInteger shift_size = new AtomicInteger( 0 );
@@ -1485,120 +1047,4 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				0, template_size, 0, match_function, shift_size, legacy) == answer.SUCCESS;
 	}
 
-	private boolean match_array( final Base_Type value_ptr,
-			int value_size,
-			final TitanTemplateArray<Tvalue, Ttemplate> template_ptr,
-			int template_size,
-			match_function_t match_function,
-			boolean legacy ) {
-		if (value_ptr == null || value_size < 0 || template_ptr == null ||
-				template_size < 0) {
-			throw new TtcnError("Internal error: match_array: invalid argument.");
-		}
-
-		// the empty template matches the empty value only
-		if (template_size == 0) {
-			return value_size == 0;
-		}
-
-		int template_index = 0;//the index of the template we are examining
-
-		if (value_size == 0) {
-			//We matched if the remaining templates are
-			// asterisks
-			while(template_index < template_size &&
-					match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
-				template_index++;
-			}
-
-			return template_index == template_size;
-		}
-
-		int value_index = 0;//the index of the value we are examining at the point
-		//the index of the last asterisk found in the template at the moment
-		// -1 if no asterisks were found yet
-		int last_asterisk = -1;
-		//this is the index of the last value that is matched by
-		// the last asterisk in the template
-		int last_value_to_asterisk = -1;
-
-		//must finish as we always increase one of the 4 indices or we return
-		// and there are limited number of templates and values
-		for(;;) {
-			if(match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
-				//if we found an asterisk we administer it, and step in the template
-				last_asterisk = template_index++;
-				last_value_to_asterisk = value_index;
-			} else if(match_function.match(value_ptr, value_index, template_ptr, template_index, legacy)) {
-				//if we found a matching pair we step in both
-				value_index++;
-				template_index++;
-			} else {
-				//if we didn't match and we found no asterisk the match failed
-				if(last_asterisk == -1) {
-					return false;
-				}
-				//if we found an asterisk than fall back to it
-				//and step the value index
-				template_index = last_asterisk +1;
-				value_index = ++last_value_to_asterisk;
-			}
-
-			if(value_index == value_size && template_index == template_size) {
-				//we finished clean
-				return true;
-			} else if(template_index == template_size) {
-				//value_index != value_size at this point so it is pointless
-				// to check it in the if statement
-				//At the end of the template
-				if(match_function.match(value_ptr, -1, template_ptr, template_index-1, legacy)) {
-					//if the templates last element is an asterisk it eats up the values
-					return true;
-				} else if (last_asterisk == -1) {
-					//if there were no asterisk the match failed
-					return false;
-				} else {
-					//fall back to the asterisk, and step the value's indices
-					template_index = last_asterisk+1;
-					value_index = ++last_value_to_asterisk;
-				}
-			} else if(value_index == value_size) {
-				//template_index != template_size at this point so it is pointless
-				// to check it in the if statement
-				//At the end of the value we matched if the remaining templates are
-				// asterisks
-				while(template_index < template_size &&
-						match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
-					template_index++;
-				}
-
-				return template_index == template_size;
-			}
-		}
-	}
-
-	public boolean match_set_of(final Base_Type value_ptr, int value_size,
-			final TitanTemplateArray<Tvalue, Ttemplate> template_ptr,
-			int template_size, match_function_t match_function, boolean legacy) {
-		if (value_ptr == null || value_size < 0 ||
-				template_ptr == null || template_size < 0) {
-			throw new TtcnError("Internal error: match_set_of: invalid argument.");
-		}
-		type_of_matching match_type = type_of_matching.EXACT;
-		switch (template_ptr.getSelection()) {
-		case SPECIFIC_VALUE:
-			match_type = type_of_matching.EXACT;
-			break;
-		case SUPERSET_MATCH:
-			match_type = type_of_matching.SUPERSET;
-			break;
-		case SUBSET_MATCH:
-			match_type = type_of_matching.SUBSET;
-			break;
-		default:
-			throw new TtcnError("Internal error: match_set_of: invalid matching type.");
-		}
-		return match_set_of_internal(value_ptr, 0, value_size, template_ptr, 0,
-				template_size, match_function, match_type, null, null, 0, legacy);
-	}
 }

@@ -50,10 +50,10 @@ public class RecordOfMatch {
 	}
 
 	//TODO: comment
-	private enum answer { FAILURE, SUCCESS, NO_CHANCE };
+	public enum answer { FAILURE, SUCCESS, NO_CHANCE };
 
 	//TODO: comment
-	private enum type_of_matching { SUBSET, EXACT, SUPERSET };
+	public enum type_of_matching { SUBSET, EXACT, SUPERSET };
 
 	/*
 	  Generic comparison function for 'set of' values. The fifth argument
@@ -155,7 +155,7 @@ public class RecordOfMatch {
 	  an ANY_OR_NONE / ANY element
 	 */
 
-	private static boolean match_array( final Base_Type value_ptr,
+	public static boolean match_array( final Base_Type value_ptr,
 			int value_size,
 			final Restricted_Length_Template template_ptr,
 			int template_size,
@@ -551,7 +551,7 @@ public class RecordOfMatch {
 	in a loop with increasing sets than it would make this algorithm incremental,
 	by not making the same matching test ever and ever again.
 	*/
-	private static boolean match_set_of_internal(final Base_Type value_ptr,
+	public static boolean match_set_of_internal(final Base_Type value_ptr,
 			int value_start, int value_size,
 			final Restricted_Length_Template template_ptr,
 			int template_start, int template_size,
