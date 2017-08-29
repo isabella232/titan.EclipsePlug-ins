@@ -168,7 +168,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanFloat) {
 			return match((TitanFloat) otherValue, legacy);
 		}

@@ -102,7 +102,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
-	
+
 	@Override
 	public TitanBitString_template assign(Base_Template otherValue) {
 		if (otherValue instanceof TitanBitString_template) {
@@ -111,7 +111,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
-	
+
 	//originally operator=
 	public TitanBitString_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);
@@ -235,13 +235,12 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanBitString) {
 			return match((TitanBitString) otherValue, legacy);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
-	
 	}
 
 	// originally match

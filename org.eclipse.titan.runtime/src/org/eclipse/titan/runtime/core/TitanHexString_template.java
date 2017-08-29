@@ -205,7 +205,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanHexString) {
 			return match((TitanHexString) otherValue, legacy);
 		}

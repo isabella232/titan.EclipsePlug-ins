@@ -14,7 +14,7 @@ import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.TtcnLogger.matching_verbosity_t;
 
 /**
- * Utility class for match functionality of record of/set of
+ * Utility class for match functionality of record of/set of/arrays
  * @author Arpad Lovassy
  */
 public class RecordOfMatch {
@@ -70,11 +70,9 @@ public class RecordOfMatch {
 	  - In case of invalid value pointers, index overflow or negative indices the
 	    behaviour of the function is undefined.
 	*/
-	public boolean compare_set_of( final Base_Type left_ptr, int left_size,
-			final Base_Type right_ptr, int right_size,
-			compare_function_t compare_function ) {
-		if (left_size < 0 || right_size < 0 ||
-				left_ptr == null || right_ptr == null) {
+	public boolean compare_set_of(final Base_Type left_ptr, int left_size, final Base_Type right_ptr, int right_size,
+			compare_function_t compare_function) {
+		if (left_size < 0 || right_size < 0 || left_ptr == null || right_ptr == null) {
 			throw new TtcnError("Internal error: compare_set_of: invalid argument.");
 		}
 
@@ -87,15 +85,15 @@ public class RecordOfMatch {
 			return true;
 		}
 
-		//stores which have already been matched
-		boolean[] covered = new boolean [ left_size ];
-		//initially none of them
+		// stores which have already been matched
+		boolean[] covered = new boolean[left_size];
+		// initially none of them
 
 		boolean pair_found;
-		int left_index, right_index;//the actual indices
-		int first_on_right = 0;//index of the first element to check on the right side
-		//index of the last element to check on the right side
-		int last_on_right = left_size-1;
+		int left_index, right_index;// the actual indices
+		int first_on_right = 0;// index of the first element to check on the right side
+		// index of the last element to check on the right side
+		int last_on_right = left_size - 1;
 
 		for(left_index = 0; left_index < left_size; left_index++) {
 			pair_found = false;
@@ -106,19 +104,23 @@ public class RecordOfMatch {
 					covered[right_index] = true;
 					//if it is the first then check if we can increase the index more,
 					// reducing the elements that need to be checked
-					if(right_index == first_on_right)
-						while(++first_on_right<last_on_right && covered[first_on_right]){}
+					if (right_index == first_on_right) {
+						while (++first_on_right < last_on_right && covered[first_on_right]) {
+						}
+					}
 					//if it is the last then check if we can decrease the index more,
 					// reducing the elements that need to be checked
-					if(right_index == last_on_right)
-						while(--last_on_right>first_on_right && covered[last_on_right]){}
+					if (right_index == last_on_right) {
+						while (--last_on_right > first_on_right && covered[last_on_right]) {
+						}
+					}
 					pair_found = true;
 					break;
 				}
 			}
 			//if we can't find a pair to any of the elements, the sets can not
 			// match any longer
-			if(!pair_found) {
+			if (!pair_found) {
 				return false;
 			}
 		}
@@ -161,8 +163,7 @@ public class RecordOfMatch {
 			int template_size,
 			match_function_t match_function,
 			boolean legacy ) {
-		if (value_ptr == null || value_size < 0 || template_ptr == null ||
-				template_size < 0) {
+		if (value_ptr == null || value_size < 0 || template_ptr == null || template_size < 0) {
 			throw new TtcnError("Internal error: match_array: invalid argument.");
 		}
 
@@ -171,13 +172,11 @@ public class RecordOfMatch {
 			return value_size == 0;
 		}
 
-		int template_index = 0;//the index of the template we are examining
+		int template_index = 0;// the index of the template we are examining
 
 		if (value_size == 0) {
-			//We matched if the remaining templates are
-			// asterisks
-			while(template_index < template_size &&
-					match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
+			// We matched if the remaining templates are asterisks
+			while (template_index < template_size && match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
 				template_index++;
 			}
 
@@ -194,13 +193,13 @@ public class RecordOfMatch {
 
 		//must finish as we always increase one of the 4 indices or we return
 		// and there are limited number of templates and values
-		for(;;) {
-			if(match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
-				//if we found an asterisk we administer it, and step in the template
+		for (;;) {
+			if (match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
+				// if we found an asterisk we administer it, and step in the template
 				last_asterisk = template_index++;
 				last_value_to_asterisk = value_index;
-			} else if(match_function.match(value_ptr, value_index, template_ptr, template_index, legacy)) {
-				//if we found a matching pair we step in both
+			} else if (match_function.match(value_ptr, value_index, template_ptr, template_index, legacy)) {
+				// if we found a matching pair we step in both
 				value_index++;
 				template_index++;
 			} else {
@@ -306,7 +305,7 @@ public class RecordOfMatch {
 			template_index_table = new int[par_template_size];
 			// locating the asterisks in the template
 			for (int i = 0; i < par_template_size; i++) {
-				if(match_function.match(value_ptr, -1,template_ptr, par_template_start+i, legacy)) {
+				if (match_function.match(value_ptr, -1, template_ptr, par_template_start + i, legacy)) {
 					n_asterisks++;
 				} else {
 					template_index_table[i - n_asterisks] = i;
@@ -430,11 +429,15 @@ public class RecordOfMatch {
 		}
 
 		public void back_step() {
-			if (current.parent != null) current = current.parent;
+			if (current.parent != null) {
+				current = current.parent;
+			}
 		}
 
 		public void step_forward() {
-			if (current.next != null) current = current.next;
+			if (current.next != null) {
+				current = current.next;
+			}
 		}
 
 		public int head_value() { return head.data; }
@@ -444,7 +447,9 @@ public class RecordOfMatch {
 
 		public boolean do_exists(int find_data) {
 			for ( List_elem ptr = head; ptr != null; ptr = ptr.next ) {
-				if (ptr.data == find_data) return true;
+				if (ptr.data == find_data) {
+					return true;
+				}
 			}
 			return false;
 		}
@@ -570,22 +575,22 @@ public class RecordOfMatch {
 		// handling trivial cases:
 		//to be compatible with the previous version
 		// is a mistake if the user can't enter an asterisk as a set member
-		if(match_type == type_of_matching.EXACT && real_template_size < template_size) {
+		if (match_type == type_of_matching.EXACT && real_template_size < template_size) {
 			match_type = type_of_matching.SUPERSET;
 		}
 
-		if(match_type == type_of_matching.SUBSET && real_template_size < template_size) {
+		if (match_type == type_of_matching.SUBSET && real_template_size < template_size) {
 			return true;
 		}
 
-		//if the element count does not match the matching mode then we are ready
-		if(match_type == type_of_matching.SUBSET && value_size > real_template_size) {
+		// if the element count does not match the matching mode then we are ready
+		if (match_type == type_of_matching.SUBSET && value_size > real_template_size) {
 			return false;
 		}
-		if(match_type == type_of_matching.EXACT && value_size != real_template_size) {
+		if (match_type == type_of_matching.EXACT && value_size != real_template_size) {
 			return false;
 		}
-		if(match_type == type_of_matching.SUPERSET && value_size < real_template_size) {
+		if (match_type == type_of_matching.SUPERSET && value_size < real_template_size) {
 			return false;
 		}
 
@@ -619,9 +624,7 @@ public class RecordOfMatch {
 			}
 		}
 
-		for(int template_index = 0;
-				template_index < real_template_size;
-				template_index++) {
+		for (int template_index = 0; template_index < real_template_size; template_index++) {
 			if(table.is_paired(template_index)) {
 				continue;
 			}
@@ -630,10 +633,11 @@ public class RecordOfMatch {
 			Tree_list tree = new Tree_list(template_index);
 			for (int i = template_index; ; ) {
 				int j;
-				if(table.is_paired(i))
+				if(table.is_paired(i)) {
 					j = table.get_paired(i)+1;
-				else
+				} else {
 					j = number_of_checked;
+				}
 
 				for(; j < value_size; j++) {
 					//if it is not covered
@@ -859,9 +863,8 @@ public class RecordOfMatch {
 
 		//are we at an asterisk or at the beginning of a permutation interval
 		boolean is_asterisk;
-		boolean permutation_begins = permutation_index < nof_permutations &&
-				template_start_index ==
-				template_ptr.get_permutation_start(permutation_index);
+		boolean permutation_begins = permutation_index < nof_permutations
+				&& template_start_index == template_ptr.get_permutation_start(permutation_index);
 
 		if (permutation_begins ||
 				match_function.match(value_ptr, -1, template_ptr, template_start_index, legacy)) {
@@ -881,8 +884,7 @@ public class RecordOfMatch {
 
 				//count how many non asterisk elements are in the permutation
 				for(int i = 0; i < permutation_size; i++) {
-					if(match_function.match(value_ptr, -1, template_ptr,
-							i + template_start_index, legacy)) {
+					if (match_function.match(value_ptr, -1, template_ptr, i + template_start_index, legacy)) {
 						has_asterisk = true;
 					} else {
 						smallest_possible_size++;
@@ -1012,23 +1014,23 @@ public class RecordOfMatch {
 							match_function, shift_size, legacy);
 				}
 
-				if(result == answer.SUCCESS) {
-					//we finished
+				if (result == answer.SUCCESS) {
+					// we finished
 					return answer.SUCCESS;
-				} else if(result == answer.NO_CHANCE) {
-					//matching is not possible
+				} else if (result == answer.NO_CHANCE) {
+					// matching is not possible
 					return answer.NO_CHANCE;
-				} else if(i == value_size) {
-					//we failed
-					//if there is no chance of matching
+				} else if (i == value_size) {
+					// we failed
+					// if there is no chance of matching
 					return answer.NO_CHANCE;
 				} else {
 					i += shift_size.get() > 1 ? shift_size.get() : 1;
 
-					if(i > largest_possible_size) {
-						shift_size.set( i - largest_possible_size );
+					if (i > largest_possible_size) {
+						shift_size.set(i - largest_possible_size);
 					} else {
-						shift_size.set( 0 );
+						shift_size.set(0);
 					}
 				}
 			}
@@ -1095,7 +1097,7 @@ public class RecordOfMatch {
 				}
 			} else {
 				//something bad happened, so we have to check how bad the situation is
-				if ( i == value_size ) {
+				if (i == value_size) {
 					//the aren't values left, meaning that the match is not possible
 					return answer.NO_CHANCE;
 				} else {
@@ -1113,7 +1115,7 @@ public class RecordOfMatch {
 						shift_size.incrementAndGet();
 					} while(!good && i + shift_size.get() < value_size);
 
-					if(good) {
+					if (good) {
 						shift_size.decrementAndGet();
 						return answer.FAILURE;
 					} else {
@@ -1182,6 +1184,7 @@ public class RecordOfMatch {
 		default:
 			throw new TtcnError("Internal error: match_set_of: invalid matching type.");
 		}
+
 		return match_set_of_internal(value_ptr, 0, value_size, template_ptr, 0,
 				template_size, match_function, match_type, null, null, 0, legacy);
 	}
@@ -1252,7 +1255,7 @@ public class RecordOfMatch {
 
 			unmatched_values[i] = !pair_found;
 			if (!pair_found) {
-				if(matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+				if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
 					if (value_found) {
 						TtcnLogger.log_event_str(", ");
 					} else {
@@ -1260,7 +1263,7 @@ public class RecordOfMatch {
 					}
 
 					log_function.log(value_ptr, null, i, 0, legacy);
-					TtcnLogger.log_event( MessageFormat.format( " at index {0}", i ) );
+					TtcnLogger.log_event(MessageFormat.format(" at index {0}", i));
 				}
 				nof_unmatched_values++;
 			}
@@ -1317,7 +1320,7 @@ public class RecordOfMatch {
 							TtcnLogger.log_char('{');
 							pair_found = true;
 						}
-						TtcnLogger.log_event( MessageFormat.format( " {0} <-> {1}", i, j ) );
+						TtcnLogger.log_event(MessageFormat.format(" {0} <-> {1}", i, j));
 					}
 				}
 			}
