@@ -234,6 +234,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return constGetAt( index_value.getInt() );
 	}
 
+	@Override
+	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+		if (otherValue instanceof TitanBitString) {
+			return match((TitanBitString) otherValue, legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
+	
+	}
+
 	// originally match
 	public TitanBoolean match(final TitanBitString otherValue) {
 		return match(otherValue, false);

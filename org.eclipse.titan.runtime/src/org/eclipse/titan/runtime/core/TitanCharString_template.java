@@ -215,6 +215,15 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return match_omit(legacy).not();
 	}
 
+	@Override
+	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+		if (otherValue instanceof TitanCharString) {
+			return match((TitanCharString) otherValue, legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
+	}
+
 	// originally match
 	public TitanBoolean match(final TitanCharString otherValue) {
 		return match(otherValue, false);

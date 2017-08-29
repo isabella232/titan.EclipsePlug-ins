@@ -188,6 +188,15 @@ public class TitanVerdictType_template extends Base_Template {
 		setSelection(otherValue);
 	}
 
+	@Override
+	public TitanBoolean match(Base_Type otherValue, boolean legacy) {
+		if (otherValue instanceof TitanVerdictType) {
+			return match((TitanVerdictType)otherValue, legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
+	}
+
 	// originally match
 	public TitanBoolean match(final TitanVerdictType otherValue) {
 		return match(otherValue, false);

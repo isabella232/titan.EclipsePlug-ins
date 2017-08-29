@@ -103,7 +103,7 @@ public class TitanComponent_template extends Base_Template {
 	}
 	
 	@Override
-	public TitanComponent_template assign(Base_Type otherValue) {
+	public TitanComponent_template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
 			return assign((TitanComponent)otherValue);
 		}
@@ -112,7 +112,7 @@ public class TitanComponent_template extends Base_Template {
 	}
 
 	@Override
-	public TitanComponent_template assign(Base_Template otherValue) {
+	public TitanComponent_template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanComponent_template) {
 			return assign((TitanComponent_template)otherValue);
 		}
@@ -148,6 +148,15 @@ public class TitanComponent_template extends Base_Template {
 		}
 
 		return this;
+	}
+
+	@Override
+	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+		if (otherValue instanceof TitanComponent) {
+			return match((TitanComponent) otherValue, legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
 	// originally match

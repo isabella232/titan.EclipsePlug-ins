@@ -168,6 +168,15 @@ public class TitanInteger_template extends Base_Template {
 		setSelection(otherValue);
 	}
 
+	@Override
+	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+		if (otherValue instanceof TitanInteger) {
+			return match((TitanInteger) otherValue, legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
+	}
+
 	// originally match
 	public TitanBoolean match(final TitanInteger otherValue) {
 		return match(otherValue, false);

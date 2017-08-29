@@ -171,6 +171,16 @@ public class TitanBoolean_template extends Base_Template {
 		return single_value.operatorEquals(otherValue);
 	}
 
+	@Override
+	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+		if (otherValue instanceof TitanBoolean) {
+			return match((TitanBoolean) otherValue, legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
+	
+	}
+
 	// match
 	public TitanBoolean match(final boolean otherValue) {
 		return match(otherValue, false);

@@ -348,6 +348,14 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", def.displayName));
 		source.append("}\n");
 
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public TitanBoolean match(Base_Type otherValue, final boolean legacy) '{'\n", def.genName));
+		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
+		source.append(MessageFormat.format("return match(({0})otherValue, legacy);\n", def.genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", def.displayName));
+		source.append("}\n");
+
 		source.append("// originally match\n");
 		source.append(MessageFormat.format("public TitanBoolean match(final {0}.function_pointer other_value) '{'\n", def.genName));
 		source.append("return match(other_value, false);\n");

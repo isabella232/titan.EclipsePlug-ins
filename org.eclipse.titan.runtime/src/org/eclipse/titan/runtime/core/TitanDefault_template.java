@@ -178,6 +178,15 @@ public class TitanDefault_template extends Base_Template {
 		return this;
 	}
 
+	@Override
+	public TitanBoolean match(final Base_Type otherValue,final boolean legacy) {
+		if (otherValue instanceof TitanDefault) {
+			return match((TitanDefault) otherValue, legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
+	}
+
 	//originally match has component parameter
 	public TitanBoolean match(final int otherValue) {
 		return match(otherValue, false);
