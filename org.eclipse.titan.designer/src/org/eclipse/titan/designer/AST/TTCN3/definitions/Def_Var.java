@@ -515,7 +515,6 @@ public final class Def_Var extends Definition {
 		} else {
 			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 				Array_Type arrayType =  (Array_Type) type;
-
 				if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
 					Array_Type tempType = (Array_Type) type;
 					while(tempType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
@@ -544,13 +543,13 @@ public final class Def_Var extends Definition {
 						sb.append("}\n }\n\n");
 						tempId1 = tempId2;
 					}
-					sb.append(MessageFormat.format("public static final {0} {1} = new {0}();\n", tempId1,genName));
+					source.append(MessageFormat.format("{0} {1} = new {0}();\n", tempId1,genName));
 				} else {
 					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
 					source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
 					source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
 					source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
-				}
+				} 
 			} else {
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			}
