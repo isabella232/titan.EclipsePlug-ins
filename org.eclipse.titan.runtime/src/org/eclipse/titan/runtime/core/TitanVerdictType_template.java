@@ -250,12 +250,12 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally valueof
-	public VerdictTypeEnum valueOf() {
+	public TitanVerdictType valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific verdict template.");
 		}
 
-		return single_value.getValue();
+		return new TitanVerdictType(single_value);
 	}
 
 	public void set_type(final template_sel template_type, final int list_length) {
