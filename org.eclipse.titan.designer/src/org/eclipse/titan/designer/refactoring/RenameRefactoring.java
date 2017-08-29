@@ -40,6 +40,7 @@ import org.eclipse.ltk.ui.refactoring.RefactoringWizardOpenOperation;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTLocationChainVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -143,20 +144,16 @@ public class RenameRefactoring extends Refactoring {
 				result.addFatalError(ONTHEFLYANALAYSISDISABLED);
 			}
 
-			// check that there are no ttcnpp files in the
-			// project
+			// check that there are no ttcnpp files in the project
 			if (hasTtcnppFiles(file.getProject())) {//FIXME actually all referencing and referenced projects need to be checked too !
 				result.addError(MessageFormat.format(PROJECTCONTAINSTTCNPPFILES, file.getProject()));
 			}
 			pm.worked(1);
-			// check that there are no error markers in the
-			// project
-			IMarker[] markers = file.getProject().findMarkers(null, true, IResource.DEPTH_INFINITE);
-			for (IMarker marker : markers) {
-				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
-					result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, file.getProject()));
-					break;
-				}
+			
+			//Check that there are no syntactic, semantic or mixed error markers in the project. Compilation error does not matter
+			IProject project = file.getProject();
+			if (projectHasOnTheFlyError (project)) {
+				result.addError(MessageFormat.format(PROJECTCONTAINSERRORS, project));
 			}
 			pm.worked(1);
 		} catch (CoreException e) {
@@ -166,6 +163,24 @@ public class RenameRefactoring extends Refactoring {
 			pm.done();
 		}
 		return result;
+	}
+	
+	// Returns true if the project has on-the-fly error (syntactic, semantic or mixed error)
+	private boolean projectHasOnTheFlyError(IProject project) throws CoreException {
+		String[] onTheFlyMarkerTypes = {
+				GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER,
+				GeneralConstants.ONTHEFLY_SEMANTIC_MARKER,
+				GeneralConstants.ONTHEFLY_MIXED_MARKER
+		};
+		for( String markerType : onTheFlyMarkerTypes){
+			IMarker[] markers = project.findMarkers(markerType, true, IResource.DEPTH_INFINITE);
+			for (IMarker marker : markers) {
+				if (IMarker.SEVERITY_ERROR == marker.getAttribute(IMarker.SEVERITY, IMarker.SEVERITY_ERROR)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
