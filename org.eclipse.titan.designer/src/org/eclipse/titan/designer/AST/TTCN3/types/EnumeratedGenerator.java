@@ -757,6 +757,14 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("public TitanBoolean match(final {0} otherValue, boolean legacy ) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public TitanBoolean match(final Base_Type otherValue, final boolean legacy)'{'\n", name));
+		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
+		source.append(MessageFormat.format("return match(({0}) otherValue, legacy);\n", name));
+		source.append("}\n\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", name));
+		source.append("}\n\n");
 	}
 
 	private static void generateTemplateValueOf(final StringBuilder source, final String name) {

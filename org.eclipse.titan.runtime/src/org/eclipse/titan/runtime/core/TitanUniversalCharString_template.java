@@ -326,6 +326,16 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		return constGetAt(index.getInt());
 	}
 
+	@Override
+	public TitanBoolean match(Base_Type otherValue, boolean legacy) {
+		if (otherValue instanceof TitanUniversalCharString) {
+			return match((TitanUniversalCharString) otherValue, legacy);
+		} else if (otherValue instanceof TitanCharString) {
+			return match(new TitanUniversalCharString((TitanCharString) otherValue), legacy);
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universal charstring", otherValue));
+	}
 
 	// originally match
 	public TitanBoolean match(final TitanUniversalCharString otherValue) {
