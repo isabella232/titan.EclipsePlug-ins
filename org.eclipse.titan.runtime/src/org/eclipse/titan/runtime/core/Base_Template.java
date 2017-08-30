@@ -173,4 +173,5 @@ public abstract class Base_Template {
 	public abstract Base_Template assign(final Base_Type otherValue);
 	public abstract Base_Template assign(final Base_Template otherValue);
 	public abstract TitanBoolean match(final Base_Type otherValue, final boolean legacy);
+	public abstract Base_Type valueOf();
 }
