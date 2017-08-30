@@ -885,7 +885,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		if (lengthRestriction == null) {
 			return;
 		}
-
+		lengthRestriction.setMyScope(myScope);
 		lengthRestriction.check(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 		if (type instanceof IReferencingType) {
 			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
