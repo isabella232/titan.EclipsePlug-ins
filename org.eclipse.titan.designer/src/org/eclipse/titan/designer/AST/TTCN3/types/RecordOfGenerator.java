@@ -645,6 +645,10 @@ public class RecordOfGenerator {
 		source.append("\t\tif(!other_value.isBound().getValue()) {\n");
 		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\t}\n");
+		source.append("\t\tfinal int value_length = other_value.sizeOf().getInt();\n");
+		source.append("\t\tif (!match_length(value_length)) {\n");
+		source.append("\t\t\treturn new TitanBoolean(false);\n");
+		source.append("\t\t}\n");
 		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase ANY_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
@@ -652,7 +656,7 @@ public class RecordOfGenerator {
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\treturn new TitanBoolean( RecordOfMatch.match_record_of(other_value, other_value.sizeOf().getInt(), this, value_elements.size(), match_function_specific, legacy) );\n");
+		source.append("\t\t\treturn new TitanBoolean( RecordOfMatch.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy) );\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\tfor(int i = 0 ; i < list_value.size(); i++) {\n");
