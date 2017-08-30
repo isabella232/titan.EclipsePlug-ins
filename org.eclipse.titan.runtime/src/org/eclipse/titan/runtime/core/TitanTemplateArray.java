@@ -536,18 +536,20 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return new TitanBoolean(true);
 	}
 
-	//FIXME: initialized result 
+	@SuppressWarnings("unchecked")
 	public TitanValueArray<Tvalue> valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent)
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific array template.");
-		// the size of the template must be the size of the value
-		if (single_value.size() != array_size)
-			throw new TtcnError("Performing a valueof or send operation on a specific array template with invalid size.");
-		TitanValueArray<Tvalue> result = null;
-		for (int i = 0; i < array_size; ++i) {
-			//result.array_elements.add(single_value.get(i).valueOf());
 		}
-		// ret_val.array_element(elem_count) = single_value.get(elem_count).valueOf();
+		// the size of the template must be the size of the value
+		if (single_value.size() != array_size) {
+			throw new TtcnError("Performing a valueof or send operation on a specific array template with invalid size.");
+		}
+		TitanValueArray<Tvalue> result = new TitanValueArray<Tvalue>(classValue);
+		for (int i = 0; i < array_size; ++i) {
+			result.array_elements.add((Tvalue)single_value.get(i).valueOf());
+		}
+
 		return result;
 	}
 

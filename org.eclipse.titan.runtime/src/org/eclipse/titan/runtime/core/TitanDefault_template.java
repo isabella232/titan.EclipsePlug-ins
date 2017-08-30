@@ -247,13 +247,13 @@ public class TitanDefault_template extends Base_Template {
 		return match(otherValue.default_ptr);
 	}
 
-	//originally valueof
-	public Default_Base valueOf() {
+	// originally valueof
+	public TitanDefault valueOf() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific default reference template.");
 		}
 
-		return single_value;
+		return new TitanDefault(single_value);
 	}
 
 	// originally set_type
