@@ -88,8 +88,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return newList;
 	}
 
-	//FIXME: rename removeAllPermutations
-	public void removeAllPermuations() {
+	public void removeAllPermutations() {
 		clean_up_intervals();
 	}
 
@@ -648,7 +647,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			return new TitanBoolean(false);
 		}
 
-		return new TitanBoolean(true);
+		return match_omit(legacy).not();
 	}
 
 	public TitanBoolean match_omit() {

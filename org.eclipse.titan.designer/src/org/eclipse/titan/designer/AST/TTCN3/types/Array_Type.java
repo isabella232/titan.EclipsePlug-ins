@@ -959,4 +959,87 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n");
 		source.append("}\n\n");
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return;
+		}
+
+		if (subReferenceIndex >= subreferences.size()) {
+			return;
+		}
+
+		StringBuilder closingBrackets = new StringBuilder();
+		if(isTemplate) {
+			boolean anyvalueReturnValue = true;
+			if (!isBound) {
+				anyvalueReturnValue = isPresentAnyvalueEmbeddedField(expression, subreferences, subReferenceIndex);
+			}
+
+			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+			expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", externalId));
+			expression.expression.append("case UNINITIALIZED_TEMPLATE:\n");
+			expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
+			expression.expression.append("break;\n");
+			expression.expression.append("case ANY_VALUE:\n");
+			expression.expression.append(MessageFormat.format("{0} = {1};\n", globalId, anyvalueReturnValue?"true":"false"));
+			expression.expression.append("break;\n");
+			expression.expression.append("case SPECIFIC_VALUE:{\n");
+
+			closingBrackets.append("break;}\n");
+			closingBrackets.append("default:\n");
+			closingBrackets.append(MessageFormat.format("{0} = false;\n", globalId));
+			closingBrackets.append("break;\n");
+			closingBrackets.append("}\n");
+			closingBrackets.append("}\n");
+		}
+
+		ISubReference subReference = subreferences.get(subReferenceIndex);
+		if (!(subReference instanceof ArraySubReference)) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+			expression.expression.append("FATAL_ERROR encountered");
+			return;
+		}
+
+		IType nextType = elementType;
+		Value indexValue = ((ArraySubReference) subReference).getValue();
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = indexValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+		closingBrackets.insert(0, "}\n");
+
+		String temporalIndexId = aData.getTemporaryVariableName();
+		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
+		last.generateCodeExpressionMandatory(aData, expression);
+		expression.expression.append(";\n");
+		expression.expression.append(MessageFormat.format("{0} = TitanBoolean.getNative({1}.isGreaterThanOrEqual(0)) && TitanBoolean.getNative({1}.isLessThan({2}.{3}));\n",
+				globalId, temporalIndexId, externalId, isTemplate?"nofElements()":"sizeOf()"));
+
+		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
+		closingBrackets.insert(0, "}\n");
+
+		String temporalId = aData.getTemporaryVariableName();
+		if (isTemplate) {
+			expression.expression.append(MessageFormat.format("{0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameTemplate(aData, expression.expression, myScope),
+					temporalId, externalId, temporalIndexId));
+		} else {
+			expression.expression.append(MessageFormat.format("{0} {1} = {2}.constGetAt({3});\n", nextType.getGenNameValue(aData, expression.expression, myScope),
+					temporalId, externalId, temporalIndexId));
+		}
+
+		boolean isLast = subReferenceIndex == (subreferences.size() - 1);
+		//FIXME handle omit_in_value_list
+		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId,
+				isBound|(!isLast)?"isBound":"isPresent",
+				(!(isBound|!isLast))&&isTemplate?"true":""));
+
+		nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
+
+		expression.expression.append(closingBrackets);
+	}
 }
