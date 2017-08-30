@@ -711,7 +711,7 @@ public final class Assignment_Statement extends Statement {
 					} else {
 						//TODO handle needs conversion case
 						if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
-							source.append(MessageFormat.format("{0}.removeAllPermuations();\n", tempID));
+							source.append(MessageFormat.format("{0}.removeAllPermutations();\n", tempID));
 						}
 						template.generateCodeInit(aData, source, tempID);
 					}
@@ -727,7 +727,7 @@ public final class Assignment_Statement extends Statement {
 				String rhsName = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getGenNameFromScope(aData, source, myScope, "");
 				IType governor = template.getMyGovernor();
 				if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
-					source.append(MessageFormat.format("{0}.removeAllPermuations();\n", rhsCopied?rhsCopy:rhsName));
+					source.append(MessageFormat.format("{0}.removeAllPermutations();\n", rhsCopied?rhsCopy:rhsName));
 				}
 				template.generateCodeInit(aData, source, rhsCopied?rhsCopy:rhsName);
 				if (rhsCopied) {
