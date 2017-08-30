@@ -18,6 +18,11 @@ import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
 
 /**
  * @author Farkas Izabella Ingrid
+ *
+ * TODO recursive_permutation_match might not need to be here
+ * TODO e.printStackTrace(); should actuall use the logger to log information.
+ * TODO could we find a good solution to eliminate @SuppressWarnings
+ * 
  */
 public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_Template> extends Restricted_Length_Template {
 
@@ -66,7 +71,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	protected void setSelection(final TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
-		super.setSelection(otherValue); 
+		super.setSelection(otherValue);
 		clean_up_intervals();
 
 		if (otherValue.templateSelection == template_sel.SPECIFIC_VALUE) {
@@ -75,15 +80,15 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
-	public final List<Pair_of_elements> copyPermutations( final List<Pair_of_elements> srcList ) {
-		if ( srcList == null ) {
+	public final List<Pair_of_elements> copyPermutations(final List<Pair_of_elements> srcList) {
+		if (srcList == null) {
 			return null;
 		}
 
-		final List<Pair_of_elements> newList = new ArrayList<Pair_of_elements>( srcList.size() );
+		final List<Pair_of_elements> newList = new ArrayList<Pair_of_elements>(srcList.size());
 		for (Pair_of_elements srcElem : srcList) {
-			Pair_of_elements newElem = new Pair_of_elements( srcElem.start_index, srcElem.start_index );
-			newList.add( newElem );
+			Pair_of_elements newElem = new Pair_of_elements(srcElem.start_index, srcElem.start_index);
+			newList.add(newElem);
 		}
 		return newList;
 	}
@@ -93,17 +98,17 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	public void add_permutation(int start_index, int end_index) {
-		if(start_index > end_index) {
-			throw new TtcnError("wrong permutation interval settings start "+start_index+" can not be greater than end "+ end_index );
+		if (start_index > end_index) {
+			throw new TtcnError("wrong permutation interval settings start " + start_index + " can not be greater than end " + end_index);
 		}
 
 		final int number_of_permutations = get_number_of_permutations();
-		if(number_of_permutations > 0 && permutationIntervals.get( number_of_permutations - 1 ).end_index >= start_index) {
-			throw new TtcnError( MessageFormat.format( "the {0}th permutation overlaps the previous one", number_of_permutations ) );
+		if (number_of_permutations > 0 && permutationIntervals.get(number_of_permutations - 1).end_index >= start_index) {
+			throw new TtcnError(MessageFormat.format("the {0}th permutation overlaps the previous one", number_of_permutations));
 		}
 
-		final Pair_of_elements newElem = new Pair_of_elements( start_index, end_index );
-		permutationIntervals.add( newElem );
+		final Pair_of_elements newElem = new Pair_of_elements(start_index, end_index);
+		permutationIntervals.add(newElem);
 	}
 
 	public int get_number_of_permutations() {
@@ -111,24 +116,24 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	public int get_permutation_start(int index_value) {
-		if(index_value >= get_number_of_permutations()) {
-			throw new TtcnError( MessageFormat.format( "Index overflow ({0})", index_value ) );
+		if (index_value >= get_number_of_permutations()) {
+			throw new TtcnError(MessageFormat.format("Index overflow ({0})", index_value));
 		}
 
 		return permutationIntervals.get(index_value).start_index;
 	}
 
 	public int get_permutation_end(int index_value) {
-		if(index_value >= get_number_of_permutations()) {
-			throw new TtcnError( MessageFormat.format( "Index overflow ({0})", index_value ) );
+		if (index_value >= get_number_of_permutations()) {
+			throw new TtcnError(MessageFormat.format("Index overflow ({0})", index_value));
 		}
 
 		return permutationIntervals.get(index_value).end_index;
 	}
 
 	public int get_permutation_size(int index_value) {
-		if(index_value >= get_number_of_permutations()) {
-			throw new TtcnError( MessageFormat.format( "Index overflow ({0})", index_value ) );
+		if (index_value >= get_number_of_permutations()) {
+			throw new TtcnError(MessageFormat.format("Index overflow ({0})", index_value));
 		}
 
 		return permutationIntervals.get(index_value).end_index - permutationIntervals.get(index_value).start_index + 1;
@@ -136,9 +141,10 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 	boolean permutation_starts_at(int index_value) {
 		final int number_of_permutations = get_number_of_permutations();
-		for(int i = 0; i < number_of_permutations; i++) {
-			if(permutationIntervals.get( i ).start_index == index_value)
+		for (int i = 0; i < number_of_permutations; i++) {
+			if (permutationIntervals.get(i).start_index == index_value) {
 				return true;
+			}
 		}
 
 		return false;
@@ -146,9 +152,10 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 	boolean permutation_ends_at(int index_value) {
 		final int number_of_permutations = get_number_of_permutations();
-		for(int i = 0; i < number_of_permutations; i++) {
-			if(permutationIntervals.get( i ).end_index == index_value)
+		for (int i = 0; i < number_of_permutations; i++) {
+			if (permutationIntervals.get(i).end_index == index_value) {
 				return true;
+			}
 		}
 
 		return false;
@@ -213,10 +220,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			indexOffset = otherValue.indexOffset;
 
 			for (int i = 0; i < listSize; ++i) {
-				value_list.add(new TitanTemplateArray<Tvalue, Ttemplate>(classValue,classTemplate));
+				value_list.add(new TitanTemplateArray<Tvalue, Ttemplate>(classValue, classTemplate));
 			}
-			for (int list_count = 0; list_count < otherValue.value_list.size(); list_count++)
+			for (int list_count = 0; list_count < otherValue.value_list.size(); list_count++) {
 				value_list.get(list_count).copy_template(otherValue.value_list.get(list_count));
+			}
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported array template.");
@@ -243,7 +251,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	// originally TEMPLATE_ARRAY(null_type other_value);
-	public TitanTemplateArray(Class<Tvalue> classValue, Class<Ttemplate> classTemplate,TitanNull_Type otherValue) {
+	public TitanTemplateArray(Class<Tvalue> classValue, Class<Ttemplate> classTemplate, TitanNull_Type otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		this.classValue = classValue;
 		this.classTemplate = classTemplate;
@@ -256,17 +264,17 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		this.classValue = otherValue.clazz;
 		this.classTemplate = classTemplate;
 
-		copy_value(otherValue); 
+		copy_value(otherValue);
 	}
 
-	public TitanTemplateArray(TitanTemplateArray<Tvalue,Ttemplate> otherValue) {
+	public TitanTemplateArray(TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
 		this.classValue = otherValue.classValue;
 		this.classTemplate = otherValue.classTemplate;
 
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 
-		copy_template(otherValue); 
+		copy_template(otherValue);
 	}
 
 	//TODO: TEMPLATE_ARRAY(const OPTIONAL< VALUE_ARRAY<T_value...>)
@@ -315,7 +323,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 					}
 				}
 			}
-			//single_value.n_elements = length;
+			// single_value.n_elements = length;
 		} else if (length < singleSize) {
 			for (int i = length; i < singleSize; ++i) {
 				single_value.remove(i);
@@ -331,8 +339,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	public void cleanUp() {
-		switch (templateSelection)
-		{
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			singleSize = 0;
 			single_value.clear();
@@ -360,7 +367,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return this;
 	}
 
-	//FIXME: originally operator=(null_type)
+	// FIXME: originally operator=(null_type)
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final TitanNull_Type otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
@@ -396,7 +403,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		index -= indexOffset;
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			if (index >= single_value.size()) setSize(index + 1);
+			if (index >= single_value.size()) {
+				setSize(index + 1);
+			}
 			break;
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
@@ -411,6 +420,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	//originally T& operator[](const INTEGER)
 	public Ttemplate getAt(final TitanInteger index) {
 		index.mustBound("Using an unbound integer value for indexing an array template.");
+
 		return getAt(index.getInt());
 	}
 
@@ -420,6 +430,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			throw new TtcnError(MessageFormat.format("Accessing an element of an array template using invalid index: {0}. "
 					+ "Index range is [{1},{2}].", index, indexOffset, indexOffset+(int)array_size));
 		}
+
 		index -= indexOffset;
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing an element of a non-specific array template.");
@@ -435,6 +446,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	// originally T& operator[](const INTEGER)
 	public Ttemplate constGetAt(final TitanInteger index) {
 		index.mustBound("Using an unbound integer value for indexing an array template.");
+
 		return constGetAt(index.getInt());	
 	}
 
@@ -572,8 +584,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 	public TitanTemplateArray<Tvalue, Ttemplate> listItem(int index) {
 		if (templateSelection != template_sel.VALUE_LIST &&
-				templateSelection != template_sel.COMPLEMENTED_LIST)
+				templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list array template.");
+		}
 		if (index >= value_list.size()) {
 			throw new TtcnError("Internal error: Index overflow in a value list array template.");
 		}
@@ -599,6 +612,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		if (otherValue instanceof TitanValueArray<?>) {
 			return match((TitanValueArray<Tvalue>) otherValue, legacy);
 		}
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value {0} can not be cast to value array", otherValue));
 	}
 
@@ -606,21 +620,22 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return match(otherValue,false);
 	}
 
-	public TitanBoolean match(final TitanValueArray<Tvalue> otherValue, boolean legacy ) {
-		if (!match_length(array_size)) return new TitanBoolean(false);
-		switch (templateSelection)
-		{
+	public TitanBoolean match(final TitanValueArray<Tvalue> otherValue, boolean legacy) {
+		if (!match_length(array_size)) {
+			return new TitanBoolean(false);
+		}
+
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			match_function_t obj = new match_function_t() {
 
 				@Override
-				public boolean match(Base_Type value_ptr, int value_index,
-						Restricted_Length_Template template_ptr, int template_index,
-						boolean legacy) {
+				public boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr,
+						int template_index, boolean legacy) {
 					return match_function_specific(value_ptr, value_index, template_ptr, template_index, legacy).getValue();
 				}
 			};
-			return new TitanBoolean(match_permutation_array(otherValue, array_size, this, single_value.size(),obj, legacy));
+			return new TitanBoolean(match_permutation_array(otherValue, array_size, this, single_value.size(), obj, legacy));
 		case OMIT_VALUE:
 			return new TitanBoolean(false);
 		case ANY_VALUE:
@@ -628,10 +643,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			return new TitanBoolean(true);
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for (int i = 0; i < value_list.size(); i++)
+			for (int i = 0; i < value_list.size(); i++) {
 				if (value_list.get(i).match(otherValue, legacy).getValue()) {
 					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 				}
+			}
 			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported array template.");
