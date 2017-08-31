@@ -30,6 +30,10 @@ public class TTCN_Snapshot {
 
 	public static HashMap<SelectableChannel, TitanPort> channelMap = new HashMap<SelectableChannel, TitanPort>();
 
+	private TTCN_Snapshot() {
+		// private constructor to disable accidental instantiation
+	}
+
 	public static void initialize() {
 		//FIXME initialize FdMap
 		//TODO why do we initialize fdmap here?

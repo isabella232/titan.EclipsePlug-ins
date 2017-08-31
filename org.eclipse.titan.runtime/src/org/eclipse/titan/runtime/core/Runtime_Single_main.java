@@ -16,6 +16,10 @@ package org.eclipse.titan.runtime.core;
  */
 public class Runtime_Single_main {
 
+	private Runtime_Single_main() {
+		// private constructor to disable accidental instantiation
+	}
+
 	//FIXME this is much more complicated
 	public static void singleMain() {
 		TitanComponent.self.assign(TitanComponent.MTC_COMPREF);

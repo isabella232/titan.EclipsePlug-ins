@@ -32,6 +32,10 @@ public class TTCN_Runtime {
 	private static int controlErrorCount = 0;
 	private static String verdictReason = "";
 
+	private TTCN_Runtime() {
+		// private constructor to disable accidental instantiation
+	}
+
 	//originally in_controlpart
 	private static boolean inControlPart() {
 		//FIXME implement

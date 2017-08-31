@@ -19,6 +19,10 @@ import java.util.ArrayList;
 public class Module_List {
 	public static ArrayList<TTCN_Module> modules = new ArrayList<TTCN_Module>();
 
+	private Module_List() {
+		// private constructor to disable accidental instantiation
+	}
+
 	public static void add_module(final TTCN_Module module) {
 		modules.add(module);
 		System.out.println("registered: " + module.name);
