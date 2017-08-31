@@ -30,5 +30,8 @@ public abstract class Base_Type {
 	public void log(){
 		//do nothing for now.
 		// TODO once the logging is implemented for all classes this function should become abstract
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".log() is not implemented!\n" );
 	}
 }
