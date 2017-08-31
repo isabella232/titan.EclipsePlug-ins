@@ -175,7 +175,7 @@ public class UnionGenerator {
 	 * */
 	private static void generateValueCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} otherValue) '{'\n", genName));
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			source.append("switch(otherValue.union_selection){\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
@@ -443,7 +443,7 @@ public class UnionGenerator {
 	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} other_value) '{'\n", genName));
 		source.append("single_value_union_selection = other_value.union_selection;\n");
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			source.append("switch (other_value.union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
@@ -462,7 +462,7 @@ public class UnionGenerator {
 		source.append("switch (other_value.templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value_union_selection = other_value.single_value_union_selection;\n");
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			source.append("switch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
@@ -505,7 +505,7 @@ public class UnionGenerator {
 		source.append("public void cleanUp() {\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		if (fieldInfos.size() > 0 ) {
+		if (!fieldInfos.isEmpty()) {
 			source.append("switch(single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				FieldInfo fieldInfo = fieldInfos.get(i);
@@ -726,7 +726,7 @@ public class UnionGenerator {
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));
 		source.append("}\n");
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			source.append(MessageFormat.format("{0} ret_val = new {0}();\n", genName));
 		}
 		source.append("switch(single_value_union_selection) {\n");
@@ -739,7 +739,7 @@ public class UnionGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
-		if (fieldInfos.size() > 0) {
+		if (!fieldInfos.isEmpty()) {
 			source.append("return ret_val;\n");
 		}
 		source.append("}\n\n");

@@ -208,7 +208,7 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateConstructorManyParams( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
-		if ( aNamesList == null || aNamesList.size() == 0 ) {
+		if ( aNamesList == null || aNamesList.isEmpty()) {
 			// Record type is empty, and parameter list would be also empty, but
 			// constructor without parameters is already created, so nothing to do
 			return;
