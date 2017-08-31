@@ -235,7 +235,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			return new TitanBoolean(false);
 		}
 
-		TitanInteger value_length = otherValue.lengthOf();
+		final TitanInteger value_length = otherValue.lengthOf();
 		if(!match_length(value_length.getInt())) {
 			return new TitanBoolean(false);
 		}
@@ -410,7 +410,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			if (value_list.size() < 1) {
 				throw new TtcnError( "Internal error: Performing lengthof() operation on a charstring template containing an empty list.");
 			}
-			int item_length = value_list.get(0).lengthOf().getInt();
+			final int item_length = value_list.get(0).lengthOf().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
 				if (value_list.get(i).lengthOf().getInt() != item_length) {
 					throw new TtcnError( "Performing lengthof() operation on a charstring template containing a value list with different lengths.");
@@ -439,7 +439,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		otherMinValue.mustBound("Setting an unbound value as lower bound in a charstring value range template.");
 
-		int length = otherMinValue.lengthOf().getInt();
+		final int length = otherMinValue.lengthOf().getInt();
 		if (length != 1) {
 			throw new TtcnError(MessageFormat.format( "The length of the lower bound in a charstring value range template must be 1 instead of '{0}''. ", length));
 		}
@@ -461,7 +461,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		otherMaxValue.mustBound("Setting an unbound value as upper bound in a charstring value range template.");
 
-		int length = otherMaxValue.lengthOf().getInt();
+		final int length = otherMaxValue.lengthOf().getInt();
 		if (length != 1) {
 			throw new TtcnError(MessageFormat.format( "The length of the upper bound in a charstring value range template must be 1 instead of {0}.", length));
 		}

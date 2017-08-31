@@ -87,7 +87,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		final List<Pair_of_elements> newList = new ArrayList<Pair_of_elements>(srcList.size());
 		for (Pair_of_elements srcElem : srcList) {
-			Pair_of_elements newElem = new Pair_of_elements(srcElem.start_index, srcElem.start_index);
+			final Pair_of_elements newElem = new Pair_of_elements(srcElem.start_index, srcElem.start_index);
 			newList.add(newElem);
 		}
 		return newList;
@@ -169,7 +169,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		for (int i = 0; i < array_size; ++i) {
 			try {
-				Ttemplate helper = classTemplate.newInstance();
+				final Ttemplate helper = classTemplate.newInstance();
 				helper.assign(otherValue.getAt(i));
 				single_value.add(helper);
 			} catch (InstantiationException e) {
@@ -196,7 +196,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 			for (int i = 0; i < single_value.size(); ++i) {
 				try {
-					Ttemplate helper = classTemplate.newInstance();
+					final Ttemplate helper = classTemplate.newInstance();
 					helper.assign(otherValue.single_value.get(i));
 					single_value.add(helper);
 				} catch (InstantiationException e) {
@@ -284,7 +284,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		if (length < 0) {
 			throw new TtcnError("Internal error: Setting a negative size for an array template.");
 		}
-		template_sel old_selection = templateSelection;
+		final template_sel old_selection = templateSelection;
 
 		if (old_selection != template_sel.SPECIFIC_VALUE) {
 			cleanUp();
@@ -298,7 +298,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 				for (int i = single_value.size(); i < length; ++i) {
 					try {
-						Ttemplate helper = classTemplate.newInstance();
+						final Ttemplate helper = classTemplate.newInstance();
 						helper.setSelection(template_sel.ANY_VALUE);
 						single_value.add(helper);
 					} catch (InstantiationException e) {
@@ -312,7 +312,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			} else {
 				for (int i = singleSize; i < length; ++i) {
 					try {
-						Ttemplate helper = classTemplate.newInstance();
+						final Ttemplate helper = classTemplate.newInstance();
 						single_value.add(helper);
 					} catch (InstantiationException e) {
 						// TODO Auto-generated catch block
@@ -514,7 +514,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			if (value_list.size() < 1) {
 				throw new TtcnError("Performing "+opName+"of() operation on an array template containing an empty list.");
 			}
-			int itemSize = value_list.get(0).sizeOf(isSize).getInt();
+			final int itemSize = value_list.get(0).sizeOf(isSize).getInt();
 			for (int i = 1; i < value_list.size(); ++i) {
 				if (value_list.get(i).sizeOf(isSize).getInt() != itemSize) {
 					throw new TtcnError("Performing "+opName+"of() operation on an array template containing a value list with different sizes.");
@@ -556,7 +556,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		if (single_value.size() != array_size) {
 			throw new TtcnError("Performing a valueof or send operation on a specific array template with invalid size.");
 		}
-		TitanValueArray<Tvalue> result = new TitanValueArray<Tvalue>(classValue);
+		final TitanValueArray<Tvalue> result = new TitanValueArray<Tvalue>(classValue);
 		for (int i = 0; i < array_size; ++i) {
 			result.array_elements.add((Tvalue)single_value.get(i).valueOf());
 		}
@@ -627,7 +627,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			match_function_t obj = new match_function_t() {
+			final match_function_t obj = new match_function_t() {
 
 				@Override
 				public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr,
@@ -703,7 +703,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			return assign(arrayOther);
 		} else {
 			try {
-				Ttemplate value = classTemplate.newInstance();
+				final Ttemplate value = classTemplate.newInstance();
 				value.assign(otherValue);
 				single_value = new ArrayList<Ttemplate>();
 				single_value.add(value);
@@ -726,7 +726,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			return assign(arrayOther);
 		} else {
 			try {
-				Ttemplate value = classTemplate.newInstance();
+				final Ttemplate value = classTemplate.newInstance();
 				value.assign(otherValue);
 				single_value = new ArrayList<Ttemplate>();
 				single_value.add(value);
@@ -753,7 +753,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			final AtomicInteger shift_size,
 			final boolean legacy) {
 
-		int nof_permutations = template_ptr.get_number_of_permutations();
+		final int nof_permutations = template_ptr.get_number_of_permutations();
 		if (permutation_index > nof_permutations) {
 			throw new TtcnError("Internal error: recursive_permutation_match: invalid argument.");
 		}
@@ -778,7 +778,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		//are we at an asterisk or at the beginning of a permutation interval
 		boolean is_asterisk;
-		boolean permutation_begins = permutation_index < nof_permutations &&
+		final boolean permutation_begins = permutation_index < nof_permutations &&
 				template_start_index == template_ptr.get_permutation_start(permutation_index);
 
 		if (permutation_begins ||
@@ -858,14 +858,14 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				while(!already_superset) {
 					//must be a permutation having other values than asterisks
 
-					AtomicInteger x = new AtomicInteger(0);
+					final AtomicInteger x = new AtomicInteger(0);
 
 					//our set matching is extended with 2 more parameters
 					// giving back how many templates
 					// (other than asterisk) couldn't be matched
 					// and setting / giving back the value-template pairs
 
-					boolean found = RecordOfMatch.match_set_of_internal(value_ptr, value_start_index,
+					final boolean found = RecordOfMatch.match_set_of_internal(value_ptr, value_start_index,
 							temp_size, template_ptr,
 							template_start_index, permutation_size,
 							match_function, type_of_matching.SUPERSET, x, pair_list,old_temp_size, legacy);
@@ -1045,7 +1045,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			throw new TtcnError("Internal error: match_permutation_arry: invalid argument.");
 		}
 
-		int nof_permutations = template_ptr.get_number_of_permutations();
+		final int nof_permutations = template_ptr.get_number_of_permutations();
 
 		// use the simplified algorithm if the template does not contain permutation
 		if (nof_permutations == 0) {
@@ -1059,7 +1059,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			return RecordOfMatch.match_set_of(value_ptr, value_size, template_ptr, template_size, match_function, legacy);
 		}
 
-		AtomicInteger shift_size = new AtomicInteger( 0 );
+		final AtomicInteger shift_size = new AtomicInteger( 0 );
 		return recursive_permutation_match(value_ptr, 0, value_size, template_ptr,
 				0, template_size, 0, match_function, shift_size, legacy) == answer.SUCCESS;
 	}

@@ -224,7 +224,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			return new TitanBoolean(false);
 		}
 
-		TitanInteger value_length = otherValue.lengthOf();
+		final TitanInteger value_length = otherValue.lengthOf();
 		if(!match_length(value_length.getInt())) {
 			return new TitanBoolean(false);
 		}
@@ -269,7 +269,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		case COMPLEMENTED_LIST:
 		case VALUE_LIST:
 		{
-			StringBuilder builder = new StringBuilder();
+			final StringBuilder builder = new StringBuilder();
 			if(templateSelection == template_sel.COMPLEMENTED_LIST) {
 				builder.append("complement ");
 			}
@@ -338,7 +338,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			if (value_list.size() < 1)
 				throw new TtcnError("Internal error: Performing lengthOf() operation on an octetstring template "
 						+"containing an empty list.");
-			int item_length = value_list.get(0).lengthOf().getInt();
+			final int item_length = value_list.get(0).lengthOf().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
 				if (value_list.get(i).lengthOf().getInt() != item_length)
 					throw new TtcnError("Performing lengthof() operation on an octetstring template "

@@ -510,7 +510,7 @@ public class TitanPort {
 	}
 
 	protected void Uninstall_Handler() throws IOException {
-		ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
+		final ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
 		for (Map.Entry<SelectableChannel, TitanPort> entry: TTCN_Snapshot.channelMap.entrySet()) {
 			if (entry.getValue() == this) {
 				tobeRemoved.add(entry.getKey());
@@ -609,7 +609,7 @@ public class TitanPort {
 
 	public static void mapPort(final String componentPort, final String systemPort, final boolean translation) {
 		//FIXME this is actually more complex
-		TitanPort port = lookupByName(componentPort, false);
+		final TitanPort port = lookupByName(componentPort, false);
 		if (port == null) {
 			throw new TtcnError(MessageFormat.format("Map operation refers to non-existent port {0}.", componentPort));
 		}
@@ -619,7 +619,7 @@ public class TitanPort {
 
 	public static void unmapPort(final String componentPort, final String systemPort, final boolean translation) {
 		//FIXME this is actually more complex
-		TitanPort port = lookupByName(componentPort, false);
+		final TitanPort port = lookupByName(componentPort, false);
 		if (port == null) {
 			throw new TtcnError(MessageFormat.format("Unmap operation refers to non-existent port {0}.", componentPort));
 		}

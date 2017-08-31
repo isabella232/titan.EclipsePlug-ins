@@ -171,8 +171,8 @@ public class TitanCharString_Element {
 		mustBound("Unbound operand of charstring element concatenation.");
 
 		if (aOtherValue != null) {
-			int otherLen = aOtherValue.length();
-			StringBuilder ret_val = new StringBuilder(otherLen + 1);
+			final int otherLen = aOtherValue.length();
+			final StringBuilder ret_val = new StringBuilder(otherLen + 1);
 			ret_val.append(str_val.constGetAt(char_pos).toString());
 			ret_val.append(aOtherValue);
 
@@ -187,8 +187,8 @@ public class TitanCharString_Element {
 		mustBound("Unbound operand of charstring element concatenation.");
 		aOtherValue.mustBound("Unbound operand of charstring concatenation.");
 
-		int nChars = aOtherValue.lengthOf().getInt();
-		StringBuilder ret_val = new StringBuilder(nChars + 1);
+		final int nChars = aOtherValue.lengthOf().getInt();
+		final StringBuilder ret_val = new StringBuilder(nChars + 1);
 		ret_val.append(str_val.constGetAt(char_pos).toString());
 		ret_val.append(aOtherValue.toString());
 
@@ -200,7 +200,7 @@ public class TitanCharString_Element {
 		mustBound("Unbound operand of charstring element concatenation.");
 		aOtherValue.mustBound("Unbound operand of charstring element concatenation.");
 
-		StringBuilder ret_val = new StringBuilder(2);
+		final StringBuilder ret_val = new StringBuilder(2);
 		ret_val.append(str_val.constGetAt(char_pos).toString());
 		ret_val.append(aOtherValue.toString());
 
@@ -213,12 +213,12 @@ public class TitanCharString_Element {
 		aOtherValue.mustBound("The right operand of concatenation is an unbound universal charstring value.");
 
 		if (aOtherValue.charstring) {
-			StringBuilder val_ptr = new StringBuilder();
+			final StringBuilder val_ptr = new StringBuilder();
 			val_ptr.append(get_char());
 			val_ptr.append(aOtherValue.toString());
 			return new TitanUniversalCharString(val_ptr);
 		} else {
-			List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 			ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char()));
 			for (int i = 0; i < aOtherValue.lengthOf().getInt(); i++) {
 				ret_val.add(aOtherValue.charAt(i));

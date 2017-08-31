@@ -98,10 +98,10 @@ public class TTCN_Snapshot {
 			long pollTimeout = 0;
 			if (blockExecution) {
 				//FIXME this is way more complex
-				Changeable_Double timerTimeout = new Changeable_Double(0.0);
-				boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
+				final Changeable_Double timerTimeout = new Changeable_Double(0.0);
+				final boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
 				if (isTimerTimeout) {
-					double blockTime = timerTimeout.getValue() - timeNow();
+					final double blockTime = timerTimeout.getValue() - timeNow();
 					pollTimeout = (long)Math.floor(blockTime * 1000);
 				} else {
 					// no active timers: infinite timeout
@@ -143,10 +143,10 @@ public class TTCN_Snapshot {
 			}
 
 			if (selectReturn > 0 ){
-				Set<SelectionKey> selectedKeys = selector.selectedKeys();
+				final Set<SelectionKey> selectedKeys = selector.selectedKeys();
 				//call handlers
 				for (SelectionKey key : selectedKeys) {
-					TitanPort handler = channelMap.get(key.channel());
+					final TitanPort handler = channelMap.get(key.channel());
 					handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 				}
 			}

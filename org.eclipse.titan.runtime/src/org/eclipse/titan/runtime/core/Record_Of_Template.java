@@ -68,7 +68,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 
 		final List<Pair_of_elements> newList = new ArrayList<Pair_of_elements>( srcList.size() );
 		for (Pair_of_elements srcElem : srcList) {
-			Pair_of_elements newElem = new Pair_of_elements( srcElem.start_index, srcElem.start_index );
+			final Pair_of_elements newElem = new Pair_of_elements( srcElem.start_index, srcElem.start_index );
 			newList.add( newElem );
 		}
 		return newList;

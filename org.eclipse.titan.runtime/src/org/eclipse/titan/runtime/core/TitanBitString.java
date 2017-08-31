@@ -161,7 +161,7 @@ public class TitanBitString extends Base_Type {
 	public TitanBitString assign(final TitanBitString_Element otherValue){
 		otherValue.mustBound("Assignment of an unbound bitstring element to a bitstring.");
 
-		boolean bitValue = otherValue.get_bit();
+		final boolean bitValue = otherValue.get_bit();
 		cleanUp();
 		n_bits = 1;
 		bits_ptr = new ArrayList<Byte>();
@@ -271,25 +271,25 @@ public class TitanBitString extends Base_Type {
 		}
 
 		// the length of result
-		int resultBits = n_bits + aOtherValue.n_bits;
+		final int resultBits = n_bits + aOtherValue.n_bits;
 
 		// the number of bytes used
-		int left_n_bytes = (n_bits + 7) / 8;
-		int right_n_bytes = (aOtherValue.n_bits + 7) / 8;
+		final int left_n_bytes = (n_bits + 7) / 8;
+		final int right_n_bytes = (aOtherValue.n_bits + 7) / 8;
 
 		// the number of bits used in the last incomplete octet of the left operand
-		int last_octet_bits = n_bits % 8;
+		final int last_octet_bits = n_bits % 8;
 
-		ArrayList<Byte> dest_ptr = new ArrayList<Byte>((resultBits + 7) / 8);
+		final ArrayList<Byte> dest_ptr = new ArrayList<Byte>((resultBits + 7) / 8);
 		dest_ptr.addAll(bits_ptr);
 
 		if (last_octet_bits != 0) {
 			// non-trivial case: the length of left fragment is not a multiply of 8
 			// the bytes used in the result
-			int n_bytes = (resultBits + 7) / 8;
+			final int n_bytes = (resultBits + 7) / 8;
 			// placing the bytes from the right fragment until the result is filled
 			for (int i = left_n_bytes; i < n_bytes; i++) {
-				Byte right_byte = aOtherValue.bits_ptr.get(i - left_n_bytes);
+				final Byte right_byte = aOtherValue.bits_ptr.get(i - left_n_bytes);
 				// finish filling the previous byte
 				int temp = dest_ptr.get(i-1) | right_byte << last_octet_bits;
 				dest_ptr.set(i-1, new Byte((byte)temp));
@@ -301,7 +301,7 @@ public class TitanBitString extends Base_Type {
 				// if the result data area is shorter than the two operands together
 				// the last bits of right fragment were not placed into the result
 				// in the previous for loop
-				int temp = dest_ptr.get(n_bytes-1) | aOtherValue.bits_ptr.get(right_n_bytes - 1) << last_octet_bits;
+				final int temp = dest_ptr.get(n_bytes-1) | aOtherValue.bits_ptr.get(right_n_bytes - 1) << last_octet_bits;
 				dest_ptr.set(n_bytes - 1, new Byte((byte) temp));
 			}
 		} else {
@@ -316,7 +316,7 @@ public class TitanBitString extends Base_Type {
 		mustBound("Unbound left operand of bitstring concatenation.");
 		otherValue.mustBound("Unbound right operand of bitstring element");
 
-		TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits+1);
+		final TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits+1);
 		ret_val.setBit(n_bits, otherValue.get_bit());
 
 		return ret_val;
@@ -326,16 +326,18 @@ public class TitanBitString extends Base_Type {
 	public TitanBitString not4b(){
 		mustBound("Unbound bitstring operand of operator not4b.");
 
-		int n_bytes = (n_bits + 7) /8;
+		final int n_bytes = (n_bits + 7) /8;
 		if(n_bytes == 0){
 			return this;
 		}
-		List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
+
+		final List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
 		dest_ptr.addAll(bits_ptr);
 		for (int i = 0; i < bits_ptr.size(); i++) {
 			dest_ptr.set(i, (byte)(~dest_ptr.get(i) & 0x0F));
 		}
-		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+
+		final TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
 		ret_val.clear_unused_bits();
 
 		return ret_val;
@@ -352,14 +354,15 @@ public class TitanBitString extends Base_Type {
 		if(n_bits == 0){
 			return this;
 		}
-		int n_bytes = (n_bits + 7) /8;
-		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
+
+		final int n_bytes = (n_bits + 7) /8;
+		final List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
 		dest_ptr.addAll(bits_ptr);
 		for (int i = 0; i < bits_ptr.size(); i++) {
 			dest_ptr.set(i, (byte)(dest_ptr.get(i)&otherValue.bits_ptr.get(i)));
 		}
 
-		TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
+		final TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
 		ret_val.clear_unused_bits();
 
 		return ret_val;
@@ -373,7 +376,7 @@ public class TitanBitString extends Base_Type {
 		if(n_bits != 1){
 			throw new TtcnError("The bitstring operands of operator and4b must have the same length.");
 		}
-		List<Byte> result = new ArrayList<Byte>();
+		final List<Byte> result = new ArrayList<Byte>();
 		result.add((byte)(getBit(0) && otherValue.get_bit() ? 1 : 0));
 
 		return new TitanBitString(result,1);
@@ -390,13 +393,14 @@ public class TitanBitString extends Base_Type {
 		if (n_bits == 0) {
 			return this;
 		}
-		int n_bytes = (n_bits + 7) / 8;
-		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
+		final int n_bytes = (n_bits + 7) / 8;
+		final List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
 		dest_ptr.addAll(bits_ptr);
 		for (int i = 0; i < bits_ptr.size(); i++) {
 			dest_ptr.set(i, (byte) (dest_ptr.get(i) | otherValue.bits_ptr.get(i)));
 		}
-		TitanBitString ret_val = new TitanBitString(dest_ptr, n_bits);
+
+		final TitanBitString ret_val = new TitanBitString(dest_ptr, n_bits);
 		ret_val.clear_unused_bits();
 
 		return ret_val;
@@ -410,7 +414,8 @@ public class TitanBitString extends Base_Type {
 		if (n_bits != 1) {
 			throw new TtcnError("The bitstring operands of operator or4b must have the same length.");
 		}
-		List<Byte> result = new ArrayList<Byte>();
+
+		final List<Byte> result = new ArrayList<Byte>();
 		result.add((byte) (getBit(0) || otherValue.get_bit() ? 1 : 0));
 
 		return new TitanBitString(result, 1);
@@ -427,13 +432,15 @@ public class TitanBitString extends Base_Type {
 		if (n_bits == 0) {
 			return this;
 		}
-		int n_bytes = (n_bits + 7) / 8;
-		List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
+
+		final int n_bytes = (n_bits + 7) / 8;
+		final List<Byte> dest_ptr = new ArrayList<Byte>(n_bytes);
 		dest_ptr.addAll(bits_ptr);
 		for (int i = 0; i < bits_ptr.size(); i++) {
 			dest_ptr.set(i, (byte) (dest_ptr.get(i) ^ otherValue.bits_ptr.get(i)));
 		}
-		TitanBitString ret_val = new TitanBitString(dest_ptr, n_bits);
+
+		final TitanBitString ret_val = new TitanBitString(dest_ptr, n_bits);
 		ret_val.clear_unused_bits();
 
 		return ret_val;
@@ -447,7 +454,8 @@ public class TitanBitString extends Base_Type {
 		if (n_bits != 1) {
 			throw new TtcnError("The bitstring operands of operator xor4b must have the same length.");
 		}
-		List<Byte> result = new ArrayList<Byte>();
+
+		final List<Byte> result = new ArrayList<Byte>();
 		result.add((byte) (getBit(0) ^ otherValue.get_bit() ? 1 : 0));
 
 		return new TitanBitString(result, 1);
@@ -461,14 +469,14 @@ public class TitanBitString extends Base_Type {
 			if (n_bits == 0) {
 				return this;
 			}
-			int n_bytes = (n_bits + 7) / 8;
+			final int n_bytes = (n_bits + 7) / 8;
 			clear_unused_bits();
 			if (shiftCount > n_bits) {
 				shiftCount = n_bits;
 			}
-			int shift_bytes = shiftCount / 8;
-			int shift_bits = shiftCount % 8;
-			List<Byte> result = new ArrayList<Byte>(n_bytes);
+			final int shift_bytes = shiftCount / 8;
+			final int shift_bits = shiftCount % 8;
+			final List<Byte> result = new ArrayList<Byte>(n_bytes);
 			result.addAll(bits_ptr);
 			if (shift_bits != 0) {
 				int byte_count = 0;
@@ -486,7 +494,8 @@ public class TitanBitString extends Base_Type {
 			for (int i = n_bytes - shift_bytes; i < n_bytes; i++) {
 				result.set(i, (byte) 0);
 			}
-			TitanBitString ret_val = new TitanBitString(result, n_bits);
+
+			final TitanBitString ret_val = new TitanBitString(result, n_bits);
 			ret_val.clear_unused_bits();
 			return ret_val;
 		} else if (shiftCount == 0) {
@@ -511,14 +520,15 @@ public class TitanBitString extends Base_Type {
 			if (n_bits == 0) {
 				return this;
 			}
-			int n_bytes = (n_bits + 7) / 8;
+			final int n_bytes = (n_bits + 7) / 8;
 			clear_unused_bits();
 			if (shiftCount > n_bits) {
 				shiftCount = n_bits;
 			}
-			int shift_bytes = shiftCount / 8;
-			int shift_bits = shiftCount % 8;
-			List<Byte> result = new ArrayList<Byte>(n_bytes);
+
+			final int shift_bytes = shiftCount / 8;
+			final int shift_bits = shiftCount % 8;
+			final List<Byte> result = new ArrayList<Byte>(n_bytes);
 			result.addAll(bits_ptr);
 			for (int i = 0; i < shift_bytes; i++) {
 				result.set(i, (byte) 0);
@@ -534,7 +544,7 @@ public class TitanBitString extends Base_Type {
 					result.set(i, (byte) (bits_ptr.get(i - shift_bytes)));
 				}
 			}
-			TitanBitString ret_val = new TitanBitString(result, n_bits);
+			final TitanBitString ret_val = new TitanBitString(result, n_bits);
 			ret_val.clear_unused_bits();
 			return ret_val;
 		} else if (shiftCount == 0) {
@@ -665,7 +675,7 @@ public class TitanBitString extends Base_Type {
 
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder(n_bits + 2);
+		final StringBuilder result = new StringBuilder(n_bits + 2);
 		result.append('\'');
 		for (int i = 0; i < n_bits; i++) {
 			result.append(getBit(i) ? '1':'0');

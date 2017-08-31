@@ -182,7 +182,7 @@ public final class TitanTimer {
 		double returnValue;
 
 		if (isStarted) {
-			double currentTime = TTCN_Snapshot.timeNow();
+			final double currentTime = TTCN_Snapshot.timeNow();
 			if (currentTime >= timeExpires) {
 				returnValue = 0.0;
 			} else {
@@ -303,7 +303,7 @@ public final class TitanTimer {
 	 * */
 	public static boolean getMinExpiration(final Changeable_Double minValue) {
 		boolean minFlag = false;
-		double altBegin = TTCN_Snapshot.getAltBegin();
+		final double altBegin = TTCN_Snapshot.getAltBegin();
 
 		if (testcaseTimer.isStarted && testcaseTimer.timeExpires > altBegin) {
 			minValue.setValue(testcaseTimer.timeExpires);

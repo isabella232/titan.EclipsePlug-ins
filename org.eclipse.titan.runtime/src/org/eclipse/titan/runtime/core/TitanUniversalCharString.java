@@ -48,7 +48,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public TitanUniversalCharString(final char uc_group, final char uc_plane, final char uc_row,  final char uc_cell) {
-		TitanUniversalChar uc = new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell);
+		final TitanUniversalChar uc = new TitanUniversalChar(uc_group, uc_plane, uc_row, uc_cell);
 		if (uc.is_char()) {
 			cstr = new StringBuilder();
 			cstr.append(uc_cell);
@@ -696,12 +696,12 @@ public class TitanUniversalCharString extends Base_Type {
 		if ( charstring ) {
 			return cstr.toString();
 		} else {
-			StringBuilder str = new StringBuilder();
-			
+			final StringBuilder str = new StringBuilder();
+
 			for (int i = 0; i < val_ptr.size(); ++i) {
 				str.append(val_ptr.get(i).toString());
 			}
-			
+
 			return str.toString();
 		}
 	}
@@ -748,7 +748,7 @@ public class TitanUniversalCharString extends Base_Type {
 				return this;
 			}
 
-			TitanUniversalCharString result = new TitanUniversalCharString();
+			final TitanUniversalCharString result = new TitanUniversalCharString();
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			for (int i = 0; i < val_ptr.size() - rotateCount; i++) {
 				result.val_ptr.add(i, val_ptr.get(i + rotateCount));
@@ -785,7 +785,7 @@ public class TitanUniversalCharString extends Base_Type {
 				return this;
 			}
 
-			TitanUniversalCharString result = new TitanUniversalCharString();
+			final TitanUniversalCharString result = new TitanUniversalCharString();
 			result.val_ptr = new ArrayList<TitanUniversalChar>();
 			if (rotateCount > val_ptr.size()) {
 				rotateCount = val_ptr.size();

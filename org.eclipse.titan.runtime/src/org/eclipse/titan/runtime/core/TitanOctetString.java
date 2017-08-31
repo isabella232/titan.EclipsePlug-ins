@@ -301,7 +301,7 @@ public class TitanOctetString extends Base_Type {
 		mustBound( "Unbound left operand of octetstring concatenation." );
 		otherValue.mustBound( "Unbound right operand of octetstring concatenation." );
 
-		TitanOctetString result = new TitanOctetString( val_ptr );
+		final TitanOctetString result = new TitanOctetString( val_ptr );
 		result.val_ptr.addAll( copyList( otherValue.val_ptr ) );
 
 		return result;
@@ -311,7 +311,7 @@ public class TitanOctetString extends Base_Type {
 		mustBound( "Unbound left operand of octetstring concatenation." );
 		otherValue.mustBound( "Unbound right operand of octetstring element concatenation." );
 
-		TitanOctetString result = new TitanOctetString( val_ptr );
+		final TitanOctetString result = new TitanOctetString( val_ptr );
 		result.val_ptr.add( new Character( otherValue.get_nibble()) );
 
 		return result;
@@ -321,7 +321,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString not4b() {
 		mustBound("Unbound octetstring operand of operator not4b.");
 
-		TitanOctetString result = new TitanOctetString();
+		final TitanOctetString result = new TitanOctetString();
 		result.val_ptr = new ArrayList<Character>();
 		for (int i = 0; i < val_ptr.size(); i++) {
 			final int digit1 = val_ptr.get(i) / 16;
@@ -343,7 +343,7 @@ public class TitanOctetString extends Base_Type {
 			throw new TtcnError("The octetstring operands of operator and4b must have the same length.");
 		}
 
-		TitanOctetString result = new TitanOctetString();
+		final TitanOctetString result = new TitanOctetString();
 		result.val_ptr = new ArrayList<Character>();
 
 		for (int i = 0; i < val_ptr.size(); i++) {
@@ -374,7 +374,7 @@ public class TitanOctetString extends Base_Type {
 			throw new TtcnError("The octetstring operands of operator or4b must have the same length.");
 		}
 
-		TitanOctetString result = new TitanOctetString();
+		final TitanOctetString result = new TitanOctetString();
 		result.val_ptr = new ArrayList<Character>();
 		for (int i = 0; i < val_ptr.size(); i++) {
 			result.val_ptr.add((char)(val_ptr.get(i) | otherValue.val_ptr.get(i)));
@@ -405,7 +405,7 @@ public class TitanOctetString extends Base_Type {
 			throw new TtcnError("The octetstring operands of operator xor4b must have the same length.");
 		}
 
-		TitanOctetString result = new TitanOctetString();
+		final TitanOctetString result = new TitanOctetString();
 		result.val_ptr = new ArrayList<Character>();
 		for (int i = 0; i < val_ptr.size(); i++) {
 			result.val_ptr.add((char)(val_ptr.get(i) ^ otherValue.val_ptr.get(i)));
@@ -433,7 +433,7 @@ public class TitanOctetString extends Base_Type {
 		if (shiftCount > 0) {
 			if (val_ptr.size() == 0) return this;
 
-			TitanOctetString result = new TitanOctetString();
+			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr = new ArrayList<Character>();
 			if (shiftCount > val_ptr.size()) shiftCount = val_ptr.size();
 		
@@ -464,7 +464,7 @@ public class TitanOctetString extends Base_Type {
 		if (shiftCount > 0) {
 			if (val_ptr.size() == 0) return this;
 
-			TitanOctetString result = new TitanOctetString();
+			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr =  new ArrayList<Character>();
 			if (shiftCount > val_ptr.size()) shiftCount = val_ptr.size();
 			for (int i = 0; i < shiftCount; i++) {
@@ -494,8 +494,8 @@ public class TitanOctetString extends Base_Type {
 		if (rotateCount >= 0) {
 			rotateCount = rotateCount % val_ptr.size();
 			if (rotateCount == 0) return this;
-			
-			TitanOctetString result = new TitanOctetString();
+
+			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr =  new ArrayList<Character>();
 			for (int i = 0; i < val_ptr.size() - rotateCount; i++) {
 				result.val_ptr.add(i, val_ptr.get(i+rotateCount));
@@ -524,7 +524,7 @@ public class TitanOctetString extends Base_Type {
 		if (rotateCount >= 0) {
 			rotateCount = rotateCount % val_ptr.size();
 			if (rotateCount == 0) return this;
-			TitanOctetString result = new TitanOctetString();
+			final TitanOctetString result = new TitanOctetString();
 			result.val_ptr =  new ArrayList<Character>();
 			if (rotateCount > val_ptr.size()) rotateCount = val_ptr.size();
 			for (int i = 0; i < rotateCount; i++) {

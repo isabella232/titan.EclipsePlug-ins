@@ -254,7 +254,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			return new TitanBoolean(false);
 		}
 
-		TitanInteger value_length = otherValue.lengthOf();
+		final TitanInteger value_length = otherValue.lengthOf();
 		if(!match_length(value_length.getInt())) {
 			return new TitanBoolean(false);
 		}
@@ -316,7 +316,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthof() operation on a bitstring template containing an empty list.");
 			}
-			int item_length = value_list.get(0).lengthOf().getInt();
+			final int item_length = value_list.get(0).lengthOf().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
 				if (value_list.get(i).lengthOf().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a bitstring template containing a value list with different lengths.");

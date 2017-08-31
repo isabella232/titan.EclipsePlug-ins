@@ -57,7 +57,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString int2char(final TitanInteger value) {
 		value.mustBound("The argument of function int2char() is an unbound integer value.");
 
-		int ivt = value.getInt();
+		final int ivt = value.getInt();
 		if (ivt < 0 || ivt > 127) {
 			throw new TtcnError(MessageFormat.format("The argument of function int2char() is {0}, which is outside the allowed range 0 .. 127.", value));
 		}
@@ -78,7 +78,7 @@ public final class AdditionalFunctions {
 	public static TitanUniversalCharString int2unichar(final TitanInteger value) {
 		value.mustBound("The argument of function int2unichar() is an unbound integer value.");
 
-		int ivt = value.getInt();
+		final int ivt = value.getInt();
 		if (ivt < 0 || ivt > Integer.MAX_VALUE) {
 			throw new TtcnError(MessageFormat.format("The argument of function int2unichar() is {0}, which outside the allowed range 0 .. 2147483647.", value));
 		}
@@ -109,13 +109,13 @@ public final class AdditionalFunctions {
 
 		if (value.isNative()) {
 			int tempValue = value.getInt();
-			ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
+			final ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
 			for (int i = 0; i < (length + 7) / 8; i++) {
 				bits_ptr.add(Byte.valueOf((byte)0));
 			}
 			for (int i = length - 1; tempValue != 0 && i >= 0; i--) {
 				if((tempValue & 1) > 0) {
-					int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
+					final int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
 					bits_ptr.set(i / 8, Byte.valueOf((byte) temp));
 				}
 				tempValue = tempValue >> 1;
@@ -132,13 +132,13 @@ public final class AdditionalFunctions {
 			return new TitanBitString(bits_ptr, length);
 		} else {
 			BigInteger tempValue = value.getBigInteger();
-			ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
+			final ArrayList<Byte> bits_ptr = new ArrayList<Byte>((length + 7) / 8);
 			for (int i = 0; i < (length + 7) / 8; i++) {
 				bits_ptr.add(Byte.valueOf((byte)0));
 			}
 			for (int i = length - 1; tempValue.compareTo(BigInteger.ZERO) == 1 && i >= 0; i--) {
 				if((tempValue.and(BigInteger.ONE)).compareTo(BigInteger.ZERO) == 1) {
-					int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
+					final int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
 					bits_ptr.set(i / 8, Byte.valueOf((byte) temp));
 				}
 				tempValue = tempValue.shiftRight(1);
@@ -185,7 +185,7 @@ public final class AdditionalFunctions {
 		}
 		if (value.isNative()) {
 			int tmp_value = value.getInt();
-			ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
+			final ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
 			for (int i = 0; i < length; i++) {
 				nibbles_ptr.add((byte) 0);
 			}
@@ -205,12 +205,12 @@ public final class AdditionalFunctions {
 			return new TitanHexString(nibbles_ptr);
 		} else {
 			BigInteger tmp_value = value.getBigInteger();
-			ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
+			final ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
 			for (int i = 0; i < length; i++) {
 				nibbles_ptr.add((byte) 0);
 			}
 			for (int i = length - 1; i >= 0; i--) {
-				BigInteger temp = tmp_value.and(BigInteger.valueOf(0xF));
+				final BigInteger temp = tmp_value.and(BigInteger.valueOf(0xF));
 				nibbles_ptr.set(i, temp.byteValue());
 				tmp_value = tmp_value.shiftRight(4);
 			}
@@ -242,7 +242,7 @@ public final class AdditionalFunctions {
 		if (length < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value:", length));
 		}
-		List<Character> octets_ptr = new ArrayList<Character>(length);
+		final List<Character> octets_ptr = new ArrayList<Character>(length);
 		for (int i = 0; i < length; i++) {
 			octets_ptr.add((char) 0);
 		}
@@ -279,7 +279,7 @@ public final class AdditionalFunctions {
 			if ((tmp_val.bitCount() + 7) / 4 < length) {
 				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", (tmp_val.bitCount() + 7) / 4, length, length > 1 ? "s" : ""));
 			}
-			List<Character> octets_ptr = new ArrayList<Character>(length);
+			final List<Character> octets_ptr = new ArrayList<Character>(length);
 			for (int i = 0; i < length; i++) {
 				octets_ptr.add((char) 0);
 			}
@@ -384,7 +384,7 @@ public final class AdditionalFunctions {
 			return new TitanOctetString("0");
 		}
 
-		List<Character> octets_ptr = new ArrayList<Character>();
+		final List<Character> octets_ptr = new ArrayList<Character>();
 		for (int i = 0; i < value.length(); i++) {
 			octets_ptr.add(int2oct((int) value.charAt(i), 1).get_nibble(0));
 		}
@@ -410,7 +410,7 @@ public final class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The argument of function unichar2int() is the invalid quadruple char {0},"
 					+ "the first number of which is outside the allowed range 0 .. 127.", value.getUc_group()));
 		}
-		int result = (value.getUc_group() << 24) | (value.getUc_plane() << 16) | (value.getUc_row() << 8) | value.getUc_cell();
+		final int result = (value.getUc_group() << 24) | (value.getUc_plane() << 16) | (value.getUc_row() << 8) | value.getUc_cell();
 
 		return new TitanInteger(result);
 	}
@@ -435,9 +435,8 @@ public final class AdditionalFunctions {
 	public static TitanInteger bit2int(final TitanBitString value) {
 		value.mustBound("The argument of function bit2int() is an unbound bitstring value.");
 
-		int n_bits = value.lengthOf().getInt();
-		List<Byte> temp = new ArrayList<Byte>();
-		temp = value.getValue();
+		final int n_bits = value.lengthOf().getInt();
+		final List<Byte> temp = value.getValue();
 
 		// skip the leading zero bits
 		int start_index = 0;
@@ -470,18 +469,17 @@ public final class AdditionalFunctions {
 	public static TitanHexString bit2hex(final TitanBitString value) {
 		value.mustBound("The argument of function bit2hex() is an unbound bitstring value.");
 
-		int n_bits = value.lengthOf().getInt();
-		List<Byte> ret_val = new ArrayList<Byte>();
-		StringBuilder sb = new StringBuilder();
+		final int n_bits = value.lengthOf().getInt();
+		final List<Byte> ret_val = new ArrayList<Byte>();
+		final StringBuilder sb = new StringBuilder();
 
 		// reverse the order
 		for (int i = n_bits - 1; i >= 0; i--) {
 			sb.append(value.getBit(i) ? '1' : '0');
 		}
 
-		TitanBitString temp_val = new TitanBitString(sb.toString());
-		List<Byte> bits_ptr = new ArrayList<Byte>();
-		bits_ptr = temp_val.getValue();
+		final TitanBitString temp_val = new TitanBitString(sb.toString());
+		final List<Byte> bits_ptr = temp_val.getValue();
 		// do the conversion
 		for (int i = bits_ptr.size() - 1; i >= 0; i--) {
 			if (bits_ptr.get(i) > -1 && bits_ptr.get(i) < 16) {
@@ -505,10 +503,10 @@ public final class AdditionalFunctions {
 	public static TitanOctetString bit2oct(final TitanBitString value) {
 		value.mustBound("The argument of function bit2oct() is an unbound bitstring value.");
 
-		int n_bits = value.lengthOf().getInt();
-		int n_nibbles = (n_bits + 3) / 4;
-		List<Byte> nibbles_ptr = new ArrayList<Byte>();
-		StringBuilder sb = new StringBuilder();
+		final int n_bits = value.lengthOf().getInt();
+		final int n_nibbles = (n_bits + 3) / 4;
+		final List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		final StringBuilder sb = new StringBuilder();
 
 		// reverse the order
 		for (int i = n_bits - 1; i >= 0; i--) {
@@ -519,9 +517,8 @@ public final class AdditionalFunctions {
 			nibbles_ptr.add((byte) 0);
 		}
 
-		TitanBitString temp_val = new TitanBitString(sb.toString());
-		List<Byte> bits_ptr = new ArrayList<Byte>();
-		bits_ptr = temp_val.getValue();
+		final TitanBitString temp_val = new TitanBitString(sb.toString());
+		final List<Byte> bits_ptr =  temp_val.getValue();
 
 		// bitstring conversion to hex characters
 		for (int i = bits_ptr.size() - 1; i >= 0; i--) {
@@ -534,7 +531,7 @@ public final class AdditionalFunctions {
 		}
 
 		// hex characters to octets
-		List<Character> ret_val = new ArrayList<Character>();
+		final List<Character> ret_val = new ArrayList<Character>();
 		for (int i = 1; i < nibbles_ptr.size(); i += 2) {
 			ret_val.add((char) ((nibbles_ptr.get(i - 1) << 4) | nibbles_ptr.get(i)));
 		}
@@ -552,8 +549,8 @@ public final class AdditionalFunctions {
 	public static TitanCharString bit2str(final TitanBitString value) {
 		value.mustBound("The argument of function bit2str() is an unbound bitstring value.");
 
-		int n_bits = value.lengthOf().getInt();
-		StringBuilder ret_val = new StringBuilder(n_bits);
+		final int n_bits = value.lengthOf().getInt();
+		final StringBuilder ret_val = new StringBuilder(n_bits);
 
 		for (int i = 0; i < n_bits; i++) {
 			if (value.getBit(i)) {
@@ -580,7 +577,7 @@ public final class AdditionalFunctions {
 	public static TitanInteger hex2int(final TitanHexString value) {
 		value.mustBound("The argument of function hex2int() is an unbound hexstring value.");
 
-		int n_nibbles = value.lengthOf().getInt();
+		final int n_nibbles = value.lengthOf().getInt();
 
 		// skip the leading zero hex digits
 		int start_index = 0;
@@ -612,9 +609,9 @@ public final class AdditionalFunctions {
 	public static TitanBitString hex2bit(final TitanHexString value) {
 		value.mustBound("The argument of function hex2bit() is an unbound hexstring value.");
 
-		int n_nibbles = value.lengthOf().getInt();
-		List<Byte> bits_ptr = new ArrayList<Byte>();
-		List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		final int n_nibbles = value.lengthOf().getInt();
+		final List<Byte> bits_ptr = new ArrayList<Byte>();
+		final List<Byte> nibbles_ptr = new ArrayList<Byte>();
 		for (int i = n_nibbles; i > 0; i--) {
 			nibbles_ptr.add(value.get_nibble(n_nibbles - i));
 		}
@@ -653,7 +650,7 @@ public final class AdditionalFunctions {
 
 		bits = (byte) ((bits & 0xCC) >> 2 | (bits & 0x33) << 2);
 		bits = (byte) ((bits & 0xAA) >> 1 | (bits & 0x55) << 1);
-		List<Byte> bits_ptr = new ArrayList<Byte>();
+		final List<Byte> bits_ptr = new ArrayList<Byte>();
 		bits_ptr.add(bits);
 
 		return new TitanBitString(bits_ptr, 4);
@@ -663,10 +660,10 @@ public final class AdditionalFunctions {
 	public static TitanOctetString hex2oct(final TitanHexString value) {
 		value.mustBound("The argument of function hex2oct() is an unbound hexstring value.");
 
-		int n_nibbles = value.lengthOf().getInt();
-		int n_octets = (n_nibbles + 1) / 2;
-		List<Character> octet_ptr = new ArrayList<Character>(n_octets);
-		List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		final int n_nibbles = value.lengthOf().getInt();
+		final int n_octets = (n_nibbles + 1) / 2;
+		final List<Character> octet_ptr = new ArrayList<Character>(n_octets);
+		final List<Byte> nibbles_ptr = new ArrayList<Byte>();
 
 		if ((n_nibbles & 1) == 1) {
 			nibbles_ptr.add((byte) 0);
@@ -681,7 +678,8 @@ public final class AdditionalFunctions {
 
 	public static TitanOctetString hex2oct(final TitanHexString_Element value) {
 		value.mustBound("The argument of function hex2oct() is an unbound hexstring element.");
-		char octet = value.get_nibble();
+
+		final char octet = value.get_nibble();
 		return new TitanOctetString(octet);
 	}
 
@@ -689,8 +687,8 @@ public final class AdditionalFunctions {
 	public static TitanCharString hex2str(final TitanHexString value) {
 		value.mustBound("The argument of function hex2str() is an unbound hexstring value.");
 
-		int n_nibbles = value.lengthOf().getInt();
-		StringBuilder ret_val = new StringBuilder();
+		final int n_nibbles = value.lengthOf().getInt();
+		final StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < n_nibbles; i++) {
 			ret_val.append(value.constGetAt(i));
 		}
@@ -708,7 +706,7 @@ public final class AdditionalFunctions {
 	public static TitanInteger oct2int(final TitanOctetString value) {
 		value.mustBound("The argument of function oct2int() is an unbound octetstring value.");
 
-		int n_octets = value.lengthOf().getInt();
+		final int n_octets = value.lengthOf().getInt();
 
 		// skip the leading zero hex digits
 		int start_index = 0;
@@ -741,9 +739,9 @@ public final class AdditionalFunctions {
 	public static TitanBitString oct2bit(final TitanOctetString value) {
 		value.mustBound("The argument of function oct2bit() is an unbound octetstring value.");
 
-		int n_octets = value.lengthOf().getInt();
-		List<Byte> bits_ptr = new ArrayList<Byte>();
-		List<Character> octets_ptr = new ArrayList<Character>();
+		final int n_octets = value.lengthOf().getInt();
+		final List<Byte> bits_ptr = new ArrayList<Byte>();
+		final List<Character> octets_ptr = new ArrayList<Character>();
 		octets_ptr.addAll(value.getValue());
 
 		for (int i = 0; i < n_octets; i++) {
@@ -777,9 +775,9 @@ public final class AdditionalFunctions {
 	public static TitanHexString oct2hex(final TitanOctetString value) {
 		value.mustBound("The argument of function oct2hex() is an unbound octetstring value.");
 
-		int n_octets = value.lengthOf().getInt();
-		List<Byte> ret_val = new ArrayList<Byte>();
-		List<Character> octets_ptr = new ArrayList<Character>();
+		final int n_octets = value.lengthOf().getInt();
+		final List<Byte> ret_val = new ArrayList<Byte>();
+		final List<Character> octets_ptr = new ArrayList<Character>();
 		octets_ptr.addAll(value.getValue());
 
 		for (int i = 0; i < n_octets; i++) {
@@ -793,7 +791,7 @@ public final class AdditionalFunctions {
 	public static TitanHexString oct2hex(final TitanOctetString_Element value) {
 		value.mustBound("The argument of function oct2hex() is an unbound octetstring element.");
 
-		List<Byte> ret_val = new ArrayList<Byte>();
+		final List<Byte> ret_val = new ArrayList<Byte>();
 		ret_val.add((byte) ((value.get_nibble() & 0xF0) >> 4));
 		ret_val.add((byte) (value.get_nibble() & 0x0F));
 
@@ -804,8 +802,8 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2str(final TitanOctetString value) {
 		value.mustBound("The argument of function oct2str() is an unbound octetstring value.");
 
-		int n_octets = value.lengthOf().getInt();
-		StringBuilder ret_val = new StringBuilder();
+		final int n_octets = value.lengthOf().getInt();
+		final StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < n_octets; i++) {
 			ret_val.append(value.constGetAt(i).toString());
 		}
@@ -823,8 +821,8 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2char(final TitanOctetString value) {
 		value.mustBound("The argument of function oct2char() is an unbound octetstring value.");
 
-		int value_length = value.lengthOf().getInt();
-		StringBuilder sb = new StringBuilder();
+		final int value_length = value.lengthOf().getInt();
+		final StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < value_length; i++) {
 			if ((int) value.get_nibble(i) > 127) {
 				throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains octet {0} at index {1}, which is outside the allowed range 00 .. 7F.", (int) value.get_nibble(i), i));
@@ -837,7 +835,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2char(final TitanOctetString_Element value) {
 		value.mustBound("The argument of function oct2char() is an unbound octetstring element.");
 
-		char octet = value.get_nibble();
+		final char octet = value.get_nibble();
 		if ((int) octet > 127) {
 			throw new TtcnError(MessageFormat.format("The argument of function oct2char() contains the octet {0}, which is outside the allowed range 00 .. 7F.", octet));
 		}
@@ -853,11 +851,11 @@ public final class AdditionalFunctions {
 	public static TitanInteger str2int(final TitanCharString value) {
 		value.mustBound("The argument of function str2int() is an unbound charstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 		if (value_len == 0) {
 			throw new TtcnError("The argument of function str2int() is an empty string, which does not represent a valid integer value.");
 		}
-		StringBuilder value_str = new StringBuilder();
+		final StringBuilder value_str = new StringBuilder();
 		value_str.append(value.getValue().toString());
 		str2intState state = str2intState.S_INITIAL;
 		// state: expected characters
@@ -869,7 +867,7 @@ public final class AdditionalFunctions {
 		boolean leading_ws = false;
 		boolean leading_zero = false;
 		for (int i = 0; i < value_len; i++) {
-			char c = value_str.charAt(i);
+			final char c = value_str.charAt(i);
 			switch (state) {
 			case S_INITIAL:
 				if (c == '+' || c == '-') {
@@ -940,7 +938,7 @@ public final class AdditionalFunctions {
 			// TODO: Initial implementation
 			TtcnError.TtcnWarning(MessageFormat.format("Trailing whitespace was detected in the argument of function str2int(): {0}.", value_str.toString()));
 		}
-		long temp_val = Long.valueOf(value_str.toString());
+		final long temp_val = Long.valueOf(value_str.toString());
 		if (temp_val > Integer.MIN_VALUE && temp_val < Integer.MAX_VALUE) {
 			return new TitanInteger(Integer.valueOf(value_str.toString()));
 		} else {
@@ -951,7 +949,7 @@ public final class AdditionalFunctions {
 	public static TitanInteger str2int(final TitanCharString_Element value) {
 		value.mustBound("The argument of function str2int() is an unbound charstring element.");
 
-		char c = value.get_char();
+		final char c = value.get_char();
 		if (c < '0' || c > '9') {
 			// TODO: Initial implementation
 			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character {0}, does not represent a valid integer value.", c));
@@ -971,19 +969,19 @@ public final class AdditionalFunctions {
 	public static TitanOctetString str2oct(final TitanCharString value) {
 		value.mustBound("The argument of function str2oct() is an unbound charstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 		if (value_len % 2 != 0) {
 			throw new TtcnError(MessageFormat.format("The argument of function str2oct() must have even number of characters containing hexadecimal digits, but the length of the string is odd: {0}.", value_len));
 		}
-		List<Character> octets_ptr = new ArrayList<Character>(value_len / 2);
+		final List<Character> octets_ptr = new ArrayList<Character>(value_len / 2);
 		for (int i = 0; i < value_len / 2; i++) {
 			octets_ptr.add((char) 0);
 		}
-		StringBuilder chars_ptr = new StringBuilder();
+		final StringBuilder chars_ptr = new StringBuilder();
 		chars_ptr.append(value.getValue().toString());
 		for (int i = 0; i < value_len; i++) {
-			char c = chars_ptr.charAt(i);
-			byte hexdigit = charToHexDigit(c);
+			final char c = chars_ptr.charAt(i);
+			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit > 0x0F) {
 				// TODO: Initial implementation
 				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
@@ -1013,11 +1011,11 @@ public final class AdditionalFunctions {
 	public static TitanFloat str2float(final TitanCharString value) {
 		value.mustBound("The argument of function str2float() is an unbound charstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 		if(value_len == 0) {
 			throw new TtcnError("The argument of function str2float() is an empty string, which does not represent a valid float value.");
 		}
-		StringBuilder value_str = new StringBuilder();
+		final StringBuilder value_str = new StringBuilder();
 		value_str.append(value.getValue().toString());
 		str2floatState state = str2floatState.S_INITIAL;
 		// state: expected characters
@@ -1035,7 +1033,7 @@ public final class AdditionalFunctions {
 		boolean leading_ws = false;
 		boolean leading_zero = false;
 		for (int i = 0; i < value_len; i++) {
-			char c = value_str.charAt(i);
+			final char c = value_str.charAt(i);
 			switch (state) {
 			case S_INITIAL:
 				if(c == '+' || c == '-') {
@@ -1219,16 +1217,15 @@ public final class AdditionalFunctions {
 
 		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "bitstring", "bit");
 		if (idx % 8 != 0) {
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < returncount; i++) {
 				sb.append(value.getBit(idx + i) ? '1' : '0');
 			}
-			TitanBitString ret_val = new TitanBitString(sb.toString());
+			final TitanBitString ret_val = new TitanBitString(sb.toString());
 			return ret_val;
 		} else {
-			List<Byte> bits_ptr = new ArrayList<Byte>();
-			bits_ptr = value.getValue();
-			List<Byte> ret_val = new ArrayList<Byte>();
+			final List<Byte> bits_ptr = value.getValue();
+			final List<Byte> ret_val = new ArrayList<Byte>();
 			for (int i = 0; i < (returncount + 7) / 8; i++) {
 				ret_val.add(bits_ptr.get(i));
 			}
@@ -1289,9 +1286,8 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound hexstring value.");
 
 		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "hexstring", "hexadecimal digi");
-		List<Byte> src_ptr = new ArrayList<Byte>();
-		src_ptr = value.getValue();
-		List<Byte> ret_val = new ArrayList<Byte>();
+		final List<Byte> src_ptr = value.getValue();
+		final List<Byte> ret_val = new ArrayList<Byte>();
 
 		for (int i = 0; i < returncount; i++) {
 			ret_val.add(src_ptr.get(i + idx));
@@ -1353,9 +1349,8 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound octetstring value.");
 
 		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "octetstring", "octet");
-		List<Character> ret_val = new ArrayList<Character>();
-		List<Character> src_ptr = new ArrayList<Character>();
-		src_ptr = value.getValue();
+		final List<Character> ret_val = new ArrayList<Character>();
+		final List<Character> src_ptr = value.getValue();
 		for (int i = 0; i < returncount; i++) {
 			ret_val.add(src_ptr.get(i + idx));
 		}
@@ -1473,9 +1468,8 @@ public final class AdditionalFunctions {
 		if (value.charstring) {
 			return new TitanUniversalCharString(value.cstr.substring(idx, idx + returncount));
 		} else {
-			List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
-			List<TitanUniversalChar> src_ptr = new ArrayList<TitanUniversalChar>();
-			src_ptr = value.getValue();
+			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+			final List<TitanUniversalChar> src_ptr = value.getValue();
 			for (int i = 0; i < returncount; i++) {
 				ret_val.add(src_ptr.get(i + idx));
 			}
@@ -1720,16 +1714,16 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function replace() is an unbound bitstring value.");
 		repl.mustBound("The fourth argument (repl) of function replace() is an unbound bitstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 
 		check_replace_arguments(value_len, idx, len, "bitstring", "bit");
 
-		int repl_len = repl.lengthOf().getInt();
-		StringBuilder temp_sb = new StringBuilder();
+		final int repl_len = repl.lengthOf().getInt();
+		final StringBuilder temp_sb = new StringBuilder();
 		for (int i = 0; i < value_len; i++) {
 			temp_sb.append('0');
 		}
-		TitanBitString ret_val = new TitanBitString(temp_sb.toString());
+		final TitanBitString ret_val = new TitanBitString(temp_sb.toString());
 
 		for (int i = 0; i < idx; i++) {
 			ret_val.setBit(i, value.getBit(i));
@@ -1766,12 +1760,12 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function replace() is an unbound hexstring value.");
 		repl.mustBound("The fourth argument (repl) of function replace() is an unbound hexstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 
 		check_replace_arguments(value_len, idx, len, "hexstring", "hexadecimal digit");
 
-		int repl_len = repl.lengthOf().getInt();
-		List<Byte> ret_val = new ArrayList<Byte>(value_len + repl_len - len);
+		final int repl_len = repl.lengthOf().getInt();
+		final List<Byte> ret_val = new ArrayList<Byte>(value_len + repl_len - len);
 
 		for (int i = 0; i < idx; i++) {
 			ret_val.add(i, value.get_nibble(i));
@@ -1809,12 +1803,12 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function replace() is an unbound octetstring value.");
 		repl.mustBound("The fourth argument (repl) of function replace() is an unbound octetstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 
 		check_replace_arguments(value_len, idx, len, "octetstring", "octet");
 
-		int repl_len = repl.lengthOf().getInt();
-		List<Character> ret_val = new ArrayList<Character>(value_len + repl_len - len);
+		final int repl_len = repl.lengthOf().getInt();
+		final List<Character> ret_val = new ArrayList<Character>(value_len + repl_len - len);
 
 		for (int i = 0; i < idx; i++) {
 			ret_val.add(i, value.get_nibble(i));
@@ -1852,11 +1846,11 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function replace() is an unbound charstring value.");
 		repl.mustBound("The fourth argument (repl) of function replace() is an unbound charstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 
 		check_replace_arguments(value_len, idx, len, "charstring", "character");
 
-		StringBuilder ret_val = new StringBuilder();
+		final StringBuilder ret_val = new StringBuilder();
 		ret_val.append(value.getValue().toString());
 
 		ret_val.replace(idx, idx + len, repl.getValue().toString());
@@ -1887,20 +1881,20 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function replace() is an unbound universal charstring value.");
 		repl.mustBound("The fourth argument (repl) of function replace() is an unbound universal charstring value.");
 
-		int value_len = value.lengthOf().getInt();
+		final int value_len = value.lengthOf().getInt();
 
 		check_replace_arguments(value_len, idx, len, "universal charstring", "character");
 
-		int repl_len = repl.lengthOf().getInt();
+		final int repl_len = repl.lengthOf().getInt();
 
 		if (value.charstring) {
 			if (repl.charstring) {
-				StringBuilder ret_val = new StringBuilder();
+				final StringBuilder ret_val = new StringBuilder();
 				ret_val.append(value.cstr.toString());
 				ret_val.replace(idx, idx + len, repl.cstr.toString());
 				return new TitanUniversalCharString(ret_val);
 			} else {
-				List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(i, new TitanUniversalChar((char) 0, (char) 0, (char) 0, value.cstr.charAt(i)));
 				}
@@ -1915,7 +1909,7 @@ public final class AdditionalFunctions {
 			}
 		} else {
 			if (repl.charstring) {
-				List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(idx + i, value.val_ptr.get(i));
 				}
@@ -1927,7 +1921,7 @@ public final class AdditionalFunctions {
 				}
 				return new TitanUniversalCharString(ret_val);
 			} else {
-				List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+				final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < idx; i++) {
 					ret_val.add(i, value.val_ptr.get(i));
 				}
@@ -2202,13 +2196,13 @@ public final class AdditionalFunctions {
 	public static TitanBitString str2bit(final TitanCharString value) {
 		value.mustBound("The argument of function str2bit() is an unbound charstring value.");
 
-		int value_length = value.lengthOf().getInt();
-		StringBuilder chars_ptr = new StringBuilder();
+		final int value_length = value.lengthOf().getInt();
+		final StringBuilder chars_ptr = new StringBuilder();
 		chars_ptr.append(value.getValue().toString());
-		StringBuilder ret_val = new StringBuilder();
+		final StringBuilder ret_val = new StringBuilder();
 
 		for (int i = 0; i < value_length; i++) {
-			char c = chars_ptr.charAt(i);
+			final char c = chars_ptr.charAt(i);
 			switch (c) {
 			case '0':
 				ret_val.append('0');
@@ -2228,7 +2222,7 @@ public final class AdditionalFunctions {
 	public static TitanBitString str2bit(final TitanCharString_Element value) {
 		value.mustBound("The argument of function str2bit() is an unbound charstring element.");
 
-		char c = value.get_char();
+		final char c = value.get_char();
 		if (c != '0' && c != '1') {
 			// TODO: Initial implementation
 			throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters `0' and `1' only, but the given charstring element contains the character {0}.", c));
@@ -2249,14 +2243,14 @@ public final class AdditionalFunctions {
 	public static TitanHexString str2hex(final TitanCharString value) {
 		value.mustBound("The argument of function str2hex() is an unbound charstring value.");
 
-		int value_length = value.lengthOf().getInt();
-		StringBuilder chars_ptr = new StringBuilder();
+		final int value_length = value.lengthOf().getInt();
+		final StringBuilder chars_ptr = new StringBuilder();
 		chars_ptr.append(value.getValue().toString());
-		List<Byte> ret_val = new ArrayList<Byte>(value_length);
+		final List<Byte> ret_val = new ArrayList<Byte>(value_length);
 
 		for (int i = 0; i < value_length; i++) {
-			char c = chars_ptr.charAt(i);
-			byte hexdigit = charToHexDigit(c);
+			final char c = chars_ptr.charAt(i);
+			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit > 0x0F) {
 				// TODO: Initial implementation
 				throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
@@ -2270,8 +2264,8 @@ public final class AdditionalFunctions {
 	public static TitanHexString str2hex(final TitanCharString_Element value) {
 		value.mustBound("The argument of function str2hex() is an unbound charstring element.");
 
-		char c = value.get_char();
-		byte hexdigit = charToHexDigit(c);
+		final char c = value.get_char();
+		final byte hexdigit = charToHexDigit(c);
 
 		if (hexdigit > 0x0F) {
 			// TODO: Initial implementation
@@ -2292,13 +2286,12 @@ public final class AdditionalFunctions {
 	public static TitanCharString unichar2char(final TitanUniversalCharString value) {
 		value.mustBound("The argument of function unichar2char() is an unbound universal charstring value.");
 
-		int value_length = value.lengthOf().getInt();
+		final int value_length = value.lengthOf().getInt();
 		if (value.charstring) {
 			return new TitanCharString(value.cstr);
 		} else {
-			StringBuilder ret_val = new StringBuilder();
-			List<TitanUniversalChar> uchars_ptr = new ArrayList<TitanUniversalChar>();
-			uchars_ptr = value.val_ptr;
+			final StringBuilder ret_val = new StringBuilder();
+			final List<TitanUniversalChar> uchars_ptr =  value.val_ptr;
 			for (int i = 0; i < value_length; i++) {
 				final TitanUniversalChar uchar = uchars_ptr.get(i);
 				if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {

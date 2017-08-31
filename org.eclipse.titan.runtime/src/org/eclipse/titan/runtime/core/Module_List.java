@@ -48,7 +48,7 @@ public class Module_List {
 
 	//originally Module_List::initialize_component
 	public static void initialize_component(final String module_name, final String component_type, final boolean init_base_comps) {
-		TTCN_Module module = lookup_module(module_name);
+		final TTCN_Module module = lookup_module(module_name);
 		//FIXME add checks
 		module.init_comp_type(component_type, init_base_comps);
 		//FIXME handle error

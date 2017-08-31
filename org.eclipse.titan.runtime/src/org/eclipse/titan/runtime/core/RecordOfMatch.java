@@ -421,7 +421,7 @@ public class RecordOfMatch {
 		}
 
 		public void insert_data(final int new_data) {
-			List_elem newptr = new List_elem();
+			final List_elem newptr = new List_elem();
 			newptr.data = new_data;
 			newptr.next = current.next;
 			newptr.parent = current;
@@ -564,13 +564,13 @@ public class RecordOfMatch {
 			type_of_matching match_type,
 			final AtomicInteger number_of_uncovered, final int[] pair_list,
 			final int number_of_checked, final boolean legacy) {
-		Matching_Table table = new Matching_Table(value_ptr, value_start, value_size,
+		final Matching_Table table = new Matching_Table(value_ptr, value_start, value_size,
 				template_ptr, template_start, template_size,
 				match_function, legacy);
 
 		// we have to use the reduced length of the template
 		// (not counting the asterisks)
-		int real_template_size = table.get_template_size();
+		final int real_template_size = table.get_template_size();
 
 		// handling trivial cases:
 		//to be compatible with the previous version
@@ -630,7 +630,7 @@ public class RecordOfMatch {
 			}
 
 			boolean found_route = false;
-			Tree_list tree = new Tree_list(template_index);
+			final Tree_list tree = new Tree_list(template_index);
 			for (int i = template_index; ; ) {
 				int j;
 				if(table.is_paired(i)) {
@@ -699,7 +699,7 @@ public class RecordOfMatch {
 					if(table.is_covered(j) &&
 							table.get_edge(i,j) == edge_status.EDGE &&
 							!tree.do_exists(j + real_template_size)) {
-						int temp_index = table.covered_by(j);
+						final int temp_index = table.covered_by(j);
 						if(!tree.do_exists(temp_index)) {
 							tree.insert_data(temp_index);
 						}
@@ -740,7 +740,7 @@ public class RecordOfMatch {
 		// (or in SUPERSET we need the number of uncovered)
 		//the result depends on the number of pairs found
 
-		int number_of_pairs = table.get_nof_covered();
+		final int number_of_pairs = table.get_nof_covered();
 
 		if(match_type == type_of_matching.SUBSET) {
 			return number_of_pairs == value_size;
@@ -837,7 +837,7 @@ public class RecordOfMatch {
 			final match_function_t match_function,
 			final AtomicInteger shift_size,
 			final boolean legacy) {
-		int nof_permutations = template_ptr.get_number_of_permutations();
+		final int nof_permutations = template_ptr.get_number_of_permutations();
 		if (permutation_index > nof_permutations) {
 			throw new TtcnError("Internal error: recursive_permutation_match: invalid argument.");
 		}
@@ -863,7 +863,7 @@ public class RecordOfMatch {
 
 		//are we at an asterisk or at the beginning of a permutation interval
 		boolean is_asterisk;
-		boolean permutation_begins = permutation_index < nof_permutations
+		final boolean permutation_begins = permutation_index < nof_permutations
 				&& template_start_index == template_ptr.get_permutation_start(permutation_index);
 
 		if (permutation_begins ||
@@ -943,14 +943,14 @@ public class RecordOfMatch {
 				while(!already_superset) {
 					//must be a permutation having other values than asterisks
 
-					AtomicInteger x = new AtomicInteger(0);
+					final AtomicInteger x = new AtomicInteger(0);
 
 					//our set matching is extended with 2 more parameters
 					// giving back how many templates
 					// (other than asterisk) couldn't be matched
 					// and setting / giving back the value-template pairs
 
-					boolean found = match_set_of_internal(value_ptr, value_start_index,
+					final boolean found = match_set_of_internal(value_ptr, value_start_index,
 							temp_size, template_ptr,
 							template_start_index, permutation_size,
 							match_function, type_of_matching.SUPERSET, x, pair_list,old_temp_size, legacy);
@@ -1144,7 +1144,7 @@ public class RecordOfMatch {
 			throw new TtcnError("Internal error: match_record_of: invalid argument.");
 		}
 
-		int nof_permutations = template_ptr.get_number_of_permutations();
+		final int nof_permutations = template_ptr.get_number_of_permutations();
 		// use the simplified algorithm if the template does not contain permutation
 		if (nof_permutations == 0) {
 			return match_array(value_ptr, value_size,
@@ -1158,7 +1158,7 @@ public class RecordOfMatch {
 					match_function, legacy);
 		}
 
-		AtomicInteger shift_size = new AtomicInteger( 0 );
+		final AtomicInteger shift_size = new AtomicInteger( 0 );
 		return recursive_permutation_match(value_ptr, 0, value_size, template_ptr,
 				0, template_size, 0, match_function, shift_size, legacy) == answer.SUCCESS;
 	}
@@ -1333,7 +1333,7 @@ public class RecordOfMatch {
 
 		if(nof_unmatched_templates > 0 && nof_unmatched_values > 0) {
 			if(matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-				int previous_size = TtcnLogger.get_logmatch_buffer_len();
+				final int previous_size = TtcnLogger.get_logmatch_buffer_len();
 				for (int i = 0; i < value_size; i++) {
 					if(unmatched_values[i]) {
 						for (int j = 0; j < template_size; j++) {

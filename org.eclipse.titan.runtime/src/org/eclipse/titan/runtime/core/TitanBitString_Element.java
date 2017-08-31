@@ -94,10 +94,10 @@ public class TitanBitString_Element {
 		mustBound("Unbound left operand of bitstring element concatenation.");
 		otherValue.mustBound("Unbound right operand of bitstring concatenation.");
 
-		int n_bits = otherValue.lengthOf().getInt();
-		List<Byte> result = new ArrayList<Byte>();
-		List<Byte> temp = new ArrayList<Byte>(otherValue.getValue());
-		int n_bytes = (n_bits + 7) / 8;
+		final int n_bits = otherValue.lengthOf().getInt();
+		final List<Byte> result = new ArrayList<Byte>();
+		final List<Byte> temp = new ArrayList<Byte>(otherValue.getValue());
+		final int n_bytes = (n_bits + 7) / 8;
 		
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
 			result.add((byte)0);
@@ -109,8 +109,8 @@ public class TitanBitString_Element {
 				result.set(byte_count+1, (byte)((temp.get(byte_count) & 128) >> 7));
 			}
 		}
-		TitanBitString ret_val = new TitanBitString(result, n_bits+1);
-		
+
+		final TitanBitString ret_val = new TitanBitString(result, n_bits+1);
 		return ret_val;
 	}
 
@@ -123,7 +123,7 @@ public class TitanBitString_Element {
 		if (otherValue.get_bit()) {
 			result = result | 2;
 		}
-		ArrayList<Byte> temp_ptr = new ArrayList<Byte>();
+		final ArrayList<Byte> temp_ptr = new ArrayList<Byte>();
 		temp_ptr.add((byte)result);
 		return new TitanBitString( temp_ptr, 2 );
 	}
@@ -134,7 +134,7 @@ public class TitanBitString_Element {
 
 		final byte result = (byte) (str_val.getBit(bit_pos) ? 0 : 1);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -151,7 +151,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.getBit(0);
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -164,7 +164,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.get_bit();
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -181,7 +181,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.getBit(0);
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -194,7 +194,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.get_bit();
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -211,7 +211,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.getBit(0);
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -224,7 +224,7 @@ public class TitanBitString_Element {
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.get_bit();
 		final byte result = (byte) (temp ? 1 : 0);
 		//FIXME: can be faster
-		List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Byte> dest_ptr = new ArrayList<Byte>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -246,7 +246,7 @@ public class TitanBitString_Element {
 
 	@Override
 	public String toString() {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append('\'');
 		result.append(str_val.getBit(bit_pos) ? '1' : '0');
 		result.append('\'');

@@ -59,7 +59,7 @@ public final class TTCN_Default {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 
 		for (int i = DEFAULTS.size() - 1; i >= 0; i--) {
-			Default_Base actualDefault = DEFAULTS.get(i);
+			final Default_Base actualDefault = DEFAULTS.get(i);
 			switch (actualDefault.call_altstep()) {
 			case ALT_YES:
 				//TODO log

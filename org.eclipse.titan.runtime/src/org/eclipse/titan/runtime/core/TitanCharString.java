@@ -130,7 +130,7 @@ public class TitanCharString extends Base_Type {
 		} else {
 			cleanUp();
 			for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
-				TitanUniversalChar uc = aOtherValue.val_ptr.get(i);
+				final TitanUniversalChar uc = aOtherValue.val_ptr.get(i);
 				if (uc.getUc_group() != 0 || uc.getUc_plane() != 0 || uc.getUc_row() != 0) {
 					throw new TtcnError(MessageFormat.format("Multiple-byte characters cannot be assigned to a charstring, invalid character char({0},{1}, {2}, {3}) at index {4}.", aOtherValue));
 				} else {
@@ -157,7 +157,7 @@ public class TitanCharString extends Base_Type {
 		mustBound("Unbound left operand of charstring addition.");
 		aOtherValue.mustBound("Unbound right operand of charstring addition.");
 
-		TitanCharString result = new TitanCharString(val_ptr);
+		final TitanCharString result = new TitanCharString(val_ptr);
 		result.val_ptr.append(aOtherValue.val_ptr);
 
 		return result;
@@ -205,7 +205,7 @@ public class TitanCharString extends Base_Type {
 		mustBound("Unbound operand of charstring concatenation.");
 		aOtherValue.mustBound("Unbound operand of charstring element concatenation.");
 
-		TitanCharString ret_val = new TitanCharString(this);
+		final TitanCharString ret_val = new TitanCharString(this);
 		ret_val.val_ptr.append(aOtherValue.get_char());
 
 		return ret_val;
@@ -220,13 +220,12 @@ public class TitanCharString extends Base_Type {
 			return new TitanUniversalCharString(aOtherValue);
 		}
 		if (aOtherValue.charstring) {
-			StringBuilder ret_val = new StringBuilder();
-			ret_val = getValue();
+			final StringBuilder ret_val = new StringBuilder(getValue());
 			ret_val.append(aOtherValue.cstr.toString());
 
 			return new TitanUniversalCharString(ret_val);
 		} else {
-			List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
+			final List<TitanUniversalChar> ret_val = new ArrayList<TitanUniversalChar>();
 			for (int i = 0; i < val_ptr.length(); i++) {
 				ret_val.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, val_ptr.charAt(i)));
 			}
@@ -295,7 +294,7 @@ public class TitanCharString extends Base_Type {
 			return new TitanBoolean(false);
 		}
 
-		TitanUniversalChar uc = aOtherValue.get_char();
+		final TitanUniversalChar uc = aOtherValue.get_char();
 		if (uc.getUc_group() == 0 && uc.getUc_plane() == 0 && uc.getUc_row() == 0 && uc.getUc_cell() == val_ptr.charAt(0)) {
 			return new TitanBoolean(true);
 		}
@@ -347,7 +346,7 @@ public class TitanCharString extends Base_Type {
 			if (rotatecount == 0) {
 				return this;
 			}
-			StringBuilder rValue = new StringBuilder();
+			final StringBuilder rValue = new StringBuilder();
 			for (int i = 0; i < val_ptr.length(); i++) {
 				rValue.append(val_ptr.charAt((i + rotatecount) % val_ptr.length()));
 			}
@@ -386,7 +385,7 @@ public class TitanCharString extends Base_Type {
 			if (rotatecount == 0) {
 				return this;
 			}
-			StringBuilder rValue = new StringBuilder();
+			final StringBuilder rValue = new StringBuilder();
 
 			for (int i = 0; i < rotatecount; i++) {
 				rValue.append(val_ptr.charAt(i + val_ptr.length() - rotatecount));

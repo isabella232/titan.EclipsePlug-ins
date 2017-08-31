@@ -169,7 +169,7 @@ public class TTCN_Runtime {
 			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
 		}
 
-		TitanComponent sourceComponent = sourceComponentRef;
+		final TitanComponent sourceComponent = sourceComponentRef;
 		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The first argument of map operation contains the null component reference.");
 		}
@@ -178,7 +178,7 @@ public class TTCN_Runtime {
 			throw new TtcnError("The second argument of map operation contains an unbound component reference.");
 		}
 
-		TitanComponent destinationComponent = destinationComponentRef;
+		final TitanComponent destinationComponent = destinationComponentRef;
 		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The second argument of map operation contains the null component reference.");
 		}
@@ -212,7 +212,7 @@ public class TTCN_Runtime {
 			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
 		}
 
-		TitanComponent sourceComponent = sourceComponentRef;
+		final TitanComponent sourceComponent = sourceComponentRef;
 		if (sourceComponent.getComponent() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The first argument of unmap operation contains the null component reference.");
 		}
@@ -221,7 +221,7 @@ public class TTCN_Runtime {
 			throw new TtcnError("The second argument of unmap operation contains an unbound component reference.");
 		}
 
-		TitanComponent destinationComponent = destinationComponentRef;
+		final TitanComponent destinationComponent = destinationComponentRef;
 		if (destinationComponent.getComponent() == TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The second argument of unmap operation contains the null component reference.");
 		}
@@ -366,7 +366,7 @@ public class TTCN_Runtime {
 			throw new TtcnError(MessageFormat.format("Internal error: setting an invalid verdict value ({0}).", newValue.getValue()));
 		}
 
-		VerdictTypeEnum oldVerdict = localVerdict;
+		final VerdictTypeEnum oldVerdict = localVerdict;
 		if (localVerdict.getValue() < newValue.getValue()) {
 			verdictReason = reason;
 			localVerdict = newValue;
@@ -380,7 +380,7 @@ public class TTCN_Runtime {
 
 	//originially log_verdict_statistics
 	public static void logVerdictStatistics() {
-		int totalTestcases = verdictCount[VerdictTypeEnum.NONE.getValue()] + verdictCount[VerdictTypeEnum.PASS.getValue()]
+		final int totalTestcases = verdictCount[VerdictTypeEnum.NONE.getValue()] + verdictCount[VerdictTypeEnum.PASS.getValue()]
 				+ verdictCount[VerdictTypeEnum.INCONC.getValue()] + verdictCount[VerdictTypeEnum.FAIL.getValue()]
 						+ verdictCount[VerdictTypeEnum.ERROR.getValue()];
 

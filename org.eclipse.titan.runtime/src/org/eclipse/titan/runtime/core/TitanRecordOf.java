@@ -121,7 +121,7 @@ public class TitanRecordOf extends Base_Type {
 
 		final List<Base_Type> newList = new ArrayList<Base_Type>( srcList.size() );
 		for (Base_Type srcElem : srcList) {
-			Base_Type newElem = getUnboundElem();
+			final Base_Type newElem = getUnboundElem();
 			newElem.assign( srcElem );
 			newList.add( ( newElem ) );
 		}
@@ -142,7 +142,7 @@ public class TitanRecordOf extends Base_Type {
 		}
 
 		if ( valueElements.get( index_value ) == null ) {
-			Base_Type newElem = getUnboundElem();
+			final Base_Type newElem = getUnboundElem();
 			valueElements.set( index_value, newElem );
 		}
 		return valueElements.get( index_value );

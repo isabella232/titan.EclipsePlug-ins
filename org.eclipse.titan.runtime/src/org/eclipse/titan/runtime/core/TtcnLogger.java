@@ -192,7 +192,7 @@ public final class TtcnLogger {
 
 	public static TitanCharString end_event_log2str() {
 		if (current_event != null) {
-			TitanCharString ret_val = new TitanCharString(current_event.buffer);
+			final TitanCharString ret_val = new TitanCharString(current_event.buffer);
 
 			events.pop();
 			if (!events.isEmpty()) {
@@ -209,15 +209,15 @@ public final class TtcnLogger {
 
 	private static void log_line(final Severity event_severity, final String message) {
 		long timestamp = System.currentTimeMillis();
-		long milisec = timestamp % 1000;
+		final long milisec = timestamp % 1000;
 		timestamp = timestamp / 1000;
-		long secs = timestamp % 60;
+		final long secs = timestamp % 60;
 		timestamp = timestamp / 60;
-		long minutes = timestamp % 60;
+		final long minutes = timestamp % 60;
 		timestamp = timestamp / 60;
-		long hours = timestamp % 24;
+		final long hours = timestamp % 24;
 		timestamp = timestamp / 24;
-		String timestampString = String.format("%02d:%02d:%02d.%03d", hours, minutes, secs, milisec);
+		final String timestampString = String.format("%02d:%02d:%02d.%03d", hours, minutes, secs, milisec);
 
 		System.out.println("Logger says: " + timestampString + " "+ message);
 	}

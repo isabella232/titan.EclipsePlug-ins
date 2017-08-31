@@ -251,12 +251,12 @@ public class TitanInteger extends Base_Type {
 					return new TitanInteger(BigInteger.valueOf(temp));
 				}
 			} else {
-				BigInteger this_int = BigInteger.valueOf(nativeInt);
+				final BigInteger this_int = BigInteger.valueOf(nativeInt);
 				return new TitanInteger(this_int.divide(otherValue.openSSL));
 			}
 		} else {
 			if (otherValue.nativeFlag) {
-				BigInteger other_value_int = BigInteger.valueOf(otherValue.nativeInt);
+				final BigInteger other_value_int = BigInteger.valueOf(otherValue.nativeInt);
 				return new TitanInteger(openSSL.divide(other_value_int));
 			} else {
 				return new TitanInteger(openSSL.divide(otherValue.openSSL));
@@ -566,7 +566,7 @@ public class TitanInteger extends Base_Type {
 		if (leftValue > 0) {
 			return rem(leftValue, rightValue);
 		} else {
-			int result = rem(leftValue, rightValue).nativeInt;
+			final int result = rem(leftValue, rightValue).nativeInt;
 			if (result == 0) {
 				return new TitanInteger(0);
 			} else {
@@ -588,7 +588,7 @@ public class TitanInteger extends Base_Type {
 		if (leftValue.isGreaterThan(0).getValue()) {
 			return rem(leftValue, rightValue);
 		} else {
-			TitanInteger result = rem(leftValue, rightValueAbs);
+			final TitanInteger result = rem(leftValue, rightValueAbs);
 			if (result.operatorEquals(0).getValue()) {
 				return new TitanInteger(0);
 			} else {
@@ -620,7 +620,7 @@ public class TitanInteger extends Base_Type {
 		if (isGreaterThan(0).getValue()) {
 			return rem(this, rightValue);
 		} else {
-			TitanInteger result = rem(this, rightValueAbs);
+			final TitanInteger result = rem(this, rightValueAbs);
 			if (result.operatorEquals(0).getValue()) {
 				return new TitanInteger(0);
 			} else {

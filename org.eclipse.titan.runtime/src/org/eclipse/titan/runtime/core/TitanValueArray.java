@@ -35,7 +35,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		
 		for (int i = 0; i < array_size ; ++i) {
 			try {
-				T helper = clazz.newInstance();
+				final T helper = clazz.newInstance();
 				helper.assign(otherValue.array_elements.get(i));
 				array_elements.add(helper);
 			} catch (InstantiationException e) {
@@ -52,7 +52,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
-				T emply = clazz.newInstance();
+				final T emply = clazz.newInstance();
 				array_elements.add(emply);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
@@ -122,7 +122,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		} else {
 			try {
 				array_elements = new ArrayList<T>();
-				T value = clazz.newInstance();
+				final T value = clazz.newInstance();
 				value.assign(otherValue);
 				array_elements.add(value);
 			} catch (InstantiationException e) {
@@ -195,7 +195,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return this;
 			}
 
-			TitanValueArray<T> result = new TitanValueArray<T>(clazz);
+			final TitanValueArray<T> result = new TitanValueArray<T>(clazz);
 			result.array_size = array_size;
 			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
@@ -228,7 +228,8 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			if (rotateCount == 0) {
 				return this;
 			}
-			TitanValueArray<T> result = new TitanValueArray<T>(clazz);
+
+			final TitanValueArray<T> result = new TitanValueArray<T>(clazz);
 			result.array_size = array_size;
 			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
@@ -301,7 +302,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@Override
 	public String toString() {
-		StringBuilder str = new StringBuilder("{");
+		final StringBuilder str = new StringBuilder("{");
 		for (int i = 0; i < array_size-1; ++i) {
 			str.append(array_elements.get(i).toString());
 			str.append(" , ");
@@ -324,7 +325,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 					"The index value should be between "+indexofset+" and "+(indexofset+arraySize-1)+" instead of "+index+".");
 		}
 
-		int result = index - indexofset;
+		final int result = index - indexofset;
 		if (result >= arraySize) {
 			throw new TtcnError("Index underflow when accessing an element of an array. "+
 					"The index value should be between "+indexofset+" and "+(indexofset+arraySize-1)+" instead of "+index+".");

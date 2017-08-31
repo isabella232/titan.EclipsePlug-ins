@@ -318,7 +318,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Unbound left operand of hexstring concatenation.");
 		otherValue.mustBound("Unbound right operand of hexstring concatenation.");
 
-		TitanHexString result = new TitanHexString(nibbles_ptr);
+		final TitanHexString result = new TitanHexString(nibbles_ptr);
 		result.nibbles_ptr.addAll(copyList(otherValue.nibbles_ptr));
 
 		return result;
@@ -329,7 +329,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Unbound left operand of hexstring concatenation.");
 		otherValue.mustBound("Unbound right operand of hexstring element concatenation.");
 
-		TitanHexString result = new TitanHexString(nibbles_ptr);
+		final TitanHexString result = new TitanHexString(nibbles_ptr);
 		result.nibbles_ptr.add((byte) otherValue.get_nibble());
 
 		return result;
@@ -339,16 +339,16 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString not4b() {
 		mustBound("Unbound hexstring operand of operator not4b.");
 
-		int n_bytes = (nibbles_ptr.size() + 1) / 2;
+		final int n_bytes = (nibbles_ptr.size() + 1) / 2;
 		if (n_bytes == 0) {
 			return this;
 		}
-		List<Byte> result = new ArrayList<Byte>();
+		final List<Byte> result = new ArrayList<Byte>();
 		result.addAll(nibbles_ptr);
 		for (int i = 0; i < nibbles_ptr.size(); i++) {
 			result.set(i, (byte)((~nibbles_ptr.get(i) & 0x0F)));
 		}
-		TitanHexString ret_val = new TitanHexString(result);
+		final TitanHexString ret_val = new TitanHexString(result);
 		ret_val.clearUnusedNibble();
 
 		return ret_val;
@@ -365,12 +365,12 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() == 0) {
 			return this;
 		}
-		int n_bytes = (nibbles_ptr.size() + 1) / 2;
-		List<Byte> result = new ArrayList<Byte>(n_bytes);
+		final int n_bytes = (nibbles_ptr.size() + 1) / 2;
+		final List<Byte> result = new ArrayList<Byte>(n_bytes);
 		for (int i = 0; i < nibbles_ptr.size(); i++) {
 			result.set(i, (byte) (nibbles_ptr.get(i) & otherValue.nibbles_ptr.get(i)));
 		}
-		TitanHexString ret_val = new TitanHexString(result);
+		final TitanHexString ret_val = new TitanHexString(result);
 		clearUnusedNibble();
 
 		return ret_val;
@@ -384,7 +384,7 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() != 1) {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
-		byte result = (byte) (get_nibble(0) & otherValue.get_nibble());
+		final byte result = (byte) (get_nibble(0) & otherValue.get_nibble());
 
 		return new TitanHexString(result);
 	}
@@ -400,12 +400,12 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() == 0) {
 			return this;
 		}
-		List<Byte> result = new ArrayList<Byte>();
+		final List<Byte> result = new ArrayList<Byte>();
 		result.addAll(nibbles_ptr);
 		for (int i = 0; i < nibbles_ptr.size(); i++) {
 			result.set(i, (byte) (nibbles_ptr.get(i) | otherValue.nibbles_ptr.get(i)));
 		}
-		TitanHexString ret_val = new TitanHexString(result);
+		final TitanHexString ret_val = new TitanHexString(result);
 		clearUnusedNibble();
 
 		return ret_val;
@@ -419,7 +419,7 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() != 1) {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
-		byte result = (byte) (get_nibble(0) | otherValue.get_nibble());
+		final byte result = (byte) (get_nibble(0) | otherValue.get_nibble());
 
 		return new TitanHexString(result);
 	}
@@ -435,12 +435,12 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() == 0) {
 			return this;
 		}
-		int n_bytes = (nibbles_ptr.size() + 1) / 2;
-		List<Byte> result = new ArrayList<Byte>(n_bytes);
+		final int n_bytes = (nibbles_ptr.size() + 1) / 2;
+		final List<Byte> result = new ArrayList<Byte>(n_bytes);
 		for (int i = 0; i < nibbles_ptr.size(); i++) {
 			result.set(i, (byte) (nibbles_ptr.get(i) ^ otherValue.nibbles_ptr.get(i)));
 		}
-		TitanHexString ret_val = new TitanHexString(result);
+		final TitanHexString ret_val = new TitanHexString(result);
 		clearUnusedNibble();
 
 		return ret_val;
@@ -454,7 +454,7 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() != 1) {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
-		byte result = (byte) (get_nibble(0) ^ otherValue.get_nibble());
+		final byte result = (byte) (get_nibble(0) ^ otherValue.get_nibble());
 		return new TitanHexString(result);
 	}
 
@@ -466,8 +466,8 @@ public class TitanHexString extends Base_Type {
 			if (nibbles_ptr.size() == 0) {
 				return this;
 			}
-			int n_nibbles = nibbles_ptr.size();
-			List<Byte> result = new ArrayList<Byte>();
+			final int n_nibbles = nibbles_ptr.size();
+			final List<Byte> result = new ArrayList<Byte>();
 			result.addAll(nibbles_ptr);
 			if (shiftCount > n_nibbles) {
 				shiftCount = n_nibbles;
@@ -478,7 +478,7 @@ public class TitanHexString extends Base_Type {
 			for (int i = n_nibbles - shiftCount; i < n_nibbles; i++) {
 				result.set(i, (byte) 0);
 			}
-			TitanHexString ret_val = new TitanHexString(result);
+			final TitanHexString ret_val = new TitanHexString(result);
 			return ret_val;
 		} else if (shiftCount == 0) {
 			return this;
@@ -502,8 +502,8 @@ public class TitanHexString extends Base_Type {
 			if (nibbles_ptr.size() == 0) {
 				return this;
 			}
-			int n_nibbles = nibbles_ptr.size();
-			List<Byte> result = new ArrayList<Byte>();
+			final int n_nibbles = nibbles_ptr.size();
+			final List<Byte> result = new ArrayList<Byte>();
 			result.addAll(nibbles_ptr);
 			if (shiftCount > n_nibbles) {
 				shiftCount = n_nibbles;
@@ -514,7 +514,7 @@ public class TitanHexString extends Base_Type {
 			for (int i = 0; i < n_nibbles - shiftCount; i++) {
 				result.set(i + shiftCount, nibbles_ptr.get(i));
 			}
-			TitanHexString ret_val = new TitanHexString(result);
+			final TitanHexString ret_val = new TitanHexString(result);
 			return ret_val;
 		} else if (shiftCount == 0) {
 			return this;

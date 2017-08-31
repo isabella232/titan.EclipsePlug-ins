@@ -264,7 +264,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 			return null;
 		}
 
-		Module_Param_Length_Restriction mp_res = new Module_Param_Length_Restriction();
+		final Module_Param_Length_Restriction mp_res = new Module_Param_Length_Restriction();
 		if (length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION) {
 			mp_res.set_single(single_length);
 		} else {

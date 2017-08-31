@@ -211,7 +211,7 @@ public class TitanBoolean extends Base_Type {
 
 		return boolean_value.toString();
 	}
-	
+
 	//log()
 	public void log(){
 		if(boolean_value != null){
@@ -220,7 +220,6 @@ public class TitanBoolean extends Base_Type {
 			TtcnLogger.log_event_unbound();
 		}
 	}
-	
 
 	public static boolean getNative(final boolean value) {
 		return value;
