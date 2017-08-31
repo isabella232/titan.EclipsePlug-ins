@@ -78,7 +78,7 @@ public class OrganizeImportsRefactoring extends Refactoring{
 	}
 
 	@Override
-	public RefactoringStatus checkInitialConditions(IProgressMonitor pm)
+	public RefactoringStatus checkInitialConditions(final IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		
 		final RefactoringStatus result = new RefactoringStatus();
@@ -122,13 +122,13 @@ public class OrganizeImportsRefactoring extends Refactoring{
 	}
 
 	@Override
-	public RefactoringStatus checkFinalConditions(IProgressMonitor pm)
+	public RefactoringStatus checkFinalConditions(final IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
 		return new RefactoringStatus();
 	}
 
 	@Override
-	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
+	public Change createChange(final IProgressMonitor pm) throws CoreException, OperationCanceledException {
 		if (selection == null) {
 			return null;
 		}

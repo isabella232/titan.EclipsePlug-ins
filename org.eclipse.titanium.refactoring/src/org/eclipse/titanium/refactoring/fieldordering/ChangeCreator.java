@@ -242,7 +242,7 @@ class ChangeCreator {
 		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
 	}
 	
-	private static Long getIndexUpperBound(SequenceOf_Value sequenceOf_Value) {
+	private static Long getIndexUpperBound(final SequenceOf_Value sequenceOf_Value) {
 		long result = 0;
 		for (int i = 0; i < sequenceOf_Value.getNofComponents(); i++) {
 			IValue indexByIndex = sequenceOf_Value.getIndexByIndex(i);

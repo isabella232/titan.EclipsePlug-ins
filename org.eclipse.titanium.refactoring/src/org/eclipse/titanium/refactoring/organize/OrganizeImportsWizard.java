@@ -33,7 +33,7 @@ public class OrganizeImportsWizard  extends RefactoringWizard implements IExecut
 	}
 
 	@Override
-	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
+	public void setInitializationData(final IConfigurationElement config, final String propertyName, final Object data)
 			throws CoreException {
 		// TODO Auto-generated method stub
 	}
