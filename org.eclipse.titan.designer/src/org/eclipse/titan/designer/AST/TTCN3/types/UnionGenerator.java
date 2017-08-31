@@ -638,7 +638,7 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );

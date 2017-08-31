@@ -47,7 +47,7 @@ public final class IndentationSupport {
 		} else if (PreferenceConstantValues.TAB_POLICY_2.equals(tabPolicy)) {
 			final StringBuilder sb = new StringBuilder(8);
 			for (int i = 0; i < indentSize; i++) {
-				sb.append(" ");
+				sb.append(' ');
 			}
 			indentationString = sb.toString();
 		} else {

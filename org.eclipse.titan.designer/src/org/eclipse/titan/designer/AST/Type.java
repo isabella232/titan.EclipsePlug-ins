@@ -1582,7 +1582,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//default implementation
-		source.append( "\t" );
+		source.append( '\t' );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateCode() is not implemented!\n" );
@@ -1621,7 +1621,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		//TODO: default implementation, should be replace with fatal_error once finished
-		source.append( "\t" );
+		source.append( '\t' );
 		source.append( "//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".getGenNameValue() might not be implemented yet!\n" );

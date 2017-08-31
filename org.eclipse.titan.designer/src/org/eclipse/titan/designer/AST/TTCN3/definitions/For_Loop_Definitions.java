@@ -660,7 +660,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		if ( definitions != null ) {
 			for ( Definition definition : definitions ) {
 				definition.generateCodeString( aData, source );
-				source.append( "\n" );
+				source.append( '\n' );
 			}
 		}
 	}

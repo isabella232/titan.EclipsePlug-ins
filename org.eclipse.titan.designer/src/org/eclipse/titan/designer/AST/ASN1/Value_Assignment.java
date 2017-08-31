@@ -269,7 +269,7 @@ public final class Value_Assignment extends ASN1Assignment {
 		source.append( "final " );
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
-		source.append( " " );
+		source.append( ' ' );
 		source.append( genName );
 		source.append( " = new " );
 		source.append( typeGeneratedName );

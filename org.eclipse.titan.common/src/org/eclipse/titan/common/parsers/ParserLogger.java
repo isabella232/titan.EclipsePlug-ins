@@ -245,7 +245,7 @@ public final class ParserLogger {
 			final int tokenType = expectedTokens.get( i );
 			sb.append( getTokenName( tokenType, aTokenNameResolver ) );
 		}
-		sb.append("]");
+		sb.append(']');
 		if ( e instanceof NoViableAltException ) {
 			final NoViableAltException nvae = (NoViableAltException)e;
 			sb.append( ", start token: " + getTokenInfo( nvae.getStartToken(), aTokenNameResolver ) );
@@ -293,7 +293,7 @@ public final class ParserLogger {
 			try {
 				sb.append( getEscapedTokenText( aTokens.get( i ) ) );
 			} catch ( IndexOutOfBoundsException e ) {
-				sb.append("_");
+				sb.append('_');
 			}
 		}
 		return sb.toString();
@@ -345,9 +345,9 @@ public final class ParserLogger {
 		sb.append( tokenName );
 		sb.append( ": " );
 
-		sb.append( "'" );
+		sb.append( '\'' );
 		sb.append( getEscapedTokenText( aToken ) );
-		sb.append( "'" );
+		sb.append( '\'' );
 
 		sb.append( ", @" + aToken.getTokenIndex() );
 		sb.append( ", " + aToken.getLine() + ":" + aToken.getCharPositionInLine() );
@@ -546,9 +546,9 @@ public final class ParserLogger {
 		final String className = aSte.getClassName();
 		final String shortClassName = className.substring( className.lastIndexOf('.') + 1 );
 		aSb.append( shortClassName );
-		aSb.append( "." );
+		aSb.append( '.' );
 		aSb.append( aSte.getMethodName() );
-		aSb.append( ":" );
+		aSb.append( ':' );
 		aSb.append( aSte.getLineNumber() );
 	}
 

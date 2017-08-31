@@ -1150,7 +1150,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		if ( size == 0 ) {
 			return;
 		}
-		source.append( " " );
+		source.append( ' ' );
 		for ( int i = 0; i < size; i++ ) {
 			final FormalParameter parameter = parameters.get( i );
 			if ( i > 0 ) {
@@ -1158,7 +1158,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			}
 			parameter.generateCodeString( aData, source );
 		}
-		source.append( " " );
+		source.append( ' ' );
 	}
 
 	/** Generates the Java equivalent of the formal parameter list.

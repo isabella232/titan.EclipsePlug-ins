@@ -712,7 +712,7 @@ public abstract class BaseExecutor {
 					}
 				} catch (CoreException e) {
 					filesThatCanNotBeDeleted.append(resource.getName());
-					filesThatCanNotBeDeleted.append("\n");
+					filesThatCanNotBeDeleted.append('\n');
 				}
 			}
 			folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());

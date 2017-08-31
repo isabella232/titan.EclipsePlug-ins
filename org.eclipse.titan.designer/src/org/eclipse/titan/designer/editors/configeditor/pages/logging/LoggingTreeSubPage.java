@@ -285,7 +285,7 @@ public final class LoggingTreeSubPage {
 		final StringBuilder pluginBuilder = new StringBuilder();
 		pluginBuilder.append(pluginName);
 		if (path != null && path.length() != 0) {
-			pluginBuilder.append(" := \"").append(path).append("\"");
+			pluginBuilder.append(" := \"").append(path).append('\"');
 		}
 
 		/*
@@ -305,7 +305,7 @@ public final class LoggingTreeSubPage {
 			entry.setLoggerPluginsRoot( loggerPluginsRoot );
 
 			final StringBuilder builder = new StringBuilder();
-			builder.append("\n").append(componentName).append(".LoggerPlugins := ");
+			builder.append('\n').append(componentName).append(".LoggerPlugins := ");
 			ConfigTreeNodeUtilities.addChild( loggerPluginsRoot, new AddedParseTree( builder.toString() ) );
 			ConfigTreeNodeUtilities.addChild( loggerPluginsRoot, new AddedParseTree("{") );
 

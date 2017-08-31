@@ -40,7 +40,7 @@ public final class LoggerTreeLabelProvider extends LabelProvider {
 			String pluginPath = lte.getLsh().componentPlugin(lte.getComponentName(), lte.getPluginName()).getPluginPath();
 			if (pluginPath != null && !"".equals(pluginPath)) {
 				StringBuffer sb = new StringBuffer();
-				sb.append(lte.getPluginName()).append(" (").append(pluginPath).append(")");
+				sb.append(lte.getPluginName()).append(" (").append(pluginPath).append(')');
 				return sb.toString();
 			}
 

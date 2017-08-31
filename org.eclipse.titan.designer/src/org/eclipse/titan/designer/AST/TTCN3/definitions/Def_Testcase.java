@@ -576,7 +576,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append( genName );
 
 		// arguments
-		source.append( "(" );
+		source.append( '(' );
 		if ( formalParList != null && formalParList.getNofParameters() > 0) {
 			formalParList.generateCode( aData, source );
 			source.append(", ");

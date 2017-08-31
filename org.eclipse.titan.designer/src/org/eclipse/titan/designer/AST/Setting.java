@@ -141,7 +141,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 
 		if(!myModule.equals(scope.getModuleScope()) && !SpecialASN1Module.isSpecAsss(myModule)) {
 			//TODO properly prefix the setting with the module's Java reference
-			returnValue.append(myModule.getName()).append(".");
+			returnValue.append(myModule.getName()).append('.');
 		}
 
 		returnValue.append( getGenNameOwn());

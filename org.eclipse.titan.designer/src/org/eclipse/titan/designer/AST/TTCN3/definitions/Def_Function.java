@@ -930,13 +930,13 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			//TODO fatal error
 		}
 
-		source.append( " " );
+		source.append( ' ' );
 
 		// function name
 		source.append( genName );
 
 		// arguments
-		source.append( "(" );
+		source.append( '(' );
 		if ( formalParList != null ) {
 			formalParList.generateCode( aData, source );
 		}

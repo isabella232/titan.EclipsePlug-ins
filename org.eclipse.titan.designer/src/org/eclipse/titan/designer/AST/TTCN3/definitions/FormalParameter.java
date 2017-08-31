@@ -1019,7 +1019,7 @@ public final class FormalParameter extends Definition {
 			//TODO fatal error
 		}
 
-		source.append( " " );
+		source.append( ' ' );
 		// parameter name
 		source.append( getGenName() );
 

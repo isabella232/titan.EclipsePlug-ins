@@ -344,7 +344,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 		// TODO also check for the special module once ASN.1 is needed
 		if(!myModule.equals(scope.getModuleScope())) {
 			//TODO properly prefix the setting with the module's Java reference
-			returnValue.append(myModule.getName()).append(".");
+			returnValue.append(myModule.getName()).append('.');
 		}
 
 		if (prefix != null) {

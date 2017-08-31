@@ -121,7 +121,7 @@ public final class ErrorReporter {
 	public static String stackTraceToString(final StackTraceElement[] elements) {
 		final StringBuilder builder = new StringBuilder();
 		for (final StackTraceElement element : elements) {
-			builder.append(element).append("\n");
+			builder.append(element).append('\n');
 		}
 		return builder.toString();
 	}
