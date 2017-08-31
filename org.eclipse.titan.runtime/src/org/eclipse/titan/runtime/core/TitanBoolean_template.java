@@ -67,7 +67,7 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean_template assign(Base_Type otherValue) {
+	public TitanBoolean_template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBoolean) {
 			return assign((TitanBoolean) otherValue);
 		}
@@ -76,7 +76,7 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean_template assign(Base_Template otherValue) {
+	public TitanBoolean_template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanBoolean_template) {
 			return assign((TitanBoolean_template) otherValue);
 		}

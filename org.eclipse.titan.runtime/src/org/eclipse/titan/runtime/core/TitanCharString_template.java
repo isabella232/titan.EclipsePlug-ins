@@ -76,7 +76,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanCharString_template assign(Base_Type otherValue) {
+	public TitanCharString_template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharString) {
 			return assign((TitanCharString) otherValue);
 		}
@@ -85,7 +85,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanCharString_template assign(Base_Template otherValue) {
+	public TitanCharString_template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanCharString_template) {
 			return assign((TitanCharString_template) otherValue);
 		}

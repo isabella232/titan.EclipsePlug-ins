@@ -189,7 +189,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean match(Base_Type otherValue, boolean legacy) {
+	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanVerdictType) {
 			return match((TitanVerdictType) otherValue, legacy);
 		}

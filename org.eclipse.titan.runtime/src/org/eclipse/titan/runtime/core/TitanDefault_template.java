@@ -107,7 +107,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public TitanDefault_template assign(Base_Type otherValue) {
+	public TitanDefault_template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanDefault) {
 			return assign((TitanDefault)otherValue);
 		}
@@ -116,7 +116,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public TitanDefault_template assign(Base_Template otherValue) {
+	public TitanDefault_template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanDefault_template) {
 			return assign((TitanDefault_template)otherValue);
 		}

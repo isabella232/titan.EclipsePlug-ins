@@ -75,7 +75,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public TitanFloat_template assign(Base_Type otherValue) {
+	public TitanFloat_template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanFloat) {
 			return assign((TitanFloat) otherValue);
 		}
@@ -84,7 +84,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public TitanFloat_template assign(Base_Template otherValue) {
+	public TitanFloat_template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanFloat_template) {
 			return assign((TitanFloat_template) otherValue);
 		}

@@ -95,7 +95,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBitString_template assign(Base_Type otherValue) {
+	public TitanBitString_template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBitString) {
 			return assign((TitanBitString) otherValue);
 		}
@@ -104,7 +104,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBitString_template assign(Base_Template otherValue) {
+	public TitanBitString_template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanBitString_template) {
 			return assign((TitanBitString_template) otherValue);
 		}

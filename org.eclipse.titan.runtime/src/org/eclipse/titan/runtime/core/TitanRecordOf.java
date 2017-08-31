@@ -61,12 +61,12 @@ public class TitanRecordOf extends Base_Type {
 	/**
 	 * @return true if and only if otherValue is the same record of type as this
 	 */
-	private boolean isSameType( Base_Type otherValue ) {
+	private boolean isSameType( final Base_Type otherValue ) {
 		return otherValue instanceof TitanRecordOf && ofType == ((TitanRecordOf)otherValue).ofType;
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if ( !isSameType( otherValue ) ) {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName() ));
 		}
@@ -97,7 +97,7 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	@Override
-	public Base_Type assign(Base_Type otherValue) {
+	public Base_Type assign(final Base_Type otherValue) {
 		if ( !isSameType( otherValue ) ) {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName() ));
 		}

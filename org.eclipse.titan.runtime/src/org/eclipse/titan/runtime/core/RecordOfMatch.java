@@ -70,8 +70,8 @@ public class RecordOfMatch {
 	  - In case of invalid value pointers, index overflow or negative indices the
 	    behaviour of the function is undefined.
 	*/
-	public boolean compare_set_of(final Base_Type left_ptr, int left_size, final Base_Type right_ptr, int right_size,
-			compare_function_t compare_function) {
+	public boolean compare_set_of(final Base_Type left_ptr, final int left_size, final Base_Type right_ptr, final int right_size,
+			final compare_function_t compare_function) {
 		if (left_size < 0 || right_size < 0 || left_ptr == null || right_ptr == null) {
 			throw new TtcnError("Internal error: compare_set_of: invalid argument.");
 		}
@@ -158,11 +158,11 @@ public class RecordOfMatch {
 	 */
 
 	public static boolean match_array( final Base_Type value_ptr,
-			int value_size,
+			final int value_size,
 			final Restricted_Length_Template template_ptr,
-			int template_size,
-			match_function_t match_function,
-			boolean legacy ) {
+			final int template_size,
+			final match_function_t match_function,
+			final boolean legacy ) {
 		if (value_ptr == null || value_size < 0 || template_ptr == null || template_size < 0) {
 			throw new TtcnError("Internal error: match_array: invalid argument.");
 		}
@@ -286,10 +286,10 @@ public class RecordOfMatch {
 
 		//the match_set_of will be called from the permutation matcher
 		// where the beginning of the examined set might not be at 0 position
-		public Matching_Table(final Base_Type par_value_ptr, int par_value_start,
-				int par_value_size, final Restricted_Length_Template par_template_ptr,
-				int par_template_start, int par_template_size,
-				match_function_t par_match_function, boolean par_legacy) {
+		public Matching_Table(final Base_Type par_value_ptr, final int par_value_start,
+				final int par_value_size, final Restricted_Length_Template par_template_ptr,
+				final int par_template_start, final int par_template_size,
+				final match_function_t par_match_function, final boolean par_legacy) {
 			match_function = par_match_function;
 			value_size = par_value_size;
 			value_start = par_value_start;
@@ -344,7 +344,7 @@ public class RecordOfMatch {
 			covered_index_vector = new int[value_size];
 		}
 
-		public edge_status get_edge(int template_index, int value_index) {
+		public edge_status get_edge(final int template_index, final int value_index) {
 			if (edge_matrix[template_index][value_index] == edge_status.UNKNOWN) {
 				if (match_function.match(value_ptr, value_start + value_index,
 						template_ptr,
@@ -357,15 +357,15 @@ public class RecordOfMatch {
 			return edge_matrix[template_index][value_index];
 		}
 
-		public void set_edge(int template_index, int value_index, edge_status new_status) {
+		public void set_edge(final int template_index, final int value_index, final edge_status new_status) {
 			edge_matrix[template_index][value_index] = new_status;
 		}
 
-		public boolean is_covered(int value_index) {
+		public boolean is_covered(final int value_index) {
 			return covered_vector[value_index];
 		}
 
-		public int covered_by(int value_index) {
+		public int covered_by(final int value_index) {
 			return covered_index_vector[value_index];
 		}
 
@@ -373,7 +373,7 @@ public class RecordOfMatch {
 			return nof_covered;
 		}
 
-		public void set_covered(int value_index, int template_index) {
+		public void set_covered(final int value_index, final int template_index) {
 			if(!covered_vector[value_index]) {
 				nof_covered++;
 			}
@@ -382,15 +382,15 @@ public class RecordOfMatch {
 			covered_index_vector[value_index] = template_index;
 		}
 
-		public boolean is_paired(int j) {
+		public boolean is_paired(final int j) {
 			return paired_templates[j] != -1;
 		}
 
-		public void set_paired(int j, int i) {
+		public void set_paired(final int j, final int i) {
 			paired_templates[j] = i;
 		}
 
-		public int get_paired(int j) {
+		public int get_paired(final int j) {
 			return paired_templates[j];
 		}
 	}
@@ -413,14 +413,14 @@ public class RecordOfMatch {
 		private List_elem head; // not null
 		private List_elem current; 
 
-		public Tree_list(int head_data) {
+		public Tree_list(final int head_data) {
 			head.data = head_data;
 			head.next = null;
 			head.parent = null;
 			current = head;
 		}
 
-		public void insert_data(int new_data) {
+		public void insert_data(final int new_data) {
 			List_elem newptr = new List_elem();
 			newptr.data = new_data;
 			newptr.next = current.next;
@@ -445,7 +445,7 @@ public class RecordOfMatch {
 		public boolean is_head() { return current.parent == null; }
 		public boolean end_of_list()  { return current.next == null; }
 
-		public boolean do_exists(int find_data) {
+		public boolean do_exists(final int find_data) {
 			for ( List_elem ptr = head; ptr != null; ptr = ptr.next ) {
 				if (ptr.data == find_data) {
 					return true;
@@ -557,13 +557,13 @@ public class RecordOfMatch {
 	by not making the same matching test ever and ever again.
 	*/
 	public static boolean match_set_of_internal(final Base_Type value_ptr,
-			int value_start, int value_size,
+			final int value_start, final int value_size,
 			final Restricted_Length_Template template_ptr,
-			int template_start, int template_size,
-			match_function_t match_function,
+			final int template_start, final int template_size,
+			final match_function_t match_function,
 			type_of_matching match_type,
-			AtomicInteger number_of_uncovered, int[] pair_list,
-			int number_of_checked, boolean legacy) {
+			final AtomicInteger number_of_uncovered, final int[] pair_list,
+			final int number_of_checked, final boolean legacy) {
 		Matching_Table table = new Matching_Table(value_ptr, value_start, value_size,
 				template_ptr, template_start, template_size,
 				match_function, legacy);
@@ -828,15 +828,15 @@ public class RecordOfMatch {
 	      end the algorithm without making those unnecessary checks.
 	*/
 	private static answer recursive_permutation_match(final Base_Type value_ptr,
-			int value_start_index,
-			int value_size,
+			final int value_start_index,
+			final int value_size,
 			final Record_Of_Template template_ptr,
-			int template_start_index,
-			int template_size,
-			int permutation_index,
-			match_function_t match_function,
-			AtomicInteger shift_size,
-			boolean legacy) {
+			final int template_start_index,
+			final int template_size,
+			final int permutation_index,
+			final match_function_t match_function,
+			final AtomicInteger shift_size,
+			final boolean legacy) {
 		int nof_permutations = template_ptr.get_number_of_permutations();
 		if (permutation_index > nof_permutations) {
 			throw new TtcnError("Internal error: recursive_permutation_match: invalid argument.");
@@ -1135,9 +1135,9 @@ public class RecordOfMatch {
 	 is just one permutation), than we call appropriate matching function
 	instead of slower recursive_permutation_match.
 	*/
-	public static boolean match_record_of(final Base_Type value_ptr, int value_size,
-			final Record_Of_Template template_ptr, int template_size,
-			match_function_t match_function, boolean legacy) {
+	public static boolean match_record_of(final Base_Type value_ptr, final int value_size,
+			final Record_Of_Template template_ptr, final int template_size,
+			final match_function_t match_function, final boolean legacy) {
 		if (value_ptr == null || value_size < 0 ||
 				template_ptr == null || template_size < 0 ||
 				template_ptr.getSelection() != template_sel.SPECIFIC_VALUE) {
@@ -1163,9 +1163,9 @@ public class RecordOfMatch {
 				0, template_size, 0, match_function, shift_size, legacy) == answer.SUCCESS;
 	}
 
-	public static boolean match_set_of(final Base_Type value_ptr, int value_size,
+	public static boolean match_set_of(final Base_Type value_ptr, final int value_size,
 			final Restricted_Length_Template template_ptr,
-			int template_size, match_function_t match_function, boolean legacy) {
+			final int template_size, final match_function_t match_function, final boolean legacy) {
 		if (value_ptr == null || value_size < 0 ||
 				template_ptr == null || template_size < 0) {
 			throw new TtcnError("Internal error: match_set_of: invalid argument.");
@@ -1189,11 +1189,11 @@ public class RecordOfMatch {
 				template_size, match_function, match_type, null, null, 0, legacy);
 	}
 
-	public void log_match_heuristics(final Base_Type value_ptr, int value_size,
+	public void log_match_heuristics(final Base_Type value_ptr, final int value_size,
 			final Restricted_Length_Template template_ptr,
-			int template_size,
-			match_function_t match_function,
-			log_function_t log_function, boolean legacy) {
+			final int template_size,
+			final match_function_t match_function,
+			final log_function_t log_function, final boolean legacy) {
 		if (value_ptr == null || value_size < 0 ||
 				template_ptr == null || template_size < 0 ||
 				template_ptr.getSelection() != template_sel.SPECIFIC_VALUE) {

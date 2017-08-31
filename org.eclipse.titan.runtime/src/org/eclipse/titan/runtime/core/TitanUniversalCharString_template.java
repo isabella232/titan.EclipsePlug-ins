@@ -327,7 +327,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	@Override
-	public TitanBoolean match(Base_Type otherValue, boolean legacy) {
+	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanUniversalCharString) {
 			return match((TitanUniversalCharString) otherValue, legacy);
 		} else if (otherValue instanceof TitanCharString) {

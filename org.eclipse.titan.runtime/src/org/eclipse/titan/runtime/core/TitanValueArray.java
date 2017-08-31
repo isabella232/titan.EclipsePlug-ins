@@ -22,12 +22,12 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	int array_size;
 	int indexOffset;
 
-	public TitanValueArray(Class<T> clazz) {
+	public TitanValueArray(final Class<T> clazz) {
 		this.clazz = clazz;
 		array_elements = new ArrayList<T>();
 	}
 	
-	public TitanValueArray(TitanValueArray<T> otherValue) {
+	public TitanValueArray(final TitanValueArray<T> otherValue) {
 		clazz = otherValue.clazz; 
 		array_elements = new ArrayList<T>();
 		array_size = otherValue.array_size;
@@ -116,7 +116,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	// originally not implemented operator=
 	@Override
-	public TitanValueArray<T> assign(Base_Type otherValue) {
+	public TitanValueArray<T> assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValueArray<?>) {
 			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
 			return assign(arrayOther);
@@ -140,7 +140,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		//	throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be assign to array value", otherValue));
 	}
 	
-	public TitanValueArray<T> assign(TitanValueArray<T> otherValue) {
+	public TitanValueArray<T> assign(final TitanValueArray<T> otherValue) {
 		cleanUp();
 		array_size = otherValue.array_size;
 		array_elements = new ArrayList<T>(array_size);
@@ -152,7 +152,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(Base_Type otherValue) {
+	public TitanBoolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValueArray<?>) {
 			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
 			return operatorEquals(arrayOther);
@@ -165,7 +165,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to array value", otherValue));
 	}
 
-	public TitanBoolean operatorEquals(TitanValueArray<T> otherValue) {
+	public TitanBoolean operatorEquals(final TitanValueArray<T> otherValue) {
 		if (array_size != otherValue.array_size) {
 			return new TitanBoolean(false);
 		}
@@ -212,7 +212,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	//originally  operator<<=
-	public TitanValueArray<T> rotateLeft(TitanInteger rotateCount) {
+	public TitanValueArray<T> rotateLeft(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound integer operand of rotate left operator.");
 		return rotateLeft(rotateCount.getInt());
 	}
@@ -240,7 +240,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	//originally  operator>>=
-	public TitanValueArray<T> rotateRight(TitanInteger rotateCount) {
+	public TitanValueArray<T> rotateRight(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound integer operand of rotate right operator.");
 		return rotateRight(rotateCount.getInt());
 	}
@@ -264,11 +264,11 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
 	}
 
-	public T array_element(int index) {
+	public T array_element(final int index) {
 		return array_elements.get(index); 
 	}
 
-	public T array_element(TitanInteger index) {
+	public T array_element(final TitanInteger index) {
 		if (! index.isBound().getValue()) {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}

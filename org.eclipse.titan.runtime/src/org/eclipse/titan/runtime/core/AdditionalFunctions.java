@@ -33,7 +33,7 @@ public final class AdditionalFunctions {
 		//intentionally private to disable instantiation
 	}
 
-	private static byte charToHexDigit(char c) {
+	private static byte charToHexDigit(final char c) {
 		if (c >= '0' && c <= '9') {
 			return (byte) (c - '0');
 		} else if (c >= 'A' && c <= 'F') {
@@ -1336,7 +1336,7 @@ public final class AdditionalFunctions {
 		return subString(value, idx, returncount.getInt());
 	}
 
-	public static TitanHexString subString(final TitanHexString_Element value, final TitanInteger idx, int returncount) {
+	public static TitanHexString subString(final TitanHexString_Element value, final TitanInteger idx, final int returncount) {
 		idx.mustBound("The second argument (index) of function substr() is an unbound integer value.");
 
 		return subString(value, idx.getInt(), returncount);

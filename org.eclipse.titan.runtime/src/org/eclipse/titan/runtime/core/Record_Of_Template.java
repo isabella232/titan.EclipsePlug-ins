@@ -26,7 +26,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		private int start_index;
 		private int end_index;
 
-		public Pair_of_elements( int start_index, int end_index ) {
+		public Pair_of_elements( final int start_index, final int end_index ) {
 			this.start_index = start_index;
 			this.end_index = end_index;
 		}
@@ -38,7 +38,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		permutation_intervals = null;
 	}
 
-	public Record_Of_Template(template_sel other_value) {
+	public Record_Of_Template(final template_sel other_value) {
 		super(other_value);
 		permutation_intervals = null;
 	}
@@ -48,7 +48,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	}
 
 	@Override
-	protected void setSelection(template_sel other_value) {
+	protected void setSelection(final template_sel other_value) {
 		super.setSelection(other_value);
 		clean_up_intervals();
 	}
@@ -102,7 +102,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	}
 	*/
 
-	void add_permutation(int start_index, int end_index) {
+	void add_permutation(final int start_index, final int end_index) {
 		if(start_index > end_index) {
 			throw new TtcnError( MessageFormat.format( "wrong permutation interval settings start ({0})can not be greater than end ({1})",start_index, end_index ) );
 		}
@@ -125,7 +125,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	 * @param n integer number
 	 * @return st, nd, rd or th
 	 */
-	private static String getOrdinalIndicator( int n ) {
+	private static String getOrdinalIndicator( final int n ) {
 		if ( 11 <= n % 100 && n % 100 <= 13 ) {
 			//exception case
 			return "th";
@@ -146,7 +146,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		return permutation_intervals != null ? permutation_intervals.size() : 0;
 	}
 
-	public int get_permutation_start(int index_value) {
+	public int get_permutation_start(final int index_value) {
 		if(index_value >= get_number_of_permutations()) {
 			throw new TtcnError( MessageFormat.format( "Index overflow ({0})", index_value ) );
 		}
@@ -154,7 +154,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		return permutation_intervals.get(index_value).start_index;
 	}
 
-	public int get_permutation_end(int index_value) {
+	public int get_permutation_end(final int index_value) {
 		if(index_value >= get_number_of_permutations()) {
 			throw new TtcnError( MessageFormat.format( "Index overflow ({0})", index_value ) );
 		}
@@ -162,7 +162,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		return permutation_intervals.get(index_value).end_index;
 	}
 
-	public int get_permutation_size(int index_value) {
+	public int get_permutation_size(final int index_value) {
 		if(index_value >= get_number_of_permutations()) {
 			throw new TtcnError( MessageFormat.format( "Index overflow ({0})", index_value ) );
 		}
@@ -170,7 +170,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		return permutation_intervals.get(index_value).end_index - permutation_intervals.get(index_value).start_index + 1;
 	}
 
-	boolean permutation_starts_at(int index_value) {
+	boolean permutation_starts_at(final int index_value) {
 		final int number_of_permutations = get_number_of_permutations();
 		for(int i = 0; i < number_of_permutations; i++) {
 			if(permutation_intervals.get( i ).start_index == index_value)
@@ -180,7 +180,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		return false;
 	}
 
-	boolean permutation_ends_at(int index_value) {
+	boolean permutation_ends_at(final int index_value) {
 		final int number_of_permutations = get_number_of_permutations();
 		for(int i = 0; i < number_of_permutations; i++) {
 			if(permutation_intervals.get( i ).end_index == index_value)

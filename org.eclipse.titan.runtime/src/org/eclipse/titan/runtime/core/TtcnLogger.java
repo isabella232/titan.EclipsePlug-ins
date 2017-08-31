@@ -154,7 +154,7 @@ public final class TtcnLogger {
 		//empty for now
 	}
 
-	public static void log(final Severity msg_severity, final String formatString, Object... args ) {
+	public static void log(final Severity msg_severity, final String formatString, final Object... args ) {
 		log_va_list(msg_severity, formatString, args);
 	}
 
@@ -162,7 +162,7 @@ public final class TtcnLogger {
 		log_line(msg_severity, string == null ? "<NULL pointer>": string);
 	}
 
-	public static void log_va_list(final Severity msg_severity, final String formatString, Object... args) {
+	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
 		log_line(msg_severity, String.format(formatString, args));
 	}
 
@@ -229,7 +229,7 @@ public final class TtcnLogger {
 		}
 	}
 
-	public static void log_event( final String formatString, Object... args ) {
+	public static void log_event( final String formatString, final Object... args ) {
 		log_event_va_list(formatString, args);
 	}
 
@@ -239,7 +239,7 @@ public final class TtcnLogger {
 		}
 	}
 
-	public static void log_event_va_list(final String formatString, Object... args) {
+	public static void log_event_va_list(final String formatString, final Object... args) {
 		if (current_event != null) {
 			current_event.buffer.append(String.format(formatString, args));
 		}
@@ -278,11 +278,11 @@ public final class TtcnLogger {
 		// TODO Auto-generated method stub
 	}
 
-	public static void log_logmatch_info(String string) {
+	public static void log_logmatch_info(final String string) {
 		// TODO Auto-generated method stub
 	}
 
-	public static void set_logmatch_buffer_len(int previous_size) {
+	public static void set_logmatch_buffer_len(final int previous_size) {
 		// TODO Auto-generated method stub
 	}
 
