@@ -1221,8 +1221,7 @@ public final class AdditionalFunctions {
 			for (int i = 0; i < returncount; i++) {
 				sb.append(value.getBit(idx + i) ? '1' : '0');
 			}
-			final TitanBitString ret_val = new TitanBitString(sb.toString());
-			return ret_val;
+			return new TitanBitString(sb.toString());
 		} else {
 			final List<Byte> bits_ptr = value.getValue();
 			final List<Byte> ret_val = new ArrayList<Byte>();

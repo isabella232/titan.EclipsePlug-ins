@@ -110,8 +110,7 @@ public class TitanBitString_Element {
 			}
 		}
 
-		final TitanBitString ret_val = new TitanBitString(result, n_bits+1);
-		return ret_val;
+		return new TitanBitString(result, n_bits+1);
 	}
 
 	//originally operator+

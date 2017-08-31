@@ -478,8 +478,8 @@ public class TitanHexString extends Base_Type {
 			for (int i = n_nibbles - shiftCount; i < n_nibbles; i++) {
 				result.set(i, (byte) 0);
 			}
-			final TitanHexString ret_val = new TitanHexString(result);
-			return ret_val;
+
+			return new TitanHexString(result);
 		} else if (shiftCount == 0) {
 			return this;
 		} else {
@@ -514,8 +514,8 @@ public class TitanHexString extends Base_Type {
 			for (int i = 0; i < n_nibbles - shiftCount; i++) {
 				result.set(i + shiftCount, nibbles_ptr.get(i));
 			}
-			final TitanHexString ret_val = new TitanHexString(result);
-			return ret_val;
+
+			return new TitanHexString(result);
 		} else if (shiftCount == 0) {
 			return this;
 		} else {

@@ -460,8 +460,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 		if (charstring) {
 			if (other_value.is_char()) {
-				final TitanUniversalCharString ret_val = new TitanUniversalCharString( new StringBuilder(cstr).append( other_value.getUc_cell() ) );
-				return ret_val;
+				return new TitanUniversalCharString( new StringBuilder(cstr).append( other_value.getUc_cell() ) );
 			} else {
 				final List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
 				for (int i = 0; i < cstr.length(); ++i) {
@@ -553,8 +552,8 @@ public class TitanUniversalCharString extends Base_Type {
 				if (other_value.cstr.length() == 0) {
 					return new TitanUniversalCharString(this);
 				}
-				final TitanUniversalCharString ret_val = new TitanUniversalCharString( new StringBuilder(cstr).append( other_value.cstr ) );
-				return ret_val;
+
+				return new TitanUniversalCharString( new StringBuilder(cstr).append( other_value.cstr ) );
 			} else {
 				if (other_value.val_ptr.isEmpty()) {
 					return new TitanUniversalCharString(this);
@@ -845,8 +844,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 		if (otherValue.charstring) {
 			if (ucharValue.is_char()) {
-				final TitanUniversalCharString ret_val = new TitanUniversalCharString(new StringBuilder(ucharValue.getUc_cell()).append(otherValue.cstr));
-				return ret_val;
+				return new TitanUniversalCharString(new StringBuilder(ucharValue.getUc_cell()).append(otherValue.cstr));
 			} else {
 				final List<TitanUniversalChar> ulist = new ArrayList<TitanUniversalChar>();
 				ulist.add(ucharValue);
