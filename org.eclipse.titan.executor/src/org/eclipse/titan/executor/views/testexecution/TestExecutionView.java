@@ -231,7 +231,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 		setTitleToolTip(statistics);
 	}
 
-	private String createStatistics(ITreeLeaf element, List<ExecutedTestcase> executedTestCases) {
+	private String createStatistics(final ITreeLeaf element, final List<ExecutedTestcase> executedTestCases) {
 		int inconc = 0;
 		int fail = 0;
 		int error = 0;
@@ -306,7 +306,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 		return instance;
 	}
 
-	private static synchronized void setInstance(TestExecutionView instance) {
+	private static synchronized void setInstance(final TestExecutionView instance) {
 		TestExecutionView.instance = instance;
 	}
 }

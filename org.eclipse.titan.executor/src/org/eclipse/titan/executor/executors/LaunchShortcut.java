@@ -50,7 +50,7 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 	public abstract boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration,
 			final IProject project, final String configFilePath);
 
-	protected ILaunchConfigurationWorkingCopy getWorkingCopy(final IProject project, IFile file, final String mode) {
+	protected ILaunchConfigurationWorkingCopy getWorkingCopy(final IProject project, final IFile file, final String mode) {
 
 		try {
 			final ILaunchConfigurationType configurationType = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurationType(getConfigurationId());

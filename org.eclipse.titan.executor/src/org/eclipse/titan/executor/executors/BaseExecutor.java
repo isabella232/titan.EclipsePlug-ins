@@ -279,7 +279,7 @@ public abstract class BaseExecutor {
 		}
 	}
 
-	private String resolvePathFromAttribute(ILaunchConfiguration configuration, String projectLocation, String attribute) throws CoreException {
+	private String resolvePathFromAttribute(final ILaunchConfiguration configuration, final String projectLocation, final String attribute) throws CoreException {
 		String path = configuration.getAttribute(attribute, (String) null);
 		if (!isNullOrEmpty(path)) {
 			URI uri = TITANPathUtilities.resolvePathURI(path, projectLocation);
@@ -728,12 +728,12 @@ public abstract class BaseExecutor {
 		}
 	}
 
-	private boolean isDeleteLogFilesSet(IPreferenceStore preferenceStore) {
+	private boolean isDeleteLogFilesSet(final IPreferenceStore preferenceStore) {
 		return Boolean.parseBoolean(getOverlayedPreferenceValue(
 				preferenceStore, project, PreferenceConstants.EXECUTOR_PREFERENCE_PAGE_ID, PreferenceConstants.DELETE_LOG_FILES_NAME));
 	}
 
-	private boolean isLogFolderSet(IPreferenceStore preferenceStore) {
+	private boolean isLogFolderSet(final IPreferenceStore preferenceStore) {
 		return Boolean.parseBoolean(getOverlayedPreferenceValue(
 				preferenceStore,
 				project,
@@ -793,7 +793,7 @@ public abstract class BaseExecutor {
 		mergeLog.run(filesToMerge, false);
 	}
 
-	private boolean isAutomaticMergeEnabled(IPreferenceStore preferenceStore) {
+	private boolean isAutomaticMergeEnabled(final IPreferenceStore preferenceStore) {
 		return Boolean.parseBoolean(getOverlayedPreferenceValue(
 				preferenceStore, project, PreferenceConstants.EXECUTOR_PREFERENCE_PAGE_ID, PreferenceConstants.AUTOMATIC_MERGE_NAME));
 	}

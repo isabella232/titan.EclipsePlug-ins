@@ -711,7 +711,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	}
 
 	@Override
-	public boolean isValid(ILaunchConfiguration launchConfig) {
+	public boolean isValid(final ILaunchConfiguration launchConfig) {
 		
 		if (!EMPTY.equals(projectNameText.getText()) && !projectIsValid) {
 			setErrorMessage("The name of the project is not valid.");

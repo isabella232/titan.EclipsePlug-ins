@@ -350,7 +350,7 @@ public final class CliExecutor extends BaseExecutor {
 		}
 	}
 
-	private boolean addConfigFilePath(String mctrCliPath, List<String> command) {
+	private boolean addConfigFilePath(final String mctrCliPath, final List<String> command) {
 		if (isLogFolderSet()) {
 			if (!StringUtils.isNullOrEmpty(configFilePath)) {
 				configHandler = readConfigFile();
@@ -406,7 +406,7 @@ public final class CliExecutor extends BaseExecutor {
 		return Boolean.parseBoolean(preferenceValue);
 	}
 
-	private void printCommandToTitanConsole(List<String> command) {
+	private void printCommandToTitanConsole(final List<String> command) {
 		MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		for (String c : command) {
 			stream.print(c + ' ');
@@ -414,7 +414,7 @@ public final class CliExecutor extends BaseExecutor {
 		stream.println();
 	}
 
-	private String getMctrPath(Map<String, String> env) {
+	private String getMctrPath(final Map<String, String> env) {
 		String mctrCliPath;
 		if (env.containsKey("TTCN3_DIR")) {
 			mctrCliPath = "$TTCN3_DIR/bin/mctr_cli";

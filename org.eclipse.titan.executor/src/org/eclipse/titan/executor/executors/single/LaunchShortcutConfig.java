@@ -26,7 +26,7 @@ public final class LaunchShortcutConfig extends org.eclipse.titan.executor.execu
 	}
 
 	@Override
-	public boolean initLaunchConfiguration(ILaunchConfigurationWorkingCopy configuration, IProject project, String configFilePath) {
+	public boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration, final IProject project, final String configFilePath) {
 		return SingleMainControllerTab.initLaunchConfiguration(configuration, project, configFilePath);
 	}
 }
