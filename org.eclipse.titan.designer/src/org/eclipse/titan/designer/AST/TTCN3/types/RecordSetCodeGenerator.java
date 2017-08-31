@@ -154,13 +154,13 @@ public class RecordSetCodeGenerator {
 			if (fi.isOptional) {
 				source.append("Optional<");
 				source.append( fi.mJavaTypeName );
-				source.append(">");
+				source.append('>');
 			} else {
 				source.append( fi.mJavaTypeName );
 			}
-			source.append( " " );
+			source.append( ' ' );
 			source.append( fi.mVarName );
-			source.append( ";" );
+			source.append( ';' );
 			if ( aData.isDebug() ) {
 				source.append( " //" );
 				source.append( fi.mTTCN3TypeName );
@@ -227,7 +227,7 @@ public class RecordSetCodeGenerator {
 			if (fi.isOptional) {
 				aSb.append("Optional<");
 				aSb.append( fi.mJavaTypeName );
-				aSb.append(">");
+				aSb.append('>');
 			} else {
 				aSb.append( fi.mJavaTypeName );
 			}
@@ -526,7 +526,7 @@ public class RecordSetCodeGenerator {
 			if (fi.isOptional) {
 				aSb.append("Optional<");
 				aSb.append( fi.mJavaTypeName );
-				aSb.append(">");
+				aSb.append('>');
 			} else {
 				aSb.append( fi.mJavaTypeName );
 			}
@@ -542,7 +542,7 @@ public class RecordSetCodeGenerator {
 			if (fi.isOptional) {
 				aSb.append("Optional<");
 				aSb.append( fi.mJavaTypeName );
-				aSb.append(">");
+				aSb.append('>');
 			} else {
 				aSb.append( fi.mJavaTypeName );
 			}
@@ -593,7 +593,7 @@ public class RecordSetCodeGenerator {
 			source.append( fi.mJavaTypeName );
 			source.append( "_template " );
 			source.append( fi.mVarName );
-			source.append( ";" );
+			source.append( ';' );
 			if ( aData.isDebug() ) {
 				source.append( " //" );
 				source.append( fi.mTTCN3TypeName );

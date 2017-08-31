@@ -227,7 +227,7 @@ public class ProjectSourceCompiler {
 		for ( String importName : aData.getInternalImports() ) {
 			aSb.append( "import " );
 			aSb.append( PACKAGE_RUNTIME_ROOT );
-			aSb.append( "." );
+			aSb.append( '.' );
 			aSb.append( importName );
 			aSb.append( ";\n" );
 		}
@@ -255,16 +255,16 @@ public class ProjectSourceCompiler {
 		StringBuilder aSb = aData.getSrc();
 		aSb.append('\n' );
 		aSb.append("public void pre_init_module()").append('\n' );
-		aSb.append("{").append('\n' );
+		aSb.append('{').append('\n' );
 		aSb.append(aData.getPreInit());
 		aSb.append("").append('\n' );
-		aSb.append("}").append('\n' );
+		aSb.append('}').append('\n' );
 
 		aSb.append("public void post_init_module()").append('\n' );
-		aSb.append("{").append('\n' );
+		aSb.append('{').append('\n' );
 		aSb.append(aData.getPostInit());
 		aSb.append("").append('\n' );
-		aSb.append("}").append('\n' );
+		aSb.append('}').append('\n' );
 
 		aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps)\n");
 		aSb.append("{\n");
