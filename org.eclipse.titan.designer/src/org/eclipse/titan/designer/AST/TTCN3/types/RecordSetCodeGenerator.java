@@ -165,7 +165,7 @@ public class RecordSetCodeGenerator {
 				source.append( " //" );
 				source.append( fi.mTTCN3TypeName );
 			}
-			source.append( "\n" );
+			source.append( '\n' );
 		}
 	}
 
@@ -318,7 +318,7 @@ public class RecordSetCodeGenerator {
 		source.append( "\n\t\t\treturn this;\n" +
 				"\t\t}\n" );
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic ").append( aClassName ).append(" assign(final Base_Type otherValue) {\n");
 		source.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
@@ -505,7 +505,7 @@ public class RecordSetCodeGenerator {
 		aSb.append( "\t\t\treturn new TitanBoolean(true);\n" +
 				"\t\t}\n" );
 
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic TitanBoolean operatorEquals(final Base_Type otherValue) {\n");
 		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
@@ -586,7 +586,7 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String className ) {
-		source.append("\n");
+		source.append('\n');
 
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( "\tprivate " );
@@ -598,7 +598,7 @@ public class RecordSetCodeGenerator {
 				source.append( " //" );
 				source.append( fi.mTTCN3TypeName );
 			}
-			source.append( "\n" );
+			source.append( '\n' );
 		}
 
 		source.append("\t//originally value_list/list_value\n");
@@ -615,13 +615,13 @@ public class RecordSetCodeGenerator {
 	private static void generateTemplateGetter( final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String displayName ) {
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\n" );
+			source.append( '\n' );
 			source.append( MessageFormat.format( "\tpublic {0}_template get{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tsetSpecific();\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
 			source.append("\t}\n");
 			
-			source.append( "\n" );
+			source.append( '\n' );
 			source.append( MessageFormat.format( "\tpublic {0}_template constGet{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mVarName, displayName ) );
@@ -630,7 +630,7 @@ public class RecordSetCodeGenerator {
 			source.append("\t}\n");
 		}
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\tprivate void setSpecific() {\n");
 		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\tfinal template_sel old_selection = templateSelection;\n");
@@ -660,22 +660,22 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
 		source.append("\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel other_value ) '{'\n", genName));
 		source.append("\t\tsuper( other_value );\n");
 		source.append("\t\tcheckSingleSelection( other_value );\n");
 		source.append("\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyValue(otherValue);\n");
 		source.append("\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyTemplate( otherValue );\n");
 		source.append("\t}\n");
@@ -691,7 +691,7 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateAssign( final StringBuilder source, final String genName, final String displayName ) {
-		source.append("\n");
+		source.append('\n');
 		source.append("\t//originally operator=\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel other_value ) '{'\n", genName ) );
 		source.append("\t\tcheckSingleSelection(other_value);\n");
@@ -700,7 +700,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\t//originally operator=\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0} other_value ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
@@ -708,7 +708,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\t//originally operator=\n");
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final {0}_template other_value ) '{'\n", genName ) );
 		source.append("\t\tif (other_value != this) {\n");
@@ -718,7 +718,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format("\t\tpublic {0}_template assign(final Base_Type otherValue) '{'\n", genName));
 		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}) '{'\n", genName));
@@ -727,7 +727,7 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", otherValue));\n", genName));
 		source.append("\t\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\t\t@Override\n");
 		source.append( MessageFormat.format("\t\tpublic {0}_template assign(final Base_Template otherValue) '{'\n", genName));
 		source.append( MessageFormat.format("\t\t\tif (otherValue instanceof {0}_template) '{'\n", genName));
@@ -748,7 +748,7 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateCopyTemplate( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate void copyValue(final {0} other_value) '{'\n", genName));
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( MessageFormat.format( "\t\tif (other_value.get{0}().isBound().getValue()) '{'\n", fi.mJavaVarName ) );
@@ -768,7 +768,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate void copyTemplate(final {0}_template other_value) '{'\n", genName));
 		source.append("\t\tswitch (other_value.templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
@@ -804,17 +804,17 @@ public class RecordSetCodeGenerator {
 	 * @param aSb the output, where the java code is written
 	 */
 	private static void generateTemplateIsPresent( final StringBuilder aSb ) {
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\tpublic TitanBoolean isPresent() {\n");
 		aSb.append("\t\t\treturn isPresent(false);\n");
 		aSb.append("\t\t}\n");
 
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\tpublic TitanBoolean isPresent(boolean legacy) {\n");
 		aSb.append("\t\t\treturn new TitanBoolean(isPresent_(legacy));\n");
 		aSb.append("\t\t}\n");
 
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\tprivate boolean isPresent_(boolean legacy) {\n");
 		aSb.append("\t\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		aSb.append("\t\t\t\treturn false;\n");
@@ -822,17 +822,17 @@ public class RecordSetCodeGenerator {
 		aSb.append("\t\t\treturn !match_omit_(legacy);\n");
 		aSb.append("\t\t}\n");
 
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\tpublic TitanBoolean match_omit() {\n");
 		aSb.append("\t\t\treturn match_omit(false);\n");
 		aSb.append("\t\t}\n");
 
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\tpublic TitanBoolean match_omit(boolean legacy) {\n");
 		aSb.append("\t\t\treturn new TitanBoolean(match_omit_(legacy));\n");
 		aSb.append("\t\t}\n");
 
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\tprivate boolean match_omit_(boolean legacy) {\n");
 		aSb.append("\t\t\tif (is_ifPresent) {\n");
 		aSb.append("\t\t\t\treturn true;\n");
@@ -865,7 +865,7 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateValueOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append( MessageFormat.format( "\t\tpublic {0} valueOf() '{'\n", genName ) );
 		aSb.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
@@ -894,7 +894,7 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append( MessageFormat.format( "\t\tpublic {0}_template listItem(int list_index) '{'\n", genName ) );
 		aSb.append("\t\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
@@ -913,7 +913,7 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateSetType( final StringBuilder aSb, final String genName, final String displayName ) {
-		aSb.append("\n");
+		aSb.append('\n');
 		aSb.append("\t\tpublic void setType(template_sel template_type, int list_length) {\n");
 		aSb.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", displayName ) );
@@ -936,17 +936,17 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateMatch( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\t\tpublic TitanBoolean match({0} other_value) '{'\n", genName ) );
 		source.append("\t\t\treturn match(other_value, false);\n");
 		source.append("\t\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\t\tpublic TitanBoolean match({0} other_value, boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\treturn new TitanBoolean(match_(other_value, legacy));\n");
 		source.append("\t\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append( MessageFormat.format( "\t\tprivate boolean match_({0} other_value, boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif (!other_value.isBound().getValue()) {\n");
 		source.append("\t\t\t\treturn false;\n");
@@ -983,7 +983,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
 
-		source.append("\n");
+		source.append('\n');
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );

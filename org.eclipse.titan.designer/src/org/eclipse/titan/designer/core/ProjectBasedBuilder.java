@@ -400,7 +400,7 @@ public final class ProjectBasedBuilder {
 								"Code splitting error found in project " + tempProject.getName() + "; Project "
 										+project.getName() + " expected " + codeSplitting + ", got " + tempCodeSplitting);
 						if (errorFound!=false ){
-							wrongProjects.append(",");
+							wrongProjects.append(',');
 						};
 						wrongProjects.append(tempProject.getName());
 						errorFound = true;
