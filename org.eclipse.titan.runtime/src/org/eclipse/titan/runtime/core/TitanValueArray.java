@@ -144,7 +144,18 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_elements = new ArrayList<T>(array_size);
 		indexOffset = otherValue.indexOffset;
 		for (int i = 0; i < otherValue.array_size; ++i) {
-			array_elements.add(otherValue.array_element(i));
+			try {
+				final T helper = clazz.newInstance();
+				helper.assign(otherValue.array_element(i));
+				array_elements.add(helper);
+				
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return this;
 	}
@@ -185,7 +196,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return operatorEquals(otherValue).not();
 	}
 
-	//originally  operator<<=
+	// originally  operator<<=
 	public TitanValueArray<T> rotateLeft(int rotateCount) {
 		//new TitanValueArray<T>((TitanValueArray<T>).getClass());
 		if (array_size == 0) {
@@ -306,7 +317,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@Override
 	public String toString() {
-		final StringBuilder str = new StringBuilder('{');
+		final StringBuilder str = new StringBuilder("{");
 		for (int i = 0; i < array_size-1; ++i) {
 			str.append(array_elements.get(i).toString());
 			str.append(" , ");
@@ -344,5 +355,18 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 
 		return getArrayIndex(index.getInt(), arraySize, indexofset);
+	}
+
+	@Override
+	public void log() {
+		TtcnLogger.log_event_str("{ ");
+		if (array_size > 0) {
+			array_elements.get(0).log();
+		}
+		for (int elem_count = 1; elem_count < array_size; elem_count++) {
+			TtcnLogger.log_event_str(", ");
+			array_elements.get(elem_count).log();
+		}
+		TtcnLogger.log_event_str(" }");
 	}
 }

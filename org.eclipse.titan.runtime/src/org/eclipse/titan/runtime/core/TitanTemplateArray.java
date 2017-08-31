@@ -39,6 +39,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	//value array
 	private ArrayList<TitanTemplateArray<Tvalue, Ttemplate>> value_list;
 	private int listSize;
+
 	/**
 	 * permutation interval 
 	 */
@@ -161,7 +162,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return false;
 	}
 
-	//FIXME: assign helper 
 	private void copy_value(final TitanValueArray<Tvalue> otherValue) {
 		single_value = new ArrayList<Ttemplate>(otherValue.array_size);
 		singleSize = otherValue.array_size;
@@ -184,7 +184,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		setSelection(template_sel.SPECIFIC_VALUE);
 	}
 
-	//FIXME: 
 	private void copy_template(final TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
 		switch (otherValue.templateSelection)
 		{
@@ -560,7 +559,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		for (int i = 0; i < array_size; ++i) {
 			result.array_elements.add((Tvalue)single_value.get(i).valueOf());
 		}
-
+		result.array_size=array_size;
+		result.setOffset(indexOffset);
 		return result;
 	}
 
@@ -1064,4 +1064,45 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				0, template_size, 0, match_function, shift_size, legacy) == answer.SUCCESS;
 	}
 
+	public void log() {
+		switch (templateSelection) {
+		case SPECIFIC_VALUE:
+			if (single_value.size() > 0) {
+				TtcnLogger.log_event_str("{ ");
+				for (int elem_count=0; elem_count < single_value.size(); elem_count++) {
+					if (elem_count > 0) {
+						TtcnLogger.log_event_str(", ");
+					}
+					if (permutation_starts_at(elem_count)) {
+						TtcnLogger.log_event_str("permutation(");
+					}
+					single_value.get(elem_count).log();
+					if (permutation_ends_at(elem_count)) {
+						TtcnLogger.log_char(')');
+					}
+				}
+				TtcnLogger.log_event_str(" }");
+			}
+			else
+				TtcnLogger.log_event_str("{ }");
+			break;
+		case COMPLEMENTED_LIST:
+			TtcnLogger.log_event_str("complement");
+		case VALUE_LIST:
+			TtcnLogger.log_char('(');
+			for (int list_count = 0; list_count < value_list.size(); list_count++) {
+				if (list_count > 0) {
+					TtcnLogger.log_event_str(", ");
+				}
+				value_list.get(list_count).log();
+			}
+			TtcnLogger.log_char(')');
+			break;
+		default:
+			log_generic();
+			break;
+		}
+		log_restricted();
+		log_ifpresent();
+	}
 }
