@@ -28,6 +28,7 @@ public abstract class Base_Type {
 
 	public abstract Base_Type assign( final Base_Type otherValue );
 	public void log(){
-		//do nothing
+		//do nothing for now.
+		// TODO once the logging is implemented for all classes this function should become abstract
 	}
 }
