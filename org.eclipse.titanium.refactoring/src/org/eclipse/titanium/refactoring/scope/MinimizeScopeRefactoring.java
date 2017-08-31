@@ -86,6 +86,7 @@ public class MinimizeScopeRefactoring extends Refactoring {
 	@Override
 	public RefactoringStatus checkInitialConditions(final IProgressMonitor pm)
 			throws CoreException, OperationCanceledException {
+		//FIXME check for initial error conditions
 		return new RefactoringStatus();
 	}
 	@Override
