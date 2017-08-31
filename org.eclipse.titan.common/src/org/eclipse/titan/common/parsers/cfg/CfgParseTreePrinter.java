@@ -590,7 +590,7 @@ public class CfgParseTreePrinter {
 	 * @return the macro value string
 	 *         or "" if macro is invalid. In this case an error marker is also created
 	 */
-	private String getTypedMacroValue( Token aMacroToken ) {
+	private String getTypedMacroValue( final Token aMacroToken ) {
 		final String definition = getTypedMacroName( aMacroToken.getText() );
 		final String value = getDefinitionValue( definition );
 		if ( value == null ) {

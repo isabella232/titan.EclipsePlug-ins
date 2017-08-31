@@ -7,7 +7,7 @@ package org.eclipse.titan.common.parsers;
 public class ConsolePrinter implements IPrinter {
 
 	@Override
-	public void print(String aMsg) {
+	public void print(final String aMsg) {
 		System.out.print( aMsg );
 	}
 
@@ -17,7 +17,7 @@ public class ConsolePrinter implements IPrinter {
 	}
 
 	@Override
-	public void println(String aMsg) {
+	public void println(final String aMsg) {
 		System.out.println( aMsg );
 	}
 }

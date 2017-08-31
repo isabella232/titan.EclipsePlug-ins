@@ -52,12 +52,12 @@ public class AddedParseTree implements ParseTree {
 	}
 
 	@Override
-	public <T> T accept(ParseTreeVisitor<? extends T> arg0) {
+	public <T> T accept(final ParseTreeVisitor<? extends T> arg0) {
 		return null;
 	}
 
 	@Override
-	public ParseTree getChild( int i ) {
+	public ParseTree getChild( final int i ) {
 		return null;
 	}
 
@@ -72,11 +72,11 @@ public class AddedParseTree implements ParseTree {
 	}
 
 	@Override
-	public String toStringTree(Parser arg0) {
+	public String toStringTree(final Parser arg0) {
 		return mText;
 	}
 
-	public void setText(String aText) {
+	public void setText(final String aText) {
 		mText = aText;
 	}
 

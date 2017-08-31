@@ -50,7 +50,7 @@ public class TokenNameResolver {
 	 * Constructor for case 1
 	 * @param aLexerLogUtil token name resolver for case 1
 	 */
-	public TokenNameResolver( ILexerLogUtil aLexerLogUtil ) {
+	public TokenNameResolver( final ILexerLogUtil aLexerLogUtil ) {
 		mLexerLogUtil = aLexerLogUtil;
 	}
 
@@ -58,7 +58,7 @@ public class TokenNameResolver {
 	 * Constructor for case 2
 	 * @param aLexerLogUtil token name resolver for case 2
 	 */
-	public TokenNameResolver( Lexer aLexer ) {
+	public TokenNameResolver( final Lexer aLexer ) {
 		mLexer = aLexer;
 	}
 
