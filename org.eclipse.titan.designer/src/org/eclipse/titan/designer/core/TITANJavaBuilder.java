@@ -37,7 +37,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 public class TITANJavaBuilder extends IncrementalProjectBuilder {
 
 	@Override
-	protected IProject[] build(int kind, Map<String, String> args, IProgressMonitor monitor) throws CoreException {
+	protected IProject[] build(final int kind, final Map<String, String> args, final IProgressMonitor monitor) throws CoreException {
 		IProject project = getProject();
 		if (!TITANInstallationValidator.check(true)) {
 			return project.getReferencedProjects();
@@ -87,7 +87,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 	}
 
 	@Override
-	protected void clean(IProgressMonitor monitor) throws CoreException {
+	protected void clean(final IProgressMonitor monitor) throws CoreException {
 		//TODO This is a temporary solution
 		super.clean(monitor);
 
