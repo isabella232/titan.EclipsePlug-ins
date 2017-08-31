@@ -309,7 +309,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		if (array_size > 0 ) {
 			str.append(array_elements.get(array_size-1).toString());
 		}
-		str.append("}");
+		str.append('}');
 		return str.toString();
 	}
 	
