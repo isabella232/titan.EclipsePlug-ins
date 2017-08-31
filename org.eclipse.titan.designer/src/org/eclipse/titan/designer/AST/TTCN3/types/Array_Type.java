@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -959,7 +960,34 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n");
 		source.append("}\n\n");
 	}
-	
+
+	public String generateCodeValue(JavaGenData aData, StringBuilder source, Array_Type arrayType , StringBuilder sb) {
+		String tempId1 = aData.getTemporaryVariableName();
+		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
+			tempId1 = generateCodeValue(aData, source,(Array_Type)arrayType.getElementType(),sb);
+			arrayType = (Array_Type)arrayType.getElementType();
+			String tempId2 = aData.getTemporaryVariableName();
+			sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId2,tempId1));
+			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
+			sb.append(MessageFormat.format("super({0}.class);\n", tempId1));
+			sb.append("}\n");
+			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId2));
+			sb.append("super(otherValue);\n");
+			sb.append("}\n }\n\n");
+			tempId1 = tempId2;
+			return tempId1;
+		} else {
+			sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId1,arrayType.getElementType().getGenNameValue(aData, source, getMyScope())));
+			sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
+			sb.append(MessageFormat.format("super({0}.class);\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope())));
+			sb.append("}\n");
+			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId1));
+			sb.append("super(otherValue);\n");
+			sb.append("}\n}\n\n");
+			return tempId1;
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
@@ -1036,7 +1064,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		//FIXME handle omit_in_value_list
 		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId,
 				isBound|(!isLast)?"isBound":"isPresent",
-				(!(isBound|!isLast))&&isTemplate?"true":""));
+						(!(isBound|!isLast))&&isTemplate?"true":""));
 
 		nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
 
