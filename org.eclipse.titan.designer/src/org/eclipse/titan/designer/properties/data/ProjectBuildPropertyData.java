@@ -313,8 +313,9 @@ public final class ProjectBuildPropertyData {
 	 * @param value
 	 */
 	public static void setProjectAlreadyExported(final IProject project, final boolean value) {
-		if (project == null)
+		if (project == null) {
 			return;
+		}
 
 		String exported = value ? ProjectBuildPropertyData.TRUE_STRING : ProjectBuildPropertyData.FALSE_STRING;
 		try {
