@@ -514,42 +514,18 @@ public final class Def_Var extends Definition {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
 		} else {
 			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
-				Array_Type arrayType =  (Array_Type) type;
+				 Array_Type arrayType =  (Array_Type) type;
 				if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
-					Array_Type tempType = (Array_Type) type;
-					while(tempType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
-						tempType = (Array_Type)tempType.getElementType();
-					}
-					Type lastType = (Type)tempType.getElementType();
 					StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-					String tempId1 = aData.getTemporaryVariableName();
-					//TODO: can be more difficult
-					sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId1,lastType.getGenNameValue(aData, source, getMyScope())));
-					sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
-					sb.append(MessageFormat.format("super({0}.class);\n", lastType.getGenNameValue(aData, source, getMyScope())));
-					sb.append("}\n");
-					sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId1));
-					sb.append("super(otherValue);\n");
-					sb.append("}\n}\n\n");
-					while(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
-						arrayType = (Array_Type)arrayType.getElementType();
-						String tempId2 = aData.getTemporaryVariableName();
-						sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId2,tempId1));
-						sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
-						sb.append(MessageFormat.format("super({0}.class);\n", tempId1));
-						sb.append("}\n");
-						sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId2));
-						sb.append("super(otherValue);\n");
-						sb.append("}\n }\n\n");
-						tempId1 = tempId2;
-					}
-					source.append(MessageFormat.format("{0} {1} = new {0}();\n", tempId1,genName));
+					source.append(MessageFormat.format("{0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,sb),genName));
+					source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+					source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
 				} else {
 					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
 					source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
 					source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
 					source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
-				} 
+				}
 			} else {
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			}
