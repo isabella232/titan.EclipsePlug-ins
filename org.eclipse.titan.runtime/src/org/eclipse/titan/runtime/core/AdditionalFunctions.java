@@ -446,11 +446,11 @@ public final class AdditionalFunctions {
 			}
 		}
 		// do the conversion
-		BigInteger ret_val = new BigInteger("0");
+		BigInteger ret_val = BigInteger.ZERO;
 		for (int i = start_index; i < n_bits; i++) {
 			ret_val = ret_val.shiftLeft(1);
 			if ((temp.get(i / 8) & (1 << (i % 8))) != 0) {
-				ret_val = ret_val.add(new BigInteger("1"));
+				ret_val = ret_val.add(BigInteger.ONE);
 			}
 		}
 		if(ret_val.compareTo(BigInteger.valueOf((long)Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1 ){
@@ -588,7 +588,7 @@ public final class AdditionalFunctions {
 		}
 
 		// do the conversion
-		BigInteger ret_val = new BigInteger("0");
+		BigInteger ret_val = BigInteger.ZERO;
 		for (int i = start_index; i < n_nibbles; i++) {
 			ret_val = ret_val.shiftLeft(4);
 			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
@@ -717,7 +717,7 @@ public final class AdditionalFunctions {
 		}
 
 		// do the conversion
-		BigInteger ret_val = new BigInteger("0");
+		BigInteger ret_val = BigInteger.ZERO;
 		for (int i = start_index; i < n_octets; i++) {
 			ret_val = ret_val.shiftLeft(8);
 			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
