@@ -89,6 +89,10 @@ public class PortGenerator {
 		}
 	}
 
+	private PortGenerator() {
+		// private to disable instantiation
+	}
+
 	/**
 	 * This function can be used to generate the class of port types
 	 *

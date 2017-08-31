@@ -68,6 +68,10 @@ public class EnumeratedGenerator {
 		}
 	}
 
+	private EnumeratedGenerator() {
+		// private to disable instantiation
+	}
+
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
 		aData.addBuiltinTypeImport("TitanInteger");
 		//		if(needsAlias()) { ???

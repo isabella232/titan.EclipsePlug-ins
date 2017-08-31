@@ -44,6 +44,10 @@ public class UnionGenerator {
 		}
 	}
 
+	private UnionGenerator() {
+		// private to disable instantiation
+	}
+
 	/**
 	 * This function can be used to generate the value class of union/choice types
 	 *

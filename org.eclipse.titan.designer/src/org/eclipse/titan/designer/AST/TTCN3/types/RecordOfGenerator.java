@@ -18,6 +18,10 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  */
 public class RecordOfGenerator {
 
+	private RecordOfGenerator() {
+		// private to disable instantiation
+	}
+
 	/**
 	 * Generate "record of/set of" class
 	 * @param aData only used to update imports if needed.

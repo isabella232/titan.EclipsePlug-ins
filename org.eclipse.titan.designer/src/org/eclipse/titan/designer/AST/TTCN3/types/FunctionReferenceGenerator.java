@@ -40,6 +40,10 @@ public class FunctionReferenceGenerator {
 		}
 	}
 
+	private FunctionReferenceGenerator() {
+		// private to disable instantiation
+	}
+
 	/**
 	 * This function can be used to generate the value class of function/altstep/tetscase types
 	 *

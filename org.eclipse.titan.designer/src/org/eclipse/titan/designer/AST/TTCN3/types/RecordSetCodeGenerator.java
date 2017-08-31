@@ -55,6 +55,10 @@ public class RecordSetCodeGenerator {
 		}
 	}
 
+	private RecordSetCodeGenerator() {
+		// private to disable instantiation
+	}
+
 	/**
 	 * This function can be used to generate the value class of record and set types
 	 *

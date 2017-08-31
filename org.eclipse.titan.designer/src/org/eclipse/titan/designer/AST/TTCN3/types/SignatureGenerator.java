@@ -79,6 +79,10 @@ public class SignatureGenerator {
 		}
 	}
 
+	private SignatureGenerator() {
+		// private to disable instantiation
+	}
+
 	/**
 	 * This function can be used to generate the class of signature types
 	 *
