@@ -22,17 +22,17 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 	private int index;
 	private List<Token> oldList;
 
-	protected BlockLevelTokenStreamTracker(Block aBlock, int aStartIndex) {
+	protected BlockLevelTokenStreamTracker(final Block aBlock, final int aStartIndex) {
 		super(aBlock); 
 		this.index = aStartIndex;
 		this.oldList = aBlock.getTokenList();
 	}
 
-	public void setActualFile(IFile sourceFile) {
+	public void setActualFile(final IFile sourceFile) {
 		this.sourceFile = sourceFile;
 	}
 
-	public void discard(int ttype) {
+	public void discard(final int ttype) {
 		discardMask.add(Integer.valueOf(ttype));
 	}
 
@@ -79,11 +79,11 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 		return i;
 	}
 
-	public static Asn1Parser getASN1ParserForBlock(Block aBlock) {
+	public static Asn1Parser getASN1ParserForBlock(final Block aBlock) {
 		return getASN1ParserForBlock(aBlock, 0);
 	}
 
-	public static Asn1Parser getASN1ParserForBlock(Block aBlock, int startIndex) {
+	public static Asn1Parser getASN1ParserForBlock(final Block aBlock, final int startIndex) {
 		if(aBlock == null || aBlock.getLocation() == null) {
 			return null;
 		}
@@ -104,7 +104,7 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 		return parser;
 	}
 
-	private boolean getBlock(Token first) { // return true if it were out of bond
+	private boolean getBlock(final Token first) { // return true if it were out of bond
 		if(index >= oldList.size()) {
 			tokens.add(first);
 			return true;
@@ -147,7 +147,7 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 
 	}
 
-	private String makeString(List<Token> list) {
+	private String makeString(final List<Token> list) {
 		StringBuilder text = new StringBuilder();
 		for (Token t : list) {
 			text.append(t.getText());

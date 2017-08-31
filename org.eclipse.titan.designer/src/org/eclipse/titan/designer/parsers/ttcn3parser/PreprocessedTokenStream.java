@@ -63,7 +63,7 @@ enum ConditionalTransition {
 enum ConditionalState {
 	BEGIN("#if") {
 		@Override
-		ConditionalState transition(ConditionalTransition transition) {
+		ConditionalState transition(final ConditionalTransition transition) {
 			switch (transition) {
 			case ELIF:
 				return ELIF;
@@ -78,7 +78,7 @@ enum ConditionalState {
 	},
 	ELIF("#elif") {
 		@Override
-		ConditionalState transition(ConditionalTransition transition) {
+		ConditionalState transition(final ConditionalTransition transition) {
 			switch (transition) {
 			case ELIF:
 				return ELIF;
@@ -93,7 +93,7 @@ enum ConditionalState {
 	},
 	ELSE("#else") {
 		@Override
-		ConditionalState transition(ConditionalTransition transition) {
+		ConditionalState transition(final ConditionalTransition transition) {
 			switch (transition) {
 			case ENDIF:
 				return END;
@@ -104,13 +104,13 @@ enum ConditionalState {
 	},
 	END("#endif") {
 		@Override
-		ConditionalState transition(ConditionalTransition transition) {
+		ConditionalState transition(final ConditionalTransition transition) {
 			return null;
 		}
 	};
 	String name;
 
-	ConditionalState(String name) {
+	ConditionalState(final String name) {
 		this.name = name;
 	}
 
@@ -126,7 +126,7 @@ enum ConditionalState {
 	 *                the incoming directive
 	 * @return resulting state or null if invalid state transition
 	 */
-	abstract ConditionalState transition(ConditionalTransition transition);
+	abstract ConditionalState transition(final ConditionalTransition transition);
 }
 
 class ConditionalStateMachine {
@@ -145,14 +145,14 @@ class ConditionalStateMachine {
 	 *                the evaluated condition of the initial #IF part of the
 	 *                construct
 	 */
-	public ConditionalStateMachine(PreprocessorDirective beginDirective) {
+	public ConditionalStateMachine(final PreprocessorDirective beginDirective) {
 		this.beginDirective = beginDirective;
 		state = ConditionalState.BEGIN;
 		prevCond = false;
 		actCond = beginDirective.type == PreprocessorDirective.Directive_type.IFNDEF ? !beginDirective.condition : beginDirective.condition;
 	}
 
-	public void transition(PreprocessorDirective ppDirective, List<TITANMarker> errors) {
+	public void transition(final PreprocessorDirective ppDirective, final List<TITANMarker> errors) {
 		ConditionalTransition transition;
 		boolean newCond;
 		switch (ppDirective.type) {
@@ -208,7 +208,7 @@ class ConditionalStateStack {
 	Stack<ConditionalStateMachine> stateStack = new Stack<ConditionalStateMachine>();
 	List<TITANMarker> unsupportedConstructs;
 
-	public ConditionalStateStack(List<TITANMarker> unsupportedConstructs) {
+	public ConditionalStateStack(final List<TITANMarker> unsupportedConstructs) {
 		this.unsupportedConstructs = unsupportedConstructs;
 	}
 
@@ -219,7 +219,7 @@ class ConditionalStateStack {
 	 * @param ppDirective
 	 *                the directive parsed
 	 */
-	public void processDirective(PreprocessorDirective ppDirective) {
+	public void processDirective(final PreprocessorDirective ppDirective) {
 		switch (ppDirective.type) {
 		case IF:
 		case IFDEF:
@@ -287,7 +287,7 @@ class TokenStreamData extends CommonTokenStream {
 	public Ttcn3Lexer lexer;
 	public Reader reader;
 
-	public TokenStreamData(Ttcn3Lexer source, IFile file, Reader reader) {
+	public TokenStreamData(final Ttcn3Lexer source, final IFile file, final Reader reader) {
 		super (source);
 		this.file = file;
 		this.lexer = source;
@@ -329,7 +329,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 		return errorsStored;
 	}
 
-	public void reportWarning(TITANMarker marker) {
+	public void reportWarning(final TITANMarker marker) {
 		warnings.add(marker);
 	}
 
@@ -337,7 +337,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 		return warnings;
 	}
 
-	public void reportUnsupportedConstruct(TITANMarker marker) {
+	public void reportUnsupportedConstruct(final TITANMarker marker) {
 		unsupportedConstructs.add(marker);
 	}
 
@@ -345,24 +345,24 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 		return unsupportedConstructs;
 	}
 
-	public PreprocessedTokenStream(TokenSource tokenSource) {
+	public PreprocessedTokenStream(final TokenSource tokenSource) {
 		super(tokenSource);
 		condStateStack = new ConditionalStateStack(unsupportedConstructs);
 	}
 
-	public void setActualFile(IFile file) {
+	public void setActualFile(final IFile file) {
 		actualFile = file;
 	}
 
-	public void setActualLexer(Ttcn3Lexer lexer) {
+	public void setActualLexer(final Ttcn3Lexer lexer) {
 		actualLexer = lexer;
 	}
 
-	public void setParser(Ttcn3Parser parser) {
+	public void setParser(final Ttcn3Parser parser) {
 		this.parser = parser;
 	}
 
-	public void setMacros(String[] definedList) {
+	public void setMacros(final String[] definedList) {
 		for (String s : definedList) {
 			macros.put(s, "");
 		}
@@ -375,7 +375,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 	 * @param fileName
 	 *                the file name paramtere of the #include directive
 	 */
-	private void processIncludeDirective(PreprocessorDirective ppDirective) {
+	private void processIncludeDirective(final PreprocessorDirective ppDirective) {
 		if (ppDirective.str == null || "".equals(ppDirective.str)) {
 			TITANMarker marker = new TITANMarker("File name was not provided", ppDirective.line, -1, -1, IMarker.SEVERITY_ERROR,
 					IMarker.PRIORITY_NORMAL);

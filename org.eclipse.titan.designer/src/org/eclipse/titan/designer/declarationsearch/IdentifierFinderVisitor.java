@@ -31,12 +31,12 @@ public class IdentifierFinderVisitor extends ASTVisitor {
 
 	private int offset;
 
-	public IdentifierFinderVisitor(int offset) {
+	public IdentifierFinderVisitor(final int offset) {
 		this.offset = offset;
 	}
 
 	@Override
-	public int visit(IVisitableNode node) {
+	public int visit(final IVisitableNode node) {
 		if (node instanceof ASN1Assignment) {
 			final ASN1Assignment assignment = (ASN1Assignment) node;
 			if(assignment.getAssPard() != null) {

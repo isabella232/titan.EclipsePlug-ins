@@ -15,7 +15,7 @@ public class PPListener extends TitanListener {
 		super();
 	}
 
-	public PPListener(PreprocessorDirectiveParser parser) {
+	public PPListener(final PreprocessorDirectiveParser parser) {
 		super.errorsStored = parser.getErrorStorage(); 
 	}
 

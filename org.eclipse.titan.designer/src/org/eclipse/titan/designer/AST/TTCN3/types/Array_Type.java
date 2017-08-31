@@ -932,7 +932,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (!inTypeDefinition) {
 			return;
 		}

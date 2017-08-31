@@ -150,7 +150,7 @@ public final class MakefileCreationTab {
 
 		codeSplitting.setPropertyChangeListener(new IPropertyChangeListener() {
 			@Override
-			public void propertyChange(PropertyChangeEvent event) {
+			public void propertyChange(final PropertyChangeEvent event) {
 				updateCodeSplittingNumberEnabled();
 			}
 		});

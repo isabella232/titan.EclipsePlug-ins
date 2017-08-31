@@ -20,7 +20,7 @@ public class Redirection_Helper {
 	public Parameter_Redirect redirectParameters;
 	public Reference senderReference;
 
-	public Redirection_Helper(Reference redirectValue, Parameter_Redirect redirectParameters, Reference senderReference) {
+	public Redirection_Helper(final Reference redirectValue, final Parameter_Redirect redirectParameters, final Reference senderReference) {
 		this.redirectValue = redirectValue;
 		this.redirectParameters = redirectParameters;
 		this.senderReference = senderReference;

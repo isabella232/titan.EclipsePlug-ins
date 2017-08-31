@@ -59,7 +59,7 @@ public final class Value_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setCodeSection(CodeSectionType codeSection) {
+	public void setCodeSection(final CodeSectionType codeSection) {
 		if (value != null) {
 			value.setCodeSection(codeSection);
 		}

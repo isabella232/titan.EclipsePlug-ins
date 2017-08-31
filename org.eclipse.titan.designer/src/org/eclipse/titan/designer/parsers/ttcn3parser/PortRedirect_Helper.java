@@ -18,7 +18,7 @@ public class PortRedirect_Helper {
 	public Reference redirectValue;
 	public Reference redirectSender;
 
-	public PortRedirect_Helper(Reference redirectValue, Reference redirectSender) {
+	public PortRedirect_Helper(final Reference redirectValue, final Reference redirectSender) {
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
 	}

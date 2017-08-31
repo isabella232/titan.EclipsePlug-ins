@@ -183,7 +183,7 @@ public class ProjectSourceCompiler {
 	 * @param aFolder directory to create
 	 * @throws CoreException
 	 */
-	private static void createDir( IFolder aFolder ) throws CoreException {
+	private static void createDir( final IFolder aFolder ) throws CoreException {
 		if (!aFolder.exists()) {
 			IContainer parent = aFolder.getParent();
 			if (parent instanceof IFolder) {

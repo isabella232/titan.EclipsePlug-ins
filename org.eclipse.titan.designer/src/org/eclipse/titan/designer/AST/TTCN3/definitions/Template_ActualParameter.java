@@ -80,7 +80,7 @@ public final class Template_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setCodeSection(CodeSectionType codeSection) {
+	public void setCodeSection(final CodeSectionType codeSection) {
 		if (template != null) {
 			template.setCodeSection(codeSection);
 		}

@@ -277,7 +277,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	 * @param source the source for code generated
 	 * @param usageModule the module where the template is to be used.
 	 * */
-	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (min != null) {
 			min.reArrangeInitCode(aData, source, usageModule);
 		}

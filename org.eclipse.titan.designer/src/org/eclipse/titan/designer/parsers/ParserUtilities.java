@@ -133,7 +133,7 @@ public class ParserUtilities {
 	 * @param aPrinter printer for error message
 	 * @return object to resolve lexer token names from token index
 	 */
-	private static TokenNameResolver getTokenNameResolver( final String aLexerLogUtilClassName, IPrinter aPrinter ) {
+	private static TokenNameResolver getTokenNameResolver( final String aLexerLogUtilClassName, final IPrinter aPrinter ) {
 		try {
 			// ...LexerLogUtil is generated, it may not exist
 			final Class<?> c = Class.forName( aLexerLogUtilClassName );

@@ -76,7 +76,7 @@ class ModuleDeclaration extends Declaration {
 	}
 
 	@Override
-	public ReferenceFinder getReferenceFinder(Module module) {
+	public ReferenceFinder getReferenceFinder(final Module module) {
 		// No reference finder present, guard with null
 		return null;
 	}

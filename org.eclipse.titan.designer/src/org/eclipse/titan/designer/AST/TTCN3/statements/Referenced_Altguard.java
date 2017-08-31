@@ -102,7 +102,7 @@ public final class Referenced_Altguard extends AltGuard {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setCodeSection(CodeSectionType codeSection) {
+	public void setCodeSection(final CodeSectionType codeSection) {
 		if (expression != null) {
 			expression.setCodeSection(codeSection);
 		}

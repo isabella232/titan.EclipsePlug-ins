@@ -18,7 +18,7 @@ public enum TitanDebugConsolePrinter implements IPrinter {
 	INSTANCE;
 
 	@Override
-	public void print(String aMsg) {
+	public void print(final String aMsg) {
 		TITANDebugConsole.print( aMsg );
 	}
 
@@ -28,7 +28,7 @@ public enum TitanDebugConsolePrinter implements IPrinter {
 	}
 
 	@Override
-	public void println(String aMsg) {
+	public void println(final String aMsg) {
 		TITANDebugConsole.println( aMsg );
 	}
 }

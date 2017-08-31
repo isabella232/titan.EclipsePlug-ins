@@ -147,7 +147,7 @@ public final class TITANProjectExporter {
 		return useTpdNameAttribute;
 	}
 
-	public void setUseTpdNameAttribute(boolean value) {
+	public void setUseTpdNameAttribute(final boolean value) {
 		useTpdNameAttribute = value;
 	}
 

@@ -58,7 +58,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setCodeSection(CodeSectionType codeSection) {
+	public void setCodeSection(final CodeSectionType codeSection) {
 		if (reference != null) {
 			reference.setCodeSection(codeSection);
 		}

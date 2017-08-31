@@ -21,7 +21,7 @@ public class Connection_Helper {
 	public Value componentReference2;
 	public Reference portReference2;
 
-	public Connection_Helper(PortReference_Helper helper1, PortReference_Helper helper2) {
+	public Connection_Helper(final PortReference_Helper helper1, final PortReference_Helper helper2) {
 		this.componentReference1 = helper1.componentReference;
 		this.portReference1 = helper1.portReference;
 		this.componentReference2 = helper2.componentReference;

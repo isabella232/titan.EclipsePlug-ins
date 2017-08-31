@@ -25,16 +25,16 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 	private HashSet<Integer> discardMask = new HashSet<Integer>();
 	private IFile sourceFile;
 
-	public ModuleLevelTokenStreamTracker(TokenSource source) {
+	public ModuleLevelTokenStreamTracker(final TokenSource source) {
 		super(source);
 		this.sourceFile = null;
 	}
 
-	public void setActualFile(IFile sourceFile) {
+	public void setActualFile(final IFile sourceFile) {
 		this.sourceFile = sourceFile;
 	}
 
-	public void discard(int ttype) {
+	public void discard(final int ttype) {
 		discardMask.add(Integer.valueOf(ttype));
 	}
 
@@ -77,7 +77,7 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 		return i;
 	}
 
-	private boolean getBlock(Token first) { // return true if EOF hit
+	private boolean getBlock(final Token first) { // return true if EOF hit
 		Token t;
 		TokenWithIndexAndSubTokens result;
 
@@ -121,7 +121,7 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 		return true;
 	}
 
-	private String makeString(List<Token> list) {
+	private String makeString(final List<Token> list) {
 		StringBuilder text = new StringBuilder();
 		for (Token t : list) {
 			text.append(t.getText());

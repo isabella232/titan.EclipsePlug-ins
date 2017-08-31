@@ -74,7 +74,7 @@ public final class TTCN3ReparseUpdater {
 	 */
 	private boolean namechanged = false;
 
-	public TTCN3ReparseUpdater(final IFile file, final String code, int firstLine, int lineShift, int startOffset, int endOffset, int shift) {
+	public TTCN3ReparseUpdater(final IFile file, final String code, final int firstLine, final int lineShift, final int startOffset, final int endOffset, final int shift) {
 		this.file = file;
 		this.code = code;
 		this.firstLine = firstLine;
@@ -86,7 +86,7 @@ public final class TTCN3ReparseUpdater {
 		unsupportedConstructMap = new ConcurrentHashMap<IFile, List<TITANMarker>>();
 	}
 
-	public void setUnsupportedConstructs(Map<IFile, List<TITANMarker>> unsupportedConstructMap) {
+	public void setUnsupportedConstructs(final Map<IFile, List<TITANMarker>> unsupportedConstructMap) {
 		this.unsupportedConstructMap = unsupportedConstructMap;
 		if (unsupportedConstructMap.containsKey(file)) {
 			unsupportedConstructs = unsupportedConstructMap.get(file);
@@ -113,7 +113,7 @@ public final class TTCN3ReparseUpdater {
 		return shift;
 	}
 
-	public final boolean isAffected(Location location) {
+	public final boolean isAffected(final Location location) {
 		if (location.getEndOffset() > modificationStartOffset) {
 			return true;
 		}
@@ -121,7 +121,7 @@ public final class TTCN3ReparseUpdater {
 		return false;
 	}
 
-	public final boolean isAffectedAppended(Location location) {
+	public final boolean isAffectedAppended(final Location location) {
 		if (location.getEndOffset() >= modificationStartOffset) {
 			return true;
 		}
@@ -129,7 +129,7 @@ public final class TTCN3ReparseUpdater {
 		return false;
 	}
 
-	public final boolean envelopsDamage(Location location) {
+	public final boolean envelopsDamage(final Location location) {
 		if (location.getOffset() < modificationStartOffset && location.getEndOffset() >= modificationEndOffset) {
 			return true;
 		}
@@ -137,7 +137,7 @@ public final class TTCN3ReparseUpdater {
 		return false;
 	}
 
-	public final boolean isDamaged(Location location) {
+	public final boolean isDamaged(final Location location) {
 		if (location.getEndOffset() < modificationStartOffset) {
 			return false;
 		}
@@ -150,7 +150,7 @@ public final class TTCN3ReparseUpdater {
 	}
 
 	// only extension on the end shall be allowed
-	public final boolean isExtending(Location location) {
+	public final boolean isExtending(final Location location) {
 		if (location.getEndOffset() == modificationStartOffset) {
 			return true;
 		}
@@ -187,7 +187,7 @@ public final class TTCN3ReparseUpdater {
 	 *
 	 * @return true if the first lexical token is part of the followset, false otherwise
 	 * */
-	public boolean startsWithFollow(List<Integer> followSet) {
+	public boolean startsWithFollow(final List<Integer> followSet) {
 		if (followSet == null || followSet.isEmpty()) {
 			return false;
 		}
@@ -228,7 +228,7 @@ public final class TTCN3ReparseUpdater {
 	 *
 	 * @return true if the first lexical token is part of the followset, false otherwise
 	 * */
-	public boolean endsWithToken(List<Integer> followSet) {
+	public boolean endsWithToken(final List<Integer> followSet) {
 		if (followSet == null || followSet.isEmpty()) {
 			return false;
 		}
@@ -261,7 +261,7 @@ public final class TTCN3ReparseUpdater {
 		return followSet.contains( token.getType() );
 	}
 
-	public final void extendDamagedRegion(Location location) {
+	public final void extendDamagedRegion(final Location location) {
 		if (location.getOffset() < modificationStartOffset) {
 			modificationStartOffset = location.getOffset();
 		}
@@ -270,7 +270,7 @@ public final class TTCN3ReparseUpdater {
 		}
 	}
 
-	public final void extendDamagedRegion(int start, int end) {
+	public final void extendDamagedRegion(final int start, final int end) {
 		if (start < modificationStartOffset) {
 			modificationStartOffset = start;
 		}
@@ -288,7 +288,7 @@ public final class TTCN3ReparseUpdater {
 		modificationEndOffset = code.length() - shift;
 	}
 
-	public void setNameChanged(boolean namechanged) {
+	public void setNameChanged(final boolean namechanged) {
 		this.namechanged = namechanged;
 	}
 
@@ -495,7 +495,7 @@ public final class TTCN3ReparseUpdater {
 		return columnCounter;
 	}
 
-	public int parse(ITTCN3ReparseBase userDefined) {
+	public int parse(final ITTCN3ReparseBase userDefined) {
 		if (modificationStartOffset == modificationEndOffset + shift) {
 			return 0;
 		}

@@ -19,7 +19,7 @@ public class PortReference_Helper {
 	public Value componentReference;
 	public Reference portReference;
 
-	public PortReference_Helper(Value componentReference, Reference portReference) {
+	public PortReference_Helper(final Value componentReference, final Reference portReference) {
 		this.componentReference = componentReference;
 		this.portReference = portReference;
 	}

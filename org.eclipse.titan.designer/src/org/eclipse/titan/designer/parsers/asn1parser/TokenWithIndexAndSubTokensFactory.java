@@ -21,14 +21,14 @@ public class TokenWithIndexAndSubTokensFactory implements	TokenFactory<TokenWith
 		this(false);
 	}
 
-	public TokenWithIndexAndSubTokensFactory(boolean copyText) {
+	public TokenWithIndexAndSubTokensFactory(final boolean copyText) {
 		this.copyText = copyText;
 	}
 
 	@Override
-	public TokenWithIndexAndSubTokens create(Pair<TokenSource, CharStream> source, int type, String text,
-							  int channel, int start, int stop,
-							  int line, int charPositionInLine)
+	public TokenWithIndexAndSubTokens create(final Pair<TokenSource, CharStream> source, final int type, final String text,
+			final int channel, final int start, final int stop,
+							  final int line, final int charPositionInLine)
 	{
 		TokenWithIndexAndSubTokens t = new TokenWithIndexAndSubTokens(source, type, channel, start, stop);
 		t.setLine(line);
@@ -43,7 +43,7 @@ public class TokenWithIndexAndSubTokensFactory implements	TokenFactory<TokenWith
 	}
 
 	@Override
-	public TokenWithIndexAndSubTokens create(int type, String text) {
+	public TokenWithIndexAndSubTokens create(final int type, final String text) {
 		return new TokenWithIndexAndSubTokens(type, text);
 	}
 

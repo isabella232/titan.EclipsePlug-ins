@@ -397,7 +397,7 @@ public class RecordOfGenerator {
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateValueGetterSetters(StringBuilder source, final String ofTypeName , final String displayName) {
+	private static void generateValueGetterSetters(final StringBuilder source, final String ofTypeName , final String displayName) {
 		source.append('\n');
 		source.append("\t//originally get_at(int)\n");
 		source.append( MessageFormat.format("\tpublic {0} getAt( final int index_value ) '{'\n", ofTypeName ) );
@@ -501,14 +501,14 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 	}
 
-	private static void generateValueGetUnboundElem(StringBuilder source, String ofTypeName) {
+	private static void generateValueGetUnboundElem(final StringBuilder source, final String ofTypeName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate static {0} getUnboundElem() '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\treturn new {0}();\n", ofTypeName ) );
 		source.append("\t}\n");
 	}
 
-	private static void generateValueToString(StringBuilder source) {
+	private static void generateValueToString(final StringBuilder source) {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic String toString() {\n");
@@ -915,7 +915,7 @@ public class RecordOfGenerator {
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateReplace(StringBuilder source, final String genName, final String displayName) {
+	private static void generateTemplateReplace(final StringBuilder source, final String genName, final String displayName) {
  		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!isValue().getValue()) {\n");
@@ -944,7 +944,7 @@ public class RecordOfGenerator {
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateGetterSetters(StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+	private static void generateTemplateGetterSetters(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate {0} getAt(int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
@@ -1011,7 +1011,7 @@ public class RecordOfGenerator {
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateConcat(StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+	private static void generateTemplateConcat(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append("\tprivate int get_length_for_concat(AtomicBoolean is_any_value) {\n");
 		source.append("\t\tswitch (templateSelection) {\n");
@@ -1107,7 +1107,7 @@ public class RecordOfGenerator {
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateSetSize(StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+	private static void generateTemplateSetSize(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append("\tpublic void setSize(int new_size) {\n");
 		source.append("\t\tif (new_size < 0) {\n");
@@ -1219,7 +1219,7 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
-	private static void generateTemplateNElem(StringBuilder source, final String genName) {
+	private static void generateTemplateNElem(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\tpublic TitanInteger nofElements() {\n");
 		source.append("\t\tswitch (templateSelection) {\n");
@@ -1249,7 +1249,7 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
-	private static void generateTemplateMatchv(StringBuilder source, final String genName) {
+	private static void generateTemplateMatchv(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate boolean matchv(final {0} other_value, boolean legacy) '{'\n", genName ) );
 		source.append("\t\tif (!other_value.isBound().getValue()) {\n");
@@ -1288,7 +1288,7 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
-	private static void generateTemplateIsValue(StringBuilder source, final String genName) {
+	private static void generateTemplateIsValue(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic TitanBoolean isValue() {\n");
@@ -1308,7 +1308,7 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
-	private static void generateTemplateSetType(StringBuilder source, final String genName) {
+	private static void generateTemplateSetType(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\tpublic void setType(template_sel template_type, int list_length) {\n");
 		source.append("\t\tcleanUp();\n");
@@ -1353,7 +1353,7 @@ public class RecordOfGenerator {
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateGetListItem(StringBuilder source, final String genName, final String displayName) {
+	private static void generateTemplateGetListItem(final StringBuilder source, final String genName, final String displayName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template get_list_item(int list_index) '{'\n", genName ) );
 		source.append("\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
@@ -1493,7 +1493,7 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
-	private static void generateTemplateGetIstemplateKind(StringBuilder source, final String genName) {
+	private static void generateTemplateGetIstemplateKind(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tprotected boolean get_istemplate_kind(final String type) {\n");
@@ -1533,7 +1533,7 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
-	private static void generateTemplateCheckRestriction(StringBuilder source, final String genName) {
+	private static void generateTemplateCheckRestriction(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\tvoid check_restriction(template_res t_res, final String t_name, boolean legacy) {\n");
 		source.append("\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");

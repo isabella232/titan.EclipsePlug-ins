@@ -19,7 +19,7 @@ public class BlockTokenSource implements TokenSource {
 	private List<Token> tokenList;
 	int index;
 
-	BlockTokenSource(List<Token> tokenList) {
+	BlockTokenSource(final List<Token> tokenList) {
 		this.tokenList = tokenList;
 		this.index = 0;
 	}
@@ -55,7 +55,7 @@ public class BlockTokenSource implements TokenSource {
 	}
 
 	@Override
-	public void setTokenFactory(TokenFactory<?> arg0) {
+	public void setTokenFactory(final TokenFactory<?> arg0) {
 		//Do nothing
 	}
 

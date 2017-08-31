@@ -33,13 +33,13 @@ public final class MakeArchive extends ExternalTitanAction {
 
 	@Override
 	/** {@inheritDoc} */
-	public void run(IAction action) {
+	public void run(final IAction action) {
 		doMakeArchive();
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
+	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		doMakeArchive();
 		return null;
 	}

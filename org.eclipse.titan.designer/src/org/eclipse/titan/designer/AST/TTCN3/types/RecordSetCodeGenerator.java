@@ -114,8 +114,8 @@ public class RecordSetCodeGenerator {
 	 * @param hasOptional true if the type has an optional field.
 	 * @param isSet true if generating code for a set, false if generating code for a record.
 	 */
-	public static void generateTemplateClass(JavaGenData aData, StringBuilder source, String className,
-			String classDisplayName, List<FieldInfo> fieldInfos, boolean hasOptional, boolean isSet) {
+	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final String className,
+			final String classDisplayName, final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
 		aData.addImport("java.util.List");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");

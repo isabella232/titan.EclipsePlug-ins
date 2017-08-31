@@ -241,7 +241,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	@Override
-	public boolean checkExpressionSelfReference(CompilationTimeStamp timestamp, Assignment assignment) {
+	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment assignment) {
 		//simple values can not self-reference
 		return false;
 	}

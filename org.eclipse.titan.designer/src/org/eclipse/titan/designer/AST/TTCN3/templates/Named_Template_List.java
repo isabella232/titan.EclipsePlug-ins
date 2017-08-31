@@ -585,7 +585,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (asValue != null) {
 			asValue.reArrangeInitCode(aData, source, usageModule);
 			return;

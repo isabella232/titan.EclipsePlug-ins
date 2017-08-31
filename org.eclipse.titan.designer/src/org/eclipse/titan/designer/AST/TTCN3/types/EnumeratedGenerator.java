@@ -676,7 +676,7 @@ public class EnumeratedGenerator {
 		//FIXME implement optional parameter version
 	}
 
-	private static void generateTemplateSetType(final StringBuilder source, String name){
+	private static void generateTemplateSetType(final StringBuilder source, final String name){
 		source.append("public void setType(template_sel templateType, int list_length) {\n");
 		source.append("if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
@@ -699,7 +699,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");	
 	}
 
-	private static void generateTemplateIsValue(final StringBuilder source, String name) {
+	private static void generateTemplateIsValue(final StringBuilder source, final String name) {
 		source.append("public TitanBoolean isValue() {\n");
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("return new TitanBoolean(false);\n");
@@ -721,7 +721,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateTemplateMatch(final StringBuilder source, String name) {
+	private static void generateTemplateMatch(final StringBuilder source, final String name) {
 		// name.enum_type
 		source.append("// originally match\n");
 		source.append(MessageFormat.format("public TitanBoolean match(final {0}.enum_type otherValue) '{'\n", name));

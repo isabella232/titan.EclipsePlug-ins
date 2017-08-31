@@ -92,7 +92,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 * @param aCode TTCN-3 code to parse in string format
 	 *              It can be null, in this case code is read from file
 	 */
-	public void parse( IFile aFile, String aCode ) {
+	public void parse( final IFile aFile, final String aCode ) {
 		Reader reader;
 		int rootInt;
 		if ( aCode != null ) {
@@ -160,7 +160,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 	 * @param aFileLength file length
 	 * @param aEclipseFile Eclipse dependent resource file
 	 */
-	private void parse( final Reader aReader, final int aFileLength, IFile aEclipseFile ) {
+	private void parse( final Reader aReader, final int aFileLength, final IFile aEclipseFile ) {
 		CharStream charStream = new UnbufferedCharStream( aReader );
 		Ttcn3Lexer lexer = new Ttcn3Lexer( charStream );
 

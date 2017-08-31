@@ -16,7 +16,7 @@ public class ASN1Listener extends TitanListener {
 		super(); 
 	}
 
-	public ASN1Listener(Asn1Parser parser) {
+	public ASN1Listener(final Asn1Parser parser) {
 		super.errorsStored = parser.getErrorStorage(); 
 	}
 

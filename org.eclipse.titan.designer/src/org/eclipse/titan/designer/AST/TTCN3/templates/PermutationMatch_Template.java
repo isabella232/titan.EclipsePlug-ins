@@ -98,7 +98,7 @@ public final class PermutationMatch_Template extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
-	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
 			templates.getTemplateByIndex(i).reArrangeInitCode(aData, source, usageModule);
 		}

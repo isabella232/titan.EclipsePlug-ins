@@ -31,7 +31,7 @@ public final class TTCN3ReferenceAnalyzer {
 	/**
 	 * @return the parsed reference or null if the text can not form a reference
 	 */
-	public Reference parse(IFile file, String code, boolean reportErrors, final int aLine, final int aOffset) {
+	public Reference parse(final IFile file, final String code, final boolean reportErrors, final int aLine, final int aOffset) {
 		Reference reference = null;
 
 		Reader reader = new StringReader( code );
@@ -68,7 +68,7 @@ public final class TTCN3ReferenceAnalyzer {
 	 * @param file the file to parse, and report the errors to
 	 * @param code the contents of an editor, or null.
 	 * */
-	public Reference parseForCompletion(IFile file, String code) {
+	public Reference parseForCompletion(final IFile file, final String code) {
 		Reference reference = null;
 
 		Reader reader = new StringReader( code );

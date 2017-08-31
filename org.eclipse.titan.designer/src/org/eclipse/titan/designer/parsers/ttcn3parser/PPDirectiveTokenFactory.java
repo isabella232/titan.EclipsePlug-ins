@@ -28,19 +28,19 @@ public class PPDirectiveTokenFactory implements TokenFactory<CommonToken>{
 		this.token = new CommonToken(Token.EOF);
 	}
 
-	public PPDirectiveTokenFactory (boolean copyText, Token token) { 
+	public PPDirectiveTokenFactory (final boolean copyText, final Token token) { 
 		this.copyText = copyText;
 		this.token = token;
 	}
 
 	@Override
-	public CommonToken create(int type, String text) {
+	public CommonToken create(final int type, final String text) {
 		return new CommonToken(type, text);
 	}
 
 	@Override
-	public CommonToken create(Pair<TokenSource, CharStream> source, int type,
-			String text, int channel, int start, int stop, int line, int charPositionInLine) {
+	public CommonToken create(final Pair<TokenSource, CharStream> source, final int type,
+			final String text, final int channel, final int start, final int stop, final int line, final int charPositionInLine) {
 		CommonToken t = new CommonToken(source, type, channel, start, stop);
 		t.setLine(line);
 		t.setStartIndex(start + token.getStartIndex());

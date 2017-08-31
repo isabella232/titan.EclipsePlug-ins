@@ -166,7 +166,7 @@ public class RenameRefactoring extends Refactoring {
 	}
 	
 	// Returns true if the project has on-the-fly error (syntactic, semantic or mixed error)
-	private boolean projectHasOnTheFlyError(IProject project) throws CoreException {
+	private boolean projectHasOnTheFlyError(final IProject project) throws CoreException {
 		String[] onTheFlyMarkerTypes = {
 				GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER,
 				GeneralConstants.ONTHEFLY_SEMANTIC_MARKER,

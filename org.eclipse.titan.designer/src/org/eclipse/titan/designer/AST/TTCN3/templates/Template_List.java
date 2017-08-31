@@ -460,7 +460,7 @@ public final class Template_List extends CompositeTemplate {
 
 	@Override
 	/** {@inheritDoc} */
-	public void reArrangeInitCode(JavaGenData aData, StringBuilder source, Module usageModule) {
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (asValue != null) {
 			asValue.reArrangeInitCode(aData, source, usageModule);
 			return;

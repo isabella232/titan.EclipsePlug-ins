@@ -26,29 +26,29 @@ public class TokenWithIndexAndSubTokens extends CommonToken {
 	List<Token> tokenList = null;
 	IFile sourceFile;
 
-	public TokenWithIndexAndSubTokens(Pair<TokenSource, CharStream> source, int type, int channel, int start, int stop) {
+	public TokenWithIndexAndSubTokens(final Pair<TokenSource, CharStream> source, final int type, final int channel, final int start, final int stop) {
 		super(source, type, channel, start, stop);
 		this.tokenList = new ArrayList<Token>();
 	}
 
 
-	public TokenWithIndexAndSubTokens(int t) {
+	public TokenWithIndexAndSubTokens(final int t) {
 		super(t);
 		this.tokenList = new ArrayList<Token>();
 	}
 
-	public TokenWithIndexAndSubTokens(int t, List<Token> tokenList, IFile sourceFile) {
+	public TokenWithIndexAndSubTokens(final int t, final List<Token> tokenList, final IFile sourceFile) {
 		super(t);
 		this.tokenList = tokenList;
 		this.sourceFile = sourceFile;
 	}
 
-	public TokenWithIndexAndSubTokens(int t, String text) {
+	public TokenWithIndexAndSubTokens(final int t, final String text) {
 		super(t, text);
 		this.tokenList = new ArrayList<Token>();
 	}
 
-	public TokenWithIndexAndSubTokens(Token tok) {
+	public TokenWithIndexAndSubTokens(final Token tok) {
 		super(tok);
 		tokenList = new ArrayList<Token>();
 		super.setStartIndex(tok.getStartIndex());
@@ -60,7 +60,7 @@ public class TokenWithIndexAndSubTokens extends CommonToken {
 	}
 
 	@Override
-	public void setText(String s) {
+	public void setText(final String s) {
 		super.setText(s);
 	}
 
