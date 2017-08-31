@@ -256,23 +256,18 @@ public class TitanBoolean_template extends Base_Template {
 
 		return value_list.get(listIndex);
 	}
-	
-	public void log(){
-		switch(templateSelection){
-		case SPECIFIC_VALUE: 
-			if (single_value.equals(single_value))
-			{
-				TtcnLogger.log_event_str(single_value.toString());
-			} else {
-				single_value.operatorNotEquals(single_value);
-			}
+
+	public void log() {
+		switch (templateSelection) {
+		case SPECIFIC_VALUE:
+			TtcnLogger.log_event_str(single_value.getValue() ? "true":"false");
 			break;
 		case COMPLEMENTED_LIST:
 			TtcnLogger.log_event_str("complement");
-		case VALUE_LIST: 
+		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
-				if(i > 0) {
+				if (i > 0) {
 					TtcnLogger.log_event_str(", ");
 				}
 				value_list.get(i).log();
@@ -285,7 +280,7 @@ public class TitanBoolean_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	// originally is_present (with default parameter)
 	public TitanBoolean isPresent() {
 		return isPresent(false);
