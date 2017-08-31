@@ -738,7 +738,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (charstring) {
 			return new TitanUniversalCharString(new TitanCharString(cstr).rotateLeft(rotateCount));
 		}
-		if (val_ptr.size() == 0) {
+		if (val_ptr.isEmpty()) {
 			return this;
 		}
 		if (rotateCount >= 0) {
@@ -775,7 +775,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if (charstring) {
 			return new TitanUniversalCharString(new TitanCharString(cstr).rotateRight(rotateCount));
 		}
-		if (val_ptr.size() == 0) {
+		if (val_ptr.isEmpty()) {
 			return this;
 		}
 		if (rotateCount >= 0) {

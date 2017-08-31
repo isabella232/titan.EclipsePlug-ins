@@ -338,7 +338,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		case VALUE_LIST:
 		{
 			// error if any element does not have length or the lengths differ
-			if (value_list.size() < 1) {
+			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing lengthOf() operation on an octetstring template "
 						+"containing an empty list.");
 			}

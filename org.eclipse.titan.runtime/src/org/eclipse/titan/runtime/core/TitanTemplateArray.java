@@ -511,7 +511,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			has_any_or_none = true;
 			break;
 		case VALUE_LIST:
-			if (value_list.size() < 1) {
+			if (!value_list.isEmpty()) {
 				throw new TtcnError("Performing "+opName+"of() operation on an array template containing an empty list.");
 			}
 			final int itemSize = value_list.get(0).sizeOf(isSize).getInt();

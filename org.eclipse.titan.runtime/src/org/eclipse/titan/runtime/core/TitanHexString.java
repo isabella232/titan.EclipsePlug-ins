@@ -362,7 +362,7 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() != otherValue.nibbles_ptr.size()) {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
-		if (nibbles_ptr.size() == 0) {
+		if (nibbles_ptr.isEmpty()) {
 			return this;
 		}
 		final int n_bytes = (nibbles_ptr.size() + 1) / 2;
@@ -397,7 +397,7 @@ public class TitanHexString extends Base_Type {
 		if(nibbles_ptr.size() != otherValue.nibbles_ptr.size()){
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
-		if (nibbles_ptr.size() == 0) {
+		if (nibbles_ptr.isEmpty()) {
 			return this;
 		}
 		final List<Byte> result = new ArrayList<Byte>();
@@ -432,7 +432,7 @@ public class TitanHexString extends Base_Type {
 		if (nibbles_ptr.size() != otherValue.nibbles_ptr.size()) {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
-		if (nibbles_ptr.size() == 0) {
+		if (nibbles_ptr.isEmpty()) {
 			return this;
 		}
 		final int n_bytes = (nibbles_ptr.size() + 1) / 2;
@@ -463,7 +463,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Unbound hexstring operand of shift left operator.");
 
 		if (shiftCount > 0) {
-			if (nibbles_ptr.size() == 0) {
+			if (nibbles_ptr.isEmpty()) {
 				return this;
 			}
 			final int n_nibbles = nibbles_ptr.size();
@@ -499,7 +499,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Unbound operand of hexstring shift right operator.");
 
 		if (shiftCount > 0) {
-			if (nibbles_ptr.size() == 0) {
+			if (nibbles_ptr.isEmpty()) {
 				return this;
 			}
 			final int n_nibbles = nibbles_ptr.size();
@@ -534,7 +534,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString rotateLeft(int rotateCount){
 		mustBound("Unbound hexstring operand of rotate left operator.");
 
-		if(nibbles_ptr.size() == 0){
+		if(nibbles_ptr.isEmpty()){
 			return this;
 		}
 		if(rotateCount >= 0){
@@ -558,7 +558,7 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString rotateRight(int rotateCount){
 		mustBound("Unbound hexstring operand of rotate right operator.");
 
-		if(nibbles_ptr.size() == 0){
+		if(nibbles_ptr.isEmpty()){
 			return this;
 		}
 		if(rotateCount >= 0){

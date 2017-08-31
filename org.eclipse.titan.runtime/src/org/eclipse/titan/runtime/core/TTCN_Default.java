@@ -100,7 +100,7 @@ public final class TTCN_Default {
 			throw new TtcnError("Internal error: Control part defaults are not saved.");
 		}
 
-		if (DEFAULTS.size() > 0) {
+		if (!DEFAULTS.isEmpty()) {
 			throw new TtcnError("Internal Error: There are defaults. Control part defaults can not be restored.");
 		}
 
@@ -116,7 +116,7 @@ public final class TTCN_Default {
 		if (controlDefaultsSaved) {
 			throw new TtcnError("Internal error: Default counter cannot be reset when the control part defaults are saved.");
 		}
-		if (DEFAULTS.size() > 0) {
+		if (!DEFAULTS.isEmpty()) {
 			throw new TtcnError("Internal error: Default counter cannot be reset when there are active defaults.");
 		}
 

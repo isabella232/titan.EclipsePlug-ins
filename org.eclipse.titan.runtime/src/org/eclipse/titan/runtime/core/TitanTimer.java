@@ -341,7 +341,7 @@ public final class TitanTimer {
 			throw new TtcnError("Internal error: Control part timers are not saved.");
 		}
 
-		if (TIMERS.size() > 0) {
+		if (!TIMERS.isEmpty()) {
 			throw new TtcnError("Internal error: There are active timers. Control part timers cannot be restored.");
 		}
 

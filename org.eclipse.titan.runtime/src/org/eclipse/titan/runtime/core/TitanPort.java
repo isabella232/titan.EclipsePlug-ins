@@ -552,7 +552,7 @@ public class TitanPort {
 		//FIXME implement connection checks
 		if (systemMappings.size() > 1) {
 			throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", portName));
-		} else if (systemMappings.size() == 0) {
+		} else if (systemMappings.isEmpty()) {
 			throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", portName));
 		}
 

@@ -431,7 +431,7 @@ public class TitanOctetString extends Base_Type {
 		mustBound("Unbound octetstring operand of shift left operator.");
 		
 		if (shiftCount > 0) {
-			if (val_ptr.size() == 0) {
+			if (val_ptr.isEmpty()) {
 				return this;
 			}
 
@@ -469,7 +469,7 @@ public class TitanOctetString extends Base_Type {
 		mustBound("Unbound octetstring operand of shift right operator.");
 
 		if (shiftCount > 0) {
-			if (val_ptr.size() == 0) {
+			if (val_ptr.isEmpty()) {
 				return this;
 			}
 
@@ -504,7 +504,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString rotateLeft(int rotateCount) {
 		mustBound("Unbound octetstring operand of rotate left operator.");
 		
-		if (val_ptr.size() == 0) {
+		if (val_ptr.isEmpty()) {
 			return this;
 		}
 		if (rotateCount >= 0) {
@@ -538,7 +538,7 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString rotateRight(int rotateCount) {
 		mustBound("Unbound octetstring operand of rotate right operator.");
 		
-		if (val_ptr.size() == 0) {
+		if (val_ptr.isEmpty()) {
 			return this;
 		}
 		if (rotateCount >= 0) {
