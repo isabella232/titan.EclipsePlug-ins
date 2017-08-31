@@ -10,8 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.util.ArrayList;
 /**
  * @author Farkas Izabella Ingrid
+ * 
+ * TODO check if we need to extend TitanTimer
  * */
-public class TitanTimerArray<T extends TitanTimer> extends TitanTimer{
+public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	ArrayList<T> array_elements;
 	ArrayList<String> names;

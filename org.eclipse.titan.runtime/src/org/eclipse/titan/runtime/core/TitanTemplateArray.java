@@ -559,7 +559,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		for (int i = 0; i < array_size; ++i) {
 			result.array_elements.add((Tvalue)single_value.get(i).valueOf());
 		}
-		result.array_size=array_size;
+		result.array_size = array_size;
 		result.setOffset(indexOffset);
 		return result;
 	}

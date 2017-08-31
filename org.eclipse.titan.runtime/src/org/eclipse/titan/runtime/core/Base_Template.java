@@ -175,6 +175,7 @@ public abstract class Base_Template {
 	public abstract TitanBoolean match(final Base_Type otherValue, final boolean legacy);
 	public abstract Base_Type valueOf();
 	public void log(){
-		//do nothing
+		//do nothing for now.
+		// TODO once the logging is implemented for all classes this function should become abstract
 	}
 }
