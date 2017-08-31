@@ -27,4 +27,7 @@ public abstract class Base_Type {
 	public abstract TitanBoolean operatorEquals(final Base_Type otherValue);
 
 	public abstract Base_Type assign( final Base_Type otherValue );
+	public void log(){
+		//do nothing
+	}
 }

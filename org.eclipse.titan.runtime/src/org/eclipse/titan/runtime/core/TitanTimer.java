@@ -17,7 +17,7 @@ import java.util.LinkedList;
  * 
  * @author Kristof Szabados
  */
-public final class TitanTimer {
+public class TitanTimer {
 	public static final TitanTimer testcaseTimer = new TitanTimer("<testcase guard timer>");
 
 	// linked list of running timers
@@ -32,6 +32,21 @@ public final class TitanTimer {
 	private double timeExpires;
 	private static boolean controlTimerSaved = false;
 
+	protected TitanTimer(){
+		
+	}
+	
+	TitanTimer assign(TitanTimer otherValue) {
+		timerName = otherValue.timerName;
+		hasDefault = otherValue.hasDefault;
+		isStarted = otherValue.isStarted;
+		defaultValue = otherValue.defaultValue;
+		timeStarted = otherValue.timeStarted;
+		timeExpires = otherValue.timeExpires;
+		controlTimerSaved = otherValue.controlTimerSaved;
+		return this;
+	}
+	
 	public TitanTimer(final String name) {
 		if (name == null) {
 			timerName = "<unknown>";
@@ -81,6 +96,13 @@ public final class TitanTimer {
 		TIMERS.remove(this);
 	}
 
+	//originally TIMER::set_name
+	public void setName(String name) {
+		if (name == null) {
+			throw new TtcnError("Internal error: Setting an invalid name for a single element of a timer array.");
+		}
+		timerName = name;
+	}
 	// originally set_default_duration
 	public final void setDefaultDuration(final double defaultValue) {
 		if (defaultValue < 0.0) {
@@ -348,5 +370,31 @@ public final class TitanTimer {
 		TIMERS.addAll(BACKUP_TIMERS);
 		BACKUP_TIMERS.clear();
 		controlTimerSaved = false;
+	}
+	
+	// originally TIMER::log()
+	public void log() {
+	  // the time is not frozen (i.e. time_now() is used)
+	  TtcnLogger.log_event("timer: { name: " + timerName + ", default duration: ");
+	  if (hasDefault) {
+		  TtcnLogger.log_event(defaultValue + " s");
+	  }
+	  else {
+		  TtcnLogger.log_event_str("none");
+	  }
+	  TtcnLogger.log_event_str(", state: ");
+	  if (isStarted) {
+	    double current_time = TTCN_Snapshot.timeNow();
+	    if (current_time < timeExpires) {
+	    	TtcnLogger.log_event_str("running");
+	    }
+	    else {
+	    	TtcnLogger.log_event_str("expired");
+	    }
+	    TtcnLogger.log_event(", actual duration: " + (timeExpires - timeStarted) + " s,elapsed time: "+ (current_time - timeStarted) + " s");
+	  } else {
+		  TtcnLogger.log_event_str("inactive");
+	  }
+	  TtcnLogger.log_event_str(" }");
 	}
 }
