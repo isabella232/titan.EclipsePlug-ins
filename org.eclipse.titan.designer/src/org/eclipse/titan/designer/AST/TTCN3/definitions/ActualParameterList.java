@@ -206,6 +206,9 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	 * @param usageModule where the parameters are to be used
 	 * */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (parameters == null) {
+			return;
+		}
 		for (int i = 0, size = parameters.size(); i < size; i++) {
 			parameters.get(i).reArrangeInitCode(aData, source, usageModule);
 		}
