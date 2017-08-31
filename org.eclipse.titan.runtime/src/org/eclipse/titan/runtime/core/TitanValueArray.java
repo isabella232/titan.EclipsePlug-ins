@@ -34,9 +34,8 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		indexOffset = otherValue.indexOffset;
 		
 		for (int i = 0; i < array_size ; ++i) {
-			T helper;
 			try {
-				helper = clazz.newInstance();
+				T helper = clazz.newInstance();
 				helper.assign(otherValue.array_elements.get(i));
 				array_elements.add(helper);
 			} catch (InstantiationException e) {
@@ -121,10 +120,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
 			return assign(arrayOther);
 		} else {
-			T value;
 			try {
 				array_elements = new ArrayList<T>();
-				value = clazz.newInstance();
+				T value = clazz.newInstance();
 				value.assign(otherValue);
 				array_elements.add(value);
 			} catch (InstantiationException e) {
@@ -193,12 +191,16 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		if (array_size == 0) return this;
 		if (rotateCount >= 0) {
 			rotateCount = rotateCount % array_size;
-			if (rotateCount == 0) return this;
+			if (rotateCount == 0) {
+				return this;
+			}
 
 			TitanValueArray<T> result = new TitanValueArray<T>(clazz);
 			result.array_size = array_size;
 			result.indexOffset = indexOffset;
-			if (rotateCount > array_size) rotateCount = array_size;
+			if (rotateCount > array_size) {
+				rotateCount = array_size;
+			}
 			for (int i = 0; i < array_size - rotateCount; i++) {
 				result.array_elements.add(i, array_elements.get(i+rotateCount));
 			}
@@ -214,6 +216,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	//originally  operator<<=
 	public TitanValueArray<T> rotateLeft(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound integer operand of rotate left operator.");
+
 		return rotateLeft(rotateCount.getInt());
 	}
 
@@ -222,11 +225,15 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		if (array_size == 0) return this;
 		if (rotateCount >= 0) {
 			rotateCount = rotateCount % array_size;
-			if (rotateCount == 0) return this;
+			if (rotateCount == 0) {
+				return this;
+			}
 			TitanValueArray<T> result = new TitanValueArray<T>(clazz);
 			result.array_size = array_size;
 			result.indexOffset = indexOffset;
-			if (rotateCount > array_size) rotateCount = array_size;
+			if (rotateCount > array_size) {
+				rotateCount = array_size;
+			}
 			for (int i = 0; i < rotateCount; i++) {
 				result.array_elements.add(i, array_elements.get(i-rotateCount+array_size));
 			}
@@ -242,6 +249,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	//originally  operator>>=
 	public TitanValueArray<T> rotateRight(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound integer operand of rotate right operator.");
+
 		return rotateRight(rotateCount.getInt());
 	}
 
