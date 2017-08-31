@@ -1270,7 +1270,9 @@ public class RecordOfMatch {
 		}
 
 		if(matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
-			if (!value_found) TtcnLogger.log_event_str("none");
+			if (!value_found) {
+				TtcnLogger.log_event_str("none");
+			}
 			TtcnLogger.log_event_str(", template elements that have no pairs in the value: ");
 		}
 

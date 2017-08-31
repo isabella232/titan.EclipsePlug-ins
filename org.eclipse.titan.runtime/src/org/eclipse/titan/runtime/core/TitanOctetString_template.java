@@ -308,16 +308,19 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	public TitanOctetString valueOf() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent)
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific octetstring template.");
+		}
+
 		return single_value;
 	}
 
 	public TitanInteger lengthOf() {
 		int min_length;
 		boolean has_any_or_none;
-		if (is_ifPresent)
+		if (is_ifPresent) {
 			throw new TtcnError("Performing lengthOf() operation on a octetstring template which has an ifpresent attribute.");
+		}
 
 		switch (templateSelection)
 		{
@@ -335,14 +338,17 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		case VALUE_LIST:
 		{
 			// error if any element does not have length or the lengths differ
-			if (value_list.size() < 1)
+			if (value_list.size() < 1) {
 				throw new TtcnError("Internal error: Performing lengthOf() operation on an octetstring template "
 						+"containing an empty list.");
+			}
+
 			final int item_length = value_list.get(0).lengthOf().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (value_list.get(i).lengthOf().getInt() != item_length)
+				if (value_list.get(i).lengthOf().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on an octetstring template "
 							+"containing a value list with different lengths.");
+				}
 			}
 			min_length = item_length;
 			has_any_or_none = false;
@@ -374,8 +380,9 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST &&
-				template_type != template_sel.DECODE_MATCH)
+				template_type != template_sel.DECODE_MATCH) {
 			throw new TtcnError("Setting an invalid type for an octetstring template.");
+		}
 		cleanUp();
 		setSelection(template_type);
 		if (template_type != template_sel.DECODE_MATCH) {
@@ -388,13 +395,16 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 
 	public TitanOctetString_template listItem(final int listIndex) {
 		if (templateSelection != template_sel.VALUE_LIST &&
-				templateSelection != template_sel.COMPLEMENTED_LIST)
+				templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list octetstring template.");
+		}
+
 		if (listIndex < 0) {
 			throw new TtcnError("Accessing an octetstring value list template using a negative index (" + listIndex + ").");
 		}
-		if (listIndex >= value_list.size())
+		if (listIndex >= value_list.size()) {
 			throw new TtcnError("Index overflow in an octetstring value list template.");
+		}
 		return value_list.get(listIndex);
 	}
 

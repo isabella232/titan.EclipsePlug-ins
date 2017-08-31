@@ -173,8 +173,9 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	boolean permutation_starts_at(final int index_value) {
 		final int number_of_permutations = get_number_of_permutations();
 		for(int i = 0; i < number_of_permutations; i++) {
-			if(permutation_intervals.get( i ).start_index == index_value)
+			if(permutation_intervals.get( i ).start_index == index_value) {
 				return true;
+			}
 		}
 
 		return false;
@@ -183,8 +184,9 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	boolean permutation_ends_at(final int index_value) {
 		final int number_of_permutations = get_number_of_permutations();
 		for(int i = 0; i < number_of_permutations; i++) {
-			if(permutation_intervals.get( i ).end_index == index_value)
+			if(permutation_intervals.get( i ).end_index == index_value) {
 				return true;
+			}
 		}
 
 		return false;

@@ -188,7 +188,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	//originally  operator<<=
 	public TitanValueArray<T> rotateLeft(int rotateCount) {
 		//new TitanValueArray<T>((TitanValueArray<T>).getClass());
-		if (array_size == 0) return this;
+		if (array_size == 0) {
+			return this;
+		}
 		if (rotateCount >= 0) {
 			rotateCount = rotateCount % array_size;
 			if (rotateCount == 0) {
@@ -222,7 +224,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	//originally  operator>>=
 	public TitanValueArray<T> rotateRight(int rotateCount) {
-		if (array_size == 0) return this;
+		if (array_size == 0) {
+			return this;
+		}
 		if (rotateCount >= 0) {
 			rotateCount = rotateCount % array_size;
 			if (rotateCount == 0) {
