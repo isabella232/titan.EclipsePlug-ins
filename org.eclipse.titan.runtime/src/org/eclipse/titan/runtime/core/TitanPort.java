@@ -25,9 +25,9 @@ import java.util.Set;
  */
 public class TitanPort {
 	// originally the list stored in list_head list_tail
-	private static LinkedList<TitanPort> PORTS = new LinkedList<TitanPort>();
+	private static final LinkedList<TitanPort> PORTS = new LinkedList<TitanPort>();
 	// originally the list stored in system_list_head and system_list_tail
-	private static LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
+	private static final LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
 
 	private String portName;
 	protected boolean is_active;
