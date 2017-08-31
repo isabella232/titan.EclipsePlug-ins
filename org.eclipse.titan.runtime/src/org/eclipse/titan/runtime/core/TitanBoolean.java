@@ -6,14 +6,13 @@
  * http://www.eclipse.org/legal/epl-v10.html
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
-
 import java.text.MessageFormat;
-
 
 /**
  * TTCN-3 boolean
  * @author Arpad Lovassy
  * @author Gergo Ujhelyi
+ * @author Andrea Pálfi
  */
 public class TitanBoolean extends Base_Type {
 
@@ -212,6 +211,16 @@ public class TitanBoolean extends Base_Type {
 
 		return boolean_value.toString();
 	}
+	
+	//log()
+	public void log(){
+		if(boolean_value != null){
+			TtcnLogger.log_event_str(boolean_value.toString());
+		}else{
+			TtcnLogger.log_event_unbound();
+		}
+	}
+	
 
 	public static boolean getNative(final boolean value) {
 		return value;
