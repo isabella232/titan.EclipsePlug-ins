@@ -51,6 +51,8 @@ public class RecordOfGenerator {
 		generateValueIsBound( source );
 		generateValueOperatorEquals( source, genName, ofTypeName , displayName);
 		generateValueAssign( source, genName, ofTypeName, displayName);
+		generateValueConcatenate( source, genName, ofTypeName, displayName );
+		generateValueRotate( source, genName, ofTypeName, displayName );
 		generateValueCleanup( source );
 		generateValueGetterSetters( source, ofTypeName, displayName );
 		generateValueGetUnboundElem( source, ofTypeName );
@@ -121,7 +123,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateValueDeclaration( final StringBuilder source, final String genName, final String ofTypeName ) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tList<{0}> valueElements;\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate List<{0}> valueElements;\n", ofTypeName ) );
 	}
 
 	/**
@@ -277,6 +279,103 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\treturn this;\n");
 		source.append("\t};\n");
+	}
+
+	/**
+	 * Generate concatenate function 
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateValueConcatenate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+		source.append('\n');
+		source.append("\t//originally operator+\n");
+		source.append( MessageFormat.format( "\tpublic {0} concatenate(final {0} other_value) '{'\n", genName ) );
+		source.append("\t\tif (valueElements == null || other_value.valueElements == null) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Unbound operand of {0} concatenation.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t{0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
+		source.append("\t\tfor (int i=0; i < valueElements.size(); i++) {\n");
+		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeName ) );
+		source.append("\t\t\tif (elem != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\tfor (int i = 0; i < other_value.valueElements.size(); i++) {\n");
+		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = other_value.valueElements.get(i);\n", ofTypeName ) );
+		source.append("\t\t\tif (elem != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn ret_val;\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate rotate functions 
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateValueRotate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+		source.append('\n');
+		source.append("\t//originally operator<<=\n");
+		source.append( MessageFormat.format( "\tpublic {0} rotateLeft(final TitanInteger rotate_count) '{'\n", genName ) );
+		source.append("\t\trotate_count.mustBound(\"Unbound integer operand of rotate left operator.\");\n");
+		source.append("\t\treturn rotateLeft(rotate_count.getInt());\n");
+		source.append("\t}\n");
+
+		source.append('\n');
+		source.append("\t//originally operator<<=\n");
+		source.append( MessageFormat.format( "\tpublic {0} rotateLeft(final int rotate_count) '{'\n", genName ) );
+		source.append("\t\treturn rotateRight(-rotate_count);\n");
+		source.append("\t}\n");
+
+		source.append('\n');
+		source.append("\t//originally operator>>=\n");
+		source.append( MessageFormat.format( "\tpublic {0} rotateRight(final TitanInteger rotate_count) '{'\n", genName ) );
+		source.append("\t\trotate_count.mustBound(\"Unbound integer operand of rotate right operator.\");\n");
+		source.append("\t\treturn rotateRight(rotate_count.getInt());\n");
+		source.append("\t}\n");
+
+		source.append('\n');
+		source.append("\t//originally operator>>=\n");
+		source.append( MessageFormat.format( "\tpublic {0} rotateRight(final int rotate_count) '{'\n", genName ) );
+		source.append("\t\tif (valueElements == null) {\n");
+		source.append( MessageFormat.format( "\t\t	throw new TtcnError(\"Performing rotation operation on an unbound value of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tfinal int size = valueElements.size();\n");
+		source.append("\t\tif (size == 0) {\n");
+		source.append( MessageFormat.format( "\t\t\treturn new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tint rc;\n");
+		source.append("\t\tif (rotate_count >= 0) {\n");
+		source.append("\t\t\trc = rotate_count % size;\n");
+		source.append("\t\t} else {\n");
+		source.append("\t\t\trc = size - ((-rotate_count) % size);\n");
+		source.append("\t\t}\n");
+		source.append("\t\tif (rc == 0) {\n");
+		source.append( MessageFormat.format( "\t\t\treturn new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
+		source.append("\t\t}\n");
+		source.append( MessageFormat.format( "\t\t{0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
+		source.append("\t\tfor (int i = size - rc; i < size; i++) {\n");
+		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeName ) );
+		source.append("\t\t\tif (elem != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\tfor (int i = 0; i < size - rc; i++) {\n");
+		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeName ) );
+		source.append("\t\t\tif (elem != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.add(new {0}(elem));\n", ofTypeName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn ret_val;\n");
+		source.append("\t}\n");
 	}
 
 	/**
