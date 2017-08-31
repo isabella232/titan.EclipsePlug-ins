@@ -317,7 +317,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@Override
 	public String toString() {
-		final StringBuilder str = new StringBuilder("{");
+		final StringBuilder str = new StringBuilder('{');
 		for (int i = 0; i < array_size-1; ++i) {
 			str.append(array_elements.get(i).toString());
 			str.append(" , ");
@@ -360,11 +360,10 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	@Override
 	public void log() {
 		TtcnLogger.log_event_str("{ ");
-		if (array_size > 0) {
-			array_elements.get(0).log();
-		}
-		for (int elem_count = 1; elem_count < array_size; elem_count++) {
-			TtcnLogger.log_event_str(", ");
+		for (int elem_count = 0; elem_count < array_size; elem_count++) {
+			if (elem_count > 0) {
+				TtcnLogger.log_event_str(", ");
+			}
 			array_elements.get(elem_count).log();
 		}
 		TtcnLogger.log_event_str(" }");

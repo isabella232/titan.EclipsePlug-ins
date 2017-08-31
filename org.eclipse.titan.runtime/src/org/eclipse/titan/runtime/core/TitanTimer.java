@@ -371,30 +371,29 @@ public class TitanTimer {
 		BACKUP_TIMERS.clear();
 		controlTimerSaved = false;
 	}
-	
+
 	// originally TIMER::log()
 	public void log() {
-	  // the time is not frozen (i.e. time_now() is used)
-	  TtcnLogger.log_event("timer: { name: " + timerName + ", default duration: ");
-	  if (hasDefault) {
-		  TtcnLogger.log_event(defaultValue + " s");
-	  }
-	  else {
-		  TtcnLogger.log_event_str("none");
-	  }
-	  TtcnLogger.log_event_str(", state: ");
-	  if (isStarted) {
-	    double current_time = TTCN_Snapshot.timeNow();
-	    if (current_time < timeExpires) {
-	    	TtcnLogger.log_event_str("running");
-	    }
-	    else {
-	    	TtcnLogger.log_event_str("expired");
-	    }
-	    TtcnLogger.log_event(", actual duration: " + (timeExpires - timeStarted) + " s,elapsed time: "+ (current_time - timeStarted) + " s");
-	  } else {
-		  TtcnLogger.log_event_str("inactive");
-	  }
-	  TtcnLogger.log_event_str(" }");
+		// the time is not frozen (i.e. time_now() is used)
+		TtcnLogger.log_event("timer: { name: " + timerName + ", default duration: ");
+		if (hasDefault) {
+			TtcnLogger.log_event(defaultValue + " s");
+		} else {
+			TtcnLogger.log_event_str("none");
+		}
+		TtcnLogger.log_event_str(", state: ");
+		if (isStarted) {
+			double current_time = TTCN_Snapshot.timeNow();
+			if (current_time < timeExpires) {
+				TtcnLogger.log_event_str("running");
+			} else {
+				TtcnLogger.log_event_str("expired");
+			}
+			TtcnLogger.log_event(", actual duration: " + (timeExpires - timeStarted) + " s,elapsed time: " + (current_time - timeStarted)
+					+ " s");
+		} else {
+			TtcnLogger.log_event_str("inactive");
+		}
+		TtcnLogger.log_event_str(" }");
 	}
 }
