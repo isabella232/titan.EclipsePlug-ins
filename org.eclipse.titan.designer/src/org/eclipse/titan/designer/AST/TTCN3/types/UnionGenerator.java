@@ -79,8 +79,8 @@ public class UnionGenerator {
 		generateValueNotEquals(source, genName);
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 		generateValueGetSelection(source);
+		generateValueLog(source, fieldInfos);
 
-		//FIXME implement log
 		//FIXME implement set_param
 		//FIXME implement encode
 		//FIXME implement decode
@@ -120,8 +120,8 @@ public class UnionGenerator {
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
+		generateTemplateLog(source);
 
-		//FIXME implement log
 		//FIXME implement log_match
 		//FIXME implement encode
 		//FIXME implement decode
@@ -392,6 +392,31 @@ public class UnionGenerator {
 	private static void generateValueGetSelection(final StringBuilder source) {
 		source.append("public union_selection_type get_selection() {\n");
 		source.append("return union_selection;\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * Generate log
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * */
+	private static void generateValueLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
+		source.append("public void log() {\n");
+		source.append("switch (union_selection) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			FieldInfo fieldInfo = fieldInfos.get(i);
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mJavaVarName));
+			source.append("field.log();\n");
+			source.append("TtcnLogger.log_event_str(\" }\");\n");
+			source.append("break;\n");
+		}
+
+		source.append("default:\n");
+		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("break;\n");
+		source.append("}\n");
 		source.append("}\n");
 	}
 
@@ -880,5 +905,36 @@ public class UnionGenerator {
 			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
 			source.append("}\n\n");
 		}
+	}
+
+	/**
+	 * Generate log
+	 *
+	 * @param source: where the source code is to be generated.
+	 * */
+	private static void generateTemplateLog(final StringBuilder source) {
+		source.append("public void log() {\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("single_value.log();\n");
+		source.append("break;\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("TtcnLogger.log_event_str(\"complement \");\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("TtcnLogger.log_char('(');\n");
+		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("if (list_count > 0) {\n");
+		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("}\n");
+		source.append("value_list.get(list_count).log();\n");
+		source.append("}\n");
+		source.append("TtcnLogger.log_char(')');\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("log_generic();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("log_ifpresent();\n");
+		source.append("}\n");
 	}
 }
