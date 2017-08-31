@@ -258,7 +258,8 @@ public final class TtcnLogger {
 	}
 
 	public static void log_event_unbound() {
-		// TODO Auto-generated method stub
+		//TODO a bit more complicated
+		log_event_str("<unbound>");
 	}
 
 	public static void log_octet( final char aOctet ) {
