@@ -317,7 +317,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@Override
 	public String toString() {
-		final StringBuilder str = new StringBuilder('{');
+		final StringBuilder str = new StringBuilder("{");
 		for (int i = 0; i < array_size-1; ++i) {
 			str.append(array_elements.get(i).toString());
 			str.append(" , ");
