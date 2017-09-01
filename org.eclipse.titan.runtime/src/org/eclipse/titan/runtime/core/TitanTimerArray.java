@@ -122,14 +122,12 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return array_size;
 	}
 
-	//FIXME: implement
 	public void setName(String name_string)
 	{
 		for (int i = 0; i < (int)array_size; ++i) {
 			// index_offset may be negative, hence i must be int (not size_t)
 			// to ensure that signed arithmetic is used.
-			names.set(i, name_string);
-			//mputprintf(mcopystr(name_string), "[%d]", index_offset+i);
+			names.set(i, name_string + '['+(indexOffset+i) + ']');
 			array_elements.get(i).setName(names.get(i));
 		}
 	}
@@ -172,5 +170,55 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		}
 
 		return getTimerArrayIndex(indexValue.getInt(), arraySize, indexOffset);
+	}
+
+	//TODO: timeout, running
+	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO
+
+	// originally alt_status timeout(Index_Redirect* index_redirect)
+	public TitanAlt_Status timeout() {
+		//FIXME handle redirection
+		/* if (index_redirect != NULL) {
+	      index_redirect->incr_pos();
+	    }*/
+		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
+		for (int i = 0; i < array_size; ++i) {
+			TitanAlt_Status ret_val = array_elements.get(i).timeout();
+			if (ret_val == TitanAlt_Status.ALT_YES) {
+				// if (index_redirect != NULL) {
+				//	 index_redirect->add_index((int)i + index_offset);
+				// }
+				result = ret_val;
+				break;
+			}
+			else if (ret_val == TitanAlt_Status.ALT_REPEAT ||
+					(ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
+				result = ret_val;
+			}
+		}
+
+		return result;
+	}
+
+	// originally boolean running(Index_Redirect* index_redirect) const
+	public boolean running() {
+		//FIXME handle redirection
+		// if (index_redirect != NULL) {
+		//	 index_redirect->incr_pos();
+		// }
+		boolean ret_val = false;
+		for (int i = 0; i < array_size; ++i) {
+			ret_val = array_elements.get(i).running();
+			if (ret_val) {
+				//	        if (index_redirect != NULL) {
+				//	          index_redirect->add_index((int)i + index_offset);
+				//	        }
+				break;
+			}
+		}
+		// if (index_redirect != NULL) {
+		// 	 index_redirect->decr_pos();
+		// }
+		return ret_val;
 	}
 }

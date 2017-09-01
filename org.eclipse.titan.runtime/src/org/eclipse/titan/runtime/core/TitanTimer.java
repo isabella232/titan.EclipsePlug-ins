@@ -16,6 +16,7 @@ import java.util.LinkedList;
  * TODO: the destructor can be a problem.
  * 
  * @author Kristof Szabados
+ * @author Farkas Izabella Ingrid
  */
 public class TitanTimer {
 	public static final TitanTimer testcaseTimer = new TitanTimer("<testcase guard timer>");
@@ -36,7 +37,7 @@ public class TitanTimer {
 		
 	}
 	
-	TitanTimer assign(TitanTimer otherValue) {
+	TitanTimer assign(final TitanTimer otherValue) {
 		timerName = otherValue.timerName;
 		hasDefault = otherValue.hasDefault;
 		isStarted = otherValue.isStarted;
