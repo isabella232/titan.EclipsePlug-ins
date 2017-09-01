@@ -60,6 +60,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	public TitanTimerArray(final Class<T> clazz) {
 		this.clazz = clazz;
 		array_elements = new ArrayList<T>();
+		names = new ArrayList<String>();
 	}
 
 	public void setSize(final int length) {
@@ -124,10 +125,10 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	public void setName(String name_string)
 	{
-		for (int i = 0; i < (int)array_size; ++i) {
+		for (int i = 0; i < array_size; ++i) {
 			// index_offset may be negative, hence i must be int (not size_t)
 			// to ensure that signed arithmetic is used.
-			names.set(i, name_string + '['+(indexOffset+i) + ']');
+			names.add(name_string + '['+(indexOffset+i) + ']');
 			array_elements.get(i).setName(names.get(i));
 		}
 	}
