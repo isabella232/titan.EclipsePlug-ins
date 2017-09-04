@@ -286,9 +286,36 @@ public class TitanFloat extends Base_Type {
 	public TitanBoolean isGreaterThanOrEqual(final TitanFloat otherValue) {
 		return isLessThan(otherValue).not();
 	}
+	
+	public void log(){
+		if(float_value!=null){
+			log_float(float_value.getValue());
+		}else{
+			TtcnLogger.log_event_unbound();
+		}
+	}
 
 	public void cleanUp() {
 		float_value = null;
+	}
+	
+	static void log_float(double float_val){
+		if(float_val>Float.MAX_VALUE && float_val<=Float.MIN_VALUE){
+			TtcnLogger.log_event("%f",float_val);
+			if(float_val==PLUS_INFINITY){
+				TtcnLogger.log_event_str("infinity");
+			}else{
+				if(float_val==MINUS_INFINITY){
+					TtcnLogger.log_event_str("-infinity");
+				}else{
+					if(float_val!=float_val){
+						TtcnLogger.log_event_str("not a number");
+					}
+				}
+			}
+		} else {
+			TtcnLogger.log_event("%e", float_val);
+		}
 	}
 
 	@Override
