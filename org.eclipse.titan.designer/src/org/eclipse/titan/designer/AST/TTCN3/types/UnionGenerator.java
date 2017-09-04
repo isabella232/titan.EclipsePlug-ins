@@ -65,6 +65,7 @@ public class UnionGenerator {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TtcnError");
+		aData.addBuiltinTypeImport("TtcnLogger");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
 		generateValueConstructors(source, genName, fieldInfos);
