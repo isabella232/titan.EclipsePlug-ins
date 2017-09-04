@@ -473,15 +473,6 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		//FIXME eddig nem volt ilyen API -nk
-		source.append( MessageFormat.format( "\tpublic void add( final {0} aElement ) '{'\n", ofTypeName ) );
-		source.append("\t\tif ( valueElements == null ) {\n");
-		source.append( MessageFormat.format( "\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
-		source.append("\t\t}\n");
-		source.append("\t\tvalueElements.add( aElement );\n");
-		source.append("\t}\n");
-
-		source.append('\n');
 		source.append("\tpublic void setSize(final int newSize) {\n");
 		source.append("\t\tif (newSize < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a value of type {0}.\");\n", displayName ) );
@@ -1381,10 +1372,10 @@ public class RecordOfGenerator {
 		aSb.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
-		aSb.append( MessageFormat.format( "\t\t\t{0} ret_val = new {0}();\n", genName ) );
+		aSb.append( MessageFormat.format( "\t\t\t{0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 		aSb.append("\t\t\t\tif (value_elements.get(elem_count).isBound().getValue()) {\n");
-		aSb.append("\t\t\t\t\tret_val.add( value_elements.get(elem_count).valueOf() );\n");
+		aSb.append("\t\t\t\t\tret_val.valueElements.add( value_elements.get(elem_count).valueOf() );\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\treturn ret_val;\n");
