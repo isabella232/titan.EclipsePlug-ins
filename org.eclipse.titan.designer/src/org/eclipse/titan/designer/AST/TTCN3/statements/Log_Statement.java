@@ -136,6 +136,7 @@ public final class Log_Statement extends Statement {
 		//this is a preliminary support to be enabled once runtime support is present
 		if (logArguments != null) {
 			aData.addCommonLibraryImport("TtcnLogger");
+			aData.addBuiltinTypeImport("TtcnLogger.Severity");
 
 			boolean bufferedMode = true;
 			if (logArguments.getNofLogArguments() == 1) {
