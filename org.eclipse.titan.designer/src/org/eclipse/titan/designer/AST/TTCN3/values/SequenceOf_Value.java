@@ -714,8 +714,8 @@ public final class SequenceOf_Value extends Value {
 				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				source.append(MessageFormat.format("{0}.setSize({1});\n", name, nofValues));
-				final IType ofType = values.getValueByIndex(0).getMyGovernor();
-				final String embeddedType = ofType.getGenNameValue(aData, source, myScope);
+				final IType ofType = values.getValueByIndex(0).getMyGovernor(); //null
+				//final String embeddedType = ofType.getGenNameValue(aData, source, myScope);
 
 				for (int i = 0; i < nofValues; i++) {
 					final IValue value = values.getValueByIndex(i);
