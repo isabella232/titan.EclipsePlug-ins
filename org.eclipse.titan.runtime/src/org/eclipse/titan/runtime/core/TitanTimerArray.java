@@ -24,7 +24,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	int indexOffset;
 
 	/// Copy constructor disallowed.
-	TitanTimerArray(final TitanTimerArray<T> otherValue) {
+	public TitanTimerArray(final TitanTimerArray<T> otherValue) {
 		clazz = otherValue.clazz; 
 		array_elements = new ArrayList<T>();
 		array_size = otherValue.array_size;
@@ -52,7 +52,17 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		indexOffset = otherValue.indexOffset;
 		array_elements = new ArrayList<T>(array_size);
 		for (int i = 0; i < otherValue.array_size; ++i) {
-			array_elements.add(otherValue.array_element(i));
+			try {
+				T helper = clazz.newInstance();
+				helper.assign(otherValue.array_element(i));
+				array_elements.add(helper);
+			} catch (InstantiationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		return this;
 	}
@@ -62,7 +72,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		array_elements = new ArrayList<T>();
 		names = new ArrayList<String>();
 	}
-
+	
 	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
@@ -211,9 +221,9 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		for (int i = 0; i < array_size; ++i) {
 			ret_val = array_elements.get(i).running();
 			if (ret_val) {
-				//	        if (index_redirect != NULL) {
-				//	          index_redirect->add_index((int)i + index_offset);
-				//	        }
+			// if (index_redirect != NULL) {
+			//	 index_redirect->add_index((int)i + index_offset);
+			// }
 				break;
 			}
 		}
