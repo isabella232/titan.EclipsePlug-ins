@@ -13,6 +13,7 @@ import java.text.MessageFormat;
  * TTCN-3 float
  * @author Arpad Lovassy
  * @author Farkas Izabella Ingrid
+ * @author Andrea Pálfi
  */
 public class TitanFloat extends Base_Type {
 	/**
@@ -24,6 +25,8 @@ public class TitanFloat extends Base_Type {
 	public static final double PLUS_INFINITY = Double.POSITIVE_INFINITY;
 	public static final double MINUS_INFINITY = Double.NEGATIVE_INFINITY;
 	public static final double NOT_A_NUMBER = Double.NaN;
+	public static final double MIN_DECIMAL_FLOAT = 1.0E-4;
+	public static final double MAX_DECIMAL_FLOAT = 1.0E+10;
 
 	public TitanFloat() {
 		super();
@@ -286,7 +289,7 @@ public class TitanFloat extends Base_Type {
 	public TitanBoolean isGreaterThanOrEqual(final TitanFloat otherValue) {
 		return isLessThan(otherValue).not();
 	}
-	
+
 	public void log(){
 		if(float_value!=null){
 			log_float(float_value.getValue());
@@ -298,9 +301,9 @@ public class TitanFloat extends Base_Type {
 	public void cleanUp() {
 		float_value = null;
 	}
-	
+
 	static void log_float(double float_val){
-		if( float_val>Double.MIN_VALUE && float_val<Double.MAX_VALUE){
+		if( float_val<Float.MIN_VALUE || float_val>Float.MAX_VALUE){
 			TtcnLogger.log_event("%f",float_val);
 		}else if(float_val==PLUS_INFINITY){
 			TtcnLogger.log_event_str("infinity");
