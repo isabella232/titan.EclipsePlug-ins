@@ -40,6 +40,8 @@ public class TitanPort {
 		is_active = false;
 		is_started = false;
 	}
+	
+	protected TitanPort() {}
 
 	public String getName() {
 		return portName;
