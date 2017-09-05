@@ -303,7 +303,8 @@ public class TitanFloat extends Base_Type {
 	}
 
 	static void log_float(double float_val){
-		if( float_val<Float.MIN_VALUE || float_val>Float.MAX_VALUE){
+		if( (float_val > -TitanFloat.MAX_DECIMAL_FLOAT && float_val <= -TitanFloat.MIN_DECIMAL_FLOAT) || 
+			(float_val >= MIN_DECIMAL_FLOAT && float_val < TitanFloat.MAX_DECIMAL_FLOAT) || (float_val == 0.0)){
 			TtcnLogger.log_event("%f",float_val);
 		}else if(float_val==PLUS_INFINITY){
 			TtcnLogger.log_event_str("infinity");
