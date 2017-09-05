@@ -48,6 +48,15 @@ public class TitanTimer {
 		return this;
 	}
 	
+	//FIXME: implement
+	public TitanTimer assign(TitanFloat defaultValue) {
+		defaultValue.mustBound("Initializing a timer duration with an unbound float value.");
+
+		setDefaultDuration(defaultValue);
+		isStarted = false;
+		return this;
+	}
+	
 	public TitanTimer(final String name) {
 		if (name == null) {
 			timerName = "<unknown>";
