@@ -103,7 +103,32 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			array_elements.get(i).setName(name_string);
 		}
 	}
-
+	
+	//originally activate_port
+	public void activatePort() {
+		for (int v_index = 0; v_index < array_size; v_index++) {
+			//FIXME: TitanPort.activatePort()
+			array_elements.get(v_index).activatePort(false);
+		}
+	}
+	
+	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO
+	
+	//TODO: Index_redirecting
+	public TitanAlt_Status receive(final TitanComponent_template sender_template, TitanComponent sender_ptr /*, Index_Redirect index_redirect */) {
+		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
+		for (int i = 0; i < array_size; i++) {
+			TitanAlt_Status ret_val = array_elements.get(i).receive(sender_template, sender_ptr);
+			if(ret_val == TitanAlt_Status.ALT_YES) {
+				result = ret_val;
+				break;
+			} else if(ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
+				result = ret_val;
+			}
+		}
+		return result;
+	}
+	
 	//Static methods
 
 	//originally get_port_array_index
