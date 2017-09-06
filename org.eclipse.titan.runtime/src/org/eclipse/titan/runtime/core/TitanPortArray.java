@@ -70,6 +70,16 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	public T getAt(final TitanInteger index_value) {
 		return array_elements.get(getPortArrayIndex(index_value.getInt(), array_elements.size(), indexofset));
 	}
+	
+	//originally operator[]
+	public final T constGetAt(final int index_value) {
+		return getAt(index_value);
+	}
+	
+	//originally operator[]
+	public final T constGetAt(final TitanInteger index_value) {
+		return getAt(index_value);
+	}
 
 	//Static methods
 	
