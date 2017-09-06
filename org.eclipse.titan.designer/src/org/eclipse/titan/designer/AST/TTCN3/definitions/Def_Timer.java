@@ -583,7 +583,7 @@ public final class Def_Timer extends Definition {
 				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
 				source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");	
 			} else {
-				StringBuilder sb = aData.getCodeForType(defaultDuration.getGenNameOwn());
+				StringBuilder sb = aData.getCodeForType(genName);
 				String elementName = generateClassCode(aData,sb);
 				source.append(MessageFormat.format("TitanTimerArray<{0}>", elementName));
 				source.append(genName);
