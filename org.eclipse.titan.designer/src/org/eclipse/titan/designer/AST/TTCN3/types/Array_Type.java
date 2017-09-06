@@ -57,8 +57,10 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
+
 /**
  * @author Kristof Szabados
+ * @author Gergo Ujhelyi
  * */
 public final class Array_Type extends Type implements IReferenceableElement {
 	private static final String ARRAYVALUEEXPECTED = "Array value was expected";
@@ -930,9 +932,9 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		return getGenNameOwn()+"_template";
 	}
-
+	
 	@Override
-	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+	public void generateCode(JavaGenData aData, StringBuilder source) {
 		if (!inTypeDefinition) {
 			return;
 		}
@@ -959,7 +961,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n");
 		source.append("}\n\n");
 	}
-
+	
 	public String generateCodeValue(JavaGenData aData, StringBuilder source, Array_Type arrayType , StringBuilder sb) {
 		String tempId1 = aData.getTemporaryVariableName();
 		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
@@ -985,6 +987,30 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			sb.append("}\n}\n\n");
 			return tempId1;
 		}
+	}
+	
+	public String generateCodeTemplate(JavaGenData aData, StringBuilder source, Array_Type arrayType, StringBuilder sb) {
+		String tempId1 = aData.getTemporaryVariableName();
+		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
+			tempId1 = generateCodeTemplate(aData, source,(Array_Type)arrayType.getElementType(),sb);
+			arrayType = (Array_Type)arrayType.getElementType();
+			String tempId2 = aData.getTemporaryVariableName();
+			String tempId3 = generateCodeValue(aData, source, arrayType, sb);
+			sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", tempId2,tempId3,tempId1));
+			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
+			sb.append(MessageFormat.format("super({0}.class, {1}.class);\n", tempId3,tempId1));
+			sb.append("}\n");
+			sb.append("}\n");
+			tempId1 = tempId2;
+			return tempId1;
+		} else {
+			sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", tempId1,arrayType.getElementType().getGenNameValue(aData, source, getMyScope()) ,arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope())));
+			sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
+			sb.append(MessageFormat.format("super({0}.class , {1}.class);\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope()) ,arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope())));
+			sb.append("}\n");
+			sb.append("}\n");
+			return tempId1;
+		}	
 	}
 
 	@Override
