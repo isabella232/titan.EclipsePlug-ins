@@ -60,7 +60,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 
 		return this;
 	}
-	
+
 	//originally operator[]
 	public T getAt(final int index_value) {
 		return array_elements.get(getPortArrayIndex(index_value, array_elements.size(), indexofset));
@@ -70,19 +70,42 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	public T getAt(final TitanInteger index_value) {
 		return array_elements.get(getPortArrayIndex(index_value.getInt(), array_elements.size(), indexofset));
 	}
-	
+
 	//originally operator[]
 	public final T constGetAt(final int index_value) {
 		return getAt(index_value);
 	}
-	
+
 	//originally operator[]
 	public final T constGetAt(final TitanInteger index_value) {
 		return getAt(index_value);
 	}
 
-	//Static methods
+	//originally n_elem
+	public int nElem() {
+		return array_size;
+	}
+
+	//originally size_of
+	public int sizeOf() {
+		return array_size;
+	}
+
+	//originally lengthof
+	public int lengthOf() {
+		return array_size;
+	}
 	
+	//originally set_name
+	public void setName(final String name_string) {
+		for (int i = 0; i < array_size; i++) {
+			names.set(i, name_string);
+			array_elements.get(i).setName(name_string);
+		}
+	}
+
+	//Static methods
+
 	//originally get_port_array_index
 	public static int getPortArrayIndex(final int index_value,final int array_size,final int index_offset) {
 		if(index_value < index_offset) {
@@ -96,11 +119,11 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		return ret_val;
 	}
-	
+
 	public static int getPortArrayIndex(final TitanInteger index_value,final int array_size,final int index_offset) {
 		index_value.mustBound("Accessing an element of a port array using an unbound index.");
-		
+
 		return getPortArrayIndex(index_value.getInt(), array_size, index_offset);
 	}
-	
+
 }
