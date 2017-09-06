@@ -13,6 +13,7 @@ import java.util.ArrayList;
 /**
  * TTCN-3 float template
  * @author Farkas Izabella Ingrid  
+ * @author Andrea Pálfi
  *
  * Not yet complete rewrite
  */
@@ -333,6 +334,52 @@ public class TitanFloat_template extends Base_Template {
 		}
 
 		return single_value;
+	}
+	
+	public void log(){
+		switch (templateSelection) {
+		case SPECIFIC_VALUE: {
+			TitanFloat.log_float(single_value.getValue());
+			break;
+		}
+		case COMPLEMENTED_LIST:
+			TtcnLogger.log_event_str("complement");
+		case VALUE_LIST:
+			TtcnLogger.log_char('(');
+			for (int i = 0; i < value_list.size(); i++) {
+				if (i > 0){
+					TtcnLogger.log_event_str(", ");
+				}
+				value_list.get(i).log();
+			}
+			TtcnLogger.log_char(')');
+			break;		
+
+		case VALUE_RANGE: 
+			TtcnLogger.log_char('(');
+			if(min_is_exclusive){
+				TtcnLogger.log_char('!');
+			} 
+			if(min_is_present){
+				TitanFloat.log_float(min_value.getValue());
+			}else{
+				TtcnLogger.log_event_str("-infinity");
+			}
+			TtcnLogger.log_event_str("..");
+			if(max_is_exclusive){
+				TtcnLogger.log_char('!');
+			} 
+			if(max_is_present){
+				TitanFloat.log_float(max_value.getValue());
+			}else{
+				TtcnLogger.log_event_str("infinity");
+			}
+			TtcnLogger.log_char(')');
+			break;
+		default: log_generic();
+		break;
+		}
+		log_ifpresent();
 	}
 
 	// originally is_present (with default parameter)
