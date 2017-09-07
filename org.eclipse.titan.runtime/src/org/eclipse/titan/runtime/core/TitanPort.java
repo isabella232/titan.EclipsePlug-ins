@@ -40,7 +40,7 @@ public class TitanPort {
 		is_active = false;
 		is_started = false;
 	}
-	
+
 	protected TitanPort() {}
 
 	public String getName() {
@@ -627,5 +627,12 @@ public class TitanPort {
 		}
 		//FIXME add support for translation and single mode check
 		port.unmap(componentPort);
+	}
+
+	public void setName(final String name) {
+		if(name == null) {
+			throw new TtcnError("Internal error: Setting an invalid name for a single element of a port array.");
+		}
+		portName = name;
 	}
 }
