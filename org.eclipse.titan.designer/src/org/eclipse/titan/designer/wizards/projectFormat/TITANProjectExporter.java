@@ -329,7 +329,7 @@ public final class TITANProjectExporter {
 		projectNameNode.appendChild(document.createTextNode(project.getName()));
 		root.appendChild(projectNameNode);
 
-		boolean result = saveReferencedProjectsData(root, project, packReferencedProjects, storeReferredProjectLocationURI);
+		boolean result = saveReferencedProjectsData(root, project, storeReferredProjectLocationURI);
 		if (!result) {
 			return false;
 		}
@@ -386,7 +386,7 @@ public final class TITANProjectExporter {
 	 * @param project
 	 *            the project to be processed.
 	 * */
-	private boolean saveReferencedProjectsData(final Node root, final IProject project, final boolean packReferencedProjects, final boolean storeReferredProjectLocationURI) {
+	private boolean saveReferencedProjectsData(final Node root, final IProject project, final boolean storeReferredProjectLocationURI) {
 		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
 		if (referencedProjects.length == 0) {
 			return true;
