@@ -174,15 +174,17 @@ public final class TITANProjectExporter {
 
 			if( projectFile.startsWith("file:/")) {
 				projectFile = projectFile.substring(6);
-				project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-						ProjectBuildPropertyData.LOAD_LOCATION),projectFile);
-			}
 
-			if( projectFile.matches("/[a-zA-Z]:.*")) {
-				projectFile = projectFile.substring(1);
-				project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-						ProjectBuildPropertyData.LOAD_LOCATION),projectFile);
+				if( projectFile.matches("//[a-zA-Z]:.*")) {
+					projectFile = projectFile.substring(1);
+					project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+							ProjectBuildPropertyData.LOAD_LOCATION),projectFile);
+				} else {
+					project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+							ProjectBuildPropertyData.LOAD_LOCATION),projectFile);
+				}
 			}
+			
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
@@ -238,7 +240,7 @@ public final class TITANProjectExporter {
 		Element root = document.getDocumentElement();
 		root.setAttribute("version", "1.0");
 
-		boolean result = saveProjectInformation(root, project, packAllProjectsIntoOne);
+		boolean result = saveProjectInformation(root, project, packAllProjectsIntoOne, !packAllProjectsIntoOne);
 		if (!result) {
 			return false;
 		}
@@ -319,7 +321,7 @@ public final class TITANProjectExporter {
 	 * @param packReferencedProjects
 	 *            whether the referenced projects should be packed as well.
 	 * */
-	private boolean saveProjectInformation(final Node root, final IProject project, final boolean packReferencedProjects) {
+	private boolean saveProjectInformation(final Node root, final IProject project, final boolean packReferencedProjects, final boolean storeReferredProjectLocationURI) {
 		final Document document = root.getOwnerDocument();
 
 		// save the name of the project
@@ -327,7 +329,7 @@ public final class TITANProjectExporter {
 		projectNameNode.appendChild(document.createTextNode(project.getName()));
 		root.appendChild(projectNameNode);
 
-		boolean result = saveReferencedProjectsData(root, project);
+		boolean result = saveReferencedProjectsData(root, project, packReferencedProjects, storeReferredProjectLocationURI);
 		if (!result) {
 			return false;
 		}
@@ -367,7 +369,8 @@ public final class TITANProjectExporter {
 				for (IProject tempProject : referencedProjects) {
 					Element element = document.createElement(ProjectFormatConstants.PACKED_REFERENCED_PROJECT_NODE);
 					projectsElement.appendChild(element);
-					saveProjectInformation(element, tempProject, false);
+					//the packed r. p. node must not contain packed r.p nodes but the project locationURI should be removed, as ordered above
+					saveProjectInformation(element, tempProject, false, storeReferredProjectLocationURI); 
 				}
 			}
 		}
@@ -383,7 +386,7 @@ public final class TITANProjectExporter {
 	 * @param project
 	 *            the project to be processed.
 	 * */
-	private boolean saveReferencedProjectsData(final Node root, final IProject project) {
+	private boolean saveReferencedProjectsData(final Node root, final IProject project, final boolean packReferencedProjects, final boolean storeReferredProjectLocationURI) {
 		IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
 		if (referencedProjects.length == 0) {
 			return true;
@@ -397,7 +400,7 @@ public final class TITANProjectExporter {
 			Element element = document.createElement(ProjectFormatConstants.REFERENCED_PROJECT_NODE);
 			element.setAttribute(ProjectFormatConstants.REFERENCED_PROJECT_NAME_ATTRIBUTE, tempProject.getName());
 
-			boolean projectLocaltionURIset = false;
+			boolean projectLocationURIset = false;
 			if (useTpdNameAttribute) {
 				String tempTpdName = null;
 				String origTpdURI = null;
@@ -411,9 +414,9 @@ public final class TITANProjectExporter {
 				}
 				if(tempTpdName == null || tempTpdName.length() == 0) {
 					tempTpdName = tempProject.getName() + ".tpd";
-				} else if (origTpdURI != null && origTpdURI.length() != 0){
+				} else if (origTpdURI != null && origTpdURI.length() != 0 && storeReferredProjectLocationURI){
 					element.setAttribute(ProjectFormatConstants.REFERENCED_PROJECT_LOCATION_ATTRIBUTE, origTpdURI);
-					projectLocaltionURIset = true;
+					projectLocationURIset = true;
 				}
 				element.setAttribute(ProjectFormatConstants.REFERENCED_PROJECT_TPD_NAME_ATTRIBUTE, tempTpdName);
 			}
@@ -440,7 +443,11 @@ public final class TITANProjectExporter {
 							+ tempProject.getName() + " must be saved first.");
 					return false;
 				}
-				if (!projectLocaltionURIset) {
+				//We don't store referenced project URI if
+				// - it has been stored already OR
+				// - for packReferencedProjects 
+				//   because information of packed reference projects are stored in this top level tpd
+				if (!projectLocationURIset && storeReferredProjectLocationURI) {
 					URI locationuri = null;
 					try {
 						locationuri = org.eclipse.core.runtime.URIUtil.fromString(location);
