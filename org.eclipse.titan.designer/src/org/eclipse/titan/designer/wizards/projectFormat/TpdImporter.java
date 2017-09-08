@@ -705,14 +705,12 @@ public class TpdImporter {
 	
 	//Perhaps variableValue is not in a form of Path and it shall be converted:
 	private URI converPathOrUriStringToURI(String pathOrUriString){
-		URI uri = null;
 		final boolean isWindows = Platform.OS_WIN32.equals(Platform.getOS());// Alternative:java.io.File.separatorChar == '\\';
 		if ( (isWindows && Path.isValidWindowsPath(pathOrUriString)) || (!isWindows && Path.isValidPosixPath(pathOrUriString))) {
-			uri = URIUtil.toURI(pathOrUriString);
+			return URIUtil.toURI(pathOrUriString);
 		} else {
-			uri = URIUtil.toURI( pathOrUriString, false);
+			return URIUtil.toURI( pathOrUriString, false);
 		}
-		return uri;
 	}
 
 	/**
