@@ -210,7 +210,13 @@ public class TpdImporter {
 			IProject project = createProject(actualDocument.getDocumentElement(), file.equals(resolvedProjectFileURI) || !isSkipExistingProjects);
 			if (project == null) {
 				projectCreationMonitor.worked(1);
-				continue;
+				if (file.equals(resolvedProjectFileURI)) {
+					projectCreationMonitor.done();
+					progress.done();
+					return false;
+				} else {
+					continue;
+				}
 			}
 			projectsCreated.add(project);
 			projectMap.put(file, project);
@@ -696,6 +702,16 @@ public class TpdImporter {
 
 		return true;
 	}
+	
+	//Perhaps variableValue is not in a form of Path and it shall be converted:
+	private URI converPathOrUriStringToURI(String pathOrUriString){
+		final boolean isWindows = Platform.OS_WIN32.equals(Platform.getOS());// Alternative:java.io.File.separatorChar == '\\';
+		if ( (isWindows && Path.isValidWindowsPath(pathOrUriString)) || (!isWindows && Path.isValidPosixPath(pathOrUriString))) {
+			return URIUtil.toURI(pathOrUriString);
+		} else {
+			return URIUtil.toURI( pathOrUriString, false);
+		}
+	}
 
 	/**
 	 * Load the information on path variables.
@@ -735,7 +751,7 @@ public class TpdImporter {
 
 			if (headless || shell == null) {
 				try {
-					pathVariableManager.setURIValue(variableName, URIUtil.toURI(variableValue));
+					pathVariableManager.setURIValue(variableName, converPathOrUriStringToURI(variableValue));
 				} catch (CoreException e) {
 					ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in headless mode", e);
 				}
@@ -744,22 +760,20 @@ public class TpdImporter {
 					@Override
 					public void run() {
 						try {
+							final URI variableValueURI = converPathOrUriStringToURI(variableValue);
+							final String variableValue1 = variableValueURI.toString();
 							if (pathVariableManager.isDefined(variableName)) {
 								URI uri = pathVariableManager.getURIValue(variableName);
-								if (!variableValue.equals(URIUtil.toPath(uri).toString())) {
-									EditPathVariableDialog dialog = new EditPathVariableDialog(shell, variableName, uri, URIUtil.toURI(
-											variableValue));
+								if (!variableValue1.equals( uri.toString())) {
+									EditPathVariableDialog dialog = new EditPathVariableDialog(shell, variableName, uri, variableValueURI);
 									if (Window.OK == dialog.open()) {
 										URI actualValue = dialog.getActualValue();
 										pathVariableManager.setURIValue(variableName, actualValue);
 									}
 								}
 							} else {
-								NewPathVariableDialog dialog = new NewPathVariableDialog(shell, variableName, URIUtil.toURI(variableValue));
-								if (Window.OK == dialog.open()) {
-									URI actualValue = dialog.getActualValue();
-									pathVariableManager.setURIValue(variableName, actualValue);
-								}
+								//Modification dialog has been removed
+								pathVariableManager.setURIValue(variableName, variableValueURI);
 							}
 						} catch (CoreException e) {
 							ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in GUI mode", e);
@@ -1094,11 +1108,17 @@ public class TpdImporter {
 			final String projectName = nameNode.getTextContent();
 			Node locationNode = attributeMap.getNamedItem(ProjectFormatConstants.REFERENCED_PROJECT_LOCATION_ATTRIBUTE);
 			if (locationNode == null) {
-				displayError("Import failed", "Error while importing from file " + file
-						+ " the location attribute of the referenced project " + projectName + " is not given.");
-				return false;
+				if (i > 0) {
+					displayError("Import failed", "Error while importing from file " + file
+							+ " the location attribute of the referenced project " + projectName + " is not given.");
+				} else {
+					ErrorReporter.logWarning( "Import failed while importing from file " + file
+							+ " the location attribute of the referenced project " 
+							+ projectName + " is not given.\nPerhaps it is under PackedReferencedProjects");
+				}
+				break; // project handling continues in processing PackedReferencedProjects
 			}
-
+			
 			String unresolvedProjectLocationURI = locationNode.getTextContent();
 
 			URI absoluteURI = TITANPathUtilities.resolvePath(unresolvedProjectLocationURI, URIUtil.toURI(projectFileFolderPath));
@@ -1152,6 +1172,7 @@ public class TpdImporter {
 //			if( !projectsWithUnresolvedName.containsKey(absoluteURI) ) {
 //				projectsWithUnresolvedName.put(absoluteURI, unresolvedProjectLocationURI);
 //			}
+
 			result &= loadURIDocuments(absoluteURI, validator);
 			importChain.remove(importChain.size() - 1);
 		}
