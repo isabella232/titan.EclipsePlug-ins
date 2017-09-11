@@ -118,8 +118,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			if(v_index > 0) {
 				TtcnLogger.log_event_str(", ");
 			}
-			//TODO:TitanPort.log()
-			//	array_elements.get(v_index).log();
+			array_elements.get(v_index).log();
 		}
 		TtcnLogger.log_event_str(" }");
 	}

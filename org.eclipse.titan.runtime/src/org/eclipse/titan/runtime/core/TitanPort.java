@@ -635,4 +635,8 @@ public class TitanPort {
 		}
 		portName = name;
 	}
+	
+	public void log() {
+		TtcnLogger.log_event("port %s", portName);
+	}
 }
