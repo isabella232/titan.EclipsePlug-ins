@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.util.Locale;
 import java.util.Stack;
 
 /**
@@ -163,7 +164,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
-		log_line(msg_severity, String.format(formatString, args));
+		log_line(msg_severity, String.format(Locale.US, formatString, args));
 	}
 
 	public static void begin_event(final Severity msg_severity) {
@@ -241,7 +242,7 @@ public final class TtcnLogger {
 
 	public static void log_event_va_list(final String formatString, final Object... args) {
 		if (current_event != null) {
-			current_event.buffer.append(String.format(formatString, args));
+			current_event.buffer.append(String.format(Locale.US, formatString, args));
 		}
 	}
 
