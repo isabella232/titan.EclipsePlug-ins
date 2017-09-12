@@ -230,13 +230,15 @@ public final class Setverdict_Statement extends Statement {
 			expression.expression.append(", ");
 			ExpressionStruct reason = new ExpressionStruct();
 			verdictReason.generateCodeExpression(aData, reason);
+			//verdictReason.generateCodeExpressionLog(aData, reason);
 			if (reason.preamble.length() > 0) {
-				expression.preamble.append(reason.preamble).append(";\n");
+				expression.preamble.append(reason.preamble);
 			}
 			if (reason.postamble.length() > 0) {
-				expression.postamble.append(reason.postamble).append(";\n");
+				expression.postamble.append(reason.postamble);
 			}
 			expression.expression.append(reason.expression);
+			//expression.expression.append(".getValue().toString()");
 		}
 		expression.expression.append(')');
 		expression.mergeExpression(source);
