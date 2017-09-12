@@ -569,7 +569,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			}
 
 			if (!unreachableFound && !Statement_type.S_LABEL.equals(statement.getType()) && previousStatement != null
-					&& previousStatement.isTerminating(timestamp)) {
+					&& ReturnStatus_type.RS_YES.equals(previousStatement.hasReturn(timestamp))) {
 				// a statement is unreachable if:
 				// - it is not a label (i.e. goto cannot jump to
 				// it)
