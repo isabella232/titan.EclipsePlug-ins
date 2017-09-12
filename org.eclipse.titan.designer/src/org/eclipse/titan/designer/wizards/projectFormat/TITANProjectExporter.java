@@ -184,7 +184,6 @@ public final class TITANProjectExporter {
 							ProjectBuildPropertyData.LOAD_LOCATION),projectFile);
 				}
 			}
-			
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}

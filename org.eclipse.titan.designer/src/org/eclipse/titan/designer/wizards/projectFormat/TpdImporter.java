@@ -1118,7 +1118,7 @@ public class TpdImporter {
 				}
 				break; // project handling continues in processing PackedReferencedProjects
 			}
-			
+
 			String unresolvedProjectLocationURI = locationNode.getTextContent();
 
 			URI absoluteURI = TITANPathUtilities.resolvePath(unresolvedProjectLocationURI, URIUtil.toURI(projectFileFolderPath));
@@ -1172,7 +1172,6 @@ public class TpdImporter {
 //			if( !projectsWithUnresolvedName.containsKey(absoluteURI) ) {
 //				projectsWithUnresolvedName.put(absoluteURI, unresolvedProjectLocationURI);
 //			}
-
 			result &= loadURIDocuments(absoluteURI, validator);
 			importChain.remove(importChain.size() - 1);
 		}
