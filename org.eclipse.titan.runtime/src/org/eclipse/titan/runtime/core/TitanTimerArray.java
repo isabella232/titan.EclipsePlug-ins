@@ -72,7 +72,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		array_elements = new ArrayList<T>();
 		names = new ArrayList<String>();
 	}
-	
+
 	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {

@@ -290,10 +290,10 @@ public class TitanFloat extends Base_Type {
 		return isLessThan(otherValue).not();
 	}
 
-	public void log(){
-		if(float_value!=null){
+	public void log() {
+		if (float_value != null) {
 			log_float(float_value.getValue());
-		}else{
+		} else {
 			TtcnLogger.log_event_unbound();
 		}
 	}
@@ -302,17 +302,17 @@ public class TitanFloat extends Base_Type {
 		float_value = null;
 	}
 
-	static void log_float(double float_val){
-		if( (float_val > -TitanFloat.MAX_DECIMAL_FLOAT && float_val <= -TitanFloat.MIN_DECIMAL_FLOAT) || 
-			(float_val >= MIN_DECIMAL_FLOAT && float_val < TitanFloat.MAX_DECIMAL_FLOAT) || (float_val == 0.0)){
-			TtcnLogger.log_event("%f",float_val);
-		}else if(float_val==PLUS_INFINITY){
+	static void log_float(double float_val) {
+		if ((float_val > -TitanFloat.MAX_DECIMAL_FLOAT && float_val <= -TitanFloat.MIN_DECIMAL_FLOAT)
+				|| (float_val >= MIN_DECIMAL_FLOAT && float_val < TitanFloat.MAX_DECIMAL_FLOAT) || (float_val == 0.0)) {
+			TtcnLogger.log_event("%f", float_val);
+		} else if (float_val == PLUS_INFINITY) {
 			TtcnLogger.log_event_str("infinity");
-		}else if(float_val==MINUS_INFINITY){
+		} else if (float_val == MINUS_INFINITY) {
 			TtcnLogger.log_event_str("-infinity");
-		}else if(float_val!=float_val){
+		} else if (float_val != float_val) {
 			TtcnLogger.log_event_str("not a number");
-		}else{
+		} else {
 			TtcnLogger.log_event("%e", float_val);
 		}
 	}

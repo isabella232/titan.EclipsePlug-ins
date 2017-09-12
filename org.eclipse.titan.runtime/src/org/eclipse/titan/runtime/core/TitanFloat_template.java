@@ -335,8 +335,8 @@ public class TitanFloat_template extends Base_Template {
 
 		return single_value;
 	}
-	
-	public void log(){
+
+	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE: {
 			TitanFloat.log_float(single_value.getValue());
@@ -347,37 +347,38 @@ public class TitanFloat_template extends Base_Template {
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
-				if (i > 0){
+				if (i > 0) {
 					TtcnLogger.log_event_str(", ");
 				}
 				value_list.get(i).log();
 			}
 			TtcnLogger.log_char(')');
-			break;		
+			break;
 
-		case VALUE_RANGE: 
+		case VALUE_RANGE:
 			TtcnLogger.log_char('(');
-			if(min_is_exclusive){
+			if (min_is_exclusive) {
 				TtcnLogger.log_char('!');
-			} 
-			if(min_is_present){
+			}
+			if (min_is_present) {
 				TitanFloat.log_float(min_value.getValue());
-			}else{
+			} else {
 				TtcnLogger.log_event_str("-infinity");
 			}
-			TtcnLogger.log_event_str("..");
-			if(max_is_exclusive){
+			TtcnLogger.log_event_str(" .. ");
+			if (max_is_exclusive) {
 				TtcnLogger.log_char('!');
-			} 
-			if(max_is_present){
+			}
+			if (max_is_present) {
 				TitanFloat.log_float(max_value.getValue());
-			}else{
+			} else {
 				TtcnLogger.log_event_str("infinity");
 			}
 			TtcnLogger.log_char(')');
 			break;
-		default: log_generic();
-		break;
+		default:
+			log_generic();
+			break;
 		}
 		log_ifpresent();
 	}
