@@ -704,10 +704,10 @@ public class TpdImporter {
 	}
 	
 	//Perhaps variableValue is not in a form of Path and it shall be converted:
-	private URI converPathOrUriStringToURI(String pathOrUriString){
-		final boolean isWindows = Platform.OS_WIN32.equals(Platform.getOS());// Alternative:java.io.File.separatorChar == '\\';
-		if ( (isWindows && Path.isValidWindowsPath(pathOrUriString)) || (!isWindows && Path.isValidPosixPath(pathOrUriString))) {
-			return URIUtil.toURI(pathOrUriString);
+	private URI convertPathOrUriStringToURI(String pathOrUriString){
+		final Path tempPath = new Path(pathOrUriString);
+		if ( ( tempPath.isValidPath(pathOrUriString))) {
+			return URIUtil.toURI(tempPath);
 		} else {
 			return URIUtil.toURI( pathOrUriString, false);
 		}
@@ -751,7 +751,7 @@ public class TpdImporter {
 
 			if (headless || shell == null) {
 				try {
-					pathVariableManager.setURIValue(variableName, converPathOrUriStringToURI(variableValue));
+					pathVariableManager.setURIValue(variableName, convertPathOrUriStringToURI(variableValue));
 				} catch (CoreException e) {
 					ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in headless mode", e);
 				}
@@ -760,7 +760,7 @@ public class TpdImporter {
 					@Override
 					public void run() {
 						try {
-							final URI variableValueURI = converPathOrUriStringToURI(variableValue);
+							final URI variableValueURI = convertPathOrUriStringToURI(variableValue);
 							final String variableValue1 = variableValueURI.toString();
 							if (pathVariableManager.isDefined(variableName)) {
 								URI uri = pathVariableManager.getURIValue(variableName);
