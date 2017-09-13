@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -703,14 +704,19 @@ public class TpdImporter {
 		return true;
 	}
 	
-	//Perhaps variableValue is not in a form of Path and it shall be converted:
-	private URI convertPathOrUriStringToURI(String pathOrUriString){
-		final Path tempPath = new Path(pathOrUriString);
-		if ( ( tempPath.isValidPath(pathOrUriString))) {
-			return URIUtil.toURI(tempPath);
-		} else {
-			return URIUtil.toURI( pathOrUriString, false);
-		}
+	//Perhaps variableValue is not in a form of URI (with optional file scheme) or Path and it shall be converted in more steps:
+	private URI convertPathOrUriStringToURI(String pathOrUriString) throws URISyntaxException{
+		URI uri = new URI(pathOrUriString);
+        if ( uri.getScheme() == null || "file".equals( uri.getScheme())) {
+        	return uri;
+        } else {
+        	final Path tempPath = new Path(pathOrUriString);
+        	if ( ( tempPath.isValidPath(pathOrUriString))) {
+    			return URIUtil.toURI(tempPath);
+    		} else {
+    			return URIUtil.toURI( pathOrUriString, false); //perhaps it is unnecessary
+    		}
+        }
 	}
 
 	/**
@@ -752,9 +758,9 @@ public class TpdImporter {
 			if (headless || shell == null) {
 				try {
 					pathVariableManager.setURIValue(variableName, convertPathOrUriStringToURI(variableValue));
-				} catch (CoreException e) {
+				} catch (CoreException | URISyntaxException e) {
 					ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in headless mode", e);
-				}
+				} 
 			} else {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
@@ -775,7 +781,7 @@ public class TpdImporter {
 								//Modification dialog has been removed
 								pathVariableManager.setURIValue(variableName, variableValueURI);
 							}
-						} catch (CoreException e) {
+						} catch (CoreException|NullPointerException| URISyntaxException e) {
 							ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in GUI mode", e);
 						}
 					}
