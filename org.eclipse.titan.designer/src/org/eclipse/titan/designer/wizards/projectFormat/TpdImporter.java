@@ -758,9 +758,11 @@ public class TpdImporter {
 			if (headless || shell == null) {
 				try {
 					pathVariableManager.setURIValue(variableName, convertPathOrUriStringToURI(variableValue));
-				} catch (CoreException | URISyntaxException e) {
+				} catch (CoreException e) {
 					ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in headless mode", e);
-				} 
+				} catch (URISyntaxException e) {
+					ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in headless mode", e);
+				}
 			} else {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
@@ -781,7 +783,9 @@ public class TpdImporter {
 								//Modification dialog has been removed
 								pathVariableManager.setURIValue(variableName, variableValueURI);
 							}
-						} catch (CoreException|NullPointerException| URISyntaxException e) {
+						} catch (CoreException e) {
+							ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in GUI mode", e);
+						} catch (URISyntaxException e) {
 							ErrorReporter.logExceptionStackTrace("While setting path variable `" + variableName + "' in GUI mode", e);
 						}
 					}
