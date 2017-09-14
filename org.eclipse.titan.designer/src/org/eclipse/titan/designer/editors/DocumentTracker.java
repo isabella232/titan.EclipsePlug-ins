@@ -14,7 +14,7 @@ import org.eclipse.jface.text.IDocument;
  *
  * @author Kristof Szabados
  * */
-public class DocumentTracker {
+public final class DocumentTracker {
 
 	private static final Map<IFile, IDocument> FILE_DOCUMENT_MAP = new ConcurrentHashMap<IFile, IDocument>();
 

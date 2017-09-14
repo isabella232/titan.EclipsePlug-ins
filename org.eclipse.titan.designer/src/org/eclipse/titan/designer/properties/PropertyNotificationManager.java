@@ -20,7 +20,7 @@ import org.eclipse.core.runtime.SafeRunner;
  *   
  *   @author Kristof Szabados
  * */
-public class PropertyNotificationManager {
+public final class PropertyNotificationManager {
 	private static List<IPropertyChangeListener> listeners = new ArrayList<IPropertyChangeListener>();
 
 	/**
