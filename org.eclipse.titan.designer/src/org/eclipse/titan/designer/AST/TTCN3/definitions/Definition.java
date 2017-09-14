@@ -85,7 +85,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	/** The visibility modifier of the definition */
 	private VisibilityModifier visibilityModifier;
 
-	protected String genName = new String();
+	protected String genName = "";
 
 	private Location commentLocation = null;
 
