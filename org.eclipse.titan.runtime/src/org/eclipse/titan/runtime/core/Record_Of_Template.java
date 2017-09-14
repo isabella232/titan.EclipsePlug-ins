@@ -102,7 +102,7 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	}
 	*/
 
-	void add_permutation(final int start_index, final int end_index) {
+	public void add_permutation(final int start_index, final int end_index) {
 		if(start_index > end_index) {
 			throw new TtcnError( MessageFormat.format( "wrong permutation interval settings start ({0})can not be greater than end ({1})",start_index, end_index ) );
 		}
