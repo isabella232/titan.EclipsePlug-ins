@@ -48,9 +48,6 @@ import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
 import org.eclipse.ui.wizards.newresource.BasicNewResourceWizard;
 */
 
-
-
-
 /**
  * This is temporal/experimental code for a new project wizard for a new feature.
  * It is INTENTIONALLY COMMENTED OUT:
@@ -65,11 +62,11 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 	private static final String CREATION_FAILED = "Project creation failed";
 
 	private NewTITANProjectCreationPage mainPage;
-	
+
 	private IConfigurationElement config;
 	private IProject newProject;
 	private boolean isCreated = false;
-	
+
 	@Override
 	public void addPages() {
 		super.addPages();
@@ -81,7 +78,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 	}
 
 	@Override
-	public void setInitializationData(IConfigurationElement config, String propertyName, Object data) throws CoreException {
+	public void setInitializationData(final IConfigurationElement config, final String propertyName, final Object data) throws CoreException {
 		this.config = config;
 	}
 
@@ -123,7 +120,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 						ErrorReporter.logExceptionStackTrace(e);
 					}
 				}
-				
+
 				folder = newProjectHandle.getFolder("java_src");
 				if (!folder.exists()) {
 					try {
@@ -132,7 +129,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 						ErrorReporter.logExceptionStackTrace(e);
 					}
 				}
-				
+
 				folder = newProjectHandle.getFolder("java_bin");
 				if (!folder.exists()) {
 					try {
@@ -160,7 +157,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 		return newProject;
 	}
-	
+
 	//TODO comment
 	protected void createProject(final IProjectDescription description, final IProject projectHandle, final IProgressMonitor monitor)
 			throws CoreException {
@@ -189,7 +186,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		content.append("output.. = java_bin/\n");
 		content.append("bin.includes = META-INF/,\\\n");
 		content.append("               .\n");
-		
+
 		final IFile properties = newProject.getFile(new Path("build.properties"));
 		final InputStream stream = new ByteArrayInputStream(content.toString().getBytes());
 		if(properties.exists()) {
@@ -198,7 +195,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 			properties.create(stream, true, null);
 		}
 	}
-	
+
 	private void createManifest() throws CoreException {
 		final StringBuilder content = new StringBuilder("Manifest-Version: 1.0\n");
 		content.append("Bundle-ManifestVersion: 2\n");
@@ -208,7 +205,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		content.append("Require-Bundle: org.eclipse.titan.runtime;bundle-version=\"1.0.0\"\n");
 		content.append("Bundle-RequiredExecutionEnvironment: JavaSE-1.6\n");
 		content.append("Bundle-ActivationPolicy: lazy\n");
-		
+
 		final IFolder metaInf = newProject.getFolder("META-INF");
 		metaInf.create(false, true, null);
 
@@ -238,7 +235,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 			classpathEntries.add(JavaCore.newSourceEntry(new Path("/" + newProject.getName() +"/java_src")));
 			javaProject.setRawClasspath(classpathEntries.toArray(new IClasspathEntry[classpathEntries.size()]), null);
 			javaProject.setOutputLocation(new Path("/" + newProject.getName() + "/java_bin"), null);
-			
+
 			createBuildProperties();
 			createManifest();
 		} catch (CoreException exception) {
@@ -267,7 +264,7 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 			final ICommand manifestCommand = description.newCommand();
 			manifestCommand.setBuilderName("org.eclipse.pde.ManifestBuilder");
-			
+
 			final ICommand schemaCommand = description.newCommand();
 			schemaCommand.setBuilderName("org.eclipse.pde.SchemaBuilder");
 
@@ -284,5 +281,5 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 		return true;
 	}
-	*/
+*/
 }
