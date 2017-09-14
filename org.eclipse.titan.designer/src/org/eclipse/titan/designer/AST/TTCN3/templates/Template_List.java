@@ -634,7 +634,7 @@ public final class Template_List extends CompositeTemplate {
 					}
 
 					// do not consider index_offset in case of permutation indicators
-					body.append(MessageFormat.format("{0}.addPermutation({1}, {2} - 1);\n", name, permutationStart, counter));
+					body.append(MessageFormat.format("{0}.add_permutation({1}, {2} - 1);\n", name, permutationStart, counter));
 					template.lastTimeBuilt = aData.buildTimestamp;
 				} else {
 					fixedPart++;
@@ -665,7 +665,7 @@ public final class Template_List extends CompositeTemplate {
 						template2.generateCodeInitSeofElement(aData, source, name, Long.toString(ix), ofTypeName);
 					}
 					// do not consider index_offset in case of permutation indicators
-					source.append(MessageFormat.format("{0}.addPermutation({1}, {2});\n", name, index, index + nofPermutatedTemplates - 1));
+					source.append(MessageFormat.format("{0}.add_permutation({1}, {2});\n", name, index, index + nofPermutatedTemplates - 1));
 					template.lastTimeBuilt = aData.buildTimestamp;
 					index += nofPermutatedTemplates;
 					break;
