@@ -69,6 +69,7 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		setControl(mainComposite);
 		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
+		layout.makeColumnsEqualWidth = true;
 		GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		mainComposite.setLayout(layout);
@@ -122,7 +123,7 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		knownTestcasesViewer.setInput(tableRoot);
 
 		label = new Label(composite, SWT.NONE);
-		label.setText("As extracted from the executable.\nRefreshed when the Executable on the MainController page changes.");
+		label.setText("As extracted from the executable.\nRefreshed when the Executable\non the MainController page changes.");
 	}
 
 	public void setAvailableTestcases(final String[] testcases) {
@@ -199,7 +200,7 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		testsetViewer.setInput(treeRoot);
 
 		label = new Label(composite, SWT.NONE);
-		label.setText("Right click to add or remove testsets.\nUse drag&drop to add,remove or reorder testcases.");
+		label.setText("Right click to add or remove testsets.\nUse drag&drop to add,remove or\nreorder testcases.");
 	}
 
 	public void update() {
