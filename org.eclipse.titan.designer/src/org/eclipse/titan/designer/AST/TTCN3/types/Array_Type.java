@@ -57,7 +57,6 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
-
 /**
  * @author Kristof Szabados
  * @author Gergo Ujhelyi
@@ -932,7 +931,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		return getGenNameOwn()+"_template";
 	}
-	
+
 	@Override
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (!inTypeDefinition) {
@@ -961,7 +960,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n");
 		source.append("}\n\n");
 	}
-	
+
 	public String generateCodeValue(JavaGenData aData, StringBuilder source, Array_Type arrayType , StringBuilder sb) {
 		String tempId1 = aData.getTemporaryVariableName();
 		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
@@ -988,7 +987,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return tempId1;
 		}
 	}
-	
+
 	public String generateCodeTemplate(JavaGenData aData, StringBuilder source, Array_Type arrayType, StringBuilder sb) {
 		String tempId1 = aData.getTemporaryVariableName();
 		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
