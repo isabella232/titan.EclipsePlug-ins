@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -171,9 +172,11 @@ public class Int2Enum_Statement extends Statement {
 
 		ExpressionStruct referenceExpression = new ExpressionStruct();
 		reference.generateCode(aData, referenceExpression);
-
-		//FIXME check if the reference is an optional field
 		boolean isOptional = false;
+		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+			isOptional = true;
+		}
 
 		source.append(valueExpression.preamble);
 		source.append(referenceExpression.preamble);
