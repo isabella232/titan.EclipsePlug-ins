@@ -588,7 +588,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		if(s2.length() > 0) {
 			if(blockCount.get() == 0) {
 				source.append("{\n");
-				blockCount.set(blockCount.get() + 1);
+				blockCount.incrementAndGet();
 			}
 			source.append(s2);
 		}

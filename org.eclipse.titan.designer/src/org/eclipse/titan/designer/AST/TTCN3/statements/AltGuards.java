@@ -554,7 +554,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
 					source.append(") {\n");
-					blockCount.set(blockCount.get() + 1);
+					blockCount.incrementAndGet();
 				}
 
 				boolean canRepeat = false;

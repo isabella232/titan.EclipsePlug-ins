@@ -320,7 +320,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 		if(!unReachable.get()) {
 			if(!eachFalse.get()) {
 				source.append("{\n");
-				blockCount.set(blockCount.get() + 1);
+				blockCount.incrementAndGet();
 			}
 
 			//TODO this is temporary solution, to handle both object and native types.
