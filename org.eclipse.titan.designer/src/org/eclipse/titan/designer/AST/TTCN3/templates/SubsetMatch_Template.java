@@ -200,6 +200,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 		if (variables.size() > 0) {
 			StringBuilder preamble = new StringBuilder();
 			StringBuilder setType = new StringBuilder();
+			aData.addBuiltinTypeImport("Base_Template.template_sel");
 			setType.append(MessageFormat.format("{0}.setType(template_sel.SUBSET_MATCH, {1}", name, fixedPart));
 
 			for (int v = 0; v < variables.size(); v++) {
@@ -312,6 +313,7 @@ public final class SubsetMatch_Template extends CompositeTemplate {
 				}
 			}
 		} else {
+			aData.addBuiltinTypeImport("Base_Template.template_sel");
 			source.append(MessageFormat.format("{0}.setType(template_sel.SUBSET_MATCH, {1});\n", name, templates.getNofTemplates()));
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
 				TTCN3Template template = templates.getTemplateByIndex(i);
