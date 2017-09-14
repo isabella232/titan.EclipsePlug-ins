@@ -62,7 +62,7 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 			} else if (argument.length() == 1) {
 				// the string has one character: use log_char member
 				//FIXME needs to use Code::translate_character
-				expression.expression.append(MessageFormat.format("TtcnLogger.log_char('{0}')", argument.charAt(0)));
+				expression.expression.append(MessageFormat.format("TtcnLogger.log_char(\'\'{0}\'\')", argument.charAt(0)));
 			} else {
 				//FIXME needs to use Code::translate_string
 				expression.expression.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}\")", argument));
