@@ -302,7 +302,7 @@ public final class If_Statement extends Statement {
 			}
 			eachFalse.set(false);
 			source.append("{\n");
-			blockCount.set(blockCount.get() + 1);
+			blockCount.incrementAndGet();
 			statementblock.generateCode(aData, source);
 		}
 
