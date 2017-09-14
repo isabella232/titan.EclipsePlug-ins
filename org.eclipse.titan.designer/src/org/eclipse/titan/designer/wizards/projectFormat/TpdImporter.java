@@ -703,20 +703,21 @@ public class TpdImporter {
 
 		return true;
 	}
-	
-	//Perhaps variableValue is not in a form of URI (with optional file scheme) or Path and it shall be converted in more steps:
-	private URI convertPathOrUriStringToURI(String pathOrUriString) throws URISyntaxException{
+
+	// Perhaps variableValue is not in a form of URI (with optional file
+	// scheme) or Path and it shall be converted in more steps:
+	private URI convertPathOrUriStringToURI(String pathOrUriString) throws URISyntaxException {
 		URI uri = new URI(pathOrUriString);
-        if ( uri.getScheme() == null || "file".equals( uri.getScheme())) {
-        	return uri;
-        } else {
-        	final Path tempPath = new Path(pathOrUriString);
-        	if ( ( tempPath.isValidPath(pathOrUriString))) {
-    			return URIUtil.toURI(tempPath);
-    		} else {
-    			return URIUtil.toURI( pathOrUriString, false); //perhaps it is unnecessary
-    		}
-        }
+		if (uri.getScheme() == null || "file".equals(uri.getScheme())) {
+			return uri;
+		} else {
+			final Path tempPath = new Path(pathOrUriString);
+			if ((tempPath.isValidPath(pathOrUriString))) {
+				return URIUtil.toURI(tempPath);
+			} else {
+				return URIUtil.toURI(pathOrUriString, false); // perhaps it is unnecessary
+			}
+		}
 	}
 
 	/**
