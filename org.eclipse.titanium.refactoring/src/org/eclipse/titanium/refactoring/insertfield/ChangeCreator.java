@@ -133,62 +133,62 @@ class ChangeCreator {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
 				for (ILocateableNode node : nodes) {
-					int vmLen = settings.getType().length()+settings.getId().getTtcnName().length();
+					int vmLen = settings.getType().length() + settings.getId().getTtcnName().length();
 					if (node instanceof Def_Type) {
-						Def_Type df = (Def_Type)node;
+						Def_Type df = (Def_Type) node;
 						Type type = df.getType(CompilationTimeStamp.getBaseTimestamp());
 						if (type instanceof TTCN3_Sequence_Type || type instanceof TTCN3_Set_Type) {
-							vmLen = insertField((TTCN3_Set_Seq_Choice_BaseType)type, node, rootEdit, vmLen);
+							vmLen = insertField((TTCN3_Set_Seq_Choice_BaseType) type, node, rootEdit, vmLen);
 						}
-					} else if (node instanceof Sequence_Value){
-						Sequence_Value sv = (Sequence_Value)node;
+					} else if (node instanceof Sequence_Value) {
+						Sequence_Value sv = (Sequence_Value) node;
 						vmLen += 6;
 						final Location nodeLocation = node.getLocation();
 						if (settings.getPosition() < sv.getNofComponents()) {
 							final Location valueLocation = sv.getSeqValueByIndex(settings.getPosition()).getLocation();
 							Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
-									valueLocation.getOffset(), valueLocation.getEndOffset()+vmLen);	
-							rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getId().getTtcnName()+" := "+settings.getValue()+", "));
+									valueLocation.getOffset(), valueLocation.getEndOffset() + vmLen);
+							rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getId().getTtcnName() + " := " + settings.getValue() + ", "));
 						} else {
 							int max = sv.getNofComponents();
-							final Location valueLocation = sv.getSeqValueByIndex(max-1).getLocation();
+							final Location valueLocation = sv.getSeqValueByIndex(max - 1).getLocation();
 							Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
-									valueLocation.getEndOffset(), valueLocation.getEndOffset()+vmLen);
-							rootEdit.addChild(new InsertEdit(l.getOffset(), ", "+settings.getId().getTtcnName()+" := "+settings.getValue()));
+									valueLocation.getEndOffset(), valueLocation.getEndOffset() + vmLen);
+							rootEdit.addChild(new InsertEdit(l.getOffset(), ", " + settings.getId().getTtcnName() + " := " + settings.getValue()));
 						}
-					} else if (node instanceof TTCN3Template){
-						TTCN3Template template = (TTCN3Template)node;
+					} else if (node instanceof TTCN3Template) {
+						TTCN3Template template = (TTCN3Template) node;
 						vmLen += 6;
 
-						if (template instanceof Named_Template_List ) {
-							Named_Template_List ntl = (Named_Template_List)template;
+						if (template instanceof Named_Template_List) {
+							Named_Template_List ntl = (Named_Template_List) template;
 							final Location nodeLocation = node.getLocation();
 							if (settings.getPosition() < ntl.getNofTemplates()) {
 								final Location templateLocation = ntl.getTemplateByIndex(settings.getPosition()).getLocation();
 								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
-										templateLocation.getOffset(), templateLocation.getEndOffset()+vmLen);	
-								rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getId().getTtcnName()+" := "+settings.getValue()+", "));
+										templateLocation.getOffset(), templateLocation.getEndOffset() + vmLen);
+								rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getId().getTtcnName() + " := " + settings.getValue() + ", "));
 							} else {
 								int max = ntl.getNofTemplates();
-								final Location templateLocation = ntl.getTemplateByIndex(max-1).getLocation();
+								final Location templateLocation = ntl.getTemplateByIndex(max - 1).getLocation();
 								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
-										templateLocation.getEndOffset(), templateLocation.getEndOffset()+vmLen);
-								rootEdit.addChild(new InsertEdit(l.getOffset(), ", "+settings.getId().getTtcnName()+" := "+settings.getValue()));
+										templateLocation.getEndOffset(), templateLocation.getEndOffset() + vmLen);
+								rootEdit.addChild(new InsertEdit(l.getOffset(), ", " + settings.getId().getTtcnName() + " := " + settings.getValue()));
 							}
 						} else if (template instanceof Template_List) {
-							Template_List tl = (Template_List)template;
+							Template_List tl = (Template_List) template;
 							final Location nodeLocation = node.getLocation();
 							if (settings.getPosition() < tl.getNofTemplates()) {
 								final Location templateLocation = tl.getTemplateByIndex(settings.getPosition()).getLocation();
 								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
-										templateLocation.getOffset(), templateLocation.getEndOffset()+vmLen);	
-								rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getValue()+","));
+										templateLocation.getOffset(), templateLocation.getEndOffset() + vmLen);
+								rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getValue() + ","));
 							} else {
 								int max = tl.getNofTemplates();
-								final Location templateLocation = tl.getTemplateByIndex(max-1).getLocation();
+								final Location templateLocation = tl.getTemplateByIndex(max - 1).getLocation();
 								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
-										templateLocation.getEndOffset(), templateLocation.getEndOffset()+vmLen);
-								rootEdit.addChild(new InsertEdit(l.getOffset(), ","+settings.getValue()));
+										templateLocation.getEndOffset(), templateLocation.getEndOffset() + vmLen);
+								rootEdit.addChild(new InsertEdit(l.getOffset(), "," + settings.getValue()));
 							}
 						}
 					}

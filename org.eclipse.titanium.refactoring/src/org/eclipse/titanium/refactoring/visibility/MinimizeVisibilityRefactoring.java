@@ -143,7 +143,7 @@ public class MinimizeVisibilityRefactoring extends Refactoring {
 			if (!(o instanceof IResource)) {
 				continue;
 			}
-			final IResource res = (IResource)o;
+			final IResource res = (IResource) o;
 			final ResourceVisitor vis = new ResourceVisitor();
 			res.accept(vis);
 			cchange.add(vis.getChange());
