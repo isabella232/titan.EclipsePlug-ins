@@ -144,6 +144,11 @@
           id="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
           name="UngroupModuleparFromEditor">
     </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.insertfield.InsertFieldActionFromEditor"
+          id="org.eclipse.titanium.commands.InsertFieldFromEditor"
+          name="InsertFieldFromEditor">
+    </command>
   </extension>
   <extension
         point="org.eclipse.ui.menus">
@@ -217,6 +222,12 @@
                  icon="resources/icons/titan.gif"
                  id="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
                  label="Ungroup module parameters in module">
+           </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.InsertFieldFromEditor"
+                 icon="resources/icons/titan.gif"
+                 id="org.eclipse.titanium.commands.InsertFieldFromEditor"
+                 label="Insert field">
            </command>
         </menu>
      </menuContribution>
@@ -331,6 +342,18 @@
                     checkEnabled="false">
               </visibleWhen>
            </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.InsertFieldProject"
+                 label="Insert field">
+                 <visibleWhen checkEnabled="false">
+                     <with variable="selection">  
+                        <iterate operator="and">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                           </adapt>  
+                        </iterate>
+                     </with>
+                   </visibleWhen>
+           </command>
         </menu>
      </menuContribution>
   </extension>
@@ -428,6 +451,18 @@
 	           <command
 	                 commandId="org.eclipse.titanium.commands.MinimizeScopeFromBrowser"
 	                 label="Minimize scope of local variables">
+	                 <visibleWhen checkEnabled="false">
+	                     <with variable="selection">  
+	                        <iterate operator="and">
+	                           <adapt type="org.eclipse.core.resources.IResource">
+	                           </adapt>  
+	                        </iterate>
+	                     </with>
+	                   </visibleWhen>
+	           </command>
+	           <command
+	                 commandId="org.eclipse.titanium.commands.InsertFieldFromEditor"
+	                 label="Insert field">
 	                 <visibleWhen checkEnabled="false">
 	                     <with variable="selection">  
 	                        <iterate operator="and">
