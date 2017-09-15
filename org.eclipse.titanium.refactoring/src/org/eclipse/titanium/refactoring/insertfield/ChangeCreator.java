@@ -7,9 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titanium.refactoring.insertfield;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.Comparator;
 import java.util.NavigableSet;
 import java.util.TreeSet;
@@ -146,14 +143,17 @@ class ChangeCreator {
 					} else if (node instanceof Sequence_Value){
 						Sequence_Value sv = (Sequence_Value)node;
 						vmLen += 6;
+						final Location nodeLocation = node.getLocation();
 						if (settings.getPosition() < sv.getNofComponents()) {
-							Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
-									sv.getSeqValueByIndex(settings.getPosition()).getLocation().getOffset(), sv.getSeqValueByIndex(settings.getPosition()).getLocation().getEndOffset()+vmLen);	
+							final Location valueLocation = sv.getSeqValueByIndex(settings.getPosition()).getLocation();
+							Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
+									valueLocation.getOffset(), valueLocation.getEndOffset()+vmLen);	
 							rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getId().getTtcnName()+" := "+settings.getValue()+", "));
 						} else {
 							int max = sv.getNofComponents();
-							Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
-									sv.getSeqValueByIndex(max-1).getLocation().getEndOffset(), sv.getSeqValueByIndex(max-1).getLocation().getEndOffset()+vmLen);
+							final Location valueLocation = sv.getSeqValueByIndex(max-1).getLocation();
+							Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
+									valueLocation.getEndOffset(), valueLocation.getEndOffset()+vmLen);
 							rootEdit.addChild(new InsertEdit(l.getOffset(), ", "+settings.getId().getTtcnName()+" := "+settings.getValue()));
 						}
 					} else if (node instanceof TTCN3Template){
@@ -162,26 +162,32 @@ class ChangeCreator {
 
 						if (template instanceof Named_Template_List ) {
 							Named_Template_List ntl = (Named_Template_List)template;
+							final Location nodeLocation = node.getLocation();
 							if (settings.getPosition() < ntl.getNofTemplates()) {
-								Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
-										ntl.getTemplateByIndex(settings.getPosition()).getLocation().getOffset(), ntl.getTemplateByIndex(settings.getPosition()).getLocation().getEndOffset()+vmLen);	
+								final Location templateLocation = ntl.getTemplateByIndex(settings.getPosition()).getLocation();
+								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
+										templateLocation.getOffset(), templateLocation.getEndOffset()+vmLen);	
 								rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getId().getTtcnName()+" := "+settings.getValue()+", "));
 							} else {
 								int max = ntl.getNofTemplates();
-								Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
-										ntl.getTemplateByIndex(max-1).getLocation().getEndOffset(), ntl.getTemplateByIndex(max-1).getLocation().getEndOffset()+vmLen);
+								final Location templateLocation = ntl.getTemplateByIndex(max-1).getLocation();
+								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
+										templateLocation.getEndOffset(), templateLocation.getEndOffset()+vmLen);
 								rootEdit.addChild(new InsertEdit(l.getOffset(), ", "+settings.getId().getTtcnName()+" := "+settings.getValue()));
 							}
 						} else if (template instanceof Template_List) {
 							Template_List tl = (Template_List)template;
+							final Location nodeLocation = node.getLocation();
 							if (settings.getPosition() < tl.getNofTemplates()) {
-								Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
-										tl.getTemplateByIndex(settings.getPosition()).getLocation().getOffset(), tl.getTemplateByIndex(settings.getPosition()).getLocation().getEndOffset()+vmLen);	
+								final Location templateLocation = tl.getTemplateByIndex(settings.getPosition()).getLocation();
+								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
+										templateLocation.getOffset(), templateLocation.getEndOffset()+vmLen);	
 								rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getValue()+","));
 							} else {
 								int max = tl.getNofTemplates();
-								Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
-										tl.getTemplateByIndex(max-1).getLocation().getEndOffset(), tl.getTemplateByIndex(max-1).getLocation().getEndOffset()+vmLen);
+								final Location templateLocation = tl.getTemplateByIndex(max-1).getLocation();
+								Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
+										templateLocation.getEndOffset(), templateLocation.getEndOffset()+vmLen);
 								rootEdit.addChild(new InsertEdit(l.getOffset(), ","+settings.getValue()));
 							}
 						}
@@ -196,17 +202,19 @@ class ChangeCreator {
 	}
 	
 	public int insertField(final TTCN3_Set_Seq_Choice_BaseType ss, final ILocateableNode node, final MultiTextEdit rootEdit, int vmLen) {
+		final Location nodeLocation = node.getLocation();
+
 		final int noc = ss.getNofComponents();
 		if (settings.getPosition() < noc) {
 			vmLen += 6;
 			final ILocateableNode cf = (ILocateableNode)ss.getComponentByIndex(settings.getPosition());
-			final Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
+			final Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
 					cf.getLocation().getOffset(), cf.getLocation().getEndOffset()+vmLen);
 			rootEdit.addChild(new InsertEdit(l.getOffset(), settings.getType()+" "+settings.getId().getTtcnName()+", \n  "));
 		} else {
 			vmLen += 5;
 			final ILocateableNode cf = (ILocateableNode)ss.getComponentByIndex(noc-1);
-			final Location l = new Location(node.getLocation().getFile(), node.getLocation().getLine(),
+			final Location l = new Location(nodeLocation.getFile(), nodeLocation.getLine(),
 					cf.getLocation().getEndOffset(), cf.getLocation().getEndOffset()+vmLen);
 			rootEdit.addChild(new InsertEdit(l.getOffset()-1, ",\n  "+settings.getType()+" "+settings.getId().getTtcnName()));
 		}
