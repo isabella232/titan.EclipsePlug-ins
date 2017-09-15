@@ -53,15 +53,6 @@ public final class TemplateInstance_InternalLogArgument extends InternalLogArgum
 		//FIXME somewhat more complicated
 		if (templateInstance != null) {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
-		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCodeLog( final JavaGenData aData, final ExpressionStruct expression ) {
-		//FIXME somewhat more complicated
-		if (templateInstance != null) {
-			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 			//TODO this wil be the final generated code end
 			expression.expression.append(".log()");
 		}

@@ -218,12 +218,9 @@ public final class Log2StrExpression extends Expression_Value {
 
 		aData.addBuiltinTypeImport("TitanCharString");
 
-		//FIXME implement logging
 		expression.expression.append("new TitanCharString(");
-//		logArguments.generateCodeExpression(aData, expression); 
-		logArguments.generateCodeExpressionLog(aData, expression);
+		logArguments.generateCodeExpression(aData, expression);
 		expression.expression.append(')');
-		expression.expression.append( "//TODO this is only temporal implementation!\n" );
 	}
 
 

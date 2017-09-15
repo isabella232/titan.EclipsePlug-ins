@@ -53,15 +53,6 @@ public final class Value_InternalLogArgument extends InternalLogArgument {
 		//FIXME somewhat more complicated
 		if (value != null) {
 			value.generateCodeExpression(aData, expression);
-		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCodeLog( final JavaGenData aData, final ExpressionStruct expression ) {
-		//FIXME somewhat more complicated
-		if (value != null) {
-			value.generateCodeExpression(aData, expression);
 			//TODO this wil be the final generated code end
 			expression.expression.append(".log()");
 		}

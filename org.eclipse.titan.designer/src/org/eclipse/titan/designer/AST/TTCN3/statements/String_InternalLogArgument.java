@@ -46,15 +46,6 @@ public final class String_InternalLogArgument extends InternalLogArgument {
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		//FIXME somewhat more complicated
 		if (argument != null) {
-			expression.expression.append(MessageFormat.format("\"{0}\"", argument));
-		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCodeLog( final JavaGenData aData, final ExpressionStruct expression ) {
-		//FIXME somewhat more complicated
-		if (argument != null) {
 			//TODO this will be the final generated code
 			if (argument.length() == 0) {
 				// the string is empty: do not generate any code

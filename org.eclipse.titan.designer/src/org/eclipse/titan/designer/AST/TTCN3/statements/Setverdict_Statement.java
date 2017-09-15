@@ -230,7 +230,6 @@ public final class Setverdict_Statement extends Statement {
 			expression.expression.append(", ");
 			ExpressionStruct reason = new ExpressionStruct();
 			verdictReason.generateCodeExpression(aData, reason);
-			//verdictReason.generateCodeExpressionLog(aData, reason);
 			if (reason.preamble.length() > 0) {
 				expression.preamble.append(reason.preamble);
 			}
@@ -238,7 +237,7 @@ public final class Setverdict_Statement extends Statement {
 				expression.postamble.append(reason.postamble);
 			}
 			expression.expression.append(reason.expression);
-			//expression.expression.append(".getValue().toString()");
+			expression.expression.append(".getValue().toString()");
 		}
 		expression.expression.append(')');
 		expression.mergeExpression(source);

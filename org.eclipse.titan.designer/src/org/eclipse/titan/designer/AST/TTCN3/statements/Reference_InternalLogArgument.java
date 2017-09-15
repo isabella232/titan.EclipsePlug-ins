@@ -59,15 +59,6 @@ public final class Reference_InternalLogArgument extends InternalLogArgument {
 		//FIXME somewhat more complicated
 		if (reference != null) {
 			reference.generateConstRef(aData, expression);
-		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCodeLog( final JavaGenData aData, final ExpressionStruct expression ) {
-		//FIXME somewhat more complicated
-		if (reference != null) {
-			reference.generateConstRef(aData, expression);
 			//TODO this will be the final generated code end
 			expression.expression.append(".log()");
 		}

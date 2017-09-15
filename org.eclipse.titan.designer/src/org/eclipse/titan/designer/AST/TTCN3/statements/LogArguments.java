@@ -169,28 +169,9 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 			return;
 		}
 
-		//FIXME implement logging
-		final int size = arguments.size();
-		if ( size > 0 ) {
-			source.append( "new StringBuilder()");
-			for ( int i = 0; i < size; i++ ) {
-				source.append( ".append(" );
-				arguments.get( i ).generateCode( aData, source );
-				source.append(')');
-			}
-			source.append(".toString()");
-		}
-		source.append( "//TODO this is only temporal implementation!\n" );
-	}
-
-	public void generateCodeLog( final JavaGenData aData, final StringBuilder source ) {
-		if ( arguments == null ) {
-			return;
-		}
-
 		//This will be the final implementation
 		for ( int i = 0; i < arguments.size(); i++ ) {
-			arguments.get(i).generateCodeLog(aData, source);
+			arguments.get(i).generateCode(aData, source);
 		}
 	}
 
@@ -206,24 +187,6 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		if ( arguments == null ) {
 			return;
 		}
-		//FIXME begin logging
-		expression.expression.append( "new StringBuilder()");
-		final int size = arguments.size();
-		for ( int i = 0; i < size; i++ ) {
-			expression.expression.append( ".append(" );
-			arguments.get( i ).generateCodeExpression(aData, expression);
-			expression.expression.append( ')' );
-		}
-		expression.expression.append(".toString()");
-		expression.expression.append( "//TODO this is only temporal implementation!\n" );
-		//FIXME end logging
-	}
-
-	//Temporary function until real logging can take over the current version's place
-	public void generateCodeExpressionLog(final JavaGenData aData, final ExpressionStruct expression) {
-		if ( arguments == null ) {
-			return;
-		}
 
 		aData.addCommonLibraryImport("TtcnLogger");
 		aData.addBuiltinTypeImport("TitanCharString");
@@ -231,11 +194,10 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 		expression.preamble.append( "TtcnLogger.begin_event_log2str();\n");
 		final int size = arguments.size();
 		for ( int i = 0; i < size; i++ ) {
-			arguments.get( i ).generateCodeLog(aData, expression.preamble);
+			arguments.get( i ).generateCode(aData, expression.preamble);
 		}
 		String tempId = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("TitanCharString {0} = TtcnLogger.end_event_log2str();\n", tempId));
 		expression.expression.append(tempId);
-		expression.expression.append( "//TODO this is only temporal implementation!\n" );
 	}
 }
