@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
@@ -24,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -283,5 +285,19 @@ public final class DoWhile_Statement extends Statement {
 
 	public Value getExpression() {
 		return expression;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		source.append("for ( ; ; ) { \n");
+		statementblock.generateCode(aData, source);
+		if(!isInfiniteLoop) {
+			source.append(MessageFormat.format("if ( {0}.not().getValue() )", expression.generateSingleExpression(aData)));
+			source.append(" {\n");
+			source.append("break;\n");
+			source.append("}\n");
+		}
+		source.append("}\n");
 	}
 }
