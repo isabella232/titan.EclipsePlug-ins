@@ -296,8 +296,8 @@ public class TitanHexString extends Base_Type {
 			TtcnLogger.log_char('\'');
 			for (int i = 0; i < nibbles_ptr.size(); i++) {
 				TtcnLogger.log_hex(get_nibble(i));
-				TtcnLogger.log_event_str("'H");
 			}
+			TtcnLogger.log_event_str("'H");
 		}else{
 			TtcnLogger.log_event_unbound();
 		}
