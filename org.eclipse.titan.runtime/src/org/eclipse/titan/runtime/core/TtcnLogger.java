@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.util.Locale;
 import java.util.Stack;
 
 /**
@@ -141,7 +140,7 @@ public final class TtcnLogger {
 	String logMatchBuffer = null;
 	int logMatchBufferLen=0;
 	int logMachBufferSize=0;
-	boolean logMachPrinted = false;
+	boolean logMatchPrinted = false;
 
 	private static log_event_struct current_event = null;
 	private static Stack<log_event_struct> events = new Stack<TtcnLogger.log_event_struct>();
@@ -164,7 +163,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
-		log_line(msg_severity, String.format(Locale.US, formatString, args));
+		log_line(msg_severity, String.format(formatString, args));
 	}
 
 	public static void begin_event(final Severity msg_severity) {
@@ -242,12 +241,16 @@ public final class TtcnLogger {
 
 	public static void log_event_va_list(final String formatString, final Object... args) {
 		if (current_event != null) {
-			current_event.buffer.append(String.format(Locale.US, formatString, args));
+			current_event.buffer.append(String.format(formatString, args));
 		}
 	}
 
 	public static void log_char( final char c ) {
-		// TODO Auto-generated method stub
+		// TODO: correct log_char
+		if (current_event != null) {
+            current_event.buffer.append(c);
+     }
+
 	}
 
 	public static void log_event_uninitialized() {
@@ -255,11 +258,15 @@ public final class TtcnLogger {
 	}
 
 	public static void log_hex( final byte aHexDigit ) {
-		// TODO Auto-generated method stub
+		if(aHexDigit<16){
+			log_char(TitanHexString.HEX_DIGITS.charAt(aHexDigit));
+		}
+		else{
+			log_event_str("<unknown>");
+		}
 	}
 
 	public static void log_event_unbound() {
-		//TODO a bit more complicated
 		log_event_str("<unbound>");
 	}
 
