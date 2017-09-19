@@ -12,7 +12,7 @@ import java.util.Map;
 
 import org.eclipse.debug.core.ILaunch;
 
-public class LaunchStorage {
+public final class LaunchStorage {
 	private static final Map<ILaunch, LaunchElement> LAUNCHELEMENTS_MAP = new HashMap<ILaunch, LaunchElement>();
 
 	private LaunchStorage() {

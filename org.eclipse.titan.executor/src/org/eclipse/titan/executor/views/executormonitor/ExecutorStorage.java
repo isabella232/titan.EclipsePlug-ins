@@ -13,7 +13,7 @@ import java.util.Map;
 import org.eclipse.debug.core.ILaunch;
 import org.eclipse.titan.executor.executors.BaseExecutor;
 
-public class ExecutorStorage {
+public final class ExecutorStorage {
 	private static final Map<ILaunch, BaseExecutor> EXECUTOR_MAP = new HashMap<ILaunch, BaseExecutor>();
 
 	private ExecutorStorage() {
