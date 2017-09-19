@@ -168,6 +168,20 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optionalSelection;
 	}
 
+	public void log() {
+		switch( optionalSelection) {
+		case OPTIONAL_PRESENT:
+			optionalValue.log();
+			break;
+		case OPTIONAL_OMIT:
+			TtcnLogger.log_event_str("omit");
+			break;
+		case OPTIONAL_UNBOUND:
+			TtcnLogger.log_event_unbound();
+			break;
+		}
+	}
+
 	public TitanBoolean isBound() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
