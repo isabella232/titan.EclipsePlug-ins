@@ -286,10 +286,11 @@ public final class DoWhile_Statement extends Statement {
 	public Value getExpression() {
 		return expression;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		//FIXME this is a bit more complex (iterate_once branch, loop label, etc..)
 		source.append("for ( ; ; ) { \n");
 		statementblock.generateCode(aData, source);
 		if(!isInfiniteLoop) {
