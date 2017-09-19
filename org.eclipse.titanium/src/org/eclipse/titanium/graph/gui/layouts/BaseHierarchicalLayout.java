@@ -224,7 +224,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	 * predecessor nodes.
 	 */
 	@SuppressWarnings("unchecked")
-	protected void organizeNodes() {
+	private final void organizeNodes() {
 		final Map<V, Integer> nodeLevels = alg.getLevels();
 		final int[] nodesPerLevel = alg.getNumberOfNodesPerLevel();
 		final int noLevels = alg.getNumberOfLevels();
