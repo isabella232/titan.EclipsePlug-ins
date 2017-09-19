@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * 
  * @author Kristof Szabados
  */
-public class Module_List {
+public final class Module_List {
 	public static ArrayList<TTCN_Module> modules = new ArrayList<TTCN_Module>();
 
 	private Module_List() {

@@ -19,7 +19,7 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
  * 
  * @author Kristof Szabados
  */
-public class TTCN_Runtime {
+public final class TTCN_Runtime {
 	private static String component_type_module = null;
 	private static String component_type_name = null;
 

@@ -19,7 +19,7 @@ import java.util.Set;
  * 
  * @author Kristof Szabados
  */
-public class TTCN_Snapshot {
+public final class TTCN_Snapshot {
 	//FIXME should be private
 	public static Selector selector;
 

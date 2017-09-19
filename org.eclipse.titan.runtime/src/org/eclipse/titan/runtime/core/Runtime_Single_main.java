@@ -14,7 +14,7 @@ package org.eclipse.titan.runtime.core;
  * 
  * @author Kristof Szabados
  */
-public class Runtime_Single_main {
+public final class Runtime_Single_main {
 
 	private Runtime_Single_main() {
 		// private constructor to disable accidental instantiation
