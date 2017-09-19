@@ -104,6 +104,8 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 
 	@Override
 	public final void launch(final IEditorPart editor, final String mode) {
+		// Execution from editors is not supported
+		ErrorReporter.INTERNAL_ERROR("LaunchShortcut.launch called from an editor even though it is no registered to support such calls.");
 	}
 
 	@Override
