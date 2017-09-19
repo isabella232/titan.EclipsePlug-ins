@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.util.Locale;
 import java.util.Stack;
 
 /**
@@ -163,7 +164,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
-		log_line(msg_severity, String.format(formatString, args));
+		log_line(msg_severity, String.format(Locale.US, formatString, args));
 	}
 
 	public static void begin_event(final Severity msg_severity) {
@@ -241,27 +242,30 @@ public final class TtcnLogger {
 
 	public static void log_event_va_list(final String formatString, final Object... args) {
 		if (current_event != null) {
-			current_event.buffer.append(String.format(formatString, args));
+			current_event.buffer.append(String.format(Locale.US, formatString, args));
 		}
 	}
 
-	public static void log_char( final char c ) {
+	public static void log_char(final char c) {
 		// TODO: correct log_char
 		if (current_event != null) {
-            current_event.buffer.append(c);
-     }
-
+			current_event.buffer.append(c);
+		}
 	}
 
 	public static void log_event_uninitialized() {
 		log_event_str("<uninitialized template>");
 	}
 
+	public static void log_event_enum(final String enum_name_str, final int enum_value) {
+		//FIXME this is a bit more complicated
+		log_event("%s (%d)", enum_name_str, enum_value);
+	}
+
 	public static void log_hex( final byte aHexDigit ) {
 		if(aHexDigit<16){
 			log_char(TitanHexString.HEX_DIGITS.charAt(aHexDigit));
-		}
-		else{
+		} else {
 			log_event_str("<unknown>");
 		}
 	}
