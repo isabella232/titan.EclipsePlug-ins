@@ -24,7 +24,7 @@ import org.antlr.v4.runtime.tree.ParseTree;
  */
 public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 
-	public static class PluginSpecificParam {
+	public static final class PluginSpecificParam {
 		private ParseTree root = null;
 		private ParseTree param = null;
 		private ParseTree value = null;
