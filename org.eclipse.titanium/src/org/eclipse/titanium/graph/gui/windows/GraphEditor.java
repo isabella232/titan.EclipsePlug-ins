@@ -169,6 +169,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 	 */
 	@Override
 	public void doSave(final IProgressMonitor monitor) {
+		ErrorReporter.INTERNAL_ERROR("doSave called from a graph editor, where this functionality is not supported.");
 	}
 
 	/**
@@ -176,6 +177,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 	 */
 	@Override
 	public void doSaveAs() {
+		ErrorReporter.INTERNAL_ERROR("doSaveAs called from a graph editor, where this functionality is not supported.");
 	}
 
 	/**
