@@ -26,7 +26,7 @@ import org.eclipse.search.ui.text.MatchEvent;
 import org.eclipse.search.ui.text.RemoveAllEvent;
 import org.eclipse.titan.log.viewer.views.LogSearchResultPage;
 
-public class TreeContentProvider implements ITreeContentProvider {
+public final class TreeContentProvider implements ITreeContentProvider {
 
 	private class SearchResultListener implements ISearchResultListener {
 		@Override

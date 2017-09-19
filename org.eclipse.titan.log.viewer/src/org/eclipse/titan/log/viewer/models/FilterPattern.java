@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
 import org.eclipse.titan.common.utils.ObjectUtils;
 import org.eclipse.titan.log.viewer.parsers.data.LogRecord;
 
-public class FilterPattern {
+public final class FilterPattern {
 	public enum Field {
 		SOURCE_INFO, MESSAGE
 	}
@@ -181,7 +181,7 @@ public class FilterPattern {
 				builder.append(".*");
 				break;
 			case '?':
-				builder.append(".");
+				builder.append('.');
 				break;
 			case '\\':
 				if (i < pattern.length() - 1 && (pattern.charAt(i + 1) == '*' || pattern.charAt(i + 1) == '?')) {
@@ -192,7 +192,7 @@ public class FilterPattern {
 				//$FALL-THROUGH$
 			case '{': case '}': case '[': case ']': case '(': case ')':
 			case '^': case '$': case '.': case '|':
-				builder.append("\\");
+				builder.append('\\');
 				builder.append(c);
 				break;
 			default:

@@ -1004,12 +1004,12 @@ public class ScrollView extends Composite {
 	}
 
 	@Override
-	public ScrollBar getVerticalBar() {
+	public final ScrollBar getVerticalBar() {
 		return this.vertsb.getVerticalBar();
 	}
 
 	@Override
-	public ScrollBar getHorizontalBar() {
+	public final ScrollBar getHorizontalBar() {
 		return this.horzsb.getHorizontalBar();
 	}
 
@@ -1151,7 +1151,7 @@ public class ScrollView extends Composite {
 	 * Pay attention calling this reset overview feature util setOverviewEnabled(true)
 	 * if called.
 	 */
-	public void setCornerControl(final Control w) {
+	public final void setCornerControl(final Control w) {
 		if (this.cornerControl != null) {
 			this.cornerControl.dispose();
 		}

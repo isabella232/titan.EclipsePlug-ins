@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.TreeItem;
 import org.eclipse.titan.log.viewer.preferences.PreferenceConstants;
 import org.eclipse.titan.log.viewer.utils.ImportExportUtils;
 
-public class CheckBoxTreeEditor extends FieldEditor {
+public final class CheckBoxTreeEditor extends FieldEditor {
 
 	// Variables
 	private Tree checkTree;

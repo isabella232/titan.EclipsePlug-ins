@@ -15,7 +15,7 @@ import org.eclipse.titan.log.viewer.Activator;
 import org.eclipse.titan.log.viewer.views.msc.ui.view.IGC;
 import org.eclipse.titan.log.viewer.views.msc.util.MSCConstants;
 
-public class RectangleDrawer {
+public final class RectangleDrawer {
 
 	private RectangleDrawer() {
 		// Hide constructor
