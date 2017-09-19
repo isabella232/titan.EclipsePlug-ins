@@ -70,9 +70,9 @@ public class TreeParent extends TreeObject {
 
 	public String asString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append(getName()).append("\n").append("[");
+		builder.append(getName()).append('\n').append('[');
 		for (TreeObject obj : children) {
-			builder.append(obj.toString()).append("\n");
+			builder.append(obj.toString()).append('\n');
 		}
 		builder.append("]\n");
 

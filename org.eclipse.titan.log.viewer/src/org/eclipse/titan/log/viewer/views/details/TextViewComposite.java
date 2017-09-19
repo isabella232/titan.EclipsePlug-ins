@@ -154,13 +154,13 @@ public class TextViewComposite extends Composite {
 		String port = newInput.getPort();
 		if (port != null && port.trim().length() > 0) {
 			text.append(newInput.getName());
-			text.append("(");
+			text.append('(');
 			text.append(newInput.getPort());
 			text.append(") "); //$NON-NLS-1$
 		} else {
 			text.setLength(0);
 			text.append(newInput.getName());
-			text.append(" "); //$NON-NLS-1$
+			text.append(' '); //$NON-NLS-1$
 		}
 
 		final char startBracket = '{';
