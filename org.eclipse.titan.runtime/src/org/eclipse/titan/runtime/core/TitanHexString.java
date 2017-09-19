@@ -291,18 +291,18 @@ public class TitanHexString extends Base_Type {
 		return constGetAt(index_value.getInt());
 	}
 
-	public void log(){
-		if(nibbles_ptr!=null){
+	public void log() {
+		if (nibbles_ptr != null) {
 			TtcnLogger.log_char('\'');
 			for (int i = 0; i < nibbles_ptr.size(); i++) {
 				TtcnLogger.log_hex(get_nibble(i));
 			}
 			TtcnLogger.log_event_str("'H");
-		}else{
+		} else {
 			TtcnLogger.log_event_unbound();
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		if (nibbles_ptr == null) {

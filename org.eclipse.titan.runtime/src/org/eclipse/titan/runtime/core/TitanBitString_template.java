@@ -375,39 +375,40 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 		return value_list.get(listIndex);
 	}
-	
-	public void log(){
-		switch(templateSelection){
-		case SPECIFIC_VALUE: single_value.log();
-		break;
+
+	public void log() {
+		switch (templateSelection) {
+		case SPECIFIC_VALUE:
+			single_value.log();
+			break;
 		case COMPLEMENTED_LIST:
 			TtcnLogger.log_event_str("complement");
-		case VALUE_LIST: 
+		case VALUE_LIST:
 			TtcnLogger.log_char('(');
-			for (int i = 0; i < value_list.size(); i++) { //nbits
-				if(i>0){
+			for (int i = 0; i < value_list.size(); i++) { // nbits
+				if (i > 0) {
 					TtcnLogger.log_event_str(", ");
 				}
-					value_list.get(i).log();
+				value_list.get(i).log();
 			}
 			TtcnLogger.log_char(')');
 			break;
-		case STRING_PATTERN: 
-			//TODO: implement string pattern
+		case STRING_PATTERN:
+			TtcnLogger.log_char('\'');
+			// TODO: implement string pattern
 			TtcnLogger.log_event_str("'B");
 			break;
-		case DECODE_MATCH: 
+		case DECODE_MATCH:
 			TtcnLogger.log_event_str("decmatch ");
-			//TODO: dec_match->instance->log();
+			// TODO: dec_match->instance->log();
 			break;
-		default: log_generic();
-		break;
+		default:
+			log_generic();
+			break;
 		}
 		log_restricted();
 		log_ifpresent();
 	}
-	
-	
 
 	// originally is_present (with default parameter)
 	public TitanBoolean isPresent() {
