@@ -667,9 +667,9 @@ public class TitanBitString extends Base_Type {
 
 		return constGetAt( index_value.getInt() );
 	}
-	
+
 	public void log() {
-		if(bits_ptr != null) {
+		if (bits_ptr != null) {
 			TtcnLogger.log_char('\'');
 			for (int bit_count = 0; bit_count < n_bits; bit_count++) {
 				TtcnLogger.log_char(getBit(bit_count) ? '1' : '0');
