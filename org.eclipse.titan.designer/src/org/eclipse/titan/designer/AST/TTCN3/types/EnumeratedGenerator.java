@@ -146,6 +146,7 @@ public class EnumeratedGenerator {
 		generateValueAsInt(source);
 		generateValueFromInt(source);
 		generateValueToString(source);
+		generateLog(source);
 		source.append("}\n");
 		//		}
 	}
@@ -174,6 +175,7 @@ public class EnumeratedGenerator {
 		generateTemplateListItem(source, e_defs.name);
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
+		generateTemplateLog(source, e_defs.name);
 
 		//FIXME implement log
 		//FIXME implement log_match
@@ -237,6 +239,16 @@ public class EnumeratedGenerator {
 	private static void generateValueEnumToStr(final StringBuilder source) {
 		source.append("public static String enum2str(enum_type enumPar) {\n");
 		source.append("	return enumPar.name();\n");
+		source.append("}\n\n");
+	}
+
+	private static void generateLog(final StringBuilder source) {
+		source.append("public void log() {\n");
+		source.append("if (enum_value != enum_type.UNBOUND_VALUE) {\n");
+		source.append("TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("}\n");
 		source.append("}\n\n");
 	}
 
@@ -836,5 +848,31 @@ public class EnumeratedGenerator {
 		source.append("return new TitanBoolean(false);\n");
 		source.append("}\n");
 		source.append("}\n\n");
+	}
+
+	private static void generateTemplateLog(final StringBuilder source, final String name) {
+		source.append("public void log() {\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_enum({0}.enum2str(single_value), {0}.enum2int(single_value));\n", name));
+		source.append("break;\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("TtcnLogger.log_event_str(\"complement \");\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("TtcnLogger.log_char('(');\n");
+		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("if (list_count > 0) {\n");
+		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("}\n");
+		source.append("value_list.get(list_count).log();\n");
+		source.append("}\n");
+		source.append("TtcnLogger.log_char(')');\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("log_generic();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("log_ifpresent();\n");
+		source.append("}\n");
 	}
 }
