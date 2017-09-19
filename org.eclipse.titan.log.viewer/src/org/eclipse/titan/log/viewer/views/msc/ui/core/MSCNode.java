@@ -137,24 +137,6 @@ public abstract class MSCNode {
 	}
 
 	/**
-	 * Return a comparator to sort the GraphNode of the same type
-	 * This comparator is used to order the GraphNode array of the given node type.
-	 * (see getArrayId).
-	 * @return the comparator
-	 */
-	public Comparator<MSCNode> getComparator() {
-		return null;
-	}
-
-	/**
-	 * If needed, return a different comparator to backward scan the GraphNode array
-	 * @return the backward comparator or null if not needed
-	 */
-	public Comparator<MSCNode> getBackComparator() {
-		return null;
-	}
-
-	/**
 	 * Returns the type of the node
 	 * */
 	public abstract Type getType();
