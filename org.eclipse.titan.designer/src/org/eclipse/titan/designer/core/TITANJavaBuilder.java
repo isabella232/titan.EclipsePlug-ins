@@ -83,7 +83,7 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		codeGeneratorMonitor.worked(1);
 		codeGeneratorMonitor.done();
 
-		return null;
+		return new IProject[0];
 	}
 
 	@Override
