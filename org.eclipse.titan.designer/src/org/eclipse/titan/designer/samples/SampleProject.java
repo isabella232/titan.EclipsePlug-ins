@@ -51,8 +51,7 @@ public abstract class SampleProject {
 	 * Configures the project after the files have been created.
 	 * @param project the project to configure
 	 */
-	protected void configure(final IProject project) {
-	}
+	protected abstract void configure(final IProject project);
 
 	/**
 	 * Creates the files with the given content
