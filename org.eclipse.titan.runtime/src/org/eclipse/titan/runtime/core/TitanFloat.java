@@ -311,7 +311,7 @@ public class TitanFloat extends Base_Type {
 		} else if (float_val == MINUS_INFINITY) {
 			TtcnLogger.log_event_str("-infinity");
 		} else if (float_val != float_val) {
-			TtcnLogger.log_event_str("not a number");
+			TtcnLogger.log_event_str("not_a_number");
 		} else {
 			TtcnLogger.log_event("%e", float_val);
 		}
