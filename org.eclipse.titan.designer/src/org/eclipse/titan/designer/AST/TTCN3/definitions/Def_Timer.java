@@ -24,12 +24,14 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
@@ -52,6 +54,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * Timers in TTCN3 does not have a type.
  *
  * @author Kristof Szabados
+ * @author Farkas Izabella Ingrid
  * */
 public final class Def_Timer extends Definition {
 	private static final String NEGATIVDURATIONERROR = "A non-negative float value was expected as timer duration instead of {0}";
@@ -570,9 +573,9 @@ public final class Def_Timer extends Definition {
 				}
 			}
 		} else {
-			//source.append("//generateCodeString: TODO timer array are not yet implemented\n");
-			//FIXME implement timer arrays
-			aData.addBuiltinTypeImport( "TitanTimerArray" );
+			// FIXME implement timer arrays
+			// String arrayType = dimensions.getTimerType();
+			aData.addBuiltinTypeImport("TitanTimerArray");
 			if (dimensions.size() == 1) {
 				source.append("TitanTimerArray<TitanTimer>");
 				source.append(genName);
@@ -581,7 +584,6 @@ public final class Def_Timer extends Definition {
 				source.append(");\n");
 				source.append(genName).append(".setSize(").append(dimensions.get(0).getSize()).append(");\n");
 				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
-				source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");	
 			} else {
 				StringBuilder sb = aData.getCodeForType(genName);
 				String elementName = generateClassCode(aData,sb);
@@ -592,16 +594,83 @@ public final class Def_Timer extends Definition {
 				source.append(");\n");
 				source.append(genName).append(".setSize(").append(dimensions.get(0).getSize()).append(");\n");
 				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
-				source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");	
 			
 			}
-			
+
 			if (defaultDuration != null) {
-				System.out.println(defaultDuration.createStringRepresentation());
-				defaultDuration.generateCodeInit(aData, source, genName );
+				generateCodeArrayDuration(aData, source, genName, defaultDuration, 0);
 			}
-			source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");	
+			source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");
 		}
+	}
+
+	private StringBuilder generateCodeArrayDuration(final JavaGenData aData, final StringBuilder source, final String genName, final Value defaultDuration2,final int startDim) {
+		final ArrayDimension dim = dimensions.get(startDim);
+		final int dim_size = (int) dim.getSize();
+		// int dim_offset = (int) dim.getOffset();
+
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(
+				IReferenceChain.CIRCULARREFERENCE, true);
+		final Value v = (Value) defaultDuration2.getValueRefdLast(
+				CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (v.getValuetype() != Value_type.SEQUENCEOF_VALUE) {
+			// FIXME: throw
+			// FATAL_ERROR("Def_Timer::generate_code_array_duration()");
+			// ErrorReporter.INTERNAL_ERROR()
+		}
+
+		final SequenceOf_Value value = (SequenceOf_Value) v;
+		if (value.getNofComponents() != dim_size && !value.isIndexed()) {
+			// FATAL ERROR
+		}
+
+		// Value-list notation.
+		if (!value.isIndexed()) {
+			if (startDim + 1 < dimensions.size()) {
+				// There are more dimensions, the elements of "value" are arrays a
+				// temporary reference shall be introduced if the next dimension has more than 1 elements.
+				// boolean temp_ref_needed = dimensions.get(startDim + 1).getSize() > 1;
+				for (int i = 0; i < dim_size; i++) {
+					final IValue v_elem = value.getValueByIndex(i);// get_comp_byIndex(i);
+					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
+						continue;
+					}
+					final String embeddedName = MessageFormat.format("{0}.getAt({1})", genName, i + dim.getOffset());
+					final ArrayDimension nextDim = dimensions.get(startDim + 1);
+					source.append(embeddedName).append(".setSize(").append(nextDim.getSize()).append(");\n");
+					source.append(embeddedName).append(".setOffset(").append(nextDim.getOffset()).append(");\n");
+					generateCodeArrayDuration(aData, source, embeddedName, (Value) v_elem, startDim + 1);
+				}
+			} else {
+				// We are in the last dimension, the elements of "value" are
+				// floats.
+				for (int i = 0; i < dim_size; i++) {
+					final IValue v_elem = value.getValueByIndex(i);
+					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
+						continue;
+					}
+					final ExpressionStruct expression = new ExpressionStruct();
+					expression.expression.append(genName);
+					expression.expression.append(".getAt(").append(i + dim.getOffset()).append(")");
+					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
+
+					v_elem.generateCodeExpression(aData, expression);
+
+					expression.expression.append(')');
+					expression.mergeExpression(source);
+				}
+			}
+		// Indexed-list notation.
+		} else {
+			if (startDim + 1 < dimensions.size()) {
+				// boolean temp_ref_needed = dimensions.get(startDim + 1).getSize() > 1;
+				// FIXME: implement
+			}
+		}
+
+		return source;
 	}
 
 	private String generateClassCode(JavaGenData aData, StringBuilder sb) {
