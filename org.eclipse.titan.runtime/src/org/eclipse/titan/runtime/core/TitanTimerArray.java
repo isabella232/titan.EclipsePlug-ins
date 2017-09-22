@@ -183,22 +183,21 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return getTimerArrayIndex(indexValue.getInt(), arraySize, indexOffset);
 	}
 
-	//TODO: timeout, running
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO
 
 	// originally alt_status timeout(Index_Redirect* index_redirect)
-	public TitanAlt_Status timeout() {
-		//FIXME handle redirection
-		/* if (index_redirect != NULL) {
-	      index_redirect->incr_pos();
-	    }*/
+	public TitanAlt_Status timeout(Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incrPos();
+		}
+
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; ++i) {
 			TitanAlt_Status ret_val = array_elements.get(i).timeout();
 			if (ret_val == TitanAlt_Status.ALT_YES) {
-				// if (index_redirect != NULL) {
-				//	 index_redirect->add_index((int)i + index_offset);
-				// }
+				if (index_redirect != null) {
+					index_redirect.addIndex(i + indexOffset);
+				}
 				result = ret_val;
 				break;
 			}
@@ -212,24 +211,23 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	}
 
 	// originally boolean running(Index_Redirect* index_redirect) const
-	public boolean running() {
-		//FIXME handle redirection
-		// if (index_redirect != NULL) {
-		//	 index_redirect->incr_pos();
-		// }
+	public boolean running(Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incrPos();
+		}
 		boolean ret_val = false;
 		for (int i = 0; i < array_size; ++i) {
 			ret_val = array_elements.get(i).running();
 			if (ret_val) {
-			// if (index_redirect != NULL) {
-			//	 index_redirect->add_index((int)i + index_offset);
-			// }
+				if (index_redirect != null) {
+					index_redirect.addIndex(i + indexOffset);
+				}
 				break;
 			}
 		}
-		// if (index_redirect != NULL) {
-		// 	 index_redirect->decr_pos();
-		// }
+		if (index_redirect != null) {
+			index_redirect.decrPos();
+		}
 		return ret_val;
 	}
 }
