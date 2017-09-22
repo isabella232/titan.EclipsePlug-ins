@@ -249,10 +249,8 @@ public final class Def_Timer extends Definition {
 						}
 					}
 					return;
-				case TYPE_UNDEFINED:
-					return;
 				default:
-					location.reportSemanticError(OPERANDERROR);
+					defaultDuration.getLocation().reportSemanticError(OPERANDERROR);
 				}
 			} else {
 				checkArrayDuration(defaultDuration, 0);

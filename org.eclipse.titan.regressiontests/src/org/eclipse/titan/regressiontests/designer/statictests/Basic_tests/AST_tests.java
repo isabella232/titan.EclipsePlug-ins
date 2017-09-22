@@ -9164,10 +9164,11 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
+
+
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5283);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5284);
 		int lineNum = 20;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -10021,7 +10022,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type `@value_tests.myunionType' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 8;
+		lineNum += 6;
+		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A non-negative float value was expected as timer duration instead of -5",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  ++lineNum, IMarker.SEVERITY_ERROR));
