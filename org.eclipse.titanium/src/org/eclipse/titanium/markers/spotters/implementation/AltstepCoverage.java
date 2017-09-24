@@ -288,7 +288,7 @@ final class ReceiveTemplateType extends ASTVisitor {
 			final TemplateInstance template = (TemplateInstance) node;
 			if (template.getTemplateBody() instanceof SpecificValue_Template) {
 				final SpecificValue_Template valueTemplate = (SpecificValue_Template) template.getTemplateBody();
-				receiveType = valueTemplate.getValue().getMyGovernor();
+				receiveType = valueTemplate.getMyGovernor();
 			} else {
 				receiveType = template.getType();
 			}
