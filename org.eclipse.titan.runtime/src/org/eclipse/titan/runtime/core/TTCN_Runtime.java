@@ -148,8 +148,7 @@ public final class TTCN_Runtime {
 		return component_type_name;
 	}
 
-	//originally get_testcase_name
-	public static String getTestcaseName() {
+	public static String get_testcase_name() {
 		return testcaseDefinitionName;
 	}
 
@@ -161,6 +160,20 @@ public final class TTCN_Runtime {
 
 		if (testcaseDefinitionName == null || testcaseDefinitionName.length() == 0) {
 			throw new TtcnError("Internal error: Evaluating macro %%testcaseId, but the name of the current testcase is not set.");
+		}
+
+		return new TitanCharString(testcaseDefinitionName);
+	}
+
+	//originally get_testcasename
+	public static TitanCharString get_testcasename() {
+		//FIXME is_hc needed once ready
+		if (inControlPart()) {
+			return new TitanCharString("");
+		}
+
+		if (testcaseDefinitionName == null || testcaseDefinitionName.length() == 0) {
+			throw new TtcnError("Internal error: Evaluating predefined function testcasename(), but the name of the current testcase is not set.");
 		}
 
 		return new TitanCharString(testcaseDefinitionName);
