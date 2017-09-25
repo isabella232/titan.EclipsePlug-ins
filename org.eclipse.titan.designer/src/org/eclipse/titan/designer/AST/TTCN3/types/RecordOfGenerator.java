@@ -496,7 +496,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tif (newSize > valueElements.size()) {\n");
 		source.append("\t\t\tfor ( int i = valueElements.size(); i < newSize; i++ ) {\n");
-		source.append("\t\t\t\tvalueElements.add( null );\n");
+		source.append( MessageFormat.format( "\t\t\t\tvalueElements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t} else if (newSize < valueElements.size()) {\n");
 		source.append("\t\t\twhile(valueElements.size() > newSize) {\n");
