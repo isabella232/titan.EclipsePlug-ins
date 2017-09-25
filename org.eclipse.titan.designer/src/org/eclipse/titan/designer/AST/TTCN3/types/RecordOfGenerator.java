@@ -58,6 +58,7 @@ public class RecordOfGenerator {
 		generateValueGetUnboundElem( source, ofTypeName );
 		generateValueToString( source );
 		generateValueReplace( source, genName, ofTypeName, displayName );
+		generateValueLog( source );
 
 		source.append("}\n");
 	}
@@ -596,6 +597,29 @@ public class RecordOfGenerator {
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn replace(index, len, repl.valueOf());\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate log()
+	 *
+	 * @param source where the source code is to be generated.
+	 */
+	private static void generateValueLog(final StringBuilder source) {
+		source.append("\tpublic void log() {\n");
+		source.append("\t\tif (valueElements == null) {\n");
+		source.append("\t\t\tTtcnLogger.log_event_unbound();\n");
+		source.append("\t\t\treturn;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tTtcnLogger.log_event_str(\"{ \");\n");
+		source.append("\t\tfinal int size = valueElements.size();\n");
+		source.append("\t\tfor (int i = 0; i < size; i++ ) {\n");
+		source.append("\t\t\tif ( i > 0 ) {\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\tvalueElements.get(i).log();\n");
+		source.append("\t\t}\n");
+		source.append("\t\tTtcnLogger.log_event_str(\" }\");\n");
 		source.append("\t}\n");
 	}
 
