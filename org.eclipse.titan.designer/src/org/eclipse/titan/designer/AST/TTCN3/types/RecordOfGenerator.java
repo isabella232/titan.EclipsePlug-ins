@@ -68,13 +68,15 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param isSetOf true: set of, false: record of
 	 */
 	public static void generateTemplateClass( final JavaGenData aData,
 											  final StringBuilder source,
 											  final String genName,
 											  final String displayName,
-											  final String ofTypeName ) {
+											  final String ofTypeName,
+											  final boolean isSetOf ) {
 		aData.addImport("java.util.List");
 		aData.addImport("java.util.concurrent.atomic.AtomicBoolean");
 		aData.addImport("java.util.concurrent.atomic.AtomicInteger");
@@ -90,6 +92,9 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "public static class {0}_template extends Record_Of_Template '{'\n", genName ) );
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
+		if ( isSetOf ) {
+			generateTemplateDeclarationSetOf( source, genName, ofTypeName );
+		}
 		generateTemplateConstructors( source, genName, displayName );
 		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName );
 		generateTemplateIsPresent( source );
@@ -99,6 +104,9 @@ public class RecordOfGenerator {
 		generateTemplateCleanup( source );
 		generateTemplateReplace( source, genName, displayName );
 		generateTemplateGetterSetters( source, genName, ofTypeName, displayName );
+		if ( isSetOf ) {
+			generateTemplateGetterSettersSetOf( source, genName, ofTypeName, displayName );
+		}
 		generateTemplateConcat( source, genName, ofTypeName, displayName );
 		generateTemplateSetSize( source, genName, ofTypeName, displayName );
 		generateTemplateNElem( source, genName );
@@ -618,6 +626,22 @@ public class RecordOfGenerator {
 	}
 
 	/**
+	 * Generate member variables for template
+	 * ONLY for set of
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 */
+	private static void generateTemplateDeclarationSetOf( final StringBuilder source, final String genName, final String ofTypeName ) {
+
+		source.append('\n');
+		source.append("\t//ONLY for set of\n");
+		source.append("\t//originally value_set/set_items\n");
+		source.append( MessageFormat.format( "\tList<{0}> set_items;\n", ofTypeName ) );
+	}
+
+	/**
 	 * Generate constructors for template
 	 *
 	 * @param source where the source code is to be generated.
@@ -997,6 +1021,28 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append('\n');
 		source.append("\t\treturn constGetAt(index_value.getInt());\n");
+		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate getter and setter functions for template
+	 * ONLY for set of
+	 *  
+	 * @param source where the source code is to be generated.
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateGetterSettersSetOf(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0} setItem(int set_index) '{'\n", ofTypeName ) );
+		source.append("\t\tif (templateSelection != template_sel.SUPERSET_MATCH && templateSelection != template_sel.SUBSET_MATCH) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a set element of a non-set template of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t\tif (set_index >= set_items.size() ) {\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Index overflow in a set template of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t\treturn set_items.get(set_index);\n");
 		source.append("\t}\n");
 	}
 
