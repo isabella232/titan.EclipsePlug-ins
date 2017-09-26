@@ -958,7 +958,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("public {0}_template({0}_template otherValue) '{'\n",ownName,elementName));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template({0} otherValue) '{'\n",ownName,elementName));
+		source.append(MessageFormat.format("super({0}_template.class , otherValue);\n ", elementName));
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}_template(final Base_Template.template_sel otherValue) '{'\n",ownName,elementName));
+		source.append("super(otherValue);\n");
+		source.append("}\n");
 		source.append("}\n\n");
+		
 	}
 
 	public String generateCodeValue(JavaGenData aData, StringBuilder source, Array_Type arrayType , StringBuilder sb) {

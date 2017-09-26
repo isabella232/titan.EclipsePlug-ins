@@ -275,6 +275,12 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		copy_template(otherValue);
 	}
+	
+	public TitanTemplateArray(final Base_Template.template_sel otherValue) {
+		checkSingleSelection(otherValue);
+		permutationIntervals = null;
+		//number_of_permutations = 0;
+	}
 
 	//TODO: TEMPLATE_ARRAY(const OPTIONAL< VALUE_ARRAY<T_value...>)
 
