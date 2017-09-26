@@ -74,8 +74,11 @@ public class EnumeratedGenerator {
 
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
 		aData.addBuiltinTypeImport("TitanInteger");
+		aData.addBuiltinTypeImport( "Base_Type" );
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("TtcnError");
-		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addImport( "java.text.MessageFormat" );
 
 		//		if(needsAlias()) { ???
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{' \n", e_defs.name));
@@ -160,8 +163,13 @@ public class EnumeratedGenerator {
 	//TODO: decode_text(Text_Buf& text_buf);
 
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs){
+		aData.addBuiltinTypeImport("TitanInteger");
+		aData.addBuiltinTypeImport( "Base_Type" );
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addImport( "java.text.MessageFormat" );
 		aData.addImport("java.util.ArrayList");
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
