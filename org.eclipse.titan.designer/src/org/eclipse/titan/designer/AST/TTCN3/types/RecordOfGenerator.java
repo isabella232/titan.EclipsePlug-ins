@@ -1460,7 +1460,7 @@ public class RecordOfGenerator {
 	}
 
 	/**
-	 * Generating valueOf() function for template
+	 * Generating log() function for template
 	 * @param aSb the output, where the java code is written
 	 * @param isSetOf true: set of, false: record of
 	 */
