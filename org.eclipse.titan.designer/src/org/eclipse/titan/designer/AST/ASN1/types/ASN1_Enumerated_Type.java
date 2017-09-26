@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.ASN1.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,10 +47,13 @@ import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumItem;
+import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator;
+import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_Defs;
 import org.eclipse.titan.designer.AST.TTCN3.values.Enumerated_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -649,5 +653,43 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	public final Identifier getComponentIdentifierByName(final Identifier identifier) {
 		final EnumItem enumItem = getEnumItemWithName(identifier);
 		return enumItem == null ? null : enumItem.getId();
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 */
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		final String ownName = getGenNameOwn();
+		final String displayName = getFullName();
+
+		final List<EnumItem> items = new ArrayList<EnumItem>();
+		if (enumerations != null) {
+			if (enumerations.enumItems1 != null) {
+				items.addAll(enumerations.enumItems1.getItems());
+			}
+			if (enumerations.enumItems2 != null) {
+				items.addAll(enumerations.enumItems2.getItems());
+			}
+		}
+		Enum_Defs e_defs = new Enum_Defs( items, ownName, displayName, getGenNameTemplate(aData, source, myScope));
+		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
+		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		//TODO: ???
+		return getGenNameOwn(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		return  getGenNameOwn(scope).concat("_template");
 	}
 }

@@ -544,7 +544,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		final String ownName = getGenNameOwn();
 		final String displayName = getFullName();
 
-		Enum_Defs e_defs = new Enum_Defs( items, ownName, displayName, getGenNameTemplate(aData, source, myScope));
+		Enum_Defs e_defs = new Enum_Defs( items.getItems(), ownName, displayName, getGenNameTemplate(aData, source, myScope));
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 	}
