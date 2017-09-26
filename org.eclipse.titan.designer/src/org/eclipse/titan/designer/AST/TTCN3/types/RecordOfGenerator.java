@@ -117,6 +117,7 @@ public class RecordOfGenerator {
 		generateTemplateListItem( source, genName, displayName );
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
+		generateTemplateLog( source, isSetOf );
 		generateTemplateGetIstemplateKind( source, genName );
 		//TODO: use
 		//generateTemplateCheckRestriction( source, genName );
@@ -1458,43 +1459,69 @@ public class RecordOfGenerator {
 		aSb.append("\t\t}\n");
 	}
 
-//TODO: implement log()
-/*
-	void log() {
-		switch (templateSelection) {
-		case SPECIFIC_VALUE:
-			if (value_elements.size() > 0) {
-				TtcnLogger.log_event_str("{ ");
-				for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
-					if (elem_count > 0) TtcnLogger.log_event_str(", ");
-					if (permutation_starts_at(elem_count)) TtcnLogger.log_event_str("permutation(");
-					value_elements.get(elem_count).log();
-					if (permutation_ends_at(elem_count)) TtcnLogger.log_char(')');
-				}
-				TtcnLogger.log_event_str(" }");
-			} else TtcnLogger.log_event_str("{ }");
-			break;
-		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement ");
-			// no break
-		case VALUE_LIST:
-			TtcnLogger.log_char('(');
-			for (int list_count = 0; list_count < list_value.size(); list_count++) {
-				if (list_count > 0) TtcnLogger.log_event_str(", ");
-				list_value.get(list_count).log();
-			}
-			TtcnLogger.log_char(')');
-			break;
-		default:
-			log_generic();
-			break;
+	/**
+	 * Generating valueOf() function for template
+	 * @param aSb the output, where the java code is written
+	 * @param isSetOf true: set of, false: record of
+	 */
+	private static void generateTemplateLog( final StringBuilder aSb, final boolean isSetOf ) {
+		aSb.append('\n');
+		aSb.append("\t\tpublic void log() {\n");
+		aSb.append("\t\t\tswitch (templateSelection) {\n");
+		aSb.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		aSb.append("\t\t\t\tif (value_elements.size() > 0) {\n");
+		aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\"{ \");\n");
+		aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
+		aSb.append("\t\t\t\t\t\tif (elem_count > 0) {\n");
+		aSb.append("\t\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		aSb.append("\t\t\t\t\t\t}\n");
+		if ( !isSetOf ) {
+			aSb.append("\t\t\t\t\t\tif (permutation_starts_at(elem_count)) {\n");
+			aSb.append("\t\t\t\t\t\t\tTtcnLogger.log_event_str(\"permutation(\");\n");
+			aSb.append("\t\t\t\t\t\t}\n");
 		}
-		log_restricted();
-		log_ifpresent();
-		if (err_descr) err_descr.log();
+		aSb.append("\t\t\t\t\t\tvalue_elements.get(elem_count).log();\n");
+		if ( !isSetOf ) {
+			aSb.append("\t\t\t\t\t\tif (permutation_ends_at(elem_count)) {\n");
+			aSb.append("\t\t\t\t\t\t\tTtcnLogger.log_char(')');\n");
+			aSb.append("\t\t\t\t\t\t}\n");
+		}
+		aSb.append("\t\t\t\t\t}\n");
+		aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		aSb.append("\t\t\t\t} else {\n");
+		aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\"{ }\");\n");
+		aSb.append("\t\t\t\t}\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		aSb.append("\t\t\t\tTtcnLogger.log_event_str(\"complement\");\n");
+		aSb.append("\t\t\tcase VALUE_LIST:\n");
+		aSb.append("\t\t\t\tTtcnLogger.log_char('(');\n");
+		aSb.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		aSb.append("\t\t\t\t\tif (list_count > 0) TtcnLogger.log_event_str(\", \");\n");
+		aSb.append("\t\t\t\t\tlist_value.get(list_count).log();\n");
+		aSb.append("\t\t\t\t}\n");
+		aSb.append("\t\t\t\tTtcnLogger.log_char(')');\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		if ( isSetOf ) {
+			aSb.append("\t\t\tcase SUPERSET_MATCH:\n");
+			aSb.append("\t\t\tcase SUBSET_MATCH:\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_event(\"%s(\", templateSelection == template_sel.SUPERSET_MATCH ? \"superset\" : \"subset\");\n");
+			aSb.append("\t\t\t\tfor (int set_count = 0; set_count < set_items.size(); set_count++) {\n");
+			aSb.append("\t\t\t\t\tif (set_count > 0) {\n");
+			aSb.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+			aSb.append("\t\t\t\t\t}\n");
+			aSb.append("\t\t\t\t\tset_items.get(set_count).log();\n");
+			aSb.append("\t\t\t\t}\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_char(')');\n");
+			aSb.append("\t\t\t\tbreak;\n");
+		}
+		aSb.append("\t\t\tdefault:\n");
+		aSb.append("\t\t\t\tlog_generic();\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\tlog_restricted();\n");
+		aSb.append("\t\t\tlog_ifpresent();\n");
+		aSb.append("\t\t}\n");
 	}
-//TODO
-//*/
 
 //TODO: implement void log_matchv(final Base_Type match_value, boolean legacy)
 /*
