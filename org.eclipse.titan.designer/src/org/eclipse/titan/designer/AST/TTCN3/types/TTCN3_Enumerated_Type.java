@@ -533,9 +533,6 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		return enumItem == null ? null : enumItem.getId();
 	}
 
-	//=== Code generation ===
-	
-	
 	/**
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
@@ -546,11 +543,8 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String ownName = getGenNameOwn();
 		final String displayName = getFullName();
-		aData.addBuiltinTypeImport( "Base_Type" );
-		aData.addBuiltinTypeImport( "TitanBoolean" );
-		aData.addBuiltinTypeImport( "Base_Template" );
-		aData.addImport( "java.text.MessageFormat" );
-		Enum_Defs e_defs = new Enum_Defs( items, ownName, displayName, getGenNameTemplate(aData, source, myScope));
+
+		Enum_Defs e_defs = new Enum_Defs( items.getItems(), ownName, displayName, getGenNameTemplate(aData, source, myScope));
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 	}

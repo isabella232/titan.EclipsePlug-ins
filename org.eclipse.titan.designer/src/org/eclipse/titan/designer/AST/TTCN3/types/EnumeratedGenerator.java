@@ -26,14 +26,14 @@ public class EnumeratedGenerator {
 	private static final String UNBOUND_VALUE ="UNBOUND_VALUE";
 
 	public static class Enum_Defs {
-		private EnumerationItems items;
+		private List<EnumItem> items;
 		private String name;
 		private String displayName;
 		private String templateName;
 		private Long firstUnused = -1L;  //first unused value for thsi enum type
 		private Long secondUnused = -1L; //second unused value for thsi enum type
 
-		public Enum_Defs(final EnumerationItems aItems, final String aName, final String aDisplayName, final String aTemplateName){
+		public Enum_Defs(final List<EnumItem> aItems, final String aName, final String aDisplayName, final String aTemplateName){
 			items = aItems;
 			name = aName;
 			displayName = aDisplayName;
@@ -46,10 +46,10 @@ public class EnumeratedGenerator {
 			if( firstUnused != -1 ) {
 				return; //function already have been called
 			}
-			final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.getItems().size());
-			final List<EnumItem> enumItems = items.getItems();
-			for( int i = 0, size = enumItems.size(); i < size; i++) {
-				final EnumItem item = enumItems.get(i);
+			final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.size());
+
+			for( int i = 0, size = items.size(); i < size; i++) {
+				final EnumItem item = items.get(i);
 				valueMap.put( ((Integer_Value) item.getValue()).getValue(), item);
 			}
 
@@ -74,16 +74,22 @@ public class EnumeratedGenerator {
 
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
 		aData.addBuiltinTypeImport("TitanInteger");
+		aData.addBuiltinTypeImport( "Base_Type" );
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		aData.addBuiltinTypeImport( "Base_Template" );
+		aData.addBuiltinTypeImport("TtcnError");
+		aData.addImport( "java.text.MessageFormat" );
+
 		//		if(needsAlias()) { ???
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{' \n", e_defs.name));
 		//== enum_type ==
 		source.append("public enum enum_type {\n");
 		StringBuilder helper = new StringBuilder();
 		DecimalFormat formatter = new DecimalFormat("#");
-		int size = e_defs.items.getItems().size();
+		int size = e_defs.items.size();
 		EnumItem item = null;
 		for ( int i=0; i<size; i++) {
-			item = e_defs.items.getItems().get(i);
+			item = e_defs.items.get(i);
 			source.append(MessageFormat.format("{0}", item.getId().getTtcnName()));
 			if (item.getValue() instanceof Integer_Value) {
 				String valueWithoutCommas = formatter.format( ((Integer_Value) item.getValue()).getValue());
@@ -157,6 +163,13 @@ public class EnumeratedGenerator {
 	//TODO: decode_text(Text_Buf& text_buf);
 
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs){
+		aData.addBuiltinTypeImport("TitanInteger");
+		aData.addBuiltinTypeImport( "Base_Type" );
+		aData.addBuiltinTypeImport( "TitanBoolean" );
+		aData.addBuiltinTypeImport( "Base_Template" );
+		aData.addBuiltinTypeImport("TtcnError");
+		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addImport( "java.text.MessageFormat" );
 		aData.addImport("java.util.ArrayList");
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
