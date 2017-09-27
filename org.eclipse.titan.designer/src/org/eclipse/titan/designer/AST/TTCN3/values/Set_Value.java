@@ -709,12 +709,13 @@ public final class Set_Value extends Value {
 				continue;
 			}
 
+			final String javaGetterName = FieldSubReference.getJavaGetterName(fieldName.getName());
 			if (fieldValue != null) {
 				//TODO handle the case when temporary reference is needed
 				final StringBuilder embeddedName = new StringBuilder();
 				embeddedName.append(name);
 				embeddedName.append(".get");
-				embeddedName.append(FieldSubReference.getJavaGetterName(fieldName.getName()));
+				embeddedName.append(javaGetterName);
 				embeddedName.append("()");
 				if(compField.isOptional() /*&& fieldValue.isCompound() */) {
 					embeddedName.append(".get()");
@@ -722,7 +723,9 @@ public final class Set_Value extends Value {
 				//TODO add extra handling for optional fields
 				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
-				// TODO: handle omit value
+				aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+
+				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}
 		}
 
