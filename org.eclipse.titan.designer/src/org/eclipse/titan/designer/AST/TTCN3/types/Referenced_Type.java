@@ -666,5 +666,4 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 		return refdLast.isPresentAnyvalueEmbeddedField(expression, subreferences, beginIndex);
 	}
-
 }
