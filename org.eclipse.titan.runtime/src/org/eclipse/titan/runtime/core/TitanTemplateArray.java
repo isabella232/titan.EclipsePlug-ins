@@ -231,10 +231,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		setSelection(otherValue);
 	}
 
-	public TitanTemplateArray(final Class<Tvalue> classValue) {
-		this.classValue = classValue;
-	}
-
 	public TitanTemplateArray(final Class<Tvalue> classValue, final Class<Ttemplate> classTemplate) {
 		this.classValue = classValue;
 		this.classTemplate = classTemplate;
@@ -274,12 +270,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		indexOffset = otherValue.indexOffset;
 
 		copy_template(otherValue);
-	}
-	
-	public TitanTemplateArray(final Base_Template.template_sel otherValue) {
-		checkSingleSelection(otherValue);
-		permutationIntervals = null;
-		//number_of_permutations = 0;
 	}
 
 	//TODO: TEMPLATE_ARRAY(const OPTIONAL< VALUE_ARRAY<T_value...>)
