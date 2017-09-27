@@ -203,9 +203,6 @@ public class UnionGenerator {
 	private static void generateValueAssign(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", genName));
-		source.append("if(otherValue.union_selection == union_selection_type.UNBOUND_VALUE) {\n");
-		source.append(MessageFormat.format("throw new TtcnError( \"Assignment of an unbound {0} value.\" );\n", displayName));
-		source.append("}\n");
 		source.append("if (otherValue != this) {\n");
 		source.append("cleanUp();\n");
 		source.append("copy_value(otherValue);\n");
