@@ -396,11 +396,11 @@ public class RecordSetCodeGenerator {
 				aSb.append( fi.mVarName );
 				aSb.append(".getSelection()) && !");
 				aSb.append(fi.mVarName);
-				aSb.append( ".isValue().getValue() ) return new TitanBoolean(true);\n" );
+				aSb.append( ".isValue().getValue() ) return new TitanBoolean(false);\n" );
 			} else {
 				aSb.append( "\t\t\tif ( " );
 				aSb.append( fi.mVarName );
-				aSb.append( ".isValue().getValue() ) return new TitanBoolean(true);\n" );
+				aSb.append( ".isValue().getValue() ) return new TitanBoolean(false);\n" );
 			}
 		}
 		aSb.append( "\t\t\treturn new TitanBoolean(true);\n" +
