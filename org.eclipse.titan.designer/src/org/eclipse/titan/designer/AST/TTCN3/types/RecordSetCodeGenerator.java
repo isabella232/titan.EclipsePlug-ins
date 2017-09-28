@@ -76,7 +76,9 @@ public class RecordSetCodeGenerator {
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addImport("java.text.MessageFormat");
+		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TitanInteger");
+		aData.addBuiltinTypeImport("TtcnLogger");
 		if(hasOptional) {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
