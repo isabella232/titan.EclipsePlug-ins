@@ -414,6 +414,7 @@ public class RecordOfMatch {
 		private List_elem current; 
 
 		public Tree_list(final int head_data) {
+			head = new List_elem();
 			head.data = head_data;
 			head.next = null;
 			head.parent = null;
