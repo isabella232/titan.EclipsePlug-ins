@@ -873,9 +873,9 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\treturn match(({0})otherValue, legacy);\n", genName) );
-		source.append("\t}\n\n");
+		source.append( MessageFormat.format( "\t\tif (otherValue instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\t\treturn match(({0})otherValue, legacy);\n", genName) );
+		source.append("\t\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n");
 	}
