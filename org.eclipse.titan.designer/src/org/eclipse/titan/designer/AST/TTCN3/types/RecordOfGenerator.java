@@ -97,9 +97,9 @@ public class RecordOfGenerator {
 			generateTemplateDeclarationSetOf( source, genName, ofTypeName );
 		}
 		generateTemplateConstructors( source, genName, displayName );
-		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName );
+		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateIsPresent( source );
-		generateTemplateMatch( source, genName, displayName );
+		generateTemplateMatch( source, genName, displayName, isSetOf );
 		generateTemplateMatchOmit( source );
 		generateTemplateAssign( source, genName, displayName );
 		generateTemplateCleanup( source );
@@ -109,11 +109,11 @@ public class RecordOfGenerator {
 			generateTemplateGetterSettersSetOf( source, genName, ofTypeName, displayName );
 		}
 		generateTemplateConcat( source, genName, ofTypeName, displayName );
-		generateTemplateSetSize( source, genName, ofTypeName, displayName );
+		generateTemplateSetSize( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateNElem( source, genName );
 		generateTemplateMatchv( source, genName );
 		generateTemplateIsValue( source, genName );
-		generateTemplateSetType( source, genName );
+		generateTemplateSetType( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateListItem( source, genName, displayName );
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
@@ -640,7 +640,7 @@ public class RecordOfGenerator {
 
 		source.append("\t//originally value_list/list_value\n");
 		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", genName ) );
-		
+
 		source.append('\n');
 		source.append("\tprivate match_function_t match_function_specific = new match_function_t() {\n");
 		source.append("\t\t@Override\n");
@@ -664,6 +664,14 @@ public class RecordOfGenerator {
 		source.append("\t//ONLY for set of\n");
 		source.append("\t//originally value_set/set_items\n");
 		source.append( MessageFormat.format( "\tList<{0}> set_items;\n", ofTypeName ) );
+
+		source.append('\n');
+		source.append("\tprivate match_function_t match_function_set = new match_function_t() {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {\n");
+		source.append( MessageFormat.format( "\t\t\treturn match_set(({0})value_ptr, value_index, ({0}_template)template_ptr, template_index, legacy);\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t};\n");
 	}
 
 	/**
@@ -702,8 +710,10 @@ public class RecordOfGenerator {
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateTemplateCopyTemplate( final StringBuilder source, final String genName, final String ofTypeName,
+													  final String displayName, final boolean isSetOf ) {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate void copy_value(final {0} other_value) '{'\n", genName ) );
@@ -735,7 +745,6 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-
 		source.append("\t\t\tbreak;\n");	
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\tcase ANY_VALUE:\n");
@@ -749,6 +758,16 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\tlist_value.add(temp);\n");	
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tbreak;\n");
+		if ( isSetOf ) {
+			source.append("\t\tcase SUPERSET_MATCH:\n");
+			source.append("\t\tcase SUBSET_MATCH:\n");
+			source.append( MessageFormat.format( "\t\t\tset_items = new ArrayList<{0}>(other_value.set_items.size());\n", ofTypeName ) );
+			source.append("\t\t\tfor (int set_count = 0; set_count < other_value.set_items.size(); set_count++) {\n");
+			source.append( MessageFormat.format( "\t\t\t\tfinal {0} temp = new {0}(other_value.set_items.get(set_count));\n", ofTypeName ) );
+			source.append("\t\t\t\tset_items.add(temp);\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tbreak;\n");
+		}
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
 		source.append("\t\t}\n");
@@ -782,8 +801,9 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateTemplateMatch( final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateTemplateMatch( final StringBuilder source, final String genName, final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\t// originally match\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean match(final {0} other_value) '{'\n", genName ) );
@@ -807,7 +827,11 @@ public class RecordOfGenerator {
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\t\treturn new TitanBoolean(false);\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\treturn new TitanBoolean( RecordOfMatch.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy) );\n");
+		if ( isSetOf ) {
+			source.append("\t\t\treturn new TitanBoolean( RecordOfMatch.match_set_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy) );\n");
+		} else {
+			source.append("\t\t\treturn new TitanBoolean( RecordOfMatch.match_record_of(other_value, value_length, this, value_elements.size(), match_function_specific, legacy) );\n");
+		}
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\tcase COMPLEMENTED_LIST:\n");
 		source.append("\t\t\tfor(int i = 0 ; i < list_value.size(); i++) {\n");
@@ -816,6 +840,11 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\treturn new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		if ( isSetOf ) {
+			source.append("\t\tcase SUPERSET_MATCH:\n");
+			source.append("\t\tcase SUBSET_MATCH:\n");
+			source.append("\t\t\treturn new TitanBoolean( RecordOfMatch.match_set_of(other_value, value_length, this, set_items.size(), match_function_set, legacy) );\n");
+		}
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -829,7 +858,18 @@ public class RecordOfGenerator {
 		source.append("\t\t\treturn template_ptr.value_elements.get(template_index).is_any_or_omit();\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
-		
+
+		if ( isSetOf ) {
+			source.append('\n');
+			source.append( MessageFormat.format( "\tprivate boolean match_set(final {0} value_ptr, int value_index, {0}_template template_ptr, int template_index, boolean legacy) '{'\n", genName ) );
+			source.append("\t\tif (value_index >= 0) {\n");
+			source.append("\t\t\treturn template_ptr.set_items.get(template_index).match(value_ptr.valueElements.get(value_index), legacy).getValue();\n");
+			source.append("\t\t} else {\n");
+			source.append("\t\t\treturn template_ptr.set_items.get(template_index).is_any_or_omit();\n");
+			source.append("\t\t}\n");
+			source.append("\t}\n");
+		}
+
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
@@ -1174,8 +1214,10 @@ public class RecordOfGenerator {
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateTemplateSetSize(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
+	private static void generateTemplateSetSize( final StringBuilder source, final String genName, final String ofTypeName,
+												 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\tpublic void setSize(int new_size) {\n");
 		source.append("\t\tif (new_size < 0) {\n");
@@ -1251,6 +1293,61 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t} break;\n");
+		if ( isSetOf ) {
+			source.append("\t\tcase SUPERSET_MATCH:\n");
+			source.append("\t\tcase SUBSET_MATCH:\n");
+			source.append("\t\t{\n");
+			source.append("\t\t	min_size = 0;\n");
+			source.append("\t\t	has_any_or_none = false;\n");
+			source.append("\t\t	int elem_count = set_items.size();\n");
+			source.append("\t\t	if (!is_size) {\n");
+			source.append("\t\t		while (elem_count>0 && !set_items.get(elem_count-1).isBound().getValue()) {\n");
+			source.append("\t\t			elem_count--;\n");
+			source.append("\t\t		}\n");
+			source.append("\t\t	}\n");
+			source.append("\t\t	for (int i=0; i<elem_count; i++) {\n");
+			source.append("\t\t		switch (set_items.get(i).getSelection()) {\n");
+			source.append("\t\t		case OMIT_VALUE:\n");
+			source.append("\t\t			throw new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing omit element.\", op_name ) );\n");
+			source.append("\t\t		case ANY_OR_OMIT:\n");
+			source.append("\t\t			has_any_or_none = true;\n");
+			source.append("\t\t			break;\n");
+			source.append("\t\t		default:\n");
+			source.append("\t\t			min_size++;\n");
+			source.append("\t\t			break;\n");
+			source.append("\t\t		}\n");
+			source.append("\t\t	}\n");
+			source.append("\t\t	if (templateSelection == template_sel.SUPERSET_MATCH) {\n");
+			source.append("\t\t		has_any_or_none = true;\n");
+			source.append("\t\t	} else {\n");
+			source.append("\t\t		int max_size = min_size;\n");
+			source.append("\t\t		min_size = 0;\n");
+			source.append("\t\t		if (!has_any_or_none) { // [0,max_size]\n");
+			source.append("\t\t			switch (length_restriction_type) {\n");
+			source.append("\t\t			case NO_LENGTH_RESTRICTION:\n");
+			source.append("\t\t				if (max_size==0) {\n");
+			source.append("\t\t					return new TitanInteger(0);\n");
+			source.append("\t\t				}\n");
+			source.append("\t\t				throw new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" with no exact size.\", op_name ) );\n");
+			source.append("\t\t			case SINGLE_LENGTH_RESTRICTION:\n");
+			source.append("\t\t				if (single_length <= max_size)\n");
+			source.append("\t\t					return new TitanInteger(single_length);\n");
+			source.append("\t\t				throw new TtcnError( MessageFormat.format( \"Performing {0}of() operation on an invalid template of type "+displayName+". The maximum size ({1}) contradicts the length restriction ({2}).\", op_name, max_size, single_length ) );\n");
+			source.append("\t\t			case RANGE_LENGTH_RESTRICTION:\n");
+			source.append("\t\t				if (max_size == range_length_min_length) {\n");
+			source.append("\t\t					return new TitanInteger(max_size);\n");
+			source.append("\t\t				} else if (max_size > range_length_min_length) {\n");
+			source.append("\t\t					throw new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" with no exact size.\", op_name ) );\n");
+			source.append("\t\t				} else\n");
+			source.append("\t\t					throw new TtcnError( MessageFormat.format( \"Performing {0}of() operation on an invalid template of type "+displayName+". Maximum size ({1}) contradicts the length restriction ({2}..{3}).\", op_name, max_size, range_length_min_length, range_length_max_length ) );\n");
+			source.append("\t\t			default:\n");
+			source.append("\t\t				throw new TtcnError(\"Internal error: Template has invalid length restriction type.\");\n");
+			source.append("\t\t			}\n");
+			source.append("\t\t		}\n");
+			source.append("\t\t	}\n");
+			source.append("\t\t}\n");
+			source.append("\t\tbreak;\n");
+		}
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing omit value.\", op_name ) );\n");
 		source.append("\t\tcase ANY_VALUE:\n");
@@ -1375,8 +1472,12 @@ public class RecordOfGenerator {
 	 *  
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param displayName the user readable name of the type to be generated.
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateTemplateSetType(final StringBuilder source, final String genName) {
+	private static void generateTemplateSetType( final StringBuilder source, final String genName, final String ofTypeName,
+												 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\tpublic void setType(template_sel template_type, int list_length) {\n");
 		source.append("\t\tcleanUp();\n");
@@ -1388,8 +1489,14 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tlist_value.add( new {0}_template() );\n", genName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tbreak;\n");
+		if ( isSetOf ) {
+			source.append("\t\tcase SUPERSET_MATCH:\n");
+			source.append("\t\tcase SUBSET_MATCH:\n");
+			source.append( MessageFormat.format( "\t\t\tset_items = new ArrayList<{0}>(list_length);\n", ofTypeName ) );
+			source.append("\t\tbreak;\n");
+		}
 		source.append("\t\tdefault:\n");
-		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting an invalid type for a template of type {0}.\");\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting an invalid type for a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t\tsetSelection(template_type);\n");
 		source.append("\t}\n");
