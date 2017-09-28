@@ -390,6 +390,11 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic TitanBoolean isValue() {\n" );
+		if ( aNamesList == null || aNamesList.isEmpty() ) {
+			aSb.append( "\t\t\treturn new TitanBoolean(false);\n" +
+					"\t\t}\n" );
+			return;
+		}
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( "\t\t\tif ( !optional_sel.OPTIONAL_OMIT.equals(" );
@@ -398,7 +403,7 @@ public class RecordSetCodeGenerator {
 				aSb.append(fi.mVarName);
 				aSb.append( ".isValue().getValue() ) return new TitanBoolean(false);\n" );
 			} else {
-				aSb.append( "\t\t\tif ( " );
+				aSb.append( "\t\t\tif ( !" );
 				aSb.append( fi.mVarName );
 				aSb.append( ".isValue().getValue() ) return new TitanBoolean(false);\n" );
 			}
