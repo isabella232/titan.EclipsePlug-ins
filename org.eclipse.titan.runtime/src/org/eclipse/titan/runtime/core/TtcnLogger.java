@@ -209,16 +209,16 @@ public final class TtcnLogger {
 	}
 
 	private static void log_line(final Severity event_severity, final String message) {
-		long timestamp = System.currentTimeMillis();
-		final long milisec = timestamp % 1000;
+		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
+		final long millisec = timestamp % 1000;
 		timestamp = timestamp / 1000;
 		final long secs = timestamp % 60;
 		timestamp = timestamp / 60;
 		final long minutes = timestamp % 60;
 		timestamp = timestamp / 60;
 		final long hours = timestamp % 24;
-		timestamp = timestamp / 24;
-		final String timestampString = String.format("%02d:%02d:%02d.%03d", hours, minutes, secs, milisec);
+//		timestamp = timestamp / 24; //not used yet
+		final String timestampString = String.format("%02d:%02d:%02d.%06d", hours, minutes, secs, millisec);
 
 		System.out.println("Logger says: " + timestampString + " "+ message);
 	}
