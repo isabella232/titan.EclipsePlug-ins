@@ -10,7 +10,6 @@ package org.eclipse.titan.designer.AST.ASN1.types;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
@@ -130,23 +129,27 @@ public final class Any_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		ErrorReporter.INTERNAL_ERROR("Code generation is not supported for the any type `" + getFullName() + "''");
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if(needsAlias()) {
+			final String ownName = getGenNameOwn();
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+		}
+	}
 
-		return "FATAL_ERROR encountered";
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "TitanAsn_Any" );
+
+		return "TitanAsn_Any";
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		ErrorReporter.INTERNAL_ERROR("Code generation is not supported for the any type `" + getFullName() + "''");
+		aData.addBuiltinTypeImport( "TitanAsn_Any_template" );
 
-		return "FATAL_ERROR encountered";
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		ErrorReporter.INTERNAL_ERROR("Code generation is not supported for the any type `" + getFullName() + "''");
+		return "TitanAsn_Any_template";
 	}
 }
