@@ -177,7 +177,9 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tfinal List<{0}> newList = new ArrayList<{0}>( srcList.size() );\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\tfor ({0} srcElem : srcList) '{'\n", ofTypeName ) );
 		source.append( MessageFormat.format( "\t\t\t{0} newElem = getUnboundElem();\n", ofTypeName ) );
-		source.append("\t\t\tnewElem.assign( srcElem );\n");
+		source.append("\t\t\tif (srcElem.isBound().getValue()) {\n");
+		source.append("\t\t\t\tnewElem.assign( srcElem );\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tnewList.add( ( newElem ) );\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn newList;\n");
