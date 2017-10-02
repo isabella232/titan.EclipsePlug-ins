@@ -293,6 +293,16 @@ public final class Address_Type extends Type implements IReferencingType {
 
 	@Override
 	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if(needsAlias()) {
+			final String ownName = getGenNameOwn();
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
 		return address.getGenNameValue(aData, source, scope);
 	}
