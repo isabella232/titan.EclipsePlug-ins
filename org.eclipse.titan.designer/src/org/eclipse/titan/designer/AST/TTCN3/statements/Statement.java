@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReparseUtilities;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
@@ -351,7 +352,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		// By default statements can not be extended
-		return null;
+		return ReparseUtilities.getAllValidTokenTypes();
 	}
 
 	@Override
