@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.ASN1.types;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -26,12 +27,14 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectClass_Definition;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -328,5 +331,40 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		if (this == referred_type || referred_type == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous object class field type `" + getFullName() + "''");
+			return "FATAL_ERROR encountered";
+		}
+
+		return referred_type.getGenNameValue(aData, source, scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		if (this == referred_type || referred_type == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous object class field type `" + getFullName() + "''");
+			return "FATAL_ERROR encountered";
+		}
+
+		return referred_type.getGenNameTemplate(aData, source, scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if(needsAlias()) {
+			final String ownName = getGenNameOwn();
+			IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			last.generateCode(aData, source);
+
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+		}
 	}
 }
