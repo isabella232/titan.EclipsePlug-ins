@@ -261,6 +261,54 @@ public final class TtcnLogger {
 		//FIXME this is a bit more complicated
 		log_event("%s (%d)", enum_name_str, enum_value);
 	}
+	
+	public static boolean isPrintable(final char c){
+		if (c>=32 && c<=126) {
+			//it includes all the printable characters in the ascii code table
+			return true;
+		}
+		switch(c){
+		case '\b':
+		case '\t':
+		case '\n':
+		case '\f':
+		case '\r':
+			return true;
+			default: return false;
+		}
+	}
+	
+	public static void logCharEscaped(final char c, StringBuilder p_buffer){
+		switch(c){
+		case '\n':
+			p_buffer.append("\\n");
+			break;
+		case '\t':
+			p_buffer.append("\\t");
+			break;
+		case '\b':
+			p_buffer.append("\\b");
+			break;
+		case '\r':
+			p_buffer.append("\\r");
+			break;
+		case '\f':
+			p_buffer.append("\\f");
+			break;
+		case '\\':
+			p_buffer.append("\\\\");
+			break;
+		case '"':
+			p_buffer.append("\\\"");
+			break;
+			default: if(isPrintable(c)){
+			p_buffer.append(c);
+			}else{
+				log_event("\\%03o", c);
+				break;
+			}
+		}
+	}
 
 	public static void log_hex( final byte aHexDigit ) {
 		if(aHexDigit<16){
