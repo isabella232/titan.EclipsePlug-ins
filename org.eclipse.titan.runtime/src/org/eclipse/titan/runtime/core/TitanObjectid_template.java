@@ -145,8 +145,8 @@ public class TitanObjectid_template extends Base_Template {
 				if (value_list.get(i).match(otherValue, legacy).getValue()) {
 					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 				}
-				return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 			}
+			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported objid template.");
 		}
