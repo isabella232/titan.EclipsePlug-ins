@@ -36,6 +36,7 @@ public final class Oct2UnicharExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "The operand of the `oct2unichar' operation should be an octetstring value";
 
 	private final Value value;
+	//FIXME missing support for second parameter
 
 	public Oct2UnicharExpression(final Value value) {
 		this.value = value;

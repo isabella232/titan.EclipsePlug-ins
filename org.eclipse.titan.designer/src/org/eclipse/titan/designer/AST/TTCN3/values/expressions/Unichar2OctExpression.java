@@ -38,6 +38,7 @@ public final class Unichar2OctExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "The operand of the `unichar2oct' operation should be a universal charstring value";
 
 	private final Value value;
+	//FIXME missing support for second parameter
 
 	public Unichar2OctExpression(final Value value) {
 		this.value = value;

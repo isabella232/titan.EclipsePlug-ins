@@ -37,6 +37,7 @@ public final class EncodeExpression extends Expression_Value {
 	private static final String OPERANDERROR2 = "The operand of the `encvalue' operation cannot be encoded";
 
 	private final TemplateInstance templateInstance;
+	//FIXME missing support for second and third parameter
 
 	public EncodeExpression(final TemplateInstance templateInstance) {
 		this.templateInstance = templateInstance;

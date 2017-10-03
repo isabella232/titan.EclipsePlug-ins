@@ -39,6 +39,7 @@ public final class TimerRunningExpression extends Expression_Value {
 	private static final String OPERATIONNAME = "timer running";
 
 	private final Reference reference;
+	//FIXME missing support for second reference
 
 	public TimerRunningExpression(final Reference reference) {
 		this.reference = reference;

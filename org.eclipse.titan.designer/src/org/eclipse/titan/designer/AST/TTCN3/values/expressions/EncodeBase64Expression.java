@@ -36,6 +36,7 @@ public final class EncodeBase64Expression extends Expression_Value {
 	private static final String OPERANDERROR1 = "The operand of the `encode_base64' operation should be an octetstring value";
 
 	private final Value value;
+	//FIXME missing support for second parameter
 
 	public EncodeBase64Expression(final Value value) {
 		this.value = value;

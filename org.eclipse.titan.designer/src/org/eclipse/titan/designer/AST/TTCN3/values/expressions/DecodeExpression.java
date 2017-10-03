@@ -46,6 +46,7 @@ public final class DecodeExpression extends Expression_Value {
 
 	private final Reference reference1;
 	private final Reference reference2;
+	//FIXME missing support for third and forth parameter
 
 	public DecodeExpression(final Reference reference1, final Reference reference2) {
 		this.reference1 = reference1;

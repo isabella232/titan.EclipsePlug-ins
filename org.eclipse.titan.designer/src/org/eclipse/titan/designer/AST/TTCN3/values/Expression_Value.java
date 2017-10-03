@@ -158,6 +158,7 @@ public abstract class Expression_Value extends Value {
 		/** istemplatekind (in template any_type invalue, in charstring kind) return boolean */	ISTEMPLATEKIND_OPERATION,
 		/** any2unistr(in template any_type invalue) return universal charstring */	ANY2UNISTR_OPERATION,
 		/** ( Port | all port | any port ) "." checkstate "(" SingleExpression ")" */	CHECKSTATE_OPERATION
+		//FIXME missing support for second any_checkstate and all_checkstate
 	}
 
 	/** The value of the expression if already evaluated, used to speed things up. */
