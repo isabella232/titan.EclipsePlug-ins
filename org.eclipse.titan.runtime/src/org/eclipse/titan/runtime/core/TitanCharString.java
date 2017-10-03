@@ -148,6 +148,60 @@ public class TitanCharString extends Base_Type {
 
 		return new TitanInteger(val_ptr.length());
 	}
+	
+	private static enum States{
+		INIT,
+		PCHAR,
+		NPCHAR;
+	}
+	
+	public void log(){
+		if(val_ptr != null){
+			String str_val="0";
+			States state=States.INIT;
+			StringBuilder buffer=new StringBuilder();
+			for (int i = 0; i < val_ptr.length(); i++) {
+				char c=val_ptr.charAt(i);
+				if(TtcnLogger.isPrintable(c)){
+					switch(state){
+					case NPCHAR: 
+						buffer.append(" & ");
+					case INIT:
+						buffer.append("\"");
+					case PCHAR: 
+						TtcnLogger.logCharEscaped(c, buffer);
+						break;
+					}
+					state=States.PCHAR;		
+				}else{
+					switch(state){
+					case PCHAR: 
+						buffer.append("\"");
+					case NPCHAR:
+						buffer.append(" & ");
+					case INIT: 
+						buffer.append(MessageFormat.format("char(0, 0, 0, {0})", (int)c));
+						break;
+					}
+					state=States.NPCHAR;
+				}
+			}
+			switch(state){
+			case INIT: 
+				buffer.append("\"\"");
+			break;
+			case PCHAR:
+				buffer.append("\"");
+			break;
+			default:
+				break;
+			}
+			TtcnLogger.log_event_str(buffer.toString());
+			
+		}else{
+			TtcnLogger.log_event_unbound();
+		}
+	}
 
 	/**
 	 * this + aOtherValue
