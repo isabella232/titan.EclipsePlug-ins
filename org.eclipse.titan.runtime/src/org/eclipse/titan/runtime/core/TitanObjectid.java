@@ -35,7 +35,7 @@ public class TitanObjectid extends Base_Type {
 		// TODO check n_components >= 2
 		n_components = init_n_components;
 		overflow_idx = -1;
-		components_ptr = new ArrayList<TitanInteger>();
+		components_ptr = new ArrayList<TitanInteger>(values.length);
 		for (int i = 0; i < values.length; i++) {
 			components_ptr.add(values[i]);
 		}
