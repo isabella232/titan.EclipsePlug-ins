@@ -61,13 +61,17 @@ public class TitanObjectid extends Base_Type {
 		n_components = otherValue.n_components;
 		overflow_idx = otherValue.overflow_idx;
 	}
+	
+	public void cleanUp() {
+		components_ptr = null;
+	}
 
 	// originally operator=
 	public TitanObjectid assign(final TitanObjectid otherValue) {
 		if(otherValue.components_ptr == null) {
 			throw new TtcnError("Assignment of an unbound objid value.");
 		}
-
+		cleanUp();
 		components_ptr = new ArrayList<TitanInteger>();
 		components_ptr.addAll(otherValue.components_ptr);
 		n_components = otherValue.n_components;
