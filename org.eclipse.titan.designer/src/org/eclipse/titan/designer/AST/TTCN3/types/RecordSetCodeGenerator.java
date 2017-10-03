@@ -126,6 +126,7 @@ public class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
+		aData.addBuiltinTypeImport("Optional");
 		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
@@ -713,7 +714,19 @@ public class RecordSetCodeGenerator {
 		source.append("\t\tcopyTemplate( otherValue );\n");
 		source.append("\t}\n");
 
-		//TODO: implement optional parameter version
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> other_value ) '{'\n", genName ) );
+		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tcase OPTIONAL_PRESENT:\n");
+		source.append("\t\t\tcopyValue(other_value.constGet());\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase OPTIONAL_OMIT:\n");
+		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t}\n");
 	}
 
 	/**
@@ -769,7 +782,21 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", otherValue));\n", genName));
 		source.append("\t\t}\n");
 
-		//TODO: implement optional parameter version
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
+		source.append("\t\tcleanUp();\n");
+		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tcase OPTIONAL_PRESENT:\n");
+		source.append("\t\t\tcopyValue(other_value.constGet());\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase OPTIONAL_OMIT:\n");
+		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t\treturn this;\n");
+		source.append("\t}\n");
 	}
 
 	/**
