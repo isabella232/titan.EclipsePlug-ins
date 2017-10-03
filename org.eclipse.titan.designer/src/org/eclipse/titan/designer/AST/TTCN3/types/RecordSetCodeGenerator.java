@@ -120,6 +120,7 @@ public class RecordSetCodeGenerator {
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final String className,
 			final String classDisplayName, final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
 		aData.addImport("java.util.List");
+		aData.addImport("java.util.ArrayList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("TitanBoolean");

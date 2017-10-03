@@ -79,6 +79,7 @@ public class RecordOfGenerator {
 											  final String ofTypeName,
 											  final boolean isSetOf ) {
 		aData.addImport("java.util.List");
+		aData.addImport("java.util.ArrayList");
 		aData.addImport("java.util.concurrent.atomic.AtomicBoolean");
 		aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 		aData.addImport("java.text.MessageFormat");
