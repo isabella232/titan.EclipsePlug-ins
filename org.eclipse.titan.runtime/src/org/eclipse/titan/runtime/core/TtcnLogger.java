@@ -261,25 +261,27 @@ public final class TtcnLogger {
 		//FIXME this is a bit more complicated
 		log_event("%s (%d)", enum_name_str, enum_value);
 	}
-	
-	public static boolean isPrintable(final char c){
-		if (c>=32 && c<=126) {
-			//it includes all the printable characters in the ascii code table
+
+	public static boolean isPrintable(final char c) {
+		if (c >= 32 && c <= 126) {
+			// it includes all the printable characters in the ascii code table
 			return true;
 		}
-		switch(c){
+
+		switch (c) {
 		case '\b':
 		case '\t':
 		case '\n':
 		case '\f':
 		case '\r':
 			return true;
-			default: return false;
+		default:
+			return false;
 		}
 	}
-	
-	public static void logCharEscaped(final char c, StringBuilder p_buffer){
-		switch(c){
+
+	public static void logCharEscaped(final char c, StringBuilder p_buffer) {
+		switch (c) {
 		case '\n':
 			p_buffer.append("\\n");
 			break;
@@ -301,9 +303,10 @@ public final class TtcnLogger {
 		case '"':
 			p_buffer.append("\\\"");
 			break;
-			default: if(isPrintable(c)){
-			p_buffer.append(c);
-			}else{
+		default:
+			if (isPrintable(c)) {
+				p_buffer.append(c);
+			} else {
 				log_event("\\%03o", c);
 				break;
 			}

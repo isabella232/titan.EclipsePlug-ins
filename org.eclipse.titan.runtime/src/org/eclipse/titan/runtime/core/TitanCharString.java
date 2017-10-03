@@ -148,57 +148,54 @@ public class TitanCharString extends Base_Type {
 
 		return new TitanInteger(val_ptr.length());
 	}
-	
-	private static enum States{
-		INIT,
-		PCHAR,
-		NPCHAR;
+
+	private static enum States {
+		INIT, PCHAR, NPCHAR;
 	}
-	
-	public void log(){
-		if(val_ptr != null){
-			String str_val="0";
-			States state=States.INIT;
-			StringBuilder buffer=new StringBuilder();
+
+	public void log() {
+		if (val_ptr != null) {
+			States state = States.INIT;
+			StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < val_ptr.length(); i++) {
-				char c=val_ptr.charAt(i);
-				if(TtcnLogger.isPrintable(c)){
-					switch(state){
-					case NPCHAR: 
+				char c = val_ptr.charAt(i);
+				if (TtcnLogger.isPrintable(c)) {
+					switch (state) {
+					case NPCHAR:
 						buffer.append(" & ");
 					case INIT:
 						buffer.append("\"");
-					case PCHAR: 
+					case PCHAR:
 						TtcnLogger.logCharEscaped(c, buffer);
 						break;
 					}
-					state=States.PCHAR;		
-				}else{
-					switch(state){
-					case PCHAR: 
+					state = States.PCHAR;
+				} else {
+					switch (state) {
+					case PCHAR:
 						buffer.append("\"");
 					case NPCHAR:
 						buffer.append(" & ");
-					case INIT: 
-						buffer.append(MessageFormat.format("char(0, 0, 0, {0})", (int)c));
+					case INIT:
+						buffer.append(MessageFormat.format("char(0, 0, 0, {0})", (int) c));
 						break;
 					}
-					state=States.NPCHAR;
+					state = States.NPCHAR;
 				}
 			}
-			switch(state){
-			case INIT: 
+			switch (state) {
+			case INIT:
 				buffer.append("\"\"");
-			break;
+				break;
 			case PCHAR:
 				buffer.append("\"");
-			break;
+				break;
 			default:
 				break;
 			}
 			TtcnLogger.log_event_str(buffer.toString());
-			
-		}else{
+
+		} else {
 			TtcnLogger.log_event_unbound();
 		}
 	}
