@@ -157,8 +157,9 @@ public abstract class Expression_Value extends Value {
 		/** hostid(in charstring idkind := "Ipv4orIPv6") return charstring */	HOSTID_OPERATION,
 		/** istemplatekind (in template any_type invalue, in charstring kind) return boolean */	ISTEMPLATEKIND_OPERATION,
 		/** any2unistr(in template any_type invalue) return universal charstring */	ANY2UNISTR_OPERATION,
-		/** ( Port | all port | any port ) "." checkstate "(" SingleExpression ")" */	CHECKSTATE_OPERATION
-		//FIXME missing support for second any_checkstate and all_checkstate
+		/** any port "." checkstate "(" SingleExpression ")" */	ANY_CHECKSTATE_OPERATION,
+		/** all port "." checkstate "(" SingleExpression ")" */	ALL_CHECKSTATE_OPERATION,
+		/** Port "." checkstate "(" SingleExpression ")" */	CHECKSTATE_OPERATION
 	}
 
 	/** The value of the expression if already evaluated, used to speed things up. */

@@ -7235,19 +7235,17 @@ pr_OpCall returns[Value value]
 
 pr_CheckStateOp returns[Value value]
 @init {
-	final Reference reference;
+	Reference reference = null;
+	boolean any = false;
+	boolean all = false;
 }:
 	(	r = pr_Port	{	reference = $r.reference;	}
 	|	pr_AnyKeyword
 		pr_PortKeyword
-			{	reference = new Reference(
-					new Identifier( Identifier_type.ID_TTCN, "any port", getLocation( $start, getStopToken() ) ) );
-			}
+			{	any = true;	}
 	|	pr_AllKeyword
 		pr_PortKeyword
-			{	reference = new Reference(
-					new Identifier( Identifier_type.ID_TTCN, "all port", getLocation( $start, getStopToken() ) ) );
-			}
+			{	all = true;	}
 	)
 	pr_Dot
 	pr_CheckStateKeyword
@@ -7256,7 +7254,13 @@ pr_CheckStateOp returns[Value value]
 	pr_RParen
 
 {
-	$value = new CheckStateExpression( reference, $v.value );
+	if (any) {
+		$value = new AnyPortCheckStateExpression( $v.value );
+	} else if (all) {
+		$value = new AllPortCheckSateExpression( $v.value );
+	} else {
+		$value = new CheckStateExpression( reference, $v.value );
+	}
 	$value.setLocation(getLocation( $start, getStopToken()));
 };
 
