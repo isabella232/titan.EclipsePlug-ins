@@ -91,6 +91,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("RecordOfMatch");
 		aData.addBuiltinTypeImport("RecordOfMatch.match_function_t");
 		aData.addBuiltinTypeImport("Restricted_Length_Template");
+		aData.addBuiltinTypeImport("Optional");
 		source.append( MessageFormat.format( "public static class {0}_template extends Record_Of_Template '{'\n", genName ) );
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
@@ -704,6 +705,20 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyTemplate( otherValue );\n");
 		source.append("\t};\n");
+
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> other_value ) '{'\n", genName ) );
+		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tcase OPTIONAL_PRESENT:\n");
+		source.append("\t\t\tcopy_value(other_value.constGet());\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase OPTIONAL_OMIT:\n");
+		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t}\n");
 	}
 
 	/**
@@ -968,7 +983,21 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", genName ) );
 		source.append("\t}\n");
 		
-		//TODO: implement optional parameter version
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
+		source.append("\t\tcleanUp();\n");
+		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tcase OPTIONAL_PRESENT:\n");
+		source.append("\t\t\tcopy_value(other_value.constGet());\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase OPTIONAL_OMIT:\n");
+		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
+		source.append("\t\t}\n");
+		source.append("\t\treturn this;\n");
+		source.append("\t}\n");
 	}
 
 	/**
