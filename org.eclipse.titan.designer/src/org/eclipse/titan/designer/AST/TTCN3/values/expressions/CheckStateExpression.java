@@ -46,7 +46,6 @@ public final class CheckStateExpression extends Expression_Value {
 
 	/** port reference */
 	private final Reference portReference;
-	//FIXME reference incorrectly contains any and all
 
 	/**
 	 * The parameter of the checkstate operation
