@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1;
 
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISetting;
@@ -19,6 +20,7 @@ import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -235,5 +237,17 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	public void generateCode(JavaGenData aData, boolean cleanUp) {
+		if (realAssignment != null) {
+			realAssignment.generateCode(aData, cleanUp);
+			return;
+		}
+
+		// FATAL ERROR
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+		aData.getSrc().append("FATAL_ERROR encountered");
 	}
 }
