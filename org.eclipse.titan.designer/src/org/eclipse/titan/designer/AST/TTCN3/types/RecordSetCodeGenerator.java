@@ -463,7 +463,7 @@ public class RecordSetCodeGenerator {
 			if (i > 0) {
 				aSb.append("TtcnLogger.log_char(',');\n");
 			}
-			aSb.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mVarName));
+			aSb.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
 			aSb.append(MessageFormat.format("{0}.log();\n", fieldInfo.mVarName));
 		}
 		aSb.append("TtcnLogger.log_event_str(\" }\");\n");
@@ -1126,7 +1126,7 @@ public class RecordSetCodeGenerator {
 			if (i > 0) {
 				source.append("TtcnLogger.log_char(',');\n");
 			}
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mVarName));
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
 			source.append(MessageFormat.format("{0}.log();\n", fieldInfo.mVarName));
 		}
 		source.append("TtcnLogger.log_event_str(\" }\");\n");
