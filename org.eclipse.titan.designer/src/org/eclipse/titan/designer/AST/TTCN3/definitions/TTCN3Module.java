@@ -1057,6 +1057,9 @@ public final class TTCN3Module extends Module {
 	 *                ASN.1 files, to efficiently handle module renaming.
 	 * */
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final ProjectSourceParser sourceParser) throws ReParseException {
+		if (reparser.getShift() < 0) {
+			throw new ReParseException();
+		}
 		// edited outside the module
 		if (reparser.getDamageEnd() < location.getOffset()) {
 			// before the module
