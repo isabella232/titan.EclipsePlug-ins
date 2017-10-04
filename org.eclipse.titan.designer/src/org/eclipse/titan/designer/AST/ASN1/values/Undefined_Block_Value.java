@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
@@ -36,6 +37,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Sequence_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SetOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Set_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Values;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 import org.eclipse.titan.designer.parsers.asn1parser.Asn1Parser;
@@ -480,5 +482,16 @@ public final class Undefined_Block_Value extends Value {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+		if (realValue != null) {
+			return realValue.generateCodeInit(aData, source, name);
+		}
+
+		// FATAL ERROR
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+		return new StringBuilder("FATAL_ERROR encountered");
 	}
 }
