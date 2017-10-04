@@ -203,7 +203,7 @@ public final class SpecialASN1Module {
 	 *         assignments, otherwise false.
 	 * */
 	public static boolean isSpecAsss(final Module module) {
-		return null != specialAssignmentsModule && !specialAssignmentsModule.equals(module);
+		return null != specialAssignmentsModule && specialAssignmentsModule.equals(module);
 	}
 
 	/**
