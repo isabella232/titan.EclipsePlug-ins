@@ -117,6 +117,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"xor", null, null},
 		{"xor_eq", null, null},
 		/* Java keywords postfixed */
+		{"abstract_", "abstract", "abstract"},
 		{"asm_", "asm", "asm"},
 		{"auto_", "auto", "auto"},
 		{"bitand_", "bitand", "bitand"},
