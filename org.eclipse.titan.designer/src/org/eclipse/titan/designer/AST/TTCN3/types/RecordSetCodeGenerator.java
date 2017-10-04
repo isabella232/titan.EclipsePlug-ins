@@ -29,6 +29,9 @@ public class RecordSetCodeGenerator {
 
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
+		
+		/** The user readable name of the field, typically used in error messages */
+		private String mDisplayName;
 
 		private boolean isOptional;
 
@@ -42,13 +45,16 @@ public class RecordSetCodeGenerator {
 		 * @param fieldType the string representing the type of this field in the generated code.
 		 * @param fieldTemplateType the string representing the template type of this field in the generated code.
 		 * @param fieldName the string representing the name of this field in the generated code.
+		 * @param displayName The user readable name of the field, typically used in error messages
 		 * @param isOptional true if the field is optional.
 		 * @param debugName additional text printed out in a comment after the generated local variables.
 		 * */
-		public FieldInfo(final String fieldType, final String fieldTemplateType, final String fieldName, final boolean isOptional, final String debugName) {
+		public FieldInfo( final String fieldType, final String fieldTemplateType, final String fieldName,
+						  final String displayName, final boolean isOptional, final String debugName) {
 			mJavaTypeName = fieldType;
 			mJavaTemplateTypeName = fieldTemplateType;
 			mVarName = fieldName;
+			mDisplayName = displayName;
 			mJavaVarName  = FieldSubReference.getJavaGetterName( mVarName );
 			this.isOptional = isOptional;
 			mTTCN3TypeName = debugName;
@@ -588,6 +594,7 @@ public class RecordSetCodeGenerator {
 			aSb.append( ";\n" +
 					"\t\t}\n" );
 
+			//TODO: remove
 			//			aSb.append( "\n\t\tpublic void set" );
 			//			aSb.append( fi.mJavaVarName );
 			//			aSb.append( "( final " );
@@ -658,7 +665,7 @@ public class RecordSetCodeGenerator {
 			source.append( '\n' );
 			source.append( MessageFormat.format( "\tpublic {0}_template constGet{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
-			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mVarName, displayName ) );
+			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Accessing field {0} of a non-specific template of type {1}.\");\n", fi.mDisplayName, displayName ) );
 			source.append("\t\t}\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
 			source.append("\t}\n");
