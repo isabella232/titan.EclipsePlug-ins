@@ -440,7 +440,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				// is better to run it and refresh the Makefile
 				// instead of just deleting it
 				// this looks better on the user interface as
-				// the file does not disappears from the user.
+				// the file does not disappear from the user.
 				InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator();
 				makefileGenerator.generateMakefile(project);
 			} else {
