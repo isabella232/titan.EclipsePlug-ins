@@ -592,6 +592,12 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		return getGenNameValue(aData, source, scope).concat("_template");
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();

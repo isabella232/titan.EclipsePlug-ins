@@ -252,7 +252,6 @@ public final class Port_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		//TODO implemented here to not generate todo text into the code
 		return getGenNameOwn(scope);
 	}
 

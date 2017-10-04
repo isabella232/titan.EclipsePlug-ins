@@ -570,4 +570,10 @@ public final class SetOf_Type extends AbstractOfType {
 	public String getGenNameValue( final JavaGenData aData, final StringBuilder source, final Scope scope ) {
 		return getGenNameOwn();
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		return getGenNameOwn(scope).concat("_template");
+	}
 }

@@ -479,8 +479,13 @@ public final class Altstep_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		//TODO implemented here to not generate todo text into the code
 		return getGenNameOwn(scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		return getGenNameOwn(scope).concat("_template");
 	}
 
 	@Override
