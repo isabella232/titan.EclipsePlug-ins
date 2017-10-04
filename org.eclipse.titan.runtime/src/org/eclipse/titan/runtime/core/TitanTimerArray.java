@@ -72,6 +72,17 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		array_elements = new ArrayList<T>();
 		names = new ArrayList<String>();
 	}
+	
+	public TitanTimerArray(final Class<T> clazz, int size, int offset) {
+		this.clazz = clazz;
+		indexOffset = offset;
+		
+		array_elements = new ArrayList<T>(size);
+		setSize(size);
+		
+		names = new ArrayList<String>();
+		
+	}
 
 	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
