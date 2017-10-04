@@ -572,7 +572,7 @@ public final class Def_Timer extends Definition {
 				}
 			}
 		} else {
-			ArrayList<String> classNames= new ArrayList<String>();
+			ArrayList<String> classNames = new ArrayList<String>();
 			aData.addBuiltinTypeImport("TitanTimerArray");
 			if (dimensions.size() == 1) {
 				classNames.add("TitanTimerArray<TitanTimer>");
@@ -585,15 +585,14 @@ public final class Def_Timer extends Definition {
 				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
 			} else {
 				StringBuilder sb = aData.getCodeForType(genName);
-				String elementName = generateClassCode(aData,sb, classNames);
+				String elementName = generateClassCode(aData, sb, classNames);
 				source.append(MessageFormat.format("TitanTimerArray<{0}>", elementName));
 				source.append(genName);
-				source.append(MessageFormat.format(" = new TitanTimerArray<{0}>(",elementName));
-				source.append(MessageFormat.format("{0}.class",elementName));
+				source.append(MessageFormat.format(" = new TitanTimerArray<{0}>(", elementName));
+				source.append(MessageFormat.format("{0}.class", elementName));
 				source.append(");\n");
 				source.append(genName).append(".setSize(").append(dimensions.get(0).getSize()).append(");\n");
 				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
-			
 			}
 
 			if (defaultDuration != null) {
@@ -669,17 +668,17 @@ public final class Def_Timer extends Definition {
 				for (int i = 0; i < value.getNofComponents(); ++i) {
 					final IValue v_elem = value.getValueByIndex(i);
 					final IValue index = value.getIndexByIndex(i);
-					
+
 					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
 						continue;
 					}
-					
+
 					final String tempId1 = aData.getTemporaryVariableName();
 					final String tempIdX = aData.getTemporaryVariableName();
 					source.append("{\n");
 					source.append("TitanInteger " + tempIdX + " = new TitanInteger();\n");
 					index.generateCodeInit(aData, source, tempIdX);
-					
+
 					source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 1), tempId1, genName, tempIdX));
 					final ArrayDimension nextDim = dimensions.get(startDim + 1);
 					source.append(tempId1).append(".setSize(").append(nextDim.getSize()).append(");\n");
@@ -694,14 +693,14 @@ public final class Def_Timer extends Definition {
 					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
 						continue;
 					}
-					
+
 					final ExpressionStruct expression = new ExpressionStruct();
 					final String tempIdX = aData.getTemporaryVariableName();
 					source.append("{\n");
 					source.append("TitanInteger " + tempIdX + " = new TitanInteger();\n");
 					v_elemIndex.generateCodeInit(aData, source, tempIdX);
 
-					final String  embeddedName = MessageFormat.format("{0}.getAt(", genName);
+					final String embeddedName = MessageFormat.format("{0}.getAt(", genName);
 					expression.expression.append(embeddedName).append(tempIdX).append(")");
 					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
 
@@ -720,10 +719,10 @@ public final class Def_Timer extends Definition {
 	private String generateClassCode(JavaGenData aData, StringBuilder sb, ArrayList<String> list) {
 		String tempId1 = "TitanTimer";
 		for (int i = 0; i < dimensions.size() - 1; ++i) {
-			ArrayDimension dim = dimensions.get(dimensions.size()-i-1);
+			ArrayDimension dim = dimensions.get(dimensions.size() - i - 1);
 			String tempId2 = aData.getTemporaryVariableName();
 			list.add(tempId2);
-			sb.append(MessageFormat.format("public static class {0} extends TitanTimerArray<{1}> '{'\n", tempId2,tempId1));
+			sb.append(MessageFormat.format("public static class {0} extends TitanTimerArray<{1}> '{'\n", tempId2, tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
 			sb.append(MessageFormat.format("super({0}.class, {1}, {2});\n", tempId1, dim.getSize(), dim.getOffset()));
 			sb.append("}\n");
