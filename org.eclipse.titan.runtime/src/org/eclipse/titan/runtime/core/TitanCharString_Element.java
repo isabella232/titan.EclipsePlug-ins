@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -238,6 +239,17 @@ public class TitanCharString_Element {
 		result[1] = aOtherValue.get_char();
 		return new TitanUniversalCharString(result);
 	}
+
+	public void log(){
+		if(bound_flag){
+			char c = str_val.getAt(char_pos).get_char();
+		if(TtcnLogger.isPrintable(c)){
+			TtcnLogger.log_char('"');
+			TtcnLogger.logCharEscaped(c);
+			TtcnLogger.log_char('"');
+		}else TtcnLogger.log_event("char(0, 0, 0, {0})",(int)c);
+		}else TtcnLogger.log_event_unbound();
+	}  
 
 	//TODO: operatorEquals((TitanUniversalCharString) test
 	//TODO: operatorEquals((TitanUniversalCharString_Element) test

@@ -312,6 +312,40 @@ public final class TtcnLogger {
 			}
 		}
 	}
+	
+	public static void logCharEscaped(final char c) {
+		switch (c) {
+		case '\n':
+			log_event_str("\\n");
+			break;
+		case '\t':
+			log_event_str("\\t");
+			break;
+		case '\b':
+			log_event_str("\\b");
+			break;
+		case '\r':
+			log_event_str("\\r");
+			break;
+		case '\f':
+			log_event_str("\\f");
+			break;
+		case '\\':
+			log_event_str("\\\\");
+			break;
+		case '"':
+			log_event_str("\\\"");
+			break;
+		default:
+			if (isPrintable(c)) {
+				log_char(c);
+			} else {
+				log_event("\\%03o", c);
+				break;
+			}
+		}
+	}
+	
 
 	public static void log_hex( final byte aHexDigit ) {
 		if(aHexDigit<16){
