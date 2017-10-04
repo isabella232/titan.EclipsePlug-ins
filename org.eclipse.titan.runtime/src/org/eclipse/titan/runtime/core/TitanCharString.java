@@ -397,7 +397,7 @@ public class TitanCharString extends Base_Type {
 			if (rotatecount == 0) {
 				return this;
 			}
-			final StringBuilder rValue = new StringBuilder();
+			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 			for (int i = 0; i < val_ptr.length(); i++) {
 				rValue.append(val_ptr.charAt((i + rotatecount) % val_ptr.length()));
 			}
@@ -428,7 +428,7 @@ public class TitanCharString extends Base_Type {
 			if (rotatecount == 0) {
 				return this;
 			}
-			final StringBuilder rValue = new StringBuilder();
+			final StringBuilder rValue = new StringBuilder(val_ptr.length());
 
 			for (int i = 0; i < rotatecount; i++) {
 				rValue.append(val_ptr.charAt(i + val_ptr.length() - rotatecount));
