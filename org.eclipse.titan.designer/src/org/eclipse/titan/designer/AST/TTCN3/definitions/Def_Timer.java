@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -571,10 +572,10 @@ public final class Def_Timer extends Definition {
 				}
 			}
 		} else {
-			// FIXME implement timer arrays
-			// String arrayType = dimensions.getTimerType();
+			ArrayList<String> classNames= new ArrayList<String>();
 			aData.addBuiltinTypeImport("TitanTimerArray");
 			if (dimensions.size() == 1) {
+				classNames.add("TitanTimerArray<TitanTimer>");
 				source.append("TitanTimerArray<TitanTimer>");
 				source.append(genName);
 				source.append(" = new TitanTimerArray<TitanTimer>(");
@@ -584,7 +585,7 @@ public final class Def_Timer extends Definition {
 				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
 			} else {
 				StringBuilder sb = aData.getCodeForType(genName);
-				String elementName = generateClassCode(aData,sb);
+				String elementName = generateClassCode(aData,sb, classNames);
 				source.append(MessageFormat.format("TitanTimerArray<{0}>", elementName));
 				source.append(genName);
 				source.append(MessageFormat.format(" = new TitanTimerArray<{0}>(",elementName));
@@ -596,16 +597,16 @@ public final class Def_Timer extends Definition {
 			}
 
 			if (defaultDuration != null) {
-				generateCodeArrayDuration(aData, source, genName, defaultDuration, 0);
+				generateCodeArrayDuration(aData, source, genName, classNames, defaultDuration, 0);
 			}
+
 			source.append(genName).append(".setName(\"").append(identifier.getDisplayName()).append("\");\n");
 		}
 	}
 
-	private StringBuilder generateCodeArrayDuration(final JavaGenData aData, final StringBuilder source, final String genName, final Value defaultDuration2,final int startDim) {
+	private void generateCodeArrayDuration(final JavaGenData aData, final StringBuilder source, final String genName, final ArrayList<String> classNames, final Value defaultDuration2,final int startDim) {
 		final ArrayDimension dim = dimensions.get(startDim);
 		final int dim_size = (int) dim.getSize();
-		// int dim_offset = (int) dim.getOffset();
 
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(
 				IReferenceChain.CIRCULARREFERENCE, true);
@@ -617,11 +618,13 @@ public final class Def_Timer extends Definition {
 			// FIXME: throw
 			// FATAL_ERROR("Def_Timer::generate_code_array_duration()");
 			// ErrorReporter.INTERNAL_ERROR()
+			return;
 		}
 
 		final SequenceOf_Value value = (SequenceOf_Value) v;
 		if (value.getNofComponents() != dim_size && !value.isIndexed()) {
 			// FATAL ERROR
+			return;
 		}
 
 		// Value-list notation.
@@ -639,11 +642,10 @@ public final class Def_Timer extends Definition {
 					final ArrayDimension nextDim = dimensions.get(startDim + 1);
 					source.append(embeddedName).append(".setSize(").append(nextDim.getSize()).append(");\n");
 					source.append(embeddedName).append(".setOffset(").append(nextDim.getOffset()).append(");\n");
-					generateCodeArrayDuration(aData, source, embeddedName, (Value) v_elem, startDim + 1);
+					generateCodeArrayDuration(aData, source, embeddedName, classNames, (Value) v_elem, startDim + 1);
 				}
 			} else {
-				// We are in the last dimension, the elements of "value" are
-				// floats.
+				// We are in the last dimension, the elements of "value" are floats.
 				for (int i = 0; i < dim_size; i++) {
 					final IValue v_elem = value.getValueByIndex(i);
 					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
@@ -664,20 +666,66 @@ public final class Def_Timer extends Definition {
 		} else {
 			if (startDim + 1 < dimensions.size()) {
 				// boolean temp_ref_needed = dimensions.get(startDim + 1).getSize() > 1;
-				// FIXME: implement
+				for (int i = 0; i < value.getNofComponents(); ++i) {
+					final IValue v_elem = value.getValueByIndex(i);
+					final IValue index = value.getIndexByIndex(i);
+					
+					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
+						continue;
+					}
+					
+					final String tempId1 = aData.getTemporaryVariableName();
+					final String tempIdX = aData.getTemporaryVariableName();
+					source.append("{\n");
+					source.append("TitanInteger " + tempIdX + " = new TitanInteger();\n");
+					index.generateCodeInit(aData, source, tempIdX);
+					
+					source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 1), tempId1, genName, tempIdX));
+					final ArrayDimension nextDim = dimensions.get(startDim + 1);
+					source.append(tempId1).append(".setSize(").append(nextDim.getSize()).append(");\n");
+					source.append(tempId1).append(".setOffset(").append(nextDim.getOffset()).append(");\n");
+					generateCodeArrayDuration(aData, source, tempId1, classNames, (Value) v_elem, startDim + 1);
+					source.append("}\n");
+				}
+			} else {
+				for (int i = 0; i < value.getNofComponents(); ++i) {
+					final IValue v_elem = value.getValueByIndex(i);
+					final IValue v_elemIndex = value.getIndexByIndex(i);
+					if (v_elem.getValuetype() == Value_type.NOTUSED_VALUE) {
+						continue;
+					}
+					
+					final ExpressionStruct expression = new ExpressionStruct();
+					final String tempIdX = aData.getTemporaryVariableName();
+					source.append("{\n");
+					source.append("TitanInteger " + tempIdX + " = new TitanInteger();\n");
+					v_elemIndex.generateCodeInit(aData, source, tempIdX);
+
+					final String  embeddedName = MessageFormat.format("{0}.getAt(", genName);
+					expression.expression.append(embeddedName).append(tempIdX).append(")");
+					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
+
+					v_elem.generateCodeExpression(aData, expression);
+
+					expression.expression.append(')');
+					expression.mergeExpression(source);
+					source.append("}\n");
+				}
 			}
 		}
 
-		return source;
+		return;
 	}
 
-	private String generateClassCode(JavaGenData aData, StringBuilder sb) {
+	private String generateClassCode(JavaGenData aData, StringBuilder sb, ArrayList<String> list) {
 		String tempId1 = "TitanTimer";
 		for (int i = 0; i < dimensions.size() - 1; ++i) {
+			ArrayDimension dim = dimensions.get(dimensions.size()-i-1);
 			String tempId2 = aData.getTemporaryVariableName();
+			list.add(tempId2);
 			sb.append(MessageFormat.format("public static class {0} extends TitanTimerArray<{1}> '{'\n", tempId2,tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
-			sb.append(MessageFormat.format("super({0}.class);\n", tempId1));
+			sb.append(MessageFormat.format("super({0}.class, {1}, {2});\n", tempId1, dim.getSize(), dim.getOffset()));
 			sb.append("}\n");
 			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId2));
 			sb.append("super(otherValue);\n");
