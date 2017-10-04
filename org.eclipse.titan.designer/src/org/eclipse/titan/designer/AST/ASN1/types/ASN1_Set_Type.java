@@ -903,6 +903,12 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		return getGenNameOwn(scope).concat("_template");
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String className = getGenNameOwn();
 		final String classReadableName = getFullName();

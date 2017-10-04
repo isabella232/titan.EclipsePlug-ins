@@ -709,6 +709,12 @@ public final class Signature_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		return getGenNameOwn(scope).concat("_template");
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
