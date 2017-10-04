@@ -14,10 +14,13 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -350,6 +353,17 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 						oidState_type.START.equals(state) ? "first" : "second"));
 				return oidState_type.LATER;
 			}
+		case REFERENCED_VALUE: {
+			Reference reference = ((Referenced_Value) value).getReference();
+			Assignment assignment = reference.getRefdAssignment(timestamp, false);
+			IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
+			if (type.getTypetype() == Type_type.TYPE_INTEGER) {
+				//FIXME implement handling of the variable form
+			} else {
+				definedValue.getLocation().reportSemanticError("INTEGER variable was expected");
+			}
+			return oidState_type.LATER;
+		}
 		default:
 			if (oidState_type.START.equals(state)) {
 				definedValue.getLocation().reportSemanticError("INTEGER or OBJECT IDENTIFIER value was expected for the first component");
