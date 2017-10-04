@@ -312,7 +312,7 @@ public final class TtcnLogger {
 			}
 		}
 	}
-	
+
 	public static void logCharEscaped(final char c) {
 		switch (c) {
 		case '\n':

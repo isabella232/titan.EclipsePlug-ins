@@ -401,7 +401,7 @@ public class TitanCharString extends Base_Type {
 			for (int i = 0; i < val_ptr.length(); i++) {
 				rValue.append(val_ptr.charAt((i + rotatecount) % val_ptr.length()));
 			}
-				return new TitanCharString(rValue);
+			return new TitanCharString(rValue);
 		}
 
 		return rotateRight(-rotatecount);
