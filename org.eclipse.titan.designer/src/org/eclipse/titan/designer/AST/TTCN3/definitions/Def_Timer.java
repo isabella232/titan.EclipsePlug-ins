@@ -457,6 +457,7 @@ public final class Def_Timer extends Definition {
 		//FIXME global timer ????
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
+		final StringBuilder initComp = aData.getInitComp();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
@@ -505,25 +506,36 @@ public final class Def_Timer extends Definition {
 					expression.mergeExpression(aData.getPostInit());
 				}
 			}
+
+
+			if ( defaultDuration != null ) {
+				defaultDuration.generateCodeInit(aData, initComp, genName );
+			} else if (cleanUp) {
+				initComp.append(genName);
+				initComp.append(".cleanUp();\n");
+			}
+
 		} else {
-			//FIXME implement timer arrays
-			aData.addBuiltinTypeImport( "TitanTimerArray" );
-			source.append("//TODO: generateCode()");
-			source.append("TitanTimerArray ");
-			source.append(genName);
-			source.append(" = new TitanTimerArray<TitanTimer>(\"");
-			source.append(identifier.getDisplayName());
-			source.append("\");\n");
+			ArrayList<String> classNames= new ArrayList<String>();
+			final ExpressionStruct expression = new ExpressionStruct();
+			aData.addBuiltinTypeImport("TitanTimerArray");
+			String elementName = generateClassCode(aData, sb, classNames);
+			source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
+
+			if (defaultDuration != null) {
+				generateCodeArrayDuration(aData, aData.getPostInit(), genName, classNames, defaultDuration, 0);
+			}
+
+			expression.expression.append(genName);
+			expression.expression.append(".setName(\"");
+			expression.expression.append(identifier.getDisplayName());
+			expression.expression.append("\");\n");
+
+			expression.mergeExpression(aData.getPreInit());
 		}
 
 		sb.append(source);
-		StringBuilder initComp = aData.getInitComp();
-		if ( defaultDuration != null ) {
-			defaultDuration.generateCodeInit(aData, initComp, genName );
-		} else if (cleanUp) {
-			initComp.append(genName);
-			initComp.append(".cleanUp();\n");
-		}
+
 	}
 
 	@Override
@@ -535,7 +547,7 @@ public final class Def_Timer extends Definition {
 		if (defaultDuration != null) {
 			defaultDuration.setGenNameRecursive(getGenName());
 		}
-		
+
 		if(dimensions == null) {
 			// single timer instance
 			if (defaultDuration == null) {
@@ -574,26 +586,11 @@ public final class Def_Timer extends Definition {
 		} else {
 			ArrayList<String> classNames = new ArrayList<String>();
 			aData.addBuiltinTypeImport("TitanTimerArray");
-			if (dimensions.size() == 1) {
-				classNames.add("TitanTimerArray<TitanTimer>");
-				source.append("TitanTimerArray<TitanTimer>");
-				source.append(genName);
-				source.append(" = new TitanTimerArray<TitanTimer>(");
-				source.append("TitanTimer.class");
-				source.append(");\n");
-				source.append(genName).append(".setSize(").append(dimensions.get(0).getSize()).append(");\n");
-				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
-			} else {
-				StringBuilder sb = aData.getCodeForType(genName);
-				String elementName = generateClassCode(aData, sb, classNames);
-				source.append(MessageFormat.format("TitanTimerArray<{0}>", elementName));
-				source.append(genName);
-				source.append(MessageFormat.format(" = new TitanTimerArray<{0}>(", elementName));
-				source.append(MessageFormat.format("{0}.class", elementName));
-				source.append(");\n");
-				source.append(genName).append(".setSize(").append(dimensions.get(0).getSize()).append(");\n");
-				source.append(genName).append(".setOffset(").append(dimensions.get(0).getOffset()).append(");\n");
-			}
+
+			StringBuilder sb = aData.getCodeForType(genName);
+			String elementName = generateClassCode(aData, sb, classNames);
+			source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
+
 
 			if (defaultDuration != null) {
 				generateCodeArrayDuration(aData, source, genName, classNames, defaultDuration, 0);
@@ -607,10 +604,8 @@ public final class Def_Timer extends Definition {
 		final ArrayDimension dim = dimensions.get(startDim);
 		final int dim_size = (int) dim.getSize();
 
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(
-				IReferenceChain.CIRCULARREFERENCE, true);
-		final Value v = (Value) defaultDuration2.getValueRefdLast(
-				CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final Value v = (Value) defaultDuration2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
 		if (v.getValuetype() != Value_type.SEQUENCEOF_VALUE) {
@@ -638,9 +633,6 @@ public final class Def_Timer extends Definition {
 						continue;
 					}
 					final String embeddedName = MessageFormat.format("{0}.getAt({1})", genName, i + dim.getOffset());
-					final ArrayDimension nextDim = dimensions.get(startDim + 1);
-					source.append(embeddedName).append(".setSize(").append(nextDim.getSize()).append(");\n");
-					source.append(embeddedName).append(".setOffset(").append(nextDim.getOffset()).append(");\n");
 					generateCodeArrayDuration(aData, source, embeddedName, classNames, (Value) v_elem, startDim + 1);
 				}
 			} else {
@@ -679,10 +671,7 @@ public final class Def_Timer extends Definition {
 					source.append("TitanInteger " + tempIdX + " = new TitanInteger();\n");
 					index.generateCodeInit(aData, source, tempIdX);
 
-					source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 1), tempId1, genName, tempIdX));
-					final ArrayDimension nextDim = dimensions.get(startDim + 1);
-					source.append(tempId1).append(".setSize(").append(nextDim.getSize()).append(");\n");
-					source.append(tempId1).append(".setOffset(").append(nextDim.getOffset()).append(");\n");
+					source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 2), tempId1, genName, tempIdX));
 					generateCodeArrayDuration(aData, source, tempId1, classNames, (Value) v_elem, startDim + 1);
 					source.append("}\n");
 				}
@@ -718,7 +707,7 @@ public final class Def_Timer extends Definition {
 
 	private String generateClassCode(JavaGenData aData, StringBuilder sb, ArrayList<String> list) {
 		String tempId1 = "TitanTimer";
-		for (int i = 0; i < dimensions.size() - 1; ++i) {
+		for (int i = 0; i < dimensions.size(); ++i) {
 			ArrayDimension dim = dimensions.get(dimensions.size() - i - 1);
 			String tempId2 = aData.getTemporaryVariableName();
 			list.add(tempId2);
@@ -768,8 +757,8 @@ public final class Def_Timer extends Definition {
 				expression.mergeExpression(initComp);
 			} else {
 				initComp.append("//generateCodeInitComp: TODO timer array are not yet implemented\n");
-				//FIXME implement array
-				
+				generateCodeArrayDuration(aData, initComp, baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""), new ArrayList<String>(),  baseTimerDefinition.defaultDuration, 0);
+
 			}
 		}
 	}
