@@ -119,10 +119,11 @@ public class RecordOfGenerator {
 		generateTemplateListItem( source, genName, displayName );
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
+		generateTemplateSubstr( source, genName );
 		generateTemplateLog( source, isSetOf );
 		generateTemplateGetIstemplateKind( source, genName );
 		//TODO: use
-		//generateTemplateCheckRestriction( source, genName );
+		//generateTemplateCheckRestriction( source, displayName );
 		source.append("}\n");
 	}
 
@@ -1189,7 +1190,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\n\tprivate int get_length_for_concat(template_sel operand) {");
+		source.append("\n\tprivate int get_length_for_concat(template_sel operand) {\n");
 		source.append("\t\tif (operand == template_sel.ANY_VALUE) {\n");
 		source.append("\t\t\t// ? => { * }\n");
 		source.append("\t\t\treturn 1;\n");
@@ -1199,7 +1200,7 @@ public class RecordOfGenerator {
 
 		source.append('\n');
 		//TODO: simplify, just use value_elements.add()
-		source.append("\t\t//TODO: simplify, just use value_elements.add()\n");
+		source.append("\t\t\t//TODO: simplify, just use value_elements.add()\n");
 		source.append( MessageFormat.format( "\tprivate void concat(AtomicInteger pos, final {0}_template operand) '{'\n", genName ) );
 		source.append("\t\t// all errors should have already been caught by the operand's\n");
 		source.append("\t\t// get_length_for_concat() call;\n");
@@ -1599,6 +1600,21 @@ public class RecordOfGenerator {
 	}
 
 	/**
+	 * Generating substr() function for template
+	 * @param aSb the output, where the java code is written
+	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 */
+	private static void generateTemplateSubstr( final StringBuilder aSb, final String genName ) {
+		aSb.append('\n');
+		aSb.append( MessageFormat.format( "\t\tpublic {0} substr(int index, int returncount) '{'\n", genName ) );
+		aSb.append("\t\t\tif (!isValue().getValue()) {\n");
+		aSb.append("\t\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template with non-specific value.\");\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\treturn valueOf().substr(index, returncount);\n");
+		aSb.append("\t\t}\n");
+	}
+
+	/**
 	 * Generating log() function for template
 	 * @param aSb the output, where the java code is written
 	 * @param isSetOf true: set of, false: record of
@@ -1764,11 +1780,16 @@ public class RecordOfGenerator {
 	 * Generate check_restriction function for template
 	 *  
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateCheckRestriction(final StringBuilder source, final String genName) {
+	private static void generateTemplateCheckRestriction(final StringBuilder source, final String displayName) {
 		source.append('\n');
-		source.append("\tvoid check_restriction(template_res t_res, final String t_name, boolean legacy) {\n");
+		source.append("\tpublic void check_restriction(template_res t_res, final String t_name) {\n");
+		source.append("\t\tcheck_restriction(t_res, t_name, false);\n");
+		source.append("\t}\n");
+
+		source.append('\n');
+		source.append("\tpublic void check_restriction(template_res t_res, final String t_name, boolean legacy) {\n");
 		source.append("\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
@@ -1783,7 +1804,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i=0; i<value_elements.size(); i++)\n");
-		source.append("\t\t\t\tvalue_elements.get(i).check_restriction(t_res, t_name != null ? t_name : \""+genName+"\");\n");
+		source.append("\t\t\t\tvalue_elements.get(i).check_restriction(t_res, t_name != null ? t_name : \""+displayName+"\");\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\tcase TR_PRESENT:\n");
 		source.append("\t\t\tif (!match_omit(legacy).getValue()) return;\n");
@@ -1791,7 +1812,7 @@ public class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tthrow new TtcnError( MessageFormat.format( \"Restriction `{0}' on template of type {1} violated.\", get_res_name(t_res), t_name != null ? t_name : \""+genName+"\" ) );\n");
+		source.append("\t\tthrow new TtcnError( MessageFormat.format( \"Restriction `{0}' on template of type {1} violated.\", getResName(t_res), t_name != null ? t_name : \""+displayName+"\" ) );\n");
 		source.append("\t}\n");
 	}
 }

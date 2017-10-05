@@ -604,7 +604,7 @@ public final class SubstrExpression extends Expression_Value {
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
 			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
-			expression.expression.append(".subString( ");
+			expression.expression.append(".substr( ");
 			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
 				lastValue2.generateCodeExpressionMandatory(aData, expression);
 			} else {
