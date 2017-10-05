@@ -629,6 +629,9 @@ public final class Assignment_Statement extends Statement {
 						source.append(MessageFormat.format("{0}.assign({1});\n", rhsCopy, value.generateSingleExpression(aData)));
 						expression.expression.append(MessageFormat.format(".assign({0});\n", rhsCopy));
 					} else {
+						if (isOptional) {
+							expression.expression.append(".get()");
+						}
 						expression.expression.append(MessageFormat.format(".assign({0});\n", value.generateSingleExpression(aData)));
 					}
 
@@ -643,6 +646,8 @@ public final class Assignment_Statement extends Statement {
 					if (rhsCopied) {
 						//TODO handle needs conversion case
 						value.generateCodeInit(aData, source, rhsRef);
+					} else if (isOptional) {
+						leftExpression.expression.append(".get()");
 					}
 
 					source.append("{\n");
