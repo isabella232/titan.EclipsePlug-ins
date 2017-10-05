@@ -430,7 +430,7 @@ public final class Assignment_Statement extends Statement {
 
 		template.setMyGovernor(type);
 		final ITTCN3Template temporalTemplate = type.checkThisTemplateRef(timestamp, template, expectedValue,referenceChain);
-		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, false, true, true, true, false, assignment);
+		selfReference = temporalTemplate.checkThisTemplateGeneric(timestamp, type, true, true, true, true, false, assignment);
 		checkTemplateRestriction(timestamp);
 
 		if (reference.refersToStringElement()) {

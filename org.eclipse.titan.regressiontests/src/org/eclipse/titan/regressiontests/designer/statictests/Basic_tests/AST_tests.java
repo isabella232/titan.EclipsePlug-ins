@@ -5702,7 +5702,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>();
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4532);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6237,14 +6237,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There are more (at least 6) elements than it is allowed by the length restriction (5)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for set type `@template_assignment_tests.mysetType'", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@template_assignment_tests.mysetType'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in set template for type `@template_assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in set template for type `@template_assignment_tests.mysetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for set type `@template_assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value list notation is not allowed for set type `@template_assignment_tests.mysetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6277,45 +6272,27 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("set value was expected for type `@template_assignment_tests.mysetType'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Length restriction cannot be used in template of type `@template_assignment_tests.mysetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 11;
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@template_assignment_tests.myrecordType': 3 was expected instead of 5",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 12;
+		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@template_assignment_tests.myrecordType': 3 was expected instead of 5",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
 		for (i = 0; i < 9; i++) {
 			markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@template_assignment_tests.myrecordType'", lineNum, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@template_assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field4' in record template for type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field4' in record template for type `@template_assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' cannot appear after field `field1' in a template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field1' in record template, expecting `field2'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  --lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@template_assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@template_assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Character string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field3' is missing from template for record type `@template_assignment_tests.myrecordType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' cannot appear after field `field2' in a template for record type `@template_assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("Character string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@template_assignment_tests.myrecordType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6496,20 +6473,17 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("Reference to a testcase was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Length restriction cannot be used in template of type `@template_assignment_tests.t_testcase'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 15;
-		markersToCheck.add(new MarkerToCheck("Field `Par3' is missing from signature value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `Par1' is missing from signature value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `Par3' is missing from signature value",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Duplicate parameter `Par3' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 17;
+		markersToCheck.add(new MarkerToCheck("Duplicate parameter `Par3' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Parameter `Par3' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `nonExi' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("Unexpected field `Par3' in signature value, expecting `Par2'", lineNum++, IMarker.SEVERITY_ERROR));
-		}
-		markersToCheck.add(new MarkerToCheck("integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `Par2' cannot appear after parameter `Par3' in signature value",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 5",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Duplicate parameter `Par3' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Duplicate parameter `Par3' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Parameter `Par3' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@template_assignment_tests.mySignature': 3 was expected instead of 5",  lineNum, IMarker.SEVERITY_ERROR));
@@ -6518,18 +6492,33 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@template_assignment_tests.mySignature'", lineNum, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field4' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'", lineNum, IMarker.SEVERITY_ERROR));
 		}
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field1' in template for signature `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to non-existent parameter `field2' in template for signature `@template_assignment_tests.mySignature'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the in parameter `Par1' and the out parameter `Par2' is missing",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Signature template is incomplete, because the inout parameter `Par3' is missing",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("sequence value was expected for type `@template_assignment_tests.mySignature'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx4' in module `template_assignment_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
@@ -7217,18 +7206,12 @@ public class AST_tests {
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("Character string value was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 8;
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 2;
+		lineNum += 10;
 		markersToCheck.add(new MarkerToCheck("A non-empty set template was expected for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSetType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Value list notation is not allowed for set type `@ASNTypes.ASNSetType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7263,32 +7246,23 @@ public class AST_tests {
 		}
 		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field3' in record template for type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@ASNTypes.ASNSequenceType': 2 was expected instead of 5",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field4' in record template for type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 4;
+		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@ASNTypes.ASNSequenceType': 2 was expected instead of 5",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to non-existing field `field4' in record template for type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate field `field1' in template",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Field `field1' is already given here",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Unexpected field `field2' in record template, expecting `field1'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Field `field1' cannot appear after field `field2' in a template for record type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in value list notation for type `@ASNTypes.ASNSequenceType': 2 was expected instead of 3",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field1' is missing from template for record type `@ASNTypes.ASNSequenceType'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Field `field2' is missing from template for record type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("General string value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("General string value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("INTEGER value was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("SEQUENCE value was expected for type `@ASNTypes.ASNSequenceType'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -7410,6 +7384,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
+
 	private ArrayList<MarkerToCheck> template_formalparlist_tests_ttcn_initializer() {
 		//template_formalparlist_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(22);

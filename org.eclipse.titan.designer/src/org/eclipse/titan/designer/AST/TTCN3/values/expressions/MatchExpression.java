@@ -178,7 +178,7 @@ public final class MatchExpression extends Expression_Value {
 				false, false, true, false, false));
 		//FIXME check value against governor
 
-		templateInstance.getTemplateBody().checkThisTemplateGeneric(timestamp, localGovernor, false, false, false, true, false, null);
+		templateInstance.getTemplateBody().checkThisTemplateGeneric(timestamp, localGovernor, templateInstance.getDerivedReference()!= null, false, false, true, false, null);
 
 		try {
 			ExpressionUtilities.checkExpressionOperatorCompatibility(timestamp, this, referenceChain, Expected_Value_type.EXPECTED_TEMPLATE, value, templateInstance);
