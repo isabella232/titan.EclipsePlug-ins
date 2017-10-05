@@ -277,11 +277,11 @@ public class TitanObjectid_template extends Base_Template {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return new TitanBoolean(false);
 		} else {
-			return matchOmit(legacy).not();
+			return match_omit(legacy).not();
 		}
 	}
 
-	public TitanBoolean matchOmit(boolean legacy) {
+	public TitanBoolean match_omit(boolean legacy) {
 		if (is_ifPresent) {
 			return new TitanBoolean(true);
 		}
@@ -295,7 +295,7 @@ public class TitanObjectid_template extends Base_Template {
 				// legacy behavior: 'omit' can appear in the
 				// value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).matchOmit().getValue()) {
+					if (value_list.get(i).match_omit().getValue()) {
 						return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
 					}
 				}
@@ -307,7 +307,7 @@ public class TitanObjectid_template extends Base_Template {
 		}
 	}
 
-	public TitanBoolean matchOmit() {
-		return matchOmit(false);
+	public TitanBoolean match_omit() {
+		return match_omit(false);
 	}
 }
