@@ -711,7 +711,7 @@ public final class Referenced_Value extends Value {
 			//TODO might need initialization see needs_init_precede
 			//TODO Value.cc:generate_code_init_refd
 
-			last.generateCodeInit(aData, source, name);
+			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.getGenNameOwn(myScope)));
 		}
 
 		return source;
