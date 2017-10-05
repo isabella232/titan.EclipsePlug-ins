@@ -146,6 +146,8 @@ public final class OmitValue_Template extends TTCN3Template {
 		asValue.setLocation(getLocation());
 		asValue.setMyScope(getMyScope());
 		asValue.setFullNameParent(getNameParent());
+		asValue.setMyGovernor(getMyGovernor());
+
 		return asValue;
 	}
 

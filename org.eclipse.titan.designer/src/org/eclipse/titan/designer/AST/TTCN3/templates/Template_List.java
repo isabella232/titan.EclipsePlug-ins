@@ -260,6 +260,7 @@ public final class Template_List extends CompositeTemplate {
 		asValue.setLocation(getLocation());
 		asValue.setMyScope(getMyScope());
 		asValue.setFullNameParent(getNameParent());
+		asValue.setMyGovernor(getMyGovernor());
 
 		return asValue;
 	}
