@@ -98,7 +98,7 @@ public final class TTCN_Runtime {
 		return localVerdict;
 	}
 
-	//originally TTCN_Runtime::set_component_type
+	//originally TTCN_Runtime::initialize_component_type
 	private static void initialize_component_type() {
 		Module_List.initialize_component(component_type_module, component_type_name, true);
 
