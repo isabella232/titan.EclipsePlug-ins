@@ -557,7 +557,6 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append( MessageFormat.format( "\t\tAdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, \"{0}\",\"element\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\t{0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
-		source.append("\t\tret_val.setSize(returncount);\n");
 		source.append("\t\tfor (int i=0; i<returncount; i++) {\n");
 		source.append("\t\t\tif (valueElements.get(i+index) != null) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tret_val.valueElements.add(new {0}(valueElements.get(i+index)));\n", ofTypeName ) );
