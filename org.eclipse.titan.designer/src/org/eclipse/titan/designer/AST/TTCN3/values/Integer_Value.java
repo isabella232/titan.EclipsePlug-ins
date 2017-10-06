@@ -298,6 +298,7 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 			source.append(MessageFormat.format("new TitanInteger( new BigInteger(\"{0}\") )", value.toString()));
 		}
 		source.append( " );\n" );
+
 		return source;
 	}
 }

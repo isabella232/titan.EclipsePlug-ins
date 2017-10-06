@@ -142,6 +142,7 @@ public final class Altstep_Reference_Value extends Value {
 		source.append(".assign( ");
 		source.append(generateSingleExpression(aData));
 		source.append( " );\n" );
+
 		return source;
 	}
 
