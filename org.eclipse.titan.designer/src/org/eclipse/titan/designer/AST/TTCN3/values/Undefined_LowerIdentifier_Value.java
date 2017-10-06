@@ -329,7 +329,9 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 			return realValue.generateCodeInit(aData, source, name);
 		}
 
-		return new StringBuilder("/* fatal error undefined lower identifier encountered */");
+		source.append("/* fatal error undefined lower identifier encountered */");
+
+		return source;
 	}
 
 	@Override
