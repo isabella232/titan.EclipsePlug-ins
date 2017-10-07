@@ -636,7 +636,7 @@ public class UnionGenerator {
 		source.append("case OMIT_VALUE:\n");
 		source.append("return new TitanBoolean(false);\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append(MessageFormat.format("{0}.union_selection_type value_selection = other_value.get_selection();\n", genName));
+		source.append(MessageFormat.format("final {0}.union_selection_type value_selection = other_value.get_selection();\n", genName));
 		source.append(MessageFormat.format("if (value_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
 		source.append("return new TitanBoolean(false);\n");
 		source.append("}\n");
@@ -755,7 +755,7 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of union type {0}.\");\n", displayName));
 		source.append("}\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append(MessageFormat.format("{0} ret_val = new {0}();\n", genName));
+			source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", genName));
 		}
 		source.append("switch(single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -885,7 +885,7 @@ public class UnionGenerator {
 			FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
-			source.append("template_sel old_selection = templateSelection;\n");
+			source.append("final template_sel old_selection = templateSelection;\n");
 			source.append("cleanUp();\n");
 			source.append("if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {\n");
 			source.append(MessageFormat.format("single_value = new {0}(template_sel.ANY_VALUE);\n", fieldInfo.mJavaTemplateName));
