@@ -526,7 +526,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			final CompField compField = components.getCompByIndex(i);
 			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
 					compField.getType().getGenNameTemplate(aData, source, getMyScope()),
-					compField.getIdentifier().getName());
+					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}

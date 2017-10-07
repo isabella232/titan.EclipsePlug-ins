@@ -608,7 +608,7 @@ public final class Open_Type extends ASN1Type {
 		for ( final CompField compField : map.values() ) {
 			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
 					compField.getType().getGenNameTemplate(aData, source, getMyScope()),
-					compField.getIdentifier().getName());
+					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}

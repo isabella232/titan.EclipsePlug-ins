@@ -28,6 +28,9 @@ public class UnionGenerator {
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
 
+		/** The user readable name of the field, typically used in error messages */
+		private String mDisplayName;
+
 		/** Field variable name in java getter/setter function names and parameters */
 		private String mJavaVarName;
 
@@ -35,12 +38,14 @@ public class UnionGenerator {
 		 * @param fieldType: the string representing the value type of this field in the generated code.
 		 * @param fieldTemplate: the string representing the template type of this field in the generated code.
 		 * @param fieldName: the string representing the name of this field in the generated code.
+		 * @param displayName: the string representing the name of this field in the error messages and logs in the generated code.
 		 * */
-		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName) {
+		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName, final String displayName) {
 			mJavaTypeName = fieldType;
 			mJavaTemplateName = fieldTemplate;
 			mVarName = fieldName;
-			mJavaVarName  = FieldSubReference.getJavaGetterName( mVarName );
+			mJavaVarName = FieldSubReference.getJavaGetterName( mVarName );
+			mDisplayName = displayName;
 		}
 	}
 
@@ -375,7 +380,7 @@ public class UnionGenerator {
 
 			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("throw new TtcnError(\"Using non-selected field field1 in a value of union type {0}.\");\n", displayName));
+			source.append(MessageFormat.format("throw new TtcnError(\"Using non-selected field {0} in a value of union type {1}.\");\n", fieldInfo.mDisplayName ,displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("return ({0})field;\n", fieldInfo.mJavaTypeName));
 			source.append("}\n\n");
@@ -895,10 +900,10 @@ public class UnionGenerator {
 
 			source.append(MessageFormat.format("public {0} constGet{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append("if (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
-			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field field1 in a non-specific template of union type {0}.\");\n", displayName));
+			source.append(MessageFormat.format("throw new TtcnError(\"Accessing field {0} in a non-specific template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("if (single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("throw new TtcnError(\"Accessing non-selected field field1 in a template of union type {0}.\");\n", displayName));
+			source.append(MessageFormat.format("throw new TtcnError(\"Accessing non-selected field {0} in a template of union type {1}.\");\n", fieldInfo.mDisplayName, displayName));
 			source.append("}\n");
 			source.append(MessageFormat.format("return ({0})single_value;\n", fieldInfo.mJavaTemplateName));
 			source.append("}\n\n");

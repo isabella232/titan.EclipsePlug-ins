@@ -727,7 +727,7 @@ public final class Anytype_Type extends Type {
 		for ( final CompField compField : compFieldMap.fields ) {
 			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
 					compField.getType().getGenNameTemplate(aData, source, getMyScope()),
-					compField.getIdentifier().getName());
+					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName());
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
