@@ -168,9 +168,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		setSelection(otherValue);
 	}
 
-	// FIXME: getAt
-	// FIXME: constGetAt
-
 	// originally operator[](int index_value)
 	public TitanCharString_Element getAt(final int index) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
@@ -383,7 +380,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-	// FIXME: lengthOf
 	// originally lengthOf
 	public TitanInteger lengthOf() {
 		int min_length = 0;
@@ -430,9 +426,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "charstring template"));
 	}
 
-	// FIXME: set_min
 	// originally set_min
-
 	public void setMin(final TitanCharString otherMinValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
@@ -451,10 +445,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
-
-	// FIXME: set_max
 	// originally set_max
-
 	public void setMax(final TitanCharString otherMaxValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
@@ -488,12 +479,4 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		max_is_exclusive = maxExclusive;
 	}
-
-	//TODO: test isPresent
-	//TODO: test lengthOf
-	//TODO: test setType
-	//TODO: test setMax
-	//TODO: test setMin
-	//TODO: test setMinExclusive
-	//TODO: test setMaxExclusive
 }
