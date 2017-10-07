@@ -58,6 +58,23 @@ public class TitanRecordOf extends Base_Type {
 		valueElements = null;
 	}
 
+	public void log() {
+		if (valueElements == null) {
+			TtcnLogger.log_event_unbound();
+			return;
+		}
+
+		TtcnLogger.log_event_str("{ ");
+		final int size = valueElements.size();
+		for (int i = 0; i < size; i++ ) {
+			if ( i > 0 ) {
+				TtcnLogger.log_event_str(", ");
+			}
+			valueElements.get(i).log();
+		}
+		TtcnLogger.log_event_str(" }");
+	}
+
 	/**
 	 * @return true if and only if otherValue is the same record of type as this
 	 */
