@@ -324,7 +324,6 @@ public class TitanInteger extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
-	// TODO: check the correction
 	// originally operator !=
 	public TitanBoolean operatorNotEquals(final int otherValue) {
 		return operatorEquals(otherValue).not();
