@@ -9,15 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
-import org.eclipse.titan.runtime.core.Base_Type;
-import org.eclipse.titan.runtime.core.Optional;
 import org.eclipse.titan.runtime.core.Optional.optional_sel;
-import org.eclipse.titan.runtime.core.TitanBoolean;
-import org.eclipse.titan.runtime.core.TitanInteger;
-import org.eclipse.titan.runtime.core.TitanOctetString;
-import org.eclipse.titan.runtime.core.TitanUniversalCharString;
-import org.eclipse.titan.runtime.core.TtcnError;
-import org.eclipse.titan.runtime.core.TtcnLogger;
 
 /**
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.

@@ -7,13 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import org.eclipse.titan.runtime.core.Base_Type;
-import org.eclipse.titan.runtime.core.TitanAsn_Null;
-import org.eclipse.titan.runtime.core.TitanBoolean;
-import org.eclipse.titan.runtime.core.TitanInteger;
-import org.eclipse.titan.runtime.core.TitanObjectid;
-import org.eclipse.titan.runtime.core.TtcnError;
-import org.eclipse.titan.runtime.core.TtcnLogger;
 
 /**
  * Part of the representation of the ASN.1 EXTERNAL type

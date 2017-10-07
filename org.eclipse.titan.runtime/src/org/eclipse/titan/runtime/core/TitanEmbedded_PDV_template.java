@@ -11,16 +11,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.runtime.core.Base_Template;
-import org.eclipse.titan.runtime.core.Base_Type;
-import org.eclipse.titan.runtime.core.Optional;
-import org.eclipse.titan.runtime.core.TitanBoolean;
-import org.eclipse.titan.runtime.core.TitanInteger;
-import org.eclipse.titan.runtime.core.TitanOctetString_template;
-import org.eclipse.titan.runtime.core.TitanUniversalCharString_template;
-import org.eclipse.titan.runtime.core.TtcnError;
-import org.eclipse.titan.runtime.core.TtcnLogger;
-
 /**
  * Part of the representation of the ASN.1 EMBEDDED PDV type
  * 

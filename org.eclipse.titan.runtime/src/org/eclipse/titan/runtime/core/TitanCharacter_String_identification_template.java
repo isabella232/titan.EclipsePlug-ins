@@ -9,18 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.util.ArrayList;
 
-import org.eclipse.titan.runtime.core.Base_Template;
-import org.eclipse.titan.runtime.core.Base_Type;
-import org.eclipse.titan.runtime.core.TitanAsn_Null;
-import org.eclipse.titan.runtime.core.TitanAsn_Null_template;
-import org.eclipse.titan.runtime.core.TitanBoolean;
-import org.eclipse.titan.runtime.core.TitanInteger;
-import org.eclipse.titan.runtime.core.TitanInteger_template;
-import org.eclipse.titan.runtime.core.TitanObjectid;
-import org.eclipse.titan.runtime.core.TitanObjectid_template;
-import org.eclipse.titan.runtime.core.TtcnError;
-import org.eclipse.titan.runtime.core.TtcnLogger;
-
 /**
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
  * 
