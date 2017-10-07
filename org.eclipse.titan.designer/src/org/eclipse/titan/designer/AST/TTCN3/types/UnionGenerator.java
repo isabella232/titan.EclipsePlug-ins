@@ -695,7 +695,7 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("return single_value_union_selection == checked_selection;\n");
 		source.append("case VALUE_LIST:\n");
-		source.append("if (value_list.size() < 1) {\n");
+		source.append("if (value_list.isEmpty()) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on a template of union type {0} containing an empty list.\");\n", displayName));
 		source.append("}\n");
 		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
@@ -781,7 +781,7 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateSetType(final StringBuilder source, final String genName, final String displayName) {
-		source.append("public void setType(template_sel template_type, int list_length) {\n");
+		source.append("public void setType(final template_sel template_type, final int list_length) {\n");
 		source.append("if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Setting an invalid list for a template of union type {0}.\");\n", displayName));
 		source.append("}\n");
@@ -803,7 +803,7 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * */
 	private static void generateTemplateListItem(final StringBuilder source, final String genName, final String displayName) {
-		source.append(MessageFormat.format("public {0}_template listItem(int list_index)  '{'\n", genName));
+		source.append(MessageFormat.format("public {0}_template listItem(final int list_index)  '{'\n", genName));
 		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Accessing a list element of a non-list template of union type {0}.\");\n", displayName));
 		source.append("}\n");
