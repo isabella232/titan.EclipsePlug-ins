@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  *
  * @author Arpad Lovassy
  * @author Farkas Izabella Ingrid
+ * @author Andrea Palfi
  */
 public class TitanUniversalCharString_template extends Restricted_Length_Template {
 
@@ -591,6 +593,69 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 
 		max_is_exclusive = maxExclusive;
+	}
+	
+	public void log() {
+		switch (templateSelection) {
+		case STRING_PATTERN:
+			//FIXME: implement string pattern
+		case SPECIFIC_VALUE: {
+			single_value.log();
+			break;
+		}
+		case COMPLEMENTED_LIST:
+			TtcnLogger.log_event_str("complement");
+		case VALUE_LIST: 
+			TtcnLogger.log_char('(');
+			for (int i = 0; i < value_list.size(); i++) {
+				if (i > 0) {
+					TtcnLogger.log_event_str(", ");
+				}
+				value_list.get(i).log();
+			}
+			TtcnLogger.log_char(')');
+			break;
+		case VALUE_RANGE:
+			TtcnLogger.log_char('(');
+			if (min_is_exclusive) {
+				TtcnLogger.log_char('!');
+			}
+			if (min_is_set) {
+				if (TitanUniversalCharString.isPrintable(min_value)) {
+					TtcnLogger.log_char('"');
+					TtcnLogger.logCharEscaped(min_value.getUc_cell());
+					TtcnLogger.log_char('"');
+					
+				} else {
+					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", max_value.getUc_group(), max_value.getUc_plane(), max_value.getUc_row(), max_value.getUc_cell()));
+				}
+			} else {
+				TtcnLogger.log_event_str("<unknown lower bound>");
+			}
+			TtcnLogger.log_event_str(" .. ");
+			if (max_is_exclusive) {
+				TtcnLogger.log_char('!');
+			}
+			if (max_is_set) {
+				if (TitanUniversalCharString.isPrintable(max_value)) {
+					TtcnLogger.log_char('"');
+					TtcnLogger.logCharEscaped(max_value.getUc_cell());
+					TtcnLogger.log_char('"');
+			} else {
+				TtcnLogger.log_event_str("<unknown upper bound>");
+			}
+
+			TtcnLogger.log_char(')');
+			break;
+			}
+		case DECODE_MATCH:
+			//FIXME: implement decode match		
+		default:
+			log_generic();
+			break;
+		}
+		log_restricted();
+		log_ifpresent();
 	}
 
 	// originally is_present (with default parameter)

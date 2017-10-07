@@ -11,11 +11,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * TTCN-3 Universal_charstring
  * @author Arpad Lovassy
  * @author Farkas Izabella Ingrid
+ * @author Andrea Palfi
  */
 public class TitanUniversalCharString extends Base_Type {
 
@@ -685,6 +685,67 @@ public class TitanUniversalCharString extends Base_Type {
 
 		return constGetAt( index_value.getInt() );
 	}
+	
+	public static boolean isPrintable(final TitanUniversalChar uchar){
+		return uchar.getUc_group() == 0 && uchar.getUc_plane()==0 && uchar.getUc_row()==0 && TtcnLogger.isPrintable(uchar.getUc_cell());
+	}
+	
+	private static enum States {
+		INIT, PCHAR, UCHAR;
+	}
+	
+	public void log(){
+		if(charstring){
+			TtcnLogger.log_event_str(cstr.toString());
+			return;
+		}
+		if (val_ptr != null) {
+			States state = States.INIT;
+			StringBuilder buffer = new StringBuilder();
+			for (int i = 0; i < val_ptr.size(); i++) { 
+				final TitanUniversalChar uchar = val_ptr.get(i);
+				if (isPrintable(uchar)) { 
+					switch (state) {
+					case UCHAR:
+						buffer.append(" & ");
+					case INIT:
+						buffer.append("\"");
+					case PCHAR:
+						TtcnLogger.logCharEscaped(uchar.getUc_cell(), buffer);
+						break;
+					}
+					state = States.PCHAR;
+				} else {
+					switch (state) {
+					case PCHAR:
+						buffer.append("\"");
+					case UCHAR:
+						buffer.append(" & ");
+					case INIT:
+						buffer.append(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)uchar.getUc_group(), (int)uchar.getUc_plane(), (int)uchar.getUc_row(), (int)uchar.getUc_cell()));
+						break;
+					}
+					state = States.UCHAR;
+				}
+			}
+			switch (state) {
+			case INIT:
+				buffer.append("\"\"");
+				break;
+			case PCHAR:
+				buffer.append("\"");
+				break;
+			default:
+				break;
+			}
+			TtcnLogger.log_event_str(buffer.toString());
+
+		} else {
+			TtcnLogger.log_event_unbound();
+		}
+
+	}
+	
 
 	@Override
 	public String toString() {

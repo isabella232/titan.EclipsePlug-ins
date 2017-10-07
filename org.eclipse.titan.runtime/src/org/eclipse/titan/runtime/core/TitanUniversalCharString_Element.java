@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -454,6 +455,28 @@ public class TitanUniversalCharString_Element {
 		otherValue.mustBound("The right operand of comparison is an unbound universal charstring element.");
 
 		return new TitanBoolean(ucharValue.operatorEquals(otherValue.get_char()));
+	}
+	
+	public void log() {
+		if (bound_flag) {
+			if (str_val.charstring) {
+				TtcnLogger.logCharEscaped((str_val.cstr.charAt(char_pos)));
+				return;
+			}
+			final TitanUniversalChar uchar = str_val.val_ptr.get(char_pos);
+			if (TitanUniversalCharString.isPrintable(uchar)) {
+				TtcnLogger.log_char('"');
+				TtcnLogger.logCharEscaped(uchar.getUc_cell());
+				TtcnLogger.log_char('"');
+			} else {
+				TtcnLogger.log_event_str(MessageFormat.format(
+						"char({0}, {1}, {2}, {3})", (int) uchar.getUc_group(),
+						(int) uchar.getUc_plane(), (int) uchar.getUc_row(),
+						(int) uchar.getUc_cell()));
+			}
+		} else {
+			TtcnLogger.log_event_unbound();
+		}
 	}
 
 	public static TitanBoolean operatorNotEquals(final TitanUniversalChar ucharValue, final TitanUniversalCharString_Element otherValue) {
