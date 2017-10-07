@@ -35,4 +35,8 @@ public class Default_Base {
 	public TitanAlt_Status call_altstep() {
 		return TitanAlt_Status.ALT_NO;
 	}
+
+	public void log() {
+		TtcnLogger.log_event("default reference: altstep: %s, id: %u", altstepName, defaultId);
+	}
 }
