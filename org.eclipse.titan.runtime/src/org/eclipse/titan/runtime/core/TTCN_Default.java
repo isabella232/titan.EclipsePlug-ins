@@ -81,6 +81,23 @@ public final class TTCN_Default {
 		return returnValue;
 	}
 
+	public static void log(final Default_Base par_default) {
+		if (par_default == TitanDefault.UNBOUND_DEFAULT) {
+			TtcnLogger.log_event_unbound();
+		} else if (par_default == null) {
+			TtcnLogger.log_event_str("null");
+		} else {
+			for (int i = 0; i < DEFAULTS.size(); i++) {
+				final Default_Base actualDefault = DEFAULTS.get(i);
+				if (actualDefault == par_default) {
+					actualDefault.log();
+					return;
+				}
+			}
+			TtcnLogger.log_event_str("default reference: already deactivated");
+		}
+	}
+
 	// originally TTCN_Default::save_control_defaults
 	public static void save_control_defaults() {
 		if (controlDefaultsSaved) {

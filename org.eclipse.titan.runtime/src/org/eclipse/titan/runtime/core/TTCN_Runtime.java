@@ -22,6 +22,7 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 public final class TTCN_Runtime {
 	private static String component_type_module = null;
 	private static String component_type_name = null;
+	private static String component_name = null;
 
 	//originally testcase_name
 	private static String testcaseModuleName;
@@ -128,6 +129,15 @@ public final class TTCN_Runtime {
 		component_type_name = par_component_type_name;
 	}
 
+	// originally TTCN_Runtime::set_component_name
+	public static void set_component_name(final String new_component_name) {
+		if (new_component_name != null && new_component_name.length() > 0) {
+			component_name = new_component_name;
+		} else {
+			component_name = null;
+		}
+	}
+
 	//originally set_testcase_name
 	private static void setTestcaseName(final String parModuleName, final String parTestcaseName) {
 		if (parModuleName == null || parModuleName.length() == 0 ||
@@ -144,8 +154,12 @@ public final class TTCN_Runtime {
 	}
 
 	//originally get_component_type
-	public static String getComponentType() {
+	public static String get_component_type() {
 		return component_type_name;
+	}
+
+	public static String get_component_name() {
+		return component_name;
 	}
 
 	public static String get_testcase_name() {

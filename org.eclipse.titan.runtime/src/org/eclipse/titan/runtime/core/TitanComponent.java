@@ -83,6 +83,14 @@ public class TitanComponent extends Base_Type {
 		}
 	}
 
+	public void log() {
+		if (componentValue == UNBOUND_COMPREF) {
+			TtcnLogger.log_event_unbound();
+		} else {
+			log_component_reference(this);
+		}
+	}
+
 	// originally done, TODO needs index redirection support
 	public TitanAlt_Status done() {
 		if (componentValue == UNBOUND_COMPREF) {
@@ -163,4 +171,20 @@ public class TitanComponent extends Base_Type {
 
 	}
 
+	private static void log_component_reference(final TitanComponent component_reference) {
+		switch(component_reference.componentValue) {
+		case NULL_COMPREF:
+			TtcnLogger.log_event_str("null");
+			break;
+		case MTC_COMPREF:
+			TtcnLogger.log_event_str("mtc");
+			break;
+		case SYSTEM_COMPREF:
+			TtcnLogger.log_event_str("system");
+			break;
+		default:
+			//FIXME implement
+			break;
+		}
+	}
 }

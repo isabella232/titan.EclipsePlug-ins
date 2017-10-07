@@ -283,6 +283,30 @@ public class TitanDefault_template extends Base_Template {
 		return value_list.get(listIndex);
 	}
 
+	public void log() {
+		switch (templateSelection) {
+		case SPECIFIC_VALUE:
+			TTCN_Default.log(single_value);
+			break;
+		case COMPLEMENTED_LIST:
+			TtcnLogger.log_event_str("complement");
+		case VALUE_LIST:
+			TtcnLogger.log_char('(');
+			for (int i = 0; i < value_list.size(); i++) {
+				if (i > 0) {
+					TtcnLogger.log_event_str(", ");
+				}
+				value_list.get(i).log();
+			}
+			TtcnLogger.log_char(')');
+			break;
+		default:
+			log_generic();
+			break;
+		}
+		log_ifpresent();
+	}
+
 	// originally is_present (with default parameter)
 	public TitanBoolean isPresent() {
 		return isPresent(false);

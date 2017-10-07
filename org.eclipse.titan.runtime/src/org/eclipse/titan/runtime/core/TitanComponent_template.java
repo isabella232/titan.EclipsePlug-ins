@@ -247,4 +247,41 @@ public class TitanComponent_template extends Base_Template {
 			return new TitanBoolean(false);
 		}
 	}
+
+	public void log() {
+		switch (templateSelection) {
+		case SPECIFIC_VALUE:
+			switch(single_value) {
+			case TitanComponent.NULL_COMPREF:
+				TtcnLogger.log_event_str("null");
+				break;
+			case TitanComponent.MTC_COMPREF:
+				TtcnLogger.log_event_str("mtc");
+				break;
+			case TitanComponent.SYSTEM_COMPREF:
+				TtcnLogger.log_event_str("system");
+				break;
+			default:
+				TtcnLogger.log_event("%d", single_value);
+				break;
+			}
+			break;
+		case COMPLEMENTED_LIST:
+			TtcnLogger.log_event_str("complement");
+		case VALUE_LIST:
+			TtcnLogger.log_char('(');
+			for (int i = 0; i < value_list.size(); i++) {
+				if (i > 0) {
+					TtcnLogger.log_event_str(", ");
+				}
+				value_list.get(i).log();
+			}
+			TtcnLogger.log_char(')');
+			break;
+		default:
+			log_generic();
+			break;
+		}
+		log_ifpresent();
+	}
 }

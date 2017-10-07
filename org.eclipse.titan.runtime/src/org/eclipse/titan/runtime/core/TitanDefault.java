@@ -174,6 +174,10 @@ public class TitanDefault extends Base_Type {
 		default_ptr = UNBOUND_DEFAULT;
 	}
 
+	public void log() {
+		TTCN_Default.log(default_ptr);
+	}
+
 	//originally static operator== with component parameter
 	public static TitanBoolean operatorEquals(final int defaultValue, final TitanDefault otherValue) {
 		if (defaultValue != TitanComponent.NULL_COMPREF) {
