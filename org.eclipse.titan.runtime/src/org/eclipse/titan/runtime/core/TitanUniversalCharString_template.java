@@ -8,7 +8,6 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
-import java.time.temporal.ValueRange;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -599,6 +598,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		switch (templateSelection) {
 		case STRING_PATTERN:
 			//FIXME: implement string pattern
+			break;
 		case SPECIFIC_VALUE: {
 			single_value.log();
 			break;
@@ -649,7 +649,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			break;
 			}
 		case DECODE_MATCH:
-			//FIXME: implement decode match		
+			//FIXME: implement decode match
+			break;
 		default:
 			log_generic();
 			break;

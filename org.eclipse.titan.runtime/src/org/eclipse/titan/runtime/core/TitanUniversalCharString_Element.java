@@ -456,7 +456,7 @@ public class TitanUniversalCharString_Element {
 
 		return new TitanBoolean(ucharValue.operatorEquals(otherValue.get_char()));
 	}
-	
+
 	public void log() {
 		if (bound_flag) {
 			if (str_val.charstring) {
@@ -469,10 +469,8 @@ public class TitanUniversalCharString_Element {
 				TtcnLogger.logCharEscaped(uchar.getUc_cell());
 				TtcnLogger.log_char('"');
 			} else {
-				TtcnLogger.log_event_str(MessageFormat.format(
-						"char({0}, {1}, {2}, {3})", (int) uchar.getUc_group(),
-						(int) uchar.getUc_plane(), (int) uchar.getUc_row(),
-						(int) uchar.getUc_cell()));
+				TtcnLogger.log_event_str(MessageFormat.format("char({0}, {1}, {2}, {3})", (int) uchar.getUc_group(),
+						(int) uchar.getUc_plane(), (int) uchar.getUc_row(), (int) uchar.getUc_cell()));
 			}
 		} else {
 			TtcnLogger.log_event_unbound();

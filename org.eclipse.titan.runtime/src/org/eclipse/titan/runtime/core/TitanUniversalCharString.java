@@ -685,15 +685,15 @@ public class TitanUniversalCharString extends Base_Type {
 
 		return constGetAt( index_value.getInt() );
 	}
-	
-	public static boolean isPrintable(final TitanUniversalChar uchar){
-		return uchar.getUc_group() == 0 && uchar.getUc_plane()==0 && uchar.getUc_row()==0 && TtcnLogger.isPrintable(uchar.getUc_cell());
+
+	public static boolean isPrintable(final TitanUniversalChar uchar) {
+		return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 && TtcnLogger.isPrintable(uchar.getUc_cell());
 	}
-	
+
 	private static enum States {
 		INIT, PCHAR, UCHAR;
 	}
-	
+
 	public void log(){
 		if(charstring){
 			TtcnLogger.log_event_str(cstr.toString());
