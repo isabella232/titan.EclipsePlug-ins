@@ -138,10 +138,9 @@ public final class TtcnLogger {
 		//event_destination, etc...
 	}
 
-	String logMatchBuffer = null;
-	int logMatchBufferLen=0;
-	int logMachBufferSize=0;
-	boolean logMatchPrinted = false;
+	static StringBuilder logMatchBuffer = new StringBuilder();
+	static boolean logMatchPrinted = false;
+	static matching_verbosity_t matching_verbosity = matching_verbosity_t.VERBOSITY_COMPACT;
 
 	private static log_event_struct current_event = null;
 	private static Stack<log_event_struct> events = new Stack<TtcnLogger.log_event_struct>();
@@ -368,24 +367,33 @@ public final class TtcnLogger {
 	}
 
 	public static matching_verbosity_t get_matching_verbosity() {
-		// TODO Auto-generated method stub
-		return null;
+		return matching_verbosity;
 	}
 
 	public static void print_logmatch_buffer() {
-		// TODO Auto-generated method stub
+		if (logMatchPrinted) {
+			log_event_str(" , ");
+		} else {
+			logMatchPrinted = true;
+		}
+		if (logMatchBuffer.length() > 0) {
+			log_event_str(logMatchBuffer.toString());
+		}
 	}
 
-	public static void log_logmatch_info(final String string) {
-		// TODO Auto-generated method stub
+	public static void log_logmatch_info(final String formatString, final Object... args) {
+		if (formatString == null) {
+			logMatchBuffer.append("<NULL format string>");
+		} else {
+			logMatchBuffer.append(String.format(Locale.US, formatString, args));
+		}
 	}
 
 	public static void set_logmatch_buffer_len(final int previous_size) {
-		// TODO Auto-generated method stub
+		logMatchBuffer.setLength(previous_size);
 	}
 
 	public static int get_logmatch_buffer_len() {
-		// TODO Auto-generated method stub
-		return 0;
+		return logMatchBuffer.length();
 	}
 }
