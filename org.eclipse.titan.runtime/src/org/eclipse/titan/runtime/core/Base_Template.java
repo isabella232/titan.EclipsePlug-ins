@@ -181,4 +181,12 @@ public abstract class Base_Template {
 		TtcnLogger.log_event_str( getClass().getSimpleName() );
 		TtcnLogger.log_event_str( ".log() is not implemented!\n" );
 	}
+
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		//do nothing for now.
+		// TODO once the log_match is implemented for all classes this function should become abstract
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".log_match() is not implemented!\n" );
+	}
 }
