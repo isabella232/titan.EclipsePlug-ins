@@ -127,8 +127,8 @@ public class UnionGenerator {
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
 		generateTemplateLog(source);
+		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
 
-		//FIXME implement log_match
 		//FIXME implement encode
 		//FIXME implement decode
 		//FIXME implement set_param
@@ -938,6 +938,62 @@ public class UnionGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("log_ifpresent();\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * Generate log_match
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * */
+	private static void generateTemplateLogMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", genName));
+	
+		source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy).getValue()) {\n");
+		source.append("TtcnLogger.print_logmatch_buffer();\n");
+		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
+		source.append("switch(single_value_union_selection) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			FieldInfo fieldInfo = fieldInfos.get(i);
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {\n");
+			source.append(MessageFormat.format("TtcnLogger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
+
+			source.append("single_value.log_match(match_value, legacy);\n");
+			source.append("} else {\n");
+			source.append(MessageFormat.format("TtcnLogger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
+			source.append("single_value.log_match(match_value, legacy);\n");
+			source.append("TtcnLogger.log_event_str(\" }\");\n");
+			source.append("}\n");
+		}
+		source.append("default:\n");
+		source.append("TtcnLogger.print_logmatch_buffer();\n");
+		source.append("TtcnLogger.log_event_str(\"<invalid selector>\");\n");
+		source.append("}\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.print_logmatch_buffer();\n");
+		source.append("match_value.log();\n");
+		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("log();\n");
+		source.append("if (match(match_value, legacy).getValue()) {\n");
+		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("}\n");
+		source.append("}\n");
 		source.append("}\n");
 	}
 }
