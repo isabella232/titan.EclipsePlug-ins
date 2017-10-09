@@ -217,7 +217,7 @@ public final class TtcnLogger {
 		timestamp = timestamp / 60;
 		final long hours = timestamp % 24;
 //		timestamp = timestamp / 24; //not used yet
-		final String timestampString = String.format("%02d:%02d:%02d.%06d", hours, minutes, secs, millisec);
+		final String timestampString = String.format("%02d:%02d:%02d.%03d000", hours, minutes, secs, millisec);
 
 		System.out.println("Logger says: " + timestampString + " "+ message);
 	}
