@@ -35,7 +35,6 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.Alt_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Operation_Altguard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Receive_Port_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
-import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
@@ -286,9 +285,8 @@ final class ReceiveTemplateType extends ASTVisitor {
 	public int visit(final IVisitableNode node) {
 		if (node instanceof TemplateInstance) {
 			final TemplateInstance template = (TemplateInstance) node;
-			if (template.getTemplateBody() instanceof SpecificValue_Template) {
-				final SpecificValue_Template valueTemplate = (SpecificValue_Template) template.getTemplateBody();
-				receiveType = valueTemplate.getMyGovernor();
+			if (template.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp())) {
+				receiveType = template.getTemplateBody().getValue().getMyGovernor();
 			} else {
 				receiveType = template.getType();
 			}
