@@ -975,7 +975,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			String tempId2 = aData.getTemporaryVariableName();
 			sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId2,tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
-			sb.append(MessageFormat.format("super({0}.class);\n", tempId1));
+			Array_Type parentTemp = (Array_Type)(arrayType.getParentType());
+			sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", tempId1, parentTemp.dimension.getSize(),parentTemp.getDimension().getOffset()));
 			sb.append("}\n");
 			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId2));
 			sb.append("super(otherValue);\n");
@@ -985,7 +986,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		} else {
 			sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId1,arrayType.getElementType().getGenNameValue(aData, source, getMyScope())));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
-			sb.append(MessageFormat.format("super({0}.class);\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope())));
+			sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope()),arrayType.getDimension().getSize(),arrayType.getDimension().getOffset()));
 			sb.append("}\n");
 			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId1));
 			sb.append("super(otherValue);\n");
@@ -1001,9 +1002,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			arrayType = (Array_Type)arrayType.getElementType();
 			String tempId2 = aData.getTemporaryVariableName();
 			String tempId3 = generateCodeValue(aData, source, arrayType, sb);
+			Array_Type parentTemp = (Array_Type)(arrayType.getParentType());
 			sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", tempId2,tempId3,tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
-			sb.append(MessageFormat.format("super({0}.class, {1}.class);\n", tempId3,tempId1));
+			sb.append(MessageFormat.format("super({0}.class, {1}.class, {2} , {3});\n", tempId3,tempId1, parentTemp.dimension.getSize(), parentTemp.dimension.getOffset()));
 			sb.append("}\n");
 			sb.append("}\n");
 			tempId1 = tempId2;
@@ -1011,7 +1013,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		} else {
 			sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", tempId1,arrayType.getElementType().getGenNameValue(aData, source, getMyScope()) ,arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope())));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
-			sb.append(MessageFormat.format("super({0}.class , {1}.class);\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope()) ,arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope())));
+			sb.append(MessageFormat.format("super({0}.class , {1}.class, {2} , {3});\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope()) ,arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope()), arrayType.dimension.getSize(),arrayType.dimension.getOffset()));
 			sb.append("}\n");
 			sb.append("}\n");
 			return tempId1;

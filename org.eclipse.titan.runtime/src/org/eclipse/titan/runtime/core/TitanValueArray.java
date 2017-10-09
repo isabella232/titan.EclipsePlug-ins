@@ -48,6 +48,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 	}
 	
+	public TitanValueArray(final Class<T> clazz, int size, int offset) {
+		this.clazz = clazz;
+		indexOffset = offset;
+
+		array_elements = new ArrayList<T>(size);
+		setSize(size);
+	}
+	
 	//FIXME: implement
 	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
