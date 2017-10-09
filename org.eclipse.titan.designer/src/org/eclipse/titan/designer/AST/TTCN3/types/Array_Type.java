@@ -624,14 +624,14 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				templateComponent.setMyGovernor(elementType);
 				if (baseTemplate != null && i < nofBaseComponents) {
 					templateComponent.setBaseTemplate(((Template_List) baseTemplate).getTemplateByIndex(i));
-					templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
-					if (Template_type.TEMPLATE_NOTUSED.equals(templateComponent.getTemplatetype())) {
-						if (!isModified) {
-							templateComponent.getLocation().reportSemanticError(NOTUSEDNOTALLOWED);
-						}
-					} else {
-						selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
+				}
+				templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
+				if (Template_type.TEMPLATE_NOTUSED.equals(templateComponent.getTemplatetype())) {
+					if (!isModified) {
+						templateComponent.getLocation().reportSemanticError(NOTUSEDNOTALLOWED);
 					}
+				} else {
+					selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
 				}
 			}
 			break;
