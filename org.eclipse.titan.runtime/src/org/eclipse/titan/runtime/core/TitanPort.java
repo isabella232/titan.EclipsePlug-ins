@@ -32,6 +32,7 @@ public class TitanPort {
 	private String portName;
 	protected boolean is_active;
 	protected boolean is_started;
+	protected boolean is_halted;
 
 	private ArrayList<String> systemMappings = new ArrayList<String>();
 
@@ -136,12 +137,18 @@ public class TitanPort {
 		}
 		if (is_started) {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing start operation on port {0}, which is already started. The operation will clear the incoming queue.", portName));
-			//TODO clear queue
+			clearQueue();
 		} else {
-			//FIXME add missing code
+			if(is_halted) {
+				
+			// the queue might contain old messages which has to be discarded
+			clearQueue();
+			is_halted = false;
+			}
 			userStart();
 			is_started = true;
 		}
+		//TODO: TTCN_Logger::log_port_state
 	}
 
 	public static void all_start() {
