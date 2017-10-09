@@ -359,7 +359,8 @@ public final class TtcnLogger {
 	}
 
 	public static void log_octet( final char aOctet ) {
-		// TODO Auto-generated method stub
+		log_char(TitanHexString.HEX_DIGITS.charAt((aOctet & 0xF0)>>4));
+		log_char(TitanHexString.HEX_DIGITS.charAt(aOctet & 0x0F));
 	}
 
 	public static void log_bit( final byte aBit ) {
