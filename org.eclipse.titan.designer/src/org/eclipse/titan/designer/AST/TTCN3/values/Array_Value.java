@@ -543,9 +543,6 @@ public final class Array_Value extends Value {
 
 		governor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		final ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
-		source.append(MessageFormat.format("{0}.setSize({1});\n", name, tempDimension.getSize()));
-		source.append(MessageFormat.format("{0}.setOffset({1});\n", name, tempDimension.getOffset()));
-
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
@@ -617,8 +614,8 @@ public final class Array_Value extends Value {
 		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		final String elementType = ((Array_Type) governor).getElementType().getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", genName, tempId, elementType));
-		expression.preamble.append(MessageFormat.format("{0}.setSize({1});\n", tempId, tempDimension.getSize()));
-		expression.preamble.append(MessageFormat.format("{0}.setOffset({1});\n", tempId, tempDimension.getOffset()));
+		//expression.preamble.append(MessageFormat.format("{0}.setSize({1});\n", tempId, tempDimension.getSize()));
+		//expression.preamble.append(MessageFormat.format("{0}.setOffset({1});\n", tempId, tempDimension.getOffset()));
 
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);
