@@ -29,12 +29,14 @@ public class RecordOfGenerator {
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
 	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param isSetOf true: set of, false: record of
 	 */
 	public static void generateValueClass( final JavaGenData aData,
 										   final StringBuilder source,
 										   final String genName,
 										   final String displayName,
-										   final String ofTypeName ) {
+										   final String ofTypeName,
+										   final boolean isSetOf ) {
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("TitanBoolean");
@@ -42,14 +44,16 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanNull_Type");
 		aData.addBuiltinTypeImport("AdditionalFunctions");
+		aData.addBuiltinTypeImport("RecordOfMatch");
+		aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
-		generateValueDeclaration( source, genName, ofTypeName );
+		generateValueDeclaration( source, genName, ofTypeName, isSetOf );
 		generateValueConstructors( source, genName, ofTypeName, displayName );
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
-		generateValueOperatorEquals( source, genName, ofTypeName , displayName);
+		generateValueOperatorEquals( source, genName, ofTypeName, displayName, isSetOf );
 		generateValueAssign( source, genName, ofTypeName, displayName);
 		generateValueConcatenate( source, genName, ofTypeName, displayName );
 		generateValueRotate( source, genName, ofTypeName, displayName );
@@ -132,11 +136,23 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param ofTypeName type name of the "record of/set of" element
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateValueDeclaration( final StringBuilder source, final String genName, final String ofTypeName ) {
+	private static void generateValueDeclaration( final StringBuilder source, final String genName, final String ofTypeName,
+												  final boolean isSetOf ) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate List<{0}> valueElements;\n", ofTypeName ) );
+
+		if ( isSetOf ) {
+			source.append('\n');
+			source.append("\tprivate compare_function_t compare_function_set = new compare_function_t() {\n");
+			source.append("\t\t@Override\n");
+			source.append("\t\tpublic boolean compare(Base_Type left_ptr, int left_index, Base_Type right_ptr, int right_index) {\n");
+			source.append( MessageFormat.format( "\t\t\treturn compare_set(({0})left_ptr, left_index, ({0})right_ptr, right_index);\n", genName ) );
+			source.append("\t\t}\n");
+			source.append("\t};\n");
+		}
 	}
 
 	/**
@@ -228,38 +244,62 @@ public class RecordOfGenerator {
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
+	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateValueOperatorEquals( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
+	private static void generateValueOperatorEquals( final StringBuilder source, final String genName, final String ofTypeName,
+													 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic TitanBoolean operatorEquals(Base_Type otherValue) {\n");
-		source.append('\n');
-		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
-		source.append( MessageFormat.format( "\t\treturn operatorEquals(({0})otherValue);\n", genName) );
-		source.append("\t}\n\n");
+		source.append( MessageFormat.format( "\t\tif (otherValue instanceof {0}) '{'\n", genName) );
+		source.append( MessageFormat.format( "\t\t\treturn operatorEquals(({0})otherValue);\n", genName) );
+		source.append("\t\t}\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", genName ) );
 		source.append("\t}\n");
 		source.append('\n');
+
 		source.append("\t//originally operator==\n");
 		source.append( MessageFormat.format( "\tpublic TitanBoolean operatorEquals( final {0} otherValue ) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tmustBound(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append( MessageFormat.format( "\t\totherValue.mustBound(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 		source.append('\n');
-		source.append("\t\tfinal int size = valueElements.size();\n"); 
-		source.append("\t\tif ( size != otherValue.valueElements.size() ) {\n");
-		source.append("\t\t\treturn new TitanBoolean( false );\n");
-		source.append("\t\t}\n");
-		source.append('\n');
-		source.append("\t\tfor ( int i = 0; i < size; i++ ) {\n");
-		source.append( MessageFormat.format( "\t\t\tfinal {0} leftElem = valueElements.get( i );\n", ofTypeName ) );
-		source.append( MessageFormat.format( "\t\t\tfinal {0} rightElem = otherValue.valueElements.get( i );\n", ofTypeName ) );
-		source.append("\t\t\tif ( leftElem.operatorEquals( rightElem ).not().getValue() ) {\n");
-		source.append("\t\t\t\treturn new TitanBoolean( false );\n");
-		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
-		source.append('\n');
-		source.append("\t\treturn new TitanBoolean( true );\n");
+		if ( isSetOf ) {
+			source.append("\t\treturn new TitanBoolean( RecordOfMatch.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set) );\n");
+		} else {
+			source.append("\t\tfinal int size = valueElements.size();\n"); 
+			source.append("\t\tif ( size != otherValue.valueElements.size() ) {\n");
+			source.append("\t\t\treturn new TitanBoolean( false );\n");
+			source.append("\t\t}\n");
+			source.append('\n');
+			source.append("\t\tfor ( int i = 0; i < size; i++ ) {\n");
+			source.append( MessageFormat.format( "\t\t\tfinal {0} leftElem = valueElements.get( i );\n", ofTypeName ) );
+			source.append( MessageFormat.format( "\t\t\tfinal {0} rightElem = otherValue.valueElements.get( i );\n", ofTypeName ) );
+			source.append("\t\t\tif ( leftElem.operatorEquals( rightElem ).not().getValue() ) {\n");
+			source.append("\t\t\t\treturn new TitanBoolean( false );\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t}\n");
+			source.append('\n');
+			source.append("\t\treturn new TitanBoolean( true );\n");
+		}
 		source.append("\t}\n");
+
+		if ( isSetOf ) {
+			source.append( MessageFormat.format( "\tprivate boolean compare_set({0} left_ptr, int left_index, {0} right_ptr, int right_index) '{'\n", genName ) );
+			source.append("\t\tif (left_ptr.valueElements == null) {\n");
+			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+			source.append("\t\t}\n");
+			source.append("\t\tif (right_ptr.valueElements == null) {\n");
+			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
+			source.append("\t\t}\n");
+			source.append("\t\tif (left_ptr.valueElements.get(left_index) != null) {\n");
+			source.append("\t\t\tif (right_ptr.valueElements.get(right_index) != null){\n");
+			source.append("\t\t\t\treturn left_ptr.valueElements.get(left_index).operatorEquals( right_ptr.valueElements.get(right_index) ).getValue();\n");
+			source.append("\t\t\t} else return false;\n");
+			source.append("\t\t} else {\n");
+			source.append("\t\t\treturn right_ptr.valueElements.get(right_index) == null;\n");
+			source.append("\t\t}\n");
+			source.append("\t}\n");
+		}
 	}
 
 	/**
@@ -293,7 +333,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tpublic {0} assign(TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\treturn this;\n");
-		source.append("\t};\n");
+		source.append("\t}\n");
 	}
 
 	/**
@@ -688,7 +728,7 @@ public class RecordOfGenerator {
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template(final template_sel other_value ) '{'\n", genName));
@@ -699,12 +739,12 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0} otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopy_value( otherValue );\n");
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template( final {0}_template otherValue ) '{'\n", genName ) );
 		source.append("\t\tcopyTemplate( otherValue );\n");
-		source.append("\t};\n");
+		source.append("\t}\n");
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> other_value ) '{'\n", genName ) );

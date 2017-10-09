@@ -70,7 +70,7 @@ public class RecordOfMatch {
 	  - In case of invalid value pointers, index overflow or negative indices the
 	    behaviour of the function is undefined.
 	*/
-	public boolean compare_set_of(final Base_Type left_ptr, final int left_size, final Base_Type right_ptr, final int right_size,
+	public static boolean compare_set_of(final Base_Type left_ptr, final int left_size, final Base_Type right_ptr, final int right_size,
 			final compare_function_t compare_function) {
 		if (left_size < 0 || right_size < 0 || left_ptr == null || right_ptr == null) {
 			throw new TtcnError("Internal error: compare_set_of: invalid argument.");
