@@ -1730,7 +1730,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Cannot determine the type of arguments in `match()' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum, IMarker.SEVERITY_ERROR));
-		}		lineNum += 11;
+		}
+		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Incompatible component types: a component reference of type `@expression_tests.componentName_CT2' was expected, but `mtc' has type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Incompatible component types: a component reference of type `@expression_tests.componentName_CT2' was expected, but `system' has type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -2009,7 +2010,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> specificValue_template_tests_ttcn_initializer() {
 		//specificValue_template_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4626);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4635);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -2774,7 +2775,11 @@ public class AST_tests {
 		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("Too few elements in the array template: 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in the array template: 3 was expected instead of 4",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too many elements in the array template: 3 was expected instead of 10",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 8; i++) {
+			markersToCheck.add(new MarkerToCheck("integer value was expected", lineNum, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("Too many elements in the array template: 3 was expected instead of 10",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
 		for (i = 0; i < 9; i++) {
 			markersToCheck.add(new MarkerToCheck("Array value was expected", lineNum, IMarker.SEVERITY_ERROR));
@@ -5702,7 +5707,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4532);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4541);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6321,7 +6326,11 @@ public class AST_tests {
 		lineNum += 13;
 		markersToCheck.add(new MarkerToCheck("Too few elements in the array template: 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in the array template: 3 was expected instead of 4",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too many elements in the array template: 3 was expected instead of 10",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
+		for (i = 0; i < 8; i++) {
+			markersToCheck.add(new MarkerToCheck("integer value was expected", lineNum, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("Too many elements in the array template: 3 was expected instead of 10",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("`omit' value is not allowed in this context",  ++lineNum, IMarker.SEVERITY_ERROR));
 		for (i = 0; i < 9; i++) {
 			markersToCheck.add(new MarkerToCheck("Array value was expected", lineNum, IMarker.SEVERITY_ERROR));
@@ -7384,7 +7393,6 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
 	private ArrayList<MarkerToCheck> template_formalparlist_tests_ttcn_initializer() {
 		//template_formalparlist_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(22);
@@ -9139,8 +9147,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
-
+	
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5284);
