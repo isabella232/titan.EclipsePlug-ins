@@ -96,6 +96,10 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("RecordOfMatch.match_function_t");
 		aData.addBuiltinTypeImport("Restricted_Length_Template");
 		aData.addBuiltinTypeImport("Optional");
+		if ( isSetOf ) {
+			aData.addBuiltinTypeImport("RecordOfMatch.log_function_t");
+		}
+		
 		source.append( MessageFormat.format( "public static class {0}_template extends Record_Of_Template '{'\n", genName ) );
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
@@ -124,7 +128,7 @@ public class RecordOfGenerator {
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
 		generateTemplateSubstr( source, genName );
-		generateTemplateLog( source, isSetOf );
+		generateTemplateLog( source, genName, isSetOf );
 		generateTemplateGetIstemplateKind( source, genName );
 		//TODO: use
 		//generateTemplateCheckRestriction( source, displayName );
@@ -714,6 +718,20 @@ public class RecordOfGenerator {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {\n");
 		source.append( MessageFormat.format( "\t\t\treturn match_set(({0})value_ptr, value_index, ({0}_template)template_ptr, template_index, legacy);\n", genName ) );
+		source.append("\t\t}\n");
+		source.append("\t};\n");
+
+		source.append('\n');
+		source.append("\tprivate log_function_t log_function = new log_function_t() {\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log(Base_Type value_ptr, Restricted_Length_Template template_ptr, int index_value, int index_template, boolean legacy) {\n");
+		source.append("\t\t\tif (value_ptr != null && template_ptr != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log_match((({0})value_ptr).constGetAt(index_value), legacy);\n", genName ) );
+		source.append("\t\t\t} else if (value_ptr != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t(({0})value_ptr).constGetAt(index_value).log();\n", genName ) );
+		source.append("\t\t\t} else if (template_ptr != null) {\n");
+		source.append( MessageFormat.format( "\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log();\n", genName ) );
+		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
 		source.append("\t};\n");
 	}
@@ -1656,9 +1674,10 @@ public class RecordOfGenerator {
 	/**
 	 * Generating log() function for template
 	 * @param aSb the output, where the java code is written
+	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateTemplateLog( final StringBuilder aSb, final boolean isSetOf ) {
+	private static void generateTemplateLog( final StringBuilder aSb, final String genName, final boolean isSetOf ) {
 		aSb.append('\n');
 		aSb.append("\t\tpublic void log() {\n");
 		aSb.append("\t\t\tswitch (templateSelection) {\n");
@@ -1715,6 +1734,98 @@ public class RecordOfGenerator {
 		aSb.append("\t\t\tlog_restricted();\n");
 		aSb.append("\t\t\tlog_ifpresent();\n");
 		aSb.append("\t\t}\n");
+
+		aSb.append('\n');
+		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
+		aSb.append("\t\tlog_match(match_value, false);\n");
+		aSb.append("\t}\n");
+
+		aSb.append('\n');
+		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );
+		if ( isSetOf ) {
+			aSb.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
+			aSb.append("\t\t\tif(match(match_value, legacy).getValue()) {\n");
+			aSb.append("\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t\t} else {\n");
+			aSb.append("\t\t\t\tint previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+			aSb.append("\t\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.sizeOf().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
+			aSb.append("\t\t\t\t} else {\n");
+			aSb.append("\t\t\t\t\tif(previous_size != 0) {\n");
+			aSb.append("\t\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+			aSb.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\":=\");\n");
+			aSb.append("\t\t\t\t\t}\n");
+			aSb.append("\t\t\t\t}\n");
+			aSb.append("\t\t\t\tmatch_value.log();\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\t\t\tlog();\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			aSb.append("\t\t\t}\n");
+			aSb.append("\t\t\treturn;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t\tmatch_value.log();\n");
+			aSb.append("\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\tlog();\n");
+			aSb.append("\t\tif (match(match_value, legacy).getValue()) {\n");
+			aSb.append("\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t} else {\n");
+			aSb.append("\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			aSb.append("\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+			aSb.append("\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.sizeOf().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
+			aSb.append("\t\t\t}\n");
+			aSb.append("\t\t}\n");
+		} else {
+			aSb.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
+			aSb.append("\t\t\tif(match(match_value, legacy).getValue()) {\n");
+			aSb.append("\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t\t} else {\n");
+			
+			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && value_elements.size() > 0 && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
+			aSb.append("\t\t\t\t\tint previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+			aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
+			aSb.append("\t\t\t\t\t\tif ( !value_elements.get(elem_count).match(match_value.constGetAt(elem_count), legacy).getValue() ) {\n");
+			aSb.append("\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\"[%d]\", elem_count);\n");
+			aSb.append("\t\t\t\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGetAt(elem_count), legacy );\n");
+			aSb.append("\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+			aSb.append("\t\t\t\t\t\t}\n");
+			aSb.append("\t\t\t\t\t}\n");
+			aSb.append("\t\t\t\t\tlog_match_length(value_elements.size());\n");
+			aSb.append("\t\t\t\t} else {\n");
+			aSb.append("\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\t\tmatch_value.log();\n");
+			aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\t\t\t\tlog();\n");
+			aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			aSb.append("\t\t\t\t}\n");
+			aSb.append("\t\t\t}\n");
+			aSb.append("\t\t\treturn;\n");
+			aSb.append("\t\t}\n");
+			aSb.append("\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && value_elements.size() > 0 && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
+			aSb.append("\t\t\tTtcnLogger.log_event_str(\"{ \");\n");
+			aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
+			aSb.append("\t\t\t\tif (elem_count > 0) {\n");
+			aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+			aSb.append("\t\t\t\t}\n");
+			aSb.append("\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGetAt(elem_count), legacy );\n");
+			aSb.append("\t\t\t}\n");
+			aSb.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+			aSb.append("\t\t\tlog_match_length(value_elements.size());\n");
+			aSb.append("\t\t} else {\n");
+			aSb.append("\t\t\tmatch_value.log();\n");
+			aSb.append("\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\t\tlog();\n");
+			aSb.append("\t\t\tif ( match(match_value, legacy).getValue() ) {\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t\t} else {\n");
+			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			
+			aSb.append("\t\t\t}\n");
+			aSb.append("\t\t}\n");
+		}
+		aSb.append("\t}\n");
 	}
 
 //TODO: implement void log_matchv(final Base_Type match_value, boolean legacy)

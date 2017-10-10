@@ -46,7 +46,7 @@ public class RecordOfMatch {
 	public interface log_function_t {
 
 		//TODO: comment
-		void log(Base_Type value_ptr, Object object, int i, int j, boolean legacy);
+		void log(Base_Type value_ptr, Restricted_Length_Template object, int i, int j, boolean legacy);
 	}
 
 	//TODO: comment
@@ -1190,7 +1190,7 @@ public class RecordOfMatch {
 				template_size, match_function, match_type, null, null, 0, legacy);
 	}
 
-	public void log_match_heuristics(final Base_Type value_ptr, final int value_size,
+	public static void  log_match_heuristics(final Base_Type value_ptr, final int value_size,
 			final Restricted_Length_Template template_ptr,
 			final int template_size,
 			final match_function_t match_function,
