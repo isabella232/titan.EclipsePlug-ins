@@ -140,10 +140,9 @@ public class TitanPort {
 			clearQueue();
 		} else {
 			if(is_halted) {
-				
-			// the queue might contain old messages which has to be discarded
-			clearQueue();
-			is_halted = false;
+				// the queue might contain old messages which has to be discarded
+				clearQueue();
+				is_halted = false;
 			}
 			userStart();
 			is_started = true;
