@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -15,6 +16,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -111,5 +113,11 @@ public final class Start_Port_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+			source.append(MessageFormat.format("{0}.start();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName())); 
 	}
 }
