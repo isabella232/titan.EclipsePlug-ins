@@ -730,7 +730,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t} else if (value_ptr != null) {\n");
 		source.append( MessageFormat.format( "\t\t\t\t(({0})value_ptr).constGetAt(index_value).log();\n", genName ) );
 		source.append("\t\t\t} else if (template_ptr != null) {\n");
-		source.append( MessageFormat.format( "\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log();\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log();\n", genName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
 		source.append("\t};\n");
@@ -1582,7 +1582,10 @@ public class RecordOfGenerator {
 			source.append("\t\tcase SUPERSET_MATCH:\n");
 			source.append("\t\tcase SUBSET_MATCH:\n");
 			source.append( MessageFormat.format( "\t\t\tset_items = new ArrayList<{0}>(list_length);\n", ofTypeName ) );
-			source.append("\t\tbreak;\n");
+			source.append("\t\t\tfor( int i = 0; i < list_length; i++ ) {\n");
+			source.append( MessageFormat.format( "\t\t\t\tset_items.add( new {0}() );\n", ofTypeName ) );
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tbreak;\n");
 		}
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting an invalid type for a template of type {0}.\");\n", displayName ) );
