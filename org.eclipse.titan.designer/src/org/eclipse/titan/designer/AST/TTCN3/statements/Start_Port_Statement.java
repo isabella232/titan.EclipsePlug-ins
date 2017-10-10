@@ -114,7 +114,7 @@ public final class Start_Port_Statement extends Statement {
 		}
 		return true;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
