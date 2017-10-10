@@ -148,7 +148,7 @@ public class RecordSetCodeGenerator {
 		generateTemplateIsValue( source, fieldInfos );
 		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
 		generateTemplateSizeOf( source, fieldInfos, classDisplayName );
-		generateTemplateLog( source, fieldInfos );
+		generateTemplateLog( source, fieldInfos, className );
 
 		source.append("}\n");
 	}
@@ -697,7 +697,7 @@ public class RecordSetCodeGenerator {
 	 * Generate constructors for template
 	 *
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param genName the name of the generated class representing the record/set type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
@@ -740,7 +740,7 @@ public class RecordSetCodeGenerator {
 	 * Generate assign functions for template
 	 *
 	 * @param source where the source code is to be generated.
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param genName the name of the generated class representing the record/set type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateAssign( final StringBuilder source, final String genName, final String displayName ) {
@@ -811,7 +811,7 @@ public class RecordSetCodeGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param genName the name of the generated class representing the record/set type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateCopyTemplate( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
@@ -928,7 +928,7 @@ public class RecordSetCodeGenerator {
 	 * Generating valueOf() function for template
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param genName the name of the generated class representing the record/set type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateValueOf( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
@@ -957,7 +957,7 @@ public class RecordSetCodeGenerator {
 	/**
 	 * Generating listItem() function for template
 	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param genName the name of the generated class representing the record/set type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
@@ -976,7 +976,7 @@ public class RecordSetCodeGenerator {
 	/**
 	 * Generating setType() function for template
 	 * @param aSb the output, where the java code is written
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param genName the name of the generated class representing the record/set type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateSetType( final StringBuilder aSb, final String genName, final String displayName ) {
@@ -999,7 +999,7 @@ public class RecordSetCodeGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param aNamesList sequence field variable and type names
-	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param genName the name of the generated class representing the record/set type.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateMatch( final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName ) {
@@ -1116,39 +1116,92 @@ public class RecordSetCodeGenerator {
 	 * Generating log() function
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
+	 * @param genName the name of the generated class representing the record/set type.
 	 */
-	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList) {
-		source.append("public void log() {\n");
-		source.append("switch (templateSelection) {\n");
-		source.append("case SPECIFIC_VALUE:\n");
-		source.append("TtcnLogger.log_char('{');\n");
+	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName) {
+		source.append('\n');
+		source.append("\tpublic void log() {\n");
+		source.append("\t\tswitch (templateSelection) {\n");
+		source.append("\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\tTtcnLogger.log_char('{');\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fieldInfo = aNamesList.get(i);
 			if (i > 0) {
-				source.append("TtcnLogger.log_char(',');\n");
+				source.append("\t\t\tTtcnLogger.log_char(',');\n");
 			}
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("{0}.log();\n", fieldInfo.mVarName));
+			source.append(MessageFormat.format("\t\t\tTtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t{0}.log();\n", fieldInfo.mVarName));
 		}
-		source.append("TtcnLogger.log_event_str(\" }\");\n");
-		source.append("break;\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TtcnLogger.log_event_str(\"complement \");\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("TtcnLogger.log_char('(');\n");
-		source.append("for (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
-		source.append("if (list_count > 0) {\n");
-		source.append("TtcnLogger.log_event_str(\", \");\n");
-		source.append("}\n");
-		source.append("list_value.get(list_count).log();\n");
-		source.append("}\n");
-		source.append("TtcnLogger.log_char(')');\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append("log_generic();\n");
-		source.append("break;\n");
-		source.append("}\n");
-		source.append("log_ifpresent();\n");
-		source.append("}\n");
+		source.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\tTtcnLogger.log_event_str(\"complement \");\n");
+		source.append("\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tTtcnLogger.log_char('(');\n");
+		source.append("\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\t\tif (list_count > 0) {\n");
+		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tlist_value.get(list_count).log();\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tTtcnLogger.log_char(')');\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\tdefault:\n");
+		source.append("\t\t\tlog_generic();\n");
+		source.append("\t\t\tbreak;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tlog_ifpresent();\n");
+		source.append("\t}\n");
+
+		source.append('\n');
+		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
+		source.append("\t\tlog_match(match_value, false);\n");
+		source.append("\t}\n");
+		
+		source.append('\n');
+		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );
+		source.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
+		source.append("\t\t\tif(match(match_value, legacy).getValue()) {\n");
+		source.append("\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\t\t\tint previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			FieldInfo fi = aNamesList.get(i);
+			source.append(MessageFormat.format("\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy).getValue() ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append(MessageFormat.format("\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
+			source.append(MessageFormat.format("\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append("\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+			source.append("\t\t\t\t\t}\n");
+		}
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\t\tmatch_value.log();\n");
+		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+		source.append("\t\t\t\t\tlog();\n");
+		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn;\n");
+		source.append("\t\t}\n");
+		source.append("\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			FieldInfo fi = aNamesList.get(i);
+			source.append(MessageFormat.format("\t\t\tTtcnLogger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
+			source.append(MessageFormat.format("\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+		}
+		source.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		source.append("\t\t} else {\n");
+		source.append("\t\t\tmatch_value.log();\n");
+		source.append("\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+		source.append("\t\t\tlog();\n");
+		source.append("\t\t\tif ( match(match_value, legacy).getValue() ) {\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t}\n");
 	}
 }
