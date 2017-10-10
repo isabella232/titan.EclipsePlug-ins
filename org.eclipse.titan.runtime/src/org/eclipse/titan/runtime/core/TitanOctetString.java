@@ -16,6 +16,7 @@ import java.util.regex.Pattern;
  * TTCN-3 octetstring
  * @author Arpad Lovassy
  * @author Farkas Izabella Ingrid
+ * @author Andrea Palfi
  */
 public class TitanOctetString extends Base_Type {
 
@@ -268,6 +269,31 @@ public class TitanOctetString extends Base_Type {
 		index_value.mustBound("Indexing a octetstring value with an unbound integer value.");
 
 		return constGetAt( index_value.getInt() );
+	}
+	
+	
+	public void log() {
+		if (val_ptr != null) {
+			boolean onlyPrintable = true;
+			TtcnLogger.log_char('\'');
+			for (int i = 0; i < val_ptr.size(); i++) {
+				final char octet = val_ptr.get(i);
+				TtcnLogger.log_octet(octet); // get_nibble(i)
+				if (onlyPrintable && !(TtcnLogger.isPrintable(octet))) {
+					onlyPrintable = false;
+				}
+			}
+			TtcnLogger.log_event_str("'O");
+			if (onlyPrintable && val_ptr.size() > 0) {
+				TtcnLogger.log_event_str("(\"");
+				for (int i = 0; i < val_ptr.size(); i++) {
+					TtcnLogger.logCharEscaped(val_ptr.get(i));
+					TtcnLogger.log_event_str("\")");
+				}
+			}
+		} else {
+			TtcnLogger.log_event_unbound();
+		}
 	}
 
 	@Override
