@@ -168,6 +168,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		setSelection(otherValue);
 	}
 
+	// FIXME: getAt
+	// FIXME: constGetAt
+
 	// originally operator[](int index_value)
 	public TitanCharString_Element getAt(final int index) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
@@ -380,6 +383,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
+	// FIXME: lengthOf
 	// originally lengthOf
 	public TitanInteger lengthOf() {
 		int min_length = 0;
@@ -426,7 +430,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "charstring template"));
 	}
 
+	// FIXME: set_min
 	// originally set_min
+
 	public void setMin(final TitanCharString otherMinValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
@@ -445,7 +451,10 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 	}
 
+
+	// FIXME: set_max
 	// originally set_max
+
 	public void setMax(final TitanCharString otherMaxValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
@@ -479,4 +488,75 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		max_is_exclusive = maxExclusive;
 	}
+	
+	public void log() {
+		switch (templateSelection) {
+		case STRING_PATTERN:
+			//FIXME: implement string pattern
+		case SPECIFIC_VALUE: {
+			single_value.log();
+			break;
+		}
+		case COMPLEMENTED_LIST:
+			TtcnLogger.log_event_str("complement");
+		case VALUE_LIST: 
+			TtcnLogger.log_char('(');
+			for (int i = 0; i < value_list.size(); i++) {
+				if (i > 0) {
+					TtcnLogger.log_event_str(", ");
+				}
+				value_list.get(i).log();
+			}
+			TtcnLogger.log_char(')');
+			break;
+		case VALUE_RANGE:
+			TtcnLogger.log_char('(');
+			if (min_is_exclusive) {
+				TtcnLogger.log_char('!');
+			}
+			if (min_is_set) {
+				if (TtcnLogger.isPrintable(min_value.getValue().charAt( 0 ))) {
+					TtcnLogger.log_char('"');
+					TtcnLogger.logCharEscaped(min_value.getValue().charAt( 0 ));
+					TtcnLogger.log_char('"');
+					
+				} else {
+					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", max_value));
+				}
+			} else {
+				TtcnLogger.log_event_str("<unknown lower bound>");
+			}
+			TtcnLogger.log_event_str(" .. ");
+			if (max_is_exclusive) {
+				TtcnLogger.log_char('!');
+			}
+			if (max_is_set) {
+				if (TtcnLogger.isPrintable(max_value.getValue().charAt( 0 ))) {
+					TtcnLogger.log_char('"');
+					TtcnLogger.logCharEscaped(max_value.getValue().charAt( 0 ));
+					TtcnLogger.log_char('"');
+			} else {
+				TtcnLogger.log_event_str("<unknown upper bound>");
+			}
+
+			TtcnLogger.log_char(')');
+			break;
+			}
+		case DECODE_MATCH:
+			//FIXME: implement decode match		
+		default:
+			log_generic();
+			break;
+		}
+		log_restricted();
+		log_ifpresent();
+	}
+
+	//TODO: test isPresent
+	//TODO: test lengthOf
+	//TODO: test setType
+	//TODO: test setMax
+	//TODO: test setMin
+	//TODO: test setMinExclusive
+	//TODO: test setMaxExclusive
 }
