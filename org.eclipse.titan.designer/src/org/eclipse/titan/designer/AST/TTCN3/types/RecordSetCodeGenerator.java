@@ -10,7 +10,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * Utility class for generating the value and template classes for record and set types.
  *
  * The code generated for record and set types only differs in matching and encoding.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
@@ -29,7 +29,7 @@ public class RecordSetCodeGenerator {
 
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
-		
+	
 		/** The user readable name of the field, typically used in error messages */
 		private String mDisplayName;
 
@@ -661,7 +661,7 @@ public class RecordSetCodeGenerator {
 			source.append("\t\tsetSpecific();\n");
 			source.append( MessageFormat.format( "\t\treturn {0};\n", fi.mVarName ) );
 			source.append("\t}\n");
-			
+
 			source.append( '\n' );
 			source.append( MessageFormat.format( "\tpublic {0}_template constGet{1}() '{'\n", fi.mJavaTypeName, fi.mJavaVarName ) );
 			source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
@@ -856,7 +856,7 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", genName));
 		source.append("\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", genName));
-		source.append("\t\t\t\tlist_value.add(temp);\n");	
+		source.append("\t\t\t\tlist_value.add(temp);\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
@@ -1157,7 +1157,7 @@ public class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
 		source.append("\t\tlog_match(match_value, false);\n");
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );
 		source.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");

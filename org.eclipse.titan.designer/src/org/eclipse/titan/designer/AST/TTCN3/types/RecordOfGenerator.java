@@ -28,7 +28,7 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param isSetOf true: set of, false: record of
 	 */
 	public static void generateValueClass( final JavaGenData aData,
@@ -99,7 +99,7 @@ public class RecordOfGenerator {
 		if ( isSetOf ) {
 			aData.addBuiltinTypeImport("RecordOfMatch.log_function_t");
 		}
-		
+
 		source.append( MessageFormat.format( "public static class {0}_template extends Record_Of_Template '{'\n", genName ) );
 
 		generateTemplateDeclaration( source, genName, ofTypeName );
@@ -164,7 +164,7 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateValueConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
@@ -188,7 +188,7 @@ public class RecordOfGenerator {
 	 * Generate the copyList function
 	 *
 	 * @param source where the source code is to be generated.
-	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param ofTypeName type name of the "record of/set of" element
 	 */
 	private static void generateValueCopyList( final StringBuilder source, final String ofTypeName ) {
 		source.append('\n');
@@ -208,7 +208,7 @@ public class RecordOfGenerator {
 		source.append("\t\treturn newList;\n");
 		source.append("\t}\n");
 	}
-	
+
 	/**
 	 * Generate the isPresent function
 	 *
@@ -232,7 +232,7 @@ public class RecordOfGenerator {
 		source.append("\t@Override\n");
 		source.append("\tpublic TitanBoolean isBound() {\n");
 		source.append("\t\treturn new TitanBoolean(valueElements != null);\n");
-		source.append("\t}\n");	
+		source.append("\t}\n");
 		source.append('\n');
 		source.append("\tpublic void mustBound( final String aErrorMessage ) {\n");
 		source.append("\t\tif ( !isBound().getValue() ) {\n");
@@ -270,7 +270,7 @@ public class RecordOfGenerator {
 		if ( isSetOf ) {
 			source.append("\t\treturn new TitanBoolean( RecordOfMatch.compare_set_of(otherValue, otherValue.valueElements.size(), this, valueElements.size(), compare_function_set) );\n");
 		} else {
-			source.append("\t\tfinal int size = valueElements.size();\n"); 
+			source.append("\t\tfinal int size = valueElements.size();\n");
 			source.append("\t\tif ( size != otherValue.valueElements.size() ) {\n");
 			source.append("\t\t\treturn new TitanBoolean( false );\n");
 			source.append("\t\t}\n");
@@ -341,7 +341,7 @@ public class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate concatenate function 
+	 * Generate concatenate function
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
@@ -379,7 +379,7 @@ public class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate rotate functions 
+	 * Generate rotate functions
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
@@ -457,7 +457,7 @@ public class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate getter and setter functions 
+	 * Generate getter and setter functions
 	 * @param source where the source code is to be generated.
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
@@ -590,7 +590,7 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
-	 * @param ofTypeName type name of the "record of/set of" element 
+	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateValueReplace( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
@@ -821,7 +821,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tbreak;\n");	
+		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\tcase ANY_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
@@ -831,7 +831,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", genName));
 		source.append("\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", genName));
-		source.append("\t\t\t\tlist_value.add(temp);\n");	
+		source.append("\t\t\t\tlist_value.add(temp);\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tbreak;\n");
 		if ( isSetOf ) {
@@ -925,7 +925,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate boolean match_index(final {0} value_ptr, int value_index, {0}_template template_ptr, int template_index, boolean legacy) '{'\n", genName ) );
 		source.append("\t\tif (value_index >= 0) {\n");
@@ -1040,7 +1040,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n\n");
 		source.append( MessageFormat.format( "\t\tthrow new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}_template.\");\n", genName ) );
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
@@ -1086,7 +1086,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate replace functions for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
@@ -1113,8 +1113,8 @@ public class RecordOfGenerator {
 	}
 
 	/**
-	 * Generate getter and setter functions for template 
-	 *  
+	 * Generate getter and setter functions for template
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
@@ -1142,7 +1142,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn value_elements.get(index_value);\n");
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.isBound().getValue()) {\n");
@@ -1151,7 +1151,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t\treturn getAt(index_value.getInt());\n");
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate {0} constGetAt(int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
@@ -1168,7 +1168,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t\treturn value_elements.get(index_value);\n");
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.isBound().getValue()) {\n");
@@ -1182,7 +1182,7 @@ public class RecordOfGenerator {
 	/**
 	 * Generate getter and setter functions for template
 	 * ONLY for set of
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
@@ -1203,7 +1203,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate concat functions for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
@@ -1239,7 +1239,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\tthrow new TtcnError(\"Operand of record of template concatenation is an uninitialized or unsupported template.\");\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append( MessageFormat.format( "\tprivate int get_length_for_concat(final {0} operand) '{'\n", genName ) );
 		source.append("\t\toperand.mustBound(\"Operand of record of template concatenation is an unbound value.\");\n");
@@ -1299,7 +1299,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate set_size and sizeof functions for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
@@ -1339,7 +1339,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
-		
+
 		source.append('\n');
 		source.append("\tpublic TitanInteger sizeOf() {\n");
 		source.append("\t\treturn sizeOf(true);\n");
@@ -1470,7 +1470,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate n_elem function for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
@@ -1500,7 +1500,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate matchv function for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
@@ -1534,12 +1534,11 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Matching with an uninitialized/unsupported template of type {0}.\");\n", genName ) );
 		source.append("\t\t}\n");
 		source.append("\t}\n");
-		
 	}
 
 	/**
 	 * Generate is_value function for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
@@ -1559,7 +1558,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate set_type function for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param ofTypeName type name of the "record of/set of" element
@@ -1613,7 +1612,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate get_list_item function for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 * @param displayName the user readable name of the type to be generated.
@@ -1782,7 +1781,7 @@ public class RecordOfGenerator {
 			aSb.append("\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
 			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
-			
+
 			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && value_elements.size() > 0 && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
 			aSb.append("\t\t\t\t\tint previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
 			aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
@@ -1821,7 +1820,7 @@ public class RecordOfGenerator {
 			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
 			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
-			
+
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t}\n");
 		}
@@ -1888,7 +1887,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate get_istemplate_kind function for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
 	 */
@@ -1928,7 +1927,7 @@ public class RecordOfGenerator {
 
 	/**
 	 * Generate check_restriction function for template
-	 *  
+	 *
 	 * @param source where the source code is to be generated.
 	 * @param displayName the user readable name of the type to be generated.
 	 */
