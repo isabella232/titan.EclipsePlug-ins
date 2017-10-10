@@ -1268,16 +1268,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	}
 
 	public void generateCodeInitSeofElement(final JavaGenData aData, final StringBuilder source, final String name, final String index, final String elementTypeGenname) {
-		if (needsTemporaryReference()) {
-			String tempId = aData.getTemporaryVariableName();
 			source.append("{\n");
-			source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", elementTypeGenname, tempId, name, index));
-			generateCodeInit(aData, source, tempId);
-			source.append("}\n");
-		} else {
 			String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
 			generateCodeInit(aData, source, embeddedName);
-		}
+			source.append("}\n");
 	}
 
 	/**

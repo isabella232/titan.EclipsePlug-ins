@@ -50,6 +50,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  *
  * @author Kristof Szabados
  * @author Arpad Lovassy
+ * @author Gergo Ujhelyi
  */
 public final class Def_Var_Template extends Definition {
 	private static final String FULLNAMEPART1 = ".<type>";
@@ -525,10 +526,8 @@ public final class Def_Var_Template extends Definition {
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
-			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-			source.append(MessageFormat.format("{0} {1} = new {0}({2}.class, {2}_template.class);\n", typeGeneratedName, genName, elementType));
-			source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
-			source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+			StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n",arrayType.generateCodeTemplate(aData, source, arrayType, sb), genName));
 		} else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		}
