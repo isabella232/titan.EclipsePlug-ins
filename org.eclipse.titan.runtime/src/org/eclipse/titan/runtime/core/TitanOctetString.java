@@ -270,8 +270,7 @@ public class TitanOctetString extends Base_Type {
 
 		return constGetAt( index_value.getInt() );
 	}
-	
-	
+
 	public void log() {
 		if (val_ptr != null) {
 			boolean onlyPrintable = true;
@@ -288,8 +287,8 @@ public class TitanOctetString extends Base_Type {
 				TtcnLogger.log_event_str("(\"");
 				for (int i = 0; i < val_ptr.size(); i++) {
 					TtcnLogger.logCharEscaped(val_ptr.get(i));
-					TtcnLogger.log_event_str("\")");
 				}
+				TtcnLogger.log_event_str("\")");
 			}
 		} else {
 			TtcnLogger.log_event_unbound();
