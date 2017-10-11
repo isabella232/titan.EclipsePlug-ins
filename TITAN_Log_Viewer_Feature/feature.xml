@@ -10,11 +10,11 @@
 <feature
       id="TITAN_Log_Viewer"
       label="TITAN Log Viewer"
-      version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
+      version="6.3.0.CRL_113_200_6_R3A_20171115-1500"
       provider-name="Eclipse Titan Project">
 
    <description url="https://www.eclipse.org/downloads/download.php?file=/titan/TitanDocuments.tgz">
-      CRL 113 200/6 R2A (6.2.pl0) version of the TITAN Log Viewer plug-in.
+      CRL 113 200/6 R3A (6.3.pl0) version of the TITAN Log Viewer plug-in.
    </description>
 
    <copyright>
@@ -137,27 +137,27 @@ This Agreement is governed by the laws of the State of New York and the intellec
       <import plugin="org.eclipse.ui.navigator"/>
       <import plugin="org.eclipse.ui.console"/>
       <import plugin="org.eclipse.ui.forms"/>
-      <import feature="TITAN_Designer" version="6.1.0" match="greaterOrEqual"/>
+      <import feature="TITAN_Designer" version="6.3.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="org.eclipse.titan.log.viewer"
          download-size="0"
          install-size="0"
-         version="6.1.0.CRL_113_200_6_R1A_20161013-1500"
+         version="6.3.0.CRL_113_200_6_R3A_20171115-1500"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="0"
          install-size="0"
-         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"
+         version="6.3.0.CRL_113_200_6_R3A_20171115-1500"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="0"
          install-size="0"
-         version="6.2.0.CRL_113_200_6_R2A_20170509-1500"/>
+         version="6.3.0.CRL_113_200_6_R3A_20171115-1500"/>
 
 </feature>
