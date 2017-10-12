@@ -13,9 +13,11 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -172,6 +174,36 @@ public final class StringConcatenationExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
+		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
+			if (myGovernor != null) {
+				return myGovernor;
+			}
+		}
+
+		final IType v1_gov = value1.getExpressionGovernor(timestamp, expectedValue);
+		final IType v2_gov = value2.getExpressionGovernor(timestamp, expectedValue);
+		if (v1_gov != null) {
+			if (v2_gov != null) {
+				if (v1_gov.isCompatible(timestamp, v2_gov, null, null, null)) {
+					return v1_gov;
+				} else {
+					return v2_gov;
+				}
+			} else {
+				return v1_gov;
+			}
+		} else {
+			if (v2_gov != null) {
+				return v2_gov;
+			} else {
+				return null;
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		if (value1 == null || value2 == null || getIsErroneous(timestamp)) {
@@ -212,6 +244,8 @@ public final class StringConcatenationExpression extends Expression_Value {
 			final IReferenceChain referenceChain) {
 		Type_type tempType1 = null;
 		Type_type tempType2 = null;
+		boolean v1_string = false;
+		boolean v2_string = false;
 
 		if (value1 != null) {
 			value1.setLoweridToReference(timestamp);
@@ -223,6 +257,9 @@ public final class StringConcatenationExpression extends Expression_Value {
 			case TYPE_OCTETSTRING:
 			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
+				v1_string = true;
+				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				break;
 			case TYPE_SEQUENCE_OF:
 			case TYPE_SET_OF:
 				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
@@ -247,12 +284,14 @@ public final class StringConcatenationExpression extends Expression_Value {
 			case TYPE_OCTETSTRING:
 			case TYPE_CHARSTRING:
 			case TYPE_UCHARSTRING:
+				v2_string = true;
+				value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				break;
 			case TYPE_SEQUENCE_OF:
 			case TYPE_SET_OF:
 				value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
 			case TYPE_UNDEFINED:
-				setIsErroneous(true);
 				break;
 			default:
 				location.reportSemanticError(SECONDOPERANDERROR);
@@ -267,9 +306,37 @@ public final class StringConcatenationExpression extends Expression_Value {
 				return;
 			}
 
-			if (!((Type_type.TYPE_CHARSTRING.equals(tempType1) && Type_type.TYPE_UCHARSTRING.equals(tempType2)) || (Type_type.TYPE_CHARSTRING
-					.equals(tempType2) && Type_type.TYPE_UCHARSTRING.equals(tempType1))) && tempType1 != tempType2) {
-				location.reportSemanticError(SAMEOPERANDERROR);
+			if (v1_string && v2_string) {
+				if (!((Type_type.TYPE_CHARSTRING.equals(tempType1) && Type_type.TYPE_UCHARSTRING.equals(tempType2))
+						|| (Type_type.TYPE_CHARSTRING.equals(tempType2) && Type_type.TYPE_UCHARSTRING.equals(tempType1))) && tempType1 != tempType2) {
+					location.reportSemanticError(SAMEOPERANDERROR);
+					setIsErroneous(true);
+				}
+				return;
+			}
+
+			final IType v1_gov = value1.getExpressionGovernor(timestamp, expectedValue);
+			IType v2_gov = value2.getExpressionGovernor(timestamp, expectedValue);
+			if (v1_gov == null) {
+				getLocation().reportSemanticError("Cannot determine the type of the left operand of `&' operation");
+				setIsErroneous(true);
+				return;
+			} else {
+				final IValue tempValue = v1_gov.checkThisValueRef(timestamp, value1);
+				v1_gov.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(expectedValue, false, false,
+						true, false, false));
+			}
+			if (v2_gov == null) {
+				v2_gov = v1_gov;
+				value2.setMyGovernor(v1_gov);
+			}
+			final IValue tempValue = v2_gov.checkThisValueRef(timestamp, value2);
+			v2_gov.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(expectedValue, false, false,
+					true, false, false));
+			// 7.1.2 says that we shouldn't allow type compatibility.
+			if (!v1_gov.isCompatible(timestamp, v2_gov, null, null, null)
+					&& !v2_gov.isCompatible(timestamp, v1_gov, null, null, null)) {
+				getLocation().reportSemanticError("The operands of `&' operation should be of compatible types");
 				setIsErroneous(true);
 			}
 		}
