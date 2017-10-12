@@ -271,11 +271,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		copy_template(otherValue);
 	}
-	
+
 	public TitanTemplateArray(final Class<Tvalue> classValue, final Class<Ttemplate> classTemplate , final int size, final int offset) {
 		this.classValue = classValue;
 		this.classTemplate = classTemplate;
-		
+
 		indexOffset = offset;
 		setSize(size);
 	}
