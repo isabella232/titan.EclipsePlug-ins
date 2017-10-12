@@ -174,13 +174,7 @@ public abstract class Base_Template {
 	public abstract Base_Template assign(final Base_Template otherValue);
 	public abstract TitanBoolean match(final Base_Type otherValue, final boolean legacy);
 	public abstract Base_Type valueOf();
-	public void log(){
-		//do nothing for now.
-		// TODO once the logging is implemented for all classes this function should become abstract
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".log() is not implemented!\n" );
-	}
+	public abstract void log();
 
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		//do nothing for now.
