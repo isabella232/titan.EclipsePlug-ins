@@ -43,6 +43,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.IndexedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Indexed_Template_List;
+import org.eclipse.titan.designer.AST.TTCN3.templates.PermutationMatch_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
@@ -596,6 +597,16 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				template.getLocation().reportSemanticWarning(REDUNDANTLENGTHRESTRICTION);
 			}
 			break;
+		case PERMUTATION_MATCH: {
+			final int nofComponents = ((PermutationMatch_Template) template).getNofTemplates();
+			for (int i = 0; i < nofComponents; i++) {
+				ITTCN3Template templateComponent = ((PermutationMatch_Template) template).getTemplateByIndex(i);
+				templateComponent.setMyGovernor(elementType);
+				templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
+				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, false, lhs);
+			}
+			break;
+		}
 		case TEMPLATE_LIST: {
 			ITTCN3Template baseTemplate = template.getBaseTemplate();
 			int nofBaseComponents = 0;
@@ -626,12 +637,18 @@ public final class Array_Type extends Type implements IReferenceableElement {
 					templateComponent.setBaseTemplate(((Template_List) baseTemplate).getTemplateByIndex(i));
 				}
 				templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
-				if (Template_type.TEMPLATE_NOTUSED.equals(templateComponent.getTemplatetype())) {
+				switch (templateComponent.getTemplatetype()) {
+				case PERMUTATION_MATCH:
+					selfReference = templateComponent.checkThisTemplateGeneric(timestamp, this, isModified, false, true, true, implicitOmit, lhs);
+					break;
+				case TEMPLATE_NOTUSED:
 					if (!isModified) {
 						templateComponent.getLocation().reportSemanticError(NOTUSEDNOTALLOWED);
 					}
-				} else {
+					break;
+				default:
 					selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
+					break;
 				}
 			}
 			break;
