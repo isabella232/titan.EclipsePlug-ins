@@ -163,9 +163,19 @@ public class TitanPort {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be stopped.", portName));
 		}
-		//FIXME implement
-		is_started = false;
-		userStop();
+		if(is_started) {
+			is_started = false;
+			is_halted = false;
+			userStop();
+			// dropping all messages from the queue because they cannot be extracted by receiving operations anymore
+			clearQueue();
+		} else if(is_halted) {
+			is_halted = false;
+			clearQueue();
+		} else {
+			TtcnError.TtcnWarning(MessageFormat.format("Performing stop operation on port {0}, which is already stopped. The operation has no effect.", portName));
+		}
+		//TODO: TTCN_Logger::log_port_state
 	}
 
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
@@ -641,7 +651,7 @@ public class TitanPort {
 		}
 		portName = name;
 	}
-	
+
 	public void log() {
 		TtcnLogger.log_event("port %s", portName);
 	}
