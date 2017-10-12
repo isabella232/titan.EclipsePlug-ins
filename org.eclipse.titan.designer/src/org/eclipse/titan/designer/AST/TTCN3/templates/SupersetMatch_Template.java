@@ -188,7 +188,11 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 			for (int v = 0; v < variables.size(); v++) {
 				TTCN3Template template = templates.getTemplateByIndex(variables.get(v));
 				// the template must be all from
-				IValue value = ((SpecificValue_Template) template).getValue();
+				TTCN3Template template2 = template;
+				if ( template instanceof All_From_Template ) {
+					template2 = ((All_From_Template)template).getAllFrom();
+				}
+				IValue value = ((SpecificValue_Template) template2).getValue();
 				Reference reference;
 				if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
 					reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
@@ -225,7 +229,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 					break;
 				}
 
-				setType.append(".n_elem()");
+				setType.append(".n_elem().getInt()");
 			}
 
 			source.append(preamble);
@@ -239,8 +243,12 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 				switch (template.getTemplatetype()) {
 				case ALL_FROM: {
 					// the template must be all from
-					template.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
-					IValue value = ((SpecificValue_Template) template).getValue();
+					TTCN3Template template2 = template;
+					if ( template instanceof All_From_Template ) {
+						template2 = ((All_From_Template)template).getAllFrom();
+					}
+					template2.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
+					IValue value = ((SpecificValue_Template) template2).getValue();
 					Reference reference;
 					if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
 						//value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
@@ -272,12 +280,12 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 						break;
 					}
 
-					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_lim; ++i_i ) '{'\n", expression.expression));
+					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", expression.expression));
 
 					String embeddedName = MessageFormat.format("{0}.setItem({1}{2} + i_i)", name, i, shifty);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName);
 					source.append("}\n");
-					shifty.append(MessageFormat.format("-1 + {0}.n_elem()", expression.expression));
+					shifty.append(MessageFormat.format("-1 + {0}.n_elem().getInt()", expression.expression));
 					break;
 				}
 				default:

@@ -638,6 +638,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				switch (component.getTemplatetype()) {
 				case PERMUTATION_MATCH:
+					selfReference = component.checkThisTemplateGeneric(timestamp, this, isModified, false, true, true, implicitOmit, lhs);
+					break;
 				case SUPERSET_MATCH:
 				case SUBSET_MATCH:
 					//FIXME: for Complement??? case COMPLEMENTED_LIST: ???

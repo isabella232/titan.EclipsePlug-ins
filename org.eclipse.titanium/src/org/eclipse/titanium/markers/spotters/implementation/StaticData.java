@@ -112,6 +112,7 @@ public final class StaticData {
 		final Map<CodeSmellType, BaseProjectCodeSmellSpotter[]> pm = new HashMap<CodeSmellType, BaseProjectCodeSmellSpotter[]>();
 
 		pm.put(CodeSmellType.CIRCULAR_IMPORTATION, new BaseProjectCodeSmellSpotter[] { new CircularImportation() });
+		pm.put(CodeSmellType.UNUSED_IMPORTS_PROJECT, new BaseProjectCodeSmellSpotter[] { new UnusedImportsProject() });
 		pm.put(CodeSmellType.LANGUAGE_MIXING, new BaseProjectCodeSmellSpotter[]{ new LanguageMixing() });
 
 		return Collections.unmodifiableMap(pm);

@@ -498,7 +498,7 @@ public class RecordOfGenerator {
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Accessing an element of type {0} using a negative index: \"+index_value+\".\");\n", displayName ) );
 		source.append("\t\t}\n");
-		source.append("\t\tfinal int nofElements = getNofElements().getInt();\n");
+		source.append("\t\tfinal int nofElements = n_elem().getInt();\n");
 		source.append("\t\tif ( index_value >= nofElements ) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError( \"Index overflow in a value of type {0}: The index is \"+index_value+\", but the value has only \"+nofElements+\" elements.\" );\n", displayName ) );
 		source.append("\t\t}\n");
@@ -521,7 +521,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\tpublic TitanInteger getNofElements() {\n");
+		source.append("\tpublic TitanInteger n_elem() {\n");
 		source.append("\t\treturn sizeOf();\n");
 		source.append("\t}\n");
 

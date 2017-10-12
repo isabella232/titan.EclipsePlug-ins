@@ -571,13 +571,13 @@ public final class Template_List extends CompositeTemplate {
 						break;
 					}
 
-					setSize.append(".n_elem()");
-					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
+					setSize.append(".n_elem().getInt()");
+					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
 
 					String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, body, embeddedName);
 					body.append("}\n");
-					body.append(MessageFormat.format("{0} += {1}.n_elem();\n", counter, bodyExpression.expression));
+					body.append(MessageFormat.format("{0} += {1}.n_elem().getInt();\n", counter, bodyExpression.expression));
 				} else if (template.getTemplatetype() == Template_type.PERMUTATION_MATCH) {
 					int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
 					String permutationStart = aData.getTemporaryVariableName();
@@ -618,14 +618,14 @@ public final class Template_List extends CompositeTemplate {
 								break;
 							}
 
-							setSize.append(".n_elem()");
-							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
+							setSize.append(".n_elem().getInt()");
+							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
 
 							String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
 							((All_From_Template) template2).generateCodeInitAllFrom(aData, body, embeddedName);
 							body.append("}\n");
 
-							body.append(MessageFormat.format("{0} += {1}.n_elem();\n", counter, bodyExpression.expression));
+							body.append(MessageFormat.format("{0} += {1}.n_elem().getInt();\n", counter, bodyExpression.expression));
 							template2.lastTimeBuilt = aData.buildTimestamp;
 						} else {
 							fixedPart++;

@@ -27,11 +27,5 @@ public abstract class Base_Type {
 	public abstract TitanBoolean operatorEquals(final Base_Type otherValue);
 
 	public abstract Base_Type assign( final Base_Type otherValue );
-	public void log(){
-		//do nothing for now.
-		// TODO once the logging is implemented for all classes this function should become abstract
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".log() is not implemented!\n" );
-	}
+	public abstract void log();
 }
