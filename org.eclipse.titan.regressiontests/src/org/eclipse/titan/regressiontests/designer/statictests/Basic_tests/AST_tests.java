@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1514);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1517);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1690,7 +1690,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("`sizeof' operation is not applicable for templates without exact size",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("`sizeof' operation is not applicable for templates containing `*' without upper boundary in the length restriction",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 3;
+		markersToCheck.add(new MarkerToCheck("An array value (with 1 elements) was expected as default duration of timer array",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to a value or template of type record, record of, set, set of, objid or array was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -1815,7 +1816,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Too many parameters: 0 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the testcase quard timer duration",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The testcase guard timer has negative value: `-Infinity'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 6;
+		lineNum += 5;
+		markersToCheck.add(new MarkerToCheck("Too few elements in the default duration of timer array: 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("An evaluatable constant value was expected instead of operation `timer running'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -1834,7 +1837,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The operand of operation `timer running': Reference to a single timer `pl_par_temp' cannot have field or array sub-references",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("An evaluatable constant value was expected instead of operation `timer running'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The operand of operation `timer running': Reference to a single timer `pl_par_temp' cannot have field or array sub-references",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 6;
+		lineNum += 5;
+		markersToCheck.add(new MarkerToCheck("Too few elements in the default duration of timer array: 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("An evaluatable constant value was expected instead of operation `timer read'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -9149,10 +9154,10 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5284);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5294);
 		int lineNum = 20;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -10006,20 +10011,29 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type `@value_tests.myunionType' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 6;
-		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 5;
+		markersToCheck.add(new MarkerToCheck("Too few elements in the default duration of timer array: 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A non-negative float value was expected as timer duration instead of -5",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Integer value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 3;
+		markersToCheck.add(new MarkerToCheck("An array value (with 0 elements) was expected as default duration of timer array",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("An integer value was expected as lower boundary",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("An array value (with 0 elements) was expected as default duration of timer array",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Integer value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Too few elements in the default duration of timer array: 2 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Too many elements in the default duration of timer array: 2 was expected instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("An array value (with 0 elements) was expected as default duration of timer array",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("An array value (with 0 elements) was expected as default duration of timer array",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("An integer value was expected as lower boundary",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("An integer value was expected as upper boundary",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The lower boundary is greater than the upper boundary",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 4;
+		markersToCheck.add(new MarkerToCheck("An array value was expected as default duration of timer array",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The lower boundary is greater than the upper boundary",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Too few elements in the default duration of timer array: 2 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Too many elements in the default duration of timer array: 2 was expected instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("The operand of operation `timer running': Reference to a single timer `TL_temp' cannot have field or array sub-references",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a timer array without array index",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Array index underflow: the index value must be at least 1 instead of 0",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -11437,7 +11451,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> value_tests2_ttcn_initializer() {
 		//value_tests2.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(44);
