@@ -970,7 +970,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n\n");
 		source.append(MessageFormat.format("public static class {0}_template extends {1} '{'\n", ownName, templateName));
 		source.append(MessageFormat.format("public {0}_template() '{'\n",ownName));
-		source.append(MessageFormat.format("super({0}.class, {0}_template.class);\n",elementName));
+		source.append(MessageFormat.format("super({0}.class, {0}_template.class , {1} , {2});\n",elementName,dimension.getSize(), dimension.getOffset()));
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template({0}_template otherValue) '{'\n",ownName));
 		source.append("super(otherValue);\n");
