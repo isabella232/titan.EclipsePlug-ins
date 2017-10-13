@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
@@ -662,6 +663,10 @@ public final class SpecificValue_Template extends TTCN3Template {
 			//The single expression must be tried first because this rule might cover some referenced templates.
 			if (hasSingleExpression()) {
 				expression.expression.append(MessageFormat.format("new {0}(", genName) );
+				if(myGovernor.getTypetype() == Type_type.TYPE_ARRAY){
+					Array_Type array_type = (Array_Type) myGovernor;
+					expression.expression.append(MessageFormat.format(" {0}.class, ",array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
+				}
 				expression.expression.append(getSingleExpression(aData, true));
 				expression.expression.append(')');
 				return;
