@@ -7,9 +7,12 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
@@ -242,11 +245,8 @@ public final class Def_Timer extends Definition {
 							defaultDuration.getLocation().reportSemanticError(
 									MessageFormat.format(NEGATIVDURATIONERROR, value));
 						} else if (real.isPositiveInfinity()) {
-							final String message = MessageFormat.format(INFINITYDURATIONERROR,
-									real.createStringRepresentation());
-							defaultDuration.getLocation()
-							.reportSemanticError(message
-									);
+							final String message = MessageFormat.format(INFINITYDURATIONERROR, real.createStringRepresentation());
+							defaultDuration.getLocation().reportSemanticError(message);
 						}
 					}
 					return;
@@ -254,7 +254,7 @@ public final class Def_Timer extends Definition {
 					defaultDuration.getLocation().reportSemanticError(OPERANDERROR);
 				}
 			} else {
-				checkArrayDuration(defaultDuration, 0);
+				checkArrayDuration(timestamp,defaultDuration, 0);
 			}
 
 			defaultDuration.setCodeSection(CodeSectionType.CS_POST_INIT);
@@ -267,9 +267,117 @@ public final class Def_Timer extends Definition {
 
 		lastTimeChecked = timestamp;
 	}
+	
+	private void checkSingleDuration(final CompilationTimeStamp timestamp, final IValue duration){
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final Value v = (Value) duration.getValueRefdLast(timestamp, referenceChain);
+		referenceChain.release();
+		
+		if (v.getValuetype() == Value_type.REAL_VALUE) {
+			final Real_Value value = (Real_Value) v;
+			final double valueReal = value.getValue();
+			if (valueReal < 0.0 || value.isSpecialFloat()) {
+				duration.getLocation().reportSemanticError("A non-negative float value was expected as timer duration instead of" + valueReal);
+			}
+		} else {
+			duration.getLocation().reportSemanticError("Value is not real");
+		}
+	}
 
-	private void checkArrayDuration(final IValue duration, final int startDimension) {
+	private void checkArrayDuration(final CompilationTimeStamp timestamp, final IValue duration, final int startDimension) {
 		// FIXME implement support for dimension handling
+		ArrayDimension dim = dimensions.get(startDimension);
+		boolean arraySizeKnown = !dim.getIsErroneous(timestamp);
+		int arraySize = 0;
+		if (arraySizeKnown) {
+			arraySize = (int) dim.getSize();
+		}
+
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final Value v = (Value) duration.getValueRefdLast(timestamp, referenceChain);
+		referenceChain.release();
+
+		if(v.getIsErroneous(timestamp)) {
+			//error
+			return;
+		}
+
+		if (v.getValuetype() == Value_type.SEQUENCEOF_VALUE) {
+			final SequenceOf_Value value = (SequenceOf_Value) v;
+			int nofComp = value.getNofComponents();
+
+			// Value-list notation.
+			if (!value.isIndexed()) {
+				if (arraySizeKnown) {
+					if (arraySize > nofComp) {
+						duration.getLocation().reportSemanticError("Too few elements in the default duration of timer array: "
+													+ arraySize + " was expected instead of " + nofComp);
+					} else if (arraySize < nofComp) {
+						duration.getLocation().reportSemanticError("Too many elements in the default duration of timer array: "
+								+ arraySize + " was expected instead of " + nofComp );
+					}
+				}
+				
+				boolean last_dim = startDimension + 1 >= dimensions.size();
+				for (int i = 0; i < nofComp; ++i) {
+					IValue array_v = value.getValueByIndex(i);
+					if (array_v.getValuetype() == Value_type.NOTUSED_VALUE) {
+						continue;
+					}
+					if (last_dim) {
+						checkSingleDuration(timestamp, array_v);
+					} else {
+						checkArrayDuration(timestamp, array_v, startDimension + 1);
+					}
+				}
+			} else {
+				// Indexed-notation.
+				boolean last_dim = startDimension + 1 >= dimensions.size();
+				Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
+				
+				for (int i = 0; i < nofComp; ++i) {
+					IValue array_v = value.getValueByIndex(i);
+					if (array_v.getValuetype() == Value_type.NOTUSED_VALUE) {
+						continue;
+					}
+					if (last_dim) {
+						checkSingleDuration(timestamp, array_v);
+					} else {
+						checkArrayDuration(timestamp, array_v, startDimension + 1);
+					}
+					
+					IValue array_index = value.getIndexByIndex(i);
+					dim.checkIndex(timestamp, array_index, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+					
+					if (array_index.getValueRefdLast(timestamp, referenceChain).getValuetype() == Value_type.INTEGER_VALUE) {
+						BigInteger index = ((Integer_Value) array_index).getValueValue();//valueRefdLast(timestamp, referenceChain);//.get;
+						if (index.compareTo(BigInteger.valueOf( Integer.MAX_VALUE)) > 0) {
+							array_index.getLocation().reportSemanticError(MessageFormat.format("An integer value less than {0} was expected for indexing timer array instead of {1}", Integer.MAX_VALUE, index));
+							array_index.setIsErroneous(true);
+						} else {
+							int IndexValue =  index.intValue();
+							if (indexMap.containsKey(IndexValue)) {
+								array_index.getLocation().reportSemanticError(MessageFormat.format("Duplicate index value {0} for timer array elements {1} and {2}", index, i+1, indexMap.get(IndexValue)));
+								array_index.setIsErroneous(true);
+							} else {
+								indexMap.put(IndexValue, i+1);
+							}
+						}
+					}
+				}
+				// It's not possible to have "indexMap.size() > arraySize", since we
+		        // add only correct constant-index values into the map.  It's possible
+		        // to create partially initialized timer arrays.
+				indexMap.clear();
+			}
+		} else {
+			if (arraySizeKnown) {
+				duration.getLocation().reportSemanticError("An array value (with " + arraySize + " elements) was expected as default duration of timer array");
+			} else {
+				duration.getLocation().reportSemanticError("An array value was expected as default duration of timer array");
+			}
+			duration.setIsErroneous(true);
+		}
 	}
 
 	@Override
@@ -653,7 +761,7 @@ public final class Def_Timer extends Definition {
 					expression.mergeExpression(source);
 				}
 			}
-		// Indexed-list notation.
+			// Indexed-list notation.
 		} else {
 			if (startDim + 1 < dimensions.size()) {
 				// boolean temp_ref_needed = dimensions.get(startDim + 1).getSize() > 1;
