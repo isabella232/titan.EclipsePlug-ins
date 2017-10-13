@@ -541,8 +541,8 @@ public final class Array_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		governor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		final ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
+		final IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final ArrayDimension tempDimension = ((Array_Type) lastType).getDimension();
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
@@ -569,7 +569,6 @@ public final class Array_Value extends Value {
 			}
 		} else {
 			final int nofValues = values.getNofValues();
-			final IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if (!Type_type.TYPE_ARRAY.equals(lastType.getTypetype())) {
 				return source;
 			}
@@ -609,10 +608,11 @@ public final class Array_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		final ArrayDimension tempDimension = ((Array_Type) governor).getDimension();
+		final IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final ArrayDimension tempDimension = ((Array_Type) lastType).getDimension();
 		final String tempId = aData.getTemporaryVariableName();
-		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
-		final String elementType = ((Array_Type) governor).getElementType().getGenNameValue(aData, expression.expression, myScope);
+		final String genName = lastType.getGenNameValue(aData, expression.expression, myScope);
+		final String elementType = ((Array_Type) lastType).getElementType().getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", genName, tempId, elementType));
 
 		setGenNamePrefix(tempId);
