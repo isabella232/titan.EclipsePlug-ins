@@ -285,7 +285,6 @@ public final class Def_Timer extends Definition {
 	}
 
 	private void checkArrayDuration(final CompilationTimeStamp timestamp, final IValue duration, final int startDimension) {
-		// FIXME implement support for dimension handling
 		ArrayDimension dim = dimensions.get(startDimension);
 		boolean arraySizeKnown = !dim.getIsErroneous(timestamp);
 		int arraySize = 0;
@@ -348,9 +347,9 @@ public final class Def_Timer extends Definition {
 					
 					IValue array_index = value.getIndexByIndex(i);
 					dim.checkIndex(timestamp, array_index, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-					
-					if (array_index.getValueRefdLast(timestamp, referenceChain).getValuetype() == Value_type.INTEGER_VALUE) {
-						BigInteger index = ((Integer_Value) array_index).getValueValue();//valueRefdLast(timestamp, referenceChain);//.get;
+					IValue tmp = array_index.getValueRefdLast(timestamp, referenceChain);
+					if (tmp.getValuetype() == Value_type.INTEGER_VALUE) {
+						BigInteger index = ((Integer_Value) tmp).getValueValue();
 						if (index.compareTo(BigInteger.valueOf( Integer.MAX_VALUE)) > 0) {
 							array_index.getLocation().reportSemanticError(MessageFormat.format("An integer value less than {0} was expected for indexing timer array instead of {1}", Integer.MAX_VALUE, index));
 							array_index.setIsErroneous(true);
@@ -631,7 +630,7 @@ public final class Def_Timer extends Definition {
 			source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
 
 			if (defaultDuration != null) {
-				generateCodeArrayDuration(aData, aData.getPostInit(), genName, classNames, defaultDuration, 0);
+				generateCodeArrayDuration(aData, initComp, genName, classNames, defaultDuration, 0);
 			}
 
 			expression.expression.append(genName);
