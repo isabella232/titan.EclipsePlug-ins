@@ -11,8 +11,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
-
 /**
  * TTCN-3 universal charstring template
  *
@@ -660,7 +658,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		log_restricted();
 		log_ifpresent();
 	}
-	
+
 	public void log_match(final TitanUniversalCharString match_value, boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
@@ -676,7 +674,6 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			TtcnLogger.log_event_str(" unmatched");
 		}
 	}
-	
 
 	// originally is_present (with default parameter)
 	public TitanBoolean isPresent() {

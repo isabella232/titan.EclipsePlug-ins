@@ -385,7 +385,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			TtcnLogger.log_event_str("complement");
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');
-			for (int i = 0; i < value_list.size(); i++) { 
+			for (int i = 0; i < value_list.size(); i++) {
 				if (i > 0) {
 					TtcnLogger.log_event_str(", ");
 				}
@@ -409,8 +409,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		log_restricted();
 		log_ifpresent();
 	}
-	
-	
+
 	public void log_match(final TitanBitString match_value, boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {

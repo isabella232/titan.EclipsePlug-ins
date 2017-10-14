@@ -472,7 +472,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			TtcnLogger.log_event_str(" unmatched");
 		}
 	}
-	
+
 	// originally match_omit (with default parameter)
 	public TitanBoolean match_omit() {
 		return match_omit(false);

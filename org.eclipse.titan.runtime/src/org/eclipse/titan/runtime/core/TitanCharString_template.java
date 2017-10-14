@@ -546,7 +546,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		log_restricted();
 		log_ifpresent();
 	}
-	
+
 	public void log_match(final TitanCharString match_value, boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {

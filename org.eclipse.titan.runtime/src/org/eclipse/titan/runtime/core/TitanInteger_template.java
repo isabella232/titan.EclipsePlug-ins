@@ -468,7 +468,7 @@ public class TitanInteger_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	public void log_match(final TitanInteger match_value, boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
@@ -484,5 +484,5 @@ public class TitanInteger_template extends Base_Template {
 			TtcnLogger.log_event_str(" unmatched");
 		}
 	}
-	
+
 }

@@ -280,7 +280,7 @@ public class TitanBoolean_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	public void log_match(final TitanBoolean match_value, boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
@@ -295,8 +295,7 @@ public class TitanBoolean_template extends Base_Template {
 		} else {
 			TtcnLogger.log_event_str(" unmatched");
 		}
-	}	
-	
+	}
 
 	// originally is_present (with default parameter)
 	public TitanBoolean isPresent() {
