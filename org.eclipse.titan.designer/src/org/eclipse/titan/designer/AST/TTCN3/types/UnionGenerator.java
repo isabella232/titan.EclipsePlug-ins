@@ -939,7 +939,7 @@ public class UnionGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("log_ifpresent();\n");
-		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	/**
@@ -960,7 +960,6 @@ public class UnionGenerator {
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", genName));
-	
 		source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy).getValue()) {\n");
 		source.append("TtcnLogger.print_logmatch_buffer();\n");
 		source.append("TtcnLogger.log_event_str(\" matched\");\n");
@@ -996,6 +995,6 @@ public class UnionGenerator {
 		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 	}
 }
