@@ -663,8 +663,8 @@ public final class SpecificValue_Template extends TTCN3Template {
 			//The single expression must be tried first because this rule might cover some referenced templates.
 			if (hasSingleExpression()) {
 				expression.expression.append(MessageFormat.format("new {0}(", genName) );
-				if(myGovernor.getTypetype() == Type_type.TYPE_ARRAY){
-					Array_Type array_type = (Array_Type) myGovernor;
+				if(governor.getTypetype() == Type_type.TYPE_ARRAY){
+					Array_Type array_type = (Array_Type) governor;
 					expression.expression.append(MessageFormat.format(" {0}.class, ",array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
 				}
 				expression.expression.append(getSingleExpression(aData, true));
@@ -679,7 +679,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		}
 
 		String tempId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", myGovernor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);
 
