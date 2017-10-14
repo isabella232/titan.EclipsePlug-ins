@@ -542,7 +542,6 @@ public final class Array_Value extends Value {
 		}
 
 		final IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		final ArrayDimension tempDimension = ((Array_Type) lastType).getDimension();
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
@@ -574,7 +573,7 @@ public final class Array_Value extends Value {
 			}
 
 			final long indexOffset = ((Array_Type) lastType).getDimension().getOffset();
-			final String embeddedType = lastType.getGenNameValue(aData, source, myScope);
+			lastType.getGenNameValue(aData, source, myScope);
 
 			for (int i = 0; i < nofValues; i++) {
 				final IValue value = values.getValueByIndex(i);
@@ -609,7 +608,6 @@ public final class Array_Value extends Value {
 		}
 
 		final IType lastType = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		final ArrayDimension tempDimension = ((Array_Type) lastType).getDimension();
 		final String tempId = aData.getTemporaryVariableName();
 		final String genName = lastType.getGenNameValue(aData, expression.expression, myScope);
 		final String elementType = ((Array_Type) lastType).getElementType().getGenNameValue(aData, expression.expression, myScope);
