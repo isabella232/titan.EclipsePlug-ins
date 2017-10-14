@@ -219,6 +219,16 @@ public class FunctionReferenceGenerator {
 		source.append("throw new TtcnError( aErrorMessage );\n");
 		source.append("}\n");
 		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void log() {\n");
+		source.append("if(referred_function == null) {\n");
+		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event(\"refers(%s)\", referred_function.getId());\n");
+		source.append("}\n");
+		source.append("}\n");
+
 		source.append("}\n\n");
 	}
 
@@ -477,6 +487,54 @@ public class FunctionReferenceGenerator {
 		source.append("return new TitanBoolean(false);\n");
 		source.append("}\n");
 		source.append("}\n");
+
+		source.append("public void log() {\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("if(single_value == null) {\n");
+		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event(\"refers(%s)\", single_value.getId());\n");
 		source.append("}\n");
+		source.append("break;\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("TtcnLogger.log_event_str(\"complement \");\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("TtcnLogger.log_char('(');\n");
+		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
+		source.append("if (list_count > 0) {\n");
+		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("}\n");
+		source.append("value_list.get(list_count).log();\n");
+		source.append("}\n");
+		source.append("TtcnLogger.log_char(')');\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("log_generic();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("log_ifpresent();\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", def.genName));
+		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", def.genName));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", def.displayName));
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", def.genName));
+		source.append("match_value.log();\n");
+		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("log();\n");
+		source.append("if (match(match_value, legacy).getValue()) {\n");
+		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("}\n\n");
 	}
 }
