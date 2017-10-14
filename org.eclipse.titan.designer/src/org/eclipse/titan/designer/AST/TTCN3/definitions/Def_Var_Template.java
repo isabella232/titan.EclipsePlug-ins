@@ -223,9 +223,9 @@ public final class Def_Var_Template extends Definition {
 
 		final ITTCN3Template temporalValue = type.checkThisTemplateRef(timestamp, realInitialValue);
 		temporalValue.checkThisTemplateGeneric(timestamp, type, true, true, true, true, false, this);
-		generateRestrictionCheck = TemplateRestriction.check(timestamp, this, initialValue, null);
+		generateRestrictionCheck = TemplateRestriction.check(timestamp, this, realInitialValue, null);
 
-		initialValue.setCodeSection(CodeSectionType.CS_INLINE);
+		realInitialValue.setCodeSection(CodeSectionType.CS_INLINE);
 
 		// Only to follow the pattern, otherwise no such field can exist
 		// here
@@ -486,7 +486,7 @@ public final class Def_Var_Template extends Definition {
 		//TODO temporary hack to adapt to the starting code
 		StringBuilder source = new StringBuilder();
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
-		
+
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
 			String elementValueName = arrayType.getElementType().getGenNameValue(aData, source, myScope);
