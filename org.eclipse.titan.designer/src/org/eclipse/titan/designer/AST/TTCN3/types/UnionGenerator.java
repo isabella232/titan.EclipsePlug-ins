@@ -276,7 +276,8 @@ public class UnionGenerator {
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("public TitanBoolean isValue() {\n");
 		source.append("switch(union_selection) {\n");
-		source.append("case UNBOUND_VALUE: return new TitanBoolean(false);\n");
+		source.append("case UNBOUND_VALUE:\n");
+		source.append("return new TitanBoolean(false);\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -410,7 +411,7 @@ public class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
 			source.append("field.log();\n");
 			source.append("TtcnLogger.log_event_str(\" }\");\n");
 			source.append("break;\n");
