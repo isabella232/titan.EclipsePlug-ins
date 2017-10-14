@@ -468,4 +468,21 @@ public class TitanInteger_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
+	
+	public void log_match(final TitanInteger match_value, boolean legacy) {
+		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
+				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
+			TtcnLogger.print_logmatch_buffer();
+			TtcnLogger.log_event_str(" := ");
+		}
+		match_value.log();
+		TtcnLogger.log_event_str(" with ");
+		log();
+		if (match(match_value).getValue()) {
+			TtcnLogger.log_event_str(" matched");
+		} else {
+			TtcnLogger.log_event_str(" unmatched");
+		}
+	}
+	
 }

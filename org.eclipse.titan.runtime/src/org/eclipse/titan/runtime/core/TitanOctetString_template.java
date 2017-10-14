@@ -15,6 +15,7 @@ import java.util.List;
  * TTCN-3 octetstring template
  *
  * @author Arpad Lovassy
+ * @author Andrea Palfi
  */
 public class TitanOctetString_template extends Restricted_Length_Template {
 
@@ -456,6 +457,22 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		log_ifpresent();
 	}
 
+	public void log_match(final TitanOctetString match_value, boolean legacy) {
+		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
+				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
+			TtcnLogger.print_logmatch_buffer();
+			TtcnLogger.log_event_str(" := ");
+		}
+		match_value.log();
+		TtcnLogger.log_event_str(" with ");
+		log();
+		if (match(match_value).getValue()) {
+			TtcnLogger.log_event_str(" matched");
+		} else {
+			TtcnLogger.log_event_str(" unmatched");
+		}
+	}
+	
 	// originally match_omit (with default parameter)
 	public TitanBoolean match_omit() {
 		return match_omit(false);
