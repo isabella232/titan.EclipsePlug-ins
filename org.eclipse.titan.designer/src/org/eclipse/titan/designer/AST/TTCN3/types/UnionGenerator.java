@@ -950,6 +950,7 @@ public class UnionGenerator {
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
 	private static void generateTemplateLogMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
 		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
 		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", genName));
 		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", genName));

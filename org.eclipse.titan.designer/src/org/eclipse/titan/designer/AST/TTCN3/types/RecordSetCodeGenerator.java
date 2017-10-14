@@ -148,7 +148,7 @@ public class RecordSetCodeGenerator {
 		generateTemplateIsValue( source, fieldInfos );
 		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
 		generateTemplateSizeOf( source, fieldInfos, classDisplayName );
-		generateTemplateLog( source, fieldInfos, className );
+		generateTemplateLog( source, fieldInfos, className, classDisplayName );
 
 		source.append("}\n");
 	}
@@ -1117,8 +1117,9 @@ public class RecordSetCodeGenerator {
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
 	 * @param genName the name of the generated class representing the record/set type.
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName) {
+	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
 		source.append('\n');
 		source.append("\tpublic void log() {\n");
 		source.append("\t\tswitch (templateSelection) {\n");
@@ -1157,6 +1158,14 @@ public class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
 		source.append("\t\tlog_match(match_value, false);\n");
 		source.append("\t}\n");
+
+		source.append("\t@Override\n");
+		source.append("\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append(MessageFormat.format("\t\tif (match_value instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\tlog_match(({0})match_value, legacy);\n", genName));
+		source.append("\t\t}\n");
+		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("\t}\n\n");
 
 		source.append('\n');
 		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );

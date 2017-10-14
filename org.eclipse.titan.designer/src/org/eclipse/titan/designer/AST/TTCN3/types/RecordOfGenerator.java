@@ -128,7 +128,7 @@ public class RecordOfGenerator {
 		generateTemplateGetListItem( source, genName, displayName );
 		generateTemplateValueOf( source, genName, displayName );
 		generateTemplateSubstr( source, genName );
-		generateTemplateLog( source, genName, isSetOf );
+		generateTemplateLog( source, genName, displayName, isSetOf );
 		generateTemplateGetIstemplateKind( source, genName );
 		//TODO: use
 		//generateTemplateCheckRestriction( source, displayName );
@@ -1677,9 +1677,10 @@ public class RecordOfGenerator {
 	 * Generating log() function for template
 	 * @param aSb the output, where the java code is written
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param displayName the user readable name of the type to be generated.
 	 * @param isSetOf true: set of, false: record of
 	 */
-	private static void generateTemplateLog( final StringBuilder aSb, final String genName, final boolean isSetOf ) {
+	private static void generateTemplateLog( final StringBuilder aSb, final String genName, final String displayName, final boolean isSetOf ) {
 		aSb.append('\n');
 		aSb.append("\t\tpublic void log() {\n");
 		aSb.append("\t\t\tswitch (templateSelection) {\n");
@@ -1740,6 +1741,15 @@ public class RecordOfGenerator {
 		aSb.append('\n');
 		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
 		aSb.append("\t\tlog_match(match_value, false);\n");
+		aSb.append("\t}\n");
+
+		aSb.append('\n');
+		aSb.append("\t@Override\n");
+		aSb.append("\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		aSb.append(MessageFormat.format("\t\tif (match_value instanceof {0}) '{'\n", genName));
+		aSb.append(MessageFormat.format("\t\t\tlog_match(({0})match_value, legacy);\n", genName));
+		aSb.append("\t\t}\n");
+		aSb.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		aSb.append("\t}\n");
 
 		aSb.append('\n');
