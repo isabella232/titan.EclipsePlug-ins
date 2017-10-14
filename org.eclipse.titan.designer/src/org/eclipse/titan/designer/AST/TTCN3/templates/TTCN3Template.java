@@ -1230,8 +1230,16 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			}
 		}
 
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			return;
+		}
+
 		String tempId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", myGovernor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);
 

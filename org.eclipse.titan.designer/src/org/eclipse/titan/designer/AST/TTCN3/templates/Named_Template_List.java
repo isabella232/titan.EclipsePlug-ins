@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
@@ -572,12 +573,16 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		if (myGovernor == null) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
 			return;
 		}
 
 		String tempId = aData.getTemporaryVariableName();
-		String genName = myGovernor.getGenNameTemplate(aData, expression.expression, myScope);
+		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);

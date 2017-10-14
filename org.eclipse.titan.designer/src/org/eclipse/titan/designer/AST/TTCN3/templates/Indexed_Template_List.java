@@ -457,12 +457,16 @@ public final class Indexed_Template_List extends TTCN3Template {
 			return;
 		}
 
-		if (myGovernor == null) {
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
 			return;
 		}
 
 		String tempId = aData.getTemporaryVariableName();
-		String genName = myGovernor.getGenNameTemplate(aData, expression.expression, myScope);
+		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
