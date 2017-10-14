@@ -1226,6 +1226,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			// options
 			subReference.getActualParameters().generateCodeAlias(aData, tempExpression);
 
+			if(tempExpression.preamble.length() > 0) {
+				expression.preamble.append(tempExpression.preamble);
+			}
 			ass_id2 = MessageFormat.format("{0}({1})", ass_id, tempExpression.expression);
 		} else if (formalParameterList != null) {
 			// the reference does not have an actual parameter list,
@@ -1245,6 +1248,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 			// temp.getActualParameters().generateCodeAlias(aData,
 			// expression);
+			if(tempExpression.preamble.length() > 0) {
+				expression.preamble.append(tempExpression.preamble);
+			}
 			newId.append(tempExpression.expression);
 			newId.append(" )");
 			ass_id2 = newId.toString();
