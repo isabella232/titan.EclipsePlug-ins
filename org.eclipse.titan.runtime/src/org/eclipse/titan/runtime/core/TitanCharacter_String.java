@@ -82,9 +82,9 @@ public class TitanCharacter_String extends Base_Type {
 	}
 
 	public TitanBoolean isBound() {
-		if ( identification.isBound().getValue() ) return new TitanBoolean(true);
-		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound().getValue() ) return new TitanBoolean(true);
-		if ( string__value.isBound().getValue() ) return new TitanBoolean(true);
+		if ( identification.isBound().getValue() ) { return new TitanBoolean(true); }
+		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound().getValue() ) { return new TitanBoolean(true); }
+		if ( string__value.isBound().getValue() ) { return new TitanBoolean(true); }
 		return new TitanBoolean(false);
 	}
 
@@ -93,16 +93,16 @@ public class TitanCharacter_String extends Base_Type {
 	}
 
 	public TitanBoolean isValue() {
-		if ( !identification.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !string__value.isValue().getValue() ) return new TitanBoolean(false);
+		if ( !identification.isValue().getValue() ) { return new TitanBoolean(false); }
+		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue().getValue() ) { return new TitanBoolean(false); }
+		if ( !string__value.isValue().getValue() ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
 	public TitanBoolean operatorEquals( final TitanCharacter_String aOtherValue ) {
-		if ( !TitanBoolean.getNative( this.identification.operatorEquals( aOtherValue.identification )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.string__value.operatorEquals( aOtherValue.string__value )) ) return new TitanBoolean(false);
+		if ( !TitanBoolean.getNative( this.identification.operatorEquals( aOtherValue.identification )) ) { return new TitanBoolean(false); }
+		if ( !TitanBoolean.getNative( this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor )) ) { return new TitanBoolean(false); }
+		if ( !TitanBoolean.getNative( this.string__value.operatorEquals( aOtherValue.string__value )) ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
@@ -155,10 +155,10 @@ public class TitanCharacter_String extends Base_Type {
 		TtcnLogger.log_event_str(" identification := ");
 		identification.log();
 		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" data__value__descriptor := ");
+		TtcnLogger.log_event_str(" data-value-descriptor := ");
 		data__value__descriptor.log();
 		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" string__value := ");
+		TtcnLogger.log_event_str(" string-value := ");
 		string__value.log();
 		TtcnLogger.log_event_str(" }");
 	}

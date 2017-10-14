@@ -70,8 +70,8 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	}
 
 	public TitanBoolean isBound() {
-		if ( abstract_.isBound().getValue() ) return new TitanBoolean(true);
-		if ( transfer.isBound().getValue() ) return new TitanBoolean(true);
+		if ( abstract_.isBound().getValue() ) { return new TitanBoolean(true); }
+		if ( transfer.isBound().getValue() ) { return new TitanBoolean(true); }
 		return new TitanBoolean(false);
 	}
 
@@ -80,14 +80,14 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	}
 
 	public TitanBoolean isValue() {
-		if ( !abstract_.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !transfer.isValue().getValue() ) return new TitanBoolean(false);
+		if ( !abstract_.isValue().getValue() ) { return new TitanBoolean(false); }
+		if ( !transfer.isValue().getValue() ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
 	public TitanBoolean operatorEquals( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if ( !TitanBoolean.getNative( this.abstract_.operatorEquals( aOtherValue.abstract_ )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.transfer.operatorEquals( aOtherValue.transfer )) ) return new TitanBoolean(false);
+		if ( !TitanBoolean.getNative( this.abstract_.operatorEquals( aOtherValue.abstract_ )) ) { return new TitanBoolean(false); }
+		if ( !TitanBoolean.getNative( this.transfer.operatorEquals( aOtherValue.transfer )) ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
@@ -126,7 +126,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 			return;
 		}
 		TtcnLogger.log_char('{');
-		TtcnLogger.log_event_str(" abstract_ := ");
+		TtcnLogger.log_event_str(" abstract := ");
 		abstract_.log();
 		TtcnLogger.log_char(',');
 		TtcnLogger.log_event_str(" transfer := ");

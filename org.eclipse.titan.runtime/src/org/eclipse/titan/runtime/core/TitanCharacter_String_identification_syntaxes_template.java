@@ -30,7 +30,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 
 	public TitanObjectid_template constGetAbstract_() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field abstract_ of a non-specific template of type CHARACTER STRING.identification.syntaxes.");
+			throw new TtcnError("Accessing field abstract of a non-specific template of type CHARACTER STRING.identification.syntaxes.");
 		}
 		return abstract_;
 	}
@@ -120,7 +120,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			return assign((TitanCharacter_String_identification_syntaxes) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `CHARACTER__STRING_identification_syntaxes' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String_identification_syntaxes' can not be cast to {1}", otherValue));
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			return assign((TitanCharacter_String_identification_syntaxes_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `CHARACTER__STRING_identification_syntaxes' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanCharacter_String_identification_syntaxes' can not be cast to {1}_template", otherValue));
 	}
 
 	public TitanCharacter_String_identification_syntaxes_template assign( final Optional<TitanCharacter_String_identification_syntaxes> other_value ) {
@@ -164,15 +164,15 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	private void copyTemplate(final TitanCharacter_String_identification_syntaxes_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getAbstract_().getSelection()) {
-				getAbstract_().assign(other_value.getAbstract_());
-			} else {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAbstract_().getSelection()) {
 				getAbstract_().cleanUp();
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getTransfer().getSelection()) {
-				getTransfer().assign(other_value.getTransfer());
 			} else {
+				getAbstract_().assign(other_value.getAbstract_());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTransfer().getSelection()) {
 				getTransfer().cleanUp();
+			} else {
+				getTransfer().assign(other_value.getTransfer());
 			}
 			break;
 		case OMIT_VALUE:
@@ -197,11 +197,11 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(boolean legacy) {
+	public TitanBoolean isPresent(final boolean legacy) {
 		return new TitanBoolean(isPresent_(legacy));
 	}
 
-	private boolean isPresent_(boolean legacy) {
+	private boolean isPresent_(final boolean legacy) {
 		if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
@@ -212,11 +212,11 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(boolean legacy) {
+	public TitanBoolean match_omit(final boolean legacy) {
 		return new TitanBoolean(match_omit_(legacy));
 	}
 
-	private boolean match_omit_(boolean legacy) {
+	private boolean match_omit_(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}
@@ -243,7 +243,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type CHARACTER STRING.identification.syntaxes.");
 		}
-		TitanCharacter_String_identification_syntaxes ret_val = new TitanCharacter_String_identification_syntaxes();
+		final TitanCharacter_String_identification_syntaxes ret_val = new TitanCharacter_String_identification_syntaxes();
 		if (abstract_.isBound().getValue()) {
 			ret_val.abstract_.assign(abstract_.valueOf());
 		}
@@ -253,7 +253,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		return ret_val;
 	}
 
-	public TitanCharacter_String_identification_syntaxes_template listItem(int list_index) {
+	public TitanCharacter_String_identification_syntaxes_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type CHARACTER STRING.identification.syntaxes.");
 		}
@@ -263,7 +263,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		return list_value.get(list_index);
 	}
 
-	public void setType(template_sel template_type, int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type CHARACTER STRING.identification.syntaxes.");
 		}
@@ -304,15 +304,15 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		return new TitanBoolean(true);
 	}
 
-	public TitanBoolean match(TitanCharacter_String_identification_syntaxes other_value) {
+	public TitanBoolean match(final TitanCharacter_String_identification_syntaxes other_value) {
 		return match(other_value, false);
 	}
 
-	public TitanBoolean match(TitanCharacter_String_identification_syntaxes other_value, boolean legacy) {
+	public TitanBoolean match(final TitanCharacter_String_identification_syntaxes other_value, final boolean legacy) {
 		return new TitanBoolean(match_(other_value, legacy));
 	}
 
-	private boolean match_(TitanCharacter_String_identification_syntaxes other_value, boolean legacy) {
+	private boolean match_(final TitanCharacter_String_identification_syntaxes other_value, final boolean legacy) {
 		if (!other_value.isBound().getValue()) {
 			return false;
 		}
@@ -338,10 +338,11 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for (int list_count = 0; list_count < list_value.size(); list_count++)
+			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_value.get(list_count).match(other_value, legacy).getValue()) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
+			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching an uninitialized/unsupported template of type CHARACTER STRING.identification.syntaxes.");
@@ -354,7 +355,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			return match((TitanCharacter_String_identification_syntaxes)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type CHARACTER__STRING_identification_syntaxes.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanCharacter_String_identification_syntaxes.");
 	}
 
 	public TitanInteger sizeOf() {
@@ -367,10 +368,10 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			sizeof += 2;
 			return new TitanInteger(sizeof);
 		case VALUE_LIST:
-			if (list_value.size() < 1) {
+			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type CHARACTER STRING.identification.syntaxes containing an empty list.");
 			}
-			int item_size = list_value.get(0).sizeOf().getInt();
+			final int item_size = list_value.get(0).sizeOf().getInt();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
 				if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type CHARACTER STRING.identification.syntaxes containing a value list with different sizes.");
@@ -388,11 +389,12 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type CHARACTER STRING.identification.syntaxes.");
 		}
 	}
+
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			TtcnLogger.log_char('{');
-			TtcnLogger.log_event_str(" abstract_ := ");
+			TtcnLogger.log_event_str(" abstract := ");
 			abstract_.log();
 			TtcnLogger.log_char(',');
 			TtcnLogger.log_event_str(" transfer := ");
@@ -416,5 +418,63 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 			break;
 		}
 		log_ifpresent();
+	}
+
+	public void log_match(final TitanCharacter_String_identification_syntaxes match_value) {
+		log_match(match_value, false);
+	}
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanCharacter_String_identification_syntaxes) {
+			log_match((TitanCharacter_String_identification_syntaxes)match_value, legacy);
+		}
+		throw new TtcnError("Internal Error: value can not be cast to CHARACTER STRING.identification.syntaxes.");
+	}
+
+	public void log_match(final TitanCharacter_String_identification_syntaxes match_value, boolean legacy) {
+		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
+			if(match(match_value, legacy).getValue()) {
+				TtcnLogger.print_logmatch_buffer();
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				if (templateSelection == template_sel.SPECIFIC_VALUE) {
+					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					if( !abstract_.match(match_value.constGetAbstract_(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".abstract");
+						abstract_.log_match(match_value.constGetAbstract_(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+					if( !transfer.match(match_value.constGetTransfer(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".transfer");
+						transfer.log_match(match_value.constGetTransfer(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+				} else {
+					TtcnLogger.print_logmatch_buffer();
+					match_value.log();
+					TtcnLogger.log_event_str(" with ");
+					log();
+					TtcnLogger.log_event_str(" unmatched");
+				}
+			}
+			return;
+		}
+		if (templateSelection == template_sel.SPECIFIC_VALUE) {
+			TtcnLogger.log_event_str("{ abstract := ");
+			abstract_.log_match(match_value.constGetAbstract_(), legacy);
+			TtcnLogger.log_event_str("{ transfer := ");
+			transfer.log_match(match_value.constGetTransfer(), legacy);
+			TtcnLogger.log_event_str(" }");
+		} else {
+			match_value.log();
+			TtcnLogger.log_event_str(" with ");
+			log();
+			if ( match(match_value, legacy).getValue() ) {
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				TtcnLogger.log_event_str(" unmatched");
+			}
+		}
 	}
 }

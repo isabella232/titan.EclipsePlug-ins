@@ -43,7 +43,7 @@ public class TitanExternal_template extends Base_Template {
 
 	public TitanUniversalCharString_template constGetData__value__descriptor() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field data__value__descriptor of a non-specific template of type EXTERNAL.");
+			throw new TtcnError("Accessing field data-value-descriptor of a non-specific template of type EXTERNAL.");
 		}
 		return data__value__descriptor;
 	}
@@ -55,7 +55,7 @@ public class TitanExternal_template extends Base_Template {
 
 	public TitanOctetString_template constGetData__value() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field data__value of a non-specific template of type EXTERNAL.");
+			throw new TtcnError("Accessing field data-value of a non-specific template of type EXTERNAL.");
 		}
 		return data__value;
 	}
@@ -135,7 +135,7 @@ public class TitanExternal_template extends Base_Template {
 			return assign((TitanExternal) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `EXTERNAL' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanExternal' can not be cast to {1}", otherValue));
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class TitanExternal_template extends Base_Template {
 			return assign((TitanExternal_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `EXTERNAL' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanExternal' can not be cast to {1}_template", otherValue));
 	}
 
 	public TitanExternal_template assign( final Optional<TitanExternal> other_value ) {
@@ -188,20 +188,20 @@ public class TitanExternal_template extends Base_Template {
 	private void copyTemplate(final TitanExternal_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getIdentification().getSelection()) {
-				getIdentification().assign(other_value.getIdentification());
-			} else {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIdentification().getSelection()) {
 				getIdentification().cleanUp();
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getData__value__descriptor().getSelection()) {
-				getData__value__descriptor().assign(other_value.getData__value__descriptor());
 			} else {
+				getIdentification().assign(other_value.getIdentification());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value__descriptor().getSelection()) {
 				getData__value__descriptor().cleanUp();
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getData__value().getSelection()) {
-				getData__value().assign(other_value.getData__value());
 			} else {
+				getData__value__descriptor().assign(other_value.getData__value__descriptor());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value().getSelection()) {
 				getData__value().cleanUp();
+			} else {
+				getData__value().assign(other_value.getData__value());
 			}
 			break;
 		case OMIT_VALUE:
@@ -226,11 +226,11 @@ public class TitanExternal_template extends Base_Template {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(boolean legacy) {
+	public TitanBoolean isPresent(final boolean legacy) {
 		return new TitanBoolean(isPresent_(legacy));
 	}
 
-	private boolean isPresent_(boolean legacy) {
+	private boolean isPresent_(final boolean legacy) {
 		if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
@@ -241,11 +241,11 @@ public class TitanExternal_template extends Base_Template {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(boolean legacy) {
+	public TitanBoolean match_omit(final boolean legacy) {
 		return new TitanBoolean(match_omit_(legacy));
 	}
 
-	private boolean match_omit_(boolean legacy) {
+	private boolean match_omit_(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}
@@ -272,7 +272,7 @@ public class TitanExternal_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EXTERNAL.");
 		}
-		TitanExternal ret_val = new TitanExternal();
+		final TitanExternal ret_val = new TitanExternal();
 		if (identification.isBound().getValue()) {
 			ret_val.identification.assign(identification.valueOf());
 		}
@@ -287,7 +287,7 @@ public class TitanExternal_template extends Base_Template {
 		return ret_val;
 	}
 
-	public TitanExternal_template listItem(int list_index) {
+	public TitanExternal_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type EXTERNAL.");
 		}
@@ -297,7 +297,7 @@ public class TitanExternal_template extends Base_Template {
 		return list_value.get(list_index);
 	}
 
-	public void setType(template_sel template_type, int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type EXTERNAL.");
 		}
@@ -344,15 +344,15 @@ public class TitanExternal_template extends Base_Template {
 		return new TitanBoolean(true);
 	}
 
-	public TitanBoolean match(TitanExternal other_value) {
+	public TitanBoolean match(final TitanExternal other_value) {
 		return match(other_value, false);
 	}
 
-	public TitanBoolean match(TitanExternal other_value, boolean legacy) {
+	public TitanBoolean match(final TitanExternal other_value, final boolean legacy) {
 		return new TitanBoolean(match_(other_value, legacy));
 	}
 
-	private boolean match_(TitanExternal other_value, boolean legacy) {
+	private boolean match_(final TitanExternal other_value, final boolean legacy) {
 		if (!other_value.isBound().getValue()) {
 			return false;
 		}
@@ -384,10 +384,11 @@ public class TitanExternal_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for (int list_count = 0; list_count < list_value.size(); list_count++)
+			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_value.get(list_count).match(other_value, legacy).getValue()) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
+			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching an uninitialized/unsupported template of type EXTERNAL.");
@@ -400,7 +401,7 @@ public class TitanExternal_template extends Base_Template {
 			return match((TitanExternal)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type EXTERNAL.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanExternal.");
 	}
 
 	public TitanInteger sizeOf() {
@@ -416,10 +417,10 @@ public class TitanExternal_template extends Base_Template {
 			sizeof += 2;
 			return new TitanInteger(sizeof);
 		case VALUE_LIST:
-			if (list_value.size() < 1) {
+			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EXTERNAL containing an empty list.");
 			}
-			int item_size = list_value.get(0).sizeOf().getInt();
+			final int item_size = list_value.get(0).sizeOf().getInt();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
 				if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type EXTERNAL containing a value list with different sizes.");
@@ -437,6 +438,7 @@ public class TitanExternal_template extends Base_Template {
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type EXTERNAL.");
 		}
 	}
+
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
@@ -444,10 +446,10 @@ public class TitanExternal_template extends Base_Template {
 			TtcnLogger.log_event_str(" identification := ");
 			identification.log();
 			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" data__value__descriptor := ");
+			TtcnLogger.log_event_str(" data-value-descriptor := ");
 			data__value__descriptor.log();
 			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" data__value := ");
+			TtcnLogger.log_event_str(" data-value := ");
 			data__value.log();
 			TtcnLogger.log_event_str(" }");
 			break;
@@ -468,5 +470,70 @@ public class TitanExternal_template extends Base_Template {
 			break;
 		}
 		log_ifpresent();
+	}
+
+	public void log_match(final TitanExternal match_value) {
+		log_match(match_value, false);
+	}
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanExternal) {
+			log_match((TitanExternal)match_value, legacy);
+		}
+		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.");
+	}
+
+	public void log_match(final TitanExternal match_value, boolean legacy) {
+		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
+			if(match(match_value, legacy).getValue()) {
+				TtcnLogger.print_logmatch_buffer();
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				if (templateSelection == template_sel.SPECIFIC_VALUE) {
+					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					if( !identification.match(match_value.constGetIdentification(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".identification");
+						identification.log_match(match_value.constGetIdentification(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+					if( !data__value__descriptor.match(match_value.constGetData__value__descriptor(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".data-value-descriptor");
+						data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+					if( !data__value.match(match_value.constGetData__value(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".data-value");
+						data__value.log_match(match_value.constGetData__value(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+				} else {
+					TtcnLogger.print_logmatch_buffer();
+					match_value.log();
+					TtcnLogger.log_event_str(" with ");
+					log();
+					TtcnLogger.log_event_str(" unmatched");
+				}
+			}
+			return;
+		}
+		if (templateSelection == template_sel.SPECIFIC_VALUE) {
+			TtcnLogger.log_event_str("{ identification := ");
+			identification.log_match(match_value.constGetIdentification(), legacy);
+			TtcnLogger.log_event_str("{ data-value-descriptor := ");
+			data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
+			TtcnLogger.log_event_str("{ data-value := ");
+			data__value.log_match(match_value.constGetData__value(), legacy);
+			TtcnLogger.log_event_str(" }");
+		} else {
+			match_value.log();
+			TtcnLogger.log_event_str(" with ");
+			log();
+			if ( match(match_value, legacy).getValue() ) {
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				TtcnLogger.log_event_str(" unmatched");
+			}
+		}
 	}
 }

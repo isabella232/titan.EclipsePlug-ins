@@ -164,7 +164,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	public TitanExternal_identification_syntaxes constGetSyntaxes() {
 		if (union_selection != union_selection_type.ALT_Syntaxes) {
-			throw new TtcnError("Using non-selected field field1 in a value of union type EXTERNAL.identification.");
+			throw new TtcnError("Using non-selected field syntaxes in a value of union type EXTERNAL.identification.");
 		}
 		return (TitanExternal_identification_syntaxes)field;
 	}
@@ -180,7 +180,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	public TitanObjectid constGetSyntax() {
 		if (union_selection != union_selection_type.ALT_Syntax) {
-			throw new TtcnError("Using non-selected field field1 in a value of union type EXTERNAL.identification.");
+			throw new TtcnError("Using non-selected field syntax in a value of union type EXTERNAL.identification.");
 		}
 		return (TitanObjectid)field;
 	}
@@ -196,7 +196,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	public TitanInteger constGetPresentation__context__id() {
 		if (union_selection != union_selection_type.ALT_Presentation__context__id) {
-			throw new TtcnError("Using non-selected field field1 in a value of union type EXTERNAL.identification.");
+			throw new TtcnError("Using non-selected field presentation-context-id in a value of union type EXTERNAL.identification.");
 		}
 		return (TitanInteger)field;
 	}
@@ -212,7 +212,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	public TitanExternal_identification_context__negotiation constGetContext__negotiation() {
 		if (union_selection != union_selection_type.ALT_Context__negotiation) {
-			throw new TtcnError("Using non-selected field field1 in a value of union type EXTERNAL.identification.");
+			throw new TtcnError("Using non-selected field context-negotiation in a value of union type EXTERNAL.identification.");
 		}
 		return (TitanExternal_identification_context__negotiation)field;
 	}
@@ -228,7 +228,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	public TitanObjectid constGetTransfer__syntax() {
 		if (union_selection != union_selection_type.ALT_Transfer__syntax) {
-			throw new TtcnError("Using non-selected field field1 in a value of union type EXTERNAL.identification.");
+			throw new TtcnError("Using non-selected field transfer-syntax in a value of union type EXTERNAL.identification.");
 		}
 		return (TitanObjectid)field;
 	}
@@ -244,7 +244,7 @@ public class TitanExternal_identification extends Base_Type {
 
 	public TitanAsn_Null constGetFixed() {
 		if (union_selection != union_selection_type.ALT_Fixed) {
-			throw new TtcnError("Using non-selected field field1 in a value of union type EXTERNAL.identification.");
+			throw new TtcnError("Using non-selected field fixed in a value of union type EXTERNAL.identification.");
 		}
 		return (TitanAsn_Null)field;
 	}

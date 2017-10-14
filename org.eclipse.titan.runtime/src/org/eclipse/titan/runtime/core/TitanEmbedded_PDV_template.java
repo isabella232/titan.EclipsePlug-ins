@@ -43,7 +43,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 
 	public TitanUniversalCharString_template constGetData__value__descriptor() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field data__value__descriptor of a non-specific template of type EMBEDDED PDV.");
+			throw new TtcnError("Accessing field data-value-descriptor of a non-specific template of type EMBEDDED PDV.");
 		}
 		return data__value__descriptor;
 	}
@@ -55,7 +55,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 
 	public TitanOctetString_template constGetData__value() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field data__value of a non-specific template of type EMBEDDED PDV.");
+			throw new TtcnError("Accessing field data-value of a non-specific template of type EMBEDDED PDV.");
 		}
 		return data__value;
 	}
@@ -135,7 +135,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return assign((TitanEmbedded_PDV) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `EMBEDDED__PDV' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV' can not be cast to {1}", otherValue));
 	}
 
 	@Override
@@ -144,7 +144,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return assign((TitanEmbedded_PDV_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `EMBEDDED__PDV' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV' can not be cast to {1}_template", otherValue));
 	}
 
 	public TitanEmbedded_PDV_template assign( final Optional<TitanEmbedded_PDV> other_value ) {
@@ -188,20 +188,20 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 	private void copyTemplate(final TitanEmbedded_PDV_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getIdentification().getSelection()) {
-				getIdentification().assign(other_value.getIdentification());
-			} else {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIdentification().getSelection()) {
 				getIdentification().cleanUp();
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getData__value__descriptor().getSelection()) {
-				getData__value__descriptor().assign(other_value.getData__value__descriptor());
 			} else {
+				getIdentification().assign(other_value.getIdentification());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value__descriptor().getSelection()) {
 				getData__value__descriptor().cleanUp();
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getData__value().getSelection()) {
-				getData__value().assign(other_value.getData__value());
 			} else {
+				getData__value__descriptor().assign(other_value.getData__value__descriptor());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value().getSelection()) {
 				getData__value().cleanUp();
+			} else {
+				getData__value().assign(other_value.getData__value());
 			}
 			break;
 		case OMIT_VALUE:
@@ -226,11 +226,11 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(boolean legacy) {
+	public TitanBoolean isPresent(final boolean legacy) {
 		return new TitanBoolean(isPresent_(legacy));
 	}
 
-	private boolean isPresent_(boolean legacy) {
+	private boolean isPresent_(final boolean legacy) {
 		if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
@@ -241,11 +241,11 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(boolean legacy) {
+	public TitanBoolean match_omit(final boolean legacy) {
 		return new TitanBoolean(match_omit_(legacy));
 	}
 
-	private boolean match_omit_(boolean legacy) {
+	private boolean match_omit_(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}
@@ -272,7 +272,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EMBEDDED PDV.");
 		}
-		TitanEmbedded_PDV ret_val = new TitanEmbedded_PDV();
+		final TitanEmbedded_PDV ret_val = new TitanEmbedded_PDV();
 		if (identification.isBound().getValue()) {
 			ret_val.identification.assign(identification.valueOf());
 		}
@@ -287,7 +287,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		return ret_val;
 	}
 
-	public TitanEmbedded_PDV_template listItem(int list_index) {
+	public TitanEmbedded_PDV_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type EMBEDDED PDV.");
 		}
@@ -297,7 +297,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		return list_value.get(list_index);
 	}
 
-	public void setType(template_sel template_type, int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type EMBEDDED PDV.");
 		}
@@ -344,15 +344,15 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		return new TitanBoolean(true);
 	}
 
-	public TitanBoolean match(TitanEmbedded_PDV other_value) {
+	public TitanBoolean match(final TitanEmbedded_PDV other_value) {
 		return match(other_value, false);
 	}
 
-	public TitanBoolean match(TitanEmbedded_PDV other_value, boolean legacy) {
+	public TitanBoolean match(final TitanEmbedded_PDV other_value, final boolean legacy) {
 		return new TitanBoolean(match_(other_value, legacy));
 	}
 
-	private boolean match_(TitanEmbedded_PDV other_value, boolean legacy) {
+	private boolean match_(final TitanEmbedded_PDV other_value, final boolean legacy) {
 		if (!other_value.isBound().getValue()) {
 			return false;
 		}
@@ -384,10 +384,11 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for (int list_count = 0; list_count < list_value.size(); list_count++)
+			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_value.get(list_count).match(other_value, legacy).getValue()) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
+			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching an uninitialized/unsupported template of type EMBEDDED PDV.");
@@ -400,7 +401,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return match((TitanEmbedded_PDV)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type EMBEDDED__PDV.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded__PDV.");
 	}
 
 	public TitanInteger sizeOf() {
@@ -416,10 +417,10 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			sizeof += 2;
 			return new TitanInteger(sizeof);
 		case VALUE_LIST:
-			if (list_value.size() < 1) {
+			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EMBEDDED PDV containing an empty list.");
 			}
-			int item_size = list_value.get(0).sizeOf().getInt();
+			final int item_size = list_value.get(0).sizeOf().getInt();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
 				if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type EMBEDDED PDV containing a value list with different sizes.");
@@ -437,6 +438,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type EMBEDDED PDV.");
 		}
 	}
+
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
@@ -444,10 +446,10 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			TtcnLogger.log_event_str(" identification := ");
 			identification.log();
 			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" data__value__descriptor := ");
+			TtcnLogger.log_event_str(" data-value-descriptor := ");
 			data__value__descriptor.log();
 			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" data__value := ");
+			TtcnLogger.log_event_str(" data-value := ");
 			data__value.log();
 			TtcnLogger.log_event_str(" }");
 			break;
@@ -468,5 +470,70 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			break;
 		}
 		log_ifpresent();
+	}
+
+	public void log_match(final TitanEmbedded_PDV match_value) {
+		log_match(match_value, false);
+	}
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanEmbedded_PDV) {
+			log_match((TitanEmbedded_PDV)match_value, legacy);
+		}
+		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.");
+	}
+
+	public void log_match(final TitanEmbedded_PDV match_value, boolean legacy) {
+		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
+			if(match(match_value, legacy).getValue()) {
+				TtcnLogger.print_logmatch_buffer();
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				if (templateSelection == template_sel.SPECIFIC_VALUE) {
+					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					if( !identification.match(match_value.constGetIdentification(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".identification");
+						identification.log_match(match_value.constGetIdentification(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+					if( !data__value__descriptor.match(match_value.constGetData__value__descriptor(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".data-value-descriptor");
+						data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+					if( !data__value.match(match_value.constGetData__value(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".data-value");
+						data__value.log_match(match_value.constGetData__value(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+				} else {
+					TtcnLogger.print_logmatch_buffer();
+					match_value.log();
+					TtcnLogger.log_event_str(" with ");
+					log();
+					TtcnLogger.log_event_str(" unmatched");
+				}
+			}
+			return;
+		}
+		if (templateSelection == template_sel.SPECIFIC_VALUE) {
+			TtcnLogger.log_event_str("{ identification := ");
+			identification.log_match(match_value.constGetIdentification(), legacy);
+			TtcnLogger.log_event_str("{ data-value-descriptor := ");
+			data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
+			TtcnLogger.log_event_str("{ data-value := ");
+			data__value.log_match(match_value.constGetData__value(), legacy);
+			TtcnLogger.log_event_str(" }");
+		} else {
+			match_value.log();
+			TtcnLogger.log_event_str(" with ");
+			log();
+			if ( match(match_value, legacy).getValue() ) {
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				TtcnLogger.log_event_str(" unmatched");
+			}
+		}
 	}
 }

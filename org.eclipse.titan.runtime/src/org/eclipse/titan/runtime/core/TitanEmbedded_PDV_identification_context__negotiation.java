@@ -70,8 +70,8 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	}
 
 	public TitanBoolean isBound() {
-		if ( presentation__context__id.isBound().getValue() ) return new TitanBoolean(true);
-		if ( transfer__syntax.isBound().getValue() ) return new TitanBoolean(true);
+		if ( presentation__context__id.isBound().getValue() ) { return new TitanBoolean(true); }
+		if ( transfer__syntax.isBound().getValue() ) { return new TitanBoolean(true); }
 		return new TitanBoolean(false);
 	}
 
@@ -80,14 +80,14 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	}
 
 	public TitanBoolean isValue() {
-		if ( !presentation__context__id.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !transfer__syntax.isValue().getValue() ) return new TitanBoolean(false);
+		if ( !presentation__context__id.isValue().getValue() ) { return new TitanBoolean(false); }
+		if ( !transfer__syntax.isValue().getValue() ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
 	public TitanBoolean operatorEquals( final TitanEmbedded_PDV_identification_context__negotiation aOtherValue ) {
-		if ( !TitanBoolean.getNative( this.presentation__context__id.operatorEquals( aOtherValue.presentation__context__id )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.transfer__syntax.operatorEquals( aOtherValue.transfer__syntax )) ) return new TitanBoolean(false);
+		if ( !TitanBoolean.getNative( this.presentation__context__id.operatorEquals( aOtherValue.presentation__context__id )) ) { return new TitanBoolean(false); }
+		if ( !TitanBoolean.getNative( this.transfer__syntax.operatorEquals( aOtherValue.transfer__syntax )) ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
@@ -126,10 +126,10 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 			return;
 		}
 		TtcnLogger.log_char('{');
-		TtcnLogger.log_event_str(" presentation__context__id := ");
+		TtcnLogger.log_event_str(" presentation-context-id := ");
 		presentation__context__id.log();
 		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" transfer__syntax := ");
+		TtcnLogger.log_event_str(" transfer-syntax := ");
 		transfer__syntax.log();
 		TtcnLogger.log_event_str(" }");
 	}

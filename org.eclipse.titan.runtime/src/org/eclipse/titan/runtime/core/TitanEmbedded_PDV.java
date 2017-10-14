@@ -82,9 +82,9 @@ public class TitanEmbedded_PDV extends Base_Type {
 	}
 
 	public TitanBoolean isBound() {
-		if ( identification.isBound().getValue() ) return new TitanBoolean(true);
-		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound().getValue() ) return new TitanBoolean(true);
-		if ( data__value.isBound().getValue() ) return new TitanBoolean(true);
+		if ( identification.isBound().getValue() ) { return new TitanBoolean(true); }
+		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound().getValue() ) { return new TitanBoolean(true); }
+		if ( data__value.isBound().getValue() ) { return new TitanBoolean(true); }
 		return new TitanBoolean(false);
 	}
 
@@ -93,16 +93,16 @@ public class TitanEmbedded_PDV extends Base_Type {
 	}
 
 	public TitanBoolean isValue() {
-		if ( !identification.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !data__value.isValue().getValue() ) return new TitanBoolean(false);
+		if ( !identification.isValue().getValue() ) { return new TitanBoolean(false); }
+		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue().getValue() ) { return new TitanBoolean(false); }
+		if ( !data__value.isValue().getValue() ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
 	public TitanBoolean operatorEquals( final TitanEmbedded_PDV aOtherValue ) {
-		if ( !TitanBoolean.getNative( this.identification.operatorEquals( aOtherValue.identification )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.data__value.operatorEquals( aOtherValue.data__value )) ) return new TitanBoolean(false);
+		if ( !TitanBoolean.getNative( this.identification.operatorEquals( aOtherValue.identification )) ) { return new TitanBoolean(false); }
+		if ( !TitanBoolean.getNative( this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor )) ) { return new TitanBoolean(false); }
+		if ( !TitanBoolean.getNative( this.data__value.operatorEquals( aOtherValue.data__value )) ) { return new TitanBoolean(false); }
 		return new TitanBoolean(true);
 	}
 
@@ -155,10 +155,10 @@ public class TitanEmbedded_PDV extends Base_Type {
 		TtcnLogger.log_event_str(" identification := ");
 		identification.log();
 		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" data__value__descriptor := ");
+		TtcnLogger.log_event_str(" data-value-descriptor := ");
 		data__value__descriptor.log();
 		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" data__value := ");
+		TtcnLogger.log_event_str(" data-value := ");
 		data__value.log();
 		TtcnLogger.log_event_str(" }");
 	}

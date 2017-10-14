@@ -62,7 +62,6 @@ public class TitanExternal extends Base_Type {
 			}
 		}
 
-
 		return this;
 	}
 
@@ -146,6 +145,7 @@ public class TitanExternal extends Base_Type {
 		sizeof += 2;
 		return new TitanInteger(sizeof);
 	}
+
 	public void log() {
 		if (!isBound().getValue()) {
 			TtcnLogger.log_event_unbound();
@@ -155,10 +155,10 @@ public class TitanExternal extends Base_Type {
 		TtcnLogger.log_event_str(" identification := ");
 		identification.log();
 		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" data__value__descriptor := ");
+		TtcnLogger.log_event_str(" data-value-descriptor := ");
 		data__value__descriptor.log();
 		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" data__value := ");
+		TtcnLogger.log_event_str(" data-value := ");
 		data__value.log();
 		TtcnLogger.log_event_str(" }");
 	}

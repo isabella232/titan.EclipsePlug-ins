@@ -30,7 +30,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 
 	public TitanInteger_template constGetPresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field presentation__context__id of a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
+			throw new TtcnError("Accessing field presentation-context-id of a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 		return presentation__context__id;
 	}
@@ -42,7 +42,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 
 	public TitanObjectid_template constGetTransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field transfer__syntax of a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
+			throw new TtcnError("Accessing field transfer-syntax of a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 		return transfer__syntax;
 	}
@@ -120,7 +120,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return assign((TitanEmbedded_PDV_identification_context__negotiation) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `EMBEDDED__PDV_identification_context__negotiation' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV_identification_context__negotiation' can not be cast to {1}", otherValue));
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return assign((TitanEmbedded_PDV_identification_context__negotiation_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `EMBEDDED__PDV_identification_context__negotiation' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV_identification_context__negotiation' can not be cast to {1}_template", otherValue));
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template assign( final Optional<TitanEmbedded_PDV_identification_context__negotiation> other_value ) {
@@ -164,15 +164,15 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	private void copyTemplate(final TitanEmbedded_PDV_identification_context__negotiation_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getPresentation__context__id().getSelection()) {
-				getPresentation__context__id().assign(other_value.getPresentation__context__id());
-			} else {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPresentation__context__id().getSelection()) {
 				getPresentation__context__id().cleanUp();
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE != other_value.getTransfer__syntax().getSelection()) {
-				getTransfer__syntax().assign(other_value.getTransfer__syntax());
 			} else {
+				getPresentation__context__id().assign(other_value.getPresentation__context__id());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTransfer__syntax().getSelection()) {
 				getTransfer__syntax().cleanUp();
+			} else {
+				getTransfer__syntax().assign(other_value.getTransfer__syntax());
 			}
 			break;
 		case OMIT_VALUE:
@@ -197,11 +197,11 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(boolean legacy) {
+	public TitanBoolean isPresent(final boolean legacy) {
 		return new TitanBoolean(isPresent_(legacy));
 	}
 
-	private boolean isPresent_(boolean legacy) {
+	private boolean isPresent_(final boolean legacy) {
 		if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
 			return false;
 		}
@@ -212,11 +212,11 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(boolean legacy) {
+	public TitanBoolean match_omit(final boolean legacy) {
 		return new TitanBoolean(match_omit_(legacy));
 	}
 
-	private boolean match_omit_(boolean legacy) {
+	private boolean match_omit_(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}
@@ -243,7 +243,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
-		TitanEmbedded_PDV_identification_context__negotiation ret_val = new TitanEmbedded_PDV_identification_context__negotiation();
+		final TitanEmbedded_PDV_identification_context__negotiation ret_val = new TitanEmbedded_PDV_identification_context__negotiation();
 		if (presentation__context__id.isBound().getValue()) {
 			ret_val.presentation__context__id.assign(presentation__context__id.valueOf());
 		}
@@ -253,7 +253,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return ret_val;
 	}
 
-	public TitanEmbedded_PDV_identification_context__negotiation_template listItem(int list_index) {
+	public TitanEmbedded_PDV_identification_context__negotiation_template listItem(final int list_index) {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Accessing a list element of a non-list template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
@@ -263,7 +263,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return list_value.get(list_index);
 	}
 
-	public void setType(template_sel template_type, int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list for a template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
@@ -304,15 +304,15 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return new TitanBoolean(true);
 	}
 
-	public TitanBoolean match(TitanEmbedded_PDV_identification_context__negotiation other_value) {
+	public TitanBoolean match(final TitanEmbedded_PDV_identification_context__negotiation other_value) {
 		return match(other_value, false);
 	}
 
-	public TitanBoolean match(TitanEmbedded_PDV_identification_context__negotiation other_value, boolean legacy) {
+	public TitanBoolean match(final TitanEmbedded_PDV_identification_context__negotiation other_value, final boolean legacy) {
 		return new TitanBoolean(match_(other_value, legacy));
 	}
 
-	private boolean match_(TitanEmbedded_PDV_identification_context__negotiation other_value, boolean legacy) {
+	private boolean match_(final TitanEmbedded_PDV_identification_context__negotiation other_value, final boolean legacy) {
 		if (!other_value.isBound().getValue()) {
 			return false;
 		}
@@ -338,10 +338,11 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for (int list_count = 0; list_count < list_value.size(); list_count++)
+			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_value.get(list_count).match(other_value, legacy).getValue()) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
+			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching an uninitialized/unsupported template of type EMBEDDED PDV.identification.context-negotiation.");
@@ -354,7 +355,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return match((TitanEmbedded_PDV_identification_context__negotiation)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type EMBEDDED__PDV_identification_context__negotiation.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded__PDV_identification_context__negotiation.");
 	}
 
 	public TitanInteger sizeOf() {
@@ -367,10 +368,10 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			sizeof += 2;
 			return new TitanInteger(sizeof);
 		case VALUE_LIST:
-			if (list_value.size() < 1) {
+			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EMBEDDED PDV.identification.context-negotiation containing an empty list.");
 			}
-			int item_size = list_value.get(0).sizeOf().getInt();
+			final int item_size = list_value.get(0).sizeOf().getInt();
 			for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
 				if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
 					throw new TtcnError("Performing sizeof() operation on a template of type EMBEDDED PDV.identification.context-negotiation containing a value list with different sizes.");
@@ -388,14 +389,15 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 	}
+
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			TtcnLogger.log_char('{');
-			TtcnLogger.log_event_str(" presentation__context__id := ");
+			TtcnLogger.log_event_str(" presentation-context-id := ");
 			presentation__context__id.log();
 			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" transfer__syntax := ");
+			TtcnLogger.log_event_str(" transfer-syntax := ");
 			transfer__syntax.log();
 			TtcnLogger.log_event_str(" }");
 			break;
@@ -416,5 +418,63 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			break;
 		}
 		log_ifpresent();
+	}
+
+	public void log_match(final TitanEmbedded_PDV_identification_context__negotiation match_value) {
+		log_match(match_value, false);
+	}
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanEmbedded_PDV_identification_context__negotiation) {
+			log_match((TitanEmbedded_PDV_identification_context__negotiation)match_value, legacy);
+		}
+		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.identification.context-negotiation.");
+	}
+
+	public void log_match(final TitanEmbedded_PDV_identification_context__negotiation match_value, boolean legacy) {
+		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
+			if(match(match_value, legacy).getValue()) {
+				TtcnLogger.print_logmatch_buffer();
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				if (templateSelection == template_sel.SPECIFIC_VALUE) {
+					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					if( !presentation__context__id.match(match_value.constGetPresentation__context__id(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".presentation-context-id");
+						presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+					if( !transfer__syntax.match(match_value.constGetTransfer__syntax(), legacy).getValue() ) {
+						TtcnLogger.log_logmatch_info(".transfer-syntax");
+						transfer__syntax.log_match(match_value.constGetTransfer__syntax(), legacy);
+						TtcnLogger.set_logmatch_buffer_len(previous_size);
+					}
+				} else {
+					TtcnLogger.print_logmatch_buffer();
+					match_value.log();
+					TtcnLogger.log_event_str(" with ");
+					log();
+					TtcnLogger.log_event_str(" unmatched");
+				}
+			}
+			return;
+		}
+		if (templateSelection == template_sel.SPECIFIC_VALUE) {
+			TtcnLogger.log_event_str("{ presentation-context-id := ");
+			presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
+			TtcnLogger.log_event_str("{ transfer-syntax := ");
+			transfer__syntax.log_match(match_value.constGetTransfer__syntax(), legacy);
+			TtcnLogger.log_event_str(" }");
+		} else {
+			match_value.log();
+			TtcnLogger.log_event_str(" with ");
+			log();
+			if ( match(match_value, legacy).getValue() ) {
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				TtcnLogger.log_event_str(" unmatched");
+			}
+		}
 	}
 }

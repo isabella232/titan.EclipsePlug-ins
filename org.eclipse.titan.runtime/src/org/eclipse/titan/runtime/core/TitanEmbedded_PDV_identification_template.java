@@ -174,7 +174,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		if (otherValue instanceof TitanEmbedded_PDV_identification) {
 			return assign((TitanEmbedded_PDV_identification)otherValue);
 		}
-		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED__PDV_identification.");
+		throw new TtcnError("Internal Error: value can not be cast to TitanEmbedded__PDV_identification.");
 	}
 
 	@Override
@@ -182,7 +182,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_template) {
 			return assign((TitanEmbedded_PDV_identification_template)otherValue);
 		}
-		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED__PDV_identification_template.");
+		throw new TtcnError("Internal Error: value can not be cast to TitanEmbedded__PDV_identification_template.");
 	}
 
 	// originally match
@@ -202,7 +202,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		case OMIT_VALUE:
 			return new TitanBoolean(false);
 		case SPECIFIC_VALUE:
-			TitanEmbedded_PDV_identification.union_selection_type value_selection = other_value.get_selection();
+			final TitanEmbedded_PDV_identification.union_selection_type value_selection = other_value.get_selection();
 			if (value_selection == TitanEmbedded_PDV_identification.union_selection_type.UNBOUND_VALUE) {
 				return new TitanBoolean(false);
 			}
@@ -244,7 +244,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 			return match((TitanEmbedded_PDV_identification)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type EMBEDDED__PDV_identification.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded__PDV_identification.");
 	}
 	public boolean isChosen(final TitanEmbedded_PDV_identification.union_selection_type checked_selection) {
 		if(checked_selection == TitanEmbedded_PDV_identification.union_selection_type.UNBOUND_VALUE) {
@@ -257,7 +257,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 			}
 			return single_value_union_selection == checked_selection;
 		case VALUE_LIST:
-			if (value_list.size() < 1) {
+			if (value_list.isEmpty()) {
 				throw new TtcnError("Internal error: Performing ischosen() operation on a template of union type EMBEDDED PDV.identification containing an empty list.");
 			}
 			for (int i = 0; i < value_list.size(); i++) {
@@ -303,7 +303,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type EMBEDDED PDV.identification.");
 		}
-		TitanEmbedded_PDV_identification ret_val = new TitanEmbedded_PDV_identification();
+		final TitanEmbedded_PDV_identification ret_val = new TitanEmbedded_PDV_identification();
 		switch(single_value_union_selection) {
 		case ALT_Syntaxes:
 			ret_val.getSyntaxes().assign(((TitanEmbedded_PDV_identification_syntaxes_template)single_value).valueOf());
@@ -329,7 +329,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		return ret_val;
 	}
 
-	public void setType(template_sel template_type, int list_length) {
+	public void setType(final template_sel template_type, final int list_length) {
 		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Setting an invalid list for a template of union type EMBEDDED PDV.identification.");
 		}
@@ -341,7 +341,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		}
 	}
 
-	public TitanEmbedded_PDV_identification_template listItem(int list_index)  {
+	public TitanEmbedded_PDV_identification_template listItem(final int list_index)  {
 		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list template of union type EMBEDDED PDV.identification.");
 		}
@@ -395,7 +395,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 
 	public TitanEmbedded_PDV_identification_syntaxes_template getSyntaxes() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Syntaxes) {
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 				single_value = new TitanEmbedded_PDV_identification_syntaxes_template(template_sel.ANY_VALUE);
@@ -410,17 +410,17 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 
 	public TitanEmbedded_PDV_identification_syntaxes_template constGetSyntaxes() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field field1 in a non-specific template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing field syntaxes in a non-specific template of union type EMBEDDED PDV.identification.");
 		}
 		if (single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Syntaxes) {
-			throw new TtcnError("Accessing non-selected field field1 in a template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing non-selected field syntaxes in a template of union type EMBEDDED PDV.identification.");
 		}
 		return (TitanEmbedded_PDV_identification_syntaxes_template)single_value;
 	}
 
 	public TitanObjectid_template getSyntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Syntax) {
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 				single_value = new TitanObjectid_template(template_sel.ANY_VALUE);
@@ -435,17 +435,17 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 
 	public TitanObjectid_template constGetSyntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field field1 in a non-specific template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing field syntax in a non-specific template of union type EMBEDDED PDV.identification.");
 		}
 		if (single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Syntax) {
-			throw new TtcnError("Accessing non-selected field field1 in a template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing non-selected field syntax in a template of union type EMBEDDED PDV.identification.");
 		}
 		return (TitanObjectid_template)single_value;
 	}
 
 	public TitanInteger_template getPresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Presentation__context__id) {
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 				single_value = new TitanInteger_template(template_sel.ANY_VALUE);
@@ -460,17 +460,17 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 
 	public TitanInteger_template constGetPresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field field1 in a non-specific template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing field presentation-context-id in a non-specific template of union type EMBEDDED PDV.identification.");
 		}
 		if (single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Presentation__context__id) {
-			throw new TtcnError("Accessing non-selected field field1 in a template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing non-selected field presentation-context-id in a template of union type EMBEDDED PDV.identification.");
 		}
 		return (TitanInteger_template)single_value;
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template getContext__negotiation() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Context__negotiation) {
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 				single_value = new TitanEmbedded_PDV_identification_context__negotiation_template(template_sel.ANY_VALUE);
@@ -485,17 +485,17 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template constGetContext__negotiation() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field field1 in a non-specific template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing field context-negotiation in a non-specific template of union type EMBEDDED PDV.identification.");
 		}
 		if (single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Context__negotiation) {
-			throw new TtcnError("Accessing non-selected field field1 in a template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing non-selected field context-negotiation in a template of union type EMBEDDED PDV.identification.");
 		}
 		return (TitanEmbedded_PDV_identification_context__negotiation_template)single_value;
 	}
 
 	public TitanObjectid_template getTransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Transfer__syntax) {
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 				single_value = new TitanObjectid_template(template_sel.ANY_VALUE);
@@ -510,17 +510,17 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 
 	public TitanObjectid_template constGetTransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field field1 in a non-specific template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing field transfer-syntax in a non-specific template of union type EMBEDDED PDV.identification.");
 		}
 		if (single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Transfer__syntax) {
-			throw new TtcnError("Accessing non-selected field field1 in a template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing non-selected field transfer-syntax in a template of union type EMBEDDED PDV.identification.");
 		}
 		return (TitanObjectid_template)single_value;
 	}
 
 	public TitanAsn_Null_template getFixed() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Fixed) {
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 				single_value = new TitanAsn_Null_template(template_sel.ANY_VALUE);
@@ -535,10 +535,10 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 
 	public TitanAsn_Null_template constGetFixed() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field field1 in a non-specific template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing field fixed in a non-specific template of union type EMBEDDED PDV.identification.");
 		}
 		if (single_value_union_selection != TitanEmbedded_PDV_identification.union_selection_type.ALT_Fixed) {
-			throw new TtcnError("Accessing non-selected field field1 in a template of union type EMBEDDED PDV.identification.");
+			throw new TtcnError("Accessing non-selected field fixed in a template of union type EMBEDDED PDV.identification.");
 		}
 		return (TitanAsn_Null_template)single_value;
 	}
@@ -566,4 +566,92 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanEmbedded_PDV_identification) {
+			log_match((TitanEmbedded_PDV_identification)match_value, legacy);
+		}
+		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.identification.");
+	}
+
+	public void log_match(final TitanEmbedded_PDV_identification match_value, final boolean legacy) {
+		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy).getValue()) {
+			TtcnLogger.print_logmatch_buffer();
+			TtcnLogger.log_event_str(" matched");
+			return;
+		}
+		if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
+			switch(single_value_union_selection) {
+			case ALT_Syntaxes:
+				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+					TtcnLogger.log_logmatch_info(".syntaxes");
+					single_value.log_match(match_value, legacy);
+				} else {
+					TtcnLogger.log_logmatch_info("{ syntaxes := ");
+					single_value.log_match(match_value, legacy);
+					TtcnLogger.log_event_str(" }");
+				}
+			case ALT_Syntax:
+				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+					TtcnLogger.log_logmatch_info(".syntax");
+					single_value.log_match(match_value, legacy);
+				} else {
+					TtcnLogger.log_logmatch_info("{ syntax := ");
+					single_value.log_match(match_value, legacy);
+					TtcnLogger.log_event_str(" }");
+				}
+			case ALT_Presentation__context__id:
+				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+					TtcnLogger.log_logmatch_info(".presentation-context-id");
+					single_value.log_match(match_value, legacy);
+				} else {
+					TtcnLogger.log_logmatch_info("{ presentation-context-id := ");
+					single_value.log_match(match_value, legacy);
+					TtcnLogger.log_event_str(" }");
+				}
+			case ALT_Context__negotiation:
+				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+					TtcnLogger.log_logmatch_info(".context-negotiation");
+					single_value.log_match(match_value, legacy);
+				} else {
+					TtcnLogger.log_logmatch_info("{ context-negotiation := ");
+					single_value.log_match(match_value, legacy);
+					TtcnLogger.log_event_str(" }");
+				}
+			case ALT_Transfer__syntax:
+				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+					TtcnLogger.log_logmatch_info(".transfer-syntax");
+					single_value.log_match(match_value, legacy);
+				} else {
+					TtcnLogger.log_logmatch_info("{ transfer-syntax := ");
+					single_value.log_match(match_value, legacy);
+					TtcnLogger.log_event_str(" }");
+				}
+			case ALT_Fixed:
+				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+					TtcnLogger.log_logmatch_info(".fixed");
+					single_value.log_match(match_value, legacy);
+				} else {
+					TtcnLogger.log_logmatch_info("{ fixed := ");
+					single_value.log_match(match_value, legacy);
+					TtcnLogger.log_event_str(" }");
+				}
+			default:
+				TtcnLogger.print_logmatch_buffer();
+				TtcnLogger.log_event_str("<invalid selector>");
+			}
+		} else {
+			TtcnLogger.print_logmatch_buffer();
+			match_value.log();
+			TtcnLogger.log_event_str(" with ");
+			log();
+			if (match(match_value, legacy).getValue()) {
+				TtcnLogger.log_event_str(" matched");
+			} else {
+				TtcnLogger.log_event_str(" unmatched");
+			}
+		}
+	}
 }
+//TODO: ASN1_Choice_Type.generateCode() is not fully implemented!
