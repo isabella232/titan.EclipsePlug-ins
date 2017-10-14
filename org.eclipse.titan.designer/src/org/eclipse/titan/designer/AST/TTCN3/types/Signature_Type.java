@@ -717,7 +717,6 @@ public final class Signature_Type extends Type {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String genName = getGenNameOwn();
-		final String displayName = getFullName();
 
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TitanBoolean_template");
