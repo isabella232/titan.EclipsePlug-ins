@@ -8,16 +8,21 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -224,20 +229,155 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
-		int nofTs = templates.getNofTemplates();
+		ArrayList<Integer> variables = new ArrayList<Integer>();
+		long fixedPart = 0;
+		for (int i = 0; i < templates.getNofTemplates(); i++) {
+			TTCN3Template templateListItem = templates.getTemplateByIndex(i);
+			if (templateListItem.getTemplatetype() == Template_type.ALL_FROM) {
+				variables.add(i);
+			} else {
+				fixedPart++;
+			}
+		}
 		String typeName = myGovernor.getGenNameTemplate(aData, source, myScope);
-		//TODO: add support for all_from
 
-		source.append(name);
-		source.append(".setType( template_sel.COMPLEMENTED_LIST, ");
-		source.append(nofTs);
-		source.append( " );\n" );
+		if (variables.size() > 0) {
+			StringBuilder preamble = new StringBuilder();
+			StringBuilder setType = new StringBuilder();
 
-		for (int i = 0 ; i < nofTs ; i++) {
-			TTCN3Template template = templates.getTemplateByIndex(i);
-			// TODO: handle needs template reference
-			String embeddedName = name + ".listItem(" + i + ")";
-			template.generateCodeInit(aData, source, embeddedName);
+			setType.append(MessageFormat.format("{0}.setType(template_sel.COMPLEMENTED_LIST, {1}", name, fixedPart));
+
+			for (int v = 0; v < variables.size(); v++) {
+				TTCN3Template template = templates.getTemplateByIndex(variables.get(v));
+				// the template must be all from
+				if ( template instanceof All_From_Template ) {
+					template = ((All_From_Template)template).getAllFrom();
+				}
+				IValue value = ((SpecificValue_Template) template).getValue();
+				Reference reference;
+				if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
+					reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
+				} else {
+					reference = ((Referenced_Value) value).getReference();
+				}
+				Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+				setType.append(" + ");
+
+				ExpressionStruct expression = new ExpressionStruct();
+				reference.generateCode(aData, expression);
+				if (expression.preamble.length() > 0) {
+					preamble.append(expression.preamble);
+				}
+				setType.append(expression.expression);
+
+				switch (assignment.getAssignmentType()) {
+				case A_CONST:
+				case A_EXT_CONST:
+				case A_MODULEPAR:
+				case A_VAR:
+				case A_PAR_VAL:
+				case A_PAR_VAL_IN:
+				case A_PAR_VAL_OUT:
+				case A_PAR_VAL_INOUT:
+				case A_FUNCTION_RVAL:
+				case A_EXT_FUNCTION_RVAL:
+					if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+						setType.append(".get()");
+					}
+					break;
+				default:
+					break;
+				}
+
+				setType.append(".n_elem().getInt()");
+			}
+
+			source.append(preamble);
+			source.append(setType);
+			source.append(");\n");
+
+			StringBuilder shifty = new StringBuilder();
+			for (int i = 0; i < templates.getNofTemplates(); i++) {
+				TTCN3Template template = templates.getTemplateByIndex(i);
+
+				switch (template.getTemplatetype()) {
+				case ALL_FROM: {
+					// the template must be all from
+					TTCN3Template template2 = template;
+					if ( template instanceof All_From_Template ) {
+						template2 = ((All_From_Template)template).getAllFrom();
+					}
+					template2.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
+					IValue value = ((SpecificValue_Template) template2).getValue();
+					Reference reference;
+					if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
+						//value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+						reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
+					} else {
+						reference = ((Referenced_Value) value).getReference();
+					}
+					Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+					ExpressionStruct expression = new ExpressionStruct();
+					reference.generateCode(aData, expression);
+
+					switch (assignment.getAssignmentType()) {
+					case A_CONST:
+					case A_EXT_CONST:
+					case A_MODULEPAR:
+					case A_VAR:
+					case A_PAR_VAL:
+					case A_PAR_VAL_IN:
+					case A_PAR_VAL_OUT:
+					case A_PAR_VAL_INOUT:
+					case A_FUNCTION_RVAL:
+					case A_EXT_FUNCTION_RVAL:
+						if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+							expression.expression.append(".get()");
+						}
+						break;
+					default:
+						break;
+					}
+
+					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", expression.expression));
+
+					String embeddedName = MessageFormat.format("{0}.listItem({1}{2} + i_i)", name, i, shifty);
+					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName);
+					source.append("}\n");
+					shifty.append(MessageFormat.format("-1 + {0}.n_elem().getInt()", expression.expression));
+					break;
+				}
+				default:
+					if (template.needsTemporaryReference()) {
+						String tempId = aData.getTemporaryVariableName();
+						source.append("{\n");
+						source.append(MessageFormat.format("{0} {1} = {2}.listItem({3}{4});\n", typeName, tempId, name, i, shifty));
+						generateCodeInit(aData, source, tempId);
+						source.append("}\n");
+					} else {
+						String embeddedName = MessageFormat.format("{0}.listItem({1}{2})", name, i, shifty);
+						template.generateCodeInit(aData, source, embeddedName);
+					}
+					break;
+				}
+			}
+		} else {
+			source.append(MessageFormat.format("{0}.setType(template_sel.COMPLEMENTED_LIST, {1});\n", name, templates.getNofTemplates()));
+			for (int i = 0; i < templates.getNofTemplates(); i++) {
+				TTCN3Template template = templates.getTemplateByIndex(i);
+				if (template.needsTemporaryReference()) {
+					String tempId = aData.getTemporaryVariableName();
+					source.append("{\n");
+					source.append(MessageFormat.format("{0} {1} = {2}.listItem({3});\n", typeName, tempId, name, i));
+					template.generateCodeInit(aData, source, tempId);
+					source.append("}\n");
+				} else {
+					String embeddedName = MessageFormat.format("{0}.listItem({1})", name, i);
+					template.generateCodeInit(aData, source, embeddedName);
+				}
+			}
 		}
 
 		if (lengthRestriction != null) {
