@@ -545,7 +545,9 @@ public final class Array_Value extends Value {
 		if (isIndexed()) {
 			final int nofIndexedValues = values.getNofIndexedValues();
 			if (nofIndexedValues == 0) {
-				source.append(MessageFormat.format("{0}.assign(null);\n", name)); //FIXME actual NULL_VALUE
+				aData.addBuiltinTypeImport("TitanNull_Type");
+
+				source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
 			} else {
 				final IType ofType = values.getIndexedValueByIndex(0).getValue().getMyGovernor();
 				final String ofTypeName = ofType.getGenNameValue(aData, source, myScope);
