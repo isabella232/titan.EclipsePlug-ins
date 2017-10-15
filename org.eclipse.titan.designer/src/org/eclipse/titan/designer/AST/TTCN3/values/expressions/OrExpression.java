@@ -354,8 +354,7 @@ public final class OrExpression extends Expression_Value {
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		//TODO actually only the mandatory part is needed
-		generateCodeExpression(aData, expression);
+		generateCodeExpressionMandatory(aData, expression);
 
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			if(expression.preamble.length() > 0) {
