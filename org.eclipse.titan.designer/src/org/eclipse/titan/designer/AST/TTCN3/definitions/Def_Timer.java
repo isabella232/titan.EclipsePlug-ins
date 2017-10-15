@@ -561,7 +561,6 @@ public final class Def_Timer extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
-		//FIXME global timer ????
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder initComp = aData.getInitComp();
