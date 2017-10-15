@@ -719,8 +719,8 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	/**
 	 * Generates the Java initializer sequence for a definition of a component
 	 * type, appends to initComp.
-	 * The function
-	 * is used when this definition is realized using the Java objects of definition
+	 *
+	 * The function is used when this definition is realized using the Java objects of definition
 	 * \a base_defn inherited from another component type. The function is
 	 * implemented only for those definitions that can appear within component
 	 * types, the generic version causes \a FATAL_ERROR.
