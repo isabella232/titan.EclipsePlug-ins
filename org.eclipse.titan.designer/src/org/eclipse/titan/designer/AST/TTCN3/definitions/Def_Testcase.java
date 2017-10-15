@@ -550,7 +550,6 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		return true;
 	}
 
-	//TODO: implement: not complete, verdict and runs on handling missing
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
@@ -583,7 +582,6 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		}
 		source.append( "final boolean has_timer, final TitanFloat timer_value) {\n" );
 		source.append("try{\n");
-		//TODO add extra parameters too
 		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", has_timer, timer_value);\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
