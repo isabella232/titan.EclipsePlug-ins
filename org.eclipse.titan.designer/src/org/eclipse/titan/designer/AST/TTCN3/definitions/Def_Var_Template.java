@@ -482,6 +482,7 @@ public final class Def_Var_Template extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary hack to adapt to the starting code
 		StringBuilder source = new StringBuilder();
+		StringBuilder initComp = aData.getInitComp();
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
 
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
@@ -489,20 +490,19 @@ public final class Def_Var_Template extends Definition {
 			String elementValueName = arrayType.getElementType().getGenNameValue(aData, source, myScope);
 			String elementTemplateName = arrayType.getElementType().getGenNameTemplate(aData, source, myScope);
 			source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class, {3}.class);\n", typeGeneratedName, genName, elementValueName, elementTemplateName));
-			source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
-			source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+			initComp.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+			initComp.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
 		} else {
 			source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		}
 		sb.append(source);
 
 		//TODO this actually belongs to the module initialization
-		StringBuilder initComp = aData.getInitComp();
 		if ( initialValue != null ) {
 			//TODO use ::get_lhs_name instead of generic genName (?)
 			initialValue.generateCodeInit( aData, initComp, genName );
 			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
-				TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
+				TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName, templateRestriction);
 			}
 		} else if (cleanUp) {
 			initComp.append(genName);

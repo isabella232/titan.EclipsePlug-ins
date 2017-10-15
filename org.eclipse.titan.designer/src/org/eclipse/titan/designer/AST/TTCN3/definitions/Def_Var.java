@@ -469,6 +469,7 @@ public final class Def_Var extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
 		StringBuilder source = new StringBuilder();
+		StringBuilder initComp = aData.getInitComp();
 		if ( !isLocal() ) {
 			source.append( "\tpublic static final " );
 		} else {
@@ -481,15 +482,14 @@ public final class Def_Var extends Definition {
 			Array_Type arrayType =  (Array_Type) type;
 			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
 			source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
-			source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
-			source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+			initComp.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+			initComp.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
 		}
 		else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		}
 
 		sb.append(source);
-		StringBuilder initComp = aData.getInitComp();
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit(aData, initComp, genName );
 		} else if (cleanUp) {
