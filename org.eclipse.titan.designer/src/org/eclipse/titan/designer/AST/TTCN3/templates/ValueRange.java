@@ -297,7 +297,6 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
-		//TODO: add support for rearrange init
 		final ExpressionStruct expression = new ExpressionStruct();
 		final StringBuilder initStatement = new StringBuilder();
 		initStatement.append(name);
