@@ -373,13 +373,13 @@ public final class Template_List extends CompositeTemplate {
 			return;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		long offset = 0;
 		if(Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
 			offset = ((Array_Type) type).getDimension().getOffset();
 		}
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
-			StringBuilder embeddedName = new StringBuilder(parameterGenName);
+			final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 			embeddedName.append('[').append(offset + i).append(']');
 			templates.getTemplateByIndex(i).setGenNameRecursive(embeddedName.toString());
 		}
@@ -405,7 +405,7 @@ public final class Template_List extends CompositeTemplate {
 		// temporary reference is needed if the template has at least one
 		// element (excluding not used symbols)
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
-			TTCN3Template template = templates.getTemplateByIndex(i);
+			final TTCN3Template template = templates.getTemplateByIndex(i);
 			if (template.getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
 				return true;
 			}
@@ -450,8 +450,9 @@ public final class Template_List extends CompositeTemplate {
 		if (governor == null) {
 			return;
 		}
-		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
-		String tempId = aData.getTemporaryVariableName();
+
+		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
 
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(tempId);
@@ -509,7 +510,7 @@ public final class Template_List extends CompositeTemplate {
 		}
 
 		// TODO special case for empty list
-		IType typeLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType typeLast = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		long indexOffset = 0;
 		if (typeLast.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			indexOffset = ((Array_Type) typeLast).getDimension().getOffset();
@@ -533,23 +534,23 @@ public final class Template_List extends CompositeTemplate {
 
 		if (hasPermutation || hasAllFrom()) {
 			long fixedPart = 0;
-			StringBuilder preamble = new StringBuilder();
-			StringBuilder setSize = new StringBuilder();
-			StringBuilder body = new StringBuilder();
+			final StringBuilder preamble = new StringBuilder();
+			final StringBuilder setSize = new StringBuilder();
+			final StringBuilder body = new StringBuilder();
 
-			String counter = aData.getTemporaryVariableName();
+			final String counter = aData.getTemporaryVariableName();
 			body.append(MessageFormat.format("int {0} = 0;\n", counter));
 
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-				TTCN3Template template = templates.getTemplateByIndex(i);
+				final TTCN3Template template = templates.getTemplateByIndex(i);
 				if (template.getTemplatetype() == Template_type.ALL_FROM) {
-					TTCN3Template subTemplate = ((All_From_Template) template).getAllFrom();
+					final TTCN3Template subTemplate = ((All_From_Template) template).getAllFrom();
 					final Reference reference = ((SpecificValue_Template) subTemplate).getReference();
 					final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 					setSize.append(" + ");
-					ExpressionStruct sizeExpression = new ExpressionStruct();
-					ExpressionStruct bodyExpression = new ExpressionStruct();
+					final ExpressionStruct sizeExpression = new ExpressionStruct();
+					final ExpressionStruct bodyExpression = new ExpressionStruct();
 					reference.generateCode(aData, sizeExpression);
 					reference.generateCode(aData, bodyExpression);
 					setSize.append(sizeExpression.expression);
@@ -579,24 +580,24 @@ public final class Template_List extends CompositeTemplate {
 					setSize.append(".n_elem().getInt()");
 					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
 
-					String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
+					final String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, body, embeddedName);
 					body.append("}\n");
 					body.append(MessageFormat.format("{0} += {1}.n_elem().getInt();\n", counter, bodyExpression.expression));
 				} else if (template.getTemplatetype() == Template_type.PERMUTATION_MATCH) {
-					int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
-					String permutationStart = aData.getTemporaryVariableName();
+					final int numPermutations = ((PermutationMatch_Template) template).getNofTemplates();
+					final String permutationStart = aData.getTemporaryVariableName();
 					body.append(MessageFormat.format("int {0} = {1};\n", permutationStart, counter));
 					for (int j = 0; j < numPermutations; j++) {
-						TTCN3Template template2 = ((PermutationMatch_Template) template).getTemplateByIndex(j);
+						final TTCN3Template template2 = ((PermutationMatch_Template) template).getTemplateByIndex(j);
 						if (template2.getTemplatetype() == Template_type.ALL_FROM) {
-							TTCN3Template subTemplate = ((All_From_Template) template2).getAllFrom();
+							final TTCN3Template subTemplate = ((All_From_Template) template2).getAllFrom();
 							final Reference reference = ((SpecificValue_Template) subTemplate).getReference();
 							final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 							setSize.append(" + ");
-							ExpressionStruct sizeExpression = new ExpressionStruct();
-							ExpressionStruct bodyExpression = new ExpressionStruct();
+							final ExpressionStruct sizeExpression = new ExpressionStruct();
+							final ExpressionStruct bodyExpression = new ExpressionStruct();
 							reference.generateCode(aData, sizeExpression);
 							reference.generateCode(aData, bodyExpression);
 							setSize.append(sizeExpression.expression);
@@ -626,7 +627,7 @@ public final class Template_List extends CompositeTemplate {
 							setSize.append(".n_elem().getInt()");
 							body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", bodyExpression.expression));
 
-							String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
+							final String embeddedName = MessageFormat.format("{0}.setItem({1} + i_i)", name, counter);
 							((All_From_Template) template2).generateCodeInitAllFrom(aData, body, embeddedName);
 							body.append("}\n");
 
@@ -660,14 +661,14 @@ public final class Template_List extends CompositeTemplate {
 
 			int index = 0;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-				TTCN3Template template = templates.getTemplateByIndex(i);
+				final TTCN3Template template = templates.getTemplateByIndex(i);
 				switch (template.getTemplatetype()) {
 				case PERMUTATION_MATCH:
-					PermutationMatch_Template actualTemplate = (PermutationMatch_Template) template;
-					int nofPermutatedTemplates = actualTemplate.getNofTemplates();
+					final PermutationMatch_Template actualTemplate = (PermutationMatch_Template) template;
+					final int nofPermutatedTemplates = actualTemplate.getNofTemplates();
 					for (int j = 0; j < nofPermutatedTemplates; j++) {
-						long ix = indexOffset + index + j;
-						TTCN3Template template2 = actualTemplate.getTemplateByIndex(j);
+						final long ix = indexOffset + index + j;
+						final TTCN3Template template2 = actualTemplate.getTemplateByIndex(j);
 						template2.generateCodeInitSeofElement(aData, source, name, Long.toString(ix), ofTypeName);
 					}
 					// do not consider index_offset in case of permutation indicators

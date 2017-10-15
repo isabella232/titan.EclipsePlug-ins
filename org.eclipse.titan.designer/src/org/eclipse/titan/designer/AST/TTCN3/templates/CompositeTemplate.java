@@ -80,7 +80,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	public int getNofTemplatesNotAnyornone(final CompilationTimeStamp timestamp) {
 		int result = 0;
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			ITTCN3Template template = templates.getTemplateByIndex(i);
+			final ITTCN3Template template = templates.getTemplateByIndex(i);
 
 			switch (template.getTemplatetype()) {
 			case ANY_OR_OMIT:
@@ -107,7 +107,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	 * */
 	public boolean templateContainsAnyornone() {
 		for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
-			ITTCN3Template template = templates.getTemplateByIndex(i);
+			final ITTCN3Template template = templates.getTemplateByIndex(i);
 			switch (template.getTemplatetype()) {
 			case ANY_OR_OMIT:
 				return true;

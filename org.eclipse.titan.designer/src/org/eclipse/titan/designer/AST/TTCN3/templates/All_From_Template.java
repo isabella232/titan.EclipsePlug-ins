@@ -400,7 +400,7 @@ public class All_From_Template extends TTCN3Template {
 
 
 	public void generateCodeInitAllFrom(final JavaGenData aData, final StringBuilder source, final String name) {
-		IValue value = ((SpecificValue_Template) allFrom).getValue();
+		final IValue value = ((SpecificValue_Template) allFrom).getValue();
 		Reference reference;
 		if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
 			//value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
@@ -409,10 +409,10 @@ public class All_From_Template extends TTCN3Template {
 			reference = ((Referenced_Value) value).getReference();
 		}
 
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		reference.generateCode(aData, expression);
 
-		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		switch (assignment.getAssignmentType()) {
 		case A_CONST:
 		case A_EXT_CONST:

@@ -434,7 +434,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		// temporary reference is needed if the template has at least one
 		// element (excluding not used symbols)
 		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
-			TTCN3Template template = indexedTemplates.getTemplateByIndex(i).getTemplate();
+			final TTCN3Template template = indexedTemplates.getTemplateByIndex(i).getTemplate();
 			if (template.getTemplatetype() != Template_type.TEMPLATE_NOTUSED) {
 				return true;
 			}
@@ -466,8 +466,8 @@ public final class Indexed_Template_List extends TTCN3Template {
 			return;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
-		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
+		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -514,7 +514,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		}
 
 		//FIXME actually a bit more complex
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		String ofTypeName;
 		switch(type.getTypetype()) {
 		case TYPE_SEQUENCE_OF:
@@ -532,14 +532,14 @@ public final class Indexed_Template_List extends TTCN3Template {
 		}
 
 		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
-			IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
-			String tempId = aData.getTemporaryVariableName();
+			final IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
+			final String tempId = aData.getTemporaryVariableName();
 			source.append("{\n");
-			Value index = indexedTemplate.getIndex().getValue();
+			final Value index = indexedTemplate.getIndex().getValue();
 			if (Value_type.INTEGER_VALUE.equals(index.getValuetype())) {
 				source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, ((Integer_Value) index).getValue()));
 			} else {
-				String tempId2 = aData.getTemporaryVariableName();
+				final String tempId2 = aData.getTemporaryVariableName();
 				source.append(MessageFormat.format("int {0};\n", tempId2));
 				index.generateCodeInit(aData, source, tempId2);
 				source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId, name, tempId2));

@@ -1238,7 +1238,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 			return;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
+		final String tempId = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -1276,10 +1276,11 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	}
 
 	public void generateCodeInitSeofElement(final JavaGenData aData, final StringBuilder source, final String name, final String index, final String elementTypeGenname) {
-			source.append("{\n");
-			String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
-			generateCodeInit(aData, source, embeddedName);
-			source.append("}\n");
+		source.append("{\n");
+
+		final String embeddedName = MessageFormat.format("{0}.getAt({1})", name, index);
+		generateCodeInit(aData, source, embeddedName);
+		source.append("}\n");
 	}
 
 	/**

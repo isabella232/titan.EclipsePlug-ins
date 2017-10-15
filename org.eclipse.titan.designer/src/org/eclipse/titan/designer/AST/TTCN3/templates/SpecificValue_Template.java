@@ -248,7 +248,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return realTemplate.checkExpressionSelfReferenceTemplate(timestamp, lhs);
 		}
 
-		IType governor = specificValue.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		final IType governor = specificValue.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 		if (governor == null) {
 			return false;
 		}
@@ -620,7 +620,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
 			result.append( "\t//TODO: fatal error while generating " );
@@ -651,9 +651,9 @@ public final class SpecificValue_Template extends TTCN3Template {
 		if (governor == null) {
 			return;
 		}
-		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
 
-		
+		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+
 		if (realTemplate != null && realTemplate != this) {
 			realTemplate.generateCodeExpression(aData, expression, templateRestriction);
 			return;
@@ -664,7 +664,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			if (hasSingleExpression()) {
 				expression.expression.append(MessageFormat.format("new {0}(", genName) );
 				if(governor.getTypetype() == Type_type.TYPE_ARRAY){
-					Array_Type array_type = (Array_Type) governor;
+					final Array_Type array_type = (Array_Type) governor;
 					expression.expression.append(MessageFormat.format(" {0}.class, ",array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
 				}
 				expression.expression.append(getSingleExpression(aData, true));
@@ -678,7 +678,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			return;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
+		final String tempId = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);

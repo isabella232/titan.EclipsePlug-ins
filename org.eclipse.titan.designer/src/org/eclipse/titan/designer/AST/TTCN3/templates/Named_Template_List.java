@@ -536,9 +536,9 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
-			StringBuilder embeddedName = new StringBuilder(parameterGenName);
+			final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 			embeddedName.append('.');
 			if(Type_type.TYPE_ANYTYPE.equals(type.getTypetype())) {
 				embeddedName.append("AT_");
@@ -582,8 +582,8 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
-		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
+		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -630,17 +630,17 @@ public final class Named_Template_List extends TTCN3Template {
 		}
 
 		//FIXME actually a bit more complex
-		IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (type == null) {
 			return;
 		}
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
-			NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
-			String fieldName = namedTemplate.getName().getName();
+			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
+			final String fieldName = namedTemplate.getName().getName();
 			//FIXME handle needs_temp_ref case
 
-			String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
-			TTCN3Template template = namedTemplate.getTemplate();
+			final String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
+			final TTCN3Template template = namedTemplate.getTemplate();
 			if (template.needsTemporaryReference()) {
 				Type fieldType;
 				switch(type.getTypetype()) {
@@ -673,13 +673,13 @@ public final class Named_Template_List extends TTCN3Template {
 					return;
 				}
 
-				String tempId = aData.getTemporaryVariableName();
+				final String tempId = aData.getTemporaryVariableName();
 				source.append("{\n");
 				source.append(MessageFormat.format("{0} {1} = {2}.get{3}();\n", fieldType.getGenNameTemplate(aData, source, myScope), tempId, name, generatedFieldName));
 				template.generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {
-				String embeddedName = MessageFormat.format("{0}.get{1}()", name, generatedFieldName); 
+				final String embeddedName = MessageFormat.format("{0}.get{1}()", name, generatedFieldName); 
 				template.generateCodeInit(aData, source, embeddedName);
 			}
 		}

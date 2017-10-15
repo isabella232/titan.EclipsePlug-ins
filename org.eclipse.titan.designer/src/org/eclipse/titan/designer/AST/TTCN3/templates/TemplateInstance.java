@@ -502,9 +502,9 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateRestriction.Restriction_type templateRestriction) {
 		if (derivedReference != null) {
-			ExpressionStruct derivedExpression = new ExpressionStruct();
+			final ExpressionStruct derivedExpression = new ExpressionStruct();
 			derivedReference.generateCode(aData, derivedExpression);
-			String tempId = aData.getTemporaryVariableName();
+			final String tempId = aData.getTemporaryVariableName();
 
 			expression.preamble.append(derivedExpression.preamble);
 			expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2});\n", templateBody.getMyGovernor().getGenNameTemplate(aData, expression.expression, myScope), tempId, derivedExpression.expression));
@@ -534,23 +534,23 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 	 * */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (derivedReference != null) {
-			List<ISubReference> subreferences = derivedReference.getSubreferences();
+			final List<ISubReference> subreferences = derivedReference.getSubreferences();
 			if (subreferences != null && !subreferences.isEmpty() && subreferences.get(0) instanceof ParameterisedSubReference) {
-				ParameterisedSubReference subreference = (ParameterisedSubReference) subreferences.get(0);
-				ActualParameterList actualParameterList = subreference.getActualParameters();
+				final ParameterisedSubReference subreference = (ParameterisedSubReference) subreferences.get(0);
+				final ActualParameterList actualParameterList = subreference.getActualParameters();
 				if (actualParameterList != null) {
 					actualParameterList.reArrangeInitCode(aData, source, usageModule);
 				}
 			}
 
-			Assignment assignment = derivedReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			final Assignment assignment = derivedReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (assignment == null) {
 				return;
 			}
 
 			if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE) {
-				ITTCN3Template template = ((Def_Template)assignment).getTemplate(CompilationTimeStamp.getBaseTimestamp());
-				FormalParameterList formalParameterList = ((Def_Template)assignment).getFormalParameterList();
+				final ITTCN3Template template = ((Def_Template)assignment).getTemplate(CompilationTimeStamp.getBaseTimestamp());
+				final FormalParameterList formalParameterList = ((Def_Template)assignment).getFormalParameterList();
 				if (formalParameterList != null) {
 					// the referred template is parameterized
 					// the embedded referenced templates shall be visited

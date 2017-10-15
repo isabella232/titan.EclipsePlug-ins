@@ -124,8 +124,9 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 		if (governor == null) {
 			return;
 		}
-		String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
-		String tempId = aData.getTemporaryVariableName();
+
+		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
 
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(tempId);
@@ -176,10 +177,10 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 			return;
 		}
 
-		ArrayList<Integer> variables = new ArrayList<Integer>();
+		final ArrayList<Integer> variables = new ArrayList<Integer>();
 		long fixedPart = 0;
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
-			TTCN3Template templateListItem = templates.getTemplateByIndex(i);
+			final TTCN3Template templateListItem = templates.getTemplateByIndex(i);
 			if (templateListItem.getTemplatetype() == Template_type.ALL_FROM) {
 				variables.add(i);
 			} else {
@@ -188,29 +189,29 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 		}
 
 		if (variables.size() > 0) {
-			StringBuilder preamble = new StringBuilder();
-			StringBuilder setType = new StringBuilder();
+			final StringBuilder preamble = new StringBuilder();
+			final StringBuilder setType = new StringBuilder();
 			setType.append(MessageFormat.format("{0}.setType(template_sel.SUPERSET_MATCH, {1}", name, fixedPart));
 
 			for (int v = 0; v < variables.size(); v++) {
-				TTCN3Template template = templates.getTemplateByIndex(variables.get(v));
+				final TTCN3Template template = templates.getTemplateByIndex(variables.get(v));
 				// the template must be all from
 				TTCN3Template template2 = template;
 				if ( template instanceof All_From_Template ) {
 					template2 = ((All_From_Template)template).getAllFrom();
 				}
-				IValue value = ((SpecificValue_Template) template2).getValue();
+				final IValue value = ((SpecificValue_Template) template2).getValue();
 				Reference reference;
 				if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
 					reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
 				} else {
 					reference = ((Referenced_Value) value).getReference();
 				}
-				Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 				setType.append(" + ");
 
-				ExpressionStruct expression = new ExpressionStruct();
+				final ExpressionStruct expression = new ExpressionStruct();
 				reference.generateCode(aData, expression);
 				if (expression.preamble.length() > 0) {
 					preamble.append(expression.preamble);
@@ -243,9 +244,9 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 			source.append(setType);
 			source.append(");\n");
 
-			StringBuilder shifty = new StringBuilder();
+			final StringBuilder shifty = new StringBuilder();
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
-				TTCN3Template template = templates.getTemplateByIndex(i);
+				final TTCN3Template template = templates.getTemplateByIndex(i);
 
 				switch (template.getTemplatetype()) {
 				case ALL_FROM: {
@@ -255,7 +256,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 						template2 = ((All_From_Template)template).getAllFrom();
 					}
 					template2.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
-					IValue value = ((SpecificValue_Template) template2).getValue();
+					final IValue value = ((SpecificValue_Template) template2).getValue();
 					Reference reference;
 					if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
 						//value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
@@ -263,9 +264,9 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 					} else {
 						reference = ((Referenced_Value) value).getReference();
 					}
-					Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
-					ExpressionStruct expression = new ExpressionStruct();
+					final ExpressionStruct expression = new ExpressionStruct();
 					reference.generateCode(aData, expression);
 
 					switch (assignment.getAssignmentType()) {
@@ -289,7 +290,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 
 					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", expression.expression));
 
-					String embeddedName = MessageFormat.format("{0}.setItem({1}{2} + i_i)", name, i, shifty);
+					final String embeddedName = MessageFormat.format("{0}.setItem({1}{2} + i_i)", name, i, shifty);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName);
 					source.append("}\n");
 					shifty.append(MessageFormat.format("-1 + {0}.n_elem().getInt()", expression.expression));
@@ -297,13 +298,13 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 				}
 				default:
 					if (template.needsTemporaryReference()) {
-						String tempId = aData.getTemporaryVariableName();
+						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
 						source.append(MessageFormat.format("{0} {1} = {2}.setItem({3}{4});\n", ofTypeName, tempId, name, i, shifty));
 						generateCodeInit(aData, source, tempId);
 						source.append("}\n");
 					} else {
-						String embeddedName = MessageFormat.format("{0}.setItem({1}{2})", name, i, shifty);
+						final String embeddedName = MessageFormat.format("{0}.setItem({1}{2})", name, i, shifty);
 						template.generateCodeInit(aData, source, embeddedName);
 					}
 					break;
@@ -312,15 +313,15 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 		} else {
 			source.append(MessageFormat.format("{0}.setType(template_sel.SUPERSET_MATCH, {1});\n", name, templates.getNofTemplates()));
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
-				TTCN3Template template = templates.getTemplateByIndex(i);
+				final TTCN3Template template = templates.getTemplateByIndex(i);
 				if (template.needsTemporaryReference()) {
-					String tempId = aData.getTemporaryVariableName();
+					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
 					source.append(MessageFormat.format("{0} {1} = {2}.setItem({3});\n", ofTypeName, tempId, name, i));
 					template.generateCodeInit(aData, source, tempId);
 					source.append("}\n");
 				} else {
-					String embeddedName = MessageFormat.format("{0}.setItem({1})", name, i);
+					final String embeddedName = MessageFormat.format("{0}.setItem({1})", name, i);
 					template.generateCodeInit(aData, source, embeddedName);
 				}
 			}

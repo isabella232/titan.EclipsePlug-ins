@@ -428,7 +428,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return false;
 		}
 
-		boolean selfReference = lhs == assignment;
+		final boolean selfReference = lhs == assignment;
 		assignment.check(timestamp);
 
 		IType governor = assignment.getType(timestamp);
@@ -613,7 +613,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return false;
 		}
 
-		TTCN3Template lastTemplate = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+		final TTCN3Template lastTemplate = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 		if (lastTemplate != null && lastTemplate != this && lastTemplate.hasSingleExpression()) {
 			for (Scope tempScope = myScope; tempScope != null; tempScope = tempScope.getParentScope()) {
 				if (tempScope == lastTemplate.getMyScope()) {
@@ -629,7 +629,7 @@ public final class Referenced_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean isValue(final CompilationTimeStamp timestamp) {
-		Assignment ass = reference.getRefdAssignment(timestamp, true);
+		final Assignment ass = reference.getRefdAssignment(timestamp, true);
 		if (ass == null) {
 			return true;
 		}
@@ -649,7 +649,7 @@ public final class Referenced_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
 			result.append( "\t//TODO: fatal error while generating " );
@@ -659,7 +659,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return result;
 		}
 
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		reference.generateConstRef(aData, expression);
 		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			result.append( "\t//TODO: fatal error while generating " );
@@ -698,7 +698,7 @@ public final class Referenced_Template extends TTCN3Template {
 			return;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
+		final String tempId = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);
@@ -714,7 +714,7 @@ public final class Referenced_Template extends TTCN3Template {
 	 * originally use_single_expr_for_init
 	 * */
 	private boolean useSingleExpressionForInit() {
-		TTCN3Template lastTemplate = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
+		final TTCN3Template lastTemplate = getTemplateReferencedLast(CompilationTimeStamp.getBaseTimestamp());
 		// return false in case of unfoldable references
 		if (lastTemplate.getTemplatetype().equals(Template_type.TEMPLATE_REFD)) {
 			return false;
@@ -742,23 +742,23 @@ public final class Referenced_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
-		ISubReference tempSubreference = reference.getSubreferences().get(0);
+		final ISubReference tempSubreference = reference.getSubreferences().get(0);
 		if (tempSubreference instanceof ParameterisedSubReference) {
 			// generate code for the templates that are used in the actual parameter
 			// list of the reference
-			ActualParameterList actualParameterList = ((ParameterisedSubReference) tempSubreference).getActualParameters();
+			final ActualParameterList actualParameterList = ((ParameterisedSubReference) tempSubreference).getActualParameters();
 			if (actualParameterList != null) {
 				actualParameterList.reArrangeInitCode(aData, source, usageModule);
 			}
 		}
 
-		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		if (assignment.getAssignmentType() != Assignment_type.A_TEMPLATE) {
 			return;
 		}
 
 		ITTCN3Template template = ((Def_Template) assignment).getTemplate(CompilationTimeStamp.getBaseTimestamp());
-		FormalParameterList formalParameterList = ((Def_Template) assignment).getFormalParameterList();
+		final FormalParameterList formalParameterList = ((Def_Template) assignment).getFormalParameterList();
 		if (formalParameterList != null) {
 			// the reference points to a parameterized template
 			// we must perform the rearrangement for all non-parameterized templates
@@ -773,19 +773,19 @@ public final class Referenced_Template extends TTCN3Template {
 			}
 		} else {
 			// the reference points to a non-parameterized template
-			List<ISubReference> subReferences = reference.getSubreferences();
+			final List<ISubReference> subReferences = reference.getSubreferences();
 			if (subReferences != null && subReferences.size() > 1) {
 				// we should follow the sub-references as much as we can
 				// and perform the rearrangement for the referred field only
 				for (int i = 1; i < subReferences.size(); i++) {
-					ISubReference subReference = subReferences.get(i);
+					final ISubReference subReference = subReferences.get(i);
 					if (subReference instanceof FieldSubReference) {
 						// stop if the body does not have fields
 						if (template.getTemplatetype() != Template_type.NAMED_TEMPLATE_LIST) {
 							break;
 						}
 						// the field reference can be followed
-						Identifier fieldId = ((FieldSubReference)subReference).getId();
+						final Identifier fieldId = ((FieldSubReference)subReference).getId();
 						template = ((Named_Template_List) template).getNamedTemplate(fieldId).getTemplate();
 					} else {
 						// stop if the body is not a list
@@ -830,12 +830,12 @@ public final class Referenced_Template extends TTCN3Template {
 		 * - u.ref.ref points to (a field of) a non-parameterized template within the same module as this.
 		 * - this ensures that the do-while loop will run at least twice (i.e. the first continue statement will be reached in the first iteration)
 		 */
-		Stack<ISubReference> referenceStack = new Stack<ISubReference>();
+		final Stack<ISubReference> referenceStack = new Stack<ISubReference>();
 		ITTCN3Template template = this;
 		for ( ; ; ) {
 			if (template.getTemplatetype() == Template_type.TEMPLATE_REFD) {
-				Reference reference = ((Referenced_Template) template).getReference();
-				Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				final Reference reference = ((Referenced_Template) template).getReference();
+				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 				/** Don't follow the reference if:
 				 *  - the referenced definition is not a template
 				 *  - the referenced template is parameterized or
@@ -843,7 +843,7 @@ public final class Referenced_Template extends TTCN3Template {
 				if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE && ((Def_Template) assignment).getFormalParameterList() == null
 						&& assignment.getMyScope().getModuleScope() == myScope.getModuleScope()) {
 					// accumulate the sub-references of the referred reference
-					List<ISubReference> subReferences = reference.getSubreferences();
+					final List<ISubReference> subReferences = reference.getSubreferences();
 					if (subReferences != null && subReferences.size() > 1) {
 						for(int i = subReferences.size(); i > 1; i--) {
 							referenceStack.push(subReferences.get(i-1));
@@ -863,13 +863,13 @@ public final class Referenced_Template extends TTCN3Template {
 				break;
 			}
 			// take the topmost sub-reference
-			ISubReference subReference = referenceStack.peek();
+			final ISubReference subReference = referenceStack.peek();
 			if (subReference instanceof FieldSubReference) {
 				if (template.getTemplatetype() != Template_type.NAMED_TEMPLATE_LIST) {
 					break;
 				}
 				// the field reference can be followed
-				Identifier fieldId = ((FieldSubReference)subReference).getId();
+				final Identifier fieldId = ((FieldSubReference)subReference).getId();
 				template = ((Named_Template_List) template).getNamedTemplate(fieldId).getTemplate();
 			} else {
 				// trying to follow an array reference
@@ -903,7 +903,7 @@ public final class Referenced_Template extends TTCN3Template {
 		// genname of t and the remained sub-references in refstack
 		expression.expression.append(template.getGenNameOwn(myScope));
 		while (!referenceStack.isEmpty()) {
-			ISubReference subReference = referenceStack.pop();
+			final ISubReference subReference = referenceStack.pop();
 			if (subReference instanceof FieldSubReference) {
 				expression.expression.append(MessageFormat.format(".get{0}()", FieldSubReference.getJavaGetterName(((FieldSubReference) subReference).getId().getName())));
 			} else {
@@ -927,11 +927,11 @@ public final class Referenced_Template extends TTCN3Template {
 			return;
 		}
 
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		boolean useReferenceForCodegeneration = true;
 		if (getCodeSection() == CodeSectionType.CS_POST_INIT) {
 			// the referencing template is a part of a non-parameterized template
-			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE) {
 				// the reference points to (a field of) a template
 				//FIXME implement formal par check

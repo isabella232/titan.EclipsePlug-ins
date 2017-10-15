@@ -229,21 +229,22 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
-		ArrayList<Integer> variables = new ArrayList<Integer>();
+		final ArrayList<Integer> variables = new ArrayList<Integer>();
 		long fixedPart = 0;
 		for (int i = 0; i < templates.getNofTemplates(); i++) {
-			TTCN3Template templateListItem = templates.getTemplateByIndex(i);
+			final TTCN3Template templateListItem = templates.getTemplateByIndex(i);
 			if (templateListItem.getTemplatetype() == Template_type.ALL_FROM) {
 				variables.add(i);
 			} else {
 				fixedPart++;
 			}
 		}
-		String typeName = myGovernor.getGenNameTemplate(aData, source, myScope);
+
+		final String typeName = myGovernor.getGenNameTemplate(aData, source, myScope);
 
 		if (variables.size() > 0) {
-			StringBuilder preamble = new StringBuilder();
-			StringBuilder setType = new StringBuilder();
+			final StringBuilder preamble = new StringBuilder();
+			final StringBuilder setType = new StringBuilder();
 
 			setType.append(MessageFormat.format("{0}.setType(template_sel.COMPLEMENTED_LIST, {1}", name, fixedPart));
 
@@ -253,18 +254,20 @@ public final class ComplementedList_Template extends CompositeTemplate {
 				if ( template instanceof All_From_Template ) {
 					template = ((All_From_Template)template).getAllFrom();
 				}
-				IValue value = ((SpecificValue_Template) template).getValue();
+
+				final IValue value = ((SpecificValue_Template) template).getValue();
 				Reference reference;
 				if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
 					reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
 				} else {
 					reference = ((Referenced_Value) value).getReference();
 				}
-				Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 				setType.append(" + ");
 
-				ExpressionStruct expression = new ExpressionStruct();
+				final ExpressionStruct expression = new ExpressionStruct();
 				reference.generateCode(aData, expression);
 				if (expression.preamble.length() > 0) {
 					preamble.append(expression.preamble);
@@ -297,9 +300,9 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			source.append(setType);
 			source.append(");\n");
 
-			StringBuilder shifty = new StringBuilder();
+			final StringBuilder shifty = new StringBuilder();
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
-				TTCN3Template template = templates.getTemplateByIndex(i);
+				final TTCN3Template template = templates.getTemplateByIndex(i);
 
 				switch (template.getTemplatetype()) {
 				case ALL_FROM: {
@@ -308,8 +311,9 @@ public final class ComplementedList_Template extends CompositeTemplate {
 					if ( template instanceof All_From_Template ) {
 						template2 = ((All_From_Template)template).getAllFrom();
 					}
+
 					template2.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
-					IValue value = ((SpecificValue_Template) template2).getValue();
+					final IValue value = ((SpecificValue_Template) template2).getValue();
 					Reference reference;
 					if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
 						//value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
@@ -317,9 +321,10 @@ public final class ComplementedList_Template extends CompositeTemplate {
 					} else {
 						reference = ((Referenced_Value) value).getReference();
 					}
-					Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
-					ExpressionStruct expression = new ExpressionStruct();
+					final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+
+					final ExpressionStruct expression = new ExpressionStruct();
 					reference.generateCode(aData, expression);
 
 					switch (assignment.getAssignmentType()) {
@@ -351,13 +356,13 @@ public final class ComplementedList_Template extends CompositeTemplate {
 				}
 				default:
 					if (template.needsTemporaryReference()) {
-						String tempId = aData.getTemporaryVariableName();
+						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
 						source.append(MessageFormat.format("{0} {1} = {2}.listItem({3}{4});\n", typeName, tempId, name, i, shifty));
 						generateCodeInit(aData, source, tempId);
 						source.append("}\n");
 					} else {
-						String embeddedName = MessageFormat.format("{0}.listItem({1}{2})", name, i, shifty);
+						final String embeddedName = MessageFormat.format("{0}.listItem({1}{2})", name, i, shifty);
 						template.generateCodeInit(aData, source, embeddedName);
 					}
 					break;
@@ -366,15 +371,15 @@ public final class ComplementedList_Template extends CompositeTemplate {
 		} else {
 			source.append(MessageFormat.format("{0}.setType(template_sel.COMPLEMENTED_LIST, {1});\n", name, templates.getNofTemplates()));
 			for (int i = 0; i < templates.getNofTemplates(); i++) {
-				TTCN3Template template = templates.getTemplateByIndex(i);
+				final TTCN3Template template = templates.getTemplateByIndex(i);
 				if (template.needsTemporaryReference()) {
-					String tempId = aData.getTemporaryVariableName();
+					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
 					source.append(MessageFormat.format("{0} {1} = {2}.listItem({3});\n", typeName, tempId, name, i));
 					template.generateCodeInit(aData, source, tempId);
 					source.append("}\n");
 				} else {
-					String embeddedName = MessageFormat.format("{0}.listItem({1})", name, i);
+					final String embeddedName = MessageFormat.format("{0}.listItem({1})", name, i);
 					template.generateCodeInit(aData, source, embeddedName);
 				}
 			}

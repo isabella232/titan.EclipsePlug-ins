@@ -381,12 +381,12 @@ public final class RangeLenghtRestriction extends LengthRestriction {
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (lower != null && !isInfinity(lower)) {
-			ExpressionStruct expression = new ExpressionStruct();
+			final ExpressionStruct expression = new ExpressionStruct();
 			lower.generateCodeExpression(aData, expression);
 			source.append(MessageFormat.format("{0}.set_min_length({1});\n", name, expression.expression));
 		}
 		if (upper != null && !isInfinity(upper)) {
-			ExpressionStruct expression = new ExpressionStruct();
+			final ExpressionStruct expression = new ExpressionStruct();
 			upper.generateCodeExpression(aData, expression);
 			source.append(MessageFormat.format("{0}.set_max_length({1});\n", name, expression.expression));
 		}
