@@ -13,8 +13,8 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -240,11 +240,16 @@ public final class Value_Range_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 
 		if (valueRange != null) {
-			// TODO: add support for rearrange init
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				valueRange.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
 			valueRange.generateCodeInit(aData, source, name);
 		}
 
 		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}
 

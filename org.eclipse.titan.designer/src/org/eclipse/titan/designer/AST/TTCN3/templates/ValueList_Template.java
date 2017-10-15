@@ -354,6 +354,9 @@ public final class ValueList_Template extends CompositeTemplate {
 		}
 
 		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}
 

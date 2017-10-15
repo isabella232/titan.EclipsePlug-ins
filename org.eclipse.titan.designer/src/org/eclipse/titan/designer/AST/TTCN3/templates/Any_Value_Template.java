@@ -153,6 +153,9 @@ public final class Any_Value_Template extends TTCN3Template {
 		source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
 
 		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}
 
