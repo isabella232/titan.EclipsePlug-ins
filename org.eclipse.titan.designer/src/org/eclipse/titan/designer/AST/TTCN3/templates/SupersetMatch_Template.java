@@ -153,6 +153,8 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
+		aData.addBuiltinTypeImport("Base_Template.template_sel");
+
 		String ofTypeName;
 		switch (myGovernor.getTypetype()) {
 		case TYPE_SEQUENCE_OF:
