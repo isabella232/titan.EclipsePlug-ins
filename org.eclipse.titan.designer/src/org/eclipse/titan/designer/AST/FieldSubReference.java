@@ -92,7 +92,11 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	@Override
 	/** {@inheritDoc} */
 	public Location getLocation() {
-		return new Location(fieldId.getLocation());
+		if (fieldId != null) {
+			return new Location(fieldId.getLocation());
+		} else {
+			return null;
+		}
 	}
 
 	@Override
