@@ -90,7 +90,7 @@ public class EnumeratedGenerator {
 		EnumItem item = null;
 		for ( int i=0; i<size; i++) {
 			item = e_defs.items.get(i);
-			source.append(MessageFormat.format("{0}", item.getId().getTtcnName()));
+			source.append(MessageFormat.format("{0}", item.getId().getName()));
 			if (item.getValue() instanceof Integer_Value) {
 				String valueWithoutCommas = formatter.format( ((Integer_Value) item.getValue()).getValue());
 				source.append(MessageFormat.format("({0}),\n", valueWithoutCommas));
@@ -99,7 +99,7 @@ public class EnumeratedGenerator {
 				ErrorReporter.INTERNAL_ERROR("Invalid item value for "+e_defs.name +" index: "+ i);
 				source.append("FATAL_ERORR: Invalid item value in EnumeratedGenerator.generateValueClass");
 			}
-			helper.append(" return ").append(MessageFormat.format("{0}", item.getId().getTtcnName())).append(";\n");
+			helper.append(" return ").append(MessageFormat.format("{0}", item.getId().getName())).append(";\n");
 
 		}
 		source.append(MessageFormat.format("{0}({1}),\n", UNKNOWN_VALUE, e_defs.firstUnused));
