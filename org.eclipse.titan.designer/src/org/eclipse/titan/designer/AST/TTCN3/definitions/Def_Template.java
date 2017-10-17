@@ -904,9 +904,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 				Array_Type arrayType =  (Array_Type) type;
 				String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format("{0} {1} = new {0}({2}.class, {2}_template.class);\n", typeName, genName, elementType));
-				source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
-				source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+				source.append(MessageFormat.format("{0} {1} = new {0}({2}.class, {2}_template.class, {3}, {4});\n", typeName, genName, elementType, arrayType.getDimension().getSize(), arrayType.getDimension().getOffset()));
 			} else {
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 			}
@@ -934,9 +932,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 					Array_Type arrayType =  (Array_Type) type;
 					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class);\n", typeName, genName, elementType));
-					source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
-					source.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+					source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class, {3}, {4});\n", typeName, genName, elementType, arrayType.getDimension().getSize(), arrayType.getDimension().getOffset()));
 				} else {
 					source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
 				}
@@ -990,9 +986,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 					Array_Type arrayType =  (Array_Type) type;
-					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format(" {0} {1} = new {0}({2}.class);\n", typeName, genName, elementType));
-					source.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
+					source.append(MessageFormat.format(" {0} {1} = new {0}();\n", typeName, genName));
 				} else {
 					source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 				}
