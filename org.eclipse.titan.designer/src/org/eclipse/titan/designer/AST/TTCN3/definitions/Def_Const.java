@@ -530,13 +530,8 @@ public final class Def_Const extends Definition {
 		} else {
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 				Array_Type arrayType =  (Array_Type) type;
-				if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
 					StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 					source.append(MessageFormat.format("{0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,sb),genName));
-				} else {
-					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("{0} {1} = new {0}({2}.class, {3} , {4});\n", typeGeneratedName, genName, elementType, arrayType.getDimension().getSize(), arrayType.getDimension().getOffset()));
-				}
 			}
 			else {
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
