@@ -176,6 +176,15 @@ public class TitanFloat_template extends Base_Template {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
 	}
+	
+	@Override 
+	public void log_match(final Base_Type match_value,final boolean legacy){
+		if(match_value instanceof TitanFloat){
+			log_match((TitanFloat)match_value,legacy);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", match_value)); 
+	}
 
 	// originally match
 	public TitanBoolean match(final TitanFloat otherValue) {
