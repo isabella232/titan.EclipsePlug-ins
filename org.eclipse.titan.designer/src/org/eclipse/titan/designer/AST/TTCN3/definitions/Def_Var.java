@@ -477,18 +477,13 @@ public final class Def_Var extends Definition {
 		}
 
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-
-		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
-			Array_Type arrayType =  (Array_Type) type;
-			String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-			source.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", typeGeneratedName, genName, elementType));
-			initComp.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
-			initComp.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
-		}
-		else {
+		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
+			 Array_Type arrayType =  (Array_Type) type;
+				StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,sbforTemp),genName));
+		} else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		}
-
 		sb.append(source);
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit(aData, initComp, genName );
@@ -512,13 +507,8 @@ public final class Def_Var extends Definition {
 		} else {
 			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 				 Array_Type arrayType =  (Array_Type) type;
-				if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
 					StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 					source.append(MessageFormat.format("{0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,sb),genName));
-				} else {
-					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("{0} {1} = new {0}({2}.class, {3} , {4});\n", typeGeneratedName, genName, elementType, arrayType.getDimension().getSize(), arrayType.getDimension().getOffset()));
-				}
 			} else {
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			}

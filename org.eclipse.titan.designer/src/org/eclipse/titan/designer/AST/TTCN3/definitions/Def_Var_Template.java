@@ -484,14 +484,10 @@ public final class Def_Var_Template extends Definition {
 		StringBuilder source = new StringBuilder();
 		StringBuilder initComp = aData.getInitComp();
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
-
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
-			String elementValueName = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-			String elementTemplateName = arrayType.getElementType().getGenNameTemplate(aData, source, myScope);
-			source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class, {3}.class);\n", typeGeneratedName, genName, elementValueName, elementTemplateName));
-			initComp.append(MessageFormat.format("{0}.setSize({1});\n",genName,(int)arrayType.getDimension().getSize()));
-			initComp.append(MessageFormat.format("{0}.setOffset({1});\n",genName,(int)arrayType.getDimension().getOffset()));
+			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+			source.append(MessageFormat.format("public static final {0} {1} = new {0}();\n",arrayType.generateCodeTemplate(aData, source, arrayType, sbforTemp), genName));
 		} else {
 			source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		}
