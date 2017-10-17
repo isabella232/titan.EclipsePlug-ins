@@ -2922,15 +2922,19 @@ pr_FunctionRef returns[Reference reference]
 			subReference.setLocation(getLocation( $i2.start, $i2.stop));
 			$reference.addSubReference(subReference);
 		}
-	|	{	$reference = new Reference(null);
-			FieldSubReference subReference = new FieldSubReference($i1.identifier);
-			subReference.setLocation(getLocation( $i1.start, $i1.stop));
-			$reference.addSubReference(subReference);
+	|	{	if($i1.identifier != null) {
+				$reference = new Reference(null);
+				FieldSubReference subReference = new FieldSubReference($i1.identifier);
+				subReference.setLocation(getLocation( $i1.start, $i1.stop));
+				$reference.addSubReference(subReference);
+			}
 		}
 	)
 )
 {
-	$reference.setLocation(getLocation( $start, getStopToken()));
+	if ($reference != null) {
+		$reference.setLocation(getLocation( $start, getStopToken()));
+	}
 };
 
 pr_FunctionActualParList returns [ParsedActualParameters parsedParameters]
