@@ -146,7 +146,7 @@ public final class Setverdict_Statement extends Statement {
 			case TYPE_VERDICT:
 				if (Value_type.VERDICT_VALUE.equals(last.getValuetype())
 						&& Verdict_type.ERROR.equals(((Verdict_Value) last).getValue())) {
-					getLocation().reportSemanticError(ERRORCANNOTBESET);
+					verdictValue.getLocation().reportSemanticError(ERRORCANNOTBESET);
 				}
 
 				if (Value_type.VERDICT_VALUE.equals(last.getValuetype())
@@ -156,7 +156,7 @@ public final class Setverdict_Statement extends Statement {
 				}
 				break;
 			default:
-				location.reportSemanticError(OPERANDERROR);
+				verdictValue.getLocation().reportSemanticError(OPERANDERROR);
 				verdictValue.setIsErroneous(true);
 				break;
 			}
