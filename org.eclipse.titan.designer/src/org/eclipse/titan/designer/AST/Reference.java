@@ -197,7 +197,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		Location temp;
 		if (modid != null) {
 			temp = new Location(modid.getLocation());
-		} else if (!subReferences.isEmpty() && subReferences.get(0).getLocation()!=null) {
+		} else if (!subReferences.isEmpty()) {
 			temp = new Location(subReferences.get(0).getLocation());
 		} else {
 			return NULL_Location.INSTANCE;
