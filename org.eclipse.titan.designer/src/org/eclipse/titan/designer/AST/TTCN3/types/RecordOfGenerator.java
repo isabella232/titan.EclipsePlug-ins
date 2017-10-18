@@ -797,7 +797,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Initialization of a template of type {0} with an unbound value.\");\n", displayName ) );
 		source.append("\t\t}\n");
 		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
-		source.append("\t\tfinal int otherSize = other_value.sizeOf().getInt();\n");
+		source.append("\t\tfinal int otherSize = other_value.valueElements.size();\n");
 		source.append("\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
 		source.append("\t\t\tif (other_value.constGetAt(elem_count).isBound().getValue()) {\n");
 		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
@@ -813,7 +813,7 @@ public class RecordOfGenerator {
 		source.append("\t\tswitch (other_value.templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append( MessageFormat.format( "\t\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
-		source.append("\t\t\tfinal int otherSize = other_value.sizeOf().getInt();\n");
+		source.append("\t\t\tfinal int otherSize = other_value.value_elements.size();\n");
 		source.append("\t\t\tfor (int elem_count = 0; elem_count < otherSize; elem_count++) {\n");
 		source.append("\t\t\t\tif (other_value.constGetAt(elem_count).isBound().getValue()) {\n");
 		source.append( MessageFormat.format( "\t\t\t\t\tvalue_elements.add( new {0}(other_value.constGetAt(elem_count)) );\n", ofTypeName ) );
