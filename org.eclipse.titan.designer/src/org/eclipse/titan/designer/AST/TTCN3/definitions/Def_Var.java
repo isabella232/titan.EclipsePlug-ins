@@ -479,11 +479,11 @@ public final class Def_Var extends Definition {
 		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 			 Array_Type arrayType =  (Array_Type) type;
-				StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,sbforTemp),genName));
-		} else {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+			arrayType.generateCodeValue(aData, source,arrayType,sbforTemp);
 		}
+
+		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		sb.append(source);
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit(aData, initComp, genName );
@@ -508,10 +508,10 @@ public final class Def_Var extends Definition {
 			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 				 Array_Type arrayType =  (Array_Type) type;
 				StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,sb),genName));
-			} else {
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+				arrayType.generateCodeValue(aData, source,arrayType,sb);
 			}
+
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			if (initialValue != null) {
 				initialValue.generateCodeInit(aData, source, genName );
 			}

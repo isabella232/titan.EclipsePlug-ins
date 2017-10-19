@@ -903,11 +903,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		if (formalParList == null) {
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 				Array_Type arrayType =  (Array_Type) type;
-				String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format("{0} {1} = new {0}({2}.class, {2}_template.class, {3}, {4});\n", typeName, genName, elementType, arrayType.getDimension().getSize(), arrayType.getDimension().getOffset()));
-			} else {
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+				StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+				arrayType.generateCodeValue(aData, source,arrayType,sbforTemp);
+				arrayType.generateCodeTemplate(aData, source, arrayType, sbforTemp);
 			}
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 
 			if (baseTemplate != null) {
 				//modified template
@@ -931,11 +931,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 					Array_Type arrayType =  (Array_Type) type;
-					String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-					source.append(MessageFormat.format("public static final {0} {1} = new {0}({2}.class, {3}, {4});\n", typeName, genName, elementType, arrayType.getDimension().getSize(), arrayType.getDimension().getOffset()));
-				} else {
-					source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
+					StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+					arrayType.generateCodeValue(aData, source,arrayType,sbforTemp);
+					arrayType.generateCodeTemplate(aData, source, arrayType, sbforTemp);
 				}
+				source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
 			} else {
 				//modified template
 				source.append(MessageFormat.format("{0} ret_val = new {0}({1}", typeName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
@@ -986,10 +986,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 					Array_Type arrayType =  (Array_Type) type;
-					source.append(MessageFormat.format(" {0} {1} = new {0}();\n", typeName, genName));
-				} else {
-					source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
+					StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
+					arrayType.generateCodeValue(aData, source,arrayType,sb);
+					arrayType.generateCodeTemplate(aData, source, arrayType, sb);
 				}
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 
 				if ( body != null ) {
 					//TODO can optimize for single expressions;

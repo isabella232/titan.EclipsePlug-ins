@@ -489,21 +489,14 @@ public final class Def_Const extends Definition {
 			}
 		}
 
-		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-
+		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
-			if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
-				StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
-				source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,temp_sb),genName));
-			} else {
-				String elementType = arrayType.getElementType().getGenNameValue(aData, source, myScope);
-				source.append(MessageFormat.format(" static final {0} {1} = new {0}({2}.class, {3} , {4});\n", typeGeneratedName, genName, elementType, arrayType.getDimension().getSize(), arrayType.getDimension().getOffset()));
-			}
+			StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
+			arrayType.generateCodeValue(aData, source,arrayType,temp_sb);
 		}
-		else {
-			source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
-		}
+
+		source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		last.generateCodeInit( aData, aData.getPreInit(), genName );
 
 		sb.append(source);
@@ -531,11 +524,10 @@ public final class Def_Const extends Definition {
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 				Array_Type arrayType =  (Array_Type) type;
 				StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", arrayType.generateCodeValue(aData, source,arrayType,sb),genName));
+				arrayType.generateCodeValue(aData, source,arrayType,sb);
 			}
-			else {
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
-			}
+
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			last.generateCodeInit(aData, source, genName );	
 		}
 	}

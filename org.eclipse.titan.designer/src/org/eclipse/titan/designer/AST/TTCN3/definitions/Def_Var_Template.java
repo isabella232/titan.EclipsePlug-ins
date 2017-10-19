@@ -487,10 +487,10 @@ public final class Def_Var_Template extends Definition {
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
 			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
-			source.append(MessageFormat.format("public static final {0} {1} = new {0}();\n",arrayType.generateCodeTemplate(aData, source, arrayType, sbforTemp), genName));
-		} else {
-			source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+			arrayType.generateCodeTemplate(aData, source, arrayType, sbforTemp);
 		}
+
+		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		sb.append(source);
 
 		//TODO this actually belongs to the module initialization
@@ -520,10 +520,11 @@ public final class Def_Var_Template extends Definition {
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
 			StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n",arrayType.generateCodeTemplate(aData, source, arrayType, sb), genName));
-		} else {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			arrayType.generateCodeValue(aData, source,arrayType,sb);
+			arrayType.generateCodeTemplate(aData, source, arrayType, sb);
 		}
+
+		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 		if ( initialValue != null ) {
 			initialValue.generateCodeInit( aData, source, genName );
 			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {

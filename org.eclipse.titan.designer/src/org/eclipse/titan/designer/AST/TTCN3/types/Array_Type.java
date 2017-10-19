@@ -49,6 +49,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -84,9 +85,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	private final Type elementType;
 	private final ArrayDimension dimension;
 	// used only in code generation
-	private final boolean inTypeDefinition;
+	private final boolean inTypeDefinition;//TODO check usefulness
 
 	private boolean componentInternal;
+
+	private BuildTimestamp lastBuildTimestamp;
+	private String lastGenName;
 
 	public Array_Type(final Type elementType, final ArrayDimension dimension, final boolean inTypeDefinition) {
 		this.elementType = elementType;
@@ -931,31 +935,35 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
-		if (!inTypeDefinition) {
-			return dimension.getValueType(aData, source, elementType, scope);
+		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = aData.getTemporaryVariableName();
 		}
 
-		return getGenNameOwn();
+		return lastGenName;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		// a template class has to be instantiated in case of arrays outside type definitions
-		if (!inTypeDefinition) {
-			return dimension.getTemplateType(aData, source, elementType, scope);
+		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = aData.getTemporaryVariableName();
 		}
 
-		return getGenNameOwn()+"_template";
+		return lastGenName + "_template";
 	}
 
 	@Override
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		//TODO check: is this function generateCodeValue + generateCodeTemplate
 		if (!inTypeDefinition) {
 			return;
 		}
 
-		final String ownName = getGenNameOwn();
+		elementType.generateCode(aData, source);
+
+		final String ownName = getGenNameValue(aData, source, myScope);
 		final String valueName = dimension.getValueType(aData, source, elementType, myScope);
 		final String templateName = dimension.getTemplateType(aData, source, elementType, myScope);
 		final String elementName = elementType.getGenNameValue(aData, source, myScope);
@@ -987,18 +995,20 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n\n");
 	}
 
-	public String generateCodeValue( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
-		final String className = aData.getTemporaryVariableName();
-		final String ofType;
-		final ArrayDimension dim;
-		if ( arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY ) {
-			ofType = generateCodeValue( aData, source, (Array_Type)arrayType.getElementType(), sb );
-			final Array_Type parentTemp = (Array_Type)( arrayType.getElementType().getParentType() );
-			dim = parentTemp.getDimension();
-		} else {
-			ofType = arrayType.getElementType().getGenNameValue( aData, source, getMyScope() );
-			dim = arrayType.getDimension();
+	//TODO check: 3rd parameter is not needed
+	public void generateCodeValue( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
+		final String className = arrayType.getGenNameValue(aData, source, myScope);
+
+		final IType elementType = arrayType.getElementType();
+		final String ofType = elementType.getGenNameValue( aData, source, getMyScope() );
+		if ( elementType.getTypetype() == Type_type.TYPE_ARRAY ) {
+			generateCodeValue( aData, source, (Array_Type)elementType, sb );
 		}
+
+		final ArrayDimension dim = arrayType.getDimension();
+
+		aData.addBuiltinTypeImport("TitanValueArray");
+
 		sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", className, ofType));
 		sb.append(MessageFormat.format("public {0}() '{'\n", className));
 		sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", ofType, dim.getSize(), dim.getOffset()));
@@ -1007,34 +1017,33 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		sb.append("super(otherValue);\n");
 		sb.append("}\n");
 		sb.append("}\n\n");
-		return className;
 	}
 
-	public String generateCodeTemplate( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
-		final String classTemplateName = aData.getTemporaryVariableName();
-		final String ofValueType;
-		final String ofTemplateType;
-		final ArrayDimension dim;
-		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
-			ofValueType = generateCodeValue(aData, source, arrayType, sb);
-			ofTemplateType = generateCodeTemplate(aData, source,(Array_Type)arrayType.getElementType(),sb);
-			final Array_Type parentTemp = (Array_Type)(arrayType.getElementType().getParentType());
-			dim = parentTemp.getDimension();
-		} else {
-			ofValueType = arrayType.getElementType().getGenNameValue(aData, source, getMyScope());
-			ofTemplateType = arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope());
-			dim = arrayType.getDimension();
-		}	
+	public void generateCodeTemplate( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
+		final String className = arrayType.getGenNameValue(aData, source, myScope);
+		final String classTemplateName = arrayType.getGenNameTemplate(aData, source, myScope);
+
+		final IType elementType = arrayType.getElementType();
+		final String ofValueType = elementType.getGenNameValue(aData, source, getMyScope());
+		final String ofTemplateType = elementType.getGenNameTemplate(aData, source, getMyScope());
+
+		if(elementType.getTypetype() == Type_type.TYPE_ARRAY) {
+			generateCodeTemplate(aData, source,(Array_Type)elementType,sb);
+		}
+
+		final ArrayDimension dim = arrayType.getDimension();
+
+		aData.addBuiltinTypeImport("TitanTemplateArray");
+
 		sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
 		sb.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
 		sb.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
 		sb.append("}\n");
-		//TODO: add
-		//sb.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
-		//sb.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
-		//sb.append("}\n");
+
+		sb.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
+		sb.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
 		sb.append("}\n");
-		return classTemplateName;
+		sb.append("}\n");
 	}
 
 	@Override
@@ -1119,9 +1128,4 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		expression.expression.append(closingBrackets);
 	}
-
-	public boolean isInTypeDefinition() {
-		return inTypeDefinition;
-	}
-	
 }
