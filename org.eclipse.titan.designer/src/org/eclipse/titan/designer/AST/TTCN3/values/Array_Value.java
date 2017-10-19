@@ -613,8 +613,12 @@ public final class Array_Value extends Value {
 		final String tempId = aData.getTemporaryVariableName();
 		final String genName = lastType.getGenNameValue(aData, expression.expression, myScope);
 		final String elementType = ((Array_Type) lastType).getElementType().getGenNameValue(aData, expression.expression, myScope);
-		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", genName, tempId, elementType));
-
+		Array_Type tempType = ((Array_Type) lastType);
+		if(tempType.isInTypeDefinition()){
+			expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		} else {
+			expression.preamble.append(MessageFormat.format("{0} {1} = new {0}({2}.class);\n", genName, tempId, elementType));
+		}
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);
 		expression.expression.append(tempId);
