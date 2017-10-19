@@ -40,7 +40,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 	}
 
 	@Override
-	protected void process(IProject project, Problems problems) {
+	protected void process(final IProject project, final Problems problems) {
 		TITANDebugConsole.print("Unused import in project called");
 
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
@@ -51,20 +51,20 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			modules.add(module);
 		}
 
-		final Set<Module> setOfImportModules = new HashSet<Module>();
+		final Set<Module> setOfImportedModules = new HashSet<Module>();
 
 		for (Module module : modules) {
-			setOfImportModules.clear();
-			setOfImportModules.addAll( module.getImportedModules());
+			setOfImportedModules.clear();
+			setOfImportedModules.addAll( module.getImportedModules());
 			
 			ImportsCheck check = new ImportsCheck();
 			module.accept(check);
 
-			setOfImportModules.removeAll(check.getModules());
+			setOfImportedModules.removeAll(check.getModules());
 
 			if (module instanceof TTCN3Module) {
 				for (ImportModule mod : ((TTCN3Module)module).getImports()){
-					for (Module m : setOfImportModules) {
+					for (Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(mod.getIdentifier())) { 
 							problems.report(mod.getLocation(), "Possibly unused importation (project)");
 						}
@@ -75,7 +75,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 				ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
 				for (Module im : importsCheck.getImports()) {
-					for (Module m : setOfImportModules) {
+					for (Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(im.getIdentifier())) { 
 							problems.report(im.getLocation(), "Possibly unused importation (project)");
 						}
@@ -116,21 +116,21 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			return V_CONTINUE;
 		}
 	}
-	
+
 	class ModuleImportsCheck extends ASTVisitor {
 		private Set<Module> setOfModules = new HashSet<Module>();
-		
+
 		public ModuleImportsCheck() {
 			setOfModules.clear();
 		}
-		
+
 		public Set<Module> getImports() {
 			return setOfModules;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
-			//FIXME: implements
+			// FIXME: implements
 			return V_CONTINUE;
 		}
 	}
