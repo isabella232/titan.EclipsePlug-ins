@@ -1120,4 +1120,20 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		log_restricted();
 		log_ifpresent();
 	}
+	
+	public void log_match(final TitanValueArray<Tvalue> match_value, boolean legacy) {
+		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
+				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
+			TtcnLogger.print_logmatch_buffer();
+			TtcnLogger.log_event_str(" := ");
+		}
+		match_value.log();
+		TtcnLogger.log_event_str(" with ");
+		log();
+		if (match(match_value).getValue()) {
+			TtcnLogger.log_event_str(" matched");
+		} else {
+			TtcnLogger.log_event_str(" unmatched");
+		}
+	}
 }
