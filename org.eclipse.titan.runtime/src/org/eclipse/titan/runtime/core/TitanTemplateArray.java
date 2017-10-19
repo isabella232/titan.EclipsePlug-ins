@@ -76,7 +76,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		super.setSelection(otherValue);
 		clean_up_intervals();
 
-		if (otherValue.templateSelection == template_sel.SPECIFIC_VALUE) {
+		if (otherValue.templateSelection == template_sel.SPECIFIC_VALUE && otherValue.permutationIntervals != null) {
 			permutationIntervals = new ArrayList<Pair_of_elements>(otherValue.permutationIntervals.size());
 			permutationIntervals.addAll(otherValue.permutationIntervals);
 		}
@@ -194,7 +194,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			indexOffset = otherValue.indexOffset;
 			array_size = otherValue.array_size;
 
-			for (int i = 0; i < single_value.size(); ++i) {
+			for (int i = 0; i < singleSize; ++i) {
 				try {
 					final Ttemplate helper = classTemplate.newInstance();
 					helper.assign(otherValue.single_value.get(i));
