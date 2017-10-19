@@ -970,71 +970,71 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n\n");
 		source.append(MessageFormat.format("public static class {0}_template extends {1} '{'\n", ownName, templateName));
 		source.append(MessageFormat.format("public {0}_template() '{'\n",ownName));
-		source.append(MessageFormat.format("super({0}.class, {0}_template.class , {1} , {2});\n",elementName,dimension.getSize(), dimension.getOffset()));
+		source.append(MessageFormat.format("super({0}.class, {0}_template.class, {1}, {2});\n",elementName,dimension.getSize(), dimension.getOffset()));
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template({0}_template otherValue) '{'\n",ownName));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template({0} otherValue) '{'\n",ownName));
-		source.append(MessageFormat.format("super({0}_template.class , otherValue);\n ", elementName));
+		source.append(MessageFormat.format("super({0}_template.class, otherValue);\n", elementName));
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template(final Base_Template.template_sel otherValue) '{'\n",ownName));
 		source.append(MessageFormat.format("super({0}.class, {0}_template.class, otherValue);\n",elementName));
 		source.append("}\n");
+		source.append(MessageFormat.format("public {0} valueOf() '{'\n", ownName));
+		source.append(MessageFormat.format("return ({0})super.valueOf();\n", ownName));
+		source.append("}\n");
 		source.append("}\n\n");
 	}
 
-	public String generateCodeValue(JavaGenData aData, StringBuilder source, Array_Type arrayType , StringBuilder sb) {
-		String tempId1 = aData.getTemporaryVariableName();
-		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
-			tempId1 = generateCodeValue(aData, source,(Array_Type)arrayType.getElementType(),sb);
-			arrayType = (Array_Type)arrayType.getElementType();
-			String tempId2 = aData.getTemporaryVariableName();
-			sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId2,tempId1));
-			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
-			Array_Type parentTemp = (Array_Type)(arrayType.getParentType());
-			sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", tempId1, parentTemp.dimension.getSize(),parentTemp.getDimension().getOffset()));
-			sb.append("}\n");
-			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId2));
-			sb.append("super(otherValue);\n");
-			sb.append("}\n }\n\n");
-			tempId1 = tempId2;
-			return tempId1;
+	public String generateCodeValue( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
+		final String className = aData.getTemporaryVariableName();
+		final String ofType;
+		final ArrayDimension dim;
+		if ( arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY ) {
+			ofType = generateCodeValue( aData, source, (Array_Type)arrayType.getElementType(), sb );
+			final Array_Type parentTemp = (Array_Type)( arrayType.getElementType().getParentType() );
+			dim = parentTemp.getDimension();
 		} else {
-			sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", tempId1,arrayType.getElementType().getGenNameValue(aData, source, getMyScope())));
-			sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
-			sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope()),arrayType.getDimension().getSize(),arrayType.getDimension().getOffset()));
-			sb.append("}\n");
-			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", tempId1));
-			sb.append("super(otherValue);\n");
-			sb.append("}\n}\n\n");
-			return tempId1;
+			ofType = arrayType.getElementType().getGenNameValue( aData, source, getMyScope() );
+			dim = arrayType.getDimension();
 		}
+		sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", className, ofType));
+		sb.append(MessageFormat.format("public {0}() '{'\n", className));
+		sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", ofType, dim.getSize(), dim.getOffset()));
+		sb.append("}\n");
+		sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
+		sb.append("super(otherValue);\n");
+		sb.append("}\n");
+		sb.append("}\n\n");
+		return className;
 	}
 
-	public String generateCodeTemplate(JavaGenData aData, StringBuilder source, Array_Type arrayType, StringBuilder sb) {
-		String tempId1 = aData.getTemporaryVariableName();
+	public String generateCodeTemplate( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
+		final String classTemplateName = aData.getTemporaryVariableName();
+		final String ofValueType;
+		final String ofTemplateType;
+		final ArrayDimension dim;
 		if(arrayType.getElementType().getTypetype() == Type_type.TYPE_ARRAY) {
-			tempId1 = generateCodeTemplate(aData, source,(Array_Type)arrayType.getElementType(),sb);
-			arrayType = (Array_Type)arrayType.getElementType();
-			String tempId2 = aData.getTemporaryVariableName();
-			String tempId3 = generateCodeValue(aData, source, arrayType, sb);
-			Array_Type parentTemp = (Array_Type)(arrayType.getParentType());
-			sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", tempId2,tempId3,tempId1));
-			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));
-			sb.append(MessageFormat.format("super({0}.class, {1}.class, {2} , {3});\n", tempId3,tempId1, parentTemp.dimension.getSize(), parentTemp.dimension.getOffset()));
-			sb.append("}\n");
-			sb.append("}\n");
-			tempId1 = tempId2;
-			return tempId1;
+			ofValueType = generateCodeValue(aData, source, arrayType, sb);
+			ofTemplateType = generateCodeTemplate(aData, source,(Array_Type)arrayType.getElementType(),sb);
+			final Array_Type parentTemp = (Array_Type)(arrayType.getElementType().getParentType());
+			dim = parentTemp.getDimension();
 		} else {
-			sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", tempId1,arrayType.getElementType().getGenNameValue(aData, source, getMyScope()) ,arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope())));
-			sb.append(MessageFormat.format("public {0}() '{'\n", tempId1));
-			sb.append(MessageFormat.format("super({0}.class , {1}.class, {2} , {3});\n", arrayType.getElementType().getGenNameValue(aData, source, getMyScope()) ,arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope()), arrayType.dimension.getSize(),arrayType.dimension.getOffset()));
-			sb.append("}\n");
-			sb.append("}\n");
-			return tempId1;
+			ofValueType = arrayType.getElementType().getGenNameValue(aData, source, getMyScope());
+			ofTemplateType = arrayType.getElementType().getGenNameTemplate(aData, source, getMyScope());
+			dim = arrayType.getDimension();
 		}	
+		sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
+		sb.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
+		sb.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
+		sb.append("}\n");
+		//TODO: add
+		//sb.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
+		//sb.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
+		//sb.append("}\n");
+		sb.append("}\n");
+		return classTemplateName;
 	}
 
 	@Override
