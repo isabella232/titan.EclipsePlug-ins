@@ -428,7 +428,9 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanCharacter_String_identification_syntaxes) {
 			log_match((TitanCharacter_String_identification_syntaxes)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to CHARACTER STRING.identification.syntaxes.");
 	}
 

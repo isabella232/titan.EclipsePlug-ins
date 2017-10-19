@@ -214,6 +214,16 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanHexString) {
+			log_match((TitanHexString) match_value, legacy);
+			return;
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", match_value));
+	}
+
 	// originally match
 	public TitanBoolean match(final TitanHexString otherValue) {
 		return match(otherValue, false);

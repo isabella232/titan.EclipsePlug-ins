@@ -955,7 +955,8 @@ public class UnionGenerator {
 		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
 		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", genName));
 		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", genName));
-		source.append("}\n");
+		source.append("\t\t\treturn;\n");
+		source.append("}\n\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("}\n\n");
 

@@ -93,6 +93,16 @@ public class TitanInteger_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", otherValue));
 	}
 
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanInteger) {
+			log_match((TitanInteger) match_value, legacy);
+			return;
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", match_value));
+	}
+
 	//originally operator=
 	public TitanInteger_template assign( final template_sel otherValue ) {
 		checkSingleSelection(otherValue);

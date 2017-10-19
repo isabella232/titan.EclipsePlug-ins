@@ -480,7 +480,9 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanEmbedded_PDV) {
 			log_match((TitanEmbedded_PDV)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.");
 	}
 

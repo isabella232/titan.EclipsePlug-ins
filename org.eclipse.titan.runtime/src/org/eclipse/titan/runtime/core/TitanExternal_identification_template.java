@@ -571,7 +571,9 @@ public class TitanExternal_identification_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanExternal_identification) {
 			log_match((TitanExternal_identification)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.identification.");
 	}
 

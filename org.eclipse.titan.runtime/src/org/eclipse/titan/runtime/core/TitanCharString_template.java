@@ -221,6 +221,16 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanCharString) {
+			log_match((TitanCharString) match_value, legacy);
+			return;
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", match_value));
+	}
+
 	// originally match
 	public TitanBoolean match(final TitanCharString otherValue) {
 		return match(otherValue, false);

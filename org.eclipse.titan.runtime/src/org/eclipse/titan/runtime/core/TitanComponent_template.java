@@ -16,6 +16,7 @@ import java.util.ArrayList;
  *  //FIXME a lot to implement 
  *  
  * @author Kristof Szabados
+ * @author Andrea Pálfi
  */
 public class TitanComponent_template extends Base_Template {
 	public static final TitanComponent_template any_compref = new TitanComponent_template(template_sel.ANY_VALUE);
@@ -118,6 +119,16 @@ public class TitanComponent_template extends Base_Template {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference template", otherValue));
+	}
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanComponent) {
+			log_match((TitanComponent) match_value, legacy);
+			return;
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component", match_value));
 	}
 
 	//originally operator=

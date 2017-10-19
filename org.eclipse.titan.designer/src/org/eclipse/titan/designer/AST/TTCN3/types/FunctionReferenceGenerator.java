@@ -520,7 +520,8 @@ public class FunctionReferenceGenerator {
 		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
 		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", def.genName));
-		source.append("}\n");
+		source.append("return;\n");
+		source.append("}\n\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", def.displayName));
 		source.append("}\n\n");
 

@@ -15,6 +15,7 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 /**
  * TTCN-3 verdict type template
  * @author Arpad Lovassy
+ * @author Andrea Pálfi
  */
 public class TitanVerdictType_template extends Base_Template {
 
@@ -195,6 +196,16 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", otherValue));
+	}
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanVerdictType) {
+			log_match((TitanVerdictType) match_value, legacy);
+			return;
+		}
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to verdict type", match_value));
 	}
 
 	// originally match

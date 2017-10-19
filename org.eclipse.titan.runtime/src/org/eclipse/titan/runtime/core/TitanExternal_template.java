@@ -480,7 +480,9 @@ public class TitanExternal_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanExternal) {
 			log_match((TitanExternal)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.");
 	}
 
