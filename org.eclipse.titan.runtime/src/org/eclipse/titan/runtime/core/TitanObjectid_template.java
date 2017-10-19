@@ -15,6 +15,7 @@ import java.util.List;
  * objid template
  * 
  * @author Gergo Ujhelyi
+ * @author Andrea Palfi
  *
  */
 public class TitanObjectid_template extends Base_Template {
@@ -124,6 +125,15 @@ public class TitanObjectid_template extends Base_Template {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objid", otherValue));
+	}
+	
+	@Override 
+	public void log_match(final Base_Type match_value,final boolean legacy){
+		if(match_value instanceof TitanObjectid){
+			log_match((TitanObjectid)match_value,legacy);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objid", match_value)); 
 	}
 
 	public TitanBoolean match(final TitanObjectid otherValue, final boolean legacy) {
