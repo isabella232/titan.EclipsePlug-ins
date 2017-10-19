@@ -14,6 +14,7 @@ import java.util.ArrayList;
  * TTCN-3 default template
  *
  * @author Kristof Szabados
+ * @author Andrea Pálfi
  * 
  */
 public class TitanDefault_template extends Base_Template {
@@ -122,6 +123,15 @@ public class TitanDefault_template extends Base_Template {
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", otherValue));
+	}
+	
+	@Override 
+	public void log_match(final Base_Type match_value,final boolean legacy){
+		if(match_value instanceof TitanDefault){
+			log_match((TitanDefault)match_value,legacy);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to default", match_value)); 
 	}
 
 	//originally operator=

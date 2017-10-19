@@ -16,6 +16,7 @@ import org.eclipse.titan.runtime.core.TitanAsn_Null.Asn_Null_Type;
  * ASN.1 NULL type template
  * 
  * @author Kristof Szabados
+ * @author Andrea Pálfi
  */
 public class TitanAsn_Null_template extends Base_Template {
 	private ArrayList<TitanAsn_Null_template> value_list;
@@ -112,6 +113,16 @@ public class TitanAsn_Null_template extends Base_Template {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", otherValue));
 	}
+	
+	@Override 
+	public void log_match(final Base_Type match_value,final boolean legacy){
+		if(match_value instanceof TitanAsn_Null){
+			log_match((TitanAsn_Null)match_value,legacy);
+		}
+		
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", match_value)); 
+	}
+
 
 	//originally operator=
 	public TitanAsn_Null_template assign( final TitanAsn_Null_template otherValue ) {
