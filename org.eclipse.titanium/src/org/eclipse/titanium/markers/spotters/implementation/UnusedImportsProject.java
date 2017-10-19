@@ -30,58 +30,75 @@ import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
-*
-* @author Farkas Izabella Ingrid
-*/
+ *
+ * @author Farkas Izabella Ingrid
+ */
 public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 
-	private Set<TTCN3Module> setOfModules = new HashSet<TTCN3Module>();
-	private Set<TTCN3Module> setOfImportModules = new HashSet<TTCN3Module>();
-	
 	public UnusedImportsProject() {
 		super(CodeSmellType.UNUSED_IMPORTS_PROJECT);
 	}
-	
+
 	@Override
 	protected void process(IProject project, Problems problems) {
 		TITANDebugConsole.print("Unused import in project called");
-		
+
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
-		final List<TTCN3Module> modules = new ArrayList<TTCN3Module>();
+		final List<Module> modules = new ArrayList<Module>();
 		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
 			Module module = projectSourceParser.getModuleByName(moduleName); 
-			if (module instanceof TTCN3Module) {
-				modules.add((TTCN3Module) module);
-			}
+			modules.add(module);
 		}
-		
-		for (TTCN3Module module : modules) {
-			setOfModules.clear();
+
+		final Set<Module> setOfImportModules = new HashSet<Module>();
+
+		for (Module module : modules) {
 			setOfImportModules.clear();
-			for (Module impMod : module.getImportedModules()) {
-				if (impMod instanceof TTCN3Module) {
-					setOfImportModules.add((TTCN3Module)impMod);
-				}
-			}
+			setOfImportModules.addAll( module.getImportedModules());
 			
 			ImportsCheck check = new ImportsCheck();
 			module.accept(check);
-			
-			setOfImportModules.removeAll(setOfModules);
 
-			for (ImportModule mod : module.getImports()){
-				for (TTCN3Module m : setOfImportModules) {
-					if(m.getIdentifier().equals(mod.getIdentifier())) { 
-						problems.report(mod.getLocation(), "Possibly unused importation");
+			setOfImportModules.removeAll(check.getModules());
+
+			if (module instanceof TTCN3Module) {
+				for (ImportModule mod : ((TTCN3Module)module).getImports()){
+					for (Module m : setOfImportModules) {
+						if(m.getIdentifier().equals(mod.getIdentifier())) { 
+							problems.report(mod.getLocation(), "Possibly unused importation (project)");
+						}
 					}
 				}
+			} else {
+				//visitor
+				ModuleImportsCheck importsCheck = new ModuleImportsCheck();
+				module.accept(importsCheck);
+				for (Module im : importsCheck.getImports()) {
+					for (Module m : setOfImportModules) {
+						if(m.getIdentifier().equals(im.getIdentifier())) { 
+							problems.report(im.getLocation(), "Possibly unused importation (project)");
+						}
+					}
+				}	
 			}
 		}
 	}
 
 	class ImportsCheck extends ASTVisitor {
-		public int visit(final IVisitableNode node){
+
+		private Set<Module> setOfModules = new HashSet<Module>();
+
+		public ImportsCheck() {
+			setOfModules.clear();
+		}
+
+		public Set<Module> getModules() {
+			return setOfModules;
+		}
+
+		@Override
+		public int visit(final IVisitableNode node) {
 			if (node instanceof Reference) {
 				if(((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {	
 					return V_CONTINUE;
@@ -90,17 +107,30 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 				final Assignment assignment = ((Reference) node).getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
 				if(assignment != null ) {
 					final Scope scope =  assignment.getMyScope();
-					if (scope != null) {
-						final Module module = scope.getModuleScope();
-						if (module instanceof TTCN3Module){
-							TTCN3Module mod = (TTCN3Module)module;
-							setOfModules.add(mod);
-						}
-						
+					if (scope != null) {			
+						setOfModules.add(scope.getModuleScope());
 					}
 					return V_CONTINUE;
 				}
 			}
+			return V_CONTINUE;
+		}
+	}
+	
+	class ModuleImportsCheck extends ASTVisitor {
+		private Set<Module> setOfModules = new HashSet<Module>();
+		
+		public ModuleImportsCheck() {
+			setOfModules.clear();
+		}
+		
+		public Set<Module> getImports() {
+			return setOfModules;
+		}
+		
+		@Override
+		public int visit(final IVisitableNode node) {
+			//FIXME: implements
 			return V_CONTINUE;
 		}
 	}
