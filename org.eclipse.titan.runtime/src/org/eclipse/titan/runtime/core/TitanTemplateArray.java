@@ -625,6 +625,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanValueArray<?>) {
 			log_match((TitanValueArray<Tvalue>) match_value, legacy);
+			return;
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to value array", match_value));

@@ -247,6 +247,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanBitString) {
 			log_match((TitanBitString) match_value, legacy);
+			return;
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", match_value));

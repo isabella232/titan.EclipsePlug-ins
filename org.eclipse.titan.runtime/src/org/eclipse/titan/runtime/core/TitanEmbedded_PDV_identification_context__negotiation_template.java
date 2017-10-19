@@ -428,7 +428,9 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanEmbedded_PDV_identification_context__negotiation) {
 			log_match((TitanEmbedded_PDV_identification_context__negotiation)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.identification.context-negotiation.");
 	}
 

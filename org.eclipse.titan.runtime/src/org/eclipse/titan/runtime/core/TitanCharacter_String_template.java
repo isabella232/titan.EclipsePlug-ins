@@ -480,7 +480,9 @@ public class TitanCharacter_String_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanCharacter_String) {
 			log_match((TitanCharacter_String)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to CHARACTER STRING.");
 	}
 

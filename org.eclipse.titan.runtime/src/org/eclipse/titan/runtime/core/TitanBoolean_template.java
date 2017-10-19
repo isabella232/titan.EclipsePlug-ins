@@ -184,6 +184,7 @@ public class TitanBoolean_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanBoolean) {
 			log_match((TitanBoolean) match_value, legacy);
+			return;
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", match_value));

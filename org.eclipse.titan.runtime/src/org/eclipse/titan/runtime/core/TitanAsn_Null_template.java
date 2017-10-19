@@ -118,6 +118,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanAsn_Null) {
 			log_match((TitanAsn_Null) match_value, legacy);
+			return;
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", match_value));

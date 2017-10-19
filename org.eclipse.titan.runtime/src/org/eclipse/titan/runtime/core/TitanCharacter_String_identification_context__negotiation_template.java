@@ -428,7 +428,9 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanCharacter_String_identification_context__negotiation) {
 			log_match((TitanCharacter_String_identification_context__negotiation)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to CHARACTER STRING.identification.context-negotiation.");
 	}
 

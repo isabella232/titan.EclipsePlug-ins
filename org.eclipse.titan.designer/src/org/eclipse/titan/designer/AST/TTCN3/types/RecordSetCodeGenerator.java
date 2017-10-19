@@ -1164,7 +1164,8 @@ public class RecordSetCodeGenerator {
 		source.append("\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
 		source.append(MessageFormat.format("\t\tif (match_value instanceof {0}) '{'\n", genName));
 		source.append(MessageFormat.format("\t\t\tlog_match(({0})match_value, legacy);\n", genName));
-		source.append("\t\t}\n");
+		source.append("\t\t\treturn;\n");
+		source.append("\t\t}\n\n");
 		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("\t}\n");
 

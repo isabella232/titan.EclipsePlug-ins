@@ -143,6 +143,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanUniversalCharString) {
 			log_match((TitanUniversalCharString) match_value, legacy);
+			return;
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universalcharstring", match_value));

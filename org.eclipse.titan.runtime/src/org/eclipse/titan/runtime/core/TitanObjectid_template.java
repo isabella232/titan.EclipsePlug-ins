@@ -131,6 +131,7 @@ public class TitanObjectid_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanObjectid) {
 			log_match((TitanObjectid) match_value, legacy);
+			return;
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objid", match_value));

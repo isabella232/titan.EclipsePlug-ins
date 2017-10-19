@@ -1748,7 +1748,8 @@ public class RecordOfGenerator {
 		aSb.append("\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
 		aSb.append(MessageFormat.format("\t\tif (match_value instanceof {0}) '{'\n", genName));
 		aSb.append(MessageFormat.format("\t\t\tlog_match(({0})match_value, legacy);\n", genName));
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t\treturn;\n");
+		aSb.append("\t\t}\n\n");
 		aSb.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		aSb.append("\t}\n");
 

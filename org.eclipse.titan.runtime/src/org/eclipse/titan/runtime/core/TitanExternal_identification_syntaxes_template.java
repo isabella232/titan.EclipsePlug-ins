@@ -428,7 +428,9 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanExternal_identification_syntaxes) {
 			log_match((TitanExternal_identification_syntaxes)match_value, legacy);
+			return;
 		}
+
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.identification.syntaxes.");
 	}
 

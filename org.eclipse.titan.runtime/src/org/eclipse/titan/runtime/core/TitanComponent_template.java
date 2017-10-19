@@ -125,6 +125,7 @@ public class TitanComponent_template extends Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		if (match_value instanceof TitanComponent) {
 			log_match((TitanComponent) match_value, legacy);
+			return;
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component", match_value));
