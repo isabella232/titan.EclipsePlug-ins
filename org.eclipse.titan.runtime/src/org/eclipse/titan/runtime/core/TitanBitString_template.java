@@ -242,14 +242,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
-	
-	@Override 
-	public void log_match(final Base_Type match_value,final boolean legacy){
-		if(match_value instanceof TitanBitString){
-			log_match((TitanBitString)match_value,legacy);
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanBitString) {
+			log_match((TitanBitString) match_value, legacy);
 		}
-		
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", match_value)); 
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", match_value));
 	}
 
 	// originally match

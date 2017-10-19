@@ -621,16 +621,15 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		throw new TtcnError(MessageFormat.format("Internal Error: value {0} can not be cast to value array", otherValue));
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override 
-	public void log_match(final Base_Type match_value,final boolean legacy){
-		if(match_value instanceof TitanValueArray<?>){
-			log_match((TitanValueArray<Tvalue>)match_value,legacy);
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanValueArray<?>) {
+			log_match((TitanValueArray<Tvalue>) match_value, legacy);
 		}
-		
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to value array", match_value)); 
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to value array", match_value));
 	}
-	
+
 	public TitanBoolean match(final TitanValueArray<Tvalue> otherValue) {
 		return match(otherValue,false);
 	}
