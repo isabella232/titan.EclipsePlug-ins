@@ -120,14 +120,14 @@ public class TitanComponent_template extends Base_Template {
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component reference template", otherValue));
 	}
-	
-	@Override 
-	public void log_match(final Base_Type match_value,final boolean legacy){
-		if(match_value instanceof TitanComponent){
-			log_match((TitanComponent)match_value,legacy);
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanComponent) {
+			log_match((TitanComponent) match_value, legacy);
 		}
-		
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component", match_value)); 
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component", match_value));
 	}
 
 	//originally operator=

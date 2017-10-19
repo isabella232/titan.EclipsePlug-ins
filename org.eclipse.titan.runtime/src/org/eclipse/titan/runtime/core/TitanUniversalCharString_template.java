@@ -138,14 +138,14 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universal charstring template", otherValue));
 	}
-	
-	@Override 
-	public void log_match(final Base_Type match_value,final boolean legacy){
-		if(match_value instanceof TitanUniversalCharString){
-			log_match((TitanUniversalCharString)match_value,legacy);
+
+	@Override
+	public void log_match(final Base_Type match_value, final boolean legacy) {
+		if (match_value instanceof TitanUniversalCharString) {
+			log_match((TitanUniversalCharString) match_value, legacy);
 		}
-		
-		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universalcharstring", match_value)); 
+
+		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to universalcharstring", match_value));
 	}
 
 	//originally operator=
