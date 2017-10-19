@@ -1119,4 +1119,9 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 		expression.expression.append(closingBrackets);
 	}
+
+	public boolean isInTypeDefinition() {
+		return inTypeDefinition;
+	}
+	
 }
