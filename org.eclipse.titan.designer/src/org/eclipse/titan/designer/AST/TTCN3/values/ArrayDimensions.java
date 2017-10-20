@@ -204,20 +204,4 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 		}
 		return true;
 	}
-
-	/**
-	 * Returns the Java type expression that represents the type of the port array.
-	 *
-	 * @param genName the name of port type class.
-	 * */
-	public String getPortType(final String genName) {
-		String returnValue = genName;
-		// the wrapping is started with the rightmost array dimension
-		for (int i = dimensions.size(); i > 0; i--) {
-			ArrayDimension dimension = dimensions.get(i-1);
-			returnValue = "TitanPortArray<" + returnValue + ", " + dimension.getSize() + ", " + dimension.getOffset() + ">";
-		}
-
-		return returnValue;
-	}
 }

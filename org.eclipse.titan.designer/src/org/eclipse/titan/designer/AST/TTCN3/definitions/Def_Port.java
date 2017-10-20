@@ -374,13 +374,15 @@ public final class Def_Port extends Definition {
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
 		aData.addBuiltinTypeImport("TtcnError");
 
-		String typeGenName = portType.getGenNameValue(aData, source, myScope);
 		if(dimensions == null) {
-			source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", typeGenName, genName, identifier.getDisplayName()));
+			source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameOwn(), genName, identifier.getDisplayName()));
 		} else {
-			String arrayType = dimensions.getPortType(typeGenName);
-			source.append("//TODO this is just a temporary placeholder implementation\n");
-			source.append(MessageFormat.format("{0} {1};\n", arrayType, genName));
+			String typeGenName = portType.getGenNameValue(aData, source, myScope);
+
+			StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
+			portType.generateCodePort(aData, source, portType, dimensions,tempSb);
+
+			source.append(MessageFormat.format("{0} {1};\n", typeGenName, genName));
 
 			StringBuilder preInit = aData.getPreInit();
 			preInit.append("{\n");

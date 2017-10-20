@@ -490,10 +490,10 @@ public final class Def_Const extends Definition {
 		}
 
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
-			Array_Type arrayType =  (Array_Type) type;
+		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
+			Array_Type arrayType = (Array_Type) type;
 			StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
-			arrayType.generateCodeValue(aData, source,arrayType,temp_sb);
+			arrayType.generateCodeValue(aData, source, temp_sb);
 		}
 
 		source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
@@ -522,9 +522,9 @@ public final class Def_Const extends Definition {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, last.generateSingleExpression(aData)));
 		} else {
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
-				Array_Type arrayType =  (Array_Type) type;
+				Array_Type arrayType = (Array_Type) type;
 				StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-				arrayType.generateCodeValue(aData, source,arrayType,sb);
+				arrayType.generateCodeValue(aData, source, sb);
 			}
 
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));

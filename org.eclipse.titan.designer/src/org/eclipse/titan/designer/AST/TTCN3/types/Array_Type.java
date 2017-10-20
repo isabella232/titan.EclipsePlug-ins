@@ -995,17 +995,16 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n\n");
 	}
 
-	//TODO check: 3rd parameter is not needed
-	public void generateCodeValue( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
-		final String className = arrayType.getGenNameValue(aData, source, myScope);
+	public void generateCodeValue( final JavaGenData aData, final StringBuilder source, final StringBuilder sb ) {
+		final String className = getGenNameValue(aData, source, myScope);
 
-		final IType elementType = arrayType.getElementType();
+		final IType elementType = getElementType();
 		final String ofType = elementType.getGenNameValue( aData, source, getMyScope() );
 		if ( elementType.getTypetype() == Type_type.TYPE_ARRAY ) {
-			generateCodeValue( aData, source, (Array_Type)elementType, sb );
+			((Array_Type)elementType).generateCodeValue( aData, source, sb );
 		}
 
-		final ArrayDimension dim = arrayType.getDimension();
+		final ArrayDimension dim = getDimension();
 
 		aData.addBuiltinTypeImport("TitanValueArray");
 
@@ -1019,19 +1018,19 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		sb.append("}\n\n");
 	}
 
-	public void generateCodeTemplate( final JavaGenData aData, final StringBuilder source, final Array_Type arrayType, final StringBuilder sb ) {
-		final String className = arrayType.getGenNameValue(aData, source, myScope);
-		final String classTemplateName = arrayType.getGenNameTemplate(aData, source, myScope);
+	public void generateCodeTemplate( final JavaGenData aData, final StringBuilder source, final StringBuilder sb ) {
+		final String className = getGenNameValue(aData, source, myScope);
+		final String classTemplateName = getGenNameTemplate(aData, source, myScope);
 
-		final IType elementType = arrayType.getElementType();
+		final IType elementType = getElementType();
 		final String ofValueType = elementType.getGenNameValue(aData, source, getMyScope());
 		final String ofTemplateType = elementType.getGenNameTemplate(aData, source, getMyScope());
 
 		if(elementType.getTypetype() == Type_type.TYPE_ARRAY) {
-			generateCodeTemplate(aData, source,(Array_Type)elementType,sb);
+			((Array_Type)elementType).generateCodeTemplate(aData, source,sb);
 		}
 
-		final ArrayDimension dim = arrayType.getDimension();
+		final ArrayDimension dim = getDimension();
 
 		aData.addBuiltinTypeImport("TitanTemplateArray");
 

@@ -487,7 +487,7 @@ public final class Def_Var_Template extends Definition {
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
 			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
-			arrayType.generateCodeTemplate(aData, source, arrayType, sbforTemp);
+			arrayType.generateCodeTemplate(aData, source, sbforTemp);
 		}
 
 		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
@@ -517,11 +517,11 @@ public final class Def_Var_Template extends Definition {
 
 		// FIXME temporal code until generate_code_object and generateCodeInit is supported for templates
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
-		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
-			Array_Type arrayType =  (Array_Type) type;
+		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
+			Array_Type arrayType = (Array_Type) type;
 			StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-			arrayType.generateCodeValue(aData, source,arrayType,sb);
-			arrayType.generateCodeTemplate(aData, source, arrayType, sb);
+			arrayType.generateCodeValue(aData, source, sb);
+			arrayType.generateCodeTemplate(aData, source, sb);
 		}
 
 		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
