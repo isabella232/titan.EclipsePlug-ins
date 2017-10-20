@@ -44,6 +44,29 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 	}
 
+	public TitanPortArray(final Class<T> clazz, int size, int offset) {
+		this.clazz = clazz;
+		indexofset = offset;
+		array_elements = new ArrayList<T>(size);
+		names = new ArrayList<String>(size);
+		setSize(size);
+	}
+
+	public void setSize(final int length) {
+		for (int i = array_size; i < length; ++i) {
+			try {
+				final T emply = clazz.newInstance();
+				array_elements.add(emply);
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		array_size = length;
+	}
+
 	// originally operator=
 	public TitanPortArray<T> assign(final TitanPortArray<T> otherValue) {
 		array_elements = new ArrayList<T>();
@@ -97,7 +120,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	//originally set_name
-	public void setName(final String name_string) {
+	public void set_name(final String name_string) {
 		for (int i = 0; i < array_size; i++) {
 			names.set(i, name_string);
 			array_elements.get(i).setName(name_string);

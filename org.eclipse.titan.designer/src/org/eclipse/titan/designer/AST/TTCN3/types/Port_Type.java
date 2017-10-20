@@ -29,6 +29,9 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -42,6 +45,9 @@ public final class Port_Type extends Type {
 	private static final String TEMPLATENOTALLOWED = "Template cannot be defined for port type `{0}''";
 
 	private final PortTypeBody body;
+
+	private BuildTimestamp lastBuildTimestamp;
+	private String lastGenName;
 
 	public Port_Type(final PortTypeBody body) {
 		this.body = body;
@@ -252,7 +258,12 @@ public final class Port_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		return getGenNameOwn(scope);
+		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = aData.getTemporaryVariableName();
+		}
+
+		return lastGenName;
 	}
 
 	@Override
@@ -266,5 +277,33 @@ public final class Port_Type extends Type {
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		body.generateCode(aData, source);
+	}
+
+	//TODO comment
+	public void generateCodePort(final JavaGenData aData, final StringBuilder source, final Port_Type portType, final ArrayDimensions dimensions, final StringBuilder sb) {
+		String className = portType.getGenNameValue(aData, source, myScope);
+		String elementName;
+
+		for (int i = 0; i < dimensions.size(); i++) {
+			ArrayDimension dimension = dimensions.get(i);
+			if (i == dimensions.size() - 1) {
+				elementName = getGenNameOwn();
+			} else {
+				elementName = aData.getTemporaryVariableName();
+			}
+
+			sb.append(MessageFormat.format("public static class {0} extends TitanPortArray<{1}> '{'\n", className, elementName));
+			sb.append(MessageFormat.format("public {0}() '{'\n", className));
+			sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", elementName, dimension.getSize(), dimension.getOffset()));
+			sb.append("}\n");
+			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
+			sb.append("super(otherValue);\n");
+			sb.append("}\n");
+			sb.append("}\n\n");
+
+			className = elementName;
+		}
+
+		aData.addBuiltinTypeImport("TitanPortArray");
 	}
 }
