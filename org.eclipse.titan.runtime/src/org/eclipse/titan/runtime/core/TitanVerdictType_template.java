@@ -322,7 +322,7 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	public void log_match(final TitanVerdictType match_value, boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
