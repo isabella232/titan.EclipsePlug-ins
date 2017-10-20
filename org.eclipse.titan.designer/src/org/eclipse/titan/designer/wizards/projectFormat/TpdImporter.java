@@ -62,6 +62,7 @@ import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.graphics.ImageCache;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.DOMErrorHandlerImpl;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
@@ -71,6 +72,7 @@ import org.eclipse.ui.actions.WorkspaceModifyOperation;
 import org.eclipse.ui.dialogs.PreferencesUtil;
 import org.eclipse.ui.progress.IProgressConstants;
 import org.osgi.framework.Bundle;
+import org.w3c.dom.Comment;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -269,8 +271,23 @@ public class TpdImporter {
 					}
 				}
 			}
-
 			Element mainElement = actualDocument.getDocumentElement();
+			//=== Get the copyright text ===
+			Node node = mainElement.getFirstChild();
+
+			String commentStr = ""; //default value. This will be changed for PreferenceConstants.COPYRIGHT_DEFAULT_STRING at export
+			if( node !=null && node.getNodeType() == Element.COMMENT_NODE ){
+				//process comment node
+				Comment comment = (Comment) node;
+				commentStr = comment.getData();
+			}
+			try {
+				project.setPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.PROJECT_COPYRIGHT_STRING_ID),
+						commentStr);
+			} catch (CoreException e) {
+				ErrorReporter.logExceptionStackTrace("While setting `copyright string' for project `" + project.getName() + "'", e);
+			}
+
 			if (!loadProjectDataFromNode(mainElement, project, projectFileFolderURI)) {
 				return false;
 			}

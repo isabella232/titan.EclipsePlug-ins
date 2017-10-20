@@ -1413,7 +1413,7 @@ public final class ProjectFileHandler {
 		Node child = root.getFirstChild();
 
 		if (child != null && Node.COMMENT_NODE == child.getNodeType()) {
-			// Do nothing
+			root.insertBefore(document.createTextNode(ProjectFileHandler.getXMLIndentation(level)), child);
 		} else {
 			if (child != null && Node.TEXT_NODE != child.getNodeType()) {
 				root.insertBefore(document.createTextNode(ProjectFileHandler.getXMLIndentation(level + 2)), child);
@@ -1426,17 +1426,13 @@ public final class ProjectFileHandler {
 			if (Node.TEXT_NODE == child.getNodeType()) {
 				child.setTextContent(child.getNodeValue().replaceAll("\\s", ""));
 			} else {
-				if (Node.COMMENT_NODE == child.getNodeType()) {
-					root.removeChild(child);
-				} else {
-					if (sibling == null) {
-						root.appendChild(document.createTextNode(ProjectFileHandler.getXMLIndentation(level)));
-					} else if (Node.TEXT_NODE != sibling.getNodeType()) {
-						root.insertBefore(document.createTextNode(ProjectFileHandler.getXMLIndentation(level + 2)), sibling);
-					}
+				if (sibling == null) {
+					root.appendChild(document.createTextNode(ProjectFileHandler.getXMLIndentation(level)));
+				} else if (Node.TEXT_NODE != sibling.getNodeType()) {
+					root.insertBefore(document.createTextNode(ProjectFileHandler.getXMLIndentation(level + 2)), sibling);
 				}
-				indentNode(document, child, level + 2);
 			}
+			indentNode(document, child, level + 2);
 
 			child = sibling;
 		}

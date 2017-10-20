@@ -37,8 +37,13 @@ public final class ProjectBuildPropertyData {
 	public static final String EMPTY_STRING = "";
 	public static final String TRUE_STRING = "true";
 	public static final String FALSE_STRING = "false";
+	//Project Property data:
 	public static final String USE_TPD_NAME = "useTpdName";
 	public static final String ORIG_TPD_URI = "origTpdURI";
+	/**
+	 *  Project copyright string id:
+	 */
+	public static final String PROJECT_COPYRIGHT_STRING_ID = "projectCopyright"; 
 
 	public static final String GENERATE_MAKEFILE_PROPERTY = "generateMakefile";
 	public static final String GENERATE_INTERNAL_MAKEFILE_PROPERTY = "generateInternalMakefile";

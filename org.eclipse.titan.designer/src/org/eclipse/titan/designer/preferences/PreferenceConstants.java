@@ -45,6 +45,13 @@ public final class PreferenceConstants {
 	public static final String EXPORT_PACK_ALL_PROJECTS_INTO_ONE = ProductConstants.PRODUCT_ID_DESIGNER + ".packAllProjectsIntoOne";
 	public static final String USE_TPD_NAME = ProductConstants.PRODUCT_ID_DESIGNER + ".useTpdName";
 	public static final String ORIG_TPD_URI = ProductConstants.PRODUCT_ID_DESIGNER + ".origTpdURI";
+	public static final String COPYRIGHT_DEFAULT_STRING =
+	"\n" +
+	" Copyright (c) 2000-2017 Ericsson Telecom AB\n" +
+	" All rights reserved. This program and the accompanying materials\n" +
+	" are made available under the terms of the Eclipse Public License v1.0\n" +
+	" which accompanies this distribution, and is available at\n" +
+	" http://www.eclipse.org/legal/epl-v10.html\n";
 
 	/**
 	 * Flag: Automatic export required

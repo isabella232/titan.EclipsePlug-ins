@@ -46,6 +46,7 @@ import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
 import org.eclipse.titan.designer.properties.data.ProjectDocumentHandlingUtility;
 import org.eclipse.titan.designer.properties.data.ProjectFileHandler;
 import org.eclipse.titan.designer.wizards.projectFormat.TITANProjectExportWizard.ExportResourceVisitor;
+import org.w3c.dom.Comment;
 import org.w3c.dom.DOMConfiguration;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
@@ -322,7 +323,21 @@ public final class TITANProjectExporter {
 	 * */
 	private boolean saveProjectInformation(final Node root, final IProject project, final boolean packReferencedProjects, final boolean storeReferredProjectLocationURI) {
 		final Document document = root.getOwnerDocument();
+		//=== Create copyright comment: ===
+		//TODO: Tested only for top level project. Copyright of packed projects is not handled and not tested yet!
+		String copyrightStr = null;
+		try {
+			copyrightStr = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, ProjectBuildPropertyData.PROJECT_COPYRIGHT_STRING_ID));
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
 
+		if(copyrightStr == null || copyrightStr.isEmpty()) {
+			copyrightStr = PreferenceConstants.COPYRIGHT_DEFAULT_STRING;
+		}
+
+		Comment commentNode = document.createComment(copyrightStr);
+		root.appendChild(commentNode);
 		// save the name of the project
 		Element projectNameNode = document.createElement(ProjectFormatConstants.PROJECTNAME_NODE);
 		projectNameNode.appendChild(document.createTextNode(project.getName()));
