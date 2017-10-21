@@ -279,9 +279,15 @@ public final class Port_Type extends Type {
 		body.generateCode(aData, source);
 	}
 
-	//TODO comment
-	public void generateCodePort(final JavaGenData aData, final StringBuilder source, final Port_Type portType, final ArrayDimensions dimensions, final StringBuilder sb) {
-		String className = portType.getGenNameValue(aData, source, myScope);
+	/**
+	 * Generate the classes to represent a port array.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source where the source code should be generated
+	 * @param dimensions the dimensions of the array to use.
+	 */
+	public void generateCodePort(final JavaGenData aData, final StringBuilder source, final ArrayDimensions dimensions) {
+		String className = getGenNameValue(aData, source, myScope);
 		String elementName;
 
 		for (int i = 0; i < dimensions.size(); i++) {
@@ -292,14 +298,14 @@ public final class Port_Type extends Type {
 				elementName = aData.getTemporaryVariableName();
 			}
 
-			sb.append(MessageFormat.format("public static class {0} extends TitanPortArray<{1}> '{'\n", className, elementName));
-			sb.append(MessageFormat.format("public {0}() '{'\n", className));
-			sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", elementName, dimension.getSize(), dimension.getOffset()));
-			sb.append("}\n");
-			sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
-			sb.append("super(otherValue);\n");
-			sb.append("}\n");
-			sb.append("}\n\n");
+			source.append(MessageFormat.format("public static class {0} extends TitanPortArray<{1}> '{'\n", className, elementName));
+			source.append(MessageFormat.format("public {0}() '{'\n", className));
+			source.append(MessageFormat.format("super({0}.class, {1} , {2});\n", elementName, dimension.getSize(), dimension.getOffset()));
+			source.append("}\n");
+			source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
+			source.append("super(otherValue);\n");
+			source.append("}\n");
+			source.append("}\n\n");
 
 			className = elementName;
 		}

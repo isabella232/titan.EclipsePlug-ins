@@ -904,8 +904,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 				Array_Type arrayType = (Array_Type) type;
 				StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
-				arrayType.generateCodeValue(aData, source, sbforTemp);
-				arrayType.generateCodeTemplate(aData, source, sbforTemp);
+				arrayType.generateCodeValue(aData, sbforTemp);
+				arrayType.generateCodeTemplate(aData, sbforTemp);
 			}
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 
@@ -932,8 +932,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 					Array_Type arrayType = (Array_Type) type;
 					StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
-					arrayType.generateCodeValue(aData, source, sbforTemp);
-					arrayType.generateCodeTemplate(aData, source, sbforTemp);
+					arrayType.generateCodeValue(aData, sbforTemp);
+					arrayType.generateCodeTemplate(aData, sbforTemp);
 				}
 				source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
 			} else {
@@ -987,8 +987,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 					Array_Type arrayType = (Array_Type) type;
 					StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-					arrayType.generateCodeValue(aData, source, sb);
-					arrayType.generateCodeTemplate(aData, source, sb);
+					arrayType.generateCodeValue(aData, sb);
+					arrayType.generateCodeTemplate(aData, sb);
 				}
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeName, genName));
 

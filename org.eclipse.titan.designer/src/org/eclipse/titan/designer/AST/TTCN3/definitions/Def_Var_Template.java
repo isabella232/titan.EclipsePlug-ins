@@ -487,7 +487,7 @@ public final class Def_Var_Template extends Definition {
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			Array_Type arrayType =  (Array_Type) type;
 			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
-			arrayType.generateCodeTemplate(aData, source, sbforTemp);
+			arrayType.generateCodeTemplate(aData, sbforTemp);
 		}
 
 		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
@@ -520,8 +520,8 @@ public final class Def_Var_Template extends Definition {
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			Array_Type arrayType = (Array_Type) type;
 			StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-			arrayType.generateCodeValue(aData, source, sb);
-			arrayType.generateCodeTemplate(aData, source, sb);
+			arrayType.generateCodeValue(aData, sb);
+			arrayType.generateCodeTemplate(aData, sb);
 		}
 
 		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));

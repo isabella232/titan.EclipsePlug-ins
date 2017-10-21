@@ -955,8 +955,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		//TODO check: is this function generateCodeValue + generateCodeTemplate
 		if (!inTypeDefinition) {
 			return;
 		}
@@ -995,30 +995,44 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append("}\n\n");
 	}
 
-	public void generateCodeValue( final JavaGenData aData, final StringBuilder source, final StringBuilder sb ) {
+	/**
+	 * Generate the value class to represent an array.
+	 * (Also generates the value classes of the of type if it is an array)
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source where the source code should be generated
+	 */
+	public void generateCodeValue( final JavaGenData aData, final StringBuilder source) {
 		final String className = getGenNameValue(aData, source, myScope);
 
 		final IType elementType = getElementType();
 		final String ofType = elementType.getGenNameValue( aData, source, getMyScope() );
 		if ( elementType.getTypetype() == Type_type.TYPE_ARRAY ) {
-			((Array_Type)elementType).generateCodeValue( aData, source, sb );
+			((Array_Type)elementType).generateCodeValue( aData, source);
 		}
 
 		final ArrayDimension dim = getDimension();
 
 		aData.addBuiltinTypeImport("TitanValueArray");
 
-		sb.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", className, ofType));
-		sb.append(MessageFormat.format("public {0}() '{'\n", className));
-		sb.append(MessageFormat.format("super({0}.class, {1} , {2});\n", ofType, dim.getSize(), dim.getOffset()));
-		sb.append("}\n");
-		sb.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
-		sb.append("super(otherValue);\n");
-		sb.append("}\n");
-		sb.append("}\n\n");
+		source.append(MessageFormat.format("public static class {0} extends TitanValueArray<{1}> '{'\n", className, ofType));
+		source.append(MessageFormat.format("public {0}() '{'\n", className));
+		source.append(MessageFormat.format("super({0}.class, {1} , {2});\n", ofType, dim.getSize(), dim.getOffset()));
+		source.append("}\n");
+		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
+		source.append("super(otherValue);\n");
+		source.append("}\n");
+		source.append("}\n\n");
 	}
 
-	public void generateCodeTemplate( final JavaGenData aData, final StringBuilder source, final StringBuilder sb ) {
+	/**
+	 * Generate the template class to represent an array.
+	 * (Also generates the template classes of the of type if it is an array)
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source where the source code should be generated
+	 */
+	public void generateCodeTemplate( final JavaGenData aData, final StringBuilder source) {
 		final String className = getGenNameValue(aData, source, myScope);
 		final String classTemplateName = getGenNameTemplate(aData, source, myScope);
 
@@ -1027,22 +1041,22 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final String ofTemplateType = elementType.getGenNameTemplate(aData, source, getMyScope());
 
 		if(elementType.getTypetype() == Type_type.TYPE_ARRAY) {
-			((Array_Type)elementType).generateCodeTemplate(aData, source,sb);
+			((Array_Type)elementType).generateCodeTemplate(aData, source);
 		}
 
 		final ArrayDimension dim = getDimension();
 
 		aData.addBuiltinTypeImport("TitanTemplateArray");
 
-		sb.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
-		sb.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
-		sb.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
-		sb.append("}\n");
+		source.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
+		source.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
+		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
+		source.append("}\n");
 
-		sb.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
-		sb.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
-		sb.append("}\n");
-		sb.append("}\n");
+		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
+		source.append(MessageFormat.format("return ({0})super.valueOf();\n", className));
+		source.append("}\n");
+		source.append("}\n");
 	}
 
 	@Override

@@ -480,7 +480,7 @@ public final class Def_Var extends Definition {
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 			Array_Type arrayType = (Array_Type) type;
 			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
-			arrayType.generateCodeValue(aData, source, sbforTemp);
+			arrayType.generateCodeValue(aData, sbforTemp);
 		}
 
 		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
@@ -508,7 +508,7 @@ public final class Def_Var extends Definition {
 			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 				Array_Type arrayType = (Array_Type) type;
 				StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-				arrayType.generateCodeValue(aData, source, sb);
+				arrayType.generateCodeValue(aData, sb);
 			}
 
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));

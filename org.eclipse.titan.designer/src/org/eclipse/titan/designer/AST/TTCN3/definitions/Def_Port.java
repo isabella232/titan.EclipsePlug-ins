@@ -380,7 +380,7 @@ public final class Def_Port extends Definition {
 			String typeGenName = portType.getGenNameValue(aData, source, myScope);
 
 			StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
-			portType.generateCodePort(aData, source, portType, dimensions,tempSb);
+			portType.generateCodePort(aData, tempSb, dimensions);
 
 			source.append(MessageFormat.format("{0} {1};\n", typeGenName, genName));
 
