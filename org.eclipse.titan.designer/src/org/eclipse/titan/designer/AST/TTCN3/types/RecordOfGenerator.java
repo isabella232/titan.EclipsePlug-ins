@@ -53,6 +53,7 @@ public class RecordOfGenerator {
 		generateValueCopyList( source, ofTypeName );
 		generateValueIsPresent( source );
 		generateValueIsBound( source );
+		generateValueIsValue(source, ofTypeName);
 		generateValueOperatorEquals( source, genName, ofTypeName, displayName, isSetOf );
 		generateValueAssign( source, genName, ofTypeName, displayName);
 		generateValueConcatenate( source, genName, ofTypeName, displayName );
@@ -239,6 +240,30 @@ public class RecordOfGenerator {
 		source.append("\t\t\tthrow new TtcnError( aErrorMessage );\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate the isValue function
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param ofTypeName type name of the "record of/set of" element
+	 */
+	private static void generateValueIsValue(final StringBuilder source, final String ofTypeName) {
+		source.append('\n');
+		source.append("\t@Override\n");
+		source.append("\tpublic TitanBoolean isValue() {\n");
+		source.append("\t\tif (valueElements == null) {\n");
+		source.append("\t\t\treturn new TitanBoolean(false);\n");
+		source.append("\t\t}\n");
+		source.append("\t\tfor (int i=0; i < valueElements.size(); i++) {\n");
+		source.append( MessageFormat.format( "\t\t\tfinal {0} elem = valueElements.get(i);\n", ofTypeName ) );
+		source.append("\t\t\tif (elem == null || !elem.isValue().getValue()) {\n");
+		source.append("\t\t\t\treturn new TitanBoolean(false);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn new TitanBoolean(true);\n");
+		source.append("\t}\n");
+		source.append('\n');
 	}
 
 	/**
