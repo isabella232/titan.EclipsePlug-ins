@@ -155,6 +155,8 @@ public interface ITTCN3Template extends IGovernedSimple {
 
 	void setIfpresent();
 
+	boolean getIfPresent();
+
 	/** @return the base template of the actual template */
 	ITTCN3Template getBaseTemplate();
 

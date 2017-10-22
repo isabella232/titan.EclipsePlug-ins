@@ -121,6 +121,8 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 		super.setFullNameParent(original.getNameParent());
 		myGovernor = original.getMyGovernor();
 		myScope = original.getMyScope();
+		lengthRestriction = original.getLengthRestriction();
+		isIfpresent = original.getIfPresent();
 	}
 
 	/** @return the internal type of the template */
@@ -212,6 +214,10 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	@Override
 	public final void setIfpresent() {
 		isIfpresent = true;
+	}
+
+	public final boolean getIfPresent() {
+		return isIfpresent;
 	}
 
 	/** @return the base template of the actual template */
