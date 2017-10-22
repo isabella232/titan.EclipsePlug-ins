@@ -659,6 +659,12 @@ public final class Named_Template_List extends TTCN3Template {
 		if (type == null) {
 			return;
 		}
+
+		if (namedTemplates.getNofTemplates() == 0) {
+			aData.addBuiltinTypeImport("TitanNull_Type");
+
+			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+		}//else is not needed as the loop will not run
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 			final String fieldName = namedTemplate.getName().getName();

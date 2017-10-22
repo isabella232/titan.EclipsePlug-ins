@@ -531,6 +531,11 @@ public final class Indexed_Template_List extends TTCN3Template {
 			return;
 		}
 
+		if (indexedTemplates.getNofTemplates() == 0) {
+			aData.addBuiltinTypeImport("TitanNull_Type");
+
+			source.append(MessageFormat.format("{0}.assign(TitanNull_Type.NULL_VALUE);\n", name));
+		}//else is not needed as the loop will not run
 		for (int i = 0; i < indexedTemplates.getNofTemplates(); i++) {
 			final IndexedTemplate indexedTemplate = indexedTemplates.getTemplateByIndex(i);
 			final String tempId = aData.getTemporaryVariableName();
