@@ -90,6 +90,11 @@ public class RecordSetCodeGenerator {
 			aData.addBuiltinTypeImport("Optional.optional_sel");
 		}
 
+		if (fieldInfos.isEmpty()) {
+			generateEmptyValueClass(aData, source, className, classDisplayname);
+			return;
+		}
+
 		source.append( "\tpublic static class " );
 		source.append( className );
 		source.append(" extends Base_Type");
@@ -97,7 +102,7 @@ public class RecordSetCodeGenerator {
 		generateDeclaration( aData, source, fieldInfos );
 		generateConstructor( source, fieldInfos, className );
 		generateConstructorManyParams( source, fieldInfos, className );
-		generateConstructorCopy( source, className );
+		generateConstructorCopy( source, fieldInfos, className, classDisplayname );
 		generateAssign( aData, source, fieldInfos, className, classDisplayname );
 		generateCleanUp( source, fieldInfos );
 		generateIsBound( source, fieldInfos );
@@ -133,8 +138,13 @@ public class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("Optional");
-		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 
+		if (fieldInfos.isEmpty()) {
+			generateEmptyTemplateClass(aData, source, className, classDisplayName, fieldInfos, hasOptional, isSet);
+			return;
+		}
+
+		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
 		generateTemplateGetter( source, fieldInfos, classDisplayName );
 		generateTemplateConstructors( source, className, classDisplayName );
@@ -274,15 +284,27 @@ public class RecordSetCodeGenerator {
 	/**
 	 * Generating constructor with 1 parameter (copy constructor)
 	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
 	 * @param aClassName the class name of the record/set class
+	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateConstructorCopy( final StringBuilder aSb, final String aClassName ) {
+	private static void generateConstructorCopy( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String aClassName, final String displayName ) {
 		aSb.append( "\n\t\tpublic " );
 		aSb.append( aClassName );
 		aSb.append( "( final " );
 		aSb.append( aClassName );
 		aSb.append( " aOtherValue ) {\n" );
-		aSb.append( "\t\t\tthis();\n" );
+		aSb.append( "if(!aOtherValue.isBound().getValue()) {\n" );
+		aSb.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
+		aSb.append( "}\n" );
+		for ( final FieldInfo fi : aNamesList ) {
+			if (fi.isOptional) {
+				aSb.append(MessageFormat.format("\t\t\t{0} = new Optional<{1}>({1}.class);\n", fi.mVarName, fi.mJavaTypeName));
+			} else {
+				aSb.append(MessageFormat.format("\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTypeName));
+			}
+
+		}
 		aSb.append( "\t\t\tassign( aOtherValue );\n" );
 		aSb.append( "\t\t}\n" );
 	}
@@ -1214,5 +1236,443 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
+	}
+
+	/**
+	 * This function can be used to generate the value class of record and set types
+	 *
+	 * defEmptyRecordClass in compilers/record.c
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param className the name of the generated class representing the record/set type.
+	 * @param classDisplayName the user readable name of the type to be generated.
+	 */
+	public static void generateEmptyValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname) {
+		aData.addBuiltinTypeImport("TitanNull_Type");
+
+		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", className));
+		source.append("private boolean bound_flag;\n\n");
+
+		source.append(MessageFormat.format("public {0}() '{'\n", className));
+		source.append("bound_flag = false;\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}( final TitanNull_Type otherValue ) '{'\n", className));
+		source.append("bound_flag = true;\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}( final {0} otherValue ) '{'\n", className));
+		source.append("if ( !otherValue.isBound().getValue() ) {\n");
+		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", classDisplayname));
+		source.append("}\n");
+		source.append("bound_flag = true;\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0} assign( final TitanNull_Type otherValue ) '{'\n", className));
+		source.append("bound_flag = true;\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0} assign( final {0} otherValue ) '{'\n", className));
+		source.append("if ( !otherValue.isBound().getValue() ) {\n");
+		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Assignment of an unbound value of type {0}.\");\n", classDisplayname));
+		source.append("}\n");
+		source.append("bound_flag = true;\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0} assign( final Base_Type otherValue ) '{'\n", className));
+		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", className));
+		source.append(MessageFormat.format("return assign(({0})otherValue);\n", className));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", className));
+		source.append("}\n\n");
+
+		source.append("//originally clean_up\n");
+		source.append("public void cleanUp() {\n");
+		source.append("bound_flag = false;\n");
+		source.append("}\n\n");
+
+		source.append("//originally is_bound\n");
+		source.append("public TitanBoolean isBound() {\n");
+		source.append("return new TitanBoolean(bound_flag);\n");
+		source.append("}\n\n");
+
+		source.append("//originally is_present\n");
+		source.append("public TitanBoolean isPresent() {\n");
+		source.append("return isBound();\n");
+		source.append("}\n\n");
+
+		source.append("//originally is_value\n");
+		source.append("public TitanBoolean isValue() {\n");
+		source.append("return new TitanBoolean(bound_flag);\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator==\n");
+		source.append("public TitanBoolean operatorEquals( final TitanNull_Type otherValue ) {\n");
+		source.append("if (!isBound().getValue()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
+		source.append("}\n");
+		source.append("return new TitanBoolean(true);\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator==\n");
+		source.append(MessageFormat.format("public TitanBoolean operatorEquals( final {0} otherValue ) '{'\n", className));
+		source.append("if (!isBound().getValue()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
+		source.append("}\n");
+		source.append("if (!otherValue.isBound().getValue()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Comparison of an unbound value of type {0}.\");\n", classDisplayname));
+		source.append("}\n");
+		source.append("return new TitanBoolean(true);\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public TitanBoolean operatorEquals( final Base_Type otherValue ) {\n");
+		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", className));
+		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", className));
+		source.append("}\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", classDisplayname));
+		source.append("}\n\n");
+
+		source.append("//originally operator!=\n");
+		source.append("public TitanBoolean operatorNotEquals( final TitanNull_Type otherValue ) {\n");
+		source.append("return operatorEquals(otherValue).not();\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator!=\n");
+		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals( final {0} otherValue ) '{'\n", className));
+		source.append("return operatorEquals(otherValue).not();\n");
+		source.append("}\n\n");
+
+		source.append("public TitanBoolean operatorNotEquals( final Base_Type otherValue ) {\n");
+		source.append("return operatorEquals(otherValue).not();\n");
+		source.append("}\n\n");
+
+		source.append("public void log() {\n");
+		source.append("if (bound_flag) {\n");
+		source.append("TtcnLogger.log_event_str(\"{ }\");\n");
+		source.append("return;\n");
+		source.append("}\n");
+		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("}\n");
+
+		source.append("}\n\n");
+	}
+
+	/**
+	 * This function can be used to generate the template class of record and set types
+	 *
+	 * defEmptyRecordTemplate in compilers/record.c
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param className the name of the generated class representing the record/set type.
+	 * @param classDisplayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 * @param hasOptional true if the type has an optional field.
+	 * @param isSet true if generating code for a set, false if generating code for a record.
+	 */
+	public static void generateEmptyTemplateClass(final JavaGenData aData, final StringBuilder source, final String className,
+			final String classDisplayName, final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
+		aData.addBuiltinTypeImport("TitanNull_Type");
+
+		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", className));
+
+		source.append("//originally value_list/list_value\n");
+		source.append(MessageFormat.format("List<{0}_template> list_value;\n", className));
+
+		source.append(MessageFormat.format("public {0}_template() '{'\n", className));
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}_template(final template_sel other_value) '{'\n", className));
+		source.append("super( other_value );\n");
+		source.append("checkSingleSelection( other_value );\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}_template(final TitanNull_Type other_value) '{'\n", className));
+		source.append("super(template_sel.SPECIFIC_VALUE);\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}_template(final {0} other_value) '{'\n", className));
+		source.append("super(template_sel.SPECIFIC_VALUE);\n");
+		source.append("if (!other_value.isBound().getValue()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Creating a template from an unbound value of type {0}.\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}_template(final {0}_template other_value) '{'\n", className));
+		source.append("copyTemplate( other_value );\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}_template(final Optional<{0}> other_value) '{'\n", className));
+		source.append("switch (other_value.getSelection()) {\n");
+		source.append("case OPTIONAL_PRESENT:\n");
+		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("break;\n");
+		source.append("case OPTIONAL_OMIT:\n");
+		source.append("setSelection(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final template_sel other_value) '{'\n", className));
+		source.append("checkSingleSelection(other_value);\n");
+		source.append("cleanUp();\n");
+		source.append("setSelection(other_value);\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final TitanNull_Type other_value) '{'\n", className));
+		source.append("cleanUp();\n");
+		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final {0} other_value) '{'\n", className));
+		source.append("if (!other_value.isBound().getValue()) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound value of type {0} to a template.\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("cleanUp();\n");
+		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		source.append("//originally operator=\n");
+		source.append(MessageFormat.format("public {0}_template assign(final {0}_template other_value) '{'\n", className));
+		source.append("if (other_value != this) {\n");
+		source.append("cleanUp();\n");
+		source.append("copyTemplate(other_value);\n");
+		source.append("}\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign(final Base_Type other_value) '{'\n", className));
+		source.append(MessageFormat.format("if (other_value instanceof {0}) '{'\n", className));
+		source.append(MessageFormat.format("return assign(({0}) other_value);\n", className));
+		source.append("}\n");
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", other_value));\n", className));
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append(MessageFormat.format("public {0}_template assign(final Base_Template other_value) '{'\n", className));
+		source.append(MessageFormat.format("if (other_value instanceof {0}_template) '{'\n", className));
+		source.append(MessageFormat.format("return assign(({0}_template) other_value);\n", className));
+		source.append("}\n");
+		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", other_value));\n", className));
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0}_template assign(final Optional<{0}> other_value) '{'\n", className));
+		source.append("cleanUp();\n");
+		source.append("switch (other_value.getSelection()) {\n");
+		source.append("case OPTIONAL_PRESENT:\n");
+		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("break;\n");
+		source.append("case OPTIONAL_OMIT:\n");
+		source.append("setSelection(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound optional field to a template of type {0} .\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("return this;\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public void copyTemplate(final {0}_template other_value) '{'\n", className));
+		source.append("switch (other_value.templateSelection) {\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", className));
+		source.append("\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", className));
+		source.append("\t\t\t\tlist_value.add(temp);\n");
+		source.append("\t\t\t}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("setSelection(other_value);\n");
+		source.append("}\n\n");
+
+		source.append("public TitanBoolean isPresent() {\n");
+		source.append("return isPresent(false);\n");
+		source.append("}\n\n");
+
+		source.append("public TitanBoolean isPresent(final boolean legacy) {\n");
+		source.append("return new TitanBoolean(isPresent_(legacy));\n");
+		source.append("}\n\n");
+
+		source.append("private boolean isPresent_(final boolean legacy) {\n");
+		source.append("if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
+		source.append("return false;\n");
+		source.append("}\n");
+		source.append("return !match_omit_(legacy);\n");
+		source.append("}\n\n");
+
+		source.append("public TitanBoolean match_omit() {\n");
+		source.append("return match_omit(false);\n");
+		source.append("}\n\n");
+
+		source.append("public TitanBoolean match_omit(final boolean legacy) {\n");
+		source.append("return new TitanBoolean(match_omit_(legacy));\n");
+		source.append("}\n\n");
+
+		source.append("private boolean match_omit_(final boolean legacy) {\n");
+		source.append("if (is_ifPresent) {\n");
+		source.append("return true;\n");
+		source.append("}\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("return true;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("if (legacy) {\n");
+		source.append("for (int l_idx=0; l_idx<list_value.size(); l_idx++) {\n");
+		source.append("if (list_value.get(l_idx).match_omit_(legacy)) {\n");
+		source.append("return templateSelection==template_sel.VALUE_LIST;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("return templateSelection==template_sel.COMPLEMENTED_LIST;\n");
+		source.append("} // else fall through\n");
+		source.append("default:\n");
+		source.append("return false;\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
+		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", classDisplayName));
+		source.append("}\n");
+		source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", className));
+		source.append("return ret_val;\n");
+		source.append("}\n\n");
+
+		source.append( MessageFormat.format( "\t\tpublic {0}_template listItem(final int list_index) '{'\n", className ) );
+		source.append("\t\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", classDisplayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (list_index >= list_value.size()) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Index overflow in a value list template of type {0}.\");\n", classDisplayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\treturn list_value.get(list_index);\n");
+		source.append("\t\t}\n\n");
+
+		source.append("\t\tpublic void setType(final template_sel template_type, final int list_length) {\n");
+		source.append("\t\t\tif (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {\n");
+		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", classDisplayName ) );
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tsetSelection(template_type);\n");
+		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(list_length);\n", className ) );
+		source.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\tlist_value.add(new {0}_template());\n", className));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
+
+		source.append( MessageFormat.format( "public TitanBoolean match(final {0} other_value) '{'\n", className ) );
+		source.append("return match(other_value, false);\n");
+		source.append("}\n\n");
+
+		source.append( MessageFormat.format( "public TitanBoolean match(final {0} other_value, final boolean legacy) '{'\n", className ) );
+		source.append("if (!other_value.isBound().getValue()) {\n");
+		source.append("return new TitanBoolean(false);\n");
+		source.append("}\n");
+		source.append("return match(TitanNull_Type.NULL_VALUE, legacy);\n");
+		source.append("}\n\n");
+
+		source.append("private TitanBoolean match(final TitanNull_Type other_value, final boolean legacy) {\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("new TitanBoolean(true);\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("new TitanBoolean(false);\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("new TitanBoolean(true);\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("for (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("if (list_value.get(list_count).match(other_value, legacy).getValue()) {\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("default:\n");
+		source.append( MessageFormat.format( "throw new TtcnError(\"Matching an uninitialized/unsupported template of type {0}.\");\n", classDisplayName ) );
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public TitanBoolean match(final Base_Type other_value, final boolean legacy) {\n");
+		source.append( MessageFormat.format( "if (other_value instanceof {0}) '{'\n", className ) );
+		source.append( MessageFormat.format( "return match(({0})other_value, legacy);\n", className ) );
+		source.append("}\n");
+		source.append( MessageFormat.format( "throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", classDisplayName ) );
+		source.append("}\n\n");
+
+		source.append("public void log() {\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("TtcnLogger.log_event_str(\"{ }\");\n");
+		source.append("break;\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("TtcnLogger.log_event_str(\"complement \");\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("TtcnLogger.log_char('(');\n");
+		source.append("for (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("if (list_count > 0) {\n");
+		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("}\n");
+		source.append("list_value.get(list_count).log();\n");
+		source.append("}\n");
+		source.append("TtcnLogger.log_char(')');\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append("log_generic();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("log_ifpresent();\n");
+		source.append("}\n\n");
+
+		source.append( MessageFormat.format( "public void log_match(final {0} match_value) '{'\n", className ) );
+		source.append("log_match(match_value, false);\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append( MessageFormat.format( "if (match_value instanceof {0}) '{'\n", className ) );
+		source.append( MessageFormat.format( "log_match(({0})match_value, legacy);\n", className ) );
+		source.append("return;\n");
+		source.append("}\n");
+		source.append( MessageFormat.format( "throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", classDisplayName ) );
+		source.append("}\n\n");
+
+		source.append( MessageFormat.format( "public void log_match(final {0} match_value, boolean legacy) '{'\n", className ) );
+		source.append("match_value.log();\n");
+		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("log();\n");
+		source.append("if ( match(match_value, legacy).getValue() ) {\n");
+		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("}\n\n");
 	}
 }
