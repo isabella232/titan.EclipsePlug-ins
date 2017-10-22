@@ -197,13 +197,13 @@ public final class Testcase_Instance_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\t" );
-		ExpressionStruct expression = new ExpressionStruct();
-		Assignment testcase = testcaseReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final ExpressionStruct expression = new ExpressionStruct();
+		final Assignment testcase = testcaseReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, source, myScope, "testcase_")));
 
-		List<ISubReference> subReferences = testcaseReference.getSubreferences();
+		final List<ISubReference> subReferences = testcaseReference.getSubreferences();
 		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {
-			ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
+			final ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
 			if (actualParList.getNofParameters() > 0) {
 				actualParList.generateCodeAlias(aData, expression);
 				expression.expression.append(", ");

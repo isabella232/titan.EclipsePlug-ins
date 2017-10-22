@@ -360,7 +360,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			last.generateCode(aData, source);
 
 			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));

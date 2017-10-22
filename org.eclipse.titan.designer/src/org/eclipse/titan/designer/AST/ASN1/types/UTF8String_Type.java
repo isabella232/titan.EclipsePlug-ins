@@ -109,7 +109,7 @@ public final class UTF8String_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
-		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
+		final boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (null == last || last.getIsErroneous(timestamp)) {

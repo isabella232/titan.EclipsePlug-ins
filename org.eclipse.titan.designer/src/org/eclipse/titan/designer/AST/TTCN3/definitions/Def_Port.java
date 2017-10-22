@@ -360,7 +360,7 @@ public final class Def_Port extends Definition {
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 				source.append( "private" );
@@ -377,14 +377,14 @@ public final class Def_Port extends Definition {
 		if(dimensions == null) {
 			source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameOwn(), genName, identifier.getDisplayName()));
 		} else {
-			String typeGenName = portType.getGenNameValue(aData, source, myScope);
+			final String typeGenName = portType.getGenNameValue(aData, source, myScope);
 
-			StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
+			final StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
 			portType.generateCodePort(aData, tempSb, dimensions);
 
 			source.append(MessageFormat.format("{0} {1};\n", typeGenName, genName));
 
-			StringBuilder preInit = aData.getPreInit();
+			final StringBuilder preInit = aData.getPreInit();
 			preInit.append("{\n");
 			preInit.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
 			preInit.append(MessageFormat.format("{0}.set_name(port_name);\n", genName));

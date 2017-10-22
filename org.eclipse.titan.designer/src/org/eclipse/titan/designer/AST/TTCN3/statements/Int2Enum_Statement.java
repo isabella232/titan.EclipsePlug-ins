@@ -167,10 +167,10 @@ public class Int2Enum_Statement extends Statement {
 
 	@Override
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		ExpressionStruct valueExpression = new ExpressionStruct();
+		final ExpressionStruct valueExpression = new ExpressionStruct();
 		value.generateCodeExpression(aData, valueExpression); 
 
-		ExpressionStruct referenceExpression = new ExpressionStruct();
+		final ExpressionStruct referenceExpression = new ExpressionStruct();
 		reference.generateCode(aData, referenceExpression);
 		boolean isOptional = false;
 		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);

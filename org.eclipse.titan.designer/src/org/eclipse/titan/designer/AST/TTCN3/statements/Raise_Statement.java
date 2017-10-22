@@ -311,17 +311,17 @@ public final class Raise_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 
 		portReference.generateCode(aData, expression);
 		expression.expression.append(".raise( new ");
 		signatureReference.generateCode(aData, expression);
 		expression.expression.append("_exception(");
 
-		TTCN3Template templateBody = parameter.getTemplateBody();
+		final TTCN3Template templateBody = parameter.getTemplateBody();
 		if (parameter.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
 			// the exception is a value: optimization is possible
-			IValue value = ((SpecificValue_Template) templateBody).getSpecificValue();
+			final IValue value = ((SpecificValue_Template) templateBody).getSpecificValue();
 			//FIXME implement the case where cast is needed (if really needed)
 			value.generateCodeExpressionMandatory(aData, expression);
 		} else {

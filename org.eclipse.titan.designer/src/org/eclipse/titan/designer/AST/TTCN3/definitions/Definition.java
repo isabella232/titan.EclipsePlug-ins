@@ -660,7 +660,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 
 		final Pr_ErroneousAttributeSpecContext root = parser.pr_ErroneousAttributeSpec();
 		ParserUtilities.logParseTree( root, parser );
-		ErroneousAttributeSpecification returnValue = root.errAttrSpec;
+		final ErroneousAttributeSpecification returnValue = root.errAttrSpec;
 		final List<SyntacticErrorStorage> errors = parser.getErrors();
 		final List<TITANMarker> warnings = parser.getWarnings();
 		final List<TITANMarker> unsupportedConstructs = parser.getUnsupportedConstructs();

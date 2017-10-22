@@ -480,7 +480,7 @@ public final class Def_Const extends Definition {
 		referenceChain.release();
 
 		final StringBuilder sb = aData.getSrc();
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 				source.append( "private" );
@@ -491,8 +491,8 @@ public final class Def_Const extends Definition {
 
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
-			Array_Type arrayType = (Array_Type) type;
-			StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
+			final Array_Type arrayType = (Array_Type) type;
+			final StringBuilder temp_sb = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, temp_sb);
 		}
 
@@ -522,8 +522,8 @@ public final class Def_Const extends Definition {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, last.generateSingleExpression(aData)));
 		} else {
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
-				Array_Type arrayType = (Array_Type) type;
-				StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
+				final Array_Type arrayType = (Array_Type) type;
+				final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 				arrayType.generateCodeValue(aData, sb);
 			}
 

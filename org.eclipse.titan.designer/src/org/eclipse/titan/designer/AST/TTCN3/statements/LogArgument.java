@@ -425,7 +425,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 	 * @param source the source code generated
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		if (internalLogArgument != null) {
 			internalLogArgument.generateCode(aData, expression);
 		}

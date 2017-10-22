@@ -316,7 +316,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return false;
 		}
 
-		ISubReference lastSubReference = subReferences.get(subReferences.size() - 1);
+		final ISubReference lastSubReference = subReferences.get(subReferences.size() - 1);
 		if (!(lastSubReference instanceof FieldSubReference)) {
 			return false;
 		}
@@ -328,9 +328,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			}
 
-			ISubReference subreference = subReferences.get(i);
+			final ISubReference subreference = subReferences.get(i);
 			if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-				Identifier id = ((FieldSubReference) subreference).getId();
+				final Identifier id = ((FieldSubReference) subreference).getId();
 				if (type != null) {
 					switch(type.getTypetype()) {
 					case TYPE_TTCN3_CHOICE:
@@ -367,9 +367,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					type = compField.getType();
 				}
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
-				Value value = ((ArraySubReference)subreference).getValue();
+				final Value value = ((ArraySubReference)subreference).getValue();
 				//TODO actually should get the last governor
-				IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+				final IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 				if(type != null) {
 					switch(type.getTypetype()) {
 					case TYPE_SEQUENCE_OF:
@@ -672,7 +672,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		assignment.check(timestamp);
-		boolean selfReference = assignment == lhs;
+		final boolean selfReference = assignment == lhs;
 
 		boolean isConst = false;
 		boolean errorFlag = false;
@@ -954,7 +954,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		//Case of specific value:
 
-		ITTCN3Template template = t;
+		final ITTCN3Template template = t;
 		IValue value = ((SpecificValue_Template) template).getSpecificValue();
 		if (value == null) {
 			return template;
@@ -1583,8 +1583,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * */
 	protected boolean needsAlias() {
 		//TODO find a way without using fullname and change in synch with compiler
-		String name = getFullName();
-		int firstDot = name.indexOf('.');
+		final String name = getFullName();
+		final int firstDot = name.indexOf('.');
 		if(firstDot == -1 || name.indexOf('.', firstDot + 1) == -1) {
 			return true;
 		}
@@ -1693,19 +1693,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
 		}
 
-		ISubReference subReference = subreferences.get(subReferenceIndex);
+		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");
 			return;
 		}
 
-		Value indexValue = ((ArraySubReference) subReference).getValue();
+		final Value indexValue = ((ArraySubReference) subReference).getValue();
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = indexValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		String temporalIndexId = aData.getTemporaryVariableName();
+		final String temporalIndexId = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression);
@@ -1713,8 +1713,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		expression.expression.append(MessageFormat.format("{0} = TitanBoolean.getNative({1}.isGreaterThanOrEqual(0)) && TitanBoolean.getNative({1}.isLessThan({2}.lengthOf()));\n",
 				globalId, temporalIndexId, externalId));
 
-		String temporalId = aData.getTemporaryVariableName();
-		boolean isLast = subReferenceIndex == (subreferences.size() - 1);
+		final String temporalId = aData.getTemporaryVariableName();
+		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4}).getValue();\n",
 				globalId, externalId, temporalIndexId, isBound|(!isLast)?"isBound":"isPresent", !(isBound|(!isLast)) && isTemplate && aData.allowOmitInValueList()?"true":""));

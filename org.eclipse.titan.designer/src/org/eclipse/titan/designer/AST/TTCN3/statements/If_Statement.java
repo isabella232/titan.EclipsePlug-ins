@@ -291,9 +291,9 @@ public final class If_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//TODO this is just a simplified version to enable early performance testing
-		AtomicInteger blockCount = new AtomicInteger(0);
-		AtomicBoolean unReachable = new AtomicBoolean(false);
-		AtomicBoolean eachFalse = new AtomicBoolean(true);
+		final AtomicInteger blockCount = new AtomicInteger(0);
+		final AtomicBoolean unReachable = new AtomicBoolean(false);
+		final AtomicBoolean eachFalse = new AtomicBoolean(true);
 
 		ifClauses.generateCode(aData, source, blockCount, unReachable, eachFalse);
 		if (statementblock != null && !unReachable.get()) {

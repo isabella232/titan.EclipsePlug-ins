@@ -357,7 +357,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		boolean hasElseBranch = false;
 
 		for (int i = 0; i < altGuards.size(); i++) {
-			AltGuard altGuard = altGuards.get(i);
+			final AltGuard altGuard = altGuards.get(i);
 			switch (altGuard.getType()) {
 			case AG_OP:
 				if (((Operation_Altguard)altGuard).getGuardStatement().canRepeat()) {
@@ -388,7 +388,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		}
 
 		// opening bracket of the statement block
-		String label = aData.getTemporaryVariableName();
+		final String label = aData.getTemporaryVariableName();
 		if (labelNeeded) {
 			source.append(label).append(":\n");
 		}
@@ -396,7 +396,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 		// temporary variables used for caching of status codes
 		for (int i = 0; i < altGuards.size(); i++) {
-			AltGuard altGuard = altGuards.get(i);
+			final AltGuard altGuard = altGuards.get(i);
 			if (altGuard.getType().equals(altguard_type.AG_ELSE)) {
 				break;
 			}
@@ -420,15 +420,15 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		source.append("for ( ; ; ) {\n");
 
 		for (int i = 0; i < altGuards.size(); i++) {
-			AltGuard altGuard = altGuards.get(i);
-			altguard_type altGuardType = altGuard.getType();
+			final AltGuard altGuard = altGuards.get(i);
+			final altguard_type altGuardType = altGuard.getType();
 			if (altGuardType.equals(altguard_type.AG_ELSE)) {
 				//FIXME implement
 			} else {
-				IValue guardExpression = altGuard.getGuardExpression();
+				final IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
 					source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", label, i));
-					ExpressionStruct expression = new ExpressionStruct();
+					final ExpressionStruct expression = new ExpressionStruct();
 					guardExpression.generateCodeExpression(aData, expression);
 					source.append(expression.preamble);
 					source.append(MessageFormat.format("if(TitanBoolean.getNative({0})) '{'\n", expression.expression));
@@ -441,12 +441,12 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 				source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_MAYBE) '{'\n", label, i));
 				boolean canRepeat = false;
-				ExpressionStruct expression = new ExpressionStruct();
+				final ExpressionStruct expression = new ExpressionStruct();
 				expression.expression.append(MessageFormat.format("{0}_alt_flag_{1} = ", label, i));
 				switch(altGuardType) {
 				case AG_OP: {
 					//FIXME implement
-					Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
+					final Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
 					//TODO update location
 					statement.generateCodeExpression(aData, expression);
 					canRepeat = statement.canRepeat();
@@ -465,7 +465,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 				// execution of statement block if the guard was successful
 				source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_YES) ", label, i));
-				StatementBlock block = altGuard.getStatementBlock();
+				final StatementBlock block = altGuard.getStatementBlock();
 				if (block != null && block.getSize() > 0) {
 					source.append("{\n");
 					//TODO handle debugger
@@ -527,17 +527,17 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * @param source the source code generated
 	 */
 	public void generateCodeAltstep(final JavaGenData aData, final StringBuilder source ) {
-		boolean hasElse = hasElse();
+		final boolean hasElse = hasElse();
 		if (!hasElse) {
 			source.append("TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;\n");
 		}
 
 		for (int i = 0; i < altGuards.size(); i++) {
-			AltGuard altGuard = altGuards.get(i);
-			altguard_type altGuardType = altGuard.getType();
+			final AltGuard altGuard = altGuards.get(i);
+			final altguard_type altGuardType = altGuard.getType();
 			if (altGuardType.equals(altguard_type.AG_ELSE)) {
 				source.append("TTCN_Snapshot.elseBranchReached();\n");
-				StatementBlock block = altGuard.getStatementBlock();
+				final StatementBlock block = altGuard.getStatementBlock();
 				if (block.getSize() > 0) {
 					source.append("{\n");
 					//TODO debugger
@@ -548,8 +548,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					source.append("return TitanAlt_Status.ALT_YES;\n");
 				}
 			} else {
-				AtomicInteger blockCount = new AtomicInteger(0);
-				IValue guardExpression = altGuard.getGuardExpression();
+				final AtomicInteger blockCount = new AtomicInteger(0);
+				final IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
 
 					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
@@ -558,10 +558,10 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				}
 
 				boolean canRepeat = false;
-				ExpressionStruct expression = new ExpressionStruct();
+				final ExpressionStruct expression = new ExpressionStruct();
 				switch(altGuardType) {
 				case AG_OP: {
-					Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
+					final Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
 					//TODO update location
 					statement.generateCodeExpression(aData, expression);
 					canRepeat = statement.canRepeat();
@@ -574,7 +574,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 						source.append("{\n");
 						blockCount.set(blockCount.get() + 1);
 					}
-					String tempId = aData.getTemporaryVariableName();
+
+					final String tempId = aData.getTemporaryVariableName();
 					source.append(MessageFormat.format("TitanAlt_Status {0};\n", tempId));
 					source.append("{\n");
 					source.append(expression.preamble);
@@ -587,7 +588,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				}
 
 				source.append("case ALT_YES:\n");
-				StatementBlock block = altGuard.getStatementBlock();
+				final StatementBlock block = altGuard.getStatementBlock();
 				if (block != null && block.getSize() > 0) {
 					source.append("{\n");
 					//TODO handle debugger
@@ -639,7 +640,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		}
 		// temporary variables used for caching of status codes
 		for (int i = 0; i < altGuards.size(); i++) {
-			AltGuard altGuard = altGuards.get(i);
+			final AltGuard altGuard = altGuards.get(i);
 
 			source.append(MessageFormat.format("TitanAlt_Status {0}_alt_flag_{1} = ", tempId, i));
 			if(altGuard.getGuardExpression() == null) {
@@ -657,15 +658,16 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		// and opening infinite for() loop
 		source.append("for ( ; ; ) {\n");
 		for (int i = 0; i < altGuards.size(); i++) {
-			AltGuard altGuard = altGuards.get(i);
+			final AltGuard altGuard = altGuards.get(i);
 			if (!(altGuard instanceof Operation_Altguard)) {
 				//FATAL ERROR
 				continue;
 			}
-			IValue guardExpression = altGuard.getGuardExpression();
+
+			final IValue guardExpression = altGuard.getGuardExpression();
 			if (guardExpression != null) {
 				source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", tempId, i));
-				ExpressionStruct expression = new ExpressionStruct();
+				final ExpressionStruct expression = new ExpressionStruct();
 				guardExpression.generateCodeExpression(aData, expression);
 				source.append(expression.preamble);
 				source.append(MessageFormat.format("if (TitanBoolean.getNative({0})) '{'\n", expression.expression));
@@ -679,15 +681,15 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 			// evaluation of guard operation
 			source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_MAYBE) '{'\n", tempId, i));
-			ExpressionStruct expression = new ExpressionStruct();
+			final ExpressionStruct expression = new ExpressionStruct();
 			source.append(MessageFormat.format("{0}_alt_flag_{1} = ", tempId, i));
-			Statement statement = ((Operation_Altguard) altGuard).getGuardStatement();
+			final Statement statement = ((Operation_Altguard) altGuard).getGuardStatement();
 			statement.generateCodeExpression(aData, expression);
 			expression.mergeExpression(source);
 
 			// execution of statement block if the guard was successful
 			source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_YES) '{'\n", tempId, i));
-			StatementBlock block = ((Operation_Altguard) altGuard).getStatementBlock();
+			final StatementBlock block = ((Operation_Altguard) altGuard).getStatementBlock();
 			if (inInterleave) {
 				//FIXME implement
 				source.append("//FIXME generating code for call body is not yet supported!\n");

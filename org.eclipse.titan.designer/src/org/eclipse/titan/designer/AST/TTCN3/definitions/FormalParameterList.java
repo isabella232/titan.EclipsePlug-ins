@@ -363,7 +363,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			case A_PAR_TEMP_IN:
 			case A_PAR_VAL_INOUT:
 			case A_PAR_TEMP_INOUT: {
-				IType tempType = parameter.getType(timestamp);
+				final IType tempType = parameter.getType(timestamp);
 				if (isStartable && tempType != null && tempType.isComponentInternal(timestamp)) {
 					isStartable = false;
 				}
@@ -1112,27 +1112,27 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	public void setGenName(final String prefix) {
 		for (FormalParameter parameter : parameters) {
-			String parameterName = parameter.getIdentifier().getName();
+			final String parameterName = parameter.getIdentifier().getName();
 			if (!Assignment_type.A_TIMER.equals(parameter.getAssignmentType())) {
-				Type parameterType = parameter.getType(CompilationTimeStamp.getBaseTimestamp());
+				final Type parameterType = parameter.getType(CompilationTimeStamp.getBaseTimestamp());
 				if (parameterType != null) {
 					parameterType.setGenName(prefix, parameterName);
 				}
 			}
 
 			if (parameter.hasDefaultValue()) {
-				StringBuilder embeddedName = new StringBuilder(prefix);
+				final StringBuilder embeddedName = new StringBuilder(prefix);
 				embeddedName.append('_');
 				embeddedName.append(parameterName);
 				embeddedName.append("_defval");
-				ActualParameter defaultValue = parameter.getDefaultValue();
+				final ActualParameter defaultValue = parameter.getDefaultValue();
 				if (defaultValue instanceof Value_ActualParameter) {
-					IValue value = ((Value_ActualParameter) defaultValue).getValue();
+					final IValue value = ((Value_ActualParameter) defaultValue).getValue();
 					//value.setGenNamePrefix("const_");//currently does not need the prefix
 					value.setGenNameRecursive(embeddedName.toString());
 				} else if (defaultValue instanceof Template_ActualParameter) {
-					TemplateInstance instance = ((Template_ActualParameter) defaultValue).getTemplateInstance();
-					TTCN3Template template = instance.getTemplateBody();
+					final TemplateInstance instance = ((Template_ActualParameter) defaultValue).getTemplateInstance();
+					final TTCN3Template template = instance.getTemplateBody();
 					//template.setGenNamePrefix("template_");//currently does not need the prefix
 					template.setGenNameRecursive(embeddedName.toString());
 				}
@@ -1169,7 +1169,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 *  originally generate_code(char *str, size_t display_unused)
 	 */
 	public StringBuilder generateCode(final JavaGenData aData) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		for ( int i = 0 ; i < parameters.size(); i++) {
 			if (i > 0) {

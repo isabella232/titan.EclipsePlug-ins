@@ -575,11 +575,11 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		//FIXME handle location object
 
-		StringBuilder body = new StringBuilder();
+		final StringBuilder body = new StringBuilder();
 		block.generateCode(aData, body);
 		altGuards.generateCodeAltstep(aData, body);
 
-		StringBuilder formalParListCode = new StringBuilder();
+		final StringBuilder formalParListCode = new StringBuilder();
 		formalParList.generateCode(aData, formalParListCode);
 		// FIXME generate code defval and shadow objects
 
@@ -592,9 +592,9 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		source.append(body);
 		source.append("}\n\n");
 
-		StringBuilder actualParameterList = formalParList.generateCodeActualParlist("");
+		final StringBuilder actualParameterList = formalParList.generateCodeActualParlist("");
 
-		StringBuilder fullParamaterList = formalParList.generateCode(aData);
+		final StringBuilder fullParamaterList = formalParList.generateCode(aData);
 
 		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 			source.append( "private" );
@@ -640,19 +640,19 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		aData.addBuiltinTypeImport("Default_Base");
 		source.append(MessageFormat.format("static final class {0}_Default extends Default_Base '{'\n", genName));
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
-			FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+			final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 			source.append("private ");
 			formalParameter.generateCodeObject(aData, source, "par_");
 		}
 		source.append(MessageFormat.format("public {0}_Default({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
-			String FormalParName = formalParList.getParameterByIndex(i).getIdentifier().getName();
+			final String FormalParName = formalParList.getParameterByIndex(i).getIdentifier().getName();
 			source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
 		}
 		source.append("}\n\n");
 
-		StringBuilder prefixedActualParameterList = formalParList.generateCodeActualParlist("par_");
+		final StringBuilder prefixedActualParameterList = formalParList.generateCodeActualParlist("par_");
 		source.append("@Override\n");
 		source.append("public final TitanAlt_Status call_altstep() {\n");
 		source.append(MessageFormat.format("return {0}_instance({1});\n", genName, prefixedActualParameterList));

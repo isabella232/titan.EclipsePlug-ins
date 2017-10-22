@@ -826,13 +826,13 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 	 * */
 	public static String getNameFromAsnName(final String asnName) {
 		if(ID_MAP_ASN.containsKey(asnName)) {
-			Identifier_Internal_Data data = ID_MAP_ASN.get(asnName);
+			final Identifier_Internal_Data data = ID_MAP_ASN.get(asnName);
 			return data.getName();
 		}
 
-		String name = Identifier_Internal_Data.asnToName(asnName);
+		final String name = Identifier_Internal_Data.asnToName(asnName);
 		if(ID_MAP_NAME.containsKey(name)) {
-			Identifier_Internal_Data data = ID_MAP_NAME.get(name);
+			final Identifier_Internal_Data data = ID_MAP_NAME.get(name);
 			ID_MAP_ASN.put(asnName, data);
 		}
 

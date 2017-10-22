@@ -388,7 +388,7 @@ public final class Def_ModulePar extends Definition {
 		}
 
 		final StringBuilder sb = aData.getSrc();
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 				source.append( "private" );
@@ -398,7 +398,7 @@ public final class Def_ModulePar extends Definition {
 			source.append( " static " );
 		}
 		source.append( "final " );
-		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( ' ' );
 		source.append( genName );

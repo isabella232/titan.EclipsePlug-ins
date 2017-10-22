@@ -481,12 +481,12 @@ public final class Def_Var_Template extends Definition {
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary hack to adapt to the starting code
-		StringBuilder source = new StringBuilder();
-		StringBuilder initComp = aData.getInitComp();
+		final StringBuilder source = new StringBuilder();
+		final StringBuilder initComp = aData.getInitComp();
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
-			Array_Type arrayType =  (Array_Type) type;
-			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+			final Array_Type arrayType =  (Array_Type) type;
+			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeTemplate(aData, sbforTemp);
 		}
 
@@ -518,8 +518,8 @@ public final class Def_Var_Template extends Definition {
 		// FIXME temporal code until generate_code_object and generateCodeInit is supported for templates
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
-			Array_Type arrayType = (Array_Type) type;
-			StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
+			final Array_Type arrayType = (Array_Type) type;
+			final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, sb);
 			arrayType.generateCodeTemplate(aData, sb);
 		}

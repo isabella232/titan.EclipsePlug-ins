@@ -456,7 +456,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		//default implementation
 		//TODO this might be a good location to check for the need of conversion
 		source.append( "\t//TODO: " );
@@ -582,8 +582,8 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *  @param blockCount the counter storing the number of open block in the local area
 	 */
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final String prefix, final AtomicInteger blockCount) {
-		StringBuilder s2 = new StringBuilder();
-		StringBuilder s1 = generateCodeTmp(aData, new StringBuilder(), s2);
+		final StringBuilder s2 = new StringBuilder();
+		final StringBuilder s1 = generateCodeTmp(aData, new StringBuilder(), s2);
 
 		if(s2.length() > 0) {
 			if(blockCount.get() == 0) {
@@ -606,14 +606,14 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *  @param init is the content to be generated before the current value
 	 * */
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 
 		generateCodeExpressionMandatory(aData, expression);
 
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			String typeName;
-			String tempId = aData.getTemporaryVariableName();
-			IType lastType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final String tempId = aData.getTemporaryVariableName();
+			final IType lastType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype())) {
 				typeName = "boolean";
 			} else {
@@ -655,7 +655,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * @param reference the reference to check
 	 * */
 	public void generateCodeExpressionOptionalFieldReference(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {
-		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 		switch (assignment.getAssignmentType()) {
 		case A_CONST:

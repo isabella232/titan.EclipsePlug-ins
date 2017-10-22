@@ -137,7 +137,7 @@ public final class Log_Statement extends Statement {
 
 			boolean bufferedMode = true;
 			if (logArguments.getNofLogArguments() == 1) {
-				LogArgument firstArgument = logArguments.getLogArgumentByIndex(0);
+				final LogArgument firstArgument = logArguments.getLogArgumentByIndex(0);
 				switch (firstArgument.getRealArgument().getArgumentType()) {
 				case String:
 					// the argument is a simple string: use non-buffered mode
@@ -146,7 +146,7 @@ public final class Log_Statement extends Statement {
 					bufferedMode = false;
 					break;
 				case Macro: {
-					Macro_Value value = ((Macro_InternalLogArgument) firstArgument.getRealArgument()).getMacro();
+					final Macro_Value value = ((Macro_InternalLogArgument) firstArgument.getRealArgument()).getMacro();
 					if (value.canGenerateSingleExpression()) {
 						// the argument is a simple macro call: use non-buffered mode
 						source.append(MessageFormat.format("TtcnLogger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", value.generateSingleExpression(aData)));

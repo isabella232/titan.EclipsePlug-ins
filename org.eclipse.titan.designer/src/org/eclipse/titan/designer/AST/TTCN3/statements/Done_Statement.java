@@ -252,7 +252,7 @@ public final class Done_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression);
 
 		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getLocation());
@@ -284,7 +284,7 @@ public final class Done_Statement extends Statement {
 				}
 
 				// determine whether the done() function is in the same module
-				Module t_module = t.getMyScope().getModuleScope();
+				final Module t_module = t.getMyScope().getModuleScope();
 				if (t_module != myStatementBlock.getModuleScope()) {
 					expression.expression.append(MessageFormat.format("{0}.", t_module.getIdentifier().getName()));
 				}

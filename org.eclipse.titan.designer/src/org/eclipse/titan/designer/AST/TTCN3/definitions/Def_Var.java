@@ -468,18 +468,18 @@ public final class Def_Var extends Definition {
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
-		StringBuilder source = new StringBuilder();
-		StringBuilder initComp = aData.getInitComp();
+		final StringBuilder source = new StringBuilder();
+		final StringBuilder initComp = aData.getInitComp();
 		if ( !isLocal() ) {
 			source.append( "\tpublic static final " );
 		} else {
 			source.append("//Fatal Error: there should be no global variables\n");
 		}
 
-		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
-			Array_Type arrayType = (Array_Type) type;
-			StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+			final Array_Type arrayType = (Array_Type) type;
+			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
 			arrayType.generateCodeValue(aData, sbforTemp);
 		}
 
@@ -501,13 +501,14 @@ public final class Def_Var extends Definition {
 		if (initialValue != null) {
 			initialValue.setGenNameRecursive(getGenName());
 		}
+
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
 		} else {
 			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
-				Array_Type arrayType = (Array_Type) type;
-				StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
+				final Array_Type arrayType = (Array_Type) type;
+				final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 				arrayType.generateCodeValue(aData, sb);
 			}
 

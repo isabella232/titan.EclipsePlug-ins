@@ -950,7 +950,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		if (subReferences.get(0) instanceof ParameterisedSubReference) {
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 			expression.expression.append("( ");
-			ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
+			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
 			temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
@@ -1063,13 +1063,13 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			break;
 		}
 
-		IType referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+		final IType referedGovernor = referredAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
 
 		//ha parameterezett
 		if (subReferences.get(0) instanceof ParameterisedSubReference) {
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 			expression.expression.append("( ");
-			ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
+			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
 			temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
@@ -1101,9 +1101,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			}
 
-			ISubReference subreference = subReferences.get(i);
+			final ISubReference subreference = subReferences.get(i);
 			if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
-				Identifier id = ((FieldSubReference) subreference).getId();
+				final Identifier id = ((FieldSubReference) subreference).getId();
 				expression.expression.append(".");
 				if (isConst) {
 					expression.expression.append("constGet");
@@ -1153,9 +1153,9 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 					}
 				}
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
-				Value value = ((ArraySubReference)subreference).getValue();
+				final Value value = ((ArraySubReference)subreference).getValue();
 				//TODO actually should get the last governor
-				IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+				final IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 				//TODO add support for indexing with array or record of
 				// generate "getAt" functions instead of operator[]
 				if (isConst) {
@@ -1196,8 +1196,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * */
 	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate,
 			final boolean isBound) {
-		Assignment assignment = getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-		String ass_id = assignment.getGenNameFromScope(aData, expression.expression, myScope, null);
+		final Assignment assignment = getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final String ass_id = assignment.getGenNameFromScope(aData, expression.expression, myScope, null);
 
 		String ass_id2 = ass_id;
 		FormalParameterList formalParameterList;
@@ -1220,8 +1220,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			break;
 		}
 		if (subReferences.size() > 0 && subReferences.get(0) instanceof ParameterisedSubReference) {
-			ParameterisedSubReference subReference = (ParameterisedSubReference) subReferences.get(0);
-			ExpressionStruct tempExpression = new ExpressionStruct();
+			final ParameterisedSubReference subReference = (ParameterisedSubReference) subReferences.get(0);
+			final ExpressionStruct tempExpression = new ExpressionStruct();
 			// FIXME should need the formal parameters and other
 			// options
 			subReference.getActualParameters().generateCodeAlias(aData, tempExpression);
@@ -1233,8 +1233,8 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		} else if (formalParameterList != null) {
 			// the reference does not have an actual parameter list,
 			// but the assignment has
-			ExpressionStruct tempExpression = new ExpressionStruct();
-			StringBuilder newId = new StringBuilder();
+			final ExpressionStruct tempExpression = new ExpressionStruct();
+			final StringBuilder newId = new StringBuilder();
 			newId.append(assignment.getGenNameFromScope(aData, tempExpression.expression, getMyScope(), null));
 			newId.append("( ");
 			// FieldSubReference temp =
@@ -1257,12 +1257,12 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		}
 
 		if (subReferences.size() > 1) {
-			String tempGeneralId = aData.getTemporaryVariableName();
-			ExpressionStruct isboundExpression = new ExpressionStruct();
+			final String tempGeneralId = aData.getTemporaryVariableName();
+			final ExpressionStruct isboundExpression = new ExpressionStruct();
 
 			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound().getValue();\n", tempGeneralId, ass_id2));
 
-			IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
+			final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 			type.generateCodeIspresentBound(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, isBound);
 
 			expression.preamble.append(isboundExpression.preamble);

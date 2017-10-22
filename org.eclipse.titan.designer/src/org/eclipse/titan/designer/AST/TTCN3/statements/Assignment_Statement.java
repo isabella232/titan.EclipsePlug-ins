@@ -606,7 +606,7 @@ public final class Assignment_Statement extends Statement {
 		}
 
 		if (isValue) {
-			String rhsCopy = aData.getTemporaryVariableName();
+			final String rhsCopy = aData.getTemporaryVariableName();
 			String rhsRef = rhsCopy;
 			if(rhsCopied) {
 				source.append("{\n");
@@ -622,7 +622,7 @@ public final class Assignment_Statement extends Statement {
 			// TODO handle needs_conv
 			if (reference.getSubreferences().size() > 1) {
 				if(value.canGenerateSingleExpression()) {
-					ExpressionStruct expression = new ExpressionStruct();
+					final ExpressionStruct expression = new ExpressionStruct();
 					reference.generateCode(aData, expression);
 					source.append(expression.preamble);
 					if (rhsCopied) {
@@ -635,9 +635,9 @@ public final class Assignment_Statement extends Statement {
 					source.append(expression.expression);
 					source.append(expression.postamble);
 				} else {
-					String tempID = aData.getTemporaryVariableName();
-					String typeGenname = value.getMyGovernor().getGenNameValue(aData, source, myScope);
-					ExpressionStruct leftExpression = new ExpressionStruct();
+					final String tempID = aData.getTemporaryVariableName();
+					final String typeGenname = value.getMyGovernor().getGenNameValue(aData, source, myScope);
+					final ExpressionStruct leftExpression = new ExpressionStruct();
 					reference.generateCode(aData, leftExpression);
 
 					if (rhsCopied) {
@@ -674,7 +674,7 @@ public final class Assignment_Statement extends Statement {
 				source.append("}\n");
 			}
 		} else {
-			String rhsCopy = aData.getTemporaryVariableName();
+			final String rhsCopy = aData.getTemporaryVariableName();
 			if(rhsCopied) {
 				source.append("{\n");
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), rhsCopy));
@@ -682,7 +682,7 @@ public final class Assignment_Statement extends Statement {
 			// TODO handle needs_conv
 			if (reference.getSubreferences().size() > 1) {
 				if((templateRestriction != Restriction_type.TR_NONE || !generateRestrictionCheck) && template.hasSingleExpression()) {
-					ExpressionStruct expression = new ExpressionStruct();
+					final ExpressionStruct expression = new ExpressionStruct();
 					reference.generateCode(aData, expression);
 					source.append(expression.preamble);
 					if (rhsCopied) {
@@ -694,8 +694,8 @@ public final class Assignment_Statement extends Statement {
 
 					expression.mergeExpression(source);
 				} else {
-					String tempID = aData.getTemporaryVariableName();
-					ExpressionStruct expression = new ExpressionStruct();
+					final String tempID = aData.getTemporaryVariableName();
+					final ExpressionStruct expression = new ExpressionStruct();
 					reference.generateCode(aData, expression);
 
 					if (rhsCopied) {
@@ -705,7 +705,7 @@ public final class Assignment_Statement extends Statement {
 
 					source.append("{\n");
 					source.append(expression.preamble);
-					IType governor = template.getMyGovernor();
+					final IType governor = template.getMyGovernor();
 					source.append(MessageFormat.format("{0} {1} = {2};\n", governor.getGenNameTemplate(aData, source, template.getMyScope()), tempID, expression.expression));
 					source.append(expression.postamble);
 					if (rhsCopied) {
@@ -726,8 +726,8 @@ public final class Assignment_Statement extends Statement {
 				}
 			} else {
 				// left hand side is a single assignment
-				String rhsName = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getGenNameFromScope(aData, source, myScope, "");
-				IType governor = template.getMyGovernor();
+				final String rhsName = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getGenNameFromScope(aData, source, myScope, "");
+				final IType governor = template.getMyGovernor();
 				if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
 					source.append(MessageFormat.format("{0}.removeAllPermutations();\n", rhsCopied?rhsCopy:rhsName));
 				}

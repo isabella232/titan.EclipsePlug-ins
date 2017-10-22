@@ -221,7 +221,7 @@ public class TryCatch_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		String tempId = aData.getTemporaryVariableName();
+		final String tempId = aData.getTemporaryVariableName();
 
 		source.append("try {\n");
 		tryBlock.generateCode(aData, source);

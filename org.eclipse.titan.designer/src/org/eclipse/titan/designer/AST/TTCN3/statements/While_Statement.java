@@ -314,7 +314,7 @@ public final class While_Statement extends Statement {
 
 			// do not generate the exit condition for infinite loops
 			if (!condition_always_true) {
-				AtomicInteger blockCount = new AtomicInteger(0);
+				final AtomicInteger blockCount = new AtomicInteger(0);
 				last.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
 				source.append(")) {\n");
 				source.append("break;\n");

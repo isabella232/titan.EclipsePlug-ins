@@ -300,7 +300,7 @@ public final class Reply_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 
 		portReference.generateCode(aData, expression);
 		expression.expression.append(".reply(");

@@ -485,7 +485,8 @@ public final class Undefined_Block_Value extends Value {
 	}
 
 	@Override
-	public StringBuilder generateCodeInit(JavaGenData aData, StringBuilder source, String name) {
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (realValue != null) {
 			return realValue.generateCodeInit(aData, source, name);
 		}

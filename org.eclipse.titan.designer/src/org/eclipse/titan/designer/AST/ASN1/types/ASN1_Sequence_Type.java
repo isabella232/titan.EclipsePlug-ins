@@ -1026,7 +1026,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		for ( int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
-			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			final StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
 			compField.getType().generateCode(aData, tempSource);
 		}
 
@@ -1045,15 +1045,15 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			return false;
 		}
 
-		ISubReference subReference = subreferences.get(beginIndex);
+		final ISubReference subReference = subreferences.get(beginIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");
 			return false;
 		}
 
-		Identifier fieldId = ((FieldSubReference) subReference).getId();
-		CompField compField = getComponentByName(fieldId);
+		final Identifier fieldId = ((FieldSubReference) subReference).getId();
+		final CompField compField = getComponentByName(fieldId);
 		if (compField.isOptional()) {
 			return false;
 		}

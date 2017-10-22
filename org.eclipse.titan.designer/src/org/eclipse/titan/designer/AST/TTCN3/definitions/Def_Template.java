@@ -888,7 +888,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		}
 		//TODO this should handle only the global case
 		final StringBuilder sb = aData.getSrc();
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
@@ -902,8 +902,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );
 		if (formalParList == null) {
 			if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
-				Array_Type arrayType = (Array_Type) type;
-				StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+				final Array_Type arrayType = (Array_Type) type;
+				final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
 				arrayType.generateCodeValue(aData, sbforTemp);
 				arrayType.generateCodeTemplate(aData, sbforTemp);
 			}
@@ -926,12 +926,12 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				}
 			}
 		} else {
-			StringBuilder formalParameters = formalParList.generateCode(aData);
+			final StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
-					Array_Type arrayType = (Array_Type) type;
-					StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
+					final Array_Type arrayType = (Array_Type) type;
+					final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
 					arrayType.generateCodeValue(aData, sbforTemp);
 					arrayType.generateCodeTemplate(aData, sbforTemp);
 				}
@@ -985,8 +985,8 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
-					Array_Type arrayType = (Array_Type) type;
-					StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
+					final Array_Type arrayType = (Array_Type) type;
+					final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
 					arrayType.generateCodeValue(aData, sb);
 					arrayType.generateCodeTemplate(aData, sb);
 				}

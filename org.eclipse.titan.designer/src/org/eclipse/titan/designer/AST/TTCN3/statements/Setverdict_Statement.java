@@ -221,14 +221,14 @@ public final class Setverdict_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		expression.expression.append("TTCN_Runtime.setverdict(");
 		verdictValue.generateCodeExpression(aData, expression);
 		if (verdictReason != null) {
 			expression.expression.append(", ");
-			ExpressionStruct reason = new ExpressionStruct();
+			final ExpressionStruct reason = new ExpressionStruct();
 			verdictReason.generateCodeExpression(aData, reason);
 			if (reason.preamble.length() > 0) {
 				expression.preamble.append(reason.preamble);

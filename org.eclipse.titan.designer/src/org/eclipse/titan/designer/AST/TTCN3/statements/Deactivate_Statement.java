@@ -155,7 +155,7 @@ public final class Deactivate_Statement extends Statement {
 			return;
 		}
 
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append("TTCN_Default.deactivate(");
 		deactivate.generateCodeExpression(aData, expression);
 		expression.expression.append(");\n");

@@ -199,8 +199,8 @@ public final class Activate_Referenced_Statement extends Statement {
 		aData.addBuiltinTypeImport("TitanFloat");
 		aData.addBuiltinTypeImport("Ttcn3Float");
 
-		ExpressionStruct expression = new ExpressionStruct();
-		IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+		final ExpressionStruct expression = new ExpressionStruct();
+		final IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 		if (last.getValuetype().equals(Value_type.ALTSTEP_REFERENCE_VALUE)) {
 			//TODO Optimize for easily resolvable value
 		}

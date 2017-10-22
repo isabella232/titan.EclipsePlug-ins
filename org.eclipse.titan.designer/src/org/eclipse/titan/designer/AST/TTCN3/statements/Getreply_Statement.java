@@ -473,7 +473,7 @@ public final class Getreply_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression);
 
 		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getLocation());
@@ -488,9 +488,9 @@ public final class Getreply_Statement extends Statement {
 			if (parameter != null) {
 				//FIXME handle redirect
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
-				IType signature = parameter.getTemplateBody().getMyGovernor();
-				IType signatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-				IType returnType = ((Signature_Type) signatureType).getSignatureReturnType();
+				final IType signature = parameter.getTemplateBody().getMyGovernor();
+				final IType signatureType = signature.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType returnType = ((Signature_Type) signatureType).getSignatureReturnType();
 				if (returnType != null) {
 					expression.expression.append(".set_value_template(");
 					if (valueMatch != null) {

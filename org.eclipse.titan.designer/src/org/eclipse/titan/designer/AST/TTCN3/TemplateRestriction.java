@@ -115,7 +115,8 @@ public final class TemplateRestriction {
 		if (template.getIsErroneous(timestamp)) {
 			return false;
 		}
-		ITTCN3Template last = template.getTemplateReferencedLast(timestamp);
+
+		final ITTCN3Template last = template.getTemplateReferencedLast(timestamp);
 		Restriction_type tr = definition.getTemplateRestriction();
 		tr = getSubRestriction(tr, timestamp, ref);
 		switch (tr) {
@@ -148,7 +149,7 @@ public final class TemplateRestriction {
 			return;
 		}
 
-		boolean omitInValueList = TTCN3Template.allowOmitInValueList(location, true);
+		final boolean omitInValueList = TTCN3Template.allowOmitInValueList(location, true);
 		source.append(MessageFormat.format("{0}.check_restriction({1}{2})", name, restrictionName, omitInValueList? ", null, true": ""));
 	}
 }

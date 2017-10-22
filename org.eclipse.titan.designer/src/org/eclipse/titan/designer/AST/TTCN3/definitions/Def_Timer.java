@@ -285,8 +285,8 @@ public final class Def_Timer extends Definition {
 	}
 
 	private void checkArrayDuration(final CompilationTimeStamp timestamp, final IValue duration, final int startDimension) {
-		ArrayDimension dim = dimensions.get(startDimension);
-		boolean arraySizeKnown = !dim.getIsErroneous(timestamp);
+		final ArrayDimension dim = dimensions.get(startDimension);
+		final boolean arraySizeKnown = !dim.getIsErroneous(timestamp);
 		int arraySize = 0;
 		if (arraySizeKnown) {
 			arraySize = (int) dim.getSize();
@@ -303,7 +303,7 @@ public final class Def_Timer extends Definition {
 
 		if (v.getValuetype() == Value_type.SEQUENCEOF_VALUE) {
 			final SequenceOf_Value value = (SequenceOf_Value) v;
-			int nofComp = value.getNofComponents();
+			final int nofComp = value.getNofComponents();
 
 			// Value-list notation.
 			if (!value.isIndexed()) {
@@ -316,10 +316,10 @@ public final class Def_Timer extends Definition {
 								+ arraySize + " was expected instead of " + nofComp );
 					}
 				}
-				
-				boolean last_dim = startDimension + 1 >= dimensions.size();
+
+				final boolean last_dim = startDimension + 1 >= dimensions.size();
 				for (int i = 0; i < nofComp; ++i) {
-					IValue array_v = value.getValueByIndex(i);
+					final IValue array_v = value.getValueByIndex(i);
 					if (array_v.getValuetype() == Value_type.NOTUSED_VALUE) {
 						continue;
 					}
@@ -331,11 +331,11 @@ public final class Def_Timer extends Definition {
 				}
 			} else {
 				// Indexed-notation.
-				boolean last_dim = startDimension + 1 >= dimensions.size();
-				Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
+				final boolean last_dim = startDimension + 1 >= dimensions.size();
+				final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
 				
 				for (int i = 0; i < nofComp; ++i) {
-					IValue array_v = value.getValueByIndex(i);
+					final IValue array_v = value.getValueByIndex(i);
 					if (array_v.getValuetype() == Value_type.NOTUSED_VALUE) {
 						continue;
 					}
@@ -344,17 +344,17 @@ public final class Def_Timer extends Definition {
 					} else {
 						checkArrayDuration(timestamp, array_v, startDimension + 1);
 					}
-					
-					IValue array_index = value.getIndexByIndex(i);
+
+					final IValue array_index = value.getIndexByIndex(i);
 					dim.checkIndex(timestamp, array_index, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-					IValue tmp = array_index.getValueRefdLast(timestamp, referenceChain);
+					final IValue tmp = array_index.getValueRefdLast(timestamp, referenceChain);
 					if (tmp.getValuetype() == Value_type.INTEGER_VALUE) {
-						BigInteger index = ((Integer_Value) tmp).getValueValue();
+						final BigInteger index = ((Integer_Value) tmp).getValueValue();
 						if (index.compareTo(BigInteger.valueOf( Integer.MAX_VALUE)) > 0) {
 							array_index.getLocation().reportSemanticError(MessageFormat.format("An integer value less than {0} was expected for indexing timer array instead of {1}", Integer.MAX_VALUE, index));
 							array_index.setIsErroneous(true);
 						} else {
-							int IndexValue =  index.intValue();
+							final int IndexValue =  index.intValue();
 							if (indexMap.containsKey(IndexValue)) {
 								array_index.getLocation().reportSemanticError(MessageFormat.format("Duplicate index value {0} for timer array elements {1} and {2}", index, i+1, indexMap.get(IndexValue)));
 								array_index.setIsErroneous(true);
@@ -565,7 +565,7 @@ public final class Def_Timer extends Definition {
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder initComp = aData.getInitComp();
 		//TODO temporary code to adapt to the starting code
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 				source.append( "private" );
@@ -622,10 +622,10 @@ public final class Def_Timer extends Definition {
 			}
 
 		} else {
-			ArrayList<String> classNames= new ArrayList<String>();
+			final ArrayList<String> classNames= new ArrayList<String>();
 			final ExpressionStruct expression = new ExpressionStruct();
 			aData.addBuiltinTypeImport("TitanTimerArray");
-			String elementName = generateClassCode(aData, sb, classNames);
+			final String elementName = generateClassCode(aData, sb, classNames);
 			source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
 
 			if (defaultDuration != null) {
@@ -690,11 +690,11 @@ public final class Def_Timer extends Definition {
 				}
 			}
 		} else {
-			ArrayList<String> classNames = new ArrayList<String>();
+			final ArrayList<String> classNames = new ArrayList<String>();
 			aData.addBuiltinTypeImport("TitanTimerArray");
 
-			StringBuilder sb = aData.getCodeForType(genName);
-			String elementName = generateClassCode(aData, sb, classNames);
+			final StringBuilder sb = aData.getCodeForType(genName);
+			final String elementName = generateClassCode(aData, sb, classNames);
 			source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
 
 
@@ -811,11 +811,11 @@ public final class Def_Timer extends Definition {
 		return;
 	}
 
-	private String generateClassCode(JavaGenData aData, StringBuilder sb, ArrayList<String> list) {
+	private String generateClassCode(final JavaGenData aData, final StringBuilder sb, final ArrayList<String> list) {
 		String tempId1 = "TitanTimer";
 		for (int i = 0; i < dimensions.size(); ++i) {
-			ArrayDimension dim = dimensions.get(dimensions.size() - i - 1);
-			String tempId2 = aData.getTemporaryVariableName();
+			final ArrayDimension dim = dimensions.get(dimensions.size() - i - 1);
+			final String tempId2 = aData.getTemporaryVariableName();
 			list.add(tempId2);
 			sb.append(MessageFormat.format("public static class {0} extends TitanTimerArray<{1}> '{'\n", tempId2, tempId1));
 			sb.append(MessageFormat.format("public {0}() '{'\n", tempId2));

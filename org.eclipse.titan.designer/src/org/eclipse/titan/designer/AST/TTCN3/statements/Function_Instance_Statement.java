@@ -168,7 +168,7 @@ public final class Function_Instance_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		source.append( "\t\t" );
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		reference.generateConstRef( aData, expression );
 		expression.mergeExpression(source);
 	}

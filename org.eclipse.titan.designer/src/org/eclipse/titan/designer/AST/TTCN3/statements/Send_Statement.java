@@ -267,15 +267,15 @@ public final class Send_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		portReference.generateCode(aData, expression);
 		expression.expression.append(".send(");
 
-		TTCN3Template templateBody = parameter.getTemplateBody();
+		final TTCN3Template templateBody = parameter.getTemplateBody();
 		if (parameter.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())
 				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			//optimize for value
-			IValue value = ((SpecificValue_Template) templateBody).getValue();
+			final IValue value = ((SpecificValue_Template) templateBody).getValue();
 			//FIXME check if casting is needed
 			value.generateCodeExpressionMandatory(aData, expression);
 		} else {

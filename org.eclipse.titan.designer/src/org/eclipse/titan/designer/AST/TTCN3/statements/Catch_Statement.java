@@ -505,7 +505,7 @@ public final class Catch_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression);
 
 		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getLocation());

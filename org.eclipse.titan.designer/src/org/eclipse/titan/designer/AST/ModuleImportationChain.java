@@ -66,7 +66,7 @@ public final class ModuleImportationChain {
 	 * */
 	public boolean add(final ModuleImportation chainLink) {
 		int index = -1;
-		String chainLinkDescription = chainLink.chainedDescription(); //containing module name
+		final String chainLinkDescription = chainLink.chainedDescription(); //containing module name
 		for (int i = 0; i < chainLinks.size(); i++) {
 			if (chainLinks.get(i).chainedDescription().equals(chainLinkDescription)) {
 				index = i;

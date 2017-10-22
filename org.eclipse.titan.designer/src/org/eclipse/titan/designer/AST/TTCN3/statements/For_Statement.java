@@ -451,7 +451,7 @@ public final class For_Statement extends Statement {
 		}
 		source.append("\t\t\tfor( ; ; ) {\n");
 
-		AtomicInteger blockCount = new AtomicInteger(0);
+		final AtomicInteger blockCount = new AtomicInteger(0);
 		finalExpression.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
 		aData.addBuiltinTypeImport( "TitanBoolean" );
 		source.append(")) {\n");

@@ -116,8 +116,8 @@ public final class Value_ActualParameter extends ActualParameter {
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO not complete implementation pl. copy_needed, formal parameter missing
 		if (value != null ) {
-			StringBuilder expressionExpression = new StringBuilder();
-			ExpressionStruct valueExpression = new ExpressionStruct();
+			final StringBuilder expressionExpression = new StringBuilder();
+			final ExpressionStruct valueExpression = new ExpressionStruct();
 			value.generateCodeExpression(aData, valueExpression);
 			if(valueExpression.preamble.length() > 0) {
 				expression.preamble.append(valueExpression.preamble);
@@ -128,7 +128,7 @@ public final class Value_ActualParameter extends ActualParameter {
 				// make sure the postambles of the parameters are executed before the
 				// function call itself (needed if the value contains function calls
 				// with lazy or fuzzy parameters)
-				String tempId = aData.getTemporaryVariableName();
+				final String tempId = aData.getTemporaryVariableName();
 				value.getMyGovernor().getGenNameValue(aData, expression.preamble, myScope);
 				expression.preamble.append(" ");
 				expression.preamble.append(tempId);

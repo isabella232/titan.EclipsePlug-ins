@@ -117,7 +117,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 		if (genName == null) {
 			//fatal error
 			//TODO implement the calculation of generated name, this is just temporary
-			String fullname = getFullName();
+			final String fullname = getFullName();
 			return fullname.substring( fullname.lastIndexOf(".") + 1 );
 		}
 

@@ -133,7 +133,7 @@ public final class Return_Statement extends Statement {
 			}
 			// General:
 			template.setMyGovernor(returnType);
-			IValue value = template.getValue();
+			final IValue value = template.getValue();
 			if (value != null) {
 				value.setMyGovernor(returnType);
 				returnType.checkThisValueRef(timestamp, value);
@@ -226,15 +226,15 @@ public final class Return_Statement extends Statement {
 			return;
 		}
 
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append("return ");
 
-		Definition definition = myStatementBlock.getMyDefinition();
+		final Definition definition = myStatementBlock.getMyDefinition();
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
-			IValue value = ((SpecificValue_Template) template).getValue();
+			final IValue value = ((SpecificValue_Template) template).getValue();
 			value.generateCodeExpressionMandatory(aData, expression);
 		} else {
-			Definition myDefinition = myStatementBlock.getMyDefinition();
+			final Definition myDefinition = myStatementBlock.getMyDefinition();
 			if (myDefinition.getTemplateRestriction() != TemplateRestriction.Restriction_type.TR_NONE
 					&& genRestrictionCheck) {
 				template.generateCodeExpression(aData, expression, myDefinition.getTemplateRestriction());

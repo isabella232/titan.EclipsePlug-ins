@@ -503,7 +503,7 @@ public final class Def_Type extends Definition {
 		}
 
 		final StringBuilder sb = aData.getCodeForType(genName);//aData.getSrc();
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		type.generateCode( aData, source );
 
 		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {

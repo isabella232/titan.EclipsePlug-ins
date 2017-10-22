@@ -135,14 +135,14 @@ public final class Activate_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
-		Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final ExpressionStruct expression = new ExpressionStruct();
+		final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 		expression.expression.append(assignment.getGenNameFromScope(aData, source, myStatementBlock, "activate_"));
 		expression.expression.append('(');
 
 		if (!reference.getSubreferences().isEmpty()) {
-			ISubReference subReference = reference.getSubreferences().get(0);
+			final ISubReference subReference = reference.getSubreferences().get(0);
 			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
 				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
 			}

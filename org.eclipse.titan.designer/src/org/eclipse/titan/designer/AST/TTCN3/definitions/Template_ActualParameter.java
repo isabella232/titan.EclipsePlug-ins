@@ -140,10 +140,10 @@ public final class Template_ActualParameter extends ActualParameter {
 			return;
 		}
 
-		TTCN3Template temp = template.getTemplateBody();
-		Reference baseReference = template.getDerivedReference();
+		final TTCN3Template temp = template.getTemplateBody();
+		final Reference baseReference = template.getDerivedReference();
 		if (baseReference != null) {
-			ExpressionStruct expression = new ExpressionStruct();
+			final ExpressionStruct expression = new ExpressionStruct();
 			expression.expression.append(MessageFormat.format("{0}.assign(", temp.get_lhs_name()));
 			baseReference.generateCode(aData, expression);
 			expression.expression.append(')');
@@ -158,8 +158,8 @@ public final class Template_ActualParameter extends ActualParameter {
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO not complete implementation pl. copye_needed missing
 		if (template != null ) {
-			StringBuilder expressionExpression = new StringBuilder();
-			ExpressionStruct tempExpression = new ExpressionStruct();
+			final StringBuilder expressionExpression = new StringBuilder();
+			final ExpressionStruct tempExpression = new ExpressionStruct();
 			template.generateCode(aData, tempExpression, genRestrictionCheck);
 			if(tempExpression.preamble.length() > 0) {
 				expression.preamble.append(tempExpression.preamble);
@@ -170,7 +170,7 @@ public final class Template_ActualParameter extends ActualParameter {
 				// make sure the postambles of the parameters are executed before the
 				// function call itself (needed if the template contains function calls
 				// with lazy or fuzzy parameters)
-				String tempId = aData.getTemporaryVariableName();
+				final String tempId = aData.getTemporaryVariableName();
 				template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble, myScope);
 				expression.preamble.append(" ");
 				expression.preamble.append(tempId);

@@ -167,7 +167,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 		}
 
 		for (int i = 0; i < actualParameters.getNofParameters(); i++) {
-			ActualParameter actualParameter = actualParameters.getParameter(i);
+			final ActualParameter actualParameter = actualParameters.getParameter(i);
 			if(!actualParameter.hasSingleExpression()) {
 				return false;
 			}

@@ -258,7 +258,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression);
 
 		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getLocation());
@@ -293,7 +293,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 		if (fromClause != null) {
 			fromClause.generateCode(aData, expression, Restriction_type.TR_NONE);
 		} else if (redirectSender != null) {
-			IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+			final IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
 			if (varType == null) {
 				//fatal error
 			}

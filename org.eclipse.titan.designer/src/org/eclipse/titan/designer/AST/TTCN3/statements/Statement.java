@@ -352,7 +352,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
 		// By default statements can not be extended except these 3 tokens
-		List<Integer> result = new ArrayList<Integer>();
+		final List<Integer> result = new ArrayList<Integer>();
 		result.add(Ttcn3Lexer.SEMICOLON);
 		result.add(Ttcn3Lexer.LINE_COMMENT);
 		result.add(Ttcn3Lexer.WS);

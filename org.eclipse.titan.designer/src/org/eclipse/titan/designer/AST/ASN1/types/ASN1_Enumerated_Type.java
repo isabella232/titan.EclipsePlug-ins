@@ -401,7 +401,7 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 			return false;
 		}
 
-		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
+		final boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
@@ -675,7 +675,8 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 				items.addAll(enumerations.enumItems2.getItems());
 			}
 		}
-		Enum_Defs e_defs = new Enum_Defs( items, ownName, displayName, getGenNameTemplate(aData, source, myScope));
+
+		final Enum_Defs e_defs = new Enum_Defs( items, ownName, displayName, getGenNameTemplate(aData, source, myScope));
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 	}

@@ -1082,7 +1082,7 @@ public final class FormalParameter extends Definition {
 	 *  but in java we can not omit the name of the parameter
 	 * */
 	public StringBuilder generateCodeFpar(final JavaGenData aData) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:

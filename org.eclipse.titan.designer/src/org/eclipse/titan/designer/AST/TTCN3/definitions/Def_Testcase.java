@@ -560,7 +560,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 
 		final StringBuilder sb = aData.getSrc();
 		//TODO temporary code to adapt to the starting code
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		aData.addBuiltinTypeImport( "TtcnError" );
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport("TitanVerdictType");
