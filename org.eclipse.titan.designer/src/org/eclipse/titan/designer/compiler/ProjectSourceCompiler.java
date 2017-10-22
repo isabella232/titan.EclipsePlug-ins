@@ -53,6 +53,7 @@ public class ProjectSourceCompiler {
 		}
 
 		JavaGenData data = new JavaGenData(timestamp);
+		data.collectProjectSettings(aModule.getLocation());
 		data.setDebug( aDebug );
 		aModule.generateCode( data );
 

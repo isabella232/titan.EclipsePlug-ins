@@ -811,8 +811,7 @@ public final class Anytype_Type extends Type {
 
 				String temporalId2 = aData.getTemporaryVariableName();
 				expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId));
-				//FIXME handle omit_in_value_list
-				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId2, isBound?"isBound":"isPresent", (!isBound && isTemplate)?"true":""));
+				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId2, isBound?"isBound":"isPresent", (!isBound && isTemplate && aData.allowOmitInValueList())?"true":""));
 
 				expression.expression.append("break;}\n");
 				expression.expression.append("}\n");
@@ -846,8 +845,7 @@ public final class Anytype_Type extends Type {
 			String temporalId2 = aData.getTemporaryVariableName();
 			expression.expression.append(MessageFormat.format("{0}{1} {2} = {3};\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
 			expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
-			//FIXME handle omit_in_value_list
-			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId2, isBound|| (subReferenceIndex!=subreferences.size()-1)?"isBound":"isPresent", (!(isBound || (subReferenceIndex!=subreferences.size()-1)) && isTemplate)?"true":""));
+			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId2, isBound|| (subReferenceIndex!=subreferences.size()-1)?"isBound":"isPresent", (!(isBound || (subReferenceIndex!=subreferences.size()-1)) && isTemplate && aData.allowOmitInValueList())?"true":""));
 
 			nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, isBound);
 		}

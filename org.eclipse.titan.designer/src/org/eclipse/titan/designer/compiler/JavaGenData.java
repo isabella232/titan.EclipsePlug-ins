@@ -4,6 +4,16 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IResource;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.QualifiedName;
+import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;
+import org.eclipse.titan.designer.properties.data.TITANFlagsOptionsData;
+
 /**
  * Helper class for java code generation.
  * The info is collected here before it is written out to the java files
@@ -34,6 +44,9 @@ public class JavaGenData {
 
 	private HashMap<String, StringBuilder> types;
 
+	/** are omits allowed in value list (legacy mode) */
+	private boolean allowOmitInValueList = true;
+
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
@@ -60,6 +73,31 @@ public class JavaGenData {
 		mInterModuleImports = new TreeSet<String>();
 		mDebug = false;
 		types = new HashMap<String, StringBuilder>();
+	}
+
+	public void collectProjectSettings(final Location location) {
+		if(location == null || (location instanceof NULL_Location)) {
+			return;
+		}
+
+		final IResource f = location.getFile();
+		if( f == null) {
+			return;
+		}
+
+		final IProject project = f.getProject();
+		if(project == null) {
+			return;
+		}
+
+		final QualifiedName qn = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY);
+		try {
+			final String s= project.getPersistentProperty(qn);
+			allowOmitInValueList = s == null || "true".equals(s);
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+			return;
+		}
 	}
 
 	public StringBuilder getCodeForType(final String typeName) {
@@ -180,5 +218,12 @@ public class JavaGenData {
 		builder.append(tempVariableCounter);
 
 		return builder.toString();
+	}
+
+	/**
+	 * @return if omit is allowed in a value list.
+	 */
+	final public boolean allowOmitInValueList() {
+		return allowOmitInValueList;
 	}
 }

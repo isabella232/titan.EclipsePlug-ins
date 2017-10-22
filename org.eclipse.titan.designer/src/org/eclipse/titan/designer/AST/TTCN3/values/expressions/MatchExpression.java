@@ -15,10 +15,10 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -308,7 +308,9 @@ public final class MatchExpression extends Expression_Value {
 		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		expression.expression.append( ".match( " );
 		value.generateCodeExpression(aData, expression);
-		//TODO handle omit in value list
+		if(aData.allowOmitInValueList()) {
+			expression.expression.append( ", true " );
+		}
 		expression.expression.append( " )" );
 	}
 
@@ -317,7 +319,9 @@ public final class MatchExpression extends Expression_Value {
 		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		expression.expression.append( ".log_match( " );
 		value.generateCodeExpression(aData, expression);
-		//TODO handle omit in value list
+		if(aData.allowOmitInValueList()) {
+			expression.expression.append( ", true " );
+		}
 		expression.expression.append( ", false )" );
 	}
 }

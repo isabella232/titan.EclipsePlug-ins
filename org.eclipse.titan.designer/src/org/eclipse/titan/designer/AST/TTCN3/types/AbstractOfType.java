@@ -777,10 +777,9 @@ public abstract class AbstractOfType extends ASN1Type {
 		}
 
 		boolean isLast = subReferenceIndex == (subreferences.size() - 1);
-		//FIXME handle omit_in_value_list
 		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId,
 				isBound|(!isLast)?"isBound":"isPresent",
-				(!(isBound|!isLast))&&isTemplate?"true":""));
+				(!(isBound|!isLast))&&isTemplate&& aData.allowOmitInValueList()?"true":""));
 
 		nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
 
