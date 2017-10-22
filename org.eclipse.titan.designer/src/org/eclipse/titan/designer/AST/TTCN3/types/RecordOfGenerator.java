@@ -303,8 +303,16 @@ public class RecordOfGenerator {
 			source.append("\t\tfor ( int i = 0; i < size; i++ ) {\n");
 			source.append( MessageFormat.format( "\t\t\tfinal {0} leftElem = valueElements.get( i );\n", ofTypeName ) );
 			source.append( MessageFormat.format( "\t\t\tfinal {0} rightElem = otherValue.valueElements.get( i );\n", ofTypeName ) );
-			source.append("\t\t\tif ( leftElem.operatorEquals( rightElem ).not().getValue() ) {\n");
-			source.append("\t\t\t\treturn new TitanBoolean( false );\n");
+			source.append("\t\t\tif (leftElem.isBound().getValue()) {\n");
+			source.append("\t\t\t\tif (rightElem.isBound().getValue()) {\n");
+			source.append("\t\t\t\t\tif ( leftElem.operatorEquals( rightElem ).not().getValue() ) {\n");
+			source.append("\t\t\t\t\t\treturn new TitanBoolean( false );\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\treturn new TitanBoolean( false );\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t} else if (rightElem.isBound().getValue()) {\n");
+			source.append("\t\t\t\tnew TitanBoolean( false );\n");
 			source.append("\t\t\t}\n");
 			source.append("\t\t}\n");
 			source.append('\n');
