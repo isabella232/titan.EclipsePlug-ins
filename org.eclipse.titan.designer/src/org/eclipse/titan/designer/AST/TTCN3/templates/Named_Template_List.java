@@ -37,6 +37,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
@@ -698,6 +699,9 @@ public final class Named_Template_List extends TTCN3Template {
 					break;
 				case TYPE_OPENTYPE:
 					fieldType = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					break;
+				case TYPE_ANYTYPE:
+					fieldType = ((Anytype_Type) type).getComponentByName(fieldName).getType();
 					break;
 				default:
 					source.append("//FATAL ERROR while generating code for a named template list\n");
