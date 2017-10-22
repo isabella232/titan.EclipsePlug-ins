@@ -424,7 +424,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\trc = size - ((-rotate_count) % size);\n");
 		source.append("\t\t}\n");
 		source.append("\t\tif (rc == 0) {\n");
-		source.append( MessageFormat.format( "\t\t\treturn new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
+		source.append( MessageFormat.format( "\t\t\treturn new {0}(this);\n", genName ) );
 		source.append("\t\t}\n");
 		source.append( MessageFormat.format( "\t\t{0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", genName ) );
 		source.append("\t\tfor (int i = size - rc; i < size; i++) {\n");
