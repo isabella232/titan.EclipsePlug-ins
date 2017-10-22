@@ -294,10 +294,10 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 				if (!otherValue.isBound().getValue()) {
 					throw new TtcnError("The right operand of comparison is an unbound optional value.");
 				} else {
-					 if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+					if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 						return optionalValue.operatorEquals(otherValue);
 					} else {
-						return new TitanBoolean(true);
+						return new TitanBoolean(false);
 					}
 				}
 			}
