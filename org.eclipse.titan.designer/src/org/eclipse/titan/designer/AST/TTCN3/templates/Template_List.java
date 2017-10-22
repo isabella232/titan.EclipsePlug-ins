@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -314,6 +315,17 @@ public final class Template_List extends CompositeTemplate {
 			}
 		}
 		return needsRuntimeCheck;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public ITTCN3Template getReferencedSetSequenceFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
+			final Reference reference, final IReferenceChain referenceChain) {
+		if (converted != null) {
+			return converted.getReferencedSetSequenceFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+		}
+
+		return null;
 	}
 
 	@Override

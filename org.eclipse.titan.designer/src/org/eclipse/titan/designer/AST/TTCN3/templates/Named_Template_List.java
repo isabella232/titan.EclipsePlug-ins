@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -451,6 +452,30 @@ public final class Named_Template_List extends TTCN3Template {
 			}
 		}
 		return needsRuntimeCheck;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public ITTCN3Template getReferencedSetSequenceFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
+			final Reference reference, final IReferenceChain referenceChain) {
+		if (hasNamedTemplate(fieldIdentifier)) {
+			return getNamedTemplate(fieldIdentifier).getTemplate();
+		} else if (baseTemplate != null) {
+			// take the field from the base template
+			final TTCN3Template temp = baseTemplate.getTemplateReferencedLast(timestamp, referenceChain);
+			if (temp == null) {
+				return null;
+			}
+
+			return temp.getReferencedFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
+		} else {
+			if (!reference.getUsedInIsbound()) {
+				reference.getLocation().reportSemanticError(
+						MessageFormat.format("Reference to unbound field `{0}''.", fieldIdentifier.getDisplayName()));
+			}
+
+			return null;
+		}
 	}
 
 	@Override

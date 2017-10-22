@@ -517,31 +517,9 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @param referenceChain
 	 *                the reference chain use to detect circular references.
 	 * */
-	private ITTCN3Template getReferencedSetSequenceFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
+	public ITTCN3Template getReferencedSetSequenceFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
 			final Reference reference, final IReferenceChain referenceChain) {
-		if (!Template_type.NAMED_TEMPLATE_LIST.equals(getTemplatetype())) {
-			return null;
-		}
-
-		final Named_Template_List namedList = (Named_Template_List) this;
-		if (namedList.hasNamedTemplate(fieldIdentifier)) {
-			return namedList.getNamedTemplate(fieldIdentifier).getTemplate();
-		} else if (baseTemplate != null) {
-			// take the field from the base template
-			final TTCN3Template temp = baseTemplate.getTemplateReferencedLast(timestamp, referenceChain);
-			if (temp == null) {
-				return null;
-			}
-
-			return temp.getReferencedFieldTemplate(timestamp, fieldIdentifier, reference, referenceChain);
-		} else {
-			if (!reference.getUsedInIsbound()) {
-				reference.getLocation().reportSemanticError(
-						MessageFormat.format("Reference to unbound field `{0}''.", fieldIdentifier.getDisplayName()));
-			}
-
-			return null;
-		}
+		return null;
 	}
 
 	/**
@@ -557,7 +535,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @param referenceChain
 	 *                the reference chain use to detect circular references.
 	 * */
-	private ITTCN3Template getReferencedFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
+	protected ITTCN3Template getReferencedFieldTemplate(final CompilationTimeStamp timestamp, final Identifier fieldIdentifier,
 			final Reference reference, final IReferenceChain referenceChain) {
 		switch (getTemplatetype()) {
 		case OMIT_VALUE:
