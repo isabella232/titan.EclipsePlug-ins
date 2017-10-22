@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Omit_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -276,22 +277,46 @@ public final class EqualsExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
-		value1.generateCodeExpression(aData, expression);
-		expression.expression.append( ".operatorEquals( " );
+		// TODO maybe this can be optimized later
+		boolean isOptional1 = false;
+		boolean isOptional2 = false;
 
 		IValue temp = value1.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
-		if (temp instanceof Referenced_Value) {
+		if (temp instanceof Omit_Value) {
+			isOptional1 = true;
+		} else if (temp instanceof Referenced_Value) {
 			Reference reference = ((Referenced_Value) temp).getReference();
 			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
-				value2.generateCodeExpression(aData, expression);
-			} else {
-				value2.generateCodeExpressionMandatory(aData, expression);
+				isOptional1 = true;
 			}
-		} else {
-			value2.generateCodeExpressionMandatory(aData, expression);
+		}
+		IValue temp2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		if (temp2 instanceof Omit_Value) {
+			isOptional2 = true;
+		} else if (temp2 instanceof Referenced_Value) {
+			Reference reference = ((Referenced_Value) temp2).getReference();
+			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
+				isOptional2 = true;
+			}
 		}
 
-		expression.expression.append( " )" );
+		if (isOptional1) {
+			value1.generateCodeExpression(aData, expression);
+			expression.expression.append( ".operatorEquals( " );
+			value2.generateCodeExpression(aData, expression);
+			expression.expression.append( " )" );
+		} else if (isOptional2) {
+			value2.generateCodeExpression(aData, expression);
+			expression.expression.append( ".operatorEquals( " );
+			value1.generateCodeExpression(aData, expression);
+			expression.expression.append( " )" );
+		} else {
+			value1.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append( ".operatorEquals( " );
+			value2.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append( " )" );
+		}
 	}
 }
