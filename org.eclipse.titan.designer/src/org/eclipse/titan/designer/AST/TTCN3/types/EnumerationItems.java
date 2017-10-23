@@ -44,7 +44,7 @@ public final class EnumerationItems extends ASTNode implements IIncrementallyUpd
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		for (EnumItem item : items) {
+		for (final EnumItem item : items) {
 			if (item == child) {
 				final Identifier identifier = item.getId();
 				if (identifier != null) {
@@ -82,25 +82,25 @@ public final class EnumerationItems extends ASTNode implements IIncrementallyUpd
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
-		for (EnumItem item : items) {
+		for (final EnumItem item : items) {
 			item.setMyScope(scope);
 		}
 	}
 
 	public void addProposal(final ProposalCollector propCollector) {
-		for (EnumItem item : items) {
+		for (final EnumItem item : items) {
 			item.addProposal(propCollector);
 		}
 	}
 
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
-		for (EnumItem item : items) {
+		for (final EnumItem item : items) {
 			item.addDeclaration(declarationCollector, i);
 		}
 	}
 
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i, final Location commentLocation) {
-		for (EnumItem item : items) {
+		for (final EnumItem item : items) {
 			item.addDeclaration(declarationCollector, i);
 		}
 	}
@@ -124,7 +124,7 @@ public final class EnumerationItems extends ASTNode implements IIncrementallyUpd
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (items != null) {
-			for (EnumItem ei : items) {
+			for (final EnumItem ei : items) {
 				ei.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -134,7 +134,7 @@ public final class EnumerationItems extends ASTNode implements IIncrementallyUpd
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (items != null) {
-			for (EnumItem ei : items) {
+			for (final EnumItem ei : items) {
 				if (!ei.accept(v)) {
 					return false;
 				}

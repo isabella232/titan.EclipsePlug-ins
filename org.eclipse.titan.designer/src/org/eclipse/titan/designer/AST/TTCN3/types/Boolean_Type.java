@@ -118,7 +118,7 @@ public final class Boolean_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
-		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
+		final boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {

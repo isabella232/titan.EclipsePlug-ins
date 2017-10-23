@@ -1483,17 +1483,17 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (inTypes != null) {
-			for (IType t : inTypes) {
+			for (final IType t : inTypes) {
 				t.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
 		if (outTypes != null) {
-			for (IType t : outTypes) {
+			for (final IType t : outTypes) {
 				t.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
 		if (inoutTypes != null) {
-			for (IType t : inoutTypes) {
+			for (final IType t : inoutTypes) {
 				t.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -1512,21 +1512,21 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (inTypes!=null) {
-			for (IType t : inTypes) {
+			for (final IType t : inTypes) {
 				if (!t.accept(v)) {
 					return false;
 				}
 			}
 		}
 		if (outTypes!=null) {
-			for (IType t : outTypes) {
+			for (final IType t : outTypes) {
 				if (!t.accept(v)) {
 					return false;
 				}
 			}
 		}
 		if (inoutTypes!=null) {
-			for (IType t : inoutTypes) {
+			for (final IType t : inoutTypes) {
 				if (!t.accept(v)) {
 					return false;
 				}
@@ -1555,41 +1555,41 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		final String genName = myType.getGenNameOwn();
 		final Scope myScope = myType.getMyScope();
 
-		PortDefinition portDefinition = new PortDefinition(genName, getFullName());
+		final PortDefinition portDefinition = new PortDefinition(genName, getFullName());
 		if (inMessages != null) {
 			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
-				IType inType = inMessages.getTypeByIndex(i);
+				final IType inType = inMessages.getTypeByIndex(i);
 
-				messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
+				final messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
 				portDefinition.inMessages.add(info);
 			}
 		}
 
 		if (outMessages != null) {
 			for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
-				IType outType = outMessages.getTypeByIndex(i);
+				final IType outType = outMessages.getTypeByIndex(i);
 
-				messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
+				final messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
 				portDefinition.outMessages.add(info);
 			}
 		}
 
 		if (inSignatures != null) {
 			for (int i = 0 ; i < inSignatures.getNofTypes(); i++) {
-				IType outType = inSignatures.getTypeByIndex(i);
-				Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType outType = inSignatures.getTypeByIndex(i);
+				final Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-				procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, false);
+				final procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, false);
 				portDefinition.inProcedures.add(info);
 			}
 		}
 
 		if (outSignatures != null) {
 			for (int i = 0 ; i < outSignatures.getNofTypes(); i++) {
-				IType outType = outSignatures.getTypeByIndex(i);
-				Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final IType outType = outSignatures.getTypeByIndex(i);
+				final Signature_Type signature = (Signature_Type) outType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-				procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, signature.getSignatureReturnType() != null);
+				final procedureSignatureInfo info = new procedureSignatureInfo(outType.getGenNameValue(aData, source, myScope), outType.getTypename(), signature.isNonblocking(), signature.getSignatureExceptions() != null, signature.getSignatureReturnType() != null);
 				portDefinition.outProcedures.add(info);
 			}
 		}

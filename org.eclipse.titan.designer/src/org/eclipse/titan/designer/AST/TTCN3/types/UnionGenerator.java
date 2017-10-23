@@ -184,7 +184,7 @@ public class UnionGenerator {
 		if (!fieldInfos.isEmpty()) {
 			source.append("switch(otherValue.union_selection){\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				FieldInfo fieldInfo = fieldInfos.get(i);
+				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append(MessageFormat.format("field = new {0}(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
 				source.append("break;\n");
@@ -279,7 +279,7 @@ public class UnionGenerator {
 		source.append("case UNBOUND_VALUE:\n");
 		source.append("return new TitanBoolean(false);\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append("return field.isValue();\n");
 		}
@@ -325,7 +325,7 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("switch(union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("return (({0})field).operatorEquals(({0})otherValue.field);\n", fieldInfo.mJavaTypeName));
 		}
@@ -369,7 +369,7 @@ public class UnionGenerator {
 	private static void generateValueGetterSetters(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTypeName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (union_selection != union_selection_type.ALT_{0}) '{'\n", fieldInfo.mJavaVarName));
 			source.append("cleanUp();\n");
@@ -409,7 +409,7 @@ public class UnionGenerator {
 		source.append("public void log() {\n");
 		source.append("switch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
 			source.append("field.log();\n");
@@ -475,7 +475,7 @@ public class UnionGenerator {
 		if (!fieldInfos.isEmpty()) {
 			source.append("switch (other_value.union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				FieldInfo fieldInfo = fieldInfos.get(i);
+				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append(MessageFormat.format("single_value = new {0}(({1})other_value.field);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaTypeName));
 				source.append("break;\n");
@@ -494,7 +494,7 @@ public class UnionGenerator {
 		if (!fieldInfos.isEmpty()) {
 			source.append("switch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				FieldInfo fieldInfo = fieldInfos.get(i);
+				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append(MessageFormat.format("single_value = new {0}(other_value.get{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 				source.append("break;\n");
@@ -537,7 +537,7 @@ public class UnionGenerator {
 		if (!fieldInfos.isEmpty()) {
 			source.append("switch(single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				FieldInfo fieldInfo = fieldInfos.get(i);
+				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 				source.append(MessageFormat.format("(({0})single_value).cleanUp();\n", fieldInfo.mJavaTemplateName));
 				source.append("break;\n");
@@ -646,7 +646,7 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("switch(value_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("return (({0})single_value).match(other_value.get{1}(), legacy);\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 		}
@@ -732,7 +732,7 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("switch(single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("return (({0})single_value).isValue();\n", fieldInfo.mJavaTemplateName));
 		}
@@ -760,7 +760,7 @@ public class UnionGenerator {
 		}
 		source.append("switch(single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("ret_val.get{0}().assign((({1})single_value).valueOf());\n", fieldInfo.mJavaVarName, fieldInfo.mJavaTemplateName));
 			source.append("break;\n");
@@ -883,7 +883,7 @@ public class UnionGenerator {
 	private static void generateTemplateGetterSetters(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("public {0} get{1}() '{'\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 			source.append(MessageFormat.format("if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != {0}.union_selection_type.ALT_{1}) '{'\n", genName, fieldInfo.mJavaVarName));
 			source.append("final template_sel old_selection = templateSelection;\n");
@@ -969,7 +969,7 @@ public class UnionGenerator {
 		source.append("if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
 		source.append("switch(single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
-			FieldInfo fieldInfo = fieldInfos.get(i);
+			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
 			source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {\n");
 			source.append(MessageFormat.format("TtcnLogger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));

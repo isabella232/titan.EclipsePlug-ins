@@ -558,7 +558,7 @@ public final class SetOf_Type extends AbstractOfType {
 		final IType ofType = getOfType();
 		final String ofTypeName = ofType.getGenNameValue( aData, source, getMyScope() );
 		final String ofTemplateTypeName = ofType.getGenNameTemplate( aData, source, getMyScope() );
-		StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
+		final StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
 		ofType.generateCode(aData, tempSource);
 
 		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, true );

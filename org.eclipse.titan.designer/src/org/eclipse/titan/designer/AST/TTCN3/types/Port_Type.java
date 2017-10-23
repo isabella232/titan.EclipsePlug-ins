@@ -291,7 +291,7 @@ public final class Port_Type extends Type {
 		String elementName;
 
 		for (int i = 0; i < dimensions.size(); i++) {
-			ArrayDimension dimension = dimensions.get(i);
+			final ArrayDimension dimension = dimensions.get(i);
 			if (i == dimensions.size() - 1) {
 				elementName = getGenNameOwn();
 			} else {

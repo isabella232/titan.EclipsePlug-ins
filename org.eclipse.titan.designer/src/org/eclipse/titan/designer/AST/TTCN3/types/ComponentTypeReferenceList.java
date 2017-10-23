@@ -88,7 +88,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
-		for (Reference reference : componentReferences) {
+		for (final Reference reference : componentReferences) {
 			reference.setMyScope(scope);
 		}
 	}
@@ -104,7 +104,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 			return;
 		}
 
-		for (ComponentTypeBody body : orderedComponentTypeBodies) {
+		for (final ComponentTypeBody body : orderedComponentTypeBodies) {
 			refChain.markState();
 			body.checkRecursion(refChain);
 			refChain.previousState();
@@ -126,7 +126,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 		componentTypeBodies.clear();
 		orderedComponentTypeBodies.clear();
 
-		for (Reference reference : componentReferences) {
+		for (final Reference reference : componentReferences) {
 			final Component_Type componentType = reference.chkComponentypeReference(timestamp);
 			if (componentType != null) {
 				final ComponentTypeBody compTypeBody = componentType.getComponentBody();
@@ -160,7 +160,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 
 		lastCompilationTimeStamp = timestamp;
 
-		for (ComponentTypeBody body : orderedComponentTypeBodies) {
+		for (final ComponentTypeBody body : orderedComponentTypeBodies) {
 			body.check(timestamp);
 		}
 	}
@@ -184,7 +184,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (componentReferences != null) {
-			for (Reference ref : componentReferences) {
+			for (final Reference ref : componentReferences) {
 				ref.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -194,7 +194,7 @@ public final class ComponentTypeReferenceList extends ASTNode implements ILocate
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentReferences != null) {
-			for (Reference ref : componentReferences) {
+			for (final Reference ref : componentReferences) {
 				if (!ref.accept(v)) {
 					return false;
 				}

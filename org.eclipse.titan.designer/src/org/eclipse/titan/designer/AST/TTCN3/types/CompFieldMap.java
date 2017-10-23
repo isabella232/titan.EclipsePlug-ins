@@ -169,7 +169,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		super.setMyScope(scope);
 
 		fields.trimToSize();
-		for (CompField field : fields) {
+		for (final CompField field : fields) {
 			field.setMyScope(scope);
 		}
 	}
@@ -222,7 +222,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		//Now one field of an object class can one Open_Type, and each object of its object set can add a possible type to it
 		//FIXME: Perhaps this class should be copied under asn1 to handle this ASN1 problem
 		if (doubleComponents != null) {
-			INamedNode p = getNameParent();
+			final INamedNode p = getNameParent();
 			if( p instanceof Open_Type ) {
 				return;
 			}
@@ -520,7 +520,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	}
 
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
-		for (CompField field : fields) {
+		for (final CompField field : fields) {
 			if (field.getLocation().containsOffset(offset)) {
 				rf.type = myType.get(); // FIXME?
 				rf.fieldId = field.getIdentifier();
@@ -537,7 +537,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 			return;
 		}
 
-		for (CompField cf : fields) {
+		for (final CompField cf : fields) {
 			cf.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -546,7 +546,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (fields != null) {
-			for (CompField cf : fields) {
+			for (final CompField cf : fields) {
 				if (!cf.accept(v)) {
 					return false;
 				}

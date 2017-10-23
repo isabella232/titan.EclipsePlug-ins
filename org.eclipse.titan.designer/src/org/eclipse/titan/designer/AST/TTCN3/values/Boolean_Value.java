@@ -167,8 +167,9 @@ public final class Boolean_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanBoolean" );
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanBoolean( {0} )", value));
+
 		return result;
 	}
 

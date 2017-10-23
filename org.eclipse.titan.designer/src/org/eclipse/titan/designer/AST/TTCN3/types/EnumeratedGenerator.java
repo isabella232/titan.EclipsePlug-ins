@@ -84,15 +84,15 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{' \n", e_defs.name));
 		//== enum_type ==
 		source.append("public enum enum_type {\n");
-		StringBuilder helper = new StringBuilder();
-		DecimalFormat formatter = new DecimalFormat("#");
-		int size = e_defs.items.size();
+		final StringBuilder helper = new StringBuilder();
+		final DecimalFormat formatter = new DecimalFormat("#");
+		final int size = e_defs.items.size();
 		EnumItem item = null;
 		for ( int i=0; i<size; i++) {
 			item = e_defs.items.get(i);
 			source.append(MessageFormat.format("{0}", item.getId().getName()));
 			if (item.getValue() instanceof Integer_Value) {
-				String valueWithoutCommas = formatter.format( ((Integer_Value) item.getValue()).getValue());
+				final String valueWithoutCommas = formatter.format( ((Integer_Value) item.getValue()).getValue());
 				source.append(MessageFormat.format("({0}),\n", valueWithoutCommas));
 				helper.append("case ").append(MessageFormat.format("{0}", valueWithoutCommas)).append(": ");
 			} else {

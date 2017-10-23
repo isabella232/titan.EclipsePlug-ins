@@ -371,7 +371,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	/** {@inheritDoc} */
 	public void checkConstructorName(final String definitionName) {
 		if (hasComponentWithName(definitionName)) {
-			CompField field = getComponentByName(definitionName);
+			final CompField field = getComponentByName(definitionName);
 			field.getIdentifier().getLocation().reportSemanticError(MessageFormat.format(UNSUPPORTED_FIELDNAME, field.getIdentifier().getDisplayName()));
 		}
 	}
@@ -705,7 +705,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {
-			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			final StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
 			compField.getType().generateCode(aData, tempSource);
 		}
 
@@ -728,15 +728,15 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return false;
 		}
 
-		ISubReference subReference = subreferences.get(beginIndex);
+		final ISubReference subReference = subreferences.get(beginIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");
 			return false;
 		}
 
-		Identifier fieldId = ((FieldSubReference) subReference).getId();
-		CompField compField = getComponentByName(fieldId.getName());
+		final Identifier fieldId = ((FieldSubReference) subReference).getId();
+		final CompField compField = getComponentByName(fieldId.getName());
 		if (compField.isOptional()) {
 			return false;
 		}

@@ -720,10 +720,10 @@ public final class Signature_Type extends Type {
 
 		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TitanBoolean_template");
-		ArrayList<SignatureParameter> parameters = new ArrayList<SignatureParameter>();
+		final ArrayList<SignatureParameter> parameters = new ArrayList<SignatureParameter>();
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
-			SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
-			Type type = formalPar.getType();
+			final SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);
+			final Type type = formalPar.getType();
 
 			SignatureGenerator.signatureParamaterDirection direction;
 			switch(formalPar.getDirection()) {
@@ -737,24 +737,26 @@ public final class Signature_Type extends Type {
 				direction = signatureParamaterDirection.PAR_IN;
 				break;
 			}
-			SignatureParameter temp = new SignatureParameter(direction, type.getGenNameValue(aData, source, myScope), type.getGenNameTemplate(aData, source, myScope), formalPar.getIdentifier().getName());
+
+			final SignatureParameter temp = new SignatureParameter(direction, type.getGenNameValue(aData, source, myScope), type.getGenNameTemplate(aData, source, myScope), formalPar.getIdentifier().getName());
 			parameters.add(temp);
 		}
 		SignatureReturnType signatueReturnType = null;
 		if (returnType != null) {
 			signatueReturnType = new SignatureReturnType(returnType.getGenNameValue(aData, source, myScope), returnType.getGenNameTemplate(aData, source, myScope));
 		}
-		ArrayList<SignatureException> signatureExceptions = new ArrayList<SignatureGenerator.SignatureException>();
+
+		final ArrayList<SignatureException> signatureExceptions = new ArrayList<SignatureGenerator.SignatureException>();
 		if (exceptions != null) {
 			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
-				Type exceptionType = exceptions.getExceptionByIndex(i);
+				final Type exceptionType = exceptions.getExceptionByIndex(i);
 
-				SignatureException temp = new SignatureException(exceptionType.getGenNameValue(aData, source, myScope), exceptionType.getGenNameTemplate(aData, source, myScope));
+				final SignatureException temp = new SignatureException(exceptionType.getGenNameValue(aData, source, myScope), exceptionType.getGenNameTemplate(aData, source, myScope));
 				signatureExceptions.add(temp);
 			}
 		}
 
-		SignatureDefinition def = new SignatureDefinition(genName, getFullName(), parameters, signatueReturnType, noBlock, signatureExceptions);
+		final SignatureDefinition def = new SignatureDefinition(genName, getFullName(), parameters, signatueReturnType, noBlock, signatureExceptions);
 		SignatureGenerator.generateClasses(aData, source, def);
 	}
 }

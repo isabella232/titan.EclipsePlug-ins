@@ -702,8 +702,8 @@ public final class SetOf_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
-		String tempId = aData.getTemporaryVariableName();
-		String genName = myLastSetGovernor.getGenNameValue(aData, expression.expression, myScope);
+		final String tempId = aData.getTemporaryVariableName();
+		final String genName = myLastSetGovernor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);

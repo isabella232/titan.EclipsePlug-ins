@@ -171,7 +171,7 @@ public final class ValueList_Template extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		result.append( "\t//TODO: fatal error while generating " );
 		result.append( getClass().getSimpleName() );

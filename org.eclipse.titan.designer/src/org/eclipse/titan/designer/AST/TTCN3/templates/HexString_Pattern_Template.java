@@ -138,7 +138,7 @@ public final class HexString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		result.append( "\t//TODO:  " );
 		result.append( getClass().getSimpleName() );

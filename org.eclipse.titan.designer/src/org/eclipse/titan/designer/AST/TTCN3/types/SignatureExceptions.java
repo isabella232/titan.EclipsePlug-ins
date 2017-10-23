@@ -51,7 +51,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 		}
 		exceptionMap = new HashMap<String, Type>();
 
-		for (Type type : this.exceptionTypes) {
+		for (final Type type : this.exceptionTypes) {
 			type.setFullNameParent(this);
 		}
 	}
@@ -82,7 +82,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		for (Type exception : exceptionTypes) {
+		for (final Type exception : exceptionTypes) {
 			exception.setMyScope(scope);
 		}
 	}
@@ -202,7 +202,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (exceptionTypes != null) {
-			for (Type t : exceptionTypes) {
+			for (final Type t : exceptionTypes) {
 				t.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -212,7 +212,7 @@ public final class SignatureExceptions extends ASTNode implements IIncrementally
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (exceptionTypes!=null) {
-			for (Type t : exceptionTypes) {
+			for (final Type t : exceptionTypes) {
 				if (!t.accept(v)) {
 					return false;
 				}

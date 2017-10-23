@@ -1276,7 +1276,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *  converted to the appropriate type.
 	 * */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		//default implementation
 		//TODO this might be a good location to check for the need of conversion
 		source.append( "\t//TODO: " );

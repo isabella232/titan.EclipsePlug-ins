@@ -31,7 +31,7 @@ public class DefinitionContainer implements Iterable<Definition> {
 	}
 
 	public void checkAll(final CompilationTimeStamp timestamp) {
-		for (Definition def : definitions) {
+		for (final Definition def : definitions) {
 			def.check(timestamp);
 		}
 	}
@@ -79,7 +79,7 @@ public class DefinitionContainer implements Iterable<Definition> {
 	public void checkUniqueness() {
 		definitionMap.clear();
 
-		for(Definition definition: definitions) {
+		for(final Definition definition: definitions) {
 			final String definitionName = definition.getIdentifier().getName();
 			if (definitionMap.containsKey(definitionName)) {
 				definitionMap.get(definitionName).getIdentifier().getLocation().reportSingularSemanticError(

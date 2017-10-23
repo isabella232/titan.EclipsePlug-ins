@@ -354,9 +354,9 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 				return oidState_type.LATER;
 			}
 		case REFERENCED_VALUE: {
-			Reference reference = ((Referenced_Value) value).getReference();
-			Assignment assignment = reference.getRefdAssignment(timestamp, false);
-			IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
+			final Reference reference = ((Referenced_Value) value).getReference();
+			final Assignment assignment = reference.getRefdAssignment(timestamp, false);
+			final IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
 			if (type.getTypetype() == Type_type.TYPE_INTEGER) {
 				//FIXME implement handling of the variable form
 			} else {

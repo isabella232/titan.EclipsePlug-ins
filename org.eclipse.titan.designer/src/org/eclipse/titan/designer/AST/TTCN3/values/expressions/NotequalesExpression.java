@@ -276,22 +276,22 @@ public final class NotequalesExpression extends Expression_Value {
 		boolean isOptional1 = false;
 		boolean isOptional2 = false;
 
-		IValue temp = value1.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		final IValue temp = value1.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 		if (temp instanceof Omit_Value) {
 			isOptional1 = true;
 		} else if (temp instanceof Referenced_Value) {
-			Reference reference = ((Referenced_Value) temp).getReference();
-			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			final Reference reference = ((Referenced_Value) temp).getReference();
+			final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
 				isOptional1 = true;
 			}
 		}
-		IValue temp2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+		final IValue temp2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 		if (temp2 instanceof Omit_Value) {
 			isOptional2 = true;
 		} else if (temp2 instanceof Referenced_Value) {
-			Reference reference = ((Referenced_Value) temp2).getReference();
-			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			final Reference reference = ((Referenced_Value) temp2).getReference();
+			final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
 				isOptional2 = true;
 			}

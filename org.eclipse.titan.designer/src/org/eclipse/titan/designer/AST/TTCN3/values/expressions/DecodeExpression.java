@@ -386,18 +386,18 @@ public final class DecodeExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (reference1 != null) {
-			List<ISubReference> subreferences = reference1.getSubreferences();
+			final List<ISubReference> subreferences = reference1.getSubreferences();
 			if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
-				ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
+				final ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
 				if (actualParameterList != null) {
 					actualParameterList.reArrangeInitCode(aData, source, usageModule);
 				}
 			}
 		}
 		if (reference2 != null) {
-			List<ISubReference> subreferences = reference2.getSubreferences();
+			final List<ISubReference> subreferences = reference2.getSubreferences();
 			if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
-				ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
+				final ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
 				if (actualParameterList != null) {
 					actualParameterList.reArrangeInitCode(aData, source, usageModule);
 				}

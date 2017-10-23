@@ -289,7 +289,7 @@ public final class Enum2IntExpression extends Expression_Value {
 			return;
 		}
 
-		String name = governor.getGenNameValue(aData, expression.expression, myScope);
+		final String name = governor.getGenNameValue(aData, expression.expression, myScope);
 
 		expression.expression.append(name);
 		expression.expression.append(".enum2int(");

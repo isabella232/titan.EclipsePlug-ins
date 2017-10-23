@@ -281,7 +281,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			return false;
 		}
 
-		boolean selfReference = super.checkThisValue(timestamp, value, lhs,  valueCheckingOptions);
+		final boolean selfReference = super.checkThisValue(timestamp, value, lhs,  valueCheckingOptions);
 
 		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
@@ -496,7 +496,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			return;
 		}
 
-		for (EnumItem enumItem : items.getItems()) {
+		for (final EnumItem enumItem : items.getItems()) {
 			if (enumItem.getLocation().containsOffset(offset)) {
 				rf.type = this;
 				rf.fieldId = enumItem.getId();
@@ -544,7 +544,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		final String ownName = getGenNameOwn();
 		final String displayName = getFullName();
 
-		Enum_Defs e_defs = new Enum_Defs( items.getItems(), ownName, displayName, getGenNameTemplate(aData, source, myScope));
+		final Enum_Defs e_defs = new Enum_Defs( items.getItems(), ownName, displayName, getGenNameTemplate(aData, source, myScope));
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 	}

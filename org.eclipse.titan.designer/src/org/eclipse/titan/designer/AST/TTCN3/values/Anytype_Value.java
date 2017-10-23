@@ -265,10 +265,10 @@ public final class Anytype_Value extends Value {
 	 * generate_code_init_choice in the compiler
 	 * */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		String altName = this.name.getName();
+		final String altName = this.name.getName();
 
 		//TODO handle the case when temporary reference is needed
-		String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
+		final String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
 		return value.generateCodeInit(aData, source, embeddedName);
 	}
 }

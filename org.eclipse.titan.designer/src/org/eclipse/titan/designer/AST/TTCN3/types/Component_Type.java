@@ -179,7 +179,7 @@ public final class Component_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkThisValue(final CompilationTimeStamp timestamp, final IValue value, final Assignment lhs, final ValueCheckingOptions valueCheckingOptions) {
-		boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
+		final boolean selfReference = super.checkThisValue(timestamp, value, lhs, valueCheckingOptions);
 
 		final IValue last = value.getValueRefdLast(timestamp, valueCheckingOptions.expected_value, null);
 		if (last == null || last.getIsErroneous(timestamp)) {
@@ -296,7 +296,7 @@ public final class Component_Type extends Type {
 		componentBody.addProposal(propCollector, i);
 
 		if (subrefs.size() == i + 1) {
-			for (String proposal : SIMPLE_COMPONENT_PROPOSALS) {
+			for (final String proposal : SIMPLE_COMPONENT_PROPOSALS) {
 				propCollector.addProposal(proposal, proposal, ImageCache.getImage(getOutlineIcon()), "");
 			}
 			propCollector.addTemplateProposal("create", new Template("create( name )", "", propCollector.getContextIdentifier(),
@@ -321,11 +321,11 @@ public final class Component_Type extends Type {
 		final String fakeModuleName = propCollector.getReference().getModuleIdentifier().getDisplayName();
 
 		if ("any component".equals(fakeModuleName)) {
-			for (String proposal : ANY_COMPONENT_PROPOSALS) {
+			for (final String proposal : ANY_COMPONENT_PROPOSALS) {
 				propCollector.addProposal(proposal, proposal, ImageCache.getImage(COMPONENT_GIF), "");
 			}
 		} else if ("all component".equals(fakeModuleName)) {
-			for (String proposal : ALL_COMPONENT_PROPOSALS) {
+			for (final String proposal : ALL_COMPONENT_PROPOSALS) {
 				propCollector.addProposal(proposal, proposal, ImageCache.getImage(COMPONENT_GIF), "");
 			}
 		}

@@ -256,7 +256,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(timestamp);
 		cachedChain.markErrorState();
 		int i = 1;
-		for (CompField compField : map.values()) {
+		for (final CompField compField : map.values()) {
 			final IType type = compField.getType();
 			if (type != null) {
 				cachedChain.markState();
@@ -460,7 +460,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {
-			StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
+			final StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
 			compField.getType().generateCode(aData, tempSource);
 		}
 
@@ -488,7 +488,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			return;
 		}
 
-		StringBuilder closingBrackets = new StringBuilder();
+		final StringBuilder closingBrackets = new StringBuilder();
 		if(isTemplate) {
 			boolean anyvalueReturnValue = true;
 			if (!isBound) {
@@ -513,26 +513,26 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			closingBrackets.append("}\n");
 		}
 
-		ISubReference subReference = subreferences.get(subReferenceIndex);
+		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");
 			return;
 		}
 
-		Identifier fieldId = ((FieldSubReference) subReference).getId();
+		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2}.union_selection_type.ALT_{3});\n", globalId, externalId, getGenNameValue(aData, expression.expression, myScope), FieldSubReference.getJavaGetterName( fieldId.getName())));
 		expression.expression.append("}\n");
 
-		CompField compField = getComponentByName(fieldId.getName());
-		Type nextType = compField.getType();
+		final CompField compField = getComponentByName(fieldId.getName());
+		final Type nextType = compField.getType();
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		closingBrackets.insert(0, "}\n");
 
-		String temporalId = aData.getTemporaryVariableName();
-		String temporalId2 = aData.getTemporaryVariableName();
+		final String temporalId = aData.getTemporaryVariableName();
+		final String temporalId2 = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("{0}{1} {2} = {3};\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
 		expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId2, isBound|| (subReferenceIndex!=subreferences.size()-1)?"isBound":"isPresent", (!(isBound || (subReferenceIndex!=subreferences.size()-1)) && isTemplate && aData.allowOmitInValueList())?"true":""));

@@ -116,7 +116,7 @@ public class PortGenerator {
 
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (!info.isNoBlock) {
 				hasIncomingReply = true;
@@ -124,7 +124,7 @@ public class PortGenerator {
 		}
 		boolean hasIncomingException = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (info.hasExceptions) {
 				hasIncomingException = true;
@@ -135,7 +135,7 @@ public class PortGenerator {
 		generateDeclaration(source, portDefinition);
 
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
-			messageTypeInfo outType = portDefinition.outMessages.get(i);
+			final messageTypeInfo outType = portDefinition.outMessages.get(i);
 
 			generateSend(source, outType, portDefinition);
 		}
@@ -154,7 +154,7 @@ public class PortGenerator {
 
 		// generic and simplified receive for experimentation
 		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
-			messageTypeInfo inType = portDefinition.inMessages.get(i);
+			final messageTypeInfo inType = portDefinition.inMessages.get(i);
 
 			generateTypedReceive(source, i, inType, false);
 			generateTypedReceive(source, i, inType, true);
@@ -163,17 +163,17 @@ public class PortGenerator {
 		}
 
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			generateCallFunction(source, info, portDefinition);
 		}
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 			generateReplyFunction(source, info, portDefinition);
 		}
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 			generateRaiseFunction(source, info, portDefinition);
 		}
@@ -181,7 +181,7 @@ public class PortGenerator {
 		//FIXME more complicated conditional
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				source.append(MessageFormat.format("public abstract void outgoing_call(final {0}_call call_par", info.mJavaTypeName));
 				if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -190,7 +190,7 @@ public class PortGenerator {
 				source.append(");\n");
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (!info.isNoBlock) {
 					source.append(MessageFormat.format("public abstract void outgoing_reply(final {0}_reply reply_par", info.mJavaTypeName));
@@ -201,7 +201,7 @@ public class PortGenerator {
 				}
 			}
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				if (info.hasExceptions) {
 					source.append(MessageFormat.format("public abstract void outgoing_raise(final {0}_exception raise_exception", info.mJavaTypeName));
@@ -222,7 +222,7 @@ public class PortGenerator {
 			}
 
 			for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 				generateTypedGetcall(source, portDefinition, i, info, false, false);
 				generateTypedGetcall(source, portDefinition, i, info, true, false);
@@ -242,7 +242,7 @@ public class PortGenerator {
 			}
 
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (!portDefinition.outProcedures.get(i).isNoBlock) {
 					generateTypedGetreply(source, portDefinition, i, info, false, false);
@@ -264,7 +264,7 @@ public class PortGenerator {
 			}
 
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 				if (portDefinition.outProcedures.get(i).hasExceptions) {
 					generateTypedGetexception(source, portDefinition, i, info, false, false);
@@ -278,13 +278,13 @@ public class PortGenerator {
 		}
 
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 			generateTypedIcomingCall(source, i, info, portDefinition);
 		}
 
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (!info.isNoBlock) {
 				generateTypedIcomingReply(source, i, info, portDefinition);
@@ -292,7 +292,7 @@ public class PortGenerator {
 		}
 
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (info.hasExceptions) {
 				generateTypedIcomingException(source, i, info, portDefinition);
@@ -350,7 +350,7 @@ public class PortGenerator {
 			source.append("message_selection item_selection;\n");
 			source.append("// base type could be: ");
 			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
-				messageTypeInfo inType = portDefinition.inMessages.get(i);
+				final messageTypeInfo inType = portDefinition.inMessages.get(i);
 
 				if (i > 0) {
 					source.append(", ");
@@ -372,7 +372,7 @@ public class PortGenerator {
 			source.append("}\n\n");
 		}
 
-		boolean hasIncomingCall = portDefinition.inProcedures.size() > 0;
+		final boolean hasIncomingCall = portDefinition.inProcedures.size() > 0;
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			if (!portDefinition.outProcedures.get(i).isNoBlock) {
@@ -386,7 +386,7 @@ public class PortGenerator {
 			}
 		}
 
-		boolean hasProcedureQueue = hasIncomingCall || hasIncomingReply || hasIncomingException;
+		final boolean hasProcedureQueue = hasIncomingCall || hasIncomingReply || hasIncomingException;
 		if (hasProcedureQueue) {
 			source.append("enum proc_selection { ");
 			boolean isFirst = true;
@@ -424,13 +424,13 @@ public class PortGenerator {
 				source.append(MessageFormat.format("{0}_call call_{1};\n", portDefinition.inProcedures.get(i).mJavaTypeName, i));
 			}
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 				if (!info.isNoBlock) {
 					source.append(MessageFormat.format("{0}_reply reply_{1};\n", info.mJavaTypeName, i));
 				}
 			}
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-				procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 				if (info.hasExceptions) {
 					source.append(MessageFormat.format("{0}_exception exception_{1};\n", info.mJavaTypeName, i));
 				}
@@ -677,8 +677,8 @@ public class PortGenerator {
 	 * @param isCheck generate the check or the non-checking version.
 	 * */
 	private static void generateTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType, final boolean isCheck) {
-		String typeValueName = inType.mJavaTypeName;
-		String typeTemplateName = inType.mJavaTemplateName;
+		final String typeValueName = inType.mJavaTypeName;
+		final String typeTemplateName = inType.mJavaTemplateName;
 		final String functionName = isCheck ? "check_receive" : "receive";
 
 		//FIXME there are actually more parameters
@@ -734,8 +734,8 @@ public class PortGenerator {
 	 * @param inType the information about the incoming message.
 	 * */
 	private static void generateTypeTrigger(final StringBuilder source, final int index, final messageTypeInfo inType) {
-		String typeValueName = inType.mJavaTypeName;
-		String typeTemplateName = inType.mJavaTemplateName;
+		final String typeValueName = inType.mJavaTypeName;
+		final String typeTemplateName = inType.mJavaTemplateName;
 
 		//FIXME there are actually more parameters
 		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer) '{'\n", typeTemplateName));
@@ -793,7 +793,7 @@ public class PortGenerator {
 	 * @param portDefinition the definition of the port.
 	 * */
 	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
-		String typeValueName = inType.mJavaTypeName;
+		final String typeValueName = inType.mJavaTypeName;
 
 		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -1531,7 +1531,7 @@ public class PortGenerator {
 	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_call(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
 			if (i != 0) {
 				source.append(" } else ");
@@ -1560,7 +1560,7 @@ public class PortGenerator {
 		source.append("protected boolean process_reply(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
 		boolean isFirst = true;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (!info.isNoBlock) {
 				if (!isFirst) {
@@ -1592,7 +1592,7 @@ public class PortGenerator {
 		source.append("protected boolean process_exception(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
 		boolean isFirst = true;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
-			procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
 			if (info.hasExceptions) {
 				if (!isFirst) {
@@ -1630,7 +1630,7 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addCommonLibraryImport("TTCN_Snapshot");
 
-		String tempLabel = aData.getTemporaryVariableName();
+		final String tempLabel = aData.getTemporaryVariableName();
 
 		source.append(MessageFormat.format("{0}: for( ; ; ) '{'\n", tempLabel));
 		source.append("TitanAlt_Status alt_flag = TitanAlt_Status.ALT_UNCHECKED;\n");

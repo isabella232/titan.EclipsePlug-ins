@@ -59,7 +59,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 			inParameters = new ArrayList<SignatureFormalParameter>();
 			outParameters = new ArrayList<SignatureFormalParameter>();
 
-			for (SignatureFormalParameter parameter : parameters) {
+			for (final SignatureFormalParameter parameter : parameters) {
 				if (parameter != null && parameter.getIdentifier() != null) {
 					this.parameters.add(parameter);
 					parameter.setFullNameParent(this);
@@ -77,7 +77,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 			return builder;
 		}
 
-		for (SignatureFormalParameter parameter : parameters) {
+		for (final SignatureFormalParameter parameter : parameters) {
 			if (parameter == child) {
 				final Identifier identifier = parameter.getIdentifier();
 				return builder.append(INamedNode.DOT).append(identifier != null ? identifier.getDisplayName() : FULLNAMEPART);
@@ -107,7 +107,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 			return;
 		}
 
-		for (SignatureFormalParameter parameter : parameters) {
+		for (final SignatureFormalParameter parameter : parameters) {
 			parameter.setMyScope(scope);
 		}
 	}
@@ -221,7 +221,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 			return;
 		}
 
-		for (SignatureFormalParameter parameter : parameters) {
+		for (final SignatureFormalParameter parameter : parameters) {
 			if (parameter != null) {
 				final String parameterName = parameter.getIdentifier().getName();
 				if (parameterMap.containsKey(parameterName)) {
@@ -254,7 +254,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 		checkUniqueness(timestamp);
 
 		final boolean isNonblock = signature.isNonblocking();
-		for (SignatureFormalParameter parameter : parameters) {
+		for (final SignatureFormalParameter parameter : parameters) {
 			if (parameter.getDirection() == SignatureFormalParameter.ParamaterDirection.PARAM_IN) {
 				inParameters.add(parameter);
 			} else if (parameter.getDirection() == SignatureFormalParameter.ParamaterDirection.PARAM_OUT) {
@@ -300,7 +300,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (parameters != null) {
-			for (SignatureFormalParameter sfp : parameters) {
+			for (final SignatureFormalParameter sfp : parameters) {
 				sfp.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -310,7 +310,7 @@ public final class SignatureFormalParameterList extends ASTNode implements IIncr
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (parameters != null) {
-			for (SignatureFormalParameter sfp : parameters) {
+			for (final SignatureFormalParameter sfp : parameters) {
 				if (!sfp.accept(v)) {
 					return false;
 				}

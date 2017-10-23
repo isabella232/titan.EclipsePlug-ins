@@ -677,7 +677,7 @@ public final class Referenced_Value extends Value {
 			return last.generateSingleExpression(aData);
 		}
 
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		reference.generateConstRef(aData, expression);
 
 		return expression.expression;
@@ -720,9 +720,9 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
-			ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
+			final ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
 			if (actualParameterList != null) {
 				actualParameterList.reArrangeInitCode(aData, source, usageModule);
 			}

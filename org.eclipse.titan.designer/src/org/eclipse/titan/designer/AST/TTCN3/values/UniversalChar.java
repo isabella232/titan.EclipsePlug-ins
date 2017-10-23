@@ -174,7 +174,7 @@ public final class UniversalChar {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "TitanUniversalChar" );
 
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		result.append("new TitanUniversalChar( ");
 		result.append("(char) ").append(group).append(", ");

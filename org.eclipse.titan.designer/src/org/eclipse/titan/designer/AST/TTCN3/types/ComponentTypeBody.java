@@ -134,7 +134,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		if (definitions != null) {
 			Identifier tempIdentifier;
-			for (Definition definition : definitions) {
+			for (final Definition definition : definitions) {
 				if (definition == child) {
 					tempIdentifier = definition.getIdentifier();
 					return builder.append(INamedNode.DOT).append(tempIdentifier.getDisplayName());
@@ -179,7 +179,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * */
 	public void setAttributeParentPath(final WithAttributesPath parent) {
 		withAttributesPath = parent;
-		for (Definition def : definitions) {
+		for (final Definition def : definitions) {
 			def.setAttributeParentPath(parent);
 		}
 	}
@@ -188,7 +188,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * Sets the genname of embedded definitions using the provided prefix
 	 * */
 	public void setGenName(final String prefix) {
-		for (Definition def : definitions) {
+		for (final Definition def : definitions) {
 			def.setGenName(prefix + def.getIdentifier().getName());
 		}
 	}
@@ -399,7 +399,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			final ComponentTypeBody body = toBeChecked.removeFirst();
 			if(!result.contains(body)) {
 				result.add(body);
-				for(ComponentTypeBody subBody : body.extendsReferences.getComponentBodies()) {
+				for(final ComponentTypeBody subBody : body.extendsReferences.getComponentBodies()) {
 					if(!result.contains(subBody) && !toBeChecked.contains(subBody)) {
 						toBeChecked.add(subBody);
 					}
@@ -423,7 +423,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			if(!result.contains(body)) {
 				result.add(body);
 				if(body.attrExtendsReferences != null) {
-					for(ComponentTypeBody subBody : body.attrExtendsReferences.getComponentBodies()) {
+					for(final ComponentTypeBody subBody : body.attrExtendsReferences.getComponentBodies()) {
 						if(!result.contains(subBody) && !toBeChecked.contains(subBody)) {
 							toBeChecked.add(subBody);
 						}
@@ -442,7 +442,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * @param assignments the assignments to be added.
 	 * */
 	public void addAssignments(final List<Definition> assignments) {
-		for (Definition def : assignments) {
+		for (final Definition def : assignments) {
 			if (def != null && def.getIdentifier() != null && def.getIdentifier().getLocation() != null) {
 				definitions.add(def);
 				def.setFullNameParent(this);
@@ -567,7 +567,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				compatibleBodies.add(componentBody);
 			}
 			// compatible with all components which are compatible with the compatible component
-			for (Iterator<ComponentTypeBody> iterator = componentBody.compatibleBodies.iterator(); iterator.hasNext();) {
+			for (final Iterator<ComponentTypeBody> iterator = componentBody.compatibleBodies.iterator(); iterator.hasNext();) {
 				final ComponentTypeBody tempComponentBody = iterator.next();
 				if (!compatibleBodies.contains(tempComponentBody)) {
 					compatibleBodies.add(tempComponentBody);
@@ -631,9 +631,9 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		// collect definitions
 		final List<ComponentTypeBody> bodies = getExtendsInheritedComponentBodies();
-		for (ComponentTypeBody body : bodies) {
+		for (final ComponentTypeBody body : bodies) {
 			final Map<String, Definition> subDefinitionMap = body.getDefinitionMap();
-			for (Definition definition : subDefinitionMap.values()) {
+			for (final Definition definition : subDefinitionMap.values()) {
 				final String name = definition.getIdentifier().getName();
 				if (definitions.hasDefinition(name)) {
 					final Definition localDefinition = definitions.getDefinition(name);
@@ -694,8 +694,8 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * */
 	private void collectDefinitionsFromAttributeExtends() {
 		final List<ComponentTypeBody> parents = getAttributeExtendsInheritedComponentBodies();
-		for (ComponentTypeBody parent : parents) {
-			for (Definition definition : parent.getDefinitions()) {
+		for (final ComponentTypeBody parent : parents) {
+			for (final Definition definition : parent.getDefinitions()) {
 				final Identifier id = definition.getIdentifier();
 				final String name = id.getName();
 
@@ -735,7 +735,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			return;
 		}
 
-		for (Definition originalDefinition : definitions) {
+		for (final Definition originalDefinition : definitions) {
 			final Definition inheritedDefinition = attributeGainedDefinitions.get(originalDefinition.getIdentifier().getName());
 			if (inheritedDefinition != null) {
 				originalDefinition.checkIdentical(timestamp, inheritedDefinition);
@@ -802,11 +802,11 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			return;
 		}
 
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			definition.addProposal(propCollector, i);
 		}
 
-		for (Definition definition : extendsGainedDefinitions.values()) {
+		for (final Definition definition : extendsGainedDefinitions.values()) {
 			if (VisibilityModifier.Public.equals(definition.getVisibilityModifier())) {
 				definition.addProposal(propCollector, i);
 			}
@@ -816,7 +816,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	@Override
 	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.COMPONENT_INTERNAL_SKELETON_TEMPLATE_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.COMPONENT_INTERNAL_SKELETON_TEMPLATE_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(), TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
 	}
@@ -865,7 +865,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			throw new ReParseException();
 		}
 
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			definition.updateSyntax(reparser, false);
 			reparser.updateLocation(definition.getLocation());
 			if(!definition.getLocation().equals(definition.getCumulativeDefinitionLocation())) {
@@ -885,7 +885,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		if (definitions == null) {
 			return null;
 		}
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			if (definition.getLocation().containsOffset(offset)) {
 				return definition;
 			}
@@ -897,7 +897,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (definitions != null) {
-			for (Definition def : definitions) {
+			for (final Definition def : definitions) {
 				def.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -920,7 +920,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 		}
 
 		if (definitions != null) {
-			for (Definition def : definitions) {
+			for (final Definition def : definitions) {
 				if (!def.accept(v)) {
 					return false;
 				}
@@ -946,12 +946,12 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 * @param source the source code generated
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		StringBuilder init_comp = aData.getInitComp();
+		final StringBuilder init_comp = aData.getInitComp();
 		init_comp.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
 
 		if (extendsReferences != null) {
 			boolean hasBaseComponents = false;
-			for (ComponentTypeBody cb : compatibleBodies) {
+			for (final ComponentTypeBody cb : compatibleBodies) {
 				if (cb.definitions.size() > 0) {
 					if(!hasBaseComponents) {
 						init_comp.append("if(init_base_comps) {\n");
@@ -979,7 +979,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			}
 		}
 
-		for (Definition def : definitions) {
+		for (final Definition def : definitions) {
 			if(extendsGainedDefinitions.containsKey(def.getIdentifier().getName())) {
 				def.generateCodeInitComp(aData, init_comp, extendsGainedDefinitions.get(def.getIdentifier().getName()));
 			} else {
