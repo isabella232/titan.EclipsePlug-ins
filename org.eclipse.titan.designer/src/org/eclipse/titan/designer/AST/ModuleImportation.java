@@ -157,6 +157,8 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	}
 
 	/**
+	 * @deprecated instead of this function visitors should be used to calculate if an import statement is used or not.
+	 *
 	 * @return whether this importation was used to import something or not.
 	 * */
 	public final boolean getUsedForImportation() {
