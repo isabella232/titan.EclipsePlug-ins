@@ -23,13 +23,18 @@ public class PortGenerator {
 		/** Java template name of the message */
 		private String mJavaTemplateName;
 
+		/** The name to be displayed to the user */
+		private String mDisplayName;
+
 		/**
-		 * @param messageType: the string representing the value type of this message in the generated code.
-		 * @param messageTemplate: the string representing the template type of this message in the generated code.
+		 * @param messageType the string representing the value type of this message in the generated code.
+		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param displayName the string representing the name to be displayed for the user.
 		 * */
-		public messageTypeInfo(final String messageType, final String messageTemplate) {
+		public messageTypeInfo(final String messageType, final String messageTemplate, final String displayName) {
 			mJavaTypeName = messageType;
 			mJavaTemplateName = messageTemplate;
+			mDisplayName = displayName;
 		}
 	}
 
@@ -475,7 +480,13 @@ public class PortGenerator {
 		source.append("if (!destination_component.isBound().getValue()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of send operation.\");\n");
 		source.append("}\n");
-		source.append("//FIXME logging\n");
+		source.append("final TtcnLogger.Severity log_severity = destination_component.getComponent() == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.PORTEVENT_MMSEND : TtcnLogger.Severity.PORTEVENT_MCSEND;\n");
+		source.append("if (TtcnLogger.log_this_event(log_severity)) {\n");
+		source.append("TtcnLogger.begin_event(log_severity);\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} : \");\n", outType.mDisplayName));
+		source.append("send_par.log();\n");
+		source.append("TtcnLogger.log_msgport_send(getName(), destination_component.getComponent(), TtcnLogger.end_event_log2str());\n");
+		source.append("}\n");
 		source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", getName()));\n");

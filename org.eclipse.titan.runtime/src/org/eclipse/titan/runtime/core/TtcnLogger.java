@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -371,6 +372,14 @@ public final class TtcnLogger {
 		return matching_verbosity;
 	}
 
+	// Called from the generated code and many more places...  Stay here.  The
+	// existence of the file descriptors etc. is the responsibility of the
+	// plug-ins.
+	public static boolean log_this_event(final Severity event_severity) {
+		//FIXME implement once we get to configurability
+		return true;
+	}
+
 	public static void print_logmatch_buffer() {
 		if (logMatchPrinted) {
 			log_event_str(" , ");
@@ -396,5 +405,10 @@ public final class TtcnLogger {
 
 	public static int get_logmatch_buffer_len() {
 		return logMatchBuffer.length();
+	}
+
+	public static void log_msgport_send(final String portname, final int componentRefernce, final TitanCharString parameter) {
+		final String dest = TitanComponent.get_component_string(componentRefernce);
+		log_event_str(MessageFormat.format("Sent on {0} to {1}{2}", portname, dest, parameter.getValue()));
 	}
 }

@@ -187,4 +187,18 @@ public class TitanComponent extends Base_Type {
 			break;
 		}
 	}
+
+	public static String get_component_string(final int component_reference) {
+		switch(component_reference) {
+		case NULL_COMPREF:
+			return "null";
+		case MTC_COMPREF:
+			return "mtc";
+		case SYSTEM_COMPREF:
+			return "system";
+		default:
+			//FIXME implement
+			return "FIXME implement get_component_string";
+		}
+	}
 }

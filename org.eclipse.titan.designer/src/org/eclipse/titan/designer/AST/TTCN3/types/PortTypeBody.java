@@ -1560,7 +1560,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 				final IType inType = inMessages.getTypeByIndex(i);
 
-				final messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope));
+				final messageTypeInfo info = new messageTypeInfo(inType.getGenNameValue(aData, source, myScope), inType.getGenNameTemplate(aData, source, myScope), inType.getTypename());
 				portDefinition.inMessages.add(info);
 			}
 		}
@@ -1569,7 +1569,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
 				final IType outType = outMessages.getTypeByIndex(i);
 
-				final messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope));
+				final messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
 				portDefinition.outMessages.add(info);
 			}
 		}
