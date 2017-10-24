@@ -397,7 +397,8 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	//TODO: remove
 	/**
-	 * Add generated java code on this level.
+	 * Generate code for this statement.
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
@@ -410,7 +411,9 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	}
 
 	/**
-	 * Add generated java code on this level.
+	 * Some statements can be used in altguards.
+	 * In which situation they have to be generated as an expression.
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression to generate the source to
 	 */
