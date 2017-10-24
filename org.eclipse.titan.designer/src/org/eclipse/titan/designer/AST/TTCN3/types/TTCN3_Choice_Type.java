@@ -238,7 +238,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
-		if (!referenceChain.add(this)) {
+		if (!referenceChain.add(this) || compFieldMap.isEmpty()) {
 			return;
 		}
 
