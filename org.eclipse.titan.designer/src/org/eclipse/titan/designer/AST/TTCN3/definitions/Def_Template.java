@@ -452,6 +452,11 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			}
 		}
 
+		if (formalParList != null) {
+			formalParList.setGenName(getGenName());
+		}
+		//body.setGenNamePrefix("template_");//currently does not need the prefix
+		body.setGenNameRecursive(getGenName());
 		body.setCodeSection(CodeSectionType.CS_POST_INIT);
 	}
 
@@ -879,13 +884,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 
-		if (formalParList != null) {
-			formalParList.setGenName(genName);
-		}
-		if (body != null) {
-			//body.setGenNamePrefix("template_");
-			body.setGenNameRecursive(genName);
-		}
 		//TODO this should handle only the global case
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
@@ -971,14 +969,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
-
-		if (formalParList != null) {
-			formalParList.setGenName(genName);
-		}
-		if (body != null) {
-			//body.setGenNamePrefix("template_");//currently does not need the prefix
-			body.setGenNameRecursive(genName);
-		}
 
 		if (formalParList == null) {
 			final String typeName = type.getGenNameTemplate( aData, source, getMyScope() );

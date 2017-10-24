@@ -234,6 +234,8 @@ public final class Def_Var extends Definition {
 				type.checkThisValue(timestamp, temporalValue, this, new ValueCheckingOptions(Expected_Value_type.EXPECTED_STATIC_VALUE,
 						true, false, true, false, false));
 			}
+
+			initialValue.setGenNameRecursive(getGenName());
 			initialValue.setCodeSection(CodeSectionType.CS_INLINE);
 		}
 	}
@@ -497,10 +499,6 @@ public final class Def_Var extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
-
-		if (initialValue != null) {
-			initialValue.setGenNameRecursive(getGenName());
-		}
 
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {

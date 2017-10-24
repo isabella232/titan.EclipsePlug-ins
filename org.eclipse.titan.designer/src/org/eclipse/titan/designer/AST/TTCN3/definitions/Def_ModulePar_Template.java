@@ -208,6 +208,8 @@ public final class Def_ModulePar_Template extends Definition {
 			temporalTemplate.checkRecursions(timestamp, tempReferenceChain);
 			tempReferenceChain.release();
 
+			//defaultTemplate.setGenNamePrefix("modulepar_");//currently does not need the prefix
+			defaultTemplate.setGenNameRecursive(getGenName());
 			defaultTemplate.setCodeSection(CodeSectionType.CS_PRE_INIT);
 		}
 	}
@@ -392,10 +394,6 @@ public final class Def_ModulePar_Template extends Definition {
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		final String genName = getGenName();
 
-		if (defaultTemplate != null) {
-			//defaultTemplate.setGenNamePrefix("modulepar_");//currently does not need the prefix
-			defaultTemplate.setGenNameRecursive(genName);
-		}
 		// TODO Auto-generated method stub
 		super.generateCode(aData, cleanUp);
 	}

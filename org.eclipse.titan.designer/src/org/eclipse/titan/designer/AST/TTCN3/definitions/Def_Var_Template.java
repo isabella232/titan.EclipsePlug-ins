@@ -240,6 +240,9 @@ public final class Def_Var_Template extends Definition {
 			// template variable is always local
 			location.reportSemanticError(MessageFormat.format(PARAMETRIZED_LOCAL_TEMPLATE_VAR, getIdentifier()));
 		}
+
+		initialValue.setGenNameRecursive(getGenName());
+		initialValue.setCodeSection(CodeSectionType.CS_INLINE);
 	}
 
 	@Override
@@ -510,10 +513,6 @@ public final class Def_Var_Template extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
-
-		if (initialValue != null) {
-			initialValue.setGenNameRecursive(genName);
-		}
 
 		// FIXME temporal code until generate_code_object and generateCodeInit is supported for templates
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );

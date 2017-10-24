@@ -241,6 +241,8 @@ public final class Def_Const extends Definition {
 		temporalValue.checkRecursions(timestamp, chain);
 		chain.release();
 
+		//value.setGenNamePrefix("const_");//currently does not need the prefix
+		value.setGenNameRecursive(getGenName());
 		value.setCodeSection(CodeSectionType.CS_PRE_INIT);
 	}
 
@@ -473,8 +475,6 @@ public final class Def_Const extends Definition {
 			return;
 		}
 
-		//value.setGenNamePrefix("const_");//currently does not need the prefix
-		value.setGenNameRecursive(genName);
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
@@ -511,8 +511,6 @@ public final class Def_Const extends Definition {
 			return;
 		}
 
-		//value.setGenNamePrefix("const_");//currently does not need the prefix
-		value.setGenNameRecursive(genName);
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
