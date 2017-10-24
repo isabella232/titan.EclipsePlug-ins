@@ -235,11 +235,14 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	// originally const operator()
 	public TYPE constGet() {
-		if (!optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+		switch (optionalSelection) {
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Using the value of an unbound optional field ");
+		case OPTIONAL_OMIT:
 			throw new TtcnError("Using the value of an optional field containing omit.");
+		default:
+			return optionalValue;
 		}
-
-		return optionalValue;
 	}
 
 	//originally operator==
