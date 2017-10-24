@@ -90,6 +90,7 @@ public class UnionGenerator {
 		//FIXME implement set_param
 		//FIXME implement encode
 		//FIXME implement decode
+		source.append( "\t\t//TODO: implement set_param, encode, decode !\n" );
 		source.append("}\n");
 	}
 
@@ -133,6 +134,7 @@ public class UnionGenerator {
 		//FIXME implement decode
 		//FIXME implement set_param
 		//FIXME implement check_restriction
+		source.append( "\t\t//TODO: implement set_param, encode, decode, check_restriction !\n" );
 		source.append("}\n");
 	}
 

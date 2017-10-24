@@ -739,8 +739,6 @@ public final class Anytype_Type extends Type {
 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
-		//TODO: implement
-		source.append( "\t\t//TODO: Anytype_Type.generateCode() is not fully implemented!\n" );
 	}
 
 	@Override
