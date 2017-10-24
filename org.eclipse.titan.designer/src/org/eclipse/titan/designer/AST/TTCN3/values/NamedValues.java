@@ -63,7 +63,7 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
 		for (int i = 0; i < values.size(); i++) {
-			values.get(i).getValue().setCodeSection(codeSection);
+			values.get(i).setCodeSection(codeSection);
 		}
 	}
 

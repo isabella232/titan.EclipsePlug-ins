@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -105,6 +106,17 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 		super.setMyScope(scope);
 		if (value != null) {
 			value.setMyScope(scope);
+		}
+	}
+
+	/**
+	 * Sets the code_section attribute for the value in this named value.
+	 *
+	 * @param codeSection the code section where this list should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
+		if ( value != null) {
+			value.setCodeSection(codeSection);
 		}
 	}
 
