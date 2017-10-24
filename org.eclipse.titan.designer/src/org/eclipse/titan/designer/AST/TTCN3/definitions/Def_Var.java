@@ -503,15 +503,15 @@ public final class Def_Var extends Definition {
 		}
 
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
+			final Array_Type arrayType = (Array_Type) type;
+			final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
+			arrayType.generateCodeValue(aData, sb);
+		}
+
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
 			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
 		} else {
-			if (type.getTypetype() == Type_type.TYPE_ARRAY) {
-				final Array_Type arrayType = (Array_Type) type;
-				final StringBuilder sb = aData.getCodeForType(arrayType.getGenNameOwn());
-				arrayType.generateCodeValue(aData, sb);
-			}
-
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			if (initialValue != null) {
 				initialValue.generateCodeInit(aData, source, genName );
