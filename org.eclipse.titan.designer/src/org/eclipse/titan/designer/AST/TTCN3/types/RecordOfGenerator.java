@@ -1155,7 +1155,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateGetterSetters(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate {0} getAt(int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} getAt(int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -1177,7 +1177,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} getAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.isBound().getValue()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -1186,7 +1186,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate {0} constGetAt(int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} constGetAt(int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -1203,7 +1203,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final TitanInteger index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (!index_value.isBound().getValue()) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Using an unbound integer value for indexing a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
