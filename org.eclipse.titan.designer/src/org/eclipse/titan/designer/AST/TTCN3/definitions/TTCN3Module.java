@@ -403,7 +403,10 @@ public final class TTCN3Module extends Module {
 		final List<Module> result = new ArrayList<Module>();
 
 		for (ImportModule impmod : importedModules) {
-			result.add(impmod.getReferredModule());
+			final Module module = impmod.getReferredModule();
+			if (module != null) {
+				result.add(module);
+			}
 		}
 
 		return result;

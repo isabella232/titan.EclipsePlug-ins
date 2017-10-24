@@ -265,7 +265,10 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 		final List<Module> result = new ArrayList<Module>();
 
 		for (ImportModule impmod : importedModules_v) {
-			result.add(impmod.getReferredModule());
+			final Module module = impmod.getReferredModule();
+			if (module != null) {
+				result.add(module);
+			}
 		}
 
 		return result;
