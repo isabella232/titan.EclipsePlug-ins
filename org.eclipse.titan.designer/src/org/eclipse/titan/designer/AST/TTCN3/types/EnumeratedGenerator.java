@@ -30,8 +30,8 @@ public class EnumeratedGenerator {
 		private String name;
 		private String displayName;
 		private String templateName;
-		private Long firstUnused = -1L;  //first unused value for thsi enum type
-		private Long secondUnused = -1L; //second unused value for thsi enum type
+		private Long firstUnused = -1L;  //first unused value for this enum type
+		private Long secondUnused = -1L; //second unused value for this enum type
 
 		public Enum_Defs(final List<EnumItem> aItems, final String aName, final String aDisplayName, final String aTemplateName){
 			items = aItems;
