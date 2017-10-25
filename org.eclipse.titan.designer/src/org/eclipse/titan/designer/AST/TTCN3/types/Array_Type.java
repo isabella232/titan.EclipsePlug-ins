@@ -1022,6 +1022,9 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
 		source.append("super(otherValue);\n");
 		source.append("}\n");
+		source.append(MessageFormat.format("public {0}(final TitanValueArray<{1}> otherValue) '{'\n", className, ofType));
+		source.append("super(otherValue);\n");
+		source.append("}\n");
 		source.append("}\n\n");
 	}
 
