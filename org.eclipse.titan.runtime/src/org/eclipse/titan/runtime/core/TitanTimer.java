@@ -210,7 +210,7 @@ public class TitanTimer {
 	 * 
 	 * @return the number of seconds until the timer expires.
 	 * */
-	public double read() {
+	public TitanFloat read() {
 		double returnValue;
 
 		if (isStarted) {
@@ -225,7 +225,7 @@ public class TitanTimer {
 		}
 
 		//TODO log
-		return returnValue;
+		return new TitanFloat(returnValue);
 	}
 
 	/**
@@ -276,8 +276,8 @@ public class TitanTimer {
 	 * (empty the list)
 	 * */
 	public static void allStop() {
-		for (TitanTimer timer : TIMERS) {
-			timer.stop();
+		while(TIMERS.size()!=0) {
+			TIMERS.get(0).stop();
 		}
 	}
 
