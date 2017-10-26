@@ -265,7 +265,6 @@ public final class StringConcatenationExpression extends Expression_Value {
 				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
 			case TYPE_UNDEFINED:
-				setIsErroneous(true);
 				break;
 			default:
 				location.reportSemanticError(FIRSTOPERANDERROR);
