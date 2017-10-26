@@ -754,6 +754,11 @@ public final class SequenceOf_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 
+		if (governor == null) {
+			expression.expression.append("// FATAL ERROR while processing refers expression\n");
+			return;
+		}
+
 		final String tempId = aData.getTemporaryVariableName();
 		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
