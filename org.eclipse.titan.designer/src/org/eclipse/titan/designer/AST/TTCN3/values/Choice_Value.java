@@ -425,9 +425,13 @@ public final class Choice_Value extends Value {
 		if(Type_type.TYPE_ANYTYPE.equals(governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
 			embeddedName.append("AT_");
 		}
-		embeddedName.append(name.getName());
-		embeddedName.append("()");
-		value.setGenNameRecursive(embeddedName.toString());
+		if (name != null) {
+			embeddedName.append(name.getName());
+			embeddedName.append("()");
+		}
+		if (value != null) {
+			value.setGenNameRecursive(embeddedName.toString());
+		}
 	}
 
 	@Override
