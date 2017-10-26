@@ -48,6 +48,7 @@ public class All_From_Template extends TTCN3Template {
 	private static final String REFERENCEEXPECTED = "Reference to a value was expected";
 	private static final String ANYOROMITANDPERMUTATIONPRHOHIBITED = "`all from' can not refer to a template containing permutation or AnyElementsOrNone";
 
+	//TODO: modify: in titan.core this is a SpecificValue_Template
 	private final TTCN3Template allFrom;
 
 	public All_From_Template(final TTCN3Template allFrom) {
