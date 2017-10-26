@@ -95,7 +95,7 @@ public final class TtcnLogger {
 	};
 
 	public static final Severity sev_categories[]=
-	{
+		{
 		Severity.NOTHING_TO_LOG,//=0
 		Severity.ACTION_UNQUALIFIED,
 		Severity.DEFAULTOP_UNQUALIFIED,
@@ -112,7 +112,7 @@ public final class TtcnLogger {
 		Severity.WARNING_UNQUALIFIED,
 		Severity.MATCHING_UNQUALIFIED,
 		Severity.DEBUG_UNQUALIFIED,
-	};
+		};
 
 	public static String severity_category_names[]={
 		"NULL",
@@ -217,7 +217,7 @@ public final class TtcnLogger {
 		final long minutes = timestamp % 60;
 		timestamp = timestamp / 60;
 		final long hours = timestamp % 24;
-//		timestamp = timestamp / 24; //not used yet
+		//		timestamp = timestamp / 24; //not used yet
 		final String timestampString = String.format("%02d:%02d:%02d.%03d000", hours, minutes, secs, millisec);
 
 		System.out.println("Logger says: " + timestampString + " "+ message);
@@ -345,7 +345,7 @@ public final class TtcnLogger {
 			}
 		}
 	}
-	
+
 
 	public static void log_hex( final byte aHexDigit ) {
 		if(aHexDigit<16){
@@ -410,5 +410,12 @@ public final class TtcnLogger {
 	public static void log_msgport_send(final String portname, final int componentRefernce, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentRefernce);
 		log_event_str(MessageFormat.format("Sent on {0} to {1}{2}", portname, dest, parameter.getValue()));
+	}
+
+	public static void log_port_queue(int operation, final String port_name, int componentReference, int id, final TitanCharString address, final TitanCharString parameter) {
+		final String dest = TitanComponent.get_component_string(componentReference);
+		//FIXME:implement LegacyLogger::portevent_str() to fix the logging
+		final String portq_operation = Integer.toString(operation);
+		log_event_str(MessageFormat.format("{4} enqueued/was extracted on {0} from {1}{2} id {3}", dest, address.toString(), parameter.toString(), id, portq_operation));
 	}
 }

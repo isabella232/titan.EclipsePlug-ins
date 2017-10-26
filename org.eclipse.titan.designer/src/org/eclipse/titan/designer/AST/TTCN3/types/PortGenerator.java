@@ -446,10 +446,10 @@ public class PortGenerator {
 			}
 			source.append("}\n");
 			source.append("private LinkedList<ProcedureQueueItem> procedure_queue = new LinkedList<ProcedureQueueItem>();\n");
-
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
-			//FIXME add logging
+			//FIXME:put 0 as first parameter until TitanLoggerApiSimple::Port__Queue_operations not implemented
+			source.append("TtcnLogger.log_port_queue(0, port_name, 0 , ++proc_head_count, new TitanCharString(), new TitanCharString());");
 			source.append("}\n\n");
 		}
 
