@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1517);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1519);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -882,12 +882,12 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("The first operand of the `&' operation should be a string, `record of', or a `set of' value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `&' operation should be a string, `record of', or a `set of' value",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the left operand of `&' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx1' in module `expression_tests'", lineNum, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("The operands of operation `&' should be of the same type",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the left operand of `&' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The operands of operation `&' should be of the same type",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `&' operation should be a string, `record of', or a `set of' value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
