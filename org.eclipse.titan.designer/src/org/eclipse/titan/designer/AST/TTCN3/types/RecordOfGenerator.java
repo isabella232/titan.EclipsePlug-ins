@@ -107,7 +107,7 @@ public class RecordOfGenerator {
 		if ( isSetOf ) {
 			generateTemplateDeclarationSetOf( source, genName, ofTypeName );
 		}
-		generateTemplateConstructors( source, genName, displayName );
+		generateTemplateConstructors( source, genName, ofTypeName, displayName );
 		generateTemplateCopyTemplate( source, genName, ofTypeName, displayName, isSetOf );
 		generateTemplateIsPresent( source );
 		generateTemplateMatch( source, genName, displayName, isSetOf );
@@ -774,9 +774,10 @@ public class RecordOfGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the "record of/set of" type.
+	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
 	 */
-	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
+	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
 		source.append("\t}\n");
@@ -809,6 +810,12 @@ public class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
 		source.append("\t\t}\n");
+		source.append("\t}\n");
+
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0}_template( final TitanNull_Type nullValue ) '{'\n", genName ) );
+		source.append("\t\tsuper( template_sel.SPECIFIC_VALUE );\n");
+		source.append( MessageFormat.format( "\t\tvalue_elements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t}\n");
 	}
 

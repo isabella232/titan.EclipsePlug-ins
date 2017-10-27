@@ -1599,11 +1599,11 @@ public class RecordSetCodeGenerator {
 		source.append("switch (templateSelection) {\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
-		source.append("new TitanBoolean(true);\n");
+		source.append("return new TitanBoolean(true);\n");
 		source.append("case OMIT_VALUE:\n");
-		source.append("new TitanBoolean(false);\n");
+		source.append("return new TitanBoolean(false);\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append("new TitanBoolean(true);\n");
+		source.append("return new TitanBoolean(true);\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
