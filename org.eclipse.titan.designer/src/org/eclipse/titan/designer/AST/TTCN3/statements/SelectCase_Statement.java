@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -202,4 +203,22 @@ public final class SelectCase_Statement extends Statement {
 	public SelectCases getSelectCases() {
 		return selectcases;
 	}
+	
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		final StringBuilder init = new StringBuilder();
+		final String tmp = aData.getTemporaryVariableName();
+		final IValue last = expression.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+		final IType type = last.getExpressionGovernor(lastTimeChecked,  Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		init.append(type.getGenNameValue(aData, source, myScope));
+		init.append(' ').append(tmp);
+		init.append(" = ");
+
+		last.generateCodeTmp(aData, init, source);
+		
+		init.append(";\n");
+		source.append(init);
+	
+		selectcases.generateCode(aData,source,tmp);
+	}
+
 }

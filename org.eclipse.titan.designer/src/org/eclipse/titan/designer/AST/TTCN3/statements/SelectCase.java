@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
@@ -16,14 +17,23 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstances;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -242,5 +252,67 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 			return false;
 		}
 		return true;
+	}
+
+	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name) {
+		ExpressionStruct expression =  new ExpressionStruct();
+		if(templateInstances != null) {
+			final ArrayList<String> tmpList = new ArrayList<String>();
+			for (int i = 0; i < templateInstances.getNofTis(); i++) {
+				final String tmp = aData.getTemporaryVariableName();
+				tmpList.add(tmp);
+				final TemplateInstance templateInstance = templateInstances.getInstanceByIndex(i);
+				final TTCN3Template tb = templateInstance.getTemplateBody();
+				boolean isValue = templateInstance.getDerivedReference() == null && tb.isValue(CompilationTimeStamp.getBaseTimestamp());
+				
+				final IType last = templateInstance.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+				final String genName = last.getGenNameTemplate(aData, expression.expression,last.getMyScope());
+				expression.expression.append(genName);
+				expression.expression.append(' ').append(tmp).append(" = ");
+				expression.expression.append("new ").append(genName).append('(');
+
+				
+				if(isValue) {
+					if (tb.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
+						SpecificValue_Template specificValueTemplate = (SpecificValue_Template) tb;
+						specificValueTemplate.getSpecificValue().generateCodeExpressionMandatory(aData, expression);
+					} else {
+						final IValue value = tb.getValue();
+						if(value.getMyGovernor() == null) {
+							// the value's governor could not be determined, treat it as a non-value template
+							isValue = false;
+						}
+						else {
+							value.generateCodeExpressionMandatory(aData, expression);
+						}
+					}
+				} else if (!isValue) {
+					templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+				}
+				
+//				templateInstances.getInstanceByIndex(i).generateCode(aData, expression, Restriction_type.TR_NONE);
+				expression.expression.append(");\n");				
+			}
+			source.append(expression.preamble);
+			source.append(expression.expression);
+			source.append(expression.postamble);
+			source.append("if (");
+			for (int i = 0; i < tmpList.size(); i++) {
+				if(i > 0) {
+					source.append(" || ");
+				}
+				source.append(tmpList.get(i));
+				source.append(".match(");
+				source.append(name);
+				source.append(").getValue()");
+			}
+
+			source.append(") {\n");
+			statementblock.generateCode(aData, source);
+			source.append("}\n");
+		} else {
+			statementblock.generateCode(aData, source);
+		}
+
 	}
 }
