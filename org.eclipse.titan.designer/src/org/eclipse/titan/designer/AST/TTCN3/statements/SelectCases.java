@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -224,5 +225,19 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 
 	public List<SelectCase> getSelectCaseArray() {
 		return select_cases;
+	}
+
+	public void generateCode(JavaGenData aData, StringBuilder source, String name) {
+		final StringBuilder init = new StringBuilder();
+
+		for (int i = 0; i < select_cases.size(); i++){
+			if(i > 0) {
+				source.append("else { \n");
+				init.append("}\n");
+			}
+			select_cases.get(i).generateCode(aData,source,name);
+		}
+		
+		source.append(init);
 	}
 }
