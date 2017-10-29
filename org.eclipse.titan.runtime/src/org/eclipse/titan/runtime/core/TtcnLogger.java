@@ -95,7 +95,7 @@ public final class TtcnLogger {
 	};
 
 	public static final Severity sev_categories[]=
-		{
+	{
 		Severity.NOTHING_TO_LOG,//=0
 		Severity.ACTION_UNQUALIFIED,
 		Severity.DEFAULTOP_UNQUALIFIED,
@@ -112,7 +112,7 @@ public final class TtcnLogger {
 		Severity.WARNING_UNQUALIFIED,
 		Severity.MATCHING_UNQUALIFIED,
 		Severity.DEBUG_UNQUALIFIED,
-		};
+	};
 
 	public static String severity_category_names[]={
 		"NULL",
@@ -217,10 +217,10 @@ public final class TtcnLogger {
 		final long minutes = timestamp % 60;
 		timestamp = timestamp / 60;
 		final long hours = timestamp % 24;
-		//		timestamp = timestamp / 24; //not used yet
+//		timestamp = timestamp / 24; //not used yet
 		final String timestampString = String.format("%02d:%02d:%02d.%03d000", hours, minutes, secs, millisec);
 
-		System.out.println("Logger says: " + timestampString + " "+ message);
+		System.out.println(timestampString + " "+ message);
 	}
 
 	public static void finish_event() {
@@ -417,5 +417,14 @@ public final class TtcnLogger {
 		//FIXME:implement LegacyLogger::portevent_str() to fix the logging
 		final String portq_operation = Integer.toString(operation);
 		log_event_str(MessageFormat.format("{4} enqueued/was extracted on {0} from {1}{2} id {3}", dest, address.toString(), parameter.toString(), id, portq_operation));
+	}
+
+	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
+		//TODO filter for STATISTICS_UNQUALIFIED severity
+		if (finished) {
+			TtcnLogger.log(Severity.TESTCASE_START, "Execution of control part in module %s finished.", moduleName);
+		} else {
+			TtcnLogger.log(Severity.TESTCASE_START, "Execution of control part in module %s started.", moduleName);
+		}
 	}
 }
