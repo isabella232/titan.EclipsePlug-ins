@@ -16,6 +16,7 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
  * TTCN-3 runtime class
  * 
  * TODO: lots to implement
+ * TODO: reorganize according to .hh
  * 
  * @author Kristof Szabados
  */
@@ -23,6 +24,8 @@ public final class TTCN_Runtime {
 	private static String component_type_module = null;
 	private static String component_type_name = null;
 	private static String component_name = null;
+
+	private static String control_module_name = null;
 
 	//originally testcase_name
 	private static String testcaseModuleName;
@@ -47,6 +50,21 @@ public final class TTCN_Runtime {
 	private static boolean verdictEnabled() {
 		//FIXME implement
 		return true;
+	}
+
+	public static void begin_controlpart(final String moduleName) {
+		control_module_name = moduleName;
+		//FIXME implement execute_command
+		TtcnLogger.log_controlpart_start_stop(moduleName, false);
+	}
+
+	public static void end_controlpart() {
+		TTCN_Default.deactivateAll();
+		TTCN_Default.resetCounter();
+		TitanTimer.allStop();
+		TtcnLogger.log_controlpart_start_stop(control_module_name, true);
+		//FIXME implement execute_command
+		control_module_name = null;
 	}
 
 	//originally TTCN_Runtime::check_begin_testcase

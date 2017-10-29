@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -385,7 +386,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	public void generateCode( final JavaGenData aData ) {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\tpublic void control() {\n" );
-		sb.append( "//TODO this is only temporal implementation!\n" );
+		sb.append(MessageFormat.format("\t\tTTCN_Runtime.begin_controlpart(\"{0}\");\n", getModuleScope().getIdentifier().getDisplayName()));
 		final StringBuilder body = new StringBuilder();
 		final int size = statementblock.getSize();
 		for ( int i = 0; i < size; i++ ) {
@@ -393,6 +394,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 			statement.generateCode( aData, body );
 		}
 		sb.append(body);
+		sb.append( "\t\tTTCN_Runtime.end_controlpart();\n" );
 		sb.append( "\t}\n" );
 	}
 }
