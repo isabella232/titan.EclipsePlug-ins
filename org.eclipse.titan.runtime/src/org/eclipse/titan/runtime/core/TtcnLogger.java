@@ -160,17 +160,23 @@ public final class TtcnLogger {
 	}
 
 	public static void log_str(final Severity msg_severity, final String string ) {
+		if (!log_this_event(msg_severity)) {
+			return;
+		}
 		log_line(msg_severity, string == null ? "<NULL pointer>": string);
 	}
 
 	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
+		if (!log_this_event(msg_severity)) {
+			return;
+		}
 		log_line(msg_severity, String.format(Locale.US, formatString, args));
 	}
 
 	public static void begin_event(final Severity msg_severity) {
 		current_event = new log_event_struct();
 		current_event.severity = msg_severity;
-		current_event.buffer = new StringBuilder();
+		current_event.buffer = new StringBuilder(100);
 		events.push(current_event);
 	}
 
@@ -180,7 +186,10 @@ public final class TtcnLogger {
 
 	public static void end_event() {
 		if (current_event != null) {
-			log_line(current_event.severity, current_event.buffer.toString());
+			//TODO temporary solution for filtering
+			if (log_this_event(current_event.severity)) {
+				log_line(current_event.severity, current_event.buffer.toString());
+			}
 
 			events.pop();
 			if (!events.isEmpty()) {
@@ -420,7 +429,11 @@ public final class TtcnLogger {
 	}
 
 	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
-		//TODO filter for STATISTICS_UNQUALIFIED severity
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.STATISTICS_UNQUALIFIED)) {
+			return;
+		}
+
 		if (finished) {
 			TtcnLogger.log(Severity.TESTCASE_START, "Execution of control part in module %s finished.", moduleName);
 		} else {
