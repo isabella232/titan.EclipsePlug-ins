@@ -57,10 +57,9 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 				final T emply = clazz.newInstance();
 				array_elements.add(emply);
 			} catch (InstantiationException e) {
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 		}
 		array_size = length;

@@ -21,7 +21,6 @@ import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
  * @author Andrea Pálfi
  *
  * TODO recursive_permutation_match might not need to be here
- * TODO e.printStackTrace(); should actuall use the logger to log information.
  * TODO could we find a good solution to eliminate @SuppressWarnings
  * 
  */
@@ -174,11 +173,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				helper.assign(otherValue.getAt(i));
 				single_value.add(helper);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 			}
 		}
 
@@ -200,11 +197,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 					helper.assign(otherValue.single_value.get(i));
 					single_value.add(helper);
 				} catch (InstantiationException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 				} catch (IllegalAccessException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 				}
 			}
 			break;
@@ -307,11 +302,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 						helper.setSelection(template_sel.ANY_VALUE);
 						single_value.add(helper);
 					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 					}
 				}
 			} else {
@@ -320,11 +313,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 						final Ttemplate helper = classTemplate.newInstance();
 						single_value.add(helper);
 					} catch (InstantiationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 					} catch (IllegalAccessException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 					}
 				}
 			}
@@ -725,11 +716,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				single_value = new ArrayList<Ttemplate>(1);
 				single_value.add(value);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 			}
 
 			return this;
@@ -749,11 +738,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				single_value = new ArrayList<Ttemplate>(1);
 				single_value.add(value);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
 			}
 
 			return this;

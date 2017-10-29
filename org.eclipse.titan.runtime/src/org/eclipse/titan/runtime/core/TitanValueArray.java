@@ -39,11 +39,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				helper.assign(otherValue.array_elements.get(i));
 				array_elements.add(helper);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 		}
 	}
@@ -63,10 +61,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				final T emply = clazz.newInstance();
 				array_elements.add(emply);
 			} catch (InstantiationException e) {
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 		}
 		array_size = length;
@@ -134,16 +131,13 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				value.assign(otherValue);
 				array_elements.add(value);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 
 			return this;
 		}
-		//	throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be assign to array value", otherValue));
 	}
 	
 	public TitanValueArray<T> assign(final TitanValueArray<T> otherValue) {
@@ -158,11 +152,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				helper.assign(otherValue.array_element(i));
 				array_elements.add(helper);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 		}
 		return this;

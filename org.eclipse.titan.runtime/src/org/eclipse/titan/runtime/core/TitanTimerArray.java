@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 /**
  * @author Farkas Izabella Ingrid
@@ -36,11 +37,9 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 				helper.assign(otherValue.array_elements.get(i));
 				array_elements.add(helper);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 		}
 	}
@@ -57,11 +56,9 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 				helper.assign(otherValue.array_element(i));
 				array_elements.add(helper);
 			} catch (InstantiationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 		}
 		return this;
@@ -90,10 +87,9 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 				T emply = clazz.newInstance();
 				array_elements.add(emply);
 			} catch (InstantiationException e) {
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			}
 		}
 		array_size = length;
