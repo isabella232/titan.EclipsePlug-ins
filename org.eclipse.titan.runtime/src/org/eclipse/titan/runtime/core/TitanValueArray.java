@@ -22,7 +22,8 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	int array_size;
 	int indexOffset;
 
-	public TitanValueArray(final Class<T> clazz) {
+	// only package visible
+	TitanValueArray(final Class<T> clazz) {
 		this.clazz = clazz;
 		array_elements = new ArrayList<T>();
 	}

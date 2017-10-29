@@ -228,7 +228,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		setSelection(otherValue);
 	}
 
-	public TitanTemplateArray(final Class<Tvalue> classValue, final Class<Ttemplate> classTemplate) {
+	private TitanTemplateArray(final Class<Tvalue> classValue, final Class<Ttemplate> classTemplate) {
 		this.classValue = classValue;
 		this.classTemplate = classTemplate;
 
