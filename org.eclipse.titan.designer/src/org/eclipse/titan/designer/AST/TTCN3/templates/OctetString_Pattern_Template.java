@@ -67,22 +67,23 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	public int getMinLengthOfPattern() {
 		int pattern_len = pattern.length();
 		int retval = 0;
-		for(int i=0;i<pattern_len;i++){
-			switch(pattern.charAt(i)){
+		for (int i = 0; i < pattern_len; i++) {
+			switch (pattern.charAt(i)) {
 			case '*':
-				//do not count
+				// do not count
 				break;
 			case '?':
-				//count as 1
+				// count as 1
 				retval++;
 				break;
 			default:
-				//count as 1 and skip over the next hex digit
+				// count as 1 and skip over the next hex digit
 				retval++;
 				i++;
 			}
 		}
-	    return retval;
+
+		return retval;
 	}
 
 	@Override
