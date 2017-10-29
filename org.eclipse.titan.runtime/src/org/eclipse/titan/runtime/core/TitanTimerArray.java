@@ -24,7 +24,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	int array_size;
 	int indexOffset;
 
-	/// Copy constructor disallowed.
+	/// Copy constructor
 	public TitanTimerArray(final TitanTimerArray<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
@@ -62,12 +62,6 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 			}
 		}
 		return this;
-	}
-
-	public TitanTimerArray(final Class<T> clazz) {
-		this.clazz = clazz;
-		array_elements = new ArrayList<T>();
-		names = new ArrayList<String>();
 	}
 
 	public TitanTimerArray(final Class<T> clazz, int size, int offset) {

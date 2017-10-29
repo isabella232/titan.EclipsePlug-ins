@@ -28,7 +28,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	private int array_size;
 	private int indexofset;
 
-	// Copy constructor disallowed.
+	// Copy constructor
 	public TitanPortArray(final TitanPortArray<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
