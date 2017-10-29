@@ -164,11 +164,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	private void copy_value(final TitanValueArray<Tvalue> otherValue) {
-		single_value = new ArrayList<Ttemplate>(otherValue.array_size);
 		singleSize = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
+		single_value = new ArrayList<Ttemplate>(singleSize);
 
-		for (int i = 0; i < array_size; ++i) {
+		for (int i = 0; i < singleSize; ++i) {
 			try {
 				final Ttemplate helper = classTemplate.newInstance();
 				helper.assign(otherValue.getAt(i));
@@ -214,14 +214,14 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			value_list = new ArrayList<TitanTemplateArray<Tvalue,Ttemplate>>();
+			value_list = new ArrayList<TitanTemplateArray<Tvalue,Ttemplate>>(otherValue.array_size);
 			listSize = otherValue.array_size;
 			array_size = otherValue.array_size;
 			indexOffset = otherValue.indexOffset;
 
 			for (int i = 0; i < listSize; ++i) {
 				value_list.add(new TitanTemplateArray<Tvalue, Ttemplate>(classValue, classTemplate));
-			}
+			}//FIXME why new loop?
 			for (int list_count = 0; list_count < otherValue.value_list.size(); list_count++) {
 				value_list.get(list_count).copy_template(otherValue.value_list.get(list_count));
 			}
@@ -297,7 +297,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 
 		if (length > singleSize) {
-			single_value = new ArrayList<Ttemplate>();
+			//FIXME Potentionally erroneous behaviour
+			single_value = new ArrayList<Ttemplate>(length);
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 
 				for (int i = single_value.size(); i < length; ++i) {
@@ -720,7 +721,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			try {
 				final Ttemplate value = classTemplate.newInstance();
 				value.assign(otherValue);
-				single_value = new ArrayList<Ttemplate>();
+				singleSize = 1;
+				single_value = new ArrayList<Ttemplate>(1);
 				single_value.add(value);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
@@ -743,7 +745,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			try {
 				final Ttemplate value = classTemplate.newInstance();
 				value.assign(otherValue);
-				single_value = new ArrayList<Ttemplate>();
+				singleSize = 1;
+				single_value = new ArrayList<Ttemplate>(1);
 				single_value.add(value);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block

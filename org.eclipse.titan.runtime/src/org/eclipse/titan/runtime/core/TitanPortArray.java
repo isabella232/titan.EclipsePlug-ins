@@ -31,13 +31,12 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	// Copy constructor disallowed.
 	public TitanPortArray(final TitanPortArray<T> otherValue) {
 		clazz = otherValue.clazz;
-		array_elements = new ArrayList<T>();
-		names = new ArrayList<String>();
-
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
+		array_elements = new ArrayList<T>(array_size);
+		names = new ArrayList<String>(array_size);
 
-		for (int i = 0; i < otherValue.array_size; i++) {
+		for (int i = 0; i < array_size; i++) {
 			// TODO: check otherValue.array_element[i] need a new variable
 			array_elements.add(otherValue.array_elements.get(i));
 			names.add(otherValue.names.get(i));
@@ -69,12 +68,12 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 
 	// originally operator=
 	public TitanPortArray<T> assign(final TitanPortArray<T> otherValue) {
-		array_elements = new ArrayList<T>();
-		names = new ArrayList<String>();
-
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
 		clazz = otherValue.clazz;
+		array_elements = new ArrayList<T>(array_size);
+		names = new ArrayList<String>(array_size);
+
 		for (int i = 0; i < array_size; i++) {
 			// TODO: check otherValue.array_element[i] need a new variable
 			array_elements.add(otherValue.array_elements.get(i));

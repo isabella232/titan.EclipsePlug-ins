@@ -25,10 +25,10 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	/// Copy constructor disallowed.
 	public TitanTimerArray(final TitanTimerArray<T> otherValue) {
-		clazz = otherValue.clazz; 
-		array_elements = new ArrayList<T>();
+		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
+		array_elements = new ArrayList<T>(array_size);
 
 		for (int i = 0; i < array_size ; ++i) {
 			try {
@@ -78,9 +78,10 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		indexOffset = offset;
 
 		array_elements = new ArrayList<T>(size);
+		//TODO check strange usage
 		setSize(size);
 
-		names = new ArrayList<String>();
+		names = new ArrayList<String>(size);
 	}
 
 	public void setSize(final int length) {

@@ -28,10 +28,10 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 	
 	public TitanValueArray(final TitanValueArray<T> otherValue) {
-		clazz = otherValue.clazz; 
-		array_elements = new ArrayList<T>();
+		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
+		array_elements = new ArrayList<T>(array_size);
 		
 		for (int i = 0; i < array_size ; ++i) {
 			try {
@@ -129,7 +129,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			return assign(arrayOther);
 		} else {
 			try {
-				array_elements = new ArrayList<T>();
+				array_elements = new ArrayList<T>(1);
 				final T value = clazz.newInstance();
 				value.assign(otherValue);
 				array_elements.add(value);
@@ -149,14 +149,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	public TitanValueArray<T> assign(final TitanValueArray<T> otherValue) {
 		cleanUp();
 		array_size = otherValue.array_size;
-		array_elements = new ArrayList<T>(array_size);
 		indexOffset = otherValue.indexOffset;
+		array_elements = new ArrayList<T>(array_size);
+
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
 				helper.assign(otherValue.array_element(i));
 				array_elements.add(helper);
-				
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
