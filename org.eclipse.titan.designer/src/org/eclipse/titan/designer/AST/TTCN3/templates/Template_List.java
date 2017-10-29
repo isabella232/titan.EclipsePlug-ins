@@ -253,6 +253,10 @@ public final class Template_List extends CompositeTemplate {
 			return asValue;
 		}
 
+		if (converted != null) {
+			return converted.getValue();
+		}
+
 		final Values values = new Values(false);
 		for (int i = 0, size = getNofTemplates(); i < size; i++) {
 			values.addValue(templates.getTemplateByIndex(i).getValue());
