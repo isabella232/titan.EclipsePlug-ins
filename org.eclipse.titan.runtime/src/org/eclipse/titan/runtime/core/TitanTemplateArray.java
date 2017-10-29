@@ -22,6 +22,7 @@ import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
  *
  * TODO recursive_permutation_match might not need to be here
  * TODO could we find a good solution to eliminate @SuppressWarnings
+ * FIXME array_size, singleSize and indexOffset are used inconsistently, needs to be reviewed
  * 
  */
 public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_Template> extends Restricted_Length_Template {
