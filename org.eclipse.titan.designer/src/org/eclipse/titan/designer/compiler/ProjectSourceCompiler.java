@@ -124,7 +124,7 @@ public class ProjectSourceCompiler {
 
 		contentBuilder.append( "public class Single_main {\n\n" );
 		contentBuilder.append( "public static void main( String[] args ) {\n" );
-		contentBuilder.append("long absoluteStart = System.nanoTime();");
+		contentBuilder.append("long absoluteStart = System.nanoTime();\n");
 		for ( Module module : modules ) {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
 		}
