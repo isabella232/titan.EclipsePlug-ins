@@ -461,4 +461,13 @@ public final class TTCN_Runtime {
 		verdictCount[VerdictTypeEnum.ERROR.getValue()] = 0;
 		controlErrorCount = 0;
 	}
+
+	public static void begin_action() {
+		TtcnLogger.begin_event(Severity.ACTION_UNQUALIFIED);
+		TtcnLogger.log_event_str("Action: ");
+	}
+
+	public static void end_action() {
+		TtcnLogger.end_event();
+	}
 }

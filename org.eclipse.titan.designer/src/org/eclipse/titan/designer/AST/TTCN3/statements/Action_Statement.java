@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -121,5 +122,22 @@ public final class Action_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addCommonLibraryImport("TTCN_Runtime");
+
+		source.append("TTCN_Runtime.begin_action();\n");
+
+		if (logArguments != null) {
+			logArguments.generateCode(aData, source);
+		} else {
+			source.append("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED,\"<empty log statement>\");\n");
+		}
+
+		source.append("TTCN_Runtime.end_action();\n");
 	}
 }
