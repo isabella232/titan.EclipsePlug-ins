@@ -227,9 +227,11 @@ public final class TtcnLogger {
 		timestamp = timestamp / 60;
 		final long hours = timestamp % 24;
 //		timestamp = timestamp / 24; //not used yet
-		final String timestampString = String.format("%02d:%02d:%02d.%03d000", hours, minutes, secs, millisec);
+		final StringBuilder temp = new StringBuilder(20 + message.length());
+		temp.append(hours).append(':').append(minutes).append(':').append(secs).append('.').append(millisec).append("000");
+		temp.append(' ').append(message);
 
-		System.out.println(timestampString + " "+ message);
+		System.out.println(temp);
 	}
 
 	public static void finish_event() {
