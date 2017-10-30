@@ -216,10 +216,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			listSize = otherValue.listSize;
 
 			for (int i = 0; i < listSize; ++i) {
-				value_list.add(new TitanTemplateArray<Tvalue, Ttemplate>(classValue, classTemplate));
-			}//FIXME why new loop?
-			for (int list_count = 0; list_count < otherValue.value_list.size(); list_count++) {
-				value_list.get(list_count).copy_template(otherValue.value_list.get(list_count));
+				TitanTemplateArray<Tvalue, Ttemplate> temp = new TitanTemplateArray<Tvalue, Ttemplate>(otherValue.value_list.get(i));
+				value_list.add(temp);
 			}
 			break;
 		default:
