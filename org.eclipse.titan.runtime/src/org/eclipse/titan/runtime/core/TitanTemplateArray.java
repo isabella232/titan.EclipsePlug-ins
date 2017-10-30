@@ -22,7 +22,6 @@ import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
  *
  * TODO recursive_permutation_match might not need to be here
  * TODO could we find a good solution to eliminate @SuppressWarnings
- * FIXME array_size, singleSize and indexOffset are used inconsistently, needs to be reviewed
  * 
  */
 public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_Template> extends Restricted_Length_Template {
@@ -164,8 +163,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	private void copy_value(final TitanValueArray<Tvalue> otherValue) {
-		singleSize = otherValue.array_size;
+		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
+		singleSize = otherValue.array_size;
 		single_value = new ArrayList<Ttemplate>(singleSize);
 
 		for (int i = 0; i < singleSize; ++i) {
@@ -187,10 +187,10 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		switch (otherValue.templateSelection)
 		{
 		case SPECIFIC_VALUE:
-			single_value = new ArrayList<Ttemplate>(otherValue.single_value.size());
-			singleSize = otherValue.array_size;
-			indexOffset = otherValue.indexOffset;
 			array_size = otherValue.array_size;
+			indexOffset = otherValue.indexOffset;
+			single_value = new ArrayList<Ttemplate>(otherValue.singleSize);
+			singleSize = otherValue.singleSize;
 
 			for (int i = 0; i < singleSize; ++i) {
 				try {
@@ -210,10 +210,10 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			break;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			value_list = new ArrayList<TitanTemplateArray<Tvalue,Ttemplate>>(otherValue.array_size);
-			listSize = otherValue.array_size;
 			array_size = otherValue.array_size;
 			indexOffset = otherValue.indexOffset;
+			value_list = new ArrayList<TitanTemplateArray<Tvalue,Ttemplate>>(otherValue.listSize);
+			listSize = otherValue.listSize;
 
 			for (int i = 0; i < listSize; ++i) {
 				value_list.add(new TitanTemplateArray<Tvalue, Ttemplate>(classValue, classTemplate));
@@ -231,7 +231,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	private TitanTemplateArray(final Class<Tvalue> classValue, final Class<Ttemplate> classTemplate) {
 		this.classValue = classValue;
 		this.classTemplate = classTemplate;
-
 	}
 
 	public TitanTemplateArray(final Class<Tvalue> classValue, final Class<Ttemplate> classTemplate, final template_sel otherValue) {
@@ -262,9 +261,6 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	public TitanTemplateArray(final TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
 		this.classValue = otherValue.classValue;
 		this.classTemplate = otherValue.classTemplate;
-
-		array_size = otherValue.array_size;
-		indexOffset = otherValue.indexOffset;
 
 		copy_template(otherValue);
 	}
