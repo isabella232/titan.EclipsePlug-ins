@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -442,8 +443,20 @@ public final class Template_List extends CompositeTemplate {
 		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
 			return false;
 		}
-		//TODO fatal error
+
 		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		if (converted != null) {
+			return converted.getSingleExpression(aData, castIsNeeded);
+		}
+
+		ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for template list `" + getFullName() + "''");
+
+		return new StringBuilder("FATAL_ERROR encountered");
 	}
 
 	@Override

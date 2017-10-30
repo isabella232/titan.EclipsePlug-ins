@@ -1276,14 +1276,9 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 *  converted to the appropriate type.
 	 * */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		final StringBuilder source = new StringBuilder();
-		//default implementation
-		//TODO this might be a good location to check for the need of conversion
-		source.append( "\t//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".getSingleExpression() is not implemented!\n" );
+		ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for template list `" + getFullName() + "''");
 
-		return source;
+		return new StringBuilder("FATAL_ERROR encountered");
 	}
 
 	/**
