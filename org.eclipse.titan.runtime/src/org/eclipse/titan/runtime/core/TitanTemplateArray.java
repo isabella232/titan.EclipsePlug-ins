@@ -358,7 +358,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return this;
 	}
 
-	// FIXME: originally operator=(null_type)
+	// originally operator=(null_type)
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final TitanNull_Type otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
