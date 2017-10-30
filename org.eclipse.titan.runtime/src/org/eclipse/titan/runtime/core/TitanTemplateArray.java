@@ -316,7 +316,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			}
 			// single_value.n_elements = length;
 		} else if (length < singleSize) {
-			for (int i = length; i < singleSize; ++i) {
+			for (int i = singleSize-1; i >= length; --i) {
 				single_value.remove(i);
 			}
 		}
