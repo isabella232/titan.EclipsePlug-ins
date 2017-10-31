@@ -25,7 +25,6 @@ public final class Module_List {
 
 	public static void add_module(final TTCN_Module module) {
 		modules.add(module);
-		System.out.println("registered: " + module.name);
 	}
 
 	public static TTCN_Module lookup_module(final String module_name) {
