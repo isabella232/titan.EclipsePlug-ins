@@ -71,6 +71,16 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//originally operator=
+	public TitanInteger assign( final BigInteger otherValue ) {
+		cleanUp();
+		boundFlag = true;
+		nativeFlag = false;
+		openSSL = otherValue;
+
+		return this;
+	}
+
+	//originally operator=
 	public TitanInteger assign( final TitanInteger otherValue ) {
 		otherValue.mustBound( "Assignment of an unbound integer value." );
 
@@ -129,6 +139,11 @@ public class TitanInteger extends Base_Type {
 		return this.add(new TitanInteger(otherValue));
 	}
 
+	// originally operator+
+	public TitanInteger add(final BigInteger otherValue) {
+		return this.add(new TitanInteger(otherValue));
+	}
+
 	/**
 	 * this + otherValue
 	 * originally operator+
@@ -163,6 +178,11 @@ public class TitanInteger extends Base_Type {
 		return this.sub(new TitanInteger(otherValue));
 	}
 
+	//originally operator-
+	public TitanInteger sub(final BigInteger otherValue){
+		return this.sub(new TitanInteger(otherValue));
+	}
+
 	// originally operator-
 	public TitanInteger sub(final TitanInteger otherValue) {
 		this.mustBound("Unbound left operand of integer addition. ");
@@ -191,6 +211,11 @@ public class TitanInteger extends Base_Type {
 
 	//originally operator*
 	public TitanInteger mul(final int otherValue) {
+		return this.mul(new TitanInteger(otherValue));
+	}
+
+	//originally operator*
+	public TitanInteger mul(final BigInteger otherValue) {
 		return this.mul(new TitanInteger(otherValue));
 	}
 
@@ -230,6 +255,11 @@ public class TitanInteger extends Base_Type {
 		return div(new TitanInteger(otherValue));
 	}
 
+	//originally operator/
+	public TitanInteger div(final BigInteger otherValue){
+		return div(new TitanInteger(otherValue));
+	}
+
 	// originally operator/
 	public TitanInteger div(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer division.");
@@ -264,6 +294,31 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
+	// rem with one parameter
+	public TitanInteger rem(final int rightValue) {
+		if (rightValue == 0) {
+			throw new TtcnError("The right operand of rem operator is zero.");
+		}
+
+		return rem(this, rightValue);
+	}
+
+	// rem with one parameter
+	public TitanInteger rem(final BigInteger rightValue) {
+		if (rightValue.equals(BigInteger.ZERO)) {
+			throw new TtcnError("The right operand of rem operator is zero.");
+		}
+
+		return rem(this, new TitanInteger(rightValue));
+	}
+
+	public TitanInteger rem(final TitanInteger rightValue) {
+		this.mustBound("Unbound left operand of rem operator ");
+		rightValue.mustBound("Unbound right operand of rem operator");
+
+		return this.sub(rightValue.mul((this.div(rightValue))));
+	}
+
 	// originally operator==
 	public TitanBoolean operatorEquals(final int otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
@@ -276,22 +331,17 @@ public class TitanInteger extends Base_Type {
 		return new TitanBoolean(openSSL.equals(other_int));
 	}
 
-	// rem with one parameter
-	public TitanInteger rem(final int rightValue) {
-		if (rightValue == 0) {
-			throw new TtcnError("The right operand of rem operator is zero.");
+	// originally operator==
+	public TitanBoolean operatorEquals(final BigInteger otherValue) {
+		mustBound("Unbound left operand of integer comparison.");
+
+		if (!nativeFlag) {
+			return new TitanBoolean(openSSL.equals(otherValue));
 		}
 
-		return rem(this, rightValue);
+		final BigInteger local_int = BigInteger.valueOf(nativeInt);
+		return new TitanBoolean(local_int.equals(otherValue));
 	}
-
-	public TitanInteger rem(final TitanInteger rightValue) {
-		this.mustBound("Unbound left operand of rem operator ");
-		rightValue.mustBound("Unbound right operand of rem operator");
-
-		return this.sub(rightValue.mul((this.div(rightValue))));
-	}
-
 
 	// originally operator==
 	public TitanBoolean operatorEquals(final TitanInteger otherValue) {
@@ -329,6 +379,11 @@ public class TitanInteger extends Base_Type {
 		return operatorEquals(otherValue).not();
 	}
 
+	// originally operator !=
+	public TitanBoolean operatorNotEquals(final BigInteger otherValue) {
+		return operatorEquals(otherValue).not();
+	}
+
 	// originally operator!=
 	public TitanBoolean operatorNotEquals(final TitanInteger otherValue) {
 		return operatorEquals(otherValue).not();
@@ -343,6 +398,18 @@ public class TitanInteger extends Base_Type {
 		} else {
 			final BigInteger other_int = BigInteger.valueOf(otherValue);
 			return new TitanBoolean(-1 == openSSL.compareTo(other_int));
+		}
+	}
+
+	// originally operator <
+	public TitanBoolean isLessThan(final BigInteger otherValue) {
+		mustBound("Unbound left operand of integer comparison.");
+
+		if (nativeFlag) {
+			final BigInteger this_int = BigInteger.valueOf(nativeInt);
+			return new TitanBoolean(-1 == this_int.compareTo(otherValue));
+		} else {
+			return new TitanBoolean(-1 == openSSL.compareTo(otherValue));
 		}
 	}
 
@@ -382,6 +449,19 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally operator >
+	public TitanBoolean isGreaterThan(final BigInteger otherValue) {
+		mustBound("Unbound left operand of integer comparison.");
+
+		if (nativeFlag) {
+			final BigInteger this_int = BigInteger.valueOf(nativeInt);
+			return new TitanBoolean(1 == this_int.compareTo(otherValue));
+		} else {
+			return new TitanBoolean(1 == openSSL.compareTo(otherValue));
+
+		}
+	}
+
+	// originally operator >
 	public TitanBoolean isGreaterThan(final TitanInteger otherValue) {
 		mustBound("Unbound left operand of integer comparison.");
 		otherValue.mustBound("Unbound right operand of integer comparison.");
@@ -409,12 +489,22 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally operator <=
+	public TitanBoolean isLessThanOrEqual(final BigInteger otherValue) {
+		return isGreaterThan(otherValue).not();
+	}
+
+	// originally operator <=
 	public TitanBoolean isLessThanOrEqual(final TitanInteger otherValue) {
 		return isGreaterThan(otherValue).not();
 	}
 
 	// originally operator >=
 	public TitanBoolean isGreaterThanOrEqual(final int otherValue) {
+		return isLessThan(otherValue).not();
+	}
+
+	// originally operator >=
+	public TitanBoolean isGreaterThanOrEqual(final BigInteger otherValue) {
 		return isLessThan(otherValue).not();
 	}
 
@@ -605,6 +695,16 @@ public class TitanInteger extends Base_Type {
 		return mod(new TitanInteger(leftValue), rightValue);
 	}
 
+	// mod with one parameter - int
+	public TitanInteger mod(final int rightValue) {
+		return mod(new TitanInteger(rightValue));
+	}
+
+	// mod with one parameter - int
+	public TitanInteger mod(final BigInteger rightValue) {
+		return mod(new TitanInteger(rightValue));
+	}
+
 	// mod with one parameter
 	public TitanInteger mod(final TitanInteger rightValue) {
 		mustBound("Unbound left operand of mod operator.");
@@ -626,11 +726,6 @@ public class TitanInteger extends Base_Type {
 				return new TitanInteger(rightValueAbs.add(result));
 			}
 		}
-	}
-
-	// mod with one parameter - int
-	public TitanInteger mod(final int rightValue) {
-		return mod(new TitanInteger(rightValue));
 	}
 
 	// static operator==

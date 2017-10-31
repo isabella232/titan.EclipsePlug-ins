@@ -45,6 +45,11 @@ public class TitanFloat_template extends Base_Template {
 		single_value = new TitanFloat(otherValue);
 	}
 
+	public TitanFloat_template(final Ttcn3Float otherValue) {
+		super(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanFloat(otherValue);
+	}
+
 	public TitanFloat_template(final TitanFloat otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound float value.");
@@ -104,6 +109,15 @@ public class TitanFloat_template extends Base_Template {
 
 	// originally operator=
 	public TitanFloat_template assign(final double otherValue) {
+		cleanUp();
+		setSelection(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanFloat(otherValue);
+
+		return this;
+	}
+
+	// originally operator=
+	public TitanFloat_template assign(final Ttcn3Float otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);

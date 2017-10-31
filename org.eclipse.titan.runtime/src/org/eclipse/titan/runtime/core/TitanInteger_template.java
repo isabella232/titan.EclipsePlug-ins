@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
@@ -39,6 +40,11 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	public TitanInteger_template (final int otherValue) {
+		super(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanInteger(otherValue);
+	}
+
+	public TitanInteger_template (final BigInteger otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 	}
@@ -114,6 +120,15 @@ public class TitanInteger_template extends Base_Template {
 
 	//originally operator=
 	public TitanInteger_template assign( final int otherValue ) {
+		cleanUp();
+		setSelection(template_sel.SPECIFIC_VALUE);
+		single_value = new TitanInteger(otherValue);
+
+		return this;
+	}
+
+	//originally operator=
+	public TitanInteger_template assign( final BigInteger otherValue ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
