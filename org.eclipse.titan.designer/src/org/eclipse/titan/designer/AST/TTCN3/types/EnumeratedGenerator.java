@@ -342,7 +342,6 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	//TODO: ttcn error base_type
 	private static void generateValueOperatorEquals(final StringBuilder source,final String aName) {
 		//Arg type: own type
 		source.append("//originally operator==\n");
