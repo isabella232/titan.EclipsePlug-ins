@@ -565,6 +565,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport("TitanVerdictType");
 		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TtcnLogger.Severity");
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
 		source.append(MessageFormat.format("\tpublic static final TitanVerdictType testcase_{0}", genName));
