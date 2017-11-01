@@ -606,7 +606,7 @@ public final class Def_Timer extends Definition {
 					expression.expression.append(genName);
 					expression.expression.append(".setDefaultDuration(");
 
-					defaultDuration.generateCodeExpression(aData, expression);
+					defaultDuration.generateCodeExpression(aData, expression, true);
 
 					expression.expression.append(')');
 					expression.mergeExpression(aData.getPostInit());
@@ -683,7 +683,7 @@ public final class Def_Timer extends Definition {
 					expression.expression.append(genName);
 					expression.expression.append(".setDefaultDuration(");
 
-					defaultDuration.generateCodeExpression(aData, expression);
+					defaultDuration.generateCodeExpression(aData, expression, true);
 
 					expression.expression.append(')');
 					expression.mergeExpression(source);
@@ -753,7 +753,7 @@ public final class Def_Timer extends Definition {
 					expression.expression.append(".getAt(").append(i + dim.getOffset()).append(")");
 					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
 
-					v_elem.generateCodeExpression(aData, expression);
+					v_elem.generateCodeExpression(aData, expression, true);
 
 					expression.expression.append(')');
 					expression.mergeExpression(source);
@@ -799,7 +799,7 @@ public final class Def_Timer extends Definition {
 					expression.expression.append(embeddedName).append(tempIdX).append(")");
 					expression.expression.append(".assign("); // originally set_default_duration(obj_name, i)
 
-					v_elem.generateCodeExpression(aData, expression);
+					v_elem.generateCodeExpression(aData, expression, true);
 
 					expression.expression.append(')');
 					expression.mergeExpression(source);
@@ -857,7 +857,7 @@ public final class Def_Timer extends Definition {
 				expression.expression.append(baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""));
 				expression.expression.append(".setDefaultDuration(");
 
-				defaultDuration.generateCodeExpression(aData, expression);
+				defaultDuration.generateCodeExpression(aData, expression, true);
 
 				expression.expression.append(')');
 				expression.mergeExpression(initComp);

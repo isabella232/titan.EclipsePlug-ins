@@ -253,7 +253,7 @@ public final class Float2StrExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.float2str( ");
-		value.generateCodeExpressionMandatory(aData, expression);
+		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(" )");
 	}
 }

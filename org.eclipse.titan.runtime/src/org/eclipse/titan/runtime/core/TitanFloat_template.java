@@ -183,7 +183,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanFloat) {
 			return match((TitanFloat) otherValue, legacy);
 		}
@@ -202,55 +202,55 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanFloat otherValue) {
+	public boolean match(final TitanFloat otherValue) {
 		return match(otherValue, false);
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanFloat otherValue, final boolean legacy) {
-		if (!otherValue.isBound().getValue()) {
-			return new TitanBoolean(false);
+	public boolean match(final TitanFloat otherValue, final boolean legacy) {
+		if (!otherValue.isBound()) {
+			return false;
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
-			return new TitanBoolean(false);
+			return false;
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for (int i = 0; i < value_list.size(); i++) {
-				if (value_list.get(i).match(otherValue, legacy).getValue()) {
-					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+				if (value_list.get(i).match(otherValue, legacy)) {
+					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
-			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		case VALUE_RANGE: {
 			boolean lowerMatch = false;
 			boolean upperMatch = false;
 			if (min_is_present) {
-				if (!min_is_exclusive && min_value.isLessThanOrEqual(otherValue).getValue()) {
+				if (!min_is_exclusive && min_value.isLessThanOrEqual(otherValue)) {
 					lowerMatch = true;
-				} else if (min_is_exclusive && min_value.isLessThan(otherValue).getValue()) {
+				} else if (min_is_exclusive && min_value.isLessThan(otherValue)) {
 					lowerMatch = true;
 				}
-			} else if(!min_is_exclusive || otherValue.isGreaterThan(Double.NEGATIVE_INFINITY).getValue()) {
+			} else if(!min_is_exclusive || otherValue.isGreaterThan(Double.NEGATIVE_INFINITY)) {
 				lowerMatch = true;
 			}
 			if (max_is_present) {
-				if (!max_is_exclusive && max_value.isGreaterThanOrEqual(otherValue).getValue()) {
+				if (!max_is_exclusive && max_value.isGreaterThanOrEqual(otherValue)) {
 					upperMatch = true;
-				} else if(max_is_exclusive && max_value.isGreaterThan(otherValue).getValue()) {
+				} else if(max_is_exclusive && max_value.isGreaterThan(otherValue)) {
 					upperMatch = true;
 				}
-			} else if(!max_is_exclusive || otherValue.isLessThan(Double.POSITIVE_INFINITY).getValue()) {
+			} else if(!max_is_exclusive || otherValue.isLessThan(Double.POSITIVE_INFINITY)) {
 				upperMatch = true;
 			}
 
-			return new TitanBoolean(lowerMatch && upperMatch);
+			return lowerMatch && upperMatch;
 		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported float template.");
@@ -302,7 +302,7 @@ public class TitanFloat_template extends Base_Template {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting lower limit.");
 		}
-		if (max_is_present && min_is_present && max_value.isLessThan(min_value).getValue()) {
+		if (max_is_present && min_is_present && max_value.isLessThan(min_value)) {
 			throw new TtcnError("The lower limit of the range is greater than the " + "upper limit in a float template.");
 		}
 
@@ -321,7 +321,7 @@ public class TitanFloat_template extends Base_Template {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
-		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value).getValue()) {
+		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value)) {
 			throw new TtcnError("The upper limit of the range is smaller than the " + "lower limit in a float template.");
 		}
 
@@ -416,7 +416,7 @@ public class TitanFloat_template extends Base_Template {
 		match_value.log();
 		TtcnLogger.log_event_str(" with ");
 		log();
-		if (match(match_value).getValue()) {
+		if (match(match_value)) {
 			TtcnLogger.log_event_str(" matched");
 		} else {
 			TtcnLogger.log_event_str(" unmatched");
@@ -424,45 +424,45 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	// originally is_present (with default parameter)
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
 	// originally is_present
-	public TitanBoolean isPresent(final boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return match_omit(legacy).not();
+		return !match_omit(legacy);
 	}
 
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(final boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
-			return new TitanBoolean(true);
+			return true;
 		}
 
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).match_omit().getValue()) {
-						return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+					if (value_list.get(i).match_omit()) {
+						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
-				return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
-			return new TitanBoolean(false);
+			return false;
 		default:
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 }

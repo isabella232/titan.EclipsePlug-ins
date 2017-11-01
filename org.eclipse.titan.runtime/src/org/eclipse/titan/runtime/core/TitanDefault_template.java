@@ -190,7 +190,7 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanDefault) {
 			return match((TitanDefault) otherValue, legacy);
 		}
@@ -199,60 +199,60 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	//originally match has component parameter
-	public TitanBoolean match(final int otherValue) {
+	public boolean match(final int otherValue) {
 		return match(otherValue, false);
 	}
 
 	// originally match has component parameter
-	public TitanBoolean match(final int otherValue, final boolean legacy) {
+	public boolean match(final int otherValue, final boolean legacy) {
 		if(otherValue == TitanComponent.NULL_COMPREF) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
 		return match((Default_Base) null);
 	}
 
 	// originally match
-	public TitanBoolean match(final Default_Base otherValue) {
+	public boolean match(final Default_Base otherValue) {
 		return match(otherValue, false);
 	}
 
 	// originally match
-	public TitanBoolean match(final Default_Base otherValue, final boolean legacy) {
+	public boolean match(final Default_Base otherValue, final boolean legacy) {
 		if( otherValue == TitanDefault.UNBOUND_DEFAULT) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			return new TitanBoolean(single_value == otherValue);
+			return single_value == otherValue;
 		case OMIT_VALUE:
-			return new TitanBoolean(false);
+			return false;
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy).getValue()) {
-					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+				if(value_list.get(i).match(otherValue, legacy)) {
+					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
-			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported default reference template.");
 		}
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanDefault otherValue) {
+	public boolean match(final TitanDefault otherValue) {
 		return match(otherValue, false);
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanDefault otherValue, final boolean legacy) {
-		if(! otherValue.isBound().getValue()) {
-			return new TitanBoolean(false);
+	public boolean match(final TitanDefault otherValue, final boolean legacy) {
+		if(! otherValue.isBound()) {
+			return false;
 		}
 
 		return match(otherValue.default_ptr);
@@ -327,7 +327,7 @@ public class TitanDefault_template extends Base_Template {
 		match_value.log();
 		TtcnLogger.log_event_str(" with ");
 		log();
-		if (match(match_value).getValue()) {
+		if (match(match_value)) {
 			TtcnLogger.log_event_str(" matched");
 		} else {
 			TtcnLogger.log_event_str(" unmatched");
@@ -335,47 +335,47 @@ public class TitanDefault_template extends Base_Template {
 	}
 
 	// originally is_present (with default parameter)
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
 	// originally is_present
-	public TitanBoolean isPresent(final boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return match_omit(legacy).not();
+		return !match_omit(legacy);
 	}
 
 	//originally match_omit (with default parameter)
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(final boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
-			return new TitanBoolean(true);
+			return true;
 		}
 
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).match_omit().getValue()) {
-						return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+					if (value_list.get(i).match_omit()) {
+						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
-				return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
-			return new TitanBoolean(false);
+			return false;
 		default:
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 }

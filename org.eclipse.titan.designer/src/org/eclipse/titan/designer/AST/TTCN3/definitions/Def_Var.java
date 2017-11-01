@@ -508,7 +508,11 @@ public final class Def_Var extends Definition {
 		}
 
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
-			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
+			if (initialValue.returnsNative() || type.getTypetypeTtcn3() != initialValue.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE)) {
+				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
+			} else {
+				source.append(MessageFormat.format("{0} {1} = {2};\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
+			}
 		} else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			if (initialValue != null) {

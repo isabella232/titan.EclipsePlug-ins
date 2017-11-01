@@ -433,9 +433,16 @@ public final class IsChoosenExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (value != null) {
-			value.generateCodeExpressionMandatory(aData, expression);
+			value.generateCodeExpressionMandatory(aData, expression, true);
 			final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
 			expression.expression.append(MessageFormat.format(".isChosen({0}.union_selection_type.ALT_{1})", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName())));
 		}

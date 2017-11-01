@@ -212,7 +212,7 @@ public final class Testcase_Instance_Statement extends Statement {
 
 		if (timerValue != null) {
 			expression.expression.append("true, ");
-			timerValue.generateCodeExpression(aData, expression);
+			timerValue.generateCodeExpression(aData, expression, true);
 			expression.expression.append(')');
 		} else {
 			aData.addBuiltinTypeImport("TitanFloat");

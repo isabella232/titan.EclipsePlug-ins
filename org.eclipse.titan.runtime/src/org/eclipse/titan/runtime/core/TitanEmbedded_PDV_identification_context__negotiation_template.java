@@ -148,12 +148,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	}
 
 	private void copyValue(final TitanEmbedded_PDV_identification_context__negotiation other_value) {
-		if (other_value.getPresentation__context__id().isBound().getValue()) {
+		if (other_value.getPresentation__context__id().isBound()) {
 			getPresentation__context__id().assign(other_value.getPresentation__context__id());
 		} else {
 			getPresentation__context__id().cleanUp();
 		}
-		if (other_value.getTransfer__syntax().isBound().getValue()) {
+		if (other_value.getTransfer__syntax().isBound()) {
 			getTransfer__syntax().assign(other_value.getTransfer__syntax());
 		} else {
 			getTransfer__syntax().cleanUp();
@@ -193,12 +193,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		setSelection(other_value);
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(final boolean legacy) {
-		return new TitanBoolean(isPresent_(legacy));
+	public boolean isPresent(final boolean legacy) {
+		return isPresent_(legacy);
 	}
 
 	private boolean isPresent_(final boolean legacy) {
@@ -208,12 +208,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return !match_omit_(legacy);
 	}
 
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(final boolean legacy) {
-		return new TitanBoolean(match_omit_(legacy));
+	public boolean match_omit(final boolean legacy) {
+		return match_omit_(legacy);
 	}
 
 	private boolean match_omit_(final boolean legacy) {
@@ -244,10 +244,10 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 		final TitanEmbedded_PDV_identification_context__negotiation ret_val = new TitanEmbedded_PDV_identification_context__negotiation();
-		if (presentation__context__id.isBound().getValue()) {
+		if (presentation__context__id.isBound()) {
 			ret_val.presentation__context__id.assign(presentation__context__id.valueOf());
 		}
-		if (transfer__syntax.isBound().getValue()) {
+		if (transfer__syntax.isBound()) {
 			ret_val.transfer__syntax.assign(transfer__syntax.valueOf());
 		}
 		return ret_val;
@@ -275,45 +275,45 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		}
 	}
 
-	public TitanBoolean isBound() {
+	public boolean isBound() {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
-			return new TitanBoolean(false);
+			return false;
 		}
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			return new TitanBoolean(true);
+			return true;
 		}
-		if (presentation__context__id.isBound().getValue()) {
-			return new TitanBoolean(true);
+		if (presentation__context__id.isBound()) {
+			return true;
 		}
-		if (transfer__syntax.isBound().getValue()) {
-			return new TitanBoolean(true);
+		if (transfer__syntax.isBound()) {
+			return true;
 		}
-		return new TitanBoolean(false);
+		return false;
 	}
 
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-			return new TitanBoolean(false);
+			return false;
 		}
-		if (!presentation__context__id.isValue().getValue()) {
-			return new TitanBoolean(false);
+		if (!presentation__context__id.isValue()) {
+			return false;
 		}
-		if (!transfer__syntax.isValue().getValue()) {
-			return new TitanBoolean(false);
+		if (!transfer__syntax.isValue()) {
+			return false;
 		}
-		return new TitanBoolean(true);
+		return true;
 	}
 
-	public TitanBoolean match(final TitanEmbedded_PDV_identification_context__negotiation other_value) {
+	public boolean match(final TitanEmbedded_PDV_identification_context__negotiation other_value) {
 		return match(other_value, false);
 	}
 
-	public TitanBoolean match(final TitanEmbedded_PDV_identification_context__negotiation other_value, final boolean legacy) {
-		return new TitanBoolean(match_(other_value, legacy));
+	public boolean match(final TitanEmbedded_PDV_identification_context__negotiation other_value, final boolean legacy) {
+		return match_(other_value, legacy);
 	}
 
 	private boolean match_(final TitanEmbedded_PDV_identification_context__negotiation other_value, final boolean legacy) {
-		if (!other_value.isBound().getValue()) {
+		if (!other_value.isBound()) {
 			return false;
 		}
 		switch (templateSelection) {
@@ -323,23 +323,23 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		case OMIT_VALUE:
 			return false;
 		case SPECIFIC_VALUE:
-			if(!other_value.getPresentation__context__id().isBound().getValue()) {
+			if(!other_value.getPresentation__context__id().isBound()) {
 				return false;
 			}
-			if(!presentation__context__id.match(other_value.getPresentation__context__id(), legacy).getValue()) {
+			if(!presentation__context__id.match(other_value.getPresentation__context__id(), legacy)) {
 				return false;
 			}
-			if(!other_value.getTransfer__syntax().isBound().getValue()) {
+			if(!other_value.getTransfer__syntax().isBound()) {
 				return false;
 			}
-			if(!transfer__syntax.match(other_value.getTransfer__syntax(), legacy).getValue()) {
+			if(!transfer__syntax.match(other_value.getTransfer__syntax(), legacy)) {
 				return false;
 			}
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for (int list_count = 0; list_count < list_value.size(); list_count++) {
-				if (list_value.get(list_count).match(other_value, legacy).getValue()) {
+				if (list_value.get(list_count).match(other_value, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
@@ -350,7 +350,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_context__negotiation) {
 			return match((TitanEmbedded_PDV_identification_context__negotiation)otherValue, legacy);
 		}
@@ -436,18 +436,18 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 
 	public void log_match(final TitanEmbedded_PDV_identification_context__negotiation match_value, boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
-			if(match(match_value, legacy).getValue()) {
+			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
 					int previous_size = TtcnLogger.get_logmatch_buffer_len();
-					if( !presentation__context__id.match(match_value.constGetPresentation__context__id(), legacy).getValue() ) {
+					if( !presentation__context__id.match(match_value.constGetPresentation__context__id(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".presentation-context-id");
 						presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
 						TtcnLogger.set_logmatch_buffer_len(previous_size);
 					}
-					if( !transfer__syntax.match(match_value.constGetTransfer__syntax(), legacy).getValue() ) {
+					if( !transfer__syntax.match(match_value.constGetTransfer__syntax(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".transfer-syntax");
 						transfer__syntax.log_match(match_value.constGetTransfer__syntax(), legacy);
 						TtcnLogger.set_logmatch_buffer_len(previous_size);
@@ -472,7 +472,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			match_value.log();
 			TtcnLogger.log_event_str(" with ");
 			log();
-			if ( match(match_value, legacy).getValue() ) {
+			if ( match(match_value, legacy) ) {
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				TtcnLogger.log_event_str(" unmatched");

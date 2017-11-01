@@ -759,9 +759,9 @@ public abstract class AbstractOfType extends ASN1Type {
 
 		final String temporalIndexId = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
-		last.generateCodeExpressionMandatory(aData, expression);
+		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = TitanBoolean.getNative({1}.isGreaterThanOrEqual(0)) && TitanBoolean.getNative({1}.isLessThan({2}.{3}));\n",
+		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.{3});\n",
 				globalId, temporalIndexId, externalId, isTemplate?"nofElements()":"sizeOf()"));
 
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
@@ -777,7 +777,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		}
 
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
-		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3}).getValue();\n", globalId, temporalId,
+		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId,
 				isBound|(!isLast)?"isBound":"isPresent",
 				(!(isBound|!isLast))&&isTemplate&& aData.allowOmitInValueList()?"true":""));
 

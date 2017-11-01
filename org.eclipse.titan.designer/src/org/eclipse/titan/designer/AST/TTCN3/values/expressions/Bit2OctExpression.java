@@ -257,7 +257,7 @@ public final class Bit2OctExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.bit2oct( ");
-		value.generateCodeExpressionMandatory(aData, expression);
+		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(" )");
 	}
 }

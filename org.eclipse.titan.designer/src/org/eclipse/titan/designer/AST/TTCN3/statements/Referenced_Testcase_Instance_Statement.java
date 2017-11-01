@@ -241,7 +241,7 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 			//TODO Optimize for easily resolvable value
 		}
 
-		dereferredValue.generateCodeExpressionMandatory(aData, expression);
+		dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".execute(");
 		actualParameterList2.generateCodeAlias(aData, expression);
 		if (actualParameterList2.getNofParameters() > 0) {
@@ -251,7 +251,7 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 			expression.expression.append("false, new TitanFloat( new Ttcn3Float( 0.0 ) ))");
 		} else {
 			expression.expression.append("true, ");
-			timerValue.generateCodeExpression(aData, expression);
+			timerValue.generateCodeExpression(aData, expression, true);
 			expression.expression.append(')');
 		}
 		expression.mergeExpression(source);

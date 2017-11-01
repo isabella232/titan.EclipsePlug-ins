@@ -34,17 +34,17 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation assign( final TitanEmbedded_PDV_identification_context__negotiation aOtherValue ) {
-		if ( !aOtherValue.isBound().getValue() ) {
+		if ( !aOtherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EMBEDDED PDV.identification.context-negotiation" );
 		}
 
 		if (aOtherValue != this) {
-			if ( aOtherValue.getPresentation__context__id().isBound().getValue() ) {
+			if ( aOtherValue.getPresentation__context__id().isBound() ) {
 				this.presentation__context__id.assign( aOtherValue.getPresentation__context__id() );
 			} else {
 				this.presentation__context__id.cleanUp();
 			}
-			if ( aOtherValue.getTransfer__syntax().isBound().getValue() ) {
+			if ( aOtherValue.getTransfer__syntax().isBound() ) {
 				this.transfer__syntax.assign( aOtherValue.getTransfer__syntax() );
 			} else {
 				this.transfer__syntax.cleanUp();
@@ -69,30 +69,30 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		transfer__syntax.cleanUp();
 	}
 
-	public TitanBoolean isBound() {
-		if ( presentation__context__id.isBound().getValue() ) { return new TitanBoolean(true); }
-		if ( transfer__syntax.isBound().getValue() ) { return new TitanBoolean(true); }
-		return new TitanBoolean(false);
+	public boolean isBound() {
+		if ( presentation__context__id.isBound() ) { return true; }
+		if ( transfer__syntax.isBound() ) { return true; }
+		return false;
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
-	public TitanBoolean isValue() {
-		if ( !presentation__context__id.isValue().getValue() ) { return new TitanBoolean(false); }
-		if ( !transfer__syntax.isValue().getValue() ) { return new TitanBoolean(false); }
-		return new TitanBoolean(true);
+	public boolean isValue() {
+		if ( !presentation__context__id.isValue() ) { return false; }
+		if ( !transfer__syntax.isValue() ) { return false; }
+		return true;
 	}
 
-	public TitanBoolean operatorEquals( final TitanEmbedded_PDV_identification_context__negotiation aOtherValue ) {
-		if ( !TitanBoolean.getNative( this.presentation__context__id.operatorEquals( aOtherValue.presentation__context__id )) ) { return new TitanBoolean(false); }
-		if ( !TitanBoolean.getNative( this.transfer__syntax.operatorEquals( aOtherValue.transfer__syntax )) ) { return new TitanBoolean(false); }
-		return new TitanBoolean(true);
+	public boolean operatorEquals( final TitanEmbedded_PDV_identification_context__negotiation aOtherValue ) {
+		if ( !this.presentation__context__id.operatorEquals( aOtherValue.presentation__context__id ) ) { return false; }
+		if ( !this.transfer__syntax.operatorEquals( aOtherValue.transfer__syntax ) ) { return false; }
+		return true;
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_context__negotiation ) {
 			return operatorEquals((TitanEmbedded_PDV_identification_context__negotiation) otherValue);
 		}
@@ -121,7 +121,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		return new TitanInteger(sizeof);
 	}
 	public void log() {
-		if (!isBound().getValue()) {
+		if (!isBound()) {
 			TtcnLogger.log_event_unbound();
 			return;
 		}

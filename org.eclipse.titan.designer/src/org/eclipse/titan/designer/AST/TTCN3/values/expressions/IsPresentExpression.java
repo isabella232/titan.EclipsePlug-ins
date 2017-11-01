@@ -440,6 +440,12 @@ public final class IsPresentExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final TTCN3Template template = templateInstance.getTemplateBody();
 		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
@@ -469,7 +475,7 @@ public final class IsPresentExpression extends Expression_Value {
 				}
 			} else {
 				//FIXME cast_needed case
-				value.generateCodeExpressionMandatory(aData, expression);
+				value.generateCodeExpressionMandatory(aData, expression, true);
 			}
 		} else if (Template_type.TEMPLATE_REFD.equals(template.getTemplatetype())) {
 			final Reference reference = ((Referenced_Template) template).getReference();
@@ -481,6 +487,6 @@ public final class IsPresentExpression extends Expression_Value {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
-		expression.expression.append(".isPresent().getValue()");
+		expression.expression.append(".isPresent()");
 	}
 }

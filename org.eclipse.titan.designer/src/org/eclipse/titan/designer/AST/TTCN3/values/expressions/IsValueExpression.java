@@ -337,6 +337,12 @@ public final class IsValueExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final TTCN3Template templateBody = templateInstance.getTemplateBody();
 		// FIXME actually a bit more complex
@@ -344,7 +350,7 @@ public final class IsValueExpression extends Expression_Value {
 				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			final IValue value = ((SpecificValue_Template) templateBody).getValue();
 			// FIXME implement support for cast
-			value.generateCodeExpression(aData, expression);
+			value.generateCodeExpression(aData, expression, true);
 		} else {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}

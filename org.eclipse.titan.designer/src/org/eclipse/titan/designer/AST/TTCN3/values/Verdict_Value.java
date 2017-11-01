@@ -167,11 +167,9 @@ public final class Verdict_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanVerdictType" );
 		aData.addBuiltinTypeImport("TitanVerdictType.VerdictTypeEnum");
 
 		final StringBuilder result = new StringBuilder();
-		result.append("new TitanVerdictType( ");
 		switch (value) {
 		case NONE:
 			result.append("VerdictTypeEnum.NONE");
@@ -192,8 +190,13 @@ public final class Verdict_Value extends Value {
 			result.append("FATAL ERROR: unknown verdict value");
 			break;
 		}
-		result.append( " )" );
 		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
 	}
 
 	@Override

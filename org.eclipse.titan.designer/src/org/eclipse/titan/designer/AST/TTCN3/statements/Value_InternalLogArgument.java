@@ -52,7 +52,7 @@ public final class Value_InternalLogArgument extends InternalLogArgument {
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		//FIXME somewhat more complicated
 		if (value != null) {
-			value.generateCodeExpression(aData, expression);
+			value.generateCodeExpression(aData, expression, true);
 			//TODO this wil be the final generated code end
 			expression.expression.append(".log()");
 		}

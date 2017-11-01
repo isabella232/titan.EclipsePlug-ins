@@ -152,12 +152,12 @@ public class TitanOctetString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(val_ptr != null);
+	public boolean isBound() {
+		return val_ptr != null;
 	}
 
-	public TitanBoolean isValue() {
-		return new TitanBoolean(val_ptr != null);
+	public boolean isValue() {
+		return val_ptr != null;
 	}
 
 	public void mustBound( final String aErrorMessage ) {
@@ -174,14 +174,14 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	// originally operator==
-	public TitanBoolean operatorEquals( final TitanOctetString otherValue ) {
+	public boolean operatorEquals( final TitanOctetString otherValue ) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
-		return new TitanBoolean(val_ptr.equals( otherValue.val_ptr ));
+		return val_ptr.equals( otherValue.val_ptr );
 	}
 
-	public TitanBoolean operatorEquals( final TitanOctetString_Element otherValue ) {
+	public boolean operatorEquals( final TitanOctetString_Element otherValue ) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
@@ -190,7 +190,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanOctetString) {
 			return operatorEquals((TitanOctetString)otherValue);
 		}
@@ -199,16 +199,16 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	//originally operator!=
-	public TitanBoolean operatorNotEquals( final TitanOctetString aOtherValue ) {
-		return operatorEquals( aOtherValue ).not();
+	public boolean operatorNotEquals( final TitanOctetString aOtherValue ) {
+		return !operatorEquals( aOtherValue );
 	}
 
-	public TitanBoolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
-		return operatorEquals( aOtherValue ).not();
+	public boolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
+		return !operatorEquals( aOtherValue );
 	}
 
-	public TitanBoolean operatorNotEquals( final Base_Type aOtherValue ) {
-		return operatorEquals( aOtherValue ).not();
+	public boolean operatorNotEquals( final Base_Type aOtherValue ) {
+		return !operatorEquals( aOtherValue );
 	}
 
 	public void cleanUp() {
@@ -314,7 +314,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 

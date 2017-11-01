@@ -34,17 +34,17 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	}
 
 	public TitanCharacter_String_identification_syntaxes assign( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if ( !aOtherValue.isBound().getValue() ) {
+		if ( !aOtherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type CHARACTER STRING.identification.syntaxes" );
 		}
 
 		if (aOtherValue != this) {
-			if ( aOtherValue.getAbstract_().isBound().getValue() ) {
+			if ( aOtherValue.getAbstract_().isBound() ) {
 				this.abstract_.assign( aOtherValue.getAbstract_() );
 			} else {
 				this.abstract_.cleanUp();
 			}
-			if ( aOtherValue.getTransfer().isBound().getValue() ) {
+			if ( aOtherValue.getTransfer().isBound() ) {
 				this.transfer.assign( aOtherValue.getTransfer() );
 			} else {
 				this.transfer.cleanUp();
@@ -69,30 +69,30 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		transfer.cleanUp();
 	}
 
-	public TitanBoolean isBound() {
-		if ( abstract_.isBound().getValue() ) { return new TitanBoolean(true); }
-		if ( transfer.isBound().getValue() ) { return new TitanBoolean(true); }
-		return new TitanBoolean(false);
+	public boolean isBound() {
+		if ( abstract_.isBound() ) { return true; }
+		if ( transfer.isBound() ) { return true; }
+		return false;
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
-	public TitanBoolean isValue() {
-		if ( !abstract_.isValue().getValue() ) { return new TitanBoolean(false); }
-		if ( !transfer.isValue().getValue() ) { return new TitanBoolean(false); }
-		return new TitanBoolean(true);
+	public boolean isValue() {
+		if ( !abstract_.isValue() ) { return false; }
+		if ( !transfer.isValue() ) { return false; }
+		return true;
 	}
 
-	public TitanBoolean operatorEquals( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if ( !TitanBoolean.getNative( this.abstract_.operatorEquals( aOtherValue.abstract_ )) ) { return new TitanBoolean(false); }
-		if ( !TitanBoolean.getNative( this.transfer.operatorEquals( aOtherValue.transfer )) ) { return new TitanBoolean(false); }
-		return new TitanBoolean(true);
+	public boolean operatorEquals( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
+		if ( !this.abstract_.operatorEquals( aOtherValue.abstract_ ) ) { return false; }
+		if ( !this.transfer.operatorEquals( aOtherValue.transfer ) ) { return false; }
+		return true;
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanCharacter_String_identification_syntaxes ) {
 			return operatorEquals((TitanCharacter_String_identification_syntaxes) otherValue);
 		}
@@ -121,7 +121,7 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		return new TitanInteger(sizeof);
 	}
 	public void log() {
-		if (!isBound().getValue()) {
+		if (!isBound()) {
 			TtcnLogger.log_event_unbound();
 			return;
 		}

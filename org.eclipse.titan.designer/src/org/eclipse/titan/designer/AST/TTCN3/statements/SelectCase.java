@@ -275,7 +275,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 				if(isValue) {
 					if (tb.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
 						SpecificValue_Template specificValueTemplate = (SpecificValue_Template) tb;
-						specificValueTemplate.getSpecificValue().generateCodeExpressionMandatory(aData, expression);
+						specificValueTemplate.getSpecificValue().generateCodeExpressionMandatory(aData, expression, true);
 					} else {
 						final IValue value = tb.getValue();
 						if(value.getMyGovernor() == null) {
@@ -283,7 +283,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 							isValue = false;
 						}
 						else {
-							value.generateCodeExpressionMandatory(aData, expression);
+							value.generateCodeExpressionMandatory(aData, expression, true);
 						}
 					}
 				} else if (!isValue) {

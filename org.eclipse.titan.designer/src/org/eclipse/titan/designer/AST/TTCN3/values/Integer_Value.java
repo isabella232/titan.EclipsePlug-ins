@@ -265,17 +265,14 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanInteger" );
 		final StringBuilder result = new StringBuilder();
 
 		if (isNative()) {
-			result.append( "new TitanInteger( " );
 			result.append(value);
-			result.append( " )" );
 		} else {
 			aData.addImport("java.math.BigInteger");
 
-			result.append(MessageFormat.format("new TitanInteger( new BigInteger(\"{0}\") )", value.toString()));
+			result.append(MessageFormat.format("new BigInteger(\"{0}\")", value.toString()));
 		}
 
 		return result;
@@ -283,19 +280,21 @@ public final class Integer_Value extends Value implements Comparable<Integer_Val
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanInteger" );
+	public boolean returnsNative() {
+		return true;
+	}
 
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		source.append(name);
 		source.append(".assign( ");
 		if (isNative()) {
-			source.append( "new TitanInteger( " );
 			source.append(value);
-			source.append( " )" );
 		} else {
 			aData.addImport("java.math.BigInteger");
 
-			source.append(MessageFormat.format("new TitanInteger( new BigInteger(\"{0}\") )", value.toString()));
+			source.append(MessageFormat.format("new BigInteger(\"{0}\")", value.toString()));
 		}
 		source.append( " );\n" );
 

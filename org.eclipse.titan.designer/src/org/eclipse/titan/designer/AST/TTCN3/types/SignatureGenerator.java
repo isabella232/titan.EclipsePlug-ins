@@ -364,9 +364,9 @@ public class SignatureGenerator {
 				source.append("}\n");
 			}
 
-			source.append(MessageFormat.format("public TitanBoolean match(final {0}_exception other_value, boolean legacy) '{'\n", def.genName));
+			source.append(MessageFormat.format("public boolean match(final {0}_exception other_value, boolean legacy) '{'\n", def.genName));
 			source.append("if (exception_selection != other_value.get_selection()) {\n");
-			source.append("return new TitanBoolean(false);\n");
+			source.append("return false;\n");
 			source.append("}\n");
 
 			source.append("switch (exception_selection) {\n");
@@ -490,7 +490,7 @@ public class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("if (!TitanBoolean.getNative(param_{0}.match(match_value.get{0}(), legacy))) '{'return new TitanBoolean(false);'}'\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return new TitanBoolean(false);'}'\n", formalPar.mJavaName ));
 			}
 		}
 		source.append("return new TitanBoolean(true);\n");
@@ -506,11 +506,11 @@ public class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("if (!TitanBoolean.getNative(param_{0}.match(match_value.get{0}(), legacy))) '{'return new TitanBoolean(false);'}'\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return new TitanBoolean(false);'}'\n", formalPar.mJavaName ));
 				}
 			}
 			if (def.returnType != null) {
-				source.append("if (!TitanBoolean.getNative(reply_value.match(match_value.getreturn_value(), legacy))) {return new TitanBoolean(false);}\n");
+				source.append("if (!reply_value.match(match_value.getreturn_value(), legacy)) {return new TitanBoolean(false);}\n");
 			}
 			source.append("return new TitanBoolean(true);\n");
 			source.append("}\n");

@@ -497,10 +497,10 @@ public final class StringConcatenationExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
-		value1.generateCodeExpressionMandatory(aData, expression);
+		value1.generateCodeExpressionMandatory(aData, expression, true);
 		// originally operatior+ is used for string concatenation
 		expression.expression.append( ".concatenate( " );
-		value2.generateCodeExpressionMandatory(aData, expression);
+		value2.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append( " )" );
 	}
 

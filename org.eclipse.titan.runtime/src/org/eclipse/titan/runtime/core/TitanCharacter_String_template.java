@@ -163,13 +163,13 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	private void copyValue(final TitanCharacter_String other_value) {
-		if (other_value.getIdentification().isBound().getValue()) {
+		if (other_value.getIdentification().isBound()) {
 			getIdentification().assign(other_value.getIdentification());
 		} else {
 			getIdentification().cleanUp();
 		}
-		if (other_value.getData__value__descriptor().isBound().getValue()) {
-			if (other_value.getData__value__descriptor().isPresent().getValue()) {
+		if (other_value.getData__value__descriptor().isBound()) {
+			if (other_value.getData__value__descriptor().isPresent()) {
 				getData__value__descriptor().assign(other_value.getData__value__descriptor().get());
 			} else {
 				getData__value__descriptor().assign(template_sel.OMIT_VALUE);
@@ -177,7 +177,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		} else {
 			getData__value__descriptor().cleanUp();
 		}
-		if (other_value.getString__value().isBound().getValue()) {
+		if (other_value.getString__value().isBound()) {
 			getString__value().assign(other_value.getString__value());
 		} else {
 			getString__value().cleanUp();
@@ -222,12 +222,12 @@ public class TitanCharacter_String_template extends Base_Template {
 		setSelection(other_value);
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(final boolean legacy) {
-		return new TitanBoolean(isPresent_(legacy));
+	public boolean isPresent(final boolean legacy) {
+		return isPresent_(legacy);
 	}
 
 	private boolean isPresent_(final boolean legacy) {
@@ -237,12 +237,12 @@ public class TitanCharacter_String_template extends Base_Template {
 		return !match_omit_(legacy);
 	}
 
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(final boolean legacy) {
-		return new TitanBoolean(match_omit_(legacy));
+	public boolean match_omit(final boolean legacy) {
+		return match_omit_(legacy);
 	}
 
 	private boolean match_omit_(final boolean legacy) {
@@ -273,15 +273,15 @@ public class TitanCharacter_String_template extends Base_Template {
 			throw new TtcnError("Performing a valueof or send operation on a non-specific template of type CHARACTER STRING.");
 		}
 		final TitanCharacter_String ret_val = new TitanCharacter_String();
-		if (identification.isBound().getValue()) {
+		if (identification.isBound()) {
 			ret_val.identification.assign(identification.valueOf());
 		}
 		if (data__value__descriptor.isOmit()) {
 			ret_val.data__value__descriptor.assign(template_sel.OMIT_VALUE);
-		} else if (data__value__descriptor.isBound().getValue()) {
+		} else if (data__value__descriptor.isBound()) {
 			ret_val.data__value__descriptor.assign(data__value__descriptor.valueOf());
 		}
-		if (string__value.isBound().getValue()) {
+		if (string__value.isBound()) {
 			ret_val.string__value.assign(string__value.valueOf());
 		}
 		return ret_val;
@@ -309,51 +309,51 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 	}
 
-	public TitanBoolean isBound() {
+	public boolean isBound() {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
-			return new TitanBoolean(false);
+			return false;
 		}
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			return new TitanBoolean(true);
+			return true;
 		}
-		if (identification.isBound().getValue()) {
-			return new TitanBoolean(true);
+		if (identification.isBound()) {
+			return true;
 		}
-		if (data__value__descriptor.isOmit() || data__value__descriptor.isBound().getValue()) {
-			return new TitanBoolean(true);
+		if (data__value__descriptor.isOmit() || data__value__descriptor.isBound()) {
+			return true;
 		}
-		if (string__value.isBound().getValue()) {
-			return new TitanBoolean(true);
+		if (string__value.isBound()) {
+			return true;
 		}
-		return new TitanBoolean(false);
+		return false;
 	}
 
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-			return new TitanBoolean(false);
+			return false;
 		}
-		if (!identification.isValue().getValue()) {
-			return new TitanBoolean(false);
+		if (!identification.isValue()) {
+			return false;
 		}
-		if (!data__value__descriptor.isOmit() && !data__value__descriptor.isValue().getValue()) {
-			return new TitanBoolean(false);
+		if (!data__value__descriptor.isOmit() && !data__value__descriptor.isValue()) {
+			return false;
 		}
-		if (!string__value.isValue().getValue()) {
-			return new TitanBoolean(false);
+		if (!string__value.isValue()) {
+			return false;
 		}
-		return new TitanBoolean(true);
+		return true;
 	}
 
-	public TitanBoolean match(final TitanCharacter_String other_value) {
+	public boolean match(final TitanCharacter_String other_value) {
 		return match(other_value, false);
 	}
 
-	public TitanBoolean match(final TitanCharacter_String other_value, final boolean legacy) {
-		return new TitanBoolean(match_(other_value, legacy));
+	public boolean match(final TitanCharacter_String other_value, final boolean legacy) {
+		return match_(other_value, legacy);
 	}
 
 	private boolean match_(final TitanCharacter_String other_value, final boolean legacy) {
-		if (!other_value.isBound().getValue()) {
+		if (!other_value.isBound()) {
 			return false;
 		}
 		switch (templateSelection) {
@@ -363,29 +363,29 @@ public class TitanCharacter_String_template extends Base_Template {
 		case OMIT_VALUE:
 			return false;
 		case SPECIFIC_VALUE:
-			if(!other_value.getIdentification().isBound().getValue()) {
+			if(!other_value.getIdentification().isBound()) {
 				return false;
 			}
-			if(!identification.match(other_value.getIdentification(), legacy).getValue()) {
+			if(!identification.match(other_value.getIdentification(), legacy)) {
 				return false;
 			}
-			if(!other_value.getData__value__descriptor().isBound().getValue()) {
+			if(!other_value.getData__value__descriptor().isBound()) {
 				return false;
 			}
-			if((other_value.getData__value__descriptor().isPresent().getValue() ? !data__value__descriptor.match(other_value.getData__value__descriptor().get(), legacy).getValue() : !data__value__descriptor.match_omit(legacy).getValue())) {
+			if((other_value.getData__value__descriptor().isPresent() ? !data__value__descriptor.match(other_value.getData__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
 				return false;
 			}
-			if(!other_value.getString__value().isBound().getValue()) {
+			if(!other_value.getString__value().isBound()) {
 				return false;
 			}
-			if(!string__value.match(other_value.getString__value(), legacy).getValue()) {
+			if(!string__value.match(other_value.getString__value(), legacy)) {
 				return false;
 			}
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for (int list_count = 0; list_count < list_value.size(); list_count++) {
-				if (list_value.get(list_count).match(other_value, legacy).getValue()) {
+				if (list_value.get(list_count).match(other_value, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
@@ -396,7 +396,7 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanCharacter_String) {
 			return match((TitanCharacter_String)otherValue, legacy);
 		}
@@ -411,7 +411,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			int sizeof = 0;
-			if (data__value__descriptor.isPresent().getValue()) {
+			if (data__value__descriptor.isPresent()) {
 				sizeof++;
 			}
 			sizeof += 2;
@@ -488,23 +488,23 @@ public class TitanCharacter_String_template extends Base_Template {
 
 	public void log_match(final TitanCharacter_String match_value, boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
-			if(match(match_value, legacy).getValue()) {
+			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
 					int previous_size = TtcnLogger.get_logmatch_buffer_len();
-					if( !identification.match(match_value.constGetIdentification(), legacy).getValue() ) {
+					if( !identification.match(match_value.constGetIdentification(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".identification");
 						identification.log_match(match_value.constGetIdentification(), legacy);
 						TtcnLogger.set_logmatch_buffer_len(previous_size);
 					}
-					if( !data__value__descriptor.match(match_value.constGetData__value__descriptor(), legacy).getValue() ) {
+					if( !data__value__descriptor.match(match_value.constGetData__value__descriptor(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".data-value-descriptor");
 						data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
 						TtcnLogger.set_logmatch_buffer_len(previous_size);
 					}
-					if( !string__value.match(match_value.constGetString__value(), legacy).getValue() ) {
+					if( !string__value.match(match_value.constGetString__value(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".string-value");
 						string__value.log_match(match_value.constGetString__value(), legacy);
 						TtcnLogger.set_logmatch_buffer_len(previous_size);
@@ -531,7 +531,7 @@ public class TitanCharacter_String_template extends Base_Template {
 			match_value.log();
 			TtcnLogger.log_event_str(" with ");
 			log();
-			if ( match(match_value, legacy).getValue() ) {
+			if ( match(match_value, legacy) ) {
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				TtcnLogger.log_event_str(" unmatched");

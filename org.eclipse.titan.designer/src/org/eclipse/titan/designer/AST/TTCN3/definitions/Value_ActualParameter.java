@@ -118,7 +118,7 @@ public final class Value_ActualParameter extends ActualParameter {
 		if (value != null ) {
 			final StringBuilder expressionExpression = new StringBuilder();
 			final ExpressionStruct valueExpression = new ExpressionStruct();
-			value.generateCodeExpression(aData, valueExpression);
+			value.generateCodeExpression(aData, valueExpression, true);
 			if(valueExpression.preamble.length() > 0) {
 				expression.preamble.append(valueExpression.preamble);
 			}

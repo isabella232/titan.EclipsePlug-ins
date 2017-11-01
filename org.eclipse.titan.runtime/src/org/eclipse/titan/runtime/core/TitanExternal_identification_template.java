@@ -186,28 +186,28 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanExternal_identification other_value) {
+	public boolean match(final TitanExternal_identification other_value) {
 		return match(other_value, false);
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanExternal_identification other_value, final boolean legacy) {
-		if(!other_value.isBound().getValue()) {
-			return new TitanBoolean(false);
+	public boolean match(final TitanExternal_identification other_value, final boolean legacy) {
+		if(!other_value.isBound()) {
+			return false;
 		}
 		switch (templateSelection) {
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case OMIT_VALUE:
-			return new TitanBoolean(false);
+			return false;
 		case SPECIFIC_VALUE:
 			final TitanExternal_identification.union_selection_type value_selection = other_value.get_selection();
 			if (value_selection == TitanExternal_identification.union_selection_type.UNBOUND_VALUE) {
-				return new TitanBoolean(false);
+				return false;
 			}
 			if (value_selection != single_value_union_selection) {
-				return new TitanBoolean(false);
+				return false;
 			}
 			switch(value_selection) {
 			case ALT_Syntaxes:
@@ -228,18 +228,18 @@ public class TitanExternal_identification_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(other_value, legacy).getValue()) {
-					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+				if(value_list.get(i).match(other_value, legacy)) {
+					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
-			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported integer template.");
 		}
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanExternal_identification) {
 			return match((TitanExternal_identification)otherValue, legacy);
 		}
@@ -277,9 +277,9 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	@Override
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-			return new TitanBoolean(false);
+			return false;
 		}
 		switch(single_value_union_selection) {
 		case ALT_Syntaxes:
@@ -354,42 +354,42 @@ public class TitanExternal_identification_template extends Base_Template {
 		return value_list.get(list_index);
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(final boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return new TitanBoolean(false);
+			return false;
 		}
-		return new TitanBoolean(!match_omit(legacy).getValue());
+		return !match_omit(legacy);
 	}
 
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(final boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
-			return new TitanBoolean(true);
+			return true;
 		}
 		switch(templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
 				for (int i = 0 ; i < value_list.size(); i++) {
-					if (value_list.get(i).match_omit(legacy).getValue()) {
-						return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+					if (value_list.get(i).match_omit(legacy)) {
+						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
-				return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
-			return new TitanBoolean(false);
+			return false;
 		default:
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 
@@ -578,7 +578,7 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	public void log_match(final TitanExternal_identification match_value, final boolean legacy) {
-		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy).getValue()) {
+		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy)) {
 			TtcnLogger.print_logmatch_buffer();
 			TtcnLogger.log_event_str(" matched");
 			return;
@@ -648,7 +648,7 @@ public class TitanExternal_identification_template extends Base_Template {
 			match_value.log();
 			TtcnLogger.log_event_str(" with ");
 			log();
-			if (match(match_value, legacy).getValue()) {
+			if (match(match_value, legacy)) {
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				TtcnLogger.log_event_str(" unmatched");

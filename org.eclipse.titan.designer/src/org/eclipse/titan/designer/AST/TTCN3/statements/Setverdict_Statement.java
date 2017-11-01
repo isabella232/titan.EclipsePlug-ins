@@ -225,7 +225,7 @@ public final class Setverdict_Statement extends Statement {
 
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		expression.expression.append("TTCN_Runtime.setverdict(");
-		verdictValue.generateCodeExpression(aData, expression);
+		verdictValue.generateCodeExpression(aData, expression, false);
 		if (verdictReason != null) {
 			expression.expression.append(", ");
 			final ExpressionStruct reason = new ExpressionStruct();

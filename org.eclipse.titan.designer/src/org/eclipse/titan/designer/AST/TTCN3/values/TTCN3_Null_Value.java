@@ -159,13 +159,13 @@ public final class TTCN3_Null_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (lastValue == null || lastValue == this) {
 			//fatal error
 			expression.expression.append("//FATAL ERROR in TTCN3_Null_Value.generateCodeExpression\n");
 			return;
 		}
 
-		lastValue.generateCodeExpression(aData, expression);
+		lastValue.generateCodeExpression(aData, expression, true);
 	}
 }

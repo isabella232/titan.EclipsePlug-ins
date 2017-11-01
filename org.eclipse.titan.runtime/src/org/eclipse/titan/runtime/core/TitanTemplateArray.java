@@ -29,12 +29,12 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	//template parameters
 	private Class<Tvalue> classValue;
 	private Class<Ttemplate> classTemplate;
-	private int array_size;
+	protected int array_size;
 	private int indexOffset;
 
 	//single value
-	private ArrayList<Ttemplate> single_value;
-	private int singleSize;
+	protected ArrayList<Ttemplate> single_value;
+	protected int singleSize;
 
 	//value array
 	private ArrayList<TitanTemplateArray<Tvalue, Ttemplate>> value_list;
@@ -476,7 +476,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			has_any_or_none = false;
 			int count = single_value.size();
 			if (! isSize) { //lengthof()
-				while (count > 0 && !single_value.get(count-1).isBound().getValue()) {
+				while (count > 0 && !single_value.get(count-1).isBound()) {
 					count -=1;
 				}
 			}
@@ -524,18 +524,18 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	@Override
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
 		for (int i = 0; i < single_value.size(); ++i) {
-			if (! single_value.get(i).isValue().getValue()) {
-				return new TitanBoolean(false);
+			if (! single_value.get(i).isValue()) {
+				return false;
 			}
 		}
 
-		return new TitanBoolean(true);
+		return true;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -589,18 +589,18 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	@SuppressWarnings("unchecked")
-	private TitanBoolean match_function_specific(final Base_Type value, final int valueIndex, final Restricted_Length_Template template, final int templateIndex, final boolean legacy) {
+	private boolean match_function_specific(final Base_Type value, final int valueIndex, final Restricted_Length_Template template, final int templateIndex, final boolean legacy) {
 		if (valueIndex >= 0) {
 			return ((TitanTemplateArray<Tvalue, Ttemplate>)template).single_value.get(templateIndex)
 					.match(((TitanValueArray<Tvalue>) value).array_elements.get(valueIndex), legacy);
 		} else {
-			return new TitanBoolean(((TitanTemplateArray<Tvalue, Ttemplate>)template).single_value.get(templateIndex).is_any_or_omit());
+			return ((TitanTemplateArray<Tvalue, Ttemplate>)template).single_value.get(templateIndex).is_any_or_omit();
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanValueArray<?>) {
 			return match((TitanValueArray<Tvalue>) otherValue, legacy);
 		}
@@ -618,13 +618,13 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to value array", match_value));
 	}
 
-	public TitanBoolean match(final TitanValueArray<Tvalue> otherValue) {
+	public boolean match(final TitanValueArray<Tvalue> otherValue) {
 		return match(otherValue,false);
 	}
 
-	public TitanBoolean match(final TitanValueArray<Tvalue> otherValue, final boolean legacy) {
+	public boolean match(final TitanValueArray<Tvalue> otherValue, final boolean legacy) {
 		if (!match_length(array_size)) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
 		switch (templateSelection) {
@@ -634,67 +634,67 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				@Override
 				public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr,
 						final int template_index, final boolean legacy) {
-					return match_function_specific(value_ptr, value_index, template_ptr, template_index, legacy).getValue();
+					return match_function_specific(value_ptr, value_index, template_ptr, template_index, legacy);
 				}
 			};
-			return new TitanBoolean(match_permutation_array(otherValue, array_size, this, single_value.size(), obj, legacy));
+			return match_permutation_array(otherValue, array_size, this, single_value.size(), obj, legacy);
 		case OMIT_VALUE:
-			return new TitanBoolean(false);
+			return false;
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for (int i = 0; i < value_list.size(); i++) {
-				if (value_list.get(i).match(otherValue, legacy).getValue()) {
-					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+				if (value_list.get(i).match(otherValue, legacy)) {
+					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
-			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported array template.");
 		}
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(final boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return match_omit(legacy).not();
+		return !match_omit(legacy);
 	}
 
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(final boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
-			return new TitanBoolean(true);
+			return true;
 		}
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i=0; i<value_list.size(); i++) {
-					if (value_list.get(i).match_omit().getValue()) {
-						return new TitanBoolean(templateSelection==template_sel.VALUE_LIST);
+					if (value_list.get(i).match_omit()) {
+						return templateSelection==template_sel.VALUE_LIST;
 					}
 				}
 
-				return new TitanBoolean(templateSelection==template_sel.COMPLEMENTED_LIST);
+				return templateSelection==template_sel.COMPLEMENTED_LIST;
 			}
 			// else fall through
 		default:
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 
@@ -1115,7 +1115,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		match_value.log();
 		TtcnLogger.log_event_str(" with ");
 		log();
-		if (match(match_value).getValue()) {
+		if (match(match_value)) {
 			TtcnLogger.log_event_str(" matched");
 		} else {
 			TtcnLogger.log_event_str(" unmatched");

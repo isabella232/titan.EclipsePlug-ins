@@ -659,6 +659,19 @@ public final class Referenced_Value extends Value {
 		return reference.hasSingleExpression();
 	}
 
+	//FIXME comment
+	public boolean returnsNative() {
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (last != null && last != this) {
+			return last.returnsNative();
+		}
+
+		return false;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public boolean needsShortCircuit() {
@@ -731,7 +744,7 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		//TODO check and handle conversion needs
 		//TODO actually generate_code_const_ref
 		reference.generateConstRef(aData, expression);
@@ -739,8 +752,8 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression) {
-		generateCodeExpression(aData, expression);
+	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
+		generateCodeExpression(aData, expression, true);
 
 		generateCodeExpressionOptionalFieldReference(aData, expression, reference);
 	}

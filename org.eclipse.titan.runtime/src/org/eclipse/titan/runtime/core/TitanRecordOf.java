@@ -38,17 +38,17 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
 	@Override
-	public TitanBoolean isBound() {
-		return new TitanBoolean(valueElements != null);
+	public boolean isBound() {
+		return valueElements != null;
 	}
 
 	public void mustBound( final String aErrorMessage ) {
-		if ( !isBound().getValue() ) {
+		if ( !isBound() ) {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
@@ -83,7 +83,7 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if ( !isSameType( otherValue ) ) {
 			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to record of {1}", otherValue, getOfTypeName() ));
 		}
@@ -93,24 +93,24 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanRecordOf otherValue ) {
+	public boolean operatorEquals( final TitanRecordOf otherValue ) {
 		mustBound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
 		otherValue.mustBound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");
 
 		final int size = valueElements.size(); 
 		if ( size != otherValue.valueElements.size() ) {
-			return new TitanBoolean( false );
+			return false;
 		}
 
 		for ( int i = 0; i < size; i++ ) {
 			final Base_Type leftElem = valueElements.get( i );
 			final Base_Type rightElem = otherValue.valueElements.get( i );
-			if ( leftElem.operatorEquals( rightElem ).not().getValue() ) {
-				return new TitanBoolean( false );
+			if ( !leftElem.operatorEquals( rightElem ) ) {
+				return false;
 			}
 		}
 
-		return new TitanBoolean( true );
+		return true;
 	}
 
 	@Override
@@ -173,7 +173,7 @@ public class TitanRecordOf extends Base_Type {
 
 	//originally get_at(int) const
 	public Base_Type constGetAt( final int index_value ) {
-		if ( !isBound().getValue() ) {
+		if ( !isBound() ) {
 			throw new TtcnError( MessageFormat.format("Accessing an element in an unbound value of type record of {0}.", getOfTypeName()));
 		}
 		if (index_value < 0) {

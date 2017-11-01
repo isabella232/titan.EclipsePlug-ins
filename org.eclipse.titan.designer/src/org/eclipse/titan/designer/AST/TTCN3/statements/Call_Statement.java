@@ -542,7 +542,7 @@ public final class Call_Statement extends Statement {
 		parameter.generateCode(aData, expression, TemplateRestriction.Restriction_type.TR_NONE);
 		if(toClause != null) {
 			expression.expression.append(", ");
-			toClause.generateCodeExpression(aData, expression);
+			toClause.generateCodeExpression(aData, expression, true);
 		}
 		expression.expression.append(')');
 		expression.mergeExpression(source);
@@ -553,7 +553,7 @@ public final class Call_Statement extends Statement {
 				source.append("TitanTimer call_timer = new TitanTimer(null);\n");
 				expression = new ExpressionStruct();
 				expression.expression.append("call_timer.start(");
-				timerValue.generateCodeExpression(aData, expression);
+				timerValue.generateCodeExpression(aData, expression, true);
 				expression.expression.append(')');
 				expression.mergeExpression(source);
 			}

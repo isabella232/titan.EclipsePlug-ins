@@ -413,9 +413,9 @@ public final class Xor4bExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		value1.generateCodeExpressionMandatory(aData, expression);
+		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".xor4b( ");
-		value2.generateCodeExpressionMandatory(aData, expression);
+		value2.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(" )");
 	}
 }

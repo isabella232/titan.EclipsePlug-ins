@@ -171,12 +171,12 @@ public class TitanHexString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(nibbles_ptr != null);
+	public boolean isBound() {
+		return nibbles_ptr != null;
 	}
 
-	public TitanBoolean isValue() {
-		return new TitanBoolean(nibbles_ptr != null);
+	public boolean isValue() {
+		return nibbles_ptr != null;
 	}
 
 	public void mustBound(final String aErrorMessage) {
@@ -193,27 +193,27 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally operator==
-	public TitanBoolean operatorEquals(final TitanHexString otherValue) {
+	public boolean operatorEquals(final TitanHexString otherValue) {
 		mustBound("Unbound left operand of hexstring comparison.");
 		otherValue.mustBound("Unbound right operand of hexstring comparison.");
 
-		return new TitanBoolean(nibbles_ptr.equals(otherValue.nibbles_ptr));
+		return nibbles_ptr.equals(otherValue.nibbles_ptr);
 	}
 
 	// originally operator==
-	public TitanBoolean operatorEquals(final TitanHexString_Element otherValue) {
+	public boolean operatorEquals(final TitanHexString_Element otherValue) {
 		mustBound("Unbound left operand of hexstring comparison.");
 		otherValue.mustBound("Unbound right operand of hexstring element comparison.");
 
 		if (nibbles_ptr.size() != 1) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return new TitanBoolean(get_nibble(0) == otherValue.get_nibble());
+		return get_nibble(0) == otherValue.get_nibble();
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanHexString) {
 			return operatorEquals((TitanHexString) otherValue);
 		}
@@ -222,13 +222,13 @@ public class TitanHexString extends Base_Type {
 	}
 
 	// originally operator!=
-	public TitanBoolean operatorNotEquals(final TitanHexString aOtherValue) {
-		return operatorEquals(aOtherValue).not();
+	public boolean operatorNotEquals(final TitanHexString aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	// originally operator!=
-	public TitanBoolean operatorNotEquals(final TitanHexString_Element otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final TitanHexString_Element otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	public void cleanUp() {
@@ -319,7 +319,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 

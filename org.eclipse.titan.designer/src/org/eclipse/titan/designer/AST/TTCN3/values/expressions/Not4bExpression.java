@@ -319,7 +319,7 @@ public final class Not4bExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		value.generateCodeExpressionMandatory(aData, expression);
+		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".not4b()");
 	}
 }

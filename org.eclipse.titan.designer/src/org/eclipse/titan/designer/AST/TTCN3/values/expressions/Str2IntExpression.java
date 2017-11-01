@@ -271,7 +271,7 @@ public final class Str2IntExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.str2int(");
-		value.generateCodeExpressionMandatory(aData, expression);
+		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(')');
 	}
 }

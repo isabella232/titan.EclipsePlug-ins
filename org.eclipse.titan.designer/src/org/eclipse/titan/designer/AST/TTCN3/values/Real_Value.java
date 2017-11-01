@@ -270,13 +270,18 @@ public final class Real_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport( "Ttcn3Float" );
 
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("new TitanFloat( new Ttcn3Float( {0} ) )", createJavaStringRepresentation()));
+		result.append(MessageFormat.format("new Ttcn3Float( {0} )", createJavaStringRepresentation()));
 
 		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
 	}
 
 	/**

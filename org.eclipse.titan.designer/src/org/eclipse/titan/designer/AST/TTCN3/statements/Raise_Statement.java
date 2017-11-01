@@ -323,7 +323,7 @@ public final class Raise_Statement extends Statement {
 			// the exception is a value: optimization is possible
 			final IValue value = ((SpecificValue_Template) templateBody).getSpecificValue();
 			//FIXME implement the case where cast is needed (if really needed)
-			value.generateCodeExpressionMandatory(aData, expression);
+			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
 			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
@@ -331,7 +331,7 @@ public final class Raise_Statement extends Statement {
 		expression.expression.append(')');
 		if (toClause != null) {
 			expression.expression.append(", ");
-			toClause.generateCodeExpression(aData, expression);
+			toClause.generateCodeExpression(aData, expression, true);
 		}
 		expression.expression.append(" )");
 

@@ -89,7 +89,7 @@ public class TitanDefault extends Base_Type {
 	}
 
 	//originally operator== with component parameter
-	public TitanBoolean operatorEquals(final int otherValue) {
+	public boolean operatorEquals(final int otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("The left operand of comparison is an unbound default reference.");
 		}
@@ -97,20 +97,20 @@ public class TitanDefault extends Base_Type {
 			throw new TtcnError("Comparison of an invalid default value.");
 		}
 
-		return new TitanBoolean(default_ptr == null);
+		return default_ptr == null;
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals(final Default_Base otherValue) {
+	public boolean operatorEquals(final Default_Base otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
 		}
 
-		return new TitanBoolean(default_ptr == otherValue);
+		return default_ptr == otherValue;
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals(final TitanDefault otherValue) {
+	public boolean operatorEquals(final TitanDefault otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
 		}
@@ -118,11 +118,11 @@ public class TitanDefault extends Base_Type {
 			throw new TtcnError( "The right operand of comparison is an unbound default reference." );
 		}
 
-		return new TitanBoolean(default_ptr == otherValue.default_ptr);
+		return default_ptr == otherValue.default_ptr;
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanDefault) {
 			return operatorEquals((TitanDefault)otherValue);
 		}
@@ -132,18 +132,18 @@ public class TitanDefault extends Base_Type {
 	}
 
 	//originally operator!= with component parameter
-	public TitanBoolean operatorNotEquals(final int otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final int otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	//originally operator!=
-	public TitanBoolean operatorNotEquals(final Default_Base otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final Default_Base otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	//originally operator!=
-	public TitanBoolean operatorNotEquals(final TitanDefault otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final TitanDefault otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	//originally operator Default_Base*
@@ -156,18 +156,18 @@ public class TitanDefault extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
 	@Override
-	public TitanBoolean isBound() {
-		return new TitanBoolean(default_ptr != UNBOUND_DEFAULT);
+	public boolean isBound() {
+		return default_ptr != UNBOUND_DEFAULT;
 	}
 
 	@Override
-	public TitanBoolean isValue() {
-		return new TitanBoolean(default_ptr != UNBOUND_DEFAULT);
+	public boolean isValue() {
+		return default_ptr != UNBOUND_DEFAULT;
 	}
 
 	public void cleanUp() {
@@ -179,7 +179,7 @@ public class TitanDefault extends Base_Type {
 	}
 
 	//originally static operator== with component parameter
-	public static TitanBoolean operatorEquals(final int defaultValue, final TitanDefault otherValue) {
+	public static boolean operatorEquals(final int defaultValue, final TitanDefault otherValue) {
 		if (defaultValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an invalid default reference.");
 		}
@@ -187,25 +187,25 @@ public class TitanDefault extends Base_Type {
 			throw new TtcnError("The right operand of comparison is an unbound default reference.");
 		}
 
-		return new TitanBoolean(otherValue.default_ptr == null);
+		return otherValue.default_ptr == null;
 	}
 
 	//originally static operator== with component parameter
-	public static TitanBoolean operatorEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
+	public static boolean operatorEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
 		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
 			throw new TtcnError("The right operand of comparison is an unbound default reference.");
 		}
 
-		return new TitanBoolean(defaultValue == otherValue.default_ptr);
+		return defaultValue == otherValue.default_ptr;
 	}
 
 	//originally static operator!= with component parameter
-	public static TitanBoolean operatorNotEquals(final int defaultValue, final TitanDefault otherValue) {
-		return operatorEquals(defaultValue, otherValue).not();
+	public static boolean operatorNotEquals(final int defaultValue, final TitanDefault otherValue) {
+		return !operatorEquals(defaultValue, otherValue);
 	}
 
 	//originally static operator!= with component parameter
-	public static TitanBoolean operatorNotEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
-		return operatorEquals(defaultValue, otherValue).not();
+	public static boolean operatorNotEquals(final Default_Base defaultValue, final TitanDefault otherValue) {
+		return !operatorEquals(defaultValue, otherValue);
 	}
 }

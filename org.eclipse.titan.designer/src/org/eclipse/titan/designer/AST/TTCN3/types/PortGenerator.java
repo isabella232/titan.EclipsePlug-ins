@@ -477,7 +477,7 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", getName()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound().getValue()) {\n");
+		source.append("if (!destination_component.isBound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of send operation.\");\n");
 		source.append("}\n");
 		source.append("final TtcnLogger.Severity log_severity = destination_component.getComponent() == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.PORTEVENT_MMSEND : TtcnLogger.Severity.PORTEVENT_MCSEND;\n");
@@ -487,7 +487,7 @@ public class PortGenerator {
 		source.append("send_par.log();\n");
 		source.append("TtcnLogger.log_msgport_send(getName(), destination_component.getComponent(), TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
-		source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+		source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", getName()));\n");
 		} else {
@@ -585,12 +585,12 @@ public class PortGenerator {
 			source.append("} else if (my_head.sender_address == null) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Receive operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(my_head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(my_head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -651,13 +651,13 @@ public class PortGenerator {
 			source.append("} else if (my_head.sender_address == null) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Trigger operation on port {0} requires the address of the sender, which was not given by the test port.\", getName()));\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(my_head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(my_head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
@@ -712,7 +712,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
+		source.append("} else if (!sender_template.match(my_head.sender_component, false)) {\n");
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));
@@ -721,7 +721,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
 		source.append("//FIXME report error \n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(value_template.match(({0}) my_head.message))) '{'\n", typeValueName));
+		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
 		source.append("//FIXME implement\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
@@ -768,7 +768,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
-		source.append("} else if (!TitanBoolean.getNative(sender_template.match(my_head.sender_component, false))) {\n");
+		source.append("} else if (!sender_template.match(my_head.sender_component, false)) {\n");
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
@@ -780,7 +780,7 @@ public class PortGenerator {
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(value_template.match(({0}) my_head.message))) '{'\n", typeValueName));
+		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
 		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
@@ -855,13 +855,13 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, which is not started.\", getName()));\n");
 		source.append("}\n");
-		source.append("if (!destination_component.isBound().getValue()) {\n");
+		source.append("if (!destination_component.isBound()) {\n");
 		source.append("throw new TtcnError(\"Unbound component reference in the to clause of call operation.\");\n");
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
 		source.append("//FIXME add logging\n");
-		source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+		source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
 			source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot send call to system.\", getName()));\n");
 		} else if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -905,13 +905,13 @@ public class PortGenerator {
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, which is not started.\", getName()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound().getValue()) {\n");
+			source.append("if (!destination_component.isBound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of reply operation.\");\n");
 			source.append("}\n\n");
 
 			source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
 			source.append("//FIXME add logging\n");
-			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot reply to system.\", getName()));\n");
 			} else if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -955,12 +955,12 @@ public class PortGenerator {
 			source.append("if (!is_started) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, which is not started.\", getName()));\n");
 			source.append("}\n");
-			source.append("if (!destination_component.isBound().getValue()) {\n");
+			source.append("if (!destination_component.isBound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
 			source.append("}\n\n");
 
 			source.append("//FIXME add logging\n");
-			source.append("if (TitanBoolean.getNative(destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF))) {\n");
+			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
 				source.append("throw new TtcnError(MessageFormat.format(\"Internal port {0} cannot raise an exception to system.\", getName()));\n");
 			} else if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -1020,12 +1020,12 @@ public class PortGenerator {
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
@@ -1089,12 +1089,12 @@ public class PortGenerator {
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1102,7 +1102,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getcall_template.match_call(head.call_{0}, true))) '{'\n", index));
+		source.append(MessageFormat.format("'}' else if (!getcall_template.match_call(head.call_{0}, true)) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
@@ -1152,12 +1152,12 @@ public class PortGenerator {
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
@@ -1228,12 +1228,12 @@ public class PortGenerator {
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1241,7 +1241,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.REPLY_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(getreply_template.match_reply(head.reply_{0}, true))) '{'\n", index));
+		source.append(MessageFormat.format("'}' else if (!getreply_template.match_reply(head.reply_{0}, true)) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
@@ -1291,12 +1291,12 @@ public class PortGenerator {
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
@@ -1367,12 +1367,12 @@ public class PortGenerator {
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
-			source.append("} else if (!TitanBoolean.getNative(sender_template.match(head.sender_address, false))) {\n");
+			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
-			source.append("if (!TitanBoolean.getNative(sender_template.match(head.sender_component, false))) {\n");
+			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
 			source.append("//FIXME logging\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1380,7 +1380,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!TitanBoolean.getNative(catch_template.match(head.exception_{0}, true))) '{'\n", index));
+		source.append(MessageFormat.format("'}' else if (!catch_template.match(head.exception_{0}, true)) '{'\n", index));
 		source.append("//FIXME logging\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");

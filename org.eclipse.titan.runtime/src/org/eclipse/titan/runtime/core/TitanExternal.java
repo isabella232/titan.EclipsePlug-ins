@@ -40,22 +40,22 @@ public class TitanExternal extends Base_Type {
 	}
 
 	public TitanExternal assign( final TitanExternal aOtherValue ) {
-		if ( !aOtherValue.isBound().getValue() ) {
+		if ( !aOtherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL" );
 		}
 
 		if (aOtherValue != this) {
-			if ( aOtherValue.getIdentification().isBound().getValue() ) {
+			if ( aOtherValue.getIdentification().isBound() ) {
 				this.identification.assign( aOtherValue.getIdentification() );
 			} else {
 				this.identification.cleanUp();
 			}
-			if ( aOtherValue.getData__value__descriptor().isBound().getValue() ) {
+			if ( aOtherValue.getData__value__descriptor().isBound() ) {
 				this.data__value__descriptor.assign( aOtherValue.getData__value__descriptor() );
 			} else {
 				this.data__value__descriptor.cleanUp();
 			}
-			if ( aOtherValue.getData__value().isBound().getValue() ) {
+			if ( aOtherValue.getData__value().isBound() ) {
 				this.data__value.assign( aOtherValue.getData__value() );
 			} else {
 				this.data__value.cleanUp();
@@ -80,33 +80,33 @@ public class TitanExternal extends Base_Type {
 		data__value.cleanUp();
 	}
 
-	public TitanBoolean isBound() {
-		if ( identification.isBound().getValue() ) return new TitanBoolean(true);
-		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound().getValue() ) return new TitanBoolean(true);
-		if ( data__value.isBound().getValue() ) return new TitanBoolean(true);
-		return new TitanBoolean(false);
+	public boolean isBound() {
+		if ( identification.isBound() ) return true;
+		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound() ) return true;
+		if ( data__value.isBound() ) return true;
+		return false;
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
-	public TitanBoolean isValue() {
-		if ( !identification.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue().getValue() ) return new TitanBoolean(false);
-		if ( !data__value.isValue().getValue() ) return new TitanBoolean(false);
-		return new TitanBoolean(true);
+	public boolean isValue() {
+		if ( !identification.isValue() ) return false;
+		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue() ) return false;
+		if ( !data__value.isValue() ) return false;
+		return true;
 	}
 
-	public TitanBoolean operatorEquals( final TitanExternal aOtherValue ) {
-		if ( !TitanBoolean.getNative( this.identification.operatorEquals( aOtherValue.identification )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor )) ) return new TitanBoolean(false);
-		if ( !TitanBoolean.getNative( this.data__value.operatorEquals( aOtherValue.data__value )) ) return new TitanBoolean(false);
-		return new TitanBoolean(true);
+	public boolean operatorEquals( final TitanExternal aOtherValue ) {
+		if ( !this.identification.operatorEquals( aOtherValue.identification ) ) return false;
+		if ( !this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor ) ) return false;
+		if ( ! this.data__value.operatorEquals( aOtherValue.data__value ) ) return false;
+		return true;
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanExternal ) {
 			return operatorEquals((TitanExternal) otherValue);
 		}
@@ -139,7 +139,7 @@ public class TitanExternal extends Base_Type {
 
 	public TitanInteger sizeOf() {
 		int sizeof = 0;
-		if (data__value__descriptor.isPresent().getValue()) {
+		if (data__value__descriptor.isPresent()) {
 			sizeof++;
 		}
 		sizeof += 2;
@@ -147,7 +147,7 @@ public class TitanExternal extends Base_Type {
 	}
 
 	public void log() {
-		if (!isBound().getValue()) {
+		if (!isBound()) {
 			TtcnLogger.log_event_unbound();
 			return;
 		}

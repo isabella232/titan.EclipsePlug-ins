@@ -67,16 +67,16 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	// originally operator==
-	public TitanBoolean operatorEquals(final Asn_Null_Type otherValue) {
+	public boolean operatorEquals(final Asn_Null_Type otherValue) {
 		if (!boundFlag) {
 			throw new TtcnError("The left operand of comparison is an unbound ASN.1 NULL value.");
 		}
 
-		return new TitanBoolean(true);
+		return true;
 	}
 
 	// originally operator==
-	public TitanBoolean operatorEquals(final TitanAsn_Null otherValue) {
+	public boolean operatorEquals(final TitanAsn_Null otherValue) {
 		if (!boundFlag) {
 			throw new TtcnError("The left operand of comparison is an unbound ASN.1 NULL value.");
 		}
@@ -84,11 +84,11 @@ public class TitanAsn_Null extends Base_Type {
 			throw new TtcnError("The right operand of comparison is an unbound ASN.1 NULL value.");
 		}
 
-		return new TitanBoolean(true);
+		return true;
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanAsn_Null) {
 			return operatorEquals((TitanAsn_Null) otherValue);
 		}
@@ -97,25 +97,25 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	// originally operator!=
-	public TitanBoolean operatorNotEquals(final Asn_Null_Type otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final Asn_Null_Type otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	// originally operator!=
-	public TitanBoolean operatorNotEquals(final TitanAsn_Null otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final TitanAsn_Null otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(boundFlag);
+	public boolean isBound() {
+		return boundFlag;
 	}
 
-	public TitanBoolean isPresent() {
-		return new TitanBoolean(boundFlag);
+	public boolean isPresent() {
+		return boundFlag;
 	}
 
-	public TitanBoolean isValue() {
-		return new TitanBoolean(boundFlag);
+	public boolean isValue() {
+		return boundFlag;
 	}
 
 	public void log() {
@@ -127,16 +127,16 @@ public class TitanAsn_Null extends Base_Type {
 	}
 
 	// static operator==
-	public static TitanBoolean operatorEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
-		if (!otherValue.isBound().getValue()) {
+	public static boolean operatorEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
+		if (!otherValue.isBound()) {
 			throw new TtcnError("The right operand of comparison is an unbound ASN.1 NULL value.");
 		}
 	
-		return new TitanBoolean(true);
+		return true;
 	}
 
 	// static operator!=
-	public static TitanBoolean operatorNotEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
-		return operatorEquals(parValue, otherValue).not();
+	public static boolean operatorNotEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
+		return !operatorEquals(parValue, otherValue);
 	}
 }

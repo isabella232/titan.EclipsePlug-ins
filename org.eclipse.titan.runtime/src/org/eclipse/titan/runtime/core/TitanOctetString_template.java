@@ -206,7 +206,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	@Override
-	public TitanBoolean match(final Base_Type otherValue, final boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanOctetString) {
 			return match((TitanOctetString) otherValue, legacy);
 		}
@@ -225,37 +225,37 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanOctetString otherValue) {
+	public boolean match(final TitanOctetString otherValue) {
 		return match(otherValue, false);
 	}
 
 	// originally match
-	public TitanBoolean match(final TitanOctetString otherValue, final boolean legacy) {
-		if(! otherValue.isBound().getValue()) {
-			return new TitanBoolean(false);
+	public boolean match(final TitanOctetString otherValue, final boolean legacy) {
+		if(! otherValue.isBound()) {
+			return false;
 		}
 
 		final TitanInteger value_length = otherValue.lengthOf();
 		if(!match_length(value_length.getInt())) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals( otherValue );
 		case OMIT_VALUE:
-			return new TitanBoolean(false);
+			return false;
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy).getValue()) {
-					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+				if(value_list.get(i).match(otherValue, legacy)) {
+					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
-			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		case STRING_PATTERN:{
 			//TODO: implement
 		}
@@ -420,17 +420,17 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	// originally is_present (with default parameter)
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
 	// originally is_present
-	public TitanBoolean isPresent(final boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return match_omit(legacy).not();
+		return !match_omit(legacy);
 	}
 
 	public void log() {
@@ -476,7 +476,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		match_value.log();
 		TtcnLogger.log_event_str(" with ");
 		log();
-		if (match(match_value).getValue()) {
+		if (match(match_value)) {
 			TtcnLogger.log_event_str(" matched");
 		} else {
 			TtcnLogger.log_event_str(" unmatched");
@@ -484,33 +484,33 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	// originally match_omit (with default parameter)
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 
-	public TitanBoolean match_omit(final boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
-			return new TitanBoolean(true);
+			return true;
 		}
 
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).match_omit().getValue()) {
-						return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+					if (value_list.get(i).match_omit()) {
+						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
-				return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
-			return new TitanBoolean(false);
+			return false;
 		default:
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 

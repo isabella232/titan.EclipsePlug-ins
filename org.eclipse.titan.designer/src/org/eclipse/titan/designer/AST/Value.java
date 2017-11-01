@@ -467,6 +467,15 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
+	 * Returns whether the generated Java expression will return a native value or a Titan object.
+	 *
+	 * @return true if the expression returns a native value when generated.
+	 * */
+	public boolean returnsNative() {
+		return false;
+	}
+
+	/**
 	 * Generates a Java code sequence, which initializes the Java
 	 *  object named  name with the contents of the value. The code
 	 *  sequence is appended to argument source and the resulting
@@ -520,12 +529,20 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression to generate source code into
-	 * 
-	 * TODO check in compiler where this function is called if it should actually be the mandatory version.
+	 * @param forceObject force the code generator to generate object.
 	 * */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (canGenerateSingleExpression()) {
-			expression.expression.append(generateSingleExpression(aData));
+			if (returnsNative() && forceObject) {
+				final IType gov = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+
+				expression.expression.append(MessageFormat.format("new {0}(", gov.getGenNameValue(aData, new StringBuilder(), myScope)));
+				expression.expression.append(generateSingleExpression(aData));
+				expression.expression.append(")");
+			} else {
+				expression.expression.append(generateSingleExpression(aData));
+			}
+
 			return;
 		}
 
@@ -543,9 +560,10 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression to generate source code into
+	 * @param forceObject force the code generator to generate object.
 	 * */
-	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression) {
-		generateCodeExpression(aData, expression);
+	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
+		generateCodeExpression(aData, expression, forceObject);
 	}
 
 	/**
@@ -608,7 +626,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		generateCodeExpressionMandatory(aData, expression);
+		generateCodeExpressionMandatory(aData, expression, true);
 
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			String typeName;
@@ -626,7 +644,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 				init.append(expression.preamble);
 			}
 
-			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype())) {
+			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype()) && !returnsNative()) {
 				init.append(MessageFormat.format("{0} = TitanBoolean.getNative({1});\n", tempId, expression.expression));
 			} else {
 				init.append(MessageFormat.format("{0} = {1};\n", tempId, expression.expression));

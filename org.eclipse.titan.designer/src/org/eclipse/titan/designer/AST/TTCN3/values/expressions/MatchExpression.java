@@ -276,6 +276,13 @@ public final class MatchExpression extends Expression_Value {
 		return true;
 	}
 
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
@@ -307,7 +314,7 @@ public final class MatchExpression extends Expression_Value {
 		//TODO actually a bit more complicated
 		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		expression.expression.append( ".match( " );
-		value.generateCodeExpression(aData, expression);
+		value.generateCodeExpression(aData, expression, true);
 		if(aData.allowOmitInValueList()) {
 			expression.expression.append( ", true " );
 		}
@@ -318,7 +325,7 @@ public final class MatchExpression extends Expression_Value {
 		//FIXME handle the needs template ref case
 		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		expression.expression.append( ".log_match( " );
-		value.generateCodeExpression(aData, expression);
+		value.generateCodeExpression(aData, expression, true);
 		if(aData.allowOmitInValueList()) {
 			expression.expression.append( ", true " );
 		}

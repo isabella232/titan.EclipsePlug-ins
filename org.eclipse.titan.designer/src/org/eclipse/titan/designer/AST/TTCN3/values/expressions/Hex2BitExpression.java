@@ -319,7 +319,7 @@ public final class Hex2BitExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.hex2bit( ");
-		value.generateCodeExpressionMandatory(aData, expression);
+		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(" )");
 	}
 }

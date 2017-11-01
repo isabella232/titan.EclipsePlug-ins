@@ -315,8 +315,15 @@ public final class While_Statement extends Statement {
 			// do not generate the exit condition for infinite loops
 			if (!condition_always_true) {
 				final AtomicInteger blockCount = new AtomicInteger(0);
-				last.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
-				source.append(")) {\n");
+				if (last.returnsNative()) {
+					last.generateCodeTmp(aData, source, "if (!", blockCount);
+					source.append(") {\n");
+				} else {
+					aData.addBuiltinTypeImport( "TitanBoolean" );
+
+					last.generateCodeTmp(aData, source, "if (!TitanBoolean.getNative(", blockCount);
+					source.append(")) {\n");
+				}
 				source.append("break;\n");
 				source.append("}\n");
 				for(int i = 0 ; i < blockCount.get(); i++) {

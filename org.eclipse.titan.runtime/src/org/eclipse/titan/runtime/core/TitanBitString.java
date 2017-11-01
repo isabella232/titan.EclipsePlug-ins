@@ -193,16 +193,16 @@ public class TitanBitString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(bits_ptr != null);
+	public boolean isBound() {
+		return bits_ptr != null;
 	}
 
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		return isBound();
 	}
 
 	public void mustBound( final String aErrorMessage ) {
-		if ( !isBound().getValue() ) {
+		if ( !isBound() ) {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
@@ -215,27 +215,27 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanBitString otherValue ) {
+	public boolean operatorEquals( final TitanBitString otherValue ) {
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring comparison.");
 
-		return new TitanBoolean(n_bits == otherValue.n_bits && bits_ptr.equals( otherValue.bits_ptr ));
+		return n_bits == otherValue.n_bits && bits_ptr.equals( otherValue.bits_ptr );
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals(final TitanBitString_Element otherValue){
+	public boolean operatorEquals(final TitanBitString_Element otherValue){
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring element comparison.");
 
 		if(n_bits != 1){
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return new TitanBoolean(getBit(0) == otherValue.get_bit());
+		return getBit(0) == otherValue.get_bit();
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanBitString) {
 			return operatorEquals((TitanBitString)otherValue);
 		}
@@ -244,13 +244,13 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator!=
-	public TitanBoolean operatorNotEquals( final TitanBitString aOtherValue ) {
-		return operatorEquals( aOtherValue ).not();
+	public boolean operatorNotEquals( final TitanBitString aOtherValue ) {
+		return !operatorEquals( aOtherValue );
 	}
 
 	//originally operator !=
-	public TitanBoolean operatorNotEquals(final TitanBitString_Element aOtherValue){
-		return operatorEquals(aOtherValue).not();
+	public boolean operatorNotEquals(final TitanBitString_Element aOtherValue){
+		return !operatorEquals(aOtherValue);
 	}
 
 	public void cleanUp() {
@@ -681,7 +681,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 

@@ -317,9 +317,9 @@ public final class Macro_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (lastValue != null && lastValue != this) {
-			lastValue.generateCodeExpression(aData, expression);
+			lastValue.generateCodeExpression(aData, expression, true);
 			return;
 		}
 

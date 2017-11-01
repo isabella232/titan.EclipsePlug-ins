@@ -417,9 +417,9 @@ public final class Or4bExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		value1.generateCodeExpressionMandatory(aData, expression);
+		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".or4b( ");
-		value2.generateCodeExpressionMandatory(aData, expression);
+		value2.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(" )");
 	}
 }

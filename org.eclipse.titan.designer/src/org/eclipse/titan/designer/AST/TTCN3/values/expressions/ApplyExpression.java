@@ -330,7 +330,7 @@ public final class ApplyExpression extends Expression_Value {
 		}
 
 		//FIXME a bit more complicated
-		value.generateCodeExpressionMandatory(aData, expression);
+		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".invoke(");
 		if (actualParameters != null) {
 			actualParameters.generateCodeAlias(aData, expression);

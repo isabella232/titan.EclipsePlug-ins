@@ -95,7 +95,7 @@ public class TitanObjectid extends Base_Type {
 	}
 
 	// originally operator==
-	public TitanBoolean operatorEquals(final TitanObjectid otherValue) {
+	public boolean operatorEquals(final TitanObjectid otherValue) {
 		if (components_ptr == null) {
 			throw new TtcnError("The left operand of comparison is an unbound objid value.");
 		}
@@ -104,33 +104,33 @@ public class TitanObjectid extends Base_Type {
 		}
 
 		if (n_components != otherValue.n_components) {
-			return new TitanBoolean(false);
+			return false;
 		}
 		if (overflow_idx != otherValue.overflow_idx) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return new TitanBoolean(components_ptr.equals(otherValue.components_ptr));
+		return components_ptr.equals(otherValue.components_ptr);
 	}
 
 	// originally operator==
 	@Override
-	public TitanBoolean operatorEquals(Base_Type otherValue) {
+	public boolean operatorEquals(Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
 			return operatorEquals((TitanObjectid) otherValue);
 		} else {
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
-		return new TitanBoolean(components_ptr == null);
+	public boolean isPresent() {
+		return components_ptr == null;
 	}
 
 	@Override
-	public TitanBoolean isBound() {
-		return new TitanBoolean(components_ptr == null);
+	public boolean isBound() {
+		return components_ptr == null;
 	}
 
 	//originally operator[]

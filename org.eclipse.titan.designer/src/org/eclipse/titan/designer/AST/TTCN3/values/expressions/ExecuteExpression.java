@@ -283,7 +283,7 @@ public final class ExecuteExpression extends Expression_Value {
 
 		if (timerValue != null) {
 			expression.expression.append("true, ");
-			timerValue.generateCodeExpression(aData, expression);
+			timerValue.generateCodeExpression(aData, expression, true);
 			expression.expression.append(')');
 		} else {
 			expression.expression.append("false, new TitanFloat( new Ttcn3Float( 0.0 ) ))");

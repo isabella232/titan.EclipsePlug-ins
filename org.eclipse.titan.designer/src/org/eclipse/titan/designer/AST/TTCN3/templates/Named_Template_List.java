@@ -596,7 +596,7 @@ public final class Named_Template_List extends TTCN3Template {
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
 		if (asValue != null) {
-			asValue.generateCodeExpression(aData, expression);
+			asValue.generateCodeExpression(aData, expression, true);
 			return;
 		}
 

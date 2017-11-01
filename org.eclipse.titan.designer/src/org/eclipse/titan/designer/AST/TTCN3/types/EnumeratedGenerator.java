@@ -328,20 +328,20 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueIsPresent(final StringBuilder source) {
-		source.append("public TitanBoolean isPresent() {\n");
+		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsBound(final StringBuilder source){
-		source.append("public TitanBoolean isBound() {\n");
-		source.append("return new TitanBoolean(enum_value != enum_type.UNBOUND_VALUE);\n");
+		source.append("public boolean isBound() {\n");
+		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsValue(final StringBuilder source){
-		source.append("public TitanBoolean isValue() {\n");
-		source.append("return new TitanBoolean(enum_value != enum_type.UNBOUND_VALUE);\n");
+		source.append("public boolean isValue() {\n");
+		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
 
@@ -349,51 +349,51 @@ public class EnumeratedGenerator {
 	private static void generateValueOperatorEquals(final StringBuilder source,final String aName) {
 		//Arg type: own type
 		source.append("//originally operator==\n");
-		source.append(MessageFormat.format("public TitanBoolean operatorEquals(final {0} otherValue)'{'\n", aName));
-		source.append(MessageFormat.format("return (new TitanBoolean( enum_value == otherValue.enum_value));\n", aName)); 
+		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue)'{'\n", aName));
+		source.append(MessageFormat.format("return enum_value == otherValue.enum_value;\n", aName)); 
 		source.append("}\n\n");
 
 		//Arg: Base_Type
 		source.append("//originally operator==\n");
-		source.append("public TitanBoolean operatorEquals(final Base_Type otherValue){\n");
+		source.append("public boolean operatorEquals(final Base_Type otherValue){\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", aName));
-		source.append(MessageFormat.format("return this.operatorEquals( ({0}) otherValue);\n", aName)); 
+		source.append(MessageFormat.format("return operatorEquals( ({0}) otherValue);\n", aName)); 
 		source.append("} else {\n");
 		source.append("//TODO:TtcnError message\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("}\n\n");
 
 		//Arg: enum_type
 		source.append("//originally operator==\n");
-		source.append(MessageFormat.format("public TitanBoolean operatorEquals(final {0}.enum_type otherValue)'{'\n",aName));
-		source.append(MessageFormat.format("return (new TitanBoolean( enum_value == otherValue));\n", aName)); 
+		source.append(MessageFormat.format("public boolean operatorEquals(final {0}.enum_type otherValue)'{'\n",aName));
+		source.append(MessageFormat.format("return enum_value == otherValue;\n", aName)); 
 		source.append("}\n\n");
 	}
 
 	private static void generateValueOperatorNotEquals(final StringBuilder source,final String aName) {
 		//Arg type: own type
 		source.append("//originally operator!=\n");
-		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals(final {0} otherValue)'{'\n", aName));
-		source.append(MessageFormat.format("return operatorEquals(otherValue).not();\n", aName)); 
+		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0} otherValue)'{'\n", aName));
+		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName)); 
 		source.append("}\n\n");
 
 		//Arg: Base_Type
 		source.append("//originally operator!=\n");
-		source.append("public TitanBoolean operatorNotEquals(final Base_Type otherValue){\n");
-		source.append(MessageFormat.format("return operatorEquals(otherValue).not();\n", aName)); 
+		source.append("public boolean operatorNotEquals(final Base_Type otherValue){\n");
+		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName)); 
 		source.append("}\n\n");
 
 		//Arg: enum_type
 		source.append("//originally operator!=\n");
-		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals(final {0}.enum_type otherValue)'{'\n",aName));
-		source.append(MessageFormat.format("return operatorEquals(otherValue).not();\n", aName)); 
+		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0}.enum_type otherValue)'{'\n",aName));
+		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName)); 
 		source.append("}\n\n");
 	}
 
 	private static void generateMustBound(final StringBuilder source ) {
 		source.append("public void mustBound( String errorMessage) {\n");
-		source.append("if ( !isBound().getValue() ) {\n");
+		source.append("if ( !isBound() ) {\n");
 		source.append("throw new TtcnError( errorMessage );\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -716,20 +716,20 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateIsBound(final StringBuilder source) {
-		source.append("public TitanBoolean isBound() {\n");
+		source.append("public boolean isBound() {\n");
 		source.append("if (templateSelection != template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("}\n\n");	
 	}
 
 	private static void generateTemplateIsValue(final StringBuilder source, final String name) {
-		source.append("public TitanBoolean isValue() {\n");
+		source.append("public boolean isValue() {\n");
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
-		source.append(MessageFormat.format("return new TitanBoolean(single_value != {0}.enum_type.UNBOUND_VALUE);\n", name));
+		source.append(MessageFormat.format("return single_value != {0}.enum_type.UNBOUND_VALUE;\n", name));
 		source.append("}\n\n");
 	}
 
@@ -749,28 +749,28 @@ public class EnumeratedGenerator {
 	private static void generateTemplateMatch(final StringBuilder source, final String name) {
 		// name.enum_type
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0}.enum_type otherValue) '{'\n", name));
+		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue) '{'\n", name));
 		source.append("return match(otherValue, false);\n");
 		source.append("}\n\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0}.enum_type otherValue, boolean legacy ) '{'\n", name));
+		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue, boolean legacy ) '{'\n", name));
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append("return new TitanBoolean(single_value == otherValue);\n");
+		source.append("return single_value == otherValue;\n");
 		source.append("case OMIT_VALUE:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if(value_list.get(i).match(otherValue).getValue()) {\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("if(value_list.get(i).match(otherValue)) {\n");
+		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("default:\n");
 		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported template of enumerated type "+ name +".\");\n");
 		source.append("}\n");
@@ -778,17 +778,17 @@ public class EnumeratedGenerator {
 
 		// name type
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0} otherValue) '{'\n", name));
+		source.append(MessageFormat.format("public boolean match(final {0} otherValue) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0} otherValue, boolean legacy ) '{'\n", name));
+		source.append(MessageFormat.format("public boolean match(final {0} otherValue, boolean legacy ) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final Base_Type otherValue, final boolean legacy)'{'\n", name));
+		source.append(MessageFormat.format("public boolean match(final Base_Type otherValue, final boolean legacy)'{'\n", name));
 		source.append(MessageFormat.format("if( otherValue instanceof {0} ) '{'\n", name));
 		source.append(MessageFormat.format("return match(({0}) otherValue, legacy);\n", name));
 		source.append("}\n\n");
@@ -822,43 +822,43 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateIsPresent(final StringBuilder source) {
-		source.append("public TitanBoolean isPresent() {\n");
+		source.append("public boolean isPresent() {\n");
 		source.append("return isPresent(false);\n");
 		source.append("}\n\n");
 
-		source.append("public TitanBoolean isPresent(final boolean legacy) {\n");
+		source.append("public boolean isPresent(final boolean legacy) {\n");
 		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
-		source.append("return match_omit(legacy).not();\n");
+		source.append("return !match_omit(legacy);\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
-		source.append("public TitanBoolean match_omit() {\n");
+		source.append("public boolean match_omit() {\n");
 		source.append("return match_omit(false);\n");
 		source.append("}\n\n");
 
-		source.append("public TitanBoolean match_omit(final boolean legacy) {\n");
+		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("}\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("if (legacy) {\n");
 		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if (value_list.get(i).match_omit().getValue()) {\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("if (value_list.get(i).match_omit()) {\n");
+		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("}\n");
 		source.append("default:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("}\n\n");
 	}

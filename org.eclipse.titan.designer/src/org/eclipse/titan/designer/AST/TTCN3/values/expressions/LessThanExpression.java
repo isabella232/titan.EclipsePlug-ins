@@ -329,6 +329,12 @@ public final class LessThanExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (value1 != null) {
 			value1.reArrangeInitCode(aData, source, usageModule);
@@ -342,9 +348,9 @@ public final class LessThanExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
-		value1.generateCodeExpressionMandatory(aData, expression);
+		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append( ".isLessThan( " );
-		value2.generateCodeExpressionMandatory(aData, expression);
+		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append( " )" );
 	}
 }

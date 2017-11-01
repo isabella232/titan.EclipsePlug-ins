@@ -86,13 +86,13 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		return union_selection == checked_selection;
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(union_selection != union_selection_type.UNBOUND_VALUE);
+	public boolean isBound() {
+		return union_selection != union_selection_type.UNBOUND_VALUE;
 	}
 
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		switch(union_selection) {
-		case UNBOUND_VALUE: return new TitanBoolean(false);
+		case UNBOUND_VALUE: return false;
 		case ALT_Syntaxes:
 			return field.isValue();
 		case ALT_Syntax:
@@ -110,12 +110,12 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		}
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanEmbedded_PDV_identification otherValue ) {
+	public boolean operatorEquals( final TitanEmbedded_PDV_identification otherValue ) {
 		if (union_selection == union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError( "The left operand of comparison is an unbound value of union type EMBEDDED PDV.identification." );
 		}
@@ -123,7 +123,7 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 			throw new TtcnError( "The right operand of comparison is an unbound value of union type EMBEDDED PDV.identification." );
 		}
 		if (union_selection != otherValue.union_selection) {
-			return new TitanBoolean(false);
+			return false;
 		}
 		switch(union_selection) {
 		case ALT_Syntaxes:
@@ -139,11 +139,11 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 		case ALT_Fixed:
 			return ((TitanAsn_Null)field).operatorEquals((TitanAsn_Null)otherValue.field);
 		default:
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 	@Override
-	public TitanBoolean operatorEquals( final Base_Type otherValue ) {
+	public boolean operatorEquals( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanEmbedded_PDV_identification) {
 			return operatorEquals((TitanEmbedded_PDV_identification)otherValue);
 		}
@@ -151,8 +151,8 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	}
 
 	//originally operator!=
-	public TitanBoolean operatorNotEquals( final TitanEmbedded_PDV_identification otherValue ) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals( final TitanEmbedded_PDV_identification otherValue ) {
+		return !operatorEquals(otherValue);
 	}
 
 	public TitanEmbedded_PDV_identification_syntaxes getSyntaxes() {

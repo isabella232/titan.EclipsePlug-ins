@@ -63,18 +63,18 @@ public class TitanComponent extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
-		return new TitanBoolean(componentValue != UNBOUND_COMPREF);
+	public boolean isPresent() {
+		return componentValue != UNBOUND_COMPREF;
 	}
 
 	@Override
-	public TitanBoolean isBound() {
-		return new TitanBoolean(componentValue != UNBOUND_COMPREF);
+	public boolean isBound() {
+		return componentValue != UNBOUND_COMPREF;
 	}
 
 	@Override
-	public TitanBoolean isValue() {
-		return new TitanBoolean(componentValue != UNBOUND_COMPREF);
+	public boolean isValue() {
+		return componentValue != UNBOUND_COMPREF;
 	}
 
 	public void mustBound( final String aErrorMessage ) {
@@ -101,7 +101,7 @@ public class TitanComponent extends Base_Type {
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals(final int otherValue) {
+	public boolean operatorEquals(final int otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an unbound component reference.");
 		}
@@ -109,11 +109,11 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("The right operand of comparison is an unbound component reference.");
 		}
 
-		return new TitanBoolean(componentValue == otherValue);
+		return componentValue == otherValue;
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals(final TitanComponent otherValue) {
+	public boolean operatorEquals(final TitanComponent otherValue) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("The left operand of comparison is an unbound component reference.");
 		}
@@ -121,11 +121,11 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("The right operand of comparison is an unbound component reference.");
 		}
 
-		return new TitanBoolean(componentValue == otherValue.componentValue);
+		return componentValue == otherValue.componentValue;
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {
 			return operatorEquals((TitanComponent)otherValue);
 		}

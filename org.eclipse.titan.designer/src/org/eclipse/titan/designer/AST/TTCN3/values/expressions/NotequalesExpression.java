@@ -260,6 +260,12 @@ public final class NotequalesExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (value1 != null) {
 			value1.reArrangeInitCode(aData, source, usageModule);
@@ -298,20 +304,23 @@ public final class NotequalesExpression extends Expression_Value {
 		}
 
 		if (isOptional1) {
-			value1.generateCodeExpression(aData, expression);
+			expression.expression.append( "!(" );
+			value1.generateCodeExpression(aData, expression, true);
 			expression.expression.append( ".operatorEquals( " );
-			value2.generateCodeExpression(aData, expression);
-			expression.expression.append( " ).not()" );
+			value2.generateCodeExpression(aData, expression, true);
+			expression.expression.append( " ))" );
 		} else if (isOptional2) {
-			value2.generateCodeExpression(aData, expression);
+			expression.expression.append( "!(" );
+			value2.generateCodeExpression(aData, expression, true);
 			expression.expression.append( ".operatorEquals( " );
-			value1.generateCodeExpression(aData, expression);
-			expression.expression.append( " ).not()" );
+			value1.generateCodeExpression(aData, expression, true);
+			expression.expression.append( " ))" );
 		} else {
-			value1.generateCodeExpressionMandatory(aData, expression);
+			expression.expression.append( "!(" );
+			value1.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append( ".operatorEquals( " );
-			value2.generateCodeExpressionMandatory(aData, expression);
-			expression.expression.append( " ).not()" );
+			value2.generateCodeExpressionMandatory(aData, expression, false);
+			expression.expression.append( " ))" );
 		}
 	}
 }

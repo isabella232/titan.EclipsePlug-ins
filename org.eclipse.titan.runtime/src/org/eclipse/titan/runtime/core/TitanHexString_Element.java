@@ -20,12 +20,12 @@ public class TitanHexString_Element {
 		nibble_pos = par_nibble_pos;
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(bound_flag);
+	public boolean isBound() {
+		return bound_flag;
 	}
 
-	public TitanBoolean isValue() {
-		return new TitanBoolean(bound_flag);
+	public boolean isValue() {
+		return bound_flag;
 	}
 
 	public void mustBound( final String aErrorMessage ) {

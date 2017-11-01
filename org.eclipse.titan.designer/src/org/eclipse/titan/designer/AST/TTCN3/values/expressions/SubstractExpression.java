@@ -369,9 +369,9 @@ public final class SubstractExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
-		value1.generateCodeExpressionMandatory(aData, expression);
+		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append( ".sub( " );
-		value2.generateCodeExpressionMandatory(aData, expression);
+		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append( " )" );
 	}
 }

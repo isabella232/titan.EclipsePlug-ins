@@ -214,7 +214,7 @@ public final class TTCN_Runtime {
 	//originally map_port
 	public static void mapPort(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
 		//FIXME implement
-		if (!sourceComponentRef.isBound().getValue()) {
+		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
 		}
 
@@ -223,7 +223,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("The first argument of map operation contains the null component reference.");
 		}
 
-		if (!destinationComponentRef.isBound().getValue()) {
+		if (!destinationComponentRef.isBound()) {
 			throw new TtcnError("The second argument of map operation contains an unbound component reference.");
 		}
 
@@ -257,7 +257,7 @@ public final class TTCN_Runtime {
 	//originally unmap_port
 	public static void unmapPort(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
 		//FIXME implement
-		if (!sourceComponentRef.isBound().getValue()) {
+		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
 		}
 
@@ -266,7 +266,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("The first argument of unmap operation contains the null component reference.");
 		}
 
-		if (!destinationComponentRef.isBound().getValue()) {
+		if (!destinationComponentRef.isBound()) {
 			throw new TtcnError("The second argument of unmap operation contains an unbound component reference.");
 		}
 
@@ -381,7 +381,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static void setverdict(final TitanVerdictType newValue, final String reason) {
-		if (!newValue.isBound().getValue()) {
+		if (!newValue.isBound()) {
 			throw new TtcnError("The argument of setverdict operation is an unbound verdict value.");
 		}
 

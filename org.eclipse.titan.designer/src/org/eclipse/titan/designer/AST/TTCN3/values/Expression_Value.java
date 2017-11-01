@@ -329,7 +329,11 @@ public abstract class Expression_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData ) {
 		final ExpressionStruct expression = new ExpressionStruct();
-		generateCodeExpressionExpression(aData, expression);
+		if (lastValue != null && lastValue != this) {
+			lastValue.generateCodeExpression(aData, expression, true);
+		} else {
+			generateCodeExpressionExpression(aData, expression);
+		}
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			//fatal error
 		}
@@ -339,12 +343,22 @@ public abstract class Expression_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		if (lastValue != null && lastValue != this) {
+			return lastValue.returnsNative();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);
 		expression.expression.append(".assign(");
 
-		generateCodeExpression(aData, expression);
+		generateCodeExpression(aData, expression, false);
 
 		expression.expression.append(')');
 		expression.mergeExpression(source);
@@ -354,9 +368,9 @@ public abstract class Expression_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (lastValue != null && lastValue != this) {
-			lastValue.generateCodeExpression(aData, expression);
+			lastValue.generateCodeExpression(aData, expression, forceObject);
 			return;
 		}
 

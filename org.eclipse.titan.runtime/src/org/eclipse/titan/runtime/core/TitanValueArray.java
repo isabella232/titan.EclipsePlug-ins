@@ -76,19 +76,19 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 
 	@Override
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
 	@Override
-	public TitanBoolean isBound() {
+	public boolean isBound() {
 		for (int i = 0; i < array_size; ++i) {
-			if (array_elements.get(i).isBound().getValue()) {
-				return new TitanBoolean(true);
+			if (array_elements.get(i).isBound()) {
+				return true;
 			}
 		}
 		
-		return new TitanBoolean(false);
+		return false;
 	}
 
 	//FIXME: originally array_elements.get(i).clean_up()
@@ -97,19 +97,19 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_elements = null;
 	}
 
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		for (int i = 0; i < array_size; ++i) {
-			if (!array_elements.get(i).isValue().getValue()) {
-				return new TitanBoolean(false);
+			if (!array_elements.get(i).isValue()) {
+				return false;
 			}
 		}
 
-		return new TitanBoolean(true);
+		return true;
 	}
 
 	public TitanInteger lengthOf() {
 		for (int i = array_size-1; i >= 0; --i) {
-			if (array_elements.get(i).isBound().getValue()) {
+			if (array_elements.get(i).isBound()) {
 				return new TitanInteger(i+1);
 			}
 		}
@@ -162,7 +162,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean operatorEquals(final Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValueArray<?>) {
 			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
 			return operatorEquals(arrayOther);
@@ -175,26 +175,26 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to array value", otherValue));
 	}
 
-	public TitanBoolean operatorEquals(final TitanValueArray<T> otherValue) {
+	public boolean operatorEquals(final TitanValueArray<T> otherValue) {
 		if (array_size != otherValue.array_size) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
 		for (int i = 0; i < array_size; ++i) {
-			if (! array_elements.get(getArrayIndex(i, array_size, indexOffset)).operatorEquals(otherValue.array_elements.get(getArrayIndex(i, otherValue.array_size, otherValue.indexOffset))).getValue()) {
-				return new TitanBoolean(false);
+			if (! array_elements.get(getArrayIndex(i, array_size, indexOffset)).operatorEquals(otherValue.array_elements.get(getArrayIndex(i, otherValue.array_size, otherValue.indexOffset)))) {
+				return false;
 			}
 		}
 
-		return new TitanBoolean(true);
+		return true;
 	}
 
-	public TitanBoolean operatorNotEquals(final Base_Type otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final Base_Type otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
-	public TitanBoolean operatorNotEquals(final TitanValueArray<T> otherValue) {
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final TitanValueArray<T> otherValue) {
+		return !operatorEquals(otherValue);
 	}
 
 	// originally  operator<<=
@@ -294,7 +294,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	public T array_element(final TitanInteger index) {
-		if (! index.isBound().getValue()) {
+		if (! index.isBound()) {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}
 
@@ -351,7 +351,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	public static int getArrayIndex(final TitanInteger index, final int arraySize, final int indexofset) {
-		if (! index.isBound().getValue()) {
+		if (! index.isBound()) {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}
 

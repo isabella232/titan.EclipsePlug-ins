@@ -294,7 +294,11 @@ public final class DoWhile_Statement extends Statement {
 		source.append("for ( ; ; ) { \n");
 		statementblock.generateCode(aData, source);
 		if(!isInfiniteLoop) {
-			source.append(MessageFormat.format("if ( {0}.not().getValue() )", expression.generateSingleExpression(aData)));
+			if (expression.returnsNative()) {
+				source.append(MessageFormat.format("if ( !{0} )", expression.generateSingleExpression(aData)));
+			} else {
+				source.append(MessageFormat.format("if ( {0}.not().getValue() )", expression.generateSingleExpression(aData)));
+			}
 			source.append(" {\n");
 			source.append("break;\n");
 			source.append("}\n");

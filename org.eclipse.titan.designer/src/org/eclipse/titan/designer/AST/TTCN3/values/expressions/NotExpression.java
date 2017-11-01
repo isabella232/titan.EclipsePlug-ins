@@ -238,6 +238,12 @@ public final class NotExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (value != null) {
 			value.reArrangeInitCode(aData, source, usageModule);
@@ -248,8 +254,14 @@ public final class NotExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
-		expression.expression.append("new TitanBoolean(");
-		value.generateCodeExpressionMandatory(aData, expression);
-		expression.expression.append( ").not()" );
+		if (value.returnsNative()) {
+			expression.expression.append("!(");
+			value.generateCodeExpressionMandatory(aData, expression, false);
+			expression.expression.append( ")" );
+		} else {
+			expression.expression.append("new TitanBoolean(");
+			value.generateCodeExpressionMandatory(aData, expression, false);
+			expression.expression.append( ").not()" );
+		}
 	}
 }

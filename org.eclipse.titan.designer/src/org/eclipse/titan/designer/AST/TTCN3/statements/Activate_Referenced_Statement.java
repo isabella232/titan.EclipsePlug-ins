@@ -204,7 +204,7 @@ public final class Activate_Referenced_Statement extends Statement {
 		if (last.getValuetype().equals(Value_type.ALTSTEP_REFERENCE_VALUE)) {
 			//TODO Optimize for easily resolvable value
 		}
-		dereferredValue.generateCodeExpressionMandatory(aData, expression);
+		dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".activate(");
 
 		if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {

@@ -323,12 +323,15 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 				blockCount.incrementAndGet();
 			}
 
-			//TODO this is temporary solution, to handle both object and native types.
-			// with better checks this piece of code might not be needed
-			expression.generateCodeTmp(aData, source, "if (TitanBoolean.getNative(", blockCount);
-			aData.addBuiltinTypeImport( "TitanBoolean" );
+			if (expression.returnsNative()) {
+				expression.generateCodeTmp(aData, source, "if (", blockCount);
+				source.append(")");
+			} else {
+				aData.addBuiltinTypeImport( "TitanBoolean" );
 
-			source.append(") )");
+				expression.generateCodeTmp(aData, source, "if (TitanBoolean.getNative(", blockCount);
+				source.append(") )");
+			}
 		}
 		eachFalse.set(false);
 		source.append("{\n");

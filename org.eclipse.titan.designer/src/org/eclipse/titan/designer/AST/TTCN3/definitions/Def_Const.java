@@ -523,7 +523,11 @@ public final class Def_Const extends Definition {
 		}
 
 		if (last.canGenerateSingleExpression() ) {
-			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, last.generateSingleExpression(aData)));
+			if (last.returnsNative()  || type.getTypetypeTtcn3() != last.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE)) {
+				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, last.generateSingleExpression(aData)));
+			} else {
+				source.append(MessageFormat.format("{0} {1} = {2};\n", typeGeneratedName, genName, last.generateSingleExpression(aData)));
+			}
 		} else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
 			last.generateCodeInit(aData, source, genName );	

@@ -441,6 +441,13 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	public StringBuilder generateSingleExpression(final JavaGenData aData);
 
 	/**
+	 * Returns whether the generated Java expression will return a native value or a Titan object.
+	 *
+	 * @return true if the expression returns a native value when generated.
+	 * */
+	public boolean returnsNative();
+
+	/**
 	 * Generates a Java code sequence, which initializes the Java
 	 *  object named  name with the contents of the value. The code
 	 *  sequence is appended to argument source and the resulting
@@ -480,12 +487,12 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 *  index). The generated code fragments are appended to the
 	 *  fields of visitor expr.
 	 *
-	 *  @param aData only used to update imports if needed
-	 *
-	 *  @param aData the structure to put imports into and get temporal variable names from.
-	 *  @param expression the expression struct to be used to generate source code
+	 * @param aData only used to update imports if needed
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression struct to be used to generate source code
+	 * @param forceObject force the code generator to generate object.
 	 * */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression);
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject);
 
 	/**
 	 * Generates the Java equivalent of this into expression and adds a "get()"
@@ -496,8 +503,9 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression to generate source code into
+	 * @param forceObject force the code generator to generate object.
 	 * */
-	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression);
+	public void generateCodeExpressionMandatory(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject);
 
 	/**
 	 *  Generates a value for temporary use. Example:

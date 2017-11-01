@@ -362,8 +362,10 @@ public class TitanTimer {
 			throw new TtcnError("Internal error: Control part timers are already saved.");
 		}
 
-		BACKUP_TIMERS.addAll(TIMERS);
-		TIMERS.clear();
+		if (!TIMERS.isEmpty()) {
+			BACKUP_TIMERS.addAll(TIMERS);
+			TIMERS.clear();
+		}
 		controlTimerSaved = true;
 	}
 
@@ -377,8 +379,10 @@ public class TitanTimer {
 			throw new TtcnError("Internal error: There are active timers. Control part timers cannot be restored.");
 		}
 
-		TIMERS.addAll(BACKUP_TIMERS);
-		BACKUP_TIMERS.clear();
+		if (!BACKUP_TIMERS.isEmpty()) {
+			TIMERS.addAll(BACKUP_TIMERS);
+			BACKUP_TIMERS.clear();
+		}
 		controlTimerSaved = false;
 	}
 

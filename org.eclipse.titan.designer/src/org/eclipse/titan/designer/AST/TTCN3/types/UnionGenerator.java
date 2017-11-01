@@ -264,8 +264,8 @@ public class UnionGenerator {
 	 * @param source: where the source code is to be generated.
 	 * */
 	private static void generateValueIsBound(final StringBuilder source) {
-		source.append("public TitanBoolean isBound() {\n");
-		source.append("return new TitanBoolean(union_selection != union_selection_type.UNBOUND_VALUE);\n");
+		source.append("public boolean isBound() {\n");
+		source.append("return union_selection != union_selection_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
 
@@ -276,10 +276,10 @@ public class UnionGenerator {
 	 * @param fieldInfos: the list of information about the fields.
 	 * */
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
-		source.append("public TitanBoolean isValue() {\n");
+		source.append("public boolean isValue() {\n");
 		source.append("switch(union_selection) {\n");
 		source.append("case UNBOUND_VALUE:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -298,7 +298,7 @@ public class UnionGenerator {
 	 * @param source: where the source code is to be generated.
 	 * */
 	private static void generateValueIsPresent(final StringBuilder source) {
-		source.append("public TitanBoolean isPresent() {\n");
+		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 	}
@@ -314,7 +314,7 @@ public class UnionGenerator {
 	private static void generateValueOperatorEquals(final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos) {
 		source.append("//originally operator==\n");
-		source.append(MessageFormat.format("public TitanBoolean operatorEquals( final {0} otherValue ) '{'\n", genName));
+		source.append(MessageFormat.format("public boolean operatorEquals( final {0} otherValue ) '{'\n", genName));
 		source.append("if (union_selection == union_selection_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("throw new TtcnError( \"The left operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
 		source.append("}\n");
@@ -322,7 +322,7 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("throw new TtcnError( \"The right operand of comparison is an unbound value of union type {0}.\" );\n", displayName));
 		source.append("}\n");
 		source.append("if (union_selection != otherValue.union_selection) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 
 		source.append("}\n");
 		source.append("switch(union_selection) {\n");
@@ -334,12 +334,12 @@ public class UnionGenerator {
 
 
 		source.append("default:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public TitanBoolean operatorEquals( final Base_Type otherValue ) {\n");
+		source.append("public boolean operatorEquals( final Base_Type otherValue ) {\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", genName));
 		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", genName));
 		source.append("}\n");
@@ -355,8 +355,8 @@ public class UnionGenerator {
 	 * */
 	private static void generateValueNotEquals(final StringBuilder source, final String genName) {
 		source.append("//originally operator!=\n");
-		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals( final {0} otherValue ) '{'\n", genName));
-		source.append("return operatorEquals(otherValue).not();\n");
+		source.append(MessageFormat.format("public boolean operatorNotEquals( final {0} otherValue ) '{'\n", genName));
+		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n\n");
 	}
 
@@ -622,29 +622,29 @@ public class UnionGenerator {
 	 * */
 	private static void generateTemplateMatch(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0} other_value) '{'\n", genName));
+		source.append(MessageFormat.format("public boolean match(final {0} other_value) '{'\n", genName));
 		source.append("return match(other_value, false);\n");
 		source.append("}\n\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0} other_value, final boolean legacy) '{'\n", genName));
-		source.append("if(!other_value.isBound().getValue()) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append(MessageFormat.format("public boolean match(final {0} other_value, final boolean legacy) '{'\n", genName));
+		source.append("if(!other_value.isBound()) {\n");
+		source.append("return false;\n");
 		source.append("}\n");
 
 		source.append("switch (templateSelection) {\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("case OMIT_VALUE:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append(MessageFormat.format("final {0}.union_selection_type value_selection = other_value.get_selection();\n", genName));
 		source.append(MessageFormat.format("if (value_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("if (value_selection != single_value_union_selection) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("switch(value_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -659,11 +659,11 @@ public class UnionGenerator {
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if(value_list.get(i).match(other_value, legacy).getValue()) {\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("if(value_list.get(i).match(other_value, legacy)) {\n");
+		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("default:\n");
 		source.append("throw new TtcnError(\"Matching with an uninitialized/unsupported integer template.\");\n");
 		source.append("}\n");
@@ -671,7 +671,7 @@ public class UnionGenerator {
 
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append( MessageFormat.format( "\tpublic TitanBoolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic boolean match(final Base_Type otherValue, final boolean legacy) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\tif (otherValue instanceof {0}) '{'\n", genName) );
 		source.append( MessageFormat.format( "\t\treturn match(({0})otherValue, legacy);\n", genName) );
 		source.append("\t}\n\n");
@@ -728,9 +728,9 @@ public class UnionGenerator {
 	 * */
 	private static void generateTemplateIsValue(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
-		source.append("public TitanBoolean isValue() {\n");
+		source.append("public boolean isValue() {\n");
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("switch(single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -827,15 +827,15 @@ public class UnionGenerator {
 	 * @param source: where the source code is to be generated.
 	 * */
 	private static void generateTemplateIsPresent(final StringBuilder source) {
-		source.append("public TitanBoolean isPresent() {\n");
+		source.append("public boolean isPresent() {\n");
 		source.append("return isPresent(false);\n");
 		source.append("}\n\n");
 
-		source.append("public TitanBoolean isPresent(final boolean legacy) {\n");
+		source.append("public boolean isPresent(final boolean legacy) {\n");
 		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(!match_omit(legacy).getValue());\n");
+		source.append("return !match_omit(legacy);\n");
 		source.append("}\n\n");
 	}
 
@@ -845,31 +845,31 @@ public class UnionGenerator {
 	 * @param source: where the source code is to be generated.
 	 * */
 	private static void generateTemplateMatchOmit(final StringBuilder source) {
-		source.append("public TitanBoolean match_omit() {\n");
+		source.append("public boolean match_omit() {\n");
 		source.append("return match_omit(false);\n");
 		source.append("}\n\n");
 
-		source.append("public TitanBoolean match_omit(final boolean legacy) {\n");
+		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("}\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("if (legacy) {\n");
 		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if (value_list.get(i).match_omit(legacy).getValue()) {\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("if (value_list.get(i).match_omit(legacy)) {\n");
+		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("default:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("}\n\n");
 	}
@@ -963,7 +963,7 @@ public class UnionGenerator {
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", genName));
-		source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy).getValue()) {\n");
+		source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy)) {\n");
 		source.append("TtcnLogger.print_logmatch_buffer();\n");
 		source.append("TtcnLogger.log_event_str(\" matched\");\n");
 		source.append("return;\n");
@@ -992,7 +992,7 @@ public class UnionGenerator {
 		source.append("match_value.log();\n");
 		source.append("TtcnLogger.log_event_str(\" with \");\n");
 		source.append("log();\n");
-		source.append("if (match(match_value, legacy).getValue()) {\n");
+		source.append("if (match(match_value, legacy)) {\n");
 		source.append("TtcnLogger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
 		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");

@@ -237,7 +237,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	 * @param expression the expression to generate source code into
 	 * */
 	@Override
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (canGenerateSingleExpression()) {
 			expression.expression.append(generateSingleExpression(aData));
 			return;

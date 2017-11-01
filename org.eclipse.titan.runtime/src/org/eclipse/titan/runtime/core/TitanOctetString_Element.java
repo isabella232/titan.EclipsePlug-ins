@@ -25,12 +25,12 @@ public class TitanOctetString_Element {
 		nibble_pos = par_nibble_pos;
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(bound_flag);
+	public boolean isBound() {
+		return bound_flag;
 	}
 
-	public TitanBoolean isValue() {
-		return new TitanBoolean(bound_flag);
+	public boolean isValue() {
+		return bound_flag;
 	}
 
 	public void mustBound( final String aErrorMessage ) {
@@ -73,33 +73,33 @@ public class TitanOctetString_Element {
 	}
 	
 	// originally operator==
-	public TitanBoolean operatorEquals( final TitanOctetString_Element other_value ) {
+	public boolean operatorEquals( final TitanOctetString_Element other_value ) {
 		mustBound("Unbound left operand of octetstring element comparison.");
 		other_value.mustBound("Unbound right operand of octetstring comparison.");
 
-		return new TitanBoolean(str_val.get_nibble(nibble_pos) == other_value.str_val.get_nibble( other_value.nibble_pos ));
+		return str_val.get_nibble(nibble_pos) == other_value.str_val.get_nibble( other_value.nibble_pos );
 	}
 
 	// originally operator==
-	public TitanBoolean operatorEquals( final TitanOctetString other_value ) {
+	public boolean operatorEquals( final TitanOctetString other_value ) {
 		mustBound("Unbound left operand of octetstring element comparison.");
 		other_value.mustBound("Unbound right operand of octetstring element comparison.");
 
 		if (other_value.getValue().size() != 1) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return new TitanBoolean(str_val.get_nibble(nibble_pos) == other_value.get_nibble(0));
+		return str_val.get_nibble(nibble_pos) == other_value.get_nibble(0);
 	}
 
 	// originally operator!=
-	public TitanBoolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
-		return operatorEquals( aOtherValue ).not();
+	public boolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
+		return !operatorEquals( aOtherValue );
 	}
 
 	// originally operator!=
-	public TitanBoolean operatorNotEquals( final TitanOctetString aOtherValue ) {
-		return operatorEquals( aOtherValue ).not();
+	public boolean operatorNotEquals( final TitanOctetString aOtherValue ) {
+		return !operatorEquals( aOtherValue );
 	}
 	
 	// originally operator+

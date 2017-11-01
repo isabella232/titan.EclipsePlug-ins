@@ -314,6 +314,16 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		if (realValue != null) {
+			return realValue.returnsNative();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		if (realValue != null) {
 			return realValue.generateSingleExpression(aData);
@@ -344,9 +354,9 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (realValue != null) {
-			realValue.generateCodeExpression(aData, expression);
+			realValue.generateCodeExpression(aData, expression, true);
 			return;
 		}
 

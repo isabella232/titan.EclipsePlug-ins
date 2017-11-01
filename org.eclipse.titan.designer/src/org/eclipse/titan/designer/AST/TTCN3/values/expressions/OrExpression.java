@@ -324,27 +324,27 @@ public final class OrExpression extends Expression_Value {
 			ExpressionStruct expression2 = new ExpressionStruct();
 			expression2.expression.append(tempId);
 			expression2.expression.append(".assign(");
-			value1.generateCodeExpressionMandatory(aData, expression2);
+			value1.generateCodeExpressionMandatory(aData, expression2, false);
 			expression2.expression.append(")");
 			expression2.mergeExpression(expression.preamble);
 
-			expression.preamble.append("if (!TitanBoolean.getNative(");
+			expression.preamble.append("if (!");
 			expression.preamble.append(tempId);
-			expression.preamble.append(")) ");
+			expression.preamble.append(".getValue()) ");
 
 			expression2 = new ExpressionStruct();
 			expression2.expression.append(tempId);
 			expression2.expression.append(".assign(");
-			value2.generateCodeExpressionMandatory(aData, expression2);
+			value2.generateCodeExpressionMandatory(aData, expression2, false);
 			expression2.expression.append(")");
 			expression2.mergeExpression(expression.preamble);
 
 			expression.expression.append(tempId);
 		} else {
 			//TODO actually a bit more complicated
-			value1.generateCodeExpressionMandatory(aData, expression);
+			value1.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append( ".or( " );
-			value2.generateCodeExpressionMandatory(aData, expression);
+			value2.generateCodeExpressionMandatory(aData, expression, false);
 			expression.expression.append( " )" );
 		}
 	}
@@ -354,7 +354,7 @@ public final class OrExpression extends Expression_Value {
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		generateCodeExpressionMandatory(aData, expression);
+		generateCodeExpressionMandatory(aData, expression, true);
 
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			if(expression.preamble.length() > 0) {

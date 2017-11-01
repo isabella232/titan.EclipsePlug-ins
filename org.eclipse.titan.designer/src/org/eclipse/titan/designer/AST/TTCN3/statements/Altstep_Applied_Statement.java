@@ -156,7 +156,7 @@ public final class Altstep_Applied_Statement extends Statement {
 		if (last.getValuetype().equals(Value_type.ALTSTEP_REFERENCE_VALUE)) {
 			//TODO Optimize for easily resolvable value
 		}
-		dereferredValue.generateCodeExpressionMandatory(aData, expression);
+		dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".invoke_standalone(");
 
 		if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {

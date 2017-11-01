@@ -88,7 +88,7 @@ public class TitanObjectid_template extends Base_Template {
 
 	// originally operator=
 	public TitanObjectid_template assign(final TitanObjectid otherValue) {
-		if (!otherValue.isBound().getValue()) {
+		if (!otherValue.isBound()) {
 			throw new TtcnError("Assignment of an unbound objid value to a template.");
 		}
 		cleanUp();
@@ -137,38 +137,38 @@ public class TitanObjectid_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objid", match_value));
 	}
 
-	public TitanBoolean match(final TitanObjectid otherValue, final boolean legacy) {
-		if (!otherValue.isBound().getValue()) {
-			return new TitanBoolean(false);
+	public boolean match(final TitanObjectid otherValue, final boolean legacy) {
+		if (!otherValue.isBound()) {
+			return false;
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
-			return new TitanBoolean(false);
+			return false;
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			for (int i = 0; i < value_list.size(); i++) {
-				if (value_list.get(i).match(otherValue, legacy).getValue()) {
-					return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+				if (value_list.get(i).match(otherValue, legacy)) {
+					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
-			return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported objid template.");
 		}
 	}
 
-	public TitanBoolean match(final TitanObjectid otherValue) {
+	public boolean match(final TitanObjectid otherValue) {
 		return match(otherValue, false);
 	}
 
 	@Override
-	public TitanBoolean match(Base_Type otherValue, boolean legacy) {
+	public boolean match(Base_Type otherValue, boolean legacy) {
 		if (otherValue instanceof TitanObjectid) {
 			return match((TitanObjectid) otherValue, legacy);
 		}
@@ -199,7 +199,7 @@ public class TitanObjectid_template extends Base_Template {
 			}
 			TitanInteger item_size = value_list.get(0).sizeOf();
 			for (int i = 1; i < value_list.size(); i++) {
-				if (!value_list.get(i).sizeOf().operatorEquals(item_size).getValue()) {
+				if (!value_list.get(i).sizeOf().operatorEquals(item_size)) {
 					throw new TtcnError(
 							"Performing sizeof() operation on an objid template containing a value list with different sizes.");
 				}
@@ -273,52 +273,52 @@ public class TitanObjectid_template extends Base_Template {
 		match_value.log();
 		TtcnLogger.log_event_str(" with ");
 		log();
-		if (match(match_value).getValue()) {
+		if (match(match_value)) {
 			TtcnLogger.log_event_str(" matched");
 		} else {
 			TtcnLogger.log_event_str(" unmatched");
 		}
 	}
 
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isPresent(false);
 	}
 
-	public TitanBoolean isPresent(final boolean legacy) {
+	public boolean isPresent(final boolean legacy) {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
-			return new TitanBoolean(false);
+			return false;
 		} else {
-			return match_omit(legacy).not();
+			return !match_omit(legacy);
 		}
 	}
 
-	public TitanBoolean match_omit(boolean legacy) {
+	public boolean match_omit(boolean legacy) {
 		if (is_ifPresent) {
-			return new TitanBoolean(true);
+			return true;
 		}
 		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
-			return new TitanBoolean(true);
+			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			if (legacy) {
 				// legacy behavior: 'omit' can appear in the
 				// value/complement list
 				for (int i = 0; i < value_list.size(); i++) {
-					if (value_list.get(i).match_omit().getValue()) {
-						return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);
+					if (value_list.get(i).match_omit()) {
+						return templateSelection == template_sel.VALUE_LIST;
 					}
 				}
-				return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
 			}
 			// else fall through
 		default:
-			return new TitanBoolean(false);
+			return false;
 		}
 	}
 
-	public TitanBoolean match_omit() {
+	public boolean match_omit() {
 		return match_omit(false);
 	}
 }

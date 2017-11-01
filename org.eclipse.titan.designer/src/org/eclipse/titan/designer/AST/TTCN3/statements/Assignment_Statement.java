@@ -625,11 +625,23 @@ public final class Assignment_Statement extends Statement {
 					final ExpressionStruct expression = new ExpressionStruct();
 					reference.generateCode(aData, expression);
 					source.append(expression.preamble);
+
+					String temp;
+					IType type = getType(CompilationTimeStamp.getBaseTimestamp(), assignment);
+					type = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_TEMPLATE, false);
+					
+					//if (value.getValuetype() != Value_type.OMIT_VALUE && (isOptional || type.getTypetypeTtcn3() != value.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE))) {
+					if (value.getValuetype() != Value_type.OMIT_VALUE && value.getValuetype() != Value_type.REFERENCED_VALUE && (isOptional || type.getTypetypeTtcn3() != value.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE))) {
+						temp = MessageFormat.format("new {0}({1})", value.getMyGovernor().getGenNameValue(aData, source, myScope), value.generateSingleExpression(aData));
+					} else {
+						temp = value.generateSingleExpression(aData).toString();
+					}
+
 					if (rhsCopied) {
-						source.append(MessageFormat.format("{0}.assign({1});\n", rhsCopy, value.generateSingleExpression(aData)));
+						source.append(MessageFormat.format("{0}.assign({1});\n", rhsCopy, temp));
 						expression.expression.append(MessageFormat.format(".assign({0});\n", rhsCopy));
 					} else {
-						expression.expression.append(MessageFormat.format(".assign({0});\n", value.generateSingleExpression(aData)));
+						expression.expression.append(MessageFormat.format(".assign({0});\n", temp));
 					}
 
 					source.append(expression.expression);

@@ -13,10 +13,10 @@ package org.eclipse.titan.runtime.core;
  */
 public abstract class Base_Type {
 
-	public abstract TitanBoolean isPresent();
-	public abstract TitanBoolean isBound();
+	public abstract boolean isPresent();
+	public abstract boolean isBound();
 
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		return isBound();
 	}
 
@@ -24,7 +24,7 @@ public abstract class Base_Type {
 		return false;
 	}
 
-	public abstract TitanBoolean operatorEquals(final Base_Type otherValue);
+	public abstract boolean operatorEquals(final Base_Type otherValue);
 
 	public abstract Base_Type assign( final Base_Type otherValue );
 	public abstract void log();

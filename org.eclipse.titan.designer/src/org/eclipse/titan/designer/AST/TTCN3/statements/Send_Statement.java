@@ -277,7 +277,7 @@ public final class Send_Statement extends Statement {
 			//optimize for value
 			final IValue value = ((SpecificValue_Template) templateBody).getValue();
 			//FIXME check if casting is needed
-			value.generateCodeExpressionMandatory(aData, expression);
+			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
 			//real template, can not be optimized
 			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
@@ -288,7 +288,7 @@ public final class Send_Statement extends Statement {
 		if (toClause == null) {
 			expression.expression.append("new TitanComponent(TitanComponent.SYSTEM_COMPREF)");
 		} else {
-			toClause.generateCodeExpression(aData, expression);
+			toClause.generateCodeExpression(aData, expression, true);
 		}
 		expression.expression.append(");\n");
 		expression.mergeExpression(source);

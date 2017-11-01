@@ -21,11 +21,11 @@ public class TitanBitString_Element {
 		bit_pos = par_bit_pos;
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(bound_flag);
+	public boolean isBound() {
+		return bound_flag;
 	}
 
-	public TitanBoolean isValue() {
+	public boolean isValue() {
 		return isBound();
 	}
 
@@ -59,33 +59,33 @@ public class TitanBitString_Element {
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanBitString_Element otherValue ) {
+	public boolean operatorEquals( final TitanBitString_Element otherValue ) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring comparison.");
 
-		return new TitanBoolean(str_val.getBit(bit_pos) == otherValue.str_val.getBit( otherValue.bit_pos ));
+		return str_val.getBit(bit_pos) == otherValue.str_val.getBit( otherValue.bit_pos );
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanBitString otherValue ) {
+	public boolean operatorEquals( final TitanBitString otherValue ) {
 		mustBound("Unbound left operand of bitstring element comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring element comparison.");
 
 		if (otherValue.lengthOf().getInt() != 1) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return new TitanBoolean( str_val.getBit(bit_pos) == otherValue.getBit(0));
+		return str_val.getBit(bit_pos) == otherValue.getBit(0);
 	}
 
 	//originally operator!=
-	public TitanBoolean operatorNotEquals(final TitanBitString_Element otherValue){
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final TitanBitString_Element otherValue){
+		return !operatorEquals(otherValue);
 	}
 
 	//originally operator!=
-	public TitanBoolean operatorNotEquals(final TitanBitString otherValue){
-		return operatorEquals(otherValue).not();
+	public boolean operatorNotEquals(final TitanBitString otherValue){
+		return !operatorEquals(otherValue);
 	}
 
 	//FIXME: can be faster

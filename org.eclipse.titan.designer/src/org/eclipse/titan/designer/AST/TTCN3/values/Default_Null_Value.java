@@ -137,7 +137,7 @@ public final class Default_Null_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		aData.addBuiltinTypeImport("TitanComponent");
 
 		expression.expression.append("TitanComponent.NULL_COMPREF");

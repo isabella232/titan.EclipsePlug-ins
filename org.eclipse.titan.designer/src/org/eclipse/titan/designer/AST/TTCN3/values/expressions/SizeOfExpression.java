@@ -632,7 +632,7 @@ public final class SizeOfExpression extends Expression_Value {
 				&& ((SpecificValue_Template) templateBody).isValue(CompilationTimeStamp.getBaseTimestamp())) {
 			final IValue value = ((SpecificValue_Template) templateBody).getValue();
 			// FIXME implement support for cast
-			value.generateCodeExpressionMandatory(aData, expression);
+			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
 			templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}

@@ -68,13 +68,13 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	@Override
-	public TitanBoolean isPresent() {
+	public boolean isPresent() {
 		return isBound();
 	}
 
 	@Override
-	public TitanBoolean isBound() {
-		return new TitanBoolean(verdict_value != null);
+	public boolean isBound() {
+		return verdict_value != null;
 	}
 
 	public void mustBound( final String aErrorMessage ) {
@@ -84,15 +84,15 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanVerdictType aOtherValue ) {
+	public boolean operatorEquals( final TitanVerdictType aOtherValue ) {
 		mustBound("The left operand of comparison is an unbound verdict value.");
 		aOtherValue.mustBound("The right operand of comparison is an unbound verdict value.");
 
-		return new TitanBoolean(verdict_value.equals(aOtherValue.verdict_value));
+		return verdict_value.equals(aOtherValue.verdict_value);
 	}
 
 	@Override
-	public TitanBoolean operatorEquals( final Base_Type otherValue ) {
+	public boolean operatorEquals( final Base_Type otherValue ) {
 		if (otherValue instanceof TitanVerdictType) {
 			return operatorEquals((TitanVerdictType)otherValue);
 		}
@@ -101,14 +101,14 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	// originally boolean VERDICTTYPE::operator==(verdicttype other_value) const
-	public TitanBoolean operatorEquals( final VerdictTypeEnum aOtherValue ) {
+	public boolean operatorEquals( final VerdictTypeEnum aOtherValue ) {
 		mustBound( "The left operand of comparison is an unbound verdict value." );
 
 		if (!isValid(aOtherValue)) {
 			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + aOtherValue + ")." );
 		}
 
-		return new TitanBoolean(verdict_value == aOtherValue);
+		return verdict_value == aOtherValue;
 	}
 
 	//originally operator=

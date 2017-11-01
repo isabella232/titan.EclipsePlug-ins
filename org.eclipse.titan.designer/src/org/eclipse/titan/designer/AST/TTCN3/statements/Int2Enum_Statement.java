@@ -168,7 +168,7 @@ public class Int2Enum_Statement extends Statement {
 	@Override
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final ExpressionStruct valueExpression = new ExpressionStruct();
-		value.generateCodeExpression(aData, valueExpression); 
+		value.generateCodeExpression(aData, valueExpression, true); 
 
 		final ExpressionStruct referenceExpression = new ExpressionStruct();
 		reference.generateCode(aData, referenceExpression);

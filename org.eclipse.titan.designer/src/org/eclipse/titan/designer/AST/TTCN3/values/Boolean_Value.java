@@ -165,20 +165,22 @@ public final class Boolean_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanBoolean" );
-
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("new TitanBoolean( {0} )", value));
+		result.append(MessageFormat.format("{0}", value));
 
 		return result;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanBoolean" );
+	public boolean returnsNative() {
+		return true;
+	}
 
-		source.append(MessageFormat.format("{0}.assign(new TitanBoolean( {1} ) );\n", name, value));
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		source.append(MessageFormat.format("{0}.assign( {1} );\n", name, value));
 
 		return source;
 	}

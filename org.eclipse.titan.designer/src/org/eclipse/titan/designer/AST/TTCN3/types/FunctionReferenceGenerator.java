@@ -126,30 +126,30 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of assignment is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 
-		source.append("public TitanBoolean operatorEquals(final function_pointer otherValue) {\n");
+		source.append("public boolean operatorEquals(final function_pointer otherValue) {\n");
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n\n", def.displayName));
-		source.append("return new TitanBoolean(referred_function.getId().equals(otherValue.getId()));\n");
+		source.append("return referred_function.getId().equals(otherValue.getId());\n");
 		source.append("}\n");
 
-		source.append(MessageFormat.format("public TitanBoolean operatorEquals(final {0} otherValue) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n", def.displayName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Unbound right operand of {0} comparison.\");\n\n", def.displayName));
-		source.append("return new TitanBoolean(referred_function.getId().equals(otherValue.referred_function.getId()));\n");
+		source.append("return referred_function.getId().equals(otherValue.referred_function.getId());\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public TitanBoolean operatorEquals(Base_Type otherValue) {\n");
+		source.append("public boolean operatorEquals(Base_Type otherValue) {\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", def.genName));
 		source.append("}\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: The left operand of comparison is not of type {0}.\");\n", def.displayName));
 		source.append("}\n");
 
-		source.append("public TitanBoolean operatorNotEquals(final function_pointer otherValue) {\n");
-		source.append("return operatorEquals(otherValue).not();\n");
+		source.append("public boolean operatorNotEquals(final function_pointer otherValue) {\n");
+		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n");
-		source.append(MessageFormat.format("public TitanBoolean operatorNotEquals(final {0} otherValue) '{'\n", def.genName));
-		source.append("return operatorEquals(otherValue).not();\n");
+		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0} otherValue) '{'\n", def.genName));
+		source.append("return !operatorEquals(otherValue);\n");
 		source.append("}\n");
 
 		switch (def.type) {
@@ -202,20 +202,20 @@ public class FunctionReferenceGenerator {
 			break;
 		}
 
-		source.append("public TitanBoolean isBound() {\n");
-		source.append("return new TitanBoolean(referred_function != null);\n");
+		source.append("public boolean isBound() {\n");
+		source.append("return referred_function != null;\n");
 		source.append("}\n");
-		source.append("public TitanBoolean isValue() {\n");
-		source.append("return new TitanBoolean(referred_function != null);\n");
+		source.append("public boolean isValue() {\n");
+		source.append("return referred_function != null;\n");
 		source.append("}\n");
-		source.append("public TitanBoolean isPresent() {\n");
+		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n");
 		source.append("public void cleanUp() {\n");
 		source.append("referred_function = null;\n");
 		source.append("}\n");
 		source.append("public void mustBound( final String aErrorMessage ) {\n");
-		source.append("if ( !isBound().getValue() ) {\n");
+		source.append("if ( !isBound() ) {\n");
 		source.append("throw new TtcnError( aErrorMessage );\n");
 		source.append("}\n");
 		source.append("}\n");
@@ -363,7 +363,7 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append(MessageFormat.format("public TitanBoolean match(Base_Type otherValue, final boolean legacy) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean match(Base_Type otherValue, final boolean legacy) '{'\n", def.genName));
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("return match(({0})otherValue, legacy);\n", def.genName));
 		source.append("}\n");
@@ -371,42 +371,42 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0}.function_pointer other_value) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean match(final {0}.function_pointer other_value) '{'\n", def.genName));
 		source.append("return match(other_value, false);\n");
 		source.append("}\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0}.function_pointer other_value, final boolean legacy) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean match(final {0}.function_pointer other_value, final boolean legacy) '{'\n", def.genName));
 		source.append("switch (templateSelection) {\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("case OMIT_VALUE:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append("return new TitanBoolean(single_value.getId().equals(other_value.getId()));\n");
+		source.append("return single_value.getId().equals(other_value.getId());\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if(value_list.get(i).match(other_value, legacy).getValue()) {\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("if(value_list.get(i).match(other_value, legacy)) {\n");
+		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Matching with an uninitialized/unsupported {0} template.\");\n", def.displayName));
 		source.append("}\n");
 		source.append("}\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0} other_value) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean match(final {0} other_value) '{'\n", def.genName));
 		source.append("return match(other_value, false);\n");
 		source.append("}\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public TitanBoolean match(final {0} other_value, final boolean legacy) '{'\n", def.genName));
-		source.append("if (!other_value.isBound().getValue()) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append(MessageFormat.format("public boolean match(final {0} other_value, final boolean legacy) '{'\n", def.genName));
+		source.append("if (!other_value.isBound()) {\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return match(other_value.referred_function);\n");
 		source.append("}\n");
@@ -449,42 +449,42 @@ public class FunctionReferenceGenerator {
 		source.append("return value_list.get(listIndex);\n");
 		source.append("}\n");
 
-		source.append("public TitanBoolean isPresent() {\n");
+		source.append("public boolean isPresent() {\n");
 		source.append("return isPresent(false);\n");
 		source.append("}\n");
 
-		source.append("public TitanBoolean isPresent(final boolean legacy) {\n");
+		source.append("public boolean isPresent(final boolean legacy) {\n");
 		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
-		source.append("return match_omit(legacy).not();\n");
+		source.append("return !match_omit(legacy);\n");
 		source.append("}\n");
 
-		source.append("\t\tpublic TitanBoolean match_omit() {\n");
+		source.append("\t\tpublic boolean match_omit() {\n");
 		source.append("\t\t\treturn match_omit(false);\n");
 		source.append("\t\t}\n");
 
-		source.append("public TitanBoolean match_omit(final boolean legacy) {\n");
+		source.append("public boolean match_omit(final boolean legacy) {\n");
 		source.append("if (is_ifPresent) {\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("}\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("if (legacy) {\n");
 		source.append("for (int i = 0 ; i < value_list.size(); i++) {\n");
-		source.append("if (value_list.get(i).match_omit(legacy).getValue()) {\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.VALUE_LIST);\n");
+		source.append("if (value_list.get(i).match_omit(legacy)) {\n");
+		source.append("return templateSelection == template_sel.VALUE_LIST;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(templateSelection == template_sel.COMPLEMENTED_LIST);\n");
+		source.append("return templateSelection == template_sel.COMPLEMENTED_LIST;\n");
 		source.append("}\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("default:\n");
-		source.append("return new TitanBoolean(false);\n");
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("}\n");
 

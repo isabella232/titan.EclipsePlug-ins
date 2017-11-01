@@ -232,7 +232,7 @@ public final class Return_Statement extends Statement {
 		final Definition definition = myStatementBlock.getMyDefinition();
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
 			final IValue value = ((SpecificValue_Template) template).getValue();
-			value.generateCodeExpressionMandatory(aData, expression);
+			value.generateCodeExpressionMandatory(aData, expression, true);
 		} else {
 			final Definition myDefinition = myStatementBlock.getMyDefinition();
 			if (myDefinition.getTemplateRestriction() != TemplateRestriction.Restriction_type.TR_NONE

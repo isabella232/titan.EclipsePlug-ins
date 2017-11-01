@@ -429,7 +429,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				if (guardExpression != null) {
 					source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", label, i));
 					final ExpressionStruct expression = new ExpressionStruct();
-					guardExpression.generateCodeExpression(aData, expression);
+					guardExpression.generateCodeExpression(aData, expression, true);
 					source.append(expression.preamble);
 					source.append(MessageFormat.format("if(TitanBoolean.getNative({0})) '{'\n", expression.expression));
 					source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_MAYBE;\n", label, i));
@@ -668,7 +668,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			if (guardExpression != null) {
 				source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", tempId, i));
 				final ExpressionStruct expression = new ExpressionStruct();
-				guardExpression.generateCodeExpression(aData, expression);
+				guardExpression.generateCodeExpression(aData, expression, true);
 				source.append(expression.preamble);
 				source.append(MessageFormat.format("if (TitanBoolean.getNative({0})) '{'\n", expression.expression));
 				source.append(MessageFormat.format("{0}_alt_flag_{1} = TitanAlt_Status.ALT_MAYBE;\n", tempId, i));

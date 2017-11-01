@@ -1708,15 +1708,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final String temporalIndexId = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
-		last.generateCodeExpressionMandatory(aData, expression);
+		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
-		expression.expression.append(MessageFormat.format("{0} = TitanBoolean.getNative({1}.isGreaterThanOrEqual(0)) && TitanBoolean.getNative({1}.isLessThan({2}.lengthOf()));\n",
+		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.lengthOf());\n",
 				globalId, temporalIndexId, externalId));
 
 		final String temporalId = aData.getTemporaryVariableName();
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4}).getValue();\n",
+		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
 				globalId, externalId, temporalIndexId, isBound|(!isLast)?"isBound":"isPresent", !(isBound|(!isLast)) && isTemplate && aData.allowOmitInValueList()?"true":""));
 
 		generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);

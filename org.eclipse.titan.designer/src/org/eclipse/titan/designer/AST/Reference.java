@@ -1163,7 +1163,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				} else {
 					expression.expression.append(".getAt(");
 				}
-				value.generateCodeExpression(aData, expression);
+				value.generateCodeExpression(aData, expression, false);
 				expression.expression.append(")");
 
 				if(type != null) {
@@ -1260,7 +1260,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			final String tempGeneralId = aData.getTemporaryVariableName();
 			final ExpressionStruct isboundExpression = new ExpressionStruct();
 
-			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound().getValue();\n", tempGeneralId, ass_id2));
+			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound();\n", tempGeneralId, ass_id2));
 
 			final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
 			type.generateCodeIspresentBound(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, isBound);
@@ -1269,7 +1269,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.preamble.append(isboundExpression.expression);
 			expression.expression.append(tempGeneralId);
 		} else {
-			expression.expression.append(MessageFormat.format("{0}.{1}({2}).getValue()", ass_id2, isBound ? "isBound" : "isPresent", !isBound && isTemplate && aData.allowOmitInValueList()? "true":""));
+			expression.expression.append(MessageFormat.format("{0}.{1}({2})", ass_id2, isBound ? "isBound" : "isPresent", !isBound && isTemplate && aData.allowOmitInValueList()? "true":""));
 		}
 	}
 }

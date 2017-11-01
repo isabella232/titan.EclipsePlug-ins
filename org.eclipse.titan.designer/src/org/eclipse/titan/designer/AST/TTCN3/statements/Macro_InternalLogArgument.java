@@ -58,7 +58,7 @@ public final class Macro_InternalLogArgument extends InternalLogArgument {
 			if (value.canGenerateSingleExpression()) {
 				expression.expression.append(MessageFormat.format("TtcnLogger.log_event_Str({0})", value.generateSingleExpression(aData)));
 			} else {
-				value.generateCodeExpression(aData, expression);
+				value.generateCodeExpression(aData, expression, true);
 				expression.expression.append(".log()");
 			}
 		}

@@ -289,7 +289,7 @@ public final class Done_Statement extends Statement {
 					expression.expression.append(MessageFormat.format("{0}.", t_module.getIdentifier().getName()));
 				}
 				expression.expression.append("done(");
-				componentreference.generateCodeExpression(aData, expression);
+				componentreference.generateCodeExpression(aData, expression, true);
 				expression.expression.append(", ");
 				//FIXME handle decoded match
 				doneMatch.generateCode(aData, expression, Restriction_type.TR_NONE);
@@ -297,7 +297,7 @@ public final class Done_Statement extends Statement {
 				//FIXME handle value redirection
 			} else {
 				// simple done
-				componentreference.generateCodeExpressionMandatory(aData, expression);
+				componentreference.generateCodeExpressionMandatory(aData, expression, true);
 				expression.expression.append(".done(");
 			}
 

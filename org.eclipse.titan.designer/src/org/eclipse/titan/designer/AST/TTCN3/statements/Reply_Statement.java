@@ -308,13 +308,13 @@ public final class Reply_Statement extends Statement {
 
 		if (replyValue != null) {
 			expression.expression.append(".set_value_template(");
-			replyValue.generateCodeExpression(aData, expression);
+			replyValue.generateCodeExpression(aData, expression, true);
 			expression.expression.append(')');
 		}
 
 		if (toClause != null) {
 			expression.expression.append(", ");
-			toClause.generateCodeExpression(aData, expression);
+			toClause.generateCodeExpression(aData, expression, true);
 		}
 		expression.expression.append(" )");
 

@@ -819,9 +819,9 @@ public final class Sequence_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (convertedValue != null) {
-			convertedValue.generateCodeExpression(aData, expression);
+			convertedValue.generateCodeExpression(aData, expression, true);
 			return;
 		}
 

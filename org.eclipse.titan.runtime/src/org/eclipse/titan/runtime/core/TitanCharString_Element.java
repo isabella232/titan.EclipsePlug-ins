@@ -28,12 +28,12 @@ public class TitanCharString_Element {
 		char_pos = par_char_pos;
 	}
 
-	public TitanBoolean isBound() {
-		return new TitanBoolean(bound_flag);
+	public boolean isBound() {
+		return bound_flag;
 	}
 
-	public TitanBoolean isValue() {
-		return new TitanBoolean(bound_flag);
+	public boolean isValue() {
+		return bound_flag;
 	}
 
 	public void mustBound( final String aErrorMessage ) {
@@ -81,76 +81,75 @@ public class TitanCharString_Element {
 
 	// originally operator==
 	// operatorEquals for String
-	public TitanBoolean operatorEquals(final String aOtherValue) {
+	public boolean operatorEquals(final String aOtherValue) {
 		mustBound("Comparison of an unbound charstring element.");
 
 		if (aOtherValue == null || aOtherValue.length() != 1) {
-			return new TitanBoolean(false);
+			return false;
 		} else {
-			return new TitanBoolean(str_val.getAt(char_pos).get_char() == aOtherValue.charAt(0));
+			return str_val.getAt(char_pos).get_char() == aOtherValue.charAt(0);
 		}
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanCharString other_value ) {
+	public boolean operatorEquals( final TitanCharString other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring element comparison.");
 
 		if (other_value.getValue().length() != 1) {
-			return new TitanBoolean(false);
+			return false;
 		}
 
-		return new TitanBoolean(get_char() == other_value.getValue().charAt(0));
+		return get_char() == other_value.getValue().charAt(0);
 	}
 
 	//originally operator==
-	public TitanBoolean operatorEquals( final TitanCharString_Element other_value ) {
+	public boolean operatorEquals( final TitanCharString_Element other_value ) {
 		mustBound("Unbound left operand of charstring element comparison.");
 		other_value.mustBound("Unbound right operand of charstring element comparison.");
 
-		return new TitanBoolean(get_char() == other_value.str_val.getValue().charAt( other_value.char_pos ));
+		return get_char() == other_value.str_val.getValue().charAt( other_value.char_pos );
 	}
 
 	// operatorEquals for universalcharstring
-	public TitanBoolean operatorEquals(final TitanUniversalCharString aOtherValue) {
+	public boolean operatorEquals(final TitanUniversalCharString aOtherValue) {
 		mustBound("The left operand of comparison is an unbound charstring element.");
 		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring value.");
 
 		if (aOtherValue.val_ptr.size() != 1) {
-			return new TitanBoolean(false);
+			return false;
 		} else if (aOtherValue.charstring) {
-			return new TitanBoolean(str_val.getAt(char_pos).get_char() == aOtherValue.charAt(0).getUc_cell());
+			return str_val.getAt(char_pos).get_char() == aOtherValue.charAt(0).getUc_cell();
 		} else {
 			final TitanUniversalChar temp = aOtherValue.charAt(0);
-			return new TitanBoolean(temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
-					&& str_val.getAt(char_pos).get_char() == temp.getUc_cell());
+			return temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
+					&& str_val.getAt(char_pos).get_char() == temp.getUc_cell();
 		}
 	}
 
 	// operatorEquals for universalcharstring_element
-	public TitanBoolean operatorEquals(final TitanUniversalCharString_Element aOtherValue) {
+	public boolean operatorEquals(final TitanUniversalCharString_Element aOtherValue) {
 		mustBound("The left operand of comparison is an unbound charstring element.");
 		aOtherValue.mustBound("The right operand of comparison is an unbound universal charstring element.");
 
 		final TitanUniversalChar temp = aOtherValue.get_char();
-		return new TitanBoolean(temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
-				&& str_val.getAt(char_pos).get_char() == temp.getUc_cell());
+		return temp.getUc_group() == 0 && temp.getUc_plane() == 0 && temp.getUc_row() == 0
+				&& str_val.getAt(char_pos).get_char() == temp.getUc_cell();
 	}
 
 	// operatorNotEquals for String
-	public TitanBoolean operatorNotEquals(final String aOtherValue) {
-		return operatorEquals(aOtherValue).not();
+	public boolean operatorNotEquals(final String aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	// operatorNotEquals for charstring
-	public TitanBoolean operatorNotEquals(final TitanUniversalCharString aOtherValue) {
-		return operatorEquals(aOtherValue).not();
+	public boolean operatorNotEquals(final TitanUniversalCharString aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	// operatorNotEquals for charstring_element
-
-	public TitanBoolean operatorNotEquals(final TitanUniversalCharString_Element aOtherValue) {
-		return operatorEquals(aOtherValue).not();
+	public boolean operatorNotEquals(final TitanUniversalCharString_Element aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	public char get_char() {
