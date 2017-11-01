@@ -514,7 +514,7 @@ public final class Def_Var_Template extends Definition {
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
 
-		// FIXME temporal code until generate_code_object and generateCodeInit is supported for templates
+		// FIXME temporal code until generate_code_object is supported for templates
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 			final Array_Type arrayType = (Array_Type) type;
