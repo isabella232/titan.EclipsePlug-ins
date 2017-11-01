@@ -157,7 +157,6 @@ public class EnumeratedGenerator {
 		//		}
 	}
 
-	//TODO: log() const;
 	//TODO: set_param(Module_Param& param);
 	//TODO: encode_text(Text_Buf& text_buf) const;
 	//TODO: decode_text(Text_Buf& text_buf);
@@ -174,7 +173,6 @@ public class EnumeratedGenerator {
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", e_defs.name, e_defs.templateName));
 
-		//TODO: generate this, and others:
 		generateTemplateDeclaration(source, e_defs.name);
 		generatetemplateCopyTemplate(source, e_defs.name);
 		generateTemplateConstructors(source, e_defs.name);
@@ -532,8 +530,6 @@ public class EnumeratedGenerator {
 		source.append("enum_value = enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
-
-	//FIXME: enum_template
 
 	private static void generateTemplateDeclaration(final StringBuilder source, final String name) {
 		source.append("// single_value\n");
