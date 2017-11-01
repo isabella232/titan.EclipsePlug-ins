@@ -575,7 +575,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final PermutationMatch_Template permutationTemplate = (PermutationMatch_Template) template;
 			final int nofComponents = permutationTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
-				ITTCN3Template templateComponent = permutationTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
+				ITTCN3Template templateComponent = permutationTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
 				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
@@ -586,7 +586,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final SupersetMatch_Template supersetTemplate = (SupersetMatch_Template) template;
 			final int nofComponents = supersetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
-				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
+				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
 				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
@@ -597,7 +597,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			final SubsetMatch_Template subsetTemplate = (SubsetMatch_Template) template;
 			final int nofComponents = subsetTemplate.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
-				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i); //FIXME: type is ok? It should be ITemplateListItem!
+				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
 				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
