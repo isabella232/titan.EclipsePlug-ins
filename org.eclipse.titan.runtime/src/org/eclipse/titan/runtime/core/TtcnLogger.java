@@ -442,4 +442,13 @@ public final class TtcnLogger {
 			TtcnLogger.log(Severity.TESTCASE_START, "Execution of control part in module %s started.", moduleName);
 		}
 	}
+
+	public static void log_defaultop_activate(final String name, final int id) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.DEFAULTOP_ACTIVATE)) {
+			return;
+		}
+
+		log_event_str(MessageFormat.format("Altstep {0} was activated as default, id {1}", name, id));
+	}
 }

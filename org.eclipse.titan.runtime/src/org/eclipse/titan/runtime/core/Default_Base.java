@@ -27,7 +27,7 @@ public class Default_Base {
 	public Default_Base(final String altstepName) {
 		defaultId = TTCN_Default.activate(this);
 		this.altstepName = altstepName;
-		//TODO log
+		TtcnLogger.log_defaultop_activate(altstepName, defaultId);
 	}
 
 	// originally call_altstep
