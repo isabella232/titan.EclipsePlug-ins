@@ -21,7 +21,7 @@ import java.util.List;
 public class TitanPortArray<T extends TitanPort> extends TitanPort {
 
 	private List<T> array_elements;
-	private List<String> names;
+	private String[] names;
 
 	private Class<T> clazz;
 
@@ -34,12 +34,12 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
 		array_elements = new ArrayList<T>(array_size);
-		names = new ArrayList<String>(array_size);
+		names = new String[array_size];
 
 		for (int i = 0; i < array_size; i++) {
 			// TODO: check otherValue.array_element[i] need a new variable
 			array_elements.add(otherValue.array_elements.get(i));
-			names.add(otherValue.names.get(i));
+			names[i] = otherValue.names[i];
 		}
 	}
 
@@ -47,7 +47,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		this.clazz = clazz;
 		indexofset = offset;
 		array_elements = new ArrayList<T>(size);
-		names = new ArrayList<String>(size);
+		names = new String[size];
 		setSize(size);
 	}
 
@@ -71,12 +71,12 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		indexofset = otherValue.indexofset;
 		clazz = otherValue.clazz;
 		array_elements = new ArrayList<T>(array_size);
-		names = new ArrayList<String>(array_size);
+		names = new String[array_size];
 
 		for (int i = 0; i < array_size; i++) {
 			// TODO: check otherValue.array_element[i] need a new variable
 			array_elements.add(otherValue.array_elements.get(i));
-			names.add(otherValue.names.get(i));
+			names[i] = otherValue.names[i];
 		}
 
 		return this;
@@ -120,7 +120,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	//originally set_name
 	public void set_name(final String name_string) {
 		for (int i = 0; i < array_size; i++) {
-			names.set(i, name_string);
+			names[i] = name_string;
 			array_elements.get(i).setName(name_string);
 		}
 	}

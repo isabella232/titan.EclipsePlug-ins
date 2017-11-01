@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	ArrayList<T> array_elements;
-	ArrayList<String> names;
+	String[] names;
 
 	public Class<T> clazz;
 
@@ -72,7 +72,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		//TODO check strange usage
 		setSize(size);
 
-		names = new ArrayList<String>(size);
+		names = new String[size];
 	}
 
 	public void setSize(final int length) {
@@ -139,8 +139,8 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		for (int i = 0; i < array_size; ++i) {
 			// index_offset may be negative, hence i must be int (not size_t)
 			// to ensure that signed arithmetic is used.
-			names.add(name_string + '['+(indexOffset+i) + ']');
-			array_elements.get(i).setName(names.get(i));
+			names[i] = name_string + '['+(indexOffset+i) + ']';
+			array_elements.get(i).setName(names[i]);
 		}
 	}
 
