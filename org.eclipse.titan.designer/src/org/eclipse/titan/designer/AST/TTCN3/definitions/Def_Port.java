@@ -359,7 +359,6 @@ public final class Def_Port extends Definition {
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
-		//TODO temporary code to adapt to the starting code
 		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {

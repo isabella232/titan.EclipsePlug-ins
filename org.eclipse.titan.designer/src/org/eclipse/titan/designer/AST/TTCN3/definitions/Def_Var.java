@@ -469,7 +469,6 @@ public final class Def_Var extends Definition {
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
-		//TODO temporary code to adapt to the starting code
 		final StringBuilder source = new StringBuilder();
 		final StringBuilder initComp = aData.getInitComp();
 		if ( !isLocal() ) {
@@ -479,6 +478,7 @@ public final class Def_Var extends Definition {
 		}
 
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		//TODO type.generate_code ?
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());

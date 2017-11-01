@@ -564,7 +564,6 @@ public final class Def_Timer extends Definition {
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder initComp = aData.getInitComp();
-		//TODO temporary code to adapt to the starting code
 		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {

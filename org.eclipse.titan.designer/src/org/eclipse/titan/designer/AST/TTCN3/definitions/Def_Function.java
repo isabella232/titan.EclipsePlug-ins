@@ -905,8 +905,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.setGenName(genName);
 		}
 
+		//TODO add support for functions with port clause
 		final StringBuilder sb = aData.getSrc();
-		//TODO temporary code to adapt to the starting code
 		final StringBuilder source = new StringBuilder();
 		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 			source.append( "private" );
@@ -917,14 +917,14 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		// return value
 		switch (assignmentType) {
+		case A_FUNCTION:
+			source.append( "void" );
+			break;
 		case A_FUNCTION_RVAL:
 			source.append( returnType.getGenNameValue( aData, source, getMyScope() ) );
 			break;
 		case A_FUNCTION_RTEMP:
 			source.append( returnType.getGenNameTemplate( aData, source, getMyScope() ) );
-			break;
-		case A_FUNCTION:
-			source.append( "void" );
 			break;
 		default:
 			//TODO fatal error

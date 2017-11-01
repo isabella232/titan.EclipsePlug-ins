@@ -483,10 +483,10 @@ public final class Def_Var_Template extends Definition {
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 		final StringBuilder sb = aData.getSrc();
-		//TODO temporary hack to adapt to the starting code
 		final StringBuilder source = new StringBuilder();
 		final StringBuilder initComp = aData.getInitComp();
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
+		//TODO type.generate_code ?
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			final Array_Type arrayType =  (Array_Type) type;
 			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
@@ -496,16 +496,13 @@ public final class Def_Var_Template extends Definition {
 		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 		sb.append(source);
 
-		//TODO this actually belongs to the module initialization
 		if ( initialValue != null ) {
-			//TODO use ::get_lhs_name instead of generic genName (?)
 			initialValue.generateCodeInit( aData, initComp, genName );
 			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
 				TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName, templateRestriction);
 			}
 		} else if (cleanUp) {
-			initComp.append(genName);
-			initComp.append(".cleanUp();\n");
+			initComp.append(MessageFormat.format("{0}.cleanUp();\n", genName));
 		}
 	}
 

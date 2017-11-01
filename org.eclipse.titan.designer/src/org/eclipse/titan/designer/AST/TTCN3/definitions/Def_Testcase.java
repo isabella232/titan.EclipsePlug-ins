@@ -559,21 +559,15 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		}
 
 		final StringBuilder sb = aData.getSrc();
-		//TODO temporary code to adapt to the starting code
 		final StringBuilder source = new StringBuilder();
+
 		aData.addBuiltinTypeImport( "TtcnError" );
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport("TitanVerdictType");
 		aData.addBuiltinTypeImport("TtcnLogger");
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
-		source.append( "\tpublic static final " );
-
-		// return value
-		source.append( "TitanVerdictType testcase_" );
-
-		// function name
-		source.append( genName );
+		source.append(MessageFormat.format("\tpublic static final TitanVerdictType testcase_{0}", genName));
 
 		// arguments
 		source.append( '(' );
