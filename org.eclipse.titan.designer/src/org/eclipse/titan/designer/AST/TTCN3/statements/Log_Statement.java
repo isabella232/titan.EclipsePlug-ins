@@ -127,10 +127,6 @@ public final class Log_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		source.append( "\t\t" );
-		source.append( "//TODO this is only temporal implementation!\n" );
-
-		//this is a preliminary support to be enabled once runtime support is present
 		if (logArguments != null) {
 			aData.addCommonLibraryImport("TtcnLogger");
 			aData.addBuiltinTypeImport("TtcnLogger.Severity");
@@ -171,7 +167,7 @@ public final class Log_Statement extends Statement {
 				source.append("}\n");
 			}
 		} else {
-			source.append("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED,\"<empty log statement>\");\n");
+			source.append("TtcnLogger.log_str(Severity.USER_UNQUALIFIED,\"<empty log statement>\");\n");
 		}
 	}
 }
