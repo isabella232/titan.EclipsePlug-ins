@@ -307,7 +307,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 			chain.release();
 
 			if (!last.getValuetype().equals(Value_type.REAL_VALUE) || ((Real_Value) last).getValue() != Double.NEGATIVE_INFINITY) {
-				last.generateCodeExpression(aData, expression, true);
+				last.generateCodeExpression(aData, expression, false);
 				initStatement.append(name);
 				initStatement.append(".setMin( ");
 				initStatement.append(expression.expression);
@@ -335,7 +335,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 
 			if (!last.getValuetype().equals(Value_type.REAL_VALUE) || ((Real_Value) last).getValue() != Double.POSITIVE_INFINITY) {
 				expression.expression = new StringBuilder();
-				last.generateCodeExpression(aData, expression, true);
+				last.generateCodeExpression(aData, expression, false);
 				initStatement.append(name);
 				initStatement.append(".setMax( ");
 				initStatement.append(expression.expression);

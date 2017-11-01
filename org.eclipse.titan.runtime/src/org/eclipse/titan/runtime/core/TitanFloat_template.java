@@ -311,6 +311,19 @@ public class TitanFloat_template extends Base_Template {
 		min_value = new TitanFloat(minValue);
 	}
 
+	public void setMin(final Ttcn3Float minValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Float template is not range when setting lower limit.");
+		}
+		if (max_is_present && min_is_present && max_value.isLessThan(min_value)) {
+			throw new TtcnError("The lower limit of the range is greater than the " + "upper limit in a float template.");
+		}
+
+		min_is_present = true;
+		min_is_exclusive = false;
+		min_value = new TitanFloat(minValue);
+	}
+
 	public void setMin(final TitanFloat minValue) {
 		minValue.mustBound("Using an unbound value when setting the lower bound " + "in a float range template.");
 
@@ -318,6 +331,19 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	public void setMax(final double maxValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Float template is not range when setting upper limit.");
+		}
+		if (min_is_present && max_is_present && min_value.isGreaterThan(max_value)) {
+			throw new TtcnError("The upper limit of the range is smaller than the " + "lower limit in a float template.");
+		}
+
+		max_is_present = true;
+		max_is_exclusive = false;
+		max_value = new TitanFloat(maxValue);
+	}
+
+	public void setMax(final Ttcn3Float maxValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Float template is not range when setting upper limit.");
 		}
