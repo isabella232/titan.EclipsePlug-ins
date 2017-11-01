@@ -190,7 +190,6 @@ public class EnumeratedGenerator {
 		generateTemplateMatchOmit(source);
 		generateTemplateLog(source, e_defs.name);
 
-		//FIXME implement log
 		//FIXME implement log_match
 		//FIXME implement encode
 		//FIXME implement decode
