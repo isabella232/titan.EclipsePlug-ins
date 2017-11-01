@@ -244,7 +244,7 @@ public final class SingleLenghtRestriction extends LengthRestriction {
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		final ExpressionStruct expression = new ExpressionStruct();
-		value.generateCodeExpression(aData, expression, true);
+		value.generateCodeExpression(aData, expression, false);
 
 		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			source.append("{\n");

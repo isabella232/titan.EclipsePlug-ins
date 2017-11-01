@@ -908,7 +908,7 @@ public final class Referenced_Template extends TTCN3Template {
 				expression.expression.append(MessageFormat.format(".get{0}()", FieldSubReference.getJavaGetterName(((FieldSubReference) subReference).getId().getName())));
 			} else {
 				expression.expression.append(".getAt(");
-				((ArraySubReference) subReference).getValue().generateCodeExpression(aData, expression, true);
+				((ArraySubReference) subReference).getValue().generateCodeExpression(aData, expression, false);
 				expression.expression.append(')');
 			}
 		}

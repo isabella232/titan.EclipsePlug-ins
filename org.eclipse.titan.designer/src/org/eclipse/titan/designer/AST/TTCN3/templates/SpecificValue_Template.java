@@ -673,7 +673,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 			}
 
 			expression.expression.append(MessageFormat.format("new {0}(", genName) );
-			specificValue.generateCodeExpression( aData, expression, true );
+			specificValue.generateCodeExpression( aData, expression, false );
 			expression.expression.append(')');
 			return;
 		}
