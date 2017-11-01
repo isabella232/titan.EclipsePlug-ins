@@ -224,15 +224,10 @@ public final class Type_Assignment extends ASN1Assignment {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
-		if ("ASN-Bitstring".equals(identifier.getDisplayName())) {
-			int i = 0;
-			i++;
-		}
 		final String genName = getGenName();
 
 		if (type != null) {
 			final StringBuilder sb = aData.getCodeForType(genName);
-			//TODO temporary code to adapt to the starting code
 			StringBuilder source = new StringBuilder();
 			type.generateCode( aData, source );
 			sb.append(source);
