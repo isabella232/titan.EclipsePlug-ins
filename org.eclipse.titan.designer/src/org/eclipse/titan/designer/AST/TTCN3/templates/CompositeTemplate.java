@@ -42,7 +42,7 @@ public abstract class CompositeTemplate extends TTCN3Template {
 	 *
 	 * @return the template on the indexed position.
 	 * */
-	public TTCN3Template getTemplateByIndex(final int index) {  //???
+	public TTCN3Template getTemplateByIndex(final int index) {
 		return templates.getTemplateByIndex(index);
 	}
 
