@@ -437,7 +437,7 @@ public final class TtcnLogger {
 		}
 
 		if (finished) {
-			TtcnLogger.log(Severity.TESTCASE_START, "Execution of control part in module %s finished.", moduleName);
+			TtcnLogger.log(Severity.TESTCASE_FINISH, "Execution of control part in module %s finished.", moduleName);
 		} else {
 			TtcnLogger.log(Severity.TESTCASE_START, "Execution of control part in module %s started.", moduleName);
 		}
