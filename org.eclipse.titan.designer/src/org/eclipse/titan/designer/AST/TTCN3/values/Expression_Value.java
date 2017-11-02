@@ -389,7 +389,20 @@ public abstract class Expression_Value extends Value {
 			return;
 		}
 
-		generateCodeExpressionExpression(aData, expression);
+		if (returnsNative() && forceObject) {
+			ExpressionStruct tempExpression = new ExpressionStruct();
+			generateCodeExpressionExpression(aData, tempExpression);
+
+			final IType gov = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+
+			expression.preamble.append(tempExpression.preamble);
+			expression.expression.append(MessageFormat.format("new {0}(", gov.getGenNameValue(aData, new StringBuilder(), myScope)));
+			expression.expression.append(tempExpression.expression);
+			expression.expression.append(")");
+		} else {
+			generateCodeExpressionExpression(aData, expression);
+		}
+		
 	}
 
 	/**
