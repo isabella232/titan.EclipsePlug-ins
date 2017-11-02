@@ -883,8 +883,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-
-		//TODO this should handle only the global case
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
 
