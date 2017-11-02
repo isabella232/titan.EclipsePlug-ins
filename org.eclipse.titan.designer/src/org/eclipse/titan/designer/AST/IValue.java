@@ -462,6 +462,19 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name);
 
 	/**
+	 * Generates a Java code sequence, which initializes the Java
+	 *  object named  name with the contents of the value. The code
+	 *  sequence is appended to argument source and the resulting
+	 *  string is returned.
+	 *
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code to be updated
+	 * @param name the name which should be used to initialize
+	 * */
+	public StringBuilder generateCodeInitMandatory(final JavaGenData aData, final StringBuilder source, final String name);
+
+	/**
 	 * Appends the initialization sequence of all referred non-parameterized
 	 * templates to source and returns the resulting string. Such templates
 	 * may appear in the actual parameter list of parameterized value

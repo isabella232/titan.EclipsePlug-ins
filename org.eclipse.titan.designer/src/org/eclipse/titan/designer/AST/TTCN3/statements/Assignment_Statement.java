@@ -54,6 +54,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -680,7 +681,18 @@ public final class Assignment_Statement extends Statement {
 				}
 			} else {
 				// left hand side is a single assignment
-				value.generateCodeInit(aData, source, assignment.getGenNameFromScope(aData, source, myScope, null));
+				final String name = assignment.getGenNameFromScope(aData, source, myScope, null);
+				if (!isOptional && value.getValuetype() == Value_type.REFERENCED_VALUE) {
+					final Reference rightReference = ((Referenced_Value)value).getReference();
+					final Assignment rightAssignment = rightReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
+					if (rightAssignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(rightReference.getSubreferences())) {
+						value.generateCodeInitMandatory(aData, source, name);
+					} else {
+						value.generateCodeInit(aData, source, name);
+					}
+				} else {
+					value.generateCodeInit(aData, source, name);
+				}
 			}
 			if(rhsCopied) {
 				source.append("}\n");

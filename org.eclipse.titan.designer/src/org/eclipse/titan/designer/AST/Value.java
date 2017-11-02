@@ -498,6 +498,21 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
+	 * Generates a Java code sequence, which initializes the Java
+	 *  object named  name with the contents of the value. The code
+	 *  sequence is appended to argument source and the resulting
+	 *  string is returned.
+	 *
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source to be updated
+	 * @param name the name to be used for initialization
+	 * */
+	public StringBuilder generateCodeInitMandatory(final JavaGenData aData, final StringBuilder source, final String name) {
+		return generateCodeInit(aData, source, name);
+	}
+
+	/**
 	 * Appends the initialization sequence of all referred non-parameterized
 	 * templates to source and returns the resulting string. Such templates
 	 * may appear in the actual parameter list of parameterized value
@@ -626,7 +641,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	public StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		generateCodeExpressionMandatory(aData, expression, true);
+		generateCodeExpressionMandatory(aData, expression, false);
 
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			String typeName;
@@ -703,7 +718,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		case A_PAR_VAL_INOUT:
 			//only these are mapped to value objects
 			if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
-				expression.expression.append(".get()");
+				expression.expression.append(".constGet()");
 			}
 			break;
 		default:

@@ -732,6 +732,41 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public StringBuilder generateCodeInitMandatory(JavaGenData aData, StringBuilder source, String name) {
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (last == this) {
+			final ExpressionStruct expression = new ExpressionStruct();
+			expression.expression.append(name);
+			expression.expression.append(".assign(");
+			reference.generateConstRef(aData, expression);
+			generateCodeExpressionOptionalFieldReference(aData, expression, reference);
+			expression.expression.append(")");
+			expression.mergeExpression(source);
+
+			return source;
+		}
+
+		// the referred value is available at compile time
+		// the code generation is based on the referred value
+		if (last.canGenerateSingleExpression() &&
+				myScope.getModuleScope() == last.getMyScope().getModuleScope()) {
+			// simple substitution for in-line values within the same module
+			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
+		} else {
+			//TODO might need initialization see needs_init_precede
+			//TODO Value.cc:generate_code_init_refd
+
+			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.getGenNameOwn(myScope)));
+		}
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
