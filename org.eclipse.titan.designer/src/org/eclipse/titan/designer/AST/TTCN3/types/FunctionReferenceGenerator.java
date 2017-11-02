@@ -528,7 +528,7 @@ public class FunctionReferenceGenerator {
 		source.append("match_value.log();\n");
 		source.append("TtcnLogger.log_event_str(\" with \");\n");
 		source.append("log();\n");
-		source.append("if (match(match_value, legacy).getValue()) {\n");
+		source.append("if (match(match_value, legacy)) {\n");
 		source.append("TtcnLogger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
 		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
