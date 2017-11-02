@@ -707,7 +707,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 *
 	 * generate_code_str in the compiler
 	 *
-	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
