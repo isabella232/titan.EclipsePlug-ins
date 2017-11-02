@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -416,6 +417,7 @@ public final class Def_ModulePar extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
-		// TODO fatal error there is no local module parameter
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+		aData.getSrc().append("FATAL_ERROR encountered");
 	}
 }
