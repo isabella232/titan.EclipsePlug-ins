@@ -478,7 +478,6 @@ public final class Def_Var extends Definition {
 		}
 
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
-		//TODO type.generate_code ?
 		if (type.getTypetype() == Type_type.TYPE_ARRAY) {
 			final Array_Type arrayType = (Array_Type) type;
 			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());

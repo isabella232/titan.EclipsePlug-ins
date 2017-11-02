@@ -486,7 +486,7 @@ public final class Def_Var_Template extends Definition {
 		final StringBuilder source = new StringBuilder();
 		final StringBuilder initComp = aData.getInitComp();
 		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
-		//TODO type.generate_code ?
+
 		if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) { 
 			final Array_Type arrayType =  (Array_Type) type;
 			final StringBuilder sbforTemp = aData.getCodeForType(arrayType.getGenNameOwn());
