@@ -47,13 +47,20 @@ public class TitanTimer {
 		controlTimerSaved = otherValue.controlTimerSaved;
 		return this;
 	}
-	
-	//FIXME: implement
-	public TitanTimer assign(TitanFloat defaultValue) {
+
+	public TitanTimer assign(final Ttcn3Float defaultValue) {
+		setDefaultDuration(defaultValue);
+		isStarted = false;
+
+		return this;
+	}
+
+	public TitanTimer assign(final TitanFloat defaultValue) {
 		defaultValue.mustBound("Initializing a timer duration with an unbound float value.");
 
 		setDefaultDuration(defaultValue);
 		isStarted = false;
+
 		return this;
 	}
 	
@@ -126,6 +133,11 @@ public class TitanTimer {
 
 		hasDefault = true;
 		this.defaultValue = defaultValue;
+	}
+
+	// originally set_default_duration
+	public final void setDefaultDuration(final Ttcn3Float defaultValue) {
+		setDefaultDuration(defaultValue.getValue());
 	}
 
 	// originally set_default_duration
