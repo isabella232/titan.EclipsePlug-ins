@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.definitions;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -391,12 +392,44 @@ public final class Def_ModulePar_Template extends Definition {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
 
-		// TODO Auto-generated method stub
-		super.generateCode(aData, cleanUp);
+		if (defaultTemplate != null) {
+			//defaultValue.setGenNamePrefix("modulepar_");//currently does not need the prefix
+			defaultTemplate.setGenNameRecursive(genName);
+		}
+
+		final StringBuilder sb = aData.getSrc();
+		final StringBuilder source = new StringBuilder();
+		if ( !isLocal() ) {
+			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+				source.append( "private" );
+			} else {
+				source.append( "public" );
+			}
+			source.append( " static " );
+		}
+		source.append( "final " );
+		final String typeGeneratedName = type.getGenNameTemplate( aData, source, getMyScope() );
+		source.append( typeGeneratedName );
+		source.append( ' ' );
+		source.append( genName );
+		source.append( " = new " );
+		source.append( typeGeneratedName );
+		source.append( "();\n" );
+		if ( defaultTemplate != null ) {
+			defaultTemplate.generateCodeInit( aData, aData.getPreInit(), genName );
+		}
+		sb.append(source);
+
+		//TODO remaining functionality: implicit omit, setting/logging module parameters
 	}
 
-
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+		aData.getSrc().append("FATAL_ERROR encountered");
+	}
 }
