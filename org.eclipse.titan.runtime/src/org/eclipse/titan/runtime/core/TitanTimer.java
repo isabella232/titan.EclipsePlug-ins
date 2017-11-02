@@ -84,6 +84,16 @@ public class TitanTimer {
 		isStarted = false;
 	}
 
+	public TitanTimer(final String name, final Ttcn3Float defaultValue) {
+		if (name == null) {
+			throw new TtcnError("Internal Error: Creating a timer with an invalid name.");
+		}
+
+		timerName = name;
+		setDefaultDuration(defaultValue);
+		isStarted = false;
+	}
+
 	public TitanTimer(final String name, final TitanFloat defaultValue) {
 		if (name == null) {
 			throw new TtcnError("Internal Error: Creating a timer with an invalid name.");
