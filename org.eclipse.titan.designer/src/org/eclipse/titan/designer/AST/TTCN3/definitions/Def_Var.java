@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
@@ -35,6 +36,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -507,10 +509,15 @@ public final class Def_Var extends Definition {
 		}
 
 		if (initialValue != null && initialValue.canGenerateSingleExpression() ) {
-			if (initialValue.returnsNative() || type.getTypetypeTtcn3() != initialValue.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE)) {
-				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
+			final ExpressionStruct expression = new ExpressionStruct();
+			initialValue.generateCodeExpressionMandatory(aData, expression, false);
+
+			if (initialValue.returnsNative() || initialValue.getValuetype() == Value_type.REFERENCED_VALUE
+					|| initialValue.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE
+					|| type.getTypetypeTtcn3() != initialValue.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE)) {
+				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, expression.expression));
 			} else {
-				source.append(MessageFormat.format("{0} {1} = {2};\n", typeGeneratedName, genName, initialValue.generateSingleExpression(aData)));
+				source.append(MessageFormat.format("{0} {1} = {2};\n", typeGeneratedName, genName, expression.expression));
 			}
 		} else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
