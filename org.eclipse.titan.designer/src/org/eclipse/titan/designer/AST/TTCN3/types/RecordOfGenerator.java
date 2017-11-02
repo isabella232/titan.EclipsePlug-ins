@@ -39,7 +39,6 @@ public class RecordOfGenerator {
 										   final boolean isSetOf ) {
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
-		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanNull_Type");
@@ -90,7 +89,6 @@ public class RecordOfGenerator {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("Record_Of_Template");
-		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("RecordOfMatch");

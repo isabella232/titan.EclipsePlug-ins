@@ -75,7 +75,6 @@ public class EnumeratedGenerator {
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs ) {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport( "Base_Type" );
-		aData.addBuiltinTypeImport( "TitanBoolean" );
 		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addImport( "java.text.MessageFormat" );
@@ -164,7 +163,6 @@ public class EnumeratedGenerator {
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs){
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport( "Base_Type" );
-		aData.addBuiltinTypeImport( "TitanBoolean" );
 		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addCommonLibraryImport("TtcnLogger");

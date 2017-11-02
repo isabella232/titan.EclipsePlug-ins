@@ -54,7 +54,6 @@ public class FunctionReferenceGenerator {
 	 * @param def the function definition to generate code for.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def) {
-		aData.addBuiltinTypeImport("TitanBoolean");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addCommonLibraryImport("TtcnError");
 
