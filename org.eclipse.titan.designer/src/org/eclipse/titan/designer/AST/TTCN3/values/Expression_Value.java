@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -375,7 +376,16 @@ public abstract class Expression_Value extends Value {
 		}
 
 		if (canGenerateSingleExpression()) {
-			expression.expression.append(generateSingleExpression(aData));
+			if (returnsNative() && forceObject) {
+				final IType gov = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+
+				expression.expression.append(MessageFormat.format("new {0}(", gov.getGenNameValue(aData, new StringBuilder(), myScope)));
+				expression.expression.append(generateSingleExpression(aData));
+				expression.expression.append(")");
+			} else {
+				expression.expression.append(generateSingleExpression(aData));
+			}
+
 			return;
 		}
 

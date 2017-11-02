@@ -551,6 +551,17 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	StringBuilder generateCodeTmp(final JavaGenData aData, final StringBuilder source, final StringBuilder init);
 
 	/**
+	 * Generates the Java statement that puts the value of this into the log.
+	 * It is used when the value appears in the argument of a log() statement.
+	 *
+	 * generate_code_log in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * */
+	public void generateCodeLog(final JavaGenData aData, final ExpressionStruct expression);
+
+	/**
 	 * Returns a Java reference that points to this setting from the local module.
 	 *
 	 * @return The name of the Java setting in the generated code.

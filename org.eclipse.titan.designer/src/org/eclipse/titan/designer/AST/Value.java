@@ -663,6 +663,21 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	}
 
 	/**
+	 * Generates the Java statement that puts the value of this into the log.
+	 * It is used when the value appears in the argument of a log() statement.
+	 *
+	 * generate_code_log in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate source code into
+	 * */
+	public void generateCodeLog(final JavaGenData aData, final ExpressionStruct expression) {
+		//FIXME add support for explicit cast if needed.
+		generateCodeExpression(aData, expression, true);
+		expression.expression.append(".log()");
+	}
+
+	/**
 	 * Adds the character sequence "get()" to expression->expression if reference points to
 	 * an optional field of a record/set value.
 	 *

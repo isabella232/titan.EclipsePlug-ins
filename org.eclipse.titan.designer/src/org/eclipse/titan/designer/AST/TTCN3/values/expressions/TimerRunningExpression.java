@@ -226,8 +226,15 @@ public final class TimerRunningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		reference.generateCode(aData, expression);
+		generateCodeExpressionOptionalFieldReference(aData, expression, reference);
 		expression.expression.append(".running()");
 		//TODO: handle index redirection
 	}

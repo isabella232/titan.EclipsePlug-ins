@@ -248,6 +248,16 @@ public final class UndefRunningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		if (realExpression != null && realExpression != this) {
+			return realExpression.returnsNative();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		if (realExpression != null) {
 			return realExpression.generateSingleExpression(aData);
