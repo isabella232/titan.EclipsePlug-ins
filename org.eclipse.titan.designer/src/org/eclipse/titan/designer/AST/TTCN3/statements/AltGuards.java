@@ -682,7 +682,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			// evaluation of guard operation
 			source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_MAYBE) '{'\n", tempId, i));
 			final ExpressionStruct expression = new ExpressionStruct();
-			source.append(MessageFormat.format("{0}_alt_flag_{1} = ", tempId, i));
+			expression.expression.append(MessageFormat.format("{0}_alt_flag_{1} = ", tempId, i));
 			final Statement statement = ((Operation_Altguard) altGuard).getGuardStatement();
 			statement.generateCodeExpression(aData, expression);
 			expression.mergeExpression(source);
