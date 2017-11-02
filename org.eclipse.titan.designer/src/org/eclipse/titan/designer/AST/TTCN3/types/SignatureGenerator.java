@@ -486,38 +486,38 @@ public class SignatureGenerator {
 			source.append("}\n");
 		}
 
-		source.append(MessageFormat.format("public TitanBoolean match_call(final {0}_call match_value) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean match_call(final {0}_call match_value) '{'\n", def.genName));
 		source.append("return match_call(match_value, false);\n");
 		source.append("}\n");
 
-		source.append(MessageFormat.format("public TitanBoolean match_call(final {0}_call match_value, final boolean legacy) '{'\n", def.genName));
+		source.append(MessageFormat.format("public boolean match_call(final {0}_call match_value, final boolean legacy) '{'\n", def.genName));
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return new TitanBoolean(false);'}'\n", formalPar.mJavaName ));
+				source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
 			}
 		}
-		source.append("return new TitanBoolean(true);\n");
+		source.append("return true;\n");
 		source.append("}\n");
 
 		if(!def.isNoBlock) {
-			source.append(MessageFormat.format("public TitanBoolean match_reply(final {0}_reply match_value) '{'\n", def.genName));
+			source.append(MessageFormat.format("public boolean match_reply(final {0}_reply match_value) '{'\n", def.genName));
 			source.append("return match_reply(match_value, false);\n");
 			source.append("}\n");
 
-			source.append(MessageFormat.format("public TitanBoolean match_reply(final {0}_reply match_value, final boolean legacy) '{'\n", def.genName));
+			source.append(MessageFormat.format("public boolean match_reply(final {0}_reply match_value, final boolean legacy) '{'\n", def.genName));
 			for (int i = 0 ; i < def.formalParameters.size(); i++) {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return new TitanBoolean(false);'}'\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("if (!param_{0}.match(match_value.get{0}(), legacy)) '{'return false;'}'\n", formalPar.mJavaName ));
 				}
 			}
 			if (def.returnType != null) {
-				source.append("if (!reply_value.match(match_value.getreturn_value(), legacy)) {return new TitanBoolean(false);}\n");
+				source.append("if (!reply_value.match(match_value.getreturn_value(), legacy)) {return false;}\n");
 			}
-			source.append("return new TitanBoolean(true);\n");
+			source.append("return true;\n");
 			source.append("}\n");
 		}
 
