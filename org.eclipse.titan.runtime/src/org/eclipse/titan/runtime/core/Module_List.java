@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 
 /**
@@ -52,8 +53,10 @@ public final class Module_List {
 	//originally Module_List::initialize_component
 	public static void initialize_component(final String module_name, final String component_type, final boolean init_base_comps) {
 		final TTCN_Module module = lookup_module(module_name);
-		//FIXME add checks
-		module.init_comp_type(component_type, init_base_comps);
-		//FIXME handle error
+		if (module == null) {
+			throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not exist.", module_name));
+		} else if(!module.init_comp_type(component_type, init_base_comps)) {
+			throw new TtcnError(MessageFormat.format("Internal error: Component type {0} does not exist in module {1}.", component_type, module_name));
+		}
 	}
 }
