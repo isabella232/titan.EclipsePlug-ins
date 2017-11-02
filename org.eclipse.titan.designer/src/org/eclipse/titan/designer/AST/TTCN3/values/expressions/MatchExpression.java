@@ -316,9 +316,10 @@ public final class MatchExpression extends Expression_Value {
 		expression.expression.append( ".match( " );
 		value.generateCodeExpression(aData, expression, true);
 		if(aData.allowOmitInValueList()) {
-			expression.expression.append( ", true " );
+			expression.expression.append( ", true )" );
+		} else {
+			expression.expression.append( ", false )" );
 		}
-		expression.expression.append( " )" );
 	}
 
 	public void generateCodeLogMatch(final JavaGenData aData, final ExpressionStruct expression) {
@@ -327,8 +328,9 @@ public final class MatchExpression extends Expression_Value {
 		expression.expression.append( ".log_match( " );
 		value.generateCodeExpression(aData, expression, true);
 		if(aData.allowOmitInValueList()) {
-			expression.expression.append( ", true " );
+			expression.expression.append( ", true )" );
+		} else {
+			expression.expression.append( ", false )" );
 		}
-		expression.expression.append( ", false )" );
 	}
 }
