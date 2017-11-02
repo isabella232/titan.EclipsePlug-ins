@@ -7,8 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
@@ -254,25 +254,22 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 		return true;
 	}
 
-	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name, AtomicBoolean unreach) {
 		ExpressionStruct expression =  new ExpressionStruct();
+
 		if(templateInstances != null) {
-			final ArrayList<String> tmpList = new ArrayList<String>();
 			for (int i = 0; i < templateInstances.getNofTis(); i++) {
 				final String tmp = aData.getTemporaryVariableName();
-				tmpList.add(tmp);
 				final TemplateInstance templateInstance = templateInstances.getInstanceByIndex(i);
 				final TTCN3Template tb = templateInstance.getTemplateBody();
 				boolean isValue = templateInstance.getDerivedReference() == null && tb.isValue(CompilationTimeStamp.getBaseTimestamp());
-				
 				final IType last = templateInstance.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-				final String genName = last.getGenNameTemplate(aData, expression.expression,last.getMyScope());
-				expression.expression.append(genName);
-				expression.expression.append(' ').append(tmp).append(" = ");
-				expression.expression.append("new ").append(genName).append('(');
-
 				
 				if(isValue) {
+					final String genName = last.getGenNameValue(aData, expression.expression,last.getMyScope());
+					expression.expression.append(genName);
+					expression.expression.append(' ').append(tmp).append(" = ");
+
 					if (tb.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
 						SpecificValue_Template specificValueTemplate = (SpecificValue_Template) tb;
 						specificValueTemplate.getSpecificValue().generateCodeExpressionMandatory(aData, expression, true);
@@ -286,32 +283,43 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 							value.generateCodeExpressionMandatory(aData, expression, true);
 						}
 					}
+					
+					if (i == 0) {
+						expression.postamble.append("if(").append(tmp);
+					} else {
+						expression.postamble.append(" || ").append(tmp);
+					}
+					
+					expression.postamble.append(".operatorEquals(").append(name).append(")");
+
 				} else if (!isValue) {
+					final String genName = last.getGenNameTemplate(aData, expression.expression,last.getMyScope());
+					expression.expression.append(genName);
+					expression.expression.append(' ').append(tmp).append(" = ");
 					templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+
+					if (i == 0) {
+						expression.postamble.append("if(").append(tmp);
+					} else {
+						expression.postamble.append(" || ").append(tmp);
+					}
+					expression.postamble.append(".match(").append(name).append(") ");
 				}
 				
-//				templateInstances.getInstanceByIndex(i).generateCode(aData, expression, Restriction_type.TR_NONE);
-				expression.expression.append(");\n");				
+				expression.expression.append(";\n");				
 			}
+
 			source.append(expression.preamble);
 			source.append(expression.expression);
 			source.append(expression.postamble);
-			source.append("if (");
-			for (int i = 0; i < tmpList.size(); i++) {
-				if(i > 0) {
-					source.append(" || ");
-				}
-				source.append(tmpList.get(i));
-				source.append(".match(");
-				source.append(name);
-				source.append(").getValue()");
-			}
-
 			source.append(") {\n");
+
 			statementblock.generateCode(aData, source);
+
 			source.append("}\n");
 		} else {
 			statementblock.generateCode(aData, source);
+			unreach.set(true);
 		}
 
 	}
