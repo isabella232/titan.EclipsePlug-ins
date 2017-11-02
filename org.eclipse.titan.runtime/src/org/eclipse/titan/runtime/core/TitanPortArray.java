@@ -8,8 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.List;
+
 
 /**
  * Represent an array of ports.
@@ -20,7 +19,7 @@ import java.util.List;
 
 public class TitanPortArray<T extends TitanPort> extends TitanPort {
 
-	private List<T> array_elements;
+	private TitanPort[] array_elements;
 	private String[] names;
 
 	private Class<T> clazz;
@@ -33,12 +32,12 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
-		array_elements = new ArrayList<T>(array_size);
+		array_elements = new TitanPort[array_size];
 		names = new String[array_size];
 
 		for (int i = 0; i < array_size; i++) {
 			// TODO: check otherValue.array_element[i] need a new variable
-			array_elements.add(otherValue.array_elements.get(i));
+			array_elements[i] = otherValue.array_elements[i];
 			names[i] = otherValue.names[i];
 		}
 	}
@@ -46,7 +45,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	public TitanPortArray(final Class<T> clazz, int size, int offset) {
 		this.clazz = clazz;
 		indexofset = offset;
-		array_elements = new ArrayList<T>(size);
+		array_elements = new TitanPort[size];
 		names = new String[size];
 		setSize(size);
 	}
@@ -54,8 +53,8 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
-				final T emply = clazz.newInstance();
-				array_elements.add(emply);
+				final T empty = clazz.newInstance();
+				array_elements[i] = empty;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
@@ -70,12 +69,12 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		array_size = otherValue.array_size;
 		indexofset = otherValue.indexofset;
 		clazz = otherValue.clazz;
-		array_elements = new ArrayList<T>(array_size);
+		array_elements = new TitanPort[array_size];
 		names = new String[array_size];
 
 		for (int i = 0; i < array_size; i++) {
 			// TODO: check otherValue.array_element[i] need a new variable
-			array_elements.add(otherValue.array_elements.get(i));
+			array_elements[i] = otherValue.array_elements[i];
 			names[i] = otherValue.names[i];
 		}
 
@@ -83,13 +82,15 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	// originally operator[]
+	@SuppressWarnings("unchecked")
 	public T getAt(final int index_value) {
-		return array_elements.get(getPortArrayIndex(index_value, array_elements.size(), indexofset));
+		return (T)array_elements[getPortArrayIndex(index_value, array_size, indexofset)];
 	}
 
 	// originally operator[]
+	@SuppressWarnings("unchecked")
 	public T getAt(final TitanInteger index_value) {
-		return array_elements.get(getPortArrayIndex(index_value.getInt(), array_elements.size(), indexofset));
+		return (T)array_elements[getPortArrayIndex(index_value.getInt(), array_size, indexofset)];
 	}
 
 	// originally operator[]
@@ -121,7 +122,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	public void set_name(final String name_string) {
 		for (int i = 0; i < array_size; i++) {
 			names[i] = name_string;
-			array_elements.get(i).setName(name_string);
+			array_elements[i].setName(name_string);
 		}
 	}
 
@@ -129,7 +130,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	public void activatePort() {
 		for (int v_index = 0; v_index < array_size; v_index++) {
 			//FIXME: TitanPort.activatePort()
-			array_elements.get(v_index).activatePort(false);
+			array_elements[v_index].activatePort(false);
 		}
 	}
 
@@ -139,7 +140,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 			if (v_index > 0) {
 				TtcnLogger.log_event_str(", ");
 			}
-			array_elements.get(v_index).log();
+			array_elements[v_index].log();
 		}
 		TtcnLogger.log_event_str(" }");
 	}
@@ -152,7 +153,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).receive(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].receive(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -177,7 +178,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).check_receive(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].check_receive(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -201,7 +202,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).trigger(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].trigger(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -225,7 +226,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).getcall(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].getcall(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -249,7 +250,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).getreply(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].getreply(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -274,7 +275,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).get_exception(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].get_exception(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -299,7 +300,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).check_catch(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].check_catch(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);
@@ -323,7 +324,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status ret_val = array_elements.get(i).check(sender_template, sender_ptr);
+			TitanAlt_Status ret_val = array_elements[i].check(sender_template, sender_ptr);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexofset);

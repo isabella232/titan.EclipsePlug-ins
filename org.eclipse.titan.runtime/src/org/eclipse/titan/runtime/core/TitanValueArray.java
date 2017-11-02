@@ -8,14 +8,13 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
-import java.util.ArrayList;
 
 /**
  * @author Farkas Izabella Ingrid
  */
 public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
-	ArrayList<T> array_elements;
+	Base_Type[] array_elements;
 
 	public Class<T> clazz;
 
@@ -23,22 +22,22 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	int indexOffset;
 
 	// only package visible
-	TitanValueArray(final Class<T> clazz) {
+/*	TitanValueArray(final Class<T> clazz) {
 		this.clazz = clazz;
 		array_elements = new ArrayList<T>();
-	}
+	}*/
 	
 	public TitanValueArray(final TitanValueArray<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
-		array_elements = new ArrayList<T>(array_size);
+		array_elements = new Base_Type[array_size];
 		
 		for (int i = 0; i < array_size ; ++i) {
 			try {
 				final T helper = clazz.newInstance();
-				helper.assign(otherValue.array_elements.get(i));
-				array_elements.add(helper);
+				helper.assign(otherValue.array_elements[i]);
+				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
@@ -51,16 +50,26 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		this.clazz = clazz;
 		indexOffset = offset;
 
-		array_elements = new ArrayList<T>(size);
-		setSize(size);
+		array_size = size;
+		array_elements = new Base_Type[size];
+		for (int i = 0; i < size; ++i) {
+			try {
+				final T emply = clazz.newInstance();
+				array_elements[i] = emply;
+			} catch (InstantiationException e) {
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
+			} catch (IllegalAccessException e) {
+				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
+			}
+		}
 	}
 	
 	//FIXME: implement
-	public void setSize(final int length) {
+/*	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
 				final T emply = clazz.newInstance();
-				array_elements.add(emply);
+				array_elements[i] = emply;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
@@ -68,7 +77,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			}
 		}
 		array_size = length;
-	}
+	}*/
 
 	public void setOffset(final int offset) {
 		indexOffset = offset;
@@ -83,7 +92,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	@Override
 	public boolean isBound() {
 		for (int i = 0; i < array_size; ++i) {
-			if (array_elements.get(i).isBound()) {
+			if (array_elements[i].isBound()) {
 				return true;
 			}
 		}
@@ -93,13 +102,13 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	//FIXME: originally array_elements.get(i).clean_up()
 	public void cleanUp() {
-		array_elements.clear();
+		//array_elements.clear();
 		array_elements = null;
 	}
 
 	public boolean isValue() {
 		for (int i = 0; i < array_size; ++i) {
-			if (!array_elements.get(i).isValue()) {
+			if (!array_elements[i].isValue()) {
 				return false;
 			}
 		}
@@ -109,7 +118,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	public TitanInteger lengthOf() {
 		for (int i = array_size-1; i >= 0; --i) {
-			if (array_elements.get(i).isBound()) {
+			if (array_elements[i].isBound()) {
 				return new TitanInteger(i+1);
 			}
 		}
@@ -127,10 +136,11 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			return assign(arrayOther);
 		} else {
 			try {
-				array_elements = new ArrayList<T>(1);
+				array_size = 1;
+				array_elements = new Base_Type[1];
 				final T value = clazz.newInstance();
 				value.assign(otherValue);
-				array_elements.add(value);
+				array_elements[0] = value;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
@@ -145,13 +155,13 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		cleanUp();
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
-		array_elements = new ArrayList<T>(array_size);
+		array_elements = new Base_Type[array_size];
 
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
 				helper.assign(otherValue.array_element(i));
-				array_elements.add(helper);
+				array_elements[i] = helper;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
 			} catch (IllegalAccessException e) {
@@ -168,7 +178,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			return operatorEquals(arrayOther);
 		} else {
 			if(array_size == 1 ) {
-				return array_elements.get(0).operatorEquals(otherValue);
+				return array_elements[0].operatorEquals(otherValue);
 			}
 		}
 
@@ -181,7 +191,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 
 		for (int i = 0; i < array_size; ++i) {
-			if (! array_elements.get(getArrayIndex(i, array_size, indexOffset)).operatorEquals(otherValue.array_elements.get(getArrayIndex(i, otherValue.array_size, otherValue.indexOffset)))) {
+			if (! array_elements[getArrayIndex(i, array_size, indexOffset)].operatorEquals(otherValue.array_elements[getArrayIndex(i, otherValue.array_size, otherValue.indexOffset)])) {
 				return false;
 			}
 		}
@@ -209,17 +219,17 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return this;
 			}
 
-			final TitanValueArray<T> result = new TitanValueArray<T>(clazz);
-			result.array_size = array_size;
-			result.indexOffset = indexOffset;
+			final TitanValueArray<T> result = new TitanValueArray<T>(clazz, array_size, indexOffset);
+//			result.array_size = array_size;
+//			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
 				rotateCount = array_size;
 			}
 			for (int i = 0; i < array_size - rotateCount; i++) {
-				result.array_elements.add(i, array_elements.get(i+rotateCount));
+				result.array_elements[i] = array_elements[i+rotateCount];
 			}
 			for (int i =array_size - rotateCount; i < array_size; i++) {
-				result.array_elements.add(i, array_elements.get(i+rotateCount - array_size));
+				result.array_elements[i] = array_elements[i+rotateCount - array_size];
 			}
 			return result;
 		} else {
@@ -245,17 +255,17 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return this;
 			}
 
-			final TitanValueArray<T> result = new TitanValueArray<T>(clazz);
-			result.array_size = array_size;
-			result.indexOffset = indexOffset;
+			final TitanValueArray<T> result = new TitanValueArray<T>(clazz, array_size, indexOffset);
+//			result.array_size = array_size;
+//			result.indexOffset = indexOffset;
 			if (rotateCount > array_size) {
 				rotateCount = array_size;
 			}
 			for (int i = 0; i < rotateCount; i++) {
-				result.array_elements.add(i, array_elements.get(i-rotateCount+array_size));
+				result.array_elements[i] = array_elements[i-rotateCount+array_size];
 			}
 			for (int i = rotateCount; i < array_size; i++) {
-				result.array_elements.add(i, array_elements.get(i-rotateCount));
+				result.array_elements[i] = array_elements[i-rotateCount];
 			}
 			return result;
 		} else {
@@ -271,34 +281,40 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	// originally T& operator[](int)
+	@SuppressWarnings("unchecked")
 	public T getAt(final int index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
+		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
 	}
 
 	//originally T& operator[](const INTEGER)
+	@SuppressWarnings("unchecked")
 	public T getAt(final TitanInteger index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
+		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
 	}
 	//const originally T& operator[](int)
+	@SuppressWarnings("unchecked")
 	public T constGetAt(final int index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
+		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
 	}
 
 	// const // originally T& operator[](const INTEGER)
+	@SuppressWarnings("unchecked")
 	public T constGetAt(final TitanInteger index) {
-		return array_elements.get(getArrayIndex(index, array_size, indexOffset));
+		return (T)array_elements[getArrayIndex(index, array_size, indexOffset)];
 	}
 
+	@SuppressWarnings("unchecked")
 	public T array_element(final int index) {
-		return array_elements.get(index); 
+		return (T)array_elements[index]; 
 	}
 
+	@SuppressWarnings("unchecked")
 	public T array_element(final TitanInteger index) {
 		if (! index.isBound()) {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}
 
-		return array_elements.get(index.getInt()); 
+		return (T)array_elements[index.getInt()]; 
 	}
 
 	//TODO: void set_implicit_omit()
@@ -320,11 +336,11 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	public String toString() {
 		final StringBuilder str = new StringBuilder("{");
 		for (int i = 0; i < array_size-1; ++i) {
-			str.append(array_elements.get(i).toString());
+			str.append(array_elements[i].toString());
 			str.append(" , ");
 		}
 		if (array_size > 0 ) {
-			str.append(array_elements.get(array_size-1).toString());
+			str.append(array_elements[array_size-1].toString());
 		}
 		str.append('}');
 		return str.toString();
@@ -365,7 +381,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			if (elem_count > 0) {
 				TtcnLogger.log_event_str(", ");
 			}
-			array_elements.get(elem_count).log();
+			array_elements[elem_count].log();
 		}
 		TtcnLogger.log_event_str(" }");
 	}
