@@ -23,6 +23,7 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.jface.util.IPropertyChangeListener;
 import org.eclipse.jface.util.PropertyChangeEvent;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
 import org.eclipse.titan.common.parsers.TITANMarker;
 import org.eclipse.titan.common.parsers.TitanListener;
@@ -726,6 +727,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 	 * types, the generic version causes \a FATAL_ERROR.
 	 * */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
-		//TODO cause FATAL error
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+		aData.getSrc().append("FATAL_ERROR encountered");
 	}
 }

@@ -999,10 +999,4 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
 		}
 	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
-		//TODO implement
-	}
 }

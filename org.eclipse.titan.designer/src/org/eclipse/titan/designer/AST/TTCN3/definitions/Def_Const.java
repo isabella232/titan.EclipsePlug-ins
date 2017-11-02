@@ -537,7 +537,6 @@ public final class Def_Const extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
-		/* This function actually does nothing as \a this and \a base_defn are
-		 * exactly the same. */
+		/* This function actually does nothing as this and base_defn are exactly the same. */
 	}
 }

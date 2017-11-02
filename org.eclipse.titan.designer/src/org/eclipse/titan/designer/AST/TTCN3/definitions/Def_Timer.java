@@ -861,7 +861,6 @@ public final class Def_Timer extends Definition {
 				expression.expression.append(')');
 				expression.mergeExpression(initComp);
 			} else {
-				initComp.append("//generateCodeInitComp: TODO timer array are not yet implemented\n");
 				generateCodeArrayDuration(aData, initComp, baseTimerDefinition.getGenNameFromScope(aData, initComp, myScope, ""), new ArrayList<String>(),  baseTimerDefinition.defaultDuration, 0);
 
 			}
