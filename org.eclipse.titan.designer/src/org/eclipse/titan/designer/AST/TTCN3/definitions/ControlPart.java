@@ -384,6 +384,8 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	 * @param aData the generated java code with other info
 	 */
 	public void generateCode( final JavaGenData aData ) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\tpublic void control() {\n" );
 		sb.append(MessageFormat.format("\t\tTTCN_Runtime.begin_controlpart(\"{0}\");\n", getModuleScope().getIdentifier().getDisplayName()));
