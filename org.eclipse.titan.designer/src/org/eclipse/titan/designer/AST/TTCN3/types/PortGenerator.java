@@ -449,7 +449,7 @@ public class PortGenerator {
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
 			//FIXME: Temporary implement
-			source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.EXTRACT_MSG, portName, 0 , ++proc_head_count, new TitanCharString(), new TitanCharString());");
+			source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.EXTRACT_OP, portName, 0 , ++proc_head_count, new TitanCharString(), new TitanCharString());");
 			source.append("}\n\n");
 		}
 
