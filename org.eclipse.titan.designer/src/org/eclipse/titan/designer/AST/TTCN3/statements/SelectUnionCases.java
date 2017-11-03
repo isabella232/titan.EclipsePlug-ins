@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -20,6 +21,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -33,6 +35,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @see SelectUnionCase
  *
  * @author Arpad Lovassy
+ * @author Farkas Izabella Ingrid
  */
 public final class SelectUnionCases extends ASTNode implements IIncrementallyUpdateable {
 	private static final String FULLNAMEPART = ".select_union_case_";
@@ -261,5 +264,22 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 
 	public List<SelectUnionCase> getSelectUnionCaseArray() {
 		return mSelectUnionCases;
+	}
+
+	public void generateCode(JavaGenData aData, StringBuilder source) {
+		source.append("case UNBOUND_VALUE :\n");
+		source.append("throw new TtcnError(\"The union in the head shall be initialized\");\n");
+		final AtomicBoolean unreach = new AtomicBoolean(false); 
+
+		for (int i = 0; i < mSelectUnionCases.size(); i++){
+			mSelectUnionCases.get(i).generateCode(aData, source, unreach);
+			if (unreach.get()) {
+				break;
+			}
+		}
+
+		if (!unreach.get()) {
+			source.append("default:\nbreak;\n");
+		}
 	}
 }

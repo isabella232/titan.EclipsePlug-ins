@@ -9,12 +9,14 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -27,6 +29,7 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -41,6 +44,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @see SelectUnionCases
  *
  * @author Arpad Lovassy
+ * @author Farkas Izabella Ingrid
  */
 public final class SelectUnionCase extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 
@@ -360,5 +364,21 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 			return false;
 		}
 		return true;
+	}
+
+	public void generateCode(final JavaGenData aData, final StringBuilder source, AtomicBoolean unreach) {
+		if (mItems != null) {
+			for (int i = 0; i < mItems.size(); i++) {
+				final Identifier identifier = mItems.get( i );
+				final String name = identifier.getName();
+				source.append(MessageFormat.format("case ALT_{0}:\n", FieldSubReference.getJavaGetterName(name)));				
+			}
+		} else {
+			unreach.set(true);
+			source.append("default:\n");
+		}
+
+		mStatementBlock.generateCode(aData, source);
+		source.append("break;\n");
 	}
 }
