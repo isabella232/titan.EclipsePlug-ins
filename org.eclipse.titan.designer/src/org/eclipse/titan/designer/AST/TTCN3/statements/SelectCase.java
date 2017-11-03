@@ -256,63 +256,48 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 
 	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name, AtomicBoolean unreach) {
 		ExpressionStruct expression =  new ExpressionStruct();
+		StringBuilder condition = new StringBuilder();
 
 		if(templateInstances != null) {
 			for (int i = 0; i < templateInstances.getNofTis(); i++) {
 				final String tmp = aData.getTemporaryVariableName();
 				final TemplateInstance templateInstance = templateInstances.getInstanceByIndex(i);
-				final TTCN3Template tb = templateInstance.getTemplateBody();
-				boolean isValue = templateInstance.getDerivedReference() == null && tb.isValue(CompilationTimeStamp.getBaseTimestamp());
+				final TTCN3Template templateBody = templateInstance.getTemplateBody();
+				boolean isValue = templateInstance.getDerivedReference() == null && templateBody.isValue(CompilationTimeStamp.getBaseTimestamp());
 				final IType last = templateInstance.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-				
+
 				if(isValue) {
 					final String genName = last.getGenNameValue(aData, expression.expression,last.getMyScope());
 					expression.expression.append(genName);
 					expression.expression.append(' ').append(tmp).append(" = ");
 
-					if (tb.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
-						SpecificValue_Template specificValueTemplate = (SpecificValue_Template) tb;
-						specificValueTemplate.getSpecificValue().generateCodeExpressionMandatory(aData, expression, true);
-					} else {
-						final IValue value = tb.getValue();
-						if(value.getMyGovernor() == null) {
-							// the value's governor could not be determined, treat it as a non-value template
-							isValue = false;
-						}
-						else {
-							value.generateCodeExpressionMandatory(aData, expression, true);
-						}
-					}
-					
-					if (i == 0) {
-						expression.postamble.append("if(").append(tmp);
-					} else {
-						expression.postamble.append(" || ").append(tmp);
-					}
-					
-					expression.postamble.append(".operatorEquals(").append(name).append(")");
+					final IValue value = templateBody.getValue();
+					value.generateCodeExpressionMandatory(aData, expression, true);		
 
-				} else if (!isValue) {
+					if(i > 0) {
+						condition.append(" || ");
+					}
+					condition.append(tmp).append(".operatorEquals(").append(name).append(")");
+				} else {
 					final String genName = last.getGenNameTemplate(aData, expression.expression,last.getMyScope());
 					expression.expression.append(genName);
 					expression.expression.append(' ').append(tmp).append(" = ");
+
 					templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 
-					if (i == 0) {
-						expression.postamble.append("if(").append(tmp);
-					} else {
-						expression.postamble.append(" || ").append(tmp);
+					if (i > 0) {
+						condition.append(" || ");
 					}
-					expression.postamble.append(".match(").append(name).append(") ");
+					condition.append(tmp).append(".match(").append(name).append(") ");
 				}
-				
+
 				expression.expression.append(";\n");				
 			}
 
 			source.append(expression.preamble);
 			source.append(expression.expression);
 			source.append(expression.postamble);
-			source.append(") {\n");
+			source.append("if(").append(condition).append(") {\n");
 
 			statementblock.generateCode(aData, source);
 
