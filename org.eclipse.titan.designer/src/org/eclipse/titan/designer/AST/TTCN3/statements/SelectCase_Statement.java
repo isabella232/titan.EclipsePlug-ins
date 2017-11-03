@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -203,22 +204,24 @@ public final class SelectCase_Statement extends Statement {
 	public SelectCases getSelectCases() {
 		return selectcases;
 	}
-	
-	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		final StringBuilder init = new StringBuilder();
-		final String tmp = aData.getTemporaryVariableName();
-		final IValue last = expression.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
-		final IType type = last.getExpressionGovernor(lastTimeChecked,  Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-		init.append(type.getGenNameValue(aData, source, myScope));
-		init.append(' ').append(tmp);
-		init.append(" = ");
 
-		last.generateCodeTmp(aData, init, source);
-		
-		init.append(";\n");
-		source.append(init);
-	
-		selectcases.generateCode(aData,source,tmp);
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		final StringBuilder name = new StringBuilder();
+		final StringBuilder init = new StringBuilder();
+		final IValue last = expression.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
+
+		last.generateCodeTmp(aData, name, init);
+
+		if (init.length() > 0) {
+			source.append(init);
+		}
+
+		final IType governor = expression.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		final String type = governor.getGenNameValue(aData, source, myScope);
+		final String tmp = aData.getTemporaryVariableName();
+		source.append(MessageFormat.format("{0} {1} = {2};\n", type, tmp, name));
+
+		selectcases.generateCode(aData, source, tmp);
 	}
 
 }
