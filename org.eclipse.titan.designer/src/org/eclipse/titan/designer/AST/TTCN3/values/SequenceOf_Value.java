@@ -289,6 +289,7 @@ public final class SequenceOf_Value extends Value {
 			if (getNofComponents() > 0) {
 				convertedValue.setIsErroneous(true);
 			}
+			convertedValue.copyGeneralProperties(this);
 			break;
 		default:
 			convertedValue = super.setValuetype(timestamp, newType);
