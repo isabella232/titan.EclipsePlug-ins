@@ -18,9 +18,10 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ModuleImportation;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.ASN1.definitions.*;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ImportModule;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -63,7 +64,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			setOfImportedModules.removeAll(check.getModules());
 
 			if (module instanceof TTCN3Module) {
-				for (org.eclipse.titan.designer.AST.TTCN3.definitions.ImportModule mod : ((TTCN3Module)module).getImports()){
+				for (ImportModule mod : ((TTCN3Module)module).getImports()){
 					for (Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(mod.getIdentifier())) { 
 							problems.report(mod.getLocation(), "Possibly unused importation (project)");
@@ -74,7 +75,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 				//visitor
 				ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
-				for (ImportModule im : importsCheck.getImports()) {
+				for (ModuleImportation im : importsCheck.getImports()) {
 					for (Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(im.getIdentifier())) { 
 							problems.report(im.getIdentifier().getLocation(), "Possibly unused importation (project)");
@@ -118,20 +119,20 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 	}
 
 	class ModuleImportsCheck extends ASTVisitor {
-		private Set<ImportModule> setOfModules = new HashSet<ImportModule>();
+		private Set<ModuleImportation> setOfModules = new HashSet<ModuleImportation>();
 
 		public ModuleImportsCheck() {
 			setOfModules.clear();
 		}
 
-		public Set<ImportModule> getImports() {
+		public Set<ModuleImportation> getImports() {
 			return setOfModules;
 		}
 
 		@Override
 		public int visit(final IVisitableNode node) {
-			if(node instanceof ImportModule){
-				ImportModule mod = (ImportModule) node;
+			if(node instanceof ModuleImportation){
+				ModuleImportation mod = (ModuleImportation) node;
 				setOfModules.add(mod);
 			}
 			return V_CONTINUE;
