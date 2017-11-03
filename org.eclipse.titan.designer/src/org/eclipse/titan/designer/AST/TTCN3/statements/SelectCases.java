@@ -230,18 +230,19 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 
 	public void generateCode(JavaGenData aData, StringBuilder source, String name) {
 		final StringBuilder init = new StringBuilder();
-		final AtomicBoolean unreach = new AtomicBoolean(false); 
-		for (int i = 0; i < select_cases.size(); i++){
+		final AtomicBoolean unreach = new AtomicBoolean(false);
+
+		for (int i = 0; i < select_cases.size(); i++) {
 			if (unreach.get()) {
 				break;
 			}
-			if(i > 0) {
+			if (i > 0) {
 				source.append("else { \n");
 				init.append("}\n");
 			}
-			select_cases.get(i).generateCode(aData,source,name,unreach);
+			select_cases.get(i).generateCode(aData, source, name, unreach);
 		}
-		
+
 		source.append(init);
 	}
 }

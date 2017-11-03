@@ -80,7 +80,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				+ " it recommendable for an altstep to handle any possible incoming message types");
 		m.put(ProblemTypePreference.CIRCULAR_IMPORTATION, "Circular importation is not prohibited in TTCN-3,"
 				+ " but it is also not recommended.");
-		m.put(ProblemTypePreference.UNUSED_IMPORTS_PROJECT, "popup text");
+		m.put(ProblemTypePreference.UNUSED_IMPORTS_PROJECT, "popup text");//FIXME better text message
 		m.put(ProblemTypePreference.LANGUAGE_MIXING, "Mixing modules with different language versions in the same project "
 				+ "is a sign of architectural problems as it can lead to missunderstandings/unexpected behaviours/aged design.\n"
 				+ "it is always recommended to adapt TTCN-3 source code to the newest version of the standard.");
@@ -399,7 +399,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 							synchronized (project) {
 								mh = analyzer.analyzeProject(monitor, project);
 							}
-							mh.showAll();
+							mh.showAll(project);
 							return Status.OK_STATUS;
 						}
 					};

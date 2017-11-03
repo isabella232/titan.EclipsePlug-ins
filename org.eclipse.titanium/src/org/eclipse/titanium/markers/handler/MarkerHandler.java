@@ -12,10 +12,15 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 
+import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.WorkspaceJob;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.parsers.GlobalParser;
+import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
@@ -109,21 +114,6 @@ public final class MarkerHandler {
 	}
 
 	/**
-	 * Asynchronously refresh the code smell markers of a resource in eclipse.
-	 * <p>
-	 * This method starts a new {@link WorkspaceJob} to delete the current
-	 * markers of the given resource, and create the new ones. Note that only
-	 * code smell markers are deleted (those of type
-	 * {@link CodeSmellType#MARKER_ID}).
-	 * 
-	 * @param res
-	 *            the resource where code smell markers are refreshed
-	 */
-	public void show(final IResource res) {
-		refresh(res);
-	}
-
-	/**
 	 * Asynchronously create and show the all markers known to this
 	 * <code>MarkerHandler</code> in eclipse.
 	 * <p>
@@ -131,21 +121,36 @@ public final class MarkerHandler {
 	 * markers, and create the new ones. Note that only code smell markers are
 	 * deleted (those of type {@link CodeSmellType#MARKER_ID}).
 	 */
-	public void showAll() {
+	public void showAll(final IProject project) {
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
+
+		org.eclipse.titan.designer.AST.MarkerHandler.markMarkersForRemoval(CodeSmellType.MARKER_ID, project);
+		for (final String moduleName : knownModuleNames) {
+			final Module mod = projectSourceParser.getModuleByName(moduleName);
+			final IResource moduleResource = mod.getLocation().getFile();
+			org.eclipse.titan.designer.AST.MarkerHandler.markMarkersForRemoval(CodeSmellType.MARKER_ID, moduleResource);
+		}
+
 		for (final IResource res : markersByResource.keySet()) {
 			refresh(res);
+		}
+
+		org.eclipse.titan.designer.AST.MarkerHandler.removeMarkedMarkers(CodeSmellType.MARKER_ID, project);
+		for (final String moduleName : knownModuleNames) {
+			final Module mod = projectSourceParser.getModuleByName(moduleName);
+			final IResource moduleResource = mod.getLocation().getFile();
+			org.eclipse.titan.designer.AST.MarkerHandler.removeMarkedMarkers(CodeSmellType.MARKER_ID, moduleResource);
 		}
 	}
 
 	private void refresh(final IResource res) {
-		org.eclipse.titan.designer.AST.MarkerHandler.markMarkersForRemoval(CodeSmellType.MARKER_ID, res);
 		final List<Marker> markers = markersByResource.get(res);
 		if (markers != null) {
 			for (final Marker m : markers) {
 				m.show();
 			}
 		}
-		org.eclipse.titan.designer.AST.MarkerHandler.removeMarkedMarkers(CodeSmellType.MARKER_ID, res);
 	}
 
 	public Map<IResource, List<Marker>> getMarkersByResource() {
