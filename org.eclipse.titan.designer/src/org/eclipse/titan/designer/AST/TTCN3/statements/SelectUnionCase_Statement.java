@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -34,6 +37,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @see SelectUnionCase
  *
  * @author Arpad Lovassy
+ * @author Farkas Izabella Ingrid
  */
 public final class SelectUnionCase_Statement extends Statement {
 	private static final String UNDETERMINABLETYPE = "Cannot determine the type of the expression";
@@ -266,5 +270,15 @@ public final class SelectUnionCase_Statement extends Statement {
 
 	public SelectUnionCases getSelectUnionCases() {
 		return mSelectUnionCases;
+	}
+	
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		ExpressionStruct expressionStruct =  new ExpressionStruct();
+		expression.generateCodeExpression(aData, expressionStruct, true);
+		source.append(expressionStruct.preamble);
+		source.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", expressionStruct.expression));
+		mSelectUnionCases.generateCode(aData, source);		
+		source.append("}\n");
+		source.append(expressionStruct.postamble);
 	}
 }
