@@ -119,6 +119,13 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		permutation_intervals.add( newElem );
 	}
 
+	/**
+	 * Removes all permutations set on this template, used when template variables are given new values.
+	 * */
+	public void removeAllPermutations() {
+		clean_up_intervals();
+	}
+
 	//TODO: move it to a utility class
 	/**
 	 * Calculates the ordinal indicator for an integer number, like 5th, it can be 1st, 2nd, 3rd, but 11th, 12th, 13th
