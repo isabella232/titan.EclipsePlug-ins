@@ -138,6 +138,18 @@ public final class TtcnLogger {
 		Severity severity;
 		//event_destination, etc...
 	}
+	
+	//temporary enum, original: TitanLoggerApi::Port_Queue.operation
+	public static enum Port_Queue_operation {
+		ENQUEUE_MSG,
+		ENQUEUE_CALL,
+		ENQUEUE_REPLY,
+		ENQUEUE_EXCEPTION,
+		EXTRACT_MSG,
+		EXTRACT_OP
+	}
+	
+	
 
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
@@ -423,11 +435,37 @@ public final class TtcnLogger {
 		log_event_str(MessageFormat.format("Sent on {0} to {1}{2}", portname, dest, parameter.getValue()));
 	}
 
-	public static void log_port_queue(int operation, final String port_name, int componentReference, int id, final TitanCharString address, final TitanCharString parameter) {
+	public static void log_port_queue(final Port_Queue_operation operation, final String port_name, int componentReference, int id, final TitanCharString address, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentReference);
-		//FIXME:implement LegacyLogger::portevent_str() to fix the logging
-		final String portq_operation = Integer.toString(operation);
-		log_event_str(MessageFormat.format("{4} enqueued/was extracted on {0} from {1}{2} id {3}", dest, address.toString(), parameter.toString(), id, portq_operation));
+		String ret_val = "";
+		switch (operation) {
+		case ENQUEUE_MSG:
+			ret_val = "Message";
+			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
+			break;
+		case ENQUEUE_CALL:
+			ret_val = "Call";
+			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
+			break;
+		case ENQUEUE_REPLY:
+			ret_val = "Reply";
+			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
+			break;
+		case ENQUEUE_EXCEPTION:
+			ret_val = "Exception";
+			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
+			break;
+		case EXTRACT_MSG:
+			ret_val = "Message";
+			log_event_str(MessageFormat.format("{0} with id {1} was extracted from the queue of {2}.", ret_val, id, port_name));
+			break;
+		case EXTRACT_OP:
+			ret_val = "Operation";
+			log_event_str(MessageFormat.format("{0} with id {1} was extracted from the queue of {2}.", ret_val, id, port_name));
+			break;
+		default:
+			return;
+		}
 	}
 
 	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
