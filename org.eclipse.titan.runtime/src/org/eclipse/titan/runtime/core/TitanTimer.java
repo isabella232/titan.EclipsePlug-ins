@@ -206,6 +206,11 @@ public class TitanTimer {
 	}
 
 	// originally start(const FLOAT& start_val)
+	public void start(final Ttcn3Float startValue) {
+		start(startValue.getValue());
+	}
+
+	// originally start(const FLOAT& start_val)
 	public void start(final TitanFloat startValue) {
 		startValue.mustBound(MessageFormat.format("Starting timer {0} with an unbound float value as duration.", timerName));
 

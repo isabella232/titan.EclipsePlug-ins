@@ -553,7 +553,7 @@ public final class Call_Statement extends Statement {
 				source.append("TitanTimer call_timer = new TitanTimer(null);\n");
 				expression = new ExpressionStruct();
 				expression.expression.append("call_timer.start(");
-				timerValue.generateCodeExpression(aData, expression, true);
+				timerValue.generateCodeExpression(aData, expression, false);
 				expression.expression.append(')');
 				expression.mergeExpression(source);
 			}
