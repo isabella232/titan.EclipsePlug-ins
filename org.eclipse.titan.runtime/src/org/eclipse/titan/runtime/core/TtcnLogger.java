@@ -148,9 +148,14 @@ public final class TtcnLogger {
 		EXTRACT_MSG,
 		EXTRACT_OP
 	}
-
-
-
+	
+	//temporary enum, original: TitanLoggerApi::Port_State.operation
+	public static enum Port_State_operation {
+		STARTED,
+		STOPPED,
+		HALTED
+	}
+	
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
 	static matching_verbosity_t matching_verbosity = matching_verbosity_t.VERBOSITY_COMPACT;
@@ -438,34 +443,59 @@ public final class TtcnLogger {
 	public static void log_port_queue(final Port_Queue_operation operation, final String port_name, int componentReference, int id, final TitanCharString address, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
+		Severity sev;
 		switch (operation) {
 		case ENQUEUE_MSG:
 			ret_val = "Message";
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
+			sev = Severity.PORTEVENT_MQUEUE;
 			break;
 		case ENQUEUE_CALL:
 			ret_val = "Call";
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
+			sev = Severity.PORTEVENT_PQUEUE;
 			break;
 		case ENQUEUE_REPLY:
 			ret_val = "Reply";
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
+			sev = Severity.PORTEVENT_PQUEUE;
 			break;
 		case ENQUEUE_EXCEPTION:
 			ret_val = "Exception";
+			sev = Severity.PORTEVENT_PQUEUE;
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
 			break;
 		case EXTRACT_MSG:
 			ret_val = "Message";
 			log_event_str(MessageFormat.format("{0} with id {1} was extracted from the queue of {2}.", ret_val, id, port_name));
+			sev = Severity.PORTEVENT_MQUEUE;
 			break;
 		case EXTRACT_OP:
 			ret_val = "Operation";
+			sev = Severity.PORTEVENT_PQUEUE;
 			log_event_str(MessageFormat.format("{0} with id {1} was extracted from the queue of {2}.", ret_val, id, port_name));
+			break;
+		default:
+			throw new TtcnError("Invalid operation");
+		}
+	}
+	
+	public static void log_port_state(final Port_State_operation operation, final String portname) {
+		String what = "";
+		switch (operation) {
+		case STARTED:
+			what = "started";
+			break;
+		case STOPPED:
+			what = "stopped";
+			break;
+		case HALTED:
+			what = "halted";
 			break;
 		default:
 			return;
 		}
+		log_event_str(MessageFormat.format("Port {0} was {1}.", portname, what));
 	}
 
 	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
