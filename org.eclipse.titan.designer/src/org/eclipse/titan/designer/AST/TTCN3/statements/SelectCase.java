@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -27,8 +28,6 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
-import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstances;
@@ -254,7 +253,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 		return true;
 	}
 
-	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name, AtomicBoolean unreach) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name, final AtomicBoolean unreach) {
 		ExpressionStruct expression =  new ExpressionStruct();
 		StringBuilder condition = new StringBuilder();
 
@@ -263,44 +262,38 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 				final String tmp = aData.getTemporaryVariableName();
 				final TemplateInstance templateInstance = templateInstances.getInstanceByIndex(i);
 				final TTCN3Template templateBody = templateInstance.getTemplateBody();
-				boolean isValue = templateInstance.getDerivedReference() == null && templateBody.isValue(CompilationTimeStamp.getBaseTimestamp());
+				final boolean isValue = templateInstance.getDerivedReference() == null && templateBody.isValue(CompilationTimeStamp.getBaseTimestamp());
 				final IType last = templateInstance.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 
+				if(i > 0) {
+					condition.append(" || ");
+				}
 				if(isValue) {
 					final String genName = last.getGenNameValue(aData, expression.expression,last.getMyScope());
-					expression.expression.append(genName);
-					expression.expression.append(' ').append(tmp).append(" = ");
+					expression.expression.append(MessageFormat.format("{0} {1} = new {0} (", genName, tmp));
+					IValue value = templateBody.getValue();
+					value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+					value.generateCodeExpressionMandatory(aData, expression, true);
 
-					final IValue value = templateBody.getValue();
-					value.generateCodeExpressionMandatory(aData, expression, true);		
+					expression.expression.append(");\n");
 
-					if(i > 0) {
-						condition.append(" || ");
-					}
-					condition.append(tmp).append(".operatorEquals(").append(name).append(")");
+					condition.append(MessageFormat.format("{0}.operatorEquals({1})", tmp, name));
 				} else {
 					final String genName = last.getGenNameTemplate(aData, expression.expression,last.getMyScope());
-					expression.expression.append(genName);
-					expression.expression.append(' ').append(tmp).append(" = ");
-
+					expression.expression.append(MessageFormat.format("{0} {1} = new {0} (", genName, tmp));
 					templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+					expression.expression.append(");\n");
 
-					if (i > 0) {
-						condition.append(" || ");
-					}
-					condition.append(tmp).append(".match(").append(name).append(") ");
+					condition.append(MessageFormat.format("{0}.match({1})", tmp, name));
 				}
-
-				expression.expression.append(";\n");				
 			}
 
 			source.append(expression.preamble);
 			source.append(expression.expression);
 			source.append(expression.postamble);
-			source.append("if(").append(condition).append(") {\n");
 
+			source.append("if (").append(condition).append(") {\n");
 			statementblock.generateCode(aData, source);
-
 			source.append("}\n");
 		} else {
 			statementblock.generateCode(aData, source);
