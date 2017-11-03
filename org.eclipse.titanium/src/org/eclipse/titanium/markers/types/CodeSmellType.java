@@ -19,7 +19,6 @@ import org.eclipse.titanium.Activator;
 public enum CodeSmellType implements ProblemType{
 	ALTSTEP_COVERAGE("Altstep coverage", 1.0, 5.0, 76.0),
 	CIRCULAR_IMPORTATION("Circular importation", 2.0, 12.0, 80.0),
-	UNUSED_IMPORTS_PROJECT("Unused import in project", 0.0, 0.5, 1.0),
 	LANGUAGE_MIXING("Language mixing", 2.0, 12.0, 80.0),
 	CONSECUTIVE_ASSIGNMENTS("Consecutive assignments", 0.0, 1.0, 6.0),
 	CONVERT_TO_ENUM("Convert to enumeration", 0.5, 3.0, 8.0),

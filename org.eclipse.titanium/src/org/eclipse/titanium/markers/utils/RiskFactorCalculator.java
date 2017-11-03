@@ -28,7 +28,6 @@ public class RiskFactorCalculator {
 		TaskType.FIXME,
 		TaskType.TODO,
 		CodeSmellType.CIRCULAR_IMPORTATION,
-		CodeSmellType.UNUSED_IMPORTS_PROJECT,
 		CodeSmellType.LANGUAGE_MIXING,
 		CodeSmellType.TOO_MANY_STATEMENTS,
 		CodeSmellType.TOO_MANY_PARAMETERS,

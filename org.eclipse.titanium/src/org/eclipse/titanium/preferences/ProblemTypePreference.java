@@ -26,7 +26,6 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 public enum ProblemTypePreference {
 	ALTSTEP_COVERAGE("Report insufficient altstep coverage", EnumSet.of(CodeSmellType.ALTSTEP_COVERAGE)),
 	CIRCULAR_IMPORTATION("Report circular module dependencies", EnumSet.of(CodeSmellType.CIRCULAR_IMPORTATION)),
-	UNUSED_IMPORTS_PROJECT("Report unused module importation in project", EnumSet.of(CodeSmellType.UNUSED_IMPORTS_PROJECT)),
 	LANGUAGE_MIXING("Report modules with different language restrictions", EnumSet.of(CodeSmellType.LANGUAGE_MIXING)),
 	CONSECUTIVE_ASSIGNMENTS("Report consecutive assignments", EnumSet.of(CodeSmellType.CONSECUTIVE_ASSIGNMENTS)),
 	CONVERT_TO_ENUM("Report usage of non-enumeration types in select statements", EnumSet.of(CodeSmellType.CONVERT_TO_ENUM)),
