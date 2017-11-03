@@ -18,7 +18,7 @@ public class TitanVerdictType extends Base_Type {
 
 	//originally Types.hh/verdicttype
 	public enum VerdictTypeEnum {
-		NONE(0, "none"), PASS(1, "pass"), INCONC(2, "inconc"), FAIL(3, "fail"), ERROR(4, "error");
+		NONE(0, "none"), PASS(1, "pass"), INCONC(2, "inconc"), FAIL(3, "fail"), ERROR(4, "error"), UNBOUND(5, "unbound");
 		
 		private int index;
 		private String name;
@@ -41,7 +41,7 @@ public class TitanVerdictType extends Base_Type {
 	private VerdictTypeEnum verdict_value;
 
 	public TitanVerdictType() {
-		verdict_value = null;
+		verdict_value = VerdictTypeEnum.UNBOUND;
 	}
 
 	public TitanVerdictType(final VerdictTypeEnum other_value) {
@@ -59,12 +59,12 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	public void cleanUp() {
-		verdict_value = null;
+		verdict_value = VerdictTypeEnum.UNBOUND;
 	}
 
 	//originally #define IS_VALID
 	public static boolean isValid( final VerdictTypeEnum aVerdictValue ) {
-		return aVerdictValue != null;
+		return aVerdictValue != VerdictTypeEnum.UNBOUND;
 	}
 
 	@Override
@@ -74,11 +74,11 @@ public class TitanVerdictType extends Base_Type {
 
 	@Override
 	public boolean isBound() {
-		return verdict_value != null;
+		return verdict_value != VerdictTypeEnum.UNBOUND;
 	}
 
 	public void mustBound( final String aErrorMessage ) {
-		if ( verdict_value == null ) {
+		if ( verdict_value == VerdictTypeEnum.UNBOUND ) {
 			throw new TtcnError( aErrorMessage );
 		}
 	}
@@ -148,8 +148,9 @@ public class TitanVerdictType extends Base_Type {
 	public void log() {
 		if (isValid( verdict_value )) {
 			TtcnLogger.log_event_str( verdict_name[ verdict_value.ordinal() ] );
-		}
-		else {
+		} else if (verdict_value == VerdictTypeEnum.UNBOUND) {
+			TtcnLogger.log_event_unbound();
+		} else {
 			TtcnLogger.log_event( MessageFormat.format( "<invalid verdict value: {0}>", verdict_value ) );
 		}
 	}
@@ -173,7 +174,8 @@ public class TitanVerdictType extends Base_Type {
 			//TODO
 			//TTCN_EncDec_ErrorContext.error(TTCN_EncDec.ET_INVAL_MSG, "Invalid value for verdicttype: '%s'", v);
 		}
-		return null;
+
+		return VerdictTypeEnum.UNBOUND;
 	}
 
 	//TODO: implement VERDICTTYPE::XER_decode()
