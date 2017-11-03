@@ -59,6 +59,6 @@ public class ExecuteAnalyzer implements IProjectProcesser {
 			mh = AnalyzerCache.withPreference().analyzeProject(monitor, project);
 		}
 		// and show them
-		mh.showAll();
+		mh.showAll(project);
 	}
 }

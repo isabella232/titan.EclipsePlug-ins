@@ -135,7 +135,7 @@ public class CheckCodeSmells extends AbstractHandler {
 						synchronized (project) {
 							handler = analyzer.analyzeProject(progress.newChild(100), project);
 						}
-						handler.showAll();
+						handler.showAll(project);
 					}
 					return Status.OK_STATUS;
 				}
@@ -164,7 +164,7 @@ public class CheckCodeSmells extends AbstractHandler {
 								synchronized (project) {
 									handler = analyzer.analyzeModule(progress.newChild(1), module);
 								}
-								handler.showAll();
+								handler.showAll(project);
 							}
 						}
 					}
