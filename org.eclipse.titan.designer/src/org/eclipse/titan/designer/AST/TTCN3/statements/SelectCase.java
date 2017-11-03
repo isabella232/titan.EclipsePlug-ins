@@ -253,6 +253,14 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 		return true;
 	}
 
+	/**
+	 * Add generated java code for a single select case.
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * @param name the name to compare the branch variables to (expression or temporary name)
+	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
+	 */
 	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name, final AtomicBoolean unreach) {
 		ExpressionStruct expression =  new ExpressionStruct();
 		StringBuilder condition = new StringBuilder();

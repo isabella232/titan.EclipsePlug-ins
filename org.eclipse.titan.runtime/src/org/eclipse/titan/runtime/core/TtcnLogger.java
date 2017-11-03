@@ -138,7 +138,7 @@ public final class TtcnLogger {
 		Severity severity;
 		//event_destination, etc...
 	}
-	
+
 	//temporary enum, original: TitanLoggerApi::Port_Queue.operation
 	public static enum Port_Queue_operation {
 		ENQUEUE_MSG,
@@ -148,8 +148,8 @@ public final class TtcnLogger {
 		EXTRACT_MSG,
 		EXTRACT_OP
 	}
-	
-	
+
+
 
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;

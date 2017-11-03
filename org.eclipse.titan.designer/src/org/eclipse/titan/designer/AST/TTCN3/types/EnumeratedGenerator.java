@@ -132,7 +132,7 @@ public class EnumeratedGenerator {
 		//== functions ==
 		source.append("//===Methods===;\n");
 		generateValueAssign(source, e_defs.name); 
-		generateValueOperatorEquals(source, e_defs.name);
+		generateValueOperatorEquals(source, e_defs.name, e_defs.displayName);
 		generateValueOperatorNotEquals(source, e_defs.name);
 		generateValueIsLessThan(source, e_defs.name);
 		generateValueIsLessThanOrEqual(source, e_defs.name);
@@ -340,7 +340,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueOperatorEquals(final StringBuilder source,final String aName) {
+	private static void generateValueOperatorEquals(final StringBuilder source, final String aName, final String displayName) {
 		//Arg type: own type
 		source.append("//originally operator==\n");
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue)'{'\n", aName));
@@ -353,7 +353,7 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", aName));
 		source.append(MessageFormat.format("return operatorEquals( ({0}) otherValue);\n", aName)); 
 		source.append("} else {\n");
-		source.append("//TODO:TtcnError message\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("}\n\n");

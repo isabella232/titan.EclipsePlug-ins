@@ -266,12 +266,18 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 		return mSelectUnionCases;
 	}
 
-	public void generateCode(JavaGenData aData, StringBuilder source) {
+	/**
+	 * Add generated java code for the list of select union cases.
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		source.append("case UNBOUND_VALUE :\n");
 		source.append("throw new TtcnError(\"The union in the head shall be initialized\");\n");
-		final AtomicBoolean unreach = new AtomicBoolean(false); 
+		final AtomicBoolean unreach = new AtomicBoolean(false);
 
-		for (int i = 0; i < mSelectUnionCases.size(); i++){
+		for (int i = 0; i < mSelectUnionCases.size(); i++) {
 			mSelectUnionCases.get(i).generateCode(aData, source, unreach);
 			if (unreach.get()) {
 				break;

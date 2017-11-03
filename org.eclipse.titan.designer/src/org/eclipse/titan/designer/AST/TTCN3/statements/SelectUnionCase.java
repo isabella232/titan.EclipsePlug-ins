@@ -366,12 +366,19 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		return true;
 	}
 
-	public void generateCode(final JavaGenData aData, final StringBuilder source, AtomicBoolean unreach) {
+	/**
+	 * Add generated java code for a single select union case.
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
+	 */
+	public void generateCode(final JavaGenData aData, final StringBuilder source, final AtomicBoolean unreach) {
 		if (mItems != null) {
 			for (int i = 0; i < mItems.size(); i++) {
-				final Identifier identifier = mItems.get( i );
+				final Identifier identifier = mItems.get(i);
 				final String name = identifier.getName();
-				source.append(MessageFormat.format("case ALT_{0}:\n", FieldSubReference.getJavaGetterName(name)));				
+				source.append(MessageFormat.format("case ALT_{0}:\n", FieldSubReference.getJavaGetterName(name)));
 			}
 		} else {
 			unreach.set(true);

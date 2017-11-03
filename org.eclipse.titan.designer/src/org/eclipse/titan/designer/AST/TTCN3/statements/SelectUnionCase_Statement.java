@@ -271,14 +271,17 @@ public final class SelectUnionCase_Statement extends Statement {
 	public SelectUnionCases getSelectUnionCases() {
 		return mSelectUnionCases;
 	}
-	
-	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		ExpressionStruct expressionStruct =  new ExpressionStruct();
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		final ExpressionStruct expressionStruct = new ExpressionStruct();
 		expression.generateCodeExpression(aData, expressionStruct, true);
 		source.append(expressionStruct.preamble);
 		source.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", expressionStruct.expression));
-		mSelectUnionCases.generateCode(aData, source);		
+		mSelectUnionCases.generateCode(aData, source);
 		source.append("}\n");
+
 		source.append(expressionStruct.postamble);
 	}
 }
