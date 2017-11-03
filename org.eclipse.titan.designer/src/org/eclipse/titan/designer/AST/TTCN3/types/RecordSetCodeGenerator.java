@@ -82,7 +82,6 @@ public class RecordSetCodeGenerator {
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addImport("java.text.MessageFormat");
-		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnLogger");
 		if(hasOptional) {
 			aData.addBuiltinTypeImport("Optional");
@@ -93,6 +92,8 @@ public class RecordSetCodeGenerator {
 			generateEmptyValueClass(aData, source, className, classDisplayname);
 			return;
 		}
+
+		aData.addBuiltinTypeImport("TitanInteger");
 
 		source.append( "\tpublic static class " );
 		source.append( className );
@@ -133,7 +134,6 @@ public class RecordSetCodeGenerator {
 		aData.addImport("java.util.ArrayList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
-		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("Optional");
 
@@ -141,6 +141,8 @@ public class RecordSetCodeGenerator {
 			generateEmptyTemplateClass(aData, source, className, classDisplayName, fieldInfos, hasOptional, isSet);
 			return;
 		}
+
+		aData.addBuiltinTypeImport("TitanInteger");
 
 		source.append( MessageFormat.format( "public static class {0}_template extends Base_Template '{'\n", className ) );
 		generateTemplateDeclaration( aData, source, fieldInfos, className );
