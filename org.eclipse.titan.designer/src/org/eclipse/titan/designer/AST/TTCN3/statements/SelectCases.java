@@ -228,7 +228,14 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 		return select_cases;
 	}
 
-	public void generateCode(JavaGenData aData, StringBuilder source, String name) {
+	/**
+	 * Add generated java code for the list of select cases.
+	 * 
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * @param name the name to compare the branch variables to (expression or temporary name)
+	 */
+	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name) {
 		final StringBuilder init = new StringBuilder();
 		final AtomicBoolean unreach = new AtomicBoolean(false);
 
