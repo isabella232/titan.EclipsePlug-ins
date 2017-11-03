@@ -20,8 +20,6 @@ import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
-import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
-import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -255,14 +253,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 					template = ((All_From_Template)template).getAllFrom();
 				}
 
-				final IValue value = ((SpecificValue_Template) template).getValue();
-				Reference reference;
-				if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
-					reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
-				} else {
-					reference = ((Referenced_Value) value).getReference();
-				}
-
+				final Reference reference = ((SpecificValue_Template) template).getReference();
 				final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
 				setType.append(" + ");
@@ -312,15 +303,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 						template2 = ((All_From_Template)template).getAllFrom();
 					}
 
-					template2.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
-					final IValue value = ((SpecificValue_Template) template2).getValue();
-					Reference reference;
-					if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
-						//value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
-						reference = ((Undefined_LowerIdentifier_Value) value).getAsReference();
-					} else {
-						reference = ((Referenced_Value) value).getReference();
-					}
+					final Reference reference = ((SpecificValue_Template) template2).getReference();
 
 					final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 
