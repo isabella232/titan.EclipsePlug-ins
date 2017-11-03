@@ -37,12 +37,12 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 
 	public UnusedImportsProject() {
-		super(CodeSmellType.UNUSED_IMPORTS_PROJECT);
+		super(CodeSmellType.UNUSED_IMPORT);
 	}
 
 	@Override
 	protected void process(final IProject project, final Problems problems) {
-		TITANDebugConsole.print("Unused import in project called");
+		TITANDebugConsole.print("Unused import");
 
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
@@ -67,18 +67,17 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 				for (ImportModule mod : ((TTCN3Module)module).getImports()){
 					for (Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(mod.getIdentifier())) { 
-							problems.report(mod.getLocation(), "Possibly unused importation (project)");
+							problems.report(mod.getIdentifier().getLocation(), "Possibly unused importation");
 						}
 					}
 				}
 			} else {
-				//visitor
 				ModuleImportsCheck importsCheck = new ModuleImportsCheck();
 				module.accept(importsCheck);
 				for (ModuleImportation im : importsCheck.getImports()) {
 					for (Module m : setOfImportedModules) {
 						if(m.getIdentifier().equals(im.getIdentifier())) { 
-							problems.report(im.getIdentifier().getLocation(), "Possibly unused importation (project)");
+							problems.report(im.getIdentifier().getLocation(), "Possibly unused importation");
 						}
 					}
 				}	

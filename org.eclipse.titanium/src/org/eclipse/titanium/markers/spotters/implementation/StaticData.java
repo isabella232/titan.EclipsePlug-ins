@@ -95,7 +95,7 @@ public final class StaticData {
 		m.put(CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES, new BaseModuleCodeSmellSpotter[] {
 				new UnusedStartedRefFuncRetVal(), new UnusedStartedFuncRetVal() });
 		m.put(CodeSmellType.UNUSED_GLOBAL_DEFINITION, new BaseModuleCodeSmellSpotter[] { new UnusedGlobalDefinition() });
-		m.put(CodeSmellType.UNUSED_IMPORT, new BaseModuleCodeSmellSpotter[] { new UnusedImport() });
+		//m.put(CodeSmellType.UNUSED_IMPORT, new BaseModuleCodeSmellSpotter[] { new UnusedImport() });
 		m.put(CodeSmellType.UNUSED_LOCAL_DEFINITION, new BaseModuleCodeSmellSpotter[] { new UnusedLocalDefinition() });
 		m.put(CodeSmellType.VISIBILITY_IN_DEFINITION, new BaseModuleCodeSmellSpotter[] { new Visibility() });
 
@@ -112,7 +112,7 @@ public final class StaticData {
 		final Map<CodeSmellType, BaseProjectCodeSmellSpotter[]> pm = new HashMap<CodeSmellType, BaseProjectCodeSmellSpotter[]>();
 
 		pm.put(CodeSmellType.CIRCULAR_IMPORTATION, new BaseProjectCodeSmellSpotter[] { new CircularImportation() });
-		pm.put(CodeSmellType.UNUSED_IMPORTS_PROJECT, new BaseProjectCodeSmellSpotter[] { new UnusedImportsProject() });
+		pm.put(CodeSmellType.UNUSED_IMPORT, new BaseProjectCodeSmellSpotter[] { new UnusedImportsProject() });
 		pm.put(CodeSmellType.LANGUAGE_MIXING, new BaseProjectCodeSmellSpotter[]{ new LanguageMixing() });
 
 		return Collections.unmodifiableMap(pm);
