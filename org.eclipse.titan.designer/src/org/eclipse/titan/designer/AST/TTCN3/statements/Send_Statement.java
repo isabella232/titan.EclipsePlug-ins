@@ -293,6 +293,4 @@ public final class Send_Statement extends Statement {
 		expression.expression.append(");\n");
 		expression.mergeExpression(source);
 	}
-
-
 }
