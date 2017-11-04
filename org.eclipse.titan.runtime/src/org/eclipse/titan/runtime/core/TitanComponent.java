@@ -180,7 +180,16 @@ public class TitanComponent extends Base_Type {
 		return TTCN_Runtime.component_killed(componentValue);
 	}
 
-	// originally killed, TODO needs index redirection support
+	// originally running, TODO needs index redirection support
+	public boolean running() {
+		if (componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError("Performing running operation on an unbound component reference.");
+		}
+
+		return TTCN_Runtime.component_running(componentValue);
+	}
+
+	// originally alive, TODO needs index redirection support
 	public boolean alive() {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Performing alive operation on an unbound component reference.");

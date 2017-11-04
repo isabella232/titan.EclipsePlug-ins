@@ -22,6 +22,8 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -33,6 +35,7 @@ public final class ComponentRunnningExpression extends Expression_Value {
 	private static final String OPERATIONNAME = "component running";
 
 	private final IValue value;
+	//FIXME missing support for index redirection
 
 	public ComponentRunnningExpression(final IValue value) {
 		this.value = value;
@@ -187,5 +190,17 @@ public final class ComponentRunnningExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		value.generateCodeExpression(aData, expression, true);
+		if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
+			generateCodeExpressionOptionalFieldReference(aData, expression, ((Referenced_Value)value).getReference());
+		}
+		expression.expression.append(".running(");
+		//FIXME add support for index redirection
+		expression.expression.append(')');
 	}
 }
