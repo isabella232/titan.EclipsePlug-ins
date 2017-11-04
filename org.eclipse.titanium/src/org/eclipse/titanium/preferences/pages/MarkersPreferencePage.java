@@ -164,6 +164,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.UNUSED_FUNTION_RETURN_VALUES, "When a function returns a value or a template, but it is not used.");
 		m.put(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION, "When a module level definition is never read/written.\n"
 				+ " Also when a type is not used to declare other definitions.");
+		m.put(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION_PROJECT, "When a module level definition is never read/written.\n"
+				+ " Also when a type is not used to declare other definitions.");
 		m.put(ProblemTypePreference.UNUSED_IMPORT, "When nothing is used in the module from the imported module.");
 		m.put(ProblemTypePreference.UNUSED_LOCAL_DEFINITION, "When a local variable or formal parameter is never read/written.");
 		m.put(ProblemTypePreference.VISIBILITY_IN_DEFINITION,
@@ -218,6 +220,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.LANGUAGE_MIXING);
 			createField(comp, ProblemTypePreference.MISSING_IMPORT);
 			createField(comp, ProblemTypePreference.UNUSED_IMPORT);
+			createField(comp, ProblemTypePreference.UNUSED_GLOBAL_DEFINITION_PROJECT);
 			createField(comp, ProblemTypePreference.MISSING_FRIEND);
 			createField(comp, ProblemTypePreference.NONPRIVATE_PRIVATE);
 			createField(comp, ProblemTypePreference.PRIVATE_FIELD_VIA_PUBLIC);
