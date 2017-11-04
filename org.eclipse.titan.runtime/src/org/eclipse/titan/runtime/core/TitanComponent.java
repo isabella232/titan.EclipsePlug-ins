@@ -171,6 +171,15 @@ public class TitanComponent extends Base_Type {
 		return TTCN_Runtime.component_done(componentValue);
 	}
 
+	// originally killed, TODO needs index redirection support
+	public TitanAlt_Status killed() {
+		if (componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError("Performing killed operation on an unbound component reference.");
+		}
+
+		return TTCN_Runtime.component_killed(componentValue);
+	}
+
 	public void stop() {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Performing stop operation on an unbound component reference.");
