@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -101,5 +102,29 @@ public final class AllComponentAliveExpression extends Expression_Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+		aData.addBuiltinTypeImport("TitanComponent");
+
+		return new StringBuilder("TTCN_Runtime.component_alive(TitanComponent.ALL_COMPREF)");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+		aData.addBuiltinTypeImport("TitanComponent");
+
+		expression.expression.append("TTCN_Runtime.component_alive(TitanComponent.ALL_COMPREF)");
 	}
 }

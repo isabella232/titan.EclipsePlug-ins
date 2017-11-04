@@ -373,6 +373,25 @@ public final class TTCN_Runtime {
 		}
 	}
 
+	//originally component_alive, with component parameter
+	public static boolean component_alive(final int component_reference) {
+		if (inControlPart()) {
+			throw new TtcnError("Alive operation cannot be performed in the control part.");
+		}
+
+		switch(component_reference) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("Alive operation cannot be performed on the null component reference.");
+		case TitanComponent.MTC_COMPREF:
+			throw new TtcnError("Alive operation cannot be performed on the component reference of MTC.");
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("Alive operation cannot be performed on the component reference of system.");
+		default:
+			//FIXME implement rest of the branches
+			throw new TtcnError("Component_alive is not yet supported!");
+		}
+	}
+
 	//originally stop_component
 	public static void stopComponent(final int component_reference) {
 		//FIXME implement
