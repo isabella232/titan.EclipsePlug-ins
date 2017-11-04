@@ -373,6 +373,12 @@ public final class TTCN_Runtime {
 		}
 	}
 
+	//originally stop_component
+	public static void stopComponent(final int component_reference) {
+		//FIXME implement
+		throw new TtcnError("Stoping a component is not yet supported!");
+	}
+
 	//originally stop_execution
 	public static void stopExecution() {
 		//FIXME implement
