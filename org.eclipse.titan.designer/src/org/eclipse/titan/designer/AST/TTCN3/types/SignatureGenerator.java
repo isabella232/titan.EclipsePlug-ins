@@ -102,15 +102,14 @@ public class SignatureGenerator {
 		generateCallClass(aData, source, def);
 
 		// FIXME implement MyProc_redirect
+		source.append("// FIXME implement MyProc_redirect\n");
 
 		generateReplyClass(aData, source, def);
 		// FIXME implement MyProc_reply_redirect
+		source.append("// FIXME implement MyProc_reply_redirect\n");
 
 		generateExceptionClass(aData, source, def);
 		generateTemplateClass(aData, source, def);
-
-		//TODO: implement
-		source.append( "\t\t//TODO: Signature_Type.generateCode() is not fully implemented!\n" );
 	}
 
 	/**
