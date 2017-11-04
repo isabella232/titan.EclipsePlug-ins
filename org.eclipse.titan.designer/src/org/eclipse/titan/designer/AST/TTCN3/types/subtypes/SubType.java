@@ -54,6 +54,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
 import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Verdict_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -1390,5 +1391,15 @@ public final class SubType implements IIncrementallyUpdateable {
 				parsed.updateSyntax(reparser, isDamaged);
 			}
 		}
+	}
+
+	/**
+	 * Add generated java code for this subtype.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		// TODO:not yet supported in Titan
 	}
 }

@@ -466,6 +466,14 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+
+		if (hasDoneAttribute()) {
+			generateCodeDone(aData, source);
+		}
+		if (subType != null) {
+			subType.generateCode(aData, source);
+		}
+
 	}
 
 	@Override

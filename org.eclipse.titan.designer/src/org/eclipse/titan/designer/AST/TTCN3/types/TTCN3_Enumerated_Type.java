@@ -547,6 +547,13 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		final Enum_Defs e_defs = new Enum_Defs( items.getItems(), ownName, displayName, getGenNameTemplate(aData, source, myScope));
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
+
+		if (hasDoneAttribute()) {
+			generateCodeDone(aData, source);
+		}
+		if (subType != null) {
+			subType.generateCode(aData, source);
+		}
 	}
 
 	@Override

@@ -993,6 +993,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		source.append(MessageFormat.format("return ({0})super.valueOf();\n", ownName));
 		source.append("}\n");
 		source.append("}\n\n");
+
+		if (hasDoneAttribute()) {
+			generateCodeDone(aData, source);
+		}
+		if (subType != null) {
+			subType.generateCode(aData, source);
+		}
 	}
 
 	/**

@@ -756,5 +756,12 @@ public final class Signature_Type extends Type {
 
 		final SignatureDefinition def = new SignatureDefinition(genName, getFullName(), parameters, signatueReturnType, noBlock, signatureExceptions);
 		SignatureGenerator.generateClasses(aData, source, def);
+
+		if (hasDoneAttribute()) {
+			generateCodeDone(aData, source);
+		}
+		if (subType != null) {
+			subType.generateCode(aData, source);
+		}
 	}
 }

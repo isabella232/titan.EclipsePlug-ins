@@ -333,6 +333,27 @@ public final class TTCN_Runtime {
 		}
 	}
 
+	//FIXME needs text_buffer parameter once decoding is available
+	//originally component_done, with component parameter
+	public static TitanAlt_Status component_done(final int component_reference, final String return_type) {
+		if (inControlPart()) {
+			throw new TtcnError("Done operation cannot be performed in the control part.");
+		}
+
+		switch(component_reference) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("Done operation cannot be performed on the null component reference.");
+		case TitanComponent.MTC_COMPREF:
+			throw new TtcnError("Done operation cannot be performed on the component reference of MTC.");
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("Done operation cannot be performed on the component reference of system.");
+		default:
+			//FIXME implement rest of the branches
+			throw new TtcnError("component_done is not yet supported!");
+		}
+		//FIXME implement
+	}
+
 	//originally component_killed, with component parameter
 	public static TitanAlt_Status component_killed(final int component_reference) {
 		if (inControlPart()) {

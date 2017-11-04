@@ -821,6 +821,15 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, false );
 		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
+
+		if (!isAsn()) {
+			if (hasDoneAttribute()) {
+				generateCodeDone(aData, source);
+			}
+			if (subType != null) {
+				subType.generateCode(aData, source);
+			}
+		}
 	}
 
 	@Override

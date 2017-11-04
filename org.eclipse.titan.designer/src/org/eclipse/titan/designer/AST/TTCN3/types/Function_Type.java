@@ -719,5 +719,12 @@ public final class Function_Type extends Type {
 
 		FunctionReferenceGenerator.generateValueClass(aData, source, def);
 		FunctionReferenceGenerator.generateTemplateClass(aData, source, def);
+
+		if (hasDoneAttribute()) {
+			generateCodeDone(aData, source);
+		}
+		if (subType != null) {
+			subType.generateCode(aData, source);
+		}
 	}
 }

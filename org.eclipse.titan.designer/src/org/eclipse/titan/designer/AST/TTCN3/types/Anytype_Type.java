@@ -739,6 +739,13 @@ public final class Anytype_Type extends Type {
 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+
+		if (hasDoneAttribute()) {
+			generateCodeDone(aData, source);
+		}
+		if (subType != null) {
+			subType.generateCode(aData, source);
+		}
 	}
 
 	@Override

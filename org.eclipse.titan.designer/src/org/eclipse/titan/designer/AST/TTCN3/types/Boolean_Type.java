@@ -227,6 +227,14 @@ public final class Boolean_Type extends ASN1Type {
 			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
 		}
+		if (!isAsn()) {
+			if (hasDoneAttribute()) {
+				generateCodeDone(aData, source);
+			}
+			if (subType != null) {
+				subType.generateCode(aData, source);
+			}
+		}
 	}
 
 	@Override

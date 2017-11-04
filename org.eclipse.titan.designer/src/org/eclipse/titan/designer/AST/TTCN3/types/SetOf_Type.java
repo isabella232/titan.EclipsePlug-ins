@@ -563,6 +563,15 @@ public final class SetOf_Type extends AbstractOfType {
 
 		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, true );
 		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
+
+		if (!isAsn()) {
+			if (hasDoneAttribute()) {
+				generateCodeDone(aData, source);
+			}
+			if (subType != null) {
+				subType.generateCode(aData, source);
+			}
+		}
 	}
 
 	@Override

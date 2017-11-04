@@ -640,6 +640,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 			//TODO: implement: package of the imported class is unknown
 		}
+		if (!isAsn()) {
+			if (hasDoneAttribute()) {
+				generateCodeDone(aData, source);
+			}
+			if (subType != null) {
+				subType.generateCode(aData, source);
+			}
+		}
 	}
 
 	@Override

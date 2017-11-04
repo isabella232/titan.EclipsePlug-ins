@@ -1623,6 +1623,36 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public abstract String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope);
 
 	/**
+	 * Generates the module level done statement for a type with the "done" attribute.
+	 *
+	 * generate_code_done in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * */
+	public void generateCodeDone(final JavaGenData aData, final StringBuilder source) {
+		final String genName = getGenNameValue(aData, source, myScope);
+		final String displayName = getTypename();
+
+		//FIXME add support for redirections
+		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template) '{'\n", genName));
+		source.append("if (!component_reference.isBound()) {\n");
+		source.append("throw new TtcnError(\"Performing a done operation on an unbound component reference.\");\n");
+		source.append("}\n");
+		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
+		source.append("throw new TtcnError(\"Done operation using '*' as matching template\");\n");
+		source.append("}\n");
+			//FIXME some more parameters needed
+		source.append(MessageFormat.format("TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.getComponent(), \"{0}\");\n", displayName));
+		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("//FIXME implement once decoding is supported\n");
+		source.append("} else {\n");
+		source.append("return ret_val;\n");
+		source.append("}\n");
+		source.append("}\n");
+	}
+
+	/**
 	 * Generates type specific call for the reference used in isbound call
 	 * into argument expression. Argument \a subrefs holds the reference path
 	 * that needs to be checked. Argument \a module is the actual module of
