@@ -385,6 +385,18 @@ public final class TTCN_Runtime {
 		throw new TtcnError("Stoping execution is not yet supported!");
 	}
 
+	//originally kill_component
+	public static void killComponent(final int component_reference) {
+		//FIXME implement
+		throw new TtcnError("Killing a component is not yet supported!");
+	}
+
+	//originally kill_execution
+	public static void killExecution() {
+		//FIXME implement
+		throw new TtcnError("Killing execution is not yet supported!");
+	}
+
 	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue) {
 		setverdict(newValue, "");
 	}

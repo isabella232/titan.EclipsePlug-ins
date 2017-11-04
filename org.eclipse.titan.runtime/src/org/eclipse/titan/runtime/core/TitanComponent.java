@@ -179,6 +179,14 @@ public class TitanComponent extends Base_Type {
 		TTCN_Runtime.stopComponent(componentValue);
 	}
 
+	public void kill() {
+		if (componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError("Performing kill operation on an unbound component reference.");
+		}
+
+		TTCN_Runtime.killComponent(componentValue);
+	}
+
 	private static void log_component_reference(final TitanComponent component_reference) {
 		switch(component_reference.componentValue) {
 		case NULL_COMPREF:

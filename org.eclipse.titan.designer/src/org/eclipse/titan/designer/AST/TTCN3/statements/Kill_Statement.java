@@ -11,13 +11,19 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -133,5 +139,55 @@ public final class Kill_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		aData.addCommonLibraryImport("TTCN_Runtime");
+
+		final ExpressionStruct expression = new ExpressionStruct();
+		
+		if (componentReference == null) {
+			aData.addBuiltinTypeImport("TitanComponent");
+
+			expression.expression.append("TTCN_Runtime.kill_component(TitanComponent.ALL_COMPREF)");
+		} else {
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = componentReference.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+			referenceChain.release();
+
+			if (last.getValuetype() == Value_type.REFERENCED_VALUE) {
+				// the argument is a simple component reference
+				last.generateCodeExpressionMandatory(aData, expression, true);
+				expression.expression.append(".kill()");
+			} else {
+				boolean refers_to_self = false;
+				if (last.getValuetype() == Value_type.EXPRESSION_VALUE) {
+					// the argument is a special component reference (mtc, self, etc.)
+					switch(((Expression_Value)last).getOperationType()) {
+					case MTC_COMPONENT_OPERATION: {
+						Definition myDefinition = myStatementBlock.getMyDefinition();
+						if (myDefinition != null && myDefinition.getAssignmentType() == Assignment_type.A_TESTCASE) {
+							refers_to_self = true;
+						}
+						break;
+					}
+					case SELF_COMPONENT_OPERATION:
+						refers_to_self = true;
+					default:
+						break;
+					}
+				}
+				if (refers_to_self) {
+					expression.expression.append("TTCN_Runtime.killExecution()");
+				} else {
+					expression.expression.append("TTCN_Runtime.killComponent(");
+					last.generateCodeExpression(aData, expression, false);
+					expression.expression.append(')');
+				}
+			}
+		}
+		expression.mergeExpression(source);
 	}
 }
