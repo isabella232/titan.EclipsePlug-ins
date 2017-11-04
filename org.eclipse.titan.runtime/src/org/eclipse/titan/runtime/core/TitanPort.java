@@ -210,6 +210,32 @@ public class TitanPort {
 		}
 	}
 
+	public void halt() {
+		if (!is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be halted.", portName));
+		}
+		if(is_started) {
+			is_started = false;
+			is_halted = true;
+			userStop();
+			// keep the messages in the queue
+		} else if(is_halted) {
+			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already halted. The operation has no effect.", portName));
+		} else {
+			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already stopped. The operation has no effect.", portName));
+		}
+		//TODO: TTCN_Logger::log_port_state
+	}
+
+	public static void all_halt() {
+		for (TitanPort port : PORTS) {
+			port.halt();
+		}
+		for (TitanPort port : SYSTEM_PORTS) {
+			port.halt();
+		}
+	}
+
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		// FIXME logging
 		return TitanAlt_Status.ALT_NO;
