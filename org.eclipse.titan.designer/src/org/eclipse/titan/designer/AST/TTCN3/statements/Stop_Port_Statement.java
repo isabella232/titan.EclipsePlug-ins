@@ -116,6 +116,12 @@ public final class Stop_Port_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		source.append(MessageFormat.format("{0}.stop();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName())); 
+		if (portReference != null) {
+			source.append(MessageFormat.format("{0}.stop();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName()));
+		} else {
+			aData.addBuiltinTypeImport("TitanPort");
+
+			source.append("TitanPort.all_stop();\n");
+		}
 	}
 }

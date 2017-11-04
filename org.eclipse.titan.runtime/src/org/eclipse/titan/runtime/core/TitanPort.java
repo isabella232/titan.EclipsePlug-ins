@@ -180,6 +180,15 @@ public class TitanPort {
 		//TODO: TTCN_Logger::log_port_state
 	}
 
+	public static void all_stop() {
+		for (TitanPort port : PORTS) {
+			port.stop();
+		}
+		for (TitanPort port : SYSTEM_PORTS) {
+			port.stop();
+		}
+	}
+
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		// FIXME logging
 		return TitanAlt_Status.ALT_NO;
