@@ -15,8 +15,10 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -24,7 +26,10 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -229,5 +234,24 @@ public final class Start_Component_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		final ExpressionStruct expression = new ExpressionStruct();
+		final Assignment func = functionInstanceReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final Def_Function function = (Def_Function) func;
+
+		expression.expression.append(MessageFormat.format("{0}(", func.getGenNameFromScope(aData, source, myScope, "start_")));
+		componentReference.generateCodeExpression(aData, expression, false);
+		FormalParameterList formalParameterList = function.getFormalParameterList();
+		if (formalParameterList.getNofParameters() > 0) {
+			expression.expression.append(',');
+			ISubReference subReference = functionInstanceReference.getSubreferences().get(0);
+			((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
+		}
+		expression.expression.append(')');
+		expression.mergeExpression(source);
 	}
 }

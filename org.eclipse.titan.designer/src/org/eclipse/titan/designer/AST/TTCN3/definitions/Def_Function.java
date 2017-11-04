@@ -942,7 +942,36 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		}
 		source.append( ") {\n" );
 		block.generateCode(aData, source);
-		source.append( "\t}\n" );
+		source.append( "}\n" );
+
+		if (isStartable) {
+			source.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
+			if (formalParList != null && formalParList.getNofParameters() > 0) {
+				source.append(", ");
+				formalParList.generateCode(aData, source);
+			}
+			source.append(") {\n");
+			source.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
+			if (formalParList != null) {
+				for (int i = 0; i < formalParList.getNofParameters(); i++) {
+					if (i > 0) {
+						source.append("TTCN_Logger::log_event_str(\", \");\n");
+					}
+					source.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
+				}
+			}
+			source.append("TtcnLogger.log_event_str(\") on component \");\n");
+			source.append("component_reference.log();\n");
+			source.append("TtcnLogger.log_char('.');\n");
+			source.append("TtcnLogger.end_event();\n");
+			//FIXME implement once encoding is ready
+			source.append("throw new TtcnError(\"Starting a function on a remote component is not yet implemented!\");\n");
+			source.append("}\n");
+
+			//FIXME add to start_ptc_function
+		}
+
 		sb.append(source);
 	}
 }

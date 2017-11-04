@@ -16,6 +16,8 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -23,12 +25,16 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Function_Reference_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -45,6 +51,8 @@ public final class Start_Referenced_Component_Statement extends Statement {
 	private final Value componentReference;
 	private final Value dereferredValue;
 	private final ParsedActualParameters parameters;
+
+	private ActualParameterList actualParameterList2;
 
 	public Start_Referenced_Component_Statement(final Value componentReference, final Value dereferredValue,
 			final ParsedActualParameters parameters) {
@@ -224,11 +232,11 @@ public final class Start_Referenced_Component_Statement extends Statement {
 			}
 		}
 
-		final ActualParameterList tempActualParameters = new ActualParameterList();
+		actualParameterList2 = new ActualParameterList();
 		final FormalParameterList formalParameters = functionType.getFormalParameters();
-		if (!formalParameters.checkActualParameterList(timestamp, parameters, tempActualParameters)) {
-			tempActualParameters.setFullNameParent(this);
-			tempActualParameters.setMyScope(getMyScope());
+		if (!formalParameters.checkActualParameterList(timestamp, parameters, actualParameterList2)) {
+			actualParameterList2.setFullNameParent(this);
+			actualParameterList2.setMyScope(getMyScope());
 		}
 	}
 
@@ -281,5 +289,28 @@ public final class Start_Referenced_Component_Statement extends Statement {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		final ExpressionStruct expression = new ExpressionStruct();
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+		if (last.getValuetype() == Value_type.FUNCTION_REFERENCE_VALUE) {
+			Definition definition = ((Function_Reference_Value)last).getReferredFunction();
+			expression.expression.append(MessageFormat.format("{0}(", definition.getGenNameFromScope(aData, source, myScope, "start_")));
+		} else {
+			dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(".start(");
+		}
+		componentReference.generateCodeExpression(aData, expression, false);
+		if (actualParameterList2.getNofParameters() > 0) {
+			expression.expression.append(", ");
+			actualParameterList2.generateCodeNoAlias(aData, expression);
+		}
+		expression.expression.append(')');
+		expression.mergeExpression(source);
 	}
 }
