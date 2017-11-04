@@ -114,6 +114,7 @@ public final class StaticData {
 		pm.put(CodeSmellType.CIRCULAR_IMPORTATION, new BaseProjectCodeSmellSpotter[] { new CircularImportation() });
 		pm.put(CodeSmellType.UNUSED_IMPORT, new BaseProjectCodeSmellSpotter[] { new UnusedImportsProject() });
 		pm.put(CodeSmellType.LANGUAGE_MIXING, new BaseProjectCodeSmellSpotter[]{ new LanguageMixing() });
+		pm.put(CodeSmellType.UNUSED_GLOBAL_DEFINITION_PROJECT, new BaseProjectCodeSmellSpotter[]{ new UnusedGlobalDefinitionProject() });
 
 		return Collections.unmodifiableMap(pm);
 	}
