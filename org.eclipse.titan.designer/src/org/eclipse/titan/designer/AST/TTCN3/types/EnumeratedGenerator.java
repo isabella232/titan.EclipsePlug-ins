@@ -354,7 +354,6 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("return operatorEquals( ({0}) otherValue);\n", aName)); 
 		source.append("} else {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-		source.append("return false;\n");
 		source.append("}\n");
 		source.append("}\n\n");
 
