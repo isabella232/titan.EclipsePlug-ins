@@ -3,6 +3,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -31,7 +32,7 @@ public class SignatureGenerator {
 			this.direction = direction;
 			mJavaTypeName = paramType;
 			mJavaTemplateName = paramTemplate;
-			mJavaName = paramName;
+			mJavaName = FieldSubReference.getJavaGetterName(paramName);
 		}
 	}
 
