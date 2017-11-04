@@ -748,8 +748,9 @@ public final class Signature_Type extends Type {
 		if (exceptions != null) {
 			for ( int i = 0; i < exceptions.getNofExceptions(); i++) {
 				final Type exceptionType = exceptions.getExceptionByIndex(i);
+				final IType last = exceptionType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
-				final SignatureException temp = new SignatureException(exceptionType.getGenNameValue(aData, source, myScope), exceptionType.getGenNameTemplate(aData, source, myScope));
+				final SignatureException temp = new SignatureException(last.getGenNameValue(aData, source, myScope), last.getGenNameTemplate(aData, source, myScope), last.getFullName());
 				signatureExceptions.add(temp);
 			}
 		}

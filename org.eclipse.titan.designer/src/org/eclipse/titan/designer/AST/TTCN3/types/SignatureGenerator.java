@@ -56,9 +56,13 @@ public class SignatureGenerator {
 		/** Java template name of the exception */
 		private String mJavaTemplateName;
 
-		public SignatureException(final String paramType, final String paramTemplate) {
+		/** The name to be displayed for the user */
+		private String mDisplayName;
+
+		public SignatureException(final String paramType, final String paramTemplate, final String displayName) {
 			mJavaTypeName = paramType;
 			mJavaTemplateName = paramTemplate;
+			mDisplayName = displayName;
 		}
 	}
 
@@ -167,7 +171,25 @@ public class SignatureGenerator {
 
 		source.append("// FIXME implement encode_text\n");
 		source.append("// FIXME implement decode_text\n");
-		source.append("// FIXME implement log\n");
+
+		source.append("public void log() {");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : '{' \");\n", def.displayName));
+		boolean isFirst = true;
+		for (int i = 0; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+			if (formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				if (isFirst) {
+					source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} := \");\n", formalPar.mJavaName));
+					isFirst = false;
+				} else {
+					source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
+				}
+				source.append(MessageFormat.format("param_{0}.log();\n", formalPar.mJavaName));
+			}
+		}
+		source.append("TtcnLogger.log_event_str(\" }\");\n");
+		source.append("}\n");
+
 		source.append("}\n");
 	}
 
@@ -246,7 +268,31 @@ public class SignatureGenerator {
 
 			source.append("// FIXME implement encode_text\n");
 			source.append("// FIXME implement decode_text\n");
-			source.append("// FIXME implement log\n");
+
+			source.append("public void log() {\n");
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : '{' \");\n", def.displayName));
+			boolean isFirst = true;
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					if (isFirst) {
+						source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} := \");\n", formalPar.mJavaName));
+						isFirst = false;
+					} else {
+						source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
+					}
+					source.append(MessageFormat.format("param_{0}.log();\n", formalPar.mJavaName));
+				}
+			}
+			if (def.returnType != null) {
+				source.append("TtcnLogger.log_event_str(\" } value \");\n");
+				source.append("reply_value.log();\n");
+			} else {
+				source.append("TtcnLogger.log_event_str(\" }\");\n");
+			}
+			source.append("}\n");
+
 			source.append("}\n");
 		}
 	}
@@ -349,9 +395,24 @@ public class SignatureGenerator {
 			source.append("return exception_selection;\n");
 			source.append("}\n");
 
+			source.append("public void log() {\n");
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}, \");\n", def.displayName));
+			source.append("switch (exception_selection) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				final SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
+				source.append("field.log();\n");
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append("TtcnLogger.log_event_str(\"<uninitialized exception>\");\n");
+			source.append("}\n");
+			source.append("}\n");
+
 			source.append("// FIXME implement encode_text\n");
 			source.append("// FIXME implement decode_text\n");
-			source.append("// FIXME implement log\n");
 			source.append("}\n");
 
 			source.append(MessageFormat.format("public static class {0}_exception_template '{'\n", def.genName));
@@ -386,9 +447,42 @@ public class SignatureGenerator {
 			source.append("}\n");
 			source.append("}\n");
 
-			source.append("// FIXME implement log_match\n");
+			source.append(MessageFormat.format("public boolean log_match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}, \");\n", def.displayName));
+			source.append("if (exception_selection == other_value.get_selection()) {\n");
+			source.append("switch (exception_selection) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				final SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
+				source.append(MessageFormat.format("field.log_match(other_value.constGet{0}(), legacy);\n", exception.mJavaTypeName));
+				source.append("break;");
+			}
+			source.append("default:\n");
+			source.append("TtcnLogger.log_event_str(\"<invalid selector>\");");
+			source.append("}\n");
+			source.append("} else {\n");
+			source.append("other_value.log();\n");
+			source.append("TtcnLogger.log_event_str(\" with \");\n");
+			source.append("switch (exception_selection) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				final SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
+				source.append("field.log();\n");
+				source.append("break;");
+			}
+			source.append("default:\n");
+			source.append("TtcnLogger.log_event_str(\"<invalid selector>\");");
+			source.append("}\n");
+			source.append("if (match(other_value, legacy)) TtcnLogger.log_event_str(\" matched\");\n");
+			source.append("else TtcnLogger.log_event_str(\" unmatched\");\n");
+			source.append("}\n");
+			source.append("}\n");
+
 			source.append("// FIXME implement set_value\n");
-			source.append("// FIXME implement is_any_or_omit\n");
 
 			source.append("public boolean is_any_or_omit() {\n");
 			source.append("switch(exception_selection) {\n");
@@ -534,9 +628,62 @@ public class SignatureGenerator {
 
 		source.append("// FIXME implement encode_text\n");
 		source.append("// FIXME implement decode_text\n");
-		source.append("// FIXME implement log\n");
-		source.append("// FIXME implement log_match_call\n");
-		source.append("// FIXME implement log_match_reply\n");
+	
+		source.append("public void log() {\n");
+		boolean isFirst = true;
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if (isFirst) {
+				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName));
+				isFirst = false;
+			} else {
+				source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
+			}
+			source.append(MessageFormat.format("param_{0}.log();\n", formalPar.mJavaName ));
+		}
+		source.append("TtcnLogger.log_event_str(\" }\");\n");
+		source.append("}\n");
+
+		source.append(MessageFormat.format("public void log_match_call(final {0}_call match_value, final boolean legacy) '{'\n", def.genName));
+		isFirst = true;
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				if (isFirst) {
+					source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
+					isFirst = false;
+				} else {
+					source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
+				}
+				source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+			}
+		}
+		source.append("TtcnLogger.log_event_str(\" }\");\n");
+		source.append("}\n");
+
+		source.append(MessageFormat.format("public void log_match_reply(final {0}_reply match_value, final boolean legacy) '{'\n", def.genName));
+		isFirst = true;
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+				if (isFirst) {
+					source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
+					isFirst = false;
+				} else {
+					source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
+				}
+				source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+			}
+		}
+		if (def.returnType != null) {
+			source.append("TtcnLogger.log_event_str(\" } value \");\n");
+			source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
+		}
+		source.append("}\n");
+		
 		source.append("}\n");
 	}
 }
