@@ -133,6 +133,27 @@ public class TitanPort {
 		}
 	}
 
+	public void clear() {
+		if (!is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be cleared.", portName));
+		}
+		if (!is_started && !is_halted) {
+			TtcnError.TtcnWarning(MessageFormat.format("Performing clear operation on port {0}, which is already stopped. The operation has no effect.", portName));
+			
+		}
+		clearQueue();
+		//TODO: TTCN_Logger::log_port_misc
+	}
+
+	public static void all_clear() {
+		for (TitanPort port : PORTS) {
+			port.clear();
+		}
+		for (TitanPort port : SYSTEM_PORTS) {
+			port.clear();
+		}
+	}
+
 	public void start() {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be started.", portName));
