@@ -7,14 +7,17 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.values.Macro_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -125,5 +128,52 @@ public final class TestcaseStop_Statement extends Statement {
 	/** {@inheritDoc} */
 	public boolean isTerminating(final CompilationTimeStamp timestamp) {
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (logArguments != null) {
+			aData.addCommonLibraryImport("TtcnLogger");
+			aData.addBuiltinTypeImport("TtcnLogger.Severity");
+
+			boolean bufferedMode = true;
+			if (logArguments.getNofLogArguments() == 1) {
+				final LogArgument firstArgument = logArguments.getLogArgumentByIndex(0);
+				switch (firstArgument.getRealArgument().getArgumentType()) {
+				case String:
+					// the argument is a simple string: use non-buffered mode
+					//FIXME Code::translate_string is missing for now
+					source.append(MessageFormat.format("TtcnLogger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", ((String_InternalLogArgument) firstArgument.getRealArgument()).getString()));
+					bufferedMode = false;
+					break;
+				case Macro: {
+					final Macro_Value value = ((Macro_InternalLogArgument) firstArgument.getRealArgument()).getMacro();
+					if (value.canGenerateSingleExpression()) {
+						// the argument is a simple macro call: use non-buffered mode
+						source.append(MessageFormat.format("TtcnLogger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", value.generateSingleExpression(aData)));
+						bufferedMode = false;
+					}
+					break;
+				}
+				default:
+					break;
+				}
+			}
+
+			if (bufferedMode) {
+				// the argument is a complicated construct: use buffered mode
+				source.append("try {\n");
+				source.append("TtcnLogger.begin_event(TtcnLogger.Severity.USER_UNQUALIFIED);\n");
+				logArguments.generateCode(aData, source);
+				source.append("TtcnLogger.end_event();\n");
+				source.append("} catch (Exception exception) {\n");
+				source.append("TtcnLogger.finish_event();\n");
+				source.append("throw exception;\n");
+				source.append("}\n");
+			}
+		}
+
+		source.append("throw new TtcnError(\"testcase.stop.\");\n");
 	}
 }
