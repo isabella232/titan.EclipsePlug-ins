@@ -89,6 +89,12 @@ public final class Interleave_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;

@@ -187,6 +187,20 @@ public final class If_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		boolean result = false;
+		if (ifClauses != null) {
+			result = ifClauses.hasReceivingStatement();
+		}
+		if (statementblock != null) {
+			result  = result || statementblock.hasReceivingStatement(0);
+		}
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;

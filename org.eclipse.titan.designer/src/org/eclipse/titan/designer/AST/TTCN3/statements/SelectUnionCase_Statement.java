@@ -124,6 +124,16 @@ public final class SelectUnionCase_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		if (mSelectUnionCases != null) {
+			return mSelectUnionCases.hasReceivingStatement();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;

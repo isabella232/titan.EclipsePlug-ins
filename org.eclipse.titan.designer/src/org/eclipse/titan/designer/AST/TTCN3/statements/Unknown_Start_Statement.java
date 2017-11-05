@@ -110,6 +110,15 @@ public final class Unknown_Start_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		if (realStatement != null) {
+			return realStatement.hasReceivingStatement();
+		}
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;

@@ -149,6 +149,21 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receiving statements, then the general code generation can be used
+	 *  (which may use blocks).
+	 * */
+	public boolean hasReceivingStatement() {
+		for (int i = 0; i < select_cases.size(); i++) {
+			if (select_cases.get(i).hasReceivingStatement()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Does the semantic checking of the select case list.
 	 *
 	 * @param timestamp

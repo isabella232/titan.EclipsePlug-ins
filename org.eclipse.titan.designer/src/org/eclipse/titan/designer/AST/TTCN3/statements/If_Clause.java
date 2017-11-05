@@ -157,6 +157,19 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receiving statements, then the general code generation can be used
+	 *  (which may use blocks).
+	 * */
+	public boolean hasReceivingStatement() {
+		if (statementblock != null) {
+			return statementblock.hasReceivingStatement(0);
+		}
+
+		return false;
+	}
+
+	/**
 	 * Does the semantic checking of this branch.
 	 *
 	 * @param timestamp

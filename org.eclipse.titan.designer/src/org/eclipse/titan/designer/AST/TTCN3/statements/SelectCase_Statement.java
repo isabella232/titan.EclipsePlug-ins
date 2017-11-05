@@ -117,6 +117,16 @@ public final class SelectCase_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		if (selectcases != null) {
+			return selectcases.hasReceivingStatement();
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;

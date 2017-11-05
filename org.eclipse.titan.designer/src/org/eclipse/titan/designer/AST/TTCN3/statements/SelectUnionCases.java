@@ -164,6 +164,21 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receiving statements, then the general code generation can be used
+	 *  (which may use blocks).
+	 * */
+	public boolean hasReceivingStatement() {
+		for (int i = 0; i < mSelectUnionCases.size(); i++) {
+			if (mSelectUnionCases.get(i).hasReceivingStatement()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Does the semantic checking of the select case list of union type
 	 *
 	 * @param aTimestamp

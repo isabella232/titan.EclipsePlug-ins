@@ -158,6 +158,19 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receiving statements, then the general code generation can be used
+	 *  (which may use blocks).
+	 * */
+	public boolean hasReceivingStatement() {
+		if (mStatementBlock != null) {
+			return mStatementBlock.hasReceivingStatement(0);
+		}
+
+		return false;
+	}
+
+	/**
 	 * Does the semantic checking of this select case of union type.
 	 *
 	 * @param aTimestamp

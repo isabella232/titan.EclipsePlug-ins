@@ -159,6 +159,21 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receiving statements, then the general code generation can be used
+	 *  (which may use blocks).
+	 * */
+	public boolean hasReceivingStatement() {
+		for (int i = 0; i < ifclauses.size(); i++) {
+			if (ifclauses.get(i).hasReceivingStatement()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Does the semantic checking of the alt guard list.
 	 *
 	 * @param timestamp

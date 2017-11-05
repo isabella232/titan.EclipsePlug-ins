@@ -139,6 +139,12 @@ public final class Getcall_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean canRepeat() {
 		return false;
 	}

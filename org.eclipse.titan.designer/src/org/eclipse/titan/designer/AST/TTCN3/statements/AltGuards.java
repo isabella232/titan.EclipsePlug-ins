@@ -231,6 +231,22 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receiving statements, then the general code generation can be used
+	 *  (which may use blocks).
+
+	 * */
+	public boolean hasReceivingStatement() {
+		for (int i = 0; i < altGuards.size(); i++) {
+			if (altGuards.get(i).getStatementBlock().hasReceivingStatement(0)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Does the semantic checking of the alt guard list.
 	 *
 	 * @param timestamp
@@ -748,8 +764,18 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_YES) '{'\n", tempId, i));
 			final StatementBlock block = ((Operation_Altguard) altGuard).getStatementBlock();
 			if (inInterleave) {
-				//FIXME implement
-				source.append("//FIXME generating code for call body is not yet supported!\n");
+				if (block != null && block.getSize() > 0) {
+					if (block.hasReceivingStatement(0)) {
+						source.append(MessageFormat.format("continue {0}_branch{1};\n", tempId, i));
+					} else {
+						source.append("{\n");
+						block.generateCode(aData, source);
+						source.append(MessageFormat.format("continue {0}_end;\n", tempId));
+						source.append("}\n");
+					}
+				} else {
+					source.append(MessageFormat.format("continue {0}_end;\n", tempId));
+				}
 			} else {
 				if (block != null && block.getSize() > 0) {
 					source.append("{\n");

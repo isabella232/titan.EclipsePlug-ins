@@ -125,6 +125,12 @@ public final class Trigger_Port_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean canRepeat() {
 		return true;
 	}

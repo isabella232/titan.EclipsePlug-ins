@@ -194,6 +194,12 @@ public final class Catch_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasReceivingStatement() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean canRepeat() {
 		return false;
 	}

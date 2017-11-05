@@ -479,6 +479,23 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receiving statements, then the general code generation can be used
+	 *  (which may use blocks).
+	 * 
+	 *  @param index the index to start checking from
+	 * */
+	public boolean hasReceivingStatement(final int index) {
+		for (int i = index; i < statements.size(); i++) {
+			if (statements.get(i).hasReceivingStatement()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Registers a definition (for example new variable) into the list of
 	 * definitions available in this statement block.
 	 *

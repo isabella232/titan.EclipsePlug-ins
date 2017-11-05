@@ -315,6 +315,15 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	}
 
 	/**
+	 * Used when generating code for interleaved statement.
+	 * If the block has no receivingv statements, then the general code generation can be used
+	 *  (which may use blocks).
+	 * */
+	public boolean hasReceivingStatement() {
+		return false;
+	}
+
+	/**
 	 * Indicates whether the java equivalent of the statement can
 	 *  return ALT_REPEAT. Applicable to receiving statements only.
 	 * */
