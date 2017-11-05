@@ -551,12 +551,6 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			source.append("TTCN_Snapshot.takeNew(true);\n");
 		}
 
-		//default implementation
-		source.append( "\t\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCodeAlt() is not fully implemented!\n" );
-
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("}\n");
