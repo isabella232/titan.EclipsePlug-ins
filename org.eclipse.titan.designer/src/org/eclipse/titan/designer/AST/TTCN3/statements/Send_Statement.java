@@ -290,7 +290,7 @@ public final class Send_Statement extends Statement {
 		} else {
 			toClause.generateCodeExpression(aData, expression, true);
 		}
-		expression.expression.append(");\n");
+		expression.expression.append(")");
 		expression.mergeExpression(source);
 	}
 }
