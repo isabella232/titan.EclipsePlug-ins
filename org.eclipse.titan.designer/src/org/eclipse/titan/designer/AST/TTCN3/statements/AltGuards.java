@@ -17,10 +17,14 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -462,14 +466,35 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				expression.expression.append(MessageFormat.format("{0}_alt_flag_{1} = ", label, i));
 				switch(altGuardType) {
 				case AG_OP: {
-					//FIXME implement
+					// the guard operation is a receiving statement
 					final Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
 					//TODO update location
 					statement.generateCodeExpression(aData, expression);
 					canRepeat = statement.canRepeat();
 					}
 					break;
-				//FIXME implement rest
+				case AG_REF: {
+					// the guard operation is an altstep instance
+					final Reference reference = ((Referenced_Altguard)altGuard).getGuardReference();
+					//TODO update location
+					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
+					final ISubReference subreference = reference.getSubreferences().get(0);
+					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression);
+					source.append(')');
+					canRepeat = true;
+					}
+					break;
+				case AG_INVOKE: {
+					// the guard operation is an altstep invocation
+					//TODO update location
+					((Invoke_Altguard)altGuard).generateCodeInvokeInstance(aData, expression);
+					canRepeat = true;
+					}
+					break;
+				default:
+					source.append("FATAL ERROR: unknown altguard type encountered: " + altGuard.getClass().getSimpleName() + "\n");
+					return;
 				}
 				expression.mergeExpression(source);
 				if(canRepeat) {

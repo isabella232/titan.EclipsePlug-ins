@@ -12,7 +12,10 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
@@ -22,11 +25,15 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Altstep_Reference_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -45,6 +52,8 @@ public final class Invoke_Altguard extends AltGuard {
 	private final Value expression;
 	private final Value value;
 	private final ParsedActualParameters parsedParameters;
+
+	private ActualParameterList actualParameterList;
 
 	public Invoke_Altguard(final Value expression, final Value value, final ParsedActualParameters actualParameterList,
 			final StatementBlock statementblock) {
@@ -202,7 +211,7 @@ public final class Invoke_Altguard extends AltGuard {
 
 		value.getMyScope().checkRunsOnScope(timestamp, type, this, "call");
 		final FormalParameterList formalParmaterList = ((Altstep_Type) type).getFormalParameters();
-		final ActualParameterList actualParameterList = new ActualParameterList();
+		actualParameterList = new ActualParameterList();
 		formalParmaterList.checkActualParameterList(timestamp, parsedParameters, actualParameterList);
 
 		if (statementblock != null) {
@@ -313,5 +322,30 @@ public final class Invoke_Altguard extends AltGuard {
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Generate code for an alt guard
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate the source to
+	 */
+	public void generateCodeInvokeInstance( final JavaGenData aData, final ExpressionStruct expression ) {
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (last.getValuetype() == Value_type.ALTSTEP_REFERENCE_VALUE) {
+			Def_Altstep altstep = ((Altstep_Reference_Value)last).getReferredAltstep();
+			expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, expression.expression, myScope, "")));
+			actualParameterList.generateCodeAlias(aData, expression);
+		} else {
+			value.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(".invoke(");
+			IType governor = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+			governor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			actualParameterList.generateCodeAlias(aData, expression);
+		}
+		expression.expression.append(')');
 	}
 }
