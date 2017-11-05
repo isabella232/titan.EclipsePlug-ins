@@ -56,6 +56,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	private final ArrayList<AltGuard> altGuards;
 
 	private boolean hasRepeat = false;
+	private String label;
 
 	/**
 	 * The location of the whole assignment. This location encloses the
@@ -162,6 +163,10 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 	public void repeatFound() {
 		hasRepeat = true;
+	}
+
+	public String getLabel() {
+		return label;
 	}
 
 	/**
@@ -388,7 +393,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		}
 
 		// opening bracket of the statement block
-		final String label = aData.getTemporaryVariableName();
+		label = aData.getTemporaryVariableName();
 		if (labelNeeded) {
 			source.append(label).append(":\n");
 		}

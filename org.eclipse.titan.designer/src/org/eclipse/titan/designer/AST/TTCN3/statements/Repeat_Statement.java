@@ -7,7 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -82,5 +85,16 @@ public final class Repeat_Statement extends Statement {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		String label = myAltGuards.getLabel();
+		if (label == null) {
+			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
+		} else {
+			source.append(MessageFormat.format("continue {0};\n", label));
+		}
 	}
 }
