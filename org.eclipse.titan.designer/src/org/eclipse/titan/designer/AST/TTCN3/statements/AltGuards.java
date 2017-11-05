@@ -589,11 +589,11 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
 					source.append("return TitanAlt_Status.ALT_YES;\n");
 				}
+				break;
 			} else {
 				final AtomicInteger blockCount = new AtomicInteger(0);
 				final IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
-
 					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
 					source.append(") {\n");
 					blockCount.incrementAndGet();
@@ -609,7 +609,28 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					canRepeat = statement.canRepeat();
 					}
 					break;
-				//FIXME implement rest
+				case AG_REF: {
+					// the guard operation is an altstep instance
+					final Reference reference = ((Referenced_Altguard)altGuard).getGuardReference();
+					//TODO update location
+					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
+					final ISubReference subreference = reference.getSubreferences().get(0);
+					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression);
+					source.append(')');
+					canRepeat = true;
+					}
+					break;
+				case AG_INVOKE: {
+					// the guard operation is an altstep invocation
+					//TODO update location
+					((Invoke_Altguard)altGuard).generateCodeInvokeInstance(aData, expression);
+					canRepeat = true;
+					}
+					break;
+				default:
+					source.append("FATAL ERROR: unknown altguard type encountered: " + altGuard.getClass().getSimpleName() + "\n");
+					return;
 				}
 				if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 					if (blockCount.get() == 0) {
