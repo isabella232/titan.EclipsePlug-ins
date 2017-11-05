@@ -55,13 +55,13 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	private static final String FULLNAMEPART2 = ".block";
 
 	private final TemplateInstances templateInstances;
-	private final StatementBlock statementblock;
+	private final StatementBlock statementBlock;
 
 	private Location location = NULL_Location.INSTANCE;
 
 	public SelectCase(final TemplateInstances templateInstances, final StatementBlock statementblock) {
 		this.templateInstances = templateInstances;
-		this.statementblock = statementblock;
+		this.statementBlock = statementblock;
 
 		if (templateInstances != null) {
 			templateInstances.setFullNameParent(this);
@@ -78,7 +78,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 
 		if (templateInstances == child) {
 			return builder.append(FULLNAMEPART1);
-		} else if (statementblock == child) {
+		} else if (statementBlock == child) {
 			return builder.append(FULLNAMEPART2);
 		}
 
@@ -86,7 +86,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	}
 
 	public StatementBlock getStatementBlock() {
-		return statementblock;
+		return statementBlock;
 	}
 
 	/**
@@ -101,26 +101,26 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 		if (templateInstances != null) {
 			templateInstances.setMyScope(scope);
 		}
-		if (statementblock != null) {
-			statementblock.setMyScope(scope);
+		if (statementBlock != null) {
+			statementBlock.setMyScope(scope);
 		}
 	}
 
-	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
-		if (statementblock != null) {
-			statementblock.setMyStatementBlock(statementBlock, index);
+	public void setMyStatementBlock(final StatementBlock parStatementBlock, final int index) {
+		if (statementBlock != null) {
+			statementBlock.setMyStatementBlock(parStatementBlock, index);
 		}
 	}
 
 	public void setMyDefinition(final Definition definition) {
-		if (statementblock != null) {
-			statementblock.setMyDefinition(definition);
+		if (statementBlock != null) {
+			statementBlock.setMyDefinition(definition);
 		}
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		if (statementblock != null) {
-			statementblock.setMyAltguards(altGuards);
+		if (statementBlock != null) {
+			statementBlock.setMyAltguards(altGuards);
 		}
 	}
 
@@ -151,8 +151,8 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	 * @return the return status of the select case.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
-		if (statementblock != null) {
-			return statementblock.hasReturn(timestamp);
+		if (statementBlock != null) {
+			return statementBlock.hasReturn(timestamp);
 		}
 
 		return StatementBlock.ReturnStatus_type.RS_NO;
@@ -164,8 +164,8 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	 *  (which may use blocks).
 	 * */
 	public boolean hasReceivingStatement() {
-		if (statementblock != null) {
-			return statementblock.hasReceivingStatement(0);
+		if (statementBlock != null) {
+			return statementBlock.hasReceivingStatement(0);
 		}
 
 		return false;
@@ -201,7 +201,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 			unreachable2 = true;
 		}
 
-		statementblock.check(timestamp);
+		statementBlock.check(timestamp);
 
 		return unreachable2;
 	}
@@ -210,8 +210,8 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		if (statementblock != null) {
-			statementblock.checkAllowedInterleave();
+		if (statementBlock != null) {
+			statementBlock.checkAllowedInterleave();
 		}
 	}
 
@@ -220,8 +220,8 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	 * after the semantic check was completely run.
 	 */
 	public void postCheck() {
-		if (statementblock != null) {
-			statementblock.postCheck();
+		if (statementBlock != null) {
+			statementBlock.postCheck();
 		}
 	}
 
@@ -237,9 +237,9 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 			reparser.updateLocation(templateInstances.getLocation());
 		}
 
-		if (statementblock != null) {
-			statementblock.updateSyntax(reparser, false);
-			reparser.updateLocation(statementblock.getLocation());
+		if (statementBlock != null) {
+			statementBlock.updateSyntax(reparser, false);
+			reparser.updateLocation(statementBlock.getLocation());
 		}
 	}
 
@@ -249,8 +249,8 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 		if (templateInstances != null) {
 			templateInstances.findReferences(referenceFinder, foundIdentifiers);
 		}
-		if (statementblock != null) {
-			statementblock.findReferences(referenceFinder, foundIdentifiers);
+		if (statementBlock != null) {
+			statementBlock.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -260,7 +260,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 		if (templateInstances != null && !templateInstances.accept(v)) {
 			return false;
 		}
-		if (statementblock != null && !statementblock.accept(v)) {
+		if (statementBlock != null && !statementBlock.accept(v)) {
 			return false;
 		}
 		return true;
@@ -314,10 +314,10 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 			source.append(expression.postamble);
 
 			source.append("if (").append(condition).append(") {\n");
-			statementblock.generateCode(aData, source);
+			statementBlock.generateCode(aData, source);
 			source.append("}\n");
 		} else {
-			statementblock.generateCode(aData, source);
+			statementBlock.generateCode(aData, source);
 			unreach.set(true);
 		}
 

@@ -40,10 +40,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class SelectUnionCases extends ASTNode implements IIncrementallyUpdateable {
 	private static final String FULLNAMEPART = ".select_union_case_";
 
-	private final List<SelectUnionCase> mSelectUnionCases;
+	private final List<SelectUnionCase> selectUnionCases;
 
 	public SelectUnionCases() {
-		mSelectUnionCases = new ArrayList<SelectUnionCase>();
+		selectUnionCases = new ArrayList<SelectUnionCase>();
 	}
 
 	@Override
@@ -51,8 +51,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			if (mSelectUnionCases.get(i) == child) {
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			if (selectUnionCases.get(i) == child) {
 				return builder.append(FULLNAMEPART).append(Integer.toString(i + 1));
 			}
 		}
@@ -61,12 +61,12 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	public int getSize() {
-		return mSelectUnionCases.size();
+		return selectUnionCases.size();
 	}
 
 	public SelectUnionCase getSelectUnionCase(final int index) {
-		if( index < mSelectUnionCases.size()) {
-			return mSelectUnionCases.get(index);
+		if( index < selectUnionCases.size()) {
+			return selectUnionCases.get(index);
 		} else {
 			return null;
 		}
@@ -81,7 +81,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 *                the select case to be added.
 	 * */
 	public void addSelectUnionCase(final SelectUnionCase selectUnionCase) {
-		mSelectUnionCases.add(selectUnionCase);
+		selectUnionCases.add(selectUnionCase);
 		selectUnionCase.setFullNameParent(this);
 	}
 
@@ -94,26 +94,26 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			mSelectUnionCases.get(i).setMyScope(scope);
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			selectUnionCases.get(i).setMyScope(scope);
 		}
 	}
 
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			mSelectUnionCases.get(i).setMyStatementBlock(statementBlock, index);
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			selectUnionCases.get(i).setMyStatementBlock(statementBlock, index);
 		}
 	}
 
 	public void setMyDefinition(final Definition definition) {
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			mSelectUnionCases.get(i).setMyDefinition(definition);
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			selectUnionCases.get(i).setMyDefinition(definition);
 		}
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			mSelectUnionCases.get(i).setMyAltguards(altGuards);
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			selectUnionCases.get(i).setMyAltguards(altGuards);
 		}
 	}
 
@@ -129,8 +129,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		StatementBlock.ReturnStatus_type result = StatementBlock.ReturnStatus_type.RS_MAYBE;
 		boolean hasElse = false;
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			final SelectUnionCase selectUnionCase = mSelectUnionCases.get(i);
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			final SelectUnionCase selectUnionCase = selectUnionCases.get(i);
 			switch (selectUnionCase.hasReturn(timestamp)) {
 			case RS_NO:
 				if (result == StatementBlock.ReturnStatus_type.RS_YES) {
@@ -169,8 +169,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 *  (which may use blocks).
 	 * */
 	public boolean hasReceivingStatement() {
-		for (int i = 0; i < mSelectUnionCases.size(); i++) {
-			if (mSelectUnionCases.get(i).hasReceivingStatement()) {
+		for (int i = 0; i < selectUnionCases.size(); i++) {
+			if (selectUnionCases.get(i).hasReceivingStatement()) {
 				return true;
 			}
 		}
@@ -193,8 +193,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 */
 	public void check( final CompilationTimeStamp aTimestamp, final TTCN3_Choice_Type aUnionType, final List<String> aFieldNames ) {
 		boolean unreachable = false;
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			unreachable = mSelectUnionCases.get(i).check( aTimestamp, aUnionType, unreachable, aFieldNames );
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			unreachable = selectUnionCases.get(i).check( aTimestamp, aUnionType, unreachable, aFieldNames );
 		}
 	}
 
@@ -212,8 +212,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 */
 	public void check( final CompilationTimeStamp aTimestamp, final Anytype_Type aAnytypeType, final List<String> aTypesCovered ) {
 		boolean unreachable = false;
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			unreachable = mSelectUnionCases.get(i).check( aTimestamp, aAnytypeType, unreachable, aTypesCovered );
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			unreachable = selectUnionCases.get(i).check( aTimestamp, aAnytypeType, unreachable, aTypesCovered );
 		}
 	}
 
@@ -221,8 +221,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			mSelectUnionCases.get(i).checkAllowedInterleave();
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			selectUnionCases.get(i).checkAllowedInterleave();
 		}
 	}
 
@@ -231,8 +231,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	 * after the semantic check was completely run.
 	 */
 	public void postCheck() {
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			mSelectUnionCases.get(i).postCheck();
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			selectUnionCases.get(i).postCheck();
 		}
 	}
 
@@ -244,8 +244,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 		}
 
 		SelectUnionCase branch;
-		for (int i = 0, size = mSelectUnionCases.size(); i < size; i++) {
-			branch = mSelectUnionCases.get(i);
+		for (int i = 0, size = selectUnionCases.size(); i < size; i++) {
+			branch = selectUnionCases.get(i);
 
 			branch.updateSyntax(reparser, false);
 			reparser.updateLocation(branch.getLocation());
@@ -255,11 +255,11 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (mSelectUnionCases == null) {
+		if (selectUnionCases == null) {
 			return;
 		}
 
-		for (final SelectUnionCase sc : mSelectUnionCases) {
+		for (final SelectUnionCase sc : selectUnionCases) {
 			sc.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -267,8 +267,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (mSelectUnionCases != null) {
-			for (final SelectUnionCase sc : mSelectUnionCases) {
+		if (selectUnionCases != null) {
+			for (final SelectUnionCase sc : selectUnionCases) {
 				if (!sc.accept(v)) {
 					return false;
 				}
@@ -278,7 +278,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	public List<SelectUnionCase> getSelectUnionCaseArray() {
-		return mSelectUnionCases;
+		return selectUnionCases;
 	}
 
 	/**
@@ -292,8 +292,8 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 		source.append("throw new TtcnError(\"The union in the head shall be initialized\");\n");
 		final AtomicBoolean unreach = new AtomicBoolean(false);
 
-		for (int i = 0; i < mSelectUnionCases.size(); i++) {
-			mSelectUnionCases.get(i).generateCode(aData, source, unreach);
+		for (int i = 0; i < selectUnionCases.size(); i++) {
+			selectUnionCases.get(i).generateCode(aData, source, unreach);
 			if (unreach.get()) {
 				break;
 			}

@@ -60,18 +60,18 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * Header part of a select select union case, which is a list of union fields (Identifier) or types (Type).
 	 * A syntactically and semantically correct select case header contains only Identifier or only Type objects.
 	 */
-	private final List<Identifier> mItems;
+	private final List<Identifier> items;
 
-	private final StatementBlock mStatementBlock;
+	private final StatementBlock statementBlock;
 
 	private Location location = NULL_Location.INSTANCE;
 
 	public SelectUnionCase( final List<Identifier> aItems, final StatementBlock aStatementBlock ) {
-		this.mItems = aItems;
-		this.mStatementBlock = aStatementBlock;
+		this.items = aItems;
+		this.statementBlock = aStatementBlock;
 
-		if (mStatementBlock != null) {
-			mStatementBlock.setFullNameParent(this);
+		if (statementBlock != null) {
+			statementBlock.setFullNameParent(this);
 		}
 	}
 
@@ -80,7 +80,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		if (mStatementBlock == child) {
+		if (statementBlock == child) {
 			return builder.append(FULLNAMEPART);
 		}
 
@@ -88,7 +88,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	}
 
 	public StatementBlock getStatementBlock() {
-		return mStatementBlock;
+		return statementBlock;
 	}
 
 	/**
@@ -100,26 +100,26 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
-		if (mStatementBlock != null) {
-			mStatementBlock.setMyScope(scope);
+		if (statementBlock != null) {
+			statementBlock.setMyScope(scope);
 		}
 	}
 
-	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
-		if (mStatementBlock != null) {
-			mStatementBlock.setMyStatementBlock(statementBlock, index);
+	public void setMyStatementBlock(final StatementBlock parStatementBlock, final int index) {
+		if (statementBlock != null) {
+			statementBlock.setMyStatementBlock(parStatementBlock, index);
 		}
 	}
 
 	public void setMyDefinition(final Definition definition) {
-		if (mStatementBlock != null) {
-			mStatementBlock.setMyDefinition(definition);
+		if (statementBlock != null) {
+			statementBlock.setMyDefinition(definition);
 		}
 	}
 
 	public void setMyAltguards(final AltGuards altGuards) {
-		if (mStatementBlock != null) {
-			mStatementBlock.setMyAltguards(altGuards);
+		if (statementBlock != null) {
+			statementBlock.setMyAltguards(altGuards);
 		}
 	}
 
@@ -137,7 +137,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 	/** @return true if the select case is the else case, false otherwise. */
 	public boolean hasElse() {
-		return mItems == null;
+		return items == null;
 	}
 
 	/**
@@ -150,8 +150,8 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * @return the return status of the select case.
 	 * */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
-		if (mStatementBlock != null) {
-			return mStatementBlock.hasReturn(timestamp);
+		if (statementBlock != null) {
+			return statementBlock.hasReturn(timestamp);
 		}
 
 		return StatementBlock.ReturnStatus_type.RS_NO;
@@ -163,8 +163,8 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *  (which may use blocks).
 	 * */
 	public boolean hasReceivingStatement() {
-		if (mStatementBlock != null) {
-			return mStatementBlock.hasReceivingStatement(0);
+		if (statementBlock != null) {
+			return statementBlock.hasReceivingStatement(0);
 		}
 
 		return false;
@@ -197,7 +197,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		}
 
 		boolean unreachable2 = aUnreachable;
-		if ( mItems != null ) {
+		if ( items != null ) {
 			check( aUnionType, aFieldNames );
 		} else {
 			// case else
@@ -205,7 +205,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 			aFieldNames.clear();
 		}
 
-		mStatementBlock.check( aTimestamp );
+		statementBlock.check( aTimestamp );
 
 		return unreachable2;
 	}
@@ -217,8 +217,8 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * As it bypasses the checking of the case fields, in other cases this could cause problems.
 	 */
 	void checkStatementBlock( final CompilationTimeStamp aTimestamp) {
-		if( mStatementBlock !=null ) {
-			mStatementBlock.check( aTimestamp );
+		if( statementBlock !=null ) {
+			statementBlock.check( aTimestamp );
 		}
 	}
 
@@ -245,14 +245,14 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		}
 
 		boolean unreachable2 = aUnreachable;
-		if ( mItems != null ) {
+		if ( items != null ) {
 			check( aAnytypeType, aTypesCovered );
 		} else {
 			// case else
 			unreachable2 = true;
 		}
 
-		mStatementBlock.check( aTimestamp );
+		statementBlock.check( aTimestamp );
 
 		return unreachable2;
 	}
@@ -268,7 +268,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
 	 */
 	public void check( final TTCN3_Choice_Type aUnionType, final List<String> aFieldNames ) {
-		for ( Identifier identifier : mItems ) {
+		for ( Identifier identifier : items ) {
 			// name of the union component
 			final String name = identifier.getName();
 			if ( aUnionType.hasComponentWithName( name ) ) {
@@ -294,9 +294,9 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                If a new type is found, it is added to the list.
 	 */
 	public void check( final Anytype_Type aAnytypeType, final List<String> aTypesCovered ) {
-		final int size = mItems.size();
+		final int size = items.size();
 		for ( int i = 0; i < size; i++ ) {
-			final Identifier identifier = mItems.get( i );
+			final Identifier identifier = items.get( i );
 			final String name = identifier.getName();
 			if ( aAnytypeType.hasComponentWithName( name ) ) {
 				if ( aTypesCovered.contains( name ) ) {
@@ -315,8 +315,8 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * Checks if some statements are allowed in an interleave or not
 	 * */
 	public void checkAllowedInterleave() {
-		if (mStatementBlock != null) {
-			mStatementBlock.checkAllowedInterleave();
+		if (statementBlock != null) {
+			statementBlock.checkAllowedInterleave();
 		}
 	}
 
@@ -325,8 +325,8 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * after the semantic check was completely run.
 	 */
 	public void postCheck() {
-		if (mStatementBlock != null) {
-			mStatementBlock.postCheck();
+		if (statementBlock != null) {
+			statementBlock.postCheck();
 		}
 	}
 
@@ -337,8 +337,8 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 			throw new ReParseException();
 		}
 
-		if ( mItems != null ) {
-			for ( Identifier item : mItems ) {
+		if ( items != null ) {
+			for ( Identifier item : items ) {
 				if ( item instanceof Identifier ) {
 					final Identifier identifier = item;
 					reparser.updateLocation( identifier.getLocation() );
@@ -349,31 +349,31 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 			}
 		}
 
-		if (mStatementBlock != null) {
-			mStatementBlock.updateSyntax(reparser, false);
-			reparser.updateLocation(mStatementBlock.getLocation());
+		if (statementBlock != null) {
+			statementBlock.updateSyntax(reparser, false);
+			reparser.updateLocation(statementBlock.getLocation());
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (mStatementBlock != null) {
-			mStatementBlock.findReferences(referenceFinder, foundIdentifiers);
+		if (statementBlock != null) {
+			statementBlock.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if ( mItems != null) {
-			for ( Identifier item : mItems ) {
+		if ( items != null) {
+			for ( Identifier item : items ) {
 				if ( !item.accept( v ) ) {
 					return false;
 				}
 			}
 		}
-		if (mStatementBlock != null && !mStatementBlock.accept(v)) {
+		if (statementBlock != null && !statementBlock.accept(v)) {
 			return false;
 		}
 		return true;
@@ -387,9 +387,9 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 */
 	public void generateCode(final JavaGenData aData, final StringBuilder source, final AtomicBoolean unreach) {
-		if (mItems != null) {
-			for (int i = 0; i < mItems.size(); i++) {
-				final Identifier identifier = mItems.get(i);
+		if (items != null) {
+			for (int i = 0; i < items.size(); i++) {
+				final Identifier identifier = items.get(i);
 				final String name = identifier.getName();
 				source.append(MessageFormat.format("case ALT_{0}:\n", FieldSubReference.getJavaGetterName(name)));
 			}
@@ -398,7 +398,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 			source.append("default:\n");
 		}
 
-		mStatementBlock.generateCode(aData, source);
+		statementBlock.generateCode(aData, source);
 		source.append("break;\n");
 	}
 }

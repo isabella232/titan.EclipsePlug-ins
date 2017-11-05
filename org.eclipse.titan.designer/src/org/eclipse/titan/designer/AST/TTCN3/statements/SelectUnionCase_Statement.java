@@ -49,16 +49,16 @@ public final class SelectUnionCase_Statement extends Statement {
 	private static final String STATEMENT_NAME = "select-union-case";
 
 	private final Value expression;
-	private final SelectUnionCases mSelectUnionCases;
+	private final SelectUnionCases selectUnionCases;
 
 	public SelectUnionCase_Statement(final Value expression, final SelectUnionCases aSelectUnionCases) {
 		this.expression = expression;
-		this.mSelectUnionCases = aSelectUnionCases;
+		this.selectUnionCases = aSelectUnionCases;
 
 		if (expression != null) {
 			expression.setFullNameParent(this);
 		}
-		mSelectUnionCases.setFullNameParent(this);
+		selectUnionCases.setFullNameParent(this);
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public final class SelectUnionCase_Statement extends Statement {
 
 		if (expression == child) {
 			return builder.append(FULLNAMEPART1);
-		} else if (mSelectUnionCases == child) {
+		} else if (selectUnionCases == child) {
 			return builder.append(FULLNAMEPART2);
 		}
 
@@ -94,39 +94,39 @@ public final class SelectUnionCase_Statement extends Statement {
 		if (expression != null) {
 			expression.setMyScope(scope);
 		}
-		mSelectUnionCases.setMyScope(scope);
+		selectUnionCases.setMyScope(scope);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void setMyStatementBlock(final StatementBlock statementBlock, final int index) {
 		super.setMyStatementBlock(statementBlock, index);
-		mSelectUnionCases.setMyStatementBlock(statementBlock, index);
+		selectUnionCases.setMyStatementBlock(statementBlock, index);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void setMyDefinition(final Definition definition) {
-		mSelectUnionCases.setMyDefinition(definition);
+		selectUnionCases.setMyDefinition(definition);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void setMyAltguards(final AltGuards altGuards) {
-		mSelectUnionCases.setMyAltguards(altGuards);
+		selectUnionCases.setMyAltguards(altGuards);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
-		return mSelectUnionCases.hasReturn(timestamp);
+		return selectUnionCases.hasReturn(timestamp);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasReceivingStatement() {
-		if (mSelectUnionCases != null) {
-			return mSelectUnionCases.hasReceivingStatement();
+		if (selectUnionCases != null) {
+			return selectUnionCases.hasReceivingStatement();
 		}
 
 		return false;
@@ -173,8 +173,8 @@ public final class SelectUnionCase_Statement extends Statement {
 		} else {
 			expression.getLocation().reportSemanticError( TYPE_MUST_BE_UNION_OR_ANYTYPE );
 			//special operations to check the body of the cases even if the select expression is erroneous
-			for(int i=0; i< mSelectUnionCases.getSize();i++) {
-				mSelectUnionCases.getSelectUnionCase(i).checkStatementBlock(timestamp);
+			for(int i=0; i< selectUnionCases.getSize();i++) {
+				selectUnionCases.getSelectUnionCase(i).checkStatementBlock(timestamp);
 			}
 			return;
 		}
@@ -193,7 +193,7 @@ public final class SelectUnionCase_Statement extends Statement {
 			fieldNames.add( compName );
 		}
 
-		mSelectUnionCases.check( aTimestamp, aUnionType, fieldNames );
+		selectUnionCases.check( aTimestamp, aUnionType, fieldNames );
 
 		if ( !fieldNames.isEmpty() ) {
 			final StringBuilder sb = new StringBuilder( CASENOTCOVERED );
@@ -219,19 +219,19 @@ public final class SelectUnionCase_Statement extends Statement {
 			final String compName = aAnytypeType.getComponentByIndex(i).getIdentifier().getName();
 			typesCovered.add( compName );
 		}
-		mSelectUnionCases.check( aTimestamp, aAnytypeType, typesCovered );
+		selectUnionCases.check( aTimestamp, aAnytypeType, typesCovered );
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void checkAllowedInterleave() {
-		mSelectUnionCases.checkAllowedInterleave();
+		selectUnionCases.checkAllowedInterleave();
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		mSelectUnionCases.postCheck();
+		selectUnionCases.postCheck();
 	}
 
 	@Override
@@ -246,8 +246,8 @@ public final class SelectUnionCase_Statement extends Statement {
 			reparser.updateLocation(expression.getLocation());
 		}
 
-		if (mSelectUnionCases != null) {
-			mSelectUnionCases.updateSyntax(reparser, false);
+		if (selectUnionCases != null) {
+			selectUnionCases.updateSyntax(reparser, false);
 		}
 	}
 
@@ -257,8 +257,8 @@ public final class SelectUnionCase_Statement extends Statement {
 		if (expression != null) {
 			expression.findReferences(referenceFinder, foundIdentifiers);
 		}
-		if (mSelectUnionCases != null) {
-			mSelectUnionCases.findReferences(referenceFinder, foundIdentifiers);
+		if (selectUnionCases != null) {
+			selectUnionCases.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -268,7 +268,7 @@ public final class SelectUnionCase_Statement extends Statement {
 		if (expression != null && !expression.accept(v)) {
 			return false;
 		}
-		if (mSelectUnionCases != null && !mSelectUnionCases.accept(v)) {
+		if (selectUnionCases != null && !selectUnionCases.accept(v)) {
 			return false;
 		}
 		return true;
@@ -279,7 +279,7 @@ public final class SelectUnionCase_Statement extends Statement {
 	}
 
 	public SelectUnionCases getSelectUnionCases() {
-		return mSelectUnionCases;
+		return selectUnionCases;
 	}
 
 	@Override
@@ -289,7 +289,7 @@ public final class SelectUnionCase_Statement extends Statement {
 		expression.generateCodeExpression(aData, expressionStruct, true);
 		source.append(expressionStruct.preamble);
 		source.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", expressionStruct.expression));
-		mSelectUnionCases.generateCode(aData, source);
+		selectUnionCases.generateCode(aData, source);
 		source.append("}\n");
 
 		source.append(expressionStruct.postamble);
