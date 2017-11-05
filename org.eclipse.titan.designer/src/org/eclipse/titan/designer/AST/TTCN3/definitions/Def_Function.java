@@ -956,7 +956,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
 					if (i > 0) {
-						source.append("TTCN_Logger::log_event_str(\", \");\n");
+						source.append("TtcnLogger.log_event_str(\", \");\n");
 					}
 					source.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
 				}
