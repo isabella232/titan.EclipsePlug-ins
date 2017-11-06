@@ -434,7 +434,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 		throw new TtcnError("Internal Error: value can not be cast to CHARACTER STRING.identification.context-negotiation.");
 	}
 
-	public void log_match(final TitanCharacter_String_identification_context__negotiation match_value, boolean legacy) {
+	public void log_match(final TitanCharacter_String_identification_context__negotiation match_value, final boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();

@@ -486,7 +486,7 @@ public class TitanExternal_template extends Base_Template {
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.");
 	}
 
-	public void log_match(final TitanExternal match_value, boolean legacy) {
+	public void log_match(final TitanExternal match_value, final boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();

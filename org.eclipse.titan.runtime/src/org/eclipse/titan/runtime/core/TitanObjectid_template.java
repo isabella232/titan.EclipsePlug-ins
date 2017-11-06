@@ -110,7 +110,7 @@ public class TitanObjectid_template extends Base_Template {
 
 	// originally operator=
 	@Override
-	public Base_Template assign(Base_Type otherValue) {
+	public Base_Template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
 			return assign(otherValue);
 		}
@@ -119,7 +119,7 @@ public class TitanObjectid_template extends Base_Template {
 
 	// originally operator=
 	@Override
-	public Base_Template assign(Base_Template otherValue) {
+	public Base_Template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanObjectid_template) {
 			return assign(otherValue);
 		}
@@ -168,7 +168,7 @@ public class TitanObjectid_template extends Base_Template {
 	}
 
 	@Override
-	public boolean match(Base_Type otherValue, boolean legacy) {
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanObjectid) {
 			return match((TitanObjectid) otherValue, legacy);
 		}
@@ -264,7 +264,7 @@ public class TitanObjectid_template extends Base_Template {
 		log_ifpresent();
 	}
 
-	public void log_match(final TitanObjectid match_value, boolean legacy) {
+	public void log_match(final TitanObjectid match_value, final boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
 			TtcnLogger.print_logmatch_buffer();
@@ -292,7 +292,7 @@ public class TitanObjectid_template extends Base_Template {
 		}
 	}
 
-	public boolean match_omit(boolean legacy) {
+	public boolean match_omit(final boolean legacy) {
 		if (is_ifPresent) {
 			return true;
 		}

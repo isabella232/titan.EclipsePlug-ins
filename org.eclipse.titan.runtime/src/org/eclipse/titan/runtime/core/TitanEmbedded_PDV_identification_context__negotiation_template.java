@@ -434,7 +434,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.identification.context-negotiation.");
 	}
 
-	public void log_match(final TitanEmbedded_PDV_identification_context__negotiation match_value, boolean legacy) {
+	public void log_match(final TitanEmbedded_PDV_identification_context__negotiation match_value, final boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();

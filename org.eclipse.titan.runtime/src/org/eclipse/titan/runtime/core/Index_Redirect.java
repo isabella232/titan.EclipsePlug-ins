@@ -47,7 +47,7 @@ public class Index_Redirect {
 		--pos;
 	}
 	
-	public void addIndex(int p_index) {
+	public void addIndex(final int p_index) {
 		pos = p_index;
 	}
 }

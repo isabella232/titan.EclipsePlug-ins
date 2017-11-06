@@ -397,7 +397,7 @@ public class TitanFloat extends Base_Type {
 		float_value = null;
 	}
 
-	static void log_float(double float_val) {
+	static void log_float(final double float_val) {
 		if ((float_val > -TitanFloat.MAX_DECIMAL_FLOAT && float_val <= -TitanFloat.MIN_DECIMAL_FLOAT)
 				|| (float_val >= MIN_DECIMAL_FLOAT && float_val < TitanFloat.MAX_DECIMAL_FLOAT) || (float_val == 0.0)) {
 			TtcnLogger.log_event("%f", float_val);

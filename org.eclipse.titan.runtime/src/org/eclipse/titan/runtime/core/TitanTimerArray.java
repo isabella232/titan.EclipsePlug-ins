@@ -63,7 +63,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return this;
 	}
 
-	public TitanTimerArray(final Class<T> clazz, int size, int offset) {
+	public TitanTimerArray(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexOffset = offset;
 
@@ -140,7 +140,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		return array_size;
 	}
 
-	public void setName(String name_string)
+	public void setName(final String name_string)
 	{
 		for (int i = 0; i < array_size; ++i) {
 			// index_offset may be negative, hence i must be int (not size_t)
@@ -164,7 +164,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	// static functions
 
-	public static int getTimerArrayIndex(int indexValue, int arraySize, int indexOffset) {
+	public static int getTimerArrayIndex(final int indexValue, final int arraySize, final int indexOffset) {
 		if (arraySize < 0) {
 			throw new TtcnError("Invalid array size");
 		}
@@ -182,7 +182,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 		return result;
 	}
-	public static int getTimerArrayIndex(TitanInteger indexValue, int arraySize, int indexOffset) {
+	public static int getTimerArrayIndex(final TitanInteger indexValue, final int arraySize, final int indexOffset) {
 		if (! indexValue.isBound()) {
 			throw new TtcnError("Accessing an element of a timer array using an unbound index.");
 		}
@@ -193,7 +193,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO
 
 	// originally alt_status timeout(Index_Redirect* index_redirect)
-	public TitanAlt_Status timeout(Index_Redirect index_redirect) {
+	public TitanAlt_Status timeout(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
@@ -218,7 +218,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	}
 
 	// originally boolean running(Index_Redirect* index_redirect) const
-	public boolean running(Index_Redirect index_redirect) {
+	public boolean running(final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}

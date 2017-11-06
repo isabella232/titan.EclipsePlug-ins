@@ -86,7 +86,7 @@ public class TitanObjectid extends Base_Type {
 
 	// originally operator=
 	@Override
-	public Base_Type assign(Base_Type otherValue) {
+	public Base_Type assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
 			return assign((TitanObjectid) otherValue);
 		} else {
@@ -115,7 +115,7 @@ public class TitanObjectid extends Base_Type {
 
 	// originally operator==
 	@Override
-	public boolean operatorEquals(Base_Type otherValue) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
 			return operatorEquals((TitanObjectid) otherValue);
 		} else {

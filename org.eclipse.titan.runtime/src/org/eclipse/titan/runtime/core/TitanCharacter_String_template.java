@@ -486,7 +486,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		throw new TtcnError("Internal Error: value can not be cast to CHARACTER STRING.");
 	}
 
-	public void log_match(final TitanCharacter_String match_value, boolean legacy) {
+	public void log_match(final TitanCharacter_String match_value, final boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();

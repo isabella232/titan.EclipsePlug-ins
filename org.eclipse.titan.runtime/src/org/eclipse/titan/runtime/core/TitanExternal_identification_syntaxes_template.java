@@ -434,7 +434,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		throw new TtcnError("Internal Error: value can not be cast to EXTERNAL.identification.syntaxes.");
 	}
 
-	public void log_match(final TitanExternal_identification_syntaxes match_value, boolean legacy) {
+	public void log_match(final TitanExternal_identification_syntaxes match_value, final boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();

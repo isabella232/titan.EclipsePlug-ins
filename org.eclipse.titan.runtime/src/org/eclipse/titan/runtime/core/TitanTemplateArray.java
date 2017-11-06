@@ -1110,7 +1110,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		log_ifpresent();
 	}
 
-	public void log_match(final TitanValueArray<Tvalue> match_value, boolean legacy) {
+	public void log_match(final TitanValueArray<Tvalue> match_value, final boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
 			TtcnLogger.print_logmatch_buffer();

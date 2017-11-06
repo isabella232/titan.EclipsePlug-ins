@@ -46,7 +46,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 	}
 	
-	public TitanValueArray(final Class<T> clazz, int size, int offset) {
+	public TitanValueArray(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexOffset = offset;
 

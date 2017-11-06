@@ -387,7 +387,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		log_ifpresent();
 	}
 
-	public void log_match(final TitanHexString match_value, boolean legacy) {
+	public void log_match(final TitanHexString match_value, final boolean legacy) {
 		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
 				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
 			TtcnLogger.print_logmatch_buffer();

@@ -434,7 +434,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		throw new TtcnError("Internal Error: value can not be cast to EMBEDDED PDV.identification.syntaxes.");
 	}
 
-	public void log_match(final TitanEmbedded_PDV_identification_syntaxes match_value, boolean legacy) {
+	public void log_match(final TitanEmbedded_PDV_identification_syntaxes match_value, final boolean legacy) {
 		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
 				TtcnLogger.print_logmatch_buffer();

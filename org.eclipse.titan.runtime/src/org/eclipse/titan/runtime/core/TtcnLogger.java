@@ -308,7 +308,7 @@ public final class TtcnLogger {
 		}
 	}
 
-	public static void logCharEscaped(final char c, StringBuilder p_buffer) {
+	public static void logCharEscaped(final char c, final StringBuilder p_buffer) {
 		switch (c) {
 		case '\n':
 			p_buffer.append("\\n");
@@ -440,7 +440,7 @@ public final class TtcnLogger {
 		log_event_str(MessageFormat.format("Sent on {0} to {1}{2}", portname, dest, parameter.getValue()));
 	}
 
-	public static void log_port_queue(final Port_Queue_operation operation, final String port_name, int componentReference, int id, final TitanCharString address, final TitanCharString parameter) {
+	public static void log_port_queue(final Port_Queue_operation operation, final String port_name, final int componentReference, final int id, final TitanCharString address, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
 		Severity sev;

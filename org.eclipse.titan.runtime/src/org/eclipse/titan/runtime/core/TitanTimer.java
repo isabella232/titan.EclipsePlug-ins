@@ -124,7 +124,7 @@ public class TitanTimer {
 	}
 
 	//originally TIMER::set_name
-	public void setName(String name) {
+	public void setName(final String name) {
 		if (name == null) {
 			throw new TtcnError("Internal error: Setting an invalid name for a single element of a timer array.");
 		}
