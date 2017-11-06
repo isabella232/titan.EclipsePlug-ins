@@ -45,6 +45,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("AdditionalFunctions");
 		aData.addBuiltinTypeImport("RecordOfMatch");
 		aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
+		aData.addBuiltinTypeImport("TtcnLogger");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName, isSetOf );
@@ -95,6 +96,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("RecordOfMatch.match_function_t");
 		aData.addBuiltinTypeImport("Restricted_Length_Template");
 		aData.addBuiltinTypeImport("Optional");
+		aData.addBuiltinTypeImport("TtcnLogger");
 		if ( isSetOf ) {
 			aData.addBuiltinTypeImport("RecordOfMatch.log_function_t");
 		}
