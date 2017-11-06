@@ -156,14 +156,14 @@ public final class TtcnLogger {
 		STOPPED,
 		HALTED
 	}
-	
+
 	//temporary enum, original:TitanLoggerApi::Port_oper
 	public static enum Port_oper {
 		CALL_OP,
 		EXCEPTION_OP,
 		REPLY_OP
 	}
-	
+
 	//temporary enum, original:TitanLoggerApi::Msg_port_recv.operation
 	public static enum Msg_port_recv_operation {
 		RECEIVE_OP,
@@ -449,7 +449,7 @@ public final class TtcnLogger {
 	public static int get_logmatch_buffer_len() {
 		return logMatchBuffer.length();
 	}
-	
+
 	public static void log_port_queue(final Port_Queue_operation operation, final String port_name, final int componentReference, final int id, final TitanCharString address, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
@@ -519,7 +519,7 @@ public final class TtcnLogger {
 		}
 		log_event_str(MessageFormat.format("Port {0} was {1}.", portname, what));
 	}
-	
+
 	public static void log_procport_send(final String portname, final Port_oper operation, final int componentReference, final TitanCharString system, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
@@ -535,9 +535,9 @@ public final class TtcnLogger {
 		default:
 			return;
 		}
-		log_event_str(MessageFormat.format("{0} on {1} to {2} {3}",ret_val,portname, dest, parameter.getValue()));
+		log_event_str(MessageFormat.format("{0} on {1} to {2} {3}", ret_val, portname, dest, parameter.getValue()));
 	}
-	
+
 	public static void log_procport_recv(final String portname, final Port_oper operation, final int componentReference, final boolean check, final TitanCharString parameter, final int id) {
 		final String source = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
@@ -556,15 +556,15 @@ public final class TtcnLogger {
 		default:
 			return;
 		}
-		log_event_str(MessageFormat.format("{0} operation on port {1} succeeded, {2} from {3}: {4} id {5}",ret_val, portname, op2, source, parameter.getValue(), id));
+		log_event_str(MessageFormat.format("{0} operation on port {1} succeeded, {2} from {3}: {4} id {5}", ret_val, portname, op2, source, parameter.getValue(), id));
 	}
-	
+
 	public static void log_msgport_send(final String portname, final int componentRefernce, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentRefernce);
 		log_event_str(MessageFormat.format("Sent on {0} to {1}{2}", portname, dest, parameter.getValue()));
 	}
-	
-	public static void log_msgport_recv(final String portname, final Msg_port_recv_operation operation, final int componentReference, final TitanCharString system, final TitanCharString parameter, final int id){
+
+	public static void log_msgport_recv(final String portname, final Msg_port_recv_operation operation, final int componentReference, final TitanCharString system, final TitanCharString parameter, final int id) {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
 		switch (operation) {
@@ -580,20 +580,20 @@ public final class TtcnLogger {
 		default:
 			return;
 		}
-		//FIXME:more complicated
-		log_event_str(MessageFormat.format("{0} operation on port {1} succeeded, message from {2} {3} id {4}",ret_val, portname, dest, parameter.getValue(), id ));
+		// FIXME:more complicated
+		log_event_str(MessageFormat.format("{0} operation on port {1} succeeded, message from {2} {3} id {4}", ret_val, portname, dest, parameter.getValue(), id));
 	}
-	
+
 	public static void log_dualport_map(final boolean incoming, final String target_type, final TitanCharString value, final int id) {
 		String ret_val = MessageFormat.format("{0} message was mapped to {1} : {2}", (incoming ? "Incoming" : "Outgoing"), target_type, value.getValue());
-		if(incoming) {
-			ret_val+=MessageFormat.format(" id {0}", id);
+		if (incoming) {
+			ret_val += MessageFormat.format(" id {0}", id);
 		}
 		log_event_str(ret_val);
 	}
-	
+
 	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
-		//FIXME also needs to check emergency logging
+		// FIXME also needs to check emergency logging
 		if (!log_this_event(Severity.STATISTICS_UNQUALIFIED)) {
 			return;
 		}
@@ -606,7 +606,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_defaultop_activate(final String name, final int id) {
-		//FIXME also needs to check emergency logging
+		// FIXME also needs to check emergency logging
 		if (!log_this_event(Severity.DEFAULTOP_ACTIVATE)) {
 			return;
 		}
