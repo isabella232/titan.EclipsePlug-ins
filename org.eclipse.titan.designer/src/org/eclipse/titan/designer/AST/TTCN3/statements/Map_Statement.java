@@ -136,7 +136,7 @@ public final class Map_Statement extends Statement {
 		if (portType1 != null) {
 			body1 = ((Port_Type) portType1).getPortBody();
 			if (body1.isInternal()) {
-				componentReference1.getLocation().reportSemanticError(
+				componentReference1.getLocation().reportSemanticWarning(
 						MessageFormat.format("Port type `{0}'' was marked as `internal''", portType1.getTypename()));
 			}
 			// sets the referenced assignment of this reference
@@ -169,7 +169,7 @@ public final class Map_Statement extends Statement {
 		if (portType2 != null) {
 			body2 = ((Port_Type) portType2).getPortBody();
 			if (body2.isInternal()) {
-				componentReference2.getLocation().reportSemanticError(
+				componentReference2.getLocation().reportSemanticWarning(
 						MessageFormat.format("Port type `{0}'' was marked as `internal''", portType2.getTypename()));
 			}
 			// sets the referenced assignment of this reference

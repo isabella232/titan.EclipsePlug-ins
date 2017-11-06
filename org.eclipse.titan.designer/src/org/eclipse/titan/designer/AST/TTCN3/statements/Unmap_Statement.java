@@ -129,7 +129,7 @@ public final class Unmap_Statement extends Statement {
 		} else {
 			body1 = ((Port_Type) portType1).getPortBody();
 			if (body1.isInternal()) {
-				componentReference1.getLocation().reportSemanticError(
+				componentReference1.getLocation().reportSemanticWarning(
 						MessageFormat.format("Port type `{0}'' was marked as `internal''", portType1.getTypename()));
 			}
 		}
@@ -160,7 +160,7 @@ public final class Unmap_Statement extends Statement {
 		} else {
 			body2 = ((Port_Type) portType2).getPortBody();
 			if (body2.isInternal()) {
-				componentReference2.getLocation().reportSemanticError(
+				componentReference2.getLocation().reportSemanticWarning(
 						MessageFormat.format("Port type `{0}'' was marked as `internal''", portType2.getTypename()));
 			}
 		}
