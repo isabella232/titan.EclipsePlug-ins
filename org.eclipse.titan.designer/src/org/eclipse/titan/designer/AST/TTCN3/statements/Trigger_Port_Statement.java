@@ -316,13 +316,13 @@ public final class Trigger_Port_Statement extends Statement {
 			redirectSender.generateCode(aData, expression);
 		}
 
-		//FIXME handle index redirection
-//		if (portReference != null) {
-//			expression.expression.append(", ");
-//			expression.expression.append("null");
-//		}
+		//FIXME also if translate
+		if (portReference != null) {
+			//FIXME handle index redirection
+			expression.expression.append(", null");
+		}
 		expression.expression.append( "/* TODO: " );
-		expression.expression.append( "from clause and sender redirect is not yet handled!*/\n" );
+		expression.expression.append( "from clause redirect is not yet handled!*/\n" );
 
 		expression.expression.append( ')' );
 	}

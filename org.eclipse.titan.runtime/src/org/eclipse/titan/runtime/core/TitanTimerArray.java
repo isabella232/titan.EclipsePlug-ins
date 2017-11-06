@@ -200,7 +200,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; ++i) {
-			TitanAlt_Status ret_val = array_elements[i].timeout();
+			TitanAlt_Status ret_val = array_elements[i].timeout(index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexOffset);
@@ -224,7 +224,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		}
 		boolean ret_val = false;
 		for (int i = 0; i < array_size; ++i) {
-			ret_val = array_elements[i].running();
+			ret_val = array_elements[i].running(index_redirect);
 			if (ret_val) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexOffset);

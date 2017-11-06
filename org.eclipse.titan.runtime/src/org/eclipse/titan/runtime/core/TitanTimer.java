@@ -258,9 +258,18 @@ public class TitanTimer {
 	/**
 	 * @return true if is_started and not yet expired, false otherwise.
 	 *
-	 * originally running(Index_Redirect*) 
+	 * originally running(Index_Redirect* = null) 
 	 */
 	public boolean running() {
+		return running(null);
+	}
+
+	/**
+	 * @return true if is_started and not yet expired, false otherwise.
+	 *
+	 * originally running(Index_Redirect*) 
+	 */
+	public boolean running(final Index_Redirect index_redirect) {
 		//FIXME handle redirection
 		return isStarted && TTCN_Snapshot.timeNow() < timeExpires;
 	}
@@ -274,9 +283,24 @@ public class TitanTimer {
 	 * @return ALT_YES if it's started and the snapshot is past the
 	 *         expiration time
 	 *
-	 *         originally timeout(Index_Redirect*)
+	 *         originally timeout(Index_Redirect* = null)
 	 * */
 	public TitanAlt_Status timeout() {
+		return timeout(null);
+	}
+
+	/**
+	 * Return the alt status.
+	 *
+	 * @return ALT_NO if the timer is not started.
+	 * @return ALT_MAYBE if it's started and the snapshot was taken before
+	 *         the expiration time
+	 * @return ALT_YES if it's started and the snapshot is past the
+	 *         expiration time
+	 *
+	 *         originally timeout(Index_Redirect*)
+	 * */
+	public TitanAlt_Status timeout(final Index_Redirect index_redirect) {
 		if (isStarted) {
 			if (TTCN_Snapshot.getAltBegin() < timeExpires) {
 				return TitanAlt_Status.ALT_MAYBE;
@@ -313,7 +337,7 @@ public class TitanTimer {
 	 * */
 	public static boolean anyRunning() {
 		for (TitanTimer timer : TIMERS) {
-			if (timer.running()) {
+			if (timer.running(null)) {
 				return true;
 			}
 		}
@@ -330,12 +354,12 @@ public class TitanTimer {
 	 * @return ALT_YES if there is at least one time that is started
 	 *         and the snapshot is past it's expiration time
 	 *
-	 *         originally timeout(Index_Redirect*)
+	 *         originally any_timeout()
 	 * */
 	public static TitanAlt_Status anyTimeout() {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (TitanTimer timer : TIMERS) {
-			switch(timer.timeout()) {
+			switch(timer.timeout(null)) {
 			case ALT_YES:
 				//TODO log
 				return TitanAlt_Status.ALT_YES;

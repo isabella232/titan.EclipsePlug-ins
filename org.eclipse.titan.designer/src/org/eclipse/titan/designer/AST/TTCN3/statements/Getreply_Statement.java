@@ -527,9 +527,8 @@ public final class Getreply_Statement extends Statement {
 					redirectSender.generateCode(aData, expression);
 				}
 			}
-//			expression.expression.append(", ");
-//			//FIXME handle redirect
-//			expression.expression.append("null");
+			//FIXME handle index redirection
+			expression.expression.append(", null");
 		} else {
 			// the operation refers to any port
 			expression.expression.append("TitanPort.any_getreply(");
