@@ -68,7 +68,7 @@ public class ProjectHandlingLibrary {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 		
-		AnalyzerCache.withPreference().analyzeProject(new NullProgressMonitor(), project).showAll();
+		AnalyzerCache.withPreference().analyzeProject(new NullProgressMonitor(), project).showAll(project);
 		
 		try {
 			Thread.sleep(2000); // Wait for the markers to show up
