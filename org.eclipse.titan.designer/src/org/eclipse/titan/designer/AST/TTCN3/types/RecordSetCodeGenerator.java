@@ -136,6 +136,7 @@ public class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("Optional");
+		aData.addBuiltinTypeImport("TtcnLogger");
 
 		if (fieldInfos.isEmpty()) {
 			generateEmptyTemplateClass(aData, source, className, classDisplayName, fieldInfos, hasOptional, isSet);
