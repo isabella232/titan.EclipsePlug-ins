@@ -372,6 +372,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"TitanBoolean", "BOOLEAN", "boolean"},
 		{"BMPString", "BMPString", null},
 		{"TitanCharString", null, "charstring"},
+		{"TitanUniversalCharString", null, "universal charstring"},
 		{"CHARACTER_STRING", "CHARACTER STRING", null},
 		{"TitanComponent", null, "component"},
 		{"TitanDefault", null, "default"},
