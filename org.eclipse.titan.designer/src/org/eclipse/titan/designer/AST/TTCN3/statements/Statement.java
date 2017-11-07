@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ILocateableNode;
@@ -427,10 +428,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * @param expression the expression to generate the source to
 	 */
 	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression) {
-		//default implementation
-		expression.expression.append( "\t\t" );
-		expression.expression.append( "//TODO: " );
-		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
+		ErrorReporter.INTERNAL_ERROR("Code generator reached invalid guard statement `" + getFullName() + "''");
+		expression.expression.append("FATAL_ERROR encountered");
 	}
 }
