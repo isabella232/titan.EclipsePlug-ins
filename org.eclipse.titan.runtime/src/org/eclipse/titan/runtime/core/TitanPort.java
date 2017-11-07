@@ -236,6 +236,71 @@ public class TitanPort {
 		}
 	}
 
+	//originally check_port_state
+	public boolean checkPortState(final String type) {
+		if ("Started".equals(type)) {
+			return is_started;
+		} else if ("Halted".equals(type)) {
+			return is_halted;
+		} else if ("Stopped".equals(type)) {
+			return (!is_started && !is_halted);
+		} else if ("Connected".equals(type)) {
+			return false;//FIXME connection_list_head
+		} else if ("Mapped".equals(type)) {
+			return !systemMappings.isEmpty();
+		} else if ("Linked".equals(type)) {
+			return !systemMappings.isEmpty();//FIXME connection_list_head
+		}
+		throw new TtcnError(MessageFormat.format("{0} is not an allowed parameter of checkstate().", type));
+	}
+
+	//originally check_port_state
+	public boolean checkPortState(final TitanCharString type) {
+		return checkPortState(type.getValue().toString());
+	}
+
+	// originally any_check_port_state
+	public static boolean any_checkPortState(final String type) {
+		for (TitanPort port : PORTS) {
+			if (port.checkPortState(type)) {
+				return true;
+			}
+		}
+		for (TitanPort port : SYSTEM_PORTS) {
+			if (port.checkPortState(type)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// originally any_check_port_state
+	public static boolean any_checkPortState(final TitanCharString type) {
+		return any_checkPortState(type.getValue().toString());
+	}
+
+	//originally all_check_port_state
+	public static boolean all_checkPortState(final String type) {
+		for (TitanPort port : PORTS) {
+			if (!port.checkPortState(type)) {
+				return false;
+			}
+		}
+		for (TitanPort port : SYSTEM_PORTS) {
+			if (!port.checkPortState(type)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	//originally all_check_port_state
+	public static boolean all_checkPortState(final TitanCharString type) {
+		return all_checkPortState(type.getValue().toString());
+	}
+
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		// FIXME logging
 		return TitanAlt_Status.ALT_NO;

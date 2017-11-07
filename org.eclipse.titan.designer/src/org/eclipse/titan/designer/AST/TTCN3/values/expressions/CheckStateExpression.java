@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -287,5 +288,18 @@ public final class CheckStateExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		if (portReference != null) {
+			portReference.generateConstRef(aData, expression);
+			expression.expression.append('.');
+		}
+
+		expression.expression.append("checkPortState(");
+		value.generateCodeExpressionMandatory(aData, expression, false);
+		expression.expression.append(')');
 	}
 }
