@@ -23,6 +23,8 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -117,5 +119,24 @@ public final class ASN1_Null_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport("TitanAsn_Null");
+
+		source.append(name);
+		source.append(".assign( TitanAsn_Null.Asn_Null_Type.ASN_NULL_VALUE );\n");
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
+		aData.addBuiltinTypeImport("TitanAsn_Null");
+
+		expression.expression.append("TitanAsn_Null.Asn_Null_Type.ASN_NULL_VALUE");
 	}
 }
