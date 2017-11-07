@@ -11,12 +11,14 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+
 /**
  * TTCN-3 hexstring template
  *
  * @author Arpad Lovassy
  * @author Gergo Ujhelyi
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanHexString_template extends Restricted_Length_Template {
 
@@ -33,36 +35,42 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 */
 	private List<Byte> pattern_value;
 
-	//TODO: implement: dec_match part
+	/** reference counter for pattern_value */
+	private int pattern_value_ref_count;
+
+	private DecMatchStruct dec_match;
+
+	/** reference counter for dec_match */
+	private int dec_match_ref_count;
 
 	public TitanHexString_template () {
 		//do nothing
 	}
 
-	public TitanHexString_template (final template_sel otherValue) {
+	public TitanHexString_template( final template_sel otherValue ) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanHexString_template (final List<Byte> otherValue) {
-		super(template_sel.SPECIFIC_VALUE);
-		single_value = new TitanHexString(otherValue);
-	}
-
-	public TitanHexString_template (final TitanHexString otherValue) {
+	public TitanHexString_template( final TitanHexString otherValue ) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound hexstring value.");
 
 		single_value = new TitanHexString(otherValue);
 	}
 
-	public TitanHexString_template (final TitanHexString_template otherValue) {
+	public TitanHexString_template( final TitanHexString_template otherValue ) {
 		copyTemplate(otherValue);
 	}
 
-	public TitanHexString_template(final TitanHexString_Element otherValue) {
+	public TitanHexString_template( final TitanHexString_Element otherValue ) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
+	}
+
+	public TitanHexString_template( final List<Byte> pattern_elements ) {
+		super( template_sel.STRING_PATTERN );
+		pattern_value = TitanHexString.copyList( pattern_elements );
 	}
 
 	//originally clean_up
@@ -75,6 +83,27 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		case COMPLEMENTED_LIST:
 			value_list.clear();
 			value_list = null;
+		case STRING_PATTERN:
+			if (pattern_value_ref_count > 1) {
+				pattern_value_ref_count--;
+			} else if (pattern_value_ref_count == 1) {
+				pattern_value.clear();
+				pattern_value = null;
+			} else {
+				throw new TtcnError("Internal error: Invalid reference counter in a hexstring pattern.");
+			}
+			break;
+		case DECODE_MATCH:
+			if (dec_match_ref_count > 1) {
+				dec_match_ref_count--;
+			}
+			else if (dec_match_ref_count == 1) {
+				dec_match = null;
+			}
+			else {
+				throw new TtcnError("Internal error: Invalid reference counter in a decoded content match.");
+			}
+			break;
 		default:
 			break;
 		}
@@ -166,6 +195,16 @@ public class TitanHexString_template extends Restricted_Length_Template {
 				value_list.add(temp);
 			}
 			break;
+		case STRING_PATTERN:
+			//TODO: use copyList()
+			pattern_value = otherValue.pattern_value;
+			pattern_value_ref_count++;
+			break;
+		case DECODE_MATCH:
+			//TODO: use copyList()
+			dec_match = otherValue.dec_match;
+			dec_match_ref_count++;
+			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported hexstring template.");
 		}
@@ -256,11 +295,92 @@ public class TitanHexString_template extends Restricted_Length_Template {
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
-		case STRING_PATTERN:{
-			//TODO: implement
-		}
+		case STRING_PATTERN:
+			return match_pattern( pattern_value, otherValue );
+		//TODO: implement
+		//case DECODE_MATCH:
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported hexstring template.");
+		}
+	}
+
+	/**
+	 * This is the same algorithm that match_array uses
+	 * to match 'record of' types.
+	 * The only differences are: how two elements are matched and
+	 * how an asterisk or ? is identified in the template
+	 */
+	private boolean match_pattern( final List<Byte> string_pattern, final TitanHexString string_value ) {
+		final int stringPatternSize = string_pattern.size();
+		final int stringValueNNibbles = string_value.getValue().size();
+		// the empty pattern matches the empty hexstring only
+		if (stringPatternSize == 0) {
+			return stringValueNNibbles == 0;
+		}
+
+		int value_index = 0;
+		int template_index = 0;
+		int last_asterisk = -1;
+		int last_value_to_asterisk = -1;
+		//the following variables are just to speed up the function
+		byte pattern_element;
+		byte hex_digit;
+
+		for (;;) {
+			pattern_element = string_pattern.get( template_index );
+			if ( pattern_element < 16 ) {
+				/*
+				In titan core hexdigit is stored in 2 bytes:
+				
+				octet = string_value.get_nibble( value_index / 2 );
+				if (value_index % 2) {
+					hex_digit = octet >> 4;
+				} else {
+					hex_digit = octet & 0x0F;
+				}
+				*/
+				hex_digit = string_value.get_nibble( value_index );
+				if ( hex_digit == pattern_element ) {
+					value_index++;
+					template_index++;
+				} else {
+					if ( last_asterisk == -1 ) {
+						return false;
+					}
+					template_index = last_asterisk + 1;
+					value_index = ++last_value_to_asterisk;
+				}
+			} else if ( pattern_element == 16 ) {
+				//?
+				value_index++;
+				template_index++;
+			} else if ( pattern_element == 17 ) {
+				//*
+				last_asterisk = template_index++;
+				last_value_to_asterisk = value_index;
+			} else {
+				throw new TtcnError("Internal error: invalid element in a hexstring pattern.");
+			}
+
+			if ( value_index == stringValueNNibbles && template_index == stringPatternSize ) {
+				return true;
+			} else if ( template_index == stringPatternSize ) {
+				if ( string_pattern.get( template_index - 1 ) == 17 ) {
+					return true;
+				} else if ( last_asterisk == -1) {
+					return false;
+				} else {
+					template_index = last_asterisk + 1;
+					value_index = ++last_value_to_asterisk;
+				}
+			} else if ( value_index == stringValueNNibbles ) {
+				while ( template_index < stringPatternSize
+						&& string_pattern.get( template_index ) == 17 ) {
+					template_index++;
+				}
+
+				return template_index == stringPatternSize;
+			}
 		}
 	}
 
@@ -372,12 +492,24 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			TtcnLogger.log_char(')');
 			break;
 		case STRING_PATTERN:
-			// TODO: implement STRING_PATTERN
+			TtcnLogger.log_char('\'');
+			for (int i = 0; i < pattern_value.size(); i++) {
+				byte pattern = pattern_value.get(i);
+				if (pattern < 16) {
+					TtcnLogger.log_hex(pattern);
+				} else if (pattern == 16) {
+					TtcnLogger.log_char('?');
+				} else if (pattern == 17) {
+					TtcnLogger.log_char('*');
+				} else {
+					TtcnLogger.log_event_str("<unknown>");
+				}
+			}
 			TtcnLogger.log_event_str("'H");
 			break;
 		case DECODE_MATCH:
 			TtcnLogger.log_event_str("decmatch ");
-			// TODO: dec_match->instance->log();
+			dec_match.log();
 			break;
 		default:
 			log_generic();

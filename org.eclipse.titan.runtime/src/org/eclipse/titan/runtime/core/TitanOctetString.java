@@ -88,7 +88,8 @@ public class TitanOctetString extends Base_Type {
 		return result;
 	}
 
-	private static List<Character> copyList(final List<Character> aList) {
+	//TODO: move it to a utility class, same function is in TitanBitString
+	public static List<Character> copyList(final List<Character> aList) {
 		if ( aList == null ) {
 			return null;
 		}

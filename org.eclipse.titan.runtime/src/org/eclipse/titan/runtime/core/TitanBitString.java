@@ -96,7 +96,8 @@ public class TitanBitString extends Base_Type {
 		return result;
 	}
 
-	public final List<Byte> copyList( final List<Byte> srcList ) {
+	//TODO: move it to a utility class
+	public static final List<Byte> copyList( final List<Byte> srcList ) {
 		if ( srcList == null ) {
 			return null;
 		}
@@ -697,7 +698,10 @@ public class TitanBitString extends Base_Type {
 		return result.toString();
 	}
 
-	
+	public int getNBits() {
+		return n_bits;
+	}
+
 	//TODO: implement BITSTRING::int2bit as static
 	//TODO: implement BITSTRING::hex2bit as static
 	//TODO: implement BITSTRING::oct2bit as static

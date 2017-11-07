@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Arpad Lovassy
  * @author Gergo Ujhelyi
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanHexString extends Base_Type {
 
@@ -63,7 +63,8 @@ public class TitanHexString extends Base_Type {
 		nibbles_ptr = hexstr2bytelist(aValue);
 	}
 
-	public final List<Byte> copyList(final List<Byte> srcList) {
+	//TODO: move it to a utility class, same function is in TitanBitString
+	public final static List<Byte> copyList(final List<Byte> srcList) {
 		if (srcList == null) {
 			return null;
 		}

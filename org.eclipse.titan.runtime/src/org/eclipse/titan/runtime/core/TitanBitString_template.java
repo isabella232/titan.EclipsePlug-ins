@@ -19,6 +19,12 @@ import java.util.List;
  */
 public class TitanBitString_template extends Restricted_Length_Template {
 
+	/**
+	 * pattern table, converts value to printable character
+	 * used by log()
+	 */
+	private static final char patterns[] = { '0', '1', '?', '*' };
+
 	private TitanBitString single_value;
 
 	// value_list part
@@ -32,9 +38,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 */
 	private List<Byte> pattern_value;
 
-	//TODO: implement
-	//private DecMatchStruct dec_match;
+	/** reference counter for pattern_value */
+	private int pattern_value_ref_count;
 
+	private DecMatchStruct dec_match;
+
+	/** reference counter for dec_match */
+	private int dec_match_ref_count;
+	
 	public TitanBitString_template () {
 		//do nothing
 	}
@@ -74,8 +85,13 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		}
 	}
 	
-	public TitanBitString_template (final TitanBitString_template otherValue) {
+	public TitanBitString_template( final TitanBitString_template otherValue ) {
 		copyTemplate(otherValue);
+	}
+
+	public TitanBitString_template( final List<Byte> pattern_elements) {
+		super( template_sel.STRING_PATTERN );
+		pattern_value = TitanBitString.copyList( pattern_elements );
 	}
 
 	//originally clean_up
@@ -88,6 +104,27 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case COMPLEMENTED_LIST:
 			value_list.clear();
 			value_list = null;
+		case STRING_PATTERN:
+			if (pattern_value_ref_count > 1) {
+				pattern_value_ref_count--;
+			} else if (pattern_value_ref_count == 1) {
+				pattern_value.clear();
+				pattern_value = null;
+			} else {
+				throw new TtcnError("Internal error: Invalid reference counter in a bitstring pattern.");
+			}
+			break;
+		case DECODE_MATCH:
+			if (dec_match_ref_count > 1) {
+				dec_match_ref_count--;
+			}
+			else if (dec_match_ref_count == 1) {
+				dec_match = null;
+			}
+			else {
+				throw new TtcnError("Internal error: Invalid reference counter in a decoded content match.");
+			}
+			break;
 		default:
 			break;
 		}
@@ -195,6 +232,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 				value_list.add(temp);
 			}
 			break;
+		case STRING_PATTERN:
+			//TODO: use copyList()
+			pattern_value = otherValue.pattern_value;
+			pattern_value_ref_count++;
+			break;
+		case DECODE_MATCH:
+			//TODO: use copyList()
+			dec_match = otherValue.dec_match;
+			dec_match_ref_count++;
+			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported bitstring template.");
 		}
@@ -285,11 +332,90 @@ public class TitanBitString_template extends Restricted_Length_Template {
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
-		case STRING_PATTERN:{
-			//TODO: implement
-		}
+		case STRING_PATTERN:
+			return match_pattern( pattern_value, otherValue );
+		//TODO: implement
+		//case DECODE_MATCH:
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported bitstring template.");
+		}
+	}
+
+	/**
+	 * This is the same algorithm that match_array uses
+	 * to match 'record of' types.
+	 * The only differences are: how two elements are matched and
+	 * how an asterisk or ? is identified in the template
+	 */
+	private boolean match_pattern( final List<Byte> string_pattern, final TitanBitString string_value )	{
+		final int stringPatternSize = string_pattern.size();
+		final int stringValueNBits = string_value.getNBits();
+		if ( stringPatternSize == 0 ) {
+			return stringValueNBits == 0;
+		}
+
+		int value_index = 0;
+		int template_index = 0;
+		int last_asterisk = -1;
+		int last_value_to_asterisk = -1;
+
+		for(;;) {
+			switch ( string_pattern.get( template_index ) ) {
+			case 0:
+				if ( !string_value.getBit( value_index ) ) {
+					value_index++;
+					template_index++;
+				} else {
+					if ( last_asterisk == -1 ) {
+						return false;
+					}
+					template_index = last_asterisk + 1;
+					value_index = ++last_value_to_asterisk;
+				}
+				break;
+			case 1:
+				if ( string_value.getBit( value_index ) ) {
+					value_index++;
+					template_index++;
+				} else {
+					if ( last_asterisk == -1 ) {
+						return false;
+					}
+					template_index = last_asterisk + 1;
+					value_index = ++last_value_to_asterisk;
+				}
+				break;
+			case 2:
+				//we found a ? element, it matches anything
+				value_index++;
+				template_index++;
+				break;
+			case 3:
+				//we found an asterisk
+				last_asterisk = template_index++;
+				last_value_to_asterisk = value_index;
+				break;
+			default:
+				throw new TtcnError("Internal error: invalid element in bitstring pattern.");
+			}
+
+			if ( value_index == stringValueNBits && template_index == stringPatternSize ) {
+				return true;
+			} else if ( template_index == stringPatternSize ) {
+				if ( string_pattern.get( template_index - 1 ) == 3 ) {
+					return true;
+				} else if ( last_asterisk == -1 ) {
+					return false;
+				} else {
+					template_index = last_asterisk + 1;
+					value_index = ++last_value_to_asterisk;
+				}
+			} else if ( value_index == stringValueNBits ) {
+				while ( template_index < stringPatternSize && string_pattern.get( template_index ) == 3 ) {
+					template_index++;
+				}
+				return template_index == stringPatternSize;
+			}
 		}
 	}
 
@@ -405,12 +531,19 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN:
 			TtcnLogger.log_char('\'');
-			// TODO: implement string pattern
+		    for ( int i = 0; i < pattern_value.size(); i++ ) {
+		        byte pattern = pattern_value.get( i );
+		        if (pattern < 4) {
+		        	TtcnLogger.log_char(patterns[pattern]);
+		        } else {
+		        	TtcnLogger.log_event_str("<unknown>");
+		        }
+		      }
 			TtcnLogger.log_event_str("'B");
 			break;
 		case DECODE_MATCH:
 			TtcnLogger.log_event_str("decmatch ");
-			// TODO: dec_match->instance->log();
+			dec_match.log();
 			break;
 		default:
 			log_generic();
