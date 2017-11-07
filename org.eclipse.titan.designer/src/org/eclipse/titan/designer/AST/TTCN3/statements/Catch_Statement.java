@@ -549,7 +549,10 @@ public final class Catch_Statement extends Statement {
 		} else {
 			redirectSender.generateCode(aData, expression);
 		}
-		//FIXME handle index redirection
+		if (portReference != null) {
+			//FIXME handle index redirection
+			expression.expression.append(", null");
+		}
 		expression.expression.append(')');
 	}
 
