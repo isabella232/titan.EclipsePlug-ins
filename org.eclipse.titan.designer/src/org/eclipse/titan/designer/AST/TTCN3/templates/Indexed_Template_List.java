@@ -270,8 +270,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
 		case TYPE_ARRAY:
-			arrayIndex.getLocation().reportSemanticError(
-					MessageFormat.format("No elements were found with the index {0} in the referenced template", index));
+			// unfoldable (for now)
 			break;
 		default:
 			// the error was reported earlier

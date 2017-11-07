@@ -7453,8 +7453,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Circular reference chain: `template reference: @template_specific_test.t_recursiveTemplate3.field1 -> template reference: @template_specific_test.t_recursiveTemplate3.field1'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Circular reference chain: `template reference: @template_specific_test.t_recursiveTemplate4 -> template reference: @template_specific_test.t_recursiveTemplate4'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Circular reference chain: `template reference: @template_specific_test.t_recursiveTemplate5[0] -> template reference: @template_specific_test.t_recursiveTemplate5[0]'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("No elements were found with the index 1 in the referenced template",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 12;
+		lineNum += 13;
 		int i = 0;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("integer value was expected", lineNum, IMarker.SEVERITY_ERROR));
