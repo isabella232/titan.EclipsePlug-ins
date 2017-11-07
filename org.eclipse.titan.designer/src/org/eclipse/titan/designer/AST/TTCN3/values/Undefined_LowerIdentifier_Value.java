@@ -362,6 +362,4 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 
 		expression.expression.append("/* fatal error undefined lower identifier encountered */");
 	}
-
-
 }
