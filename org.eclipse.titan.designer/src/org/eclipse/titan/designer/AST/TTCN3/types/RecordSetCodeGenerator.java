@@ -1033,11 +1033,6 @@ public class RecordSetCodeGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\t\tpublic boolean match(final {0} other_value, final boolean legacy) '{'\n", genName ) );
-		source.append("\t\t\treturn match_(other_value, legacy);\n");
-		source.append("\t\t}\n");
-
-		source.append('\n');
-		source.append( MessageFormat.format( "\t\tprivate boolean match_(final {0} other_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif (!other_value.isBound()) {\n");
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
