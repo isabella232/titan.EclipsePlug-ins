@@ -879,7 +879,7 @@ public class EnumeratedGenerator {
 		source.append("log_ifpresent();\n");
 		source.append("}\n");
 	}
-	
+
 	private static void generateTemplateLogMatch(final StringBuilder source, final String name ){
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy)'{'\n",name));
 		source.append("match_value.log();\n");
