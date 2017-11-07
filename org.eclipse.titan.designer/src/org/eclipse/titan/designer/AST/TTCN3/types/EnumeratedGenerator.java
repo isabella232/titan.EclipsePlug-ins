@@ -185,8 +185,8 @@ public class EnumeratedGenerator {
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
 		generateTemplateLog(source, e_defs.name);
+		generateTemplateLogMatch(source, e_defs.name);
 
-		//FIXME implement log_match
 		//FIXME implement encode
 		//FIXME implement decode
 		//FIXME implement set_param
@@ -877,6 +877,19 @@ public class EnumeratedGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("log_ifpresent();\n");
+		source.append("}\n");
+	}
+	
+	private static void generateTemplateLogMatch(final StringBuilder source, final String name ){
+		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy)'{'\n",name));
+		source.append("match_value.log();\n");
+		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("log();\n");
+		source.append("if (match(match_value, legacy)) {\n");
+		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("}\n");
 		source.append("}\n");
 	}
 }
