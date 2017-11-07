@@ -438,6 +438,9 @@ public final class TableConstraint extends Constraint {
 						IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 						IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
 						chain.release();
+						if( type == referencedType) { 
+							return null;  //to avoid infinite loop and stack overflow
+						}
 						return getOpenTypeAlternativeName(timestamp, (Type) referencedType);
 					}
 				}
