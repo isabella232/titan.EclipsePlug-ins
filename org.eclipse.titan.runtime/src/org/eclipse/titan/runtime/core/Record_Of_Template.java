@@ -115,6 +115,9 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 			throw new TtcnError( MessageFormat.format( "the {0}th permutation overlaps the previous one", number_of_permutations ) );
 		}
 
+		if (permutation_intervals == null) {
+			permutation_intervals = new ArrayList<Record_Of_Template.Pair_of_elements>();
+		}
 		final Pair_of_elements newElem = new Pair_of_elements( start_index, end_index );
 		permutation_intervals.add( newElem );
 	}
