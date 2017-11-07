@@ -273,27 +273,23 @@ public final class Check_Receive_Port_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		if (portReference == null) {
-			aData.addBuiltinTypeImport("TitanPort");
-			expression.expression.append("TitanPort.any_check_receive(");
-		} else {
+		//FIXME handle translation too
+		if (portReference != null) {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".check_receive(");
 			if (receiveParameter != null) {
-				//TODO handle redirection
-				expression.expression.append( "/* TODO: " );
-				expression.expression.append( "port redirection is not yet handled!*/\n" );
-				//TODO this is good reason to optimize for
 				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE);
-//				expression.expression.append(", ");
-//				if (redirectValue == null) {
-//					expression.expression.append("null");
-//				} else {
-//					//FIXME handle redirection
-//				}
+				expression.expression.append(", ");
+				if (redirectValue == null) {
+					expression.expression.append("null");
+				} else {
+					redirectValue.generateCode(aData, expression);
+				}
 				expression.expression.append(", ");
 			}
-
+		} else {
+			aData.addBuiltinTypeImport("TitanPort");
+			expression.expression.append("TitanPort.any_check_receive(");
 		}
 
 		if (fromClause != null) {
@@ -324,8 +320,6 @@ public final class Check_Receive_Port_Statement extends Statement {
 			//FIXME handle index redirection
 			expression.expression.append(", null");
 		}
-		expression.expression.append( "/* TODO: " );
-		expression.expression.append( "from clause redirect is not yet handled!*/\n" );
 
 		expression.expression.append( ')' );
 	}

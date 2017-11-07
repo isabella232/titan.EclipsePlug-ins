@@ -695,8 +695,7 @@ public class PortGenerator {
 		final String typeTemplateName = inType.mJavaTemplateName;
 		final String functionName = isCheck ? "check_receive" : "receive";
 
-		//FIXME there are actually more parameters
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
 		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Receive operation using '*' as matching template\");\n");
 		source.append("}\n");
@@ -728,6 +727,9 @@ public class PortGenerator {
 		source.append("//FIXME implement\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
+		source.append("if (value_redirect != null) {\n");
+		source.append(MessageFormat.format("value_redirect.assign(({0}) my_head.message);\n", typeValueName));
+		source.append("}\n");
 		source.append("if (sender_pointer != null) {\n");
 		source.append("sender_pointer.assign(my_head.sender_component);\n");
 		source.append("}\n");
@@ -751,8 +753,7 @@ public class PortGenerator {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 
-		//FIXME there are actually more parameters
-		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", typeTemplateName));
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
 		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Trigger operation using '*' as matching template\");\n");
 		source.append("}\n");
@@ -788,6 +789,9 @@ public class PortGenerator {
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(" } else {\n");
+		source.append("if (value_redirect != null) {\n");
+		source.append(MessageFormat.format("value_redirect.assign(({0}) my_head.message);\n", typeValueName));
+		source.append("}\n");
 		source.append("if (sender_pointer != null) {\n");
 		source.append("sender_pointer.assign(my_head.sender_component);\n");
 		source.append("}\n");
