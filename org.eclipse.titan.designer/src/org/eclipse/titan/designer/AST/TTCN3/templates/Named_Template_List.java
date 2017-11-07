@@ -686,19 +686,19 @@ public final class Named_Template_List extends TTCN3Template {
 					fieldType = ((TTCN3_Set_Type) type).getComponentByName(fieldName).getType();
 					break;
 				case TYPE_ASN1_SEQUENCE:
-					fieldType = ((ASN1_Sequence_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					fieldType = ((ASN1_Sequence_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
 					break;
 				case TYPE_ASN1_SET:
-					fieldType = ((ASN1_Set_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					fieldType = ((ASN1_Set_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
 					break;
 				case TYPE_ASN1_CHOICE:
-					fieldType = ((ASN1_Choice_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					fieldType = ((ASN1_Choice_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
 					break;
 				case TYPE_TTCN3_CHOICE:
 					fieldType = ((TTCN3_Choice_Type) type).getComponentByName(fieldName).getType();
 					break;
 				case TYPE_OPENTYPE:
-					fieldType = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_TTCN, fieldName)).getType();
+					fieldType = ((Open_Type) type).getComponentByName(new Identifier(Identifier_type.ID_NAME, fieldName)).getType();
 					break;
 				case TYPE_ANYTYPE:
 					fieldType = ((Anytype_Type) type).getComponentByName(fieldName).getType();
