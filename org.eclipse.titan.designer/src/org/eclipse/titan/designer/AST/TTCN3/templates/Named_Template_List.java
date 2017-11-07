@@ -564,14 +564,14 @@ public final class Named_Template_List extends TTCN3Template {
 
 		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
+			NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
+
 			final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-			embeddedName.append('.');
-			if(Type_type.TYPE_ANYTYPE.equals(type.getTypetype())) {
-				embeddedName.append("AT_");
-			}
-			embeddedName.append(namedTemplates.getTemplateByIndex(i).getName().getName());
+			final String javaGetterName = FieldSubReference.getJavaGetterName(namedTemplate.getName().getName());
+			embeddedName.append(".get");
+			embeddedName.append(javaGetterName);
 			embeddedName.append("()");
-			namedTemplates.getTemplateByIndex(i).getTemplate().setGenNameRecursive(embeddedName.toString());
+			namedTemplate.getTemplate().setGenNameRecursive(embeddedName.toString());
 		}
 	}
 

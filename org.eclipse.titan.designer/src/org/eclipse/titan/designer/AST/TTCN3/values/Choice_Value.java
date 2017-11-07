@@ -421,10 +421,7 @@ public final class Choice_Value extends Value {
 		}
 
 		final StringBuilder embeddedName = new StringBuilder(parameterGenName);
-		embeddedName.append('.');
-		if(Type_type.TYPE_ANYTYPE.equals(governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype())) {
-			embeddedName.append("AT_");
-		}
+		embeddedName.append(".get");
 		if (name != null) {
 			embeddedName.append(name.getName());
 			embeddedName.append("()");
