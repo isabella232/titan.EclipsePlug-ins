@@ -415,13 +415,6 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		}
 	}
 
-	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
-	/**
-	 * Add generated java code on this level
-	 * @param aData the generated java code with other info
-	 */
-	//public abstract void generateCode( final JavaGenData aData );
-
 	/**
 	 * Returns whether the evaluation of this value has side-effects that shall
 	 * be eliminated in case of short-circuit evaluation of logical "and" and
@@ -443,7 +436,6 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 * */
 	public boolean canGenerateSingleExpression() {
 		//TODO this might be a good location to check for the need of conversion
-		//TODO implement
 		return false;
 	}
 
