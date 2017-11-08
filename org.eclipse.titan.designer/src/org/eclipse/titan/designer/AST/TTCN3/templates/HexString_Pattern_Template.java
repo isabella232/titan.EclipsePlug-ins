@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -148,5 +150,12 @@ public final class HexString_Pattern_Template extends TTCN3Template {
 		//TODO handle cast needed
 
 		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport( "TitanHexString_template" );
+		source.append( MessageFormat.format( "{0}.assign(new TitanHexString_template(\"{1}\"));\n", name, pattern ) );
 	}
 }

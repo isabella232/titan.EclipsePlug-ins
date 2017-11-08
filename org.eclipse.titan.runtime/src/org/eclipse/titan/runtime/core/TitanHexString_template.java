@@ -11,8 +11,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.runtime.core.Base_Template.template_sel;
-
 /**
  * TTCN-3 hexstring template
  *
@@ -70,7 +68,54 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 	public TitanHexString_template( final List<Byte> pattern_elements ) {
 		super( template_sel.STRING_PATTERN );
-		pattern_value = TitanHexString.copyList( pattern_elements );
+		pattern_value = TitanStringUtils.copyByteList( pattern_elements );
+	}
+
+	public TitanHexString_template( final String patternString ) {
+		super( template_sel.STRING_PATTERN );
+		pattern_value = patternString2List( patternString );
+	}
+
+	private static List<Byte> patternString2List( final String patternString ) {
+		if ( patternString == null ) {
+			throw new TtcnError("Internal error: hexstring pattern is null.");
+		}
+		final List<Byte> result = new ArrayList<Byte>();
+		for ( int i = 0; i < patternString.length(); i++ ) {
+			final char patternChar = patternString.charAt(i);
+			result.add( patternChar2byte( patternChar ) );
+		}
+		return result;
+	}
+
+	/**
+	 * converts hexstring template digit to pattern value.
+	 *
+	 * Each element occupies one byte. Meaning of values:
+	 * 0 .. 15 -> 0 .. F, 16 -> ?, 17 -> *
+	 */
+	private static byte patternChar2byte( final char patternChar ) {
+		if ( '0' <= patternChar && '9' >= patternChar ) {
+			return (byte) (patternChar - '0');
+		}
+
+		if ( 'A' <= patternChar && 'F' >= patternChar ) {
+			return (byte) (patternChar - 'A' + 10 );
+		}
+
+		if ( 'a' <= patternChar && 'f' >= patternChar ) {
+			return (byte) (patternChar - 'a' + 10 );
+		}
+
+		if ( '?' == patternChar ) {
+			return 16;
+		}
+
+		if ( '*' == patternChar ) {
+			return 17;
+		}
+
+		throw new TtcnError("Internal error: invalid element in hexstring pattern.");
 	}
 
 	//originally clean_up

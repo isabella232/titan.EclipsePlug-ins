@@ -33,13 +33,13 @@ public class TitanHexString extends Base_Type {
 	}
 
 	public TitanHexString(final List<Byte> aOtherValue) {
-		nibbles_ptr = copyList(aOtherValue);
+		nibbles_ptr = TitanStringUtils.copyByteList(aOtherValue);
 	}
 
 	public TitanHexString(final TitanHexString aOtherValue) {
 		aOtherValue.mustBound("Copying an unbound hexstring value.");
 
-		nibbles_ptr = copyList(aOtherValue.nibbles_ptr);
+		nibbles_ptr = TitanStringUtils.copyByteList(aOtherValue.nibbles_ptr);
 	}
 
 	public TitanHexString(final TitanHexString_Element otherValue) {
@@ -61,19 +61,6 @@ public class TitanHexString extends Base_Type {
 	 */
 	public TitanHexString(final String aValue) {
 		nibbles_ptr = hexstr2bytelist(aValue);
-	}
-
-	//TODO: move it to a utility class, same function is in TitanBitString
-	public final static List<Byte> copyList(final List<Byte> srcList) {
-		if (srcList == null) {
-			return null;
-		}
-
-		final List<Byte> newList = new ArrayList<Byte>(srcList.size());
-		for (Byte uc : srcList) {
-			newList.add(Byte.valueOf(uc));
-		}
-		return newList;
 	}
 
 	private void clearUnusedNibble() {
@@ -333,7 +320,7 @@ public class TitanHexString extends Base_Type {
 		otherValue.mustBound("Unbound right operand of hexstring concatenation.");
 
 		final TitanHexString result = new TitanHexString(nibbles_ptr);
-		result.nibbles_ptr.addAll(copyList(otherValue.nibbles_ptr));
+		result.nibbles_ptr.addAll(TitanStringUtils.copyByteList(otherValue.nibbles_ptr));
 
 		return result;
 	}
