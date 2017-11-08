@@ -11,8 +11,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.runtime.core.Base_Template.template_sel;
-
 /**
  * TTCN-3 octetstring template
  *
@@ -72,6 +70,89 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	public TitanOctetString_template( final List<Character> pattern_elements ) {
 		super( template_sel.STRING_PATTERN );
 		pattern_value = TitanOctetString.copyList( pattern_elements );
+	}
+
+	public TitanOctetString_template( final String patternString ) {
+		super( template_sel.STRING_PATTERN );
+		pattern_value = patternString2List( patternString );
+	}
+
+	private static List<Character> patternString2List( final String patternString ) {
+		if ( patternString == null ) {
+			throw new TtcnError("Internal error: octetstring pattern is null.");
+		}
+		final List<Character> result = new ArrayList<Character>();
+		final int patternLength = patternString.length();
+		for ( int i = 0; i < patternLength; i++ ) {
+			int patternValue = octetDigit1( patternString.charAt( i ) );
+			if ( patternValue < 16 ) {
+				//there is an other digit, which is not ? or *
+				if ( ++i == patternLength ) {
+					throw new TtcnError("Internal error: last octet is incomplete.");
+				}
+				patternValue *= 16;
+				patternValue += octetDigit2( patternString.charAt( i ) );
+				
+			}
+			result.add( (char) patternValue );
+		}
+		return result;
+	}
+
+	/**
+	 * Converts the 1st digit of an octet in an octetstring template to pattern value.
+	 * Possible values: [0-9A-Fa-f?*]
+	 * If digit is ? or *, there is no 2nd digit
+	 *
+	 * Each element occupies one byte. Meaning of values:
+	 * 0 .. 15 -> 0 .. F, 256 -> ?, 257 -> *
+	 * @param digit hexadecimal digit or ? or *
+	 * @return int value
+	 */
+	private static int octetDigit1( final char digit ) {
+		if ( '0' <= digit && '9' >= digit ) {
+			return digit - '0';
+		}
+
+		if ( 'A' <= digit && 'F' >= digit ) {
+			return digit - 'A' + 10;
+		}
+
+		if ( 'a' <= digit && 'f' >= digit ) {
+			return digit - 'a' + 10;
+		}
+
+		if ( '?' == digit ) {
+			return 256;
+		}
+
+		if ( '*' == digit ) {
+			return 257;
+		}
+
+		throw new TtcnError("Internal error: invalid element in octetstring pattern.");
+	}
+
+	/**
+	 * Converts the 2nd digit of an octet in an octetstring template to pattern value.
+	 * Possible values: [0-9A-Fa-f]
+	 * @param digit hexadecimal digit.
+	 * @return int value
+	 */
+	private static int octetDigit2( final char digit ) {
+		if ( '0' <= digit && '9' >= digit ) {
+			return digit - '0';
+		}
+
+		if ( 'A' <= digit && 'F' >= digit ) {
+			return digit - 'A' + 10;
+		}
+
+		if ( 'a' <= digit && 'f' >= digit ) {
+			return digit - 'a' + 10;
+		}
+
+		throw new TtcnError("Internal error: invalid element in octetstring pattern.");
 	}
 
 	//originally clean_up
