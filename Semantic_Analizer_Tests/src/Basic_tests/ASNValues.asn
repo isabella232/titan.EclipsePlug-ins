@@ -39,7 +39,7 @@ c-roid   RELATIVE-OID ::= {iso(1) member-body(2) bsi(826) disc(0) ericsson(1249)
 c-etsi-objid RELATIVE-OID ::= {itu-t(0) identified-organization(4) etsi(0)}
 c-etsi-ericsson RELATIVE-OID ::= {reserved(127) etsi-identified-organization(0)
                                 ericsson(5) 3 4}
-c11-21b T11 ::= f21 : {etsi-objid etsi-ericsson}
+c11-21b T11 ::= f21 : {c-etsi-objid c-etsi-ericsson}
 T21 ::= RELATIVE-OID
 T11 ::= [APPLICATION 1] CHOICE {
   f21 T21

@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -34,6 +35,8 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.Defined_Reference;
 import org.eclipse.titan.designer.AST.ASN1.values.RelativeObjectIdentifier_Value;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -47,6 +50,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	private IValue definedValue;
 
 	private Location location = NULL_Location.INSTANCE;
+
+	private ObjectIdentifierComponent calculatedComponent;
 
 	public static enum oidState_type {
 		/** at the beginning */		START,
@@ -155,16 +160,36 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 *
 	 * @param components the list to be extended
 	 * */
-	public void getOidComponents(final List<Integer> components) {
+	public void getOidComponents(final JavaGenData aData, final List<String> components) {
+		if (calculatedComponent != null) {
+			calculatedComponent.getOidComponents(aData, components);
+			return;
+		}
+
 		if (definedValue != null) {
 			if (Value_type.OBJECTID_VALUE.equals(definedValue.getValuetype())) {
-				((ObjectIdentifier_Value) definedValue).getOidComponents(components);
+				((ObjectIdentifier_Value) definedValue).getOidComponents(aData, components);
+			} else if (Value_type.REFERENCED_VALUE.equals(definedValue.getValuetype())) {
+				IValue last = ((Referenced_Value)definedValue).getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+				final ExpressionStruct expression = new ExpressionStruct();
+				((Referenced_Value)definedValue).getReference().generateConstRef(aData, expression);
+				components.add(MessageFormat.format("TitanObjectid.from_integer({0})", expression.expression));
+//				if (Value_type.OBJECTID_VALUE.equals(last.getValuetype())) {
+//					((ObjectIdentifier_Value)last).getOidComponents(components);
+//				}
 			}
 		} else if (number != null) {
 			if (Value_type.INTEGER_VALUE.equals(number.getValuetype())) {
-				components.add(((Integer_Value) number).intValue());
+				StringBuilder result = new StringBuilder();
+				result.append("new TitanInteger(").append(((Integer_Value) number).intValue()).append(')');
+				components.add(result.toString());
 			}
 		}
+	}
+
+	public boolean isVariable() {
+		//(formtype == VARIABLE) but we don't have that
+		return name != null || number != null;
 	}
 
 	/**
@@ -178,10 +203,38 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 * @param the new state after this check was done.
 	 * */
 	public oidState_type checkOID(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Value parent, final oidState_type state) {
+		calculatedComponent = null;
+
 		if (name != null && number != null) {
 			return checkNameAndNumberForm(timestamp, state);
 		} else if (name != null) {
-			return checkNameForm(timestamp, parent, refChain, state);
+			final AtomicInteger value = new AtomicInteger();
+			final oidState_type result = checkNameForm(timestamp, parent, refChain, state, value);
+			if (value.get() >= 0) {
+				final IValue newNumber = new Integer_Value(value.get());
+				newNumber.setFullNameParent(getNameParent());
+				newNumber.setMyScope(getMyScope());
+				newNumber.setLocation(getLocation());
+
+				calculatedComponent = new ObjectIdentifierComponent(name, newNumber);
+				return result;
+			} else {
+				Reference newReference;
+				final List<ISubReference> subreferences = new ArrayList<ISubReference>();
+				subreferences.add(new FieldSubReference(name));
+				if (parent.isAsn()) {
+					newReference = new Defined_Reference(null, subreferences);
+				} else {
+					newReference = new Reference(null, subreferences);
+				}
+				final IValue newDefinedValue = new Referenced_Value(newReference);
+				newDefinedValue.setFullNameParent(getNameParent());
+				newDefinedValue.setMyScope(getMyScope());
+				newDefinedValue.setLocation(getLocation());
+				calculatedComponent = new ObjectIdentifierComponent(newDefinedValue);
+				//return calculatedComponent.checkDefdValueOID(timestamp, refChain, state);
+				return result;
+			}
 		} else if (number != null) {
 			return checkNumberFormOID(timestamp, state);
 		} else {
@@ -215,7 +268,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 * @param the new state after this check was done.
 	 * */
 	private oidState_type checkNameForm(final CompilationTimeStamp timestamp, final Value parent, final IReferenceChain refChain,
-			final oidState_type state) {
+			final oidState_type state, final AtomicInteger result) {
 		final String nameString = name.getName();
 		oidState_type actualState = state;
 		int value = -1;
@@ -306,6 +359,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			actualState = component.checkDefdValueOID(timestamp, refChain, actualState);
 		}
 
+		result.set(value);
 		// the other case is not handled as it would only change a parsed value
 		return actualState;
 	}
@@ -435,8 +489,6 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 
 		final BigInteger value = ((Integer_Value) last).getValueValue();
 		if (value.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == 1) {
-			number.getLocation().reportSemanticError(MessageFormat.format(
-					"An integer value less then `{0}'' was expected in the number form instead of `{1}''", Integer.MAX_VALUE, value));
 			return oidState_type.LATER;
 		}
 

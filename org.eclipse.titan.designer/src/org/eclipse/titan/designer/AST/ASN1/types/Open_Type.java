@@ -147,9 +147,6 @@ public final class Open_Type extends ASN1Type {
 
 	public CompField getComponentByName(final Identifier identifier) {
 		//convert the first letter to upper case:
-		if (identifier == null){
-			return null;
-		}
 		String name = identifier.getName();
 		name = name.substring(0,1).toLowerCase()+name.substring(1);
 		if (null != compFieldMap) {

@@ -99,7 +99,7 @@ public class TitanObjectid extends Base_Type {
 		if (components_ptr == null) {
 			throw new TtcnError("The left operand of comparison is an unbound objid value.");
 		}
-		if (otherValue.components_ptr == null || otherValue == null) {
+		if (otherValue.components_ptr == null) {
 			throw new TtcnError("The right operand of comparison is an unbound objid value.");
 		}
 
@@ -110,7 +110,12 @@ public class TitanObjectid extends Base_Type {
 			return false;
 		}
 
-		return components_ptr.equals(otherValue.components_ptr);
+		for (int i = 0; i < components_ptr.size(); i++) {
+			if (!components_ptr.get(i).operatorEquals(otherValue.components_ptr.get(i))) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	// originally operator==
@@ -125,12 +130,12 @@ public class TitanObjectid extends Base_Type {
 
 	@Override
 	public boolean isPresent() {
-		return components_ptr == null;
+		return components_ptr != null;
 	}
 
 	@Override
 	public boolean isBound() {
-		return components_ptr == null;
+		return components_ptr != null;
 	}
 
 	//originally operator[]
@@ -205,6 +210,14 @@ public class TitanObjectid extends Base_Type {
 		return new TitanInteger(n_components);
 	}
 
+	public static TitanInteger from_integer(final TitanInteger p_int) {
+		if (p_int.isLessThan(0)) {
+			throw new TtcnError("An OBJECT IDENTIFIER component cannot be negative");
+		}
+
+		return new TitanInteger(p_int);
+	}
+
 	public void log() {
 		if (components_ptr != null) {
 			TtcnLogger.log_event_str("objid { ");
@@ -212,7 +225,8 @@ public class TitanObjectid extends Base_Type {
 				if (i == overflow_idx) {
 					TtcnLogger.log_event_str("overflow:");
 				}
-				TtcnLogger.log_event(" ", components_ptr.get(i).toString());
+				TtcnLogger.log_event_str(components_ptr.get(i).toString());
+				TtcnLogger.log_char(' ');
 			}
 			TtcnLogger.log_char('}');
 		} else {

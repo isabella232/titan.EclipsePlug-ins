@@ -95,7 +95,7 @@ public class AST_warnings_tests {
 		//ASNValues.asn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(3);
 		int lineNum = 65;
-		markersToCheck.add(new MarkerToCheck("Identifier `itu_t' or `ccitt' was expected instead of `qw' for number 0 in the NameAndNumberForm as the first OBJECT IDENTIFIER component",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Identifier `itu-t' or `ccitt' was expected instead of `qw' for number 0 in the NameAndNumberForm as the first OBJECT IDENTIFIER component",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Identifier `recommendation' was expected instead of `er' for number 0 in the NameAndNumberForm as the second OBJECT IDENTIFIER component",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Identifier 99 was expected instead of `ty' for number 3 in the NameAndNumberForm as the third OBJECT IDENTIFIER component",  lineNum, IMarker.SEVERITY_WARNING));
 

@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
@@ -26,6 +27,7 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ObjectIdentifierComponent;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -93,6 +95,15 @@ public final class RelativeObjectIdentifier_Value extends Value {
 		return builder.toString();
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void setMyScope(final Scope scope) {
+		super.setMyScope(scope);
+		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
+			objectIdComponents.get(i).setMyScope(scope);
+		}
+	}
+
 	public int getNofComponents() {
 		return objectIdComponents.size();
 	}
@@ -104,9 +115,9 @@ public final class RelativeObjectIdentifier_Value extends Value {
 	 * @param components
 	 *                the list to be extended
 	 * */
-	public void getOidComponents(final List<Integer> components) {
+	public void getOidComponents(final JavaGenData aData, final List<String> components) {
 		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
-			objectIdComponents.get(i).getOidComponents(components);
+			objectIdComponents.get(i).getOidComponents(aData, components);
 		}
 	}
 
@@ -144,7 +155,15 @@ public final class RelativeObjectIdentifier_Value extends Value {
 	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		return true;
+		checkROID(timestamp, referenceChain);
+
+		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
+			if (objectIdComponents.get(i).isVariable()) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public void checkROID(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
@@ -220,5 +239,42 @@ public final class RelativeObjectIdentifier_Value extends Value {
 			}
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		//TODO register as module level charstring literal and return the literal's name
+		aData.addBuiltinTypeImport( "TitanObjectid" );
+
+		final ArrayList<String> components = new ArrayList<String>();
+		getOidComponents(aData, components);
+		final StringBuilder oiString = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
+		for (int i = 0; i < components.size(); i++) {
+			if (i > 0) {
+				oiString.append(", ");
+			}
+			oiString.append(components.get(i));
+		}
+		result.append(MessageFormat.format("new TitanObjectid({0}, {1})", components.size(), oiString));
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		aData.addBuiltinTypeImport( "TitanObjectid" );
+
+		source.append(MessageFormat.format("{0}.assign({1});\n", name, generateSingleExpression(aData)));
+
+		return source;
 	}
 }

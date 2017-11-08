@@ -7359,7 +7359,7 @@ public class AST_tests {
 		}
 		lineNum += 83;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of timer `TL_t'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("An integer value less then `2,147,483,647' was expected in the number form instead of `99,999,999,999,999,999'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
 		markersToCheck.add(new MarkerToCheck("The value of first OBJECT IDENTIFIER component must be between 0 and 2 instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
@@ -9110,7 +9110,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 79;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of timer `TL_t'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("An integer value less then `2,147,483,647' was expected in the number form instead of `99,999,999,999,999,999'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
 		markersToCheck.add(new MarkerToCheck("The value of first OBJECT IDENTIFIER component must be between 0 and 2 instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
@@ -11372,7 +11372,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The value of second OBJECT IDENTIFIER component must be between 0 and 39 instead of 39",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 10;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of timer `TL_t'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("An integer value less then `2,147,483,647' was expected in the number form instead of `99,999,999,999,999,999'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 1;
 		markersToCheck.add(new MarkerToCheck("The value of first OBJECT IDENTIFIER component must be between 0 and 2 instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
