@@ -21,7 +21,6 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	/**
 	 * pattern table, converts value to printable character
-	 * used by log()
 	 */
 	private static final char patterns[] = { '0', '1', '?', '*' };
 
