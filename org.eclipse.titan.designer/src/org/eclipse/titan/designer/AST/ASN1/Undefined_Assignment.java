@@ -247,7 +247,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 		}
 
 		// FATAL ERROR
-		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous undefined assignment `" + getFullName() + "''");
 		aData.getSrc().append("FATAL_ERROR encountered");
 	}
 }
