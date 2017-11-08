@@ -89,9 +89,35 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		copyTemplate(otherValue);
 	}
 
-	public TitanBitString_template( final List<Byte> pattern_elements) {
+	public TitanBitString_template( final List<Byte> pattern_elements ) {
 		super( template_sel.STRING_PATTERN );
-		pattern_value = TitanBitString.copyList( pattern_elements );
+		pattern_value = TitanStringUtils.copyByteList( pattern_elements );
+	}
+
+	public TitanBitString_template( final String patternString ) {
+		super( template_sel.STRING_PATTERN );
+		pattern_value = patternString2List( patternString );
+	}
+
+	private static List<Byte> patternString2List( final String patternString ) {
+		if ( patternString == null ) {
+			throw new TtcnError("Internal error: bitstring pattern is null.");
+		}
+		final List<Byte> result = new ArrayList<Byte>();
+		for ( int i = 0; i < patternString.length(); i++ ) {
+			final char patternChar = patternString.charAt(i);
+			result.add( patternChar2byte( patternChar ) );
+		}
+		return result;
+	}
+
+	private static byte patternChar2byte( final char patternChar ) {
+		for ( byte j = 0; j < patterns.length; j++ ) {
+			if ( patternChar == patterns[ j ] ) {
+				return j;
+			}
+		}
+		throw new TtcnError("Internal error: invalid element in bitstring pattern.");
 	}
 
 	//originally clean_up

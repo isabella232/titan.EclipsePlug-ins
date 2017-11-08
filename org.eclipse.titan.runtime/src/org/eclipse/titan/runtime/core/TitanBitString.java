@@ -34,7 +34,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	public TitanBitString( final List<Byte> aOtherValue, final int aNoBits ) {
-		bits_ptr = copyList( aOtherValue );
+		bits_ptr = TitanStringUtils.copyByteList( aOtherValue );
 		n_bits = aNoBits;
 		clear_unused_bits();
 	}
@@ -42,7 +42,7 @@ public class TitanBitString extends Base_Type {
 	public TitanBitString( final TitanBitString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound bitstring value." );
 
-		bits_ptr = copyList( aOtherValue.bits_ptr );
+		bits_ptr = TitanStringUtils.copyByteList( aOtherValue.bits_ptr );
 		n_bits = aOtherValue.n_bits;
 	}
 
@@ -94,19 +94,6 @@ public class TitanBitString extends Base_Type {
 			}
 		}
 		return result;
-	}
-
-	//TODO: move it to a utility class
-	public static final List<Byte> copyList( final List<Byte> srcList ) {
-		if ( srcList == null ) {
-			return null;
-		}
-
-		final List<Byte> newList = new ArrayList<Byte>( srcList.size() );
-		for (Byte uc : srcList) {
-			newList.add( Byte.valueOf( uc ) );
-		}
-		return newList;
 	}
 
 	/**
@@ -178,7 +165,7 @@ public class TitanBitString extends Base_Type {
 
 		if (aOtherValue != this) {
 			cleanUp();
-			bits_ptr = copyList( aOtherValue.bits_ptr );
+			bits_ptr = TitanStringUtils.copyByteList( aOtherValue.bits_ptr );
 			n_bits = aOtherValue.n_bits;
 		}
 
