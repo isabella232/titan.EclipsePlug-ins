@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
@@ -372,9 +373,13 @@ public final class TableConstraint extends Constraint {
 					if (fs instanceof FieldSetting_Type) {
 						final FieldSetting_Type fst = (FieldSetting_Type)fs;
 						final IASN1Type type = fst.getSetting();
-						Identifier id = getOpenTypeAlternativeName(aTimestamp, (Type) type);
+						final AtomicBoolean isStrange = new AtomicBoolean();
+						Identifier id = getOpenTypeAlternativeName(aTimestamp, (Type) type, isStrange);
 						if (!aOpenType.hasComponentWithName(id)) {
 							aOpenType.addComponent(new CompField( id, (Type) type, false, null));
+							if (isStrange.get()) {
+								aOpenType.getLocation().reportSemanticWarning(MessageFormat.format("Strange alternative name (`{0}') was added to open type `{1}'", id.getDisplayName(), aOpenType.getFullName()));
+							}
 						}
 					} else {
 						continue; //TODO: is it possible FieldSetting_ObjectSet, FieldSetting_Value ??
@@ -408,11 +413,12 @@ public final class TableConstraint extends Constraint {
 
 
 	//Original titan.core version: t_type->get_otaltname(is_strange);
-	private Identifier getOpenTypeAlternativeName(final CompilationTimeStamp timestamp, final Type type) {
+	private Identifier getOpenTypeAlternativeName(final CompilationTimeStamp timestamp, final Type type, final AtomicBoolean isStrange) {
 		StringBuffer sb = new StringBuffer();
 		//TODO:  if (is_tagged() || is_constrained() || hasRawAttrs()) {
 		if (!type.getIsErroneous(timestamp) && type.isConstrained()) {
 			sb.append(type.getGenNameOwn());
+			isStrange.set(true);
 		} else if (!type.getIsErroneous(timestamp) && type instanceof Referenced_Type) {
 			Reference t_ref = ((Referenced_Type) type).getReference();
 			if (t_ref != null) {
@@ -422,6 +428,7 @@ public final class TableConstraint extends Constraint {
 				if (i >= 0 && i < dn.length()) {
 					// id is not regular because t_ref is a parameterized reference
 					sb.append(id.getName());
+					isStrange.set(true);
 				} else {
 					Assignment as = t_ref.getRefdAssignment(timestamp, true);
 					if( as == null) {
@@ -430,6 +437,7 @@ public final class TableConstraint extends Constraint {
 					Scope assScope = as.getMyScope();
 					if (assScope.getParentScope() == assScope.getModuleScope()) {
 						sb.append(id.getName());
+						isStrange.set(false);
 					} else {
 						// t_ref is a dummy reference in a parameterized assignment
 						// (i.e. it points to a parameter assignment of an instantiation)
@@ -439,7 +447,7 @@ public final class TableConstraint extends Constraint {
 						IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
 						chain.release();
 
-						return getOpenTypeAlternativeName(timestamp, (Type) referencedType);
+						return getOpenTypeAlternativeName(timestamp, (Type) referencedType, isStrange);
 					}
 				}
 			} else {
@@ -449,7 +457,7 @@ public final class TableConstraint extends Constraint {
 				IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
 				chain.release();
 
-				return getOpenTypeAlternativeName(timestamp, (Type) referencedType);
+				return getOpenTypeAlternativeName(timestamp, (Type) referencedType, isStrange);
 			}
 		} else {
 			Identifier tmpId1 = new Identifier(Identifier_type.ID_NAME, type.getFullName());
