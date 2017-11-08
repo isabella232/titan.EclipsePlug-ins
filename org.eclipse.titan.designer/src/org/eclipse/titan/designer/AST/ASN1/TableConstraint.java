@@ -411,9 +411,9 @@ public final class TableConstraint extends Constraint {
 	private Identifier getOpenTypeAlternativeName(final CompilationTimeStamp timestamp, final Type type) {
 		StringBuffer sb = new StringBuffer();
 		//TODO:  if (is_tagged() || is_constrained() || hasRawAttrs()) {
-		if (type.isConstrained()) {
+		if (!type.getIsErroneous(timestamp) && type.isConstrained()) {
 			sb.append(type.getGenNameOwn());
-		} else if (type instanceof Referenced_Type) {
+		} else if (!type.getIsErroneous(timestamp) && type instanceof Referenced_Type) {
 			Reference t_ref = ((Referenced_Type) type).getReference();
 			if (t_ref != null) {
 				final Identifier id = t_ref.getId();
@@ -438,9 +438,7 @@ public final class TableConstraint extends Constraint {
 						IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 						IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
 						chain.release();
-						if( type == referencedType) { 
-							return null;  //to avoid infinite loop and stack overflow
-						}
+
 						return getOpenTypeAlternativeName(timestamp, (Type) referencedType);
 					}
 				}
@@ -450,6 +448,7 @@ public final class TableConstraint extends Constraint {
 				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
 				chain.release();
+
 				return getOpenTypeAlternativeName(timestamp, (Type) referencedType);
 			}
 		} else {
