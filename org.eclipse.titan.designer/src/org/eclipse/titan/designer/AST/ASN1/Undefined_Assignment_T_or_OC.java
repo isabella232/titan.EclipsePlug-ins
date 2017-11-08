@@ -106,6 +106,10 @@ public final class Undefined_Assignment_T_or_OC extends Undefined_Assignment {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
+		if (realAssignment != null) {
+			return realAssignment.accept(v);
+		}
+
 		if (!super.memberAccept(v)) {
 			return false;
 		}

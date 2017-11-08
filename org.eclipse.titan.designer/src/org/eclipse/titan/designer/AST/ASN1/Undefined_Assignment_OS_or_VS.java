@@ -127,6 +127,10 @@ public final class Undefined_Assignment_OS_or_VS extends Undefined_Assignment {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
+		if (realAssignment != null) {
+			return realAssignment.accept(v);
+		}
+
 		if (!super.memberAccept(v)) {
 			return false;
 		}
