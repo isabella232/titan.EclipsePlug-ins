@@ -146,6 +146,7 @@ public class TitanObjectid extends Base_Type {
 			}
 			n_components = 1;
 			overflow_idx = -1;
+			components_ptr = new ArrayList<TitanInteger>();
 			components_ptr.add(new TitanInteger(0));
 
 			return components_ptr.get(0);
@@ -178,6 +179,7 @@ public class TitanObjectid extends Base_Type {
 			}
 			n_components = 1;
 			overflow_idx = -1;
+			components_ptr = new ArrayList<TitanInteger>();
 			components_ptr.add(new TitanInteger(0));
 
 			return components_ptr.get(0);
