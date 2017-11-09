@@ -322,7 +322,7 @@ public class TitanBitString extends Base_Type {
 		final List<Byte> dest_ptr = new ArrayList<Byte>((n_bits + 7) / 8);
 		dest_ptr.addAll(bits_ptr);
 		for (int i = 0; i < bits_ptr.size(); i++) {
-			dest_ptr.set(i, (byte)(~dest_ptr.get(i) & 0x0F));
+			dest_ptr.set(i, (byte)(~dest_ptr.get(i)));
 		}
 
 		final TitanBitString ret_val = new TitanBitString(dest_ptr,n_bits);
