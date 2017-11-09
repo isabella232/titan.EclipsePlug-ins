@@ -112,7 +112,7 @@ public class TitanObjectid_template extends Base_Template {
 	@Override
 	public Base_Template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanObjectid) {
-			return assign(otherValue);
+			return assign((TitanObjectid)otherValue);
 		}
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objid", otherValue));
 	}
@@ -121,7 +121,7 @@ public class TitanObjectid_template extends Base_Template {
 	@Override
 	public Base_Template assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanObjectid_template) {
-			return assign(otherValue);
+			return assign((TitanObjectid_template)otherValue);
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to objid", otherValue));

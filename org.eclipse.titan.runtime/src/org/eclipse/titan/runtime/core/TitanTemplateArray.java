@@ -702,10 +702,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValueArray<?>) {
-			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
+			final TitanValueArray<Tvalue> arrayOther = (TitanValueArray<Tvalue>)otherValue;
 			return assign(arrayOther);
 		} else {
 			try {
@@ -724,10 +725,11 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final Base_Template otherValue) {
 		if (otherValue instanceof TitanTemplateArray<?,?>) {
-			final TitanTemplateArray<?,?> arrayOther = (TitanTemplateArray<?,?>)otherValue;
+			final TitanTemplateArray<Tvalue, Ttemplate> arrayOther = (TitanTemplateArray<Tvalue, Ttemplate>)otherValue;
 			return assign(arrayOther);
 		} else {
 			try {
