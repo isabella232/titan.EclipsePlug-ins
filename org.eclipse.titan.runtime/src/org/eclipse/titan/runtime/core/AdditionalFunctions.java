@@ -13,6 +13,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+
 /**
  * Additional (predefined) functions
  * 
@@ -918,25 +920,47 @@ public final class AdditionalFunctions {
 				break;
 			}
 			if (state == str2intState.S_ERR) {
-				// TODO: Initial implementation
-				throw new TtcnError( MessageFormat.format( "The argument of function str2int(), which is {0} , does not represent a valid integer value. Invalid character {1} was found at index {2}.", value_str.toString(), c, i));
+				// TODO: Improve the way of logging
+				TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+				TtcnLogger.log_event_str("The argument of function str2int(), which is ");
+				value.log();
+				TtcnLogger.log_event_str(", does not represent a valid integer value. Invalid character `");
+				TtcnLogger.logCharEscaped(c);
+				TtcnLogger.log_event("' was found at index %d.", i);
+				TtcnLogger.end_event();
 			}
 		}
 		if (state != str2intState.S_ZERO && state != str2intState.S_MORE && state != str2intState.S_END) {
-			// TODO: Initial implementation
-			throw new TtcnError( MessageFormat.format( "The argument of function str2int(), which is {0} , does not represent a valid integer value. Premature end of the string.", value_str.toString()));
+			// TODO: Improve the way of logging
+			TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TtcnLogger.log_event_str("The argument of function str2int(), which is ");
+			value.log();
+			TtcnLogger.log_event_str(", does not represent a valid integer value. Premature end of the string.");
+			TtcnLogger.end_event();
 		}
 		if (leading_ws) {
-			// TODO: Initial implementation
-			throw new TtcnError(MessageFormat.format("Leading whitespace was detected in the argument of function str2int(): {0}.", value_str.toString()));
+			// TODO: Improve the way of logging
+			TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
+			TtcnLogger.log_event_str("Leading whitespace was detected in the argument of function str2int(): ");
+			value.log();
+			TtcnLogger.log_event_str(".");
+			TtcnLogger.end_event();
 		}
 		if (leading_zero) {
-			// TODO: Initial implementation
-			throw new TtcnError(MessageFormat.format("Leading zero digit was detected in the argument of function str2int(): {0}.", value_str.toString()));
+			// TODO: Improve the way of logging
+			TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
+			TtcnLogger.log_event_str("Leading zero digit was detected in the argument of function str2int(): ");
+			value.log();
+			TtcnLogger.log_event_str(".");
+			TtcnLogger.end_event();
 		}
 		if (state == str2intState.S_END) {
-			// TODO: Initial implementation
-			TtcnError.TtcnWarning(MessageFormat.format("Trailing whitespace was detected in the argument of function str2int(): {0}.", value_str.toString()));
+			// TODO: Improve the way of logging
+			TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
+			TtcnLogger.log_event_str("Trailing whitespace was detected in the argument of function str2int(): ");
+			value.log();
+			TtcnLogger.log_event_str(".");
+			TtcnLogger.end_event();
 		}
 
 		return new TitanInteger(value_str.toString());
