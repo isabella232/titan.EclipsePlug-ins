@@ -100,12 +100,12 @@ public class TitanBitString extends Base_Type {
 	 * Sets unused bits to 0
 	 */
 	private void clear_unused_bits() {
-		final int listIndex = (n_bits - 1) / 8;
-		byte bytevalue = bits_ptr.get( listIndex );
 		if (n_bits % 8 != 0) {
+			final int listIndex = (n_bits - 1) / 8;
+			byte bytevalue = bits_ptr.get( listIndex );
 			bytevalue &= 0xFF >> (7 - (n_bits - 1) % 8);
+			bits_ptr.set( listIndex, bytevalue );
 		}
-		bits_ptr.set( listIndex, bytevalue );
 	}
 
 	/** Return the nibble at index i
