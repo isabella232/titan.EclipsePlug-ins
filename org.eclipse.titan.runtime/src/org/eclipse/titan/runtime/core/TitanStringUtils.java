@@ -32,4 +32,22 @@ public class TitanStringUtils {
 		}
 		return newList;
 	}
+
+	/**
+	 * Creates a new char (2 bytes) list with new elements
+	 * @param srcList source list to copy
+	 * @return new list instance
+	 */
+	public static List<Character> copyCharList(final List<Character> srcList) {
+		if ( srcList == null ) {
+			return null;
+		}
+
+		final List<Character> newList = new ArrayList<Character>( srcList.size() );
+		for (Character uc : srcList) {
+			newList.add( new Character( uc ) );
+		}
+
+		return newList;
+	}
 }

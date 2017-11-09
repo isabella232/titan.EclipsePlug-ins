@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public class TitanOctetString extends Base_Type {
 
 	// originally octetstring_value_match
-	private static final Pattern OCTETSTRING_VALUE_PATTERN = Pattern.compile( "^(([0-9A-Fa-f]{2})+).*$" );
+	private static final Pattern OCTETSTRING_VALUE_PATTERN = Pattern.compile( "^([0-9A-Fa-f]{2})+$" );
 
 	private static final String HEX_DIGITS = "0123456789ABCDEF";
 
@@ -36,13 +36,13 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	public TitanOctetString( final List<Character> aOtherValue ) {
-		val_ptr = copyList( aOtherValue );
+		val_ptr = TitanStringUtils.copyCharList( aOtherValue );
 	}
 
 	public TitanOctetString( final TitanOctetString aOtherValue ) {
 		aOtherValue.mustBound( "Copying an unbound octetstring value." );
 
-		val_ptr = copyList( aOtherValue.val_ptr );
+		val_ptr = TitanStringUtils.copyCharList( aOtherValue.val_ptr );
 	}
 
 	public TitanOctetString( final char aValue ) {
@@ -86,20 +86,6 @@ public class TitanOctetString extends Base_Type {
 	private static char octet2value( final char aHexDigit1, final char aHexDigit2 ) {
 		final char result = (char) ( 16 * TitanHexString.hexdigit2byte( aHexDigit1 ) + TitanHexString.hexdigit2byte( aHexDigit2 ));
 		return result;
-	}
-
-	//TODO: move it to a utility class, same function is in TitanBitString
-	public static List<Character> copyList(final List<Character> aList) {
-		if ( aList == null ) {
-			return null;
-		}
-
-		final List<Character> clonedList = new ArrayList<Character>( aList.size() );
-		for (Character uc : aList) {
-			clonedList.add( new Character( uc ) );
-		}
-
-		return clonedList;
 	}
 
 	/** Return the nibble at index i
@@ -328,7 +314,7 @@ public class TitanOctetString extends Base_Type {
 		otherValue.mustBound( "Unbound right operand of octetstring concatenation." );
 
 		final TitanOctetString result = new TitanOctetString( val_ptr );
-		result.val_ptr.addAll( copyList( otherValue.val_ptr ) );
+		result.val_ptr.addAll( TitanStringUtils.copyCharList( otherValue.val_ptr ) );
 
 		return result;
 	}
