@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utility functions for (bit|hex|octet)string 
+ * Utility functions for (bit|hex|octet)string
  * @author Arpad Lovassy
  */
 public class TitanStringUtils {

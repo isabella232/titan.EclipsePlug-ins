@@ -140,12 +140,9 @@ public final class HexString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		aData.addBuiltinTypeImport( "TitanHexString_template" );
 		final StringBuilder result = new StringBuilder();
-
-		result.append( "\t//TODO:  " );
-		result.append( getClass().getSimpleName() );
-		result.append( ".getSingleExpression() not yet implement!\n" );
-		// TODO: fatal error
+		result.append( MessageFormat.format( "new TitanHexString_template(\"{0}\");\n", pattern ) );
 
 		//TODO handle cast needed
 
