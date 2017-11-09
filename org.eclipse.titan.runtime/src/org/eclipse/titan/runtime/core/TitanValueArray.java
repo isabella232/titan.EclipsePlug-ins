@@ -129,10 +129,11 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	// TODO: void set_param(Module_Param& param);
 
 	// originally not implemented operator=
+	@SuppressWarnings("unchecked")
 	@Override
 	public TitanValueArray<T> assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValueArray<?>) {
-			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
+			final TitanValueArray<T> arrayOther = (TitanValueArray<T>)otherValue;
 			return assign(arrayOther);
 		} else {
 			try {
@@ -171,10 +172,11 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return this;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanValueArray<?>) {
-			final TitanValueArray<?> arrayOther = (TitanValueArray<?>)otherValue;
+			final TitanValueArray<T> arrayOther = (TitanValueArray<T>)otherValue;
 			return operatorEquals(arrayOther);
 		} else {
 			if(array_size == 1 ) {

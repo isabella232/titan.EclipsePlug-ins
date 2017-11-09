@@ -285,6 +285,9 @@ public final class MergeLog extends AbstractHandler implements IWorkbenchWindowA
 				return name.startsWith(outputFileNamePrefix);
 			}
 		});
+		if (files == null) {
+			return new File(outputFile.getParent(), outputFileNamePrefix + 1 + LOG_FILE_EXTENSION);
+		}
 
 		int max = 0;
 		for (final File file : files) {
