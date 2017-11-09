@@ -31,6 +31,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button disableTEXT;
 	private Button disableXER;
 	private Button disableJSON;
+	private Button disableOER;
 	private Button forceXER;
 	private Button disableSubtypeChecking;
 	private Button defaultAsOmit;
@@ -62,6 +63,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			disableTEXT.dispose();
 			disableXER.dispose();
 			disableJSON.dispose();
+			disableOER.dispose();
 			forceXER.dispose();
 			disableSubtypeChecking.dispose();
 			defaultAsOmit.dispose();
@@ -104,6 +106,9 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		disableJSON = new Button(mainComposite, SWT.CHECK);
 		disableJSON.setText("Disable JSON encoder (-j)");
+		
+		disableOER = new Button(mainComposite, SWT.CHECK);
+		disableOER.setText("Disable OER encoder (-O)");
 
 		forceXER = new Button(mainComposite, SWT.CHECK);
 		forceXER.setText("Force XER in ASN.1 files (-a)");
@@ -165,6 +170,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		disableTEXT.setEnabled(enabled);
 		disableXER.setEnabled(enabled);
 		disableJSON.setEnabled(enabled);
+		disableOER.setEnabled(enabled);
 		forceXER.setEnabled(enabled);
 		disableSubtypeChecking.setEnabled(enabled);
 		defaultAsOmit.setEnabled(enabled);
@@ -235,6 +241,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		disableTEXT.setSelection(false);
 		disableXER.setSelection(false);
 		disableJSON.setSelection(false);
+		disableOER.setSelection(false);
 		forceXER.setSelection(false);
 		disableSubtypeChecking.setSelection(false);
 		defaultAsOmit.setSelection(false);
@@ -288,6 +295,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
 			disableJSON.setSelection("true".equals(temp) ? true : false);
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_OER_PROPERTY));
+			disableOER.setSelection("true".equals(temp) ? true : false);
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY));
@@ -366,6 +377,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			setProperty(project, TITANFlagsOptionsData.DISABLE_TEXT_PROPERTY, disableTEXT.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.DISABLE_XER_PROPERTY, disableXER.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.DISABLE_JSON_PROPERTY, disableJSON.getSelection() ? "true" : "false");
+			setProperty(project, TITANFlagsOptionsData.DISABLE_OER_PROPERTY, disableOER.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY, forceXER.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.DISABLE_SUBTYPE_CHECKING_PROPERTY, disableSubtypeChecking.getSelection() ? "true"
 					: "false");

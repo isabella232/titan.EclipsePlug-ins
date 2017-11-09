@@ -33,6 +33,7 @@ public final class TITANFlagsOptionsData {
 	public static final String DISABLE_TEXT_PROPERTY = "disableTEXT";
 	public static final String DISABLE_XER_PROPERTY = "disableXER";
 	public static final String DISABLE_JSON_PROPERTY = "disableJSON";
+	public static final String DISABLE_OER_PROPERTY = "disableOER";
 	public static final String FORCE_XER_IN_ASN1_PROPERTY = "forceXERinASN.1";
 	public static final String DEFAULT_AS_OMIT_PROPERTY = "defaultasOmit";
 	public static final String FORCE_OLD_FUNC_OUT_PAR_PROPERTY = "forceOldFuncOutParHandling";
@@ -52,14 +53,14 @@ public final class TITANFlagsOptionsData {
 	//The order of items of the next array defines the order of items in the tpd file within the "MakefileSettings".
 	//It should be according to the TPD.xsd otherwise the generated tpd will not be valid and the import will fail.
 	public static final String[] PROPERTIES = {
-			DISABLE_BER_PROPERTY, DISABLE_RAW_PROPERTY, DISABLE_TEXT_PROPERTY, DISABLE_XER_PROPERTY, DISABLE_JSON_PROPERTY,
+			DISABLE_BER_PROPERTY, DISABLE_RAW_PROPERTY, DISABLE_TEXT_PROPERTY, DISABLE_XER_PROPERTY, DISABLE_JSON_PROPERTY, DISABLE_OER_PROPERTY,
 			FORCE_XER_IN_ASN1_PROPERTY, DEFAULT_AS_OMIT_PROPERTY, FORCE_OLD_FUNC_OUT_PAR_PROPERTY, GCC_MESSAGE_FORMAT_PROPERTY, LINE_NUMBERS_ONLY_IN_MESSAGES_PROPERTY,
 			INCLUDE_SOURCEINFO_PROPERTY, ADD_SOURCELINEINFO_PROPERTY, SUPPRESS_WARNINGS_PROPERTY, ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY, WARNINGS_FOR_BAD_VARIANTS_PROPERTY, 
 			IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY, ENABLE_LEGACY_ENCODING_PROPERTY, ACTIVATE_DEBUGGER_PROPERTY,/*insert here the next new item*/
 			QUIETLY_PROPERTY, DISABLE_SUBTYPE_CHECKING_PROPERTY };
 	public static final String[] TAGS = PROPERTIES;
 	public static final String[] DEFAULT_VALUES = {
-		"false", "false", "false", "false", "false", 
+		"false", "false", "false", "false", "false", "false",
 		"false", "false", "false", "false", "false",
 		"false",  "false",  "false", "false", "false",
 		"false", "false", "false", /*insert here the next new item*/
@@ -95,6 +96,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
 			builder.append("true".equals(temp) ? "j" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_OER_PROPERTY));
+			builder.append("true".equals(temp) ? "O" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY));
@@ -200,6 +205,10 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_JSON_PROPERTY));
 			builder.append("true".equals(temp) ? " + disable JSON" : "");
+			
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_OER_PROPERTY));
+			builder.append("true".equals(temp) ? " + disable OER" : "");
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.FORCE_XER_IN_ASN1_PROPERTY));
