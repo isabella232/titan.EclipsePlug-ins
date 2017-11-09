@@ -276,8 +276,8 @@ public final class AdditionalFunctions {
 			if (length < 0) {
 				throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value: {0}.", length));
 			}
-			if ((tmp_val.bitCount() + 7) / 4 < length) {
-				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", (tmp_val.bitCount() + 7) / 4, length, length > 1 ? "s" : ""));
+			if ((tmp_val.bitCount() + 7) / 4 > length) {
+				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" : ""));
 			}
 			final List<Character> octets_ptr = new ArrayList<Character>(length);
 			for (int i = 0; i < length; i++) {
