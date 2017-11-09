@@ -409,7 +409,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		}
 
 		if (realTemplate != null && realTemplate != this) {
-			return false;
+			return realTemplate.isValue(timestamp);
 		}
 
 		if (Value_type.FUNCTION_REFERENCE_VALUE.equals(specificValue.getValuetype())) {
