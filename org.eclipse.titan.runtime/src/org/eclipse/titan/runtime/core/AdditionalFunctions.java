@@ -920,47 +920,37 @@ public final class AdditionalFunctions {
 				break;
 			}
 			if (state == str2intState.S_ERR) {
-				// TODO: Improve the way of logging
-				TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-				TtcnLogger.log_event_str("The argument of function str2int(), which is ");
+				TtcnError.TtcnErrorBegin("The argument of function str2int(), which is ");
 				value.log();
 				TtcnLogger.log_event_str(", does not represent a valid integer value. Invalid character `");
 				TtcnLogger.logCharEscaped(c);
 				TtcnLogger.log_event("' was found at index %d.", i);
-				TtcnLogger.end_event();
+				TtcnError.TtcnErrorEnd();
 			}
 		}
 		if (state != str2intState.S_ZERO && state != str2intState.S_MORE && state != str2intState.S_END) {
-			// TODO: Improve the way of logging
-			TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-			TtcnLogger.log_event_str("The argument of function str2int(), which is ");
+			TtcnError.TtcnErrorBegin("The argument of function str2int(), which is ");
 			value.log();
 			TtcnLogger.log_event_str(", does not represent a valid integer value. Premature end of the string.");
-			TtcnLogger.end_event();
+			TtcnError.TtcnErrorEnd();
 		}
 		if (leading_ws) {
-			// TODO: Improve the way of logging
-			TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
-			TtcnLogger.log_event_str("Leading whitespace was detected in the argument of function str2int(): ");
+			TtcnError.TtcnWarningBegin("Leading whitespace was detected in the argument of function str2int(): ");
 			value.log();
 			TtcnLogger.log_event_str(".");
-			TtcnLogger.end_event();
+			TtcnError.TtcnWarningEnd();
 		}
 		if (leading_zero) {
-			// TODO: Improve the way of logging
-			TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
-			TtcnLogger.log_event_str("Leading zero digit was detected in the argument of function str2int(): ");
+			TtcnError.TtcnWarningBegin("Leading zero digit was detected in the argument of function str2int(): ");
 			value.log();
 			TtcnLogger.log_event_str(".");
-			TtcnLogger.end_event();
+			TtcnError.TtcnWarningEnd();
 		}
 		if (state == str2intState.S_END) {
-			// TODO: Improve the way of logging
-			TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
-			TtcnLogger.log_event_str("Trailing whitespace was detected in the argument of function str2int(): ");
+			TtcnError.TtcnWarningBegin("Trailing whitespace was detected in the argument of function str2int(): ");
 			value.log();
 			TtcnLogger.log_event_str(".");
-			TtcnLogger.end_event();
+			TtcnError.TtcnWarningEnd();
 		}
 
 		return new TitanInteger(value_str.toString());

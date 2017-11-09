@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+
 //TODO: maybe change it to exception
 public class TtcnError extends Error {
 
@@ -22,5 +24,32 @@ public class TtcnError extends Error {
 	public static void TtcnWarning(final String aWarningMessage) {
 		//FIXME implement logging of warnings
 		System.out.println("warning: " + aWarningMessage);
+	}
+
+	//FIXME comment
+	public static void TtcnErrorBegin(final String errorMessage) {
+		//FIXME implement
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str("Dynamic test case error: ");
+		TtcnLogger.log_event_str(errorMessage);
+	}
+
+	//FIXME comment
+	public static void TtcnErrorEnd() {
+		//FIXME implement
+		TtcnLogger.end_event();
+	}
+
+	//FIXME comment
+	public static void TtcnWarningBegin(final String errorMessage) {
+		//FIXME implement
+		TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TtcnLogger.log_event_str("Warning: ");
+		TtcnLogger.log_event_str(errorMessage);
+	}
+
+	//FIXME comment
+	public static void TtcnWarningEnd() {
+		TtcnLogger.end_event();
 	}
 }
