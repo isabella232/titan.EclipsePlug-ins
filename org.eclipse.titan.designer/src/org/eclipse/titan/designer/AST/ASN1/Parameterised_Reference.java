@@ -238,7 +238,12 @@ public final class Parameterised_Reference extends Defined_Reference {
 		if (null != mBlock) {
 			final List<List<Token>> actualParameters = new ArrayList<List<Token>>();
 			List<Token> temporalBuffer = new ArrayList<Token>();
-
+			
+			//TODO: implement according to the C++ code:
+			//See AST_asn1.cc/void Ass_pard::preparse_pars()
+			//The java version handles only the list of references.
+			//The tokens containing assignments are not handled properly
+			
 			/* splitting the list of actual parameters */
 			final List<Token> unprocessParameters = mBlock.getTokenList();
 
@@ -283,8 +288,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 					temporalTokenBuffer.add(new TokenWithIndexAndSubTokens(Asn1Lexer.ASSIGNMENT));
 					temporalTokenBuffer.addAll(actualParameters.get(i));
 
-					// parse temp_tokenBuffer as an
-					// assignment
+					// parse temp_tokenBuffer as an assignment
 					//List<ANTLRException> exceptions = null;
 					final Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(new Block(temporalTokenBuffer,
 							location));
