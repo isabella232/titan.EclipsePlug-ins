@@ -38,7 +38,7 @@ public class TitanStringUtils {
 	 * @param srcList source list to copy
 	 * @return new list instance
 	 */
-	public static List<Character> copyCharList(final List<Character> srcList) {
+	static List<Character> copyCharList(final List<Character> srcList) {
 		if ( srcList == null ) {
 			return null;
 		}
