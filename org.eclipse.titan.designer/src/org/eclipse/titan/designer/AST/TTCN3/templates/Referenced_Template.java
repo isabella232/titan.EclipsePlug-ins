@@ -660,7 +660,7 @@ public final class Referenced_Template extends TTCN3Template {
 		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
-		reference.generateConstRef(aData, expression);
+		reference.generateCode(aData, expression);
 		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			result.append( "\t//TODO: fatal error while generating " );
 			result.append( getClass().getSimpleName() );
@@ -686,7 +686,7 @@ public final class Referenced_Template extends TTCN3Template {
 				return;
 			}
 			//TODO handle the needs conversion case
-			reference.generateConstRef(aData, expression);
+			reference.generateCode(aData, expression);
 			return;
 		}
 
