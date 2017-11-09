@@ -381,7 +381,7 @@ public final class Def_Port extends Definition {
 			final StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
 			portType.generateCodePort(aData, tempSb, dimensions);
 
-			source.append(MessageFormat.format("{0} {1};\n", typeGenName, genName));
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGenName, genName));
 
 			final StringBuilder preInit = aData.getPreInit();
 			preInit.append("{\n");
