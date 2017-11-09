@@ -52,6 +52,33 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
+	private boolean fromString(final String otherValue) {
+		try {
+			BigInteger temp = new BigInteger(otherValue);
+			if (temp.abs().compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == -1) {
+				nativeFlag = true;
+				nativeInt = temp.intValue();
+			} else {
+				nativeFlag = false;
+				openSSL = temp;
+			}
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
+		
+	}
+
+	public TitanInteger(final String otherValue) {
+		if (otherValue == null) {
+			throw new TtcnError(MessageFormat.format("Unexpected error when converting `{0}'' to integer", otherValue));
+		}
+		boundFlag = true;
+		if (!fromString(otherValue)) {
+			throw new TtcnError(MessageFormat.format("Unexpected error when converting `{0}'' to integer", otherValue));
+		}
+	}
+
 	//originally clean_up
 	public void cleanUp() {
 		if(!nativeFlag) {

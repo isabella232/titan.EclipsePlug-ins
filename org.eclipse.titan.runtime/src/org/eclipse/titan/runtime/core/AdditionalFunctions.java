@@ -938,12 +938,8 @@ public final class AdditionalFunctions {
 			// TODO: Initial implementation
 			TtcnError.TtcnWarning(MessageFormat.format("Trailing whitespace was detected in the argument of function str2int(): {0}.", value_str.toString()));
 		}
-		final long temp_val = Long.valueOf(value_str.toString());
-		if (temp_val > Integer.MIN_VALUE && temp_val < Integer.MAX_VALUE) {
-			return new TitanInteger(Integer.valueOf(value_str.toString()));
-		} else {
-			return new TitanInteger(BigInteger.valueOf(temp_val));
-		}
+
+		return new TitanInteger(value_str.toString());
 	}
 
 	public static TitanInteger str2int(final TitanCharString_Element value) {
