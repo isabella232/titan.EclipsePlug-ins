@@ -141,6 +141,7 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		aData.addBuiltinTypeImport( "TitanOctetString_template" );
+
 		final StringBuilder result = new StringBuilder();
 		result.append( MessageFormat.format( "new TitanOctetString_template(\"{0}\");\n", pattern ) );
 

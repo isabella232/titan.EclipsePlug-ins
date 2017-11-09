@@ -131,6 +131,7 @@ public final class BitString_Pattern_Template extends TTCN3Template {
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		aData.addBuiltinTypeImport( "TitanBitString_template" );
+
 		final StringBuilder result = new StringBuilder();
 		result.append( MessageFormat.format( "new TitanBitString_template(\"{0}\");\n", pattern ) );
 
