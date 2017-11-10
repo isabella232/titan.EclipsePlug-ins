@@ -437,6 +437,24 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	}
 
 	// originally set_min
+	public void setMin(final String otherMinValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
+		}
+
+		final int length = otherMinValue.length();
+		if (length != 1) {
+			throw new TtcnError(MessageFormat.format( "The length of the lower bound in a charstring value range template must be 1 instead of '{0}''. ", length));
+		}
+		min_is_set = true;
+		min_is_exclusive = false;
+		min_value = new TitanCharString(otherMinValue);
+		if ((max_is_set) && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
+			throw new TtcnError(MessageFormat.format( "The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
+		}
+	}
+
+	// originally set_min
 	public void setMin(final TitanCharString otherMinValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range charstring template.");
@@ -452,6 +470,24 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		min_value = new TitanCharString(otherMinValue);
 		if ((max_is_set) && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
 			throw new TtcnError(MessageFormat.format( "The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
+		}
+	}
+
+	// originally set_max
+	public void setMax(final String otherMaxValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Setting the upper bound for a non-range charstring template.");
+		}
+
+		final int length = otherMaxValue.length();
+		if (length != 1) {
+			throw new TtcnError(MessageFormat.format( "The length of the upper bound in a charstring value range template must be 1 instead of {0}.", length));
+		}
+		max_is_set = true;
+		max_is_exclusive = false;
+		max_value = new TitanCharString(otherMaxValue);
+		if ((min_is_set) && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()) {
+			throw new TtcnError(MessageFormat.format( "The upper bound `{0}'' in a charstring value range template is smaller than the lower bound {1}.", max_value, min_value));
 		}
 	}
 
