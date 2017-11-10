@@ -250,12 +250,16 @@ public final class Charstring_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO register as module level charstring literal and return the literal's name
-		aData.addBuiltinTypeImport( "TitanCharString" );
-
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("new TitanCharString(\"{0}\")", value));
+		result.append(MessageFormat.format("\"{0}\"", value));
 
 		return result;
 	}
@@ -263,9 +267,7 @@ public final class Charstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanCharString" );
-
-		source.append(MessageFormat.format("{0}.assign(new TitanCharString(\"{1}\"));\n", name, value));
+		source.append(MessageFormat.format("{0}.assign(\"{1}\");\n", name, value));
 
 		return source;
 	}
