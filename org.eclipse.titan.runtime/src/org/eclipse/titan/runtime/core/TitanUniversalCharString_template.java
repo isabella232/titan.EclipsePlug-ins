@@ -547,6 +547,45 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("The upper bound in a universal charstring value range template is smaller than the lower bound.");
 		}
 	}
+	
+	public void setMin(final String minValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
+		}
+
+		final int length = minValue.length();
+		if (length != 1) {
+			throw new TtcnError("The length of the lower bound in a universal charstring value range template must be 1 instead of " + length);
+		}
+
+		min_is_set = true;
+		min_is_exclusive = false;
+		min_value = new TitanUniversalChar( (char) 0, (char) 0, (char) 0, minValue.charAt(0));
+
+		if (max_is_set && max_value.lessThan(min_value).getValue()) {
+			throw new TtcnError("The lower bound in a universal charstring value range template is greater than the upper bound.");
+		}
+	}
+
+	public void setMax(final String maxValue) {
+		if (templateSelection != template_sel.VALUE_RANGE) {
+			throw new TtcnError("Setting the upper bound for a non-range universal charstring template.");
+		}
+
+		final int length = maxValue.length();
+		if (length != 1) {
+			throw new TtcnError("The length of the upper bound in a universal charstring value range template must be 1 instead of " + length);
+		}
+
+		max_is_set = true;
+		max_is_exclusive = false;
+		max_value = new TitanUniversalChar( (char) 0, (char) 0, (char) 0, maxValue.charAt(0));
+
+		if (min_is_set && max_value.lessThan(min_value).getValue()) {
+			throw new TtcnError("The upper bound in a universal charstring value range template is smaller than the lower bound.");
+		}
+	}
+
 
 	public void setMin(final TitanCharString minValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
