@@ -49,7 +49,7 @@ public class TitanCharString_Element {
 		}
 
 		bound_flag = true;
-		str_val = new TitanCharString(aOtherValue);
+		str_val.getValue().setCharAt( char_pos, aOtherValue.charAt(0 ) );
 		char_pos = 0;
 
 		return this;
