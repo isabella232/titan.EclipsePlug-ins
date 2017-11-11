@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
@@ -184,8 +185,9 @@ public final class Char2OctExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
-			final String tempBitstring = ((Charstring_Value) last).getValue();
-			lastValue = new Octetstring_Value(char2oct(tempBitstring));
+			final String string = ((Charstring_Value) last).getValue();
+			final CharstringExtractor cs = new CharstringExtractor( string );
+			lastValue = new Octetstring_Value(char2oct(cs.getExtractedString()));
 			lastValue.copyGeneralProperties(this);
 			break;
 		default:

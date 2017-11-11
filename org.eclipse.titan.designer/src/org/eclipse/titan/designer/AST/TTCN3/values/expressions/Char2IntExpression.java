@@ -203,7 +203,8 @@ public final class Char2IntExpression extends Expression_Value {
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
 			final String string = ((Charstring_Value) last).getValue();
-			lastValue = new Integer_Value(string.charAt(0));
+			final CharstringExtractor cs = new CharstringExtractor( string );
+			lastValue = new Integer_Value(cs.getExtractedString().charAt(0));
 			lastValue.copyGeneralProperties(this);
 			break;
 		default:

@@ -93,7 +93,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	public String getString() {
 		final StringBuilder builder = new StringBuilder(value.size());
 		for (int i = 0; i < value.size(); i++) {
-			builder.append(value.get(i).cell());
+			builder.append((char)value.get(i).cell());
 		}
 
 		return builder.toString();
