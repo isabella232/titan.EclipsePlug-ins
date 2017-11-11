@@ -239,7 +239,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 			} else {
 				// final part of the reference
 				final List<CompField> compFields = components.getComponentsWithPrefix(subreference.getId().getName());
-				for (CompField compField : compFields) {
+				for (final CompField compField : compFields) {
 					declarationCollector.addDeclaration(compField.getIdentifier().getDisplayName(),
 							compField.getIdentifier().getLocation(), this);
 				}
@@ -297,7 +297,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 			} else {
 				// final part of the reference
 				final List<CompField> compFields = components.getComponentsWithPrefix(subreference.getId().getName());
-				for (CompField compField : compFields) {
+				for (final CompField compField : compFields) {
 					final String proposalKind = compField.getType().getProposalDescription(new StringBuilder()).toString();
 					propCollector.addProposal(compField.getIdentifier(), " - " + proposalKind,
 							ImageCache.getImage(getOutlineIcon()), proposalKind);

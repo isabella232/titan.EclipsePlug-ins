@@ -44,14 +44,14 @@ public final class ComponentTypeList extends ASTNode {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		for (ComponentType componentType : componentTypes) {
+		for (final ComponentType componentType : componentTypes) {
 			componentType.setMyScope(scope);
 		}
 	}
 
 	public int getNofComps() {
 		int result = 0;
-		for (ComponentType componentType : componentTypes) {
+		for (final ComponentType componentType : componentTypes) {
 			result += componentType.getNofComps();
 		}
 		return result;
@@ -73,7 +73,7 @@ public final class ComponentTypeList extends ASTNode {
 	}
 
 	public boolean hasCompWithName(final Identifier identifier) {
-		for (ComponentType componentType : componentTypes) {
+		for (final ComponentType componentType : componentTypes) {
 			if (componentType.hasCompWithName(identifier)) {
 				return true;
 			}
@@ -83,7 +83,7 @@ public final class ComponentTypeList extends ASTNode {
 	}
 
 	public CompField getCompByName(final Identifier identifier) {
-		for (ComponentType componentType : componentTypes) {
+		for (final ComponentType componentType : componentTypes) {
 			if (componentType.hasCompWithName(identifier)) {
 				return componentType.getCompByName(identifier);
 			}
@@ -94,7 +94,7 @@ public final class ComponentTypeList extends ASTNode {
 	}
 
 	public void trCompsof(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain, final boolean isSet) {
-		for (ComponentType componentType : componentTypes) {
+		for (final ComponentType componentType : componentTypes) {
 			componentType.trCompsof(timestamp, referenceChain, isSet);
 		}
 	}
@@ -106,7 +106,7 @@ public final class ComponentTypeList extends ASTNode {
 			return;
 		}
 
-		for (ComponentType ct : componentTypes) {
+		for (final ComponentType ct : componentTypes) {
 			ct.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -115,7 +115,7 @@ public final class ComponentTypeList extends ASTNode {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentTypes != null) {
-			for (ComponentType ct : componentTypes) {
+			for (final ComponentType ct : componentTypes) {
 				if (!ct.accept(v)) {
 					return false;
 				}

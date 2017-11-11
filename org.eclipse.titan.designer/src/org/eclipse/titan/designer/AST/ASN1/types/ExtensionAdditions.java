@@ -35,7 +35,7 @@ public final class ExtensionAdditions extends ASTNode {
 
 	public ExtensionAdditions(final List<ExtensionAddition> extensionAdditions) {
 		this.extensionAdditions = extensionAdditions;
-		for (ExtensionAddition extensionAddition : extensionAdditions) {
+		for (final ExtensionAddition extensionAddition : extensionAdditions) {
 			extensionAddition.setFullNameParent(this);
 		}
 	}
@@ -51,14 +51,14 @@ public final class ExtensionAdditions extends ASTNode {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		for (ExtensionAddition extensionAddition : extensionAdditions) {
+		for (final ExtensionAddition extensionAddition : extensionAdditions) {
 			extensionAddition.setMyScope(scope);
 		}
 	}
 
 	public int getNofComps() {
 		int result = 0;
-		for (ExtensionAddition extensionAddition : extensionAdditions) {
+		for (final ExtensionAddition extensionAddition : extensionAdditions) {
 			result += extensionAddition.getNofComps();
 		}
 		return result;
@@ -81,7 +81,7 @@ public final class ExtensionAdditions extends ASTNode {
 	}
 
 	public boolean hasCompWithName(final Identifier identifier) {
-		for (ExtensionAddition extensionAddition : extensionAdditions) {
+		for (final ExtensionAddition extensionAddition : extensionAdditions) {
 			if (extensionAddition.hasCompWithName(identifier)) {
 				return true;
 			}
@@ -91,7 +91,7 @@ public final class ExtensionAdditions extends ASTNode {
 	}
 
 	public CompField getCompByName(final Identifier identifier) {
-		for (ExtensionAddition extensionAddition : extensionAdditions) {
+		for (final ExtensionAddition extensionAddition : extensionAdditions) {
 			if (extensionAddition.hasCompWithName(identifier)) {
 				return extensionAddition.getCompByName(identifier);
 			}
@@ -102,7 +102,7 @@ public final class ExtensionAdditions extends ASTNode {
 	}
 
 	public void trCompsof(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain, final boolean isSet) {
-		for (ExtensionAddition extensionAddition : extensionAdditions) {
+		for (final ExtensionAddition extensionAddition : extensionAdditions) {
 			extensionAddition.trCompsof(timestamp, referenceChain, isSet);
 		}
 	}
@@ -114,7 +114,7 @@ public final class ExtensionAdditions extends ASTNode {
 			return;
 		}
 
-		for (ExtensionAddition ea : extensionAdditions) {
+		for (final ExtensionAddition ea : extensionAdditions) {
 			ea.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -123,7 +123,7 @@ public final class ExtensionAdditions extends ASTNode {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (extensionAdditions != null) {
-			for (ExtensionAddition ea : extensionAdditions) {
+			for (final ExtensionAddition ea : extensionAdditions) {
 				if (!ea.accept(v)) {
 					return false;
 				}

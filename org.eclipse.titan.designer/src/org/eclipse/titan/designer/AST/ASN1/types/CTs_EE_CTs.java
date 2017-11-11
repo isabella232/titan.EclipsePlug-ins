@@ -213,7 +213,7 @@ public final class CTs_EE_CTs extends ASTNode {
 
 		components.trimToSize();
 		IType type;
-		for (CompField componentField : components) {
+		for (final CompField componentField : components) {
 			type = componentField.getType();
 			type.setGenName(myType.getGenNameOwn(), componentField.getIdentifier().getName());
 			type.setParentType(myType);
@@ -282,7 +282,7 @@ public final class CTs_EE_CTs extends ASTNode {
 	}
 
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
-		for (CompField field : components) {
+		for (final CompField field : components) {
 			if (field.getLocation().containsOffset(offset)
 					// TODO: remove the below line when the above line
 					// starts to work (location problem)
