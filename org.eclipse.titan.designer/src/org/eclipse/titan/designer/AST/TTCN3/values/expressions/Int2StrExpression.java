@@ -250,7 +250,7 @@ public final class Int2StrExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2str(");
-		value.generateCodeExpressionMandatory(aData, expression, true);
+		value.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(')');
 	}
 }

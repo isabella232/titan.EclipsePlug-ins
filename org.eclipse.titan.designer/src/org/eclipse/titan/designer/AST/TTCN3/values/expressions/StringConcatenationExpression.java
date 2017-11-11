@@ -500,7 +500,7 @@ public final class StringConcatenationExpression extends Expression_Value {
 		value1.generateCodeExpressionMandatory(aData, expression, true);
 		// originally operatior+ is used for string concatenation
 		expression.expression.append( ".concatenate( " );
-		value2.generateCodeExpressionMandatory(aData, expression, true);
+		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append( " )" );
 	}
 

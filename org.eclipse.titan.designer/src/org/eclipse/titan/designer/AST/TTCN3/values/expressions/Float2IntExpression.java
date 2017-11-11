@@ -262,7 +262,7 @@ public final class Float2IntExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.float2int( ");
-		value.generateCodeExpressionMandatory(aData, expression, true);
+		value.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(" )");
 	}
 }

@@ -267,7 +267,7 @@ public final class Int2UnicharExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2unichar(");
-		value.generateCodeExpressionMandatory(aData, expression, true);
+		value.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(')');
 	}
 }

@@ -397,7 +397,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 				//TODO check why translate
 				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
 			} else {
-				name.generateCodeExpressionMandatory(aData, expression, true);
+				name.generateCodeExpressionMandatory(aData, expression, false);
 			}
 		} else {
 			expression.expression.append("null");
@@ -414,7 +414,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 				//TODO check why translate
 				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
 			} else {
-				location.generateCodeExpressionMandatory(aData, expression, true);
+				location.generateCodeExpressionMandatory(aData, expression, false);
 			}
 		} else {
 			expression.expression.append("null");

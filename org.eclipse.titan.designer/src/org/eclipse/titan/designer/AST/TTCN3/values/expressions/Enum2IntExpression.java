@@ -293,7 +293,7 @@ public final class Enum2IntExpression extends Expression_Value {
 
 		expression.expression.append(name);
 		expression.expression.append(".enum2int(");
-		value.generateCodeExpressionMandatory(aData, expression, true);
+		value.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(")");
 	}
 }

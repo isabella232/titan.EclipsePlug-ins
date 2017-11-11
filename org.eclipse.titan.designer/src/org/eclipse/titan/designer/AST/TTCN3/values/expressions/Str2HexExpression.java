@@ -260,7 +260,7 @@ public final class Str2HexExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.str2hex( ");
-		value.generateCodeExpressionMandatory(aData, expression, true);
+		value.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(')');
 	}
 }

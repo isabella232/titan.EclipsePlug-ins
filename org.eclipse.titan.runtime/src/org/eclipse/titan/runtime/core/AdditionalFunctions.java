@@ -340,6 +340,10 @@ public final class AdditionalFunctions {
 		return new TitanInteger(new BigDecimal(value).toBigInteger());
 	}
 
+	public static TitanInteger float2int(final Ttcn3Float value) {
+		return float2int(value.getValue());
+	}
+
 	public static TitanInteger float2int(final TitanFloat value) {
 		value.mustBound("The argument of function float2int() is an unbound float value.");
 
@@ -2285,6 +2289,10 @@ public final class AdditionalFunctions {
 	}
 
 	// float2str
+	public static TitanCharString float2str(final Ttcn3Float value) {
+		return new TitanCharString(value.toString());
+	}
+
 	public static TitanCharString float2str(final TitanFloat value) {
 		value.mustBound("The argument of function float2str() is an unbound float value.");
 

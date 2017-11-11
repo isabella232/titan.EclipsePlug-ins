@@ -352,9 +352,9 @@ public final class Int2HexExpression extends Expression_Value {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		expression.expression.append("AdditionalFunctions.int2hex(");
-		value1.generateCodeExpressionMandatory(aData, expression, true);
+		value1.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(", ");
-		value2.generateCodeExpressionMandatory(aData, expression, true);
+		value2.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(')');
 	}
 }
