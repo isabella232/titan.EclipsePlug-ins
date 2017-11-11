@@ -446,8 +446,7 @@ public final class ASN1Module extends Module {
 		imports.generateCode(aData);
 
 		sb.append("// ASN.1 module are NOT supported by the Java code Generator!\n");
-		sb.append( "class " + name + " extends TTCN_Module {\n" );
-
+		sb.append(MessageFormat.format("class {0} extends TTCN_Module '{'\n", name));
 		sb.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
 		sb.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.ASN1_MODULE);\n", identifier.getDisplayName()));
 		sb.append("}\n\n");
