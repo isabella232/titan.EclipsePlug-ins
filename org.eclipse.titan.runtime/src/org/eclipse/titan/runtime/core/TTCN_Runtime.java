@@ -21,6 +21,25 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
  * @author Kristof Szabados
  */
 public final class TTCN_Runtime {
+	public enum executorStateEnum {
+		UNDEFINED_STATE,
+
+		SINGLE_CONTROLPART, SINGLE_TESTCASE,
+
+		HC_INITIAL, HC_IDLE, HC_CONFIGURING, HC_ACTIVE, HC_OVERLOADED,  HC_OVERLOADED_TIMEOUT, HC_EXIT,
+
+		MTC_INITIAL, MTC_IDLE, MTC_CONTROLPART, MTC_TESTCASE,
+		MTC_TERMINATING_TESTCASE, MTC_TERMINATING_EXECUTION, MTC_PAUSED,
+		MTC_CREATE, MTC_START, MTC_STOP, MTC_KILL, MTC_RUNNING, MTC_ALIVE,
+		MTC_DONE, MTC_KILLED, MTC_CONNECT, MTC_DISCONNECT, MTC_MAP, MTC_UNMAP,
+		MTC_CONFIGURING, MTC_EXIT,
+
+		PTC_INITIAL, PTC_IDLE, PTC_FUNCTION, PTC_CREATE, PTC_START, PTC_STOP,
+		PTC_KILL, PTC_RUNNING, PTC_ALIVE, PTC_DONE, PTC_KILLED, PTC_CONNECT,
+		PTC_DISCONNECT, PTC_MAP, PTC_UNMAP, PTC_STOPPED, PTC_EXIT
+	}
+	private static executorStateEnum executorState = executorStateEnum.UNDEFINED_STATE;
+
 	private static String component_type_module = null;
 	private static String component_type_name = null;
 	private static String component_name = null;
@@ -40,16 +59,143 @@ public final class TTCN_Runtime {
 		// private constructor to disable accidental instantiation
 	}
 
+	//originally get_state
+	public static executorStateEnum getState() {
+		return executorState;
+	}
+
+	// originally set_state
+	public static void setState(final executorStateEnum newState) {
+		executorState = newState;
+	}
+
+	//originally is_hc
+	public static boolean isHc() {
+		switch (executorState) {
+		case HC_INITIAL:
+		case HC_IDLE:
+		case HC_CONFIGURING:
+		case HC_ACTIVE:
+		case HC_OVERLOADED:
+		case HC_OVERLOADED_TIMEOUT:
+		case HC_EXIT:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	//originally is_mtc
+	public static boolean isMtc() {
+		switch (executorState) {
+		case MTC_INITIAL:
+		case MTC_IDLE:
+		case MTC_CONTROLPART:
+		case MTC_TESTCASE:
+		case MTC_TERMINATING_TESTCASE:
+		case MTC_TERMINATING_EXECUTION:
+		case MTC_PAUSED:
+		case MTC_CREATE:
+		case MTC_START:
+		case MTC_STOP:
+		case MTC_KILL:
+		case MTC_RUNNING:
+		case MTC_ALIVE:
+		case MTC_DONE:
+		case MTC_KILLED:
+		case MTC_CONNECT:
+		case MTC_DISCONNECT:
+		case MTC_MAP:
+		case MTC_UNMAP:
+		case MTC_CONFIGURING:
+		case MTC_EXIT:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	//originally is_ptc
+	public static boolean isPtc() {
+		switch (executorState) {
+		case PTC_INITIAL:
+		case PTC_IDLE:
+		case PTC_FUNCTION:
+		case PTC_CREATE:
+		case PTC_START:
+		case PTC_STOP:
+		case PTC_KILL:
+		case PTC_RUNNING:
+		case PTC_ALIVE:
+		case PTC_DONE:
+		case PTC_KILLED:
+		case PTC_CONNECT:
+		case PTC_DISCONNECT:
+		case PTC_MAP:
+		case PTC_UNMAP:
+		case PTC_STOPPED:
+		case PTC_EXIT:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	//originally is_tc
+	public static boolean isTc() {
+		return isMtc() || isPtc();
+	}
+
+	//originally is_single
+	public static boolean isSingle() {
+		switch (executorState) {
+		case SINGLE_CONTROLPART:
+		case SINGLE_TESTCASE:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	//originally is_undefined
+	public static boolean isUndefined() {
+		return executorState == executorStateEnum.UNDEFINED_STATE;
+	}
+
+	//originally is_idle
+	public static boolean isIdle() {
+		switch (executorState) {
+		case HC_IDLE:
+		case HC_ACTIVE:
+		case HC_OVERLOADED:
+		case MTC_IDLE:
+		case PTC_IDLE:
+		case PTC_STOPPED:
+			return true;
+		default:
+			return false;
+		}
+	}
+
+	//originally is_overloaded
+	public static boolean isOverloaded() {
+		switch(executorState) {
+		case HC_OVERLOADED:
+		case HC_OVERLOADED_TIMEOUT:
+			return true;
+		default:
+			return false;
+		}
+	}
+
 	//originally in_controlpart
 	private static boolean inControlPart() {
-		//FIXME implement
-		return false;
+		return executorState == executorStateEnum.SINGLE_CONTROLPART || executorState == executorStateEnum.MTC_CONTROLPART;
 	}
 
 	//originally verdict_enabled
 	private static boolean verdictEnabled() {
-		//FIXME implement
-		return true;
+		return executorState == executorStateEnum.SINGLE_TESTCASE || isMtc() || isPtc();
 	}
 
 	public static void begin_controlpart(final String moduleName) {
@@ -79,6 +225,17 @@ public final class TTCN_Runtime {
 	// originally TTCN_Runtime::begin_testcase
 	//FIXME this is more complex
 	public static void begin_testcase(final String moduleName, final String testcaseName, final String componentName, final boolean hasTimer, final TitanFloat timerValue) {
+		switch (executorState) {
+		case SINGLE_CONTROLPART:
+			executorState = executorStateEnum.SINGLE_TESTCASE;
+			break;
+		case MTC_CONTROLPART:
+			//FIXME implement
+			executorState = executorStateEnum.MTC_TESTCASE;
+			break;
+		default:
+			throw new TtcnError("Internal error: Executing a test case in an invalid state.");
+		}
 		TitanTimer.saveControlTimers();
 		TTCN_Default.save_control_defaults();
 		setTestcaseName(moduleName, testcaseName);
@@ -96,8 +253,38 @@ public final class TTCN_Runtime {
 	//originally TTCN_Runtime::end_testcase
 	// FIXME this is more complex
 	public static VerdictTypeEnum end_testcase() {
+		switch (executorState) {
+		case MTC_CREATE:
+		case MTC_START:
+		case MTC_STOP:
+		case MTC_KILL:
+		case MTC_RUNNING:
+		case MTC_ALIVE:
+		case MTC_DONE:
+		case MTC_KILLED:
+		case MTC_CONNECT:
+		case MTC_DISCONNECT:
+		case MTC_MAP:
+		case MTC_UNMAP:
+			executorState = executorStateEnum.MTC_TESTCASE;
+		case MTC_TESTCASE:
+			break;
+		case SINGLE_TESTCASE:
+			// implement disable_interrupt_handler();
+			break;
+		default:
+			throw new TtcnError("Internal error: Ending a testcase in an invalid state.");
+		}
 		TitanTimer.testcaseTimer.stop();
 		terminate_component_type();
+
+		if (executorState == executorStateEnum.MTC_TESTCASE) {
+			// FIXME implement
+			executorState = executorStateEnum.MTC_TERMINATING_TESTCASE;
+		} else if (executorState == executorStateEnum.SINGLE_TESTCASE) {
+			executorState = executorStateEnum.SINGLE_CONTROLPART;
+			// FIXME implement
+		}
 
 		if (verdictReason == null || verdictReason.length() == 0) {
 			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict %s", testcaseDefinitionName, localVerdict.getName());
@@ -112,6 +299,17 @@ public final class TTCN_Runtime {
 
 		TTCN_Default.restoreControlDefaults();
 		TitanTimer.restore_control_timers();
+
+		if (executorState == executorStateEnum.MTC_PAUSED) {
+			// FIXME logging
+			if (executorState != executorStateEnum.MTC_TERMINATING_EXECUTION) {
+				// FIXME logging
+			}
+		}
+		if (executorState == executorStateEnum.MTC_TERMINATING_EXECUTION) {
+			executorState = executorStateEnum.MTC_CONTROLPART;
+			// FIXME logging + implement
+		}
 
 		//FIXME this is more complex
 		return localVerdict;
@@ -199,8 +397,7 @@ public final class TTCN_Runtime {
 
 	//originally get_testcasename
 	public static TitanCharString get_testcasename() {
-		//FIXME is_hc needed once ready
-		if (inControlPart()) {
+		if (inControlPart() || isHc()) {
 			return new TitanCharString("");
 		}
 
@@ -347,11 +544,19 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Done operation cannot be performed on the component reference of MTC.");
 		case TitanComponent.SYSTEM_COMPREF:
 			throw new TtcnError("Done operation cannot be performed on the component reference of system.");
+		case TitanComponent.ANY_COMPREF:
+			throw new TtcnError("Done operation with return value cannot be performed on 'any component'.");
+		case TitanComponent.ALL_COMPREF:
+			throw new TtcnError("Done operation with return value cannot be performed on 'all component'.");
 		default:
-			//FIXME implement rest of the branches
-			throw new TtcnError("component_done is not yet supported!");
+			break;
+		}
+
+		if (isSingle()) {
+			throw new TtcnError("Done operation on a component reference cannot be performed in single mode.");
 		}
 		//FIXME implement
+		throw new TtcnError("component_done is not yet supported!");
 	}
 
 	//originally component_killed, with component parameter

@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
+
 /**
  * The class handling single mode operations.
  * 
@@ -23,7 +25,7 @@ public final class Runtime_Single_main {
 	//FIXME this is much more complicated
 	public static void singleMain() {
 		TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
-
+		TTCN_Runtime.setState(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
 		TtcnLogger.initialize_logger();
 
