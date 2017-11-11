@@ -224,6 +224,7 @@ public final class Bit2HexExpression extends Expression_Value {
 			if (bytes4.length > subindex) {
 				index += ('1' == bytes4[subindex] ? 1 : 0);
 			}
+			subindex++;
 			builder.append(digits[index]);
 		}
 
