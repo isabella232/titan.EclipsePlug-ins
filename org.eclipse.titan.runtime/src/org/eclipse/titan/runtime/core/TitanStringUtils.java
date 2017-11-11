@@ -34,6 +34,23 @@ public class TitanStringUtils {
 	}
 
 	/**
+	 * Creates a new integer list with new elements
+	 * @param srcList source list to copy
+	 * @return new list instance
+	 */
+	static final List<Integer> copyIntegerList( final List<Integer> srcList ) {
+		if ( srcList == null ) {
+			return null;
+		}
+
+		final List<Integer> newList = new ArrayList<Integer>( srcList.size() );
+		for (Integer uc : srcList) {
+			newList.add( Integer.valueOf( uc ) );
+		}
+		return newList;
+	}
+
+	/**
 	 * Creates a new char (2 bytes) list with new elements
 	 * @param srcList source list to copy
 	 * @return new list instance

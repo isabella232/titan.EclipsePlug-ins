@@ -35,7 +35,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * Each element occupies one byte. Meaning of values:
 	 * 0 -> 0, 1 -> 1, 2 -> ?, 3 -> *
 	 */
-	private List<Byte> pattern_value;
+	private List<Integer> pattern_value;
 
 	/** reference counter for pattern_value */
 	private int pattern_value_ref_count;
@@ -54,7 +54,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanBitString_template (final List<Byte> otherValue, final int aNoBits) {
+	public TitanBitString_template (final List<Integer> otherValue, final int aNoBits) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue, aNoBits);
 	}
@@ -88,9 +88,9 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		copyTemplate(otherValue);
 	}
 
-	public TitanBitString_template( final List<Byte> pattern_elements ) {
+	public TitanBitString_template( final List<Integer> pattern_elements ) {
 		super( template_sel.STRING_PATTERN );
-		pattern_value = TitanStringUtils.copyByteList( pattern_elements );
+		pattern_value = TitanStringUtils.copyIntegerList( pattern_elements );
 	}
 
 	public TitanBitString_template( final String patternString ) {
@@ -98,11 +98,11 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		pattern_value = patternString2List( patternString );
 	}
 
-	private static List<Byte> patternString2List( final String patternString ) {
+	private static List<Integer> patternString2List( final String patternString ) {
 		if ( patternString == null ) {
 			throw new TtcnError("Internal error: bitstring pattern is null.");
 		}
-		final List<Byte> result = new ArrayList<Byte>();
+		final List<Integer> result = new ArrayList<Integer>();
 		for ( int i = 0; i < patternString.length(); i++ ) {
 			final char patternChar = patternString.charAt(i);
 			result.add( patternChar2byte( patternChar ) );
@@ -110,8 +110,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return result;
 	}
 
-	private static byte patternChar2byte( final char patternChar ) {
-		for ( byte j = 0; j < patterns.length; j++ ) {
+	private static int patternChar2byte( final char patternChar ) {
+		for ( int j = 0; j < patterns.length; j++ ) {
 			if ( patternChar == patterns[ j ] ) {
 				return j;
 			}
@@ -184,7 +184,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	//originally operator=
-	public TitanBitString_template assign( final List<Byte> otherValue, final int aNoBits ) {
+	public TitanBitString_template assign( final List<Integer> otherValue, final int aNoBits ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue, aNoBits);
@@ -372,7 +372,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * The only differences are: how two elements are matched and
 	 * how an asterisk or ? is identified in the template
 	 */
-	private boolean match_pattern( final List<Byte> string_pattern, final TitanBitString string_value )	{
+	private boolean match_pattern( final List<Integer> string_pattern, final TitanBitString string_value )	{
 		final int stringPatternSize = string_pattern.size();
 		final int stringValueNBits = string_value.getNBits();
 		if ( stringPatternSize == 0 ) {
@@ -557,7 +557,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:
 			TtcnLogger.log_char('\'');
 		    for ( int i = 0; i < pattern_value.size(); i++ ) {
-		        byte pattern = pattern_value.get( i );
+		        int pattern = pattern_value.get( i );
 		        if (pattern < 4) {
 		        	TtcnLogger.log_char(patterns[pattern]);
 		        } else {

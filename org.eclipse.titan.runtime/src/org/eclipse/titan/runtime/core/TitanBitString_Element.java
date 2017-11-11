@@ -95,18 +95,18 @@ public class TitanBitString_Element {
 		otherValue.mustBound("Unbound right operand of bitstring concatenation.");
 
 		final int n_bits = otherValue.lengthOf().getInt();
-		final List<Byte> result = new ArrayList<Byte>();
-		final List<Byte> temp = new ArrayList<Byte>(otherValue.getValue());
 		final int n_bytes = (n_bits + 7) / 8;
-		
+		final List<Integer> result = new ArrayList<Integer>(n_bytes);
+		final List<Integer> temp = new ArrayList<Integer>(otherValue.getValue());
+
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
-			result.add((byte)0);
+			result.add(0);
 		}
-		result.set(0,(byte)(get_bit() ? 1 : 0));
+		result.set(0,get_bit() ? 1 : 0);
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
-			result.set(byte_count, (byte)(result.get(byte_count) | temp.get(byte_count) << 1));
+			result.set(byte_count, (result.get(byte_count) | temp.get(byte_count) << 1) & 0xFF);
 			if(n_bits > byte_count * 8 + 7){
-				result.set(byte_count+1, (byte)((temp.get(byte_count) & 128) >> 7));
+				result.set(byte_count+1, (temp.get(byte_count) & 128) >> 7);
 			}
 		}
 
@@ -122,8 +122,8 @@ public class TitanBitString_Element {
 		if (otherValue.get_bit()) {
 			result = result | 2;
 		}
-		final ArrayList<Byte> temp_ptr = new ArrayList<Byte>();
-		temp_ptr.add((byte)result);
+		final ArrayList<Integer> temp_ptr = new ArrayList<Integer>();
+		temp_ptr.add(result);
 		return new TitanBitString( temp_ptr, 2 );
 	}
 
@@ -131,9 +131,9 @@ public class TitanBitString_Element {
 	public TitanBitString not4b()	{
 		mustBound("Unbound bitstring element operand of operator not4b.");
 
-		final byte result = (byte) (str_val.getBit(bit_pos) ? 0 : 1);
+		final int result = str_val.getBit(bit_pos) ? 0 : 1;
 		//FIXME: can be faster
-		final List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Integer> dest_ptr = new ArrayList<Integer>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -148,9 +148,9 @@ public class TitanBitString_Element {
 		}
 
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.getBit(0);
-		final byte result = (byte) (temp ? 1 : 0);
+		final int result = temp ? 1 : 0;
 		//FIXME: can be faster
-		final List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Integer> dest_ptr = new ArrayList<Integer>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -161,9 +161,9 @@ public class TitanBitString_Element {
 		otherValue.mustBound("Right operand of operator and4b is an unbound bitstring element.");
 
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.get_bit();
-		final byte result = (byte) (temp ? 1 : 0);
+		final int result = temp ? 1 : 0;
 		//FIXME: can be faster
-		final List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Integer> dest_ptr = new ArrayList<Integer>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -178,9 +178,9 @@ public class TitanBitString_Element {
 		}
 
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.getBit(0);
-		final byte result = (byte) (temp ? 1 : 0);
+		final int result = temp ? 1 : 0;
 		//FIXME: can be faster
-		final List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Integer> dest_ptr = new ArrayList<Integer>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -191,9 +191,9 @@ public class TitanBitString_Element {
 		otherValue.mustBound("Right operand of operator or4b is an unbound bitstring element.");
 
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.get_bit();
-		final byte result = (byte) (temp ? 1 : 0);
+		final int result = temp ? 1 : 0;
 		//FIXME: can be faster
-		final List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Integer> dest_ptr = new ArrayList<Integer>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -208,9 +208,9 @@ public class TitanBitString_Element {
 		}
 
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.getBit(0);
-		final byte result = (byte) (temp ? 1 : 0);
+		final int result = temp ? 1 : 0;
 		//FIXME: can be faster
-		final List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Integer> dest_ptr = new ArrayList<Integer>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
@@ -221,9 +221,9 @@ public class TitanBitString_Element {
 		otherValue.mustBound("Right operand of operator xor4b is an unbound bitstring element.");
 
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.get_bit();
-		final byte result = (byte) (temp ? 1 : 0);
+		final int result = temp ? 1 : 0;
 		//FIXME: can be faster
-		final List<Byte> dest_ptr = new ArrayList<Byte>();
+		final List<Integer> dest_ptr = new ArrayList<Integer>();
 		dest_ptr.add(result);
 		return new TitanBitString( dest_ptr,1 );
 	}
