@@ -30,6 +30,9 @@ public class JavaGenData {
 	/** the contents of post_init */
 	private StringBuilder postInit;
 
+	/** the contents of set_module_param */
+	private StringBuilder setModuleParameters;
+
 	/** the contents of init_comp_type */
 	private StringBuilder initComp;
 
@@ -65,6 +68,7 @@ public class JavaGenData {
 		mSrc = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
+		setModuleParameters = new StringBuilder();
 		initComp = new StringBuilder();
 
 		// TreeSet keeps elements in natural order (alphabetical)
@@ -131,6 +135,16 @@ public class JavaGenData {
 		return postInit;
 	}
 
+	/**
+	 * @return the string where the module parameter setting code is written
+	 */
+	public StringBuilder getSetModuleParameters () {
+		return setModuleParameters;
+	}
+
+	/**
+	 * @return the string where new init comp code is written
+	 */
 	public StringBuilder getInitComp() {
 		return initComp;
 	}

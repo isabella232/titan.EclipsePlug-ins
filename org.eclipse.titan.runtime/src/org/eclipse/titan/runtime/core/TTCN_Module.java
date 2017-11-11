@@ -26,6 +26,10 @@ public class TTCN_Module {
 		this.moduleType = moduleType;
 	}
 
+	public boolean set_module_param() {
+		return false;
+	}
+
 	public void pre_init_module() {
 		//intentionally left empty
 	}

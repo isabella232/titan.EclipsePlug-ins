@@ -253,25 +253,30 @@ public class ProjectSourceCompiler {
 	 * @param aData data collected during code generation, we need the include files form it
 	 */
 	private static void writeFooter( final JavaGenData aData) {
+		//TODO only print stuff when it is needed
 		StringBuilder aSb = aData.getSrc();
-		aSb.append('\n' );
-		aSb.append("public void pre_init_module()").append('\n' );
-		aSb.append('{').append('\n' );
-		aSb.append(aData.getPreInit());
-		aSb.append("").append('\n' );
-		aSb.append('}').append('\n' );
+		aSb.append("public boolean set_module_param()\n");
+		aSb.append("{\n");
+		aSb.append("//FIXME initial implementation\n");
+		aSb.append(aData.getSetModuleParameters());
+		aSb.append("return false;\n");
+		aSb.append("}\n\n");
 
-		aSb.append("public void post_init_module()").append('\n' );
-		aSb.append('{').append('\n' );
+		aSb.append("public void pre_init_module()\n");
+		aSb.append("{\n");
+		aSb.append(aData.getPreInit());
+		aSb.append("}\n\n");
+
+		aSb.append("public void post_init_module()\n");
+		aSb.append("{\n");
 		aSb.append(aData.getPostInit());
-		aSb.append("").append('\n' );
-		aSb.append('}').append('\n' );
+		aSb.append("}\n\n");
 
 		aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps)\n");
 		aSb.append("{\n");
 		aSb.append(aData.getInitComp());
 		aSb.append("return false;\n");
-		aSb.append("}\n");
+		aSb.append("}\n\n");
 
 		aSb.append( "}\n" );
 	}
