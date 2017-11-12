@@ -196,4 +196,22 @@ public abstract class Base_Template {
 		TtcnLogger.log_event_str( ".set_param() is not yet implemented!\n" );
 		TtcnLogger.end_event();
 	}
+
+	public void encode_text(final Text_Buf text_buf) {
+		// TODO once the internal encoding is implemented for all classes this function should become abstract
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".encode_text() is not yet implemented!\n" );
+		TtcnLogger.end_event();
+	}
+
+	public void decode_text(final Text_Buf text_buf) {
+		// TODO once the internal decoding is implemented for all classes this function should become abstract
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".decode_text() is not yet implemented!\n" );
+		TtcnLogger.end_event();
+	}
 }
