@@ -255,9 +255,10 @@ public class ProjectSourceCompiler {
 	private static void writeFooter( final JavaGenData aData) {
 		final StringBuilder aSb = aData.getSrc();
 		if (aData.getSetModuleParameters().length() > 0) {
-			aSb.append("public boolean set_module_param()\n");
+			aSb.append("public boolean set_module_param(final Module_Parameter param)\n");
 			aSb.append("{\n");
 			aSb.append("//FIXME initial implementation\n");
+			aSb.append("final String par_name = \"\";//FIXME implement\n");
 			aSb.append(aData.getSetModuleParameters());
 			aSb.append("return false;\n");
 			aSb.append("}\n\n");

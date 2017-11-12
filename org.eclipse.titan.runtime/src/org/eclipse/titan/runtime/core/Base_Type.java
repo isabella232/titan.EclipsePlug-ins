@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+
 /**
  * TTCN-3 boolean
  * @author Kristof Szabados
@@ -28,4 +30,13 @@ public abstract class Base_Type {
 
 	public abstract Base_Type assign( final Base_Type otherValue );
 	public abstract void log();
+
+	public void set_param (final Module_Parameter param) {
+		// TODO once the setting module parameters is implemented for all classes this function should become abstract
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".set_param() is not yet implemented!\n" );
+		TtcnLogger.end_event();
+	}
 }

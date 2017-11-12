@@ -9,6 +9,8 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+
 /**
  * Base_Template in core
  *
@@ -179,8 +181,19 @@ public abstract class Base_Template {
 	public void log_match(final Base_Type match_value, final boolean legacy) {
 		//do nothing for now.
 		// TODO once the log_match is implemented for all classes this function should become abstract
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
 		TtcnLogger.log_event_str( "//TODO: " );
 		TtcnLogger.log_event_str( getClass().getSimpleName() );
 		TtcnLogger.log_event_str( ".log_match() is not implemented!\n" );
+		TtcnLogger.end_event();
+	}
+
+	public void set_param (final Module_Parameter param) {
+		// TODO once the setting module parameters is implemented for all classes this function should become abstract
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".set_param() is not yet implemented!\n" );
+		TtcnLogger.end_event();
 	}
 }
