@@ -185,7 +185,7 @@ public class EnumeratedGenerator {
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
 		generateTemplateLog(source, e_defs.name);
-		generateTemplateLogMatch(source, e_defs.name);
+		generateTemplateLogMatch(source, e_defs.name, e_defs.displayName);
 
 		//FIXME implement encode
 		//FIXME implement decode
@@ -880,7 +880,16 @@ public class EnumeratedGenerator {
 		source.append("}\n");
 	}
 
-	private static void generateTemplateLogMatch(final StringBuilder source, final String name ){
+	private static void generateTemplateLogMatch(final StringBuilder source, final String name, final String displayName ){
+		source.append("@Override\n");
+		source.append("public void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append(MessageFormat.format("if (match_value instanceof {0}) '{'\n", name));
+		source.append(MessageFormat.format("log_match(({0})match_value, legacy);\n", name));
+		source.append("return;\n");
+		source.append("}\n\n");
+		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("}\n");
+
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy)'{'\n",name));
 		source.append("match_value.log();\n");
 		source.append("TtcnLogger.log_event_str(\" with \");\n");
