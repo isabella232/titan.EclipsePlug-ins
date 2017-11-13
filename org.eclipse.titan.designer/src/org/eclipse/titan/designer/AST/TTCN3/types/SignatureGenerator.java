@@ -168,9 +168,25 @@ public class SignatureGenerator {
 			}
 		}
 
+		source.append("public void encode_text(final Text_Buf text_buf) {");
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
 
-		source.append("// FIXME implement encode_text\n");
-		source.append("// FIXME implement decode_text\n");
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("param_{0}.encode_text(text_buf);\n", formalPar.mJavaName));
+			}
+		}
+		source.append("}\n");
+
+		source.append("public void decode_text(final Text_Buf text_buf) {");
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("param_{0}.decode_text(text_buf);\n", formalPar.mJavaName));
+			}
+		}
+		source.append("}\n");
 
 		source.append("public void log() {");
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : '{' \");\n", def.displayName));
@@ -266,8 +282,31 @@ public class SignatureGenerator {
 				source.append("}\n");
 			}
 
-			source.append("// FIXME implement encode_text\n");
-			source.append("// FIXME implement decode_text\n");
+			source.append("public void encode_text(final Text_Buf text_buf) {");
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					source.append(MessageFormat.format("param_{0}.encode_text(text_buf);\n", formalPar.mJavaName));
+				}
+			}
+			if (def.returnType != null) {
+				source.append("reply_value.encode_text(text_buf);\n");
+			}
+			source.append("}\n");
+
+			source.append("public void decode_text(final Text_Buf text_buf) {");
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					source.append(MessageFormat.format("param_{0}.decode_text(text_buf);\n", formalPar.mJavaName));
+				}
+			}
+			if (def.returnType != null) {
+				source.append("reply_value.decode_text(text_buf);\n");
+			}
+			source.append("}\n");
 
 			source.append("public void log() {\n");
 			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : '{' \");\n", def.displayName));
@@ -395,6 +434,14 @@ public class SignatureGenerator {
 			source.append("return exception_selection;\n");
 			source.append("}\n");
 
+			source.append("public void encode_text(final Text_Buf text_buf) {");
+			source.append("// FIXME implement encode_text\n");
+			source.append("}\n");
+
+			source.append("public void decode_text(final Text_Buf text_buf) {");
+			source.append("// FIXME implement decode_text\n");
+			source.append("}\n");
+
 			source.append("public void log() {\n");
 			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}, \");\n", def.displayName));
 			source.append("switch (exception_selection) {\n");
@@ -411,8 +458,6 @@ public class SignatureGenerator {
 			source.append("}\n");
 			source.append("}\n");
 
-			source.append("// FIXME implement encode_text\n");
-			source.append("// FIXME implement decode_text\n");
 			source.append("}\n");
 
 			source.append(MessageFormat.format("public static class {0}_exception_template '{'\n", def.genName));
