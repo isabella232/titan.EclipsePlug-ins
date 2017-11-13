@@ -700,7 +700,41 @@ public class TitanPort {
 		return TitanComponent.SYSTEM_COMPREF;
 	}
 
+	protected void prepare_message(final Text_Buf outgoing_buf, final String message_type) {
+		throw new TtcnError("prepare_message not yet implemented");
+	}
 
+	protected void prepare_call(final Text_Buf outgoing_buf, final String signature_name) {
+		throw new TtcnError("prepare_call not yet implemented");
+	}
+
+	protected void prepare_reply(final Text_Buf outgoing_buf, final String signature_name) {
+		throw new TtcnError("prepare_reply not yet implemented");
+	}
+
+	protected void prepare_exception(final Text_Buf outgoing_buf, final String signature_name) {
+		throw new TtcnError("prepare_exception not yet implemented");
+	}
+
+	protected void send_data(final Text_Buf outgoing_buf, final TitanComponent destination_component) {
+		throw new TtcnError(MessageFormat.format("Sending messages on port {0}, is not yet supported.", getName()));
+	}
+
+	protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {
+		return false;
+	}
+
+	protected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
+		return false;
+	}
+
+	protected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
+		return false;
+	}
+
+	protected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {
+		return false;
+	}
 
 	// FIXME handle translation ports
 	private final void map(final String systemPort) {

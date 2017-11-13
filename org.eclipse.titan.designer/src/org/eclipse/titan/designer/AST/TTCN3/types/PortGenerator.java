@@ -114,10 +114,12 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport( "TitanPort" );
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "TitanComponent");
+		aData.addBuiltinTypeImport( "TitanOctetString");
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		aData.addBuiltinTypeImport("TtcnLogger");
 		aData.addBuiltinTypeImport("TtcnLogger.Port_Queue_operation");
+		aData.addCommonLibraryImport("Text_Buf");
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
 		}
@@ -158,6 +160,8 @@ public class PortGenerator {
 				generateGenericReceive(source, portDefinition, true, true);
 				generateGenericTrigger(source, portDefinition, true);
 			}
+
+			generateProcessMessage(source, portDefinition);
 		}
 
 		// generic and simplified receive for experimentation
@@ -502,8 +506,10 @@ public class PortGenerator {
 			source.append(");\n");
 		}
 		source.append("} else {\n");
-		source.append("//FIXME implement\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Sending messages on port {0}, is not yet supported.\", getName()));\n");
+		source.append("Text_Buf text_buf = new Text_Buf();\n");
+		source.append(MessageFormat.format("prepare_message(text_buf, \"{0}\");\n",outType.mDisplayName));
+		source.append("send_par.encode_text(text_buf);\n");
+		source.append("send_data(text_buf, destination_component);\n");
 		source.append("}\n");
 		source.append("}\n\n");
 
@@ -851,6 +857,29 @@ public class PortGenerator {
 	}
 
 	/**
+	 * This function generates the process_message function for a type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * */
+	private static void generateProcessMessage(final StringBuilder source, final PortDefinition portDefinition) {
+		source.append("protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
+		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+			final messageTypeInfo inType = portDefinition.inMessages.get(i);
+			
+			source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+			source.append(MessageFormat.format("{0} incoming_par = new {0}();\n", inType.mJavaTypeName));
+			source.append("incoming_par.decode_text(incoming_buf);\n");
+			source.append("incoming_message(incoming_par, sender_component);\n");
+			source.append("return true;\n");
+			source.append("} else ");
+		}
+
+		source.append("return false;\n");
+		source.append("}\n\n");
+	}
+
+	/**
 	 * This function generates the call function for a signature
 	 *
 	 * @param source where the source code is to be generated.
@@ -878,8 +907,10 @@ public class PortGenerator {
 		}
 
 		source.append("} else {\n");
-		source.append("//FIXME implement\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Calling a signature on port {0}, is not yet supported.\", getName()));\n");
+		source.append("Text_Buf text_buf = new Text_Buf();\n");
+		source.append(MessageFormat.format("prepare_call(text_buf, \"{0}\");\n", info.mDisplayName));
+		source.append("call_temp.encode_text(text_buf);\n");
+		source.append("send_data(text_buf, destination_component);\n");
 		source.append("}\n");
 		source.append("}\n\n");
 
@@ -927,8 +958,10 @@ public class PortGenerator {
 				source.append("outgoing_reply(reply_temp);\n");
 			}
 			source.append("} else {\n");
-			source.append("//FIXME implement\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Replying to a signature on port {0}, is not yet supported.\", getName()));\n");
+			source.append("Text_Buf text_buf = new Text_Buf();\n");
+			source.append(MessageFormat.format("prepare_reply(text_buf, \"{0}\");\n", info.mDisplayName));
+			source.append("reply_temp.encode_text(text_buf);\n");
+			source.append("send_data(text_buf, destination_component);\n");
 			source.append("}\n");
 			source.append("}\n\n");
 
@@ -976,8 +1009,10 @@ public class PortGenerator {
 				source.append("outgoing_raise(raise_exception);\n");
 			}
 			source.append("} else {\n");
-			source.append("//FIXME implement\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Raising an exception on port {0}, is not yet supported.\", getName()));\n");
+			source.append("Text_Buf text_buf = new Text_Buf();\n");
+			source.append(MessageFormat.format("prepare_exception(text_buf, \"{0}\");\n", info.mDisplayName));
+			source.append("raise_exception.encode_text(text_buf);\n");
+			source.append("send_data(text_buf, destination_component);\n");
 			source.append("}\n");
 			source.append("}\n\n");
 
@@ -1547,7 +1582,7 @@ public class PortGenerator {
 	 * @param portDefinition the definition of the port.
 	 * */
 	private static void generateProcessCall(final StringBuilder source, final PortDefinition portDefinition) {
-		source.append("protected boolean process_call(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
+		source.append("protected boolean process_call(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
 
@@ -1556,7 +1591,7 @@ public class PortGenerator {
 			}
 			source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 			source.append(MessageFormat.format("{0}_call incoming_par = new {0}_call();\n", info.mJavaTypeName));
-			source.append("//FIXME decode missing\n");
+			source.append("incoming_par.decode_text(incoming_buf);\n");
 			source.append("incoming_call(incoming_par);\n");
 			source.append("return true;\n");
 		}
@@ -1575,7 +1610,7 @@ public class PortGenerator {
 	 * @param portDefinition the definition of the port.
 	 * */
 	private static void generateProcessReply(final StringBuilder source, final PortDefinition portDefinition) {
-		source.append("protected boolean process_reply(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
+		source.append("protected boolean process_reply(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		boolean isFirst = true;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
@@ -1587,7 +1622,7 @@ public class PortGenerator {
 				isFirst = false;
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 				source.append(MessageFormat.format("{0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
-				source.append("//FIXME decode missing\n");
+				source.append("incoming_par.decode_text(incoming_buf);\n");
 				source.append("incoming_reply(incoming_par);\n");
 				source.append("return true;\n");
 			}
@@ -1607,7 +1642,7 @@ public class PortGenerator {
 	 * @param portDefinition the definition of the port.
 	 * */
 	private static void generateProcessException(final StringBuilder source, final PortDefinition portDefinition) {
-		source.append("protected boolean process_exception(final String signature_name /*FIXME incoming_buf*/, final int sender_component) {\n");
+		source.append("protected boolean process_exception(final String signature_name, final Text_Buf incoming_buf, final int sender_component) {\n");
 		boolean isFirst = true;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
@@ -1619,7 +1654,7 @@ public class PortGenerator {
 				isFirst = false;
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 				source.append(MessageFormat.format("{0}_exception incoming_par = new {0}_exception();\n", info.mJavaTypeName));
-				source.append("//FIXME decode missing\n");
+				source.append("incoming_par.decode_text(incoming_buf);\n");
 				source.append("incoming_exception(incoming_par);\n");
 				source.append("return true;\n");
 			}
