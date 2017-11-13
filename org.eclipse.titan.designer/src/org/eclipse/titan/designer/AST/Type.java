@@ -1758,23 +1758,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * Helper function used in generateCodeIspresentbound() for the
 	 * ispresent() function in case of template parameter.
 	 * 
+	 * @param expression the expression to generate code to (error messages if needed).
+	 * @param subreferences the subreferences to check.
+	 * @param beginIndex the index at which index the checking of subreferences should start.
 	 * @return true if the referenced field which is embedded into a "?" is always present,
 	 * otherwise returns false.
 	 * */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
-		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
-			return false;
-		}
-
-		if (beginIndex >= subreferences.size()) {
-			return false;
-		}
-
-		//FIXME implement
-		expression.expression.append( "//TODO: " );
-		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCodeIspresentBound() is not be implemented yet!\n" );
-
-		return false;
+		return true;
 	}
 }
