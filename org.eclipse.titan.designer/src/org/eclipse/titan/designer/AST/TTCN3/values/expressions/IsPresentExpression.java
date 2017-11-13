@@ -287,6 +287,8 @@ public final class IsPresentExpression extends Expression_Value {
 			final IValue value = ((SpecificValue_Template) template).getValue();
 			if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
 				result = value.evaluateIspresent(timestamp, ((Referenced_Value) value).getReference(), 1);
+			} else if (value.getValuetype() == Value_type.OMIT_VALUE){
+				result = false;
 			} else {
 				result = !value.getIsErroneous(timestamp);
 			}

@@ -244,10 +244,4 @@ public final class TeletexString_Type extends ASN1Type {
 			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
 		generateCodeIspresentBound_forStrings(aData, expression, subreferences, subReferenceIndex, globalId, externalId, isTemplate, isBound);
 	}
-
-	@Override
-	/** {@inheritDoc} */
-	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
-		return true;
-	}
 }

@@ -911,22 +911,22 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	/** {@inheritDoc} */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
-			return false;
+			return true;
 		}
 
 		if (beginIndex >= subreferences.size()) {
-			return false;
+			return true;
 		}
 
 		final ISubReference subReference = subreferences.get(beginIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");
-			return false;
+			return true;
 		}
 
 		if (elementType == null) {
-			return false;
+			return true;
 		}
 
 		return elementType.isPresentAnyvalueEmbeddedField(expression, subreferences, beginIndex + 1);
