@@ -5238,7 +5238,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("\"kar\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"abc\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("\"5.5\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("\"5.500000\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"01\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5261,7 +5261,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("\"kar\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"abc\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("\"5.5\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("\"5.500000\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"01\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5319,7 +5319,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("\"kar\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"abc\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("\"5.5\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("\"5.500000\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"01\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -5345,7 +5345,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("\"kar\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"abc\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("\"5.5\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("\"5.500000\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"01\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("\"\" is not a valid value for type `universal charstring' which has subtype (\"a\", \"b\", \"c\", \"d\", \"n\", \"something\")",  ++lineNum, IMarker.SEVERITY_ERROR));

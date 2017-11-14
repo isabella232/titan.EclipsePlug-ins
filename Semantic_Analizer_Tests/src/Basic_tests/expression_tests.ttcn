@@ -1715,8 +1715,8 @@ function f_float2strOperationTests()
   {var charstring 	vl_i := float2str(cg_float);}
 
    {const charstring cl_i := float2str(5.5);
-  	if (cl_i == "5.5") {}
-  	if (float2str(5.5) == "5.5") {}
+  	if (cl_i == "5.500000") {}
+  	if (float2str(5.5) == "5.500000") {}
   }
 
   {var charstring 	vl_i := float2str( omit );}
