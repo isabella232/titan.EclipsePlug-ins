@@ -73,7 +73,7 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (timerValue != null & timerValue.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (timerValue != null && timerValue.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 
