@@ -153,7 +153,7 @@ public final class Float2StrExpression extends Expression_Value {
 			return;
 		}
 	}
-	
+
 	//This function converts a float value to a String. 
 	//If the input is zero or its absolute value is between 10^-4 and 10^10 
 	//the decimal dot notation is used in the output with 6 digits in the fraction part. 
