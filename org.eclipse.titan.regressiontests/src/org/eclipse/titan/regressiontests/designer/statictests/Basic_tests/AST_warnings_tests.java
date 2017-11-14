@@ -946,12 +946,10 @@ public class AST_warnings_tests {
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 23;
-		for (i = 0; i < 3; i++) {
+		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 23;
+		lineNum += 22;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
