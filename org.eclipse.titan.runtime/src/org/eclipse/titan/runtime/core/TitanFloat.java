@@ -13,7 +13,7 @@ import java.text.MessageFormat;
  * TTCN-3 float
  * @author Arpad Lovassy
  * @author Farkas Izabella Ingrid
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanFloat extends Base_Type {
 	/**
@@ -21,10 +21,6 @@ public class TitanFloat extends Base_Type {
 	 */
 	private Ttcn3Float float_value;
 
-	//static members PLUS_INFINITY, MINUS_INFINITY, NOT_A_NUMBER
-	public static final double PLUS_INFINITY = Double.POSITIVE_INFINITY;
-	public static final double MINUS_INFINITY = Double.NEGATIVE_INFINITY;
-	public static final double NOT_A_NUMBER = Double.NaN;
 	public static final double MIN_DECIMAL_FLOAT = 1.0E-4;
 	public static final double MAX_DECIMAL_FLOAT = 1.0E+10;
 
@@ -104,7 +100,7 @@ public class TitanFloat extends Base_Type {
 
 	// isspecial
 	public static TitanBoolean isSpecial(final double aOtherValue) {
-		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || Double.isNaN(aOtherValue));
+		return new TitanBoolean(aOtherValue == Double.POSITIVE_INFINITY || aOtherValue == Double.NEGATIVE_INFINITY || Double.isNaN(aOtherValue));
 	}
 
 	/**
@@ -398,12 +394,12 @@ public class TitanFloat extends Base_Type {
 	}
 
 	static void log_float(final double float_val) {
-		if ((float_val > -TitanFloat.MAX_DECIMAL_FLOAT && float_val <= -TitanFloat.MIN_DECIMAL_FLOAT)
-				|| (float_val >= MIN_DECIMAL_FLOAT && float_val < TitanFloat.MAX_DECIMAL_FLOAT) || (float_val == 0.0)) {
+		if ((float_val > -MAX_DECIMAL_FLOAT && float_val <= -MIN_DECIMAL_FLOAT)
+				|| (float_val >= MIN_DECIMAL_FLOAT && float_val < MAX_DECIMAL_FLOAT) || (float_val == 0.0)) {
 			TtcnLogger.log_event("%f", float_val);
-		} else if (float_val == PLUS_INFINITY) {
+		} else if (float_val == Double.POSITIVE_INFINITY) {
 			TtcnLogger.log_event_str("infinity");
-		} else if (float_val == MINUS_INFINITY) {
+		} else if (float_val == Double.NEGATIVE_INFINITY) {
 			TtcnLogger.log_event_str("-infinity");
 		} else if (float_val != float_val) {
 			TtcnLogger.log_event_str("not_a_number");
