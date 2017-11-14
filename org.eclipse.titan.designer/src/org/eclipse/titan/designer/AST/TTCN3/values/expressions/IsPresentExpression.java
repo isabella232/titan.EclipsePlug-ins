@@ -133,6 +133,9 @@ public final class IsPresentExpression extends Expression_Value {
 		if (templateInstance.getDerivedReference() != null) {
 			return true;
 		}
+		if (template.getIfPresent()) {
+			return false;
+		}
 
 		if (Template_type.SPECIFIC_VALUE.equals(template.getTemplatetype())) {
 			final IValue specificValue = ((SpecificValue_Template) template).getValue();
@@ -198,6 +201,9 @@ public final class IsPresentExpression extends Expression_Value {
 			}
 			if (last == template) {
 				return last.getIsErroneous(timestamp);
+			}
+			if (last.getIfPresent()) {
+				return false;
 			}
 
 			if (Template_type.SPECIFIC_VALUE.equals(last.getTemplatetype())) {
@@ -275,7 +281,17 @@ public final class IsPresentExpression extends Expression_Value {
 		}
 
 		ITTCN3Template template = templateInstance.getTemplateBody();
+		if (template.getIfPresent()) {
+			lastValue = new Boolean_Value(false);
+			lastValue.copyGeneralProperties(this);
+			return lastValue;
+		}
 		template = template.getTemplateReferencedLast(timestamp);
+		if (template.getIfPresent()) {
+			lastValue = new Boolean_Value(false);
+			lastValue.copyGeneralProperties(this);
+			return lastValue;
+		}
 		boolean result = false;
 		if (template.getTemplatetype() == Template_type.TEMPLATE_REFD) {
 			final TTCN3Template last = template.getTemplateReferencedLast(timestamp);
