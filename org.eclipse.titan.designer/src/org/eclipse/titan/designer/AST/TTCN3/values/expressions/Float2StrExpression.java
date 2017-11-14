@@ -35,6 +35,10 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class Float2StrExpression extends Expression_Value {
 	private static final String OPERANDERROR = "The operand of the `float2str' operation should be a float value";
 
+	//see also TitanFloat.java
+	public static final double MIN_DECIMAL_FLOAT = 1.0E-4;
+	public static final double MAX_DECIMAL_FLOAT = 1.0E+10;
+	
 	private final Value value;
 
 	public Float2StrExpression(final Value value) {
@@ -149,6 +153,28 @@ public final class Float2StrExpression extends Expression_Value {
 			return;
 		}
 	}
+	
+	//This function converts a float value to a String. 
+	//If the input is zero or its absolute value is between 10^-4 and 10^10 
+	//the decimal dot notation is used in the output with 6 digits in the fraction part. 
+	//Otherwise the exponential notation is used with automatic (at most 6) digits precision in the mantissa.
+	//See also TitanFloat.java/log_float() and the reference guide
+	private String float2str(final double float_val){
+		String retval = null;
+		if (( -MAX_DECIMAL_FLOAT < float_val && float_val <= -MIN_DECIMAL_FLOAT)
+			|| ( MIN_DECIMAL_FLOAT <= float_val && float_val < MAX_DECIMAL_FLOAT) || (float_val == 0.0)) {
+			retval = String.format("%f", float_val);
+		} else if (float_val == Double.POSITIVE_INFINITY) {
+			retval = "infinity";
+		} else if (float_val == Double.NEGATIVE_INFINITY) {
+			retval = "-infinity";
+		} else if (float_val != float_val) {
+			retval = "not_a_number";
+		} else {
+			retval = String.format("%e", float_val);
+		}
+		return retval;
+	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -184,10 +210,8 @@ public final class Float2StrExpression extends Expression_Value {
 
 		switch (last.getValuetype()) {
 		case REAL_VALUE:
-			final double temp = ((Real_Value) last).getValue();
-			final StringBuilder builder = new StringBuilder();
-			builder.append(temp);
-			lastValue = new Charstring_Value(builder.toString());
+			final double double_val = ((Real_Value) last).getValue();
+			lastValue = new Charstring_Value( float2str( double_val));
 			break;
 		default:
 			return this;
