@@ -279,6 +279,7 @@ public final class For_Statement extends Statement {
 			stepAssignment.check(timestamp);
 		}
 		if (statementblock != null) {
+			statementblock.setMyLaicStmt(null,this);
 			statementblock.check(timestamp);
 			//warning for "return" has been removed. Not valid problem
 		}

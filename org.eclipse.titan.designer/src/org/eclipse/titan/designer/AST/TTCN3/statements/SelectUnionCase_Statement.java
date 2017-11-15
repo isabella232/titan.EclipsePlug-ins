@@ -133,6 +133,11 @@ public final class SelectUnionCase_Statement extends Statement {
 	}
 
 	@Override
+	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		selectUnionCases.setMyLaicStmt(pAltGuards, pLoopStmt);
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {

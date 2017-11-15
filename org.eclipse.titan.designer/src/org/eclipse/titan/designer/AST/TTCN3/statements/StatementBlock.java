@@ -553,6 +553,12 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		}
 	}
 
+	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		for(Statement statment : statements) {
+			statment.setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
+	}
+
 	/**
 	 * Does the semantic checking of the statement block.
 	 *

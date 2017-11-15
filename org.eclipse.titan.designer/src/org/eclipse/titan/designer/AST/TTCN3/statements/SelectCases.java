@@ -267,4 +267,10 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 
 		source.append(init);
 	}
+
+	public void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		for (SelectCase selectCase : select_cases) {
+			selectCase.getStatementBlock().setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
+	}
 }

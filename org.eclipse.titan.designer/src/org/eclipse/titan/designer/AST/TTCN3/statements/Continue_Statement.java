@@ -8,17 +8,22 @@
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * @author Kristof Szabados
+ * @author Farkas Izabella Ingrid
  * */
 public final class Continue_Statement extends Statement {
 	private static final String INCORRECTUSAGE = "Continue statement cannot be used outside loops";
 
 	private static final String STATEMENT_NAME = "continue";
+
+	private Statement loop_stmt;
+	private AltGuards altGuards;
 
 	@Override
 	/** {@inheritDoc} */
@@ -39,6 +44,14 @@ public final class Continue_Statement extends Statement {
 	}
 
 	@Override
+	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		if (pLoopStmt != null) {
+			loop_stmt = pLoopStmt;
+		}
+		altGuards = pAltGuards;
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -47,6 +60,18 @@ public final class Continue_Statement extends Statement {
 		if (myStatementBlock == null || !myStatementBlock.hasEnclosingLoop()) {
 			location.reportSemanticError(INCORRECTUSAGE);
 		}
+		
+		if (loop_stmt != null) {
+			// FIXME:
+			// loop_stmt->loop.has_cnt=true;
+			if (altGuards != null) {
+				//FIXME:
+				// loop_stmt->loop.has_cnt_in_ags=true;
+			}
+		} else {
+			location.reportSemanticError(INCORRECTUSAGE);
+		}
+		
 		lastTimeChecked = timestamp;
 	}
 
@@ -63,5 +88,25 @@ public final class Continue_Statement extends Statement {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		 // not inside interleave when continue is not inside embedded ags (2 or 1)
+	    // continue is inside ags enclosed in the loop (3)
+	    // in interleave (3, 2 or 1)
+		//FIXME: implement
+		if (loop_stmt != null) {
+			if (altGuards != null) { // iterate_once, is_ilt
+				source.append("break;\n");
+			}
+			else {
+				// if !brk_cnt.loop_stmt->loop.label_next
+				source.append("continue;\n");
+			}
+		} else {
+			// FIXME: FATAL_ERROR("Statement::generate_code_continue()");
+		}
 	}
 }
