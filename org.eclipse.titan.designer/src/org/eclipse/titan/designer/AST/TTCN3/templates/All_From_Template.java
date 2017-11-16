@@ -117,7 +117,11 @@ public class All_From_Template extends TTCN3Template {
 		if (allFrom != null) {
 			allFrom.setMyGovernor(null);
 			final ITTCN3Template temp = allFrom.setLoweridToReference(timestamp);
-			return temp.getExpressionGovernor(timestamp, expectedValue);
+			final IType type = temp.getExpressionGovernor(timestamp, expectedValue);
+			if (temp.getIsErroneous(timestamp)) {
+				isErroneous = true;
+			}
+			return type;
 		}
 
 		return null;

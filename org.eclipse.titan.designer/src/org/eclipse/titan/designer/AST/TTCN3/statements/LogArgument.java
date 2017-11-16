@@ -161,7 +161,9 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			}
 
 			if (governor == null) {
-				getLocation().reportSemanticError("Cannot determine the type of the argument");
+				if (!template.getIsErroneous(timestamp)) {
+					getLocation().reportSemanticError("Cannot determine the type of the argument");
+				}
 				isErroneous = true;
 			} else {
 				internalLogArgument = new TemplateInstance_InternalLogArgument(templateInstance);

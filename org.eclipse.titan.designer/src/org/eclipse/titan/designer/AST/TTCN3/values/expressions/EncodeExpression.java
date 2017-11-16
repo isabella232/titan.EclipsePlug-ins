@@ -141,14 +141,16 @@ public final class EncodeExpression extends Expression_Value {
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 		IType type = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
-
+		ITTCN3Template template = templateInstance.getTemplateBody();
 		if (type == null) {
-			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			template = template.setLoweridToReference(timestamp);
 			type = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 
 		if (type == null) {
-			templateInstance.getLocation().reportSemanticError(OPERANDERROR1);
+			if (!template.getIsErroneous(timestamp)) {
+				templateInstance.getLocation().reportSemanticError(OPERANDERROR1);
+			}
 			setIsErroneous(true);
 			return;
 		}
@@ -159,7 +161,7 @@ public final class EncodeExpression extends Expression_Value {
 			return;
 		}
 
-		templateInstance.getTemplateBody().checkSpecificValue(timestamp, false);
+		template.checkSpecificValue(timestamp, false);
 
 		type = type.getTypeRefdLast(timestamp);
 		switch (type.getTypetype()) {

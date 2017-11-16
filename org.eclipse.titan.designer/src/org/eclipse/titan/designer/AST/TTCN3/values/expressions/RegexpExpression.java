@@ -237,12 +237,15 @@ public final class RegexpExpression extends Expression_Value {
 
 		if (templateInstance1 != null) {
 			IType governor1 = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
+			ITTCN3Template template = templateInstance1.getTemplateBody();
 			if (governor1 == null) {
-				final ITTCN3Template temp = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
-				governor1 = temp.getExpressionGovernor(timestamp, internalExpectation);
+				template = template.setLoweridToReference(timestamp);
+				governor1 = template.getExpressionGovernor(timestamp, internalExpectation);
 			}
 			if (governor1 == null) {
-				templateInstance1.getLocation().reportSemanticError(CANNOT_DETERMINE_ARG_TYPE);
+				if (!template.getIsErroneous(timestamp)) {
+					templateInstance1.getLocation().reportSemanticError(CANNOT_DETERMINE_ARG_TYPE);
+				}
 				setIsErroneous(true);
 				return;
 			}
@@ -253,7 +256,7 @@ public final class RegexpExpression extends Expression_Value {
 				return;
 			}
 
-			final ITTCN3Template temp = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template temp = template.setLoweridToReference(timestamp);
 			temp.checkSpecificValue(timestamp, false);
 
 			switch (governor1.getTypeRefdLast(timestamp).getTypetypeTtcn3()) {
@@ -272,12 +275,15 @@ public final class RegexpExpression extends Expression_Value {
 
 		if (templateInstance2 != null) {
 			IType governor2 = templateInstance2.getExpressionGovernor(timestamp, internalExpectation);
+			ITTCN3Template temp = templateInstance2.getTemplateBody();
 			if (governor2 == null) {
-				final ITTCN3Template temp = templateInstance2.getTemplateBody().setLoweridToReference(timestamp);
+				temp = temp.setLoweridToReference(timestamp);
 				governor2 = temp.getExpressionGovernor(timestamp, internalExpectation);
 			}
 			if (governor2 == null) {
-				templateInstance2.getLocation().reportSemanticError(CANNOT_DETERMINE_ARG_TYPE);
+				if (!temp.getIsErroneous(timestamp)) {
+					templateInstance2.getLocation().reportSemanticError(CANNOT_DETERMINE_ARG_TYPE);
+				}
 				setIsErroneous(true);
 				return;
 			}

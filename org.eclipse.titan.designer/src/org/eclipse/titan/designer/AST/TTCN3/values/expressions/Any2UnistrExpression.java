@@ -155,14 +155,16 @@ public final class Any2UnistrExpression extends Expression_Value {
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
 		IType type = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
-
+		ITTCN3Template template = templateInstance1.getTemplateBody();
 		if (type == null) {
-			final ITTCN3Template template = templateInstance1.getTemplateBody().setLoweridToReference(timestamp);
+			template = template.setLoweridToReference(timestamp);
 			type = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 
 		if (type == null) {
-			templateInstance1.getLocation().reportSemanticError(OPERAND1_ERROR1);
+			if (!template.getIsErroneous(timestamp)) {
+				templateInstance1.getLocation().reportSemanticError(OPERAND1_ERROR1);
+			}
 			setIsErroneous(true);
 			return;
 		}
@@ -173,7 +175,7 @@ public final class Any2UnistrExpression extends Expression_Value {
 			return;
 		}
 
-		templateInstance1.getTemplateBody().checkSpecificValue(timestamp, false);
+		template.checkSpecificValue(timestamp, false);
 
 		type = type.getTypeRefdLast(timestamp);
 		switch (type.getTypetype()) {

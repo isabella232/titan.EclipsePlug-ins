@@ -162,12 +162,15 @@ public final class MatchExpression extends Expression_Value {
 		if (localGovernor == null) {
 			localGovernor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		}
+		ITTCN3Template template = templateInstance.getTemplateBody();
 		if (localGovernor == null) {
-			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			template = template.setLoweridToReference(timestamp);
 			localGovernor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if(localGovernor == null) {
-			getLocation().reportSemanticError("Cannot determine the type of arguments in `match()' operation");
+			if (!template.getIsErroneous(timestamp)) {
+				getLocation().reportSemanticError("Cannot determine the type of arguments in `match()' operation");
+			}
 			setIsErroneous(true);
 			return;
 		}
@@ -178,7 +181,7 @@ public final class MatchExpression extends Expression_Value {
 				false, false, true, false, false));
 		//FIXME check value against governor
 
-		templateInstance.getTemplateBody().checkThisTemplateGeneric(timestamp, localGovernor, templateInstance.getDerivedReference()!= null, false, false, true, false, null);
+		template.checkThisTemplateGeneric(timestamp, localGovernor, templateInstance.getDerivedReference()!= null, false, false, true, false, null);
 
 		try {
 			ExpressionUtilities.checkExpressionOperatorCompatibility(timestamp, this, referenceChain, Expected_Value_type.EXPECTED_TEMPLATE, value, templateInstance);

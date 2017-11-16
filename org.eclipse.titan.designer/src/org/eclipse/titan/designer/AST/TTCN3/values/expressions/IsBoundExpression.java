@@ -233,12 +233,15 @@ public final class IsBoundExpression extends Expression_Value {
 				: expectedValue;
 
 		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
+		ITTCN3Template template = templateInstance.getTemplateBody();
 		if (governor == null) {
-			final ITTCN3Template template = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			template = template.setLoweridToReference(timestamp);
 			governor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if (governor == null) {
-			templateInstance.getLocation().reportSemanticError(OPERANDERROR);
+			if (!template.getIsErroneous(timestamp)) {
+				templateInstance.getLocation().reportSemanticError(OPERANDERROR);
+			}
 			setIsErroneous(true);
 		} else {
 			templateInstance.getExpressionReturntype(timestamp, internalExpectation);

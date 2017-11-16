@@ -255,7 +255,9 @@ public final class SizeOfExpression extends Expression_Value {
 			governor = templ.getExpressionGovernor(timestamp, internalExpectedValue);
 		}
 		if (governor == null) {
-			templateInstance.getLocation().reportSemanticError("Cannot determine the type of the argument in the `sizeof' operation. If type is known, use valueof(<type>: ...) as argument.");
+			if (!template.getIsErroneous(timestamp)) {
+				templateInstance.getLocation().reportSemanticError("Cannot determine the type of the argument in the `sizeof' operation. If type is known, use valueof(<type>: ...) as argument.");
+			}
 			setIsErroneous(true);
 			return -1;
 		}
@@ -322,14 +324,14 @@ public final class SizeOfExpression extends Expression_Value {
 					break;
 				}
 				default:
-					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Operation is not applicable to `{0}''", value.createStringRepresentation()));
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("`sizeof'' operation is not applicable to `{0}''", value.createStringRepresentation()));
 					setIsErroneous(true);
 					return -1;
 				}
 			}
 			break;
 		default:
-			templateInstance.getLocation().reportSemanticError(MessageFormat.format("Operation is not applicable to {0}", template.getTemplateTypeName()));
+			templateInstance.getLocation().reportSemanticError(MessageFormat.format("`sizeof'' operation is not applicable to {0}", template.getTemplateTypeName()));
 			setIsErroneous(true);
 			return -1;
 		}
@@ -516,7 +518,7 @@ public final class SizeOfExpression extends Expression_Value {
 				break;
 			default:
 				//FIXME this can not happen
-				templateInstance.getLocation().reportSemanticError(MessageFormat.format("Operation is not applicable to {0}", template.getTemplateTypeName()));
+				templateInstance.getLocation().reportSemanticError(MessageFormat.format("`sizeof'' operation is not applicable to {0}", template.getTemplateTypeName()));
 				setIsErroneous(true);
 				return -1;
 			}

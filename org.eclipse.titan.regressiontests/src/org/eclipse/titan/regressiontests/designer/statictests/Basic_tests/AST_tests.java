@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1522);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1509);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1651,31 +1651,23 @@ public class AST_tests {
 		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("Field `f1' is missing from record value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `isbound()' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `f3' in type `@expression_tests.recordOuter'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `isbound()' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `f4' in type `@expression_tests.recordInner'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `f4' in type `@expression_tests.recordInner'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Field `f1' is missing from template for record type `@expression_tests.recordOuter'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Unexpected field `f2' in record template, expecting `f1'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `isbound()' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `f3' in type `@expression_tests.recordOuter'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `isbound()' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `f4' in type `@expression_tests.recordInner'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `f4' in type `@expression_tests.recordInner'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
 		markersToCheck.add(new MarkerToCheck("It's not allowed to create hole(s) in constant values",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 34;
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `lengthof()'' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of operation `lengthof' should be a string, a `record of', a `set of' or an `array' value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 23;
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `ispresent()' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of type `@expression_tests.myrec3'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `ispresent()' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonExi' in type `@expression_tests.myrec5'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `ispresent()' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `f1': type `integer' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonExi' in type `@expression_tests.myrec5'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid field reference `f1': type `integer' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 22;
 		markersToCheck.add(new MarkerToCheck("Reference to a constant value was expected instead of template `t_i'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a constant value was expected instead of template `t_i2'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -1699,10 +1691,8 @@ public class AST_tests {
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to a value or template of type record, record of, set, set of, objid or array was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument in the `sizeof' operation. If type is known, use valueof(<type>: ...) as argument.",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument in the `sizeof' operation. If type is known, use valueof(<type>: ...) as argument.",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a value or template was expected instead of type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value or template was expected instead of type `@expression_tests.componentName_CT'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a value or template of type record, record of, set, set of, objid or array was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("operation is not applicable to single timer `TL_i'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -1711,7 +1701,7 @@ public class AST_tests {
 		lineNum += 4;
 		markersToCheck.add(new MarkerToCheck("Reference to a value or template of type record, record of, set, set of, objid or array was expected",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Operation is not applicable to any or omit",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("`sizeof' operation is not applicable to any or omit",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 21;
 		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `regexp' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
@@ -1720,8 +1710,7 @@ public class AST_tests {
 		}
 		markersToCheck.add(new MarkerToCheck("The third operand of the `regexp' operation should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of the `regexp' operation should be a (universal) charstring value",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `regexp' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx1' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `xx1' in module `expression_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `regexp' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 6; i++) {
@@ -1731,13 +1720,10 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The third operand of the `regexp' operation should be an integer value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		lineNum += 13;
-		for (i = 0; i < 2; i++) {
+		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Cannot determine the type of arguments in `match()' operation",  lineNum, IMarker.SEVERITY_ERROR));
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum, IMarker.SEVERITY_ERROR));
-		}
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Incompatible component types: a component reference of type `@expression_tests.componentName_CT2' was expected, but `mtc' has type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 11;
@@ -1876,7 +1862,6 @@ public class AST_tests {
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Reference to `template' cannot be used as the first operand of the `decvalue' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `encvalue' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `encvalue' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The operand of the `encvalue' operation cannot be encoded",  ++lineNum, IMarker.SEVERITY_ERROR));

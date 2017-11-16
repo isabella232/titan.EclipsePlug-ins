@@ -171,8 +171,12 @@ public final class SpecificValue_Template extends TTCN3Template {
 
 		if (specificValue != null) {
 			specificValue.setMyGovernor(null);
-			final IValue temp = specificValue.setLoweridToReference(timestamp);
-			return temp.getExpressionGovernor(timestamp, expectedValue);
+			final IValue temp = specificValue.setLoweridToReference(timestamp);//FIXME erroneousness should be applied here too
+			final IType type = temp.getExpressionGovernor(timestamp, expectedValue);
+			if (temp.getIsErroneous(timestamp)) {
+				isErroneous = true;
+			}
+			return type;
 		}
 
 		return null;
