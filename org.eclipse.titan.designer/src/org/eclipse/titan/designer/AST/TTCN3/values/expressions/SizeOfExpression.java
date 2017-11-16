@@ -17,14 +17,13 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.ASN1.values.RelativeObjectIdentifier_Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
@@ -37,11 +36,15 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.templates.LengthRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.RangeLenghtRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SingleLenghtRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.SubsetMatch_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.SupersetMatch_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
@@ -212,7 +215,12 @@ public final class SizeOfExpression extends Expression_Value {
 		}
 
 		ITTCN3Template template = templateInstance.getTemplateBody();
-		template.getTemplateReferencedLast(timestamp, referenceChain);
+		template.setLoweridToReference(timestamp);
+		template = template.getTemplateReferencedLast(timestamp, referenceChain);
+		if (template.getIsErroneous(timestamp)) {
+			setIsErroneous(true);
+			return -1;
+		}
 
 		// Timer and port arrays are handled separately
 		if (template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
@@ -243,20 +251,26 @@ public final class SizeOfExpression extends Expression_Value {
 
 		IType governor = templateInstance.getExpressionGovernor(timestamp, internalExpectedValue);
 		if (governor == null) {
-			final ITTCN3Template templ = templateInstance.getTemplateBody().setLoweridToReference(timestamp);
+			final ITTCN3Template templ = template.setLoweridToReference(timestamp);
 			governor = templ.getExpressionGovernor(timestamp, internalExpectedValue);
 		}
 		if (governor == null) {
+			templateInstance.getLocation().reportSemanticError("Cannot determine the type of the argument in the `sizeof' operation. If type is known, use valueof(<type>: ...) as argument.");
 			setIsErroneous(true);
 			return -1;
 		}
 
-		final Type_type typetype = templateInstance.getExpressionReturntype(timestamp, internalExpectedValue);
-		switch (typetype) {
-		case TYPE_TTCN3_SET:
+		IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance, governor, referenceChain, internalExpectedValue);
+		if (isErroneous) {
+			return -1;
+		}
+
+		IType type = governor.getTypeRefdLast(timestamp);
+		switch (type.getTypetype()) {
+		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
 		case TYPE_TTCN3_SEQUENCE:
-		case TYPE_SEQUENCE_OF:
+		case TYPE_TTCN3_SET:
 		case TYPE_ASN1_SEQUENCE:
 		case TYPE_ASN1_SET:
 		case TYPE_ARRAY:
@@ -271,131 +285,269 @@ public final class SizeOfExpression extends Expression_Value {
 			return -1;
 		}
 
-		IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance, governor, referenceChain, internalExpectedValue);
-		if (isErroneous) {
+		IValue value = null;
+		Reference reference = null;
+		Assignment assignment = null;
+		List<ISubReference> subreferences = null;
+		switch (template.getTemplatetype()) {
+		case INDEXED_TEMPLATE_LIST:
 			return -1;
-		}
-
-		templateInstance.getTemplateBody().setLoweridToReference(timestamp);
-		if (template.getTemplatetype() != Template_type.SPECIFIC_VALUE) {
-			return -1;
-		}
-
-		IValue value = ((SpecificValue_Template) template).getSpecificValue();
-
-		if (value.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE) {
-			value = value.setLoweridToReference(timestamp);
-		}
-
-		if (value.getValuetype() != Value_type.REFERENCED_VALUE) {
-			return evaluateValue(value);
-		}
-
-		final Reference ref = ((Referenced_Value) value).getReference();
-		final Assignment assignment = ref.getRefdAssignment(timestamp, true);
-		if (assignment == null) {
-			return -1;
-		}
-		if (assignment.getIsErroneous()) {
+		case TEMPLATE_REFD:
+			reference = ((Referenced_Template)template).getReference();
+			assignment = reference.getRefdAssignment(timestamp, false);
+			subreferences = reference.getSubreferences();
+			break;
+		case TEMPLATE_LIST:
+		case NAMED_TEMPLATE_LIST:
+		case SUBSET_MATCH:
+		case SUPERSET_MATCH:
+			// compute later
+			break;
+		case SPECIFIC_VALUE:
+			value = ((SpecificValue_Template) template).getSpecificValue().getValueRefdLast(timestamp, referenceChain);
+			if (value != null) {
+				switch(value.getValuetype()) {
+				case SEQUENCEOF_VALUE:
+				case SETOF_VALUE:
+				case ARRAY_VALUE:
+				case RELATIVEOBJECTIDENTIFIER_VALUE:
+				case OBJECTID_VALUE:
+				case SEQUENCE_VALUE:
+				case SET_VALUE:
+					break;
+				case REFERENCED_VALUE: {
+					reference = ((Referenced_Value)value).getReference();
+					assignment = reference.getRefdAssignment(timestamp, false);
+					subreferences = reference.getSubreferences();
+					break;
+				}
+				default:
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Operation is not applicable to `{0}''", value.createStringRepresentation()));
+					setIsErroneous(true);
+					return -1;
+				}
+			}
+			break;
+		default:
+			templateInstance.getLocation().reportSemanticError(MessageFormat.format("Operation is not applicable to {0}", template.getTemplateTypeName()));
 			setIsErroneous(true);
 			return -1;
 		}
 
-		switch (assignment.getAssignmentType()) {
-		case A_CONST:
-			value = ((Def_Const) assignment).getValue().getValueRefdLast(timestamp, internalExpectedValue, referenceChain);
-			return evaluateValue(value);
-		case A_TEMPLATE:
-			template = ((Def_Template) assignment).getTemplate(timestamp).getTemplateReferencedLast(timestamp, referenceChain);
+		if (assignment != null) {
+			if (assignment.getIsErroneous()) {
+				setIsErroneous(true);
+				return -1;
+			}
+			switch(assignment.getAssignmentType()) {
+			case A_CONST:
+				value = ((Def_Const)assignment).getValue();
+				break;
+			case A_EXT_CONST:
+			case A_MODULEPAR:
+			case A_MODULEPAR_TEMPLATE:
+				if (Expected_Value_type.EXPECTED_CONSTANT.equals(internalExpectedValue)) {
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to an (evaluable) constant value was expected instead of {0}", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				}
+				break;
+			case A_VAR:
+			case A_PAR_VAL_IN:
+			case A_PAR_VAL_OUT:
+			case A_PAR_VAL_INOUT:
+				switch (internalExpectedValue) {
+				case EXPECTED_CONSTANT:
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a constant value was expected instead of {0}", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				case EXPECTED_STATIC_VALUE:
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a static value was expected instead of {0}", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				default:
+					break;
+				}
+				break;
+			case A_TEMPLATE:
+				template = ((Def_Template)assignment).getTemplate(timestamp);
+				if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue)) {
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a value was expected instead of {0}", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				}
+				break;
+			case A_VAR_TEMPLATE:
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_OUT:
+			case A_PAR_TEMP_INOUT:
+				if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue)) {
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a value was expected instead of {0}", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				}
+				break;
+			case A_FUNCTION_RVAL:
+			case A_EXT_FUNCTION_RVAL:
+				switch (internalExpectedValue) {
+				case EXPECTED_CONSTANT:
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a constant value was expected instead of the return value of {0}", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				case EXPECTED_STATIC_VALUE:
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a static value was expected instead of the return value of {0}", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				default:
+					break;
+				}
+				break;
+			case A_FUNCTION_RTEMP:
+			case A_EXT_FUNCTION_RTEMP:
+				if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue)) {
+					templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a value was expected instead of a call of {0}, which returns a template", assignment.getDescription()));
+					setIsErroneous(true);
+					return -1;
+				}
+				break;
+			case A_TIMER:
+			case A_PORT:
+				// were already checked separately.
+				break;
+			default:
+				templateInstance.getLocation().reportSemanticError(MessageFormat.format("Reference to a {0} was expected instead of {1}", Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue) ? "value or template" : "value", assignment.getDescription()));
+				setIsErroneous(true);
+				return -1;
+			}
+
+			type = assignment.getType(timestamp).getFieldType(timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+			if (type == null || type.getIsErroneous(timestamp)) {
+				setIsErroneous(true);
+				return -1;
+			}
+			type = type.getTypeRefdLast(timestamp);
+
+			switch (type.getTypetype()) {
+			case TYPE_SEQUENCE_OF:
+			case TYPE_SET_OF:
+			case TYPE_TTCN3_SEQUENCE:
+			case TYPE_TTCN3_SET:
+			case TYPE_ASN1_SEQUENCE:
+			case TYPE_ASN1_SET:
+			case TYPE_ARRAY:
+			case TYPE_OBJECTID:
+			case TYPE_ROID:
+			case TYPE_UNDEFINED:
+				break;
+			default:
+				templateInstance.getLocation().reportSemanticError(
+						"Reference to a value or template of type record, record of, set, set of, objid or array was expected");
+				setIsErroneous(true);
+				return -1;
+			}
+		}
+
+		// check for index overflows in subrefs if possible
+		if (value != null) {
+			switch (value.getValuetype()) {
+			case SEQUENCEOF_VALUE:
+				if (((SequenceOf_Value)value).isIndexed()) {
+					return -1;
+				}
+				break;
+			case SETOF_VALUE:
+				if (((SetOf_Value)value).isIndexed()) {
+					return -1;
+				}
+				break;
+			case ARRAY_VALUE:
+				if (((Array_Value)value).isIndexed()) {
+					return -1;
+				}
+				break;
+			default:
+				break;
+			}
+			/* The reference points to a constant.  */
+			if (subreferences != null && !reference.hasUnfoldableIndexSubReference(timestamp)) {
+				value = value.getReferencedSubValue(timestamp, reference, 1, referenceChain);
+				if (value == null) {
+					setIsErroneous(true);
+					return -1;
+				}
+				value = value.getValueRefdLast(timestamp, referenceChain);
+			} else {
+				//stop processing
+				value = null;
+			}
+		} else if (template != null) {
+			/* The size of INDEXED_TEMPLATE_LIST nodes is unknown at compile
+		         time.  Don't try to evaluate it at compile time.  */
+			if (reference != null && reference.hasUnfoldableIndexSubReference(timestamp)) {
+				return -1;
+			}
+			if (reference != null && subreferences != null) {
+				template = template.getReferencedSubTemplate(timestamp, reference, referenceChain);
+				if (template == null) {
+					setIsErroneous(true);
+					return -1;
+				}
+				template = template.getTemplateReferencedLast(timestamp);
+			}
+		}
+
+		if (template != null) {
+			if (template.getIsErroneous(timestamp)) {
+				setIsErroneous(true);
+				return -1;
+			}
+			switch(template.getTemplatetype()) {
+			case TEMPLATE_REFD:
+				template = null;
+				break;
+			case SPECIFIC_VALUE:
+				value = ((SpecificValue_Template) template).getSpecificValue().getValueRefdLast(timestamp, referenceChain);
+				template = null;
+				break;
+			case TEMPLATE_LIST:
+			case NAMED_TEMPLATE_LIST:
+			case SUBSET_MATCH:
+			case SUPERSET_MATCH:
+				break;
+			default:
+				//FIXME this can not happen
+				templateInstance.getLocation().reportSemanticError(MessageFormat.format("Operation is not applicable to {0}", template.getTemplateTypeName()));
+				setIsErroneous(true);
+				return -1;
+			}
+		}
+
+		if (value != null) {
+			switch(value.getValuetype()) {
+			case SEQUENCEOF_VALUE:
+			case SETOF_VALUE:
+			case ARRAY_VALUE:
+			case RELATIVEOBJECTIDENTIFIER_VALUE:
+			case OBJECTID_VALUE:
+			case SEQUENCE_VALUE:
+			case SET_VALUE:
+				break;
+			default:
+				value = null;
+				return -1;
+			}
+		}
+
+		/* evaluation */
+		if (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+			return ((Array_Type)type).getDimension().getSize();
+		} else if (template != null) {
 			return evaluateTemplate(template, timestamp);
-		case A_TIMER: {
-			final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
-			return checkTimerPort(timestamp, ref, dimensions, assignment);
-		}
-		case A_PORT: {
-			final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
-			return checkTimerPort(timestamp, ref, dimensions, assignment);
-		}
-		case A_EXT_CONST:
-		case A_MODULEPAR:
-			if (Expected_Value_type.EXPECTED_CONSTANT.equals(internalExpectedValue)) {
-				templateInstance.getLocation().reportSemanticError(
-						MessageFormat.format("Reference to an (evaluatable) constant value was expected instead of {0}",
-								assignment.getDescription()));
-				setIsErroneous(true);
-				return -1;
-			}
-			break;
-		case A_VAR:
-		case A_PAR_VAL:
-		case A_PAR_VAL_IN:
-		case A_PAR_VAL_OUT:
-		case A_PAR_VAL_INOUT:
-			switch (internalExpectedValue) {
-			case EXPECTED_CONSTANT:
-				templateInstance.getLocation().reportSemanticError(
-						MessageFormat.format("Reference to a constant value was expected instead of {0}",
-								assignment.getDescription()));
-				setIsErroneous(true);
-				return -1;
-			case EXPECTED_STATIC_VALUE:
-				templateInstance.getLocation().reportSemanticError(
-						MessageFormat.format("Reference to a static value was expected instead of {0}",
-								assignment.getDescription()));
-				setIsErroneous(true);
-				return -1;
-			default:
-				break;
-			}
-			break;
-		case A_FUNCTION_RVAL:
-		case A_EXT_FUNCTION_RVAL:
-			switch (internalExpectedValue) {
-			case EXPECTED_CONSTANT:
-				templateInstance.getLocation().reportSemanticError(
-						MessageFormat.format("Reference to a constant value was expected instead of the return value of {0}",
-								assignment.getDescription()));
-				setIsErroneous(true);
-				return -1;
-			case EXPECTED_STATIC_VALUE:
-				templateInstance.getLocation().reportSemanticError(
-						MessageFormat.format("Reference to a static value was expected instead of the return value of {0}",
-								assignment.getDescription()));
-				setIsErroneous(true);
-				return -1;
-			default:
-				break;
-			}
-			break;
-		case A_FUNCTION_RTEMP:
-		case A_EXT_FUNCTION_RTEMP:
-			if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue)) {
-				templateInstance.getLocation()
-				.reportSemanticError(
-						MessageFormat.format(
-								"Reference to a value was expected instead of a call of {0}, which returns a template",
-								assignment.getDescription()));
-				setIsErroneous(true);
-				return -1;
-			}
-			break;
-		case A_VAR_TEMPLATE:
-		case A_PAR_TEMP_IN:
-		case A_PAR_TEMP_OUT:
-		case A_PAR_TEMP_INOUT:
-			if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(internalExpectedValue)) {
-				templateInstance.getLocation()
-				.reportSemanticError(
-						MessageFormat.format(Type.REFTOVALUEEXPECTED,
-								assignment.getDescription()));
-				setIsErroneous(true);
-				return -1;
-			}
-			break;
-		default:
+		} else if (value != null) {
+			return evaluateValue(value);
+		} else {
 			return -1;
 		}
-		return -1;
 	}
 
 	/**
@@ -548,9 +700,80 @@ public final class SizeOfExpression extends Expression_Value {
 			}
 			return result;
 		}
+		case SUBSET_MATCH:{
+			final LengthRestriction restriction = template.getLengthRestriction();
+			if (restriction instanceof SingleLenghtRestriction) {
+				IValue value = ((SingleLenghtRestriction) restriction).getRestriction(timestamp);
+				if (value.getValuetype() == Value_type.INTEGER_VALUE && !value.isUnfoldable(timestamp)) {
+					return ((Integer_Value)value).getValue();
+				} else {
+					return -1;
+				}
+			} else if (restriction instanceof RangeLenghtRestriction) {
+				IValue minValue = ((RangeLenghtRestriction) restriction).getLowerValue(timestamp);
+				if (minValue.getValuetype() != Value_type.INTEGER_VALUE || minValue.isUnfoldable(timestamp)) {
+					return -1;
+				}
+
+				final SubsetMatch_Template temp = (SubsetMatch_Template) template;
+				if (temp.getNofTemplates() != ((Integer_Value)minValue).getValue()) {
+					return -1;
+				}
+
+				for (int i = 0, size = temp.getNofTemplates(); i < size; i++) {
+					final ITTCN3Template tmp = temp.getTemplateByIndex(i);
+					switch (tmp.getTemplatetype()) {
+					case SPECIFIC_VALUE:
+						break;
+					default:
+						return -1;
+					}
+				}
+
+				return temp.getNofTemplates();
+			}
+
+			return -1;
+		}
+		case SUPERSET_MATCH:{
+			final LengthRestriction restriction = template.getLengthRestriction();
+			if (restriction instanceof SingleLenghtRestriction) {
+				IValue value = ((SingleLenghtRestriction) restriction).getRestriction(timestamp);
+				if (value.getValuetype() == Value_type.INTEGER_VALUE && !value.isUnfoldable(timestamp)) {
+					return ((Integer_Value)value).getValue();
+				} else {
+					return -1;
+				}
+			} else if (restriction instanceof RangeLenghtRestriction) {
+				IValue maxValue = ((RangeLenghtRestriction) restriction).getUpperValue(timestamp);
+				if (maxValue.getValuetype() != Value_type.INTEGER_VALUE || maxValue.isUnfoldable(timestamp)) {
+					return -1;
+				}
+
+				final SupersetMatch_Template temp = (SupersetMatch_Template) template;
+				if (temp.getNofTemplates() != ((Integer_Value)maxValue).getValue()) {
+					return -1;
+				}
+
+				for (int i = 0, size = temp.getNofTemplates(); i < size; i++) {
+					final ITTCN3Template tmp = temp.getTemplateByIndex(i);
+					switch (tmp.getTemplatetype()) {
+					case SPECIFIC_VALUE:
+						break;
+					default:
+						return -1;
+					}
+				}
+
+				return temp.getNofTemplates();
+			}
+
+			return -1;
+		}
 		default:
 			return -1;
 		}
+
 		return -1;
 	}
 

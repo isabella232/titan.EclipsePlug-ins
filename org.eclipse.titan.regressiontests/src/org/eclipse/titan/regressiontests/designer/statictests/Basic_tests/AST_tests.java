@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1519);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1522);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1699,8 +1699,10 @@ public class AST_tests {
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to a value or template of type record, record of, set, set of, objid or array was expected", lineNum++, IMarker.SEVERITY_ERROR));
 		}
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument in the `sizeof' operation. If type is known, use valueof(<type>: ...) as argument.",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Reference to a value or template was expected instead of type `@expression_tests.componentName_CT'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the argument in the `sizeof' operation. If type is known, use valueof(<type>: ...) as argument.",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value or template was expected instead of type `@expression_tests.componentName_CT'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a value or template of type record, record of, set, set of, objid or array was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("operation is not applicable to single timer `TL_i'",  lineNum, IMarker.SEVERITY_ERROR));
@@ -1708,7 +1710,9 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Operation is not applicable to a timer",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
 		markersToCheck.add(new MarkerToCheck("Reference to a value or template of type record, record of, set, set of, objid or array was expected",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 23;
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("Operation is not applicable to any or omit",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 21;
 		markersToCheck.add(new MarkerToCheck("Cannot determine the argument type of `regexp' operation",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 6; i++) {
