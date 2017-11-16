@@ -173,6 +173,7 @@ public final class DoWhile_Statement extends Statement {
 		isInfiniteLoop = false;
 
 		if (statementblock != null) {
+			statementblock.setMyLaicStmt(null, this);
 			statementblock.check(timestamp);
 		}
 		if (expression != null) {

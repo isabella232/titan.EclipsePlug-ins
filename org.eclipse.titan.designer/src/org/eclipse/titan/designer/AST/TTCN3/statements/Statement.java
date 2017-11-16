@@ -205,6 +205,10 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	protected boolean isErroneous;
 
+	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		//empty by default
+	}
+
 	protected Statement() {
 		isErroneous = false;
 		location = NULL_Location.INSTANCE;
@@ -403,7 +407,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * Add generated java code on this level
 	 * @param aData the generated java code with other info
 	 */
-	//public abstract void generateCode( final JavaGenData aData );
+	//public abstract void generateCode( final JavaGenData aData, final StringBuilder source );
 
 	//TODO: remove
 	/**

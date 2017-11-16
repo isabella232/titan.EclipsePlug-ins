@@ -303,4 +303,10 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 			source.append("default:\nbreak;\n");
 		}
 	}
+
+	public void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		for (SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.getStatementBlock().setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
+	}
 }

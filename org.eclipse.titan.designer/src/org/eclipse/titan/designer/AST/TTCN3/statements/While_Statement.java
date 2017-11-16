@@ -209,6 +209,7 @@ public final class While_Statement extends Statement {
 			}
 		}
 		if (statementblock != null) {
+			statementblock.setMyLaicStmt(null, this);
 			statementblock.check(timestamp);
 		}
 
