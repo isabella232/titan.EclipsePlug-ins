@@ -61,6 +61,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 	private boolean hasRepeat = false;
 	private String label;
+	private boolean isAltstep = false;
 
 	/**
 	 * The location of the whole assignment. This location encloses the
@@ -171,6 +172,14 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 	public String getLabel() {
 		return label;
+	}
+
+	public void setIsAltstep() {
+		isAltstep = true;
+	}
+
+	public boolean getIsAltstep() {
+		return isAltstep;
 	}
 
 	/**
@@ -809,5 +818,11 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 		source.append("TTCN_Snapshot.takeNew(true);\n");
 		source.append("}\n");
+	}
+
+	public void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		for (AltGuard altGuard : altGuards) {
+			altGuard.setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
 	}
 }

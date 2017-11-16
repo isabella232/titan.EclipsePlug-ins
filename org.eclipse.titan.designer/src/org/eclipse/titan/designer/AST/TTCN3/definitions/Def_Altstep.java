@@ -262,7 +262,9 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		}
 
 		if (altGuards != null) {
+			altGuards.setIsAltstep();
 			altGuards.setMyAltguards(altGuards);
+			altGuards.setMyLaicStmt(altGuards, null);
 			altGuards.check(timestamp);
 			altGuards.setCodeSection(CodeSectionType.CS_INLINE);
 		}

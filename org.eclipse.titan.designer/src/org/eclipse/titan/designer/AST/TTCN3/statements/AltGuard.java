@@ -114,4 +114,22 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 	 * after the semantic check was completely run.
 	 */
 	public abstract void postCheck();
+
+	public void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+		switch (altguardType) {
+		case AG_OP:
+		case AG_ELSE:
+			statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
+			break;
+		case AG_REF:
+		case AG_INVOKE:
+			if (statementblock != null) {
+				statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
+			}
+			break;
+		default:
+			// FIXME: FATAL_ERROR("AltGuard::set_my_laic_stmt()");
+			break;
+		}
+	}
 }

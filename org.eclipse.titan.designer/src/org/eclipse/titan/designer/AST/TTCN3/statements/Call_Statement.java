@@ -208,6 +208,14 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
+	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStatement) {
+		if (pLoopStatement != null && altGuards != null) {
+			altGuards.setMyLaicStmt(null, pLoopStatement);
+		}
+		// ags is set later
+	}
+
+	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -351,6 +359,7 @@ public final class Call_Statement extends Statement {
 			}
 		}
 
+		altGuards.setMyLaicStmt(altGuards, null);
 		altGuards.setMyAltguards(altGuards);
 		altGuards.check(timestamp);
 

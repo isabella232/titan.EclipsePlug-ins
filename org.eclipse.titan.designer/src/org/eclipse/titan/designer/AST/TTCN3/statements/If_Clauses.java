@@ -291,4 +291,10 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 			ifclauses.get(i).generateCode(aData, source, blockCount, unReachable, eachFalse);
 		}
 	}
+
+	public void setMyLaicStmt(AltGuards pAgs, Statement pLoopStmt) {
+		for (If_Clause ifClause : ifclauses) {
+			ifClause.getStatementBlock().setMyLaicStmt(pAgs, pLoopStmt);
+		}
+	}
 }
