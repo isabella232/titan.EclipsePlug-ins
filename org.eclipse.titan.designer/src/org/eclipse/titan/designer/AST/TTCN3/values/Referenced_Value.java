@@ -385,7 +385,7 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public IType getExpressionGovernor(final CompilationTimeStamp timestamp,  final Expected_Value_type expectedValue) {
+	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
 		if (myGovernor != null) {
 			return myGovernor;
 		}
