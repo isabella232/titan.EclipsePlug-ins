@@ -287,9 +287,9 @@ public final class TTCN_Runtime {
 		}
 
 		if (verdictReason == null || verdictReason.length() == 0) {
-			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict %s", testcaseDefinitionName, localVerdict.getName());
+			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict: %s", testcaseDefinitionName, localVerdict.getName());
 		} else {
-			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict %s, reason: %s", testcaseDefinitionName, localVerdict.getName(), verdictReason);
+			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict: %s, reason: %s", testcaseDefinitionName, localVerdict.getName(), verdictReason);
 		}
 
 		verdictCount[localVerdict.getValue()]++;
