@@ -603,7 +603,7 @@ public class RecordSetCodeGenerator {
 		aSb.append("\t\t\tif (otherValue instanceof ").append(aClassName).append(" ) {\n");
 		aSb.append("\t\t\t\treturn operatorEquals((").append( aClassName ).append(") otherValue);\n");
 		aSb.append("\t\t\t}\n\n");
-		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));");
+		aSb.append("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to ").append(classReadableName).append("\", otherValue));\n");
 		aSb.append("\t\t}\n");
 	}
 
