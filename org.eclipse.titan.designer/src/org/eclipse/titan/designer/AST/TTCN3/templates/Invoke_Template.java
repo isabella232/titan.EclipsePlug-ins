@@ -363,6 +363,7 @@ public final class Invoke_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (value != null) {
 			value.reArrangeInitCode(aData, source, usageModule);

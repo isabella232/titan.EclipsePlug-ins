@@ -695,6 +695,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (realTemplate != null && realTemplate != this) {
 			realTemplate.reArrangeInitCode(aData, source, usageModule);
