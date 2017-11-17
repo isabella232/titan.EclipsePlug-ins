@@ -412,6 +412,12 @@ public class All_From_Template extends TTCN3Template {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		generateCodeInitAllFrom(aData, source, name);
+	}
+
 	public void generateCodeInitAllFrom(final JavaGenData aData, final StringBuilder source, final String name) {
 		final IValue value = ((SpecificValue_Template) allFrom).getValue();
 		Reference reference;
