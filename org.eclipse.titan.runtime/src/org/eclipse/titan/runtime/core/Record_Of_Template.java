@@ -74,11 +74,9 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		return newList;
 	}
 
-	//TODO: implement void encode_text_permutation(Text_Buf text_buf)
-	//TODO: implement void decode_text_permutation(Text_Buf text_buf)
-	/*
-	void encode_text_permutation(Text_Buf text_buf) {
+	protected void encode_text_permutation(final Text_Buf text_buf) {
 		encode_text_restricted(text_buf);
+
 		final int number_of_permutations = get_number_of_permutations();
 		text_buf.push_int(number_of_permutations);
 
@@ -88,19 +86,18 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 		}
 	}
 
-	void decode_text_permutation(Text_Buf text_buf) {
+	protected void decode_text_permutation(final Text_Buf text_buf) {
 		decode_text_restricted(text_buf);
 
-		final int number_of_permutations = text_buf.pull_int().get_val();
+		final int number_of_permutations = text_buf.pull_int().getInt();
 		permutation_intervals = new ArrayList<Pair_of_elements>(number_of_permutations);
 
 		for (int i = 0; i < number_of_permutations; i++) {
-			final int start_index = text_buf.pull_int().get_val();
-			final int end_index = text_buf.pull_int().get_val();
+			final int start_index = text_buf.pull_int().getInt();
+			final int end_index = text_buf.pull_int().getInt();
 			permutation_intervals.add( new Pair_of_elements( start_index, end_index ) );
 		}
 	}
-	*/
 
 	public void add_permutation(final int start_index, final int end_index) {
 		if(start_index > end_index) {

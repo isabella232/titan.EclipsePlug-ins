@@ -235,4 +235,32 @@ public class TitanObjectid extends Base_Type {
 			TtcnLogger.log_event_unbound();
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		if (components_ptr == null) {
+			throw new TtcnError("Text encoder: Encoding an unbound objid value.");
+		}
+
+		text_buf.push_int(n_components);
+		for ( int i = 0; i < n_components; i++) {
+			text_buf.push_int(components_ptr.get(i));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+
+		n_components = text_buf.pull_int().getInt();
+		if (n_components < 0) {
+			throw new TtcnError("Text decoder: Negative number of components was received for an objid value.");
+		}
+		components_ptr = new ArrayList<TitanInteger>(n_components);
+		for ( int i = 0; i < n_components; i++) {
+			components_ptr.add(text_buf.pull_int());
+		}
+	}
 }

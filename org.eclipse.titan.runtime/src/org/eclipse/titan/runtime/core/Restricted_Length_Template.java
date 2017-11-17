@@ -187,10 +187,8 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-//TODO: implement
-/*
-	void encode_text_restricted(Text_Buf text_buf)
-	{
+
+	void encode_text_restricted(final Text_Buf text_buf) {
 		encode_text_base(text_buf);
 		text_buf.push_int( length_restriction_type.ordinal() );
 		switch (length_restriction_type) {
@@ -209,32 +207,26 @@ public abstract class Restricted_Length_Template extends Base_Template {
 			throw new TtcnError("Text encoder: encoding an unknown/unsupported length restriction type in a template.");
 		}
 	}
-*/
 
-//TODO: implement
-/*
-	void decode_text_restricted(Text_Buf text_buf)
-	{
+	void decode_text_restricted(final Text_Buf text_buf) {
 		decode_text_base(text_buf);
-		length_restriction_type = length_restriction_type_t.values()[ text_buf.pull_int() ];
+		length_restriction_type = length_restriction_type_t.values()[ text_buf.pull_int().getInt() ];
 		switch (length_restriction_type) {
 		case SINGLE_LENGTH_RESTRICTION:
-			single_length = text_buf.pull_int();
+			single_length = text_buf.pull_int().getInt();
 			break;
 		case NO_LENGTH_RESTRICTION:
 			break;
 		case RANGE_LENGTH_RESTRICTION:
-			range_length_min_length =
-			text_buf.pull_int();
-			range_length_max_length_set = text_buf.pull_int() != 0;
+			range_length_min_length = text_buf.pull_int().getInt();
+			range_length_max_length_set = text_buf.pull_int().getInt() != 0;
 			if (range_length_max_length_set)
-				range_length_max_length = text_buf.pull_int();
+				range_length_max_length = text_buf.pull_int().getInt();
 			break;
 		default:
 			throw new TtcnError("Text decoder: an unknown/unsupported length restriction type was received for a template.");
 		}
 	}
-*/
 
 //TODO: implement
 /*

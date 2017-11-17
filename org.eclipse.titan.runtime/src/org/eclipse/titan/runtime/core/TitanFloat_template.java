@@ -491,4 +491,79 @@ public class TitanFloat_template extends Base_Template {
 			return false;
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_base(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			text_buf.push_double(single_value.getValue());
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(value_list.size());
+			for (int i = 0; i < value_list.size(); i++) {
+				value_list.get(i).encode_text(text_buf);
+			}
+			break;
+		case VALUE_RANGE:
+			text_buf.push_int(min_is_present ? 1 : 0);
+			if (min_is_present) {
+				text_buf.push_double(min_value.getValue());
+			}
+			text_buf.push_int(max_is_present ? 1 : 0);
+			if (max_is_present) {
+				text_buf.push_double(max_value.getValue());
+			}
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported float template.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_base(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value = new TitanFloat(text_buf.pull_double());
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			value_list = new ArrayList<TitanFloat_template>(text_buf.pull_int().getInt());
+			for(int i = 0; i < value_list.size(); i++) {
+				final TitanFloat_template temp = new TitanFloat_template();
+				temp.decode_text(text_buf);
+				value_list.add(temp);
+			}
+			break;
+		case VALUE_RANGE:
+			min_is_present = text_buf.pull_int().getInt() != 0;
+			if (min_is_present) {
+				min_value = new TitanFloat(text_buf.pull_double());
+			}
+			max_is_present = text_buf.pull_int().getInt() != 0;
+			if (max_is_present) {
+				max_value = new TitanFloat(text_buf.pull_double());
+			}
+			min_is_exclusive = false;
+			max_is_exclusive = false;
+			break;
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a float template.");
+		}
+	}
 }

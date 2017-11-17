@@ -768,4 +768,89 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			return false;
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_restricted(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value.encode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(value_list.size());
+			for (int i = 0; i < value_list.size(); i++) {
+				value_list.get(i).encode_text(text_buf);
+			}
+			break;
+		case VALUE_RANGE:
+			if(!min_is_set) {
+				throw new TtcnError("Text encoder: The lower bound is not set in a universal charstring value range template.");
+			}
+			if(!max_is_set) {
+				throw new TtcnError("Text encoder: The upper bound is not set in a universal charstring value range template.");
+			}
+			final byte[] buf = new byte[8];
+			buf[0] = (byte)min_value.getUc_group();
+			buf[1] = (byte)min_value.getUc_plane();
+			buf[2] = (byte)min_value.getUc_row();
+			buf[3] = (byte)min_value.getUc_cell();
+			buf[4] = (byte)max_value.getUc_group();
+			buf[5] = (byte)max_value.getUc_plane();
+			buf[6] = (byte)max_value.getUc_row();
+			buf[7] = (byte)max_value.getUc_cell();
+			text_buf.push_raw(8, buf);
+			break;
+		//FIXME implement pattern case
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported universal charstring template.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_restricted(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case STRING_PATTERN:
+			//FIXME implement for pattern
+		case SPECIFIC_VALUE:
+			single_value.decode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			value_list = new ArrayList<TitanUniversalCharString_template>(text_buf.pull_int().getInt());
+			for(int i = 0; i < value_list.size(); i++) {
+				final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
+				temp.decode_text(text_buf);
+				value_list.add(temp);
+			}
+			break;
+		case VALUE_RANGE:
+			final byte[] buf = new byte[8];
+			text_buf.pull_raw(8, buf);
+			min_value = new TitanUniversalChar((char)buf[0], (char)buf[1], (char)buf[2], (char)buf[3]);
+			max_value = new TitanUniversalChar((char)buf[4], (char)buf[5], (char)buf[6], (char)buf[7]);
+			min_is_set = true;
+			max_is_set = true;
+			min_is_exclusive = false;
+			max_is_exclusive = false;
+			break;
+		//FIXME implement pattern case
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a universal charstring template.");
+		}
+	}
 }

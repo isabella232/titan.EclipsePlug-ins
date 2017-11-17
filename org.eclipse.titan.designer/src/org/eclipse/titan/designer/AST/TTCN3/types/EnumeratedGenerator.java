@@ -76,6 +76,7 @@ public class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template" );
+		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addImport( "java.text.MessageFormat" );
 
@@ -152,18 +153,17 @@ public class EnumeratedGenerator {
 		generateValueFromInt(source);
 		generateValueToString(source);
 		generateLog(source);
+		generateValueEncodeDecodeText(source, e_defs.displayName);
 		source.append("}\n");
-		//		}
 	}
 
 	//TODO: set_param(Module_Param& param);
-	//TODO: encode_text(Text_Buf& text_buf) const;
-	//TODO: decode_text(Text_Buf& text_buf);
 
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs){
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template" );
+		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addCommonLibraryImport("TtcnLogger");
 		aData.addImport( "java.text.MessageFormat" );
@@ -186,6 +186,7 @@ public class EnumeratedGenerator {
 		generateTemplateMatchOmit(source);
 		generateTemplateLog(source, e_defs.name);
 		generateTemplateLogMatch(source, e_defs.name, e_defs.displayName);
+		generateTemplateEncodeDecodeText(source, e_defs.name, e_defs.displayName);
 
 		//FIXME implement encode
 		//FIXME implement decode
@@ -237,7 +238,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 	}
 
-	private static void generateValueIsValidEnum(final StringBuilder source,final String name) {
+	private static void generateValueIsValidEnum(final StringBuilder source, final String name) {
 		source.append("public static boolean isValidEnum(int otherValue) {\n");
 		source.append("final enum_type helper =  enum_type.getValue(otherValue);\n");
 		source.append("return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;\n");
@@ -257,6 +258,23 @@ public class EnumeratedGenerator {
 		source.append("} else {\n");
 		source.append("TtcnLogger.log_event_unbound();\n");
 		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	private static void generateValueEncodeDecodeText(final StringBuilder source, final String name) {
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		source.append("if (enum_value == enum_type.UNBOUND_VALUE) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an unbound value of enumerated type {0}.\");\n", name));
+		source.append("}\n");
+		source.append("text_buf.push_int(enum_value.enum_num);\n");
+		source.append("}\n\n");
+
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		source.append("final int temp = text_buf.pull_int().getInt();\n");
+		source.append("if (!isValidEnum(temp)) {\n");
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", name));
+		source.append("}\n");
+		source.append("int2enum(temp);\n");
 		source.append("}\n\n");
 	}
 
@@ -898,6 +916,62 @@ public class EnumeratedGenerator {
 		source.append("TtcnLogger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
 		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("}\n");
+		source.append("}\n");
+	}
+
+	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final String name, final String displayName) {
+		source.append("@Override\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		source.append("encode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("text_buf.push_int(single_value.getInt());\n");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("text_buf.push_int(value_list.size());\n");
+		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("value_list.get(i).encode_text(text_buf);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of enumerated type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		source.append("cleanUp();\n");
+		source.append("decode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:{\n");
+		source.append("final int temp = text_buf.pull_int().getInt();\n");
+		source.append(MessageFormat.format("if (!{0}.isValidEnum(temp)) '{'\n", name));
+		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Text decoder: Unknown numeric value '{'0'}' was received for enumerated type {0}.\", temp));\n", displayName));
+		source.append("}\n");
+		source.append(MessageFormat.format("single_value = {0}.enum_type.values()[temp];\n", name));
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(text_buf.pull_int().getInt());\n", name));
+		source.append("for(int i = 0; i < value_list.size(); i++) {\n");
+		source.append(MessageFormat.format("final {0}_template temp = new {0}_template();\n", name));
+		source.append("temp.decode_text(text_buf);\n");
+		source.append("value_list.add(temp);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received for a template of enumerated type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("}\n");
 	}

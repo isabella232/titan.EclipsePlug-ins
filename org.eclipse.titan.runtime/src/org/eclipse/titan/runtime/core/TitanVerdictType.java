@@ -155,10 +155,26 @@ public class TitanVerdictType extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound verdict value.");
+
+		text_buf.push_int(verdict_value.getValue());
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		int received_value = text_buf.pull_int().getInt();
+		if (received_value < 0 || received_value > 5) {
+			throw new TtcnError(MessageFormat.format("Text decoder: Invalid verdict value ({0}) was received.", received_value));
+		}
+		verdict_value = VerdictTypeEnum.values()[received_value];
+	}
+
 	//TODO: implement VERDICTTYPE::set_param()
 	//TODO: implement VERDICTTYPE::get_param()
-	//TODO: implement VERDICTTYPE::encode_text()
-	//TODO: implement VERDICTTYPE::decode_text()
 	//TODO: implement VERDICTTYPE::encode()
 	//TODO: implement VERDICTTYPE::decode()
 	//TODO: implement VERDICTTYPE::XER_encode()

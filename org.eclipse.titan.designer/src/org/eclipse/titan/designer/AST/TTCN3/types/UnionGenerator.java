@@ -68,6 +68,7 @@ public class UnionGenerator {
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
 		aData.addBuiltinTypeImport("Base_Type");
+		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TtcnLogger");
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
@@ -85,6 +86,7 @@ public class UnionGenerator {
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 		generateValueGetSelection(source);
 		generateValueLog(source, fieldInfos);
+		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
 
 		//FIXME implement set_param
 		//FIXME implement encode
@@ -108,6 +110,7 @@ public class UnionGenerator {
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
 		aData.addBuiltinTypeImport("Base_Template");
+		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addImport("java.util.ArrayList");
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", genName));
@@ -127,6 +130,7 @@ public class UnionGenerator {
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
 		generateTemplateLog(source);
 		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
+		generateTemplateEncodeDecodeText(source, genName, displayName, fieldInfos);
 
 		//FIXME implement encode
 		//FIXME implement decode
@@ -420,6 +424,50 @@ public class UnionGenerator {
 		source.append("default:\n");
 		source.append("TtcnLogger.log_event_unbound();\n");
 		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * Generate encode_text/decode_text
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * */
+	private static void generateValueEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		source.append("switch(union_selection) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+			source.append(MessageFormat.format("text_buf.push_int({0});\n", i));
+			source.append("break;\n");
+		}
+
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an unbound value of union type {0}.\");\n", displayName));
+		source.append("}\n");
+		if (fieldInfos.size() > 0) {
+			source.append("field.encode_text(text_buf);\n");
+		}
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		source.append("final int temp = text_buf.pull_int().getInt();\n");
+		source.append("switch(temp) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+			source.append(MessageFormat.format("case {0}:\n", i));
+			source.append(MessageFormat.format("get{0}().decode_text(text_buf);\n", fieldInfo.mJavaVarName));
+			source.append("break;\n");
+		}
+
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized union selector was received for type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("}\n");
 	}
@@ -997,5 +1045,77 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate encode_text/decode_text
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * */
+	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
+		source.append("public void encode_text(Text_Buf text_buf) {\n");
+		source.append("encode_text_base(text_buf);\n");
+		source.append("switch(templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("text_buf.push_int(single_value_union_selection.ordinal());\n");
+		source.append("single_value.encode_text(text_buf);\n");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("text_buf.push_int(value_list.size());\n");
+		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("value_list.get(i).encode_text(text_buf);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized template of type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void decode_text(Text_Buf text_buf) {\n");
+		source.append("cleanUp();\n");
+		source.append("decode_text_base(text_buf);\n");
+		source.append("switch(templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:{\n");
+		source.append("final int temp = text_buf.pull_int().getInt();\n");
+		source.append("switch(temp) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			source.append(MessageFormat.format("case {0}:\n", i));
+			source.append(MessageFormat.format("single_value = new {0}();\n", fieldInfo.mJavaTemplateName));
+			source.append("single_value.decode_text(text_buf);\n");
+			source.append("break;\n");
+		}
+		source.append("}\n");
+		source.append("}\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST: {\n");
+		source.append("final int temp = text_buf.pull_int().getInt();\n");
+		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(temp);\n", genName));
+		source.append("for (int i = 0; i < temp; i++) {\n");
+		source.append(MessageFormat.format("{0}_template temp2 = new {0}_template();\n", genName));
+		source.append("temp2.decode_text(text_buf);\n");
+		source.append("value_list.add(temp2);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized selector was received in a template of type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("}\n");
 	}
 }

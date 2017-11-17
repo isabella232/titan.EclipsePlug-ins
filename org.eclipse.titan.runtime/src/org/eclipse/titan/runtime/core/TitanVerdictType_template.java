@@ -340,8 +340,6 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//TODO: implement VERDICTTYPE_template::set_param()
-	//TODO: implement VERDICTTYPE_template::encode_text()
-	//TODO: implement VERDICTTYPE_template::decode_text()
 
 	// originally is_present (with default parameter)
 	public boolean isPresent() {
@@ -424,5 +422,58 @@ public class TitanVerdictType_template extends Base_Template {
 			return;
 		}
 		throw new TtcnError("Restriction `" + getResName( t_res ) + "' on template of type " + t_name != null ? t_name : "verdict"+" violated.");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_base(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value.encode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(value_list.size());
+			for (int i = 0; i < value_list.size(); i++) {
+				value_list.get(i).encode_text(text_buf);
+			}
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported verdict template.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_base(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value.decode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			value_list = new ArrayList<TitanVerdictType_template>(text_buf.pull_int().getInt());
+			for(int i = 0; i < value_list.size(); i++) {
+				final TitanVerdictType_template temp = new TitanVerdictType_template();
+				temp.decode_text(text_buf);
+				value_list.add(temp);
+			}
+			break;
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a verdict template.");
+		}
 	}
 }

@@ -75,6 +75,33 @@ public class TitanRecordOf extends Base_Type {
 		TtcnLogger.log_event_str(" }");
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		if (valueElements == null) {
+			throw new TtcnError("Text encoder: Encoding an unbound value of type record of.");
+		}
+		text_buf.push_int(valueElements.size());
+		for (int i = 0; i < valueElements.size(); i++) {
+			valueElements.get(i).encode_text(text_buf);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		final int new_size = text_buf.pull_int().getInt();
+		if (new_size < 0) {
+			throw new TtcnError("Text decoder: Negative size was received for a value of type record of.");
+		}
+		valueElements = new ArrayList<Base_Type>(new_size);
+		for (int i = 0; i < new_size; i++) {
+			final Base_Type newElem = getUnboundElem();
+			newElem.decode_text(text_buf);
+			valueElements.add(newElem);
+		}
+	}
+
 	/**
 	 * @return true if and only if otherValue is the same record of type as this
 	 */

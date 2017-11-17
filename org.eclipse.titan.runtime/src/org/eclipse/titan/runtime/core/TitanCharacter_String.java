@@ -163,4 +163,18 @@ public class TitanCharacter_String extends Base_Type {
 		string__value.log();
 		TtcnLogger.log_event_str(" }");
 	}
+
+	@Override
+	public void encode_text(final Text_Buf text_buf) {
+		identification.encode_text(text_buf);
+		data__value__descriptor.encode_text(text_buf);
+		string__value.encode_text(text_buf);
+	}
+
+	@Override
+	public void decode_text(final Text_Buf text_buf) {
+		identification.decode_text(text_buf);
+		data__value__descriptor.decode_text(text_buf);
+		string__value.decode_text(text_buf);
+	}
 }

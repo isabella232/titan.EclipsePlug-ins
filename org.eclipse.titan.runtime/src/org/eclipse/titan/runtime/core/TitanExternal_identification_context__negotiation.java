@@ -133,4 +133,17 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		transfer__syntax.log();
 		TtcnLogger.log_event_str(" }");
 	}
+
+
+	@Override
+	public void encode_text(final Text_Buf text_buf) {
+		presentation__context__id.encode_text(text_buf);
+		transfer__syntax.encode_text(text_buf);
+	}
+
+	@Override
+	public void decode_text(final Text_Buf text_buf) {
+		presentation__context__id.decode_text(text_buf);
+		transfer__syntax.decode_text(text_buf);
+	}
 }

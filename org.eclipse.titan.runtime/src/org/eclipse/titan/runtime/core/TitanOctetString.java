@@ -301,6 +301,41 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound octetstring value.");
+
+		final int octets = val_ptr.size();
+		text_buf.push_int(octets);
+		if (octets > 0) {
+			byte[] temp = new byte[octets];
+			for (int i = 0; i < octets; i++) {
+				temp[i] = (byte)val_ptr.get(i).charValue();
+			}
+			text_buf.push_raw(temp.length, temp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+
+		int n_octets = text_buf.pull_int().getInt();
+		if (n_octets < 0) {
+			throw new TtcnError("Text decoder: Invalid length was received for an octetstring.");
+		}
+		if (n_octets > 0) {
+			val_ptr = new ArrayList<Character>(n_octets);
+			byte[] temp = new byte[n_octets];
+			text_buf.pull_raw(n_octets, temp);
+			for (int i = 0; i < n_octets; i++) {
+				val_ptr.add((char)temp[i]);
+			}
+		}
+	}
+
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}

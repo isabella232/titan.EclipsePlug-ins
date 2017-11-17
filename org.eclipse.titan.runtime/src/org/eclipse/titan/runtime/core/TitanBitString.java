@@ -688,6 +688,42 @@ public class TitanBitString extends Base_Type {
 		return result.toString();
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound bitstring value.");
+
+		text_buf.push_int(n_bits);
+		if (n_bits > 0) {
+			byte[] temp = new byte[bits_ptr.size()];
+			for (int i = 0; i < bits_ptr.size(); i++) {
+				temp[i] = bits_ptr.get(i).byteValue();
+			}
+			text_buf.push_raw(temp.length, temp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+
+		n_bits = text_buf.pull_int().getInt();
+		if (n_bits < 0) {
+			throw new TtcnError("Text decoder: Invalid length was received for a bitstring.");
+		}
+		if (n_bits > 0) {
+			final int bytes = (n_bits + 7) / 8;
+			bits_ptr = new ArrayList<Integer>(bytes);
+			final byte[] temp = new byte[bytes];
+			text_buf.pull_raw(bytes, temp);
+			for (int i = 0; i < bytes; i++) {
+				bits_ptr.add((int) temp[i]);
+			}
+			clear_unused_bits();
+		}
+	}
+
 	public int getNBits() {
 		return n_bits;
 	}

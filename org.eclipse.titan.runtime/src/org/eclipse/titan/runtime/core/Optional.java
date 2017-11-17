@@ -182,6 +182,36 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		switch(optionalSelection) {
+		case OPTIONAL_OMIT:
+			text_buf.push_int(0);
+			break;
+		case OPTIONAL_PRESENT:
+			text_buf.push_int(1);
+			optionalValue.encode_text(text_buf);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Text encoder: Encoding an unbound optional value.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+
+		int temp = text_buf.pull_int().getInt();
+		if (temp == 1) {
+			setToPresent();
+			optionalValue.decode_text(text_buf);
+		} else {
+			setToOmit();
+		}
+	}
+
 	public boolean isBound() {
 		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:

@@ -709,7 +709,7 @@ public class TitanUniversalCharString extends Base_Type {
 					case UCHAR:
 						buffer.append(" & ");
 					case INIT:
-						buffer.append("\"");
+						buffer.append('\"');
 					case PCHAR:
 						TtcnLogger.logCharEscaped(uchar.getUc_cell(), buffer);
 						break;
@@ -718,7 +718,7 @@ public class TitanUniversalCharString extends Base_Type {
 				} else {
 					switch (state) {
 					case PCHAR:
-						buffer.append("\"");
+						buffer.append('\"');
 					case UCHAR:
 						buffer.append(" & ");
 					case INIT:
@@ -733,7 +733,7 @@ public class TitanUniversalCharString extends Base_Type {
 				buffer.append("\"\"");
 				break;
 			case PCHAR:
-				buffer.append("\"");
+				buffer.append('\"');
 				break;
 			default:
 				break;
@@ -745,7 +745,6 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 
 	}
-	
 
 	@Override
 	public String toString() {
@@ -763,6 +762,49 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 
 			return str.toString();
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound universal charstring value.");
+
+		if (charstring) {
+			convertCstrToUni();
+		}
+
+		final int n_chars = val_ptr.size();
+		text_buf.push_int(n_chars);
+		for (int i = 0; i < n_chars; i++) {
+			TitanUniversalChar tempChar = val_ptr.get(i);
+			byte buf[] = new byte[4];
+			buf[0] = (byte)tempChar.getUc_group();
+			buf[1] = (byte)tempChar.getUc_plane();
+			buf[2] = (byte)tempChar.getUc_row();
+			buf[3] = (byte)tempChar.getUc_cell();
+			text_buf.pull_raw(4, buf);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+
+		int n_uchars = text_buf.pull_int().getInt();
+		if (n_uchars < 0) {
+			throw new TtcnError("Text decoder: Invalid length was received for an universal charstring.");
+		}
+		charstring = false;
+		if (n_uchars > 0) {
+			val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
+			for (int i = 0; i < n_uchars; i++) {
+				byte buf[] = new byte[4];
+				text_buf.pull_raw(4, buf);
+				TitanUniversalChar temp = new TitanUniversalChar((char)buf[0], (char)buf[1], (char)buf[2], (char)buf[3]);
+				val_ptr.add(temp);
+			}
 		}
 	}
 

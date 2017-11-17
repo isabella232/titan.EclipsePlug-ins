@@ -604,6 +604,20 @@ public class TitanInteger extends Base_Type {
 		return openSSL;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound integer value.");
+
+		text_buf.push_int(this);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		assign(text_buf.pull_int());
+	}
+
 	// static operator+
 	public static TitanInteger add(final int intValue, final TitanInteger otherValue) {
 		otherValue.mustBound("Unbound right operand of integer addition.");

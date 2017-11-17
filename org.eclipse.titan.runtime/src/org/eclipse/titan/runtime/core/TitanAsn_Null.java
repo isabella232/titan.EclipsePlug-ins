@@ -126,6 +126,20 @@ public class TitanAsn_Null extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		if (!boundFlag) {
+			throw new TtcnError("Text encoder: Encoding an ASN.1 NULL value.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		boundFlag = true;
+	}
+
 	// static operator==
 	public static boolean operatorEquals(final Asn_Null_Type parValue, final TitanAsn_Null otherValue) {
 		if (!otherValue.isBound()) {

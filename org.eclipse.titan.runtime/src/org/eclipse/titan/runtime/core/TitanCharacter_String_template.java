@@ -538,4 +538,57 @@ public class TitanCharacter_String_template extends Base_Template {
 			}
 		}
 	}
+
+	@Override
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_base(text_buf);
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			identification.encode_text(text_buf);
+			data__value__descriptor.encode_text(text_buf);
+			string__value.encode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(list_value.size());
+			for (int i = 0; i < list_value.size(); i++) {
+				list_value.get(i).encode_text(text_buf);
+			}
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type CHARACTER STRING.");
+		}
+	}
+
+	@Override
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_base(text_buf);
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			identification.decode_text(text_buf);
+			data__value__descriptor.decode_text(text_buf);
+			string__value.decode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			list_value = new ArrayList<TitanCharacter_String_template>(text_buf.pull_int().getInt());
+			for (int i = 0; i < list_value.size(); i++) {
+				final TitanCharacter_String_template temp = new TitanCharacter_String_template();
+				temp.decode_text(text_buf);
+				list_value.add(temp);
+			}
+			break;
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type CHARACTER STRING.");
+		}
+	}
 }

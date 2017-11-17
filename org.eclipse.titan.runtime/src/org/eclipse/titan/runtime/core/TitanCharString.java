@@ -200,6 +200,41 @@ public class TitanCharString extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound charstring value.");
+
+		final int n_chars = val_ptr.length();
+		text_buf.push_int(n_chars);
+		if (n_chars > 0) {
+			byte[] temp = new byte[n_chars];
+			for (int i = 0; i < n_chars; i++) {
+				temp[i] = (byte)val_ptr.charAt(i);
+			}
+			text_buf.push_raw(n_chars, temp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+
+		int n_chars = text_buf.pull_int().getInt();
+		if (n_chars < 0) {
+			throw new TtcnError("Text decoder: Invalid length was received for a charstring.");
+		}
+		if (n_chars > 0) {
+			val_ptr = new StringBuilder(n_chars);
+			byte[] temp = new byte[n_chars];
+			text_buf.pull_raw(n_chars, temp);
+			for (int i = 0; i < n_chars; i++) {
+				val_ptr.append((char)temp[i]);
+			}
+		}
+	}
+
 	/**
 	 * this + aOtherValue
 	 * originally operator&

@@ -624,4 +624,75 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			return false;
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_restricted(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value.encode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(value_list.size());
+			for (int i = 0; i < value_list.size(); i++) {
+				value_list.get(i).encode_text(text_buf);
+			}
+			break;
+		case STRING_PATTERN:
+			text_buf.push_int(pattern_value.size());
+			byte[] temp = new byte[pattern_value.size()];
+			for (int i = 0; i < pattern_value.size(); i++) {
+				temp[i] = pattern_value.get(i).byteValue();
+			}
+			text_buf.push_raw((pattern_value.size() + 7) / 8, temp);
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported hexstring template.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_restricted(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value.decode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			value_list = new ArrayList<TitanHexString_template>(text_buf.pull_int().getInt());
+			for(int i = 0; i < value_list.size(); i++) {
+				final TitanHexString_template temp = new TitanHexString_template();
+				temp.decode_text(text_buf);
+				value_list.add(temp);
+			}
+			break;
+		case STRING_PATTERN: {
+			final int n_elements = text_buf.pull_int().getInt();
+			pattern_value = new ArrayList<Byte>(n_elements);
+			byte[] temp = new byte[n_elements];
+			text_buf.pull_raw(n_elements, temp);
+			for (int i = 0; i < n_elements; i++) {
+				pattern_value.add(temp[i]);
+			}
+			break;
+		}
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a hexstring template.");
+		}
+	}
 }

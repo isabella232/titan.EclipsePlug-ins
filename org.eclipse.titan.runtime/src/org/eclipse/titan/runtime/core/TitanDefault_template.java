@@ -378,4 +378,16 @@ public class TitanDefault_template extends Base_Template {
 			return false;
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		throw new TtcnError("Default reference templates cannot be sent to other test components.");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		throw new TtcnError("Default reference templates cannot be received from other test components.");
+	}
 }

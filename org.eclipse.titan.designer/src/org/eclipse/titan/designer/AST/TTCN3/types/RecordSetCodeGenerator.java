@@ -81,6 +81,7 @@ public class RecordSetCodeGenerator {
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
 		aData.addBuiltinTypeImport("Base_Type");
+		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("TtcnLogger");
 		if(hasOptional) {
@@ -112,6 +113,7 @@ public class RecordSetCodeGenerator {
 		generateGettersSetters( source, fieldInfos );
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
+		generateValueEncodeDecodeText(source, fieldInfos);
 		source.append( "\t}\n" );
 	}
 
@@ -134,6 +136,7 @@ public class RecordSetCodeGenerator {
 		aData.addImport("java.util.ArrayList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Template");
+		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("Optional");
 		aData.addBuiltinTypeImport("TtcnLogger");
@@ -160,6 +163,7 @@ public class RecordSetCodeGenerator {
 		generateTemplateMatch( source, fieldInfos, className, classDisplayName );
 		generateTemplateSizeOf( source, fieldInfos, classDisplayName );
 		generateTemplateLog( source, fieldInfos, className, classDisplayName );
+		generateTemplateEncodeDecodeText(source, fieldInfos, className, classDisplayName);
 
 		source.append("}\n");
 	}
@@ -493,6 +497,31 @@ public class RecordSetCodeGenerator {
 		aSb.append("}\n");
 	}
 
+	/**
+	 * Generating encode_text/decode_text
+	 * 
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateValueEncodeDecodeText(final StringBuilder aSb, final List<FieldInfo> aNamesList) {
+		aSb.append("@Override\n");
+		aSb.append("public void encode_text(final Text_Buf text_buf) {\n");
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			FieldInfo fieldInfo = aNamesList.get(i);
+
+			aSb.append(MessageFormat.format("{0}.encode_text(text_buf);\n", fieldInfo.mVarName));
+		}
+		aSb.append("}\n");
+
+		aSb.append("@Override\n");
+		aSb.append("public void decode_text(final Text_Buf text_buf) {\n");
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			FieldInfo fieldInfo = aNamesList.get(i);
+
+			aSb.append(MessageFormat.format("{0}.decode_text(text_buf);\n", fieldInfo.mVarName));
+		}
+		aSb.append("}\n");
+	}
 	/**
 	 * Generating isBound() function for template
 	 * @param aSb the output, where the java code is written
@@ -1195,7 +1224,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
 		source.append("\t\t\t} else {\n");
 		source.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
-		source.append("\t\t\t\t\tint previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+		source.append("\t\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fi = aNamesList.get(i);
 			source.append(MessageFormat.format("\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
@@ -1232,6 +1261,71 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
 		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate encode_text/decode_text
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param aNamesList sequence field variable and type names
+	 * @param genName the name of the generated class representing the record/set type.
+	 * @param displayName the user readable name of the type to be generated.
+	 */
+	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
+		source.append("@Override\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		source.append("encode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			FieldInfo fi = aNamesList.get(i);
+			source.append(MessageFormat.format("{0}.encode_text(text_buf);\n", fi.mVarName ) );
+		}
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("text_buf.push_int(list_value.size());\n");
+		source.append("for (int i = 0; i < list_value.size(); i++) {\n");
+		source.append("list_value.get(i).encode_text(text_buf);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		source.append("cleanUp();\n");
+		source.append("decode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			FieldInfo fi = aNamesList.get(i);
+			source.append(MessageFormat.format("{0}.decode_text(text_buf);\n", fi.mVarName ) );
+		}
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append(MessageFormat.format("list_value = new ArrayList<{0}_template>(text_buf.pull_int().getInt());\n", genName));
+		source.append("for(int i = 0; i < list_value.size(); i++) {\n");
+		source.append(MessageFormat.format("final {0}_template temp = new {0}_template();\n", genName));
+		source.append("temp.decode_text(text_buf);\n");
+		source.append("list_value.add(temp);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", displayName));
+		source.append("}\n");
+		source.append("}\n");
 	}
 
 	/**
@@ -1308,6 +1402,12 @@ public class RecordSetCodeGenerator {
 		source.append("return bound_flag;\n");
 		source.append("}\n\n");
 
+		source.append("public void mustBound( final String aErrorMessage ) {\n");
+		source.append("if ( !bound_flag ) {\n");
+		source.append("throw new TtcnError( aErrorMessage );\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
 		source.append("//originally operator==\n");
 		source.append("public boolean operatorEquals( final TitanNull_Type otherValue ) {\n");
 		source.append("if (!isBound()) {\n");
@@ -1355,6 +1455,16 @@ public class RecordSetCodeGenerator {
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		source.append(MessageFormat.format("mustBound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", classDisplayname));
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		source.append("bound_flag = true;\n");
 		source.append("}\n");
 
 		source.append("}\n\n");
@@ -1666,6 +1776,50 @@ public class RecordSetCodeGenerator {
 		source.append("TtcnLogger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
 		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		source.append("encode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("text_buf.push_int(list_value.size());\n");
+		source.append("for (int i = 0; i < list_value.size(); i++) {\n");
+		source.append("list_value.get(i).encode_text(text_buf);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append( MessageFormat.format( "throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", classDisplayName));
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		source.append("decode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append( MessageFormat.format( "list_value = new ArrayList<{0}_template>(text_buf.pull_int().getInt());\n", className));
+		source.append("for(int i = 0; i < list_value.size(); i++) {\n");
+		source.append( MessageFormat.format( "final {0}_template temp = new {0}_template();\n", className));
+		source.append("temp.decode_text(text_buf);\n");
+		source.append("list_value.add(temp);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append( MessageFormat.format( "throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", classDisplayName));
 		source.append("}\n");
 		source.append("}\n\n");
 

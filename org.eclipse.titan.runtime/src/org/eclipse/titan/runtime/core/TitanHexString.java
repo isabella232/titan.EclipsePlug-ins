@@ -307,6 +307,41 @@ public class TitanHexString extends Base_Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound hexstring value.");
+
+		final int nibbles = nibbles_ptr.size();
+		text_buf.push_int(nibbles);
+		if (nibbles > 0) {
+			byte[] temp = new byte[nibbles];
+			for (int i = 0; i < nibbles; i++) {
+				temp[i] = nibbles_ptr.get(i).byteValue();
+			}
+			text_buf.push_raw(temp.length, temp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+
+		int n_nibbles = text_buf.pull_int().getInt();
+		if (n_nibbles < 0) {
+			throw new TtcnError("Text decoder: Invalid length was received for a hexstring.");
+		}
+		if (n_nibbles > 0) {
+			nibbles_ptr = new ArrayList<Byte>(n_nibbles);
+			byte[] temp = new byte[n_nibbles];
+			text_buf.pull_raw(n_nibbles, temp);
+			for (int i = 0; i < n_nibbles; i++) {
+				nibbles_ptr.add(temp[i]);
+			}
+		}
+	}
+
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}

@@ -387,4 +387,20 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 		TtcnLogger.log_event_str(" }");
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		for (int i = 0; i < array_size; i++) {
+			array_elements[i].encode_text(text_buf);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		for (int i = 0; i < array_size; i++) {
+			array_elements[i].decode_text(text_buf);
+		}
+	}
 }

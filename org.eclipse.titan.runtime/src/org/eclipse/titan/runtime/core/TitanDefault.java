@@ -178,6 +178,18 @@ public class TitanDefault extends Base_Type {
 		TTCN_Default.log(default_ptr);
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		throw new TtcnError("Default references cannot be sent to other test components.");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		throw new TtcnError("Default references cannot be received from other test components.");
+	}
+
 	//originally static operator== with component parameter
 	public static boolean operatorEquals(final int defaultValue, final TitanDefault otherValue) {
 		if (defaultValue != TitanComponent.NULL_COMPREF) {

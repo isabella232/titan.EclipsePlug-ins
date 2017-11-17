@@ -244,4 +244,39 @@ public class TitanComponent extends Base_Type {
 			return "FIXME implement get_component_string";
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		if (componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError("Text encoder: Encoding an unbound component reference.");
+		}
+
+		text_buf.push_int(componentValue);
+		switch (componentValue) {
+		case NULL_COMPREF:
+		case MTC_COMPREF:
+		case SYSTEM_COMPREF:
+			break;
+		default:
+			text_buf.push_string(get_component_string(componentValue));
+			break;
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		componentValue = text_buf.pull_int().getInt();
+		switch (componentValue) {
+		case NULL_COMPREF:
+		case MTC_COMPREF:
+		case SYSTEM_COMPREF:
+			break;
+		default:
+			String componentName = text_buf.pull_string();
+			//FIXME implement registering the component name
+			break;
+		}
+	}
 }

@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.RecordOfMatch.answer;
 import org.eclipse.titan.runtime.core.RecordOfMatch.match_function_t;
 import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
+import org.eclipse.titan.runtime.core.Record_Of_Template.Pair_of_elements;
 
 /**
  * @author Farkas Izabella Ingrid
@@ -56,8 +57,30 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	private ArrayList<Pair_of_elements> permutationIntervals;
 
 	//private part
-	//TODO:	void encode_text_permutation(Text_Buf& text_buf) const;
-	//TODO:	void decode_text_permutation(Text_Buf& text_buf);
+	private void encode_text_permutation(final Text_Buf text_buf) {
+		encode_text_restricted(text_buf);
+
+		final int number_of_permutations = get_number_of_permutations();
+		text_buf.push_int(number_of_permutations);
+
+		for(int i = 0; i < number_of_permutations; i++) {
+			text_buf.push_int(permutationIntervals.get( i ).start_index);
+			text_buf.push_int(permutationIntervals.get( i ).end_index);
+		}
+	}
+
+	private void decode_text_permutation(final Text_Buf text_buf) {
+		decode_text_restricted(text_buf);
+
+		final int number_of_permutations = text_buf.pull_int().getInt();
+		permutationIntervals = new ArrayList<Pair_of_elements>(number_of_permutations);
+
+		for (int i = 0; i < number_of_permutations; i++) {
+			final int start_index = text_buf.pull_int().getInt();
+			final int end_index = text_buf.pull_int().getInt();
+			permutationIntervals.add( new Pair_of_elements( start_index, end_index ) );
+		}
+	}
 
 	private void clean_up_intervals() {
 		//numberOfperm = 0;
@@ -86,7 +109,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 
 		final List<Pair_of_elements> newList = new ArrayList<Pair_of_elements>(srcList.size());
-		for (Pair_of_elements srcElem : srcList) {
+		for (final Pair_of_elements srcElem : srcList) {
 			final Pair_of_elements newElem = new Pair_of_elements(srcElem.start_index, srcElem.start_index);
 			newList.add(newElem);
 		}
@@ -215,7 +238,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			value_list = new TitanTemplateArray[listSize];
 
 			for (int i = 0; i < listSize; ++i) {
-				TitanTemplateArray<Tvalue, Ttemplate> temp = new TitanTemplateArray<Tvalue, Ttemplate>((TitanTemplateArray<Tvalue, Ttemplate>)otherValue.value_list[i]);
+				final TitanTemplateArray<Tvalue, Ttemplate> temp = new TitanTemplateArray<Tvalue, Ttemplate>((TitanTemplateArray<Tvalue, Ttemplate>)otherValue.value_list[i]);
 				value_list[i] = temp;
 			}
 			break;
@@ -620,6 +643,77 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to value array", match_value));
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_restricted(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			text_buf.push_int(singleSize);
+			for (int i = 0; i < array_size; i++) {
+				single_value[i].encode_text(text_buf);
+			}
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(listSize);
+			for (int i = 0; i < listSize; i++) {
+				value_list[i].encode_text(text_buf);
+			}
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported array template.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_restricted(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			singleSize = text_buf.pull_int().getInt();
+			if (singleSize < 0) {
+				throw new TtcnError("Text decoder: Negative size was received for an array template.");
+			}
+			single_value = new Base_Template[singleSize];
+			for (int i = 0; i < array_size; i++) {
+				try {
+					final Ttemplate helper = classTemplate.newInstance();
+					helper.decode_text(text_buf);
+					single_value[i] = helper;
+				} catch (InstantiationException e) {
+					throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
+				} catch (IllegalAccessException e) {
+					throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
+				}
+			}
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			listSize = text_buf.pull_int().getInt();
+			value_list = new TitanTemplateArray[listSize];
+			for (int i = 0; i < listSize; ++i) {
+				value_list[i] = new TitanTemplateArray<Tvalue,Ttemplate>(classValue, classTemplate);
+				value_list[i].decode_text(text_buf);
+			}
+			break;
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for an array template.");
+		}
 	}
 
 	public boolean match(final TitanValueArray<Tvalue> otherValue) {

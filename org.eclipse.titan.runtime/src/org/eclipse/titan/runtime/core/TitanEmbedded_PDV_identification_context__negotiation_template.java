@@ -441,7 +441,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
-					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					final int previous_size = TtcnLogger.get_logmatch_buffer_len();
 					if( !presentation__context__id.match(match_value.constGetPresentation__context__id(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".presentation-context-id");
 						presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
@@ -477,6 +477,57 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			} else {
 				TtcnLogger.log_event_str(" unmatched");
 			}
+		}
+	}
+
+	@Override
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_base(text_buf);
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			presentation__context__id.encode_text(text_buf);
+			transfer__syntax.encode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(list_value.size());
+			for (int i = 0; i < list_value.size(); i++) {
+				list_value.get(i).encode_text(text_buf);
+			}
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type EMBEDDED PDV.identification.context-negotiation.");
+		}
+	}
+
+	@Override
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_base(text_buf);
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			presentation__context__id.decode_text(text_buf);
+			transfer__syntax.decode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			list_value = new ArrayList<TitanEmbedded_PDV_identification_context__negotiation_template>(text_buf.pull_int().getInt());
+			for (int i = 0; i < list_value.size(); i++) {
+				final TitanEmbedded_PDV_identification_context__negotiation_template temp = new TitanEmbedded_PDV_identification_context__negotiation_template();
+				temp.decode_text(text_buf);
+				list_value.add(temp);
+			}
+			break;
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 	}
 }

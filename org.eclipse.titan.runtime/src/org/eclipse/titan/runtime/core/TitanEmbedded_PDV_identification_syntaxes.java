@@ -134,4 +134,16 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 		transfer.log();
 		TtcnLogger.log_event_str(" }");
 	}
+
+	@Override
+	public void encode_text(final Text_Buf text_buf) {
+		abstract_.encode_text(text_buf);
+		transfer.encode_text(text_buf);
+	}
+
+	@Override
+	public void decode_text(final Text_Buf text_buf) {
+		abstract_.decode_text(text_buf);
+		transfer.decode_text(text_buf);
+	}
 }

@@ -321,4 +321,57 @@ public class TitanObjectid_template extends Base_Template {
 	public boolean match_omit() {
 		return match_omit(false);
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_base(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value.encode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(value_list.size());
+			for (int i = 0; i < value_list.size(); i++) {
+				value_list.get(i).encode_text(text_buf);
+			}
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported objid template.");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_base(text_buf);
+
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			single_value.decode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			value_list = new ArrayList<TitanObjectid_template>(text_buf.pull_int().getInt());
+			for(int i = 0; i < value_list.size(); i++) {
+				final TitanObjectid_template temp = new TitanObjectid_template();
+				temp.decode_text(text_buf);
+				value_list.add(temp);
+			}
+			break;
+		default:
+			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for an objid template.");
+		}
+	}
 }

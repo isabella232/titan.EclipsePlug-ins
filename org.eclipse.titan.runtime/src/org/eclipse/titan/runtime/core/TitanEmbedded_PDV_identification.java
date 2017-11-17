@@ -291,4 +291,58 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 			break;
 		}
 	}
+
+	@Override
+	public void encode_text(final Text_Buf text_buf) {
+		switch (union_selection) {
+		case ALT_Syntaxes:
+			text_buf.push_int(0);
+			break;
+		case ALT_Syntax:
+			text_buf.push_int(1);
+			break;
+		case ALT_Presentation__context__id:
+			text_buf.push_int(2);
+			break;
+		case ALT_Context__negotiation:
+			text_buf.push_int(3);
+			break;
+		case ALT_Transfer__syntax:
+			text_buf.push_int(4);
+			break;
+		case ALT_Fixed:
+			text_buf.push_int(5);
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an unbound value of union type EMBEDDED PDV.identification.");
+		}
+		field.encode_text(text_buf);
+	}
+
+	@Override
+	public void decode_text(final Text_Buf text_buf) {
+		final int temp = text_buf.pull_int().getInt();
+		switch (temp) {
+		case 0:
+			getSyntaxes().decode_text(text_buf);
+			break;
+		case 1:
+			getSyntax().decode_text(text_buf);
+			break;
+		case 2:
+			getPresentation__context__id().decode_text(text_buf);
+			break;
+		case 3:
+			getContext__negotiation().decode_text(text_buf);
+			break;
+		case 4:
+			getTransfer__syntax().decode_text(text_buf);
+			break;
+		case 5:
+			getFixed().decode_text(text_buf);
+			break;
+		default:
+			throw new TtcnError("Text decoder: Unrecognized union selector was received for type EMBEDDED PDV.identification.");
+		}
+	}
 }

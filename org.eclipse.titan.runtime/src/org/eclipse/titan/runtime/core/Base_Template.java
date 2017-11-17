@@ -19,18 +19,29 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
  */
 public abstract class Base_Template {
 	public enum template_sel {
-		UNINITIALIZED_TEMPLATE,
-		SPECIFIC_VALUE,
-		OMIT_VALUE,
-		ANY_VALUE,
-		ANY_OR_OMIT,
-		VALUE_LIST,
-		COMPLEMENTED_LIST,
-		VALUE_RANGE,
-		STRING_PATTERN,
-		SUPERSET_MATCH,
-		SUBSET_MATCH,
-		DECODE_MATCH
+		UNINITIALIZED_TEMPLATE (0),
+		SPECIFIC_VALUE (1),
+		OMIT_VALUE (2),
+		ANY_VALUE (3),
+		ANY_OR_OMIT (4),
+		VALUE_LIST (5),
+		COMPLEMENTED_LIST (6),
+		VALUE_RANGE (7),
+		STRING_PATTERN (8),
+		SUPERSET_MATCH (9),
+		SUBSET_MATCH (10),
+		DECODE_MATCH (11);
+
+		private final int value;
+		template_sel (final int value) {
+			this.value = value;
+		}
+		public int getValue() {
+			return value;
+		}
+		public static template_sel getWithValue(final int value) {
+			return values()[value];
+		}
 	};
 
 	public enum template_res {
@@ -130,6 +141,16 @@ public abstract class Base_Template {
 		if (is_ifPresent) {
 			TtcnLogger.log_event_str(" ifpresent");
 		}
+	}
+
+	protected void encode_text_base(final Text_Buf text_buf) {
+		text_buf.push_int(templateSelection.getValue());
+		text_buf.push_int(is_ifPresent ? 1 : 0);
+	}
+
+	protected void decode_text_base(final Text_Buf text_buf) {
+		templateSelection = template_sel.getWithValue(text_buf.pull_int().getInt());
+		is_ifPresent = text_buf.pull_int().getInt() == 1;
 	}
 
 	protected boolean get_istemplate_kind(final String type) {

@@ -655,5 +655,83 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 			}
 		}
 	}
+
+	@Override
+	public void encode_text(final Text_Buf text_buf) {
+		encode_text_base(text_buf);
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE:
+			text_buf.push_int(single_value_union_selection.ordinal());
+			single_value.encode_text(text_buf);
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			text_buf.push_int(value_list.size());
+			for (int i = 0; i < value_list.size(); i++) {
+				value_list.get(i).encode_text(text_buf);
+			}
+			break;
+		default:
+			throw new TtcnError("Text encoder: Encoding an uninitialized template of type EMBEDDED PDV.identification.");
+		}
+	}
+
+	@Override
+	public void decode_text(final Text_Buf text_buf) {
+		cleanUp();
+		decode_text_base(text_buf);
+		switch (templateSelection) {
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case SPECIFIC_VALUE: {
+			final int temp = text_buf.pull_int().getInt();
+			switch (temp) {
+			case 0:
+				single_value = new TitanEmbedded_PDV_identification_syntaxes_template();
+				single_value.decode_text(text_buf);
+				break;
+			case 1:
+				single_value = new TitanObjectid_template();
+				single_value.decode_text(text_buf);
+				break;
+			case 2:
+				single_value = new TitanInteger_template();
+				single_value.decode_text(text_buf);
+				break;
+			case 3:
+				single_value = new TitanEmbedded_PDV_identification_context__negotiation_template();
+				single_value.decode_text(text_buf);
+				break;
+			case 4:
+				single_value = new TitanObjectid_template();
+				single_value.decode_text(text_buf);
+				break;
+			case 5:
+				single_value = new TitanAsn_Null_template();
+				single_value.decode_text(text_buf);
+				break;
+			}
+		}
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST: {
+			final int temp = text_buf.pull_int().getInt();
+			value_list = new ArrayList<TitanEmbedded_PDV_identification_template>(temp);
+			for (int i = 0; i < temp; i++) {
+				TitanEmbedded_PDV_identification_template temp2 = new TitanEmbedded_PDV_identification_template();
+				temp2.decode_text(text_buf);
+				value_list.add(temp2);
+			}
+			break;
+		}
+		default:
+			throw new TtcnError("Text decoder: Unrecognized selector was received in a template of type EMBEDDED PDV.identification.");
+		}
+	}
 }
 //TODO: ASN1_Choice_Type.generateCode() is not fully implemented!

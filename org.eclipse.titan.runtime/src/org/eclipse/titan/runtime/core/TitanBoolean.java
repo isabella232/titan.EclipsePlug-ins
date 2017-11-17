@@ -221,6 +221,30 @@ public class TitanBoolean extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void encode_text(final Text_Buf text_buf) {
+		mustBound("Text encoder: Encoding an unbound boolean value.");
+
+		text_buf.push_int(boolean_value ? 1 : 0);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode_text(final Text_Buf text_buf) {
+		final int int_value = text_buf.pull_int().getInt();
+		switch(int_value) {
+		case 0:
+			boolean_value = false;
+			break;
+		case 1:
+			boolean_value = true;
+			break;
+		default:
+			throw new TtcnError(MessageFormat.format("Text decoder: An invalid boolean value ({0}) was received.", int_value));
+		}
+	}
+
 	public static boolean getNative(final boolean value) {
 		return value;
 	}
