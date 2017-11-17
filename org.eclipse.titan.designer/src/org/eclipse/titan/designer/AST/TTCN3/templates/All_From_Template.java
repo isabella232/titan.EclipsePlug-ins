@@ -13,6 +13,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -403,6 +404,13 @@ public class All_From_Template extends TTCN3Template {
 		return result;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
+		if (allFrom != null) {
+			allFrom.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
 
 	public void generateCodeInitAllFrom(final JavaGenData aData, final StringBuilder source, final String name) {
 		final IValue value = ((SpecificValue_Template) allFrom).getValue();

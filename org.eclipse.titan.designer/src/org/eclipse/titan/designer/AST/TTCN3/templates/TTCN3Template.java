@@ -1309,9 +1309,5 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		// default implementation
-		source.append('\t');
-		source.append("//TODO: ");
-		source.append(getClass().getSimpleName());
-		source.append(".reArrangeInitCode() is not implemented!\n");
 	}
 }
