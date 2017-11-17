@@ -13,8 +13,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
-
 /**
  * Additional (predefined) functions
  * 
@@ -216,7 +214,7 @@ public final class AdditionalFunctions {
 				nibbles_ptr.set(i, temp.byteValue());
 				tmp_value = tmp_value.shiftRight(4);
 			}
-			tmp_value.shiftRight(4);//TODO check: does not seem to do anything
+
 			if (tmp_value.compareTo(BigInteger.ZERO) != 0) {
 				int i = 0;
 				while (tmp_value.compareTo(BigInteger.ZERO) != 0) {
