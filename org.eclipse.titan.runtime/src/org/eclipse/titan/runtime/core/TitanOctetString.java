@@ -321,13 +321,13 @@ public class TitanOctetString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		cleanUp();
 
-		int n_octets = text_buf.pull_int().getInt();
+		final int n_octets = text_buf.pull_int().getInt();
 		if (n_octets < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for an octetstring.");
 		}
 		if (n_octets > 0) {
 			val_ptr = new ArrayList<Character>(n_octets);
-			byte[] temp = new byte[n_octets];
+			final byte[] temp = new byte[n_octets];
 			text_buf.pull_raw(n_octets, temp);
 			for (int i = 0; i < n_octets; i++) {
 				val_ptr.add((char)temp[i]);

@@ -32,7 +32,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 		for (int i = 0; i < array_size ; ++i) {
 			try {
-				T helper = clazz.newInstance();
+				final T helper = clazz.newInstance();
 				helper.assign(otherValue.array_elements[i]);
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
@@ -51,7 +51,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		array_elements = new TitanTimer[array_size];
 		for (int i = 0; i < otherValue.array_size; ++i) {
 			try {
-				T helper = clazz.newInstance();
+				final T helper = clazz.newInstance();
 				helper.assign(otherValue.array_element(i));
 				array_elements[i] = helper;
 			} catch (InstantiationException e) {
@@ -77,7 +77,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
 			try {
-				T empty = clazz.newInstance();
+				final T empty = clazz.newInstance();
 				array_elements[i] = empty;
 			} catch (InstantiationException e) {
 				throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", clazz, e));
@@ -200,7 +200,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; ++i) {
-			TitanAlt_Status ret_val = array_elements[i].timeout(index_redirect);
+			final TitanAlt_Status ret_val = array_elements[i].timeout(index_redirect);
 			if (ret_val == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexOffset);

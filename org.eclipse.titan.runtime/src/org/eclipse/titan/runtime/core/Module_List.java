@@ -29,7 +29,7 @@ public final class Module_List {
 	}
 
 	public static TTCN_Module lookup_module(final String module_name) {
-		for (TTCN_Module module : modules) {
+		for (final TTCN_Module module : modules) {
 			if (module.name.equals(module_name)) {
 				return module;
 			}
@@ -39,13 +39,13 @@ public final class Module_List {
 	}
 
 	public static void pre_init_modules() {
-		for (TTCN_Module module: modules) {
+		for (final TTCN_Module module: modules) {
 			module.pre_init_module();
 		}
 	}
 
 	public static void post_init_modules() {
-		for (TTCN_Module module: modules) {
+		for (final TTCN_Module module: modules) {
 			module.post_init_module();
 		}
 	}

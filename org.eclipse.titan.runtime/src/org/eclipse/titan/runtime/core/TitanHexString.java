@@ -327,13 +327,13 @@ public class TitanHexString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		cleanUp();
 
-		int n_nibbles = text_buf.pull_int().getInt();
+		final int n_nibbles = text_buf.pull_int().getInt();
 		if (n_nibbles < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for a hexstring.");
 		}
 		if (n_nibbles > 0) {
 			nibbles_ptr = new ArrayList<Byte>(n_nibbles);
-			byte[] temp = new byte[n_nibbles];
+			final byte[] temp = new byte[n_nibbles];
 			text_buf.pull_raw(n_nibbles, temp);
 			for (int i = 0; i < n_nibbles; i++) {
 				nibbles_ptr.add(temp[i]);

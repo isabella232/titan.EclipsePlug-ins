@@ -539,7 +539,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:
 			TtcnLogger.log_char('\'');
 			for (int i = 0; i < pattern_value.size(); i++) {
-				byte pattern = pattern_value.get(i);
+				final byte pattern = pattern_value.get(i);
 				if (pattern < 16) {
 					TtcnLogger.log_hex(pattern);
 				} else if (pattern == 16) {
@@ -684,7 +684,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		case STRING_PATTERN: {
 			final int n_elements = text_buf.pull_int().getInt();
 			pattern_value = new ArrayList<Byte>(n_elements);
-			byte[] temp = new byte[n_elements];
+			final byte[] temp = new byte[n_elements];
 			text_buf.pull_raw(n_elements, temp);
 			for (int i = 0; i < n_elements; i++) {
 				pattern_value.add(temp[i]);

@@ -441,7 +441,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
-					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					final int previous_size = TtcnLogger.get_logmatch_buffer_len();
 					if( !presentation__context__id.match(match_value.constGetPresentation__context__id(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".presentation-context-id");
 						presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);

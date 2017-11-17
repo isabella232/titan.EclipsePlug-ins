@@ -493,7 +493,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
-					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					final int previous_size = TtcnLogger.get_logmatch_buffer_len();
 					if( !identification.match(match_value.constGetIdentification(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".identification");
 						identification.log_match(match_value.constGetIdentification(), legacy);

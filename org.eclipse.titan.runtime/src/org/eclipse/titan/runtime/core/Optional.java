@@ -203,7 +203,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		cleanUp();
 
-		int temp = text_buf.pull_int().getInt();
+		final int temp = text_buf.pull_int().getInt();
 		if (temp == 1) {
 			setToPresent();
 			optionalValue.decode_text(text_buf);

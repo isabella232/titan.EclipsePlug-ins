@@ -33,7 +33,7 @@ public final class Runtime_Single_main {
 
 		Module_List.post_init_modules();
 
-		for (TTCN_Module module : Module_List.modules) {
+		for (final TTCN_Module module : Module_List.modules) {
 			module.control();
 		}
 

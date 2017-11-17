@@ -166,7 +166,7 @@ public class TitanVerdictType extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
-		int received_value = text_buf.pull_int().getInt();
+		final int received_value = text_buf.pull_int().getInt();
 		if (received_value < 0 || received_value > 5) {
 			throw new TtcnError(MessageFormat.format("Text decoder: Invalid verdict value ({0}) was received.", received_value));
 		}
@@ -180,7 +180,7 @@ public class TitanVerdictType extends Base_Type {
 	//TODO: implement VERDICTTYPE::XER_encode()
 
 	public VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
-		for (VerdictTypeEnum i : VerdictTypeEnum.values()) {
+		for (final VerdictTypeEnum i : VerdictTypeEnum.values()) {
 			if ( verdict_name[i.ordinal()].equals( v ) ) {
 				return i;
 			}

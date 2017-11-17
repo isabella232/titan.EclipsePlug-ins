@@ -149,7 +149,7 @@ public final class TTCN_Snapshot {
 			if (selectReturn > 0 ){
 				final Set<SelectionKey> selectedKeys = selector.selectedKeys();
 				//call handlers
-				for (SelectionKey key : selectedKeys) {
+				for (final SelectionKey key : selectedKeys) {
 					final TitanPort handler = channelMap.get(key.channel());
 					handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 				}

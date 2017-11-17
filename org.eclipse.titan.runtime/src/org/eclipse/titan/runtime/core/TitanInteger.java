@@ -54,7 +54,7 @@ public class TitanInteger extends Base_Type {
 
 	private boolean fromString(final String otherValue) {
 		try {
-			BigInteger temp = new BigInteger(otherValue);
+			final BigInteger temp = new BigInteger(otherValue);
 			if (temp.abs().compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) == -1) {
 				nativeFlag = true;
 				nativeInt = temp.intValue();

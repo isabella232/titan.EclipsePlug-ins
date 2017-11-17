@@ -557,7 +557,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:
 			TtcnLogger.log_char('\'');
 			for (int i = 0; i < pattern_value.size(); i++) {
-				int pattern = pattern_value.get(i);
+				final int pattern = pattern_value.get(i);
 				if (pattern < 4) {
 					TtcnLogger.log_char(patterns[pattern]);
 				} else {
@@ -695,7 +695,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case STRING_PATTERN: {
 			final int n_elements = text_buf.pull_int().getInt();
 			pattern_value = new ArrayList<Integer>(n_elements);
-			byte[] temp = new byte[n_elements];
+			final byte[] temp = new byte[n_elements];
 			text_buf.pull_raw(n_elements, temp);
 			for (int i = 0; i < n_elements; i++) {
 				pattern_value.add((int) temp[i]);

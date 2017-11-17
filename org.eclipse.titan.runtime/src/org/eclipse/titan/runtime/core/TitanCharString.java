@@ -156,9 +156,9 @@ public class TitanCharString extends Base_Type {
 	public void log() {
 		if (val_ptr != null) {
 			States state = States.INIT;
-			StringBuilder buffer = new StringBuilder();
+			final StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < val_ptr.length(); i++) {
-				char c = val_ptr.charAt(i);
+				final char c = val_ptr.charAt(i);
 				if (TtcnLogger.isPrintable(c)) {
 					switch (state) {
 					case NPCHAR:
@@ -221,13 +221,13 @@ public class TitanCharString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		cleanUp();
 
-		int n_chars = text_buf.pull_int().getInt();
+		final int n_chars = text_buf.pull_int().getInt();
 		if (n_chars < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for a charstring.");
 		}
 		if (n_chars > 0) {
 			val_ptr = new StringBuilder(n_chars);
-			byte[] temp = new byte[n_chars];
+			final byte[] temp = new byte[n_chars];
 			text_buf.pull_raw(n_chars, temp);
 			for (int i = 0; i < n_chars; i++) {
 				val_ptr.append((char)temp[i]);

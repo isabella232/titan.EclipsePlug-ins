@@ -336,7 +336,7 @@ public class TitanTimer {
 	 * @return true if there is a running timer.
 	 * */
 	public static boolean anyRunning() {
-		for (TitanTimer timer : TIMERS) {
+		for (final TitanTimer timer : TIMERS) {
 			if (timer.running(null)) {
 				return true;
 			}
@@ -358,7 +358,7 @@ public class TitanTimer {
 	 * */
 	public static TitanAlt_Status anyTimeout() {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
-		for (TitanTimer timer : TIMERS) {
+		for (final TitanTimer timer : TIMERS) {
 			switch(timer.timeout(null)) {
 			case ALT_YES:
 				//TODO log
@@ -393,7 +393,7 @@ public class TitanTimer {
 			minFlag = true;
 		}
 
-		for (TitanTimer timer : TIMERS) {
+		for (final TitanTimer timer : TIMERS) {
 			if (timer.timeExpires < altBegin) {
 				//ignore timers that expired before the snapshot
 				continue;
@@ -448,7 +448,7 @@ public class TitanTimer {
 		}
 		TtcnLogger.log_event_str(", state: ");
 		if (isStarted) {
-			double current_time = TTCN_Snapshot.timeNow();
+			final double current_time = TTCN_Snapshot.timeNow();
 			if (current_time < timeExpires) {
 				TtcnLogger.log_event_str("running");
 			} else {

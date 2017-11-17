@@ -27,7 +27,7 @@ public class TitanStringUtils {
 		}
 
 		final List<Byte> newList = new ArrayList<Byte>( srcList.size() );
-		for (Byte uc : srcList) {
+		for (final Byte uc : srcList) {
 			newList.add( Byte.valueOf( uc ) );
 		}
 		return newList;
@@ -44,7 +44,7 @@ public class TitanStringUtils {
 		}
 
 		final List<Integer> newList = new ArrayList<Integer>( srcList.size() );
-		for (Integer uc : srcList) {
+		for (final Integer uc : srcList) {
 			newList.add( Integer.valueOf( uc ) );
 		}
 		return newList;
@@ -61,7 +61,7 @@ public class TitanStringUtils {
 		}
 
 		final List<Character> newList = new ArrayList<Character>( srcList.size() );
-		for (Character uc : srcList) {
+		for (final Character uc : srcList) {
 			newList.add( new Character( uc ) );
 		}
 

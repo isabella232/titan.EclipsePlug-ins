@@ -122,7 +122,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 
 		final List<TitanUniversalChar> clonedList = new ArrayList<TitanUniversalChar>(uList.size());
-		for (TitanUniversalChar uc : uList) {
+		for (final TitanUniversalChar uc : uList) {
 			clonedList.add(new TitanUniversalChar(uc));
 		}
 
@@ -701,7 +701,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 		if (val_ptr != null) {
 			States state = States.INIT;
-			StringBuilder buffer = new StringBuilder();
+			final StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < val_ptr.size(); i++) { 
 				final TitanUniversalChar uchar = val_ptr.get(i);
 				if (isPrintable(uchar)) { 
@@ -777,7 +777,7 @@ public class TitanUniversalCharString extends Base_Type {
 		final int n_chars = val_ptr.size();
 		text_buf.push_int(n_chars);
 		for (int i = 0; i < n_chars; i++) {
-			TitanUniversalChar tempChar = val_ptr.get(i);
+			final TitanUniversalChar tempChar = val_ptr.get(i);
 			byte buf[] = new byte[4];
 			buf[0] = (byte)tempChar.getUc_group();
 			buf[1] = (byte)tempChar.getUc_plane();
@@ -792,7 +792,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public void decode_text(final Text_Buf text_buf) {
 		cleanUp();
 
-		int n_uchars = text_buf.pull_int().getInt();
+		final int n_uchars = text_buf.pull_int().getInt();
 		if (n_uchars < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for an universal charstring.");
 		}
@@ -800,9 +800,9 @@ public class TitanUniversalCharString extends Base_Type {
 		if (n_uchars > 0) {
 			val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
 			for (int i = 0; i < n_uchars; i++) {
-				byte buf[] = new byte[4];
+				final byte buf[] = new byte[4];
 				text_buf.pull_raw(4, buf);
-				TitanUniversalChar temp = new TitanUniversalChar((char)buf[0], (char)buf[1], (char)buf[2], (char)buf[3]);
+				final TitanUniversalChar temp = new TitanUniversalChar((char)buf[0], (char)buf[1], (char)buf[2], (char)buf[3]);
 				val_ptr.add(temp);
 			}
 		}

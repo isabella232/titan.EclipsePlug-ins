@@ -723,7 +723,7 @@ public class TitanExternal_identification_template extends Base_Template {
 			final int temp = text_buf.pull_int().getInt();
 			value_list = new ArrayList<TitanExternal_identification_template>(temp);
 			for (int i = 0; i < temp; i++) {
-				TitanExternal_identification_template temp2 = new TitanExternal_identification_template();
+				final TitanExternal_identification_template temp2 = new TitanExternal_identification_template();
 				temp2.decode_text(text_buf);
 				value_list.add(temp2);
 			}

@@ -61,7 +61,7 @@ public final class Text_Buf {
 		}
 
 		if (new_buf_size != buf_size) {
-			byte temp_data_ptr[] = new byte[new_buf_size];
+			final byte temp_data_ptr[] = new byte[new_buf_size];
 			System.arraycopy(data_ptr, 0, temp_data_ptr, 0, new_buf_size < buf_size ? new_buf_size : buf_size);
 			data_ptr = temp_data_ptr;
 		}
@@ -139,10 +139,10 @@ public final class Text_Buf {
 			final int nativeValue = value.getInt();
 			push_int(nativeValue);
 		} else {
-			BigInteger bigValue = value.getBigInteger();
+			final BigInteger bigValue = value.getBigInteger();
 			final boolean isNegative = bigValue.compareTo(BigInteger.ZERO) == -1;
 			BigInteger unsignedValue = bigValue.abs();
-			int numBits = bigValue.bitLength();
+			final int numBits = bigValue.bitLength();
 			// Calculation
 			// first 6 bit +the sign bit are stored in the first octet
 			// the remaining bits stored in 7 bit group + continuation bit
@@ -152,7 +152,7 @@ public final class Text_Buf {
 			// (num_bits+7)/7 =>
 			// (num_bits / 7)+1
 
-			int bytesNeeded = (numBits / 7) + 1;
+			final int bytesNeeded = (numBits / 7) + 1;
 			Reallocate(buf_len + bytesNeeded);
 			for (int i = bytesNeeded - 1;; i--) {
 				if (i > 0) {
@@ -183,7 +183,7 @@ public final class Text_Buf {
 	 * @throw TtcnError if there is no integer available.
 	 * */
 	public TitanInteger pull_int() {
-		TitanInteger value = new TitanInteger();
+		final TitanInteger value = new TitanInteger();
 		if (!safe_pull_int(value)) {
 			throw new TtcnError("Text decoder: Decoding of integer failed.");
 		}
@@ -210,7 +210,7 @@ public final class Text_Buf {
 		if (pos >= buf_end) {
 			return false;
 		}
-		int bytesNeeded = pos - buf_pos + 1;
+		final int bytesNeeded = pos - buf_pos + 1;
 		if (bytesNeeded > 4) {
 			//will be a biginteger
 			BigInteger bigValue = BigInteger.ZERO;// originally D
@@ -263,7 +263,7 @@ public final class Text_Buf {
 	 * @param the value to encode
 	 * */
 	public void push_double(final double value) {
-		byte[] bytes = new byte[8];
+		final byte[] bytes = new byte[8];
 		ByteBuffer.wrap(bytes).putDouble(value);
 
 		Reallocate(buf_len + 8);
@@ -280,7 +280,7 @@ public final class Text_Buf {
 		if (buf_pos + 8 > buf_begin + buf_len) {
 			throw new TtcnError("Text decoder: Decoding of float failed. (End of buffer reached)");
 		}
-		byte[] bytes = new byte[8];
+		final byte[] bytes = new byte[8];
 		System.arraycopy(data_ptr, buf_pos, bytes, 0, 8);
 		buf_pos += 8;
 
@@ -343,7 +343,7 @@ public final class Text_Buf {
 	 * */
 	public void push_string(final String string) {
 		if (string != null) {
-			int len = string.length();
+			final int len = string.length();
 			push_int(len);
 			push_raw(len, string.getBytes());
 		} else {
@@ -357,11 +357,12 @@ public final class Text_Buf {
 	 * @return the extracted string
 	 * */
 	public String pull_string() {
-		int len = pull_int().getInt();
+		final int len = pull_int().getInt();
 		if (len < 0) {
 			throw new TtcnError(MessageFormat.format("Text decoder: Negative string length ({0}).", len));
 		}
-		byte[] raw = new byte[len];
+
+		final byte[] raw = new byte[len];
 		pull_raw(len, raw);
 		return new String(raw);
 	}
@@ -398,7 +399,7 @@ public final class Text_Buf {
 	}
 
 	public void get_end(final AtomicInteger end_index, final AtomicInteger end_len) {
-		int buf_end = buf_begin + buf_len;
+		final int buf_end = buf_begin + buf_len;
 		if (buf_size - buf_end < BUF_SIZE) {
 			Reallocate(buf_len + BUF_SIZE);
 		}

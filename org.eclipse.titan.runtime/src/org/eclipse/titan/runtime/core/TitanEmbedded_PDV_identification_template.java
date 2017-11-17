@@ -723,7 +723,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 			final int temp = text_buf.pull_int().getInt();
 			value_list = new ArrayList<TitanEmbedded_PDV_identification_template>(temp);
 			for (int i = 0; i < temp; i++) {
-				TitanEmbedded_PDV_identification_template temp2 = new TitanEmbedded_PDV_identification_template();
+				final TitanEmbedded_PDV_identification_template temp2 = new TitanEmbedded_PDV_identification_template();
 				temp2.decode_text(text_buf);
 				value_list.add(temp2);
 			}

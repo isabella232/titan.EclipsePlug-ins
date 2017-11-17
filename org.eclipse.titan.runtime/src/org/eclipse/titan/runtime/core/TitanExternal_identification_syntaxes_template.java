@@ -441,7 +441,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 				TtcnLogger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
-					int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					final int previous_size = TtcnLogger.get_logmatch_buffer_len();
 					if( !abstract_.match(match_value.constGetAbstract_(), legacy) ) {
 						TtcnLogger.log_logmatch_info(".abstract");
 						abstract_.log_match(match_value.constGetAbstract_(), legacy);
