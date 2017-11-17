@@ -200,8 +200,9 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		case RANGE_LENGTH_RESTRICTION:
 			text_buf.push_int(range_length_min_length);
 			text_buf.push_int( range_length_max_length_set ? 1 : 0 );
-			if (range_length_max_length_set)
+			if (range_length_max_length_set) {
 				text_buf.push_int(range_length_max_length);
+			}
 			break;
 		default:
 			throw new TtcnError("Text encoder: encoding an unknown/unsupported length restriction type in a template.");
@@ -220,8 +221,9 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		case RANGE_LENGTH_RESTRICTION:
 			range_length_min_length = text_buf.pull_int().getInt();
 			range_length_max_length_set = text_buf.pull_int().getInt() != 0;
-			if (range_length_max_length_set)
+			if (range_length_max_length_set) {
 				range_length_max_length = text_buf.pull_int().getInt();
+			}
 			break;
 		default:
 			throw new TtcnError("Text decoder: an unknown/unsupported length restriction type was received for a template.");
