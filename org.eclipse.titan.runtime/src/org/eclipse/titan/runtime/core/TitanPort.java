@@ -30,6 +30,7 @@ public class TitanPort {
 	private static final LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
 
 	protected String portName;
+	protected int msg_head_count;
 	protected int proc_head_count;
 	protected boolean is_active;
 	protected boolean is_started;
@@ -109,6 +110,7 @@ public class TitanPort {
 		if (!is_active) {
 			addToList(system);
 			is_active = true;
+			msg_head_count = 0;
 			proc_head_count = 0;
 			//FIXME add translation port support
 		}
