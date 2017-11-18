@@ -93,16 +93,20 @@ public final class Continue_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		 // not inside interleave when continue is not inside embedded ags (2 or 1)
-	    // continue is inside ags enclosed in the loop (3)
-	    // in interleave (3, 2 or 1)
-		//FIXME: implement
 		if (loop_stmt != null) {
-			if (altGuards != null) { // iterate_once, is_ilt
-				source.append("break;\n");
-			}
-			else {
-				// if !brk_cnt.loop_stmt->loop.label_next
+			//FIXME: implement case of interlive
+			//if (altGuards != null && iterate_once && is_ilt)
+			//	source.append("break;\n");
+			//} else 
+			if (loop_stmt instanceof For_Statement) {
+				For_Statement forStatment = (For_Statement) loop_stmt;
+				forStatment.generateCodeStepAssigment(aData, source);
+				source.append("continue;\n");
+			} else if (loop_stmt instanceof DoWhile_Statement) {
+				DoWhile_Statement doWhileStatement = (DoWhile_Statement) loop_stmt;
+				doWhileStatement.generateCodeConditional(aData, source);
+				source.append("continue;\n");
+			} else {
 				source.append("continue;\n");
 			}
 		} else {

@@ -451,6 +451,10 @@ public final class For_Statement extends Statement {
 		return statementblock;
 	}
 
+	public void generateCodeStepAssigment( final JavaGenData aData, final StringBuilder source ) {
+		stepAssignment.generateCode(aData, source);
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
