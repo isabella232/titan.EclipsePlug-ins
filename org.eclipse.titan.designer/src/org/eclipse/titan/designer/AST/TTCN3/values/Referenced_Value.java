@@ -732,7 +732,7 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInitMandatory(JavaGenData aData, StringBuilder source, String name) {
+	public StringBuilder generateCodeInitMandatory(final JavaGenData aData, final StringBuilder source, final String name) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();

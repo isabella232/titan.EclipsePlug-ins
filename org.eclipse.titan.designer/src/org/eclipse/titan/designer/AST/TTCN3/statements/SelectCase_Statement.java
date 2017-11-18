@@ -126,7 +126,8 @@ public final class SelectCase_Statement extends Statement {
 	}
 
 	@Override
-	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+	/** {@inheritDoc} */
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		selectcases.setMyLaicStmt(pAltGuards,pLoopStmt);
 	}
 

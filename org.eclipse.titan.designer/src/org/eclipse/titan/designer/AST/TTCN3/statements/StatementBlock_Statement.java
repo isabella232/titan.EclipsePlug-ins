@@ -137,7 +137,8 @@ public final class StatementBlock_Statement extends Statement {
 	}
 
 	@Override
-	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+	/** {@inheritDoc} */
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
 	}
 

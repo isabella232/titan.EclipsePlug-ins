@@ -705,14 +705,14 @@ public final class SizeOfExpression extends Expression_Value {
 		case SUBSET_MATCH:{
 			final LengthRestriction restriction = template.getLengthRestriction();
 			if (restriction instanceof SingleLenghtRestriction) {
-				IValue value = ((SingleLenghtRestriction) restriction).getRestriction(timestamp);
+				final IValue value = ((SingleLenghtRestriction) restriction).getRestriction(timestamp);
 				if (value.getValuetype() == Value_type.INTEGER_VALUE && !value.isUnfoldable(timestamp)) {
 					return ((Integer_Value)value).getValue();
 				} else {
 					return -1;
 				}
 			} else if (restriction instanceof RangeLenghtRestriction) {
-				IValue minValue = ((RangeLenghtRestriction) restriction).getLowerValue(timestamp);
+				final IValue minValue = ((RangeLenghtRestriction) restriction).getLowerValue(timestamp);
 				if (minValue.getValuetype() != Value_type.INTEGER_VALUE || minValue.isUnfoldable(timestamp)) {
 					return -1;
 				}
@@ -740,14 +740,14 @@ public final class SizeOfExpression extends Expression_Value {
 		case SUPERSET_MATCH:{
 			final LengthRestriction restriction = template.getLengthRestriction();
 			if (restriction instanceof SingleLenghtRestriction) {
-				IValue value = ((SingleLenghtRestriction) restriction).getRestriction(timestamp);
+				final IValue value = ((SingleLenghtRestriction) restriction).getRestriction(timestamp);
 				if (value.getValuetype() == Value_type.INTEGER_VALUE && !value.isUnfoldable(timestamp)) {
 					return ((Integer_Value)value).getValue();
 				} else {
 					return -1;
 				}
 			} else if (restriction instanceof RangeLenghtRestriction) {
-				IValue maxValue = ((RangeLenghtRestriction) restriction).getUpperValue(timestamp);
+				final IValue maxValue = ((RangeLenghtRestriction) restriction).getUpperValue(timestamp);
 				if (maxValue.getValuetype() != Value_type.INTEGER_VALUE || maxValue.isUnfoldable(timestamp)) {
 					return -1;
 				}

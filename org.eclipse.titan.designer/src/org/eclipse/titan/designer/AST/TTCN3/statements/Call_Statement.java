@@ -208,7 +208,8 @@ public final class Call_Statement extends Statement {
 	}
 
 	@Override
-	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStatement) {
+	/** {@inheritDoc} */
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStatement) {
 		if (pLoopStatement != null && altGuards != null) {
 			altGuards.setMyLaicStmt(null, pLoopStatement);
 		}

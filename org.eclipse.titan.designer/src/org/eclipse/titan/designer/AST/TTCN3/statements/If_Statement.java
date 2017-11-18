@@ -200,11 +200,12 @@ public final class If_Statement extends Statement {
 	}
 
 	@Override
-	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+	/** {@inheritDoc} */
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		ifClauses.setMyLaicStmt(pAltGuards, pLoopStmt);
-	    if (statementblock != null) { //	if (if_stmt.elseblock)
-	        statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
-	    }
+		if (statementblock != null) { // if (if_stmt.elseblock)
+			statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
 	}
 
 	@Override

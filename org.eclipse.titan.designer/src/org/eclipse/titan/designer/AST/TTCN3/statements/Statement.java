@@ -205,7 +205,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	protected boolean isErroneous;
 
-	protected void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		//empty by default
 	}
 

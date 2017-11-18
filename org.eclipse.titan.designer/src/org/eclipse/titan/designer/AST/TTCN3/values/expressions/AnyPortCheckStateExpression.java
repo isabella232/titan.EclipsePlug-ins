@@ -259,7 +259,7 @@ public class AnyPortCheckStateExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanPort");
 
 		expression.expression.append("TitanPort.any_checkPortState(");

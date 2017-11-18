@@ -115,7 +115,7 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 	 */
 	public abstract void postCheck();
 
-	public void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		switch (altguardType) {
 		case AG_OP:
 		case AG_ELSE:

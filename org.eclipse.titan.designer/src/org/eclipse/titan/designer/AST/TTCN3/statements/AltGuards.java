@@ -820,7 +820,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		source.append("}\n");
 	}
 
-	public void setMyLaicStmt(AltGuards pAltGuards, Statement pLoopStmt) {
+	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		for (AltGuard altGuard : altGuards) {
 			altGuard.setMyLaicStmt(pAltGuards, pLoopStmt);
 		}
