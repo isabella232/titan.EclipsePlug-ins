@@ -325,36 +325,22 @@ public class RecordSetCodeGenerator {
 	private static void generateAssign( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
 		aData.addCommonLibraryImport( "TtcnError" );
-		source.append( "\n\t\tpublic " );
-		source.append( aClassName );
-		source.append( " assign( final " );
-		source.append( aClassName );
-		source.append( " aOtherValue ) {\n" );
 
-		source.append( "\t\t\tif ( !aOtherValue.isBound() ) {\n" +
-				"\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type " );
-		source.append( classReadableName );
-		source.append( "\" );\n" +
-				"\t\t\t}\n\n" );
-		source.append("\t\tif (aOtherValue != this) {\n");
+		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0} aOtherValue ) '{'\n", aClassName));
+		source.append("\t\t\tif ( !aOtherValue.isBound() ) {\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
+		source.append("\t\t\t}\n\n");
+		source.append("\t\t\tif (aOtherValue != this) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\t\t\tif ( aOtherValue.get" );
-			source.append( fi.mJavaVarName );
-			source.append( "().isBound() ) {\n" +
-					"\t\t\t\tthis." );
-			source.append( fi.mVarName );
-			source.append( ".assign( aOtherValue.get" );
-			source.append( fi.mJavaVarName );
-			source.append( "() );\n" +
-					"\t\t\t} else {\n" +
-					"\t\t\t\tthis." );
-			source.append( fi.mVarName );
-			source.append( ".cleanUp();\n" +
-					"\t\t\t}\n" );
+			source.append(MessageFormat.format("\t\t\t\tif ( aOtherValue.get{0}().isBound() ) '{'\n", fi.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.assign( aOtherValue.get{1}() );\n", fi.mVarName, fi.mJavaVarName));
+			source.append("\t\t\t\t} else {\n");
+			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.cleanUp();\n", fi.mVarName));
+			source.append("\t\t\t\t}\n");
 		}
-		source.append( "\t\t}\n\n" );
-		source.append( "\n\t\t\treturn this;\n" +
-				"\t\t}\n" );
+		source.append( "\t\t\t}\n\n" );
+		source.append( "\t\t\treturn this;\n");
+		source.append("\t\t}\n");
 
 		source.append('\n');
 		source.append("\t\t@Override\n");
@@ -479,22 +465,22 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateLog(final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append("public void log() {\n");
-		aSb.append("if (!isBound()) {\n");
-		aSb.append("TtcnLogger.log_event_unbound();\n");
-		aSb.append("return;\n");
-		aSb.append("}\n");
-		aSb.append("TtcnLogger.log_char('{');\n");
+		aSb.append("\t\tpublic void log() {\n");
+		aSb.append("\t\t\tif (!isBound()) {\n");
+		aSb.append("\t\t\t\tTtcnLogger.log_event_unbound();\n");
+		aSb.append("\t\t\t\treturn;\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\tTtcnLogger.log_char('{');\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fieldInfo = aNamesList.get(i);
 			if (i > 0) {
-				aSb.append("TtcnLogger.log_char(',');\n");
+				aSb.append("\t\t\tTtcnLogger.log_char(',');\n");
 			}
-			aSb.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
-			aSb.append(MessageFormat.format("{0}.log();\n", fieldInfo.mVarName));
+			aSb.append(MessageFormat.format("\t\t\tTtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
+			aSb.append(MessageFormat.format("\t\t\t{0}.log();\n", fieldInfo.mVarName));
 		}
-		aSb.append("TtcnLogger.log_event_str(\" }\");\n");
-		aSb.append("}\n");
+		aSb.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		aSb.append("\t\t}\n");
 	}
 
 	/**
@@ -504,23 +490,23 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateValueEncodeDecodeText(final StringBuilder aSb, final List<FieldInfo> aNamesList) {
-		aSb.append("@Override\n");
-		aSb.append("public void encode_text(final Text_Buf text_buf) {\n");
+		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fieldInfo = aNamesList.get(i);
 
-			aSb.append(MessageFormat.format("{0}.encode_text(text_buf);\n", fieldInfo.mVarName));
+			aSb.append(MessageFormat.format("\t\t\t{0}.encode_text(text_buf);\n", fieldInfo.mVarName));
 		}
-		aSb.append("}\n");
+		aSb.append("\t\t}\n");
 
-		aSb.append("@Override\n");
-		aSb.append("public void decode_text(final Text_Buf text_buf) {\n");
+		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fieldInfo = aNamesList.get(i);
 
-			aSb.append(MessageFormat.format("{0}.decode_text(text_buf);\n", fieldInfo.mVarName));
+			aSb.append(MessageFormat.format("\t\t\t{0}.decode_text(text_buf);\n", fieldInfo.mVarName));
 		}
-		aSb.append("}\n");
+		aSb.append("\t\t}\n");
 	}
 	/**
 	 * Generating isBound() function for template
@@ -1168,99 +1154,99 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
 		source.append('\n');
-		source.append("\tpublic void log() {\n");
-		source.append("\t\tswitch (templateSelection) {\n");
-		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\tTtcnLogger.log_char('{');\n");
+		source.append("\t\tpublic void log() {\n");
+		source.append("\t\t\tswitch (templateSelection) {\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		source.append("\t\t\t\tTtcnLogger.log_char('{');\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fieldInfo = aNamesList.get(i);
 			if (i > 0) {
-				source.append("\t\t\tTtcnLogger.log_char(',');\n");
+				source.append("\t\t\t\tTtcnLogger.log_char(',');\n");
 			}
-			source.append(MessageFormat.format("\t\t\tTtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
-			source.append(MessageFormat.format("\t\t\t{0}.log();\n", fieldInfo.mVarName));
+			source.append(MessageFormat.format("\t\t\t\tTtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\t{0}.log();\n", fieldInfo.mVarName));
 		}
-		source.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\tTtcnLogger.log_event_str(\"complement \");\n");
-		source.append("\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\tTtcnLogger.log_char('(');\n");
-		source.append("\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
-		source.append("\t\t\t\tif (list_count > 0) {\n");
-		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\"complement \");\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\t\tTtcnLogger.log_char('(');\n");
+		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
+		source.append("\t\t\t\t\tif (list_count > 0) {\n");
+		source.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t\tlist_value.get(list_count).log();\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tlist_value.get(list_count).log();\n");
+		source.append("\t\t\t\tTtcnLogger.log_char(')');\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append("\t\t\t\tlog_generic();\n");
+		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\tTtcnLogger.log_char(')');\n");
-		source.append("\t\t\tbreak;\n");
-		source.append("\t\tdefault:\n");
-		source.append("\t\t\tlog_generic();\n");
-		source.append("\t\t\tbreak;\n");
+		source.append("\t\t\tlog_ifpresent();\n");
 		source.append("\t\t}\n");
-		source.append("\t\tlog_ifpresent();\n");
-		source.append("\t}\n");
 
 		source.append('\n');
-		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
-		source.append("\t\tlog_match(match_value, false);\n");
-		source.append("\t}\n");
+		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value) '{'\n", genName ) );
+		source.append("\t\t\tlog_match(match_value, false);\n");
+		source.append("\t\t}\n");
 
 		source.append('\n');
-		source.append("\t@Override\n");
-		source.append("\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
-		source.append(MessageFormat.format("\t\tif (match_value instanceof {0}) '{'\n", genName));
-		source.append(MessageFormat.format("\t\t\tlog_match(({0})match_value, legacy);\n", genName));
-		source.append("\t\t\treturn;\n");
-		source.append("\t\t}\n\n");
-		source.append(MessageFormat.format("\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
-		source.append("\t}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void log_match(final Base_Type match_value, final boolean legacy) {\n");
+		source.append(MessageFormat.format("\t\t\tif (match_value instanceof {0}) '{'\n", genName));
+		source.append(MessageFormat.format("\t\t\t\tlog_match(({0})match_value, legacy);\n", genName));
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n\n");
+		source.append(MessageFormat.format("\t\t\tthrow new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
+		source.append("\t\t}\n");
 
 		source.append('\n');
-		source.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );
-		source.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
-		source.append("\t\t\tif(match(match_value, legacy)) {\n");
-		source.append("\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
-		source.append("\t\t\t} else {\n");
-		source.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
-		source.append("\t\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );
+		source.append("\t\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
+		source.append("\t\t\t\tif(match(match_value, legacy)) {\n");
+		source.append("\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		source.append("\t\t\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fi = aNamesList.get(i);
-			source.append(MessageFormat.format("\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
-			source.append(MessageFormat.format("\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
-			source.append(MessageFormat.format("\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
-			source.append("\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
-			source.append("\t\t\t\t\t}\n");
+			source.append(MessageFormat.format("\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append(MessageFormat.format("\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
+			source.append(MessageFormat.format("\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+			source.append("\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+			source.append("\t\t\t\t\t\t}\n");
 		}
+		source.append("\t\t\t\t\t} else {\n");
+		source.append("\t\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\t\t\tmatch_value.log();\n");
+		source.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+		source.append("\t\t\t\t\t\tlog();\n");
+		source.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("\t\t\t\t\t}\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			FieldInfo fi = aNamesList.get(i);
+			source.append(MessageFormat.format("\t\t\t\tTtcnLogger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
+			source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+		}
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		source.append("\t\t\t} else {\n");
+		source.append("\t\t\t\tmatch_value.log();\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+		source.append("\t\t\t\tlog();\n");
+		source.append("\t\t\t\tif ( match(match_value, legacy) ) {\n");
+		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
 		source.append("\t\t\t\t} else {\n");
-		source.append("\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
-		source.append("\t\t\t\t\tmatch_value.log();\n");
-		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
-		source.append("\t\t\t\t\tlog();\n");
 		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
-		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fi = aNamesList.get(i);
-			source.append(MessageFormat.format("\t\t\tTtcnLogger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
-			source.append(MessageFormat.format("\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
-		}
-		source.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
-		source.append("\t\t} else {\n");
-		source.append("\t\t\tmatch_value.log();\n");
-		source.append("\t\t\tTtcnLogger.log_event_str(\" with \");\n");
-		source.append("\t\t\tlog();\n");
-		source.append("\t\t\tif ( match(match_value, legacy) ) {\n");
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
-		source.append("\t\t\t} else {\n");
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
-		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
-		source.append("\t}\n");
 	}
 
 	/**
@@ -1272,60 +1258,60 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final List<FieldInfo> aNamesList, final String genName, final String displayName) {
-		source.append("@Override\n");
-		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append("encode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case SPECIFIC_VALUE:\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tencode_text_base(text_buf);\n");
+		source.append("\t\t\tswitch (templateSelection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fi = aNamesList.get(i);
-			source.append(MessageFormat.format("{0}.encode_text(text_buf);\n", fi.mVarName ) );
+			source.append(MessageFormat.format("\t\t\t\t{0}.encode_text(text_buf);\n", fi.mVarName ) );
 		}
-		source.append("break;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("text_buf.push_int(list_value.size());\n");
-		source.append("for (int i = 0; i < list_value.size(); i++) {\n");
-		source.append("list_value.get(i).encode_text(text_buf);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append("\t\t\t\ttext_buf.push_int(list_value.size());\n");
+		source.append("\t\t\t\tfor (int i = 0; i < list_value.size(); i++) {\n");
+		source.append("\t\t\t\t\tlist_value.get(i).encode_text(text_buf);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
 
-		source.append("@Override\n");
-		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("cleanUp();\n");
-		source.append("decode_text_base(text_buf);\n");
-		source.append("switch (templateSelection) {\n");
-		source.append("case OMIT_VALUE:\n");
-		source.append("case ANY_VALUE:\n");
-		source.append("case ANY_OR_OMIT:\n");
-		source.append("break;\n");
-		source.append("case SPECIFIC_VALUE:\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tdecode_text_base(text_buf);\n");
+		source.append("\t\t\tswitch (templateSelection) {\n");
+		source.append("\t\t\tcase OMIT_VALUE:\n");
+		source.append("\t\t\tcase ANY_VALUE:\n");
+		source.append("\t\t\tcase ANY_OR_OMIT:\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			FieldInfo fi = aNamesList.get(i);
-			source.append(MessageFormat.format("{0}.decode_text(text_buf);\n", fi.mVarName ) );
+			source.append(MessageFormat.format("\t\t\t\t{0}.decode_text(text_buf);\n", fi.mVarName ) );
 		}
-		source.append("break;\n");
-		source.append("case VALUE_LIST:\n");
-		source.append("case COMPLEMENTED_LIST:\n");
-		source.append(MessageFormat.format("list_value = new ArrayList<{0}_template>(text_buf.pull_int().getInt());\n", genName));
-		source.append("for(int i = 0; i < list_value.size(); i++) {\n");
-		source.append(MessageFormat.format("final {0}_template temp = new {0}_template();\n", genName));
-		source.append("temp.decode_text(text_buf);\n");
-		source.append("list_value.add(temp);\n");
-		source.append("}\n");
-		source.append("break;\n");
-		source.append("default:\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", displayName));
-		source.append("}\n");
-		source.append("}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tcase VALUE_LIST:\n");
+		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		source.append(MessageFormat.format("\t\t\t\tlist_value = new ArrayList<{0}_template>(text_buf.pull_int().getInt());\n", genName));
+		source.append("\t\t\t\tfor(int i = 0; i < list_value.size(); i++) {\n");
+		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", genName));
+		source.append("\t\t\t\t\ttemp.decode_text(text_buf);\n");
+		source.append("\t\t\t\t\tlist_value.add(temp);\n");
+		source.append("\t\t\t\t}\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\tdefault:\n");
+		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", displayName));
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
 	}
 
 	/**

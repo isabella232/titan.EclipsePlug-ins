@@ -717,26 +717,26 @@ public class RecordOfGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String ofTypeName, final String displayName) {
-		source.append("@Override\n");
-		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append( MessageFormat.format( "mustBound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", displayName));
-		source.append("text_buf.push_int(valueElements.size());\n");
-		source.append("for (int i = 0; i < valueElements.size(); i++) {\n");
-		source.append("valueElements.get(i).encode_text(text_buf);\n");
-		source.append("}\n");
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
+		source.append( MessageFormat.format( "\t\t\tmustBound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", displayName));
+		source.append("\t\t\ttext_buf.push_int(valueElements.size());\n");
+		source.append("\t\t\tfor (int i = 0; i < valueElements.size(); i++) {\n");
+		source.append("\t\t\t\tvalueElements.get(i).encode_text(text_buf);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
 
-		source.append("@Override\n");
-		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		source.append("cleanUp();\n");
-		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append( MessageFormat.format( "valueElements = new ArrayList<{0}>(temp);\n", ofTypeName));
-		source.append("for (int i = 0; i < temp; i++) {\n");
-		source.append( MessageFormat.format( "{0} temp2 = new {0}();\n", ofTypeName));
-		source.append("temp2.decode_text(text_buf);\n");
-		source.append("valueElements.add(temp2);\n");
-		source.append("}\n");
-		source.append("}\n");
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
+		source.append("\t\t\tcleanUp();\n");
+		source.append("\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		source.append( MessageFormat.format( "\t\t\tvalueElements = new ArrayList<{0}>(temp);\n", ofTypeName));
+		source.append("\t\t\tfor (int i = 0; i < temp; i++) {\n");
+		source.append( MessageFormat.format( "\t\t\t\t{0} temp2 = new {0}();\n", ofTypeName));
+		source.append("\t\t\t\ttemp2.decode_text(text_buf);\n");
+		source.append("\t\t\t\tvalueElements.add(temp2);\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n");
 	}
 
 	/**
@@ -1924,69 +1924,69 @@ public class RecordOfGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateEncodeDecodeText( final StringBuilder aSb, final String genName, final String displayName, final String ofTypeName) {
-		aSb.append("@Override\n");
-		aSb.append("public void encode_text(final Text_Buf text_buf) {\n");
-		aSb.append("encode_text_permutation(text_buf);\n");
-		aSb.append("switch(templateSelection) {\n");
-		aSb.append("case OMIT_VALUE:\n");
-		aSb.append("case ANY_VALUE:\n");
-		aSb.append("case ANY_OR_OMIT:\n");
-		aSb.append("break;\n");
-		aSb.append("case SPECIFIC_VALUE:\n");
-		aSb.append("text_buf.push_int(value_elements.size());\n");
-		aSb.append("for (int i = 0; i < value_elements.size(); i++) {\n");
-		aSb.append("value_elements.get(i).encode_text(text_buf);\n");
-		aSb.append("}\n");
-		aSb.append("break;\n");
-		aSb.append("case VALUE_LIST:\n");
-		aSb.append("case COMPLEMENTED_LIST:\n");
-		aSb.append("text_buf.push_int(list_value.size());\n");
-		aSb.append("for (int i = 0; i < list_value.size(); i++) {\n");
-		aSb.append("list_value.get(i).encode_text(text_buf);\n");
-		aSb.append("}\n");
-		aSb.append("break;\n");
-		aSb.append("default:\n");
-		aSb.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
-		aSb.append("}\n");
-		aSb.append("}\n");
+		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
+		aSb.append("\t\t\tencode_text_permutation(text_buf);\n");
+		aSb.append("\t\t\tswitch(templateSelection) {\n");
+		aSb.append("\t\t\tcase OMIT_VALUE:\n");
+		aSb.append("\t\t\tcase ANY_VALUE:\n");
+		aSb.append("\t\t\tcase ANY_OR_OMIT:\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		aSb.append("\t\t\tcase SPECIFIC_VALUE:\n");
+		aSb.append("\t\t\t\ttext_buf.push_int(value_elements.size());\n");
+		aSb.append("\t\t\t\tfor (int i = 0; i < value_elements.size(); i++) {\n");
+		aSb.append("\t\t\t\t\tvalue_elements.get(i).encode_text(text_buf);\n");
+		aSb.append("\t\t\t\t}\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		aSb.append("\t\t\tcase VALUE_LIST:\n");
+		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");
+		aSb.append("\t\t\t\ttext_buf.push_int(list_value.size());\n");
+		aSb.append("\t\t\t\tfor (int i = 0; i < list_value.size(); i++) {\n");
+		aSb.append("\t\t\t\t\tlist_value.get(i).encode_text(text_buf);\n");
+		aSb.append("\t\t\t\t}\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		aSb.append("\t\t\tdefault:\n");
+		aSb.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t}\n");
 
-		aSb.append("@Override\n");
-		aSb.append("public void decode_text(final Text_Buf text_buf) {\n");
-		aSb.append("cleanUp();\n");
-		aSb.append("decode_text_permutation(text_buf);\n");
-		aSb.append("switch(templateSelection) {\n");
-		aSb.append("case OMIT_VALUE:\n");
-		aSb.append("case ANY_VALUE:\n");
-		aSb.append("case ANY_OR_OMIT:\n");
-		aSb.append("break;\n");
-		aSb.append("case SPECIFIC_VALUE: {\n");
-		aSb.append("final int temp = text_buf.pull_int().getInt();\n");
-		aSb.append("if (temp < 0) {\n");
-		aSb.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Negative size was received for a template of type {0}.\");\n", displayName));
-		aSb.append("}\n");
-		aSb.append(MessageFormat.format("value_elements = new ArrayList<{0}>(temp);\n", ofTypeName));
-		aSb.append("for (int i = 0; i < temp; i++) {\n");
-		aSb.append(MessageFormat.format("{0} temp2 = new {0}();\n", ofTypeName));
-		aSb.append("temp2.decode_text(text_buf);\n");
-		aSb.append("value_elements.add(temp2);\n");
-		aSb.append("}\n");
-		aSb.append("break;\n");
-		aSb.append("}\n");
-		aSb.append("case VALUE_LIST:\n");
-		aSb.append("case COMPLEMENTED_LIST: {\n");
-		aSb.append("final int temp = text_buf.pull_int().getInt();\n");
-		aSb.append(MessageFormat.format("list_value = new ArrayList<{0}_template>(temp);\n", genName));
-		aSb.append("for (int i = 0; i < temp; i++) {\n");
-		aSb.append(MessageFormat.format("{0}_template temp2 = new {0}_template();\n", genName));
-		aSb.append("temp2.decode_text(text_buf);\n");
-		aSb.append("list_value.add(temp2);\n");
-		aSb.append("}\n");
-		aSb.append("break;\n");
-		aSb.append("}\n");
-		aSb.append("default:\n");
-		aSb.append(MessageFormat.format("throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received for a template of type {0}.\");\n", displayName));
-		aSb.append("}\n");
-		aSb.append("}\n");
+		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
+		aSb.append("\t\t\tcleanUp();\n");
+		aSb.append("\t\t\tdecode_text_permutation(text_buf);\n");
+		aSb.append("\t\t\tswitch(templateSelection) {\n");
+		aSb.append("\t\t\tcase OMIT_VALUE:\n");
+		aSb.append("\t\t\tcase ANY_VALUE:\n");
+		aSb.append("\t\t\tcase ANY_OR_OMIT:\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		aSb.append("\t\t\tcase SPECIFIC_VALUE: {\n");
+		aSb.append("\t\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		aSb.append("\t\t\t\tif (temp < 0) {\n");
+		aSb.append(MessageFormat.format("\t\t\t\t\tthrow new TtcnError(\"Text decoder: Negative size was received for a template of type {0}.\");\n", displayName));
+		aSb.append("\t\t\t\t}\n");
+		aSb.append(MessageFormat.format("\t\t\t\tvalue_elements = new ArrayList<{0}>(temp);\n", ofTypeName));
+		aSb.append("\t\t\t\tfor (int i = 0; i < temp; i++) {\n");
+		aSb.append(MessageFormat.format("\t\t\t\t\t{0} temp2 = new {0}();\n", ofTypeName));
+		aSb.append("\t\t\t\t\ttemp2.decode_text(text_buf);\n");
+		aSb.append("\t\t\t\t\tvalue_elements.add(temp2);\n");
+		aSb.append("\t\t\t\t}\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		aSb.append("\t\t\t\t}\n");
+		aSb.append("\t\t\tcase VALUE_LIST:\n");
+		aSb.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
+		aSb.append("\t\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
+		aSb.append(MessageFormat.format("\t\t\t\tlist_value = new ArrayList<{0}_template>(temp);\n", genName));
+		aSb.append("\t\t\t\tfor (int i = 0; i < temp; i++) {\n");
+		aSb.append(MessageFormat.format("\t\t\t\t\t{0}_template temp2 = new {0}_template();\n", genName));
+		aSb.append("\t\t\t\t\ttemp2.decode_text(text_buf);\n");
+		aSb.append("\t\t\t\t\tlist_value.add(temp2);\n");
+		aSb.append("\t\t\t\t}\n");
+		aSb.append("\t\t\t\tbreak;\n");
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t\tdefault:\n");
+		aSb.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text decoder: An unknown/unsupported selection was received for a template of type {0}.\");\n", displayName));
+		aSb.append("\t\t\t}\n");
+		aSb.append("\t\t}\n");
 	}
 
 //TODO: implement void log_matchv(final Base_Type match_value, boolean legacy)
@@ -2043,7 +2043,6 @@ public class RecordOfGenerator {
 
 //TODO
 //*/
-	//TODO" implement void encode_text(Text_Buf& text_buf)
 	//TODO: implement void set_param(Module_Param& param)
 	//TODO: implement Module_Param* get_param(Module_Param_Name& param_name) const
 
