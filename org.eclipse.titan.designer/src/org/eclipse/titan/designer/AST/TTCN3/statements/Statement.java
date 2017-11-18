@@ -205,6 +205,12 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 
 	protected boolean isErroneous;
 
+	/**
+	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
+	 *
+	 * @param pAltGuards the altguards set only within altguards
+	 * @param pLoopStmt the loop statement, set only within loops.
+	 * */
 	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		//empty by default
 	}

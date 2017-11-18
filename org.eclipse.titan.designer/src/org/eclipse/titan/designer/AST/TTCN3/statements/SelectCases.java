@@ -268,6 +268,12 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 		source.append(init);
 	}
 
+	/**
+	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
+	 *
+	 * @param pAltGuards the altguards set only within altguards
+	 * @param pLoopStmt the loop statement, set only within loops.
+	 * */
 	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
 		for (SelectCase selectCase : select_cases) {
 			selectCase.getStatementBlock().setMyLaicStmt(pAltGuards, pLoopStmt);
