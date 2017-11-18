@@ -151,6 +151,8 @@ public class PortGenerator {
 		}
 
 		if (portDefinition.inMessages.size() > 0) {
+			aData.addBuiltinTypeImport("TitanCharString");
+
 			generateGenericReceive(source, portDefinition, false, false);
 			generateGenericReceive(source, portDefinition, true, false);
 			generateGenericTrigger(source, portDefinition, false);
@@ -614,7 +616,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(log_sev);\n");
 			source.append("TtcnLogger.log_event(\"Matching on port {0}: Sender of the first message in the queue does not match the from clause:\", getName());\n");
-			source.append("sender_template.log_match(my_head.sender_component);\n");
+			source.append("sender_template.log_match(new TitanComponent(my_head.sender_component), false);\n");
 			source.append("TtcnLogger.end_event();\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
