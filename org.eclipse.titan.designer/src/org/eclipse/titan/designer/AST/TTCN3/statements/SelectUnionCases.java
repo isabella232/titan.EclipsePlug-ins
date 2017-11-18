@@ -118,6 +118,18 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 	}
 
 	/**
+	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
+	 *
+	 * @param pAltGuards the altguards set only within altguards
+	 * @param pLoopStmt the loop statement, set only within loops.
+	 * */
+	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
+		for (SelectUnionCase selectCase : selectUnionCases) {
+			selectCase.getStatementBlock().setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
+	}
+
+	/**
 	 * Checks whether the select cases have a return statement, either
 	 * directly or embedded.
 	 *
@@ -301,18 +313,6 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 
 		if (!unreach.get()) {
 			source.append("default:\nbreak;\n");
-		}
-	}
-
-	/**
-	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
-	 *
-	 * @param pAltGuards the altguards set only within altguards
-	 * @param pLoopStmt the loop statement, set only within loops.
-	 * */
-	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		for (SelectUnionCase selectCase : selectUnionCases) {
-			selectCase.getStatementBlock().setMyLaicStmt(pAltGuards, pLoopStmt);
 		}
 	}
 }

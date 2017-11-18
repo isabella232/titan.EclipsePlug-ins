@@ -177,6 +177,15 @@ public final class If_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
+		ifClauses.setMyLaicStmt(pAltGuards, pLoopStmt);
+		if (statementblock != null) { // if (if_stmt.elseblock)
+			statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		if (ifClauses != null) {
 			return ifClauses.hasReturn(timestamp, statementblock);
@@ -197,15 +206,6 @@ public final class If_Statement extends Statement {
 		}
 
 		return result;
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		ifClauses.setMyLaicStmt(pAltGuards, pLoopStmt);
-		if (statementblock != null) { // if (if_stmt.elseblock)
-			statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
-		}
 	}
 
 	@Override

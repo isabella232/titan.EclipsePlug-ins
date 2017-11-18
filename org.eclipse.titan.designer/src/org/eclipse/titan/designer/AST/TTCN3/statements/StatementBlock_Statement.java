@@ -128,18 +128,18 @@ public final class StatementBlock_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
+		statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean hasReceivingStatement() {
 		if (statementblock != null) {
 			return statementblock.hasReceivingStatement(0);
 		}
 
 		return false;
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
 	}
 
 	@Override

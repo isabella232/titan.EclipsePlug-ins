@@ -79,6 +79,18 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 	public abstract void setMyAltguards(AltGuards altGuards);
 
 	/**
+	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
+	 *
+	 * @param pAltGuards the altguards set only within altguards
+	 * @param pLoopStmt the loop statement, set only within loops.
+	 * */
+	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
+		if (statementblock != null) {
+			statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
+	}
+
+	/**
 	 * Sets the code_section attribute for the statement to the provided value.
 	 *
 	 * @param codeSection the code section where this statement should be generated.
@@ -114,16 +126,4 @@ public abstract class AltGuard extends ASTNode implements ILocateableNode, IIncr
 	 * after the semantic check was completely run.
 	 */
 	public abstract void postCheck();
-
-	/**
-	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
-	 *
-	 * @param pAltGuards the altguards set only within altguards
-	 * @param pLoopStmt the loop statement, set only within loops.
-	 * */
-	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		if (statementblock != null) {
-			statementblock.setMyLaicStmt(pAltGuards, pLoopStmt);
-		}
-	}
 }

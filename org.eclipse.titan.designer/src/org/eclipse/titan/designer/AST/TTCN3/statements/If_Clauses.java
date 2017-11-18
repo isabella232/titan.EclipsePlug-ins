@@ -95,6 +95,18 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	}
 
 	/**
+	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
+	 *
+	 * @param pAltGuards the altguards set only within altguards
+	 * @param pLoopStmt the loop statement, set only within loops.
+	 * */
+	public void setMyLaicStmt(final AltGuards pAgs, final Statement pLoopStmt) {
+		for (If_Clause ifClause : ifclauses) {
+			ifClause.getStatementBlock().setMyLaicStmt(pAgs, pLoopStmt);
+		}
+	}
+
+	/**
 	 * Checks whether the if clauses have a return statement, either
 	 * directly or embedded.
 	 *
@@ -289,18 +301,6 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 			}
 
 			ifclauses.get(i).generateCode(aData, source, blockCount, unReachable, eachFalse);
-		}
-	}
-
-	/**
-	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
-	 *
-	 * @param pAltGuards the altguards set only within altguards
-	 * @param pLoopStmt the loop statement, set only within loops.
-	 * */
-	public void setMyLaicStmt(final AltGuards pAgs, final Statement pLoopStmt) {
-		for (If_Clause ifClause : ifclauses) {
-			ifClause.getStatementBlock().setMyLaicStmt(pAgs, pLoopStmt);
 		}
 	}
 }

@@ -118,6 +118,12 @@ public final class SelectUnionCase_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
+	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
+		selectUnionCases.setMyLaicStmt(pAltGuards, pLoopStmt);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StatementBlock.ReturnStatus_type hasReturn(final CompilationTimeStamp timestamp) {
 		return selectUnionCases.hasReturn(timestamp);
 	}
@@ -130,12 +136,6 @@ public final class SelectUnionCase_Statement extends Statement {
 		}
 
 		return false;
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		selectUnionCases.setMyLaicStmt(pAltGuards, pLoopStmt);
 	}
 
 	@Override

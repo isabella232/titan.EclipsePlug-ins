@@ -167,6 +167,18 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		}
 	}
 
+	/**
+	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
+	 *
+	 * @param pAltGuards the altguards set only within altguards
+	 * @param pLoopStmt the loop statement, set only within loops.
+	 * */
+	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
+		for (AltGuard altGuard : altGuards) {
+			altGuard.setMyLaicStmt(pAltGuards, pLoopStmt);
+		}
+	}
+
 	public void repeatFound() {
 		hasRepeat = true;
 	}
@@ -819,17 +831,5 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 
 		source.append("TTCN_Snapshot.takeNew(true);\n");
 		source.append("}\n");
-	}
-
-	/**
-	 * Used to tell break and continue statements if they are located with an altstep, a loop or none.
-	 *
-	 * @param pAltGuards the altguards set only within altguards
-	 * @param pLoopStmt the loop statement, set only within loops.
-	 * */
-	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		for (AltGuard altGuard : altGuards) {
-			altGuard.setMyLaicStmt(pAltGuards, pLoopStmt);
-		}
 	}
 }
