@@ -254,6 +254,7 @@ public final class ObjectIdentifier_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO register as module level charstring literal and return the literal's name
 		aData.addBuiltinTypeImport( "TitanObjectid" );
+		aData.addBuiltinTypeImport("TitanInteger");
 
 		final ArrayList<String> components = new ArrayList<String>();
 		getOidComponents(aData, components);
