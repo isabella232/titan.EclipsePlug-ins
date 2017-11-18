@@ -131,6 +131,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
+		super.setMyScope(scope);
 		altGuards.trimToSize();
 		for (int i = 0, size = altGuards.size(); i < size; i++) {
 			altGuards.get(i).setMyScope(scope);
