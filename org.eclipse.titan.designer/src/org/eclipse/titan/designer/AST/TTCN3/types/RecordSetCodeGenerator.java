@@ -375,8 +375,6 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
-		//TODO: remove
-		//for( int i = 0; i < 80; i++ )
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( "\t\t\tif ( optional_sel.OPTIONAL_OMIT.equals(" );
@@ -631,27 +629,6 @@ public class RecordSetCodeGenerator {
 			aSb.append( fi.mVarName );
 			aSb.append( ";\n" +
 					"\t\t}\n" );
-
-			//TODO: remove
-			//			aSb.append( "\n\t\tpublic void set" );
-			//			aSb.append( fi.mJavaVarName );
-			//			aSb.append( "( final " );
-			//			if (fi.isOptional) {
-			//				aSb.append("Optional<");
-			//				aSb.append( fi.mJavaTypeName );
-			//				aSb.append(">");
-			//			} else {
-			//				aSb.append( fi.mJavaTypeName );
-			//			}
-			//			aSb.append( " a" );
-			//			aSb.append( fi.mJavaVarName );
-			//			aSb.append( " ) {\n" +
-			//						"\t\t\tthis." );
-			//			aSb.append( fi.mVarName );
-			//			aSb.append( " = a" );
-			//			aSb.append( fi.mJavaVarName );
-			//			aSb.append( ";\n" +
-			//						"\t\t}\n" );
 		}
 	}
 
