@@ -614,7 +614,7 @@ public final class Assignment_Statement extends Statement {
 				if (isOptional) {
 					source.append(MessageFormat.format("Optional<{0}> {1} = new Optional<{0}>({0}.class);\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
 					rhsRef += ".get()";
-				} else {
+				} else if(!reference.hasSingleExpression()) {
 					source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
 				}
 			}
