@@ -599,6 +599,9 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered";
 		}
 
+		if (refdLast.getMyScope().getModuleScope() != scope.getModuleScope()) {
+			aData.addInterModuleImport(refdLast.getMyScope().getModuleScope().getName());
+		}
 		return refd.getGenNameValue(aData, source, scope);
 	}
 
@@ -610,6 +613,9 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered";
 		}
 
+		if (refdLast.getMyScope().getModuleScope() != scope.getModuleScope()) {
+			aData.addInterModuleImport(refdLast.getMyScope().getModuleScope().getName());
+		}
 		return refd.getGenNameTemplate(aData, source, scope);
 	}
 

@@ -363,8 +363,8 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			last.generateCode(aData, source);
 
-			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
-			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referred_type.getGenNameValue(aData, source, myScope)));
+			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referred_type.getGenNameTemplate(aData, source, myScope)));
 		}
 	}
 }
