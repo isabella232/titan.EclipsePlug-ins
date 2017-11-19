@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -227,6 +228,10 @@ public final class OctetString_Type extends ASN1Type {
 			} else if (subreferences.size() == actualSubReference + 1) {
 				reference.setStringElementReferencing();
 			}
+
+			final Value indexValue = ((ArraySubReference) subreference).getValue();
+			checkStringIndex(timestamp, indexValue, expectedIndex, refChain);
+
 			return this;
 		case fieldSubReference:
 			subreference.getLocation().reportSemanticError(

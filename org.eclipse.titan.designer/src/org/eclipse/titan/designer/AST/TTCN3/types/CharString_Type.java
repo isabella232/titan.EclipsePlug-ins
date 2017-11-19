@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ValueRange;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Value_Range_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -283,6 +284,10 @@ public final class CharString_Type extends Type {
 			} else if (subreferences.size() == actualSubReference + 1) {
 				reference.setStringElementReferencing();
 			}
+
+			final Value indexValue = ((ArraySubReference) subreference).getValue();
+			checkStringIndex(timestamp, indexValue, expectedIndex, refChain);
+
 			return this;
 		case fieldSubReference:
 			subreference.getLocation().reportSemanticError(

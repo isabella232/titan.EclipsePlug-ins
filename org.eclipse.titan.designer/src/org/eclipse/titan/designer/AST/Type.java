@@ -43,11 +43,13 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -1110,6 +1112,39 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** {@inheritDoc} */
 	public ITTCN3Template checkThisTemplateRef(final CompilationTimeStamp timestamp, final ITTCN3Template t) {
 		return checkThisTemplateRef(timestamp,t,Expected_Value_type.EXPECTED_TEMPLATE, null);
+	}
+
+	//FIXME comment
+	protected void checkStringIndex(final CompilationTimeStamp timestamp, final Value indexValue, final Expected_Value_type expectedIndex, final IReferenceChain refChain) {
+		if (indexValue != null) {
+			indexValue.setLoweridToReference(timestamp);
+			final Type_type tempType = indexValue.getExpressionReturntype(timestamp, expectedIndex);
+			switch (tempType) {
+			case TYPE_INTEGER:
+				final IValue last = indexValue.getValueRefdLast(timestamp, expectedIndex, refChain);
+				if (Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
+					final Integer_Value lastInteger = (Integer_Value) last;
+					if (lastInteger.isNative()) {
+						final long temp = lastInteger.getValue();
+						if (temp < 0) {
+							indexValue.getLocation().reportSemanticError(MessageFormat.format(SequenceOf_Type.NONNEGATIVINDEXEXPECTED, temp));
+							indexValue.setIsErroneous(true);
+						}
+					} else {
+						indexValue.getLocation().reportSemanticError(MessageFormat.format(SequenceOf_Type.TOOBIGINDEX, lastInteger.getValueValue(), getTypename()));
+						indexValue.setIsErroneous(true);
+					}
+				}
+				break;
+			case TYPE_UNDEFINED:
+				indexValue.setIsErroneous(true);
+				break;
+			default:
+				indexValue.getLocation().reportSemanticError(SequenceOf_Type.INTEGERINDEXEXPECTED);
+				indexValue.setIsErroneous(true);
+				break;
+			}
+		}
 	}
 
 	/**

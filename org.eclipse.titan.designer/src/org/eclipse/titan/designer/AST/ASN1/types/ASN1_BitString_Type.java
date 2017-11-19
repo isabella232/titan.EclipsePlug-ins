@@ -26,6 +26,7 @@ import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -435,6 +436,10 @@ public final class ASN1_BitString_Type extends ASN1Type {
 			} else if (subreferences.size() == actualSubReference + 1) {
 				reference.setStringElementReferencing();
 			}
+
+			final Value indexValue = ((ArraySubReference) subreference).getValue();
+			checkStringIndex(timestamp, indexValue, expectedIndex, refChain);
+
 			return this;
 		case fieldSubReference:
 			subreference.getLocation().reportSemanticError(

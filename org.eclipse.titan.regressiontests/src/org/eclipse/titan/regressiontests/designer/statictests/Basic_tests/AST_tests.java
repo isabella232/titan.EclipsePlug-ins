@@ -9145,7 +9145,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5294);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5295);
 		int lineNum = 20;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -9544,9 +9544,11 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Invalid field reference `nonExi': type `charstring' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("A non-negative integer value was expected instead of -1 for indexing a string element",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("A non-negative integer value was expected as index instead of `-1'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("A non-negative integer value was expected instead of -1 for indexing a string element",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("An integer value was expected as index",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The index should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid field reference `nonExi': type `charstring' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -11361,8 +11363,8 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The value of second OBJECT IDENTIFIER component must be between 0 and 39 instead of 39",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 10;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of timer `TL_t'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		markersToCheck.add(new MarkerToCheck("The value of first OBJECT IDENTIFIER component must be between 0 and 2 instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("The value of first OBJECT IDENTIFIER component must be between 0 and 2 instead of 3",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("The value of second OBJECT IDENTIFIER component must be between 0 and 39 instead of 39", lineNum++, IMarker.SEVERITY_ERROR));

@@ -330,6 +330,10 @@ public final class UniversalCharstring_Type extends Type {
 			} else if (subreferences.size() == actualSubReference + 1) {
 				reference.setStringElementReferencing();
 			}
+
+			final Value indexValue = ((ArraySubReference) subreference).getValue();
+			checkStringIndex(timestamp, indexValue, expectedIndex, refChain);
+
 			return this;
 		case fieldSubReference:
 			subreference.getLocation().reportSemanticError(
