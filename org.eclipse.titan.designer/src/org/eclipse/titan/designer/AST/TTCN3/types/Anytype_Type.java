@@ -719,6 +719,10 @@ public final class Anytype_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (compFieldMap.isEmpty()) {
+			return;
+		}
+
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
