@@ -686,12 +686,15 @@ public final class Assignment_Statement extends Statement {
 					final Reference rightReference = ((Referenced_Value)value).getReference();
 					final Assignment rightAssignment = rightReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
 					if (rightAssignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(rightReference.getSubreferences())) {
-						value.generateCodeInitMandatory(aData, source, name);
+						value.generateCodeInitMandatory(aData, source, rhsCopied ? rhsCopy : name);
 					} else {
-						value.generateCodeInit(aData, source, name);
+						value.generateCodeInit(aData, source, rhsCopied ? rhsCopy : name);
 					}
 				} else {
-					value.generateCodeInit(aData, source, name);
+					value.generateCodeInit(aData, source, rhsCopied ? rhsCopy : name);
+				}
+				if (rhsCopied) {
+					source.append(MessageFormat.format("{0}.assign({1});\n", name, rhsCopy));
 				}
 			}
 			if(rhsCopied) {
