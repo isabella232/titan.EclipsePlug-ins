@@ -45,8 +45,11 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TitanNull_Type");
 		aData.addBuiltinTypeImport("AdditionalFunctions");
 		aData.addBuiltinTypeImport("RecordOfMatch");
-		aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
 		aData.addBuiltinTypeImport("TtcnLogger");
+		if ( isSetOf ) {
+			aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
+		}
+
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName, isSetOf );
