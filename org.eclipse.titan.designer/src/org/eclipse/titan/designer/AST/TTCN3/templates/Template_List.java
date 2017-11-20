@@ -580,11 +580,6 @@ public final class Template_List extends CompositeTemplate {
 					setSize.append(" + ");
 					final ExpressionStruct referenceExpression = new ExpressionStruct();
 					reference.generateCode(aData, referenceExpression);
-					setSize.append(referenceExpression.expression);
-					if (referenceExpression.preamble.length() > 0) {
-						preamble.append(referenceExpression.preamble);
-					}
-
 					switch (assignment.getAssignmentType()) {
 					case A_CONST:
 					case A_EXT_CONST:
@@ -597,12 +592,19 @@ public final class Template_List extends CompositeTemplate {
 					case A_FUNCTION_RVAL:
 					case A_EXT_FUNCTION_RVAL:
 						if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
-							setSize.append(".get()");
+							referenceExpression.expression.append(".get()");
 						}
 						break;
 					default:
 						break;
 					}
+
+					setSize.append(referenceExpression.expression);
+					if (referenceExpression.preamble.length() > 0) {
+						preamble.append(referenceExpression.preamble);
+					}
+
+					
 
 					setSize.append(".n_elem().getInt()");
 					body.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", referenceExpression.expression));
@@ -625,11 +627,6 @@ public final class Template_List extends CompositeTemplate {
 							setSize.append(" + ");
 							final ExpressionStruct referenceExpression = new ExpressionStruct();
 							reference.generateCode(aData, referenceExpression);
-							setSize.append(referenceExpression.expression);
-							if (referenceExpression.preamble.length() > 0) {
-								preamble.append(referenceExpression.preamble);
-							}
-
 							switch (assignment.getAssignmentType()) {
 							case A_CONST:
 							case A_EXT_CONST:
@@ -642,11 +639,16 @@ public final class Template_List extends CompositeTemplate {
 							case A_FUNCTION_RVAL:
 							case A_EXT_FUNCTION_RVAL:
 								if (assignment.getType(CompilationTimeStamp.getBaseTimestamp()).fieldIsOptional(reference.getSubreferences())) {
-									setSize.append(".get()");
+									referenceExpression.expression.append(".get()");
 								}
 								break;
 							default:
 								break;
+							}
+
+							setSize.append(referenceExpression.expression);
+							if (referenceExpression.preamble.length() > 0) {
+								preamble.append(referenceExpression.preamble);
 							}
 
 							setSize.append(".n_elem().getInt()");
