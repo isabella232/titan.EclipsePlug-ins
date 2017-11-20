@@ -2006,7 +2006,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> specificValue_template_tests_ttcn_initializer() {
 		//specificValue_template_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4635);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4634);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -2593,7 +2593,6 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("A non-negative integer value was expected for indexing type `@specific_template_tests.mysetofType' instead of `-1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("An integer value less than `2,147,483,647' was expected for indexing type `@specific_template_tests.mysetofType' instead of `99,999,999,999,999,999'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate index value `1' for component `4' and `2'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The index should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `t' in module `specific_template_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 5;
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  lineNum, IMarker.SEVERITY_ERROR));
@@ -5703,7 +5702,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_assignment_tests_ttcn_initializer() {
 		//template_assignment_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4541);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4539);
 		int lineNum = 19;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -6229,7 +6228,6 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("An integer value less than `2,147,483,647' was expected for indexing type `@template_assignment_tests.mysetofType' instead of `99,999,999,999,999,999'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate index value `1' for component `4' and `2'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of timer `TL_t'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The index should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("There are fewer (1) elements than it is allowed by the length restriction (at least 2)", lineNum++, IMarker.SEVERITY_ERROR));
@@ -7348,8 +7346,8 @@ public class AST_tests {
 		}
 		lineNum += 83;
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of timer `TL_t'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		markersToCheck.add(new MarkerToCheck("The value of first OBJECT IDENTIFIER component must be between 0 and 2 instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		markersToCheck.add(new MarkerToCheck("The value of first OBJECT IDENTIFIER component must be between 0 and 2 instead of 3",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("The value of second OBJECT IDENTIFIER component must be between 0 and 39 instead of 39", lineNum++, IMarker.SEVERITY_ERROR));

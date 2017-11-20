@@ -498,31 +498,33 @@ public final class SetOf_Type extends AbstractOfType {
 				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				final IValue lastValue = indexValue.getValueRefdLast(timestamp, chain);
 				chain.release();
-				if (Value_type.INTEGER_VALUE.equals(lastValue.getValuetype())) {
-					final long index = ((Integer_Value) lastValue).getValue();
-					if (index > Integer.MAX_VALUE) {
-						indexValue.getLocation().reportSemanticError(
-								MessageFormat.format(SequenceOf_Type.TOOBIGINDEXTEMPLATE, Integer.MAX_VALUE,
-										getTypename(), index));
-						indexValue.setIsErroneous(true);
-					} else if (index < 0) {
-						indexValue.getLocation().reportSemanticError(
-								MessageFormat.format(SequenceOf_Type.NONNEGATIVEINDEXEXPECTEDTEMPLATE, getTypename(),
-										index));
-						indexValue.setIsErroneous(true);
-					} else {
-						if (indexMap.containsKey(index)) {
+				if(!indexValue.isUnfoldable(timestamp)) {
+					if (Value_type.INTEGER_VALUE.equals(lastValue.getValuetype())) {
+						final long index = ((Integer_Value) lastValue).getValue();
+						if (index > Integer.MAX_VALUE) {
 							indexValue.getLocation().reportSemanticError(
-									MessageFormat.format(SequenceOf_Type.DUPLICATEINDEX, index, i + 1,
-											indexMap.get(index)));
+									MessageFormat.format(SequenceOf_Type.TOOBIGINDEXTEMPLATE, Integer.MAX_VALUE,
+											getTypename(), index));
+							indexValue.setIsErroneous(true);
+						} else if (index < 0) {
+							indexValue.getLocation().reportSemanticError(
+									MessageFormat.format(SequenceOf_Type.NONNEGATIVEINDEXEXPECTEDTEMPLATE, getTypename(),
+											index));
 							indexValue.setIsErroneous(true);
 						} else {
-							indexMap.put(index, i);
+							if (indexMap.containsKey(index)) {
+								indexValue.getLocation().reportSemanticError(
+										MessageFormat.format(SequenceOf_Type.DUPLICATEINDEX, index, i + 1,
+												indexMap.get(index)));
+								indexValue.setIsErroneous(true);
+							} else {
+								indexMap.put(index, i);
+							}
 						}
+					} else {
+						indexValue.getLocation().reportSemanticError(SequenceOf_Type.INTEGERINDEXEXPECTED);
+						indexValue.setIsErroneous(true);
 					}
-				} else {
-					indexValue.getLocation().reportSemanticError(SequenceOf_Type.INTEGERINDEXEXPECTED);
-					indexValue.setIsErroneous(true);
 				}
 
 				templateComponent.setMyGovernor(getOfType());
