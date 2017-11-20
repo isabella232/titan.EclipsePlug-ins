@@ -172,6 +172,8 @@ public final class Testcase_Reference_Value extends Value {
 		aData.addBuiltinTypeImport("TitanVerdictType");
 		aData.addBuiltinTypeImport("TitanFloat");
 
+		final String moduleName = referredTestcase.getMyScope().getModuleScope().getName();
+		final String testcaseName = referredTestcase.getIdentifier().getName();
 		result.append("@Override\n");
 		result.append("public ");
 		final Testcase_Type testcaseType = (Testcase_Type) lastGovernor;
@@ -184,9 +186,7 @@ public final class Testcase_Reference_Value extends Value {
 		}
 		result.append("boolean has_timer, TitanFloat timer_value");
 		result.append(") {\n");
-		result.append("return testcase_");
-		result.append(referredTestcase.getIdentifier().getName());
-		result.append('(');
+		result.append(MessageFormat.format("return {0}.testcase_{1}(", moduleName, testcaseName));
 		if(testcaseType.getFormalParameters().getNofParameters() > 0) {
 			result.append(testcaseType.getFormalParameters().generateCodeActualParlist(""));
 			result.append(", ");

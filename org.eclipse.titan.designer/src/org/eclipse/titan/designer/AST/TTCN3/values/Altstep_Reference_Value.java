@@ -174,6 +174,7 @@ public final class Altstep_Reference_Value extends Value {
 		result.append("}\n");
 
 		final Altstep_Type altstepType = (Altstep_Type) lastGovernor;
+		final String moduleName = referredAltstep.getMyScope().getModuleScope().getName();
 		final String altstepName = referredAltstep.getIdentifier().getName();
 		final StringBuilder actualParList = altstepType.getFormalParameters().generateCodeActualParlist("");
 
@@ -181,21 +182,21 @@ public final class Altstep_Reference_Value extends Value {
 		result.append("public void invoke_standalone(");
 		altstepType.getFormalParameters().generateCode(aData, result);
 		result.append(") {\n");
-		result.append(MessageFormat.format("{0}({1});\n", altstepName, actualParList));
+		result.append(MessageFormat.format("{0}.{1}({2});\n", moduleName, altstepName, actualParList));
 		result.append("}\n");
 
 		result.append("@Override\n");
 		result.append("public Default_Base activate(");
 		altstepType.getFormalParameters().generateCode(aData, result);
 		result.append(") {\n");
-		result.append(MessageFormat.format("return activate_{0}({1});\n", altstepName, actualParList));
+		result.append(MessageFormat.format("return {0}.activate_{1}({2});\n", moduleName, altstepName, actualParList));
 		result.append("}\n");
 
 		result.append("@Override\n");
 		result.append("public TitanAlt_Status invoke(");
 		altstepType.getFormalParameters().generateCode(aData, result);
 		result.append(") {\n");
-		result.append(MessageFormat.format("return {0}_instance({1});\n", altstepName, actualParList));
+		result.append(MessageFormat.format("return {0}.{1}_instance({2});\n", moduleName, altstepName, actualParList));
 		result.append("}\n");
 		result.append("})\n");
 

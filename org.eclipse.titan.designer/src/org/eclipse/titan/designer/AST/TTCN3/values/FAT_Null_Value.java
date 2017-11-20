@@ -134,10 +134,7 @@ public final class FAT_Null_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		final StringBuilder result = new StringBuilder();
 
-//		if (myGovernor != null) {
 		result.append(MessageFormat.format("new {0}({0}.nullValue)", myGovernor.getGenNameValue(aData, result, myScope)));
-//		}
-//		source.append("null );\n");
 
 		return result;
 	}
@@ -147,11 +144,7 @@ public final class FAT_Null_Value extends Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		//get_fat_null is not needed
 		source.append(name);
-		source.append(".assign( ");
-//		if (myGovernor != null) {
-			source.append(MessageFormat.format("new {0}({0}.nullValue));\n", myGovernor.getGenNameValue(aData, source, myScope)));
-//		}
-//		source.append("null );\n");
+		source.append(MessageFormat.format(".assign(new {0}({0}.nullValue));\n", myGovernor.getGenNameValue(aData, source, myScope)));
 
 		return source;
 	}

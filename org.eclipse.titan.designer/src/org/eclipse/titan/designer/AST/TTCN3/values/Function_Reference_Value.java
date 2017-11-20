@@ -180,6 +180,9 @@ public final class Function_Reference_Value extends Value {
 		result.append("public ");
 		final Function_Type functionType = (Function_Type) lastGovernor;
 		final Type returnType = functionType.getReturnType();
+		final String moduleName = referredFunction.getMyScope().getModuleScope().getName();
+		final String functionName = referredFunction.getIdentifier().getName();
+		final StringBuilder actualParList = functionType.getFormalParameters().generateCodeActualParlist("");
 		if (returnType == null) {
 			result.append("void");
 		} else {
@@ -192,13 +195,7 @@ public final class Function_Reference_Value extends Value {
 		result.append(" invoke(");
 		functionType.getFormalParameters().generateCode(aData, result);
 		result.append(") {\n");
-		if (returnType != null) {
-			result.append("return ");
-		}
-		result.append(referredFunction.getIdentifier().getName());
-		result.append('(');
-		result.append(functionType.getFormalParameters().generateCodeActualParlist(""));
-		result.append(");\n");
+		result.append(MessageFormat.format("{0}{1}.{2}({3});\n", returnType == null ? "" : "return ", moduleName, functionName, actualParList));
 		result.append("}\n");
 		result.append("})\n");
 
