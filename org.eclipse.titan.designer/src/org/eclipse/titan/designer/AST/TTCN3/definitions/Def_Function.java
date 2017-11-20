@@ -945,6 +945,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		source.append( "}\n" );
 
 		if (isStartable) {
+			aData.addBuiltinTypeImport("TitanComponent");
+
 			source.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
 			if (formalParList != null && formalParList.getNofParameters() > 0) {
 				source.append(", ");
