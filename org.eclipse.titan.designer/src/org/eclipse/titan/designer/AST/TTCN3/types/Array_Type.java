@@ -39,6 +39,7 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.templates.CompositeTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.IndexedTemplate;
@@ -612,7 +613,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			break;
 		}
 		case TEMPLATE_LIST: {
-			ITTCN3Template baseTemplate = template.getBaseTemplate();
+			Template_List listTemplate = (Template_List) template;
+			ITTCN3Template baseTemplate = listTemplate.getBaseTemplate();
 			int nofBaseComponents = 0;
 			if (baseTemplate != null) {
 				baseTemplate = baseTemplate.getTemplateReferencedLast(timestamp, null);
@@ -625,17 +627,37 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 			if (!dimension.getIsErroneous(timestamp)) {
 				final long arraySize = dimension.getSize();
-				final int templateSize = ((Template_List) template).getNofTemplates();
-				if (arraySize < templateSize) {
-					template.getLocation().reportSemanticError(MessageFormat.format(TOOMANYTEMPLATEELEMENTS, arraySize, templateSize));
-				} else if (arraySize > templateSize) {
-					template.getLocation().reportSemanticError(MessageFormat.format(TOOFEWTEMPLATEELEMENTS, arraySize, templateSize));
+				final int nofComponents = listTemplate.getNofTemplates();
+				boolean fixedSize = true;
+				int templateSize = 0;
+				for (int i = 0; i < nofComponents && fixedSize; i++) {
+					ITTCN3Template templateComponent = listTemplate.getTemplateByIndex(i);
+					switch (templateComponent.getTemplatetype()) {
+					case PERMUTATION_MATCH:
+						if(((CompositeTemplate)templateComponent).containsAnyornoneOrPermutation()) {
+							fixedSize = false;
+						} else {
+							templateSize += ((CompositeTemplate)templateComponent).getNofTemplates();
+						}
+						break;
+					default:
+						templateSize++;
+						break;
+					}
+				}
+
+				if (fixedSize) {
+					if (arraySize < templateSize) {
+						listTemplate.getLocation().reportSemanticError(MessageFormat.format(TOOMANYTEMPLATEELEMENTS, arraySize, templateSize));
+					} else if (arraySize > templateSize) {
+						listTemplate.getLocation().reportSemanticError(MessageFormat.format(TOOFEWTEMPLATEELEMENTS, arraySize, templateSize));
+					}
 				}
 			}
 
 			final int nofComponents = ((Template_List) template).getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
-				ITTCN3Template templateComponent = ((Template_List) template).getTemplateByIndex(i);
+				ITTCN3Template templateComponent = listTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(elementType);
 				if (baseTemplate != null && i < nofBaseComponents) {
 					templateComponent.setBaseTemplate(((Template_List) baseTemplate).getTemplateByIndex(i));
