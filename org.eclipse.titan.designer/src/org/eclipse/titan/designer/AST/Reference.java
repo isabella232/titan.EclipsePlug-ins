@@ -1104,7 +1104,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 			expression.expression.append("( ");
 			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
-			temp.getActualParameters().generateCodeAlias(aData, expression);
+			final ActualParameterList actualParameterList = temp.getActualParameters();
+			if (actualParameterList != null) {
+				actualParameterList.generateCodeAlias(aData, expression);
+			}
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
 			//the reference does not have an actual parameter list, but the assignment has
