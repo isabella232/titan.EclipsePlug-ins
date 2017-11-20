@@ -465,7 +465,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return constGetAt(index.getInt());	
 	}
 
-	public int nofElements() {
+	public int n_elem() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			return singleSize;

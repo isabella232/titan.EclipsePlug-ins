@@ -1553,7 +1553,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateNElem(final StringBuilder source, final String genName) {
 		source.append('\n');
-		source.append("\tpublic TitanInteger nofElements() {\n");
+		source.append("\tpublic TitanInteger n_elem() {\n");
 		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\treturn new TitanInteger(value_elements.size());\n");

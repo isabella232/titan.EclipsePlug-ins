@@ -206,7 +206,7 @@ public class TitanRecordOf extends Base_Type {
 		if (index_value < 0) {
 			throw new TtcnError( MessageFormat.format("Accessing an element of type record of {0} using a negative index: {1}.", getOfTypeName(), index_value));
 		}
-		final int nofElements = getNofElements();
+		final int nofElements = n_elem();
 		if ( index_value >= nofElements ) {
 			throw new TtcnError( MessageFormat.format( "Index overflow in a value of type record of {0}: The index is {1}, but the value has only {2} elements.",
 					getOfTypeName(), index_value, nofElements ) );
@@ -246,7 +246,7 @@ public class TitanRecordOf extends Base_Type {
 		return getOfTypeName( ofType );
 	}
 
-	public int getNofElements() {
+	public int n_elem() {
 		if ( valueElements == null ) {
 			return 0;
 		}
