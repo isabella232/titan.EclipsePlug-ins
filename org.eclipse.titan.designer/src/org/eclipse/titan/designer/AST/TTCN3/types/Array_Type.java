@@ -961,6 +961,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return;
 		}
 
+		aData.addBuiltinTypeImport("Base_Template");
+
 		elementType.generateCode(aData, source);
 
 		final String ownName = getGenNameValue(aData, source, myScope);
