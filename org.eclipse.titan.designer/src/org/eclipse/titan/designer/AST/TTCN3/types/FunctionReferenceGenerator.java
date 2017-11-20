@@ -424,8 +424,8 @@ public class FunctionReferenceGenerator {
 
 		source.append("// originally set_type\n");
 		source.append("public void setType(final template_sel templateType, final int listLength) {\n");
-		source.append("if (!template_sel.VALUE_LIST.equals(templateSelection) &&\n");
-		source.append("!template_sel.COMPLEMENTED_LIST.equals(templateSelection)) {\n");
+		source.append("if (!template_sel.VALUE_LIST.equals(templateType) &&\n");
+		source.append("!template_sel.COMPLEMENTED_LIST.equals(templateType)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid type for an {0} template.\");\n", def.displayName));
 		source.append("}\n");
 		source.append("cleanUp();\n");
