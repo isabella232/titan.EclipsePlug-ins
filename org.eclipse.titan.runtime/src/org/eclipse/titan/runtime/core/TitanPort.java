@@ -127,10 +127,13 @@ public class TitanPort {
 
 	// originally PORT::deactivate_all
 	public static void deactivateAll() {
-		for (TitanPort port : PORTS) {
+		final LinkedList<TitanPort> temp = new LinkedList<TitanPort>(PORTS);
+		for (TitanPort port : temp) {
 			port.deActivatePort(false);
 		}
-		for (TitanPort port : SYSTEM_PORTS) {
+		temp.clear();
+		temp.addAll(SYSTEM_PORTS);
+		for (TitanPort port : temp) {
 			port.deActivatePort(true);
 		}
 	}
