@@ -361,7 +361,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 		final int result = index - indexofset;
 		if (result >= arraySize) {
-			throw new TtcnError("Index underflow when accessing an element of an array. "+
+			throw new TtcnError("Index overflow when accessing an element of an array. "+
 					"The index value should be between "+indexofset+" and "+(indexofset+arraySize-1)+" instead of "+index+".");
 		}
 
