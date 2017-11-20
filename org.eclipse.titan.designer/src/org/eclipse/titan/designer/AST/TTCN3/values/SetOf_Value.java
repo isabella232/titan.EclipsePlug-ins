@@ -651,7 +651,7 @@ public final class SetOf_Value extends Value {
 						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
 					} else {
 						final String tempId2 = aData.getTemporaryVariableName();
-						source.append(MessageFormat.format("int {0};\n", tempId2));
+						source.append(MessageFormat.format("TitanInteger {0} = new TitanInteger();\n", tempId2));
 						index.generateCodeInit(aData, source, tempId2);
 						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
 					}
