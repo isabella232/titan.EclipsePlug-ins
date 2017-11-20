@@ -193,7 +193,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 
 		for (int i = 0; i < array_size; ++i) {
-			if (! array_elements[getArrayIndex(i, array_size, indexOffset)].operatorEquals(otherValue.array_elements[getArrayIndex(i, otherValue.array_size, otherValue.indexOffset)])) {
+			if (! array_elements[i].operatorEquals(otherValue.array_elements[i])) {
 				return false;
 			}
 		}
