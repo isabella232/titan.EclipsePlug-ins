@@ -272,7 +272,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 
 					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", expression.expression));
 
-					final String embeddedName = MessageFormat.format("{0}.setItem({1}{2} + i_i)", name, i, shifty);
+					final String embeddedName = MessageFormat.format("{0}.getAt({1}{2} + i_i)", name, i, shifty);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName);
 					source.append("}\n");
 					shifty.append(MessageFormat.format("-1 + {0}.n_elem().getInt()", expression.expression));
@@ -282,11 +282,11 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 					if (template.needsTemporaryReference()) {
 						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
-						source.append(MessageFormat.format("{0} {1} = {2}.setItem({3}{4});\n", ofTypeName, tempId, name, i, shifty));
+						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3}{4});\n", ofTypeName, tempId, name, i, shifty));
 						generateCodeInit(aData, source, tempId);
 						source.append("}\n");
 					} else {
-						final String embeddedName = MessageFormat.format("{0}.setItem({1}{2})", name, i, shifty);
+						final String embeddedName = MessageFormat.format("{0}.getAt({1}{2})", name, i, shifty);
 						template.generateCodeInit(aData, source, embeddedName);
 					}
 					break;
