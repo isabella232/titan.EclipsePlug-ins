@@ -224,7 +224,7 @@ public final class TTCN_Runtime {
 
 	// originally TTCN_Runtime::begin_testcase
 	//FIXME this is more complex
-	public static void begin_testcase(final String moduleName, final String testcaseName, final String componentName, final boolean hasTimer, final TitanFloat timerValue) {
+	public static void begin_testcase(final String moduleName, final String testcaseName, final String mtc_comptype_module, final String mtc_comptype_name, final boolean hasTimer, final TitanFloat timerValue) {
 		switch (executorState) {
 		case SINGLE_CONTROLPART:
 			executorState = executorStateEnum.SINGLE_TESTCASE;
@@ -246,7 +246,7 @@ public final class TTCN_Runtime {
 			TitanTimer.testcaseTimer.start(timerValue.getValue());
 		}
 
-		set_component_type(moduleName, componentName);
+		set_component_type(mtc_comptype_module, mtc_comptype_name);
 		initialize_component_type();
 	}
 
