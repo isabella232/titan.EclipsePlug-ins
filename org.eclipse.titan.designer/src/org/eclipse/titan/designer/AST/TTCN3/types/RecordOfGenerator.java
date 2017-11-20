@@ -335,12 +335,12 @@ public class RecordOfGenerator {
 			source.append("\t\tif (right_ptr.valueElements == null) {\n");
 			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The right operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 			source.append("\t\t}\n");
-			source.append("\t\tif (left_ptr.valueElements.get(left_index) != null) {\n");
-			source.append("\t\t\tif (right_ptr.valueElements.get(right_index) != null){\n");
+			source.append("\t\tif (left_ptr.valueElements.get(left_index).isBound()) {\n");
+			source.append("\t\t\tif (right_ptr.valueElements.get(right_index).isBound()){\n");
 			source.append("\t\t\t\treturn left_ptr.valueElements.get(left_index).operatorEquals( right_ptr.valueElements.get(right_index) );\n");
 			source.append("\t\t\t} else return false;\n");
 			source.append("\t\t} else {\n");
-			source.append("\t\t\treturn right_ptr.valueElements.get(right_index) == null;\n");
+			source.append("\t\t\treturn !right_ptr.valueElements.get(right_index).isBound();\n");
 			source.append("\t\t}\n");
 			source.append("\t}\n");
 		}
