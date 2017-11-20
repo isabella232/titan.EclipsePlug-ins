@@ -168,6 +168,7 @@ public final class Value_Assignment extends ASN1Assignment {
 		tempValue.checkRecursions(timestamp, chain);
 		chain.release();
 
+		value.setGenNameRecursive(getGenName());
 		value.setCodeSection(CodeSectionType.CS_PRE_INIT);
 	}
 
