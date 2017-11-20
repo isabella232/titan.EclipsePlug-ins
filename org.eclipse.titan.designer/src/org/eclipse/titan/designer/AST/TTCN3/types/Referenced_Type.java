@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -35,6 +36,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Type_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.Undefined_Assignment;
+import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -599,8 +601,9 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered";
 		}
 
-		if (refdLast.getMyScope().getModuleScope() != scope.getModuleScope()) {
-			aData.addInterModuleImport(refdLast.getMyScope().getModuleScope().getName());
+		final Module refdModule = refdLast.getMyScope().getModuleScope();
+		if (refdModule != scope.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
+			aData.addInterModuleImport(refdModule.getName());
 		}
 		return refd.getGenNameValue(aData, source, scope);
 	}
@@ -613,8 +616,9 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered";
 		}
 
-		if (refdLast.getMyScope().getModuleScope() != scope.getModuleScope()) {
-			aData.addInterModuleImport(refdLast.getMyScope().getModuleScope().getName());
+		final Module refdModule = refdLast.getMyScope().getModuleScope();
+		if (refdModule != scope.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
+			aData.addInterModuleImport(refdModule.getName());
 		}
 		return refd.getGenNameTemplate(aData, source, scope);
 	}
