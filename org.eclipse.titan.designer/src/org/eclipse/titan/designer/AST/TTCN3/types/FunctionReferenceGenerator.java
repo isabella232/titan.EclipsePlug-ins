@@ -62,23 +62,13 @@ public class FunctionReferenceGenerator {
 		case FUNCTION:
 			source.append("public interface function_pointer {\n");
 			source.append("String getId();\n");
-			if (def.returnType == null) {
-				source.append("void");
-			} else {
-				source.append(def.returnType);
-			}
-			source.append(MessageFormat.format(" invoke({0});\n", def.formalParList));
+			source.append(MessageFormat.format("{0} invoke({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
 			source.append("}\n");
 			break;
 		case ALTSTEP:
 			source.append("public interface function_pointer {\n");
 			source.append("String getId();\n");
-			if (def.returnType == null) {
-				source.append("void");
-			} else {
-				source.append(def.returnType);
-			}
-			source.append(MessageFormat.format(" invoke_standalone({0});\n", def.formalParList));
+			source.append(MessageFormat.format("{0} invoke_standalone({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
 			source.append(MessageFormat.format("Default_Base activate({0});\n", def.formalParList));
 			source.append(MessageFormat.format("TitanAlt_Status invoke({0});\n", def.formalParList));
 			source.append("}\n");
@@ -91,6 +81,38 @@ public class FunctionReferenceGenerator {
 			break;
 		}
 		source.append("private function_pointer referred_function;\n");
+
+		source.append("public static final function_pointer nullValue = new function_pointer() {\n");
+		source.append("@Override\n");
+		source.append("public String getId() {\n");
+		source.append("return \"null\";\n");
+		source.append("}\n");
+		switch (def.type) {
+		case FUNCTION:
+			source.append("@Override\n");
+			source.append(MessageFormat.format("public {0} invoke({1}) '{'\n", def.returnType == null? "void" : def.returnType, def.formalParList));
+			source.append("throw new TtcnError(\"null reference cannot be invoked.\");\n");
+			source.append("}\n");
+			break;
+		case ALTSTEP:
+			source.append(MessageFormat.format("public {0} invoke_standalone({1}) '{'\n", def.returnType == null? "void" : def.returnType, def.formalParList));
+			source.append("throw new TtcnError(\"null reference cannot be invoked.\");\n");
+			source.append("}\n");
+			source.append(MessageFormat.format("public Default_Base activate({0}) '{'\n", def.formalParList));
+			source.append("throw new TtcnError(\"null reference cannot be activated.\");\n");
+			source.append("}\n");
+			source.append(MessageFormat.format("public TitanAlt_Status invoke({0}) '{'\n", def.formalParList));
+			source.append("throw new TtcnError(\"null reference cannot be invoked.\");\n");
+			source.append("}\n");
+			break;
+		case TESTCASE:
+			source.append("@Override\n");
+			source.append(MessageFormat.format("public TitanVerdictType execute({0}) '{'\n", def.formalParList));
+			source.append("throw new TtcnError(\"null reference cannot be executed.\");\n");
+			source.append("}\n");
+			break;
+		}
+		source.append("};\n");
 
 		source.append(MessageFormat.format("public {0}() '{'\n", def.genName));
 		source.append("referred_function = null;\n");
