@@ -37,7 +37,6 @@ public final class SubstractExpression extends Expression_Value {
 	private static final String FIRSTOPERANDERROR = "The first operand of the `-' operation should be an integer or float value";
 	private static final String FIRSTOPERANDERROR2 = "{0} can not be used as the first operand of the `-'' operation";
 	private static final String SECONDOPERANDERROR = "The second operand of the `-' operation should be an integer or float value";
-	private static final String SECONDOPERANDERROR2 = "{0} can not be used as the second operand of the `-'' operation";
 	private static final String SAMEOPERANDERROR = "The operands of operation `-' should be of the same type";
 
 	private final Value value1;
@@ -180,18 +179,9 @@ public final class SubstractExpression extends Expression_Value {
 			case TYPE_INTEGER:
 				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
-			case TYPE_REAL: {
-				final IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (!last.isUnfoldable(timestamp)) {
-					final Real_Value real = (Real_Value) last;
-					if (real.isSpecialFloat()) {
-						value1.getLocation().reportSemanticError(
-								MessageFormat.format(FIRSTOPERANDERROR2, real.createStringRepresentation()));
-						setIsErroneous(true);
-					}
-				}
+			case TYPE_REAL:
+				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
-			}
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
 				break;
@@ -211,15 +201,7 @@ public final class SubstractExpression extends Expression_Value {
 				value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
 			case TYPE_REAL: {
-				final IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (lastValue != null && !lastValue.isUnfoldable(timestamp)) {
-					final Real_Value real = (Real_Value) lastValue;
-					if (real.isSpecialFloat()) {
-						value2.getLocation().reportSemanticError(
-								MessageFormat.format(SECONDOPERANDERROR2, real.createStringRepresentation()));
-						setIsErroneous(true);
-					}
-				}
+				value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
 			}
 			case TYPE_UNDEFINED:
