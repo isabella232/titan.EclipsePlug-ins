@@ -543,7 +543,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 				component.setMyGovernor(elementType);
 				final IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
-				selfReference = elementType.checkThisValue(timestamp, tempValue2, lhs,
+				selfReference |= elementType.checkThisValue(timestamp, tempValue2, lhs,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
 			if (checkHoles) {
@@ -575,7 +575,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 					}
 				} else {
 					final IValue tempValue2 = elementType.checkThisValueRef(timestamp, component);
-					selfReference = elementType.checkThisValue(timestamp, tempValue2, lhs,
+					selfReference |= elementType.checkThisValue(timestamp, tempValue2, lhs,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
 			}
@@ -608,7 +608,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				ITTCN3Template templateComponent = ((PermutationMatch_Template) template).getTemplateByIndex(i);
 				templateComponent.setMyGovernor(elementType);
 				templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, false, lhs);
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, false, lhs);
 			}
 			break;
 		}
@@ -665,7 +665,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
 				switch (templateComponent.getTemplatetype()) {
 				case PERMUTATION_MATCH:
-					selfReference = templateComponent.checkThisTemplateGeneric(timestamp, this, isModified, false, true, true, implicitOmit, lhs);
+					selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, this, isModified, false, true, true, implicitOmit, lhs);
 					break;
 				case TEMPLATE_NOTUSED:
 					if (!isModified) {
@@ -673,7 +673,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 					}
 					break;
 				default:
-					selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
+					selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
 					break;
 				}
 			}
@@ -712,7 +712,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 				templateComponent.setMyGovernor(elementType);
 				templateComponent = elementType.checkThisTemplateRef(timestamp, templateComponent);
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, elementType, isModified, false, true, true, implicitOmit, lhs);
 			}
 			break;
 		}

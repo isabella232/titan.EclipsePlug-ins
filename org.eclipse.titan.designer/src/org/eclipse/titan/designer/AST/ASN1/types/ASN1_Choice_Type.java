@@ -406,7 +406,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 						namedTemplateTemplate = fieldType.checkThisTemplateRef(timestamp, namedTemplateTemplate);
 						final Completeness_type completeness = namedTemplateList.getCompletenessConditionChoice(timestamp,
 								isModified, name);
-						selfReference = namedTemplateTemplate.checkThisTemplateGeneric(timestamp, fieldType,
+						selfReference |= namedTemplateTemplate.checkThisTemplateGeneric(timestamp, fieldType,
 								Completeness_type.MAY_INCOMPLETE.equals(completeness), false, false, true,
 								implicitOmit, lhs);
 					}

@@ -410,7 +410,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					namedTemplateTemplate.setMyGovernor(fieldType);
 					namedTemplateTemplate = fieldType.checkThisTemplateRef(timestamp, namedTemplateTemplate);
 					final Completeness_type completeness = namedTemplateList.getCompletenessConditionChoice(timestamp, isModified, name);
-					selfReference = namedTemplateTemplate.checkThisTemplateGeneric(
+					selfReference |= namedTemplateTemplate.checkThisTemplateGeneric(
 							timestamp, fieldType, Completeness_type.MAY_INCOMPLETE.equals(completeness), false, false, true, implicitOmit, lhs);
 				}
 			}

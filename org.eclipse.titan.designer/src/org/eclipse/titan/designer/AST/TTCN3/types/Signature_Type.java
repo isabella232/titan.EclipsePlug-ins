@@ -459,7 +459,7 @@ public final class Signature_Type extends Type {
 			if (componentValue != null) {
 				componentValue.setMyGovernor(type);
 				final IValue tempValue = type.checkThisValueRef(timestamp, componentValue);
-				selfReference = type.checkThisValue(timestamp, tempValue, lhs, new ValueCheckingOptions(expectedValue, false, false, true, implicitOmit, strElem));
+				selfReference |= type.checkThisValue(timestamp, tempValue, lhs, new ValueCheckingOptions(expectedValue, false, false, true, implicitOmit, strElem));
 			}
 		}
 
@@ -554,7 +554,7 @@ public final class Signature_Type extends Type {
 				ITTCN3Template componentTemplate = namedTemplate.getTemplate();
 				componentTemplate.setMyGovernor(parameterType); //FIXME: will be overwritten?
 				componentTemplate = parameterType.checkThisTemplateRef(timestamp, componentTemplate);
-				selfReference = componentTemplate.checkThisTemplateGeneric(timestamp, parameterType, isModified, false, false, true, false, lhs);
+				selfReference |= componentTemplate.checkThisTemplateGeneric(timestamp, parameterType, isModified, false, false, true, false, lhs);
 			} else {
 				namedTemplate.getLocation().reportSemanticError(
 						MessageFormat.format(NONEXISTENTPARAMETER, identifier.getDisplayName(), getTypename()));

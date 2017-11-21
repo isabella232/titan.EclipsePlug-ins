@@ -412,7 +412,7 @@ public final class SetOf_Type extends AbstractOfType {
 				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs);
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs);
 				if (Template_type.ANY_OR_OMIT.equals(templateComponent.getTemplateReferencedLast(timestamp, null).getTemplatetype())) {
 					templateComponent.getLocation().reportSemanticWarning(ANYOROMITINSUBSET);
 				}
@@ -426,7 +426,7 @@ public final class SetOf_Type extends AbstractOfType {
 				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs);
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs);
 				if (Template_type.ANY_OR_OMIT.equals(templateComponent.getTemplateReferencedLast(timestamp, null).getTemplatetype())) {
 					templateComponent.getLocation().reportSemanticWarning(ANYOROMITINSUPERSET);
 				}
@@ -481,7 +481,7 @@ public final class SetOf_Type extends AbstractOfType {
 				default:
 					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
 					|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
-					selfReference = component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit, lhs);
+					selfReference |= component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit, lhs);
 					break;
 				}
 			}
@@ -529,7 +529,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit, lhs);
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit, lhs);
 			}
 			break;
 		}

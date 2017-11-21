@@ -98,7 +98,7 @@ public final class ValueList_Template extends CompositeTemplate {
 			final TTCN3Template component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
 			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
-			selfReference = temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
+			selfReference |= temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
 		}
 
 		checkLengthRestriction(timestamp, type);

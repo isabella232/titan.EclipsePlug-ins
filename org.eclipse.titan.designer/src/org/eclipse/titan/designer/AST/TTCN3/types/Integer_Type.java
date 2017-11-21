@@ -263,7 +263,7 @@ public final class Integer_Type extends Type {
 			final ValueList_Template temp = (ValueList_Template) template;
 			for (int i = 0; i < temp.getNofTemplates(); i++){
 				final TTCN3Template tmp = temp.getTemplateByIndex(i);
-				selfReference = checkThisTemplate(timestamp,tmp,isModified,implicitOmit, lhs);
+				selfReference |= checkThisTemplate(timestamp,tmp,isModified,implicitOmit, lhs);
 			}
 			break;
 		case ANY_OR_OMIT:

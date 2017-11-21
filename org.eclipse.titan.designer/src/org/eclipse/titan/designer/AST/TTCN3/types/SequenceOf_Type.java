@@ -498,7 +498,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				tempType.check(timestamp);
 				indexLast.setMyGovernor(tempType);
 				final IValue temporalValue = tempType.checkThisValueRef(timestamp, indexLast);
-				selfReference = tempType.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				selfReference |= tempType.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						true, false, true, false, false));
 
 				if (indexLast.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
@@ -528,7 +528,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				component.setMyGovernor(getOfType());
 				final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-				selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
+				selfReference |= getOfType().checkThisValue(timestamp, tempValue2, lhs,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
 			if (checkHoles) {
@@ -546,7 +546,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					}
 				} else {
 					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-					selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
+					selfReference |= getOfType().checkThisValue(timestamp, tempValue2, lhs,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
 			}
@@ -578,7 +578,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				ITTCN3Template templateComponent = permutationTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
 			break;
 		}
@@ -589,7 +589,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				ITTCN3Template templateComponent = supersetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
 			break;
 		}
@@ -600,7 +600,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				ITTCN3Template templateComponent = subsetTemplate.getTemplateByIndex(i);
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent); //It does not do anything for AllElementsFrom, it is ok
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), false, false, true, true, implicitOmit, lhs); //it is a special for AllElementsFrom, it is the usual for TemplateBody
 			}
 			break;
 		}
@@ -638,14 +638,14 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				switch (component.getTemplatetype()) {
 				case PERMUTATION_MATCH:
-					selfReference = component.checkThisTemplateGeneric(timestamp, this, isModified, false, true, true, implicitOmit, lhs);
+					selfReference |= component.checkThisTemplateGeneric(timestamp, this, isModified, false, true, true, implicitOmit, lhs);
 					break;
 				case SUPERSET_MATCH:
 				case SUBSET_MATCH:
 					//FIXME: for Complement??? case COMPLEMENTED_LIST: ???
 					// the elements of permutation has to be checked by u.seof.ofType
 					// the templates within the permutation always have to be complete
-					selfReference = component.checkThisTemplateGeneric(timestamp, this, false, false, true, true, implicitOmit, lhs);
+					selfReference |= component.checkThisTemplateGeneric(timestamp, this, false, false, true, true, implicitOmit, lhs);
 					break;
 				case TEMPLATE_NOTUSED:
 					if (Completeness_type.MUST_COMPLETE.equals(completeness)) {
@@ -657,7 +657,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				default:
 					final boolean embeddedModified = (completeness == Completeness_type.MAY_INCOMPLETE)
 					|| (completeness == Completeness_type.PARTIAL && i < nofBaseComps);
-					selfReference = component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit, lhs);
+					selfReference |= component.checkThisTemplateGeneric(timestamp, getOfType(), embeddedModified, false, true, true, implicitOmit, lhs);
 					break;
 				}
 			}
@@ -703,7 +703,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 				templateComponent.setMyGovernor(getOfType());
 				templateComponent = getOfType().checkThisTemplateRef(timestamp, templateComponent);
-				selfReference = templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit, lhs);
+				selfReference |= templateComponent.checkThisTemplateGeneric(timestamp, getOfType(), true, false, true, true, implicitOmit, lhs);
 			}
 			break;
 		}

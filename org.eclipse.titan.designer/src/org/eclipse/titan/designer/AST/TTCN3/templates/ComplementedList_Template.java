@@ -120,7 +120,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			final TTCN3Template component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
 			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
-			selfReference = temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
+			selfReference |= temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
 
 			if (Template_type.ANY_OR_OMIT.equals(temporalComponent.getTemplatetype())) {
 				component.getLocation().reportSemanticWarning(ANYOROMITWARNING);
