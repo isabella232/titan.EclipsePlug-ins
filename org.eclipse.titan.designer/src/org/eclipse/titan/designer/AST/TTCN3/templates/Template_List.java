@@ -568,7 +568,7 @@ public final class Template_List extends CompositeTemplate {
 			final StringBuilder body = new StringBuilder();
 
 			final String counter = aData.getTemporaryVariableName();
-			body.append(MessageFormat.format("int {0} = 0;\n", counter));
+			body.append(MessageFormat.format("int {0} = {1};\n", counter, indexOffset));
 
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 				final TTCN3Template template = templates.getTemplateByIndex(i);
