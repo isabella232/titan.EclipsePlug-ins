@@ -498,7 +498,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				tempType.check(timestamp);
 				indexLast.setMyGovernor(tempType);
 				final IValue temporalValue = tempType.checkThisValueRef(timestamp, indexLast);
-				selfReference |= tempType.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
+				tempType.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						true, false, true, false, false));
 
 				if (indexLast.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(temporalValue.getValuetype())) {
@@ -663,7 +663,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			}
 			break;
 		}
-		case INDEXED_TEMPLATE_LIST:	{
+		case INDEXED_TEMPLATE_LIST: {
 			final Map<Long, Integer> indexMap = new HashMap<Long, Integer>();
 			final Indexed_Template_List indexedTemplateList = (Indexed_Template_List) template;
 			for (int i = 0, size = indexedTemplateList.getNofTemplates(); i < size; i++) {
