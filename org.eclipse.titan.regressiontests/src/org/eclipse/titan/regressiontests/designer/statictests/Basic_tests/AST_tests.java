@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1509);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1492);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -429,11 +429,7 @@ public class AST_tests {
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("The second operand of the `*' operation should be an integer or float value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the first operand of the `*' operation",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the first operand of the `*' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the second operand of the `*' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the second operand of the `*' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 17;
+		lineNum += 20;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("The operands of operation `+' should be of the same type", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -457,11 +453,7 @@ public class AST_tests {
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("The second operand of the `+' operation should be an integer or float value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the first operand of the `+' operation",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the first operand of the `+' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the second operand of the `+' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the second operand of the `+' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 17;
+		lineNum += 20;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("The operands of operation `-' should be of the same type", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -485,11 +477,7 @@ public class AST_tests {
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("The second operand of the `-' operation should be an integer or float value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the first operand of the `-' operation",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the first operand of the `-' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the second operand of the `-' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the second operand of the `-' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 17;
+		lineNum += 20;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("The operands of operation `/' should be of the same type", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -500,10 +488,8 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The second operand of operation `/' should not be zero", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("The operands of operation `/' should be of the same type",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 1;
-		for (i = 0; i < 2; i++) {
-			markersToCheck.add(new MarkerToCheck("The second operand of operation `/' should not be zero", lineNum++, IMarker.SEVERITY_ERROR));
-		}
+		markersToCheck.add(new MarkerToCheck("The second operand of operation `/' should not be zero",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("The operands of operation `/' should be of the same type",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The first operand of the `/' operation should be an integer or float value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `/' operation should be an integer or float value",  lineNum, IMarker.SEVERITY_ERROR));
@@ -523,11 +509,7 @@ public class AST_tests {
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("The second operand of the `/' operation should be an integer or float value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the first operand of the `/' operation",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the first operand of the `/' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Infinity can not be used as the second operand of the `/' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("-Infinity can not be used as the second operand of the `/' operation",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 15;
+		lineNum += 18;
 		markersToCheck.add(new MarkerToCheck("The first operand of the `mod' operation should be an integer value",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The second operand of the `mod' operation should be an integer value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
