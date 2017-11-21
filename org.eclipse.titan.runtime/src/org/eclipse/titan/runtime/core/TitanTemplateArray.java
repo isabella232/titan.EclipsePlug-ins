@@ -130,6 +130,10 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			throw new TtcnError(MessageFormat.format("the {0}th permutation overlaps the previous one", number_of_permutations));
 		}
 
+		if (permutationIntervals == null) {
+			permutationIntervals = new ArrayList<Pair_of_elements>(1);
+		}
+
 		final Pair_of_elements newElem = new Pair_of_elements(start_index, end_index);
 		permutationIntervals.add(newElem);
 	}
