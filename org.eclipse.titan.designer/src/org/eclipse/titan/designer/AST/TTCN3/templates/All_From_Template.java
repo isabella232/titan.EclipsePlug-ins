@@ -8,25 +8,32 @@
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_ModulePar_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Referenced_ActualParameter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Template_ActualParameter;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
@@ -190,6 +197,7 @@ public class All_From_Template extends TTCN3Template {
 			return false;
 		}
 
+		boolean selfReference = lhs == assignment;
 		// ES 201 873-1 - V4.7.1 B.1.2.1.a:
 		// The type of the template list and the member type of the template in
 		// the all from clause shall be
@@ -248,6 +256,7 @@ public class All_From_Template extends TTCN3Template {
 		switch (assignment.getAssignmentType()) {
 		case A_TEMPLATE:
 			body = ((Def_Template) assignment).getTemplate(timestamp);
+			selfReference |= checkThisTemplateParameterizedReference(reference, lhs);
 			break;
 		case A_VAR_TEMPLATE:
 			body = ((Def_Var_Template) assignment).getInitialValue();
@@ -263,8 +272,14 @@ public class All_From_Template extends TTCN3Template {
 		case A_VAR:
 			value = ((Def_Var) assignment).getInitialValue();
 			break;
+		case A_FUNCTION_RVAL:
+		case A_FUNCTION_RTEMP:
+		case A_EXT_FUNCTION_RVAL:
+		case A_EXT_FUNCTION_RTEMP:
+			selfReference |= checkThisTemplateParameterizedReference(reference, lhs);
+			break;
 		default:
-			return false;
+			return selfReference;
 		}
 
 		//it is too complex to analyse anyoromit. Perhaps it can be omit
@@ -287,7 +302,7 @@ public class All_From_Template extends TTCN3Template {
 			default:
 				allFrom.getLocation().reportSemanticError(LISTEXPECTED);
 				allFrom.setIsErroneous(true);
-				return false;
+				return selfReference;
 			}
 
 		}
@@ -297,9 +312,61 @@ public class All_From_Template extends TTCN3Template {
 		//			return;
 		//		}
 
-		return false;
+		return selfReference;
 	}
 
+	private boolean checkThisTemplateParameterizedReference(final Reference reference, final Assignment lhs) {
+		final List<ISubReference> subreferences = reference.getSubreferences();
+		if (subreferences.isEmpty() || !(subreferences.get(0) instanceof ParameterisedSubReference)) {
+			return false;
+		}
+
+		final ParameterisedSubReference subReference = (ParameterisedSubReference) subreferences.get(0);
+		final ActualParameterList actualParameterList = subReference.getActualParameters();
+		if (actualParameterList == null) {
+			return false;
+		}
+
+		final int nofParameters = actualParameterList.getNofParameters();
+		for (int i = 0; i < nofParameters; i++) {
+			Reference parameterReference = null;
+			final ActualParameter actualParameter = actualParameterList.getParameter(i);
+			if (actualParameter instanceof Template_ActualParameter) {
+				TemplateInstance templateInstance = ((Template_ActualParameter)actualParameter).getTemplateInstance();
+				ITTCN3Template template = templateInstance.getTemplateBody();
+				template = template.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
+				if(template.getTemplatetype() == Template_type.TEMPLATE_REFD) {
+					parameterReference = ((Referenced_Template)template).getReference();
+				}
+			} else if (actualParameter instanceof Referenced_ActualParameter) {
+				parameterReference = ((Referenced_ActualParameter) actualParameter).getReference();
+			}
+
+			if (parameterReference != null) {
+				final Assignment assignment = parameterReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+				if (assignment == lhs) {
+					return true;
+				}
+
+				// In case a parameter is another function call / parametrised template
+				// check their parameters as well
+				switch (assignment.getAssignmentType()) {
+				case A_TEMPLATE:
+				case A_FUNCTION_RVAL:
+				case A_FUNCTION_RTEMP:
+				case A_EXT_FUNCTION_RVAL:
+				case A_EXT_FUNCTION_RTEMP:
+					if (checkThisTemplateParameterizedReference(parameterReference, lhs)) {
+						return true;
+					}
+					break;
+				default:
+					break;
+				}
+			}
+		}
+		return false;
+	}
 
 	@Override
 	/** {@inheritDoc} */

@@ -304,7 +304,7 @@ public class TitanVerdictType_template extends Base_Template {
 			}
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement ");
+			TtcnLogger.log_event_str("complement");
 			// no break
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');

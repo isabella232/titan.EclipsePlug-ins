@@ -427,7 +427,7 @@ public abstract class AbstractOfType extends ASN1Type {
 
 				component.setMyGovernor(getOfType());
 				final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-				selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
+				selfReference |= getOfType().checkThisValue(timestamp, tempValue2, lhs,
 						new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 			}
 			if (checkHoles && maxIndex.compareTo(BigInteger.valueOf(indexMap.size() - 1)) != 0) {
@@ -443,7 +443,7 @@ public abstract class AbstractOfType extends ASN1Type {
 					}
 				} else {
 					final IValue tempValue2 = getOfType().checkThisValueRef(timestamp, component);
-					selfReference = getOfType().checkThisValue(timestamp, tempValue2, lhs,
+					selfReference |= getOfType().checkThisValue(timestamp, tempValue2, lhs,
 							new ValueCheckingOptions(expectedValue, incompleteAllowed, false, true, implicitOmit, strElem));
 				}
 			}

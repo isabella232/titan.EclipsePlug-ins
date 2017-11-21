@@ -671,7 +671,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 					if (!isOptional && componentField.hasDefault() && defaultAsOptional) {
 						isOptional = true;
 					}
-					selfReference = type.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(expectedValue, incompleteAllowed,
+					selfReference |= type.checkThisValue(timestamp, temporalValue, lhs, new ValueCheckingOptions(expectedValue, incompleteAllowed,
 							isOptional, true, implicitOmit, strElem));
 				}
 			}
@@ -800,7 +800,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 					if (!isOptional && componentField.hasDefault() && defaultAsOptional) {
 						isOptional = true;
 					}
-					selfReference = componentTemplate.checkThisTemplateGeneric(timestamp, type, isModified, isOptional, isOptional, true,
+					selfReference |= componentTemplate.checkThisTemplateGeneric(timestamp, type, isModified, isOptional, isOptional, true,
 							implicitOmit, lhs);
 				}
 			} else {

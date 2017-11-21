@@ -1146,7 +1146,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\tTtcnLogger.log_event_str(\" }\");\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\"complement \");\n");
+		source.append("\t\t\t\tTtcnLogger.log_event_str(\"complement\");\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
 		source.append("\t\t\t\tTtcnLogger.log_char('(');\n");
 		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
@@ -1700,7 +1700,7 @@ public class RecordSetCodeGenerator {
 		source.append("TtcnLogger.log_event_str(\"{ }\");\n");
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TtcnLogger.log_event_str(\"complement \");\n");
+		source.append("TtcnLogger.log_event_str(\"complement\");\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("TtcnLogger.log_char('(');\n");
 		source.append("for (int list_count = 0; list_count < list_value.size(); list_count++) {\n");

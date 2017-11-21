@@ -971,7 +971,7 @@ public class UnionGenerator {
 		source.append("single_value.log();\n");
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TtcnLogger.log_event_str(\"complement \");\n");
+		source.append("TtcnLogger.log_event_str(\"complement\");\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("TtcnLogger.log_char('(');\n");
 		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");

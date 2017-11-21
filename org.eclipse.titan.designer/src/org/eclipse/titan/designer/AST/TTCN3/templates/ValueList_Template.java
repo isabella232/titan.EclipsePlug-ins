@@ -98,7 +98,7 @@ public final class ValueList_Template extends CompositeTemplate {
 			final TTCN3Template component = templates.getTemplateByIndex(i);
 			component.setMyGovernor(type);
 			final ITTCN3Template temporalComponent = type.checkThisTemplateRef(timestamp, component);
-			selfReference = temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
+			selfReference |= temporalComponent.checkThisTemplateGeneric(timestamp, type, false, allowOmitInValueList, true, subCheck, implicitOmit, lhs);
 		}
 
 		checkLengthRestriction(timestamp, type);
@@ -286,7 +286,7 @@ public final class ValueList_Template extends CompositeTemplate {
 						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
 						source.append(MessageFormat.format("{0} {1} = {2}.listItem({3}{4});\n", typeName, tempId, name, i, shifty));
-						generateCodeInit(aData, source, tempId);
+						template.generateCodeInit(aData, source, tempId);
 						source.append("}\n");
 					} else {
 						final String embeddedName = MessageFormat.format("{0}.listItem({1}{2})", name, i, shifty);

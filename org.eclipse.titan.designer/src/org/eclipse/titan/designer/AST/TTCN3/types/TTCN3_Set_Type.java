@@ -540,7 +540,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 						}
 					} else {
 						final IValue tempValue = type.checkThisValueRef(timestamp, componentValue);
-						selfReference = type.checkThisValue(timestamp, tempValue, lhs,
+						selfReference |= type.checkThisValue(timestamp, tempValue, lhs,
 								new ValueCheckingOptions(expectedValue, incompleteAllowed, componentField.isOptional(), true, impliciOmit, strElem));
 					}
 				}
@@ -643,7 +643,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 				componentTemplate.setMyGovernor(type);
 				componentTemplate = type.checkThisTemplateRef(timestamp, componentTemplate);
 				final boolean isOptional = componentField.isOptional();
-				selfReference = componentTemplate.checkThisTemplateGeneric(timestamp, type, isModified, isOptional, isOptional, true, implicitOmit, lhs);
+				selfReference |= componentTemplate.checkThisTemplateGeneric(timestamp, type, isModified, isOptional, isOptional, true, implicitOmit, lhs);
 			} else {
 				namedTemplate.getLocation().reportSemanticError(
 						MessageFormat.format(NONEXISTENTTEMPLATEFIELDREFERENCE, identifier.getDisplayName(), getTypename()));

@@ -549,7 +549,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 			single_value.log();
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement ");
+			TtcnLogger.log_event_str("complement");
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int list_count = 0; list_count < value_list.size(); list_count++) {
