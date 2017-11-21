@@ -258,7 +258,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
 						source.append(MessageFormat.format("{0} {1} = {2}.setItem({3}{4});\n", ofTypeName, tempId, name, i, shifty));
-						generateCodeInit(aData, source, tempId);
+						template.generateCodeInit(aData, source, tempId);
 						source.append("}\n");
 					} else {
 						final String embeddedName = MessageFormat.format("{0}.setItem({1}{2})", name, i, shifty);
