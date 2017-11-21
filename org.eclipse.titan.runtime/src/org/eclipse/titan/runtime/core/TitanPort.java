@@ -32,6 +32,8 @@ public class TitanPort {
 	protected String portName;
 	protected int msg_head_count;
 	protected int proc_head_count;
+	//temporary variable
+	protected int proc_tail_count;
 	protected boolean is_active;
 	protected boolean is_started;
 	protected boolean is_halted;
