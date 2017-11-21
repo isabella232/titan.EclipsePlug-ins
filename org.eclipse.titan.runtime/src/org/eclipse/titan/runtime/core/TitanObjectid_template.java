@@ -245,7 +245,7 @@ public class TitanObjectid_template extends Base_Template {
 			single_value.log();
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement ");
+			TtcnLogger.log_event_str("complement");
 			// no break;
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');

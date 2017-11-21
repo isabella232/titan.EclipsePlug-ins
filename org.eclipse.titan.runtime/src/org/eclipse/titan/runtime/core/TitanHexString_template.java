@@ -525,7 +525,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			single_value.log();
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement ");
+			TtcnLogger.log_event_str("complement");
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {

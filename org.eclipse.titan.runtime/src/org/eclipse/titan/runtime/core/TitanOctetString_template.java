@@ -469,7 +469,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		{
 			final StringBuilder builder = new StringBuilder();
 			if(templateSelection == template_sel.COMPLEMENTED_LIST) {
-				builder.append("complement ");
+				builder.append("complement");
 			}
 			builder.append('(');
 			for (int i = 0; i < value_list.size(); i++) {

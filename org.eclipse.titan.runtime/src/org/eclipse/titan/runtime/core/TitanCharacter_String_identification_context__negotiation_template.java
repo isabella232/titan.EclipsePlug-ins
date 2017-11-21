@@ -402,7 +402,7 @@ public class TitanCharacter_String_identification_context__negotiation_template 
 			TtcnLogger.log_event_str(" }");
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement ");
+			TtcnLogger.log_event_str("complement");
 		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int list_count = 0; list_count < list_value.size(); list_count++) {
