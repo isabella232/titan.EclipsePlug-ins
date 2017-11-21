@@ -676,7 +676,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 					TtcnLogger.log_char('"');
 					
 				} else {
-					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", max_value.getUc_group(), max_value.getUc_plane(), max_value.getUc_row(), max_value.getUc_cell()));
+					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)min_value.getUc_group(), (int)min_value.getUc_plane(), (int)min_value.getUc_row(), (int)min_value.getUc_cell()));
 				}
 			} else {
 				TtcnLogger.log_event_str("<unknown lower bound>");
@@ -690,13 +690,16 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 					TtcnLogger.log_char('"');
 					TtcnLogger.logCharEscaped(max_value.getUc_cell());
 					TtcnLogger.log_char('"');
+					
+				} else {
+					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)max_value.getUc_group(), (int)max_value.getUc_plane(), (int)max_value.getUc_row(), (int)max_value.getUc_cell()));
+				}
 			} else {
 				TtcnLogger.log_event_str("<unknown upper bound>");
 			}
 
 			TtcnLogger.log_char(')');
 			break;
-			}
 		case DECODE_MATCH:
 			//FIXME: implement decode match
 			break;
