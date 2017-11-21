@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
-import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -35,9 +34,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class DivideExpression extends Expression_Value {
 	private static final String FIRSTOPERANDERROR = "The first operand of the `/' operation should be an integer or float value";
-	private static final String FIRSTOPERANDERROR2 = "{0} can not be used as the first operand of the `/'' operation";
 	private static final String SECONDOPERANDERROR = "The second operand of the `/' operation should be an integer or float value";
-	private static final String SECONDOPERANDERROR2 = "{0} can not be used as the second operand of the `/'' operation";
 	private static final String SAMEOPERANDERROR = "The operands of operation `/' should be of the same type";
 	private static final String ZEROOPERANDERROR = "The second operand of operation `/' should not be zero";
 
@@ -181,18 +178,9 @@ public final class DivideExpression extends Expression_Value {
 			case TYPE_INTEGER:
 				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
-			case TYPE_REAL: {
-				final IValue last = value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (!last.isUnfoldable(timestamp)) {
-					final Real_Value real = (Real_Value) last;
-					if (real.isSpecialFloat()) {
-						value1.getLocation().reportSemanticError(
-								MessageFormat.format(FIRSTOPERANDERROR2, real.createStringRepresentation()));
-						setIsErroneous(true);
-					}
-				}
+			case TYPE_REAL:
+				value1.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
-			}
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
 				break;
@@ -218,21 +206,9 @@ public final class DivideExpression extends Expression_Value {
 				}
 				break;
 			}
-			case TYPE_REAL: {
-				final IValue lastValue = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
-				if (!lastValue.getIsErroneous(timestamp) && !lastValue.isUnfoldable(timestamp)) {
-					final Real_Value real = (Real_Value) lastValue;
-					if (Double.compare(real.getValue(), 0.0) == 0) {
-						value2.getLocation().reportSemanticError(ZEROOPERANDERROR);
-						setIsErroneous(true);
-					} else if (real.isSpecialFloat()) {
-						value2.getLocation().reportSemanticError(
-								MessageFormat.format(SECONDOPERANDERROR2, real.createStringRepresentation()));
-						setIsErroneous(true);
-					}
-				}
+			case TYPE_REAL:
+				value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
 				break;
-			}
 			case TYPE_UNDEFINED:
 				setIsErroneous(true);
 				break;
