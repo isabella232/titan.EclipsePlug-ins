@@ -8,7 +8,9 @@
 package org.eclipse.titanium.markers.spotters.implementation;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -42,22 +44,27 @@ public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
 
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
-
+		final List<Module> modules = new ArrayList<Module>();
+		final Set<Assignment> unused = new HashSet<Assignment>();
+		
 		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
 			Module module = projectSourceParser.getModuleByName(moduleName); 
+			modules.add(module);
 			final GlobalDefinitionCheck chek = new GlobalDefinitionCheck();
-			final GlobalUsedDefinitionCheck chekUsed = new GlobalUsedDefinitionCheck();
 			module.accept(chek);
+			unused.addAll(chek.getDefinitions());
+		}
+		
+		for (Module module : modules) {
+			final GlobalUsedDefinitionCheck chekUsed = new GlobalUsedDefinitionCheck();
 			module.accept(chekUsed);
-			
-			final Set<Assignment> unused = chek.getDefinitions();
 			unused.removeAll(chekUsed.getDefinitions());
-			
-			for (Assignment ass : unused) {
-				final String name = ass.getIdentifier().getDisplayName();
-				final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used globally (project)", ass.getAssignmentName(), name);
-				problems.report(ass.getIdentifier().getLocation(), msg);
-			}
+		}
+		
+		for (Assignment ass : unused) {
+			final String name = ass.getIdentifier().getDisplayName();
+			final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used globally (project)", ass.getAssignmentName(), name);
+			problems.report(ass.getIdentifier().getLocation(), msg);
 		}
 	}
 
