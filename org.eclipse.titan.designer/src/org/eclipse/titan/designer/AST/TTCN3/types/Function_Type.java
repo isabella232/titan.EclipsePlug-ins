@@ -278,9 +278,10 @@ public final class Function_Type extends Type {
 
 		isStartable = isStartable && formalParList.getStartability();
 
-		if (returnType != null && location != null) {
+		if (returnType != null) {
+			returnType.check(timestamp);
 			final IType returnedType = returnType.getTypeRefdLast(timestamp);
-			if (Type_type.TYPE_PORT.equals(returnedType.getTypetype())) {
+			if (Type_type.TYPE_PORT.equals(returnedType.getTypetype()) && location != null) {
 				location.reportSemanticError("Functions can not return ports");
 			}
 
