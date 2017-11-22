@@ -885,7 +885,7 @@ public class PortGenerator {
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
-		source.append("//FIXME logging\n");	
+		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
