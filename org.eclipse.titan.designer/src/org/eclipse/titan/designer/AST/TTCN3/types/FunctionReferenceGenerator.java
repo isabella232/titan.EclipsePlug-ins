@@ -265,6 +265,7 @@ public class FunctionReferenceGenerator {
 	public static void generateTemplateClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def) {
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addCommonLibraryImport("TtcnError");
+		aData.addImport("java.util.ArrayList");
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", def.genName));
 		source.append("//the single value\n");
