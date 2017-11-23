@@ -267,6 +267,10 @@ public class ProjectSourceCompiler {
 		if (aData.getPreInit().length() > 0) {
 			aSb.append("public void pre_init_module()\n");
 			aSb.append("{\n");
+			aSb.append("if (pre_init_called) {\n");
+			aSb.append("return;\n");
+			aSb.append("}\n");
+			aSb.append("pre_init_called = true;\n");
 			aSb.append(aData.getPreInit());
 			aSb.append("}\n\n");
 		}
@@ -274,6 +278,10 @@ public class ProjectSourceCompiler {
 		if (aData.getPostInit().length() > 0) {
 			aSb.append("public void post_init_module()\n");
 			aSb.append("{\n");
+			aSb.append("if (post_init_called) {\n");
+			aSb.append("return;\n");
+			aSb.append("}\n");
+			aSb.append("post_init_called = true;\n");
 			aSb.append(aData.getPostInit());
 			aSb.append("}\n\n");
 		}
