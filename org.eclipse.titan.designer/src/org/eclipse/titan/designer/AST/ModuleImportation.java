@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.resources.IProject;
@@ -268,5 +269,12 @@ public abstract class ModuleImportation implements IReferenceChainElement, IOutl
 	 */
 	public void generateCode( final JavaGenData aData ) {
 		aData.addInterModuleImport(identifier.getName());
+		aData.addCommonLibraryImport("Module_List");
+
+		final StringBuilder preInit = aData.getPreInit();
+		preInit.append(MessageFormat.format("Module_List.pre_init_module(\"{0}\");\n", referredModule.getIdentifier().getDisplayName()));
+
+		final StringBuilder postInit = aData.getPostInit();
+		postInit.append(MessageFormat.format("Module_List.post_init_module(\"{0}\");\n", referredModule.getIdentifier().getDisplayName()));
 	}
 }

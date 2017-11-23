@@ -21,6 +21,9 @@ public class TTCN_Module {
 	private final moduleTypeEnum moduleType;
 	public final String name;
 
+	protected boolean pre_init_called = false;
+	protected boolean post_init_called = false;
+
 	public TTCN_Module(final String name, final moduleTypeEnum moduleType) {
 		this.name = name;
 		this.moduleType = moduleType;
@@ -31,11 +34,17 @@ public class TTCN_Module {
 	}
 
 	public void pre_init_module() {
-		//intentionally left empty
+		if (pre_init_called) {
+			return;
+		}
+		pre_init_called = true;
 	}
 
 	public void post_init_module() {
-		//intentionally left empty
+		if (post_init_called) {
+			return;
+		}
+		post_init_called = true;
 	}
 
 	public boolean init_comp_type(final String component_type, final boolean init_base_comps) {
