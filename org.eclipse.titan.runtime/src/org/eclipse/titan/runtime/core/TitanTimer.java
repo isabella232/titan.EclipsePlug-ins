@@ -44,7 +44,7 @@ public class TitanTimer {
 		defaultValue = otherValue.defaultValue;
 		timeStarted = otherValue.timeStarted;
 		timeExpires = otherValue.timeExpires;
-		controlTimerSaved = otherValue.controlTimerSaved;
+
 		return this;
 	}
 

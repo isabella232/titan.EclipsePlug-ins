@@ -589,14 +589,15 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		aData.addBuiltinTypeImport("TTCN_Default");
 		aData.addCommonLibraryImport("TTCN_Snapshot");
 
-		source.append(MessageFormat.format("private static final TitanAlt_Status {0}_instance({1})\n", genName, formalParListCode));
+		final StringBuilder actualParameterList = formalParList.generateCodeActualParlist("");
+		final StringBuilder fullParamaterList = formalParList.generateCode(aData);
+
+		source.append(MessageFormat.format("private static final TitanAlt_Status {0}_instance({1})\n", genName, fullParamaterList));
 		source.append("{\n");
 		source.append(body);
 		source.append("}\n\n");
 
-		final StringBuilder actualParameterList = formalParList.generateCodeActualParlist("");
-
-		final StringBuilder fullParamaterList = formalParList.generateCode(aData);
+		
 
 		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 			source.append( "private" );
@@ -649,8 +650,13 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		source.append(MessageFormat.format("public {0}_Default({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
-			final String FormalParName = formalParList.getParameterByIndex(i).getIdentifier().getName();
-			source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+			final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+			final String FormalParName = formalParameter.getIdentifier().getName();
+			if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_TIMER) {
+				source.append(MessageFormat.format("par_{0} = {0};\n", FormalParName));
+			} else {
+				source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+			}
 		}
 		source.append("}\n\n");
 

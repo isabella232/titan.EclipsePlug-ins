@@ -1052,7 +1052,9 @@ public final class FormalParameter extends Definition {
 			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
 			break;
 		case A_PAR_TIMER:
-			source.append(MessageFormat.format("TitanTimer {0}{1} = new TitanTimer();\n", prefix, identifier.getName()));
+			aData.addBuiltinTypeImport("TitanTimer");
+
+			source.append(MessageFormat.format("TitanTimer {0}{1} = new TitanTimer(\"{1}\");\n", prefix, identifier.getName()));
 			break;
 		default:
 			//TODO fatal error
@@ -1099,6 +1101,7 @@ public final class FormalParameter extends Definition {
 			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TIMER:
+			aData.addBuiltinTypeImport("TitanTimer");
 			result.append(MessageFormat.format("TitanTimer {0}", identifier.getName()));
 			break;
 		default:
