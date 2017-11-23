@@ -106,15 +106,7 @@ public final class Anytype_Value extends Value {
 			return false;
 		}
 
-		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = value.getValueRefdLast(timestamp, chain);
-		chain.release();
-
-		if (Value_type.ANYTYPE_VALUE.equals(last.getValuetype())) {
-			return ((Choice_Value) last).getName().equals(name);
-		}
-
-		return false;
+		return this.name.equals(name);
 	}
 
 	@Override

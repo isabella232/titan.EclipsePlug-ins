@@ -638,6 +638,10 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
 			String typeName;
 			final String tempId = aData.getTemporaryVariableName();
+			if (myGovernor == null) {
+				int i = 0;
+				i++;
+			}
 			final IType lastType = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			if(Type_type.TYPE_BOOL.equals(lastType.getTypetype())) {
 				typeName = "boolean";

@@ -1704,9 +1704,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param externalId is the name
 	 * of the assignment where the call chain starts.
 	 * @param isTemplate is_template tells if the assignment is a template or not.
-	 * @param isBound tells if the function is isbound or ispresent.
+	 * @param optype tells if the function is isbound or ispresent.
 	 * */
-	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -1742,7 +1742,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param isTemplate is_template tells if the assignment is a template or not.
 	 * @param isBound tells if the function is isbound or ispresent.
 	 * */
-	protected void generateCodeIspresentBound_forStrings(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
+	protected void generateCodeIspresentBound_forStrings(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -1781,10 +1781,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final String temporalId = aData.getTemporaryVariableName();
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
-				globalId, externalId, temporalIndexId, isBound|(!isLast)?"isBound":"isPresent", !(isBound|(!isLast)) && isTemplate && aData.allowOmitInValueList()?"true":""));
 
-		generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
+		if (optype == Operation_type.ISBOUND_OPERATION) {
+			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).isBound();\n",
+					globalId, externalId, temporalIndexId));
+		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
+			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
+					globalId, externalId, temporalIndexId, (!isLast)?"isBound":"isPresent", isLast && isTemplate && aData.allowOmitInValueList()?"true":""));
+		}
+
+		generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, optype, field);
 
 		expression.expression.append("}\n}\n");
 	}

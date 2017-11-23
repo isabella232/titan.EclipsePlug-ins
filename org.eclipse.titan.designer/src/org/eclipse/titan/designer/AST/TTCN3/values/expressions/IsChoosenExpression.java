@@ -30,12 +30,12 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
-import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Choice_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Anytype_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Choice_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
@@ -354,6 +354,9 @@ public final class IsChoosenExpression extends Expression_Value {
 			last = last.setValuetype(timestamp, Value_type.CHOICE_VALUE);
 			result = ((Choice_Value) last).fieldIsChosen(identifier);
 			break;
+		case ANYTYPE_VALUE:
+			result = ((Anytype_Value) last).fieldIsChosen(timestamp, identifier);
+			break;
 		default:
 			setIsErroneous(true);
 			return last;
@@ -442,14 +445,20 @@ public final class IsChoosenExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (value != null) {
-			value.generateCodeExpressionMandatory(aData, expression, true);
-			final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
-			expression.expression.append(MessageFormat.format(".isChosen({0}.union_selection_type.ALT_{1})", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName())));
+			Reference reference = value.getReference();
+			if (reference != null) {
+				final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+				final String field = MessageFormat.format("{0}.union_selection_type.ALT_{1}", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName()));
+				reference.generateCodeIsPresentBoundChosen(aData, expression, false, getOperationType(), field);
+			}
 		}
 		if (template != null) {
-			template.generateCodeExpression(aData, expression, Restriction_type.TR_NONE);
-			final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
-			expression.expression.append(MessageFormat.format(".isChosen({0}.union_selection_type.ALT_{1})", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName())));
+			Reference reference = template.getReference();
+			if (reference != null) {
+				final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
+				final String field = MessageFormat.format("{0}.union_selection_type.ALT_{1}", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName()));
+				reference.generateCodeIsPresentBoundChosen(aData, expression, true, getOperationType(), field);
+			}
 		}
 	}
 }

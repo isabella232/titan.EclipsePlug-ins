@@ -40,6 +40,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
@@ -1229,10 +1230,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * @param aData only used to update imports if needed
 	 * @param expression the expression for code generated
 	 * @param isTemplate if the reference is pointing to a template
-	 * @param isBound true to generate code for isbound, false otherwise
+	 * @param optype true to generate code for isbound, false otherwise
 	 * */
-	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate,
-			final boolean isBound) {
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate,
+			final Operation_type optype, final String field) {
 		final Assignment assignment = getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		final String ass_id = assignment.getGenNameFromScope(aData, expression.expression, myScope, null);
 
@@ -1300,13 +1301,27 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			isboundExpression.preamble.append(MessageFormat.format("boolean {0} = {1}.isBound();\n", tempGeneralId, ass_id2));
 
 			final IType type = assignment.getType(CompilationTimeStamp.getBaseTimestamp());
-			type.generateCodeIspresentBound(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, isBound);
+			type.generateCodeIsPresentBoundChosen(aData, isboundExpression, subReferences, 1, tempGeneralId, ass_id2, isTemplate, optype, field);
 
 			expression.preamble.append(isboundExpression.preamble);
 			expression.preamble.append(isboundExpression.expression);
 			expression.expression.append(tempGeneralId);
 		} else {
-			expression.expression.append(MessageFormat.format("{0}.{1}({2})", ass_id2, isBound ? "isBound" : "isPresent", !isBound && isTemplate && aData.allowOmitInValueList()? "true":""));
+			switch (optype) {
+			case ISBOUND_OPERATION:
+				expression.expression.append(MessageFormat.format("{0}.isBound()", ass_id2));
+				break;
+			case ISPRESENT_OPERATION:
+				expression.expression.append(MessageFormat.format("{0}.isPresent({1})", ass_id2, isTemplate && aData.allowOmitInValueList()? "true":""));
+				break;
+			case ISCHOOSEN_OPERATION:
+				expression.expression.append(MessageFormat.format("{0}.isChosen({1})", ass_id2, field));
+				break;
+			default:
+				//FATAL ERROR
+				break;
+			}
+			
 		}
 	}
 }

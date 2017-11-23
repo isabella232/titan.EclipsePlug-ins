@@ -47,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Named_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.types.UnionGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.values.Anytype_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -754,8 +755,8 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
-			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -767,8 +768,10 @@ public final class Anytype_Type extends Type {
 		final StringBuilder closingBrackets = new StringBuilder();
 		if(isTemplate) {
 			boolean anyvalueReturnValue = true;
-			if (!isBound) {
+			if (optype == Operation_type.ISPRESENT_OPERATION) {
 				anyvalueReturnValue = isPresentAnyvalueEmbeddedField(expression, subreferences, subReferenceIndex);
+			} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
+				anyvalueReturnValue = false;
 			}
 
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
@@ -813,20 +816,27 @@ public final class Anytype_Type extends Type {
 				expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
 				expression.expression.append("break;\n");
 				expression.expression.append("case OPTIONAL_OMIT:\n");
-				expression.expression.append(MessageFormat.format("{0} = {1};\n", globalId, isBound?"true":"false"));
+				expression.expression.append(MessageFormat.format("{0} = {1};\n", globalId, optype == Operation_type.ISBOUND_OPERATION?"true":"false"));
 				expression.expression.append("break;\n");
 				expression.expression.append("default:\n");
 				expression.expression.append("{\n");
 
 				final String temporalId2 = aData.getTemporaryVariableName();
 				expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId));
-				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, isBound?"isBound":"isPresent", (!isBound && isTemplate && aData.allowOmitInValueList())?"true":""));
+
+				if (optype == Operation_type.ISBOUND_OPERATION) {
+					expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
+				} else if (optype == Operation_type.ISPRESENT_OPERATION) {
+					expression.expression.append(MessageFormat.format("{0} = {1}.isPresent({2});\n", globalId, temporalId2, isTemplate && aData.allowOmitInValueList()?"true":""));
+				} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
+					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+				}
 
 				expression.expression.append("break;}\n");
 				expression.expression.append("}\n");
 				//at the end of the reference chain
 
-				nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, isBound);
+				nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, optype, field);
 			} else {
 				//still more to go
 				expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", temporalId));
@@ -844,7 +854,7 @@ public final class Anytype_Type extends Type {
 				expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.constGet();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId));
 				expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
 
-				nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, isBound);
+				nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, optype, field);
 			}
 		} else {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
@@ -854,9 +864,21 @@ public final class Anytype_Type extends Type {
 			final String temporalId2 = aData.getTemporaryVariableName();
 			expression.expression.append(MessageFormat.format("{0}{1} {2} = new {0}{1}({3});\n", getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId));
 			expression.expression.append(MessageFormat.format("{0}{1} {2} = {3}.get{4}();\n", nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId2, temporalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
-			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, isBound|| (subReferenceIndex!=subreferences.size()-1)?"isBound":"isPresent", (!(isBound || (subReferenceIndex!=subreferences.size()-1)) && isTemplate && aData.allowOmitInValueList())?"true":""));
 
-			nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, isBound);
+			if (optype == Operation_type.ISBOUND_OPERATION) {
+				expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
+			} else if (optype == Operation_type.ISPRESENT_OPERATION) {
+				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, subReferenceIndex!=subreferences.size()-1?"isBound":"isPresent", subReferenceIndex==subreferences.size()-1 && isTemplate && aData.allowOmitInValueList()?"true":""));
+			} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
+				expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
+				if (subReferenceIndex==subreferences.size()-1) {
+					expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
+					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
+					expression.expression.append("}\n");
+				}
+			}
+
+			nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, optype, field);
 		}
 
 		expression.expression.append(closingBrackets);

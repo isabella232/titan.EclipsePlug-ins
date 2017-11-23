@@ -473,13 +473,13 @@ public final class IsBoundExpression extends Expression_Value {
 						case A_PAR_TEMP_IN:
 						case A_PAR_TEMP_OUT:
 						case A_PAR_TEMP_INOUT:
-							reference.generateCodeIspresentBound(aData, expression, true, true);
+							reference.generateCodeIsPresentBoundChosen(aData, expression, true, getOperationType(), null);
 							return;
 						default:
 							break;
 						}
 					}
-					reference.generateCodeIspresentBound(aData, expression, false, true);
+					reference.generateCodeIsPresentBoundChosen(aData, expression, false, getOperationType(), null);
 					return;
 				}
 			} else {
@@ -489,7 +489,7 @@ public final class IsBoundExpression extends Expression_Value {
 		} else if (Template_type.TEMPLATE_REFD.equals(template.getTemplatetype())) {
 			final Reference reference = ((Referenced_Template) template).getReference();
 			if (reference != null) {
-				reference.generateCodeIspresentBound(aData, expression, true, true);
+				reference.generateCodeIsPresentBoundChosen(aData, expression, true, getOperationType(), null);
 				return;
 			}
 		} else {

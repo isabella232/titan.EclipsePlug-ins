@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.PermutationMatch_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.BuildTimestamp;
@@ -1095,8 +1096,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
-			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound) {
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -1108,8 +1109,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final StringBuilder closingBrackets = new StringBuilder();
 		if(isTemplate) {
 			boolean anyvalueReturnValue = true;
-			if (!isBound) {
+			if (optype == Operation_type.ISPRESENT_OPERATION) {
 				anyvalueReturnValue = isPresentAnyvalueEmbeddedField(expression, subreferences, subReferenceIndex);
+			} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
+				anyvalueReturnValue = false;
 			}
 
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
@@ -1166,11 +1169,20 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		final boolean isLast = subReferenceIndex == (subreferences.size() - 1);
-		expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId,
-				isBound|(!isLast)?"isBound":"isPresent",
-						(!(isBound|!isLast))&&isTemplate&& aData.allowOmitInValueList()?"true":""));
+		if (optype == Operation_type.ISBOUND_OPERATION) {
+			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
+			expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId,  temporalId, !isLast?"isBound":"isPresent", isLast && isTemplate && aData.allowOmitInValueList()?"true":""));
+		} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
+			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId));
+			if (subReferenceIndex==subreferences.size()-1) {
+				expression.expression.append(MessageFormat.format("if ({0}) '{'\n", globalId));
+				expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId, field));
+				expression.expression.append("}\n");
+			}
+		}
 
-		nextType.generateCodeIspresentBound(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, isBound);
+		nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, optype, field);
 
 		expression.expression.append(closingBrackets);
 	}

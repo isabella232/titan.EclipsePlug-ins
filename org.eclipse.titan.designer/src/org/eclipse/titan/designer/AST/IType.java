@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -790,9 +791,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param externalId is the name
 	 * of the assignment where the call chain starts.
 	 * @param isTemplate is_template tells if the assignment is a template or not.
-	 * @param isBound tells if the function is isbound or ispresent.
+	 * @param optype tells if the function is isbound or ispresent.
+	 * @param field TODO
 	 * */
-	public void generateCodeIspresentBound(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final boolean isBound);
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field);
 
 	/**
 	 * Helper function used in generateCodeIspresentbound() for the
