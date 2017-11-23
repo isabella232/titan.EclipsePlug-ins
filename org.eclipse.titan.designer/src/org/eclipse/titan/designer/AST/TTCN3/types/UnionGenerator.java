@@ -251,10 +251,10 @@ public class UnionGenerator {
 	private static void generateValueIsChosen(final StringBuilder source, final String displayName) {
 		source.append("public boolean isChosen(final union_selection_type checked_selection) {\n");
 		source.append("if(checked_selection == union_selection_type.UNBOUND_VALUE) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("if (union_selection == union_selection_type.UNBOUND_VALUE) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Performing ischosen() operation on an unbound value of union type {0}.\");\n", displayName));
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return union_selection == checked_selection;\n");
 		source.append("}\n\n");
@@ -735,7 +735,7 @@ public class UnionGenerator {
 	private static void generateTemplateIsChosen(final StringBuilder source, final String genName, final String displayName) {
 		source.append(MessageFormat.format("public boolean isChosen(final {0}.union_selection_type checked_selection) '{'\n", genName));
 		source.append(MessageFormat.format("if(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
-		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
+		source.append("return false;\n");
 		source.append("}\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
