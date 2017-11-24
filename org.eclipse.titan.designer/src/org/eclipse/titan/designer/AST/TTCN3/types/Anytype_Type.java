@@ -887,6 +887,14 @@ public final class Anytype_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return true;
+		}
+
+		if (beginIndex >= subreferences.size()) {
+			return true;
+		}
+
 		return false;
 	}
 }
