@@ -21,30 +21,106 @@ import java.util.Stack;
 public final class TtcnLogger {
 
 	public static class Logging_Bits {
+		public static final Logging_Bits log_nothing = new Logging_Bits();
+		public static final Logging_Bits log_all = new Logging_Bits();
+		public static final Logging_Bits default_console_mask = new Logging_Bits();
+
 		final public HashSet<Severity> bits = new HashSet<Severity>();
+
+		// static initializer
+		static {
+			// TTCN_ERROR | TTCN_WARNING | TTCN_ACTION | TTCN_TESTCASE | TTCN_STATISTICS
+			default_console_mask.bits.add(Severity.ACTION_UNQUALIFIED);
+			default_console_mask.bits.add(Severity.ERROR_UNQUALIFIED);
+			default_console_mask.bits.add(Severity.TESTCASE_UNQUALIFIED);
+			default_console_mask.bits.add(Severity.TESTCASE_START);
+			default_console_mask.bits.add(Severity.TESTCASE_FINISH);
+			default_console_mask.bits.add(Severity.STATISTICS_UNQUALIFIED);
+			default_console_mask.bits.add(Severity.STATISTICS_VERDICT);
+			default_console_mask.bits.add(Severity.WARNING_UNQUALIFIED);
+
+			log_all.bits.add(Severity.ACTION_UNQUALIFIED);
+			log_all.bits.add(Severity.DEFAULTOP_UNQUALIFIED);
+			log_all.bits.add(Severity.DEFAULTOP_ACTIVATE);
+			log_all.bits.add(Severity.DEFAULTOP_DEACTIVATE);
+			log_all.bits.add(Severity.DEFAULTOP_EXIT);
+			log_all.bits.add(Severity.ERROR_UNQUALIFIED);
+			log_all.bits.add(Severity.EXECUTOR_UNQUALIFIED);
+			log_all.bits.add(Severity.EXECUTOR_COMPONENT);
+			log_all.bits.add(Severity.EXECUTOR_CONFIGDATA);
+			log_all.bits.add(Severity.EXECUTOR_EXTCOMMAND);
+			log_all.bits.add(Severity.EXECUTOR_LOGOPTIONS);
+			log_all.bits.add(Severity.EXECUTOR_RUNTIME);
+			log_all.bits.add(Severity.FUNCTION_UNQUALIFIED);
+			log_all.bits.add(Severity.FUNCTION_RND);
+			log_all.bits.add(Severity.PARALLEL_UNQUALIFIED);
+			log_all.bits.add(Severity.PARALLEL_PORTCONN);
+			log_all.bits.add(Severity.PARALLEL_PORTMAP);
+			log_all.bits.add(Severity.PARALLEL_PTC);
+			log_all.bits.add(Severity.TESTCASE_UNQUALIFIED);
+			log_all.bits.add(Severity.TESTCASE_START);
+			log_all.bits.add(Severity.TESTCASE_FINISH);
+			log_all.bits.add(Severity.PORTEVENT_UNQUALIFIED);
+			log_all.bits.add(Severity.PORTEVENT_DUALRECV);
+			log_all.bits.add(Severity.PORTEVENT_DUALSEND);
+			log_all.bits.add(Severity.PORTEVENT_MCRECV);
+			log_all.bits.add(Severity.PORTEVENT_MCSEND);
+			log_all.bits.add(Severity.PORTEVENT_MMRECV);
+			log_all.bits.add(Severity.PORTEVENT_MMSEND);
+			log_all.bits.add(Severity.PORTEVENT_MQUEUE);
+			log_all.bits.add(Severity.PORTEVENT_PCIN);
+			log_all.bits.add(Severity.PORTEVENT_PCOUT);
+			log_all.bits.add(Severity.PORTEVENT_PMIN);
+			log_all.bits.add(Severity.PORTEVENT_PMOUT);
+			log_all.bits.add(Severity.PORTEVENT_PQUEUE);
+			log_all.bits.add(Severity.PORTEVENT_SETSTATE);
+			log_all.bits.add(Severity.PORTEVENT_STATE);
+			log_all.bits.add(Severity.STATISTICS_UNQUALIFIED);
+			log_all.bits.add(Severity.STATISTICS_VERDICT);
+			log_all.bits.add(Severity.TIMEROP_UNQUALIFIED);
+			log_all.bits.add(Severity.TIMEROP_GUARD);
+			log_all.bits.add(Severity.TIMEROP_READ);
+			log_all.bits.add(Severity.TIMEROP_START);
+			log_all.bits.add(Severity.TIMEROP_STOP);
+			log_all.bits.add(Severity.TIMEROP_TIMEOUT);
+			log_all.bits.add(Severity.USER_UNQUALIFIED);
+			log_all.bits.add(Severity.VERDICTOP_UNQUALIFIED);
+			log_all.bits.add(Severity.VERDICTOP_FINAL);
+			log_all.bits.add(Severity.VERDICTOP_GETVERDICT);
+			log_all.bits.add(Severity.VERDICTOP_SETVERDICT);
+			log_all.bits.add(Severity.WARNING_UNQUALIFIED);
+		}
+
+		public Logging_Bits() {
+			//do nothing
+		}
+
+		public Logging_Bits(final Logging_Bits other) {
+			bits.addAll(other.bits);
+		}
 	}
 
 	static log_mask_struct console_log_mask = new log_mask_struct();
 	static log_mask_struct file_log_mask = new log_mask_struct();
 	//static log_mask_struct emergency_log_mask = new log_mask_struct();
 
-	public static enum component_id_selector_enum{
+	public static enum component_id_selector_enum {
 		COMPONENT_ID_NAME,
 		COMPONENT_ID_COMPREF,
-		COMPONENT_ID_ALL,     
-		COMPONENT_ID_SYSTEM  
+		COMPONENT_ID_ALL,
+		COMPONENT_ID_SYSTEM
 	}
-	
-	public static class component_id_t{
+
+	public static class component_id_t {
 		public component_id_selector_enum id_selector;
 		public int id_compref;
 		public String id_name;
-		
-		public component_id_t(){
-			id_selector=component_id_selector_enum.COMPONENT_ID_ALL;
+
+		public component_id_t() {
+			id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
 		}
 	}
-		
+
 	public static class log_mask_struct {
 		component_id_t component_id;
 		Logging_Bits mask;
@@ -56,9 +132,9 @@ public final class TtcnLogger {
 	}
 
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
-	
-	public static void set_matching_verbosity(matching_verbosity_t v){
-		matching_verbosity=v;
+
+	public static void set_matching_verbosity(matching_verbosity_t v) {
+		matching_verbosity = v;
 	}
 
 	public static enum Severity {
@@ -220,7 +296,15 @@ public final class TtcnLogger {
 
 
 	public static void initialize_logger() {
-		//empty for the time being	
+		console_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
+		console_log_mask.component_id.id_compref = TitanComponent.ANY_COMPREF;
+		console_log_mask.mask = new Logging_Bits(Logging_Bits.default_console_mask);
+
+		file_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
+		file_log_mask.component_id.id_compref = TitanComponent.ALL_COMPREF;
+		file_log_mask.mask = new Logging_Bits(Logging_Bits.log_all);
+
+		// TODO initialize emergency buffer too.
 	}
 
 	public static void terminate_logger() {
@@ -571,7 +655,7 @@ public final class TtcnLogger {
 			throw new TtcnError("Invalid operation");
 		}
 	}
-	
+
 	public static void set_console_mask(final component_id_t cmpt,
 			final Logging_Bits new_console_mask) {
 		if (console_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
