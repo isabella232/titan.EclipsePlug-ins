@@ -626,6 +626,14 @@ public final class Open_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
+		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
+			return true;
+		}
+
+		if (beginIndex >= subreferences.size()) {
+			return true;
+		}
+
 		return false;
 	}
 
