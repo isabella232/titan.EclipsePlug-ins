@@ -46,21 +46,21 @@ public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 		final List<Module> modules = new ArrayList<Module>();
 		final Set<Assignment> unused = new HashSet<Assignment>();
-		
+
 		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-			Module module = projectSourceParser.getModuleByName(moduleName); 
+			Module module = projectSourceParser.getModuleByName(moduleName);
 			modules.add(module);
 			final GlobalDefinitionCheck chek = new GlobalDefinitionCheck();
 			module.accept(chek);
 			unused.addAll(chek.getDefinitions());
 		}
-		
+
 		for (Module module : modules) {
 			final GlobalUsedDefinitionCheck chekUsed = new GlobalUsedDefinitionCheck();
 			module.accept(chekUsed);
 			unused.removeAll(chekUsed.getDefinitions());
 		}
-		
+
 		for (Assignment ass : unused) {
 			final String name = ass.getIdentifier().getDisplayName();
 			final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used globally (project)", ass.getAssignmentName(), name);
@@ -83,15 +83,15 @@ public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Assignment) {
-				final Assignment assignment = (Assignment) node;  
-				if( !assignment.isLocal() && !(assignment.getMyScope() instanceof ComponentTypeBody)) {
+				final Assignment assignment = (Assignment) node;
+				if (!assignment.isLocal() && !(assignment.getMyScope() instanceof ComponentTypeBody)) {
 					setOfDefinition.add(assignment);
 				}
-			} 
+			}
 			return V_CONTINUE;
 		}
 	}
-	
+
 	class GlobalUsedDefinitionCheck extends ASTVisitor {
 
 		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
@@ -107,7 +107,7 @@ public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Reference) {
-				if(((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {	
+				if (((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 					return V_CONTINUE;
 				}
 
