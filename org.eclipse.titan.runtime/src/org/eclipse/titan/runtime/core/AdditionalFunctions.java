@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Additional (predefined) functions
@@ -2336,5 +2337,43 @@ public final class AdditionalFunctions {
 	}
 
 	//TODO: C.33 - regexp
-	//TODO: C.36 - rnd
+
+	//C.36 - rnd
+
+	// TODO: see ThreadLocalRandom java7
+	static boolean rndSeedSet = false;
+	private final static Random random = new Random();
+	
+	public static void setRndSeed(final double floatSeed) {
+		TitanFloat.checkNumeric(floatSeed,"The seed value of function rnd()");
+		// FIXME: method caste double from long
+		random.setSeed((long)floatSeed);
+		// FIXME: TTCN_Logger::log_random(TitanLoggerApi::RandomAction::seed, float_seed, integer_seed);
+		rndSeedSet = true;
+	}
+
+	public static double rndGenerate() {
+		final double returnValue;
+		returnValue = random.nextDouble();
+		// FIXME: TTCN_Logger::log_random(TitanLoggerApi::RandomAction::read__out, ret_val, 0);
+		return returnValue;
+	}
+
+	public static double rnd() {
+		if (!rndSeedSet) {
+			setRndSeed(TTCN_Snapshot.timeNow());
+		}
+		return rndGenerate();
+	}
+
+	public static double rnd(final double seed) {
+		setRndSeed(seed);
+		return rndGenerate();
+	}
+
+	public static double rnd(final TitanFloat seed) {
+		seed.mustBound("Initializing the random number generator with an unbound float value as seed.");
+		setRndSeed(seed.getValue());
+		return rndGenerate();
+	}
 }

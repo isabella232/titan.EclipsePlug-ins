@@ -107,6 +107,13 @@ public class TitanFloat extends Base_Type {
 		return new TitanBoolean(aOtherValue == PLUS_INFINITY || aOtherValue == MINUS_INFINITY || Double.isNaN(aOtherValue));
 	}
 
+	// check_numeric
+	public static void checkNumeric(final double floatValue, final String errorMsg) {
+		if (isSpecial(floatValue).getValue()) {
+			throw new TtcnError(MessageFormat.format("{0} must be a numeric value instead of {1}", errorMsg, floatValue));
+		}
+	}
+
 	/**
 	 * this + aOtherValue
 	 * originally operator+
