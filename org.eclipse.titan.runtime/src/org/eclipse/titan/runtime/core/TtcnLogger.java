@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Stack;
 
@@ -19,7 +20,46 @@ import java.util.Stack;
  */
 public final class TtcnLogger {
 
+	public static class Logging_Bits {
+		final public HashSet<Severity> bits = new HashSet<Severity>();
+	}
+
+	static log_mask_struct console_log_mask = new log_mask_struct();
+	static log_mask_struct file_log_mask = new log_mask_struct();
+	//static log_mask_struct emergency_log_mask = new log_mask_struct();
+
+	public static enum component_id_selector_enum{
+		COMPONENT_ID_NAME,
+		COMPONENT_ID_COMPREF,
+		COMPONENT_ID_ALL,     
+		COMPONENT_ID_SYSTEM  
+	}
+	
+	public static class component_id_t{
+		public component_id_selector_enum id_selector;
+		public int id_compref;
+		public String id_name;
+		
+		public component_id_t(){
+			id_selector=component_id_selector_enum.COMPONENT_ID_ALL;
+		}
+	}
+		
+	public static class log_mask_struct {
+		component_id_t component_id;
+		Logging_Bits mask;
+
+		public log_mask_struct() {
+			component_id = new component_id_t();
+			mask = new Logging_Bits();
+		}
+	}
+
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
+	
+	public static void set_matching_verbosity(matching_verbosity_t v){
+		matching_verbosity=v;
+	}
 
 	public static enum Severity {
 		NOTHING_TO_LOG,
@@ -180,7 +220,7 @@ public final class TtcnLogger {
 
 
 	public static void initialize_logger() {
-		//empty for the time being
+		//empty for the time being	
 	}
 
 	public static void terminate_logger() {
@@ -419,9 +459,39 @@ public final class TtcnLogger {
 	// existence of the file descriptors etc. is the responsibility of the
 	// plug-ins.
 	public static boolean log_this_event(final Severity event_severity) {
-		//FIXME implement once we get to configurability
-		return true;
+		// FIXME: log_this_event
+		// FIXME implement once we get to configurability
+		// TODO: emergency logging=true
+		// TODO: should_log_to_emergency
+		if (should_log_to_file(event_severity)) {
+			return true;
+		} else if (should_log_to_console(event_severity)) {
+			return true;
+		}/*
+		 * else if(should_log_to_emergency(event_severity) &&
+		 * (get_emergency_logging()>0)){ return true; }
+		 */
+		else {
+			return false;
+		}
 	}
+
+	public static boolean should_log_to_file(final Severity sev) {
+
+		return file_log_mask.mask.bits.contains(sev);
+	}
+	
+	public static boolean should_log_to_console(final Severity sev) {
+		if (sev == Severity.EXECUTOR_EXTCOMMAND) {
+			return true;
+		}
+		return console_log_mask.mask.bits.contains(sev);
+	}
+	
+	/*
+	 * public static boolean should_log_to_emergency(final Severity sev) {
+	 * return emergency_log_mask.mask.bits.contains(sev); }
+	 */
 
 	public static void print_logmatch_buffer() {
 		if (logMatchPrinted) {
@@ -499,6 +569,20 @@ public final class TtcnLogger {
 			break;
 		default:
 			throw new TtcnError("Invalid operation");
+		}
+	}
+	
+	public static void set_console_mask(final component_id_t cmpt,
+			final Logging_Bits new_console_mask) {
+		if (console_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
+			return;
+		}
+		console_log_mask.mask = new_console_mask;
+		if (cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_NAME) {
+			console_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_NAME;
+			console_log_mask.component_id.id_name = cmpt.id_name;
+		} else {
+			console_log_mask.component_id = cmpt;
 		}
 	}
 
