@@ -186,7 +186,10 @@ public final class Charstring_Value extends Value {
 			return null;
 		}
 
-		return new Charstring_Value(value.substring(index, index + 1));
+		final Charstring_Value result = new Charstring_Value(value.substring(index, index + 1));
+		result.setMyGovernor(myGovernor);
+		result.setMyScope(myScope);
+		return result;
 	}
 
 	@Override

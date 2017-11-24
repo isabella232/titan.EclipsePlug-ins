@@ -138,7 +138,7 @@ public final class Bitstring_Value extends Value {
 		return value.length();
 	}
 
-	public IValue getStringElement(final int index, final Location location) {
+	public Bitstring_Value getStringElement(final int index, final Location location) {
 		if (value == null) {
 			return null;
 		}
@@ -151,7 +151,10 @@ public final class Bitstring_Value extends Value {
 			return null;
 		}
 
-		return new Bitstring_Value(value.substring(index, index + 1));
+		final Bitstring_Value result = new Bitstring_Value(value.substring(index, index + 1));
+		result.setMyGovernor(myGovernor);
+		result.setMyScope(myScope);
+		return result;
 	}
 
 	@Override

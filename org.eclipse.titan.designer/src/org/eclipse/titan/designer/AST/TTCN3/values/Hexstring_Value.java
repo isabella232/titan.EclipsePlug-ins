@@ -144,7 +144,10 @@ public final class Hexstring_Value extends Value {
 			return null;
 		}
 
-		return new Hexstring_Value(value.substring(index, index + 1));
+		final Hexstring_Value result = new Hexstring_Value(value.substring(index, index + 1));
+		result.setMyGovernor(myGovernor);
+		result.setMyScope(myScope);
+		return result;
 	}
 
 	@Override

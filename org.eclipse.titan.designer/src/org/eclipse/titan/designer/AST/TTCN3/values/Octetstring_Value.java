@@ -154,7 +154,10 @@ public final class Octetstring_Value extends Value {
 			return null;
 		}
 
-		return new Octetstring_Value(value.substring(2 * index, 2 * index + 2));
+		final Octetstring_Value result = new Octetstring_Value(value.substring(index, index + 1));
+		result.setMyGovernor(myGovernor);
+		result.setMyScope(myScope);
+		return result;
 	}
 
 	@Override
