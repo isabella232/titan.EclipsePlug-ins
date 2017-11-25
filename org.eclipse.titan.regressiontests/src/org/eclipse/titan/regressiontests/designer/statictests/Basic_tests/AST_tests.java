@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1492);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1491);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -969,9 +969,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Type mismatch: `integer[4]' and `integer[1]' are not compatible: Array types should have the same dimension",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type mismatch: `integer[1]' and `integer[4]' are not compatible: Array types should have the same dimension",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type mismatch: `integer[4]' and `integer[1]' are not compatible: Array types should have the same dimension",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 11;
-		markersToCheck.add(new MarkerToCheck("Cannot determine the type of the left operand of `&' operation",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 4;
+		lineNum += 15;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("The first and fourth operands of operation `replace' should be of the same type", lineNum, IMarker.SEVERITY_ERROR));
 		}

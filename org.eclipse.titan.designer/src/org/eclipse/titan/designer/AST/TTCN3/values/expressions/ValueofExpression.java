@@ -130,15 +130,21 @@ public final class ValueofExpression extends Expression_Value {
 			return governor;
 		}
 
-		if (templateInstance != null) {
-			if (Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue)) {
-				return templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
-			}
-
-			return templateInstance.getExpressionGovernor(timestamp, expectedValue);
+		if (templateInstance == null) {
+			return null;
 		}
 
-		return null;
+		IType tempType;
+		if (Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue)) {
+			tempType = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		} else {
+			tempType = templateInstance.getExpressionGovernor(timestamp, expectedValue);
+		}
+
+		if (tempType != null) {
+			tempType = tempType.getTypeRefdLast(timestamp);
+		}
+		return tempType;
 	}
 
 	@Override

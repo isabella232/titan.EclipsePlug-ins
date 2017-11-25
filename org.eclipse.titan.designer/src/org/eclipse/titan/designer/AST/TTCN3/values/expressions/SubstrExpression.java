@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
@@ -194,6 +195,32 @@ public final class SubstrExpression extends Expression_Value {
 			setIsErroneous(true);
 			return Type_type.TYPE_UNDEFINED;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
+		final IType governor = super.getMyGovernor();
+
+		if (governor != null) {
+			return governor;
+		}
+
+		if (templateInstance1 == null) {
+			return null;
+		}
+
+		IType tempType;
+		if (Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue)) {
+			tempType = templateInstance1.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		} else {
+			tempType = templateInstance1.getExpressionGovernor(timestamp, expectedValue);
+		}
+
+		if (tempType != null) {
+			tempType = tempType.getTypeRefdLast(timestamp);
+		}
+		return tempType;
 	}
 
 	@Override

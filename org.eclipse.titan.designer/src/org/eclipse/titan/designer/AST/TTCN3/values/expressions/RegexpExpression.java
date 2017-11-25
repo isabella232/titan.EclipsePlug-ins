@@ -188,6 +188,32 @@ public final class RegexpExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public IType getExpressionGovernor(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue) {
+		final IType governor = super.getMyGovernor();
+
+		if (governor != null) {
+			return governor;
+		}
+
+		if (templateInstance1 == null) {
+			return null;
+		}
+
+		IType tempType;
+		if (Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue)) {
+			tempType = templateInstance1.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+		} else {
+			tempType = templateInstance1.getExpressionGovernor(timestamp, expectedValue);
+		}
+
+		if (tempType != null) {
+			tempType = tempType.getTypeRefdLast(timestamp);
+		}
+		return tempType;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		/*
