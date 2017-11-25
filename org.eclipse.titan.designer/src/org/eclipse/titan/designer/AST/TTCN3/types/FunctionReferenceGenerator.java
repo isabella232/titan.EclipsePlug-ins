@@ -250,6 +250,16 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 		source.append("}\n");
 
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		//FIXME implement
+		source.append("//FIXME Not yet implemented!\n");
+		source.append("}\n\n");
+
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		//FIXME implement
+		source.append("//FIXME Not yet implemented!\n");
+		source.append("}\n\n");
+
 		source.append("}\n\n");
 	}
 
@@ -556,6 +566,18 @@ public class FunctionReferenceGenerator {
 		source.append("} else {\n");
 		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		//FIXME implement
+		source.append("//FIXME Not yet implemented!\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		//FIXME implement
+		source.append("//FIXME Not yet implemented!\n");
 		source.append("}\n");
 
 		source.append("}\n\n");
