@@ -719,7 +719,6 @@ public final class SpecificValue_Template extends TTCN3Template {
 		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
-		//TODO handle post init rearrangement
 		if (realTemplate != null && realTemplate != this) {
 			realTemplate.generateCodeInit(aData, source, name);
 		} else {

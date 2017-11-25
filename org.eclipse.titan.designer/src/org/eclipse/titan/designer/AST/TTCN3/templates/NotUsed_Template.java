@@ -115,25 +115,12 @@ public final class NotUsed_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
-		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
-			return false;
-		}
-
-		return true;
+		return false;
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		final StringBuilder result = new StringBuilder();
-
-		result.append( "\t//TODO:  " );
-		result.append( getClass().getSimpleName() );
-		result.append( ".getSingleExpression() not yet implement!\n" );
-		// TODO: fatal error
-
-		//TODO handle cast needed
-
-		return result;
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		//nothing to be done here
 	}
 }

@@ -1288,13 +1288,7 @@ public abstract class TTCN3Template extends GovernedSimple implements IReference
 	 * @param source the source for code generated
 	 * @param name the name to init
 	 */
-	public void generateCodeInit( final JavaGenData aData, final StringBuilder source, final String name ) {
-		//default implementation
-		source.append( '\t' );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCodeInit() is not implemented!\n" );
-	}
+	public abstract void generateCodeInit( final JavaGenData aData, final StringBuilder source, final String name );
 
 	/**
 	 * Walks through the template recursively and appends the java

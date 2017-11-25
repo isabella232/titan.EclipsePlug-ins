@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
@@ -27,11 +28,15 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.Function_Reference_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ApplyExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -357,9 +362,106 @@ public final class Invoke_Template extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean hasSingleExpression() {
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		if (value != null && !value.canGenerateSingleExpression()) {
+			return false;
+		}
+
+		if (actualParameter_list != null) {
+			for (int i = 0; i < actualParameter_list.getNofParameters(); i++) {
+				if (!actualParameter_list.getParameter(i).hasSingleExpression()) {
+					return false;
+				}
+			}
+		}
+
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		final ExpressionStruct expression = new ExpressionStruct();
+		generateCodeExpressionInvoke(aData, expression);
+
+		//TODO handle cast needed
+
+		return expression.expression;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final TemplateRestriction.Restriction_type templateRestriction) {
-		//FIXME needs to have special handling here
-		super.generateCodeExpression(aData, expression, templateRestriction);
+		IType governor = myGovernor;
+		if (governor == null) {
+			governor = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+		}
+		if (governor == null) {
+			return;
+		}
+
+		if (lengthRestriction == null && !isIfpresent && templateRestriction == Restriction_type.TR_NONE) {
+			//The single expression must be tried first because this rule might cover some referenced templates.
+			if (hasSingleExpression()) {
+				final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
+				expression.expression.append(MessageFormat.format("new {0}(", genName) );
+				if(governor.getTypetype() == Type_type.TYPE_ARRAY){
+					final Array_Type array_type = (Array_Type) governor;
+					expression.expression.append(MessageFormat.format(" {0}.class, ",array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
+				}
+				expression.expression.append(getSingleExpression(aData, true));
+				expression.expression.append(')');
+				return;
+			}
+
+			generateCodeExpressionInvoke(aData, expression);
+			return;
+		}
+
+		final String tempId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+
+		generateCodeInit(aData, expression.preamble, tempId);
+
+		if (templateRestriction != Restriction_type.TR_NONE) {
+			TemplateRestriction.generateRestrictionCheckCode(aData, expression.expression, location, tempId, templateRestriction);
+		}
+
+		expression.expression.append(tempId);
+	}
+
+	private void generateCodeExpressionInvoke(final JavaGenData aData, final ExpressionStruct expression) {
+		if (value == null || actualParameter_list == null) {
+			return;
+		}
+
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+		referenceChain.release();
+
+		if (last.getValuetype() == Value_type.FUNCTION_REFERENCE_VALUE) {
+			final Definition function = ((Function_Reference_Value)last).getReferredFunction();
+			expression.expression.append(MessageFormat.format("{0}(", function.getGenNameFromScope(aData, expression.expression, myScope, "")));
+			actualParameter_list.generateCodeAlias(aData, expression);
+		} else {
+			value.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(".invoke(");
+			IType governor = value.getMyGovernor();
+			if (governor == null) {
+				governor = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+			}
+			if (governor == null) {
+				return;
+			}
+
+			actualParameter_list.generateCodeAlias(aData, expression);
+		}
+
+		expression.expression.append(')');
 	}
 
 	@Override
@@ -378,5 +480,33 @@ public final class Invoke_Template extends TTCN3Template {
 		}
 	}
 
-	
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
+		if (getCodeSection() == CodeSectionType.CS_POST_INIT) {
+			reArrangeInitCode(aData, source, myScope.getModuleScope());
+		}
+
+		final ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(MessageFormat.format("{0}.assign(", name));
+		generateCodeExpressionInvoke(aData, expression);
+		expression.expression.append(')');
+
+		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
+	}
 }

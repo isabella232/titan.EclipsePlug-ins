@@ -15,10 +15,10 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -482,7 +482,24 @@ public class All_From_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		generateCodeInitAllFrom(aData, source, name);
+
+		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 
 	public void generateCodeInitAllFrom(final JavaGenData aData, final StringBuilder source, final String name) {

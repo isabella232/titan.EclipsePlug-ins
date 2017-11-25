@@ -963,5 +963,17 @@ public final class Referenced_Template extends TTCN3Template {
 			//FIXME handle needs conversion case
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, expression.expression));
 		}
+
+		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }

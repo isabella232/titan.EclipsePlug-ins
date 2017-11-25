@@ -13,6 +13,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -166,5 +167,28 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 		}
 
 		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
+		//FIXME implement
+
+		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }

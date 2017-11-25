@@ -153,7 +153,24 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (lastTimeBuilt != null && !lastTimeBuilt.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+		lastTimeBuilt = aData.getBuildTimstamp();
+
 		aData.addBuiltinTypeImport( "TitanOctetString_template" );
 		source.append( MessageFormat.format( "{0}.assign(new TitanOctetString_template(\"{1}\"));\n", name, pattern ) );
+
+		if (lengthRestriction != null) {
+			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+			}
+			lengthRestriction.generateCodeInit(aData, source, name);
+		}
+
+		if (isIfpresent) {
+			source.append(name);
+			source.append(".set_ifPresent();\n");
+		}
 	}
 }
