@@ -112,15 +112,6 @@ public final class AllComponentAliveExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addCommonLibraryImport("TTCN_Runtime");
-		aData.addBuiltinTypeImport("TitanComponent");
-
-		return new StringBuilder("TTCN_Runtime.component_alive(TitanComponent.ALL_COMPREF)");
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 		aData.addBuiltinTypeImport("TitanComponent");

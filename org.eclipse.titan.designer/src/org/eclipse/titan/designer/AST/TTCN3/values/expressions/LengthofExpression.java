@@ -314,6 +314,12 @@ public final class LengthofExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return templateInstance.hasSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final TTCN3Template templateBody = templateInstance.getTemplateBody();
 		// FIXME actually a bit more complex

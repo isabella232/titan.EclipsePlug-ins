@@ -299,6 +299,12 @@ public final class MatchExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value.canGenerateSingleExpression() && templateInstance.hasSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);

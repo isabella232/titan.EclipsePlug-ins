@@ -263,6 +263,12 @@ public final class Str2OctExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
 

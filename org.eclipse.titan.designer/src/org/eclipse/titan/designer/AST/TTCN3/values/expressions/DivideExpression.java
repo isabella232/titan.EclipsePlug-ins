@@ -353,6 +353,12 @@ public final class DivideExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		value1.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".div(");

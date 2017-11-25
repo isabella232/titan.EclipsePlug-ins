@@ -281,6 +281,12 @@ public final class EqualsExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
 		// TODO maybe this can be optimized later

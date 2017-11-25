@@ -727,6 +727,13 @@ public final class ReplaceExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
+				&& value3.canGenerateSingleExpression() && templateInstance4.hasSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (templateInstance1 != null) {
 			templateInstance1.reArrangeInitCode(aData, source, usageModule);

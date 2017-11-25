@@ -268,6 +268,13 @@ public final class ExecuteExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return reference.hasSingleExpression() && 
+				(timerValue == null || timerValue.canGenerateSingleExpression());
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final Assignment testcase = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));

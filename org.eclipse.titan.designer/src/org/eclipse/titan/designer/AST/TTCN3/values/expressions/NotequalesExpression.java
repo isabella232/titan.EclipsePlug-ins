@@ -277,6 +277,12 @@ public final class NotequalesExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		//TODO actually a bit more complicated
 		boolean isOptional1 = false;

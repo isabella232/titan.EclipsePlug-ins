@@ -189,6 +189,12 @@ public final class ActivateExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append(name);

@@ -106,11 +106,8 @@ public final class AllComponentRunningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addCommonLibraryImport("TTCN_Runtime");
-		aData.addBuiltinTypeImport("TitanComponent");
-
-		return new StringBuilder("TTCN_Runtime.component_running(TitanComponent.ALL_COMPREF)");
+	public boolean canGenerateSingleExpression() {
+		return true;
 	}
 
 	@Override

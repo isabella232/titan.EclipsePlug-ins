@@ -310,7 +310,12 @@ public final class OrExpression extends Expression_Value {
 			value2.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
-
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value1.canGenerateSingleExpression() && value2.canGenerateSingleExpression()
+				&& !value2.needsShortCircuit();
+	}
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {

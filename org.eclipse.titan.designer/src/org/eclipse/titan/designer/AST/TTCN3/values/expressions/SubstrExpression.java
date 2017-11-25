@@ -592,6 +592,13 @@ public final class SubstrExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return templateInstance1.hasSingleExpression() && value2.canGenerateSingleExpression()
+				&& value3.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (lastValue != null && lastValue != this) {
 			lastValue.generateCodeExpression(aData, expression, true);

@@ -194,6 +194,13 @@ public final class ComponentRunnningExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		//FIXME && reference != null
+		return value.canGenerateSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		value.generateCodeExpression(aData, expression, true);
 		if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
