@@ -2340,7 +2340,7 @@ public final class AdditionalFunctions {
 
 	//C.36 - rnd
 
-	// TODO: see ThreadLocalRandom java7
+	//TODO update with Java 1.7 to ThreadLocalRandom
 	static boolean rndSeedSet = false;
 	private final static Random random = new Random();
 	
@@ -2363,16 +2363,19 @@ public final class AdditionalFunctions {
 		if (!rndSeedSet) {
 			setRndSeed(TTCN_Snapshot.timeNow());
 		}
+
 		return rndGenerate();
 	}
 
 	public static double rnd(final double seed) {
 		setRndSeed(seed);
+
 		return rndGenerate();
 	}
 
 	public static double rnd(final TitanFloat seed) {
 		seed.mustBound("Initializing the random number generator with an unbound float value as seed.");
+
 		setRndSeed(seed.getValue());
 		return rndGenerate();
 	}

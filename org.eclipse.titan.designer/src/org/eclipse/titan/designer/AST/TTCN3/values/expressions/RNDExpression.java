@@ -108,7 +108,7 @@ public final class RNDExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("AdditionalFunctions");
-		
+
 		expression.expression.append("AdditionalFunctions.rnd()");
 	}
 }
