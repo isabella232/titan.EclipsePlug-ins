@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -244,7 +245,7 @@ public final class Unknown_Applied_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		if (realStatement == null) {
-			source.append("//FATAL ERROR furing apply statement\n");
+			ErrorReporter.INTERNAL_ERROR("Encountered an uncheked apply statement `" + getFullName() + "''");
 			return;
 		}
 

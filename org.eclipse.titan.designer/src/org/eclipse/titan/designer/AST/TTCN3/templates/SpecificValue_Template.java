@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -627,10 +628,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		final StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
-			result.append( "\t//TODO: fatal error while generating " );
-			result.append( getClass().getSimpleName() );
-			result.append( ".getSingleExpression() !\n" );
-			// TODO: fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing specific value template `" + getFullName() + "''");
 			return result;
 		}
 

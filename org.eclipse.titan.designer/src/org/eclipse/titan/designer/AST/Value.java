@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST;
 import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -553,9 +554,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 			return;
 		}
 
-		expression.expression.append( "\t//TODO: " );
-		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
+		ErrorReporter.INTERNAL_ERROR(getClass().getSimpleName() + ".generateCodeExpression() is not implemented!");
 	}
 
 	/**

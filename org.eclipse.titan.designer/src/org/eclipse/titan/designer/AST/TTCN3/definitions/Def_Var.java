@@ -475,8 +475,6 @@ public final class Def_Var extends Definition {
 		final StringBuilder initComp = aData.getInitComp();
 		if ( !isLocal() ) {
 			source.append( "\tpublic static final " );
-		} else {
-			source.append("//Fatal Error: there should be no global variables\n");
 		}
 
 		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );

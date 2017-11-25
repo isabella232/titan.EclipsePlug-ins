@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -704,7 +705,7 @@ public final class Named_Template_List extends TTCN3Template {
 					fieldType = ((Anytype_Type) type).getComponentByName(fieldName).getType();
 					break;
 				default:
-					source.append("//FATAL ERROR while generating code for a named template list\n");
+					ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing named template list `" + getFullName() + "''");
 					return;
 				}
 

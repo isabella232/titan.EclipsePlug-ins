@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -1016,7 +1017,7 @@ public final class FormalParameter extends Definition {
 			source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
 			break;
 		default:
-			//TODO fatal error
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 		}
 
 		source.append( ' ' );
@@ -1057,7 +1058,7 @@ public final class FormalParameter extends Definition {
 			source.append(MessageFormat.format("TitanTimer {0}{1} = new TitanTimer(\"{1}\");\n", prefix, identifier.getName()));
 			break;
 		default:
-			//TODO fatal error
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 		}
 	}
 

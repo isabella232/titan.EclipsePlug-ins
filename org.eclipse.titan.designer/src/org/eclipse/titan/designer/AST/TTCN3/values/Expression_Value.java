@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
@@ -336,7 +337,7 @@ public abstract class Expression_Value extends Value {
 			generateCodeExpressionExpression(aData, expression);
 		}
 		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
-			//fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 		}
 
 		return new StringBuilder(expression.expression);

@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
@@ -250,6 +251,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 	/** {@inheritDoc} */
 	public String getValueType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
 		if(isErroneous) {
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for `" + getFullName() + "''");
 			return "FATAL ERROR in RangedArrayDImension:getValueType";
 		}
 
@@ -262,6 +264,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 	/** {@inheritDoc} */
 	public String getTemplateType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
 		if(isErroneous) {
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for `" + getFullName() + "''");
 			return "FATAL ERROR in RangedArrayDImension:getTemplateType";
 		}
 

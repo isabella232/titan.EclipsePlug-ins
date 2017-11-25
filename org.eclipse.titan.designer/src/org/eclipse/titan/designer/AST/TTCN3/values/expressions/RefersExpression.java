@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -282,7 +283,7 @@ public final class RefersExpression extends Expression_Value {
 			governor = myLastSetGovernor;
 		}
 		if (governor == null || referredAssignment == null) {
-			expression.expression.append("// FATAL ERROR while processing refers expression\n");
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 			return;
 		}
 

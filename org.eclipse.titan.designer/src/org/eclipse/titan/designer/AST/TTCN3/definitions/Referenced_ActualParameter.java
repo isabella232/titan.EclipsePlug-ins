@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.definitions;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -110,6 +111,6 @@ public final class Referenced_ActualParameter extends ActualParameter {
 	@Override
 	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
-		//fatal error
+		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous actual parameter `" + getFullName() + "''");
 	}
 }

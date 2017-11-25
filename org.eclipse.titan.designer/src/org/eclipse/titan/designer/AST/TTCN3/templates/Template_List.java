@@ -557,7 +557,7 @@ public final class Template_List extends CompositeTemplate {
 			ofTypeName = ((Array_Type) typeLast).getElementType().getGenNameTemplate(aData, source, myScope);
 			break;
 		default:
-			//TODO FATAL error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing template list `" + getFullName() + "''");
 			return;
 		}
 

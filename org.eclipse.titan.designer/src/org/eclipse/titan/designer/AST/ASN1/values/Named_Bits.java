@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -205,6 +206,7 @@ public final class Named_Bits extends Value {
 			return realValue.generateCodeInit(aData, source, name);
 		}
 
+		ErrorReporter.INTERNAL_ERROR("named bits encountered in code generation of " + getFullName());
 		source.append("/* fatal error named bits encountered */");
 
 		return source;
@@ -226,6 +228,7 @@ public final class Named_Bits extends Value {
 			return;
 		}
 
+		ErrorReporter.INTERNAL_ERROR("named bits encountered in code generation of " + getFullName());
 		expression.expression.append("/* fatal error named bits encountered */");
 	}
 }

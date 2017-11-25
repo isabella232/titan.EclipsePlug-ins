@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Stack;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -652,20 +653,14 @@ public final class Referenced_Template extends TTCN3Template {
 		final StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
-			result.append( "\t//TODO: fatal error while generating " );
-			result.append( getClass().getSimpleName() );
-			result.append( ".getSingleExpression() !\n" );
-			// TODO: fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing referenced template `" + getFullName() + "''");
 			return result;
 		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
 		reference.generateCode(aData, expression);
 		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
-			result.append( "\t//TODO: fatal error while generating " );
-			result.append( getClass().getSimpleName() );
-			result.append( ".getSingleExpression() !\n" );
-			// TODO: fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing referenced template `" + getFullName() + "''");
 			return result;
 		}
 

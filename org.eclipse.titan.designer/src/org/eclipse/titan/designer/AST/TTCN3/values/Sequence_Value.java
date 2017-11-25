@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -877,7 +878,7 @@ public final class Sequence_Value extends Value {
 			nofComps = ((ASN1_Sequence_Type) type).getNofComponents(CompilationTimeStamp.getBaseTimestamp());
 			break;
 		default:
-			//TODO fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 		}
 
 		if (nofComps == 0) {
@@ -897,7 +898,7 @@ public final class Sequence_Value extends Value {
 				compField = ((ASN1_Sequence_Type) type).getComponentByIndex(i);
 				break;
 			default:
-				// TODO fatal error
+				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 			}
 			final Identifier fieldName = compField.getIdentifier();
 

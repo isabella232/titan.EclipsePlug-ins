@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -419,8 +420,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				hasElseBranch = true;
 				break;
 			default:
-				//Otherwise fatal error
-				source.append("FATAL ERROR: unknown altguard type encountered: " + altGuard.getClass().getSimpleName() + "\n");
+				ErrorReporter.INTERNAL_ERROR("unknown altguard type encountered `" + getFullName() + "''");
 				return;
 			}
 
@@ -531,7 +531,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					}
 					break;
 				default:
-					source.append("FATAL ERROR: unknown altguard type encountered: " + altGuard.getClass().getSimpleName() + "\n");
+					ErrorReporter.INTERNAL_ERROR("unknown altguard type encountered `" + getFullName() + "''");
 					return;
 				}
 				expression.mergeExpression(source);
@@ -661,7 +661,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					}
 					break;
 				default:
-					source.append("FATAL ERROR: unknown altguard type encountered: " + altGuard.getClass().getSimpleName() + "\n");
+					ErrorReporter.INTERNAL_ERROR("unknown altguard type encountered `" + getFullName() + "''");
 					return;
 				}
 				if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {

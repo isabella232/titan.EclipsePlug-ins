@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -210,10 +211,7 @@ public final class Value_Range_Template extends TTCN3Template {
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
 		final StringBuilder result = new StringBuilder();
 
-		result.append( "\t//TODO: fatal error while generating " );
-		result.append( getClass().getSimpleName() );
-		result.append( ".getSingleExpression() !\n" );
-		// TODO: fatal error
+		ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing value range template `" + getFullName() + "''");
 		return result;
 	}
 

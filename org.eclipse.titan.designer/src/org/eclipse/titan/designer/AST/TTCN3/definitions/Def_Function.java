@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.jface.text.templates.Template;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -927,7 +928,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			source.append( returnType.getGenNameTemplate( aData, source, getMyScope() ) );
 			break;
 		default:
-			//TODO fatal error
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 		}
 
 		source.append( ' ' );

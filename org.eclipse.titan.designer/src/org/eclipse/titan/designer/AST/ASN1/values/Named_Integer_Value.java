@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.ASN1.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -179,6 +180,7 @@ public final class Named_Integer_Value extends Value {
 			return calculatedValue.generateCodeInit(aData, source, name);
 		}
 
+		ErrorReporter.INTERNAL_ERROR("named integer encountered in code generation of " + getFullName());
 		source.append("/* fatal error named integer encountered */");
 
 		return source;
@@ -200,6 +202,7 @@ public final class Named_Integer_Value extends Value {
 			return;
 		}
 
+		ErrorReporter.INTERNAL_ERROR("named integer encountered in code generation of " + getFullName());
 		expression.expression.append("/* fatal error named integer encountered */");
 	}
 }

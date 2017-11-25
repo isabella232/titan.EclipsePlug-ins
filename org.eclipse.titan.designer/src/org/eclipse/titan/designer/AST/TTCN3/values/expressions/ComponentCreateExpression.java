@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
@@ -370,18 +371,18 @@ public final class ComponentCreateExpression extends Expression_Value {
 		// the type of the component (module name and identifier)
 		final Assignment assignment = componentReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 		if (assignment == null || !Assignment_type.A_TYPE.equals(assignment.getAssignmentType())) {
-			//TODO FATAL error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 			return;
 		}
 
 		IType componentType = assignment.getType(CompilationTimeStamp.getBaseTimestamp()).getFieldType(CompilationTimeStamp.getBaseTimestamp(), componentReference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 		if (componentType == null) {
-			//TODO fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 			return;
 		}
 		componentType = componentType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (!Type_type.TYPE_COMPONENT.equals(componentType.getTypetype())) {
-			//TODO fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 			return;
 		}
 		((Component_Type) componentType).getComponentBody().generateCodeComponentTypeName(expression);

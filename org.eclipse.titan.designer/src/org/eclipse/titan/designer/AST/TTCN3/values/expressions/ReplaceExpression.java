@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -778,7 +779,7 @@ public final class ReplaceExpression extends Expression_Value {
 			expression.expression.append(')');
 			break;
 		default:
-			// FATAL ERROR
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for expression `" + getFullName() + "''");
 			break;
 		}
 	}

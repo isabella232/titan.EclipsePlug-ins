@@ -491,7 +491,6 @@ public final class Undefined_Block_Value extends Value {
 			return realValue.generateCodeInit(aData, source, name);
 		}
 
-		// FATAL ERROR
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 		return new StringBuilder("FATAL_ERROR encountered");
 	}

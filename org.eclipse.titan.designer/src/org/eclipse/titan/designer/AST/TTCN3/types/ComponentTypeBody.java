@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
@@ -994,7 +995,7 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	//originally generate_code_comptype_name
 	public void generateCodeComponentTypeName(final ExpressionStruct expression) {
 		if (identifier == null) {
-			//TODO fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing type `" + getFullName() + "''");
 			return;
 		}
 

@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
@@ -526,7 +527,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 			ofTypeName = ((Array_Type) type).getElementType().getGenNameTemplate(aData, source, myScope);
 			break;
 		default:
-			//FATAL error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing indexed template `" + getFullName() + "''");
 			return;
 		}
 

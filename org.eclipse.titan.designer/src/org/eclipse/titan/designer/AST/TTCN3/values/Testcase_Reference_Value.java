@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -159,7 +160,7 @@ public final class Testcase_Reference_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 		if (governor == null || referredTestcase == null) {
-			result.append("// FATAL ERROR while processing function reference value\n");
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 			return result;
 		}
 

@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -329,6 +330,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 			return realValue.generateSingleExpression(aData);
 		}
 
+		ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 		return new StringBuilder("/* fatal error undefined lower identifier encountered */");
 	}
 
@@ -339,6 +341,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 			return realValue.generateCodeInit(aData, source, name);
 		}
 
+		ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 		source.append("/* fatal error undefined lower identifier encountered */");
 
 		return source;

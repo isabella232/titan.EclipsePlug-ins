@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import java.text.MessageFormat;
 import java.util.Set;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -136,10 +137,7 @@ public final class AnyOrOmit_Template extends TTCN3Template {
 		final StringBuilder result = new StringBuilder();
 
 		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
-			result.append( "\t//TODO: fatal error while generating " );
-			result.append( getClass().getSimpleName() );
-			result.append( ".getSingleExpression() !\n" );
-			// TODO: fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing any value or omit template `" + getFullName() + "''");
 			return result;
 		}
 

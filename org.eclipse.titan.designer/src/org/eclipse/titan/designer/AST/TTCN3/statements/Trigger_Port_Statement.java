@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
@@ -294,7 +295,7 @@ public final class Trigger_Port_Statement extends Statement {
 		} else if (redirectSender != null) {
 			final IType varType = redirectSender.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
 			if (varType == null) {
-				//fatal error
+				ErrorReporter.INTERNAL_ERROR("Encountered a redirection with unknown type `" + getFullName() + "''");
 			}
 			if (varType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()==Type_type.TYPE_COMPONENT) {
 				expression.expression.append("TitanComponent_template.any_compref");

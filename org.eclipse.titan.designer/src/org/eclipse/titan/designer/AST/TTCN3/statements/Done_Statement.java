@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -276,7 +277,7 @@ public final class Done_Statement extends Statement {
 				// figure out what type the done() function belongs to
 				IType t = doneMatch.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 				if (t == null) {
-					expression.expression.append("// FATAL ERROR while processing value returning done\n");
+					ErrorReporter.INTERNAL_ERROR("Encountered a done with unknown governor `" + getFullName() + "''");
 					return;
 				}
 				while (t instanceof Referenced_Type && !t.hasDoneAttribute()) {
@@ -285,7 +286,7 @@ public final class Done_Statement extends Statement {
 					refChain.release();
 				}
 				if (!t.hasDoneAttribute()) {
-					expression.expression.append("// FATAL ERROR while processing value returning done\n");
+					ErrorReporter.INTERNAL_ERROR("Encountered a done return type without done attribute `" + getFullName() + "''");
 					return;
 				}
 

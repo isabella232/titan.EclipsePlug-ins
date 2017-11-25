@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
@@ -722,7 +723,7 @@ public final class Def_Timer extends Definition {
 
 		final SequenceOf_Value value = (SequenceOf_Value) v;
 		if (value.getNofComponents() != dim_size && !value.isIndexed()) {
-			// FATAL ERROR
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 			return;
 		}
 
@@ -836,13 +837,13 @@ public final class Def_Timer extends Definition {
 		}
 
 		if (!(definition instanceof Def_Timer)) {
-			//FATAL ERROR
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 			return;
 		}
 
 		final Def_Timer baseTimerDefinition = (Def_Timer) definition;
 		if (baseTimerDefinition.defaultDuration == null) {
-			//FATAL ERROR
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 			return;
 		}
 

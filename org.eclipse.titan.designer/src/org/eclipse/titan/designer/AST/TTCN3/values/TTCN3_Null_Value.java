@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -149,7 +150,7 @@ public final class TTCN3_Null_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		if (lastValue == null || lastValue == this) {
-			//fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 			source.append("//FATAL ERROR in TTCN3_Null_Value.generateCodeInit\n");
 			return source;
 		}
@@ -161,7 +162,7 @@ public final class TTCN3_Null_Value extends Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
 		if (lastValue == null || lastValue == this) {
-			//fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 			expression.expression.append("//FATAL ERROR in TTCN3_Null_Value.generateCodeExpression\n");
 			return;
 		}

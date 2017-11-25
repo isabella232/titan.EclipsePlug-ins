@@ -1001,7 +1001,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * */
 	public boolean hasSingleExpression() {
 		if (referredAssignment == null) {
-			//TODO: fatal error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for reference `" + getFullName() + "''");
 			return false;
 		}
 
@@ -1177,7 +1177,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 						compField = ((ASN1_Choice_Type)type).getComponentByName(id);
 						break;
 					default:
-						//TODO fatal error:
+						ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for reference `" + getFullName() + "''");
 						return;
 					}
 
@@ -1318,7 +1318,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				expression.expression.append(MessageFormat.format("{0}.isChosen({1})", ass_id2, field));
 				break;
 			default:
-				//FATAL ERROR
+				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for reference `" + getFullName() + "''");
 				break;
 			}
 			

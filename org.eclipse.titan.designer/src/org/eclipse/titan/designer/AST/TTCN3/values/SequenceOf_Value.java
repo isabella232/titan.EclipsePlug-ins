@@ -11,6 +11,7 @@ import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -756,7 +757,7 @@ public final class SequenceOf_Value extends Value {
 		}
 
 		if (governor == null) {
-			expression.expression.append("// FATAL ERROR while processing refers expression\n");
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 			return;
 		}
 

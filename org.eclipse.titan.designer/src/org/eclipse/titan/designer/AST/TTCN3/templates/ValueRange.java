@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
@@ -324,7 +325,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 				initStatement.append(".setMinExclusive(true);\n");
 				break;
 			default:
-				//fatal error
+				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing lower bound `" + getFullName() + "''");
 			}
 		}
 
@@ -352,7 +353,7 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 				initStatement.append(".setMaxExclusive(true);\n");
 				break;
 			default:
-				//fatal error
+				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing upper bound `" + getFullName() + "''");
 			}
 		}
 

@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.templates;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -169,7 +170,7 @@ public final class SupersetMatch_Template extends CompositeTemplate {
 			ofTypeName = ((Array_Type) myGovernor).getElementType().getGenNameTemplate(aData, source, myScope);
 			break;
 		default:
-			// TODO FATAL error
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing superset match template `" + getFullName() + "''");
 			return;
 		}
 

@@ -94,8 +94,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 	 * */
 	public void setGenName(final String prefix, final String suffix) {
 		if (prefix.length() == 0 || suffix.length() == 0) {
-			//fatal error
-			ErrorReporter.INTERNAL_ERROR("Setting.setGenName");
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while seting the generated name of setting `" + getFullName() + "''");
 			genName = "<FATAL ERROR>";
 			return;
 		}

@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -162,7 +163,7 @@ public final class Altstep_Reference_Value extends Value {
 			governor = myLastSetGovernor;
 		}
 		if (governor == null || referredAltstep == null) {
-			result.append("// FATAL ERROR while processing altstep reference value\n");
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for value `" + getFullName() + "''");
 			return result;
 		}
 
