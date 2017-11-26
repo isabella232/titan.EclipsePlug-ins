@@ -571,9 +571,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		final StringBuilder source = aData.getSrc();
 
 		final String genName = getGenName();
-		if (formalParList != null) {
-			formalParList.setGenName(genName);
-		}
+		formalParList.setGenName(genName);
 
 		//FIXME handle location object
 
