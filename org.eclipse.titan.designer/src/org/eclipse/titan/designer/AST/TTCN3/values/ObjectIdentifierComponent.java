@@ -170,7 +170,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			if (Value_type.OBJECTID_VALUE.equals(definedValue.getValuetype())) {
 				((ObjectIdentifier_Value) definedValue).getOidComponents(aData, components);
 			} else if (Value_type.REFERENCED_VALUE.equals(definedValue.getValuetype())) {
-				IValue last = ((Referenced_Value)definedValue).getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+				final IValue last = ((Referenced_Value)definedValue).getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 				final ExpressionStruct expression = new ExpressionStruct();
 				((Referenced_Value)definedValue).getReference().generateConstRef(aData, expression);
 				components.add(MessageFormat.format("TitanObjectid.from_integer({0})", expression.expression));
@@ -180,7 +180,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			}
 		} else if (number != null) {
 			if (Value_type.INTEGER_VALUE.equals(number.getValuetype())) {
-				StringBuilder result = new StringBuilder();
+				final StringBuilder result = new StringBuilder();
 				result.append("new TitanInteger(").append(((Integer_Value) number).intValue()).append(')');
 				components.add(result.toString());
 			}

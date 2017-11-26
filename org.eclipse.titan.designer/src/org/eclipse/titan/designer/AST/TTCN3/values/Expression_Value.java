@@ -392,7 +392,7 @@ public abstract class Expression_Value extends Value {
 		}
 
 		if (returnsNative() && forceObject) {
-			ExpressionStruct tempExpression = new ExpressionStruct();
+			final ExpressionStruct tempExpression = new ExpressionStruct();
 			generateCodeExpressionExpression(aData, tempExpression);
 
 			final IType gov = getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);

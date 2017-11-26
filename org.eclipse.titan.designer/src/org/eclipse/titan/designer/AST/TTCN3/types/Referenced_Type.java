@@ -664,7 +664,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
-			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, String field) {
+			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 			expression.expression.append("FATAL_ERROR encountered");

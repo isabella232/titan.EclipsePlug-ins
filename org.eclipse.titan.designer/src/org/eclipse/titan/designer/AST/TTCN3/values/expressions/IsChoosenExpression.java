@@ -445,7 +445,7 @@ public final class IsChoosenExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (value != null) {
-			Reference reference = value.getReference();
+			final Reference reference = value.getReference();
 			if (reference != null) {
 				final String genNameValue = value.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
 				final String field = MessageFormat.format("{0}.union_selection_type.ALT_{1}", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName()));
@@ -453,7 +453,7 @@ public final class IsChoosenExpression extends Expression_Value {
 			}
 		}
 		if (template != null) {
-			Reference reference = template.getReference();
+			final Reference reference = template.getReference();
 			if (reference != null) {
 				final String genNameValue = template.getMyGovernor().getGenNameValue(aData, expression.expression, myScope);
 				final String field = MessageFormat.format("{0}.union_selection_type.ALT_{1}", genNameValue, FieldSubReference.getJavaGetterName(identifier.getName()));

@@ -277,7 +277,7 @@ IReferencingElement {
 				if (referredModule instanceof TTCN3Module) {
 					final TTCN3Module ttcnmodule = (TTCN3Module) referredModule;
 					final List<ImportModule> imports = ttcnmodule.getImports();
-					for (ImportModule importation : imports) {
+					for (final ImportModule importation : imports) {
 						referenceChain.markState();
 						importation.checkImports(timestamp, referenceChain, moduleStack);
 						referenceChain.previousState();
@@ -437,7 +437,7 @@ IReferencingElement {
 			if (referredModule instanceof TTCN3Module) {
 				final TTCN3Module ttcnmodule = (TTCN3Module) referredModule;
 				final List<ImportModule> imports = ttcnmodule.getImports();
-				for (ImportModule importation : imports) {
+				for (final ImportModule importation : imports) {
 					if (importation.hasImportedAssignmentWithID(timestamp, identifier)) {
 						return true;
 					}
@@ -473,7 +473,7 @@ IReferencingElement {
 				final TTCN3Module ttcnmodule = (TTCN3Module) referredModule;
 				Assignment tempResult = null;
 				final List<ImportModule> imports = ttcnmodule.getImports();
-				for (ImportModule importation : imports) {
+				for (final ImportModule importation : imports) {
 					final List<ModuleImportation> tempUsedImports = new ArrayList<ModuleImportation>();
 					// check if it could be reached if
 					// visibility is out of question
@@ -496,7 +496,7 @@ IReferencingElement {
 						// are visible in the actual
 						// module
 						boolean visible = true;
-						for (ModuleImportation usedImportation : tempUsedImports) {
+						for (final ModuleImportation usedImportation : tempUsedImports) {
 							if (usedImportation instanceof ImportModule) {
 								final ImportModule ttcnImport = (ImportModule) usedImportation;
 								if (!ttcnImport.getMyModule().isVisible(timestamp, myModuleIdentifier, ttcnImport)) {
@@ -557,7 +557,7 @@ IReferencingElement {
 			if (savedReferredModule instanceof TTCN3Module) {
 				final TTCN3Module ttcnmodule = (TTCN3Module) savedReferredModule;
 				final List<ImportModule> imports = ttcnmodule.getImports();
-				for (ImportModule importation : imports) {
+				for (final ImportModule importation : imports) {
 					if (importation.getVisibilityModifier() == VisibilityModifier.Public) {
 						importation.addProposal(propCollector, targetModuleId);
 					} else if (importation.getVisibilityModifier() == VisibilityModifier.Friend) {
@@ -587,7 +587,7 @@ IReferencingElement {
 			if (savedReferredModule instanceof TTCN3Module) {
 				final TTCN3Module ttcnmodule = (TTCN3Module) savedReferredModule;
 				final List<ImportModule> imports = ttcnmodule.getImports();
-				for (ImportModule importation : imports) {
+				for (final ImportModule importation : imports) {
 					if (importation.getVisibilityModifier() == VisibilityModifier.Public) {
 						importation.addDeclaration(declarationCollector, targetModuleId);
 					} else if (importation.getVisibilityModifier() == VisibilityModifier.Friend) {

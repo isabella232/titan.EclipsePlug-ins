@@ -329,7 +329,7 @@ public final class TTCN3Module extends Module {
 		}
 		// The identifier represents a module imported in the current
 		// module
-		for (ImportModule impMod : importedModules) {
+		for (final ImportModule impMod : importedModules) {
 			if (originalName.equals(impMod.getName())) {
 				return true;
 			}
@@ -345,11 +345,11 @@ public final class TTCN3Module extends Module {
 			return;
 		}
 
-		for (ImportModule impmod : importedModules) {
+		for (final ImportModule impmod : importedModules) {
 			impmod.setUsedForImportation(false);
 		}
 
-		for (ImportModule impmod : importedModules) {
+		for (final ImportModule impmod : importedModules) {
 			referenceChain.markState();
 			impmod.checkImports(timestamp, referenceChain, moduleStack);//This checks only existence, not "used or not used"
 			//timestamp is set!!!, markers are refreshed
@@ -366,7 +366,7 @@ public final class TTCN3Module extends Module {
 		if (!friendModules.isEmpty()) {
 			final Map<String, FriendModule> map = new HashMap<String, FriendModule>(friendModules.size());
 
-			for (FriendModule friendModule : friendModules) {
+			for (final FriendModule friendModule : friendModules) {
 				final Identifier identifier = friendModule.getIdentifier();
 				final String name = identifier.getName();
 				if (map.containsKey(name)) {
@@ -402,7 +402,7 @@ public final class TTCN3Module extends Module {
 	public List<Module> getImportedModules() {
 		final List<Module> result = new ArrayList<Module>();
 
-		for (ImportModule impmod : importedModules) {
+		for (final ImportModule impmod : importedModules) {
 			final Module module = impmod.getReferredModule();
 			if (module != null) {
 				result.add(module);
@@ -415,7 +415,7 @@ public final class TTCN3Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasUnhandledImportChanges() {
-		for (ImportModule impmod : importedModules) {
+		for (final ImportModule impmod : importedModules) {
 			if (impmod.hasUnhandledChange()) {
 				return true;
 			}
@@ -451,12 +451,12 @@ public final class TTCN3Module extends Module {
 			withAttributesPath.checkAttributes(timestamp);
 		}
 
-		for (ImportModule impMod : importedModules) {
+		for (final ImportModule impMod : importedModules) {
 			impMod.check(timestamp);
 		}
 
 		checkFriendModuleUniqueness();
-		for (FriendModule friendModule : friendModules) {
+		for (final FriendModule friendModule : friendModules) {
 			friendModule.check(timestamp);
 		}
 
@@ -499,7 +499,7 @@ public final class TTCN3Module extends Module {
 		//}
 
 		checkFriendModuleUniqueness();
-		for (FriendModule friendModule : friendModules) {
+		for (final FriendModule friendModule : friendModules) {
 			friendModule.check(timestamp);
 		}
 
@@ -519,7 +519,7 @@ public final class TTCN3Module extends Module {
 	/** {@inheritDoc} */
 	public void postCheck() {
 		if (!getReportUnusedModuleImportationProblems()) {
-			for (ImportModule impmod : importedModules) {
+			for (final ImportModule impmod : importedModules) {
 				impmod.postCheck();
 			}
 		}
@@ -596,7 +596,7 @@ public final class TTCN3Module extends Module {
 
 				ImportModule theImport = null;
 				final String requiredModuleName = versionReq.getRequiredModule().getName();
-				for (ImportModule impMod : importedModules) {
+				for (final ImportModule impMod : importedModules) {
 					if (requiredModuleName.equals(impMod.getIdentifier().getName())) {
 						theImport = impMod;
 						break;
@@ -669,7 +669,7 @@ public final class TTCN3Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasImportedAssignmentWithID(final CompilationTimeStamp timestamp, final Identifier identifier) {
-		for (ImportModule impMod : importedModules) {
+		for (final ImportModule impMod : importedModules) {
 			if (impMod.hasImportedAssignmentWithID(timestamp, identifier)) {
 				return true;
 			}
@@ -692,7 +692,7 @@ public final class TTCN3Module extends Module {
 		case Public:
 			return result;
 		case Friend:
-			for (FriendModule friend : friendModules) {
+			for (final FriendModule friend : friendModules) {
 				if (friend.getIdentifier().getName().equals(moduleId.getName())) {
 					return result;
 				}
@@ -726,7 +726,7 @@ public final class TTCN3Module extends Module {
 		case Public:
 			return true;
 		case Friend:
-			for (FriendModule friend : friendModules) {
+			for (final FriendModule friend : friendModules) {
 				if (friend.getIdentifier().getName().equals(moduleId.getName())) {
 					return true;
 				}
@@ -755,7 +755,7 @@ public final class TTCN3Module extends Module {
 		case Public:
 			return true;
 		case Friend:
-			for (FriendModule friend : friendModules) {
+			for (final FriendModule friend : friendModules) {
 				if (friend.getIdentifier().getName().equals(moduleId.getName())) {
 					return true;
 				}
@@ -797,7 +797,7 @@ public final class TTCN3Module extends Module {
 
 			Assignment tempResult = null;
 
-			for (ImportModule impMod : importedModules) {
+			for (final ImportModule impMod : importedModules) {
 				if (impMod.getReferredModule() != null) {
 					final ModuleImportationChain referenceChain = new ModuleImportationChain(ModuleImportationChain.CIRCULARREFERENCE,
 							false);
@@ -843,7 +843,7 @@ public final class TTCN3Module extends Module {
 			}
 		} else {
 			// the reference points to another module
-			for (ImportModule impMod : importedModules) {
+			for (final ImportModule impMod : importedModules) {
 				if (moduleId.getName().equals(impMod.getName())) {
 					if (impMod.getReferredModule() == null) {
 						return temporalAssignment;
@@ -895,7 +895,7 @@ public final class TTCN3Module extends Module {
 	public void addProposal(final ProposalCollector propCollector) {
 		final Identifier moduleId = propCollector.getReference().getModuleIdentifier();
 		if (moduleId == null) {
-			for (ImportModule importedModule : importedModules) {
+			for (final ImportModule importedModule : importedModules) {
 				if (importedModule != null) {
 					importedModule.addProposal(propCollector, identifier);
 				}
@@ -905,7 +905,7 @@ public final class TTCN3Module extends Module {
 				definitions.getAssignmentByIndex(i).addProposal(propCollector, 0);
 			}
 		} else {
-			for (ImportModule importedModule : importedModules) {
+			for (final ImportModule importedModule : importedModules) {
 				if (importedModule != null && importedModule.getName().equals(moduleId.getName())) {
 					importedModule.addProposal(propCollector, identifier);
 				}
@@ -918,7 +918,7 @@ public final class TTCN3Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
@@ -941,7 +941,7 @@ public final class TTCN3Module extends Module {
 			if (subrefs.size() == 1 && this.identifier != null && this.identifier.getName().equals(subrefs.get(0).getId().getName())) {
 				declarationCollector.addDeclaration(name, identifier.getLocation(), this);
 			}
-			for (ImportModule importedModule : importedModules) {
+			for (final ImportModule importedModule : importedModules) {
 				if (importedModule != null) {
 					importedModule.addDeclaration(declarationCollector, identifier);
 				}
@@ -951,7 +951,7 @@ public final class TTCN3Module extends Module {
 				definitions.getAssignmentByIndex(i).addDeclaration(declarationCollector, 0);
 			}
 		} else {
-			for (ImportModule importedModule : importedModules) {
+			for (final ImportModule importedModule : importedModules) {
 				if (importedModule != null && importedModule.getName().equals(moduleId.getName())) {
 					importedModule.addDeclaration(declarationCollector, identifier);
 				}
@@ -1006,7 +1006,7 @@ public final class TTCN3Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void extractStructuralInformation(final ProjectStructureDataCollector collector) {
-		for (ImportModule imported : importedModules) {
+		for (final ImportModule imported : importedModules) {
 			collector.addImportation(identifier, imported.getIdentifier());
 		}
 	}
@@ -1206,14 +1206,14 @@ public final class TTCN3Module extends Module {
 			return false;
 		}
 		if (importedModules != null) {
-			for (ImportModule im : importedModules) {
+			for (final ImportModule im : importedModules) {
 				if (!im.accept(v)) {
 					return false;
 				}
 			}
 		}
 		if (friendModules != null) {
-			for (FriendModule fm : friendModules) {
+			for (final FriendModule fm : friendModules) {
 				if (!fm.accept(v)) {
 					return false;
 				}
@@ -1268,7 +1268,7 @@ public final class TTCN3Module extends Module {
 		final StringBuilder sb = aData.getSrc();
 		aData.addBuiltinTypeImport("TTCN_Module");
 
-		for (ImportModule importModule : importedModules) {
+		for (final ImportModule importModule : importedModules) {
 			importModule.generateCode(aData);
 		}
 

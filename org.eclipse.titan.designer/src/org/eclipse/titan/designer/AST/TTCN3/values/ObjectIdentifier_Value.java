@@ -234,7 +234,7 @@ public final class ObjectIdentifier_Value extends Value {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (objectIdComponents!=null) {
-			for (ObjectIdentifierComponent c : objectIdComponents) {
+			for (final ObjectIdentifierComponent c : objectIdComponents) {
 				if (!c.accept(v)) {
 					return false;
 				}

@@ -675,7 +675,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 			}
 		}
 		if (warnings != null) {
-			for (TITANMarker marker : warnings) {
+			for (final TITANMarker marker : warnings) {
 				if (file.isAccessible()) {
 					final Location loc = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					loc.reportExternalProblem(marker.getMessage(), marker.getSeverity(),
@@ -684,7 +684,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 			}
 		}
 		if (unsupportedConstructs != null) {
-			for (TITANMarker marker : unsupportedConstructs) {
+			for (final TITANMarker marker : unsupportedConstructs) {
 				if (file.isAccessible()) {
 					final Location loc = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					loc.reportExternalProblem(marker.getMessage(), marker.getSeverity(),

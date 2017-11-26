@@ -92,7 +92,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		final StringBuilder builder = super.getFullName(child);
 
 		Definition definition;
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			definition = iterator.next();
 
 			if (definition == child) {
@@ -185,7 +185,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 * */
 	public void addDefinitions(final List<Definition> definitionList) {
 		if (definitionList != null) {
-			for (Definition definition : definitionList) {
+			for (final Definition definition : definitionList) {
 				addDefinition(definition);
 			}
 		}
@@ -307,7 +307,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	@Override
 	/** {@inheritDoc} */
 	public void postCheck() {
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			iterator.next().postCheck();
 		}
 	}
@@ -375,7 +375,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
-			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 				iterator.next().addProposal(propCollector, 0);
 			}
 		}
@@ -385,7 +385,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	@Override
 	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
@@ -403,7 +403,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
-			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 				iterator.next().addDeclaration(declarationCollector, 0);
 			}
 		}
@@ -424,7 +424,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (!isDamaged) {
 			// handle the simple case quickly
-			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 				final Definition temp = iterator.next();
 				final Location temporalLocation = temp.getLocation();
 				final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
@@ -451,7 +451,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		IAppendableSyntax lastAppendableBeforeChange = null;
 		IAppendableSyntax lastPrependableBeforeChange = null;
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
 			final Definition temp = iterator.next();
 			final Location tempLocation = temp.getLocation();
 			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
@@ -516,7 +516,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		}
 
 		// update what is left
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			final Location temporalLocation = temp.getLocation();
 			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
@@ -546,7 +546,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 			lastUniquenessCheckTimeStamp = null;
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			final Location temporalLocation = temp.getLocation();
 			final Location cumulativeLocation = temp.getCumulativeDefinitionLocation();
@@ -577,7 +577,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 *                the parser doing the incremental parsing.
 	 * */
 	private void removeStuffInRange(final TTCN3ReparseUpdater reparser) {
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
@@ -592,7 +592,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		if (definitions == null) {
 			return null;
 		}
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			if (definition.getLocation().containsOffset(offset)) {
 				return definition;
 			}
@@ -603,7 +603,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			definition.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -617,7 +617,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 		case ASTVisitor.V_SKIP:
 			return true;
 		}
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			if (!definition.accept(v)) {
 				return false;
 			}
@@ -658,7 +658,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if ( definitions != null ) {
-			for ( Definition definition : definitions ) {
+			for ( final Definition definition : definitions ) {
 				definition.generateCodeString( aData, source );
 				source.append( '\n' );
 			}

@@ -99,7 +99,7 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 	public void removeGeneratedValues() {
 		if (values != null) {
 			NamedValue temp;
-			for (Iterator<NamedValue> iterator = values.iterator(); iterator.hasNext();) {
+			for (final Iterator<NamedValue> iterator = values.iterator(); iterator.hasNext();) {
 				temp = iterator.next();
 				if (!temp.isParsed()) {
 					iterator.remove();
@@ -142,7 +142,7 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 		namedValuesMap = new HashMap<String, NamedValue>(values.size());
 
 
-		for (NamedValue value : values) {
+		for (final NamedValue value : values) {
 			identifier = value.getName();
 			name = identifier.getName();
 			if (namedValuesMap.containsKey(name)) {
@@ -189,7 +189,7 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 			return;
 		}
 
-		for (NamedValue nv : values) {
+		for (final NamedValue nv : values) {
 			nv.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -198,7 +198,7 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (values!=null) {
-			for (NamedValue nv : values) {
+			for (final NamedValue nv : values) {
 				if (!nv.accept(v)) {
 					return false;
 				}

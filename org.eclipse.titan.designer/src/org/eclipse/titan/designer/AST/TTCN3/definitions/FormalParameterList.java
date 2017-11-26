@@ -145,7 +145,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	public FormalParameterList(final List<FormalParameter> parameters) {
-		for (FormalParameter parameter : parameters) {
+		for (final FormalParameter parameter : parameters) {
 			if (parameter != null && parameter.getIdentifier() != null) {
 				this.parameters.add(parameter);
 				parameter.setFullNameParent(this);
@@ -252,7 +252,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * */
 	public final void setMyScope(final Scope scope) {
 		setParentScope(scope);
-		for (FormalParameter parameter : parameters) {
+		for (final FormalParameter parameter : parameters) {
 			parameter.setMyScope(this);
 		}
 	}
@@ -998,7 +998,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/** {@inheritDoc} */
 	public final void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
-			for (FormalParameter parameter : parameters) {
+			for (final FormalParameter parameter : parameters) {
 				parameter.addProposal(propCollector, 0);
 			}
 		}
@@ -1008,15 +1008,15 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	@Override
 	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_VALUE_PARAMETER_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_VALUE_PARAMETER_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_TEMPLATE_PARAMETER_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_TEMPLATE_PARAMETER_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_TIMER_PARAMETER_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_TIMER_PARAMETER_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
@@ -1070,7 +1070,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		if (parameters == null) {
 			return null;
 		}
-		for (FormalParameter parameter : parameters) {
+		for (final FormalParameter parameter : parameters) {
 			if (parameter.getLocation().containsOffset(offset)) {
 				return parameter;
 			}
@@ -1082,7 +1082,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (parameters != null) {
-			for (FormalParameter formalPar : parameters) {
+			for (final FormalParameter formalPar : parameters) {
 				formalPar.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -1098,7 +1098,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			return true;
 		}
 		if (parameters != null) {
-			for (FormalParameter formalPar : parameters) {
+			for (final FormalParameter formalPar : parameters) {
 				if (!formalPar.accept(v)) {
 					return false;
 				}
@@ -1111,7 +1111,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	}
 
 	public void setGenName(final String prefix) {
-		for (FormalParameter parameter : parameters) {
+		for (final FormalParameter parameter : parameters) {
 			final String parameterName = parameter.getIdentifier().getName();
 			if (!Assignment_type.A_TIMER.equals(parameter.getAssignmentType())) {
 				final Type parameterType = parameter.getType(CompilationTimeStamp.getBaseTimestamp());

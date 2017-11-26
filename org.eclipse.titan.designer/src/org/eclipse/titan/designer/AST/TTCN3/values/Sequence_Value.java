@@ -787,7 +787,8 @@ public final class Sequence_Value extends Value {
 					if(((TTCN3_Sequence_Type)type).getComponentByName(name).isOptional()) {
 						embeddedName.append(".get()");
 					}
-					IValue v= values.getNamedValueByIndex(i).getValue();
+
+					final IValue v= values.getNamedValueByIndex(i).getValue();
 					if (v!=null){
 						v.setGenNameRecursive(embeddedName.toString());
 					} 

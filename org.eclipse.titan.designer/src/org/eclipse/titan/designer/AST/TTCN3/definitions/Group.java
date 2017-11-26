@@ -182,7 +182,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		for (Group group : groups) {
+		for (final Group group : groups) {
 			if (group == child) {
 				final Identifier tempIdentifier = group.getIdentifier();
 				return builder.append(INamedNode.DOT).append(tempIdentifier.getDisplayName());
@@ -246,7 +246,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 	 */
 	public void addDefinitions(final List<Definition> definitionList) {
 		if (definitionList != null) {
-			for (Definition def : definitionList) {
+			for (final Definition def : definitionList) {
 				addDefinition(def);
 			}
 		}
@@ -332,7 +332,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 		// Take care of ordering.
 		int from = 0;
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition def = iterator.next();
 			for (int j = from; j < groups.size(); j++) {
 				final Group grp = groups.get(j);
@@ -384,14 +384,14 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		final Map<String, Definition> definitionMap = new HashMap<String, Definition>(definitions.size());
 		final Map<String, Group> groupMap = new HashMap<String, Group>(groups.size());
 
-		for (Definition def : definitions) {
+		for (final Definition def : definitions) {
 			final String defName = def.getIdentifier().getName();
 			if (!definitionMap.containsKey(defName)) {
 				definitionMap.put(defName, def);
 			}
 		}
 
-		for (Group group : groups) {
+		for (final Group group : groups) {
 			final String groupName = group.getIdentifier().getName();
 			if (groupMap.containsKey(groupName)) {
 				groupMap.get(groupName).getIdentifier().getLocation()
@@ -420,7 +420,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 		MarkerHandler.markAllSemanticMarkersForRemoval(this.getCommentLocation()); //for example t3doc markers
 		MarkerHandler.markAllSemanticMarkersForRemoval(this.getIdentifier());
 		MarkerHandler.markAllSemanticMarkersForRemoval(this.withAttributesPath);
-		for (Group innerGroup : groups) {
+		for (final Group innerGroup : groups) {
 			innerGroup.markMarkersForRemoval(timestamp);
 		}
 	}
@@ -532,25 +532,25 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 
 				if ( parser.isErrorListEmpty() ) {
 					temp.addDefinitions(allDefinitions);
-					for (ImportModule impmod : allImports) {
+					for (final ImportModule impmod : allImports) {
 						temp.addImportedModule(impmod);
 					}
 
-					for (FriendModule friend : allFriends) {
+					for (final FriendModule friend : allFriends) {
 						temp.addFriendModule(friend);
 					}
 
 					addDefinitions(localDefinitions);
 
-					for (ImportModule impmod : localImports) {
+					for (final ImportModule impmod : localImports) {
 						addImportedModule(impmod);
 					}
 
-					for (Group group : localGroups) {
+					for (final Group group : localGroups) {
 						addGroup(group);
 					}
 
-					for (FriendModule friend : localFriends) {
+					for (final FriendModule friend : localFriends) {
 						addFriendModule(friend);
 					}
 				}
@@ -668,7 +668,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
 			final Definition temp = iterator.next();
 			tempLocation = temp.getLocation();
 			if (reparser.envelopsDamage(tempLocation)) {
@@ -800,7 +800,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
@@ -856,7 +856,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			tempLocation = temp.getLocation();
 			if (reparser.isAffected(tempLocation)) {
@@ -957,7 +957,7 @@ public final class Group extends ASTNode implements IOutlineElement, ILocateable
 			}
 		}
 
-		for (Iterator<Definition> iterator = allDefinitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = allDefinitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getLocation())) {
 				reparser.extendDamagedRegion(temp.getLocation());

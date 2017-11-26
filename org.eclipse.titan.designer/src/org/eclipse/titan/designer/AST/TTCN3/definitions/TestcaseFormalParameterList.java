@@ -25,11 +25,11 @@ public final class TestcaseFormalParameterList extends FormalParameterList {
 	@Override
 	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_VALUE_PARAMETER_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_VALUE_PARAMETER_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_TEMPLATE_PARAMETER_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.FORMAL_TEMPLATE_PARAMETER_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}

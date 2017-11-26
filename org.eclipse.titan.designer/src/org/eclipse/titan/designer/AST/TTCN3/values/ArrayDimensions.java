@@ -82,7 +82,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	}
 
 	public void check(final CompilationTimeStamp timestamp) {
-		for (ArrayDimension dimension : dimensions) {
+		for (final ArrayDimension dimension : dimensions) {
 			dimension.check(timestamp);
 		}
 	}
@@ -187,7 +187,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 			return;
 		}
 
-		for (ArrayDimension dim : dimensions) {
+		for (final ArrayDimension dim : dimensions) {
 			dim.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -196,7 +196,7 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (dimensions != null) {
-			for (ArrayDimension dim : dimensions) {
+			for (final ArrayDimension dim : dimensions) {
 				if (!dim.accept(v)) {
 					return false;
 				}

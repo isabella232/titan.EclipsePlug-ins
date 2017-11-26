@@ -339,7 +339,7 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 
 			if (expression.returnsNative()) {
 				expression.generateCodeTmp(aData, source, "if (", blockCount);
-				source.append(")");
+				source.append(')');
 			} else {
 				aData.addBuiltinTypeImport( "TitanBoolean" );
 

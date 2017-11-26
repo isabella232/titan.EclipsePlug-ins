@@ -159,7 +159,7 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (parameters != null) {
-			for (ActualParameter ap : parameters) {
+			for (final ActualParameter ap : parameters) {
 				if (!ap.accept(v)) {
 					return false;
 				}

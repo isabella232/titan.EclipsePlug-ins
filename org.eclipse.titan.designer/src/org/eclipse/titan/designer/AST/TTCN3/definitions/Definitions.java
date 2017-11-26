@@ -103,7 +103,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		final StringBuilder builder = super.getFullName(child);
 
 		Definition definition;
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			definition = iterator.next();
 
 			if (definition == child) {
@@ -216,7 +216,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public void addDefinitions(final List<Definition> definitionList) {
 		lastUniquenessCheckTimeStamp = null;
 		if (definitionList != null) {
-			for (Definition definition : definitionList) {
+			for (final Definition definition : definitionList) {
 				addDefinition(definition);
 			}
 		}
@@ -270,7 +270,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		definitionMap = new HashMap<String, Definition>(definitions.size());
 		String definitionName;
 		Definition definition;
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			definition = iterator.next();
 			definitionName = definition.getIdentifier().getName();
 			if (definitionMap.containsKey(definitionName)) {
@@ -327,7 +327,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 		//This defs is necessary because the definitionMaps is not ready yet
 		Definition definition;
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			definition = iterator.next();
 
 			if (definition.getParentGroup() == null) {
@@ -391,7 +391,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		int maxEndOffset = getLocation().getOffset();
 		int lastEndOffset = 0;
 
-		for(Definition definition : definitions){
+		for(final Definition definition : definitions){
 			if (definition.getLastTimeChecked() == null || definition.getLastTimeChecked().isLess(timestamp) ){
 				MarkerHandler.markAllSemanticMarkersForRemoval(definition.getCommentLocation());
 				MarkerHandler.markAllSemanticMarkersForRemoval(definition); //doubleDefinition report will be deleted!
@@ -402,7 +402,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for(Group group: groups){
+		for(final Group group: groups){
 			group.markMarkersForRemoval(timestamp);
 		}
 
@@ -415,7 +415,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 		checkUniqueness(timestamp);
 		checkGroups(timestamp);
-		for( Definition definition: definitions){
+		for( final Definition definition: definitions){
 			definition.check(timestamp); //it calls definition.checkUniqueness!
 		}
 
@@ -440,7 +440,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 		//markers on imports cannot be removed, the are already fresh
 
-		for(Assignment assignment : assignments){
+		for(final Assignment assignment : assignments){
 			if(assignment.getLastTimeChecked() == null || assignment.getLastTimeChecked().isLess(timestamp)){
 				MarkerHandler.markAllSemanticMarkersForRemoval(assignment);
 			}
@@ -449,14 +449,14 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		int maxEndOffset = getLocation().getOffset();
 		int lastEndOffset = 0;
 
-		for(Definition definition : definitions){
+		for(final Definition definition : definitions){
 			lastEndOffset = definition.getLocation().getEndOffset();
 			if (lastEndOffset > maxEndOffset) {
 				maxEndOffset = lastEndOffset;
 			}
 		}
 
-		for(Group group: groups){
+		for(final Group group: groups){
 			group.markMarkersForRemoval(timestamp);
 		}
 
@@ -469,7 +469,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 
 		checkUniqueness(timestamp);
 		checkGroups(timestamp);
-		for (Iterator<Assignment> iterator = assignments.iterator(); iterator.hasNext();) {
+		for (final Iterator<Assignment> iterator = assignments.iterator(); iterator.hasNext();) {
 			final Assignment assignmentFrom  = iterator.next();
 			assignmentFrom.check(timestamp);
 			LoadBalancingUtilities.astNodeChecked();
@@ -490,7 +490,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			iterator.next().postCheck();
 		}
 	}
@@ -558,7 +558,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (propCollector.getReference().getModuleIdentifier() == null) {
-			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 				iterator.next().addProposal(propCollector, 0);
 			}
 		}
@@ -568,7 +568,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	@Override
 	/** {@inheritDoc} */
 	public void addSkeletonProposal(final ProposalCollector propCollector) {
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.MODULE_LEVEL_SKELETON_PROPOSALS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
@@ -587,12 +587,12 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	public void addDeclaration(final DeclarationCollector declarationCollector) {
 		if (!this.groups.isEmpty()) {
 
-			for (Group item : this.groups) {
+			for (final Group item : this.groups) {
 				item.addDeclaration(declarationCollector);
 			}
 		}
 		if (declarationCollector.getReference().getModuleIdentifier() == null) {
-			for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+			for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 				iterator.next().addDeclaration(declarationCollector, 0);
 			}
 		}
@@ -723,7 +723,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			isControlPossible &= friendModules.get(friendModules.size() - 1).getLocation().getEndOffset() < leftBoundary;
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext() && !enveloped;) {
 			final Definition temp = iterator.next();
 			if (temp.getParentGroup() == null) {
 				final Location tempLocation = temp.getLocation();
@@ -892,7 +892,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			if (temp.getParentGroup() == null) {
 				final Location tempLocation = temp.getLocation();
@@ -969,7 +969,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			if (temp.getParentGroup() == null) {
 				final Location tempLocation = temp.getLocation();
@@ -1036,15 +1036,15 @@ public final class Definitions extends Assignments implements ILocateableNode {
 					}
 					lastUniquenessCheckTimeStamp = null;
 
-					for (ImportModule impmod : allImports) {
+					for (final ImportModule impmod : allImports) {
 						module.addImportedModule(impmod);
 					}
 
-					for (Group group : localGroups) {
+					for (final Group group : localGroups) {
 						addGroup(group);
 					}
 
-					for (FriendModule friend : allFriends) {
+					for (final FriendModule friend : allFriends) {
 						module.addFriendModule(friend);
 					}
 					if (controlParts != null && controlParts.size() == 1) {
@@ -1093,7 +1093,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 			}
 		}
 
-		for (Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
+		for (final Iterator<Definition> iterator = definitions.iterator(); iterator.hasNext();) {
 			final Definition temp = iterator.next();
 			if (reparser.isDamaged(temp.getCumulativeDefinitionLocation())) {
 				reparser.extendDamagedRegion(temp.getCumulativeDefinitionLocation());
@@ -1108,7 +1108,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		if (definitions == null) {
 			return null;
 		}
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			if (definition.getLocation().containsOffset(offset)) {
 				return definition;
 			}
@@ -1120,7 +1120,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		final List<Definition> tempList = new ArrayList<Definition>(definitions);
-		for (Definition definition : tempList) {
+		for (final Definition definition : tempList) {
 			definition.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -1134,12 +1134,12 @@ public final class Definitions extends Assignments implements ILocateableNode {
 		case ASTVisitor.V_SKIP:
 			return true;
 		}
-		for (Definition definition : definitions) {
+		for (final Definition definition : definitions) {
 			if (!definition.accept(v)) {
 				return false;
 			}
 		}
-		for (Group g : groups) {
+		for (final Group g : groups) {
 			if (!g.accept(v)) {
 				return false;
 			}
@@ -1174,7 +1174,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	}
 
 	public void setGenName(final String prefix) {
-		for(Definition definition: definitions) {
+		for(final Definition definition: definitions) {
 			definition.setGenName(prefix + definition.getIdentifier().getName());
 		}
 	}
@@ -1185,7 +1185,7 @@ public final class Definitions extends Assignments implements ILocateableNode {
 	 */
 	public void generateCode( final JavaGenData aData ) {
 		if ( definitions != null ) {
-			for ( Definition definition : definitions ) {
+			for ( final Definition definition : definitions ) {
 				definition.generateCode( aData, false );
 			}
 		}

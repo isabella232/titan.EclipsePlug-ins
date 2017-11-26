@@ -228,7 +228,7 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 	@Override
 	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
-		for (SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.CONTROL_PART_FUNCTIONS) {
+		for (final SkeletonTemplateProposal templateProposal : TTCN3CodeSkeletons.CONTROL_PART_FUNCTIONS) {
 			propCollector.addTemplateProposal(templateProposal.getPrefix(), templateProposal.getProposal(),
 					TTCN3CodeSkeletons.SKELETON_IMAGE);
 		}
