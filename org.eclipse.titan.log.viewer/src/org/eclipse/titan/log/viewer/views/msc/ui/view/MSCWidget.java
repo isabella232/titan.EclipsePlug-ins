@@ -200,7 +200,7 @@ public class MSCWidget extends ScrollView implements ISelectionProvider, Selecti
 			if (node != null) {
 				Lifeline currLifeline = ((LifelineHeader) this.dragAndDrop).getLifeline();
 				int rx = Math.round(node.getX() * this.zoomValue);
-				if ((rx <= event.x)	&& (Math.round(rx + (node.getWidth() * this.zoomValue)) >= event.x)) {
+				if ((rx <= event.x) && (Math.round(rx + (node.getWidth() * this.zoomValue)) >= event.x)) {
 					// Do nothing
 				} else {
 					this.frame.moveLifeLineToPosition(currLifeline, node.getIndex());

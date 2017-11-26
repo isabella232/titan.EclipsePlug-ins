@@ -59,7 +59,7 @@ import org.eclipse.titan.designer.parsers.ProjectSourceParser;
  * a {@link WorkspaceJob} which collects all dependencies. After running the job,
  * the <code>copyMap</code> contains all the pieces of code from the files of the
  * source project, which are going to be copied to the new project.
- * 
+ *
  * @author Viktor Varga
  */
 class DependencyCollector {

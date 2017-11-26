@@ -479,7 +479,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 				EnvironmentHelper.set_LD_LIBRARY_PATH(DynamicLinkingHelper.getProject(actualProject.getName()), env);
 			}
 		}
-		
+
 		MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		Process proc;
 		String exename = PathConverter.convert(file.getPath(), true, TITANDebugConsole.getConsole());
@@ -587,13 +587,13 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 				} else {
 					uri = TITANPathUtilities.resolvePathURI(executableFileText.getStringValue(), getProject().getLocation().toOSString());
 				}
-				
+
 				ExecutableCalculationHelper helper = checkExecutable(lastConfiguration, DynamicLinkingHelper.getProject(projectNameText.getText()), uri);
 				executableFileIsValid = helper.executableFileIsValid;
 				executableIsExecutable = helper.executableIsExecutable;
 				executableIsForSingleMode = helper.executableIsForSingleMode;
 				List<String> availableTestcases = helper.availableTestcases;
-				
+
 				// find the testset tab
 				ILaunchConfigurationTab[] tabs = tabGroup.getTabs();
 				TestSetTab testSetTab = null;
@@ -712,7 +712,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 
 	@Override
 	public boolean isValid(final ILaunchConfiguration launchConfig) {
-		
+
 		if (!EMPTY.equals(projectNameText.getText()) && !projectIsValid) {
 			setErrorMessage("The name of the project is not valid.");
 			return false;
@@ -725,7 +725,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			setErrorMessage("The working directory is not valid.");
 			return false;
 		}
-		
+
 		if(EMPTY.equals(configurationFileText.getStringValue())) {
 			setErrorMessage("The configuration file must be set."); //<<<<== This should be set to "setErrorMessage(null);"
 																	//if the cfg file is not mandatory !
@@ -752,7 +752,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	 * */
 	public static boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration,
 	                                              final IProject project, final String configFilePath, final boolean singleMode) {
-		
+
 		configuration.setAttribute(PROJECTNAME, project.getName());
 		String workingDirectory = getRAWWorkingDirectoryForProject(project);
 		if (isNullOrEmpty(workingDirectory)) {
@@ -799,7 +799,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			if (!helper.executableFileIsValid) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"An error was found while creating the default launch configuration for project " + project.getName(),
-					"The executable file is not valid.");	
+					"The executable file is not valid.");
 				return false;
 			}
 		} else {
@@ -816,14 +816,14 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			if (!helper.executableIsForSingleMode) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"An error was found while creating the default launch configuration for project " + project.getName(),
-					"The executable was built for parallel mode execution, it can not be launched using a single mode launcher.");		
+					"The executable was built for parallel mode execution, it can not be launched using a single mode launcher.");
 				return false;
 			}
 		} else {
 			if (helper.executableIsForSingleMode) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"An error was found while creating the default launch configuration for project " + project.getName(),
-					"The executable was built for single mode execution, it can not be launched in a parallel mode launcher.");		
+					"The executable was built for single mode execution, it can not be launched in a parallel mode launcher.");
 				return false;
 			}
 		}
@@ -842,7 +842,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			if (!file.isFile()) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(
 						"An error was found while creating the default launch configuration for project " + project.getName(),
-						"The file set as the configuration file is a folder.");	
+						"The file set as the configuration file is a folder.");
 			}
 		}
 		configuration.setAttribute(CONFIGFILEPATH, configFilePath);

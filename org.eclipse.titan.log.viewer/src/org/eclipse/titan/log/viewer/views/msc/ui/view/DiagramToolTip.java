@@ -28,7 +28,7 @@ public class DiagramToolTip implements PaintListener  {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param parent the parent control
 	 */
 	public DiagramToolTip(final Control parent) {
@@ -40,11 +40,11 @@ public class DiagramToolTip implements PaintListener  {
 		this.toolTipShell.addPaintListener(this);
 		this.toolTipShell.setSize(10, 10);
 	}
-	
+
 	/**
 	 * Display the tool tip using the given text
 	 * The tool tip will stay on screen until it is told otherwise
-	 * 
+	 *
 	 * @param value the text to display
 	 */
 	public void showToolTip(final String value) {
@@ -60,7 +60,7 @@ public class DiagramToolTip implements PaintListener  {
 			if (Display.getDefault().getCursorSizes()[i].y < cursorH) {
 				cursorH = Display.getDefault().getCursorSizes()[i].y;
 			}
-		}	
+		}
 		if (hr.x + w > Display.getDefault().getBounds().width) {
 			int tempX = (hr.x + w) - Display.getDefault().getBounds().width;
 			if (tempX > Display.getDefault().getBounds().width) {
@@ -71,15 +71,15 @@ public class DiagramToolTip implements PaintListener  {
 		this.toolTipShell.setLocation(hr.x, hr.y + cursorH);
 		this.toolTipShell.setVisible(true);
 	}
-	
-	
+
+
 	/**
 	 * Hide the tool tip
 	 */
 	public void hideToolTip() {
 		this.toolTipShell.setVisible(false);
 	}
-	
+
 	/**
 	 * Draw the tool tip text on the control widget when a paint event is received
 	 */

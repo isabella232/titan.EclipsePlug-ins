@@ -145,7 +145,7 @@ public final class ErrorReporter {
 
 
 	/**
-	 * Prints the message into the status line in a new thread	
+	 * Prints the message into the status line in a new thread
 	 * @param targetEditor the editor which the message is sent from
 	 * @param errorMessage
 	 */
@@ -154,7 +154,7 @@ public final class ErrorReporter {
 			@Override
 			public void run() {
 				if(targetEditor != null) {
-					targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(errorMessage); 
+					targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(errorMessage);
 				}
 			}
 		});
@@ -173,7 +173,7 @@ public final class ErrorReporter {
 			}
 		});
 	}
-	
+
 	/**
 	 * Displays the warning message in a MessageDialog in a new thread
 	 * @param title

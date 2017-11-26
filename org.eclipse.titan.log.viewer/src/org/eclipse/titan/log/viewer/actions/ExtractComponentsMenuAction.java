@@ -45,7 +45,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 public class ExtractComponentsMenuAction extends AbstractHandler implements IActionDelegate {
 
 	private ISelection selection;
-	
+
 	public ExtractComponentsMenuAction() {
 	}
 
@@ -76,7 +76,7 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 		if (logFile == null) {
 			return;
 		}
-		
+
 		try {
 			ExtractComponentsAction extractCompAction = new ExtractComponentsAction(logFile);
 			new ProgressMonitorDialog(null).run(false, false, extractCompAction);
@@ -164,7 +164,7 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 			setEnabled(false);
 			return;
 		}
-		
+
 		this.selection = (IStructuredSelection) selection;
 		setEnabled(SelectionUtils.isSelectionALogFile(this.selection));
 	}

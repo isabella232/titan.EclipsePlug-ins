@@ -41,10 +41,10 @@ import org.eclipse.ui.handlers.HandlerUtil;
 public class ExtractTestCasesMenuAction extends AbstractHandler implements IActionDelegate {
 
 	private ISelection selection;
-		
+
 	public ExtractTestCasesMenuAction() {
 	}
-	
+
 	public void run(final ISelection selection) {
 		if (selection == null) {
 			return;
@@ -106,7 +106,7 @@ public class ExtractTestCasesMenuAction extends AbstractHandler implements IActi
 		op.setRule(logFile.getProject());
 		op.schedule();
 	}
-	
+
 	@Override
 	public void run(final IAction action) {
 		run(selection);
@@ -126,7 +126,7 @@ public class ExtractTestCasesMenuAction extends AbstractHandler implements IActi
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
 		}
-		
+
 		this.selection = (IStructuredSelection) selection;
 		setEnabled(SelectionUtils.isSelectionALogFile(this.selection));
 	}
